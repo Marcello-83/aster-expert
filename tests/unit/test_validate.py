@@ -205,6 +205,167 @@ def test_validate_comm_file_full_pipeline(
     assert any("control flow" in r for r in not_checked.reasons)
 
 
+def test_validate_comm_file_unknown_command_imported_is_not_checked(
+    project_root: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    comm_path = tmp_path / "case.comm"
+    comm_path.write_text(
+        "from code_aster.MacroCommands.defi_cont import DEFI_CONT\n"
+        'MAIL = LIRE_MAILLAGE(FORMAT="MED")\n'
+        "CONT = DEFI_CONT(MODELE=MAIL)\n",
+        encoding="utf-8",
+    )
+
+    def fake_run_checks(
+        requests: list[dict[str, Any]], **kwargs: Any
+    ) -> dict[int, dict[str, Any]]:
+        return {
+            0: {"id": 0, "ok": True, "produced_type": "maillage_sdaster"},
+            1: {
+                "id": 1,
+                "ok": False,
+                "orig": "UnknownCommand",
+                "message": "command not found in live catalogue: 'DEFI_CONT'",
+                "stack": None,
+            },
+        }
+
+    monkeypatch.setattr(validate_module, "run_checks", fake_run_checks)
+
+    report = validate_comm_file(
+        comm_path,
+        project_root=project_root,
+        workroot=tmp_path,
+        docker_bin=Path("/usr/bin/docker"),
+    )
+
+    assert report.valid is True
+    assert report.errors == []
+    not_checked = next(
+        e for e in report.commands_not_checked if e.command == "DEFI_CONT"
+    )
+    assert any("MacroCommands" in r for r in not_checked.reasons)
+
+
+def test_validate_comm_file_unknown_command_not_imported_is_an_error(
+    project_root: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    comm_path = tmp_path / "case.comm"
+    comm_path.write_text('MAIL = STAT_NON_LINEX(FORMAT="MED")\n', encoding="utf-8")
+
+    def fake_run_checks(
+        requests: list[dict[str, Any]], **kwargs: Any
+    ) -> dict[int, dict[str, Any]]:
+        return {
+            0: {
+                "id": 0,
+                "ok": False,
+                "orig": "UnknownCommand",
+                "message": "command not found in live catalogue: 'STAT_NON_LINEX'",
+                "stack": None,
+            }
+        }
+
+    monkeypatch.setattr(validate_module, "run_checks", fake_run_checks)
+
+    report = validate_comm_file(
+        comm_path,
+        project_root=project_root,
+        workroot=tmp_path,
+        docker_bin=Path("/usr/bin/docker"),
+    )
+
+    assert report.valid is False
+    assert len(report.errors) == 1
+    assert report.errors[0].code == "UNKNOWN_COMMAND"
+    assert report.commands_not_checked == []
+
+
+def test_validate_comm_file_non_standard_catalogue_object_is_not_checked(
+    project_root: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    comm_path = tmp_path / "case.comm"
+    comm_path.write_text('F = VARIABLE(NOM_PARA="X", VALE=1.0)\n', encoding="utf-8")
+
+    def fake_run_checks(
+        requests: list[dict[str, Any]], **kwargs: Any
+    ) -> dict[int, dict[str, Any]]:
+        return {
+            0: {
+                "id": 0,
+                "ok": False,
+                "orig": "NonStandardCatalogueObject",
+                "message": (
+                    "catalogue object for 'VARIABLE' is not a Command instance "
+                    "(type: VariableSupport): not compatible with checkCommandSyntax"
+                ),
+                "stack": None,
+            }
+        }
+
+    monkeypatch.setattr(validate_module, "run_checks", fake_run_checks)
+
+    report = validate_comm_file(
+        comm_path,
+        project_root=project_root,
+        workroot=tmp_path,
+        docker_bin=Path("/usr/bin/docker"),
+    )
+
+    assert report.valid is True
+    assert report.errors == []
+    assert report.commands_not_checked[0].command == "VARIABLE"
+
+
+def test_validate_comm_file_unresolved_concept_is_not_checked_with_enriched_reason(
+    project_root: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    comm_path = tmp_path / "case.comm"
+    comm_path.write_text(
+        'MAIL = LIRE_MAILLAGE(FORMAT="MED")\n'
+        "if 1:\n"
+        "    MAIL = MODI_MAILLAGE(reuse=MAIL, MAILLAGE=MAIL, INFO=1)\n"
+        "MO = AFFE_MODELE(MAILLAGE=MAIL, "
+        'AFFE=_F(PHENOMENE="MECANIQUE", MODELISATION="3D"))\n',
+        encoding="utf-8",
+    )
+
+    def fake_run_checks(
+        requests: list[dict[str, Any]], **kwargs: Any
+    ) -> dict[int, dict[str, Any]]:
+        # statement 1 (MODI_MAILLAGE) is excluded by control_flow, so MAIL's
+        # rebind never gets a placeholder; statement 2 (AFFE_MODELE) is sent
+        # but cannot resolve MAIL.
+        assert {r["id"] for r in requests} == {0, 2}
+        return {
+            0: {"id": 0, "ok": True, "produced_type": "maillage_sdaster"},
+            2: {
+                "id": 2,
+                "ok": False,
+                "orig": "UnresolvedConcept",
+                "message": "concept 'MAIL' has no resolved placeholder in this batch",
+                "stack": None,
+            },
+        }
+
+    monkeypatch.setattr(validate_module, "run_checks", fake_run_checks)
+
+    report = validate_comm_file(
+        comm_path,
+        project_root=project_root,
+        workroot=tmp_path,
+        docker_bin=Path("/usr/bin/docker"),
+    )
+
+    assert report.valid is True
+    assert report.errors == []
+    entries_by_command = {e.command: e for e in report.commands_not_checked}
+    assert "control flow" in entries_by_command["MODI_MAILLAGE"].reasons[0]
+    affe = entries_by_command["AFFE_MODELE"]
+    assert "statement 1" in affe.reasons[0]
+    assert "control flow" in affe.reasons[0] or "MODI_MAILLAGE" in affe.reasons[0]
+
+
 def test_validate_comm_file_syntax_error_fails_explicitly(
     project_root: Path, tmp_path: Path
 ) -> None:

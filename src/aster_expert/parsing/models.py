@@ -175,6 +175,15 @@ class CommFileAnalysis(BaseModel):
     parsing only; version resolution belongs to lot 2/lot 10). A downstream
     consumer that does know the target version may overwrite these two
     fields; `parse_comm_file` always leaves them at `None`/`"undetermined"`.
+
+    `imported_names` (amendment, lot 10b) lists every name explicitly bound
+    by an `import`/`from ... import ...` statement anywhere in the file
+    (deduplicated, sorted) — never a wildcard import's members, which cannot
+    be enumerated without executing the file. A downstream consumer uses
+    this to tell a command name that is merely a typo from one that is real
+    but outside the extracted catalogue's scope (docs/development-plan.md,
+    lot 4/10b — e.g. `DEFI_CONT`, defined in `code_aster.MacroCommands`, not
+    `code_aster.Cata.Commands`).
     """
 
     model_config = ConfigDict(frozen=True)
@@ -186,5 +195,6 @@ class CommFileAnalysis(BaseModel):
     statements: list[Statement]
     test_statements: list[int]
     external_files: list[ExternalFileRef]
+    imported_names: list[str]
     parse_warnings: list[ParseWarning]
     parsed_at: datetime

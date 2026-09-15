@@ -417,3 +417,87 @@ def test_loop_variable_name_is_classified_as_boucle() -> None:
     assert isinstance(result, SimpleKeywordValue)
     assert isinstance(result.value, DynamicValue)
     assert result.value.reason == "boucle"
+
+
+# --- lot 10b, point C: a call to a name the file defines itself is never a
+# command, whatever its case. ------------------------------------------
+
+
+def test_call_to_module_level_function_is_not_a_command() -> None:
+    source = (
+        "def CALC_LOCAL(x):\n"
+        "    return x\n"
+        "R = CALC_LOCAL(1)\n"
+        'MAIL = LIRE_MAILLAGE(FORMAT="MED")\n'
+    )
+    analysis = parse_comm_source(source, file_path="synthetic.comm")
+
+    assert [s.command for s in analysis.statements] == ["LIRE_MAILLAGE"]
+
+
+def test_call_to_module_level_class_is_not_a_command() -> None:
+    source = "class MACR_PERSO:\n    pass\nOBJ = MACR_PERSO()\n"
+    analysis = parse_comm_source(source, file_path="synthetic.comm")
+
+    assert analysis.statements == []
+
+
+def test_call_to_module_level_variable_is_not_a_command() -> None:
+    source = "RESULT_TABLE = lambda *a: None\nOBJ = RESULT_TABLE(1, 2)\n"
+    analysis = parse_comm_source(source, file_path="synthetic.comm")
+
+    assert analysis.statements == []
+
+
+def test_shadowing_does_not_apply_inside_a_narrower_function_scope() -> None:
+    # A name bound inside a *nested* function body is not module-level, so it
+    # must not shadow an unrelated module-level call by the same name.
+    source = (
+        "def helper():\n"
+        "    AFFE_MODELE = 1\n"
+        "    return AFFE_MODELE\n"
+        'MO = AFFE_MODELE(MAILLAGE=MAIL, AFFE=_F(TOUT="OUI"))\n'
+    )
+    analysis = parse_comm_source(source, file_path="synthetic.comm")
+
+    assert [s.command for s in analysis.statements] == ["AFFE_MODELE"]
+
+
+def test_imported_command_name_is_still_a_command() -> None:
+    # Importing a name is exactly how a real command reaches the file; it
+    # must never be treated as shadowing (unlike a local definition).
+    source = (
+        "from code_aster.Commands import LIRE_MAILLAGE\n"
+        'MAIL = LIRE_MAILLAGE(FORMAT="MED")\n'
+    )
+    analysis = parse_comm_source(source, file_path="synthetic.comm")
+
+    assert [s.command for s in analysis.statements] == ["LIRE_MAILLAGE"]
+
+
+# --- lot 10b, point D: explicitly imported names are recorded so a
+# downstream consumer can tell a real, out-of-catalogue command from a typo.
+
+
+def test_imported_names_are_collected_deduplicated_and_sorted() -> None:
+    source = (
+        "from code_aster.Commands import LIRE_MAILLAGE, STAT_NON_LINE\n"
+        "from code_aster.MacroCommands.defi_cont import DEFI_CONT\n"
+        "import numpy as np\n"
+        "from code_aster.Commands import LIRE_MAILLAGE\n"
+    )
+    analysis = parse_comm_source(source, file_path="synthetic.comm")
+
+    assert analysis.imported_names == [
+        "DEFI_CONT",
+        "LIRE_MAILLAGE",
+        "STAT_NON_LINE",
+        "np",
+    ]
+
+
+def test_wildcard_import_contributes_no_names() -> None:
+    source = "from code_aster.Commands import *\n"
+    analysis = parse_comm_source(source, file_path="synthetic.comm")
+
+    assert analysis.imported_names == []

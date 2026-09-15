@@ -1,17 +1,21 @@
-"""Level B static validation orchestration (docs/development-plan.md, lot 10).
+"""Level B static validation orchestration (docs/development-plan.md, lot 10/10b).
 
 Ties the lot 9 parser, the lot 4/4b catalogue, and `checkCommandSyntax`
 together without reimplementing any of their logic:
 
 1. resolve which extracted catalogue (digest) to validate against;
 2. parse the `.comm` file (lot 9, never executed);
-3. build the concept -> Aster type table (M1, `concept_types.py`);
-4. plan which statements can be checked at all, and reconstruct their
+3. plan which statements can even be attempted, and reconstruct their
    arguments for the ones that can (M2, `reconstruct.py`);
-5. call `checkCommandSyntax` on all of them in one container invocation
-   (M3, `checker_client.py`);
-6. translate whatever it decided into `docs/metadata.md` section 4 entries
-   (M4, `error_mapping.py`).
+4. call `checkCommandSyntax` on all of them, in file order, in one container
+   invocation, resolving concept types live along the way (M3,
+   `checker_client.py` / `scripts/check_command_syntax.py`);
+5. translate whatever it decided into `docs/metadata.md` section 4 entries
+   (M4, `error_mapping.py`), routing the small set of outcomes that are not
+   really a syntax verdict (command absent from the live catalogue but
+   explicitly imported, a non-`Command` catalogue object, an unresolved
+   concept dependency) to `commands_not_checked` instead of `errors`
+   (docs/development-plan.md, lot 10b, points D and E).
 """
 
 from __future__ import annotations
@@ -19,6 +23,7 @@ from __future__ import annotations
 import difflib
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any
 
 from aster_expert.catalogue.errors import CatalogueExtractionError
 from aster_expert.catalogue.models import (
@@ -33,8 +38,8 @@ from aster_expert.catalogue.query import (
 )
 from aster_expert.parsing.comm_parser import parse_comm_file
 from aster_expert.parsing.errors import CommParseError
+from aster_expert.parsing.models import CommFileAnalysis
 from aster_expert.validation.checker_client import run_checks
-from aster_expert.validation.concept_types import build_concept_type_table
 from aster_expert.validation.error_mapping import (
     classify,
     extract_keyword,
@@ -48,6 +53,10 @@ from aster_expert.validation.models import (
     ValidationReport,
 )
 from aster_expert.validation.reconstruct import CheckRequest, Excluded, plan_statements
+
+# `outcome["orig"]` values that are never a syntax verdict -- routed to
+# `commands_not_checked`, never `errors` (docs/development-plan.md, lot 10b).
+_NOT_A_VERDICT = frozenset({"NonStandardCatalogueObject", "UnresolvedConcept"})
 
 
 def _peek_schema(catalogue_root: Path, digest: str) -> CommandSchema:
@@ -131,6 +140,46 @@ def _collect_keyword_names(entries: list[KeywordSchema]) -> set[str]:
 def _suggest(candidate: str, pool: set[str]) -> str | None:
     matches = difflib.get_close_matches(candidate, sorted(pool), n=1, cutoff=0.6)
     return matches[0] if matches else None
+
+
+def _producers_of(analysis: CommFileAnalysis, concept: str) -> list[int]:
+    """Every statement index assigning `concept` (docs/development-plan.md, lot 10b).
+
+    Used only to enrich an `UnresolvedConcept` outcome's reason text with
+    *why* the producer was unavailable — never to resolve a type itself.
+    """
+    return [s.index for s in analysis.statements if s.assigned_concept == concept]
+
+
+def _unresolved_concept_reason(
+    message: str,
+    *,
+    analysis: CommFileAnalysis,
+    excluded_by_index: dict[int, Excluded],
+    error_indices: set[int],
+) -> str:
+    """Enrich an `UnresolvedConcept` message with its producer's own status."""
+    # `message` is script-authored: "concept 'NAME' has no resolved placeholder..."
+    name = message.split("'")[1] if message.count("'") >= 2 else None
+    if name is None:
+        return message
+    producers = _producers_of(analysis, name)
+    if not producers:
+        return f"{message} (no statement in this file assigns it — unexpected)"
+    details = []
+    for idx in producers:
+        if idx in excluded_by_index:
+            details.append(
+                f"statement {idx} ({excluded_by_index[idx].command}) was not "
+                f"checked: {'; '.join(excluded_by_index[idx].reasons)}"
+            )
+        elif idx in error_indices:
+            details.append(
+                f"statement {idx} was checked but rejected by checkCommandSyntax"
+            )
+        else:
+            details.append(f"statement {idx} was not reached before this one")
+    return f"{message} — " + " / ".join(details)
 
 
 def _build_finding(
@@ -231,15 +280,18 @@ def validate_comm_file(
     except CommParseError as exc:
         raise ValidationRunError(str(exc)) from exc
 
-    concept_types, concept_warnings = build_concept_type_table(
-        analysis, catalogue_root=catalogue_root, digest=digest
-    )
-    requests, excluded, matched_warning_ids = plan_statements(analysis, concept_types)
+    requests, excluded, matched_warning_ids = plan_statements(analysis)
+    excluded_by_index = {e.statement_index: e for e in excluded}
 
     image_ref = f"{image_repository}@{digest}"
-    outcomes = run_checks(
+    outcomes: dict[int, dict[str, Any]] = run_checks(
         [
-            {"id": r.statement_index, "command": r.command, "keywords": r.keywords}
+            {
+                "id": r.statement_index,
+                "command": r.command,
+                "assigned_concept": r.assigned_concept,
+                "keywords": r.keywords,
+            }
             for r in requests
         ],
         image_ref=image_ref,
@@ -256,6 +308,17 @@ def validate_comm_file(
 
     errors: list[ValidationFinding] = []
     checked: list[CheckedEntry] = []
+    not_checked: list[NotCheckedEntry] = [
+        NotCheckedEntry(
+            statement_index=e.statement_index,
+            command=e.command,
+            line=statements_by_index[e.statement_index].line_start,
+            reasons=e.reasons,
+        )
+        for e in excluded
+    ]
+    error_indices: set[int] = set()
+
     for request in requests:
         statement = statements_by_index[request.statement_index]
         outcome = outcomes.get(request.statement_index)
@@ -266,6 +329,50 @@ def validate_comm_file(
             )
             raise ValidationRunError(message)
         ok = bool(outcome["ok"])
+        orig = str(outcome.get("orig", "")) if not ok else ""
+
+        if (
+            not ok
+            and orig == "UnknownCommand"
+            and statement.command in (analysis.imported_names)
+        ):
+            not_checked.append(
+                NotCheckedEntry(
+                    statement_index=statement.index,
+                    command=statement.command,
+                    line=statement.line_start,
+                    reasons=[
+                        f"'{statement.command}' is explicitly imported in this "
+                        "file but absent from the extracted catalogue: it is "
+                        "not part of code_aster.Cata.Commands (lives outside "
+                        "it, e.g. in code_aster.MacroCommands — "
+                        "docs/development-plan.md, lot 4/10b) and was never "
+                        "introspected, so it cannot be confronted with a "
+                        "schema"
+                    ],
+                )
+            )
+            continue
+
+        if not ok and orig in _NOT_A_VERDICT:
+            message = str(outcome.get("message", ""))
+            if orig == "UnresolvedConcept":
+                message = _unresolved_concept_reason(
+                    message,
+                    analysis=analysis,
+                    excluded_by_index=excluded_by_index,
+                    error_indices=error_indices,
+                )
+            not_checked.append(
+                NotCheckedEntry(
+                    statement_index=statement.index,
+                    command=statement.command,
+                    line=statement.line_start,
+                    reasons=[message],
+                )
+            )
+            continue
+
         checked.append(
             CheckedEntry(
                 statement_index=statement.index,
@@ -275,6 +382,7 @@ def validate_comm_file(
             )
         )
         if not ok:
+            error_indices.add(statement.index)
             errors.append(
                 _build_finding(
                     statement.index,
@@ -287,17 +395,9 @@ def validate_comm_file(
                 )
             )
 
-    not_checked = [
-        NotCheckedEntry(
-            statement_index=e.statement_index,
-            command=e.command,
-            line=statements_by_index[e.statement_index].line_start,
-            reasons=e.reasons,
-        )
-        for e in excluded
-    ]
+    not_checked.sort(key=lambda e: e.statement_index)
 
-    warnings = list(concept_warnings)
+    warnings: list[str] = []
     unmatched = [
         w for i, w in enumerate(analysis.parse_warnings) if i not in matched_warning_ids
     ]

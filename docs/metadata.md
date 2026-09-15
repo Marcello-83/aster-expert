@@ -302,6 +302,7 @@ exécuter le fichier. Modèles pydantic dans `aster_expert/parsing/models.py`.
   "external_files": [
     {"statement_index": 1, "command": "LIRE_MAILLAGE", "unite": 20, "fichier": null}
   ],
+  "imported_names": ["DEFI_CONT", "LIRE_MAILLAGE", "STAT_NON_LINE"],
   "parse_warnings": [
     {
       "line": 553,
@@ -408,6 +409,28 @@ Règles :
   sans rapport avec une commande, ou une structure de contrôle qui ne contient
   aucune commande ne produisent pas d'avertissement : ce n'est pas une
   construction de commande non gérée, seulement du Python ordinaire.
+- **`imported_names`** (amendement lot 10b, point D) liste, dédupliqués et
+  triés, les noms explicitement liés par un `import`/`from ... import ...`
+  n'importe où dans le fichier — jamais les membres d'un import générique
+  (`from ... import *`), qui ne peuvent être énumérés sans exécuter le
+  fichier. Ne sert jamais à décider qu'un appel est une commande (voir la
+  règle de mise à l'écart module-niveau du §3 concernant `_command_name` du
+  parseur, distincte et sans lien : un nom importé est au contraire la façon
+  normale dont une vraie commande atteint le fichier, jamais une raison de
+  l'exclure). Sert uniquement en aval (`docs/metadata.md` §4) à distinguer
+  une commande absente du catalogue extrait mais réelle (importée
+  explicitement d'un paquet hors `code_aster.Cata.Commands`, ex.
+  `code_aster.MacroCommands`) d'une simple faute de frappe.
+- **Mise à l'écart au niveau du nom de commande (amendement lot 10b,
+  point C).** Un appel `NOM(...)` n'est reconnu comme commande que si `NOM`
+  correspond à `_COMMAND_NAME_RE` **et** n'est pas défini par le fichier
+  lui-même : une classe, une fonction, ou une variable Python ordinaire liée
+  au niveau module (au besoin sous `if`/`for`/`while`/`try`/`with`, jamais
+  dans le corps d'une fonction ou d'une classe imbriquée — portée Python
+  différente) l'emporte toujours, quelle que soit sa casse. Un nom importé
+  n'est jamais mis à l'écart par cette règle (voir `imported_names`
+  ci-dessus) : c'est la seule façon dont une commande réelle arrive dans le
+  fichier.
 - `raw_text` conserve le texte exact (`ast.get_source_segment`), indentation
   comprise, afin qu'aucune restitution ne repose sur une reconstruction.
 - Un fichier qui n'est pas syntaxiquement du Python lève `CommParseError`
@@ -415,10 +438,12 @@ Règles :
 
 ## 4. Rapport de validation
 
-Structure produite par `aster_expert.validation.validate` (lot 10), par
-délégation à `checkCommandSyntax` (`code_aster.Cata.SyntaxChecker`) — jamais
-par une grammaire ou une règle de cardinalité réimplémentée. Modèles
-pydantic dans `aster_expert/validation/models.py`.
+Structure produite par `aster_expert.validation.validate` (lot 10, amendé
+lot 10b), par délégation à `checkCommandSyntax`
+(`code_aster.Cata.SyntaxChecker`) et, pour le type d'un concept produit par
+une commande à `result_type_dynamic` vrai (§2), à `Command.get_type_sd_prod`
+— jamais une grammaire, une règle de cardinalité, ni un calcul de type
+réimplémenté. Modèles pydantic dans `aster_expert/validation/models.py`.
 
 ```json
 {
@@ -477,19 +502,85 @@ Règles :
   quand une entrée de `errors` partage ce même `statement_index` — redondant
   avec `errors` mais évite un croisement au lecteur du rapport.
   `commands_not_checked[].reasons` liste **toutes** les conditions
-  rencontrées parmi les quatre de la RÈGLE ABSOLUE du lot 10 (mot-clé non
-  résolu, concept de type inconnu, `parse_warning` du lot 9 concernant ce
-  `statement`, `control_flow` non vide) — jamais seulement la première.
+  structurelles rencontrées parmi les trois de la RÈGLE ABSOLUE du lot 10
+  (mot-clé non résolu, `parse_warning` du lot 9 concernant ce `statement`,
+  `control_flow` non vide) — jamais seulement la première — plus, le cas
+  échéant, une entrée unique décrivant pourquoi un concept référencé reste
+  non résolu (voir plus bas) : jamais devinée, jamais silencieuse.
 - **RÈGLE ABSOLUE (lot 10, aucun faux positif)** : un `statement` du lot 9
   n'est jamais confronté à `checkCommandSyntax` dès lors qu'il porte un
-  mot-clé non résolu statiquement, référence un concept dont le type Aster
-  n'est pas déterminable (`result_type_dynamic` vrai, `result_type` nul, ou
-  concept jamais produit dans ce fichier), est concerné par un
-  `parse_warning` du lot 9 (rapprochement par recouvrement de plage de
-  lignes, faute de `statement_index` porté par `ParseWarning`), ou se trouve
-  sous un `control_flow` non vide. Mieux vaut sous-déclarer que remonter une
-  erreur inexistante ; le taux de commandes non vérifiées est à rapporter
-  tel quel, jamais masqué.
+  mot-clé non résolu statiquement, est concerné par un `parse_warning` du
+  lot 9 (rapprochement par recouvrement de plage de lignes, faute de
+  `statement_index` porté par `ParseWarning`), ou se trouve sous un
+  `control_flow` non vide. Mieux vaut sous-déclarer que remonter une erreur
+  inexistante ; le taux de commandes non vérifiées est à rapporter tel quel,
+  jamais masqué.
+- **Résolution du type d'un concept produit, en direct (amendement lot 10b,
+  point A) — remplace le mécanisme du lot 10.** Le lot 10 calculait une
+  table concept → type *hors conteneur*, à partir du seul `result_type`
+  statique du catalogue (§2) : un concept produit par une commande à
+  `result_type_dynamic` vrai (94 commandes sur 268 en 17.4.0 — `LIRE_MAILLAGE`,
+  `CALC_CHAMP`, `CREA_CHAMP`, `CREA_RESU`, ... — voir le compte rendu du
+  lot 10b) restait donc toujours de type inconnu, quel que soit le contenu du
+  fichier ; c'était la première cause des 225 erreurs et du taux de 53 % du
+  lot 10. Le lot 10b ne calcule plus ce type lui-même : un mot-clé qui
+  référence un concept (`reuse=` compris) est reconstruit en un marqueur
+  `{"__concept_ref__": "<nom>"}`, jamais un type deviné à l'avance
+  (`aster_expert.validation.reconstruct`, M2). `scripts/check_command_syntax.py`
+  (M3), exécuté dans le conteneur, traite les `statement` d'un même fichier
+  **dans l'ordre**, maintient une table de placeholders vivante, et, pour
+  chaque `statement` qui passe `checkCommandSyntax`, appelle
+  `command.get_type_sd_prod(**keywords)` — la méthode officielle qui ajoute
+  les mots-clés par défaut, complète les arguments manquants de `sd_prod` par
+  `None`, et distingue elle-même un `Operator` (`sd_prod(**ctxt)`) d'un
+  `Macro` (`sd_prod(self, **ctxt)`) — pour enregistrer le placeholder produit
+  sous le nom du concept assigné, disponible aux `statement` suivants. Un
+  `reuse=` n'est pas un cas particulier séparé : pour une commande réentrante,
+  l'objet produit est l'objet réutilisé par construction (vérifié
+  empiriquement, voir le compte rendu de lot), donc le même appel uniforme
+  donne déjà la bonne réponse. Une exception (le type reste alors inconnu
+  pour tout `statement` ultérieur qui le référence, sans jamais bloquer le
+  `statement` producteur lui-même s'il a par ailleurs réussi
+  `checkCommandSyntax`) ou une référence à un concept jamais résolu (parce
+  que son producteur a lui-même été exclu, a échoué, ou n'a pas encore été
+  atteint) ne provoque jamais de repli par défaut ni de supposition — un
+  `statement` de ce type devient `commands_not_checked`, avec, dans
+  `reasons`, le nom du concept et le statut de son producteur (index de
+  `statement`, exclu ou en échec). Jamais un type deviné à partir du nom de
+  la commande ou de la ressemblance avec un autre concept.
+- **Trois issues qui ne sont jamais un verdict de syntaxe (amendement
+  lot 10b, points D et E), routées vers `commands_not_checked`, jamais
+  `errors` :**
+  - une commande absente du catalogue extrait **mais explicitement importée**
+    dans le fichier (`imported_names` du lot 9, §3) : elle existe réellement
+    mais hors `code_aster.Cata.Commands` (typiquement
+    `code_aster.MacroCommands`, ex. `DEFI_CONT`, `MACR_ROTA_GLOBALE` — jamais
+    introspectée par le lot 4, voir `docs/development-plan.md`, lot 4). Une
+    commande absente du catalogue **et non importée** reste une vraie
+    `UNKNOWN_COMMAND` dans `errors` : une faute de frappe, pas une lacune de
+    couverture ;
+  - un nom du catalogue qui n'est pas une instance de `Command`
+    (`code_aster.Cata.Language.SyntaxObjects.Command`) : `VARIABLE`
+    (`code_aster.Cata.Commands.variable.VariableSupport`, un objet
+    catalogue non standard) en est le seul exemple constaté sur la version
+    17.4.0 — jamais soumis à `checkCommandSyntax`, qui suppose un `Command` ;
+  - un concept référencé jamais résolu par le batch en cours (voir le point
+    précédent).
+- **`FORMULE` (amendement lot 10b, point E, déclaré explicitement plutôt que
+  subi).** `FORMULE` accepte, en plus de `VALE`/`VALE_C`/`NOM_PARA` (les
+  seuls mots-clés du catalogue), des mots-clés libres portant les constantes
+  nommées de l'expression (ex. `FORMULE(NOM_PARA="X", VALE="A*X+B", A=2.0,
+  B=1.0)`). Le mécanisme officiel qui les retire avant vérification
+  (`FormulaDefinition.change_syntax`,
+  `code_aster/CodeCommands/formule.py`) vit dans la couche d'exécution
+  (`libaster`, indisponible dans ce conteneur — `docs/architecture.md`,
+  ADR-002) et ne peut donc pas être rejoué comme un `compat_syntax` de
+  catalogue (point B). `aster_expert.validation.reconstruct` (M2) reproduit
+  cette seule substitution, de façon étroite et documentée : tout mot-clé
+  autre que `VALE`/`VALE_C`/`NOM_PARA` est retiré avant l'appel à
+  `checkCommandSyntax`, jamais une grammaire propre au projet. Une commande
+  `FORMULE` n'apparaît donc jamais dans `commands_not_checked` pour cette
+  seule raison.
 - `variant_id` (amendement lot 10) : résolu depuis `path` via
   `find_keyword_variants` (lot 4b) uniquement quand exactement une variante
   correspond ; `null` sinon — y compris quand `path` lui-même n'existe pas
