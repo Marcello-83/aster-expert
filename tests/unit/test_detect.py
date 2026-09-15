@@ -280,3 +280,18 @@ def test_build_probe_command_contains_expected_steps() -> None:
     assert "share/aster/profile.sh" in command
     assert "python3 /work/detect_environment.py" in command
     assert "readlink -f" in command
+    # P2 (lot 4): `set -u` is on for the whole probe, only lifted around
+    # sourcing the upstream, non-nounset-safe `profile.sh`.
+    source_line = 'source "$PREFIX/share/aster/profile.sh"'
+    assert source_line in command
+    assert command.strip().startswith("set -u")
+    assert "set +u\n" in command
+    lifted_index = command.index("set +u")
+    source_index = command.index(source_line)
+    restored_index = command.index("set -u", source_index)
+    assert lifted_index < source_index < restored_index
+    # P3 (lot 4): the Spack view root is derived from the resolved prefix by
+    # walking up its ancestry, never a hardcoded path.
+    assert "SPACK_ROOT" in command
+    assert 'CANDIDATE=$(dirname "$CANDIDATE")' in command
+    assert "/opt/spack" not in command

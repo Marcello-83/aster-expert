@@ -15,21 +15,26 @@ Le système ne doit jamais confondre :
 
 ## Environnement d'exécution
 
-Le dépôt vit dans une machine virtuelle Ubuntu 24.04 (Oracle VirtualBox) sur
-laquelle Code_Aster est installé. Tout le développement, l'indexation et
-l'exécution ont lieu dans cette VM. L'hôte ne sert qu'à l'édition (VSCode en
-Remote-SSH) et ne dispose pas de Code_Aster.
+Le dépôt vit dans une machine virtuelle Ubuntu 24.04 (Oracle VirtualBox).
+Code_Aster n'y est pas installé nativement : il s'exécute dans un conteneur
+Docker (image `simvia/code_aster`), géré par l'outil tiers `cave`. Le
+développement et l'indexation ont lieu dans la VM ; l'introspection du
+catalogue et l'exécution de calculs ont lieu à l'intérieur du conteneur,
+jamais par sous-processus natif de la VM. L'hôte (hors VM) ne sert qu'à
+l'édition (VSCode en Remote-SSH) et ne dispose ni de Docker ni de Code_Aster.
 
 Deux interpréteurs Python coexistent et ne doivent jamais être confondus :
 
-- le Python du projet (`.venv`), qui exécute `aster_expert` ;
-- le Python de l'installation Code_Aster, seul capable d'importer
-  `code_aster` et son catalogue.
+- le Python du projet (`.venv`), dans la VM, qui exécute `aster_expert` ;
+- le Python de l'installation Code_Aster, à l'intérieur du conteneur, seul
+  capable d'importer `code_aster` et son catalogue.
 
 Le Python du projet n'importe jamais `code_aster`. Toute introspection du
-catalogue passe par un script autonome exécuté en sous-processus par le Python
-d'Aster, qui produit du JSON sur la sortie standard. Voir
-`docs/architecture.md`, décision ADR-002.
+catalogue passe par un script autonome, copié dans un répertoire de travail
+dédié puis exécuté par le Python d'Aster à l'intérieur d'un conteneur
+restreint (réseau désactivé, utilisateur non root, limites de ressources), qui
+produit du JSON sur la sortie standard. Voir `docs/architecture.md`, décisions
+ADR-002, ADR-003 et ADR-006.
 
 ## Principes fondamentaux
 

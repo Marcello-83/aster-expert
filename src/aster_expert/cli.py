@@ -7,14 +7,23 @@ an installation path.
 
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 
 import typer
 
 from aster_expert import __version__
+from aster_expert.catalogue.errors import CatalogueExtractionError
+from aster_expert.catalogue.extract import extract_catalogue
+from aster_expert.catalogue.query import (
+    find_keyword,
+    load_command_schema,
+    resolve_active_digest,
+)
 from aster_expert.execution.detect import detect_environment, write_detected_section
 from aster_expert.execution.errors import EnvironmentDetectionError
+from aster_expert.execution.models import DetectedEnvironment
 
 app = typer.Typer(
     add_completion=False,
@@ -50,15 +59,11 @@ def main(
         raise typer.Exit(0)
 
 
-@env_app.command("detect")
-def env_detect() -> None:
-    """Détecter l'installation Code_Aster et écrire config/versions.yaml."""
-    project_root = Path(os.environ.get("ASTER_EXPERT_ROOT") or Path.cwd())
-    versions_path = project_root / "config" / "versions.yaml"
-    if not versions_path.is_file():
-        typer.echo(f"config/versions.yaml introuvable : {versions_path}", err=True)
-        raise typer.Exit(1)
+def _project_root() -> Path:
+    return Path(os.environ.get("ASTER_EXPERT_ROOT") or Path.cwd())
 
+
+def _require_workroot() -> Path:
     workroot_raw = (os.environ.get("ASTER_CONTAINER_WORKROOT") or "").strip()
     if not workroot_raw:
         typer.echo(
@@ -67,20 +72,34 @@ def env_detect() -> None:
             err=True,
         )
         raise typer.Exit(1)
+    return Path(workroot_raw)
+
+
+def _detect_from_env(workroot: Path) -> DetectedEnvironment:
+    return detect_environment(
+        workroot=workroot,
+        image_repository=os.environ.get("ASTER_IMAGE_REPOSITORY", "simvia/code_aster"),
+        image_ref_env=os.environ.get("ASTER_IMAGE_REF") or None,
+        docker_bin_env=os.environ.get("ASTER_DOCKER_BIN") or None,
+        network=os.environ.get("ASTER_CONTAINER_NETWORK", "none"),
+        memory=os.environ.get("ASTER_CONTAINER_MEMORY") or None,
+        cpus=os.environ.get("ASTER_CONTAINER_CPUS") or None,
+        timeout=int(os.environ.get("ASTER_RUN_TIMEOUT", "1800")),
+    )
+
+
+@env_app.command("detect")
+def env_detect() -> None:
+    """Détecter l'installation Code_Aster et écrire config/versions.yaml."""
+    versions_path = _project_root() / "config" / "versions.yaml"
+    if not versions_path.is_file():
+        typer.echo(f"config/versions.yaml introuvable : {versions_path}", err=True)
+        raise typer.Exit(1)
+
+    workroot = _require_workroot()
 
     try:
-        detected = detect_environment(
-            workroot=Path(workroot_raw),
-            image_repository=os.environ.get(
-                "ASTER_IMAGE_REPOSITORY", "simvia/code_aster"
-            ),
-            image_ref_env=os.environ.get("ASTER_IMAGE_REF") or None,
-            docker_bin_env=os.environ.get("ASTER_DOCKER_BIN") or None,
-            network=os.environ.get("ASTER_CONTAINER_NETWORK", "none"),
-            memory=os.environ.get("ASTER_CONTAINER_MEMORY") or None,
-            cpus=os.environ.get("ASTER_CONTAINER_CPUS") or None,
-            timeout=int(os.environ.get("ASTER_RUN_TIMEOUT", "1800")),
-        )
+        detected = _detect_from_env(workroot)
     except EnvironmentDetectionError as exc:
         typer.echo(f"Détection de l'environnement Aster échouée : {exc}", err=True)
         raise typer.Exit(1) from exc
@@ -106,13 +125,74 @@ def sources_sync() -> None:
 @catalogue_app.command("extract")
 def catalogue_extract() -> None:
     """Extraire les schémas de commandes du catalogue installé."""
-    _not_implemented(4, "introspection du catalogue")
+    project_root = _project_root()
+    versions_path = project_root / "config" / "versions.yaml"
+    if not versions_path.is_file():
+        typer.echo(f"config/versions.yaml introuvable : {versions_path}", err=True)
+        raise typer.Exit(1)
+
+    workroot = _require_workroot()
+
+    try:
+        detected = _detect_from_env(workroot)
+        write_detected_section(versions_path, detected)
+        digest_dir, summary = extract_catalogue(
+            detected=detected,
+            workroot=workroot,
+            output_root=project_root / "data" / "processed" / "catalogue",
+            docker_bin_env=os.environ.get("ASTER_DOCKER_BIN") or None,
+            network=os.environ.get("ASTER_CONTAINER_NETWORK", "none"),
+            memory=os.environ.get("ASTER_CONTAINER_MEMORY") or None,
+            cpus=os.environ.get("ASTER_CONTAINER_CPUS") or None,
+            timeout=int(os.environ.get("ASTER_RUN_TIMEOUT", "1800")),
+        )
+    except (EnvironmentDetectionError, CatalogueExtractionError) as exc:
+        typer.echo(f"Extraction du catalogue échouée : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+    typer.echo(f"Commandes exposées  : {summary.total_exposed}")
+    typer.echo(f"Commandes extraites : {summary.total_extracted}")
+    typer.echo(f"Répartition par type : {summary.kind_counts}")
+    if summary.anomalies:
+        typer.echo(f"Anomalies relevées : {len(summary.anomalies)}", err=True)
+        for anomaly in summary.anomalies:
+            typer.echo(
+                f"  - [{anomaly.kind}] {anomaly.command} : {anomaly.detail}", err=True
+            )
+    typer.echo(f"Écrit dans {digest_dir}")
+
+    hard_errors = [a for a in summary.anomalies if a.kind == "extraction_error"]
+    if hard_errors:
+        raise typer.Exit(1)
 
 
 @catalogue_app.command("show")
-def catalogue_show(command: str) -> None:
+def catalogue_show(
+    command: str,
+    keyword: str = typer.Option(
+        "",
+        "--keyword",
+        help="Chemin de mot-clé, ex. COMPORTEMENT.RELATION.",
+    ),
+) -> None:
     """Afficher le schéma exact d'une commande."""
-    _not_implemented(4, f"affichage du schéma de {command}")
+    project_root = _project_root()
+    versions_path = project_root / "config" / "versions.yaml"
+    catalogue_root = project_root / "data" / "processed" / "catalogue"
+
+    try:
+        digest = resolve_active_digest(versions_path)
+        schema = load_command_schema(catalogue_root, digest, command)
+        if keyword:
+            entry = find_keyword(schema, keyword.split("."))
+            payload = json.loads(entry.model_dump_json())
+        else:
+            payload = json.loads(schema.model_dump_json())
+    except CatalogueExtractionError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(1) from exc
+
+    typer.echo(json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=False))
 
 
 @app.command("search")

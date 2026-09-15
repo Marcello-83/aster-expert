@@ -22,7 +22,7 @@ target: null
 
 # Écrit par `aster-expert env detect`. Ne pas éditer.
 detected:
-  detected_at: '2026-09-15T08:19:18.640182Z'
+  detected_at: '2026-09-15T09:11:28.404697Z'
   install_kind: container_docker
   container:
     engine: docker

@@ -96,6 +96,25 @@ Critères de sortie : tests sur plusieurs formes syntaxiques réelles issues des
 cas tests, dont au moins un fichier à construction dynamique, avec `unresolved`
 correctement renseigné.
 
+**Note (à consigner sans l'implémenter, lot 4).** Pour permettre au lot 10
+d'appeler `checkCommandSyntax` par reconstruction des arguments (plutôt que de
+réimplémenter sa logique — voir la note du lot 10), le parseur doit conserver,
+pour chaque mot-clé :
+
+- la valeur littérale et son type Python quand elle est statiquement
+  déterminable (nombre, chaîne, liste, `_F(...)` imbriqué) — directement
+  utilisable comme entrée de `checkCommandSyntax` ;
+- un marqueur explicite sinon (référence à un concept produit par une
+  commande précédente, expression non littérale, construction dynamique).
+
+Une commande dont un argument est construit dynamiquement (boucle,
+dictionnaire assemblé, fonction utilisateur) est déclarée non vérifiée
+(`unresolved`), jamais devinée. `docs/metadata.md`, section 3 (schéma
+d'analyse d'un `.comm`), est à amender en conséquence à l'ouverture de ce
+lot : le champ `keywords` d'un `statement` doit pouvoir distinguer une valeur
+littérale typée d'un marqueur de non-résolution, pas seulement lister des
+noms de mots-clés.
+
 ## Lot 10 — Validation statique niveau B
 
 Confrontation du résultat du lot 9 au catalogue du lot 4 : commande inconnue,
@@ -208,7 +227,7 @@ Niveaux D et E. Hors périmètre v1.
 | 1 | main | fait | 934aca8 | 2026-09-15 |
 | 2 | lot-2-env-detect | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 3 | | à faire | | |
-| 4 | | à faire | | |
+| 4 | lot-4-catalogue | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 5 | | à faire | | |
 | 6 | | à faire | | |
 | 7 | | à faire | | |

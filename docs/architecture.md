@@ -2,11 +2,16 @@
 
 ## 1. Contexte
 
-AsterExpert s'exécute dans la même machine virtuelle que Code_Aster. Cette
-contrainte n'est pas accessoire : elle conditionne l'accès au catalogue, à
-`run_aster` et aux cas tests installés. Une exécution depuis l'hôte ou depuis un
-environnement distant sans Code_Aster ne permet que les fonctions documentaires,
-niveau A au mieux.
+AsterExpert s'exécute dans une machine virtuelle Ubuntu 24.04. Code_Aster n'y
+est pas installé nativement : il est distribué sous forme d'images Docker
+(`simvia/code_aster`), gérées par l'outil tiers `cave`, et exécuté dans des
+conteneurs. Cette contrainte n'est pas accessoire : elle conditionne l'accès
+au catalogue, à `run_aster` et aux cas tests, qui n'existent qu'à l'intérieur
+de l'image — jamais sur le système de fichiers de la VM elle-même, où seul le
+dépôt source amont peut être présent à titre de référence, jamais compilé ni
+installé. Une exécution depuis l'hôte (hors VM), ou depuis tout environnement
+sans Docker, ne permet que les fonctions documentaires, niveau A au mieux.
+Voir ADR-002, ADR-003 et ADR-006 pour le détail du mécanisme retenu.
 
 ## 2. Vue d'ensemble
 
@@ -38,10 +43,11 @@ niveau A au mieux.
 
     Voie parallèle, indépendante du corpus documentaire :
 
-    Python d'Aster ──► scripts/introspect_catalogue.py ──► JSON
-                                   │
+    ┌─ conteneur Docker (simvia/code_aster, ADR-002/003/006) ──────────────┐
+    │  Python d'Aster ──► scripts/introspect_catalogue.py ──► JSON         │
+    └──────────────────────────────┬───────────────────────────────────────┘
                                    ▼
-                     data/processed/catalogue/<version>/*.json
+                     data/processed/catalogue/<digest>/*.json
                                    │
                                    ▼
                      validation statique (niveau B)
@@ -116,11 +122,25 @@ c. **Retenu.** Reproduire la résolution de préfixe du script `run_aster`
    `code_aster`), mais ne suffit pas pour les dépendances tierces du paquet
    `Cata` (`numpy`, utilisé par `code_aster.Cata.Language.SyntaxChecker`), qui
    vivent dans la vue Spack agrégée de l'environnement
-   (`.../.spack-env/view/lib/python3.*/site-packages`, localisée par
-   recherche du nom `view` en suivant les liens symboliques — jamais par le
-   nom de l'environnement Spack, propre à cet emballage). Le mécanisme retenu
-   ajoute donc cette seconde entrée à `PYTHONPATH` avant de sourcer
-   `profile.sh`. Vérifié empiriquement : `import code_aster.Cata.Commands` et
+   (`.../.spack-env/view/lib/python3.*/site-packages`).
+
+   **Écart assumé au mécanisme officiel (lot 4).** Localiser cette vue est
+   un ajout propre à ce projet, pas une étape du mécanisme officiel
+   `run_aster`/`profile.sh` : sa seule raison d'être est que `numpy` n'est
+   pas embarqué par `code_aster` lui-même mais fourni par l'emballage Spack
+   de l'image. Sa racine (`.../var/spack/environments/<nom>/.spack-env/view`)
+   n'est jamais codée en dur : elle est dérivée du préfixe déjà résolu, en
+   remontant ses répertoires parents jusqu'à trouver un `var/spack/
+   environments`, plutôt que supposée à un chemin ou une profondeur fixes
+   (le nom de l'environnement Spack, `simvia_env` sur l'image testée, est
+   propre à cet emballage et n'est jamais lu ni supposé). Absence de vue
+   trouvée : non fatale ici, l'échec se déplace sur l'import Python lui-même
+   (`ModuleNotFoundError`), qui reste explicite. Le mécanisme retenu ajoute
+   donc cette entrée dérivée à `PYTHONPATH` avant de sourcer `profile.sh`
+   (`set -u` désactivé le temps de ce `source`, ce fichier généré par le
+   build n'étant pas nounset-safe — constaté en session : `${ASTER_
+   PROFILE_LOADED}` et `${LD_LIBRARY_PATH}` y sont référencées sans valeur
+   par défaut). Vérifié empiriquement : `import code_aster.Cata.Commands` et
    `numpy` réussissent alors, sans shell interactif ni avertissement de
    terminal.
 
@@ -140,11 +160,12 @@ l'autre.
 modules du catalogue qu'ils importent dépendent de `numpy` — dépendance de
 `code_aster.Cata`, pas du script lui-même), et communiquent exclusivement par
 JSON sur la sortie standard. Le mécanisme de résolution d'environnement ne
-code en dur aucun chemin dépendant du hash de build ; il dépend en revanche de
-la présence d'un répertoire nommé `view` sous `.spack-env`, ce qui est
-spécifique à un emballage Spack — une image construite autrement (paquet
-système, Conda) demanderait un mécanisme de repli distinct, à traiter sur
-preuve si une telle image se présente.
+code en dur ni le hash de build, ni la racine Spack elle-même (dérivée du
+préfixe résolu, voir ci-dessus) ; il dépend en revanche de la présence d'un
+répertoire nommé `view` sous un `.spack-env` quelque part au-dessus du
+préfixe, ce qui est spécifique à un emballage Spack — une image construite
+autrement (paquet système, Conda) demanderait un mécanisme de repli distinct,
+à traiter sur preuve si une telle image se présente.
 
 ### ADR-003 — Encapsulation de `run_aster` à l'intérieur du conteneur, pas de réimplémentation
 

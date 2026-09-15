@@ -45,16 +45,21 @@ Règles :
 ## 2. Schéma de commande issu du catalogue
 
 Structure produite par l'introspection, indépendante du texte des manuels.
+Schéma établi et vérifié par exploration exhaustive du catalogue de la
+version 17.4.0 (lot 4) : 268 commandes, 0 type de nœud non reconnu, 0 type de
+valeur non reconnu (voir compte rendu du lot 4 pour le détail).
 
 ```json
 {
   "command": "STAT_NON_LINE",
-  "aster_version": "18",
-  "catalogue_source": "chemin du package code_aster",
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea9...",
+  "catalogue_source": "chemin du package code_aster dans le conteneur",
   "catalogue_hash": "sha256:...",
   "kind": "operator",
   "result_type": "evol_noli",
-  "docu": "U4.51.03",
+  "result_type_dynamic": false,
+  "docu": null,
   "keywords": [
     {
       "path": ["COMPORTEMENT"],
@@ -62,6 +67,7 @@ Structure produite par l'introspection, indépendante du texte des manuels.
       "status": "optional",
       "min_occurrences": 1,
       "max_occurrences": null,
+      "condition": [],
       "children": [
         {
           "path": ["COMPORTEMENT", "RELATION"],
@@ -72,7 +78,7 @@ Structure produite par l'introspection, indépendante du texte des manuels.
           "default": null,
           "min_values": 1,
           "max_values": 1,
-          "condition": null
+          "condition": []
         }
       ]
     }
@@ -85,11 +91,53 @@ Règles :
 
 - Les noms de champs ci-dessus sont ceux du projet, pas ceux du catalogue. La
   correspondance est établie à l'introspection et documentée dans le code.
-- `allowed_values` reflète exactement l'énumération du catalogue. Une liste
-  tronquée ou complétée est une faute.
-- `condition` conserve l'expression des blocs conditionnels sous sa forme
-  d'origine. Elle n'est pas réécrite ni simplifiée.
-- Un élément du catalogue non reconnu par l'extracteur provoque un échec
+- `image_digest` (ajouté au lot 4) est le digest de l'image conteneur dont le
+  catalogue a été introspecté (`sha256:...`, jamais un tag — voir
+  `docs/architecture.md`, ADR-002). `catalogue_hash` reste l'empreinte propre
+  au contenu du paquet `Cata` (identique pour toutes les commandes d'une même
+  extraction). Ce sont deux données indépendantes, jamais déduites l'une de
+  l'autre : la même empreinte de catalogue pourrait en théorie apparaître
+  dans deux images différentes ne différant que par autre chose que `Cata`.
+- `aster_version` est la version lisible (le tag résolu, jamais `stable`),
+  fournie pour la lecture humaine ; `image_digest` reste la seule identité
+  faisant foi.
+- `allowed_values` reflète exactement l'énumération du catalogue (`into`).
+  Une liste tronquée ou complétée est une faute.
+- `status` vaut `"required"` (`statut="o"`), `"optional"` (`"f"`), `"hidden"`
+  (`"c"`) ou `"default"` (`"d"`, mot-clé facteur présent par défaut) —
+  correspondance directe avec `PartOfSyntax.isMandatory/isOptional/isHidden`
+  et le statut brut `"d"`. Aucune autre valeur n'a été observée sur le
+  catalogue 17.4.0 ; toute autre valeur est une erreur d'extraction.
+- `max_occurrences`/`max_values` valent `null` quand le catalogue porte la
+  valeur `"**"` (illimité). Aucune autre transformation n'est appliquée aux
+  bornes numériques.
+- `condition` est la liste des expressions brutes (`Bloc.getCondition()`, non
+  réévaluées, non combinées) des blocs conditionnels englobant le mot-clé, de
+  l'extérieur vers l'intérieur ; liste vide si le mot-clé n'est sous aucun
+  bloc. Une commande peut imbriquer des blocs (profondeur observée jusqu'à 6
+  sur le catalogue 17.4.0) : chaque condition traversée est ajoutée à la
+  liste, jamais fusionnée en une seule expression synthétique.
+- `value_type` est soit une chaîne (un seul type accepté : `"TXM"`, `"I"`,
+  `"R"`, `"C"`, ou le nom Python d'une classe-concept comme
+  `"cham_no_sdaster"`), soit une liste de chaînes quand plusieurs types sont
+  acceptés (`typ` est alors un tuple dans le catalogue). Aucun renommage des
+  classes-concept : le nom retenu est exactement `cls.__name__`.
+- `default` : les valeurs complexes (`complex` Python, rencontrées par
+  exemple sur `INFO_MODE.CENTRE_CONTOUR`) sont sérialisées
+  `{"real": ..., "imag": ...}`, jamais tronquées à leur partie réelle.
+- `result_type_dynamic` vaut `true` quand `sd_prod` est une fonction (le type
+  réel dépend des arguments fournis, non déterminable statiquement) ; dans ce
+  cas `result_type` vaut `null`, jamais un type deviné à partir du nom de la
+  commande.
+- `docu` reflète exactement ce que porte le catalogue, y compris quand ce
+  n'est manifestement pas exploitable : sur 268 commandes de la version
+  17.4.0, seules 8 portent un `docu` non nul, dont un textuellement
+  `"UX.YZ.AB"` (`REST_HOMO_LOCAL`) et un vide (`TEST_COMPOR`). Ces valeurs
+  sont conservées telles quelles, jamais filtrées ni corrigées, et signalées
+  comme anomalies dans le rapport de synthèse de l'extraction — ce champ ne
+  doit pas être utilisé comme source de citation fiable en l'état.
+- Un élément du catalogue non reconnu par l'extracteur (type de nœud,
+  `statut`, ou atome de `typ` en dehors de ceux ci-dessus) provoque un échec
   explicite, pas une omission silencieuse.
 
 ## 3. Analyse d'un fichier `.comm`
