@@ -212,6 +212,7 @@ def test_walk_entities_simple_keyword_no_condition() -> None:
     assert result == [
         {
             "path": ["MODELE"],
+            "variant_id": script.compute_variant_id(["MODELE"], []),
             "kind": "simple",
             "status": "required",
             "value_type": "TXM",
@@ -261,6 +262,7 @@ def test_walk_entities_factor_keyword_with_children() -> None:
     assert result == [
         {
             "path": ["COMPORTEMENT"],
+            "variant_id": script.compute_variant_id(["COMPORTEMENT"], []),
             "kind": "factor",
             "status": "optional",
             "min_occurrences": 0,
@@ -269,6 +271,9 @@ def test_walk_entities_factor_keyword_with_children() -> None:
             "children": [
                 {
                     "path": ["COMPORTEMENT", "RELATION"],
+                    "variant_id": script.compute_variant_id(
+                        ["COMPORTEMENT", "RELATION"], []
+                    ),
                     "kind": "simple",
                     "status": "required",
                     "value_type": "TXM",
@@ -457,6 +462,45 @@ def test_docu_anomaly_suspect_value_flagged() -> None:
     }
 
 
+# --- has_usable_docu (lot 4b, C4) ------------------------------------------------
+
+
+def test_has_usable_docu_none_is_not_usable() -> None:
+    assert script.has_usable_docu(None) is False
+
+
+def test_has_usable_docu_valid_pattern() -> None:
+    assert script.has_usable_docu("U4.51.03") is True
+    assert script.has_usable_docu("U4.44.12-e") is True
+
+
+def test_has_usable_docu_malformed_is_not_usable() -> None:
+    assert script.has_usable_docu("UX.YZ.AB") is False
+    assert script.has_usable_docu("") is False
+
+
+# --- compute_variant_id (lot 4b, C1) ---------------------------------------------
+
+
+def test_compute_variant_id_deterministic() -> None:
+    first = script.compute_variant_id(["COMPORTEMENT", "RESI_INTE"], ["b_meca"])
+    second = script.compute_variant_id(["COMPORTEMENT", "RESI_INTE"], ["b_meca"])
+    assert first == second
+
+
+def test_compute_variant_id_differs_by_bloc_route() -> None:
+    same_path = ["COMPORTEMENT", "RESI_INTE"]
+    a = script.compute_variant_id(same_path, ["b_elas"])
+    b = script.compute_variant_id(same_path, ["b_vmis"])
+    assert a != b
+
+
+def test_compute_variant_id_differs_by_path() -> None:
+    a = script.compute_variant_id(["MODELE"], [])
+    b = script.compute_variant_id(["CHAM_MATER"], [])
+    assert a != b
+
+
 # --- extract_all -----------------------------------------------------------------
 
 
@@ -478,8 +522,67 @@ def test_extract_all_reports_per_command_failures_without_aborting() -> None:
     assert summary["total_exposed"] == 2
     assert summary["total_extracted"] == 1
     assert summary["kind_counts"] == {"operator": 1}
+    assert summary["commands_without_usable_docu"] == 1  # AFFE_CHAR_MECA, docu=None
     anomaly_commands = {a["command"]: a["kind"] for a in summary["anomalies"]}
     assert anomaly_commands["BROKEN"] == "extraction_error"
+
+
+def test_extract_all_counts_missing_and_malformed_docu_together() -> None:
+    """Regression test (lot 4b, C4).
+
+    The lot 4 summary only listed the 2 malformed `docu` values as
+    anomalies, silently treating the 260 commands with no `docu` at all as
+    if they were fine. `commands_without_usable_docu` must count both.
+    """
+    no_docu = _empty_command("NO_DOCU", docu=None)
+    bad_docu = _empty_command("BAD_DOCU", docu="UX.YZ.AB")
+    good_docu = _empty_command("GOOD_DOCU", docu="U4.51.03")
+
+    _schemas, summary = script.extract_all(
+        {"NO_DOCU": no_docu, "BAD_DOCU": bad_docu, "GOOD_DOCU": good_docu},
+        aster_version="17.4.0",
+        image_digest="sha256:abc",
+        catalogue_hash="sha256:def",
+        catalogue_source="/opt/x/code_aster",
+        extracted_at="2026-01-01T00:00:00+00:00",
+        is_concept_class=_is_concept_class,
+    )
+
+    assert summary["commands_without_usable_docu"] == 2  # NO_DOCU and BAD_DOCU
+    anomaly_commands = {a["command"] for a in summary["anomalies"]}
+    assert anomaly_commands == {"BAD_DOCU"}  # only the malformed one is an anomaly
+
+
+def test_walk_entities_same_path_different_bloc_gets_different_variant_id() -> None:
+    """Mirrors the real duplication found on STAT_NON_LINE (lot 4b, C1):
+    the same keyword name declared under two sibling `Bloc`."""
+    resi_inte_elas = SimpleKeyword(FakeDefinition({"statut": "f", "typ": "R"}, {}))
+    resi_inte_vmis = SimpleKeyword(FakeDefinition({"statut": "f", "typ": "R"}, {}))
+    bloc_elas = Bloc(
+        FakeDefinition({}, {"RESI_INTE": resi_inte_elas}),
+        "equal_to(\"RELATION\", 'ELAS')",
+    )
+    bloc_vmis = Bloc(
+        FakeDefinition({}, {"RESI_INTE": resi_inte_vmis}),
+        "equal_to(\"RELATION\", 'VMIS_ISOT_LINE')",
+    )
+    comportement = FactorKeyword(
+        FakeDefinition({"statut": "f"}, {"b_elas": bloc_elas, "b_vmis": bloc_vmis})
+    )
+    definition = FakeDefinition({"nom": "X"}, {"COMPORTEMENT": comportement})
+    cmd = Operator("X", definition)
+
+    result = script.walk_entities(cmd, [], [], _is_concept_class, set())
+
+    resi_inte_entries = [
+        e for e in result[0]["children"] if e["path"] == ["COMPORTEMENT", "RESI_INTE"]
+    ]
+    assert len(resi_inte_entries) == 2
+    assert resi_inte_entries[0]["variant_id"] != resi_inte_entries[1]["variant_id"]
+    assert {tuple(e["condition"]) for e in resi_inte_entries} == {
+        ("equal_to(\"RELATION\", 'ELAS')",),
+        ("equal_to(\"RELATION\", 'VMIS_ISOT_LINE')",),
+    }
 
 
 def test_main_fails_when_code_aster_not_importable(tmp_path: Path) -> None:

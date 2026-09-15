@@ -71,6 +71,15 @@ Tranche la question du format des sources documentaires.
 Critères de sortie : inventaire reproductible, anomalies listées et
 qualifiées, décision écrite sur la stratégie de parsing documentaire.
 
+**Note (à consigner sans l'implémenter, lot 4b, C4).** Le champ `docu` du
+catalogue (référence manuel U4/U7) n'est pas une source fiable pour relier
+une commande à sa documentation : sur la version 17.4.0, 262 commandes sur
+268 n'ont pas de `docu` exploitable (260 nulles, 2 malformées — voir
+`docs/metadata.md` §2 et `catalogue_summary.json` du lot 4b). Le lien
+commande → manuel devra être construit depuis le corpus documentaire
+lui-même (structure des documents U4/U7 synchronisés, lot 3, inventoriés
+dans ce lot 6), pas déduit ou complété à partir du catalogue.
+
 ## Lot 7 — Index lexical et recherche
 
 Découpage documentaire selon `docs/corpus.md`, index BM25, filtres de
@@ -168,6 +177,27 @@ résultat du parseur (lot 9), d'un dict de mots-clés en valeurs Python pour
 chaque commande résolue statiquement, et à la gestion explicite des concepts
 non résolus sans exécution (`unresolved`, déjà prévu par le lot 9).
 
+**Note complémentaire (lot 4b, C2/C3, vérifiée empiriquement contre
+`checkCommandSyntax` — sorties réelles dans le compte rendu de ce lot).**
+
+- Une valeur vide (`[]`) pour un mot-clé simple obligatoire est traitée par
+  le vérificateur officiel comme une **absence** (`is_undefined([])` vaut
+  `True`), pas comme une violation de cardinalité : elle lève
+  `KeyError: 'Keyword ... is mandatory'`, la même erreur qu'une absence pure
+  et simple. Le lot 10 ne doit donc pas distinguer "valeur vide fournie" de
+  "mot-clé absent" pour un mot-clé obligatoire : reconstruire `[]` ou omettre
+  la clé du dict produit le même diagnostic chez `checkCommandSyntax`, et
+  c'est le comportement correct à préserver, pas à contourner.
+- `status: "hidden"` (`statut="c"`, voir `docs/metadata.md` §2) doit être
+  traité comme fonctionnellement équivalent à `"optional"` pour la
+  vérification (jamais requis, accepté explicitement) : `isHidden()` n'est
+  utilisé nulle part dans `SyntaxChecker.py` ni ailleurs dans le dépôt
+  source, ce n'est pas une notion de validation. À trancher formellement à
+  l'ouverture de ce lot : si un outil de complétion/génération de `.comm`
+  est un jour construit, il ne doit pas proposer un mot-clé caché comme une
+  option normale (hors périmètre de ce lot, mais la distinction doit être
+  préservée dans le schéma, pas aplatie avec `"optional"`).
+
 ## Lot 11 — Hook de validation
 
 Hook `PostToolUse` déclenchant `aster-expert validate` après modification d'un
@@ -227,7 +257,8 @@ Niveaux D et E. Hors périmètre v1.
 | 1 | main | fait | 934aca8 | 2026-09-15 |
 | 2 | lot-2-env-detect | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 3 | | à faire | | |
-| 4 | lot-4-catalogue | fait | (ce lot, voir `git log`) | 2026-09-15 |
+| 4 | lot-4-catalogue | fait | d1041e1 | 2026-09-15 |
+| 4b | lot-4b-catalogue-fix | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 5 | | à faire | | |
 | 6 | | à faire | | |
 | 7 | | à faire | | |

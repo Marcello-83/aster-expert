@@ -44,6 +44,7 @@ SAMPLE_SUMMARY = {
     "total_extracted": 1,
     "kind_counts": {"operator": 1},
     "encountered_classes": ["Operator"],
+    "commands_without_usable_docu": 1,
     "anomalies": [],
 }
 
@@ -179,6 +180,7 @@ def test_extract_catalogue_hard_error_raises(
         "total_extracted": 1,
         "kind_counts": {"operator": 1},
         "encountered_classes": ["Operator"],
+        "commands_without_usable_docu": 1,
         "anomalies": [
             {"command": "BROKEN", "kind": "extraction_error", "detail": "boom"}
         ],
