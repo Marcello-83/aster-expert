@@ -1,0 +1,46 @@
+# Dépôts Code_Aster clonés : jamais versionnés dans ce dépôt.
+/external/*
+!/external/.gitkeep
+
+# Données produites.
+/data/raw/*
+/data/processed/*
+/data/indexes/*
+!/data/raw/.gitkeep
+!/data/processed/.gitkeep
+!/data/indexes/.gitkeep
+
+# Le jeu d'évaluation est versionné : il fait partie des sources du projet.
+!/data/evaluations/
+!/data/evaluations/**
+
+# Environnement.
+.env
+.venv/
+venv/
+
+# Python.
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Sorties Code_Aster éventuellement déposées à la racine.
+*.mess
+*.resu
+*.rmed
+*.base
+fort.*
+/proc.*/
+
+# Éditeurs et système.
+.vscode/
+.idea/
+*.swp
+.DS_Store

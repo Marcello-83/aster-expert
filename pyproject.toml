@@ -1,0 +1,86 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aster-expert"
+version = "0.1.0"
+description = "Agent expert Code_Aster : corpus versionné, catalogue, validation et exécution"
+readme = "README.md"
+requires-python = ">=3.12"
+# Licence à choisir avant toute diffusion : décommenter après avoir ajouté
+# le fichier LICENSE correspondant.
+# license = { file = "LICENSE" }
+authors = [{ name = "Marcello Marseguerra" }]
+keywords = ["code_aster", "finite-element", "documentation", "validation"]
+
+# Dépendances du Python du projet uniquement.
+# Ce paquet n'importe jamais `code_aster` : l'accès au catalogue et à
+# l'exécution passe par des sous-processus lancés avec le Python d'Aster
+# (voir docs/architecture.md, ADR-002).
+dependencies = [
+    "typer>=0.12",
+    "pydantic>=2.7",
+    "pyyaml>=6.0",
+    "rich>=13.7",
+]
+
+[project.optional-dependencies]
+# Activé au lot d'indexation. Le choix du moteur lexical est confirmé à ce
+# moment, pas avant.
+index = [
+    "bm25s>=0.2",
+    "numpy>=1.26",
+]
+# Activé au lot du serveur MCP.
+mcp = [
+    "mcp>=1.2",
+]
+dev = [
+    "pytest>=8.2",
+    "pytest-cov>=5.0",
+    "ruff>=0.5",
+    "mypy>=1.10",
+    "types-PyYAML",
+]
+
+[project.scripts]
+aster-expert = "aster_expert.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aster_expert"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "C4", "PTH", "RET", "SIM", "ARG"]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ARG"]
+# Les scripts destinés au Python de l'installation Code_Aster ne doivent
+# dépendre que de la bibliothèque standard et peuvent cibler un interpréteur
+# plus ancien.
+"scripts/*" = ["UP"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src", "tests"]
+strict = true
+warn_unreachable = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["bm25s.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "requires_aster: nécessite une installation Code_Aster fonctionnelle",
+    "requires_corpus: nécessite les dépôts synchronisés sous external/",
+]

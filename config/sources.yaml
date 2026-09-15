@@ -1,0 +1,62 @@
+# Sources externes du corpus Code_Aster.
+#
+# Ces dépôts sont clonés sous external/ et ne sont jamais commités.
+# Les chemins internes (families.paths) sont volontairement vides : ils doivent
+# être établis par inspection lors du lot d'inventaire, jamais supposés.
+
+schema_version: 1
+
+defaults:
+  clone_root: external
+  # Politique de mise à jour : fetch_only | fetch_and_checkout | pinned
+  # fetch_only        : récupère les révisions, ne modifie pas la copie de travail
+  # fetch_and_checkout: positionne la copie de travail sur `ref`
+  # pinned            : n'agit que si le commit local diffère de `commit`
+  update_policy: fetch_and_checkout
+  # Une copie de travail modifiée bloque la synchronisation de sa source.
+  allow_dirty: false
+  # Clone partiel : accélère fortement le premier clone de dépôts volumineux.
+  partial_clone: true
+  depth: null
+
+sources:
+  - name: codeaster-src
+    url: https://gitlab.com/codeaster/src.git
+    # Renseigner un tag après le lot de détection d'environnement, afin que la
+    # révision corresponde à la version installée. Laisser `main` conduit à
+    # indexer une version différente de celle qui s'exécute.
+    ref: main
+    commit: null
+    local_path: external/codeaster-src
+    license: GPL-3.0
+    families:
+      catalogue:
+        enabled: true
+        paths: []
+      testcases:
+        enabled: true
+        paths: []
+      devguide:
+        enabled: false
+        paths: []
+    update_policy: fetch_and_checkout
+
+  - name: codeaster-doc
+    url: https://gitlab.com/codeaster/doc/docaster.git
+    ref: main
+    commit: null
+    local_path: external/codeaster-doc
+    license: GFDL-1.3
+    families:
+      manuals:
+        enabled: true
+        paths: []
+    update_policy: fetch_and_checkout
+
+# Sources secondaires, non indexées, citables uniquement avec mention
+# explicite de leur statut.
+secondary_sources:
+  - name: forum
+    url: https://code-aster.org/forum2/
+    indexed: false
+    note: source communautaire, jamais opposable au catalogue

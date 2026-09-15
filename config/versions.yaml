@@ -1,0 +1,41 @@
+# Versions Code_Aster.
+#
+# La section `detected` est écrite par `aster-expert env detect` à partir de
+# l'installation réelle. Elle n'est jamais remplie à la main.
+# Tant que `target` est nul, aucune commande produisant ou validant de la
+# syntaxe ne doit s'exécuter.
+
+schema_version: 1
+
+# Version utilisée par défaut lorsqu'une requête n'en précise pas.
+target: null
+
+# Écrit par `aster-expert env detect`. Ne pas éditer.
+detected:
+  detected_at: null
+  run_aster_bin: null
+  run_aster_version_raw: null
+  aster_python: null
+  code_aster_package: null
+  catalogue_path: null
+  catalogue_hash: null
+  install_kind: null        # source | salome_meca | conda | paquet
+  mpi: null
+
+# Correspondance déclarée entre version de code et révisions des dépôts.
+# Ces correspondances sont établies par vérification, pas par similarité de
+# numérotation.
+versions: []
+#  - name: "18"
+#    src_ref: null
+#    doc_ref: null
+#    doc_revision: null
+#    verified_by: null
+#    verified_at: null
+#    note: null
+
+policy:
+  # Renvoyer un fragment d'une autre version que celle demandée.
+  cross_version_results: warn   # forbid | warn
+  # Comportement si `target` est nul et qu'aucune version n'est passée.
+  missing_target: fail          # fail | warn

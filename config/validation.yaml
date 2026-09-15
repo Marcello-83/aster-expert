@@ -1,0 +1,51 @@
+# Validation statique et exécution.
+
+schema_version: 1
+
+static:
+  # Contrôles de niveau B, confrontation au catalogue.
+  checks:
+    unknown_command: error
+    unknown_keyword: error
+    missing_required_keyword: error
+    keyword_cardinality: error
+    value_type: error
+    value_not_in_enum: error
+    unsatisfied_block_condition: error
+    concept_used_before_definition: error
+    concept_redefined: warning
+    unused_concept: warning
+    missing_fin: error
+    truncation_marker: error       # présence de "..." ou d'un marqueur de coupe
+  # Une commande non confrontable au catalogue est toujours reportée.
+  report_unchecked_commands: true
+  # Suggestion de nom proche, présentée comme suggestion uniquement.
+  suggest_close_names: true
+  max_edit_distance: 2
+
+execution:
+  enabled: true
+  # Répertoires depuis lesquels un fichier peut être exécuté.
+  allowed_roots: []
+  work_dir_root: data/processed/runs
+  keep_work_dir: true
+  timeout_seconds: 1800
+  memory_mb: 8192
+  mpi_processes: 1
+  # Ne jamais supprimer un fichier utilisateur ni écrire hors du work_dir.
+  write_outside_work_dir: false
+
+mess_analysis:
+  # Extraction déléguée aux modules livrés avec l'installation.
+  use_run_aster_modules: true
+  # Traitements complémentaires propres au projet, à n'activer qu'après avoir
+  # documenté ce que les modules ci-dessus ne couvrent pas.
+  project_extensions:
+    alarms_table: false
+    timing_table: false
+    convergence_table: false
+
+reporting:
+  # Un niveau supérieur à celui réellement atteint ne doit jamais être écrit.
+  max_claimable_level_without_execution: B
+  require_sources: true
