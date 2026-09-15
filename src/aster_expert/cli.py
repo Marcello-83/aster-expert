@@ -17,7 +17,7 @@ from aster_expert import __version__
 from aster_expert.catalogue.errors import CatalogueExtractionError
 from aster_expert.catalogue.extract import extract_catalogue
 from aster_expert.catalogue.query import (
-    find_keyword,
+    find_keyword_variants,
     load_command_schema,
     resolve_active_digest,
 )
@@ -153,6 +153,7 @@ def catalogue_extract() -> None:
     typer.echo(f"Commandes exposées  : {summary.total_exposed}")
     typer.echo(f"Commandes extraites : {summary.total_extracted}")
     typer.echo(f"Répartition par type : {summary.kind_counts}")
+    typer.echo(f"Sans docu exploitable : {summary.commands_without_usable_docu}")
     if summary.anomalies:
         typer.echo(f"Anomalies relevées : {len(summary.anomalies)}", err=True)
         for anomaly in summary.anomalies:
@@ -184,8 +185,11 @@ def catalogue_show(
         digest = resolve_active_digest(versions_path)
         schema = load_command_schema(catalogue_root, digest, command)
         if keyword:
-            entry = find_keyword(schema, keyword.split("."))
-            payload = json.loads(entry.model_dump_json())
+            # Always a list, even for a single variant: `path` does not
+            # identify a unique node (lot 4b, C1), so the shape must never
+            # silently hide the fact that more variants could exist.
+            variants = find_keyword_variants(schema, keyword.split("."))
+            payload = [json.loads(v.model_dump_json()) for v in variants]
         else:
             payload = json.loads(schema.model_dump_json())
     except CatalogueExtractionError as exc:

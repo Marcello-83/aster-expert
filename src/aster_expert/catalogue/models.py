@@ -14,6 +14,7 @@ class SimpleKeywordSchema(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     path: list[str]
+    variant_id: str
     kind: Literal["simple"]
     status: Status
     value_type: str | list[str]
@@ -28,6 +29,7 @@ class FactorKeywordSchema(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     path: list[str]
+    variant_id: str
     kind: Literal["factor"]
     status: Status
     min_occurrences: int | None
@@ -76,4 +78,5 @@ class ExtractionSummary(BaseModel):
     total_extracted: int
     kind_counts: dict[str, int]
     encountered_classes: list[str]
+    commands_without_usable_docu: int
     anomalies: list[ExtractionAnomaly]

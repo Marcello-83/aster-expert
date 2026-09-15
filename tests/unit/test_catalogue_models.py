@@ -23,6 +23,7 @@ SAMPLE_COMMAND = {
     "keywords": [
         {
             "path": ["COMPORTEMENT"],
+            "variant_id": "aaaaaaaaaaaaaaaa",
             "kind": "factor",
             "status": "optional",
             "min_occurrences": 1,
@@ -31,6 +32,7 @@ SAMPLE_COMMAND = {
             "children": [
                 {
                     "path": ["COMPORTEMENT", "RELATION"],
+                    "variant_id": "bbbbbbbbbbbbbbbb",
                     "kind": "simple",
                     "status": "required",
                     "value_type": "TXM",
@@ -65,6 +67,7 @@ def test_command_schema_accepts_list_value_type() -> None:
     data["keywords"] = [
         {
             "path": ["MODELE"],
+            "variant_id": "cccccccccccccccc",
             "kind": "simple",
             "status": "required",
             "value_type": ["cham_no_sdaster", "carte_sdaster"],
@@ -86,6 +89,7 @@ def test_command_schema_accepts_complex_default() -> None:
     data["keywords"] = [
         {
             "path": ["CENTRE_CONTOUR"],
+            "variant_id": "dddddddddddddddd",
             "kind": "simple",
             "status": "optional",
             "value_type": "C",
@@ -119,6 +123,7 @@ def test_extraction_summary_round_trips() -> None:
                 "SimpleKeyword",
                 "Operator",
             ],
+            "commands_without_usable_docu": 260,
             "anomalies": [
                 {"command": "BROKEN", "kind": "extraction_error", "detail": "boom"},
             ],

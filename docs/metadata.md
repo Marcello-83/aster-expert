@@ -47,7 +47,9 @@ Règles :
 Structure produite par l'introspection, indépendante du texte des manuels.
 Schéma établi et vérifié par exploration exhaustive du catalogue de la
 version 17.4.0 (lot 4) : 268 commandes, 0 type de nœud non reconnu, 0 type de
-valeur non reconnu (voir compte rendu du lot 4 pour le détail).
+valeur non reconnu (voir compte rendu du lot 4 pour le détail). Corrigé au
+lot 4b (relecture externe) : identifiant de variante (C1), sémantique des
+bornes (C2), statut `hidden` documenté (C3), complétude de `docu` (C4).
 
 ```json
 {
@@ -63,6 +65,7 @@ valeur non reconnu (voir compte rendu du lot 4 pour le détail).
   "keywords": [
     {
       "path": ["COMPORTEMENT"],
+      "variant_id": "1a2b3c4d5e6f7a8b",
       "kind": "factor",
       "status": "optional",
       "min_occurrences": 1,
@@ -71,6 +74,7 @@ valeur non reconnu (voir compte rendu du lot 4 pour le détail).
       "children": [
         {
           "path": ["COMPORTEMENT", "RELATION"],
+          "variant_id": "9f8e7d6c5b4a3210",
           "kind": "simple",
           "status": "required",
           "value_type": "TXM",
@@ -101,13 +105,53 @@ Règles :
 - `aster_version` est la version lisible (le tag résolu, jamais `stable`),
   fournie pour la lecture humaine ; `image_digest` reste la seule identité
   faisant foi.
+- `path` **n'identifie pas un nœud de façon unique** (constaté au lot 4b sur
+  relecture externe : 37 chemins en double rien que sur `STAT_NON_LINE`, 72
+  entrées surnuméraires — ex. `COMPORTEMENT.RESI_INTE` × 5). La cause est
+  l'aplatissement volontaire des `Bloc` (ADR : la condition d'un bloc est
+  conservée sur chaque mot-clé qu'il contient plutôt que représentée comme
+  un nœud séparé) : un même nom de mot-clé peut être déclaré une fois par
+  bloc frère (une variante par valeur de `RELATION`, par exemple). `path`
+  garde donc sa forme aplatie (compatibilité, lisibilité), mais **n'est
+  jamais utilisé seul pour identifier un nœud** :
+  `variant_id` (ajouté au lot 4b) est un identifiant court, déterministe et
+  stable, calculé à partir du chemin complet ET de la suite des clés de
+  `Bloc` traversées (jamais du texte de la condition seul, qui pourrait par
+  coïncidence être identique pour deux blocs différents). Deux extractions
+  successives du même catalogue produisent les mêmes `variant_id`.
+  `aster-expert catalogue show <CMD> --keyword <CHEMIN>` renvoie **toutes**
+  les variantes d'un chemin, jamais une seule silencieusement choisie.
 - `allowed_values` reflète exactement l'énumération du catalogue (`into`).
   Une liste tronquée ou complétée est une faute.
-- `status` vaut `"required"` (`statut="o"`), `"optional"` (`"f"`), `"hidden"`
-  (`"c"`) ou `"default"` (`"d"`, mot-clé facteur présent par défaut) —
-  correspondance directe avec `PartOfSyntax.isMandatory/isOptional/isHidden`
-  et le statut brut `"d"`. Aucune autre valeur n'a été observée sur le
-  catalogue 17.4.0 ; toute autre valeur est une erreur d'extraction.
+- **Trois notions distinctes, souvent confondues (lot 4b, C2) :**
+  - `status` : la **présence** du mot-clé lui-même est-elle obligatoire,
+    facultative, cachée ou par défaut ? Ne dit rien sur le nombre
+    d'occurrences ni sur le nombre de valeurs.
+  - `min_occurrences`/`max_occurrences` (mots-clés facteurs uniquement) : une
+    fois le mot-clé facteur présent, combien de fois peut-il être répété
+    (`FACT(max="**")` permet plusieurs occurrences, ex. `EXCIT`).
+  - `min_values`/`max_values` (mots-clés simples uniquement) : une fois le
+    mot-clé simple présent, combien de valeurs individuelles attend-il (ex.
+    `TRANSF_GEOM_MAIT` dans `AFFE_CHAR_MECA` attend exactement 3 réels).
+  - `status` vaut `"required"` (`statut="o"`), `"optional"` (`"f"`),
+    `"hidden"` (`"c"`, voir plus bas) ou `"default"` (`"d"`, mot-clé facteur
+    présent par défaut même sans intervention de l'utilisateur, via
+    `addDefaultKeywords`) — correspondance directe avec
+    `PartOfSyntax.isMandatory/isOptional/isHidden` et le statut brut `"d"`.
+    Aucune autre valeur n'a été observée sur le catalogue 17.4.0 ; toute
+    autre valeur est une erreur d'extraction.
+  - Vérifié empiriquement contre `checkCommandSyntax` (lot 4b, sorties
+    réelles rapportées dans le compte rendu de lot) : un mot-clé facteur
+    obligatoire absent (`STAT_NON_LINE` sans `INCREMENT`) lève
+    `KeyError: 'Keyword INCREMENT is mandatory'`. Un mot-clé simple
+    obligatoire réduit à une liste vide (`INCREMENT.LIST_INST = []`) lève la
+    **même famille d'erreur** (`KeyError: 'Keyword LIST_INST is mandatory'`),
+    pas une erreur de cardinalité : `is_undefined([])` vaut `True` dans le
+    vérificateur officiel, donc une liste vide est traitée comme une
+    absence — le contrôle qui intercepte est celui de la *présence*
+    (`status`), jamais celui du *nombre de valeurs* (`min_values`), qui
+    n'est même pas atteint dans ce cas. `min_values`/`max_values` ne
+    s'appliquent qu'à une valeur déjà considérée comme présente et non vide.
 - `max_occurrences`/`max_values` valent `null` quand le catalogue porte la
   valeur `"**"` (illimité). Aucune autre transformation n'est appliquée aux
   bornes numériques.
@@ -117,6 +161,28 @@ Règles :
   bloc. Une commande peut imbriquer des blocs (profondeur observée jusqu'à 6
   sur le catalogue 17.4.0) : chaque condition traversée est ajoutée à la
   liste, jamais fusionnée en une seule expression synthétique.
+- **`status: "hidden"` (lot 4b, C3).** Établi par lecture du code source
+  (`external/codeaster-src`) : `statut="c"` signifie « mot-clé caché ». Deux
+  exemples réels : `reuse` (présent sur toute commande réentrante, lié à la
+  convention d'appel Python `reuse=` qui réutilise un concept existant, pas
+  à un mot-clé normal) et `SOLVEUR.RESI_RELA_PC` (commentaire du catalogue :
+  « Mot-clé caché pour désactiver le critère en norme non préconditionnée
+  dans PETSC »). Fait vérifié par recherche exhaustive dans le dépôt source :
+  `isHidden()` (`_def_status()=='c'`) n'est référencé **nulle part ailleurs**
+  dans tout `code_aster` — ni dans `SyntaxChecker.py`, ni dans le
+  superviseur. Un mot-clé caché n'est jamais obligatoire
+  (`isMandatory()` vaut `False`) ; s'il porte un `defaut`,
+  `addDefaultKeywords` l'ajoute automatiquement au dict de mots-clés que
+  l'utilisateur le mentionne ou non ; s'il est explicitement renseigné par
+  l'utilisateur, il est validé exactement comme un mot-clé ordinaire (aucune
+  exemption dans `visitSimpleKeyword`/`getKeyword`). Règle de traitement
+  attendue côté validation (lot 10, à trancher formellement à l'ouverture de
+  ce lot — voir `docs/development-plan.md`) : traiter `"hidden"` comme
+  fonctionnellement équivalent à `"optional"` pour la vérification (jamais
+  requis, accepté s'il est présent), mais ne jamais le suggérer comme mot-clé
+  disponible dans un outil de complétion ou de génération de `.comm` neuf,
+  puisque son statut caché signale une intention de réserve interne/de
+  compatibilité de la part de l'auteur du catalogue.
 - `value_type` est soit une chaîne (un seul type accepté : `"TXM"`, `"I"`,
   `"R"`, `"C"`, ou le nom Python d'une classe-concept comme
   `"cham_no_sdaster"`), soit une liste de chaînes quand plusieurs types sont
@@ -135,7 +201,14 @@ Règles :
   `"UX.YZ.AB"` (`REST_HOMO_LOCAL`) et un vide (`TEST_COMPOR`). Ces valeurs
   sont conservées telles quelles, jamais filtrées ni corrigées, et signalées
   comme anomalies dans le rapport de synthèse de l'extraction — ce champ ne
-  doit pas être utilisé comme source de citation fiable en l'état.
+  doit pas être utilisé comme source de citation fiable en l'état. Le
+  rapport de synthèse (`catalogue_summary.json`) compte, en plus des
+  anomalies individuelles, le nombre total de commandes sans `docu`
+  exploitable (`commands_without_usable_docu`, ajouté au lot 4b : 262/268 sur
+  la version 17.4.0 — 260 `docu` nuls et 2 malformés — le lot 4 ne
+  dénombrait que ces 2 derniers, sous-déclarant l'ampleur réelle du manque).
+  Voir `docs/development-plan.md` : le lien commande → manuel U4 devra être
+  construit depuis le corpus documentaire, pas déduit du catalogue.
 - Un élément du catalogue non reconnu par l'extracteur (type de nœud,
   `statut`, ou atome de `typ` en dehors de ceux ci-dessus) provoque un échec
   explicite, pas une omission silencieuse.

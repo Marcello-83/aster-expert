@@ -14,6 +14,7 @@ guessed), and the process exits non-zero.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -78,12 +79,32 @@ def serialize_value_type(
     return serialize_typ_atom(typ, is_concept_class)
 
 
+def compute_variant_id(path: list[str], bloc_route: list[str]) -> str:
+    """Stable, deterministic id disambiguating same-`path` nodes (lot 4b, C1).
+
+    `path` alone does not identify a node: a keyword name reused under
+    several sibling `Bloc` (e.g. `COMPORTEMENT.RESI_INTE` declared once per
+    behaviour-selecting block) yields the same `path` for each variant —
+    verified on STAT_NON_LINE alone: 37 duplicated paths, 72 extra entries.
+    `bloc_route` is the ordered list of the raw catalogue dict keys of every
+    `Bloc` traversed to reach this node (never the `condition` text itself,
+    which is a separate, human-readable fact and does not by construction
+    rule out two different blocs sharing the same condition string). Since
+    dict keys are unique within a single `CataDefinition`, the concatenation
+    of `bloc_route` and `path` is unique by construction — this hashes it
+    only for a short, stable, opaque identifier.
+    """
+    payload = json.dumps({"path": path, "bloc_route": bloc_route}, sort_keys=True)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
+
+
 def walk_entities(
     node: Any,
     path: list[str],
     condition_stack: list[str],
     is_concept_class: Callable[[type], bool],
     encountered_classes: set[str],
+    bloc_route: list[str] | None = None,
 ) -> list[dict[str, Any]]:
     """Walk the immediate and nested entities of a Command/FactorKeyword/Bloc.
 
@@ -97,6 +118,7 @@ def walk_entities(
     its own node), never ``.definition.keywords`` (which flattens `Bloc`
     children into the parent and loses the condition).
     """
+    bloc_route = bloc_route if bloc_route is not None else []
     result: list[dict[str, Any]] = []
     for key, child in node.definition.entities.items():
         type_name = type(child).__name__
@@ -114,16 +136,23 @@ def walk_entities(
                     [*condition_stack, condition],
                     is_concept_class,
                     encountered_classes,
+                    [*bloc_route, key],
                 )
             )
         elif type_name == "FactorKeyword":
             encountered_classes.add("FactorKeyword")
             children = walk_entities(
-                child, cur_path, condition_stack, is_concept_class, encountered_classes
+                child,
+                cur_path,
+                condition_stack,
+                is_concept_class,
+                encountered_classes,
+                bloc_route,
             )
             result.append(
                 {
                     "path": cur_path,
+                    "variant_id": compute_variant_id(cur_path, bloc_route),
                     "kind": "factor",
                     "status": serialize_status(child.definition.get("statut", "f")),
                     "min_occurrences": serialize_bound(child.definition.get("min", 0)),
@@ -138,6 +167,7 @@ def walk_entities(
             result.append(
                 {
                     "path": cur_path,
+                    "variant_id": compute_variant_id(cur_path, bloc_route),
                     "kind": "simple",
                     "status": serialize_status(child.definition.get("statut", "f")),
                     "value_type": serialize_value_type(
@@ -212,11 +242,26 @@ def build_command_schema(
     }
 
 
+def has_usable_docu(docu: str | None) -> bool:
+    """Whether `docu` is shaped like a real manual reference, not just non-null.
+
+    Absence (`None`) and a malformed value are both "not usable" for
+    citation purposes: distinguishing them is the job of `docu_anomaly`
+    below, not of this predicate.
+    """
+    return docu is not None and bool(DOCU_PATTERN.match(docu))
+
+
 def docu_anomaly(command: str, docu: str | None) -> dict[str, str] | None:
     """Flag a `docu` value not shaped like a manual reference (soft anomaly).
 
     A heuristic, not a fact: reported as `docu_suspect`, the value is never
-    dropped or corrected in the schema itself.
+    dropped or corrected in the schema itself. Returns nothing for `None`:
+    that case is common (260/268 commands on the 17.4.0 catalogue) and
+    counted in aggregate as `commands_without_usable_docu` in the summary,
+    not reported as one `docu_suspect` anomaly per command (lot 4b, C4 — the
+    lot 4 summary under-reported this: only the 2 malformed non-null values
+    were flagged, silently treating "absent" as "fine").
     """
     if docu is None:
         return None
@@ -270,11 +315,16 @@ def extract_all(
         if anomaly is not None:
             anomalies.append(anomaly)
 
+    commands_without_usable_docu = sum(
+        1 for schema in schemas.values() if not has_usable_docu(schema["docu"])
+    )
+
     summary = {
         "total_exposed": len(commands),
         "total_extracted": len(schemas),
         "kind_counts": kind_counts,
         "encountered_classes": sorted(encountered_classes),
+        "commands_without_usable_docu": commands_without_usable_docu,
         "anomalies": anomalies,
     }
     return schemas, summary

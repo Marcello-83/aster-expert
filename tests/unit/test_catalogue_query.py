@@ -10,7 +10,7 @@ import pytest
 from aster_expert.catalogue.errors import CatalogueExtractionError
 from aster_expert.catalogue.models import CommandSchema
 from aster_expert.catalogue.query import (
-    find_keyword,
+    find_keyword_variants,
     load_command_schema,
     resolve_active_digest,
 )
@@ -28,6 +28,7 @@ SAMPLE_COMMAND = {
     "keywords": [
         {
             "path": ["COMPORTEMENT"],
+            "variant_id": "aaaaaaaaaaaaaaaa",
             "kind": "factor",
             "status": "optional",
             "min_occurrences": 1,
@@ -36,6 +37,7 @@ SAMPLE_COMMAND = {
             "children": [
                 {
                     "path": ["COMPORTEMENT", "RELATION"],
+                    "variant_id": "bbbbbbbbbbbbbbbb",
                     "kind": "simple",
                     "status": "required",
                     "value_type": "TXM",
@@ -45,6 +47,59 @@ SAMPLE_COMMAND = {
                     "max_values": 1,
                     "condition": [],
                 }
+            ],
+        }
+    ],
+    "extracted_at": "2026-01-01T00:00:00+00:00",
+}
+
+# Mirrors the real anomaly found on STAT_NON_LINE (lot 4b, C1): the same
+# path (["COMPORTEMENT", "RESI_INTE"]) declared under two different Bloc,
+# each with its own condition and variant_id.
+SAMPLE_COMMAND_WITH_DUPLICATE_PATH = {
+    "command": "STAT_NON_LINE",
+    "aster_version": "17.4.0",
+    "image_digest": "sha256:abc",
+    "catalogue_source": "/opt/x/code_aster",
+    "catalogue_hash": "sha256:def",
+    "kind": "operator",
+    "result_type": "evol_noli",
+    "result_type_dynamic": False,
+    "docu": None,
+    "keywords": [
+        {
+            "path": ["COMPORTEMENT"],
+            "variant_id": "aaaaaaaaaaaaaaaa",
+            "kind": "factor",
+            "status": "optional",
+            "min_occurrences": 1,
+            "max_occurrences": None,
+            "condition": [],
+            "children": [
+                {
+                    "path": ["COMPORTEMENT", "RESI_INTE"],
+                    "variant_id": "variant-one-0001",
+                    "kind": "simple",
+                    "status": "optional",
+                    "value_type": "R",
+                    "allowed_values": None,
+                    "default": None,
+                    "min_values": None,
+                    "max_values": 1,
+                    "condition": ["equal_to(\"RELATION\", 'ELAS')"],
+                },
+                {
+                    "path": ["COMPORTEMENT", "RESI_INTE"],
+                    "variant_id": "variant-two-0002",
+                    "kind": "simple",
+                    "status": "optional",
+                    "value_type": "R",
+                    "allowed_values": None,
+                    "default": 1.0e-6,
+                    "min_values": None,
+                    "max_values": 1,
+                    "condition": ["equal_to(\"RELATION\", 'VMIS_ISOT_LINE')"],
+                },
             ],
         }
     ],
@@ -103,24 +158,46 @@ def test_load_command_schema_missing_raises(tmp_path: Path) -> None:
         load_command_schema(tmp_path, "sha256:d8d19ea9", "STAT_NON_LINE")
 
 
-def test_find_keyword_top_level_factor() -> None:
-
+def test_find_keyword_variants_top_level_factor() -> None:
     schema = CommandSchema.model_validate(SAMPLE_COMMAND)
-    entry = find_keyword(schema, ["COMPORTEMENT"])
-    assert entry.path == ["COMPORTEMENT"]
-    assert entry.kind == "factor"
+    variants = find_keyword_variants(schema, ["COMPORTEMENT"])
+    assert len(variants) == 1
+    assert variants[0].path == ["COMPORTEMENT"]
+    assert variants[0].kind == "factor"
 
 
-def test_find_keyword_nested_simple() -> None:
-
+def test_find_keyword_variants_nested_simple() -> None:
     schema = CommandSchema.model_validate(SAMPLE_COMMAND)
-    entry = find_keyword(schema, ["COMPORTEMENT", "RELATION"])
-    assert entry.path == ["COMPORTEMENT", "RELATION"]
-    assert entry.kind == "simple"
+    variants = find_keyword_variants(schema, ["COMPORTEMENT", "RELATION"])
+    assert len(variants) == 1
+    assert variants[0].path == ["COMPORTEMENT", "RELATION"]
+    assert variants[0].kind == "simple"
 
 
-def test_find_keyword_not_found_raises() -> None:
-
+def test_find_keyword_variants_not_found_raises() -> None:
     schema = CommandSchema.model_validate(SAMPLE_COMMAND)
     with pytest.raises(CatalogueExtractionError, match="keyword path not found"):
-        find_keyword(schema, ["COMPORTEMENT", "NOPE"])
+        find_keyword_variants(schema, ["COMPORTEMENT", "NOPE"])
+
+
+def test_find_keyword_variants_returns_every_duplicate_never_just_one() -> None:
+    """Regression test (lot 4b, C1).
+
+    Must fail if a future change reintroduces the old `next()`-based lookup,
+    which silently returned only the first of several same-path entries.
+    """
+    schema = CommandSchema.model_validate(SAMPLE_COMMAND_WITH_DUPLICATE_PATH)
+
+    variants = find_keyword_variants(schema, ["COMPORTEMENT", "RESI_INTE"])
+
+    assert len(variants) == 2, (
+        "expected both RESI_INTE variants, got only "
+        f"{len(variants)} — a path lookup must never silently drop variants"
+    )
+    variant_ids = {v.variant_id for v in variants}
+    assert variant_ids == {"variant-one-0001", "variant-two-0002"}
+    conditions = {tuple(v.condition) for v in variants}
+    assert conditions == {
+        ("equal_to(\"RELATION\", 'ELAS')",),
+        ("equal_to(\"RELATION\", 'VMIS_ISOT_LINE')",),
+    }
