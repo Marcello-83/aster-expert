@@ -22,10 +22,13 @@ from aster_expert.catalogue.query import (
     resolve_active_digest,
 )
 from aster_expert.execution.detect import detect_environment, write_detected_section
+from aster_expert.execution.docker_client import find_docker_binary
 from aster_expert.execution.errors import EnvironmentDetectionError
 from aster_expert.execution.models import DetectedEnvironment
 from aster_expert.parsing.comm_parser import parse_comm_file
 from aster_expert.parsing.errors import CommParseError
+from aster_expert.validation.errors import ValidationRunError
+from aster_expert.validation.validate import validate_comm_file
 
 app = typer.Typer(
     add_completion=False,
@@ -229,9 +232,61 @@ def search(query: str) -> None:
 
 
 @app.command("validate")
-def validate(comm_path: str) -> None:
+def validate(
+    comm_path: str,
+    version: str = typer.Option(
+        "",
+        "--version",
+        help=(
+            "Version cible (ex. 17.4.0). À défaut, la dernière détection "
+            "dans config/versions.yaml est utilisée. Échoue explicitement "
+            "si aucun catalogue extrait ne correspond."
+        ),
+    ),
+) -> None:
     """Valider un fichier de commandes contre le catalogue (niveau B)."""
-    _not_implemented(10, f"validation statique de {comm_path}")
+    project_root = _project_root()
+    workroot = _require_workroot()
+
+    try:
+        docker_bin = find_docker_binary(os.environ.get("ASTER_DOCKER_BIN") or None)
+        report = validate_comm_file(
+            Path(comm_path),
+            project_root=project_root,
+            workroot=workroot,
+            docker_bin=docker_bin,
+            version=version or None,
+            image_repository=os.environ.get(
+                "ASTER_IMAGE_REPOSITORY", "simvia/code_aster"
+            ),
+            network=os.environ.get("ASTER_CONTAINER_NETWORK", "none"),
+            memory=os.environ.get("ASTER_CONTAINER_MEMORY") or None,
+            cpus=os.environ.get("ASTER_CONTAINER_CPUS") or None,
+            timeout=int(os.environ.get("ASTER_RUN_TIMEOUT", "1800")),
+        )
+    except (EnvironmentDetectionError, ValidationRunError) as exc:
+        typer.echo(f"Validation échouée : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+    typer.echo(
+        json.dumps(json.loads(report.model_dump_json()), indent=2, ensure_ascii=False)
+    )
+
+    n_checked = len(report.commands_checked)
+    n_not_checked = len(report.commands_not_checked)
+    n_total = n_checked + n_not_checked
+    rate = 100 * n_checked / n_total if n_total else 0.0
+    typer.echo(f"Niveau de validation : {report.validation_level}", err=True)
+    typer.echo(
+        f"Commandes vérifiées   : {n_checked}/{n_total} ({rate:.1f} %)", err=True
+    )
+    typer.echo(f"Commandes non vérifiées : {n_not_checked}", err=True)
+    typer.echo(f"Erreurs remontées     : {len(report.errors)}", err=True)
+    if report.warnings:
+        typer.echo(f"Avertissements        : {len(report.warnings)}", err=True)
+
+    if report.errors:
+        raise typer.Exit(1)
 
 
 @app.command("run")
