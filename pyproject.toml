@@ -61,6 +61,9 @@ ignore = []
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["ARG"]
+# Fixtures are verbatim excerpts of official .comm test cases (see the module
+# docstring): their line breaks are not ours to move.
+"tests/unit/test_comm_parser.py" = ["ARG", "E501"]
 # Les scripts destinés au Python de l'installation Code_Aster ne doivent
 # dépendre que de la bibliothèque standard et peuvent cibler un interpréteur
 # plus ancien.

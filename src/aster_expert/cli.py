@@ -24,6 +24,8 @@ from aster_expert.catalogue.query import (
 from aster_expert.execution.detect import detect_environment, write_detected_section
 from aster_expert.execution.errors import EnvironmentDetectionError
 from aster_expert.execution.models import DetectedEnvironment
+from aster_expert.parsing.comm_parser import parse_comm_file
+from aster_expert.parsing.errors import CommParseError
 
 app = typer.Typer(
     add_completion=False,
@@ -33,9 +35,11 @@ app = typer.Typer(
 env_app = typer.Typer(no_args_is_help=True, help="Environnement Code_Aster.")
 sources_app = typer.Typer(no_args_is_help=True, help="Dépôts sources.")
 catalogue_app = typer.Typer(no_args_is_help=True, help="Catalogue des commandes.")
+comm_app = typer.Typer(no_args_is_help=True, help="Fichiers de commandes .comm.")
 app.add_typer(env_app, name="env")
 app.add_typer(sources_app, name="sources")
 app.add_typer(catalogue_app, name="catalogue")
+app.add_typer(comm_app, name="comm")
 
 
 def _not_implemented(batch: int, what: str) -> None:
@@ -197,6 +201,25 @@ def catalogue_show(
         raise typer.Exit(1) from exc
 
     typer.echo(json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=False))
+
+
+@comm_app.command("parse")
+def comm_parse(comm_path: str) -> None:
+    """Analyser la structure d'un fichier .comm sans jamais l'exécuter (lot 9)."""
+    try:
+        analysis = parse_comm_file(Path(comm_path))
+    except CommParseError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(1) from exc
+
+    typer.echo(
+        json.dumps(json.loads(analysis.model_dump_json()), indent=2, ensure_ascii=False)
+    )
+
+    dynamic_count = sum(1 for s in analysis.statements if s.dynamic)
+    typer.echo(f"Commandes analysées : {len(analysis.statements)}", err=True)
+    typer.echo(f"Commandes dynamic   : {dynamic_count}", err=True)
+    typer.echo(f"Avertissements      : {len(analysis.parse_warnings)}", err=True)
 
 
 @app.command("search")

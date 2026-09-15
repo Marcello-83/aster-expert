@@ -263,7 +263,7 @@ Niveaux D et E. Hors périmètre v1.
 | 6 | | à faire | | |
 | 7 | | à faire | | |
 | 8 | | à faire | | |
-| 9 | | à faire | | |
+| 9 | lot-9-comm-parser | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10 | | à faire | | |
 | 11 | | à faire | | |
 | 12 | | à faire | | |

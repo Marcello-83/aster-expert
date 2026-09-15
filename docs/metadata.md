@@ -215,46 +215,203 @@ Règles :
 
 ## 3. Analyse d'un fichier `.comm`
 
+Structure produite par `aster_expert.parsing.comm_parser` (lot 9), par
+inspection statique du module `ast` de la bibliothèque standard, sans jamais
+exécuter le fichier. Modèles pydantic dans `aster_expert/parsing/models.py`.
+
 ```json
 {
   "file_path": "chemin/du/fichier.comm",
   "file_hash": "sha256:...",
-  "assumed_version": "18",
-  "version_source": "config | argument | fichier .export",
+  "assumed_version": null,
+  "version_source": "undetermined",
   "statements": [
     {
-      "index": 0,
-      "command": "AFFE_MODELE",
-      "line_start": 12,
-      "line_end": 20,
-      "assigned_concept": "MODELE",
-      "referenced_concepts": ["MAILLAGE"],
-      "keywords": {},
-      "mesh_groups": ["RADIER"],
-      "node_groups": [],
-      "modelisations": ["3D"],
-      "phenomenon": "MECANIQUE",
+      "index": 3,
+      "command": "MODI_MAILLAGE",
+      "line_start": 34,
+      "line_end": 38,
+      "assigned_concept": "MAIL",
+      "reuse": "MAIL",
+      "referenced_concepts": ["MAIL"],
+      "keywords": {
+        "MAILLAGE": {
+          "node": "simple",
+          "name": "MAILLAGE",
+          "value": {
+            "kind": "concept",
+            "resolved": false,
+            "concept": "MAIL",
+            "source": "MAIL"
+          }
+        },
+        "ORIE_NORM_COQUE": {
+          "node": "factor",
+          "name": "ORIE_NORM_COQUE",
+          "occurrences": [
+            {
+              "keywords": {
+                "GROUP_MA": {
+                  "node": "simple",
+                  "name": "GROUP_MA",
+                  "value": {
+                    "kind": "literal",
+                    "resolved": true,
+                    "value": "POUTRE",
+                    "value_type": "str"
+                  }
+                },
+                "VECT_NORM": {
+                  "node": "simple",
+                  "name": "VECT_NORM",
+                  "value": {
+                    "kind": "literal",
+                    "resolved": true,
+                    "value": [0.0, 0.0, 1.0],
+                    "value_type": "tuple"
+                  }
+                },
+                "GROUP_NO": {
+                  "node": "simple",
+                  "name": "GROUP_NO",
+                  "value": {
+                    "kind": "literal",
+                    "resolved": true,
+                    "value": "AA",
+                    "value_type": "str"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "mesh_groups": ["POUTRE"],
+      "node_groups": ["AA"],
+      "modelisations": [],
+      "phenomena": [],
       "behaviours": [],
       "logical_units": [],
-      "raw_text": "texte exact du bloc",
+      "control_flow": [],
+      "raw_text": "MAIL = MODI_MAILLAGE(\n    reuse=MAIL,\n    ...\n)",
       "dynamic": false,
       "unresolved": []
     }
   ],
-  "test_statements": [],
-  "external_files": [],
-  "parse_warnings": []
+  "test_statements": [12],
+  "external_files": [
+    {"statement_index": 1, "command": "LIRE_MAILLAGE", "unite": 20, "fichier": null}
+  ],
+  "parse_warnings": [
+    {
+      "line": 553,
+      "node_type": "Assign",
+      "message": "call to 'AFFE_CARA_ELEM' assigned with an unsupported target shape (1 target(s), not a single plain name): not represented as a statement."
+    }
+  ]
 }
 ```
 
 Règles :
 
-- `dynamic` vaut vrai lorsque les arguments d'une commande sont construits par
-  le programme (boucle, dictionnaire assemblé, appel de fonction). Dans ce cas
-  `unresolved` liste ce qui n'a pas pu être déterminé statiquement.
-- Le fichier n'est jamais exécuté, y compris pour lever une ambiguïté.
-- `raw_text` conserve le texte exact, indentation comprise, afin qu'aucune
-  restitution ne repose sur une reconstruction.
+- Le fichier n'est jamais exécuté, y compris pour lever une ambiguïté (lot 9,
+  `docs/architecture.md` §5). L'analyse repose exclusivement sur `ast.parse` et
+  `ast.literal_eval` ; aucune expression régulière, aucun `exec`, aucun import
+  du fichier analysé.
+- `assumed_version`/`version_source` ne sont jamais renseignés par le parseur
+  lui-même : il ne résout aucune version (périmètre du lot 2/lot 10).
+  `parse_comm_file`/`parse_comm_source` les laissent respectivement à `null`
+  et `"undetermined"`. Un consommateur aval qui connaît la version cible peut
+  les compléter ; ce n'est pas un fait constaté par l'analyse structurelle.
+- **`keywords`** est un arbre, pas une simple liste de noms de mots-clés
+  (amendement lot 9, voir `docs/development-plan.md`). Chaque entrée est un
+  nœud discriminé par `node` :
+  - `"simple"` : un mot-clé simple. Son champ `value` est lui-même discriminé
+    par `kind` :
+    - `"literal"` (`resolved: true`) : valeur reconstruite par
+      `ast.literal_eval`, avec `value` (la valeur Python exacte, y compris
+      listes, tuples, dicts et nombres complexes littéraux) et `value_type`
+      (`type(value).__name__` — `"str"`, `"int"`, `"float"`, `"tuple"`,
+      `"list"`, `"dict"`, `"bool"`, `"NoneType"`, `"complex"`).
+    - `"concept"` (`resolved: false`) : référence nue à un concept produit
+      ailleurs dans le fichier (ex. `MODELE=MO`) — identifiée statiquement,
+      mais pas une valeur Python littérale : `checkCommandSyntax` (lot 10) a
+      besoin d'un véritable objet `DataStructure` ici, pas d'un nom (note du
+      lot 9 et du lot 10, `docs/development-plan.md`). `concept` porte le nom
+      référencé, `source` le texte source exact (`ast.unparse`).
+    - `"dynamic"` (`resolved: false`) : valeur non résolue statiquement.
+      `reason` est une typologie grossière (`boucle`, `dictionnaire_assemble`,
+      `appel_fonction`, `concatenation`, `comprehension`,
+      `reference_variable`, `autre`), `node_type` le nom du nœud `ast`
+      responsable (`Call`, `Dict`, `BinOp`, ...), `source` le texte source
+      exact.
+  - `"factor"` : un mot-clé facteur — un appel `_F(...)` reconnu comme tel,
+    ou une liste/tuple d'appels `_F(...)` pour des occurrences multiples
+    (amendement lot 9). `occurrences` est la liste des occurrences ; chaque
+    occurrence porte son propre `keywords`, de même forme, récursivement (un
+    mot-clé facteur peut en contenir un autre).
+  - Une liste/tuple qui mélange des `_F(...)` et des éléments qui n'en sont
+    pas est traitée comme un mot-clé simple non résolu (`dynamic`, raison
+    `"autre"`, `node_type: "MixedFactorList"`) et signalée dans
+    `parse_warnings` — jamais devinée.
+  - `reuse=` est capturé dans son propre champ `reuse` (nom du concept
+    réutilisé), jamais mélangé aux entrées de `keywords`.
+  - **Limite de résolution assumée** : la résolution ne porte que sur
+    l'expression directement portée par le mot-clé. Aucune propagation de
+    constante entre instructions n'est tentée, y compris pour une simple
+    affectation scalaire Python précédente (`UN = 1.0` puis `VALE=UN`) : une
+    réaffectation, un branchement conditionnel ou une boucle rendraient une
+    telle valeur devinée, pas déterminée. `UN` y est donc une référence non
+    résolue (`"dynamic"`, raison `"reference_variable"`), jamais la valeur
+    `1.0`.
+- `dynamic` (au niveau du `statement`) vaut vrai dès qu'au moins un mot-clé de
+  la commande est `"dynamic"` (jamais pour une simple référence de concept,
+  qui est une forme statiquement identifiée, distincte — voir la note du
+  lot 9). `unresolved` liste alors le chemin pointé (`COMPORTEMENT[0].RELATION`
+  pour un mot-clé sous la première occurrence d'un facteur), un par entrée
+  `"dynamic"` rencontrée dans l'arbre — jamais une supposition.
+- `control_flow` liste les types de nœuds `ast` de contrôle Python (`If`,
+  `For`, `While`, `Try`, `With`) dans lesquels la commande est imbriquée au
+  niveau module, de l'extérieur vers l'intérieur ; vide si la commande est au
+  niveau du module. Une commande dont `control_flow` n'est pas vide a
+  `dynamic: true` et une entrée `unresolved` dédiée (préfixe `"@statement:"`) :
+  sa présence, ou son nombre de répétitions, n'est pas déterminée
+  statiquement — ceci est distinct, et sans rapport, avec les blocs `Bloc` du
+  catalogue (mini-langage `is_in`/`equal_to`/`value`/`not`, propre au
+  catalogue Python des commandes, jamais rencontré dans un fichier `.comm`
+  utilisateur) : le lot 9 n'évalue ni l'un ni l'autre.
+- `mesh_groups`/`node_groups` : valeurs littérales trouvées sous un mot-clé
+  dont le nom commence par `GROUP_MA`/`GROUP_NO`, à n'importe quelle
+  profondeur de l'arbre, dédupliquées et triées. `modelisations` (mot-clé
+  `MODELISATION`), `phenomena` (mot-clé `PHENOMENE`, pluriel : un
+  `AFFE_MODELE` peut porter plusieurs occurrences `AFFE`, chacune avec son
+  propre `PHENOMENE`), `behaviours` (mot-clés `RELATION`/`RELATION_KIT`) et
+  `logical_units` (mot-clé `UNITE`) suivent le même principe.
+- `test_statements` est la liste des index (dans `statements`) des commandes
+  `TEST_RESU` — uniquement celle-ci, pas `TEST_TABLE`/`TEST_FONCTION`/etc.
+  (périmètre du lot 9, `docs/development-plan.md`).
+- `external_files` recense, pour chaque `statement` qui porte un mot-clé
+  `UNITE` et/ou `FICHIER` littéral à son premier niveau, l'unité logique et/ou
+  le chemin référencés. Une seule entrée peut ne porter que l'un des deux
+  (ex. `LIRE_MAILLAGE(UNITE=20)`, sans `FICHIER` — l'unité est ouverte
+  ailleurs, typiquement par le fichier `.export`).
+- `parse_warnings` consigne, sans jamais l'omettre silencieusement, toute
+  construction rencontrée que le parseur ne modélise pas : une affectation à
+  une cible qui n'est pas un simple nom (`cara[kk] = AFFE_CARA_ELEM(...)`,
+  très fréquent dans les fichiers qui bouclent sur plusieurs calculs — la
+  commande n'apparaît alors dans aucun `statement`, faute de concept
+  identifiable sans deviner), une fonction ou une classe définie au niveau du
+  module (son corps n'est pas analysé, le fichier n'étant jamais exécuté pour
+  savoir s'il est appelé), un dépaquetage `**kwargs` utilisé pour construire
+  les mots-clés d'une commande ou d'un `_F(...)`, des arguments positionnels
+  dans un appel de commande. Un `import`, une affectation Python ordinaire
+  sans rapport avec une commande, ou une structure de contrôle qui ne contient
+  aucune commande ne produisent pas d'avertissement : ce n'est pas une
+  construction de commande non gérée, seulement du Python ordinaire.
+- `raw_text` conserve le texte exact (`ast.get_source_segment`), indentation
+  comprise, afin qu'aucune restitution ne repose sur une reconstruction.
+- Un fichier qui n'est pas syntaxiquement du Python lève `CommParseError`
+  (`aster_expert.parsing.errors`) — jamais une analyse partielle silencieuse.
 
 ## 4. Rapport de validation
 
