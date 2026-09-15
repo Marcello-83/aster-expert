@@ -1,26 +1,52 @@
 # Versions Code_Aster.
 #
-# La section `detected` est écrite par `aster-expert env detect` à partir de
-# l'installation réelle. Elle n'est jamais remplie à la main.
+# Code_Aster n'est pas installé nativement : il s'exécute dans une image
+# Docker gérée par `cave` (voir docs/architecture.md, ADR-002, ADR-003,
+# ADR-006). La section `detected` est écrite par `aster-expert env detect` à
+# partir de l'image réellement utilisée. Elle n'est jamais remplie à la main.
 # Tant que `target` est nul, aucune commande produisant ou validant de la
 # syntaxe ne doit s'exécuter.
+#
+# Le tag `stable` n'est jamais une valeur valide de `target` ni de
+# `detected.image.tag` : il est mobile côté registre Docker Hub et peut
+# diverger de l'image locale du même nom (divergence constatée en session :
+# `stable` en local pointait vers 16.8.0 alors que Docker Hub annonçait
+# 17.4.0 comme version stable). La version cible est toujours résolue par
+# digest, jamais par tag seul.
 
-schema_version: 1
+schema_version: 2
 
-# Version utilisée par défaut lorsqu'une requête n'en précise pas.
+# Version cible utilisée par défaut lorsqu'une requête n'en précise pas.
+# Numéro de version exact (ex. "17.4.0"), jamais "stable" ni "testing".
 target: null
 
 # Écrit par `aster-expert env detect`. Ne pas éditer.
 detected:
-  detected_at: null
-  run_aster_bin: null
-  run_aster_version_raw: null
-  aster_python: null
-  code_aster_package: null
-  catalogue_path: null
-  catalogue_hash: null
-  install_kind: null        # source | salome_meca | conda | paquet
-  mpi: null
+  detected_at: '2026-09-15T08:19:18.640182Z'
+  install_kind: container_docker
+  container:
+    engine: docker
+    engine_version_raw: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+    image_repository: simvia/code_aster
+    image_tag: 17.4.0
+    image_digest: sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5
+    image_id: sha256:6a66bdaf0942869feb9224ce8ec01e1023bb13e5f403c87f79914aa9873bd598
+    cave_pin_source: global
+  run_aster:
+    path_in_container: /opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/bin/run_aster
+    version_raw: code_aster 17.4.0 (spack-local)
+  aster_python:
+    interpreter_path_in_container: /opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/bin/python3
+    pythonpath_extra:
+    - /opt/spack/var/spack/environments/simvia_env/.spack-env/view/lib/python3.11/site-packages
+  code_aster_package:
+    path_in_container: /opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster
+  catalogue:
+    path_in_container: /opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/Cata
+    fingerprint_sha256: b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca
+  invocation:
+    mechanism: profile_sh_plus_view
+    mount_pattern: <répertoire de travail dédié>:/work
 
 # Correspondance déclarée entre version de code et révisions des dépôts.
 # Ces correspondances sont établies par vérification, pas par similarité de

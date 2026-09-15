@@ -106,6 +106,49 @@ Critères de sortie : détection correcte sur un jeu de fichiers fautifs
 construits pour les tests, absence de faux positif sur un échantillon de cas
 tests officiels.
 
+**Note (découverte anticipée, lot 2, à trancher formellement à l'ouverture du
+lot 10).** `code_aster.Cata.SyntaxChecker` (ré-export de
+`code_aster.Cata.Language.SyntaxChecker`) expose un vérificateur officiel,
+utilisé par le superviseur lui-même (ADR-001) :
+
+- `checkCommandSyntax(command, keywords, add_default=True, max_check=99999)` —
+  fonction publique : `command` est un objet catalogue
+  (`code_aster.Cata.Commands.<NOM>`), `keywords` un dict Python déjà typé
+  (valeurs évaluées, pas du texte `.comm`). Lève `CheckerError` (attributs
+  `.msg`, `.original`, pile de mots-clés) **ou**, pour certaines règles
+  (`AU_MOINS_UN`, `EXCLUS`, etc., définies dans `Language/Rules.py`),
+  directement `ValueError`/`TypeError`/`KeyError` non enveloppée — un wrapper
+  doit capturer les deux catégories.
+- `SyntaxCheckerVisitor(max_check=99999)` — classe visiteur sous-jacente
+  (`visitCommand`, `visitFactorKeyword`, `visitSimpleKeyword`,
+  `_visitComposite`), vérifie cardinalité, type, bornes, appartenance `into`,
+  mots-clés obligatoires et règles.
+
+Vérifié empiriquement en session (image `simvia/code_aster@sha256:d8d19ea9...`,
+17.4.0) : `import code_aster.Cata.Commands` puis `checkCommandSyntax` (via
+`code_aster.Cata.SyntaxChecker`) fonctionnent **sans** `CA.init()`, sans
+extension compilée `libaster`, sans MPI — seule dépendance tierce : `numpy`.
+Un mot-clé non autorisé et un type de valeur incorrect ont bien été détectés
+et signalés avec un message exploitable.
+
+Limite non résolue par cette découverte : `checkCommandSyntax` attend des
+**valeurs Python déjà évaluées**, pas du texte source non exécuté. Une valeur
+littérale (nombre, chaîne, liste, `_F(...)` imbriqué) reste vérifiable après
+un simple `ast.literal_eval` sans exécuter le fichier ; un concept produit par
+une commande précédente (ex. un maillage passé à une commande suivante) exige
+un objet Python de type correct (`DataStructure`), pas seulement son nom — le
+vérificateur accepte cependant `DS.not_checked`/`DS.PythonVariable` comme
+échappatoires dont l'usage reste à étudier pour construire un objet de
+substitution ne nécessitant pas d'exécution réelle.
+
+**Conséquence attendue pour l'ouverture du lot 10** (à confirmer, pas encore
+tranché) : ne pas réimplémenter la logique de vérification de cardinalité,
+type ou règle — elle existe et doit être appelée via `checkCommandSyntax`. Le
+travail propre au lot 10 se limiterait alors à la reconstruction, à partir du
+résultat du parseur (lot 9), d'un dict de mots-clés en valeurs Python pour
+chaque commande résolue statiquement, et à la gestion explicite des concepts
+non résolus sans exécution (`unresolved`, déjà prévu par le lot 9).
+
 ## Lot 11 — Hook de validation
 
 Hook `PostToolUse` déclenchant `aster-expert validate` après modification d'un
@@ -162,8 +205,8 @@ Niveaux D et E. Hors périmètre v1.
 
 | Lot | Branche | État | Commit | Date |
 |-----|---------|------|--------|------|
-| 1 | | à faire | | |
-| 2 | | à faire | | |
+| 1 | main | fait | 934aca8 | 2026-09-15 |
+| 2 | lot-2-env-detect | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 3 | | à faire | | |
 | 4 | | à faire | | |
 | 5 | | à faire | | |

@@ -7,9 +7,14 @@ an installation path.
 
 from __future__ import annotations
 
+import os
+from pathlib import Path
+
 import typer
 
 from aster_expert import __version__
+from aster_expert.execution.detect import detect_environment, write_detected_section
+from aster_expert.execution.errors import EnvironmentDetectionError
 
 app = typer.Typer(
     add_completion=False,
@@ -48,7 +53,48 @@ def main(
 @env_app.command("detect")
 def env_detect() -> None:
     """Détecter l'installation Code_Aster et écrire config/versions.yaml."""
-    _not_implemented(2, "détection de l'environnement Aster")
+    project_root = Path(os.environ.get("ASTER_EXPERT_ROOT") or Path.cwd())
+    versions_path = project_root / "config" / "versions.yaml"
+    if not versions_path.is_file():
+        typer.echo(f"config/versions.yaml introuvable : {versions_path}", err=True)
+        raise typer.Exit(1)
+
+    workroot_raw = (os.environ.get("ASTER_CONTAINER_WORKROOT") or "").strip()
+    if not workroot_raw:
+        typer.echo(
+            "ASTER_CONTAINER_WORKROOT n'est pas renseigné : aucune introspection "
+            "n'est autorisée sans répertoire de travail dédié (voir .env.example).",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    try:
+        detected = detect_environment(
+            workroot=Path(workroot_raw),
+            image_repository=os.environ.get(
+                "ASTER_IMAGE_REPOSITORY", "simvia/code_aster"
+            ),
+            image_ref_env=os.environ.get("ASTER_IMAGE_REF") or None,
+            docker_bin_env=os.environ.get("ASTER_DOCKER_BIN") or None,
+            network=os.environ.get("ASTER_CONTAINER_NETWORK", "none"),
+            memory=os.environ.get("ASTER_CONTAINER_MEMORY") or None,
+            cpus=os.environ.get("ASTER_CONTAINER_CPUS") or None,
+            timeout=int(os.environ.get("ASTER_RUN_TIMEOUT", "1800")),
+        )
+    except EnvironmentDetectionError as exc:
+        typer.echo(f"Détection de l'environnement Aster échouée : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+    write_detected_section(versions_path, detected)
+
+    typer.echo(f"Dépôt image : {detected.container.image_repository}")
+    typer.echo(f"Digest      : {detected.container.image_digest}")
+    typer.echo(
+        f"Tag         : {detected.container.image_tag or '(aucun, résolu par digest)'}"
+    )
+    typer.echo(f"run_aster   : {detected.run_aster.version_raw}")
+    typer.echo(f"Catalogue   : {detected.catalogue.path_in_container}")
+    typer.echo(f"Écrit dans {versions_path}")
 
 
 @sources_app.command("sync")

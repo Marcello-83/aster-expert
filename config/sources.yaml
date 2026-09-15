@@ -22,11 +22,12 @@ defaults:
 sources:
   - name: codeaster-src
     url: https://gitlab.com/codeaster/src.git
-    # Renseigner un tag après le lot de détection d'environnement, afin que la
-    # révision corresponde à la version installée. Laisser `main` conduit à
-    # indexer une version différente de celle qui s'exécute.
-    ref: main
-    commit: null
+    # Tag correspondant à la version de l'image simvia/code_aster utilisée
+    # (17.4.0, digest sha256:d8d19ea9... résolu en lot 2). Ne jamais repasser
+    # à `main` : le clone personnel de l'utilisateur sous ~/code-aster est sur
+    # `main` et n'a jamais servi de corpus pour cette raison précise.
+    ref: "17.4.0"
+    commit: 961aacdfe6d316a88708143c02523dc3dd443432
     local_path: external/codeaster-src
     license: GPL-3.0
     families:
