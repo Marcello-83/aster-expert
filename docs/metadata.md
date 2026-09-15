@@ -415,10 +415,16 @@ Règles :
 
 ## 4. Rapport de validation
 
+Structure produite par `aster_expert.validation.validate` (lot 10), par
+délégation à `checkCommandSyntax` (`code_aster.Cata.SyntaxChecker`) — jamais
+par une grammaire ou une règle de cardinalité réimplémentée. Modèles
+pydantic dans `aster_expert/validation/models.py`.
+
 ```json
 {
   "file_path": "chemin/du/fichier.comm",
-  "aster_version": "18",
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea9...",
   "validation_level": "B",
   "catalogue_hash": "sha256:...",
   "valid": false,
@@ -426,16 +432,28 @@ Règles :
     {
       "code": "UNKNOWN_KEYWORD",
       "command": "STAT_NON_LINE",
-      "path": ["COMPORTEMENT", "RELATON"],
+      "statement_index": 5,
       "line": 42,
-      "message": "mot-clé absent du catalogue",
+      "path": ["COMPORTEMENT", "RELATON"],
+      "variant_id": null,
+      "message": "Unauthorized keyword: 'RELATON'",
       "suggestion": "RELATION",
-      "source": "catalogue"
+      "source": "checkCommandSyntax"
     }
   ],
   "warnings": [],
-  "commands_checked": ["AFFE_MODELE", "STAT_NON_LINE"],
-  "commands_not_checked": [],
+  "commands_checked": [
+    {"statement_index": 4, "command": "AFFE_MODELE", "line": 12, "ok": true},
+    {"statement_index": 5, "command": "STAT_NON_LINE", "line": 40, "ok": false}
+  ],
+  "commands_not_checked": [
+    {
+      "statement_index": 7,
+      "command": "CALC_CHAMP",
+      "line": 88,
+      "reasons": ["unresolved keyword: RESULTAT[0].NOM_CHAM"]
+    }
+  ],
   "checked_at": "2026-01-01T00:00:00+00:00"
 }
 ```
@@ -443,10 +461,65 @@ Règles :
 Règles :
 
 - `validation_level` ne dépasse jamais ce qui a réellement été fait.
+- `image_digest` (amendement lot 10) identifie, par digest — jamais par tag,
+  voir `docs/architecture.md` ADR-002 — le catalogue confronté, indépendamment
+  de la chaîne lisible `aster_version`. Ce sont deux données indépendantes,
+  jamais déduites l'une de l'autre (même principe qu'au lot 4,
+  `docs/metadata.md` §2).
+- **`commands_checked`/`commands_not_checked`** (amendement lot 10) : une
+  simple liste de noms de commandes ne permet ni de distinguer deux
+  occurrences de la même commande, ni de rapporter un motif ou une ligne —
+  strictement insuffisant pour la mesure de sortie exigée par ce lot
+  (`docs/development-plan.md`). Chaque entrée porte `statement_index` (index
+  dans `statements` du lot 9), `command` et `line` (`line_start` du
+  `statement`, seule granularité disponible : le lot 9 ne trace pas de
+  numéro de ligne par mot-clé). `commands_checked[].ok` vaut faux exactement
+  quand une entrée de `errors` partage ce même `statement_index` — redondant
+  avec `errors` mais évite un croisement au lecteur du rapport.
+  `commands_not_checked[].reasons` liste **toutes** les conditions
+  rencontrées parmi les quatre de la RÈGLE ABSOLUE du lot 10 (mot-clé non
+  résolu, concept de type inconnu, `parse_warning` du lot 9 concernant ce
+  `statement`, `control_flow` non vide) — jamais seulement la première.
+- **RÈGLE ABSOLUE (lot 10, aucun faux positif)** : un `statement` du lot 9
+  n'est jamais confronté à `checkCommandSyntax` dès lors qu'il porte un
+  mot-clé non résolu statiquement, référence un concept dont le type Aster
+  n'est pas déterminable (`result_type_dynamic` vrai, `result_type` nul, ou
+  concept jamais produit dans ce fichier), est concerné par un
+  `parse_warning` du lot 9 (rapprochement par recouvrement de plage de
+  lignes, faute de `statement_index` porté par `ParseWarning`), ou se trouve
+  sous un `control_flow` non vide. Mieux vaut sous-déclarer que remonter une
+  erreur inexistante ; le taux de commandes non vérifiées est à rapporter
+  tel quel, jamais masqué.
+- `variant_id` (amendement lot 10) : résolu depuis `path` via
+  `find_keyword_variants` (lot 4b) uniquement quand exactement une variante
+  correspond ; `null` sinon — y compris quand `path` lui-même n'existe pas
+  dans le catalogue (mot-clé inconnu) ou reste ambigu (plusieurs variantes,
+  lot 4b C1). Jamais choisi silencieusement parmi plusieurs candidats.
+- `path` provient de la pile (`CheckerError._stack`, "/"-séparée) que
+  `checkCommandSyntax` construit lui-même ; à défaut (exception brute sans
+  pile — mot-clé obligatoire absent, règle violée), du nom de mot-clé
+  extrait du message quand le motif le permet, `[]` sinon. Ce n'est jamais
+  une reconstruction indépendante du chemin.
+- `source` vaut `"checkCommandSyntax"` pour toute entrée où le vérificateur
+  officiel a effectivement été appelé (y compris ses exceptions brutes,
+  `KeyError`/`ValueError`/`TypeError` non enveloppées — voir
+  `docs/development-plan.md`, lot 10), `"catalogue"` uniquement pour
+  `UNKNOWN_COMMAND` : la commande elle-même est absente du catalogue local,
+  donc il n'existe aucun objet `Command` à passer à `checkCommandSyntax`.
+- `code` est une classification du message déjà décidé par le vérificateur
+  (`UNKNOWN_KEYWORD`, `MISSING_MANDATORY_KEYWORD`, `INVALID_TYPE`,
+  `INVALID_VALUE`, `INVALID_VALUE_CARDINALITY`,
+  `INVALID_OCCURRENCE_CARDINALITY`, `REUSE_NOT_ALLOWED`,
+  `RESULT_TYPE_ERROR`, `INVALID_STRUCTURE`, `RULE_VIOLATION`,
+  `UNKNOWN_COMMAND`, ou `CHECKER_ERROR` pour une forme de message non encore
+  répertoriée — jamais silencieusement absorbée, le texte original est
+  conservé intégralement dans `message`), jamais une décision de validité
+  propre au projet.
+- `suggestion` provient d'une distance d'édition (`difflib.get_close_matches`)
+  sur les noms du catalogue. Elle est présentée comme une suggestion, jamais
+  comme une correction établie.
 - `commands_not_checked` est obligatoire et non vide dès qu'une commande n'a pas
   pu être confrontée au catalogue. Un silence sur ce point est interdit.
-- `suggestion` provient d'une distance d'édition sur les noms du catalogue. Elle
-  est présentée comme une suggestion, jamais comme une correction établie.
 
 ## 5. Rapport d'exécution
 

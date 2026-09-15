@@ -264,7 +264,7 @@ Niveaux D et E. Hors périmètre v1.
 | 7 | | à faire | | |
 | 8 | | à faire | | |
 | 9 | lot-9-comm-parser | fait | (ce lot, voir `git log`) | 2026-09-15 |
-| 10 | | à faire | | |
+| 10 | lot-10-validation-b | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 11 | | à faire | | |
 | 12 | | à faire | | |
 | 13 | | à faire | | |

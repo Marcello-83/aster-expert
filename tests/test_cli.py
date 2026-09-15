@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
 from typer.testing import CliRunner
 
 from aster_expert import __version__
@@ -49,3 +50,16 @@ def test_comm_parse_fails_loudly_on_syntax_error(tmp_path: Path) -> None:
     result = runner.invoke(app, ["comm", "parse", str(comm_path)])
 
     assert result.exit_code == 1
+
+
+def test_validate_fails_loudly_without_workroot(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.delenv("ASTER_CONTAINER_WORKROOT", raising=False)
+    comm_path = tmp_path / "minimal.comm"
+    comm_path.write_text(_MINIMAL_COMM, encoding="utf-8")
+
+    result = runner.invoke(app, ["validate", str(comm_path)])
+
+    assert result.exit_code == 1
+    assert "ASTER_CONTAINER_WORKROOT" in result.stderr
