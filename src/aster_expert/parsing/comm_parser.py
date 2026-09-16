@@ -61,6 +61,97 @@ class _RawStatement:
     control_flow: list[str]
 
 
+# Control-flow containers a name definition can sit inside while still being
+# bound at module scope (matches the containers `_collect_statements` itself
+# recurses into) -- a `FunctionDef`/`ClassDef`/`AsyncFunctionDef` is never
+# descended into further: its body is a separate Python scope.
+_CONTROL_FLOW_BODIES = (
+    ast.If,
+    ast.For,
+    ast.AsyncFor,
+    ast.While,
+    ast.Try,
+    ast.With,
+    ast.AsyncWith,
+)
+
+
+def _collect_shadowing_names(body: list[ast.stmt]) -> set[str]:
+    """Names a call to which is never a Code_Aster command (lot 10b, point C).
+
+    A real Code_Aster command is always imported from `code_aster.Commands`
+    (or a sibling package), never defined by the `.comm` file itself. A call
+    whose name matches a class, a function, or a plain module-level variable
+    that *this file* defines shadows that identifier regardless of its case
+    (the file's own definition always wins) and is therefore never a command
+    -- this is exactly the lot 9 heuristic's false-positive source this
+    amendment fixes: it previously matched any `NAME(...)` call against
+    `_COMMAND_NAME_RE` with no regard for what `NAME` actually was bound to.
+
+    Deliberately excludes `import`/`from ... import ...` bindings: unlike a
+    locally-defined name, an imported one is exactly how a real command
+    reaches the file in the first place (`from code_aster.Commands import
+    STAT_NON_LINE`), so importing a name must never disqualify it.
+    """
+    names: set[str] = set()
+    for node in body:
+        if isinstance(node, ast.ClassDef | ast.FunctionDef | ast.AsyncFunctionDef):
+            names.add(node.name)
+        elif isinstance(node, ast.Assign):
+            for target in node.targets:
+                names.update(_names_in_target(target))
+        elif isinstance(node, ast.AnnAssign | ast.AugAssign):
+            names.update(_names_in_target(node.target))
+        elif isinstance(node, ast.For | ast.AsyncFor):
+            names.update(_names_in_target(node.target))
+            names |= _collect_shadowing_names(node.body)
+            names |= _collect_shadowing_names(node.orelse)
+        elif isinstance(node, ast.With | ast.AsyncWith):
+            for item in node.items:
+                if item.optional_vars is not None:
+                    names.update(_names_in_target(item.optional_vars))
+            names |= _collect_shadowing_names(node.body)
+        elif isinstance(node, ast.If | ast.While):
+            names |= _collect_shadowing_names(node.body)
+            names |= _collect_shadowing_names(node.orelse)
+        elif isinstance(node, ast.Try):
+            names |= _collect_shadowing_names(node.body)
+            for handler in node.handlers:
+                names |= _collect_shadowing_names(handler.body)
+            names |= _collect_shadowing_names(node.orelse)
+            names |= _collect_shadowing_names(node.finalbody)
+    return names
+
+
+def _names_in_target(target: ast.expr) -> set[str]:
+    return {n.id for n in ast.walk(target) if isinstance(n, ast.Name)}
+
+
+def _collect_imported_names(body: list[ast.stmt]) -> set[str]:
+    """Names explicitly bound by `import`/`from ... import ...` (lot 10b, point D).
+
+    A wildcard `from ... import *` contributes nothing here: its members
+    cannot be enumerated without executing the file, and CLAUDE.md forbids
+    guessing them.
+    """
+    names: set[str] = set()
+    for node in body:
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                names.add(alias.asname or alias.name.split(".")[0])
+        elif isinstance(node, ast.ImportFrom):
+            for alias in node.names:
+                if alias.name == "*":
+                    continue
+                names.add(alias.asname or alias.name)
+        elif isinstance(node, _CONTROL_FLOW_BODIES):
+            for field in ("body", "orelse", "finalbody"):
+                names |= _collect_imported_names(getattr(node, field, []) or [])
+            for handler in getattr(node, "handlers", []) or []:
+                names |= _collect_imported_names(handler.body)
+    return names
+
+
 @dataclass
 class _ResolveContext:
     known_concepts: set[str]
@@ -112,10 +203,15 @@ def parse_comm_source(
         message = f"{file_path}: not parseable as Python source: {exc}"
         raise CommParseError(message) from exc
 
+    shadowing_names = _collect_shadowing_names(module.body)
+    imported_names = sorted(_collect_imported_names(module.body))
+
     raw_statements: list[_RawStatement] = []
     loop_names: set[str] = set()
     warnings: list[ParseWarning] = []
-    _collect_statements(module.body, [], raw_statements, loop_names, warnings)
+    _collect_statements(
+        module.body, [], raw_statements, loop_names, warnings, shadowing_names
+    )
 
     known_concepts = {r.assigned_concept for r in raw_statements if r.assigned_concept}
     known_concepts |= _collect_reuse_targets(raw_statements)
@@ -147,6 +243,7 @@ def parse_comm_source(
         statements=statements,
         test_statements=test_statements,
         external_files=external_files,
+        imported_names=imported_names,
         parse_warnings=warnings,
         parsed_at=datetime.now(UTC),
     )
@@ -163,41 +260,80 @@ def _collect_statements(
     raw: list[_RawStatement],
     loop_names: set[str],
     warnings: list[ParseWarning],
+    shadowing_names: set[str],
 ) -> None:
     for node in body:
         if isinstance(node, ast.Assign) and isinstance(node.value, ast.Call):
-            _handle_assign(node, node.targets, node.value, control_flow, raw, warnings)
+            _handle_assign(
+                node,
+                node.targets,
+                node.value,
+                control_flow,
+                raw,
+                warnings,
+                shadowing_names,
+            )
         elif (
             isinstance(node, ast.AnnAssign)
             and node.value is not None
             and isinstance(node.value, ast.Call)
         ):
-            _handle_assign(node, [node.target], node.value, control_flow, raw, warnings)
+            _handle_assign(
+                node,
+                [node.target],
+                node.value,
+                control_flow,
+                raw,
+                warnings,
+                shadowing_names,
+            )
         elif isinstance(node, ast.Expr):
-            _handle_expr(node, control_flow, raw)
+            _handle_expr(node, control_flow, raw, shadowing_names)
         elif isinstance(node, ast.If):
             cf = [*control_flow, "If"]
-            _collect_statements(node.body, cf, raw, loop_names, warnings)
-            _collect_statements(node.orelse, cf, raw, loop_names, warnings)
+            _collect_statements(
+                node.body, cf, raw, loop_names, warnings, shadowing_names
+            )
+            _collect_statements(
+                node.orelse, cf, raw, loop_names, warnings, shadowing_names
+            )
         elif isinstance(node, ast.For | ast.AsyncFor):
             _collect_loop_targets(node.target, loop_names)
             cf = [*control_flow, "For"]
-            _collect_statements(node.body, cf, raw, loop_names, warnings)
-            _collect_statements(node.orelse, cf, raw, loop_names, warnings)
+            _collect_statements(
+                node.body, cf, raw, loop_names, warnings, shadowing_names
+            )
+            _collect_statements(
+                node.orelse, cf, raw, loop_names, warnings, shadowing_names
+            )
         elif isinstance(node, ast.While):
             cf = [*control_flow, "While"]
-            _collect_statements(node.body, cf, raw, loop_names, warnings)
-            _collect_statements(node.orelse, cf, raw, loop_names, warnings)
+            _collect_statements(
+                node.body, cf, raw, loop_names, warnings, shadowing_names
+            )
+            _collect_statements(
+                node.orelse, cf, raw, loop_names, warnings, shadowing_names
+            )
         elif isinstance(node, ast.Try):
             cf = [*control_flow, "Try"]
-            _collect_statements(node.body, cf, raw, loop_names, warnings)
+            _collect_statements(
+                node.body, cf, raw, loop_names, warnings, shadowing_names
+            )
             for handler in node.handlers:
-                _collect_statements(handler.body, cf, raw, loop_names, warnings)
-            _collect_statements(node.orelse, cf, raw, loop_names, warnings)
-            _collect_statements(node.finalbody, cf, raw, loop_names, warnings)
+                _collect_statements(
+                    handler.body, cf, raw, loop_names, warnings, shadowing_names
+                )
+            _collect_statements(
+                node.orelse, cf, raw, loop_names, warnings, shadowing_names
+            )
+            _collect_statements(
+                node.finalbody, cf, raw, loop_names, warnings, shadowing_names
+            )
         elif isinstance(node, ast.With | ast.AsyncWith):
             cf = [*control_flow, "With"]
-            _collect_statements(node.body, cf, raw, loop_names, warnings)
+            _collect_statements(
+                node.body, cf, raw, loop_names, warnings, shadowing_names
+            )
         elif isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef):
             warnings.append(
                 ParseWarning(
@@ -235,8 +371,9 @@ def _handle_assign(
     control_flow: list[str],
     raw: list[_RawStatement],
     warnings: list[ParseWarning],
+    shadowing_names: set[str],
 ) -> None:
-    command = _command_name(value)
+    command = _command_name(value, shadowing_names)
     if command is None:
         return
     if len(targets) == 1 and isinstance(targets[0], ast.Name):
@@ -267,10 +404,11 @@ def _handle_expr(
     node: ast.Expr,
     control_flow: list[str],
     raw: list[_RawStatement],
+    shadowing_names: set[str],
 ) -> None:
     if not isinstance(node.value, ast.Call):
         return
-    command = _command_name(node.value)
+    command = _command_name(node.value, shadowing_names)
     if command is None:
         return
     raw.append(
@@ -284,8 +422,12 @@ def _handle_expr(
     )
 
 
-def _command_name(call: ast.Call) -> str | None:
-    if isinstance(call.func, ast.Name) and _COMMAND_NAME_RE.match(call.func.id):
+def _command_name(call: ast.Call, shadowing_names: set[str]) -> str | None:
+    if (
+        isinstance(call.func, ast.Name)
+        and _COMMAND_NAME_RE.match(call.func.id)
+        and call.func.id not in shadowing_names
+    ):
         return call.func.id
     return None
 

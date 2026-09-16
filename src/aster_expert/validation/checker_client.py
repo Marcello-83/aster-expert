@@ -4,6 +4,11 @@ One container invocation checks every request in the batch (not one per
 statement): container startup dominates the cost of a single `docker run`,
 so batching is what makes validating a file with dozens of commands
 practical. See docs/architecture.md, ADR-002, ADR-006.
+
+`requests` must be in file order (ascending `statement_index`/`id`): the
+script resolves `__concept_ref__` markers against a table it builds live as
+it processes requests in the given order (docs/development-plan.md, lot 10b,
+point A) -- a producer must be processed before its consumers.
 """
 
 from __future__ import annotations
