@@ -25,6 +25,8 @@ from aster_expert.execution.detect import detect_environment, write_detected_sec
 from aster_expert.execution.docker_client import find_docker_binary
 from aster_expert.execution.errors import EnvironmentDetectionError
 from aster_expert.execution.models import DetectedEnvironment
+from aster_expert.ingestion.errors import SourcesConfigError
+from aster_expert.ingestion.sync import default_manifest_path, sync_sources
 from aster_expert.parsing.comm_parser import parse_comm_file
 from aster_expert.parsing.errors import CommParseError
 from aster_expert.validation.errors import ValidationRunError
@@ -126,7 +128,28 @@ def env_detect() -> None:
 @sources_app.command("sync")
 def sources_sync() -> None:
     """Synchroniser les dépôts déclarés dans config/sources.yaml."""
-    _not_implemented(3, "synchronisation des dépôts")
+    project_root = _project_root()
+
+    try:
+        manifest = sync_sources(
+            project_root=project_root,
+            timeout=int(os.environ.get("ASTER_GIT_TIMEOUT", "600")),
+        )
+    except SourcesConfigError as exc:
+        typer.echo(f"Synchronisation des sources échouée : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+    blocked = False
+    for entry in manifest.sources:
+        typer.echo(f"{entry.name} [{entry.status}] {entry.ref} @ {entry.commit or '?'}")
+        if entry.detail:
+            typer.echo(f"  {entry.detail}", err=entry.status.startswith("blocked"))
+        if entry.status.startswith("blocked"):
+            blocked = True
+
+    typer.echo(f"Manifeste écrit dans {default_manifest_path(project_root)}")
+    if blocked:
+        raise typer.Exit(1)
 
 
 @catalogue_app.command("extract")

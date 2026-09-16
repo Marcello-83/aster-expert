@@ -27,7 +27,15 @@ sources:
     # à `main` : le clone personnel de l'utilisateur sous ~/code-aster est sur
     # `main` et n'a jamais servi de corpus pour cette raison précise.
     ref: "17.4.0"
-    commit: 961aacdfe6d316a88708143c02523dc3dd443432
+    # Commit *peelé* (celui réellement extrait par `git checkout 17.4.0`),
+    # pas le sha de l'objet tag annoté lui-même. Corrigé au lot 3 : la valeur
+    # précédente (961aacdfe6d316a88708143c02523dc3dd443432) était le sha de
+    # l'objet tag annoté ("tag" pour `git cat-file -t`, vérifié en session),
+    # qui se "peele" vers ce commit (`git rev-parse 17.4.0^{commit}`) — la
+    # copie de travail n'a jamais divergé, seule la valeur déclarée ici
+    # désignait le mauvais objet. `aster-expert sources sync` compare
+    # toujours des commits peelés (aster_expert.ingestion.git_client).
+    commit: 50ebc13c70ee9df62faf93ddcb746a3757b3042a
     local_path: external/codeaster-src
     license: GPL-3.0
     families:
@@ -44,8 +52,21 @@ sources:
 
   - name: codeaster-doc
     url: https://gitlab.com/codeaster/doc/docaster.git
-    ref: main
-    commit: null
+    # Correspondance établie au lot 3, pas devinée par similarité de
+    # numérotation : `git ls-remote --tags` sur ce dépôt (aucun clone,
+    # aucun objet téléchargé) liste 17.0, 17.2.0, 17.3.0, 17.4.0, 18.1.0,
+    # smeca2024.0 — un tag nommé très exactement "17.4.0" existe, dans le
+    # même dépôt GitLab `codeaster` que `codeaster-src`, qui tague lui aussi
+    # ses versions "17.4.0", "17.3.0", etc. Deux dépôts de la même
+    # organisation partageant littéralement le même nom de tag pour ce qui
+    # est, de part et d'autre, une sortie de version numérotée à l'identique
+    # est une correspondance déclarée et vérifiable, pas une inférence sur
+    # la forme du nom. Détail complet, y compris l'inspection du contenu du
+    # tag (structure, absence de rendu construit), dans le compte rendu du
+    # lot 3. À réviser si un changelog docaster contredit un jour cette
+    # correspondance.
+    ref: "17.4.0"
+    commit: 9c8c179f57ef7ca1d2891cac275ee4823a57967c
     local_path: external/codeaster-doc
     license: GFDL-1.3
     families:

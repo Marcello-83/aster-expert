@@ -99,6 +99,24 @@ Chaque exécution de `aster-expert sources sync` écrit
 Le champ `dirty` signale des modifications locales non commitées. Une source
 `dirty` bloque la synchronisation de cette source et le fait est journalisé.
 
+**Amendement lot 3.** Chaque entrée porte aussi `status` (`"cloned"`,
+`"adopted"`, `"blocked_dirty"`, `"blocked_diverged"`, `"blocked_error"`) et
+`detail` (texte explicatif, obligatoire pour tout `status` `blocked_*`) :
+une simple liste de noms/commits ne permet pas de distinguer une source
+réellement synchronisée d'une source dont la synchronisation a été refusée,
+ce que `CLAUDE.md` interdit de faire silencieusement. `"cloned"` et
+`"adopted"` signifient tous deux que la copie de travail correspond
+exactement à la déclaration (`ref` résolu sur le dépôt distant) : le premier
+la première fois qu'une source est clonée, le second à toute exécution
+suivante où elle s'y trouvait déjà — l'idempotence porte sur ce second cas
+(deux exécutions consécutives sur une source déjà présente et à jour
+produisent le même `status`, le même `commit`, le même `detail`), jamais sur
+la comparaison d'un premier clonage à une absence de dépôt, qui n'a pas de
+sens. Une source existante dont le commit courant diverge de ce que `ref`
+résout sur le dépôt distant n'est jamais réalignée d'autorité : `status`
+vaut `"blocked_diverged"`, `detail` cite les deux commits, et la copie de
+travail n'est ni `checkout`-ée ni `reset`-ée (`aster_expert.ingestion.sync`).
+
 ## 6. Inventaire
 
 L'inventaire produit `data/raw/inventory.jsonl`, une entrée par document
