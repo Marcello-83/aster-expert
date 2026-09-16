@@ -217,6 +217,115 @@ commande → manuel devra être construit depuis le corpus documentaire
 lui-même (structure des documents U4/U7 synchronisés, lot 3, inventoriés
 dans ce lot 6), pas déduit ou complété à partir du catalogue.
 
+**Clôture du lot 6.**
+
+**I1/I2 — Inventaire et familles.** `aster-expert sources inventory`
+(`aster_expert.ingestion.inventory`) produit `data/raw/inventory.jsonl` :
+2047 documents (un répertoire portant son propre `index.rst`, jamais
+imbriqué sous un autre — vérifié, 0 occurrence). `docs/corpus.md` §3 est
+amendé : `U0` (un document, guide de lecture) et `man_s` (`SU`/`SV`, 10
+documents, plate-forme Salome-Meca — hors périmètre Code_Aster) rejoignent
+la table des familles, confirmée sur le reste par l'inventaire réel.
+Statistiques par famille et par type de fichier détaillées dans le compte
+rendu de session ; identifiant normalisé et label brut conservés
+séparément (1943 labels majuscules, 104 minuscules, 0 casse mixte sur le
+corpus 17.4.0).
+
+**I3 — Sonde docutils : l'arbitrage est confirmé, pas supposé.**
+`aster-expert sources probe` (`aster_expert.ingestion.rst_probe`) sonde un
+échantillon stratifié de 69 documents (≥ 60 exigés) couvrant U2, U4, U7, R,
+V, D et man_s, avec `docutils` seul (aucune extension Sphinx, `conf.py`
+jamais exécuté — seule son assignation `extensions = [...]` est lue par
+`ast`). Mesure sur l'échantillon : 78,2 % des caractères de la source sont
+récupérables tels quels (hors messages de diagnostic générés par
+`docutils` lui-même) ; l'écart restant est très majoritairement du balisage
+reST/Sphinx (`**`, `.. `, options de directive), jamais du contenu perdu —
+vérifié directement sur la structure du document produit : une directive
+ou un rôle inconnu de `docutils` seul (`toctree`, `ref`, `external:ref`,
+`numref`, `eq` — tous fournis par Sphinx lui-même ou par les deux
+extensions déclarées, `sphinx.ext.autosectionlabel` et
+`sphinx.ext.intersphinx`, jamais un mystère) conserve son texte brut
+intégralement dans le document produit (`literal_block`/`problematic`),
+jamais supprimé silencieusement. `.. math::`/`:math:` sont nativement
+reconnus par `docutils` seul : les formules restent en LaTeX exploitable,
+confirmant le motif de l'arbitrage. Point à surveiller reproduit ici :
+`language_code` doit être réglé sur `"fr"` (comme `source/conf.py`), sans
+quoi une directive native de `docutils` sous son alias français
+(`.. avertissement::`, alias de `warning`) est signalée à tort comme
+inconnue.
+
+Seule perte réelle, mesurée précisément : la directive `include` cible
+`_cache/{math_styles,external_refs,home}.rst`, un répertoire **généré au
+build** (`data/docaster_build.py` à partir de gabarits Jinja2 sous
+`data/templates/`), absent de tout clone brut — jamais un défaut de
+l'extracteur, un fait de fabrication du dépôt lui-même. 76 occurrences
+(72 + 3 + 1) sur 34/2047 documents (1,7 %) ; contenu perdu = ces trois
+fichiers eux-mêmes, jamais du contenu propre à un document : 18 648 octets
+uniques (macros LaTeX de confort pour l'analyse tensorielle/mécanique des
+milieux continus, et liens de navigation/dépôts) sur 48 253 722 octets de
+texte `.rst` du corpus entier, soit **0,039 %** — 2,16 % dans l'hypothèse
+maximaliste (fausse) où chacune des 76 occurrences comptait le contenu
+comme non partagé. **Conclusion : la perte est négligeable et
+intégralement caractérisée ; l'arbitrage du lot 6 (parser les sources
+`.rst`, jamais un rendu Sphinx construit) est confirmé, pas révisé.**
+
+**I4 — Graphe de références croisées, établi, pas exploité.**
+`aster-expert sources xref` (`aster_expert.ingestion.xref`) relève 15560
+occurrences `:ref:`/`:external:ref:` sur le corpus entier : 6757
+résolubles vers un document de l'inventaire (43,4 %), 8803 non résolubles,
+4122 arêtes distinctes (`data/processed/xref_graph.json`). La majorité des
+« non résolubles » ne vise pas un document : bibliographie locale
+(`bib1`...), numérotation de figure/équation/section, ancres générées par
+la conversion Word→reST (`RefHeading__...`, `RefNumPara__...`) — hors
+périmètre de ce graphe document-à-document, jamais confondu avec une
+référence cassée. Un sous-ensemble plus restreint ressemble à un
+identifiant documentaire sans en être un valide dans cette version (ex.
+`D3.02.01` : la famille `D3` n'existe pas sur le corpus 17.4.0,
+`man_d` allant de `d0` à `d9` sans `d3`) — un renvoi obsolète, pas un défaut
+d'extraction. Un défaut réel de la source a aussi été trouvé et confirmé,
+jamais corrigé : `man_v/v6/v6.08.120/Probl_mes_de_r_f_rence.rst:67` et son
+homologue `v5.01.109` enveloppent un littéral Python (`NU.array([...])`)
+dans un rôle `:ref:`, probablement un artefact de substitution
+automatique ; classé non résoluble comme n'importe quelle cible sans
+deviner de correction.
+
+**I5 — Table commande → document, le livrable attendu.**
+`aster-expert sources command-map`
+(`aster_expert.ingestion.command_map`) construit
+`data/processed/command_document_map.json` depuis un fait observé — le nom
+de commande, casse officielle, apparaît comme identifiant complet
+(jamais comme sous-chaîne d'un nom plus long, ex. `AFFE_CHAR_MECA` ne
+matche jamais le titre d'`AFFE_CHAR_MECA_C`) dans le titre d'un document
+`U4`/`U7`. Couverture : **266/268 commandes du catalogue (99,3 %)**. 2
+commandes sans document (`IMPR_CORR_HOMO`, `LIRE_CORR_HOMO`) ; 15 documents
+U4/U7 sans commande (guides généraux, mots-clés transverses comme
+`SOLVEUR`, notes de version) ; 2 documents nomment une commande réelle mais
+hors du catalogue introspecté par construction (`DEFI_CONT`, `CALC_SPEC` —
+`code_aster.MacroCommands`, fait déjà établi au lot 4/10b, jamais
+redéduit). La relation est many-to-many, jamais forcée à un choix
+arbitraire : un document peut nommer plusieurs commandes sœurs ensemble
+(`U4.44.01`, « Opérateurs AFFE_CHAR_MECA, AFFE_CHAR_MECA_C et
+AFFE_CHAR_MECA_F ») et une commande peut être documentée par plusieurs
+documents (`IMPR_RESU`, quatre documents, un par format de sortie).
+
+**I6 — Anomalies.** 35 anomalies sur 2047 documents, toutes qualifiées et
+listées dans `data/raw/inventory.jsonl`/le compte rendu, aucune corrigée
+silencieusement : `unresolved_toctree_entry` (14), `orphan_file` (14, dont
+un fichier au nom mal recopié dans son propre toctree — même défaut que
+l'entrée toctree cassée d'`U4.53.01`), `label_directory_mismatch` (3),
+`empty_component_file` (3 : `1.rst` sous `r3.08.10` et `r7.02.15`, 3
+octets chacun, uniquement des lignes blanches ; `1.rst` sous `v3.04.002`,
+37 octets, même motif), `duplicate_document_id`
+(1, `R3.07.10` — le label de `r3.07.11` recopie celui du document
+voisin). `missing_label`/`missing_title`/`unknown_family_prefix`/
+`empty_document` : 0 occurrence sur le corpus réel (types conservés dans
+le modèle, vérifiés par test, jamais suppprimés faute d'exemple présent).
+
+**Idempotence.** Deux exécutions consécutives de `aster-expert sources
+inventory` sur la même révision produisent un `inventory.jsonl` identique
+octet à octet (vérifié en session, `sha256sum` égal) — l'horodatage de
+génération n'est jamais écrit dans les entrées elles-mêmes.
+
 ## Lot 7 — Index lexical et recherche
 
 Découpage documentaire selon `docs/corpus.md`, index BM25, filtres de

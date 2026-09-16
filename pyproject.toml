@@ -23,6 +23,12 @@ dependencies = [
     "pydantic>=2.7",
     "pyyaml>=6.0",
     "rich>=13.7",
+    # Lot 6 : parseur reStructuredText de référence, utilisé pour inventorier
+    # et sonder le corpus `codeaster-doc` à partir de ses sources .rst (pas
+    # d'un rendu Sphinx construit — voir docs/corpus.md §2 et le compte rendu
+    # du lot 6). Ne dépend pas de Sphinx : aucune extension, aucun conf.py
+    # exécuté.
+    "docutils>=0.21",
 ]
 
 [project.optional-dependencies]
@@ -78,6 +84,10 @@ disallow_untyped_defs = true
 
 [[tool.mypy.overrides]]
 module = ["bm25s.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["docutils.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

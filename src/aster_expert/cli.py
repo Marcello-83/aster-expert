@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+from collections import Counter
 from pathlib import Path
 
 import typer
@@ -25,8 +26,35 @@ from aster_expert.execution.detect import detect_environment, write_detected_sec
 from aster_expert.execution.docker_client import find_docker_binary
 from aster_expert.execution.errors import EnvironmentDetectionError
 from aster_expert.execution.models import DetectedEnvironment
+from aster_expert.ingestion.command_map import (
+    build_command_mapping,
+    default_command_map_path,
+    load_catalogue_commands,
+    load_u4_u7_documents,
+    write_command_mapping_json,
+)
 from aster_expert.ingestion.errors import SourcesConfigError
-from aster_expert.ingestion.sync import default_manifest_path, sync_sources
+from aster_expert.ingestion.inventory import (
+    build_inventory,
+    default_inventory_path,
+    write_inventory_jsonl,
+)
+from aster_expert.ingestion.rst_probe import (
+    build_probe_report,
+    default_probe_report_path,
+    write_probe_report_json,
+)
+from aster_expert.ingestion.sync import (
+    default_manifest_path,
+    default_sources_yaml_path,
+    load_sources_config,
+    sync_sources,
+)
+from aster_expert.ingestion.xref import (
+    build_reference_graph_result,
+    default_xref_path,
+    write_xref_json,
+)
 from aster_expert.parsing.comm_parser import parse_comm_file
 from aster_expert.parsing.errors import CommParseError
 from aster_expert.validation.errors import ValidationRunError
@@ -150,6 +178,329 @@ def sources_sync() -> None:
     typer.echo(f"Manifeste écrit dans {default_manifest_path(project_root)}")
     if blocked:
         raise typer.Exit(1)
+
+
+@sources_app.command("inventory")
+def sources_inventory() -> None:
+    """Inventorier le corpus documentaire codeaster-doc (lot 6)."""
+    project_root = _project_root()
+
+    try:
+        config = load_sources_config(default_sources_yaml_path(project_root))
+    except SourcesConfigError as exc:
+        typer.echo(f"Inventaire échoué : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+    source = next((s for s in config.sources if s.name == "codeaster-doc"), None)
+    if source is None:
+        typer.echo(
+            "Inventaire échoué : source 'codeaster-doc' non déclarée dans "
+            "config/sources.yaml",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    manuals_family = source.families.get("manuals")
+    if manuals_family is None or not manuals_family.paths:
+        typer.echo(
+            "Inventaire échoué : config/sources.yaml ne déclare aucun chemin "
+            "pour la famille 'manuals' de 'codeaster-doc'",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    manifest_path = default_manifest_path(project_root)
+    if not manifest_path.is_file():
+        typer.echo(
+            f"Inventaire échoué : manifeste introuvable ({manifest_path}) ; "
+            "lancez 'aster-expert sources sync' d'abord",
+            err=True,
+        )
+        raise typer.Exit(1)
+    manifest_raw = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest_sources = manifest_raw.get("sources", [])
+    manifest_entry = next(
+        (s for s in manifest_sources if s.get("name") == "codeaster-doc"), None
+    )
+    if manifest_entry is None or not manifest_entry.get("commit"):
+        typer.echo(
+            "Inventaire échoué : aucune révision synchronisée pour "
+            "'codeaster-doc' dans le manifeste",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    repo_root = project_root / source.local_path
+    manuals_root = repo_root / manuals_family.paths[0]
+    if not manuals_root.is_dir():
+        typer.echo(
+            f"Inventaire échoué : répertoire introuvable ({manuals_root})", err=True
+        )
+        raise typer.Exit(1)
+
+    result = build_inventory(
+        manuals_root,
+        repo_root=repo_root,
+        source_name=source.name,
+        source_commit=manifest_entry["commit"],
+    )
+
+    output_path = default_inventory_path(project_root)
+    write_inventory_jsonl(result, output_path)
+
+    family_counts = Counter(d.family for d in result.documents)
+    anomaly_counts = Counter(a.kind for a in result.anomalies)
+
+    typer.echo(f"Documents inventoriés : {len(result.documents)}")
+    for family, count in sorted(family_counts.items()):
+        typer.echo(f"  {family}: {count}")
+    typer.echo(
+        f"Anomalies relevées : {len(result.anomalies)}", err=bool(result.anomalies)
+    )
+    for kind, count in sorted(anomaly_counts.items()):
+        typer.echo(f"  [{kind}] {count}", err=True)
+    typer.echo(f"Écrit dans {output_path}")
+
+
+# Échantillon stratifié par défaut (lot 6, I3) : au moins 60 documents,
+# couvrant chacune des sept familles nommées par l'instruction du lot
+# (U2, U4, U7, R, V, D, man_s). `man_s` (SU + SV réunies, 10 documents au
+# total sur le corpus 17.4.0) est pris intégralement plutôt qu'échantillonné
+# : c'est la plus petite famille et la seule non anticipée par
+# docs/corpus.md §3 avant ce lot.
+_DEFAULT_PROBE_SAMPLE = {
+    "U2": 8,
+    "U4": 10,
+    "U7": 8,
+    "R": 10,
+    "V": 15,
+    "D": 8,
+    "man_s": 10,
+}
+
+
+@sources_app.command("probe")
+def sources_probe() -> None:
+    """Sonder le corpus documentaire avec docutils (lot 6, I3)."""
+    project_root = _project_root()
+
+    try:
+        config = load_sources_config(default_sources_yaml_path(project_root))
+    except SourcesConfigError as exc:
+        typer.echo(f"Sonde échouée : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+    source = next((s for s in config.sources if s.name == "codeaster-doc"), None)
+    manuals_family = source.families.get("manuals") if source else None
+    if source is None or manuals_family is None or not manuals_family.paths:
+        typer.echo(
+            "Sonde échouée : source 'codeaster-doc' ou famille 'manuals' non "
+            "déclarée dans config/sources.yaml",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    inventory_path = default_inventory_path(project_root)
+    if not inventory_path.is_file():
+        typer.echo(
+            f"Sonde échouée : inventaire introuvable ({inventory_path}) ; "
+            "lancez 'aster-expert sources inventory' d'abord",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    manifest_path = default_manifest_path(project_root)
+    manifest_raw = json.loads(manifest_path.read_text(encoding="utf-8"))
+    probe_manifest_sources = manifest_raw.get("sources", [])
+    manifest_entry = next(
+        (s for s in probe_manifest_sources if s.get("name") == "codeaster-doc"), None
+    )
+    if manifest_entry is None or not manifest_entry.get("commit"):
+        typer.echo(
+            "Sonde échouée : aucune révision synchronisée pour 'codeaster-doc' "
+            "dans le manifeste",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    repo_root = project_root / source.local_path
+    manuals_path = Path(manuals_family.paths[0])
+    conf_py_path = repo_root / manuals_path.parent / "conf.py"
+    if not conf_py_path.is_file():
+        typer.echo(f"Sonde échouée : conf.py introuvable ({conf_py_path})", err=True)
+        raise typer.Exit(1)
+
+    report = build_probe_report(
+        inventory_path=inventory_path,
+        repo_root=repo_root,
+        conf_py_path=conf_py_path,
+        source_name=source.name,
+        source_commit=manifest_entry["commit"],
+        per_family=_DEFAULT_PROBE_SAMPLE,
+    )
+
+    output_path = default_probe_report_path(project_root)
+    write_probe_report_json(report, output_path)
+
+    typer.echo(f"Documents sondés : {report.sampled_documents}")
+    typer.echo(f"Fichiers sondés  : {report.sampled_files}")
+    typer.echo(f"Taux de récupération textuelle : {report.recovery_ratio * 100:.1f} %")
+    typer.echo(f"Directives inconnues : {[d.name for d in report.unknown_directives]}")
+    typer.echo(f"Rôles inconnus       : {[r.name for r in report.unknown_roles]}")
+    typer.echo(
+        f"Cibles include non résolues : {[i.name for i in report.unresolved_includes]}"
+    )
+    typer.echo(f"Extensions Sphinx déclarées (conf.py) : {report.conf_py_extensions}")
+    if report.parse_errors:
+        typer.echo(f"Erreurs d'analyse : {report.parse_errors}", err=True)
+    typer.echo(f"Écrit dans {output_path}")
+
+
+@sources_app.command("xref")
+def sources_xref() -> None:
+    """Établir le graphe de références croisées du corpus (lot 6, I4)."""
+    project_root = _project_root()
+
+    try:
+        config = load_sources_config(default_sources_yaml_path(project_root))
+    except SourcesConfigError as exc:
+        typer.echo(f"Graphe de références échoué : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+    source = next((s for s in config.sources if s.name == "codeaster-doc"), None)
+    if source is None:
+        typer.echo(
+            "Graphe de références échoué : source 'codeaster-doc' non "
+            "déclarée dans config/sources.yaml",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    inventory_path = default_inventory_path(project_root)
+    if not inventory_path.is_file():
+        typer.echo(
+            f"Graphe de références échoué : inventaire introuvable "
+            f"({inventory_path}) ; lancez 'aster-expert sources inventory' d'abord",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    manifest_path = default_manifest_path(project_root)
+    manifest_raw = json.loads(manifest_path.read_text(encoding="utf-8"))
+    xref_manifest_sources = manifest_raw.get("sources", [])
+    manifest_entry = next(
+        (s for s in xref_manifest_sources if s.get("name") == "codeaster-doc"), None
+    )
+    if manifest_entry is None or not manifest_entry.get("commit"):
+        typer.echo(
+            "Graphe de références échoué : aucune révision synchronisée pour "
+            "'codeaster-doc' dans le manifeste",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    repo_root = project_root / source.local_path
+
+    result = build_reference_graph_result(
+        inventory_path=inventory_path,
+        repo_root=repo_root,
+        source_name=source.name,
+        source_commit=manifest_entry["commit"],
+    )
+
+    output_path = default_xref_path(project_root)
+    write_xref_json(result, output_path)
+
+    rate = (
+        100 * result.resolvable_references / result.total_references
+        if result.total_references
+        else 0.0
+    )
+    typer.echo(f"Références relevées   : {result.total_references}")
+    typer.echo(
+        f"Résolubles             : {result.resolvable_references} ({rate:.1f} %)"
+    )
+    typer.echo(f"Non résolubles         : {result.unresolvable_references}")
+    typer.echo(f"Arêtes distinctes       : {len(result.edges)}")
+    typer.echo(f"Écrit dans {output_path}")
+
+
+@sources_app.command("command-map")
+def sources_command_map() -> None:
+    """Établir la table commande -> document U4/U7 (lot 6, I5)."""
+    project_root = _project_root()
+    versions_path = project_root / "config" / "versions.yaml"
+
+    inventory_path = default_inventory_path(project_root)
+    if not inventory_path.is_file():
+        typer.echo(
+            f"Table commande -> document échouée : inventaire introuvable "
+            f"({inventory_path}) ; lancez 'aster-expert sources inventory' d'abord",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    try:
+        digest = resolve_active_digest(versions_path)
+    except CatalogueExtractionError as exc:
+        typer.echo(f"Table commande -> document échouée : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+    catalogue_dir = project_root / "data" / "processed" / "catalogue" / digest
+    if not catalogue_dir.is_dir():
+        typer.echo(
+            f"Table commande -> document échouée : catalogue introuvable "
+            f"({catalogue_dir}) ; lancez 'aster-expert catalogue extract' d'abord",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    manifest_path = default_manifest_path(project_root)
+    manifest_raw = json.loads(manifest_path.read_text(encoding="utf-8"))
+    cmap_manifest_sources = manifest_raw.get("sources", [])
+    manifest_entry = next(
+        (s for s in cmap_manifest_sources if s.get("name") == "codeaster-doc"), None
+    )
+    if manifest_entry is None or not manifest_entry.get("commit"):
+        typer.echo(
+            "Table commande -> document échouée : aucune révision "
+            "synchronisée pour 'codeaster-doc' dans le manifeste",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    documents = load_u4_u7_documents(inventory_path)
+    catalogue_commands = load_catalogue_commands(catalogue_dir)
+
+    result = build_command_mapping(
+        documents,
+        catalogue_commands,
+        source_name="codeaster-doc",
+        source_commit=manifest_entry["commit"],
+    )
+
+    output_path = default_command_map_path(project_root)
+    write_command_mapping_json(result, output_path)
+
+    rate = (
+        100 * result.matched_catalogue_commands / result.total_catalogue_commands
+        if result.total_catalogue_commands
+        else 0.0
+    )
+    typer.echo(
+        f"Commandes couvertes : {result.matched_catalogue_commands}/"
+        f"{result.total_catalogue_commands} ({rate:.1f} %)"
+    )
+    typer.echo(f"Commandes sans document : {len(result.commands_without_document)}")
+    typer.echo(f"{result.commands_without_document}")
+    typer.echo(
+        f"Documents U4/U7 sans commande : {len(result.documents_without_command)}"
+    )
+    typer.echo(
+        "Documents nommant une commande MacroCommands hors catalogue : "
+        f"{len(result.documents_naming_known_macro_command)}"
+    )
+    typer.echo(f"Écrit dans {output_path}")
 
 
 @catalogue_app.command("extract")
