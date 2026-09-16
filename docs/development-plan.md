@@ -691,8 +691,33 @@ règle de grammaire écrite à la main, aucune infrastructure d'exécution
 (l'exécution de `astest/zzzz169a.comm` pour P3 est un appel `docker run`
 manuel et ponctuel, jamais encapsulé dans `aster_expert`).
 
-**Calibration de l'estimateur (R5, une seule fois, en fin de lot) :** voir le
-compte rendu de ce lot pour la comparaison échantillon/corpus complet.
+**Calibration de l'estimateur (R5, une seule fois, en fin de lot).** Passe
+complète sur les 4183 fichiers, un seul conteneur, séquentiel, `--memory=4g`,
+aucun autre conteneur ni processus Git en parallèle : 8 min 24 s, aucune
+saturation mémoire (`free -h` stable à ~8 Gio disponibles avant/après).
+
+| Mesure | Échantillon (400) | Corpus complet (4183) | Écart |
+|---|---|---|---|
+| P1 seul, couverture | 72,36 % (8791/12149) | 75,20 % (96856/128797) | +2,84 pt |
+| P1+P2+P3, couverture | 72,35 % (8790/12149) | 75,17 % (96823/128797) | +2,82 pt |
+| P1+P2+P3, erreurs résiduelles | 0 (aucun des 7 fichiers en cause n'est tiré) | 7 (4 `POST_GOUJ`, 2 `EXTR_CONCEPT`, 1 `CALC_MECA_MULT`) | -- |
+| P1+P2+P3, avertissements P3 | 0 | 12 (`EXTR_COUPE`, confirme R3) | -- |
+| P1-only, détail erreurs | 1 (`MACRO_ELAS_MULT`, `sslv139c.comm`) | 52 (33 `CHECKER_ERROR` = 22 `MACRO_ELAS_MULT` + 9 `DEFI_GROUP` + 2 `AFFE_CARA_ELEM`, 14 `INVALID_TYPE` = 12 `EXTR_COUPE` + 2 `EXTR_CONCEPT`, 4 `UNKNOWN_COMMAND`, 1 `MISSING_MANDATORY_KEYWORD`) | -- |
+
+**Verdict : l'estimateur est valide pour le suivi de tendance, pas pour une
+décision au point de pourcentage près.** L'écart de couverture est faible et
+stable (~2,8 points, dans le même sens pour P1 seul et P1+P2+P3 — pas un
+artefact du reclassement P2/P3) : un échantillon de 9,6 % du corpus,
+regroupé par fichier (variance de grappe, pas un tirage indépendant par
+`statement`), sous-estime légèrement mais régulièrement le taux réel.
+Les erreurs résiduelles et les avertissements P3, en revanche, sont trop
+rares (7 et 12 sur 128 797 `statement`) pour qu'un échantillon de 400
+fichiers en capture un nombre représentatif — l'échantillon tiré pour ce lot
+n'en contient d'ailleurs aucun sauf un (`sslv139c.comm`, 1 des 33
+`CHECKER_ERROR`). Pour tout lot futur : la couverture globale peut se
+suivre sur l'échantillon de 400 seul ; le dénombrement précis d'erreurs
+résiduelles rares exige soit un fichier ciblé connu (comme la liste de 29
+fichiers de ce lot), soit la passe complète.
 
 ## Lot 11 — Hook de validation
 
