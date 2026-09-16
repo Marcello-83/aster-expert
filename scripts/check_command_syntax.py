@@ -3,8 +3,12 @@
 Run inside the Code_Aster container by its own Python interpreter (see
 docs/architecture.md, ADR-002). Standard library only. Reads a JSON request
 file (`--requests`) shaped as `{"requests": [{"id": int, "command": str,
-"assigned_concept": str|null, "keywords": <json>}, ...]}` and prints one JSON
-object per line on stdout, one of:
+"assigned_concept": str|null, "keywords": <json>, "mode": "check"|
+"type_probe"}, ...]}` (`mode` defaults to `"check"` when absent, and
+`keywords` is required for `"check"`, absent for `"type_probe"` --
+docs/development-plan.md, lot 10c, point P1) and prints one JSON object per
+line on stdout, one per `"check"`-mode request only (a `"type_probe"` request
+never produces a line: see below), one of:
 
 - `{"id": ..., "ok": true, "produced_type": <str|null>}`
 - `{"id": ..., "ok": false, "orig": "<ExceptionClassName>", "message": "...",
@@ -25,35 +29,86 @@ object per line on stdout, one of:
 This script decides nothing about validity beyond what the official
 machinery already decides:
 
-- **Type resolution (docs/development-plan.md, lot 10b, point A).** For a
-  request whose `assigned_concept` is not null and which passes
-  `checkCommandSyntax`, the produced Aster type is read from
-  `Command.get_type_sd_prod(**keywords)` -- the exact method
-  `Command.call_default` itself calls after `checkCommandSyntax` succeeds
-  (`code_aster/Cata/Language/SyntaxObjects.py`). It is *never* computed from
-  `sd_prod` directly: `get_type_sd_prod` is what adds default keywords and
-  fills the arguments `sd_prod` needs but the user did not provide with
-  `None` (`add_none_sdprod`) before calling it, and it dispatches correctly
-  between an `Operator` (calls `sd_prod(**ctxt)`) and a `Macro` (calls
-  `sd_prod(self, **ctxt)`, the catalog object as `self`) through
-  `Command.build_sd_prod`, overridden by `Macro` -- reproducing that
-  dispatch by hand would be exactly the reimplementation lot 10b forbids.
-  Verified empirically in session (see the lot 10b batch report): calling
-  `get_type_sd_prod` standalone, *without* a prior successful
-  `checkCommandSyntax`, can silently return a bogus type (`CALC_CHAMP` with
-  no `RESULTAT` resolves to Python's own `NoneType` rather than raising) --
-  which is why this script never calls it except after `checkCommandSyntax`
-  has already succeeded on the very same `keywords`. In that order it cannot
-  fail: `SyntaxCheckerVisitor.visitCommand` (`Cata/Language/SyntaxChecker.py`)
-  already calls `step.get_type_sd_prod(**userDict)` itself, as part of the
-  check, and turns any exception from it into a `CheckerError`
-  (`RESULT_TYPE_ERROR` once classified downstream) -- so a `checkCommandSyntax`
-  that returns normally has already proven this second call will succeed too.
-  A `reuse=` statement needs no special case here: for a reentrant command
-  the produced object *is* the reused one (verified empirically: `CALC_CHAMP`
-  reused on a `RESULTAT` placeholder resolves to that placeholder's own type
-  via `AsType(RESULTAT)`), so the uniform call already returns the right
-  answer without this script ever inspecting `reuse` itself.
+- **Two-branch placeholder rule (docs/development-plan.md, lot 10c, point
+  P1) -- supersedes the single after-check rule of lot 10b below.** Whether
+  a concept's placeholder can be registered *before* its producing
+  `statement`'s own `checkCommandSyntax` verdict is known depends entirely
+  on whether that command's `sd_prod` is static or dynamic (§2 of
+  `docs/metadata.md`, `result_type_dynamic`):
+
+  - **Static `sd_prod` (a fixed class, e.g. `DEFI_LIST_REEL` ->
+    `listr8_sdaster`).** The produced type is a catalogue fact, established
+    by the command's name alone -- it does not depend on the keywords at
+    all. Proven by reading `Command.get_type_sd_prod` itself
+    (`Cata/Language/SyntaxObjects.py`): `if type(resultType) is
+    types.FunctionType: ... else: return resultType` -- the non-function
+    branch returns the class *unconditionally*, `ctxt` (the keywords) is
+    never even looked at. Calling `get_type_sd_prod()` with *no* keywords at
+    all is therefore exactly as correct as calling it with any other
+    keywords, for a static command, and never needs a prior
+    `checkCommandSyntax` call to be safe. This script therefore registers a
+    static placeholder for a `"check"`-mode request's `assigned_concept`
+    immediately, before attempting `compat_syntax`/`checkCommandSyntax` on
+    that same request at all -- and, for a `"type_probe"`-mode request (a
+    statement lot 9/`reconstruct.py` excluded from checking for structural
+    reasons: an unresolved keyword, a `parse_warning`, non-empty
+    `control_flow` -- docs/development-plan.md, lot 10, ABSOLUTE RULE), it
+    registers the *same* placeholder from the command name alone, without
+    ever attempting to check that statement's own (possibly unreconstructed)
+    keywords. A `"type_probe"` request never means "this statement is
+    verified" -- it stays `commands_not_checked`, decided solely by
+    `aster_expert.validation.reconstruct`, host-side -- it only means "this
+    producer's type is knowable regardless." **This also covers a `"check"`-
+    mode request whose own `checkCommandSyntax` call goes on to fail**: the
+    placeholder was already registered before that call ran, so a later
+    statement referencing this concept is not blocked by this statement's
+    own error (docs/development-plan.md, lot 10c: "distingue explicitement
+    non vérifié de en erreur" -- `aster_expert.validation.validate` is what
+    turns this into a visible warning on the consumer, host-side, using
+    `commands_checked`/`errors` to tell the two apart, never this script).
+  - **Dynamic `sd_prod` (a function, e.g. `CALC_CHAMP`, `LIRE_MAILLAGE`).**
+    Unchanged from lot 10b: the produced Aster type is read from
+    `Command.get_type_sd_prod(**keywords)` -- the exact method
+    `Command.call_default` itself calls after `checkCommandSyntax` succeeds
+    (`code_aster/Cata/Language/SyntaxObjects.py`). It is *never* computed
+    from `sd_prod` directly: `get_type_sd_prod` is what adds default
+    keywords and fills the arguments `sd_prod` needs but the user did not
+    provide with `None` (`add_none_sdprod`) before calling it, and it
+    dispatches correctly between an `Operator` (calls `sd_prod(**ctxt)`) and
+    a `Macro` (calls `sd_prod(self, **ctxt)`, the catalog object as `self`)
+    through `Command.build_sd_prod`, overridden by `Macro` -- reproducing
+    that dispatch by hand would be exactly the reimplementation lot 10b
+    forbids. Verified empirically in session (see the lot 10b batch report):
+    calling `get_type_sd_prod` standalone, *without* a prior successful
+    `checkCommandSyntax`, can silently return a bogus type (`CALC_CHAMP`
+    with no `RESULTAT` resolves to Python's own `NoneType` rather than
+    raising) -- which is why this script never calls it except after
+    `checkCommandSyntax` has already succeeded on the very same `keywords`.
+    In that order it cannot fail: `SyntaxCheckerVisitor.visitCommand`
+    (`Cata/Language/SyntaxChecker.py`) already calls
+    `step.get_type_sd_prod(**userDict)` itself, as part of the check, and
+    turns any exception from it into a `CheckerError` (`RESULT_TYPE_ERROR`
+    once classified downstream) -- so a `checkCommandSyntax` that returns
+    normally has already proven this second call will succeed too. A
+    `reuse=` statement needs no special case here: for a reentrant command
+    the produced object *is* the reused one (verified empirically:
+    `CALC_CHAMP` reused on a `RESULTAT` placeholder resolves to that
+    placeholder's own type via `AsType(RESULTAT)`), so the uniform call
+    already returns the right answer without this script ever inspecting
+    `reuse` itself. A dynamic command excluded as a `"type_probe"` never
+    registers anything (its type genuinely depends on keywords this script
+    was never given): the concept stays unresolved for any consumer, same
+    as lot 10b.
+
+  Which branch applies is decided by reading the very same catalogue fact
+  lot 4's `scripts/introspect_catalogue.py` reads to set the extracted
+  catalogue's own `result_type_dynamic` field: `isinstance(command_obj.
+  definition.get("sd_prod"), type)`. Reading this attribute a second time,
+  here, is not a second implementation of anything -- `get_type_sd_prod`
+  itself makes exactly this same distinction internally
+  (`type(resultType) is types.FunctionType`); this script only needs the
+  *answer* in advance, to decide whether calling `get_type_sd_prod` early
+  (before any check) is safe.
 - **Compatibility adaptation (docs/development-plan.md, lot 10b, point B).**
   Before `checkCommandSyntax`, this script replays the *official*
   pre-check adaptation the supervisor itself runs
@@ -170,6 +225,89 @@ def resolve_markers(value: Any, concept_objects: dict[str, Any]) -> Any:
     return value
 
 
+def _is_static_result_type(command_obj: Any) -> bool:
+    """True when `command_obj`'s `sd_prod` is a fixed class, not a function.
+
+    Reads the exact same catalogue attribute lot 4's
+    `scripts/introspect_catalogue.py` reads to set `result_type_dynamic` on
+    the extracted catalogue (`docs/metadata.md`, §2): `cmd.definition.get(
+    "sd_prod")` is `None` (no result), a `type` (static), or callable
+    (dynamic). See the module docstring, "Two-branch placeholder rule."
+    """
+    sd_prod = command_obj.definition.get("sd_prod")
+    return isinstance(sd_prod, type)
+
+
+def _register_placeholder(
+    command_obj: Any,
+    assigned_concept: str | None,
+    keywords: dict[str, Any],
+    concept_objects: dict[str, Any],
+    python_variable: type,
+) -> str | None:
+    """Call `get_type_sd_prod`, register a placeholder, return its type name.
+
+    `keywords` is ignored by `get_type_sd_prod` itself for a static command
+    (see module docstring) -- an empty dict is exactly as correct as the
+    reconstructed ones for that branch, which is what makes calling this
+    before any check is even attempted safe. Used only for the dynamic
+    branch (after a successful check, real `keywords`) and for a
+    `"type_probe"` request (no self-reference risk: it carries no keywords
+    to resolve at all) -- a `"check"`-mode static request instead uses
+    `_compute_static_placeholder`/`_commit_placeholder` below, split in two
+    to guard against self-reference (see `run_requests`).
+    """
+    if assigned_concept is None:
+        return None
+    result_cls = command_obj.get_type_sd_prod(**keywords)
+    if result_cls is None:
+        return None
+    type_name: str = result_cls.__name__
+    if type_name in _RAW_VALUE_CONCEPT_TYPES:
+        concept_objects[assigned_concept] = python_variable()
+    else:
+        concept_objects[assigned_concept] = result_cls()
+    return type_name
+
+
+def _compute_static_placeholder(
+    command_obj: Any, assigned_concept: str | None, python_variable: type
+) -> tuple[str, Any] | None:
+    """Compute, but never register, a static placeholder from the command alone.
+
+    Returns `(type_name, placeholder_instance)`, or `None` when there is
+    nothing to produce (`assigned_concept` is `None`, or `sd_prod` has no
+    result at all). Deliberately does not touch `concept_objects`:
+    registering it is the caller's job (`_commit_placeholder`), deferred
+    until *after* this same request's own keywords have been resolved --
+    otherwise a statement that references its own assigned name (e.g. a
+    reused Python variable, `X = CMD(..., ARG=X, ...)`) would resolve `ARG`
+    against the placeholder this very statement is about to produce for
+    itself, rather than against whatever `X` meant before it (a real
+    regression found and fixed during lot 10c, see `run_requests`).
+    """
+    if assigned_concept is None:
+        return None
+    result_cls = command_obj.get_type_sd_prod()
+    if result_cls is None:
+        return None
+    type_name: str = result_cls.__name__
+    placeholder = (
+        python_variable() if type_name in _RAW_VALUE_CONCEPT_TYPES else result_cls()
+    )
+    return type_name, placeholder
+
+
+def _commit_placeholder(
+    computed: tuple[str, Any] | None,
+    assigned_concept: str | None,
+    concept_objects: dict[str, Any],
+) -> None:
+    """Write a `_compute_static_placeholder` result into `concept_objects`."""
+    if computed is not None and assigned_concept is not None:
+        concept_objects[assigned_concept] = computed[1]
+
+
 def run_requests(
     requests: list[dict[str, Any]],
     *,
@@ -183,7 +321,11 @@ def run_requests(
     Processes `requests` in the given list order and maintains
     `concept_objects` live across the whole batch (see module docstring):
     this is why the caller must send requests in file order, not grouped or
-    reordered by any other key.
+    reordered by any other key. A `"type_probe"`-mode request (`mode`
+    defaults to `"check"`) never appends a result: it exists solely to give
+    an excluded statement's static-typed concept a chance to register its
+    placeholder (docs/development-plan.md, lot 10c, point P1) before later
+    requests that reference it are processed.
     """
     results: list[dict[str, Any]] = []
     concept_objects: dict[str, Any] = {}
@@ -192,9 +334,15 @@ def run_requests(
         request_id = request["id"]
         command_name = request["command"]
         assigned_concept = request.get("assigned_concept")
+        mode = request.get("mode", "check")
 
         command_obj = getattr(commands_module, command_name, None)
         if command_obj is None:
+            if mode == "type_probe":
+                # No object to introspect: nothing to register, and a
+                # type_probe never reports a verdict of its own (the
+                # statement stays commands_not_checked, decided host-side).
+                continue
             results.append(
                 {
                     "id": request_id,
@@ -206,6 +354,8 @@ def run_requests(
             )
             continue
         if not isinstance(command_obj, command_base):
+            if mode == "type_probe":
+                continue
             results.append(
                 {
                     "id": request_id,
@@ -221,12 +371,66 @@ def run_requests(
             )
             continue
 
+        is_static = _is_static_result_type(command_obj)
+
+        if mode == "type_probe":
+            # Two-branch placeholder rule, static side (docs/development-
+            # plan.md, lot 10c, point P1): registered immediately, from the
+            # command name alone, for an excluded statement -- it carries no
+            # keywords to resolve at all, so there is no self-reference risk
+            # here (unlike the "check"-mode case below). A dynamic command's
+            # type_probe registers nothing (its type genuinely depends on
+            # keywords this request never carries), and this statement is
+            # never confronted with checkCommandSyntax either way -- that
+            # verdict is not this script's to give for an excluded
+            # statement.
+            if is_static:
+                _commit_placeholder(
+                    _compute_static_placeholder(
+                        command_obj, assigned_concept, python_variable
+                    ),
+                    assigned_concept,
+                    concept_objects,
+                )
+            continue
+
+        # Two-branch placeholder rule, static side (docs/development-plan.md,
+        # lot 10c, point P1): *computed* now, from the command name alone --
+        # a pure catalogue fact, independent of this statement's own
+        # keywords -- but deliberately not yet written into concept_objects.
+        # It is committed (see below) only after resolving this same
+        # statement's own keywords, so a self-referential reuse of the
+        # assigned name (e.g. `X = CMD(..., ARG=X, ...)`) resolves ARG
+        # against whatever X meant *before* this statement -- correctly
+        # UnresolvedConcept if nothing else ever produced it -- never
+        # against the placeholder this statement is about to produce for
+        # itself (a real regression found and fixed during lot 10c: a first
+        # version of this rule committed the placeholder *before* resolving
+        # this request's own keywords, which both fixed nothing -- an
+        # unrelated reference inside the *same* statement's keywords, e.g.
+        # a *different* concept still unresolved, would then also and
+        # wrongly discard this statement's own valid static placeholder,
+        # since the naive fix made registration conditional on this same
+        # request's own resolve_markers succeeding at all -- confirmed by a
+        # sharp coverage regression on a real user file, astest zzzz169c.comm
+        # self-reference case notwithstanding). The two-phase compute/commit
+        # split here fixes both at once: the placeholder is computed
+        # unconditionally (self-reference-proof) and committed
+        # unconditionally on every exit path below (still available to
+        # consumers even when this statement's own check fails).
+        static_placeholder = (
+            _compute_static_placeholder(command_obj, assigned_concept, python_variable)
+            if is_static
+            else None
+        )
+
         try:
             keywords = resolve_markers(request["keywords"], concept_objects)
             if not isinstance(keywords, dict):
                 message = "reconstructed keywords did not deserialize to a dict"
                 raise TypeError(message)
         except UnresolvedConceptError as exc:
+            _commit_placeholder(static_placeholder, assigned_concept, concept_objects)
             results.append(
                 {
                     "id": request_id,
@@ -237,6 +441,8 @@ def run_requests(
                 }
             )
             continue
+
+        _commit_placeholder(static_placeholder, assigned_concept, concept_objects)
 
         try:
             compat = command_obj.get_compat_syntax()
@@ -267,15 +473,19 @@ def run_requests(
             )
             continue
 
-        produced_type: str | None = None
-        if assigned_concept:
-            result_cls = command_obj.get_type_sd_prod(**keywords)
-            if result_cls is not None:
-                if result_cls.__name__ in _RAW_VALUE_CONCEPT_TYPES:
-                    concept_objects[assigned_concept] = python_variable()
-                else:
-                    concept_objects[assigned_concept] = result_cls()
-                produced_type = result_cls.__name__
+        if is_static:
+            # Already committed above, from the command name alone,
+            # regardless of this successful check -- report the same name
+            # rather than calling get_type_sd_prod a second time.
+            produced_type = static_placeholder[0] if static_placeholder else None
+        else:
+            produced_type = _register_placeholder(
+                command_obj,
+                assigned_concept,
+                keywords,
+                concept_objects,
+                python_variable,
+            )
         results.append({"id": request_id, "ok": True, "produced_type": produced_type})
 
     return results

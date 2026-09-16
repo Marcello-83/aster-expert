@@ -38,6 +38,18 @@ class CheckedEntry(BaseModel):
     `ok` is `false` exactly when at least one `ValidationFinding` in the
     report carries this same `statement_index` — kept alongside for a report
     reader who does not want to cross-reference.
+
+    `warnings` (amendment lot 10c, point P1) is non-empty exactly when this
+    statement was checked — regardless of its own `ok` — only because a
+    concept it directly references got a placeholder from the two-branch
+    static rule (`docs/metadata.md` §4) even though that concept's own
+    producing statement is itself in `errors` (a real `checkCommandSyntax`
+    rejection — never merely `commands_not_checked`: an excluded producer
+    triggers no warning here, since its placeholder, if any, is just as
+    reliable a catalogue fact as any other static one). This is what keeps
+    "non vérifié" and "en erreur" distinct in the report: a warning here
+    always names the exact statement in error, never a vague "may be
+    unreliable."
     """
 
     model_config = ConfigDict(frozen=True)
@@ -46,6 +58,7 @@ class CheckedEntry(BaseModel):
     command: str
     line: int
     ok: bool
+    warnings: list[str] = []
 
 
 class NotCheckedEntry(BaseModel):

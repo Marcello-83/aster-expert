@@ -41,6 +41,22 @@ def test_unauthorized_keyword() -> None:
 
 
 def test_mandatory_keyword() -> None:
+    # docs/development-plan.md, lot 10c, point R2: `Composite.checkMandatory`
+    # (`Cata/Language/SyntaxObjects.py`) raises a bare `KeyError("Keyword {0}
+    # is mandatory")`, never a CheckerError -- `str(KeyError(...))` wraps the
+    # message in one extra pair of quotes (`KeyError.__str__` is `repr()` of
+    # its single argument). This is the real, verbatim shape
+    # scripts/check_command_syntax.py reports; the unquoted form below is
+    # kept only as defensive coverage, never observed in practice.
+    message = "'Keyword CHAM_MATER is mandatory'"
+    assert classify(message) == "MISSING_MANDATORY_KEYWORD"
+    assert extract_keyword(message) == "CHAM_MATER"
+
+
+def test_mandatory_keyword_unquoted_form_still_matches() -> None:
+    # Defensive coverage only (see test_mandatory_keyword above): no call
+    # site in the 17.4.0 source produces this unquoted shape, but the
+    # pattern must not regress it either.
     message = "Keyword CHAM_MATER is mandatory"
     assert classify(message) == "MISSING_MANDATORY_KEYWORD"
     assert extract_keyword(message) == "CHAM_MATER"
