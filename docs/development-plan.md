@@ -361,6 +361,364 @@ fichiers réels de l'utilisateur, lecture seule, jamais copiés).** Détail
 complet, motif principal par commande (jamais par occurrence), et analyse
 individuelle de chaque erreur résiduelle : voir le compte rendu de ce lot.
 
+## Lot 10c — Règle de placeholder en deux branches et classement des échecs
+
+Relecture externe du lot 10b : le gain de couverture (53,0 % -> 57,25 %) était
+en grande partie annulé par une règle trop stricte — un placeholder n'était
+enregistré qu'après un `checkCommandSyntax` réussi sur le `statement`
+producteur, y compris pour un `result_type` **statique**, où le type produit
+est un fait du catalogue indépendant de la résolubilité des mots-clés du
+producteur. Quatre points, traités dans l'ordre de gain.
+
+**P1. Règle du placeholder en deux branches (le plus gros levier).** Prouvé par
+lecture directe de `Command.get_type_sd_prod`
+(`code_aster/Cata/Language/SyntaxObjects.py`) : la branche non-fonction
+(`sd_prod` statique) retourne la classe **sans jamais regarder `ctxt`** — les
+mots-clés reconstruits ou un dict vide donnent exactement la même réponse.
+`scripts/check_command_syntax.py` distingue désormais deux branches, décidées
+par le même fait de catalogue que `result_type_dynamic` (lot 4) :
+`isinstance(command.definition.get("sd_prod"), type)`.
+
+- Statique -> placeholder **enregistré immédiatement**, avant même de tenter
+  `compat_syntax`/`checkCommandSyntax`, y compris pour un `statement`
+  **exclu** par la RÈGLE ABSOLUE du lot 10 (mot-clé non résolu,
+  `parse_warning`, `control_flow`) : un tel `statement` reste
+  `commands_not_checked` (aucun verdict rendu sur lui-même), mais contribue
+  désormais un placeholder via une requête `"type_probe"` (nom de commande et
+  concept assigné seuls, jamais de mot-clé) envoyée au conteneur dans le même
+  ordre de fichier.
+- Dynamique -> inchangé du lot 10b, placeholder seulement après
+  `checkCommandSyntax` réussi.
+- Producteur en **erreur** (et non simplement non vérifié) : un placeholder
+  statique reste disponible même si le `statement` producteur échoue son
+  propre `checkCommandSyntax` (une vraie entrée `errors`). Le consommateur qui
+  le référence directement est donc quand même vérifié, mais son entrée
+  `commands_checked` porte désormais un `warnings` nommant le producteur en
+  erreur — jamais pour un producteur simplement exclu (`commands_not_checked`),
+  qui ne déclenche aucun avertissement. Cette distinction "non vérifié" /
+  "en erreur" est reprise partout dans `aster_expert.validation` (code et
+  rapports), jamais confondue.
+
+**Deux régressions trouvées et corrigées en cours de route, sur des fichiers
+réels, pas des cas construits.**
+
+1. Une auto-référence (réutilisation du même nom de variable Python, ex.
+   `line_1 = POST_RELEVE_T(ACTION=_F(..., RESULTAT=line_1, ...))`, cas réel
+   `astest/zzzz169c.comm`) résolvait `RESULTAT` vers le placeholder que le
+   `statement` était lui-même en train de produire, au lieu de rester
+   honnêtement `UnresolvedConcept` (`line_1` n'ayant aucun autre producteur
+   suivi). Cause : le placeholder était enregistré dans `concept_objects`
+   avant même de résoudre les mots-clés propres du `statement`.
+2. Le correctif naïf du point 1 (enregistrer seulement *après* la résolution
+   réussie des mots-clés propres du `statement`) a provoqué une régression de
+   couverture spectaculaire sur un fichier réel de l'utilisateur (82,8 % ->
+   26,3 % sur `calcul_3d_v3.comm`) : dès qu'un `statement` référence, parmi
+   ses propres mots-clés, **un autre** concept pas encore résolu (ex.
+   `AFFE_CARA_ELEM` dont un `DISCRET[i].VALE` est une valeur Python
+   dynamique), l'échec de résolution empêchait aussi l'enregistrement du
+   placeholder de CE `statement`, alors que son propre type produit
+   (`CARA`) est un fait de catalogue totalement indépendant de cet autre
+   mot-clé.
+
+Correctif définitif (`scripts/check_command_syntax.py`,
+`_compute_static_placeholder`/`_commit_placeholder`) : le placeholder
+statique est **calculé** dès le départ, à partir du seul nom de commande
+(donc à l'épreuve de l'auto-référence), mais son **enregistrement** dans
+`concept_objects` est différé jusqu'après la résolution des mots-clés propres
+du `statement` — puis commis sur **toutes** les branches de sortie
+(`UnresolvedConcept`, échec de `compat_syntax`, échec de
+`checkCommandSyntax`, succès), jamais seulement en cas de succès. Deux tests
+de non-régression dédiés couvrent chacun des deux bugs
+(`tests/unit/test_check_command_syntax_script.py`).
+
+**P2. Échecs systémiques du vérificateur -> `commands_not_checked`, jamais
+`errors`.** Trois signatures vérifiées individuellement, chacune sur un cas
+test officiel dont les mots-clés en cause sont purement littéraux (jamais une
+reconstruction du projet) :
+
+- `MACRO_ELAS_MULT` : `KeyError('NOM_CAS')`. Son propre `sd_prod`
+  (`code_aster/Cata/Commands/macro_elas_mult.py`) lit
+  `CAS_CHARGE[i]['NOM_CAS']` sans condition, alors que `NOM_CAS` est déclaré
+  `optional` sans défaut (`addDefaultKeywords` ne l'insère jamais) —
+  confirmé sur `astest/hslv304b.comm`, `MACRO_ELAS_MULT` ligne 57, un
+  `CAS_CHARGE` entièrement littéral qui omet légitimement `NOM_CAS`.
+- `AFFE_CARA_ELEM` : `KeyError('EPAIS')`, même famille. `affe_cara_elem_prod`
+  lit `mclf['EPAIS']` sans condition pour une occurrence `COQUE`, sans jamais
+  vérifier l'alternative légitime du catalogue, `EPAIS_FO` (une formule) —
+  confirmé sur `astest/zzzz331a.comm`, lignes 50/58, `COQUE` fourni
+  uniquement via `EPAIS_FO`.
+- `DEFI_GROUP` : `CataError('type de concept resultat non prevu')`.
+  `defi_group_prod` teste `AsType(MAILLAGE) == maillage_sdaster` — une
+  égalité **stricte**, pas un test de sous-classe — donc un `MAILLAGE` de
+  type `super_mesh` (sous-classe de `maillage_sdaster`,
+  `code_aster/Cata/Language/DataStructure.py`, produit par
+  `DEFI_MAILLAGE`/`ASSE_MAILLAGE`) ne correspond jamais et tombe dans le
+  `raise` — confirmé sur `astest/sdlx102a.comm`, `DEFI_GROUP` lignes 58/63/66.
+
+Une limite du vérificateur ne se présente jamais comme une erreur dans le
+fichier de l'utilisateur : `aster_expert.validation.error_mapping.
+match_tool_limitation` route ces trois signatures vers
+`commands_not_checked`, motif dédié, avant que `validate.py` n'atteigne
+`errors`/`error_indices` — un producteur ainsi routé ne déclenche donc jamais
+non plus l'avertissement P1 "producteur en erreur" chez ses consommateurs
+(il n'est jamais en erreur, seulement non vérifiable par cet outil).
+
+**Découverte annexe, volontairement non ajoutée à cette table.**
+`CALC_MECA_MULT` lève aussi `KeyError('Keyword NOM_CAS is mandatory')`
+(`astest/zzzz168a.comm`, ligne 416) — mais NOM_CAS y est déclaré `required`
+sous condition `is_type("EVOL_THER") == evol_ther`
+(`aster-expert catalogue show CALC_MECA_MULT --keyword CAS_CHARGE.NOM_CAS`),
+et le fichier fournit bien un `EVOL_THER` dont le type résolu est
+`evol_ther` : la condition est remplie, `NOM_CAS` est réellement obligatoire
+et absent. C'est une vraie erreur du fichier, pas une limite de l'outil —
+volontairement exclue de la table `_TOOL_LIMITATIONS`.
+
+**R2 (relecture externe du lot 10c lui-même).** Cette découverte a révélé un
+bug préexistant, antérieur à ce lot : `error_mapping._MANDATORY_KEYWORD`
+(`^Keyword (?P<kw>\S+) is mandatory$`) ne correspondait **jamais** au texte
+réellement produit. `Composite.checkMandatory`
+(`Cata/Language/SyntaxObjects.py`) lève un `KeyError` **brut**, jamais une
+`CheckerError` ; `scripts/check_command_syntax.py` rapporte alors
+`str(exc)`, et `KeyError.__str__` renvoie le `repr()` de son argument unique
+— le message arrive donc toujours entre guillemets
+(`"'Keyword X is mandatory'"`), jamais sous la forme nue que le motif
+attendait. Toute occurrence corpus-wide de ce cas tombait donc, en silence,
+dans le générique `CHECKER_ERROR` plutôt que `MISSING_MANDATORY_KEYWORD` —
+faussant la classification des erreurs que ce lot s'apprêtait justement à
+mesurer. Corrigé avant les mesures (`^'?Keyword (?P<kw>\S+) is
+mandatory'?$`, les deux formes acceptées, seule la citée étant jamais
+observée en pratique) ; test de non-régression sur le texte réel, cité
+verbatim, dans `tests/unit/test_error_mapping.py`. `CALC_MECA_MULT`
+ci-dessus est désormais correctement classé `MISSING_MANDATORY_KEYWORD`.
+
+**P3. `EXTR_COUPE` tranché par exécution réelle.** `EXTR_COUPE` déclare un
+`sd_prod` statique unique (`cham_gd_sdaster`,
+`code_aster/Cata/Commands/extr_coupe.py`), mais `CREA_CHAMP`/`POST_RELEVE_T`
+attendent `resultat_sdaster` pour le `RESULTAT` produit par un `EXTR_COUPE`
+en amont — un désaccord réel de catalogue (lot 10b, point F), jamais un
+artefact de reconstruction. Exécution réelle, ponctuelle, de diagnostic
+(aucune infrastructure d'exécution développée, hors périmètre du lot 12) :
+`run_aster astest/zzzz169a.export`, dans le conteneur (contournement du TTY
+que `cave run` impose : `bash -ic` au lieu de `cave run --`, seul le
+mécanisme d'invocation change, pas le binaire exécuté). Résultat :
+`DIAGNOSTIC JOB : OK`, exécution jusqu'à `FIN`, tous les `TEST_RESU`/
+`TEST_TABLE` réussis — y compris les `CREA_CHAMP(OPERATION="EXTR",
+RESULTAT=<résultat EXTR_COUPE>)` et `POST_RELEVE_T(ACTION=_F(RESULTAT=
+<résultat EXTR_COUPE>, ...))` que le contrôle statique de ce projet rejette.
+
+Cause de l'écart, établie par lecture de l'exécuteur
+(`code_aster/MacroCommands/extr_coupe_ops.py`, pas seulement du catalogue) :
+le chemin de linéarisation appelle `LIRE_RESU(TYPE_RESU=resu.getType(),
+...)`, qui retype le résultat extrait **comme le `RESULTAT` d'origine** (un
+sous-type `evol_*` de `resultat_sdaster`) — jamais littéralement
+`cham_gd_sdaster` comme le déclare statiquement le catalogue. Le contrôle
+statique de ce projet est donc plus strict que le superviseur réel sur ce
+motif précis, jamais l'inverse. Routé vers `commands_checked` avec `ok:
+true` et un `warnings` documentant la preuve
+(`error_mapping.match_execution_confirmed_override`), jamais vers `errors` —
+et **uniquement** quand le producteur du concept `RESULTAT`/`ACTION.RESULTAT`
+rejeté est vérifié, mot-clé par mot-clé, comme étant bien `EXTR_COUPE`
+(`aster_expert.validation.validate._concept_at_path` +
+`_most_recent_producer_index`) : jamais deviné du seul texte du message,
+jamais une règle plus large que le fait établi.
+
+**R3 (réconciliation du décompte, relecture externe).** Lot 10b : 12
+occurrences (`CREA_CHAMP` x 8, `POST_RELEVE_T` x 4). Une première mesure de
+ce lot en annonçait 14 — **faux**, un artefact de la régression P1 n°1
+ci-dessus : sur `astest/zzzz169c.comm`, l'auto-référence de `line_1`/`line_2`
+résolvait à tort vers le placeholder `table_sdaster` que `POST_RELEVE_T`
+produit lui-même, provoquant 2 rejets `INVALID_TYPE` supplémentaires sur une
+paire de types sans rapport (`table_sdaster`/`resultat_sdaster`, pas
+`cham_gd_sdaster`/`resultat_sdaster`) — jamais liés à `EXTR_COUPE`. Corrigé
+(régression n°1 ci-dessus), ces deux `statement` deviennent correctement
+`UnresolvedConcept` (`commands_not_checked`), et le décompte final,
+mesuré sur `astest/zzzz169a.comm` et `astest/zzzz169b.comm` uniquement,
+revient exactement à **12** : `CREA_CHAMP` x 4 par fichier, `POST_RELEVE_T`
+x 2 par fichier. **Le lot 10b avait raison ; le 14 initial de ce lot était
+faux**, corrigé par le même correctif d'auto-référence que la régression n°1.
+
+**P4. `POST_GOUJ` — conclu sur preuve, contredit les deux hypothèses
+suggérées.** Ni "hors `Cata.Commands`" (recherche exhaustive,
+`git grep -n "POST_GOUJ" -- .` dans `external/codeaster-src` : zéro
+occurrence en dehors des deux cas tests eux-mêmes, aucune trace dans
+`code_aster.MacroCommands` ni ailleurs), ni une conditionnalité de
+compilation propre à cette image (`grep` récursif dans le paquet
+`code_aster` réellement installé du conteneur 17.4.0 : zéro occurrence,
+aucun code source à conditionner). L'historique Git de
+`gitlab.com/codeaster/src` (consulté une seule fois, avant la consigne R1 de
+ce lot restreignant cette investigation à `git grep` sur le contenu actuel)
+montre la suppression d'un fichier catalogue legacy
+(`catapy/commande/post_gouj2e.capy`, un format de catalogue pré-Python) il y
+a une dizaine de versions majeures. Conclusion établie par les faits :
+`POST_GOUJ` est une commande **disparue du produit**, pas une commande
+jamais indexée par le lot 4 et pas une faute de frappe. Les deux seuls cas
+tests officiels qui l'appellent encore, `astest/zzzz120a.comm` et
+`astest/zzzz120b.comm`, référencent une commande absente du catalogue de la
+version cible (17.4.0) : **un vrai défaut de ces deux fichiers du corpus
+officiel, détecté correctement par l'outil, pas un faux positif.**
+
+**R4 (message et consigne, relecture externe).** Le message de rapport pour
+`POST_GOUJ` ne doit jamais suggérer une faute de frappe : `_suggest`
+(distance d'édition) proposait `POST_COQUE` sur ce nom précis — une
+suggestion trompeuse, puisque le fait établi ci-dessus est que ce n'en est
+pas une. `aster_expert.validation.validate._CONFIRMED_ABSENT_COMMANDS` est
+une table étroite, un seul nom vérifié à ce jour, qui remplace le message et
+supprime `suggestion` (`null`) pour ce nom précis, jamais une règle
+générale — `_suggest` reste actif pour toute autre `UNKNOWN_COMMAND`, où une
+suggestion de faute de frappe reste la lecture la plus probable, faute de
+preuve du contraire. Message désormais : *"command absent from the target
+version's catalogue -- confirmed absent from the entire code_aster 17.4.0
+source tree and from the running container's own installed package [...],
+so not a typo"* (`docs/metadata.md` §4 amendé).
+
+**Méthode de mesure (R5, changement de méthode, à appliquer à partir de ce
+lot).** Une passe complète sur les 4183 fichiers, via un conteneur par
+fichier, prend de l'ordre de 8 à 24 heures — un seul appel `docker run`
+coûte ~25 s de démarrage d'environnement (recherche de `run_aster`, montage
+de la vue Spack, import de `code_aster`), payés une fois par fichier. La
+mesure de routine se fait désormais sur un **échantillon aléatoire fixe de
+400 cas tests officiels**, tiré une fois pour toutes avec une graine
+constante et versionnée
+(`data/evaluations/validation_sample_400.json` : `seed: 20260916`,
+`random.Random(seed).sample(sorted(glob("astest/*.comm")), 400)`,
+déterministe). La liste des 400 fichiers est versionnée dans le dépôt pour
+que les mesures restent comparables d'un lot à l'autre. Un seul conteneur,
+séquentiel, `--memory=4g` : les 400 fichiers s'exécutent en 30 à 70 s au
+total (un seul coût de démarrage d'environnement pour tout l'échantillon,
+un script diagnostic hors dépôt boucle sur `check_command_syntax.
+run_requests` par fichier, table de placeholders réinitialisée à chaque
+fichier). La passe complète sur les 4183 fichiers devient un contrôle
+exceptionnel, sur demande explicite — voir la calibration en fin de compte
+rendu de ce lot.
+
+**Mesures (échantillon 400, comparaison directe lot 10b vs lot 10c sur le
+même échantillon).**
+
+- Lot 10b (mécanisme d'un seul placeholder après succès, code
+  `scripts/check_command_syntax.py` au commit `1e535bc`, même
+  `reconstruct.py`, mêmes 400 fichiers) : 6716/12149 commandes vérifiées
+  (55,28 %), 0 erreur.
+- P1 seul (deux branches, sans le reclassement P2/P3) : 8791/12149
+  (72,36 %), 1 erreur (`MACRO_ELAS_MULT`/`NOM_CAS`, `astest/sslv139c.comm`).
+- **Gain imputable à P1 seul, sur cet échantillon : +17,08 points.**
+- P1+P2+P3 : 8790/12149 (72,35 %, différence de coverage négligeable — P2
+  déplace des `statement` de `checked`/`errors` vers `not_checked`, P3 ne
+  change jamais `checked_total`), 0 erreur.
+
+Détail des erreurs résiduelles et de l'avertissement P3, mesuré sur un lot
+ciblé de 29 fichiers connus pour contenir les motifs P2/P3 (les fichiers cités
+individuellement ci-dessus), *en complément* de l'échantillon aléatoire — pas
+un remplacement, l'échantillon de 400 ne contient par hasard qu'un seul de ces
+cas (`sslv139c.comm`) :
+
+- 7 erreurs, toutes analysées individuellement ci-dessus : `UNKNOWN_COMMAND`
+  x 4 (`POST_GOUJ`), `MISSING_MANDATORY_KEYWORD` x 1 (`CALC_MECA_MULT`,
+  légitime), `INVALID_TYPE` x 2 (`EXTR_CONCEPT`, `astest/zzzz168a.comm`,
+  non tranché — hors périmètre P3, voir ci-dessous).
+- 12 `commands_checked` avec avertissement P3 (`EXTR_COUPE`), confirmant le
+  décompte de R3.
+
+**Limite découverte, non traitée (hors périmètre de ce lot).**
+`EXTR_CONCEPT(NOM="CAS_1", DICT=calc_ther_mult)` (`astest/zzzz168a.comm`,
+lignes 384/385) attend `ds_dict` mais reçoit `evol_ther` : `calc_ther_mult`
+est produit par `CALC_THER_MULT`, dont le `sd_prod` statique déclaré est
+`evol_ther` (fait du catalogue, vérifié) — mais ce nom est utilisé ici comme
+un conteneur multi-cas (`EXTR_CONCEPT` y extrait un cas nommé). Possible
+lien avec le mécanisme de "résultats additionnels" des macro-commandes
+(`Command.get_all_types`, `Cata/Language/SyntaxObjects.py`), jamais exploré
+par ce projet. Contrairement à `EXTR_COUPE`, aucune exécution réelle n'a
+tranché ce cas : reste une vraie erreur non résolue, 2 occurrences,
+documentée ici pour un lot futur.
+
+**Trois fichiers réels de l'utilisateur (lecture seule, jamais copiés).**
+Chiffre manquant du lot 10b, lot 10 pour référence : 80,8 / 88,9 / 90,4 %.
+
+| Fichier | Lot 10 | Lot 10c |
+|---|---|---|
+| `calcul_3d_v3.comm` | 80,8 % | 82,8 % (82/99) |
+| `calcul_3d_v5.comm` | 88,9 % | 90,0 % (162/180) |
+| `calcul_3d_v5_sismique.comm` | 90,4 % | 92,0 % (346/376) |
+
+0 erreur sur les trois fichiers, 0 avertissement P1/P3 (aucun des deux motifs
+n'y est présent). Gain plus modeste que sur le corpus officiel : ces fichiers
+d'ingénierie répètent surtout un petit nombre de commandes (peu de chaînes de
+concepts profondes bloquées par un producteur exclu), à la différence des cas
+tests officiels, plus variés et plus enchaînés. Identiques avant/après le
+correctif d'auto-référence : aucun des deux ne contient de réutilisation de
+nom de variable Python en auto-référence.
+
+**`forma12e.comm` (déposé dans `/media/sf_partage/echanges/`, comparaison
+directe avec le rapport du lot 10b déjà présent).** 17/22 commandes vérifiées
+(77,3 %), contre 6/22 (27,3 %) au lot 10b — 0 erreur, 0 avertissement,
+`valid: true`. Gain concentré sur `DEFI_LIST_INST`, `POST_ELEM`,
+`CALC_CHAMP` (reuse), `IMPR_TABLE`, `RECU_FONCTION` x 3, `IMPR_RESU`,
+`RECU_TABLE`, `TEST_FONCTION` : tous consomment, directement ou en cascade,
+un concept produit par une commande à `result_type` statique
+(`DEFI_LIST_REEL`, `AFFE_MATERIAU`, `DYNA_NON_LINE`) dont le `statement`
+producteur reste lui-même exclu (valeurs Python scalaires non résolues,
+propagation de constantes hors périmètre) — exactement le cas d'usage visé
+par P1. Restent non vérifiés : `DEFI_MATERIAU`/`DEFI_LIST_REEL` eux-mêmes
+(variables scalaires Python en amont, `tfin`, `pa`, `dse`, `E`, `nu`, `rho`),
+`AFFE_MATERIAU` (`MATER=[MAT]`, une liste d'un seul concept que le lot 9 ne
+reconnaît pas comme référence directe — limite distincte, non P1),
+`FORMULE` (mot-clé libre `om=om`, variable scalaire) et, en cascade,
+`DYNA_NON_LINE` (bloqué par `FONC_MULT=sinom`, produit par ce `FORMULE`
+non résolu) : cinq `statement`, tous bloqués par des limites hors périmètre
+de ce lot (constantes Python, un cas de reconnaissance de référence de
+concept non couvert par le lot 9), jamais par le mécanisme de placeholder
+lui-même.
+
+**Gain de la propagation de constantes, chiffre actualisé après P1
+(échantillon 400).** 2214 `statement` exclus par une valeur non résolue,
+dont 949 **uniquement** par une référence à une variable scalaire Python
+antérieure (`DynamicValue.reason == "reference_variable"`, aucune autre
+raison dynamique concurrente sur le même `statement`) — extrapolé au corpus
+complet (x 4183/400) : environ 9 920, contre 10 010 au lot 10b. **P1 ne
+change quasiment pas ce chiffre** : la propagation de constantes et la
+propagation de type de concept sont deux mécanismes disjoints — P1 résout des
+chaînes de *concepts* (un mot-clé qui référence un autre `statement` via son
+nom de variable assigné), jamais une expression Python scalaire
+(`VALE=dse`, `tfin = 0.1` puis `JUSQU_A=tfin`), qui reste, par construction du
+lot 9, une limite assumée et non contournée (`docs/metadata.md` §3, "Limite
+de résolution assumée"). L'hypothèse initiale de ce lot ("la cascade que P1
+supprime en change probablement beaucoup l'estimation") ne se vérifie pas :
+les deux chiffres concordent à ~1 % près, un écart cohérent avec la variance
+d'échantillonnage (400/4183 ≈ 9,6 %).
+
+**NE PAS FAIT (hors périmètre, conforme à la consigne) :** aucune
+propagation de constantes, aucun évaluateur de conditions de `Bloc`, aucune
+règle de grammaire écrite à la main, aucune infrastructure d'exécution
+(l'exécution de `astest/zzzz169a.comm` pour P3 est un appel `docker run`
+manuel et ponctuel, jamais encapsulé dans `aster_expert`).
+
+**Calibration de l'estimateur (R5, une seule fois, en fin de lot).** Passe
+complète sur les 4183 fichiers, un seul conteneur, séquentiel, `--memory=4g`,
+aucun autre conteneur ni processus Git en parallèle : 8 min 24 s, aucune
+saturation mémoire (`free -h` stable à ~8 Gio disponibles avant/après).
+
+| Mesure | Échantillon (400) | Corpus complet (4183) | Écart |
+|---|---|---|---|
+| P1 seul, couverture | 72,36 % (8791/12149) | 75,20 % (96856/128797) | +2,84 pt |
+| P1+P2+P3, couverture | 72,35 % (8790/12149) | 75,17 % (96823/128797) | +2,82 pt |
+| P1+P2+P3, erreurs résiduelles | 0 (aucun des 7 fichiers en cause n'est tiré) | 7 (4 `POST_GOUJ`, 2 `EXTR_CONCEPT`, 1 `CALC_MECA_MULT`) | -- |
+| P1+P2+P3, avertissements P3 | 0 | 12 (`EXTR_COUPE`, confirme R3) | -- |
+| P1-only, détail erreurs | 1 (`MACRO_ELAS_MULT`, `sslv139c.comm`) | 52 (33 `CHECKER_ERROR` = 22 `MACRO_ELAS_MULT` + 9 `DEFI_GROUP` + 2 `AFFE_CARA_ELEM`, 14 `INVALID_TYPE` = 12 `EXTR_COUPE` + 2 `EXTR_CONCEPT`, 4 `UNKNOWN_COMMAND`, 1 `MISSING_MANDATORY_KEYWORD`) | -- |
+
+**Verdict : l'estimateur est valide pour le suivi de tendance, pas pour une
+décision au point de pourcentage près.** L'écart de couverture est faible et
+stable (~2,8 points, dans le même sens pour P1 seul et P1+P2+P3 — pas un
+artefact du reclassement P2/P3) : un échantillon de 9,6 % du corpus,
+regroupé par fichier (variance de grappe, pas un tirage indépendant par
+`statement`), sous-estime légèrement mais régulièrement le taux réel.
+Les erreurs résiduelles et les avertissements P3, en revanche, sont trop
+rares (7 et 12 sur 128 797 `statement`) pour qu'un échantillon de 400
+fichiers en capture un nombre représentatif — l'échantillon tiré pour ce lot
+n'en contient d'ailleurs aucun sauf un (`sslv139c.comm`, 1 des 33
+`CHECKER_ERROR`). Pour tout lot futur : la couverture globale peut se
+suivre sur l'échantillon de 400 seul ; le dénombrement précis d'erreurs
+résiduelles rares exige soit un fichier ciblé connu (comme la liste de 29
+fichiers de ce lot), soit la passe complète.
+
 ## Lot 11 — Hook de validation
 
 Hook `PostToolUse` déclenchant `aster-expert validate` après modification d'un
@@ -429,6 +787,7 @@ Niveaux D et E. Hors périmètre v1.
 | 9 | lot-9-comm-parser | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10 | lot-10-validation-b | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10b | lot-10b-coverage | fait | (ce lot, voir `git log`) | 2026-09-15 |
+| 10c | lot-10c-placeholders | fait | (ce lot, voir `git log`) | 2026-09-16 |
 | 11 | | à faire | | |
 | 12 | | à faire | | |
 | 13 | | à faire | | |

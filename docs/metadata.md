@@ -439,7 +439,7 @@ Règles :
 ## 4. Rapport de validation
 
 Structure produite par `aster_expert.validation.validate` (lot 10, amendé
-lot 10b), par délégation à `checkCommandSyntax`
+lot 10b, lot 10c), par délégation à `checkCommandSyntax`
 (`code_aster.Cata.SyntaxChecker`) et, pour le type d'un concept produit par
 une commande à `result_type_dynamic` vrai (§2), à `Command.get_type_sd_prod`
 — jamais une grammaire, une règle de cardinalité, ni un calcul de type
@@ -468,8 +468,8 @@ réimplémenté. Modèles pydantic dans `aster_expert/validation/models.py`.
   ],
   "warnings": [],
   "commands_checked": [
-    {"statement_index": 4, "command": "AFFE_MODELE", "line": 12, "ok": true},
-    {"statement_index": 5, "command": "STAT_NON_LINE", "line": 40, "ok": false}
+    {"statement_index": 4, "command": "AFFE_MODELE", "line": 12, "ok": true, "warnings": []},
+    {"statement_index": 5, "command": "STAT_NON_LINE", "line": 40, "ok": false, "warnings": []}
   ],
   "commands_not_checked": [
     {
@@ -548,6 +548,89 @@ Règles :
   `reasons`, le nom du concept et le statut de son producteur (index de
   `statement`, exclu ou en échec). Jamais un type deviné à partir du nom de
   la commande ou de la ressemblance avec un autre concept.
+- **Règle du placeholder en deux branches (amendement lot 10c, point P1) —
+  assouplit, sans le contredire, le mécanisme ci-dessus.** Le lot 10b
+  n'enregistrait un placeholder qu'après un `checkCommandSyntax` réussi sur
+  le `statement` producteur — correct pour un `result_type_dynamic` vrai
+  (le type dépend réellement des mots-clés), inutilement pénalisant pour un
+  `result_type` statique : le type produit est alors un **fait du
+  catalogue**, indépendant du contenu ou de la résolubilité des mots-clés
+  du producteur. Prouvé par lecture directe de `Command.get_type_sd_prod`
+  (`Cata/Language/SyntaxObjects.py`) : la branche non-fonction ignore
+  totalement `ctxt` (`if type(resultType) is types.FunctionType: ... else:
+  return resultType`) — l'appeler avec un dict vide est aussi correct que
+  l'appeler avec les mots-clés reconstruits. `scripts/check_command_syntax.py`
+  distingue donc deux branches, décidées par le même fait de catalogue que
+  `result_type_dynamic` (`isinstance(command.definition.get("sd_prod"),
+  type)`) :
+  - **statique** : le placeholder est enregistré **immédiatement**, avant
+    même de tenter `compat_syntax`/`checkCommandSyntax` sur le `statement`
+    producteur — y compris pour un `statement` **exclu** par la RÈGLE
+    ABSOLUE (mot-clé non résolu, `parse_warning`, `control_flow`). Un tel
+    `statement` exclu ne devient jamais `commands_checked` pour autant — sa
+    propre entrée `commands_not_checked` et ses motifs restent inchangés,
+    décidés uniquement par `aster_expert.validation.reconstruct` — mais il
+    contribue désormais un placeholder via une requête `"type_probe"`
+    (nom de commande et concept assigné seuls, aucun mot-clé) envoyée au
+    même script, dans le même ordre de fichier, sans jamais être confronté
+    au vérificateur. Ceci ne viole pas la RÈGLE ABSOLUE : aucun verdict
+    n'est rendu sur le `statement` exclu lui-même, seul un fait de
+    catalogue indépendant de ses mots-clés est exploité ;
+  - **dynamique** : inchangé du lot 10b — placeholder après
+    `checkCommandSyntax` réussi uniquement.
+  - **Producteur en erreur (et non simplement non vérifié).** Un
+    `statement` producteur à `result_type` statique qui échoue son propre
+    `checkCommandSyntax` (une vraie entrée `errors`) a néanmoins déjà
+    enregistré son placeholder (branche statique, ci-dessus) : un
+    `statement` consommateur qui le référence directement est donc
+    quand même confronté au vérificateur, mais son entrée
+    `commands_checked` porte un `warnings` non vide nommant le
+    `statement` producteur en erreur — jamais pour un producteur
+    simplement `commands_not_checked` (exclu), qui ne déclenche aucun
+    avertissement : ce n'est pas une anomalie, seulement l'exploitation
+    d'un fait de catalogue disponible immédiatement. Cette distinction
+    explicite entre **« non vérifié »** (`commands_not_checked`, aucun
+    verdict rendu) et **« en erreur »** (`errors`, un vrai rejet du
+    vérificateur officiel) est reprise partout dans le code de validation
+    — jamais confondues.
+- **`CheckedEntry.warnings` (amendement lot 10c, points P1 et P3).** Liste
+  de mises en garde textuelles, non vide uniquement dans deux cas, jamais
+  pour signaler un doute non étayé :
+  - ce `statement` dépend directement d'un concept dont le producteur est
+    en erreur (voir ci-dessus, P1) ;
+  - ce `statement` a été rejeté par `checkCommandSyntax` selon une
+    signature **confirmée par exécution réelle** comme un faux positif du
+    contrôle statique de ce projet, jamais de `checkCommandSyntax`
+    lui-même (amendement lot 10c, point P3, voir plus bas) : dans ce seul
+    cas, `ok` vaut `true` malgré le rejet du vérificateur — le fait
+    qu'une exécution réelle d'un cas test officiel équivalent atteigne
+    `FIN` est une preuve de niveau C, plus forte que le rejet statique de
+    niveau B (`docs/architecture.md`, niveaux de validation) ; le
+    `warnings` documente toujours la preuve précise (cas test, lignes),
+    jamais une affirmation sans citation.
+- **Faux positifs statiques confirmés par exécution (amendement lot 10c,
+  point P3), routés vers `commands_checked` avec `ok: true` et un
+  `warnings`, jamais vers `errors`.** `EXTR_COUPE` déclare un `sd_prod`
+  statique unique (`cham_gd_sdaster`), mais son exécuteur
+  (`code_aster/MacroCommands/extr_coupe_ops.py`) peut retyper le résultat
+  extrait comme le `RESULTAT` d'origine via `LIRE_RESU(TYPE_RESU=resu.
+  getType(), ...)` — un sous-type de `resultat_sdaster` (`evol_*`), jamais
+  littéralement `cham_gd_sdaster` : un désaccord réel entre la déclaration
+  statique du catalogue et le comportement effectif, dépendant du chemin
+  d'exécution, indécidable par simple lecture du catalogue. Confirmé par
+  exécution réelle (`run_aster`, dans le conteneur, hors périmètre
+  d'infrastructure du lot 12 — exécution ponctuelle de diagnostic
+  seulement) d'un cas test officiel portant exactement ce motif
+  (`astest/zzzz169a.comm`, `CREA_CHAMP(OPERATION="EXTR", RESULTAT=<résultat
+  EXTR_COUPE>)` et `POST_RELEVE_T(ACTION=_F(RESULTAT=<résultat
+  EXTR_COUPE>, ...))`) : `DIAGNOSTIC JOB : OK`, tous les `TEST_RESU`/
+  `TEST_TABLE` réussis. Le contrôle statique de ce projet est donc plus
+  strict que le superviseur réel sur ce motif précis, jamais l'inverse —
+  reconnu **uniquement** quand le concept `RESULTAT`/`ACTION.RESULTAT`
+  rejeté provient directement d'un `statement` `EXTR_COUPE` (vérifié
+  mot-clé par mot-clé, jamais deviné du seul texte du message) : une même
+  incompatibilité de type `cham_gd_sdaster`/`resultat_sdaster` issue d'un
+  autre producteur reste une vraie `errors` `INVALID_TYPE`.
 - **Trois issues qui ne sont jamais un verdict de syntaxe (amendement
   lot 10b, points D et E), routées vers `commands_not_checked`, jamais
   `errors` :**
@@ -608,7 +691,21 @@ Règles :
   propre au projet.
 - `suggestion` provient d'une distance d'édition (`difflib.get_close_matches`)
   sur les noms du catalogue. Elle est présentée comme une suggestion, jamais
-  comme une correction établie.
+  comme une correction établie — **sauf** pour un nom de commande
+  individuellement confirmé absent du catalogue par une investigation
+  propre à ce projet (amendement lot 10c, point P4/R4,
+  `aster_expert.validation.validate._CONFIRMED_ABSENT_COMMANDS`) : `POST_GOUJ`
+  en est le seul exemple constaté sur la version 17.4.0 — absent de tout
+  `code_aster` 17.4.0 (source comme paquet du conteneur), une commande
+  disparue du produit depuis une dizaine de versions majeures, encore
+  appelée dans deux cas tests officiels devenus orphelins
+  (`astest/zzzz120a.comm`, `astest/zzzz120b.comm`) : un vrai défaut de ces
+  deux fichiers, pas une faute de frappe. Dans ce seul cas, `suggestion`
+  vaut `null` (jamais une correspondance de distance d'édition trompeuse) et
+  `message` porte directement le fait établi plutôt que le texte générique
+  du vérificateur. Une table étroite, qui ne grandit que sur preuve, jamais
+  une règle générale : `_suggest` seul ne peut pas distinguer une commande
+  supprimée d'une commande mal orthographiée.
 - `commands_not_checked` est obligatoire et non vide dès qu'une commande n'a pas
   pu être confrontée au catalogue. Un silence sur ce point est interdit.
 
