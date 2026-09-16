@@ -40,6 +40,118 @@ manifeste.
 Critères de sortie : idempotence vérifiée par test, manifeste conforme,
 tests unitaires sur dépôts Git temporaires locaux sans réseau.
 
+**Note (réconciliation, interprétation retenue pour `update_policy`).**
+`fetch_and_checkout`/`pinned` ne `checkout`/`reset` jamais une copie de
+travail déjà présente : soit elle correspond exactement à ce que `ref`
+résout sur le dépôt distant après `fetch` (adoptée telle quelle,
+`status: "adopted"`), soit elle en diverge et la synchronisation s'arrête
+pour cette source (`status: "blocked_diverged"`), signalée dans le
+manifeste, jamais corrigée d'autorité. Seul un premier clonage (source
+absente) checkout réellement `ref` — une action de création d'état unique,
+pas une correction d'une copie de travail existante. `fetch_only` fetch sans
+jamais comparer ni bloquer. Conséquence pour l'idempotence testée
+(`tests/unit/test_sources_sync.py::test_sync_idempotent_across_two_consecutive_runs`) :
+elle porte sur deux exécutions consécutives sur une source déjà présente et
+à jour (`"adopted"`), jamais sur la comparaison d'un premier clonage à une
+absence de dépôt, qui n'a pas de sens (`docs/corpus.md` §5, amendement lot 3).
+
+**Note (réconciliation de `codeaster-src`, constat concret).** La copie de
+travail clonée à la main au lot 2 était en réalité déjà exactement conforme
+à la déclaration : le seul écart était que `config/sources.yaml` déclarait
+le sha de l'**objet tag annoté** `17.4.0` lui-même
+(`961aacdfe6d316a88708143c02523dc3dd443432`, `git cat-file -t` confirme
+`"tag"`), pas le commit vers lequel ce tag pointe une fois « peelé »
+(`50ebc13c70ee9df62faf93ddcb746a3757b3042a`, `git rev-parse 17.4.0^{commit}`) —
+qui est exactement le commit réellement extrait par la copie de travail.
+`aster_expert.ingestion.git_client` compare donc toujours des commits
+peelés (`peel_to_commit`, `current_commit`, `resolve_local_ref_commit`),
+jamais un sha brut. `config/sources.yaml` corrigé en conséquence (commit
+peelé, commentaire explicatif) ; aucune copie de travail n'a jamais divergé.
+
+**Note (correspondance de version documentaire, `config/versions.yaml`).**
+Établie par `git ls-remote --tags https://gitlab.com/codeaster/doc/docaster.git`
+(aucun clone, aucun objet transféré) : le dépôt tague ses sorties
+17.0, 17.2.0, 17.3.0, 17.4.0, 18.1.0, smeca2024.0 — un tag nommé
+exactement `17.4.0` existe, dans le même dépôt GitLab `codeaster` que
+`codeaster-src`, qui tague lui aussi ses sorties à l'identique. Ce n'est
+jamais présenté comme une similitude de numérotation déduite : c'est le
+même nom de tag, dans deux dépôts de la même organisation, pour ce qui est
+de part et d'autre une sortie de version. `codeaster-doc` est donc
+synchronisé sur `ref: "17.4.0"` (plus `main`, qui n'a jamais servi de
+corpus, même raison que `codeaster-src` au lot 2) ; correspondance
+consignée dans `config/versions.yaml`, section `versions`, avec sa preuve.
+Aucun changelog croisé consulté pour confirmer au-delà de la convention de
+nommage commune : à réviser sur preuve contraire.
+
+**Observation de clôture — structure du corpus `codeaster-doc` (17.4.0),
+sans parsing ni découpage (périmètre du lot 6).**
+
+- Racine : `README.md`, `CONTRIBUTING.md`, `LICENSE.txt`, `questions.md`,
+  `doc_build.sh`, `makefile`, `pyproject.toml`, `.readthedocs.yaml`,
+  `.gitlabci/`, `data/` (gabarits, hooks git, `Dockerfile`), et `source/`
+  (le contenu documentaire). Deuxième niveau de `source/` :
+  `source/manuals/` (les familles), `source/_static/`, `source/_templates/`.
+- Familles constatées sous `source/manuals/` : `man_u`, `man_r`, `man_v`,
+  `man_d` (les quatre attendues par `docs/corpus.md` §3) **et `man_s`**, non
+  anticipée par la classification attendue — à qualifier au lot 6, pas
+  deviné ici. Chaque famille se subdivise en sous-répertoires numérotés
+  (`man_u/u4`, `man_r/r5`, `man_v/v3`, ...), plus un `other_pages` par
+  famille.
+- Extensions et décompte (fichiers, hors `.git/`) : 13128 `.rst`, 5955
+  `.svg`, 4199 `.png`, 772 `.gif`, 497 `.jpg`, 15 `.tif`, 12 `.tpl`, 5 `.py`,
+  3 `.md`, 3 `.html`, 2 `.txt`, 2 `.eps`, 1 `.yaml`, 1 `.toml`, 1 `.json`,
+  1 `.css`, 1 `.def`, quelques fichiers sans extension (`makefile`, hooks
+  git sous `data/`, `Dockerfile`). Le contenu documentaire est donc du texte
+  structuré (reStructuredText) accompagné d'images vectorielles et
+  matricielles, jamais un traitement de texte ni un document composé — la
+  question ouverte au §2 de `docs/corpus.md` (point 3) est tranchée dans ce
+  sens par ce seul constat, sans qu'aucun parseur n'ait été écrit.
+- Trois documents examinés individuellement :
+  - `source/manuals/man_u/u4/u4.84.01/` (opérateur `COMB_SISM_MODAL`) :
+    répertoire par document, `index.rst` (label reST `.. _u4.84.01:`,
+    titre, `toctree`) plus une section par fichier (`But.rst`,
+    `Syntaxe.rst`, `Op_randes.rst`, `Concept_en_sortie.rst`,
+    `Bibliographie.rst`).
+  - `source/manuals/man_v/v3/v3.03.100/` (cas de validation SSLS100,
+    plaque circulaire encastrée) : même schéma, label `.. _V3.03.100:`,
+    sections par modélisation (`Mod_lisation_A.rst` … `Mod_lisation_N.rst`),
+    `Synth_se_des_r_sultats.rst`.
+  - `source/manuals/man_r/r7/r7.01.03/` (loi de comportement
+    `BETON_DOUBLE_DP`) : même schéma, label `.. _R7.01.03:`, sections
+    théoriques (`Notations.rst`, `Ecoulement_plastique.rst`,
+    `Int_gration_num_rique_de_la_loi_de_comportement.rst`, ...).
+  - Dans les trois cas : un identifiant documentaire (U4.84.01, V3.03.100,
+    R7.01.03) apparaît à la fois dans le nom du répertoire et comme label
+    reST en tête de `index.rst` — jamais seulement l'un des deux.
+- Procédure de construction d'un rendu : présente et documentée
+  (`README.md`, `doc_build.sh`, `makefile`) — Sphinx, trois builders au
+  choix (conteneur Singularity par défaut, environnement Pixi, ou venv
+  Python), invocation `./doc_build.sh html`. Le `README.md` chiffre
+  lui-même le coût : « ~2500 documents », « ~1.5 GB de pages html »,
+  « ~5 min (x2) avec 16 tâches en parallèle ».
+- Rendu déjà construit : **absent**. Aucun répertoire `_build` (ni tout
+  autre répertoire de sortie) dans la copie de travail synchronisée : le
+  rendu HTML n'existe que s'il est explicitement construit, jamais livré
+  avec le dépôt.
+- Identifiants documentaires U/R/V/D : **présents**, de façon systématique
+  et cohérente, à la fois dans les noms de répertoires (`u4.84.01`,
+  `r7.01.03`, `v3.03.100`, et la famille `d0`…`d9` vérifiée par simple
+  listage) et dans le contenu (label reST `.. _<ID>:` en tête de chaque
+  `index.rst`). Casse du label non uniforme entre les trois échantillons :
+  minuscule pour `u4.84.01` (`.. _u4.84.01:`), majuscule pour `v3.03.100`
+  et `r7.01.03` (`.. _V3.03.100:`, `.. _R7.01.03:`) — le nom de répertoire,
+  lui, est systématiquement en minuscule dans les trois cas. À confirmer
+  plus largement au lot 6, jamais supposé uniforme sur ce seul échantillon
+  de trois documents.
+- Taille de la copie de travail synchronisée : 779 Mio au total (259 Mio
+  pour `.git`, clone partiel `--filter=blob:none` sur un seul tag), 24604
+  fichiers de contenu (`find -type f`, hors `.git/`) — cohérent avec le
+  chiffre annoncé par `README.md`.
+
+Aucun parseur écrit, aucun découpage tenté, aucune conclusion sur la
+stratégie du lot 6 : ce relevé est un constat, l'arbitrage revient à
+l'utilisateur.
+
 ## Lot 4 — Introspection du catalogue
 
 `scripts/introspect_catalogue.py`, exécuté par le Python d'Aster, sans
@@ -777,7 +889,7 @@ Niveaux D et E. Hors périmètre v1.
 |-----|---------|------|--------|------|
 | 1 | main | fait | 934aca8 | 2026-09-15 |
 | 2 | lot-2-env-detect | fait | (ce lot, voir `git log`) | 2026-09-15 |
-| 3 | | à faire | | |
+| 3 | lot-3-sources | fait | (ce lot, voir `git log`) | 2026-09-16 |
 | 4 | lot-4-catalogue | fait | d1041e1 | 2026-09-15 |
 | 4b | lot-4b-catalogue-fix | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 5 | | à faire | | |

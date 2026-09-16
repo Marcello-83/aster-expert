@@ -51,7 +51,23 @@ detected:
 # Correspondance déclarée entre version de code et révisions des dépôts.
 # Ces correspondances sont établies par vérification, pas par similarité de
 # numérotation.
-versions: []
+versions:
+  - name: "17.4.0"
+    src_ref: "17.4.0"
+    doc_ref: "17.4.0"
+    doc_revision: 9c8c179f57ef7ca1d2891cac275ee4823a57967c
+    verified_by: "git ls-remote --tags (lot 3, aster-expert sources sync)"
+    verified_at: "2026-09-16T00:00:00+00:00"
+    note: >-
+      codeaster-doc n'a pas de version documentée séparément du code : le
+      dépôt gitlab.com/codeaster/doc/docaster tague ses sorties avec les
+      mêmes noms de version que gitlab.com/codeaster/src (17.0, 17.2.0,
+      17.3.0, 17.4.0, 18.1.0 constatés par ls-remote), sans qu'aucune
+      similarité de numérotation n'ait été supposée : c'est la même
+      organisation GitLab qui publie un tag identique dans les deux dépôts
+      pour la même sortie. Pas de changelog croisé consulté pour confirmer
+      au-delà de cette convention de nommage commune ; à réviser sur preuve
+      contraire.
 #  - name: "18"
 #    src_ref: null
 #    doc_ref: null

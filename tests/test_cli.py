@@ -27,9 +27,13 @@ def test_version() -> None:
     assert __version__ in result.stdout
 
 
-def test_unimplemented_command_fails_loudly() -> None:
+def test_sources_sync_fails_loudly_without_config(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("ASTER_EXPERT_ROOT", str(tmp_path))
     result = runner.invoke(app, ["sources", "sync"])
     assert result.exit_code == 1
+    assert "sources.yaml" in result.stderr
 
 
 def test_comm_parse_prints_analysis_json(tmp_path: Path) -> None:
