@@ -215,12 +215,39 @@ class CommandDocumentEdge(BaseModel):
     a document can name several commands together (`AFFE_CHAR_MECA`,
     `AFFE_CHAR_MECA_C`, `AFFE_CHAR_MECA_F` in one document), and a command
     can be documented by several documents (`IMPR_RESU`, one per output
-    format)."""
+    format).
+
+    `document_title` and `source_path` are the proof of the rapprochement
+    (lot 6b, X2 ; `CLAUDE.md`, « Toute donnée indexée conserve sa source,
+    son chemin ») : the exact title text the command name was matched
+    against, and the file it came from — never just the bare ids, which
+    would leave the match unverifiable without re-running the extraction.
+    """
 
     model_config = ConfigDict(frozen=True)
 
     command: str
     document_id: str
+    document_title: str
+    source_path: str
+
+
+class UncataloguedCommandMention(BaseModel):
+    """A U4/U7 document naming a real command that is absent from the 268
+    commands the lot 4 catalogue introspection extracted (lot 6, I5/I6 ;
+    lot 6b, X3) — never turned into a `CommandDocumentEdge`, since that
+    edge set measures coverage over the introspected catalogue precisely.
+    `known_location` cites where the command actually lives in
+    `external/codeaster-src`, verified by reading the source, never
+    guessed (`CLAUDE.md`, « Toute donnée indexée conserve sa source »)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    document_id: str
+    command: str
+    document_title: str
+    source_path: str
+    known_location: str
 
 
 class CommandMappingResult(BaseModel):
@@ -236,7 +263,7 @@ class CommandMappingResult(BaseModel):
     edges: tuple[CommandDocumentEdge, ...]
     commands_without_document: tuple[str, ...]
     documents_without_command: tuple[str, ...]
-    documents_naming_known_macro_command: tuple[tuple[str, str], ...]
+    documents_naming_uncatalogued_command: tuple[UncataloguedCommandMention, ...]
 
 
 class InventoryResult(BaseModel):
@@ -266,21 +293,61 @@ class ProbeFrequency(BaseModel):
     count: int
 
 
+CrossReferenceVia = Literal["explicit_label", "autosectionlabel"]
+
+
 class CrossReferenceEdge(BaseModel):
-    """One resolvable `:ref:`/`:external:ref:` link between two documents
-    (lot 6, I4). `count` is the number of occurrences of this exact edge
-    across every file of `source_document_id`."""
+    """One resolvable internal `:ref:` link between two documents (lot 6,
+    I4 ; lot 6b, X1). `count` is the number of occurrences of this exact
+    edge across every file of `source_document_id`. `via` traces how it
+    resolved — matched an inventory document id directly
+    (`"explicit_label"`), or matched exactly one document's
+    `sphinx.ext.autosectionlabel`-registered section title
+    (`"autosectionlabel"`) — never merged into one undifferentiated
+    bucket."""
 
     model_config = ConfigDict(frozen=True)
 
     source_document_id: str
     target_document_id: str
+    via: CrossReferenceVia
+    count: int
+
+
+class ExternalReference(BaseModel):
+    """One `:external:ref:` occurrence (lot 6b, X1) : always dispatched to
+    `sphinx.ext.intersphinx`'s external inventory by construction, never
+    checked against the local domain, never counted as broken — a
+    category distinct from both a resolved edge and a genuinely
+    unresolved reference."""
+
+    model_config = ConfigDict(frozen=True)
+
+    source_document_id: str
+    raw_target: str
+    count: int
+
+
+class AmbiguousReference(BaseModel):
+    """One plain `:ref:` whose normalized target matches an
+    `autosectionlabel` key registered by more than one distinct document
+    (lot 6b, X1). Sphinx itself would pick whichever document was
+    processed last — a real build-order dependency this project cannot
+    replicate without running Sphinx — so no candidate is guessed here;
+    every one is listed."""
+
+    model_config = ConfigDict(frozen=True)
+
+    source_document_id: str
+    raw_target: str
+    candidate_document_ids: tuple[str, ...]
     count: int
 
 
 class UnresolvedReference(BaseModel):
-    """One `:ref:`/`:external:ref:` target that is not a known document id
-    (lot 6, I4) — never merged with a resolvable edge, never dropped."""
+    """One plain `:ref:` target that matches neither a known document id
+    nor any registered `autosectionlabel` key (lot 6, I4 ; lot 6b, X1) —
+    never merged with a resolvable edge, never dropped."""
 
     model_config = ConfigDict(frozen=True)
 
@@ -290,7 +357,8 @@ class UnresolvedReference(BaseModel):
 
 
 class CrossReferenceGraphResult(BaseModel):
-    """Result of `aster-expert sources xref` (docs/development-plan.md, lot 6, I4)."""
+    """Result of `aster-expert sources xref` (docs/development-plan.md, lot 6,
+    I4 ; lot 6b, X1)."""
 
     model_config = ConfigDict(frozen=True)
 
@@ -298,10 +366,16 @@ class CrossReferenceGraphResult(BaseModel):
     source_name: str
     source_commit: str
     total_references: int
-    resolvable_references: int
-    unresolvable_references: int
+    internal_resolved_references: int
+    external_references: int
+    ambiguous_references: int
+    unresolved_references: int
     edges: tuple[CrossReferenceEdge, ...]
+    external: tuple[ExternalReference, ...]
+    ambiguous: tuple[AmbiguousReference, ...]
     unresolved: tuple[UnresolvedReference, ...]
+    autosectionlabel_prefix_document: bool
+    autosectionlabel_maxdepth: int | None
 
 
 class RstProbeReport(BaseModel):
