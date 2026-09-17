@@ -1,0 +1,64 @@
+{"id": "eval-001", "question": "Quels types d'éléments finis de poutre sont disponibles pour modéliser un pieu, et en quoi diffèrent-ils", "query_profile": "theorie"}
+{"id": "eval-002", "question": "Comment définir la section et les caractéristiques géométriques d'une poutre de section circulaire", "query_profile": "syntaxe"}
+{"id": "eval-003", "question": "Comment modéliser un pieu en béton armé par une poutre multifibre", "query_profile": "methode"}
+{"id": "eval-004", "question": "Quels éléments discrets permettent de représenter un ressort ponctuel de translation et de rotation", "query_profile": "syntaxe"}
+{"id": "eval-005", "question": "Comment affecter à des éléments discrets une raideur qui varie le long d'une ligne", "query_profile": "syntaxe"}
+{"id": "eval-006", "question": "Comment représenter une loi de réaction latérale non linéaire du sol sur un pieu", "query_profile": "methode"}
+{"id": "eval-007", "question": "Quelle modélisation retenir pour une paroi moulée : éléments de plaque ou de poutre", "query_profile": "methode"}
+{"id": "eval-008", "question": "Comment modéliser un rideau de palplanches avec une inertie et une raideur équivalentes", "query_profile": "methode"}
+{"id": "eval-009", "question": "Comment représenter un appui unilatéral sol-radier autorisant le décollement", "query_profile": "methode"}
+{"id": "eval-010", "question": "Quelle relation de comportement décrit un ressort ne travaillant qu'en compression", "query_profile": "theorie"}
+{"id": "eval-011", "question": "Comment définir un contact unilatéral entre deux surfaces et quelles formulations existent", "query_profile": "syntaxe"}
+{"id": "eval-012", "question": "Comment calculer les modes propres d'une structure et quelles méthodes de résolution sont disponibles", "query_profile": "syntaxe"}
+{"id": "eval-013", "question": "Comment définir un spectre d'oscillateur à partir de valeurs d'accélération", "query_profile": "syntaxe"}
+{"id": "eval-014", "question": "Comment combiner les réponses modales d'un calcul sismique et quelles règles de combinaison sont proposées", "query_profile": "syntaxe"}
+{"id": "eval-015", "question": "Comment obtenir les masses modales effectives et vérifier le cumul de masse", "query_profile": "syntaxe"}
+{"id": "eval-016", "question": "Comment prendre en compte les modes négligés par une correction statique", "query_profile": "syntaxe"}
+{"id": "eval-017", "question": "Comment affecter plusieurs modélisations différentes dans un même modèle", "query_profile": "syntaxe"}
+{"id": "eval-018", "question": "Comment raccorder une poutre à une plaque ou à un massif en assurant la transmission des efforts", "query_profile": "methode"}
+{"id": "eval-019", "question": "Comment appliquer une pression normale sur une surface courbe", "query_profile": "syntaxe"}
+{"id": "eval-020", "question": "Comment réorienter les normales des mailles de peau d'un maillage", "query_profile": "syntaxe"}
+{"id": "eval-021", "question": "Comment appliquer une force suivant une direction locale plutôt que globale", "query_profile": "syntaxe"}
+{"id": "eval-022", "question": "Quels formats de maillage peuvent être lus et comment en lire un", "query_profile": "syntaxe"}
+{"id": "eval-023", "question": "Comment obtenir des informations et des statistiques sur un maillage lu", "query_profile": "syntaxe"}
+{"id": "eval-024", "question": "Comment créer un groupe de mailles ou de noeuds à partir d'un critère géométrique", "query_profile": "syntaxe"}
+{"id": "eval-025", "question": "Comment représenter un choc unilatéral entre deux noeuds à l'aide d'un élément discret", "query_profile": "methode"}
+{"id": "eval-026", "question": "Quels paramètres définissent le jeu et la raideur d'un comportement de choc", "query_profile": "syntaxe"}
+{"id": "eval-027", "question": "Quelles relations de comportement décrivent l'endommagement du béton en traction", "query_profile": "theorie"}
+{"id": "eval-028", "question": "Quels paramètres matériau faut-il fournir pour une loi d'endommagement du béton", "query_profile": "syntaxe"}
+{"id": "eval-029", "question": "Quelle formulation permet d'éviter la dépendance au maillage d'une loi adoucissante", "query_profile": "theorie"}
+{"id": "eval-030", "question": "Comment interpréter les indicateurs de convergence imprimés lors d'un calcul non linéaire", "query_profile": "syntaxe"}
+{"id": "eval-031", "question": "Comment activer le découpage automatique du pas de temps en cas de non-convergence", "query_profile": "syntaxe"}
+{"id": "eval-032", "question": "Quelles options gouvernent la réactualisation de la matrice tangente dans l'algorithme de Newton", "query_profile": "syntaxe"}
+{"id": "eval-033", "question": "Dans quels cas utiliser le pilotage du chargement et comment le paramétrer", "query_profile": "theorie"}
+{"id": "eval-034", "question": "Quels critères de convergence sont disponibles et comment choisir entre critère relatif et critère de référence", "query_profile": "syntaxe"}
+{"id": "eval-035", "question": "Comment calculer les efforts généralisés aux noeuds d'un élément de coque", "query_profile": "syntaxe"}
+{"id": "eval-036", "question": "Comment obtenir les contraintes dans les différentes couches d'une coque multicouche", "query_profile": "syntaxe"}
+{"id": "eval-037", "question": "Quelles conventions de signe et quels repères s'appliquent aux efforts généralisés de coque", "query_profile": "theorie"}
+{"id": "eval-038", "question": "Comment calculer les sections d'acier nécessaires à partir des efforts généralisés d'une coque", "query_profile": "syntaxe"}
+{"id": "eval-039", "question": "Quels codes de calcul et quelles options de ferraillage sont proposés", "query_profile": "syntaxe"}
+{"id": "eval-040", "question": "Comment vérifier sans visualisation graphique que les normales de peau sont orientées comme attendu", "query_profile": "methode"}
+{"id": "eval-041", "question": "Comment contrôler le signe et la résultante d'un chargement de pression appliqué", "query_profile": "methode"}
+{"id": "eval-042", "question": "Comment extraire les efforts le long d'une ligne de coupe dans un modèle massif ou coque", "query_profile": "syntaxe"}
+{"id": "eval-043", "question": "Comment produire une table de valeurs extraites d'un champ sur un groupe de noeuds", "query_profile": "syntaxe"}
+{"id": "eval-044", "question": "Comment écrire les résultats dans un fichier au format MED pour post-traitement externe", "query_profile": "syntaxe"}
+{"id": "eval-045", "question": "Comment obtenir les valeurs extrêmes d'un champ et leur localisation", "query_profile": "syntaxe"}
+{"id": "eval-046", "question": "Comment affecter des matériaux différents selon les groupes de mailles", "query_profile": "syntaxe"}
+{"id": "eval-047", "question": "Comment affecter des raideurs d'appui différentes selon les zones d'un radier", "query_profile": "syntaxe"}
+{"id": "eval-048", "question": "Quelles approches permettent de représenter l'interaction sol-structure et quelles sont leurs hypothèses", "query_profile": "theorie"}
+{"id": "eval-049", "question": "Comment calculer les réactions nodales et vérifier l'équilibre global d'un modèle", "query_profile": "syntaxe"}
+{"id": "eval-050", "question": "Comment comparer une valeur calculée à une valeur de référence dans un fichier de commandes", "query_profile": "syntaxe"}
+{"id": "eval-051", "question": "Comment vérifier la masse totale d'un modèle", "query_profile": "methode"}
+{"id": "eval-052", "question": "Comment appliquer un chargement dont l'intensité varie avec les coordonnées", "query_profile": "syntaxe"}
+{"id": "eval-053", "question": "Comment définir une fonction ou une formule utilisable comme valeur de chargement", "query_profile": "syntaxe"}
+{"id": "eval-054", "question": "Comment appliquer des chargements différents sur plusieurs groupes de mailles d'une même surface", "query_profile": "syntaxe"}
+{"id": "eval-055", "question": "Comment bloquer des degrés de liberté sur un groupe de noeuds", "query_profile": "syntaxe"}
+{"id": "eval-056", "question": "Comment imposer une relation linéaire entre plusieurs degrés de liberté", "query_profile": "syntaxe"}
+{"id": "eval-057", "question": "Quelle est la différence entre conditions limites par dualisation et par élimination", "query_profile": "theorie"}
+{"id": "eval-058", "question": "Comment imposer un déplacement variable dans le temps", "query_profile": "syntaxe"}
+{"id": "eval-059", "question": "Comment définir un matériau élastique isotrope", "query_profile": "syntaxe"}
+{"id": "eval-060", "question": "Comment définir un matériau dont les propriétés dépendent d'une variable de commande", "query_profile": "syntaxe"}
+{"id": "eval-061", "question": "Comment associer un champ de matériaux à un modèle", "query_profile": "syntaxe"}
+{"id": "eval-062", "question": "Comment réaliser un calcul transitoire par superposition modale", "query_profile": "syntaxe"}
+{"id": "eval-063", "question": "Comment définir l'amortissement d'une structure en dynamique", "query_profile": "syntaxe"}
+{"id": "eval-064", "question": "Quelle est la différence entre un calcul transitoire direct et un calcul sur base modale", "query_profile": "theorie"}

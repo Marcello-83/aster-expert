@@ -211,7 +211,7 @@ def test_build_bm25_index_with_enrichment_helps_find_keyword_named_query(
             document_id="U4.44.01",
             document_title="Opérateurs AFFE_CHAR_MECA",
             family="U4",
-            section_path=["Chargements de type Dirichlet"],
+            section_path=["Chargements de type Dirichlet", "Mot-clé DDL_IMPO"],
             content=(
                 "Cette section décrit comment imposer une valeur de "
                 "déplacement, de rotation ou d'autres grandeurs nodales."
@@ -240,7 +240,7 @@ def test_build_bm25_index_with_enrichment_helps_find_keyword_named_query(
         index_dir,
         keyword_names_by_command={"AFFE_CHAR_MECA": ("DDL_IMPO", "VERI_NORM")},
     )
-    assert summary.text_enrichment == "e1_title_section_keywords"
+    assert summary.text_enrichment == "e1_title_section_keywords_scoped"
 
     retriever, corpus = load_bm25_index(index_dir)
     hits = search(retriever, corpus, "DDL_IMPO", k=5)

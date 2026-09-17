@@ -112,7 +112,7 @@ def build_bm25_index(
         fragment_count=len(corpus),
         vocabulary_size=len(tokenized.vocab),
         index_dir=str(index_dir),
-        text_enrichment="e1_title_section_keywords" if enrich else "none",
+        text_enrichment="e1_title_section_keywords_scoped" if enrich else "none",
     )
 
 

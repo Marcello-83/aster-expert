@@ -1159,6 +1159,318 @@ l'identique sur `main`, hors périmètre).
   disponible (`aster-expert eval decompose --profile theory`), non validé
   sur un jeu de questions théoriques ou d'exemples faute d'un tel jeu.
 
+**Clôture du lot 7c — routage par profil de requête.**
+
+Point de départ (relecture externe, diagnostic établi avant ce lot) : sur
+les 11 échecs à k=10 d'E1+E2b (lot 7b), neuf sont des questions de théorie
+ou de méthode servies par le seul profil disponible (`syntax`, faute de
+routage) ; deux (`eval-045`, `eval-065`) sont des échecs de vocabulaire dans
+le bon profil. Le levier de ce lot est le routage, pas l'indexation —
+confirmé, pas supposé, par G6 ci-dessous.
+
+**G1 — Profil en entrée, jamais inféré.** `aster-expert search "..."
+--profile syntaxe|theorie|methode` (défaut `syntaxe`) est maintenant câblé
+sur `aster_expert.retrieval.source_priority.soft_reweight_search`
+(`--priority-mode hard` reste disponible, jamais recommandé par défaut —
+voir G5). Aucun classifieur, aucune heuristique de détection de profil
+n'a été écrite (ADR-007, `docs/architecture.md`) : le profil reste, comme
+au lot 7b (consigne E2), un paramètre explicite de l'appelant. Les filtres
+existants (`--family`, `--document`, `--command`, `--section`) restent
+combinables avec `--profile` : `hard_filter_search`/`soft_reweight_search`
+(`aster_expert.retrieval.source_priority`) relaient désormais ces quatre
+filtres vers `search` en plus de `priority_families`, au lieu de n'accepter
+que `version`.
+
+**G2 — Profils révisés sur le corpus observé, mesurés, pas devinés à
+l'aveugle.** `config/retrieval.yaml` datait du lot 1 : ses clés anglaises
+(`syntax`/`theory`/`example`) sont renommées `syntaxe`/`theorie`/`methode`,
+alignées sur l'annotation externe (G3). `methode` est un profil nouveau,
+sans équivalent au lot 1 (l'ancien `example` visait les cas tests/`V`,
+jamais mesuré et toujours vide sur le banc actuel — lot 7b, E3 — et n'est
+donc conservé dans aucun des profils mesurés ici).
+
+Diagnostic initial de la relecture externe : `syntax` ne contenait pas
+`U3`, cité pour cause directe de l'échec d'`eval-001`. Vérifié sur
+l'inventaire réel du lot 6 (`data/raw/inventory.jsonl`) : sur les 36
+documents `U3` du corpus 17.4.0, 32 sont des notices de modélisation
+(« Modélisations POU_D_T, POU_D_E, BARRE », « Modélisation COQUE_3D »...),
+seuls 4 (`U3.01.00`-`U3.04.01`) sont des formats de fichier de maillage —
+amendement consigné dans `docs/corpus.md` §3. **Trois jeux de profils
+candidats mesurés côte à côte** (banc réaliste complet, G5, index de
+référence lot 7 sans E1 — voir G4), pas seulement le jeu « à l'aveugle » que
+la consigne demandait explicitement d'éviter :
+
+| Candidat | `syntaxe` | `theorie` | `methode` | réaliste hit@10 | méthode hit@10 |
+|---|---|---|---|---|---|
+| A, ajout aveugle de `U3` | + `U3` | inchangé | copie de l'ancien `theory` | 76,2 % | 33,3 % |
+| B, `U3` partout | + `U3` | + `U3` | `U2,U4,R,U3` (dédié) | 79,4 % | 55,6 % |
+| **C, retenu** | **inchangé (sans `U3`)** | **+ `U3`** | **`U2,U4,R,U3` (dédié)** | **82,5 %** | **55,6 %** |
+
+**Résultat, contraire à l'hypothèse de la relecture externe : ajouter `U3` à
+`syntaxe` (candidats A et B) est net négatif par rapport à ne pas y toucher
+(candidat C).** Cause identifiée par inspection nominative (pas supposée) :
+`eval-001` est annotée `theorie` (G3), pas `syntaxe` — ajouter `U3` à
+`syntaxe` ne le corrige donc jamais (`eval-001` échoue sous les trois
+candidats, voir G6) — et les 4 documents de formats de fichier de `U3`
+(non pertinents pour une question de mot-clé de commande) remontent à poids
+plein sur des requêtes `syntaxe` sans rapport, évinçant la bonne réponse
+`U4` (`eval-017`, `eval-054` corrigées par le seul retrait de `U3` de
+`syntaxe`, candidat C contre B — comparaison nominative des échecs à k=10
+entre les trois candidats, pas une inspection isolée). Le candidat A échoue
+en outre à cause de `methode` : recopier l'ancien `theory` (qui inclut `V`)
+pour ce nouveau profil laisse `V` à poids plein, désactivant la suppression
+des faux positifs `V`/`D` qui fait tout l'intérêt d'E2 (`eval-003`,
+`eval-009` corrigées par le seul retrait de `V`/ajout de `U3` dans
+`methode`, candidat B contre A, sans dégrader aucune autre question).
+`eval-008`, `eval-041`, `eval-051` restent en échec sous les trois
+candidats A, B et C : leur cause n'est jamais la composition du profil
+`methode` (déjà bon dans les trois cas pour leur famille attendue), mais un
+défaut de recouvrement lexical propre à chacune (voir G6). **`config/
+retrieval.yaml` retient le candidat C** :
+`syntaxe: [catalogue, U4, U7, testcase, source]`,
+`theorie: [R, U2, U4, U3, V]`, `methode: [U2, U4, R, U3]`.
+
+**G3 — Annotation des requêtes, donnée d'entrée, jamais retouchée.**
+`/media/sf_partage/echanges/lot7c_query_profiles.jsonl` copié verbatim dans
+`data/evaluations/query_profiles.jsonl` (64 lignes, diff vide contre la
+source) et versionné ; `aster_expert.retrieval.query_profiles` en est le
+seul lecteur, jamais l'auteur. **Écart signalé, pas corrigé** (consigne
+G3) : le fichier ne couvre que `eval-001`-`eval-064` — `eval-065` (ajoutée
+au lot 5b, après la production de cette annotation) en est absente ; tout
+appelant (CLI, banc de mesure) retombe alors sur le profil par défaut
+(`syntaxe`), jamais un profil deviné pour la combler. **Une annotation
+jugée discutable, signalée sans être changée** : `eval-001` (« quels types
+d'éléments finis de poutre sont disponibles... et en quoi diffèrent-ils »)
+est annotée `theorie`, alors que ses quatre documents attendus sont tous
+`U3` (des notices de modélisation, pas des documents `R`) — un profil
+`syntaxe` ou `methode` semblerait au moins aussi défendable pour une
+question qui énumère des options disponibles plutôt qu'elle n'explique une
+formulation théorique. Le même motif (« quels types... », « quelle est la
+différence entre... ») est annoté `theorie` pour `eval-064` alors que son
+seul document attendu (`U4.53.03`) est un `U4` pur — sans conséquence
+mesurée ici puisque `theorie` inclut `U4`, mais le motif mérite d'être
+noté : la formulation comparative de la question semble avoir pesé plus que
+la famille documentaire réelle de sa réponse dans cette annotation.
+
+**G4 — E1 réparé, mesuré, retiré du chemin par défaut.**
+`aster_expert.indexing.enrichment.enrich_indexed_text` n'injecte plus le nom
+d'un mot-clé de premier niveau que dans les fragments dont le chemin de
+section le mentionne déjà (le nom de la commande, lui, reste attaché à
+chaque fragment du document, seule granularité disponible pour ce lien) —
+`data/indexes/bm25_by_file_e1` reconstruit avec la correction :
+101433 formes (101437 avant correction, lot 7b).
+
+**Mesuré, pas supposé : la correction ne change rien au chiffre du lot 7b,
+et E1 corrigé ne contribue plus rien à E2, dans aucun mode.**
+
+- Seuls **129/13116 fragments** `by_file` (0,98 %) reçoivent encore au
+  moins un nom de mot-clé après correction — la granularité `by_file` ne
+  découpe presque jamais un fichier à l'échelle d'un seul mot-clé (limite
+  déjà connue, `docs/development-plan.md` lot 7). E1 seul, classement
+  inchangé : hit@5 = 42,9 %, hit@10 = 60,3 %, hit@20 = 76,2 % — identiques,
+  au chiffre, à la mesure buguée du lot 7b (le déficit mesuré au lot 7b ne
+  venait donc pas principalement de la pollution par mots-clés, mais du nom
+  de commande seul, injecté dans chaque fragment du document, inchangé par
+  cette correction).
+- **E1(corrigé)+E2a et E1(corrigé)+E2b sont bit pour bit identiques à E2a et
+  E2b appliqués seuls sur l'index de référence (non enrichi)**, mêmes
+  rappel/MRR à la décimale (`aster-expert eval decompose --profile
+  syntax`, comparé à un appel direct de
+  `rank_documents_with_source_priority` sur l'index de référence) :
+
+  | Variante | hit@10 (lot 7b, E1 bugué) | hit@10 (lot 7c, E1 corrigé = E2 seul) |
+  |---|---|---|
+  | E1+E2a (dur) | 81,0 % | 79,4 % |
+  | E1+E2b (doux) | 82,5 % | 81,0 % |
+
+  Un sous-produit inattendu de cette mesure : **la part du gain E1+E2 du
+  lot 7b qui dépasse ces chiffres corrigés (1,6 point pour E2a, 1,5 point
+  pour E2b) provenait donc de la pollution de mots-clés que ce lot
+  corrige**, pas d'un effet réel et durable d'E1 — un fait à consigner
+  honnêtement, jamais maquillé en régression cachée.
+
+**Conclusion, conforme à la consigne (« s'il reste négatif ou neutre,
+retire-le ») : E1 est retiré du chemin par défaut.** `aster-expert search
+--profile` interroge l'index de référence (sans enrichissement), jamais
+`bm25_by_file_e1`. Le code et le drapeau `aster-expert index build
+--enrich-text` ne sont pas supprimés, faute d'instruction de suppression et
+parce qu'ils n'ont jamais été mesurés à la granularité `by_subsection` (où
+le chemin de section nomme effectivement des mots-clés — `docs/
+development-plan.md` lot 7, D2 : « Mot-clé DDL_IMPO » comme sous-section
+propre) ; `run_lot7b_decomposition` reste disponible pour qui voudrait
+reproduire cette mesure.
+
+**G5 — Mesure : plancher, réaliste, ventilation.** `aster_expert.retrieval.
+bench.run_profile_routed_bench` (nouveau, lot 7c) sert chaque question avec
+son propre profil (`realistic`) ou un profil unique pour toutes
+(`floor`) sur le même index. Sur le candidat C (retenu), granularité
+`by_file`, 63 questions résolues :
+
+| Mesure | k | hit@k | recall@k | MRR |
+|---|---|---|---|---|
+| plancher (`syntaxe` pour toutes) | 5 | 71,4 % | 56,9 % | 0,545 |
+| plancher | 10 | **81,0 %** | 65,8 % | 0,545 |
+| plancher | 20 | 87,3 % | 74,7 % | 0,545 |
+| réaliste (profil annoté) | 5 | 73,0 % | 57,8 % | 0,538 |
+| réaliste | 10 | **82,5 %** | 67,3 % | 0,538 |
+| réaliste | 20 | 90,5 % | 77,9 % | 0,538 |
+
+Le plancher (81,0 %) est la mesure E2 seule sans E1 (G4) ; le réaliste
+(82,5 %) est la situation d'usage réelle visée par ce lot, puisque
+l'appelant fournira toujours un profil (G1). Gain du routage seul : +1,5
+point à k=10, +3,2 points à k=20 — plus modeste que le gain d'E2 lui-même
+(lot 7b), cohérent avec le fait que le plancher applique déjà `syntaxe` à
+`syntax`-majoritaire (45/63 questions).
+
+**Cible (85 % de hit@10 sur `answerability = explicit`, 59 questions),
+atteinte pour la première fois :**
+
+| Mesure | hit@10 explicite | écart à la cible |
+|---|---|---|
+| plancher | 81,4 % (48/59) | -3,6 points |
+| **réaliste** | **86,4 % (51/59)** | **+1,4 point — cible atteinte** |
+
+Ventilation par profil (réaliste, hit@10) : `syntaxe` 91,1 % (41/45
+questions), `theorie` 66,7 % (6/9), `methode` 55,6 % (5/9). `syntaxe`
+domine le banc (71 % des questions) et porte l'essentiel du gain ; `theorie`
+et `methode` restent nettement sous la cible — un fait à ne pas dissimuler
+derrière le chiffre global.
+
+**Liste nominative des 11 échecs à k=10 (réaliste), avec le profil
+utilisé :**
+
+| Question | Profil | Domaine | Attendu | Obtenu (top 3) |
+|---|---|---|---|---|
+| eval-001 | theorie | modelisation_poutre | U3.11.01, U3.11.04, U3.11.05, U3.11.07 | U2.06.10, U2.06.03, U2.03.11 |
+| eval-006 | methode | interaction_sol_structure | R5.03.17 | U2.01.09, U2.03.09, R5.06.03 |
+| eval-008 | methode | modelisation_coque | U4.42.01, U4.43.01 | R3.08.02, R7.02.04, U2.06.32 |
+| eval-010 | theorie | lois_comportement | R5.03.17 | V5.05.101, V2.02.401, R5.03.09 |
+| eval-035 | syntaxe | post_traitement | U4.81.04 | U4.81.05, U4.81.42, U4.44.01 |
+| eval-041 | methode | verification | U4.81.21, U4.81.04 | U2.01.11, U4.54.02, U4.51.03 |
+| eval-045 | syntaxe | post_traitement | U4.81.21 | U4.81.04, U7.03.01, U7.03.02 |
+| eval-048 | theorie | interaction_sol_structure | U7.03.12, R4.05.04, R4.05.07 | U2.04.03, R4.02.05, U4.53.05 |
+| eval-051 | methode | verification | U4.81.22 | U4.66.11, U4.66.01, U2.06.10 |
+| eval-063 | syntaxe | dynamique | U2.06.03, U4.43.01, U4.53.05 | U4.65.01, U7.03.12, U4.32.11 |
+| eval-065 | syntaxe (défaut, non annotée) | dynamique | U4.31.03, U4.32.02 | U4.32.04, U7.03.12, U4.32.13 |
+
+**G6 — Conclusion sur l'index vectoriel, chiffrée, rien engagé.** À k=20
+(même candidat C, même mesure réaliste), 6 des 11 échecs ci-dessus
+persistent (`eval-001`, `eval-006`, `eval-010`, `eval-045`, `eval-051`,
+`eval-065` — les 5 autres, dont `eval-035`/`eval-041`/`eval-063`/`eval-008`,
+sont résolus dès qu'on élargit la profondeur) : le document attendu
+**n'apparaît jamais** dans les 20 premiers résultats, sous aucun des trois
+profils, ni au candidat A, B ou C. Sur ces 6, 5 sont `answerability =
+explicit` (`eval-001`, `eval-010`, `eval-045`, `eval-051`, `eval-065` —
+`eval-006` est `inferable`, hors du dénominateur des 59 questions
+explicites) : **5/59 (8,5 %) des questions explicites du banc ne retrouvent
+jamais leur document attendu, à aucune profondeur mesurée, sous aucun
+profil ni aucune variante de routage essayée dans ce lot ou le lot 7b**
+(enrichissement E1, filtre dur E2a, repondération douce E2b, profils
+révisés G2). Ce n'est jamais un problème de précision (la bonne famille est
+déjà priorisée pour chacune) : c'est un défaut de recouvrement lexical pur
+— la question n'emploie aucun terme qui recoupe le vocabulaire propre du
+document cible (`eval-010` : « ressort ne travaillant qu'en compression »
+contre la dénomination technique de la loi `DIS_CONTACT` dans `R5.03.17` ;
+`eval-051` : « vérifier la masse totale d'un modèle » contre le nom
+d'opérande propre à `U4.81.22`).
+
+**Conclusion, chiffrée, rien engagé dans ce lot :** 5 échecs sur 59 (8,5 %)
+est un chiffre nettement supérieur au « deux échecs sur cinquante-neuf » que
+l'instruction de ce lot qualifie explicitement d'insuffisant pour justifier
+le lot C1 — et ces 5 échecs partagent un motif identique, jamais corrigé
+par deux lots de réglage lexical successifs (enrichissement du texte
+indexé, routage par famille, révision des profils). C'est une base
+chiffrée et nommée, pas une impression : **le lot C1 (index vectoriel)
+paraît justifié sur cette base**, précisément parce que le motif résiduel
+(absence de recouvrement lexical, pas un problème de priorité de famille)
+est exactement ce qu'un index vectoriel adresse et qu'un réglage lexical
+supplémentaire n'adresserait pas. Rien n'est engagé vers ce lot ici,
+conformément à l'instruction — ni embedding, ni base vectorielle, ni
+prototype.
+
+`eval-048` (`partial`, `interaction_sol_structure`) reste un échec distinct
+de ce groupe : sa cause est la lacune de corpus déjà consignée
+(`docs/corpus.md` §8, `U2.06.05`/`U2.06.07` absents du dépôt synchronisé),
+jamais un défaut de recherche — aucun index, vectoriel ou lexical, ne peut
+retrouver un document qui n'existe pas dans le corpus synchronisé.
+
+**NE PAS FAIT (conforme à la consigne).** Aucun embedding, aucun
+reranking par modèle, aucun serveur MCP. Le jeu d'évaluation
+(`data/evaluations/questions.jsonl`) n'a pas été modifié ; l'annotation de
+profils (`data/evaluations/query_profiles.jsonl`) copiée verbatim, jamais
+retouchée (l'écart `eval-065` et l'annotation discutable d'`eval-001` sont
+signalés ci-dessus, pas corrigés). Aucun classifieur ni heuristique de
+détection automatique de profil (G1, ADR-007). Le lot C1 n'a reçu aucun
+développement (G6).
+
+**Garde-fou de parallélisme.** Aucun sous-agent utilisé dans ce lot :
+`git status --short` relevé avant modification (dépôt propre, `HEAD` sur
+`main`) et à la clôture (seuls les fichiers de l'inventaire ci-dessous
+modifiés).
+
+**Inventaire des fichiers créés ou modifiés.**
+
+- Créés : `src/aster_expert/retrieval/query_profiles.py`,
+  `tests/unit/test_query_profiles.py`, `data/evaluations/query_profiles.jsonl`.
+- Modifiés : `config/retrieval.yaml` (profils renommés et révisés),
+  `src/aster_expert/indexing/enrichment.py` (G4),
+  `src/aster_expert/indexing/models.py` (renommage de
+  `TextEnrichment`), `src/aster_expert/indexing/bm25_index.py` (même
+  renommage), `src/aster_expert/retrieval/bench.py`
+  (`rank_documents_with_query_profile`, `run_profile_routed_bench`,
+  `ProfileFailureCase`, `ProfileBenchReport`),
+  `src/aster_expert/retrieval/source_priority.py` (relais des filtres
+  `family`/`document_id`/`command`/`section_contains`),
+  `src/aster_expert/cli.py` (`search --profile`/`--priority-mode`, `eval
+  profile-bench`, renommage du défaut d'`eval decompose`),
+  `docs/architecture.md` (ADR-007), `docs/corpus.md` (§3 amendement `U3`,
+  §8 `query_profiles.jsonl`), `docs/development-plan.md` (cette clôture) ;
+  tests mis à jour en conséquence
+  (`tests/unit/test_enrichment.py`, `test_bm25_index.py`,
+  `test_retrieval_config.py`, `test_source_priority.py`, `test_bench.py`,
+  `tests/test_cli.py`).
+
+**Tests.** 12 tests nouveaux (4 dans `test_query_profiles.py`, 2 dans
+`test_bench.py` (`rank_documents_with_query_profile`,
+`run_profile_routed_bench`), 2 dans `test_source_priority.py` (relais de
+filtres), 2 nets dans `test_enrichment.py` (1 renommé, 2 ajoutés pour la
+portée du mot-clé G4, 1 retiré), 2 dans `tests/test_cli.py` (`search
+--profile` inconnu, `eval profile-bench` sans annotation)), plus 1 test
+réécrit dans `test_retrieval_config.py` (profils français) et une valeur
+corrigée dans `test_bm25_index.py` — fixtures locales uniquement, aucun
+accès réseau. Suite complète du projet : **353 tests (341 avant ce lot),
+0 échec**. `ruff format`/`ruff check` propres sur tout le code touché ;
+`mypy` (configuration du projet, `src` + `tests`) ne signale aucune
+régression nouvelle — les 7 erreurs résiduelles
+(`test_sources_sync.py`, `test_evaluation.py` ×3, `test_detect.py`,
+`test_catalogue_extract.py`) sont identiques, fichier et ligne, à celles de
+`main` avant toute modification (vérifié par `git stash`), hors périmètre
+de ce lot.
+
+**Limites connues.**
+
+- `search --profile` n'utilise jamais l'index enrichi E1
+  (`bm25_by_file_e1`), retiré du chemin par défaut (G4) — un appelant qui
+  voudrait comparer continue de le faire via `aster-expert eval decompose`,
+  jamais via `search` lui-même.
+- Le profil `methode` et `theorie` n'ont été mesurés qu'à la granularité
+  `by_file` (consigne : ne pas changer la granularité par défaut) — jamais
+  à `by_subsection`, où le chemin de section nomme effectivement des
+  mots-clés (voir G4) et où l'effet d'E1 pourrait différer.
+- `run_profile_routed_bench` retombe sur `default_profile` pour toute
+  question absente de l'annotation (`eval-065` seule aujourd'hui) — un
+  choix documenté (G1 : le même repli que l'appelant CLI), jamais mesuré
+  séparément d'un éventuel autre repli.
+- La cible de 85 % n'est atteinte qu'en moyenne globale (réaliste,
+  86,4 %) ; les profils `theorie` (66,7 %) et `methode` (55,6 %) restent
+  chacun nettement sous la cible pris isolément — un fait que la moyenne
+  globale ne doit pas masquer.
+- `hard_filter_search`/`soft_reweight_search` acceptent maintenant
+  `family`/`document_id`/`command`/`section_contains`, mais aucun test ne
+  couvre leur combinaison avec `family_in` simultanément active sur les
+  *deux* passages du filtre dur (primaire et repli) au-delà du cas simple
+  déjà testé.
+
 ## Lot 8 — Serveur MCP minimal
 
 Deux outils : `search_codeaster_docs` et `get_command_schema`. Wrapper mince

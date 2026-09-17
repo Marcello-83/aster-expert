@@ -286,6 +286,36 @@ d'option d'exécution arbitraire (voir ADR-003).
 l'utilisateur (l'appartenance au groupe `docker` est nécessaire, vérifiée en
 session) ou si plusieurs conteneurs doivent être orchestrés simultanément.
 
+### ADR-007 — Le profil de requête est un paramètre explicite, jamais détecté
+
+**Décision.** Le profil de priorité des sources (`syntaxe`, `theorie`,
+`methode` -- `config/retrieval.yaml`, `defaults.source_priority`) est
+toujours reçu en paramètre explicite par l'appelant (`aster-expert search
+--profile`), jamais déduit automatiquement du texte de la requête. Aucun
+classifieur, aucune heuristique de détection n'est écrite pour ce projet.
+
+**Motif.** Un profil deviné à partir du texte de la requête introduirait une
+seconde source d'erreur non mesurée (la détection elle-même) par-dessus la
+recherche. Au lot 8 (serveur MCP), l'appelant sera une session Claude qui
+sait déjà quelle sorte de réponse elle cherche -- le profil est une entrée
+que l'appelant fournit, pas une devinette que le système doit produire à sa
+place. `syntaxe` reste le profil par défaut quand l'appelant n'en fournit
+aucun (jamais un défaut détecté non plus, un simple repli documenté).
+
+**Conséquence.** `aster_expert.retrieval.query_profiles` ne contient qu'un
+modèle et un chargeur pour une annotation *fournie en donnée d'entrée*
+(`data/evaluations/query_profiles.jsonl`, lot 7c G3 : établie une fois, à la
+main, à partir du seul libellé de chaque question du banc, sans consulter
+les documents attendus) -- jamais un mécanisme de classification exécuté à
+la volée. Mesurer l'effet du routage sur le banc exige donc de fournir un
+profil par question (`aster_expert.retrieval.bench.
+run_profile_routed_bench`) plutôt que de le déduire au moment de la mesure.
+
+**Révision.** À reconsidérer si un lot futur démontre, sur mesure, qu'une
+détection automatique améliore le résultat sans coût de fiabilité
+inacceptable -- non entrepris ici, faute d'instruction et de mesure en ce
+sens.
+
 ## 4. Modules
 
 | Module | Rôle |

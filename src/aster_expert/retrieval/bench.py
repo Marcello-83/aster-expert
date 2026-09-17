@@ -25,11 +25,13 @@ from aster_expert.retrieval.evaluation import (
     EvaluationReport,
     evaluate_retrieval,
     list_failures,
+    ventilate,
     ventilate_by_answerability,
     ventilate_by_domain,
     ventilate_by_family,
 )
 from aster_expert.retrieval.models import EvaluationQuestion
+from aster_expert.retrieval.query_profiles import DEFAULT_QUERY_PROFILE, QueryProfile
 from aster_expert.retrieval.source_priority import (
     SourcePriorityMode,
     hard_filter_search,
@@ -108,6 +110,38 @@ def rank_documents_with_source_priority(
             version=version,
         )
     return _dedupe_to_documents(hits)
+
+
+def rank_documents_with_query_profile(
+    retriever: bm25s.BM25,
+    corpus: list[dict[str, Any]],
+    question: EvaluationQuestion,
+    *,
+    version: str | None,
+    profile_by_question_id: dict[str, QueryProfile],
+    source_priority_by_profile: dict[str, tuple[str, ...]],
+    default_profile: QueryProfile = DEFAULT_QUERY_PROFILE,
+    mode: SourcePriorityMode = "soft",
+) -> tuple[str, ...]:
+    """Lot 7c, G1/G5 : one question's ranking under *its own* profile.
+
+    `profile_by_question_id` (`aster_expert.retrieval.query_profiles.
+    load_query_profiles`) is looked up by `question.id`; a question absent
+    from it falls back to `default_profile` -- never an automatically
+    detected profile (the fallback is a caller-chosen default, the same one
+    `aster-expert search --profile` uses, not a guess derived from the
+    question text).
+    """
+    profile = profile_by_question_id.get(question.id, default_profile)
+    priority_families = source_priority_by_profile[profile]
+    return rank_documents_with_source_priority(
+        retriever,
+        corpus,
+        question,
+        version=version,
+        priority_families=priority_families,
+        mode=mode,
+    )
 
 
 class FailureCase(BaseModel):
@@ -317,9 +351,13 @@ def run_lot7b_decomposition(
 
     `priority_families` is always the caller's explicit choice (E2
     instruction: no automatic query-profile detection in this lot) --
-    `"syntax"` by default at the CLI layer, since it matches the current
-    bench's own nature (docs/corpus.md §8: every lot 5/5b question is a
-    syntax/method question, none about theory or a worked example).
+    `"syntaxe"` by default at the CLI layer. This function fixes one profile
+    for the whole question set (the lot 7b measurement); `run_profile_
+    routed_bench` (lot 7c, G5) is what actually serves each question its own
+    annotated profile and should be preferred for a per-question routing
+    measurement -- this function is kept only for the historical lot 7b
+    decomposition (E1 vs E2a vs E2b), never removed since it is still the
+    only place `text_enrichment` (E1) is exercised end to end.
     """
     variants: dict[str, GranularityBenchReport] = {
         "lot7_reference": run_granularity_bench(
@@ -412,4 +450,145 @@ def run_lot7b_decomposition(
         reports=variants,
         gain_table=gain_table,
         non_explicit_impact=non_explicit_impact,
+    )
+
+
+class ProfileFailureCase(BaseModel):
+    """One failure at k=10 in the realistic (per-question profile) run of
+    `run_profile_routed_bench`, with the profile actually applied to it
+    (lot 7c, G5: "liste nominative actualisée des échecs à k=10, avec le
+    profil utilisé pour chacun")."""
+
+    model_config = ConfigDict(frozen=True)
+
+    id: str
+    question: str
+    domain: str
+    profile_used: QueryProfile
+    required_documents: tuple[str, ...]
+    retrieved_at_k: tuple[str, ...]
+
+
+class ProfileBenchReport(BaseModel):
+    """G5 : plancher (un seul profil pour toutes les questions) contre
+    réaliste (chaque question servie avec son propre profil), même index,
+    même mode de priorité, mesurés côte à côte."""
+
+    model_config = ConfigDict(frozen=True)
+
+    default_profile: QueryProfile
+    mode: SourcePriorityMode
+    floor: GranularityBenchReport
+    realistic: GranularityBenchReport
+    ventilation_by_profile: dict[int, dict[str, BucketScore]]
+    unannotated_question_ids: tuple[str, ...]
+    failures_at_k10_with_profile: tuple[ProfileFailureCase, ...]
+
+
+def run_profile_routed_bench(
+    retriever: bm25s.BM25,
+    corpus: list[dict[str, Any]],
+    questions: list[EvaluationQuestion],
+    *,
+    granularity: str,
+    fragment_count: int,
+    version: str | None,
+    profile_by_question_id: dict[str, QueryProfile],
+    source_priority_by_profile: dict[str, tuple[str, ...]],
+    default_profile: QueryProfile = DEFAULT_QUERY_PROFILE,
+    mode: SourcePriorityMode = "soft",
+    k_values: tuple[int, ...] = (5, 10, 20),
+) -> ProfileBenchReport:
+    """Lot 7c, G5 : plancher contre réaliste, sur le même index.
+
+    ``floor`` : `default_profile` seul, appliqué à toutes les questions --
+    la mesure du lot 7b, jamais changée de forme ici. ``realistic`` : chaque
+    question servie avec le profil que lui assigne
+    `profile_by_question_id`, avec repli sur `default_profile` pour une
+    question absente de l'annotation (`eval-065`, ajoutée au banc après la
+    production de `data/evaluations/query_profiles.jsonl`) -- la situation
+    réelle d'un appelant qui fournit toujours un profil explicite (lot 7c,
+    instruction G1), jamais un profil deviné à partir de la question.
+    """
+    questions_by_id = {q.id: q for q in questions}
+    floor_families = source_priority_by_profile[default_profile]
+
+    floor = run_granularity_bench(
+        retriever,
+        corpus,
+        questions,
+        granularity=granularity,
+        fragment_count=fragment_count,
+        version=version,
+        k_values=k_values,
+        rank_fn=lambda q: rank_documents_with_source_priority(
+            retriever,
+            corpus,
+            q,
+            version=version,
+            priority_families=floor_families,
+            mode=mode,
+        ),
+    )
+    realistic = run_granularity_bench(
+        retriever,
+        corpus,
+        questions,
+        granularity=granularity,
+        fragment_count=fragment_count,
+        version=version,
+        k_values=k_values,
+        rank_fn=lambda q: rank_documents_with_query_profile(
+            retriever,
+            corpus,
+            q,
+            version=version,
+            profile_by_question_id=profile_by_question_id,
+            source_priority_by_profile=source_priority_by_profile,
+            default_profile=default_profile,
+            mode=mode,
+        ),
+    )
+
+    profile_used = {
+        q.id: profile_by_question_id.get(q.id, default_profile) for q in questions
+    }
+    unannotated = tuple(
+        q.id
+        for q in questions
+        if q.required_documents and q.id not in profile_by_question_id
+    )
+
+    ventilation_by_profile = {
+        k: ventilate(
+            report_at_k.scores, questions_by_id, lambda q: [profile_used[q.id]]
+        )
+        for k, report_at_k in realistic.reports_by_k.items()
+    }
+
+    reference_report = (
+        realistic.reports_by_k[10]
+        if 10 in realistic.reports_by_k
+        else next(iter(realistic.reports_by_k.values()))
+    )
+    failures_with_profile = tuple(
+        ProfileFailureCase(
+            id=score.id,
+            question=questions_by_id[score.id].question,
+            domain=questions_by_id[score.id].domain,
+            profile_used=profile_used[score.id],
+            required_documents=score.required_documents,
+            retrieved_at_k=score.retrieved_at_k,
+        )
+        for score in list_failures(reference_report)
+    )
+
+    return ProfileBenchReport(
+        default_profile=default_profile,
+        mode=mode,
+        floor=floor,
+        realistic=realistic,
+        ventilation_by_profile=ventilation_by_profile,
+        unannotated_question_ids=unannotated,
+        failures_at_k10_with_profile=failures_with_profile,
     )

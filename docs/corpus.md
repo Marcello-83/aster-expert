@@ -64,6 +64,23 @@ initialement attendue :
   aux côtés de `u1`..`u7` mais non listé à l'origine. Ajouté comme famille
   à part entière plutôt que rattaché à `U1` : c'est un document sur la
   documentation elle-même, pas une présentation de Code_Aster.
+- **`U3`** (amendement lot 7c, diagnostic du routage par profil de requête).
+  La ligne « formats et fichiers | entrées/sorties » de la table ci-dessus
+  ne décrit qu'une petite partie du contenu réel : sur les 36 documents `U3`
+  du corpus 17.4.0, seuls 4 (`U3.01.00`-`U3.04.01`) sont effectivement des
+  formats de fichier de maillage (GMSH, IDEAS, GIBI...) ; les 32 autres
+  (`U3.11.*`-`U3.33.*`) sont des notices de modélisation -- ex.
+  `U3.11.01` « Modélisations POU_D_T, POU_D_E, BARRE », `U3.12.03`
+  « Modélisation COQUE_3D » -- qui cataloguent les types d'éléments finis
+  disponibles par phénomène et renvoient à leur formulation, un contenu de
+  nature syntaxique/comparative (quel élément existe, en quoi diffère-t-il)
+  bien plus que documentaire d'entrée/sortie. Constat confirmé par mesure
+  au lot 7c (`config/retrieval.yaml`, `docs/development-plan.md`, clôture
+  lot 7c, G2) : la famille `U3` est nécessaire aux profils
+  `theorie`/`methode` mais dégrade le profil `syntaxe` si elle y est
+  ajoutée sans distinction, précisément parce que les 4 documents de
+  formats de fichier y remontent alors à poids plein sur des requêtes sans
+  rapport avec la modélisation.
 - **`man_s` (`SU`, `SV`)** : famille entièrement absente de la
   classification initiale, découverte lors de la synchronisation (lot 3,
   observation de clôture) et qualifiée au lot 6 (I2). Elle documente la
@@ -320,6 +337,18 @@ jamais un `required_documents` deviné pour le remplir a posteriori :
 reçu de l'utilisateur, avant toute complétion (traçabilité, `CLAUDE.md`
 principe 4). `data/evaluations/cas_usage.md` conserve les 21 questions larges
 d'origine.
+
+`data/evaluations/query_profiles.jsonl` (lot 7c, G3) associe à chacune des
+64 premières questions un profil de routage (`syntaxe`, `theorie`,
+`methode` -- `aster_expert.retrieval.query_profiles`), établi une fois par
+l'utilisateur à partir du seul libellé de la question, sans consulter les
+documents attendus. C'est une donnée d'entrée, copiée verbatim et jamais
+retouchée pour la faire coïncider avec un résultat mesuré
+(`aster_expert.retrieval.bench.run_profile_routed_bench` lit ce fichier, ne
+l'écrit jamais). `eval-065` (ajoutée au lot 5b après la production de cette
+annotation) n'y figure pas : un appelant qui ne trouve pas de profil pour
+une question retombe sur le profil par défaut (`syntaxe`), jamais un profil
+deviné pour combler l'absence.
 
 Les questions proviennent de problèmes réellement rencontrés, pas de
 reformulations de la documentation. Elles ne sont jamais reformulées pour

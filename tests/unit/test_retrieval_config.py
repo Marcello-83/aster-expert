@@ -69,4 +69,6 @@ def test_load_retrieval_config_matches_the_real_project_file() -> None:
     """The actual `config/retrieval.yaml` must validate against this schema."""
     real_config_path = Path(__file__).resolve().parents[2] / "config" / "retrieval.yaml"
     config = load_retrieval_config(real_config_path)
-    assert "syntax" in config.defaults.source_priority
+    # Lot 7c, G1/G2 : profils renommés en français, alignés sur
+    # `data/evaluations/query_profiles.jsonl`.
+    assert set(config.defaults.source_priority) == {"syntaxe", "theorie", "methode"}

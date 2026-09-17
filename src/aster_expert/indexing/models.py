@@ -8,7 +8,7 @@ from pydantic import BaseModel, ConfigDict
 
 from aster_expert.parsing.fragment_models import FragmentGranularity
 
-TextEnrichment = Literal["none", "e1_title_section_keywords"]
+TextEnrichment = Literal["none", "e1_title_section_keywords_scoped"]
 
 
 class SearchHit(BaseModel):

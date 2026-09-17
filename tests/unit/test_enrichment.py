@@ -90,7 +90,7 @@ def test_load_command_keyword_names_skips_uncatalogued_command(
     assert names == {}
 
 
-def test_enrich_indexed_text_adds_title_section_and_keywords() -> None:
+def test_enrich_indexed_text_adds_title_section_and_command_name() -> None:
     text = enrich_indexed_text(
         content="Bloquer un déplacement sur un groupe de noeuds.",
         document_title="Opérateurs AFFE_CHAR_MECA...",
@@ -103,8 +103,43 @@ def test_enrich_indexed_text_adds_title_section_and_keywords() -> None:
     assert "Opérateurs AFFE_CHAR_MECA..." in text
     assert "Chargements de type Dirichlet" in text
     assert "AFFE_CHAR_MECA" in text
+
+
+def test_enrich_indexed_text_scopes_keyword_to_section_mentioning_it() -> None:
+    """Lot 7c, G4 : un mot-clé n'est injecté que si le chemin de section le
+    nomme déjà -- jamais dans un fragment générique (`#But`) du même document
+    qui ne parle d'aucun mot-clé précis."""
+    text_in_scope = enrich_indexed_text(
+        content="Contenu de la sous-section dédiée au mot-clé.",
+        document_title="Opérateurs AFFE_CHAR_MECA...",
+        section_path=("Chargements de type Dirichlet", "Mot-clé DDL_IMPO"),
+        related_commands=("AFFE_CHAR_MECA",),
+        keyword_names_by_command={"AFFE_CHAR_MECA": ("DDL_IMPO", "VERI_NORM")},
+    )
+    assert "DDL_IMPO" in text_in_scope
+    assert "VERI_NORM" not in text_in_scope  # cette sous-section ne le nomme pas
+
+    text_out_of_scope = enrich_indexed_text(
+        content="But de l'opérateur.",
+        document_title="Opérateurs AFFE_CHAR_MECA...",
+        section_path=("But",),
+        related_commands=("AFFE_CHAR_MECA",),
+        keyword_names_by_command={"AFFE_CHAR_MECA": ("DDL_IMPO", "VERI_NORM")},
+    )
+    assert "DDL_IMPO" not in text_out_of_scope
+    assert "VERI_NORM" not in text_out_of_scope
+    assert "AFFE_CHAR_MECA" in text_out_of_scope  # le nom de commande reste attaché
+
+
+def test_enrich_indexed_text_keyword_match_is_case_insensitive() -> None:
+    text = enrich_indexed_text(
+        content="contenu",
+        document_title=None,
+        section_path=("mot-clé ddl_impo",),
+        related_commands=("AFFE_CHAR_MECA",),
+        keyword_names_by_command={"AFFE_CHAR_MECA": ("DDL_IMPO",)},
+    )
     assert "DDL_IMPO" in text
-    assert "VERI_NORM" in text
 
 
 def test_enrich_indexed_text_never_used_for_unrelated_command() -> None:

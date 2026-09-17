@@ -167,6 +167,64 @@ def test_soft_reweight_search_can_reorder_by_family(tmp_path: Path) -> None:
     assert {h.document_id for h in hits} == {"U4_1", "V1"}
 
 
+def test_hard_filter_search_combines_with_document_filter(tmp_path: Path) -> None:
+    fragments = [
+        _fragment(
+            fragment_id="U4_1#index",
+            document_id="U4_1",
+            family="U4",
+            content="convergence",
+        ),
+        _fragment(
+            fragment_id="U4_2#index",
+            document_id="U4_2",
+            family="U4",
+            content="convergence",
+        ),
+    ]
+    retriever, corpus = _build_index(tmp_path, fragments)
+
+    hits = hard_filter_search(
+        retriever,
+        corpus,
+        "convergence",
+        k=5,
+        priority_families=("U4", "U7"),
+        document_id="U4_1",
+    )
+    assert {h.document_id for h in hits} == {"U4_1"}
+
+
+def test_soft_reweight_search_combines_with_section_filter(tmp_path: Path) -> None:
+    fragments = [
+        _fragment(
+            fragment_id="U4_1#Syntaxe",
+            document_id="U4_1",
+            family="U4",
+            section_path=["Syntaxe"],
+            content="convergence",
+        ),
+        _fragment(
+            fragment_id="U4_1#index",
+            document_id="U4_1",
+            family="U4",
+            section_path=["index"],
+            content="convergence",
+        ),
+    ]
+    retriever, corpus = _build_index(tmp_path, fragments)
+
+    hits = soft_reweight_search(
+        retriever,
+        corpus,
+        "convergence",
+        k=5,
+        priority_families=("U4",),
+        section_contains="syntaxe",
+    )
+    assert {h.fragment_id for h in hits} == {"U4_1#Syntaxe"}
+
+
 def test_soft_reweight_search_rejects_pool_smaller_than_k(tmp_path: Path) -> None:
     fragments = [_fragment(fragment_id="U4_1#index", document_id="U4_1", family="U4")]
     retriever, corpus = _build_index(tmp_path, fragments)

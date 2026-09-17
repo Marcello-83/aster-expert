@@ -16,10 +16,12 @@ import bm25s
 from aster_expert.indexing.bm25_index import build_bm25_index, load_bm25_index
 from aster_expert.retrieval.bench import (
     rank_documents_for_question,
+    rank_documents_with_query_profile,
     rank_documents_with_source_priority,
     run_granularity_bench,
     run_lot7b_decomposition,
     run_naive_baseline_comparison,
+    run_profile_routed_bench,
 )
 from aster_expert.retrieval.models import EvaluationQuestion
 
@@ -263,6 +265,102 @@ def test_run_lot7b_decomposition_runs_all_four_variants(tmp_path: Path) -> None:
     # list, never eval-001.
     for impacts in report.non_explicit_impact.values():
         assert {impact.id for impact in impacts} == {"eval-002"}
+
+
+def test_rank_documents_with_query_profile_uses_annotated_profile(
+    tmp_path: Path,
+) -> None:
+    fragments = [
+        _fragment(
+            fragment_id="R1#index",
+            document_id="R1",
+            document_title="Référence théorique",
+            family="R",
+            source_path="r/r1/index.rst",
+            content="loi de comportement loi de comportement loi de comportement",
+        ),
+        _fragment(
+            fragment_id="U4_1#index",
+            document_id="U4_1",
+            document_title="Opérateur",
+            family="U4",
+            source_path="man_u/u4/x/index.rst",
+            content="loi de comportement",
+        ),
+    ]
+    retriever, corpus = _build_index(tmp_path, fragments)
+    question = _question(id="eval-777", question="loi de comportement")
+    source_priority: dict[str, tuple[str, ...]] = {
+        "syntaxe": ("U4",),
+        "theorie": ("R",),
+    }
+
+    ranked_default = rank_documents_with_query_profile(
+        retriever,
+        corpus,
+        question,
+        version=None,
+        profile_by_question_id={},
+        source_priority_by_profile=source_priority,
+        default_profile="syntaxe",
+    )
+    assert ranked_default[0] == "U4_1"
+
+    ranked_annotated = rank_documents_with_query_profile(
+        retriever,
+        corpus,
+        question,
+        version=None,
+        profile_by_question_id={"eval-777": "theorie"},
+        source_priority_by_profile=source_priority,
+        default_profile="syntaxe",
+    )
+    assert ranked_annotated[0] == "R1"
+
+
+def test_run_profile_routed_bench_realistic_uses_per_question_profile(
+    tmp_path: Path,
+) -> None:
+    retriever, corpus = _build_index(tmp_path, _sample_fragments())
+    questions = [
+        _question(
+            id="eval-001",
+            question="Comment utiliser STAT_NON_LINE ?",
+            domain="convergence",
+            required_documents=("U4.51.03",),
+        ),
+        _question(
+            id="eval-002",
+            question="Comment affecter une modélisation ?",
+            domain="maillage",
+            required_documents=("U4.41.01",),
+        ),
+    ]
+    source_priority: dict[str, tuple[str, ...]] = {
+        "syntaxe": ("U4",),
+        "theorie": ("R",),
+        "methode": ("U2",),
+    }
+
+    report = run_profile_routed_bench(
+        retriever,
+        corpus,
+        questions,
+        granularity="by_file",
+        fragment_count=len(corpus),
+        version=None,
+        profile_by_question_id={"eval-001": "theorie"},
+        source_priority_by_profile=source_priority,
+        default_profile="syntaxe",
+        k_values=(10,),
+    )
+
+    # eval-002 is absent from the annotation: it falls back to the default
+    # profile, never an invented one.
+    assert report.unannotated_question_ids == ("eval-002",)
+    assert set(report.ventilation_by_profile[10]) == {"theorie", "syntaxe"}
+    assert report.floor.n_questions_evaluated == 2
+    assert report.realistic.n_questions_evaluated == 2
 
 
 def test_run_naive_baseline_restricts_to_questions_with_expected_commands(

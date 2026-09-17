@@ -67,3 +67,70 @@ def test_validate_fails_loudly_without_workroot(
 
     assert result.exit_code == 1
     assert "ASTER_CONTAINER_WORKROOT" in result.stderr
+
+
+_MINIMAL_RETRIEVAL_YAML = """\
+schema_version: 1
+engines:
+  lexical:
+    enabled: true
+    backend: bm25
+    k1: 1.2
+    b: 0.75
+  vector:
+    enabled: false
+    backend: null
+    model: null
+    dimension: null
+fusion:
+  enabled: false
+  method: null
+reranking:
+  enabled: false
+  backend: null
+defaults:
+  top_k: 15
+  source_priority:
+    syntaxe: [catalogue, U4, U7, testcase, source]
+    theorie: [R, U2, U4, U3, V]
+    methode: [U2, U4, R, U3]
+filters:
+  allowed: [version, family, document_id]
+output:
+  show_scores: true
+  show_source_path: true
+  show_commit: true
+  max_excerpt_chars: 1200
+"""
+
+
+def test_search_fails_loudly_on_unknown_profile(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("ASTER_EXPERT_ROOT", str(tmp_path))
+    config_dir = tmp_path / "config"
+    config_dir.mkdir()
+    (config_dir / "retrieval.yaml").write_text(
+        _MINIMAL_RETRIEVAL_YAML, encoding="utf-8"
+    )
+
+    result = runner.invoke(app, ["search", "une question", "--profile", "bogus"])
+
+    assert result.exit_code == 1
+    assert "Profil inconnu" in result.stderr
+    assert "'bogus'" in result.stderr
+
+
+def test_eval_profile_bench_fails_loudly_without_annotations(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("ASTER_EXPERT_ROOT", str(tmp_path))
+    (tmp_path / "data" / "evaluations").mkdir(parents=True)
+    (tmp_path / "data" / "evaluations" / "questions.jsonl").write_text(
+        "", encoding="utf-8"
+    )
+
+    result = runner.invoke(app, ["eval", "profile-bench"])
+
+    assert result.exit_code == 1
+    assert "Annotations de profil introuvables" in result.stderr

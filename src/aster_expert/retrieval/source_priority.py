@@ -83,21 +83,47 @@ def hard_filter_search(
     k: int,
     priority_families: tuple[str, ...],
     version: str | None = None,
+    family: str | None = None,
+    document_id: str | None = None,
+    command: str | None = None,
+    section_contains: str | None = None,
 ) -> list[SearchHit]:
     """E2a : fragments des familles prioritaires d'abord, repli sur le reste.
 
     Un second appel à `search` (non filtré) ne se produit que si le premier
     passage n'a pas atteint `k` résultats -- jamais systématiquement, pour
     ne jamais faire deux fois le travail quand le premier passage suffit
-    déjà.
+    déjà. `family`/`document_id`/`command`/`section_contains` (lot 7c) sont
+    de simples relais vers `search`, appliqués identiquement aux deux
+    passages -- un appelant qui filtre par ailleurs (`aster-expert search
+    --family ...`) garde ce filtre actif sous priorité de source.
     """
     primary = search(
-        retriever, corpus, query, k=k, version=version, family_in=priority_families
+        retriever,
+        corpus,
+        query,
+        k=k,
+        version=version,
+        family=family,
+        family_in=priority_families,
+        document_id=document_id,
+        command=command,
+        section_contains=section_contains,
     )
     if len(primary) >= k:
         return primary
 
-    fallback = search(retriever, corpus, query, k=k, version=version)
+    fallback = search(
+        retriever,
+        corpus,
+        query,
+        k=k,
+        version=version,
+        family=family,
+        document_id=document_id,
+        command=command,
+        section_contains=section_contains,
+    )
     seen = {hit.fragment_id for hit in primary}
     combined = list(primary)
     for hit in fallback:
@@ -117,6 +143,10 @@ def soft_reweight_search(
     k: int,
     priority_families: tuple[str, ...],
     version: str | None = None,
+    family: str | None = None,
+    document_id: str | None = None,
+    command: str | None = None,
+    section_contains: str | None = None,
     pool_size: int = DEFAULT_SOFT_POOL_SIZE,
     out_of_priority_factor: float = DEFAULT_OUT_OF_PRIORITY_FACTOR,
 ) -> list[SearchHit]:
@@ -125,13 +155,25 @@ def soft_reweight_search(
     `pool_size` doit être >= `k` (sans quoi la repondération ne pourrait
     jamais faire remonter un candidat par ailleurs classé au-delà de `k`
     par le score brut) -- vérifié explicitement plutôt que silencieusement
-    tronqué.
+    tronqué. `family`/`document_id`/`command`/`section_contains` (lot 7c)
+    sont de simples relais vers `search`, appliqués au bassin avant
+    repondération.
     """
     if pool_size < k:
         message = f"pool_size ({pool_size}) doit être >= k ({k})"
         raise ValueError(message)
 
-    pool = search(retriever, corpus, query, k=pool_size, version=version)
+    pool = search(
+        retriever,
+        corpus,
+        query,
+        k=pool_size,
+        version=version,
+        family=family,
+        document_id=document_id,
+        command=command,
+        section_contains=section_contains,
+    )
     priority_set = set(priority_families)
     reweighted = sorted(
         pool,

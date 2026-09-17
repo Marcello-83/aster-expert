@@ -27,11 +27,34 @@ reranking:
 
 defaults:
   top_k: 15
-  # Priorité appliquée à score équivalent, conformément à CLAUDE.md.
+  # Profils de routage de requête (lot 7c, G1/G2). Le profil est toujours un
+  # paramètre explicite de l'appelant (`aster-expert search --profile`),
+  # jamais détecté depuis le texte de la requête (ADR-007). Noms alignés sur
+  # l'annotation externe du banc (`data/evaluations/query_profiles.jsonl`) :
+  # syntaxe/theorie/methode, pas la triade syntaxe/théorie/exemples de
+  # CLAUDE.md « Priorité des sources » (aucune question du banc actuel
+  # n'attend un document V ou un cas test comme réponse -- lot 7b, E3 -- le
+  # profil "exemples" reste donc non instancié faute de banc pour le
+  # mesurer).
+  #
+  # Révisé au lot 7c à partir du contenu réel de la famille U3, pas deviné :
+  # l'inventaire du lot 6 classait U3 comme « formats et fichiers », mais
+  # 32 des 36 documents U3 du corpus 17.4.0 sont des notices de
+  # modélisation (« Modélisations POU_D_T... », « Modélisation COQUE_3D »,
+  # docs/corpus.md §3, amendement lot 7c) -- seuls U3.01-U3.04 sont
+  # effectivement des formats de fichier de maillage. Trois jeux de profils
+  # candidats ont été mesurés avant de choisir celui-ci
+  # (docs/development-plan.md, clôture lot 7c, G2) : ajouter U3 à
+  # `syntaxe` (l'ajout "à l'aveugle" que l'instruction du lot demandait
+  # explicitement de ne pas faire aveuglément) dégrade le hit@10 réaliste de
+  # 82,5 % à 79,4 % -- les 4 documents U3.01-U3.04 (formats de maillage,
+  # jamais une réponse à une question de syntaxe de mot-clé) remontent alors
+  # à poids plein sur des requêtes sans rapport et évincent la bonne réponse
+  # `U4`. U3 n'est donc listé que dans `theorie`/`methode`, jamais `syntaxe`.
   source_priority:
-    syntax: [catalogue, U4, U7, testcase, source]
-    theory: [R, U2, U4, V]
-    example: [testcase, V, U4]
+    syntaxe: [catalogue, U4, U7, testcase, source]
+    theorie: [R, U2, U4, U3, V]
+    methode: [U2, U4, R, U3]
 
 filters:
   # Champs sur lesquels un filtre strict est possible.

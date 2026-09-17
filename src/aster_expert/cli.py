@@ -33,7 +33,6 @@ from aster_expert.indexing.bm25_index import (
     default_index_dir,
     load_bm25_index,
 )
-from aster_expert.indexing.bm25_index import search as bm25_search
 from aster_expert.indexing.enrichment import (
     collect_related_commands,
     load_command_keyword_names,
@@ -79,6 +78,7 @@ from aster_expert.retrieval.bench import (
     run_granularity_bench,
     run_lot7b_decomposition,
     run_naive_baseline_comparison,
+    run_profile_routed_bench,
 )
 from aster_expert.retrieval.evaluation import (
     evaluate_retrieval,
@@ -86,7 +86,16 @@ from aster_expert.retrieval.evaluation import (
     load_ranked_results,
     summarize_question_set,
 )
-from aster_expert.retrieval.source_priority import load_source_priority
+from aster_expert.retrieval.query_profiles import (
+    DEFAULT_QUERY_PROFILE,
+    default_query_profiles_path,
+    load_query_profiles,
+)
+from aster_expert.retrieval.source_priority import (
+    hard_filter_search,
+    load_source_priority,
+    soft_reweight_search,
+)
 from aster_expert.validation.errors import ValidationRunError
 from aster_expert.validation.validate import validate_comm_file
 
@@ -884,12 +893,12 @@ def eval_bench(
 @eval_app.command("decompose")
 def eval_decompose(
     profile: str = typer.Option(
-        "syntax",
+        "syntaxe",
         "--profile",
         help=(
             "Profil de priorité des sources (config/retrieval.yaml, "
-            "defaults.source_priority) : syntax, theory ou example. "
-            "Jamais détecté automatiquement (lot 7b, E2)."
+            "defaults.source_priority) : syntaxe, theorie ou methode. "
+            "Jamais détecté automatiquement (lot 7b, E2 ; lot 7c, G1)."
         ),
     ),
     k_values: str = typer.Option(
@@ -1028,6 +1037,149 @@ def eval_decompose(
                 f"({impact.answerability}) : "
                 f"réf={impact.hit_at_k10_lot7_reference} "
                 f"variante={impact.hit_at_k10_variant}",
+                err=True,
+            )
+
+
+@eval_app.command("profile-bench")
+def eval_profile_bench(
+    granularity: str = typer.Option(
+        "by_file", "--granularity", help="by_file ou by_subsection."
+    ),
+    mode: str = typer.Option(
+        "soft", "--mode", help="soft (défaut) ou hard (lot 7b, E2)."
+    ),
+    default_profile: str = typer.Option(
+        DEFAULT_QUERY_PROFILE,
+        "--default-profile",
+        help="Profil appliqué à toutes les questions pour la mesure 'plancher'.",
+    ),
+    k_values: str = typer.Option(
+        "5,10,20", "--k", help="Profondeurs, séparées par des virgules."
+    ),
+    questions_path: str = typer.Option(
+        "", "--questions", help="Défaut : data/evaluations/questions.jsonl."
+    ),
+    profiles_path: str = typer.Option(
+        "", "--profiles", help="Défaut : data/evaluations/query_profiles.jsonl."
+    ),
+    output_path: str = typer.Option(
+        "", "--output", help="Chemin du rapport JSON à écrire."
+    ),
+) -> None:
+    """Lot 7c, G5 : plancher (un profil pour toutes les questions) contre
+    réaliste (chaque question servie avec son profil annoté), sur l'index
+    de référence (lot 7, sans enrichissement E1 -- lot 7c, G4 : mesuré sans
+    gain net, retiré du chemin par défaut).
+    """
+    project_root = _project_root()
+    if granularity not in _FRAGMENT_GRANULARITIES:
+        typer.echo(f"Granularité inconnue : {granularity}", err=True)
+        raise typer.Exit(1)
+    if mode not in ("soft", "hard"):
+        typer.echo(f"Mode de priorité inconnu : {mode!r}", err=True)
+        raise typer.Exit(1)
+
+    path = (
+        Path(questions_path)
+        if questions_path
+        else _default_questions_path(project_root)
+    )
+    if not path.is_file():
+        typer.echo(f"Jeu d'évaluation introuvable : {path}", err=True)
+        raise typer.Exit(1)
+
+    profiles_file = (
+        Path(profiles_path)
+        if profiles_path
+        else default_query_profiles_path(project_root)
+    )
+    if not profiles_file.is_file():
+        typer.echo(f"Annotations de profil introuvables : {profiles_file}", err=True)
+        raise typer.Exit(1)
+
+    index_dir = default_index_dir(project_root, granularity)  # type: ignore[arg-type]
+    if not index_dir.is_dir():
+        typer.echo(
+            f"Banc échoué : index introuvable ({index_dir}) ; lancez "
+            f"'aster-expert index build --granularity {granularity}' d'abord",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    retrieval_config_path = project_root / "config" / "retrieval.yaml"
+    source_priority = load_source_priority(retrieval_config_path)
+    if default_profile not in source_priority:
+        typer.echo(
+            f"Profil inconnu : {default_profile!r} ; profils déclarés dans "
+            f"config/retrieval.yaml : {sorted(source_priority)}",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    versions_path = project_root / "config" / "versions.yaml"
+    aster_version = _resolve_aster_version_tag(versions_path)
+    ks = tuple(int(x) for x in k_values.split(","))
+
+    questions = load_questions(path)
+    profile_by_question_id = load_query_profiles(profiles_file)
+    retriever, corpus = load_bm25_index(index_dir)
+
+    report = run_profile_routed_bench(
+        retriever,
+        corpus,
+        questions,
+        granularity=granularity,
+        fragment_count=len(corpus),
+        version=aster_version,
+        profile_by_question_id=profile_by_question_id,
+        source_priority_by_profile=source_priority,
+        default_profile=default_profile,  # type: ignore[arg-type]
+        mode=mode,  # type: ignore[arg-type]
+        k_values=ks,
+    )
+
+    rendered = json.dumps(
+        json.loads(report.model_dump_json()), indent=2, ensure_ascii=False
+    )
+    typer.echo(rendered)
+
+    if output_path:
+        out = Path(output_path)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(rendered + "\n", encoding="utf-8")
+        typer.echo(f"Écrit dans {out}", err=True)
+
+    typer.echo(
+        f"Questions sans profil annoté (repli sur '{default_profile}') : "
+        f"{report.unannotated_question_ids}",
+        err=True,
+    )
+    for label, bench_report in (
+        ("plancher", report.floor),
+        ("réaliste", report.realistic),
+    ):
+        row = " ".join(
+            f"hit@{k}={bench_report.reports_by_k[k].hit_rate_at_k * 100:5.1f}%"
+            for k in ks
+            if k in bench_report.reports_by_k
+        )
+        typer.echo(f"  {label:10s} {row}", err=True)
+
+    if 10 in ks:
+        typer.echo("Ventilation par profil (hit@10, réaliste) :", err=True)
+        for prof, bucket in report.ventilation_by_profile[10].items():
+            typer.echo(
+                f"  {prof:10s} n={bucket.n_questions:2d} "
+                f"hit@10={bucket.hit_rate * 100:.1f} %",
+                err=True,
+            )
+
+        typer.echo("Échecs à k=10 (réaliste), avec le profil utilisé :", err=True)
+        for failure in report.failures_at_k10_with_profile:
+            typer.echo(
+                f"  {failure.id:10s} [{failure.profile_used:8s}] {failure.domain} "
+                f"requis={failure.required_documents}",
                 err=True,
             )
 
@@ -1174,12 +1326,45 @@ def search(
         "", "--section", help="Sous-chaîne du chemin de section."
     ),
     k: int = typer.Option(10, "--k", help="Nombre de résultats."),
+    profile: str = typer.Option(
+        DEFAULT_QUERY_PROFILE,
+        "--profile",
+        help=(
+            "Profil de priorité des sources (config/retrieval.yaml, "
+            "defaults.source_priority) : syntaxe, theorie ou methode. "
+            "Toujours un paramètre explicite de l'appelant, jamais détecté "
+            "depuis le texte de la requête (ADR-007)."
+        ),
+    ),
+    priority_mode: str = typer.Option(
+        "soft",
+        "--priority-mode",
+        help=(
+            "soft (défaut, domine au banc du lot 7b/7c) ou hard : mode "
+            "d'application du profil de priorité des sources."
+        ),
+    ),
 ) -> None:
-    """Interroger le corpus documentaire (lot 7, D4)."""
+    """Interroger le corpus documentaire (lot 7, D4 ; lot 7c, G1 : --profile)."""
     project_root = _project_root()
     if granularity not in _FRAGMENT_GRANULARITIES:
         typer.echo(f"Granularité inconnue : {granularity}", err=True)
         raise typer.Exit(1)
+    if priority_mode not in ("soft", "hard"):
+        typer.echo(f"Mode de priorité inconnu : {priority_mode!r}", err=True)
+        raise typer.Exit(1)
+
+    retrieval_config_path = project_root / "config" / "retrieval.yaml"
+    source_priority = load_source_priority(retrieval_config_path)
+    if profile not in source_priority:
+        typer.echo(
+            f"Profil inconnu : {profile!r} ; profils déclarés dans "
+            f"config/retrieval.yaml : {sorted(source_priority)}",
+            err=True,
+        )
+        raise typer.Exit(1)
+    priority_families = source_priority[profile]
+
     index_dir = default_index_dir(project_root, granularity)  # type: ignore[arg-type]
     if not index_dir.is_dir():
         typer.echo(
@@ -1190,11 +1375,15 @@ def search(
         raise typer.Exit(1)
 
     retriever, corpus = load_bm25_index(index_dir)
-    hits = bm25_search(
+    priority_search = (
+        hard_filter_search if priority_mode == "hard" else soft_reweight_search
+    )
+    hits = priority_search(
         retriever,
         corpus,
         query,
         k=k,
+        priority_families=priority_families,
         version=version or None,
         family=family or None,
         document_id=document or None,
@@ -1205,6 +1394,10 @@ def search(
     if not hits:
         typer.echo("Aucun résultat.", err=True)
         raise typer.Exit(0)
+
+    typer.echo(
+        f"Profil : {profile} {priority_families} (mode {priority_mode})", err=True
+    )
 
     for hit in hits:
         typer.echo(
