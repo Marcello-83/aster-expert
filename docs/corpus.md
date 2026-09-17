@@ -186,9 +186,10 @@ Contrôles automatiques exigés :
 
 ## 8. Jeu d'évaluation
 
-`data/evaluations/questions.jsonl` contient les questions de référence (lot 5).
-Schéma effectivement produit — un amendement du schéma esquissé initialement
-ici, jamais un `expected_documents` deviné pour le remplir a posteriori :
+`data/evaluations/questions.jsonl` contient les questions de référence (lot 5,
+schéma amendé au lot 5b — normalisation, docs/development-plan.md). Schéma
+effectivement produit — un amendement du schéma esquissé initialement ici,
+jamais un `required_documents` deviné pour le remplir a posteriori :
 
 ```json
 {
@@ -197,11 +198,18 @@ ici, jamais un `expected_documents` deviné pour le remplir a posteriori :
   "domain": "modelisation_poutre",
   "origin": "travail reel",
   "source_question": "Comment modéliser les pieux dans code_aster",
-  "version": null,
-  "expected_documents": ["U3.11.01"],
+  "version": {
+    "solver": "17.4.0",
+    "documentation_revision": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "compatibility_status": "correspondance solveur/documentation vérifiée par tag (git ls-remote --tags, config/versions.yaml) ; aucune confirmation croisée par changelog au-delà de cette convention de nommage commune"
+  },
+  "required_documents": ["U3.11.01"],
+  "supporting_documents": [],
   "expected_commands": ["AFFE_MODELE"],
   "verified_by": "U3.11.01 « Notice d'utilisation des éléments de poutre », section ... — titre et chemin vérifiés dans external/codeaster-doc",
   "note": "...",
+  "answerability": "explicit",
+  "gold_confidence": "high",
   "answer_outside_corpus": false
 }
 ```
@@ -210,13 +218,30 @@ ici, jamais un `expected_documents` deviné pour le remplir a posteriori :
 - `source_question` : la question large d'origine dont elle est issue
   (`data/evaluations/cas_usage.md`, catalogue de couverture fonctionnelle,
   jamais lui-même une question d'évaluation).
-- `version` : la version documentaire ciblée si la question en dépend
-  explicitement, `null` sinon (le corpus synchronisé ne couvre que 17.4.0).
-- `expected_documents` : identifiants de documents établis par lecture du
-  corpus réel, jamais devinés ; vide et `note` renseignée si la question
-  reste non résolue (résultat normal, pas un échec masqué). Plusieurs
-  documents légitimes sont tous listés — la métrique est « au moins un
-  document attendu retrouvé », pas « le bon document unique ».
+- `version` : jamais `null` (amendement lot 5b) — le corpus synchronisé ne
+  couvre qu'une seule révision documentaire, donc chaque question porte la
+  version du solveur (`solver`), la révision du dépôt `codeaster-doc`
+  effectivement lue (`documentation_revision`, le commit de
+  `data/raw/manifest.json`/`config/versions.yaml`) et un
+  `compatibility_status` explicite sur ce qui a été vérifié de cette
+  correspondance solveur/documentation et ce qui ne l'a pas été
+  (`config/versions.yaml` : correspondance de tag confirmée par
+  `git ls-remote --tags`, aucun changelog croisé consulté) — jamais
+  « vérifié » sans préciser jusqu'où (`CLAUDE.md`, principe 6).
+- `required_documents` : identifiants de documents établis par lecture du
+  corpus réel, jamais devinés, sans lesquels la réponse manquerait son
+  noyau ; vide et `note` renseignée si la question reste non résolue
+  (résultat normal, pas un échec masqué). Plusieurs documents légitimes
+  sont tous listés — la métrique est « au moins un document attendu
+  retrouvé », pas « le bon document unique ». C'est le seul champ lu par
+  `aster_expert.retrieval.evaluation`.
+- `supporting_documents` (amendement lot 5b) : documents utiles à une
+  réponse complète (théorie sous-jacente, corroboration, panorama de
+  contexte) mais dont l'absence ne rendrait pas la réponse fausse — jamais
+  scorés par l'outil de mesure. Le classement se fonde sur ce que dit déjà
+  `verified_by` au moment de la scission (jamais une nouvelle recherche) :
+  quand `verified_by` ne permet pas de trancher entre les deux, le document
+  reste en `required_documents`.
 - `expected_commands` : uniquement des noms présents dans le catalogue
   extrait au lot 4b (`data/processed/catalogue/<digest>/*.json`) ; une
   commande réelle mais hors catalogue (`DEFI_CONT`, `CALC_SPEC`,
@@ -225,12 +250,30 @@ ici, jamais un `expected_documents` deviné pour le remplir a posteriori :
 - `verified_by` : ce qui fonde chaque document retenu — titre exact,
   section, chemin du fichier source (`CLAUDE.md`, « Toute donnée indexée
   conserve sa source, son chemin »). Une correspondance de mots-clés seule
-  n'est jamais suffisante.
+  n'est jamais suffisante. Un document cité par un autre document sans que
+  son propre contenu ait été lu n'est pas considéré comme individuellement
+  vérifié (lot 5b, X1 : cas d'eval-039/U4.81.44/U4.81.46, corrigé par
+  lecture directe).
 - `note` : motif de non-résolution, mise en garde sur une fausse piste de
   la table commande → document (lot 6, I5), ou tout autre fait utile à la
   relecture.
+- `answerability` (amendement lot 5b) : quatre valeurs — `explicit` (réponse
+  présente telle quelle dans un document), `inferable` (déduite de faits
+  documentés, sans être énoncée comme telle), `partial` (la preuve ne
+  couvre qu'une partie de ce que demande la question) et `absent` (aucune
+  réponse officielle établie — `required_documents` vide, cas normal
+  d'eval-005/eval-007, pas un trou du jeu).
+- `gold_confidence` (amendement lot 5b) : trois valeurs — `high`, `medium`,
+  `provisional` — reflétant la seule solidité de `verified_by` (jamais une
+  nouvelle vérification) : `high` pour une citation directe et spécifique
+  de chaque document retenu ; `medium` quand la réponse repose sur un
+  mécanisme générique documenté appliqué à un cas que le corpus ne nomme
+  jamais, ou quand la vérification reste à un niveau de citation
+  documentaire plutôt que de contenu ; `provisional` pour une question non
+  résolue, un constat de recherche à un instant donné, pas un fait
+  définitif.
 - `answer_outside_corpus` : `true` quand la réponse relève des cas tests ou
-  du catalogue plutôt que de la documentation elle-même — `expected_documents`
+  du catalogue plutôt que de la documentation elle-même — `required_documents`
   reste alors vide, ce n'est jamais confondu avec une question non résolue.
 
 `data/evaluations/questions_raw.jsonl` conserve le jeu de questions tel que
@@ -241,11 +284,30 @@ d'origine.
 Les questions proviennent de problèmes réellement rencontrés, pas de
 reformulations de la documentation. Elles ne sont jamais reformulées pour
 les rendre plus faciles à satisfaire : c'est le corpus qu'on mesure, pas les
-questions.
+questions. Exception documentée : `eval-013`, scindée en deux questions
+distinctes au lot 5b (`eval-013` et `eval-065`) parce qu'elle mélangeait deux
+mécanismes documentés séparément (calculer un spectre d'oscillateur depuis un
+accélérogramme, ou en déclarer un déjà connu) — une scission, jamais une
+reformulation de contenu.
 
 L'outil de mesure (`aster_expert.retrieval.evaluation`, `aster-expert eval
 score`/`aster-expert eval summary`) calcule rappel@k, précision@k, hit@k et
 MRR à partir d'une liste de résultats classés fournie en entrée — utilisable
 avant qu'aucun index n'existe (lot 5). Une question non résolue
-(`expected_documents` vide) est exclue de la métrique, jamais scorée comme un
+(`required_documents` vide) est exclue de la métrique, jamais scorée comme un
 échec.
+
+**Documents référencés mais absents du corpus synchronisé (lot 5b).**
+Plusieurs documents `U4`/`U7`/`R` du corpus 17.4.0 renvoient vers `U2.06.05`
+et `U2.06.07` (guides méthodologiques d'interaction sol-structure), qui
+n'existent ni dans `external/codeaster-doc/source/manuals/man_u/u2/`
+(répertoires `u2.06.05`/`u2.06.07` absents) ni dans
+`data/raw/inventory.jsonl` — 9 arêtes non résolues dans
+`data/processed/xref_graph.json` depuis 6 documents distincts
+(`U2.03.07`, `U2.06.10`, `U2.06.13`, `U4.53.05`, `U4.63.02`, `U7.03.12`,
+et une occurrence dans `V2.03.201`). Repéré à l'occasion de la vérification
+d'`eval-048` (interaction sol-structure) : un manque réel du dépôt
+documentaire public synchronisé, même famille de constat que les renvois
+cassés déjà relevés au lot 6b (`D3.02.01`, `A2.01`, obsolètes ou hors
+périmètre) — jamais deviné ni comblé, seulement consigné ici pour qu'une
+future synchronisation ou lecture ne le redécouvre pas de zéro.
