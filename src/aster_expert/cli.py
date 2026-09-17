@@ -13,6 +13,7 @@ from collections import Counter
 from pathlib import Path
 
 import typer
+import yaml
 
 from aster_expert import __version__
 from aster_expert.catalogue.errors import CatalogueExtractionError
@@ -26,6 +27,13 @@ from aster_expert.execution.detect import detect_environment, write_detected_sec
 from aster_expert.execution.docker_client import find_docker_binary
 from aster_expert.execution.errors import EnvironmentDetectionError
 from aster_expert.execution.models import DetectedEnvironment
+from aster_expert.indexing.bm25_index import (
+    build_bm25_index,
+    default_index_dir,
+    load_bm25_index,
+)
+from aster_expert.indexing.bm25_index import search as bm25_search
+from aster_expert.indexing.naive_search import build_documents_by_command
 from aster_expert.ingestion.command_map import (
     build_command_mapping,
     default_command_map_path,
@@ -56,7 +64,16 @@ from aster_expert.ingestion.xref import (
     write_xref_json,
 )
 from aster_expert.parsing.comm_parser import parse_comm_file
+from aster_expert.parsing.doc_fragments import (
+    DEFAULT_SUBSECTION_LINE_THRESHOLD,
+    build_fragments_streaming,
+    default_fragments_path,
+)
 from aster_expert.parsing.errors import CommParseError
+from aster_expert.retrieval.bench import (
+    run_granularity_bench,
+    run_naive_baseline_comparison,
+)
 from aster_expert.retrieval.evaluation import (
     evaluate_retrieval,
     load_questions,
@@ -78,11 +95,17 @@ comm_app = typer.Typer(no_args_is_help=True, help="Fichiers de commandes .comm."
 eval_app = typer.Typer(
     no_args_is_help=True, help="Jeu d'évaluation de la recherche (lot 5)."
 )
+fragments_app = typer.Typer(
+    no_args_is_help=True, help="Découpage du corpus en fragments (lot 7)."
+)
+index_app = typer.Typer(no_args_is_help=True, help="Index lexical (lot 7).")
 app.add_typer(env_app, name="env")
 app.add_typer(sources_app, name="sources")
 app.add_typer(catalogue_app, name="catalogue")
 app.add_typer(comm_app, name="comm")
 app.add_typer(eval_app, name="eval")
+app.add_typer(fragments_app, name="fragments")
+app.add_typer(index_app, name="index")
 
 
 def _not_implemented(batch: int, what: str) -> None:
@@ -120,6 +143,49 @@ def _require_workroot() -> Path:
         )
         raise typer.Exit(1)
     return Path(workroot_raw)
+
+
+def _resolve_aster_version_tag(versions_path: Path) -> str:
+    """The human-readable version tag of the last detected environment.
+
+    Distinct from `resolve_active_digest` (the identity that actually
+    faces authority, docs/architecture.md ADR-002): a documentary fragment
+    cites the readable tag for humans (docs/metadata.md §2, `aster_version`
+    on a catalogue schema follows the same convention), never `stable`.
+    """
+    data = yaml.safe_load(versions_path.read_text(encoding="utf-8")) or {}
+    tag = (
+        (data.get("detected") or {}).get("container", {}).get("image_tag")
+        if isinstance(data.get("detected"), dict)
+        else None
+    )
+    if not tag:
+        typer.echo(
+            "config/versions.yaml : aucun tag d'image détecté ; lancez "
+            "'aster-expert env detect' d'abord",
+            err=True,
+        )
+        raise typer.Exit(1)
+    return str(tag)
+
+
+def _default_manifest_commit(project_root: Path, source_name: str) -> str:
+    manifest_path = default_manifest_path(project_root)
+    if not manifest_path.is_file():
+        typer.echo(f"Manifeste introuvable ({manifest_path})", err=True)
+        raise typer.Exit(1)
+    manifest_raw = json.loads(manifest_path.read_text(encoding="utf-8"))
+    entry = next(
+        (s for s in manifest_raw.get("sources", []) if s.get("name") == source_name),
+        None,
+    )
+    if entry is None or not entry.get("commit"):
+        typer.echo(
+            f"Aucune révision synchronisée pour '{source_name}' dans le manifeste",
+            err=True,
+        )
+        raise typer.Exit(1)
+    return str(entry["commit"])
 
 
 def _detect_from_env(workroot: Path) -> DetectedEnvironment:
@@ -699,10 +765,263 @@ def eval_score(
     typer.echo(f"MRR          : {report.mean_reciprocal_rank:.3f}", err=True)
 
 
+_FRAGMENT_GRANULARITIES = ("by_file", "by_subsection")
+
+
+@eval_app.command("bench")
+def eval_bench(
+    granularity: str = typer.Option(
+        "by_file", "--granularity", help="by_file ou by_subsection."
+    ),
+    k_values: str = typer.Option(
+        "5,10,20", "--k", help="Profondeurs, séparées par des virgules."
+    ),
+    questions_path: str = typer.Option(
+        "", "--questions", help="Défaut : data/evaluations/questions.jsonl."
+    ),
+    output_path: str = typer.Option(
+        "", "--output", help="Chemin du rapport JSON à écrire."
+    ),
+    naive_baseline: bool = typer.Option(
+        True,
+        "--naive-baseline/--no-naive-baseline",
+        help="Inclure la référence naïve (D6).",
+    ),
+) -> None:
+    """Mesurer hit@k/recall@k/MRR ventilés sur le jeu d'évaluation (lot 7, D5/D6)."""
+    project_root = _project_root()
+    if granularity not in _FRAGMENT_GRANULARITIES:
+        typer.echo(f"Granularité inconnue : {granularity}", err=True)
+        raise typer.Exit(1)
+
+    path = (
+        Path(questions_path)
+        if questions_path
+        else _default_questions_path(project_root)
+    )
+    if not path.is_file():
+        typer.echo(f"Jeu d'évaluation introuvable : {path}", err=True)
+        raise typer.Exit(1)
+
+    index_dir = default_index_dir(project_root, granularity)  # type: ignore[arg-type]
+    if not index_dir.is_dir():
+        typer.echo(
+            f"Banc échoué : index introuvable ({index_dir}) ; lancez "
+            f"'aster-expert index build --granularity {granularity}' d'abord",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    versions_path = project_root / "config" / "versions.yaml"
+    aster_version = _resolve_aster_version_tag(versions_path)
+    ks = tuple(int(x) for x in k_values.split(","))
+
+    questions = load_questions(path)
+    retriever, corpus = load_bm25_index(index_dir)
+
+    report = run_granularity_bench(
+        retriever,
+        corpus,
+        questions,
+        granularity=granularity,
+        fragment_count=len(corpus),
+        version=aster_version,
+        k_values=ks,
+    )
+
+    payload: dict[str, object] = {
+        "granularity_report": json.loads(report.model_dump_json())
+    }
+
+    if naive_baseline:
+        command_map_path = default_command_map_path(project_root)
+        if not command_map_path.is_file():
+            typer.echo(
+                f"Table commande -> document introuvable ({command_map_path})", err=True
+            )
+            raise typer.Exit(1)
+        documents_by_command = build_documents_by_command(command_map_path)
+        baseline = run_naive_baseline_comparison(
+            retriever,
+            corpus,
+            questions,
+            documents_by_command,
+            version=aster_version,
+            k_values=ks,
+        )
+        payload["naive_baseline"] = json.loads(baseline.model_dump_json())
+
+    rendered = json.dumps(payload, indent=2, ensure_ascii=False)
+    typer.echo(rendered)
+
+    if output_path:
+        out = Path(output_path)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(rendered + "\n", encoding="utf-8")
+        typer.echo(f"Écrit dans {out}", err=True)
+
+    reference = report.reports_by_k.get(10) or next(iter(report.reports_by_k.values()))
+    typer.echo(
+        f"[{granularity}] questions évaluées : {report.n_questions_evaluated} "
+        f"({report.n_questions_excluded_unresolved} non résolues exclues)",
+        err=True,
+    )
+    typer.echo(
+        f"[{granularity}] hit@10 : {reference.hit_rate_at_k * 100:.1f} %", err=True
+    )
+    typer.echo(
+        f"[{granularity}] MRR    : {reference.mean_reciprocal_rank:.3f}", err=True
+    )
+
+
+@fragments_app.command("build")
+def fragments_build(
+    granularity: str = typer.Option(
+        "both",
+        "--granularity",
+        help="by_file, by_subsection, ou both (les deux, l'une après l'autre).",
+    ),
+    threshold: int = typer.Option(
+        DEFAULT_SUBSECTION_LINE_THRESHOLD,
+        "--threshold",
+        help="Seuil (lignes) au-delà duquel un fichier est redécoupé (by_subsection).",
+    ),
+) -> None:
+    """Découper le corpus documentaire en fragments (lot 7, D1/D2)."""
+    project_root = _project_root()
+    inventory_path = default_inventory_path(project_root)
+    if not inventory_path.is_file():
+        typer.echo(
+            f"Découpage échoué : inventaire introuvable ({inventory_path}) ; "
+            "lancez 'aster-expert sources inventory' d'abord",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    command_map_path = default_command_map_path(project_root)
+    xref_path = default_xref_path(project_root)
+    for path in (command_map_path, xref_path):
+        if not path.is_file():
+            typer.echo(f"Découpage échoué : introuvable ({path})", err=True)
+            raise typer.Exit(1)
+
+    versions_path = project_root / "config" / "versions.yaml"
+    aster_version = _resolve_aster_version_tag(versions_path)
+    repo_root = project_root / "external" / "codeaster-doc"
+
+    granularities = _FRAGMENT_GRANULARITIES if granularity == "both" else (granularity,)
+    for one_granularity in granularities:
+        if one_granularity not in _FRAGMENT_GRANULARITIES:
+            typer.echo(f"Granularité inconnue : {one_granularity}", err=True)
+            raise typer.Exit(1)
+        output_path = default_fragments_path(project_root, one_granularity)  # type: ignore[arg-type]
+        summary = build_fragments_streaming(
+            inventory_path=inventory_path,
+            repo_root=repo_root,
+            granularity=one_granularity,  # type: ignore[arg-type]
+            aster_version=aster_version,
+            command_map_path=command_map_path,
+            xref_path=xref_path,
+            output_path=output_path,
+            subsection_line_threshold=threshold,
+        )
+        typer.echo(
+            f"[{one_granularity}] documents traités : {summary.documents_processed}"
+        )
+        typer.echo(f"[{one_granularity}] fragments produits : {summary.fragment_count}")
+        typer.echo(
+            f"[{one_granularity}] taille médiane (car.) : "
+            f"{summary.median_content_chars}"
+        )
+        typer.echo(f"[{one_granularity}] écrit dans {output_path}")
+
+
+@index_app.command("build")
+def index_build(
+    granularity: str = typer.Option(
+        "both", "--granularity", help="by_file, by_subsection, ou both."
+    ),
+) -> None:
+    """Construire l'index lexical BM25 à partir des fragments (lot 7, D4)."""
+    project_root = _project_root()
+    granularities = _FRAGMENT_GRANULARITIES if granularity == "both" else (granularity,)
+    for one_granularity in granularities:
+        if one_granularity not in _FRAGMENT_GRANULARITIES:
+            typer.echo(f"Granularité inconnue : {one_granularity}", err=True)
+            raise typer.Exit(1)
+        fragments_path = default_fragments_path(project_root, one_granularity)  # type: ignore[arg-type]
+        if not fragments_path.is_file():
+            typer.echo(
+                f"Index échoué : fragments introuvables ({fragments_path}) ; "
+                f"lancez 'aster-expert fragments build "
+                f"--granularity {one_granularity}' d'abord",
+                err=True,
+            )
+            raise typer.Exit(1)
+        index_dir = default_index_dir(project_root, one_granularity)  # type: ignore[arg-type]
+        summary = build_bm25_index(fragments_path, index_dir)
+        typer.echo(f"[{one_granularity}] fragments indexés : {summary.fragment_count}")
+        typer.echo(f"[{one_granularity}] vocabulaire       : {summary.vocabulary_size}")
+        typer.echo(f"[{one_granularity}] écrit dans {index_dir}")
+
+
 @app.command("search")
-def search(query: str) -> None:
-    """Interroger le corpus documentaire."""
-    _not_implemented(7, f"recherche dans le corpus : {query}")
+def search(
+    query: str,
+    granularity: str = typer.Option(
+        "by_file", "--granularity", help="by_file ou by_subsection (lot 7, D2)."
+    ),
+    version: str = typer.Option("", "--version", help="Filtre sur aster_version."),
+    family: str = typer.Option(
+        "", "--family", help="Filtre sur la famille documentaire."
+    ),
+    document: str = typer.Option(
+        "", "--document", help="Filtre sur l'identifiant de document."
+    ),
+    command: str = typer.Option("", "--command", help="Filtre sur une commande liée."),
+    section: str = typer.Option(
+        "", "--section", help="Sous-chaîne du chemin de section."
+    ),
+    k: int = typer.Option(10, "--k", help="Nombre de résultats."),
+) -> None:
+    """Interroger le corpus documentaire (lot 7, D4)."""
+    project_root = _project_root()
+    if granularity not in _FRAGMENT_GRANULARITIES:
+        typer.echo(f"Granularité inconnue : {granularity}", err=True)
+        raise typer.Exit(1)
+    index_dir = default_index_dir(project_root, granularity)  # type: ignore[arg-type]
+    if not index_dir.is_dir():
+        typer.echo(
+            f"Recherche échouée : index introuvable ({index_dir}) ; lancez "
+            f"'aster-expert index build --granularity {granularity}' d'abord",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    retriever, corpus = load_bm25_index(index_dir)
+    hits = bm25_search(
+        retriever,
+        corpus,
+        query,
+        k=k,
+        version=version or None,
+        family=family or None,
+        document_id=document or None,
+        command=command or None,
+        section_contains=section or None,
+    )
+
+    if not hits:
+        typer.echo("Aucun résultat.", err=True)
+        raise typer.Exit(0)
+
+    for hit in hits:
+        typer.echo(
+            f"{hit.score:.3f}  {hit.document_id}  "
+            f"[{' / '.join(hit.section_path)}]  "
+            f"{hit.source_path}@{hit.source_commit[:12]}"
+        )
+        typer.echo(f"    {hit.excerpt}")
 
 
 @app.command("validate")

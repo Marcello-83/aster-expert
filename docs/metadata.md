@@ -9,6 +9,7 @@ rejetée et journalisée.
 ```json
 {
   "fragment_id": "U4.51.03#COMPORTEMENT.RELATION",
+  "granularity": "by_file",
   "source_name": "codeaster-doc",
   "source_commit": "0000000000000000000000000000000000000000",
   "document_id": "U4.51.03",
@@ -41,6 +42,25 @@ Règles :
   synchronisations et d'éviter une réindexation inutile.
 - `related_documents` ne contient que des liens présents dans la source. Aucun
   lien n'est inféré.
+- **`granularity`** (amendement lot 7, D2) : `"by_file"` (un fragment par
+  fichier de section, tel que le dépôt le donne) ou `"by_subsection"`
+  (identique à `by_file` pour tout fichier à `DEFAULT_SUBSECTION_LINE_
+  THRESHOLD` lignes ou moins — 150, choisi juste sous le 90e centile mesuré
+  sur le corpus 17.4.0, voir le compte rendu du lot 7 — et redécoupé par
+  en-tête reStructuredText sinon). Nécessaire car les deux granularités
+  coexistent, indexées séparément (`data/processed/fragments_by_file.jsonl`
+  et `data/processed/fragments_by_subsection.jsonl`) : sans ce champ, un
+  fragment issu de l'une ne pourrait pas être distingué de son homologue
+  issu de l'autre pour le même fichier source. `content` reste dans les deux
+  cas une tranche brute du texte source (jamais un rendu docutils), afin
+  qu'une formule `.. math::`/`:math:` apparaisse exactement comme dans la
+  source. Mesuré sur le banc du lot 5 (compte rendu du lot 7) : les deux
+  granularités donnent des résultats statistiquement indiscernables (hit@10
+  61,9 % contre 60,3 % sur 63 questions résolues, 13 questions sur 63
+  changeant d'issue selon le sens, sans dominance claire) — `by_file` reste
+  la granularité par défaut de `aster-expert search`, retenue pour sa
+  simplicité (deux fois moins de fragments) plutôt que pour un gain mesuré
+  qui n'existe pas.
 
 ## 2. Schéma de commande issu du catalogue
 

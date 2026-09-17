@@ -668,6 +668,208 @@ métadonnées, `aster-expert search`.
 Critères de sortie : mesure sur le jeu d'évaluation du lot 5, affichage des
 scores et des sources, contrôles de non-perte de contenu.
 
+**Clôture du lot 7.**
+
+**D1/D2 — Découpage, deux granularités.** `aster_expert.parsing.
+doc_fragments` réutilise la structure du lot 6
+(`aster_expert.ingestion.inventory.DocumentEntry` : un document est un
+répertoire, une section est un fichier `.rst`), jamais un nouveau parseur —
+`find_section_headers`/`split_into_subsections` détectent les en-têtes reST
+(titre + ligne d'ornementation, convention par soulignement uniquement,
+jamais surlignement+soulignement, non observée sur l'échantillon inspecté)
+par lecture directe du texte, sans docutils. `content` est toujours une
+tranche brute (`str.splitlines()` rejointe), jamais un rendu : une formule
+`.. math::`/`:math:` apparaît donc exactement comme dans la source.
+
+Seuil de redécoupage (`DEFAULT_SUBSECTION_LINE_THRESHOLD = 150`) choisi par
+mesure : `wc -l` sur les 13116 fichiers de section réels du corpus 17.4.0
+synchronisé (hors `other_pages`) donne une médiane de 41 lignes et un 90e
+centile à 155 lignes — 150 est retenu juste en dessous, pour ne redécouper
+que la longue traîne (dictionnaires de mots-clés, syntaxes complètes,
+chapitres théoriques), pas la majorité des fichiers déjà courts.
+
+Sur le corpus réel (`aster-expert fragments build --granularity both`) :
+
+| Granularité | Fragments | Taille médiane |
+|---|---|---|
+| `by_file` | 13116 | 1358 caractères |
+| `by_subsection` | 26553 | 946 caractères |
+
+**D3 — Contrôles de non-perte.** Vérifiés, pas supposés :
+
+- non-perte : `verify_full_coverage` reconstruit chaque fichier redécoupé
+  ligne à ligne à partir des bornes déclarées et compare à la source ;
+  aucune levée sur l'ensemble des fichiers de la passe réelle (contrôle
+  intégré au constructeur, pas un audit a posteriori) ;
+- rattachement : garanti par construction (`DocumentFragment.source_commit`/
+  `source_path`/`aster_version` non optionnels, `pydantic`) ;
+- idempotence : deux exécutions consécutives de `aster-expert fragments
+  build --granularity by_file` sur la même révision produisent un
+  `fragments_by_file.jsonl` identique champ à champ (13116/13116), empreintes
+  comprises, hors `extracted_at` seul (horodatage du lot, jamais un fait du
+  contenu) — vérifié par comparaison directe des deux sorties, pas
+  supposé de la seule déterminisme apparent du code.
+
+Liens attachés (lot 6/6b, à la granularité du document — ni la table
+commande -> document ni le graphe de références n'ont de granularité plus
+fine) : 1538/13116 fragments `by_file` portent au moins une commande liée,
+4478/13116 portent au moins un document lié.
+
+**D4 — Index lexical et recherche.** `aster_expert.indexing.bm25_index`
+encapsule `bm25s` (`stopwords="french"`, jamais la liste anglaise par
+défaut) sans réimplémenter son calcul de score. Les filtres de métadonnées
+(`--version`, `--family`, `--document`, `--command`, `--section`) sont
+appliqués en deux temps : un `weight_mask` natif de `bm25s.BM25.retrieve`
+met à zéro le score de tout fragment hors filtre *avant* la sélection du
+top-k (le classement lui-même n'est jamais pollué par un candidat proche du
+seuil), puis chaque résultat retenu est revérifié explicitement — un score
+nul n'est jamais interprété à lui seul comme une preuve d'exclusion
+(`CLAUDE.md`, « jamais renvoyé silencieusement »). Aucune fusion, aucun
+reranking, aucun index vectoriel (ADR-004).
+
+`aster-expert search "question" [--version X] [--family U4] [--document ID]
+[--command NOM] [--section TEXTE] [--granularity by_file|by_subsection]
+[--k N]` affiche pour chaque résultat : score, identifiant de document,
+chemin de section, chemin source, révision (12 premiers caractères), et un
+extrait. Index construits sur le corpus réel : `by_file` (13116 fragments,
+vocabulaire 101427 formes, 68 Mio), `by_subsection` (26553 fragments, même
+vocabulaire, 80 Mio).
+
+**D5 — Mesure sur le banc (livrable qui décide de la suite).**
+`aster_expert.retrieval.bench` réduit un classement de fragments à un
+classement de **documents** (dédupliqué, premier fragment rencontré fixe le
+rang du document) avant de le confier à `aster_expert.retrieval.evaluation`,
+inchangé depuis le lot 5. Sur les 65 questions du lot 5/5b, 63 résolues
+(`required_documents` non vide), version filtrée à `17.4.0` :
+
+| Granularité | k | hit@k | recall@k | MRR |
+|---|---|---|---|---|
+| `by_file` | 5 | 46,0 % | 35,2 % | 0,330 |
+| `by_file` | 10 | 61,9 % | 49,6 % | 0,330 |
+| `by_file` | 20 | 76,2 % | 63,2 % | 0,330 |
+| `by_subsection` | 5 | 52,4 % | 39,2 % | 0,344 |
+| `by_subsection` | 10 | 60,3 % | 47,9 % | 0,344 |
+| `by_subsection` | 20 | 77,8 % | 64,9 % | 0,344 |
+
+**Verdict D2, tranché par le chiffre, pas par préférence : les deux
+granularités sont statistiquement indiscernables.** Sur les échecs à k=10,
+6 questions échouent seulement avec `by_file` et 7 seulement avec
+`by_subsection` (18 échouent avec les deux) — un renversement d'une dizaine
+de questions dans un sens ou l'autre sur un jeu de 63, sans dominance
+claire d'une granularité. `by_file` est retenue par défaut pour
+`aster-expert search` : à mesure égale, elle est deux fois moins volumineuse
+à indexer et plus simple à citer (une section du dépôt = un fragment,
+jamais un choix esthétique présenté comme un arbitrage mesuré) —
+`--granularity by_subsection` reste disponible et indexé pour qui veut la
+comparer.
+
+Ventilation (`by_file`, k=10) par famille : U4 64,7 % (51 questions), R
+63,6 % (11), U2 75,0 % (8), U3 66,7 % (3), U7 66,7 % (3). Par
+`answerability` : `explicit` 66,1 % (59), `inferable` 0 % (2), `partial`
+0 % (2) — les 4 questions non `explicit` échouent toutes, cohérent avec leur
+nature (une réponse déduite ou partielle n'est, par construction, pas la
+correspondance lexicale directe que BM25 cherche). Détail par domaine dans
+le rapport JSON déposé.
+
+**Liste nominative des 24 échecs à k=10 (`by_file`), avec ce qui a été
+remonté à la place (3 premiers résultats)** — c'est cette liste, pas le
+score global, qui pèse sur l'opportunité du lot C1 :
+
+| Question | Domaine | Attendu | Obtenu (top 3) |
+|---|---|---|---|
+| eval-001 | modelisation_poutre | U3.11.01, U3.11.04, U3.11.05, U3.11.07 | U2.06.10, U2.06.03, U2.03.11 |
+| eval-006 | interaction_sol_structure | R5.03.17 | V5.05.101, V7.31.133, U2.01.09 |
+| eval-008 | modelisation_coque | U4.42.01, U4.43.01 | R3.08.02, V5.03.100, V5.01.104 |
+| eval-009 | interaction_sol_structure | R5.03.17, R5.03.31 | U4.84.11, V5.05.101, V2.02.147 |
+| eval-010 | lois_comportement | R5.03.17 | V5.05.101, V2.02.401, R5.03.09 |
+| eval-012 | dynamique | U4.52.02 | U2.06.01, R5.01.02, U1.02.00 |
+| eval-016 | dynamique | U2.06.04, U4.52.14 | V2.01.105, V2.02.023, V2.08.012 |
+| eval-017 | modelisation_generale | U4.41.01 | U2.04.06, V1.01.266, U1.05.00 |
+| eval-019 | chargements | U4.44.01 | V6.03.501, V6.03.502, V6.04.503 |
+| eval-021 | chargements | U4.44.01 | D4.06.01, R5.04.01, V6.02.130 |
+| eval-030 | convergence | U4.51.03 | U1.02.00, U2.08.01, D4.06.15 |
+| eval-035 | post_traitement | U4.81.04 | U2.02.02, R3.07.04, R3.07.06 |
+| eval-036 | post_traitement | U4.42.01, U4.81.04, U4.81.05 | R3.07.04, R3.07.03, V6.05.108 |
+| eval-037 | post_traitement | U2.01.05 | R3.07.06, SV1.01.01, D5.02.04 |
+| eval-038 | ferraillage | U4.81.42 | V3.01.111, R7.01.31, R3.07.06 |
+| eval-041 | verification | U4.81.21, U4.81.04 | V2.03.504, V1.03.134, U2.01.11 |
+| eval-045 | post_traitement | U4.81.21 | D5.02.03, V0.01.001, V1.01.415 |
+| eval-046 | materiaux | U4.43.03 | U4.01.00, U1.05.00, U4.43.07 |
+| eval-048 | interaction_sol_structure | U7.03.12, R4.05.04, R4.05.07 | U1.02.00, U7.04.33, U2.04.03 |
+| eval-051 | verification | U4.81.22 | U4.66.11, U4.66.01, U2.06.10 |
+| eval-054 | chargements | U4.44.01 | V1.01.137, U1.05.00, U1.03.00 |
+| eval-058 | conditions_limites | U4.44.01, U4.44.03, U4.31.02 | V4.24.201, V3.02.326, U4.43.03 |
+| eval-059 | materiaux | U4.43.01 | U2.04.03, V7.31.149, V2.04.126 |
+| eval-065 | dynamique | U4.31.03, U4.32.02 | R4.05.03, V2.03.118, V1.01.102 |
+
+**Observation, jamais une décision prise à la place de l'utilisateur** :
+15/63 questions (23,8 %) échouent encore à k=20 (`eval-048`, notamment,
+porte la lacune documentaire déjà consignée ci-dessus — `U2.06.05`/
+`U2.06.07` absents du corpus synchronisé — un échec de corpus, pas de
+recherche). `U4.44.01` (« Opérateurs AFFE_CHAR_MECA... ») manque à 4
+reprises (`eval-019`, `eval-021`, `eval-054`, `eval-058`), toujours sur le
+domaine `chargements` : les questions posées en langage naturel ne
+reprennent jamais le vocabulaire du titre du document ni le nom de la
+commande, ce que le lexical seul ne comble pas par construction — un motif
+concret, nommé, que le lot C1 (index vectoriel) devrait trancher sur
+preuve, pas la persistance d'un score global insuffisant.
+
+**D6 — Comparaison à la recherche naïve, résultat sans appel.**
+`aster_expert.indexing.naive_search` cherche un jeton en MAJUSCULES d'au
+moins 3 caractères dans le texte brut de la question, puis consulte la
+table commande -> document du lot 6/6b. Sur les 62 questions (`by_file`)
+qui nomment une commande attendue (`expected_commands` non vide) : **hit@5 =
+hit@10 = hit@20 = 0 %** pour la référence naïve, contre 46,8 % / 62,9 % /
+75,8 % pour BM25 sur exactement le même sous-ensemble. Motif, vérifié sur
+les questions elles-mêmes (`data/evaluations/questions.jsonl`) : les 65
+questions sont des reformulations de problèmes réels
+(`docs/development-plan.md`, lot 5), jamais des requêtes tapées avec un nom
+de commande officiel — aucune question ne contient littéralement
+`AFFE_CHAR_MECA` ou `STAT_NON_LINE`. La référence naïve n'est donc pas
+"battue de justesse" : elle n'a **jamais** pu répondre à une seule question
+de ce jeu, ce qui est le résultat honnête à rapporter, pas un artefact du
+choix d'implémentation — `expected_commands` documente la bonne réponse,
+pas ce que l'utilisateur a tapé.
+
+**NE PAS FAIT (conforme à la consigne).** Aucun embedding, aucune base
+vectorielle, aucun reranking, aucun serveur MCP, aucune génération. Le jeu
+d'évaluation (`data/evaluations/questions.jsonl`) n'a pas été modifié.
+
+**Garde-fou de parallélisme.** Aucun sous-agent utilisé dans ce lot :
+`git status --short` relevé avant modification (dépôt propre, `HEAD` sur
+`lot-7-retrieval`) et à la clôture (seuls les fichiers de l'inventaire de
+clôture modifiés).
+
+**Tests.** 26 tests nouveaux (`tests/unit/test_doc_fragments.py`,
+`test_bm25_index.py`, `test_naive_search.py`, `test_bench.py`, plus 4 tests
+ajoutés à `test_evaluation.py` pour les ventilations et
+`list_failures`) — fixtures locales uniquement, aucun accès réseau, aucune
+dépendance à `external/codeaster-doc`. Suite complète du projet : 317 tests,
+0 échec. `ruff format`/`ruff check` propres sur tout le code touché ;
+`mypy` (configuration du projet, `src` + `tests`) ne signale aucune
+régression nouvelle — les erreurs résiduelles (`test_sources_sync.py`,
+`test_detect.py`, `test_catalogue_extract.py`, trois lignes préexistantes
+de `test_evaluation.py`) sont antérieures à ce lot, présentes à l'identique
+sur `main` avant toute modification (vérifié par `git stash`), et hors
+périmètre de ce lot.
+
+**Limites connues.**
+
+- La détection d'en-tête reST ne reconnaît que la convention par
+  soulignement seul (jamais surlignement+soulignement) — non rencontrée sur
+  l'échantillon inspecté pour ce lot, mais pas exclue ailleurs dans le
+  corpus ; un tel en-tête resterait alors non détecté, le fichier qui le
+  porte restant un fragment unique (`by_subsection`) au lieu d'être
+  redécoupé — jamais une perte de contenu, seulement une granularité plus
+  grossière que souhaitée sur ce cas précis.
+- `related_commands`/`related_documents` sont attachés à la granularité du
+  document entier, jamais à la section précise qui cite effectivement le
+  lien (le lot 6/6b ne produit pas cette granularité).
+- Le filtre `--section` est une sous-chaîne insensible à la casse sur le
+  chemin de section joint, pas une recherche structurée.
+- 15/63 questions résolues du banc échouent encore à k=20 — voir
+  l'observation D5 ci-dessus, à charge du lot C1 s'il est engagé.
+
 ## Lot 8 — Serveur MCP minimal
 
 Deux outils : `search_codeaster_docs` et `get_command_schema`. Wrapper mince
@@ -1337,7 +1539,7 @@ Niveaux D et E. Hors périmètre v1.
 | 4b | lot-4b-catalogue-fix | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 5 | | à faire | | |
 | 6 | | à faire | | |
-| 7 | | à faire | | |
+| 7 | lot-7-retrieval | fait | (ce lot, voir `git log`) | 2026-09-17 |
 | 8 | | à faire | | |
 | 9 | lot-9-comm-parser | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10 | lot-10-validation-b | fait | (ce lot, voir `git log`) | 2026-09-15 |
