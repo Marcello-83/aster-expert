@@ -22,6 +22,7 @@ from aster_expert.catalogue.query import (
     find_keyword_variants,
     load_command_schema,
     resolve_active_digest,
+    resolve_digest_for_aster_version,
 )
 from aster_expert.execution.detect import detect_environment, write_detected_section
 from aster_expert.execution.docker_client import find_docker_binary
@@ -33,6 +34,10 @@ from aster_expert.indexing.bm25_index import (
     load_bm25_index,
 )
 from aster_expert.indexing.bm25_index import search as bm25_search
+from aster_expert.indexing.enrichment import (
+    collect_related_commands,
+    load_command_keyword_names,
+)
 from aster_expert.indexing.naive_search import build_documents_by_command
 from aster_expert.ingestion.command_map import (
     build_command_mapping,
@@ -72,6 +77,7 @@ from aster_expert.parsing.doc_fragments import (
 from aster_expert.parsing.errors import CommParseError
 from aster_expert.retrieval.bench import (
     run_granularity_bench,
+    run_lot7b_decomposition,
     run_naive_baseline_comparison,
 )
 from aster_expert.retrieval.evaluation import (
@@ -80,6 +86,7 @@ from aster_expert.retrieval.evaluation import (
     load_ranked_results,
     summarize_question_set,
 )
+from aster_expert.retrieval.source_priority import load_source_priority
 from aster_expert.validation.errors import ValidationRunError
 from aster_expert.validation.validate import validate_comm_file
 
@@ -874,6 +881,157 @@ def eval_bench(
     )
 
 
+@eval_app.command("decompose")
+def eval_decompose(
+    profile: str = typer.Option(
+        "syntax",
+        "--profile",
+        help=(
+            "Profil de priorité des sources (config/retrieval.yaml, "
+            "defaults.source_priority) : syntax, theory ou example. "
+            "Jamais détecté automatiquement (lot 7b, E2)."
+        ),
+    ),
+    k_values: str = typer.Option(
+        "5,10,20", "--k", help="Profondeurs, séparées par des virgules."
+    ),
+    questions_path: str = typer.Option(
+        "", "--questions", help="Défaut : data/evaluations/questions.jsonl."
+    ),
+    output_path: str = typer.Option(
+        "", "--output", help="Chemin du rapport JSON à écrire."
+    ),
+) -> None:
+    """Décomposition du gain lot 7b (E4) : référence lot 7, E1, E1+E2a, E1+E2b.
+
+    Compare, à granularité `by_file` fixe (consigne : ne pas changer la
+    granularité par défaut du lot 7), l'index de référence du lot 7 et
+    l'index enrichi E1 (`aster-expert index build --granularity by_file
+    --enrich-text`, requis au préalable) sous les quatre variantes de la
+    décomposition E4.
+    """
+    project_root = _project_root()
+    path = (
+        Path(questions_path)
+        if questions_path
+        else _default_questions_path(project_root)
+    )
+    if not path.is_file():
+        typer.echo(f"Jeu d'évaluation introuvable : {path}", err=True)
+        raise typer.Exit(1)
+
+    reference_dir = default_index_dir(project_root, "by_file")
+    e1_dir = default_index_dir(project_root, "by_file", variant="e1")
+    for label, index_dir, build_hint in (
+        (
+            "référence (lot 7)",
+            reference_dir,
+            "aster-expert index build --granularity by_file",
+        ),
+        (
+            "E1 (enrichi)",
+            e1_dir,
+            "aster-expert index build --granularity by_file --enrich-text",
+        ),
+    ):
+        if not index_dir.is_dir():
+            typer.echo(
+                f"Décomposition échouée : index {label} introuvable ({index_dir}) ; "
+                f"lancez '{build_hint}' d'abord",
+                err=True,
+            )
+            raise typer.Exit(1)
+
+    retrieval_config_path = project_root / "config" / "retrieval.yaml"
+    source_priority = load_source_priority(retrieval_config_path)
+    if profile not in source_priority:
+        typer.echo(
+            f"Profil inconnu : {profile!r} ; profils déclarés dans "
+            f"config/retrieval.yaml : {sorted(source_priority)}",
+            err=True,
+        )
+        raise typer.Exit(1)
+    priority_families = source_priority[profile]
+
+    versions_path = project_root / "config" / "versions.yaml"
+    aster_version = _resolve_aster_version_tag(versions_path)
+    ks = tuple(int(x) for x in k_values.split(","))
+
+    questions = load_questions(path)
+    reference_retriever, reference_corpus = load_bm25_index(reference_dir)
+    e1_retriever, e1_corpus = load_bm25_index(e1_dir)
+
+    report = run_lot7b_decomposition(
+        reference_retriever=reference_retriever,
+        reference_corpus=reference_corpus,
+        e1_retriever=e1_retriever,
+        e1_corpus=e1_corpus,
+        questions=questions,
+        version=aster_version,
+        priority_families=priority_families,
+        granularity="by_file",
+        k_values=ks,
+    )
+
+    rendered = json.dumps(
+        json.loads(report.model_dump_json()), indent=2, ensure_ascii=False
+    )
+    typer.echo(rendered)
+
+    if output_path:
+        out = Path(output_path)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(rendered + "\n", encoding="utf-8")
+        typer.echo(f"Écrit dans {out}", err=True)
+
+    typer.echo(f"Profil de priorité : {profile} {priority_families}", err=True)
+    typer.echo("Décomposition du gain (hit@k) :", err=True)
+    for variant_name, variant_report in report.reports.items():
+        row = " ".join(
+            f"hit@{k}={variant_report.reports_by_k[k].hit_rate_at_k * 100:5.1f}%"
+            for k in ks
+            if k in variant_report.reports_by_k
+        )
+        typer.echo(f"  {variant_name:14s} {row}", err=True)
+
+    if 10 in ks:
+        typer.echo(
+            "Cible : 85 % de hit@10 sur les questions d'answerability 'explicit' :",
+            err=True,
+        )
+        for variant_name, variant_report in report.reports.items():
+            explicit_bucket = variant_report.ventilation_by_answerability.get(
+                10, {}
+            ).get("explicit")
+            if explicit_bucket is None:
+                continue
+            reached = explicit_bucket.hit_rate >= 0.85
+            gap = (0.85 - explicit_bucket.hit_rate) * 100
+            status = "atteinte" if reached else f"manque {gap:.1f} points"
+            typer.echo(
+                f"  {variant_name:14s} hit@10 explicit = "
+                f"{explicit_bucket.hit_rate * 100:.1f} % "
+                f"({explicit_bucket.n_questions} questions) -- {status}",
+                err=True,
+            )
+
+    typer.echo("Impact sur les questions non 'explicit' (E3) :", err=True)
+    for variant_name, impacts in report.non_explicit_impact.items():
+        for impact in impacts:
+            marker = (
+                "="
+                if impact.hit_at_k10_variant == impact.hit_at_k10_lot7_reference
+                else ("+" if impact.hit_at_k10_variant else "-")
+            )
+            typer.echo(
+                f"  {variant_name:14s} {marker} {impact.id} "
+                f"({impact.answerability}) : "
+                f"réf={impact.hit_at_k10_lot7_reference} "
+                f"variante={impact.hit_at_k10_variant}",
+                err=True,
+            )
+
+
 @fragments_app.command("build")
 def fragments_build(
     granularity: str = typer.Option(
@@ -941,8 +1099,18 @@ def index_build(
     granularity: str = typer.Option(
         "both", "--granularity", help="by_file, by_subsection, ou both."
     ),
+    enrich_text: bool = typer.Option(
+        False,
+        "--enrich-text/--no-enrich-text",
+        help=(
+            "Lot 7b, E1 : enrichir le texte indexé (titre, section, "
+            "commandes liées, mots-clés de premier niveau du catalogue), "
+            "écrit dans un index distinct suffixé '_e1' — l'index de "
+            "référence du lot 7 n'est jamais modifié par cette option."
+        ),
+    ),
 ) -> None:
-    """Construire l'index lexical BM25 à partir des fragments (lot 7, D4)."""
+    """Construire l'index lexical BM25 (lot 7, D4 ; lot 7b, E1 : --enrich-text)."""
     project_root = _project_root()
     granularities = _FRAGMENT_GRANULARITIES if granularity == "both" else (granularity,)
     for one_granularity in granularities:
@@ -958,10 +1126,33 @@ def index_build(
                 err=True,
             )
             raise typer.Exit(1)
-        index_dir = default_index_dir(project_root, one_granularity)  # type: ignore[arg-type]
-        summary = build_bm25_index(fragments_path, index_dir)
+
+        keyword_names_by_command = None
+        if enrich_text:
+            versions_path = project_root / "config" / "versions.yaml"
+            aster_version = _resolve_aster_version_tag(versions_path)
+            catalogue_root = project_root / "data" / "processed" / "catalogue"
+            try:
+                digest = resolve_digest_for_aster_version(catalogue_root, aster_version)
+            except CatalogueExtractionError as exc:
+                typer.echo(f"Index échoué (E1) : {exc}", err=True)
+                raise typer.Exit(1) from exc
+            commands = collect_related_commands(fragments_path)
+            keyword_names_by_command = load_command_keyword_names(
+                catalogue_root / digest, commands
+            )
+
+        index_dir = default_index_dir(
+            project_root,
+            one_granularity,  # type: ignore[arg-type]
+            variant="e1" if enrich_text else None,
+        )
+        summary = build_bm25_index(
+            fragments_path, index_dir, keyword_names_by_command=keyword_names_by_command
+        )
         typer.echo(f"[{one_granularity}] fragments indexés : {summary.fragment_count}")
         typer.echo(f"[{one_granularity}] vocabulaire       : {summary.vocabulary_size}")
+        typer.echo(f"[{one_granularity}] enrichissement    : {summary.text_enrichment}")
         typer.echo(f"[{one_granularity}] écrit dans {index_dir}")
 
 

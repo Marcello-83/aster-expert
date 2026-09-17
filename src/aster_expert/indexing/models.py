@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel, ConfigDict
 
 from aster_expert.parsing.fragment_models import FragmentGranularity
+
+TextEnrichment = Literal["none", "e1_title_section_keywords"]
 
 
 class SearchHit(BaseModel):
@@ -43,3 +47,4 @@ class IndexBuildSummary(BaseModel):
     fragment_count: int
     vocabulary_size: int
     index_dir: str
+    text_enrichment: TextEnrichment = "none"

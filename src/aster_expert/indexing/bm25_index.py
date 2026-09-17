@@ -26,13 +26,19 @@ from typing import Any
 import bm25s
 import numpy as np
 
+from aster_expert.indexing.enrichment import enrich_indexed_text
 from aster_expert.indexing.models import IndexBuildSummary, SearchHit
 from aster_expert.parsing.fragment_models import FragmentGranularity
 
 _EXCERPT_CHARS = 280
 
 
-def build_bm25_index(fragments_path: Path, index_dir: Path) -> IndexBuildSummary:
+def build_bm25_index(
+    fragments_path: Path,
+    index_dir: Path,
+    *,
+    keyword_names_by_command: dict[str, tuple[str, ...]] | None = None,
+) -> IndexBuildSummary:
     """Build and persist a BM25 index from one granularity's fragment JSONL.
 
     Reads `fragments_path` once, line by line: the whole fragment set for
@@ -41,10 +47,21 @@ def build_bm25_index(fragments_path: Path, index_dir: Path) -> IndexBuildSummary
     rendu) — this is the single heavy operation of the indexing step, run
     alone, never concurrently with fragment building itself
     (docs/development-plan.md, lot 7, memory constraint).
+
+    `keyword_names_by_command` (lot 7b, E1) : when given, the text handed to
+    the tokenizer for each fragment is enriched (`enrich_indexed_text`) with
+    the fragment's document title, section path, and — for every command
+    already linked to it — that command's name and top-level keyword names.
+    `None` (the default) reproduces the lot 7 index byte-for-byte: the
+    tokenized text is `fragment["content"]` alone, nothing else. Either way,
+    the persisted `corpus` metadata's own `"content"` stays the fragment's
+    raw content — enrichment only ever changes what is tokenized, never what
+    is stored, cited or excerpted (`_to_hit`).
     """
     texts: list[str] = []
     corpus: list[dict[str, Any]] = []
     granularity: FragmentGranularity = "by_file"
+    enrich = keyword_names_by_command is not None
 
     with fragments_path.open("r", encoding="utf-8") as handle:
         for line in handle:
@@ -52,7 +69,19 @@ def build_bm25_index(fragments_path: Path, index_dir: Path) -> IndexBuildSummary
                 continue
             fragment = json.loads(line)
             granularity = fragment["granularity"]
-            texts.append(fragment["content"])
+            section_path = tuple(fragment["section_path"])
+            related_commands = tuple(fragment.get("related_commands", ()))
+            if enrich:
+                indexed_text = enrich_indexed_text(
+                    content=fragment["content"],
+                    document_title=fragment.get("document_title"),
+                    section_path=section_path,
+                    related_commands=related_commands,
+                    keyword_names_by_command=keyword_names_by_command or {},
+                )
+            else:
+                indexed_text = fragment["content"]
+            texts.append(indexed_text)
             corpus.append(
                 {
                     "fragment_id": fragment["fragment_id"],
@@ -83,6 +112,7 @@ def build_bm25_index(fragments_path: Path, index_dir: Path) -> IndexBuildSummary
         fragment_count=len(corpus),
         vocabulary_size=len(tokenized.vocab),
         index_dir=str(index_dir),
+        text_enrichment="e1_title_section_keywords" if enrich else "none",
     )
 
 
@@ -99,6 +129,7 @@ def _matches(
     *,
     version: str | None,
     family: str | None,
+    family_in: tuple[str, ...] | None,
     document_id: str | None,
     command: str | None,
     section_contains: str | None,
@@ -106,6 +137,8 @@ def _matches(
     if version is not None and entry["aster_version"] != version:
         return False
     if family is not None and entry["family"] != family:
+        return False
+    if family_in is not None and entry["family"] not in family_in:
         return False
     if document_id is not None and entry["document_id"] != document_id:
         return False
@@ -146,6 +179,7 @@ def search(
     k: int = 10,
     version: str | None = None,
     family: str | None = None,
+    family_in: tuple[str, ...] | None = None,
     document_id: str | None = None,
     command: str | None = None,
     section_contains: str | None = None,
@@ -157,6 +191,12 @@ def search(
     explicit `_matches` re-check on every returned entry is a second,
     independent guard, never trusting a zero score alone to mean "excluded
     by filter" (see module docstring).
+
+    `family_in` (lot 7b, E2a) is independent of `family`: `family` is the
+    single-value exact filter already exposed by `aster-expert search
+    --family`, `family_in` is the "belongs to this set" filter the hard
+    source-priority variant needs — both can be combined, though no caller
+    does so today.
     """
     num_docs = len(corpus)
     if num_docs == 0:
@@ -169,6 +209,7 @@ def search(
                 entry,
                 version=version,
                 family=family,
+                family_in=family_in,
                 document_id=document_id,
                 command=command,
                 section_contains=section_contains,
@@ -199,6 +240,7 @@ def search(
             entry,
             version=version,
             family=family,
+            family_in=family_in,
             document_id=document_id,
             command=command,
             section_contains=section_contains,
@@ -210,5 +252,17 @@ def search(
     return hits
 
 
-def default_index_dir(project_root: Path, granularity: FragmentGranularity) -> Path:
-    return project_root / "data" / "indexes" / f"bm25_{granularity}"
+def default_index_dir(
+    project_root: Path, granularity: FragmentGranularity, variant: str | None = None
+) -> Path:
+    """`data/indexes/bm25_<granularity>[_<variant>]`.
+
+    `variant=None` (every lot 7 caller) reproduces the lot 7 path exactly —
+    this default must never change, or every already-built index on disk
+    would silently stop resolving. `variant` (lot 7b) names a sibling index
+    built with a different pipeline (e.g. `"e1"`, the E1 text-enrichment
+    index) without overwriting the lot 7 reference index it is measured
+    against.
+    """
+    name = f"bm25_{granularity}" if variant is None else f"bm25_{granularity}_{variant}"
+    return project_root / "data" / "indexes" / name

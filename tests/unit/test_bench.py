@@ -16,7 +16,9 @@ import bm25s
 from aster_expert.indexing.bm25_index import build_bm25_index, load_bm25_index
 from aster_expert.retrieval.bench import (
     rank_documents_for_question,
+    rank_documents_with_source_priority,
     run_granularity_bench,
+    run_lot7b_decomposition,
     run_naive_baseline_comparison,
 )
 from aster_expert.retrieval.models import EvaluationQuestion
@@ -181,6 +183,86 @@ def test_run_granularity_bench_lists_failures_at_k10(tmp_path: Path) -> None:
     assert len(report.failures_at_k10) == 1
     assert report.failures_at_k10[0].id == "eval-001"
     assert report.failures_at_k10[0].required_documents == ("Z9.99.99",)
+
+
+def test_rank_documents_with_source_priority_hard_mode_prefers_priority_family(
+    tmp_path: Path,
+) -> None:
+    fragments = [
+        _fragment(
+            fragment_id="V1#index",
+            document_id="V1",
+            document_title="Cas test",
+            family="V",
+            source_path="v/v1/index.rst",
+            content="modélisation modélisation modélisation générique",
+        ),
+        _fragment(
+            fragment_id="U4_1#index",
+            document_id="U4_1",
+            document_title="Opérateur",
+            family="U4",
+            source_path="man_u/u4/x/index.rst",
+            content="modélisation",
+        ),
+    ]
+    retriever, corpus = _build_index(tmp_path, fragments)
+    question = _question(question="modélisation")
+
+    ranked = rank_documents_with_source_priority(
+        retriever,
+        corpus,
+        question,
+        version=None,
+        priority_families=("U4",),
+        mode="hard",
+    )
+
+    assert ranked[0] == "U4_1"
+
+
+def test_run_lot7b_decomposition_runs_all_four_variants(tmp_path: Path) -> None:
+    reference_retriever, reference_corpus = _build_index(tmp_path, _sample_fragments())
+    e1_retriever, e1_corpus = _build_index(tmp_path, _sample_fragments())
+    questions = [
+        _question(
+            id="eval-001",
+            question="Comment utiliser STAT_NON_LINE ?",
+            domain="convergence",
+            required_documents=("U4.51.03",),
+            answerability="explicit",
+        ),
+        _question(
+            id="eval-002",
+            question="Comment affecter une modélisation ?",
+            domain="maillage",
+            required_documents=("U4.41.01",),
+            answerability="inferable",
+        ),
+    ]
+
+    report = run_lot7b_decomposition(
+        reference_retriever=reference_retriever,
+        reference_corpus=reference_corpus,
+        e1_retriever=e1_retriever,
+        e1_corpus=e1_corpus,
+        questions=questions,
+        version=None,
+        priority_families=("U4",),
+        k_values=(5, 10),
+    )
+
+    assert set(report.reports) == {"lot7_reference", "e1", "e1_e2a", "e1_e2b"}
+    assert {row.variant for row in report.gain_table} == {
+        "lot7_reference",
+        "e1",
+        "e1_e2a",
+        "e1_e2b",
+    }
+    # Only the non-"explicit" question (eval-002) appears in the E3 impact
+    # list, never eval-001.
+    for impacts in report.non_explicit_impact.values():
+        assert {impact.id for impact in impacts} == {"eval-002"}
 
 
 def test_run_naive_baseline_restricts_to_questions_with_expected_commands(

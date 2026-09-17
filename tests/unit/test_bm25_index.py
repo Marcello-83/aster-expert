@@ -10,7 +10,12 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
-from aster_expert.indexing.bm25_index import build_bm25_index, load_bm25_index, search
+from aster_expert.indexing.bm25_index import (
+    build_bm25_index,
+    default_index_dir,
+    load_bm25_index,
+    search,
+)
 
 _NOW = datetime(2026, 1, 1, tzinfo=UTC).isoformat()
 
@@ -155,6 +160,96 @@ def test_search_filter_with_no_matches_returns_empty(tmp_path: Path) -> None:
     hits = search(retriever, corpus, "STAT_NON_LINE", k=5, family="V")
 
     assert hits == []
+
+
+def test_search_family_in_filter(tmp_path: Path) -> None:
+    fragments_path = tmp_path / "fragments_by_file.jsonl"
+    _write_fragments(fragments_path, _sample_fragments())
+    index_dir = tmp_path / "index"
+    build_bm25_index(fragments_path, index_dir)
+    retriever, corpus = load_bm25_index(index_dir)
+
+    hits = search(retriever, corpus, "STAT_NON_LINE", k=5, family_in=("U4", "R"))
+    assert {h.family for h in hits} <= {"U4", "R"}
+
+    hits = search(retriever, corpus, "STAT_NON_LINE", k=5, family_in=("V",))
+    assert hits == []
+
+
+def test_default_index_dir_variant_none_is_unchanged(tmp_path: Path) -> None:
+    base = default_index_dir(tmp_path, "by_file")
+    assert base == tmp_path / "data" / "indexes" / "bm25_by_file"
+
+
+def test_default_index_dir_variant_suffixes_path(tmp_path: Path) -> None:
+    variant = default_index_dir(tmp_path, "by_file", variant="e1")
+    assert variant == tmp_path / "data" / "indexes" / "bm25_by_file_e1"
+
+
+def test_build_bm25_index_without_enrichment_matches_lot7_behaviour(
+    tmp_path: Path,
+) -> None:
+    fragments_path = tmp_path / "fragments_by_file.jsonl"
+    _write_fragments(fragments_path, _sample_fragments())
+    index_dir = tmp_path / "index"
+
+    summary = build_bm25_index(fragments_path, index_dir)
+
+    assert summary.text_enrichment == "none"
+    _, corpus = load_bm25_index(index_dir)
+    # The persisted corpus content is exactly the fragment's raw content,
+    # never anything enrichment could have appended.
+    assert corpus[0]["content"] == _sample_fragments()[0]["content"]
+
+
+def test_build_bm25_index_with_enrichment_helps_find_keyword_named_query(
+    tmp_path: Path,
+) -> None:
+    fragments = [
+        _fragment(
+            fragment_id="U4.44.01#Chargements",
+            document_id="U4.44.01",
+            document_title="Opérateurs AFFE_CHAR_MECA",
+            family="U4",
+            section_path=["Chargements de type Dirichlet"],
+            content=(
+                "Cette section décrit comment imposer une valeur de "
+                "déplacement, de rotation ou d'autres grandeurs nodales."
+            ),
+            related_commands=["AFFE_CHAR_MECA"],
+        ),
+        _fragment(
+            fragment_id="V1.01.001#index",
+            document_id="V1.01.001",
+            document_title="Cas test générique",
+            family="V",
+            content=(
+                "Ce cas test impose un déplacement bloqué et une rotation "
+                "bloquée sur un groupe de noeuds du maillage étudié, "
+                "reproduisant un chargement usuel."
+            ),
+            related_commands=[],
+        ),
+    ]
+    fragments_path = tmp_path / "fragments_by_file.jsonl"
+    _write_fragments(fragments_path, fragments)
+    index_dir = tmp_path / "index"
+
+    summary = build_bm25_index(
+        fragments_path,
+        index_dir,
+        keyword_names_by_command={"AFFE_CHAR_MECA": ("DDL_IMPO", "VERI_NORM")},
+    )
+    assert summary.text_enrichment == "e1_title_section_keywords"
+
+    retriever, corpus = load_bm25_index(index_dir)
+    hits = search(retriever, corpus, "DDL_IMPO", k=5)
+
+    assert hits
+    assert hits[0].document_id == "U4.44.01"
+    # The stored content is still the raw fragment content, never the
+    # enriched text used only for tokenizing.
+    assert "DDL_IMPO" not in corpus[0]["content"]
 
 
 def test_search_never_returns_a_document_outside_the_filter_even_ranked_first(

@@ -870,6 +870,295 @@ périmètre de ce lot.
 - 15/63 questions résolues du banc échouent encore à k=20 — voir
   l'observation D5 ci-dessus, à charge du lot C1 s'il est engagé.
 
+**Clôture du lot 7b — priorité des sources et enrichissement des fragments.**
+
+Point de départ (relecture externe, diagnostic établi avant ce lot) : sur les
+24 échecs à k=10 du lot 7, douze placent au premier rang un document d'une
+famille absente de tout `expected_documents` du banc (V : 8, D : 2, U1 : 2).
+Le goulot identifié était la **précision**, pas le rappel — confirmé par la
+mesure de ce lot (E4 ci-dessous).
+
+**E1 — Enrichissement du texte indexé.** `aster_expert.indexing.enrichment`
+ajoute, uniquement au texte *soumis à la tokenisation* BM25 (jamais au
+`content` du fragment, ni à ce qui est cité ou extrait — `bm25_index.
+build_bm25_index(..., keyword_names_by_command=...)`, `IndexBuildSummary.
+text_enrichment`) : le titre du document, le chemin de section, et — pour
+chaque commande déjà liée au document (table du lot 6b) — le nom de la
+commande et les noms de ses mots-clés de **premier niveau** (facteurs et
+simples, jamais les enfants d'un mot-clé facteur). Choix de profondeur
+assumé, pas deviné : `AFFE_CHAR_MECA` porte à lui seul 51 mots-clés de
+premier niveau (jusqu'à 232 pour la commande la plus riche du corpus,
+médiane 10, mesuré sur les 266/270 commandes liées effectivement
+cataloguées — 4 `MacroCommands` hors catalogue, lot 6b, silencieusement
+ignorées, jamais une erreur) ; recourir à ses enfants aurait ajouté des
+centaines de jetons génériques (`DX`, `DY`, `H1X`, `K1`...) par fragment,
+à l'opposé de l'objectif de précision de ce lot. Index construit :
+`aster-expert index build --granularity by_file --enrich-text`, écrit dans
+`data/indexes/bm25_by_file_e1` (jamais dans l'index de référence du lot 7,
+`default_index_dir(..., variant=...)`) — 13116 fragments, vocabulaire
+101437 formes (+10 par rapport aux 101427 du lot 7 : la quasi-totalité du
+vocabulaire ajouté existait déjà ailleurs dans le corpus, l'enrichissement
+joue surtout sur la fréquence des termes dans les fragments concernés, pas
+sur la couverture lexicale).
+
+**Gain de E1 seul, à classement inchangé, mesuré honnêtement — un résultat
+négatif, pas maquillé en progrès partiel :**
+
+| k | hit@k (lot 7 réf.) | hit@k (E1 seul) |
+|---|---|---|
+| 5 | 46,0 % | 42,9 % |
+| 10 | 61,9 % | 60,3 % |
+| 20 | 76,2 % | 76,2 % |
+
+E1 seul **dégrade légèrement** hit@5/hit@10 (2 questions basculent :
+`eval-040`, `eval-055`) et en corrige une (`eval-030`) — net négatif à
+k=5/10, neutre à k=20. Cause identifiée par inspection directe (pas
+supposée) : `related_commands` est attaché au **document entier** (seule
+granularité que fournit la table du lot 6b, déjà signalé comme limite du
+lot 7), donc les mots-clés de premier niveau d'une commande sont injectés
+dans **chaque** fragment du document, y compris ceux qui ne parlent pas de
+ce mot-clé précis. `U4.44.01` (« Opérateurs AFFE_CHAR_MECA, AFFE_CHAR_MECA_C
+et AFFE_CHAR_MECA_F ») compte 10 fragments `by_file` ; un fragment de 487
+caractères (`#But`) reçoit ainsi la totalité du vocabulaire des trois
+commandes (jusqu'à ~150 jetons combinés), le rendant lexicalement plus
+proche de documents V/D qui emploient ce même vocabulaire de mots-clés réels
+dans leur prose (pression, force nodale, liaison...) sans être eux-mêmes la
+bonne réponse. E1 seul ne referme donc pas le goulot de précision diagnostiqué
+— il peut même l'aggraver ponctuellement. **E1 n'est retenu dans la suite que
+parce qu'il est un prérequis technique d'E2 (le texte enrichi porte les noms
+de commandes/mots-clés que le filtre de famille peut ensuite exploiter), pas
+parce qu'il apporte un gain mesuré isolément.**
+
+**E2 — Priorité des sources, enfin câblée.** `aster_expert.retrieval.config`
+(lecture validée de `config/retrieval.yaml`) et `aster_expert.retrieval.
+source_priority` implémentent les deux variantes demandées, toutes deux
+appliquées **par-dessus l'index E1**, jamais un nouvel index :
+
+- **(a) filtre dur** (`hard_filter_search`) : restreint les fragments
+  candidats aux familles du profil actif (`family_in`, nouveau paramètre de
+  `bm25_index.search`, indépendant du filtre `--family` à valeur unique déjà
+  existant) ; un second passage non filtré ne comble que les rangs restants
+  si le premier n'a pas atteint `k`.
+- **(b) repondération douce** (`soft_reweight_search`) : score brut ×
+  `1.0` si la famille du fragment figure dans le profil actif, ×
+  `DEFAULT_OUT_OF_PRIORITY_FACTOR = 0.3` sinon, sur un bassin de 200
+  candidats (le plancher déjà appliqué en interne par `bm25_index.search`) —
+  personne n'est exclu, seul le classement change. `0.3` est une valeur
+  choisie et justifiée dans le code, jamais ajustée par recherche d'optimum
+  sur le banc (ce que la consigne E3 interdit).
+
+Le profil de requête n'est jamais détecté automatiquement dans ce lot
+(consigne E2) : `aster-expert eval decompose --profile` l'expose en option
+explicite, `syntax` par défaut — le seul profil qui corresponde à la nature
+du banc actuel (docs/corpus.md §8 : aucune question du lot 5/5b ne porte sur
+la théorie ou un exemple de cas test). Pour ce profil,
+`config/retrieval.yaml` donne `[catalogue, U4, U7, testcase, source]` ; seuls
+`U4` et `U7` sont effectivement indexés à ce jour (`catalogue`/`testcase`/
+`source` ne font pas partie du corpus documentaire fragmenté par le lot 7)
+— un fait constaté, pas une lacune de ce lot : la priorité s'applique à ce
+qui existe dans l'index, rien de plus.
+
+**Gain d'E2, mesuré séparément pour chaque variante (hit@k, sur le même index
+E1) :**
+
+| k | E1 seul | E1+E2a (dur) | E1+E2b (doux) |
+|---|---|---|---|
+| 5 | 42,9 % | 71,4 % | 71,4 % |
+| 10 | 60,3 % | 81,0 % | 82,5 % |
+| 20 | 76,2 % | 84,1 % | 87,3 % |
+
+**Ventilation par famille attendue (hit@10) — quelle famille E2 dégrade, tel
+que demandé :**
+
+| Famille | n | lot 7 réf. | E1 seul | E1+E2a | E1+E2b |
+|---|---|---|---|---|---|
+| U4 | 51 | 64,7 % | 62,7 % | 94,1 % | 94,1 % |
+| U7 | 3 | 66,7 % | 66,7 % | 100,0 % | 100,0 % |
+| U2 | 8 | 75,0 % | 75,0 % | 62,5 % | 62,5 % |
+| R | 11 | 63,6 % | 63,6 % | 36,4 % | 45,5 % |
+| U3 | 3 | 66,7 % | 66,7 % | 66,7 % | 66,7 % |
+
+U4/U7 (dans le profil `syntax`) progressent nettement ; U2/R (absents du
+profil `syntax`) reculent — un effet de bord assumé et chiffré, pas caché.
+Nominativement, sur les 63 questions résolues, par rapport à E1 seul, à
+k=10 : E2a et E2b **corrigent les mêmes 17 questions**
+(`eval-008`, `eval-012`, `eval-016`, `eval-017`, `eval-019`, `eval-021`,
+`eval-035`, `eval-036`, `eval-038`, `eval-040`, `eval-041`, `eval-046`,
+`eval-048`, `eval-054`, `eval-055`, `eval-058`, `eval-059` — les échecs du
+domaine `chargements` portés par `U4.44.01`, motif initial du lot, en font
+tous partie : `eval-019`, `eval-021`, `eval-040`, `eval-054`, `eval-055`,
+`eval-058`) et **dégradent** `eval-025` (`U2.02.03`/`R5.03.17`), `eval-029`
+(`R5.04.01`/`R5.03.28`), `eval-057` (`R3.03.01`/`R3.03.05`/`U2.01.02`) —
+toutes les trois hors du profil `syntax` sur chacun de leurs documents
+requis. Seule différence nominative entre (a) et (b) : le filtre dur dégrade
+en plus `eval-027` (sept documents `R7.01.*`/`R5.03.28`), que la
+repondération douce récupère — un score brut suffisamment élevé pour
+survivre à la pénalité ×0,3, ce qu'un filtre qui exclut ne peut jamais
+permettre. **Verdict, tranché par le chiffre : la repondération douce (b)
+domine strictement le filtre dur (a)** sur les trois profondeurs mesurées
+(hit@10 82,5 % contre 81,0 %, hit@20 87,3 % contre 84,1 %, un échec nominatif
+de moins) — jamais un filtre qui exclut, une pondération qui laisse une
+chance à un candidat très fortement pertinent hors profil.
+
+**E3 — Honnêteté de la mesure.** Impact d'E2 sur les 4 questions résolues
+d'`answerability` non `explicite` (`eval-006` inferable, `eval-008`
+inferable, `eval-021` partial, `eval-048` partial — `eval-005`/`eval-007`,
+`absent`, restent hors métrique, non résolues) :
+
+| id | answerability | familles requises | hit réf./E1 | hit E1+E2a | hit E1+E2b |
+|---|---|---|---|---|---|
+| eval-006 | inferable | R | non | non | non |
+| eval-008 | inferable | U4 | non | **oui** | **oui** |
+| eval-021 | partial | U4 | non | **oui** | **oui** |
+| eval-048 | partial | U7, R, R | non | **oui** | **oui** |
+
+3/4 progressent — parce que leurs documents requis sont `U4`/`U7`, dans le
+profil `syntax`, pas parce que la mesure aurait été réglée sur elles.
+`eval-006` (seul document requis : `R5.03.17`, hors profil `syntax`) reste
+un échec sous toutes les variantes, y compris la référence — E2 ne l'a pas
+cassé, il ne l'a jamais résolu.
+
+**Lacune du banc, signalée ici, jamais comblée dans ce lot (instruction
+E3).** Le jeu d'évaluation actuel (`data/evaluations/questions.jsonl`,
+65 questions, lot 5/5b) n'attend **aucun** document `V` ni cas test comme
+réponse (`docs/corpus.md` §8, `required_documents`) : chaque famille qu'E2
+déprioritise (`V`, `D`, `U1`...) est absente aussi bien des réponses
+attendues que des questions elles-mêmes. Optimiser la précision en écartant
+ces familles revient donc, structurellement, à se régler en partie sur une
+zone aveugle du banc : la mesure ne peut montrer aucune dégradation sur une
+question dont la bonne réponse serait un document `V` ou un cas test,
+puisqu'aucune n'existe dans le jeu actuel. Avant d'envisager le filtre dur
+(E2a) ou la repondération (E2b) comme réglage par défaut de
+`aster-expert search`, le banc doit être complété par des questions dont la
+réponse **est** un document `V` ou un cas test (ex. « quel cas test valide
+telle modélisation de coque » — `answer_outside_corpus` le couvrirait pour
+un cas test), selon le même protocole que le lot 5 (avec l'utilisateur,
+jamais des questions inventées ici) — sans quoi la mesure favorise
+mécaniquement, par construction, un moteur qui ignore ces familles.
+
+**E4 — Mesure finale, décomposition complète du gain.** hit@k / recall@k /
+MRR, granularité `by_file` fixe (consigne : ne pas changer la granularité
+par défaut du lot 7) :
+
+| Variante | k=5 | k=10 | k=20 | MRR |
+|---|---|---|---|---|
+| lot 7 référence | hit 46,0 % / rappel 35,2 % | hit 61,9 % / rappel 49,6 % | hit 76,2 % / rappel 63,2 % | 0,330 |
+| E1 seul | hit 42,9 % / rappel 34,3 % | hit 60,3 % / rappel 48,7 % | hit 76,2 % / rappel 63,2 % | 0,327 |
+| E1+E2a (dur) | hit 71,4 % / rappel 55,0 % | hit 81,0 % / rappel 65,9 % | hit 84,1 % / rappel 71,7 % | 0,534 |
+| E1+E2b (doux) | hit 71,4 % / rappel 55,0 % | hit 82,5 % / rappel 66,3 % | hit 87,3 % / rappel 74,7 % | 0,540 |
+
+63/65 questions évaluées (2 non résolues exclues, identique au lot 7).
+
+**Cible annoncée (85 % de hit@10 sur `answerability = explicit`, 59
+questions) : non atteinte, par variante :**
+
+| Variante | hit@10 explicit | écart à la cible |
+|---|---|---|
+| lot 7 référence | 66,1 % | -18,9 points |
+| E1 seul | 64,4 % | -20,6 points |
+| E1+E2a (dur) | 81,4 % | -3,6 points |
+| E1+E2b (doux) | 83,1 % | **-1,9 point** |
+
+La meilleure variante (E1+E2b) reste sous la cible de 1,9 point — un
+progrès réel et important par rapport au lot 7 (+17,0 points), jamais
+présenté comme la cible atteinte.
+
+**Liste nominative des échecs à k=10, meilleure variante (E1+E2b) — 11
+questions, dont 10 `explicit` :**
+
+| Question | Domaine | Attendu | Obtenu (top 3) |
+|---|---|---|---|
+| eval-001 | modelisation_poutre | U3.11.01, U3.11.04, U3.11.05, U3.11.07 | U4.82.11, U4.61.02, U4.81.07 |
+| eval-009 | interaction_sol_structure | R5.03.17, R5.03.31 | U4.84.11, U4.32.11, U4.52.13 |
+| eval-010 | lois_comportement | R5.03.17 | U4.01.13, U4.43.01, U4.42.07 |
+| eval-025 | elements_discrets | U2.02.03, R5.03.17 | U4.43.01, U4.44.21, U4.67.02 |
+| eval-029 | lois_comportement | R5.04.01, R5.03.28 | U4.01.06, U4.01.13, U4.01.00 |
+| eval-037 | post_traitement | U2.01.05 | U4.81.05, U7.04.51, U4.74.01 |
+| eval-045 | post_traitement | U4.81.21 | U4.81.04, U7.03.01, U4.84.11 |
+| eval-051 | verification | U4.81.22 | U4.66.11, U4.66.01, U4.42.01 |
+| eval-057 | conditions_limites | R3.03.01, R3.03.05, U2.01.02 | U4.44.03, U4.61.22, U4.61.11 |
+| eval-065 | dynamique | U4.31.03, U4.32.02 | U4.32.04, U4.32.13, U7.03.12 |
+
+(`eval-006`, `inferable`, n'est pas dans cette liste `explicit` mais reste
+également un échec — voir E3.) Motif des 10 échecs `explicit` restants,
+vérifié par leurs `required_documents`, pas supposé :
+
+- **5 sur 10 requièrent un document `R`** (`eval-009`, `eval-010`,
+  `eval-025`, `eval-029`, `eval-057` — théorie, hors profil `syntax` par
+  construction) : le filtre/la repondération de ce lot ne pouvait pas les
+  corriger sans changer de profil, ce qui sortirait du périmètre E2 (pas de
+  détection automatique de profil dans ce lot).
+- **2 sur 10 requièrent une famille elle aussi hors du profil `syntax`** :
+  `eval-001` (`U3`), `eval-037` (`U2`) — même explication.
+- **3 sur 10 requièrent pourtant un document `U4`, dans le profil**
+  (`eval-045`, `eval-051`, `eval-065`) et échouent malgré tout : des échecs
+  de vocabulaire non résolus par l'enrichissement E1 tel qu'implémenté
+  (requêtes en langage naturel sans recoupement lexical suffisant avec le
+  document cible) — la limite déjà connue du lot 7 persiste pour ces trois
+  questions, la priorité de source n'y change rien puisque le bon document
+  n'est jamais écarté par elle.
+
+**Reproduction.** `aster-expert index build --granularity by_file
+--enrich-text` puis `aster-expert eval decompose --output <fichier>` — le
+rapport JSON complet (décomposition, ventilations par famille/domaine/
+answerability aux trois k, échecs nominatifs de chaque variante), ainsi
+qu'un compte rendu de mesure au format Markdown, sont déposés dans
+`/media/sf_partage/echanges/` (`lot7b_decomposition_report.json`,
+`lot7b_rapport_mesure.md`), jamais commités dans le dépôt — même convention
+que le lot 7 (`data/evaluations/` ne conserve que le jeu de questions et ses
+dérivés normalisés, pas les rapports de mesure d'un lot).
+
+**NE PAS FAIT (conforme à la consigne).** Aucun embedding, aucune base
+vectorielle, aucun reranking par modèle, aucun serveur MCP. Le jeu
+d'évaluation n'a pas été modifié. La granularité par défaut reste `by_file`
+(consigne : ne pas la changer) ; `by_subsection` n'a pas été mesuré dans ce
+lot (E4 le demande explicitement pour `by_file` seul). Aucune détection
+automatique du profil de requête.
+
+**Garde-fou de parallélisme.** Aucun sous-agent utilisé dans ce lot (même
+pratique que le lot 7) : `git status --short` relevé avant modification
+(dépôt propre, `HEAD` sur `lot-7b-ranking`) et à la clôture.
+
+**Tests.** 24 tests nouveaux : 13 dans les nouveaux fichiers
+(`tests/unit/test_enrichment.py`, `test_source_priority.py`,
+`test_retrieval_config.py`), 5 cas ajoutés à `test_bm25_index.py`
+(`family_in`, enrichissement, `default_index_dir` avec variante), 2 à
+`test_bench.py` (`rank_documents_with_source_priority`,
+`run_lot7b_decomposition`), et 4 à `test_catalogue_query.py` pour
+`resolve_digest_for_aster_version` (fonction extraite de
+`aster_expert.validation.validate.resolve_digest_for_version`, qui la
+délègue désormais au lieu de dupliquer la même résolution de digest —
+comportement et messages d'erreur inchangés, vérifié par la suite de tests
+existante de ce module). Suite complète du projet : 341 tests, 0 échec.
+`ruff format`/`ruff check` propres sur tout le code touché ; `mypy` ne
+signale aucune régression nouvelle (les 7 erreurs résiduelles —
+`test_sources_sync.py`, `test_detect.py`, `test_catalogue_extract.py`, trois
+lignes de `test_evaluation.py` — sont antérieures à ce lot, présentes à
+l'identique sur `main`, hors périmètre).
+
+**Limites connues.**
+
+- E1 est un prérequis technique d'E2, pas un gain mesuré isolément (voir
+  ci-dessus) — sa cause (enrichissement au niveau du document entier,
+  jamais du fragment précis) est la même limite déjà connue du lot 7 pour
+  `related_commands`/`related_documents`, qui se propage ici.
+- `soft_reweight_search` ré-ordonne un bassin de 200 fragments candidats
+  déjà classés par score brut, jamais le corpus entier reclassé (limite
+  assumée et documentée dans le code, `aster_expert.retrieval.
+  source_priority`) — sans effet pratique constaté aux profondeurs mesurées
+  ici (k <= 20 documents).
+- `DEFAULT_OUT_OF_PRIORITY_FACTOR = 0.3` est un choix documenté, jamais
+  ajusté par recherche d'optimum sur le banc (consigne E3) — une valeur
+  différente n'a pas été mesurée dans ce lot.
+- Le banc actuel ne peut pas mesurer l'effet d'E2 sur une question dont la
+  réponse est un document `V` ou un cas test (voir la lacune signalée
+  ci-dessus) : la cible de 85 % n'a été vérifiée que sur les questions de
+  syntaxe/méthode déjà couvertes par le lot 5/5b.
+- Le profil `theory`/`example` de `config/retrieval.yaml` n'a pas été
+  mesuré (aucune question du banc actuel n'en relève) — câblé et
+  disponible (`aster-expert eval decompose --profile theory`), non validé
+  sur un jeu de questions théoriques ou d'exemples faute d'un tel jeu.
+
 ## Lot 8 — Serveur MCP minimal
 
 Deux outils : `search_codeaster_docs` et `get_command_schema`. Wrapper mince
@@ -1540,6 +1829,7 @@ Niveaux D et E. Hors périmètre v1.
 | 5 | | à faire | | |
 | 6 | | à faire | | |
 | 7 | lot-7-retrieval | fait | (ce lot, voir `git log`) | 2026-09-17 |
+| 7b | lot-7b-ranking | fait | (ce lot, voir `git log`) | 2026-09-17 |
 | 8 | | à faire | | |
 | 9 | lot-9-comm-parser | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10 | lot-10-validation-b | fait | (ce lot, voir `git log`) | 2026-09-15 |

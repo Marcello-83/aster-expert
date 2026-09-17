@@ -40,6 +40,48 @@ def resolve_active_digest(versions_yaml_path: Path) -> str:
     return str(digest)
 
 
+def resolve_digest_for_aster_version(catalogue_root: Path, version: str) -> str:
+    """The single extracted catalogue digest whose `aster_version` is `version`.
+
+    Never guesses: fails loudly if zero, or more than one, extracted digest
+    under `catalogue_root` matches (docs/architecture.md principle 1,
+    "ne jamais mélanger silencieusement plusieurs versions"). Shared by
+    `aster_expert.validation.validate.resolve_digest_for_version` (its
+    explicit-`--version` branch) and `aster_expert.indexing.enrichment`
+    (lot 7b, E1) — the same "which extracted catalogue matches this exact
+    version string" question, asked by both callers, answered once here.
+    """
+    if not catalogue_root.is_dir():
+        message = f"no extracted catalogue at {catalogue_root}"
+        raise CatalogueExtractionError(message)
+
+    candidates: list[str] = []
+    for digest_dir in sorted(catalogue_root.iterdir()):
+        if not digest_dir.is_dir():
+            continue
+        first = next(iter(sorted(digest_dir.glob("*.json"))), None)
+        if first is None:
+            continue
+        schema = CommandSchema.model_validate_json(first.read_text(encoding="utf-8"))
+        if schema.aster_version == version:
+            candidates.append(digest_dir.name)
+
+    if not candidates:
+        message = (
+            f"no extracted catalogue found for version {version!r} under "
+            f"{catalogue_root}; run `aster-expert catalogue extract` with "
+            "that version's environment first"
+        )
+        raise CatalogueExtractionError(message)
+    if len(candidates) > 1:
+        message = (
+            f"more than one extracted catalogue matches version {version!r}: "
+            f"{candidates}; refusing to guess which one to use"
+        )
+        raise CatalogueExtractionError(message)
+    return candidates[0]
+
+
 def load_command_schema(
     catalogue_root: Path, digest: str, command: str
 ) -> CommandSchema:

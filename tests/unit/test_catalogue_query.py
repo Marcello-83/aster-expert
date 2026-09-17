@@ -13,6 +13,7 @@ from aster_expert.catalogue.query import (
     find_keyword_variants,
     load_command_schema,
     resolve_active_digest,
+    resolve_digest_for_aster_version,
 )
 
 SAMPLE_COMMAND = {
@@ -156,6 +157,41 @@ def test_load_command_schema_success(tmp_path: Path) -> None:
 def test_load_command_schema_missing_raises(tmp_path: Path) -> None:
     with pytest.raises(CatalogueExtractionError, match="no extracted schema"):
         load_command_schema(tmp_path, "sha256:d8d19ea9", "STAT_NON_LINE")
+
+
+def test_resolve_digest_for_aster_version_single_match(tmp_path: Path) -> None:
+    digest_dir = tmp_path / "sha256:aaa"
+    digest_dir.mkdir()
+    (digest_dir / "STAT_NON_LINE.json").write_text(
+        json.dumps(SAMPLE_COMMAND), encoding="utf-8"
+    )
+    assert resolve_digest_for_aster_version(tmp_path, "17.4.0") == "sha256:aaa"
+
+
+def test_resolve_digest_for_aster_version_no_match_raises(tmp_path: Path) -> None:
+    digest_dir = tmp_path / "sha256:aaa"
+    digest_dir.mkdir()
+    (digest_dir / "STAT_NON_LINE.json").write_text(
+        json.dumps(SAMPLE_COMMAND), encoding="utf-8"
+    )
+    with pytest.raises(CatalogueExtractionError, match="18.0.0"):
+        resolve_digest_for_aster_version(tmp_path, "18.0.0")
+
+
+def test_resolve_digest_for_aster_version_ambiguous_raises(tmp_path: Path) -> None:
+    for name in ("sha256:aaa", "sha256:bbb"):
+        digest_dir = tmp_path / name
+        digest_dir.mkdir()
+        (digest_dir / "STAT_NON_LINE.json").write_text(
+            json.dumps(SAMPLE_COMMAND), encoding="utf-8"
+        )
+    with pytest.raises(CatalogueExtractionError, match="more than one"):
+        resolve_digest_for_aster_version(tmp_path, "17.4.0")
+
+
+def test_resolve_digest_for_aster_version_missing_root_raises(tmp_path: Path) -> None:
+    with pytest.raises(CatalogueExtractionError, match="no extracted catalogue"):
+        resolve_digest_for_aster_version(tmp_path / "missing", "17.4.0")
 
 
 def test_find_keyword_variants_top_level_factor() -> None:

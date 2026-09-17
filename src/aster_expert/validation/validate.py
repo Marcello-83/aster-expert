@@ -44,6 +44,7 @@ from aster_expert.catalogue.query import (
     find_keyword_variants,
     load_command_schema,
     resolve_active_digest,
+    resolve_digest_for_aster_version,
 )
 from aster_expert.parsing.comm_parser import parse_comm_file
 from aster_expert.parsing.errors import CommParseError
@@ -112,31 +113,11 @@ def resolve_digest_for_version(
         message = f"no extracted catalogue at {catalogue_root}"
         raise ValidationRunError(message)
 
-    candidates: list[str] = []
-    for digest_dir in sorted(catalogue_root.iterdir()):
-        if not digest_dir.is_dir():
-            continue
-        try:
-            schema = _peek_schema(catalogue_root, digest_dir.name)
-        except ValidationRunError:
-            continue
-        if schema.aster_version == version:
-            candidates.append(digest_dir.name)
-
-    if not candidates:
-        message = (
-            f"no extracted catalogue found for version {version!r} under "
-            f"{catalogue_root}; run `aster-expert catalogue extract` with "
-            "that version's environment first"
-        )
-        raise ValidationRunError(message)
-    if len(candidates) > 1:
-        message = (
-            f"more than one extracted catalogue matches version {version!r}: "
-            f"{candidates}; refusing to guess which one to validate against"
-        )
-        raise ValidationRunError(message)
-    return candidates[0], version
+    try:
+        digest = resolve_digest_for_aster_version(catalogue_root, version)
+    except CatalogueExtractionError as exc:
+        raise ValidationRunError(str(exc)) from exc
+    return digest, version
 
 
 def _collect_keyword_names(entries: list[KeywordSchema]) -> set[str]:
