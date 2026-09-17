@@ -358,7 +358,7 @@ def sources_probe() -> None:
 
 @sources_app.command("xref")
 def sources_xref() -> None:
-    """Établir le graphe de références croisées du corpus (lot 6, I4)."""
+    """Établir le graphe de références croisées du corpus (lot 6, I4 ; lot 6b, X1)."""
     project_root = _project_root()
 
     try:
@@ -411,17 +411,25 @@ def sources_xref() -> None:
     output_path = default_xref_path(project_root)
     write_xref_json(result, output_path)
 
-    rate = (
-        100 * result.resolvable_references / result.total_references
-        if result.total_references
-        else 0.0
-    )
-    typer.echo(f"Références relevées   : {result.total_references}")
+    total = result.total_references or 1
+    typer.echo(f"Références relevées      : {result.total_references}")
     typer.echo(
-        f"Résolubles             : {result.resolvable_references} ({rate:.1f} %)"
+        f"Résolues internes        : {result.internal_resolved_references} "
+        f"({100 * result.internal_resolved_references / total:.1f} %)"
     )
-    typer.echo(f"Non résolubles         : {result.unresolvable_references}")
-    typer.echo(f"Arêtes distinctes       : {len(result.edges)}")
+    typer.echo(
+        f"Externes (intersphinx)   : {result.external_references} "
+        f"({100 * result.external_references / total:.1f} %)"
+    )
+    typer.echo(
+        f"Ambiguës (autosectionlabel) : {result.ambiguous_references} "
+        f"({100 * result.ambiguous_references / total:.1f} %)"
+    )
+    typer.echo(
+        f"Réellement non résolues  : {result.unresolved_references} "
+        f"({100 * result.unresolved_references / total:.1f} %)"
+    )
+    typer.echo(f"Arêtes distinctes         : {len(result.edges)}")
     typer.echo(f"Écrit dans {output_path}")
 
 
@@ -497,8 +505,8 @@ def sources_command_map() -> None:
         f"Documents U4/U7 sans commande : {len(result.documents_without_command)}"
     )
     typer.echo(
-        "Documents nommant une commande MacroCommands hors catalogue : "
-        f"{len(result.documents_naming_known_macro_command)}"
+        "Documents nommant une commande documentée hors catalogue : "
+        f"{len(result.documents_naming_uncatalogued_command)}"
     )
     typer.echo(f"Écrit dans {output_path}")
 

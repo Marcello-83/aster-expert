@@ -192,6 +192,52 @@ lot 10b. Traitées comme non vérifiées avec motif dédié, jamais comme une
 erreur. Combler cette lacune (introspecter aussi `MacroCommands`) resterait
 à faire sur preuve d'un besoin mesuré, hors périmètre de ce lot.
 
+**Note (confirmation indépendante, lot 6b, X3 — extraction non modifiée
+dans ce lot).** Le constat du lot 10b reposait sur la fréquence d'usage
+dans les cas tests (une source indirecte : une commande peut être
+utilisée sans être officiellement documentée, ou documentée sans
+apparaître dans l'échantillon de cas tests dépouillé). La table
+commande → document du lot 6 (I5, construite depuis le titre des
+documents `U4`/`U7`, sans aucun rapport avec les cas tests) apporte une
+**source indépendante** : sur les 15 documents `U4`/`U7` initialement
+sans commande reconnue, deux nomment effectivement une commande réelle,
+absente des 268 commandes introspectées, confirmée par lecture directe de
+`external/codeaster-src` :
+
+- `DEFI_CONT` (`U4.44.13`, « Opérateur DEFI_CONT ») et `CALC_SPEC`
+  (`U4.32.21`, « Opérateur CALC_SPEC ») — déjà dans la liste du lot 10b ;
+  la documentation officielle confirme donc, par une voie indépendante des
+  cas tests, que ces deux commandes existent réellement et sont
+  documentées, pas un artefact de l'échantillon de cas tests du lot 10b.
+- `CALC_FORC_AJOU` (`U4.66.03`, « Opérateur CALC_FORC_AJOU ») — **révélée
+  par cette table, absente de l'énumération du lot 10b** :
+  `code_aster/MacroCommands/Utils/calc_forc_ajou.py` (`CALC_FORC_AJOU =
+  CalcForcAjou.run`), catalogue `OPER(nom="CALC_FORC_AJOU", ...)` dans
+  `calc_forc_ajou_cata.py` du même répertoire — un `MacroCommands` de
+  plus, structurellement semblable à `DEFI_CONT`/`CALC_SPEC`.
+- `POURSUITE` (`U4.11.03`, « Procédure POURSUITE ») — **révélée par cette
+  table, d'une nature différente des précédentes** : jamais un
+  `MacroCommands`. Définie dans `code_aster/CodeCommands/debut.py`
+  (`POURSUITE = partial(Starter.run, caller="POURSUITE")`), un alias
+  d'exécution de `DEBUT` sous un autre nom d'appelant.
+  `code_aster.Cata.Commands` ne porte "POURSUITE" sous aucune forme —
+  seulement comme valeur autorisée du mot-clé `MODE` de `DEBUT`
+  (`into=("AUTO", "DEBUT", "POURSUITE")`), jamais une commande à part
+  entière dans ce module. `DEBUT`/`FIN`, eux, sont bien dans les 268
+  commandes introspectées : seul l'alias `POURSUITE` en est absent.
+
+**Décompte total (lot 6b) : 4 commandes documentées confirmées absentes du
+catalogue introspecté par une source indépendante des cas tests** (2
+déjà connues du lot 10b, 2 nouvellement révélées par la table du lot 6).
+Combiné aux 11 noms déjà établis au lot 10b (dont les 2 repris ci-dessus),
+**13 commandes distinctes** sont maintenant connues comme réelles et
+absentes du périmètre de `code_aster.Cata.Commands`, réparties sur deux
+mécanismes distincts : `MacroCommands` (la majorité) et `CodeCommands`
+(`POURSUITE`, un cas différent, jamais un `MacroCommands`). Aucune
+modification de `scripts/introspect_catalogue.py` dans ce lot : le
+périmètre de l'introspection reste celui du lot 4, cette note ne fait que
+consigner une preuve supplémentaire de sa limite déjà actée.
+
 ## Lot 5 — Jeu d'évaluation
 
 Constitution de 30 à 50 questions réelles avec document attendu. Outil de
@@ -269,40 +315,50 @@ comme non partagé. **Conclusion : la perte est négligeable et
 intégralement caractérisée ; l'arbitrage du lot 6 (parser les sources
 `.rst`, jamais un rendu Sphinx construit) est confirmé, pas révisé.**
 
-**I4 — Graphe de références croisées, établi, pas exploité.**
+**I4 — Graphe de références croisées, établi, pas exploité (chiffres
+corrigés au lot 6b, voir la clôture du lot 6b ci-dessous : le premier
+calcul confondait deux mécanismes distincts déclarés dans `conf.py` et
+n'aurait jamais dû être cité seul).**
 `aster-expert sources xref` (`aster_expert.ingestion.xref`) relève 15560
-occurrences `:ref:`/`:external:ref:` sur le corpus entier : 6757
-résolubles vers un document de l'inventaire (43,4 %), 8803 non résolubles,
-4122 arêtes distinctes (`data/processed/xref_graph.json`). La majorité des
-« non résolubles » ne vise pas un document : bibliographie locale
+occurrences `:ref:`/`:external:ref:` sur le corpus entier :
+**3779 résolues en interne (24,3 %)**, **3412 externes/intersphinx
+(21,9 %)**, **0 ambiguë**, **8369 réellement non résolues (53,8 %)**,
+2164 arêtes distinctes (`data/processed/xref_graph.json`). La majorité des
+« réellement non résolues » ne vise pas un document : bibliographie locale
 (`bib1`...), numérotation de figure/équation/section, ancres générées par
-la conversion Word→reST (`RefHeading__...`, `RefNumPara__...`) — hors
+la conversion Word→reST (`RefHeading__...`, `RefNumPara__...`), labels
+explicites de sous-document (`u4.43.01-visc_isot_plas_...`) — hors
 périmètre de ce graphe document-à-document, jamais confondu avec une
 référence cassée. Un sous-ensemble plus restreint ressemble à un
 identifiant documentaire sans en être un valide dans cette version (ex.
 `D3.02.01` : la famille `D3` n'existe pas sur le corpus 17.4.0,
-`man_d` allant de `d0` à `d9` sans `d3`) — un renvoi obsolète, pas un défaut
-d'extraction. Un défaut réel de la source a aussi été trouvé et confirmé,
-jamais corrigé : `man_v/v6/v6.08.120/Probl_mes_de_r_f_rence.rst:67` et son
+`man_d` allant de `d0` à `d9` sans `d3` ; `A2.01` : la famille `A`
+— `man_a` — n'est jamais synchronisée, intranet uniquement) — un renvoi
+obsolète ou hors périmètre du dépôt public, pas un défaut d'extraction.
+Un défaut réel de la source a aussi été trouvé et confirmé, jamais
+corrigé : `man_v/v6/v6.08.120/Probl_mes_de_r_f_rence.rst:67` et son
 homologue `v5.01.109` enveloppent un littéral Python (`NU.array([...])`)
 dans un rôle `:ref:`, probablement un artefact de substitution
-automatique ; classé non résoluble comme n'importe quelle cible sans
-deviner de correction.
+automatique ; classé non résolu comme n'importe quelle cible sans deviner
+de correction.
 
-**I5 — Table commande → document, le livrable attendu.**
+**I5 — Table commande → document, le livrable attendu (chiffres corrigés
+au lot 6b, X3 : 2 documents supplémentaires reclassés).**
 `aster-expert sources command-map`
 (`aster_expert.ingestion.command_map`) construit
 `data/processed/command_document_map.json` depuis un fait observé — le nom
 de commande, casse officielle, apparaît comme identifiant complet
 (jamais comme sous-chaîne d'un nom plus long, ex. `AFFE_CHAR_MECA` ne
 matche jamais le titre d'`AFFE_CHAR_MECA_C`) dans le titre d'un document
-`U4`/`U7`. Couverture : **266/268 commandes du catalogue (99,3 %)**. 2
-commandes sans document (`IMPR_CORR_HOMO`, `LIRE_CORR_HOMO`) ; 15 documents
-U4/U7 sans commande (guides généraux, mots-clés transverses comme
-`SOLVEUR`, notes de version) ; 2 documents nomment une commande réelle mais
-hors du catalogue introspecté par construction (`DEFI_CONT`, `CALC_SPEC` —
-`code_aster.MacroCommands`, fait déjà établi au lot 4/10b, jamais
-redéduit). La relation est many-to-many, jamais forcée à un choix
+`U4`/`U7`. Chaque arête porte le titre exact et le chemin du fichier
+source d'où provient le rapprochement (amendement lot 6b, X2). Couverture :
+**266/268 commandes du catalogue (99,3 %)**. 2 commandes sans document
+(`IMPR_CORR_HOMO`, `LIRE_CORR_HOMO`) ; **13** documents U4/U7 sans commande
+(guides généraux, mots-clés transverses comme `SOLVEUR`, notes de
+version) ; **4** documents nomment une commande réelle mais hors du
+catalogue introspecté par construction (`DEFI_CONT`, `CALC_SPEC`,
+`CALC_FORC_AJOU`, `POURSUITE` — voir la clôture du lot 6b et l'amendement
+du lot 4). La relation est many-to-many, jamais forcée à un choix
 arbitraire : un document peut nommer plusieurs commandes sœurs ensemble
 (`U4.44.01`, « Opérateurs AFFE_CHAR_MECA, AFFE_CHAR_MECA_C et
 AFFE_CHAR_MECA_F ») et une commande peut être documentée par plusieurs
@@ -325,6 +381,96 @@ le modèle, vérifiés par test, jamais suppprimés faute d'exemple présent).
 inventory` sur la même révision produisent un `inventory.jsonl` identique
 octet à octet (vérifié en session, `sha256sum` égal) — l'horodatage de
 génération n'est jamais écrit dans les entrées elles-mêmes.
+
+**Clôture du lot 6b (relecture externe du lot 6, trois points, aucun
+développement au-delà).**
+
+**X1 — le taux de résolution du graphe I4, décomposé, pas juste corrigé.**
+La relecture pointait deux mécanismes de `source/conf.py` non pris en
+compte au lot 6. Vérifiés par lecture directe des sources de Sphinx
+9.1.0 (téléchargé pour inspection seule, jamais installé comme dépendance
+du projet — l'arbitrage du lot 6 reste : parser les `.rst`, pas un rendu
+Sphinx construit), jamais supposés :
+
+- `sphinx.ext.autosectionlabel` (`autosectionlabel_maxdepth = 1`,
+  `autosectionlabel_prefix_document` absent de `conf.py` donc `False` par
+  défaut — vérifié dans `sphinx.ext.autosectionlabel.setup`) fait de la
+  section de tête de **chaque fichier** `.rst` (pas seulement
+  `index.rst` : chaque fichier est son propre document Sphinx dès que
+  `doctitle_xform` vaut `False`, réglage par défaut de
+  `sphinx.environment` — sans lui, `docutils` fusionnerait cette section
+  dans `document['title']` et `register_sections_as_label` ne la
+  verrait jamais) un label implicite, nommé
+  `fully_normalize_name(title.rawsource)` — le texte **brut** de la
+  ligne de titre, marqueurs `**id**` ou rôle imbriqué compris, jamais le
+  texte rendu (`sphinx/ext/autosectionlabel.py`, lu ligne à ligne).
+  `aster_expert.ingestion.xref.build_autosectionlabel_index` reproduit
+  cet algorithme exactement et construit le registre complet : **13116
+  fichiers, 6m39s, 4175 labels distincts, 0 erreur.**
+  **Mesuré, pas supposé : ce registre n'intersecte AUCUNE des 3460
+  cibles `:ref:` distinctes du corpus qui ne sont pas déjà un identifiant
+  de document.** Une clé générée est illisible dès qu'un titre porte
+  lui-même un rôle (ex. `"partie [:ref:`d0 <d0>`] : généralités"`) : ce
+  n'est jamais un texte qu'un auteur retape manuellement comme cible.
+  **Conclusion, contraire à l'hypothèse de la relecture : sur ce corpus,
+  `autosectionlabel` n'explique aucune part de la non-résolution
+  mesurée au lot 6.** Le mécanisme est néanmoins gardé, implémenté et
+  testé (jamais deviné une fois pour toutes) : 268 des 4175 labels sont
+  déjà dupliqués entre plusieurs documents (ambiguïté potentielle,
+  jamais résolue arbitrairement si un jour un `:ref:` les cible), et rien
+  n'empêche un usage futur.
+- `sphinx.ext.intersphinx` : un `:external:ref:` est **toujours**
+  distribué vers l'inventaire externe, jamais vers le domaine local,
+  quelle que soit sa cible — confirmé même quand la cible existe
+  localement (`U4.63.12`, référencé par `:external:ref:` dans
+  `u4.84.01/Op_randes.rst` alors que le document existe dans notre
+  synchronisation). Fait supplémentaire, non demandé par la relecture
+  mais découvert en le vérifiant : `intersphinx_mapping` n'est défini
+  dans `conf.py` **que si** `objects_global.inv` existe déjà
+  (`if global_objects.exists(): intersphinx_mapping = {...}`), un
+  fichier lui-même produit par un `_build` antérieur — absent de tout
+  clone brut (`docs/development-plan.md`, observation de clôture du
+  lot 3). Sur un premier `build` à partir de ce clone, `intersphinx`
+  n'aurait donc **aucun** inventaire enregistré et tout `:external:ref:`
+  échouerait au moment du build — un « externe » n'est jamais une
+  garantie de résolution réussie ailleurs, seulement un fait de
+  distribution structurelle qui l'exclut du domaine local.
+
+**Chiffres corrigés (corpus entier, 15560 occurrences) :** 3779 résolues
+en interne (24,3 %, dont 3779 par étiquette explicite, **0** par
+`autosectionlabel`), 3412 externes/intersphinx (21,9 %), 0 ambiguë, 8369
+réellement non résolues (53,8 %). Décomposition de ce dernier chiffre
+(mesurée, `data/processed/xref_graph.json`) : 17,5 % ancres générées par
+la conversion Word (`RefHeading__...`, `RefNumPara__...`), 17,4 %
+bibliographie locale (`bib1`...), 12,5 % numéros de figure/table nus,
+10,8 % équations (`éq X.X-X`), 6,3 % sections (`§X`), 4,9 % labels
+explicites de sous-document (`u4.43.01-visc_isot_plas_...`, un mécanisme
+réel du corpus, hors périmètre de ce graphe document-à-document), le
+reste (~30 %) réparti entre légendes de figure, variantes de
+bibliographie (`Boi01`...), identifiants partiels ou de familles absentes
+du dépôt public (`D3.02.01`, `A2.01`) et un très petit nombre de défauts
+réels de la source (le cas `NU.array([:ref:`...`])`, déjà relevé au
+lot 6).
+
+**X2 — traçabilité de la table I5.** Chaque arête
+`CommandDocumentEdge` (et chaque `UncataloguedCommandMention`) porte
+désormais `document_title` (le titre exact où le nom de commande a été
+trouvé) et `source_path` (le chemin du fichier `index.rst` correspondant)
+— jamais seulement `command`/`document_id`, qui ne permettaient pas de
+revérifier le rapprochement sans rejouer l'extraction (`CLAUDE.md`,
+« Toute donnée indexée conserve sa source, son chemin »). Table
+régénérée et redéposée dans `/media/sf_partage/echanges/`.
+
+**X3 — voir l'amendement du lot 4 ci-dessus.** La table I5 confirme, par
+une source indépendante des cas tests, l'existence documentée de
+`DEFI_CONT`/`CALC_SPEC` (déjà connues du lot 10b) et révèle deux
+commandes documentées supplémentaires absentes du catalogue introspecté :
+`CALC_FORC_AJOU` (`MacroCommands`, comme les précédentes) et `POURSUITE`
+(`CodeCommands`, un alias d'exécution de `DEBUT` — un mécanisme distinct,
+jamais un `MacroCommands`). Catalogue non modifié dans ce lot.
+
+**Découpage/indexation/recherche** : non touchés, conformément à
+l'instruction du lot 6b.
 
 ## Lot 7 — Index lexical et recherche
 
