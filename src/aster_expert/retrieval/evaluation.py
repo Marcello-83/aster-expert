@@ -22,7 +22,8 @@ than one expected document and both figures are informative together.
 
 from __future__ import annotations
 
-from collections import Counter
+from collections import Counter, defaultdict
+from collections.abc import Callable
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict
@@ -184,6 +185,75 @@ class QuestionSetSummary(BaseModel):
     by_domain: dict[str, dict[str, int]]
     document_family_counts: dict[str, int]
     outside_corpus_ids: tuple[str, ...]
+
+
+class BucketScore(BaseModel):
+    """Aggregate hit/recall/MRR over one bucket of questions (lot 7, D5)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    n_questions: int
+    hit_rate: float
+    mean_recall: float
+    mean_reciprocal_rank: float
+
+
+def ventilate(
+    scores: tuple[QueryScore, ...],
+    questions_by_id: dict[str, EvaluationQuestion],
+    key_fn: Callable[[EvaluationQuestion], list[str]],
+) -> dict[str, BucketScore]:
+    """Group `scores` by `key_fn(question)` and aggregate hit/recall/MRR per key.
+
+    A question can contribute to several buckets at once (`key_fn` returns a
+    list, not a single key) — the same multi-membership the lot 5 compte
+    rendu already used for "répartition des documents attendus par
+    famille" when a question names documents from more than one family,
+    never forced into a single arbitrary bucket.
+    """
+    buckets: dict[str, list[QueryScore]] = defaultdict(list)
+    for score in scores:
+        question = questions_by_id[score.id]
+        for key in key_fn(question):
+            buckets[key].append(score)
+
+    result: dict[str, BucketScore] = {}
+    for key, bucket_scores in buckets.items():
+        n = len(bucket_scores)
+        result[key] = BucketScore(
+            n_questions=n,
+            hit_rate=sum(1 for s in bucket_scores if s.hit) / n,
+            mean_recall=sum(s.recall_at_k for s in bucket_scores) / n,
+            mean_reciprocal_rank=sum(s.reciprocal_rank for s in bucket_scores) / n,
+        )
+    return result
+
+
+def ventilate_by_domain(
+    scores: tuple[QueryScore, ...], questions_by_id: dict[str, EvaluationQuestion]
+) -> dict[str, BucketScore]:
+    return ventilate(scores, questions_by_id, lambda q: [q.domain])
+
+
+def ventilate_by_answerability(
+    scores: tuple[QueryScore, ...], questions_by_id: dict[str, EvaluationQuestion]
+) -> dict[str, BucketScore]:
+    return ventilate(scores, questions_by_id, lambda q: [q.answerability])
+
+
+def ventilate_by_family(
+    scores: tuple[QueryScore, ...], questions_by_id: dict[str, EvaluationQuestion]
+) -> dict[str, BucketScore]:
+    return ventilate(
+        scores,
+        questions_by_id,
+        lambda q: sorted({_document_family(d) for d in q.required_documents}),
+    )
+
+
+def list_failures(report: EvaluationReport) -> tuple[QueryScore, ...]:
+    """Every evaluated question that missed all required documents at `report.k`."""
+    return tuple(score for score in report.scores if not score.hit)
 
 
 def _document_family(document_id: str) -> str:

@@ -14,9 +14,13 @@ import pytest
 
 from aster_expert.retrieval.evaluation import (
     evaluate_retrieval,
+    list_failures,
     load_questions,
     load_ranked_results,
     summarize_question_set,
+    ventilate_by_answerability,
+    ventilate_by_domain,
+    ventilate_by_family,
 )
 from aster_expert.retrieval.models import EvaluationQuestion
 
@@ -196,3 +200,76 @@ def test_summarize_question_set_counts_domains_families_and_outside_corpus() -> 
     assert summary.by_domain["lois_comportement"] == {"resolved": 1, "unresolved": 0}
     assert summary.document_family_counts == {"U4": 1, "R": 1, "V": 1}
     assert summary.outside_corpus_ids == ("eval-004",)
+
+
+def test_ventilate_by_domain_groups_and_averages_correctly() -> None:
+    questions = [
+        _question(id="eval-001", domain="maillage", required_documents=("U4.10.01",)),
+        _question(id="eval-002", domain="maillage", required_documents=("U4.10.02",)),
+        _question(
+            id="eval-003", domain="convergence", required_documents=("U4.20.01",)
+        ),
+    ]
+    results: dict[str, tuple[str, ...]] = {
+        "eval-001": ("U4.10.01",),  # hit
+        "eval-002": ("U4.99.99",),  # miss
+        "eval-003": ("U4.20.01",),  # hit
+    }
+    report = evaluate_retrieval(questions, results, k=5)
+    questions_by_id = {q.id: q for q in questions}
+
+    buckets = ventilate_by_domain(report.scores, questions_by_id)
+
+    assert buckets["maillage"].n_questions == 2
+    assert buckets["maillage"].hit_rate == pytest.approx(0.5)
+    assert buckets["convergence"].n_questions == 1
+    assert buckets["convergence"].hit_rate == pytest.approx(1.0)
+
+
+def test_ventilate_by_family_counts_a_multi_family_question_in_every_bucket() -> None:
+    questions = [
+        _question(
+            id="eval-001",
+            required_documents=("R7.01.03", "V6.04.100"),
+        ),
+    ]
+    results: dict[str, tuple[str, ...]] = {"eval-001": ("R7.01.03",)}
+    report = evaluate_retrieval(questions, results, k=5)
+    questions_by_id = {q.id: q for q in questions}
+
+    buckets = ventilate_by_family(report.scores, questions_by_id)
+
+    assert set(buckets) == {"R", "V"}
+    assert buckets["R"].n_questions == 1
+    assert buckets["V"].n_questions == 1
+    assert buckets["R"].hit_rate == pytest.approx(1.0)
+    assert buckets["V"].hit_rate == pytest.approx(1.0)  # même question, même hit
+
+
+def test_ventilate_by_answerability() -> None:
+    questions = [
+        _question(id="eval-001", answerability="explicit", required_documents=("A",)),
+        _question(id="eval-002", answerability="partial", required_documents=("B",)),
+    ]
+    results: dict[str, tuple[str, ...]] = {"eval-001": ("A",), "eval-002": ("Z",)}
+    report = evaluate_retrieval(questions, results, k=5)
+    questions_by_id = {q.id: q for q in questions}
+
+    buckets = ventilate_by_answerability(report.scores, questions_by_id)
+
+    assert buckets["explicit"].hit_rate == pytest.approx(1.0)
+    assert buckets["partial"].hit_rate == pytest.approx(0.0)
+
+
+def test_list_failures_returns_only_missed_questions() -> None:
+    questions = [
+        _question(id="eval-001", required_documents=("A",)),
+        _question(id="eval-002", required_documents=("B",)),
+    ]
+    results: dict[str, tuple[str, ...]] = {"eval-001": ("A",), "eval-002": ("Z",)}
+    report = evaluate_retrieval(questions, results, k=5)
+
+    failures = list_failures(report)
+
+    assert len(failures) == 1
+    assert failures[0].id == "eval-002"

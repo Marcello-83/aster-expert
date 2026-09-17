@@ -184,6 +184,46 @@ Contrôles automatiques exigés :
 4. idempotence : deux exécutions sur la même révision produisent des fragments
    identiques.
 
+**Clôture du lot 7 (découpage documentaire réel, `aster_expert.parsing.
+doc_fragments`).** Réutilise la structure établie au lot 6
+(`aster_expert.ingestion.inventory` : un document est un répertoire, une
+section est un fichier `.rst`), jamais un nouveau parseur. Deux granularités
+construites et mesurées côte à côte sur le corpus 17.4.0 synchronisé (2047
+documents, 13116 fichiers de section) :
+
+- `by_file` : un fragment par fichier — 13116 fragments, taille médiane
+  1358 caractères.
+- `by_subsection` : identique à `by_file` pour tout fichier de 150 lignes
+  ou moins (seuil choisi juste sous le 90e centile réel de la distribution
+  des tailles de fichiers de section — médiane 41 lignes, 90e centile 155
+  lignes, mesuré par `wc -l` sur les 13116 fichiers), redécoupé par en-tête
+  reStructuredText sinon — 26553 fragments, taille médiane 946 caractères.
+
+Contrôle 1 (non-perte) vérifié par construction et par test, pas supposé :
+`content` est toujours une tranche brute du texte source (jamais un rendu
+docutils), et tout découpage en sous-sections est validé par
+`verify_full_coverage` (reconstruction ligne à ligne comparée à la source),
+qui aurait levé une erreur explicite sur le moindre écart — aucune levée sur
+l'ensemble des 13116 fichiers de la passe réelle. Contrôle 2 trivialement
+garanti par le modèle `pydantic` (`source_commit`/`source_path`/
+`aster_version` non optionnels). Contrôle 3 : chaque fragment porte les liens
+déjà établis au lot 6/6b, à la granularité du document entier (la table
+commande -> document et le graphe de références n'ont pas de granularité
+plus fine que le document) — 1538/13116 fragments `by_file` portent une
+commande liée, 4478/13116 un document lié. Contrôle 4 (idempotence) vérifié
+sur la passe réelle complète : deux exécutions consécutives de
+`aster-expert fragments build --granularity by_file` produisent un
+`fragments_by_file.jsonl` identique champ à champ, empreintes comprises,
+hors le seul champ `extracted_at` (horodatage du lot, jamais un fait du
+contenu).
+
+**Mesure sur le banc (lot 5, 63 questions résolues sur 65) : les deux
+granularités sont statistiquement indiscernables**, compte rendu complet du
+lot 7. `by_file` reste la granularité par défaut, retenue pour sa simplicité
+(deux fois moins de fragments à indexer) faute d'un gain mesuré de
+`by_subsection` qui la justifierait — jamais un choix esthétique présenté
+comme un arbitrage mesuré.
+
 ## 8. Jeu d'évaluation
 
 `data/evaluations/questions.jsonl` contient les questions de référence (lot 5,
