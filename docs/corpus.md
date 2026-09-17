@@ -186,20 +186,66 @@ Contrôles automatiques exigés :
 
 ## 8. Jeu d'évaluation
 
-`data/evaluations/questions.jsonl` contient les questions de référence :
+`data/evaluations/questions.jsonl` contient les questions de référence (lot 5).
+Schéma effectivement produit — un amendement du schéma esquissé initialement
+ici, jamais un `expected_documents` deviné pour le remplir a posteriori :
 
 ```json
 {
   "id": "eval-001",
-  "question": "Comment définir un choc unilatéral entre deux noeuds ?",
-  "version": "18",
-  "expected_documents": ["U4.44.01"],
-  "expected_commands": ["DEFI_MATERIAU", "AFFE_CHAR_MECA"],
-  "domain": "mecanique_non_lineaire",
-  "origin": "travail reel"
+  "question": "Quels types d'éléments finis de poutre sont disponibles pour modéliser un pieu, et en quoi diffèrent-ils",
+  "domain": "modelisation_poutre",
+  "origin": "travail reel",
+  "source_question": "Comment modéliser les pieux dans code_aster",
+  "version": null,
+  "expected_documents": ["U3.11.01"],
+  "expected_commands": ["AFFE_MODELE"],
+  "verified_by": "U3.11.01 « Notice d'utilisation des éléments de poutre », section ... — titre et chemin vérifiés dans external/codeaster-doc",
+  "note": "...",
+  "answer_outside_corpus": false
 }
 ```
 
+- `id`/`question`/`domain`/`origin` : la question bornée elle-même.
+- `source_question` : la question large d'origine dont elle est issue
+  (`data/evaluations/cas_usage.md`, catalogue de couverture fonctionnelle,
+  jamais lui-même une question d'évaluation).
+- `version` : la version documentaire ciblée si la question en dépend
+  explicitement, `null` sinon (le corpus synchronisé ne couvre que 17.4.0).
+- `expected_documents` : identifiants de documents établis par lecture du
+  corpus réel, jamais devinés ; vide et `note` renseignée si la question
+  reste non résolue (résultat normal, pas un échec masqué). Plusieurs
+  documents légitimes sont tous listés — la métrique est « au moins un
+  document attendu retrouvé », pas « le bon document unique ».
+- `expected_commands` : uniquement des noms présents dans le catalogue
+  extrait au lot 4b (`data/processed/catalogue/<digest>/*.json`) ; une
+  commande réelle mais hors catalogue (`DEFI_CONT`, `CALC_SPEC`,
+  `CALC_FORC_AJOU`, `POURSUITE`, lot 6b X3) n'y figure jamais, seulement
+  dans `note` si pertinent.
+- `verified_by` : ce qui fonde chaque document retenu — titre exact,
+  section, chemin du fichier source (`CLAUDE.md`, « Toute donnée indexée
+  conserve sa source, son chemin »). Une correspondance de mots-clés seule
+  n'est jamais suffisante.
+- `note` : motif de non-résolution, mise en garde sur une fausse piste de
+  la table commande → document (lot 6, I5), ou tout autre fait utile à la
+  relecture.
+- `answer_outside_corpus` : `true` quand la réponse relève des cas tests ou
+  du catalogue plutôt que de la documentation elle-même — `expected_documents`
+  reste alors vide, ce n'est jamais confondu avec une question non résolue.
+
+`data/evaluations/questions_raw.jsonl` conserve le jeu de questions tel que
+reçu de l'utilisateur, avant toute complétion (traçabilité, `CLAUDE.md`
+principe 4). `data/evaluations/cas_usage.md` conserve les 21 questions larges
+d'origine.
+
 Les questions proviennent de problèmes réellement rencontrés, pas de
-reformulations de la documentation. Une question dont la réponse attendue n'est
-pas vérifiée dans la documentation n'entre pas dans le jeu.
+reformulations de la documentation. Elles ne sont jamais reformulées pour
+les rendre plus faciles à satisfaire : c'est le corpus qu'on mesure, pas les
+questions.
+
+L'outil de mesure (`aster_expert.retrieval.evaluation`, `aster-expert eval
+score`/`aster-expert eval summary`) calcule rappel@k, précision@k, hit@k et
+MRR à partir d'une liste de résultats classés fournie en entrée — utilisable
+avant qu'aucun index n'existe (lot 5). Une question non résolue
+(`expected_documents` vide) est exclue de la métrique, jamais scorée comme un
+échec.

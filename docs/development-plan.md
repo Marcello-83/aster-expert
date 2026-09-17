@@ -246,6 +246,86 @@ mesure du rappel et de la précision, utilisable avant qu'un index n'existe.
 Critères de sortie : jeu versionné, chaque réponse attendue vérifiée dans la
 documentation, outil de mesure testé sur un index factice.
 
+**Clôture du lot 5.**
+
+**Entrées.** 64 questions bornées réelles (`data/evaluations/questions_raw.jsonl`,
+copie verbatim de `/media/sf_partage/echanges/lot5_questions.jsonl`, jamais
+modifiée), décomposées par l'utilisateur à partir de 21 questions larges
+(`data/evaluations/cas_usage.md`) — dépasse le minimum de 30 demandé par ce
+lot, sans reformulation d'aucune des deux listes.
+
+**Établissement des réponses.** Chaque question a été confrontée au corpus
+synchronisé (`external/codeaster-doc`), jamais devinée à partir d'une
+correspondance de mots-clés seule : recherche de candidats via la table
+commande → document du lot 6/6b (`data/processed/command_document_map.json`)
+et les titres de `data/raw/inventory.jsonl`, puis lecture directe du contenu
+réel du (des) document(s) candidat(s) pour confirmer qu'il répond
+effectivement à la question posée. `expected_commands` vérifié un par un
+contre les 268 noms du catalogue extrait au lot 4b — aucune commande hors
+catalogue (`DEFI_CONT`, `CALC_SPEC`, `CALC_FORC_AJOU`, `POURSUITE`, lot 6b X3)
+n'y figure, même quand elle répondait matériellement à la question.
+
+**Résultat : 62/64 questions résolues, 2 non résolues.**
+
+- `eval-005` (« raideur qui varie le long d'une ligne » pour un élément
+  discret) : `AFFE_CARA_ELEM` permet de facto de juxtaposer plusieurs
+  occurrences de `DISCRET` avec des `VALE` différentes sur des `GROUP_MA`
+  distincts, mais aucun document ne traite explicitement ce mécanisme comme
+  une réponse à la question (à la différence de `VARI_SECT` pour une poutre à
+  section continûment variable) — conclure serait une déduction, pas un fait
+  établi dans un document dédié.
+- `eval-007` (choix plaque vs poutre pour une paroi moulée) : les familles
+  poutre (`U3.11.*`) et plaque (`U3.12.*`) sont chacune documentées
+  séparément ; aucun document ne compare les deux pour ce cas d'usage
+  géotechnique précis. Les citer comme réponse aurait été une correspondance
+  de mots-clés, pas une réponse établie.
+
+Aucune question n'a dû être classée `answer_outside_corpus` : sur ce jeu, la
+réponse établie vit chaque fois dans la documentation elle-même (parfois
+complétée, jamais remplacée, par un cas test cité en confirmation
+indépendante — `eval-010`, `V5.01.108`/`V6.08.116` pour `DIS_CONTACT`) —
+signalé ici pour le découpage du lot 7, comme demandé, plutôt que déduit
+silencieusement d'une absence de valeur `true`.
+
+**Répartition des documents attendus par famille** (une question pouvant en
+citer plusieurs) : U4 71, R 31, U2 11, U3 6, U7 3, V 0, D 0. Aucun document V
+n'a été retenu en tant que réponse établie : plusieurs cas de validation ont
+été repérés comme corroboration (`eval-006`, `eval-010`) mais jamais ajoutés
+à `expected_documents` sans lecture dédiée confirmant qu'ils répondent
+eux-mêmes à la question, pas seulement qu'ils exercent la même commande.
+
+**Répartition par domaine** (résolu/non résolu) : `dynamique` 8/0,
+`post_traitement` 7/0, `chargements` 5/0, `materiaux` 5/0, `convergence` 5/0,
+`verification` 5/0, `interaction_sol_structure` 4/0, `maillage` 4/0,
+`conditions_limites` 4/0, `lois_comportement` 4/0, `modelisation_poutre` 3/0,
+`ferraillage` 2/0, `elements_discrets` 2/1, `modelisation_coque` 1/1,
+`modelisation_generale` 1/0, `raccords` 1/0, `contact` 1/0.
+
+**Fausses pistes de la table commande → document signalées** (jamais
+suivies aveuglément) : `VERI_NORM` (mot-clé d'`AFFE_CHAR_MECA`, absent de la
+table car ce n'est pas une commande — rapprochement fait par lecture
+directe), `LIAISON_ELEM` (même motif), `RIGI_PARASOL` (mot-clé
+d'`AFFE_CARA_ELEM`, jamais mis dans `expected_commands` pour cette raison) ;
+`MACR_SPECTRE` écartée pour `eval-013` après lecture (calcule des spectres de
+plancher en post-traitement, pas un spectre d'oscillateur depuis des valeurs
+d'accélération brutes) ; `POST_VERI_FERRAILLAGE` écartée pour `eval-039`
+(présente au catalogue mais non nommée par le document panorama lu).
+
+**Outil de mesure.** `aster_expert.retrieval.evaluation` (recall@k,
+precision@k, hit@k « au moins un document attendu retrouvé », MRR) prend en
+entrée une liste de résultats classés (JSONL `{"id", "ranked_documents"}`)
+et le jeu de référence — jamais le corpus lui-même, utilisable avant qu'un
+index n'existe. Exposé par `aster-expert eval score`/`aster-expert eval
+summary`. Testé sur un jeu et un classement fabriqués pour le test
+(`tests/unit/test_evaluation.py`, 7 tests : hit au sein de `k`, question non
+résolue exclue de la métrique, question résolue absente des résultats comptée
+comme échec réel, `k` invalide rejeté, aller-retour JSONL, comptage du
+résumé) — aucun corpus, aucun réseau.
+
+**Limite connue.** Le corpus synchronisé ne couvre qu'une version
+documentaire (17.4.0) : `version` est laissé à `null` sur les 64 questions,
+aucune n'en dépendant explicitement pour l'instant.
+
 ## Lot 6 — Inventaire du corpus
 
 Inspection des dépôts synchronisés, inventaire JSONL, statistiques, anomalies.
