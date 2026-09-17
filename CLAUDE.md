@@ -163,13 +163,21 @@ la sortie.
 
 ## Fin de lot
 
-Un lot n'est terminé qu'avec :
+Un lot n'est terminé qu'avec un commit Git distinct, dont le message porte
+le compte rendu complet :
 
 1. l'inventaire des fichiers créés ou modifiés ;
 2. la justification des choix techniques ;
 3. la liste des tests exécutés et leurs résultats exacts ;
-4. les limites connues et les points non couverts ;
-5. un commit Git distinct.
+4. les limites connues et les points non couverts.
+
+Les branches par lot sont facultatives et ne sont jamais un livrable en
+elles-mêmes : la règle réelle du dépôt est un commit distinct par lot sur la
+branche où l'on travaille, jamais une bulle de fusion cosmétique. Ni une
+branche par lot ni un commit de fusion ne sont exigés — plusieurs lots
+antérieurs sont des commits directs, et c'est le commit lui-même, avec son
+message complet, qui a permis de retrouver le travail après un arrêt brutal
+de la machine.
 
 ## Périmètre à ne pas dépasser sans instruction
 
