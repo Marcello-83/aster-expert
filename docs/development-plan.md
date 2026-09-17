@@ -322,9 +322,117 @@ résolue exclue de la métrique, question résolue absente des résultats compt�
 comme échec réel, `k` invalide rejeté, aller-retour JSONL, comptage du
 résumé) — aucun corpus, aucun réseau.
 
-**Limite connue.** Le corpus synchronisé ne couvre qu'une version
-documentaire (17.4.0) : `version` est laissé à `null` sur les 64 questions,
-aucune n'en dépendant explicitement pour l'instant.
+**Limite connue (amendée au lot 5b, voir ci-dessous).** Le corpus synchronisé
+ne couvre qu'une version documentaire (17.4.0) : `version` était laissé à
+`null` sur les 64 questions, aucune n'en dépendant explicitement à ce stade.
+
+**Clôture du lot 5b — normalisation du schéma d'évaluation.**
+
+**N0 — contrôle préalable de la relecture externe.** Une relecture par un
+autre modèle a proposé une refonte du schéma en citant 20 identifiants de
+documents tirés de sa mémoire, sans vérification contre le corpus :
+`R5.03.31`, `R5.03.17`, `U3.11.01`, `U3.12.01`, `R7.01.04`, `R7.01.08`,
+`R7.01.09`, `R7.01.42`, `R7.01.47`, `R5.03.28`, `U4.81.44`, `U4.81.46`,
+`U4.52.17`, `U4.52.12`, `U4.42.01`, `U4.32.11`, `U4.81.21`, `U4.23.04`,
+`U4.52.13`, `R3.03.05`. Vérification directe dans `data/raw/inventory.jsonl` :
+**les 20 identifiants existent**, tous dans une famille et avec un titre
+cohérents avec l'usage qu'en faisait la relecture — aucun n'est inventé.
+Ce résultat, contraire à l'attente qui motivait le contrôle, ne dispense pas
+d'avoir vérifié : il fonde le crédit donné aux items N1-N5 de la relecture,
+qui ont ensuite été traités individuellement plutôt qu'importés en bloc.
+
+**N1 — version, jamais `null`.** `EvaluationQuestion.version`
+(`src/aster_expert/retrieval/models.py`) devient un objet `VersionInfo`
+obligatoire : `solver` ("17.4.0"), `documentation_revision` (le commit
+`codeaster-doc` de `data/raw/manifest.json`/`config/versions.yaml`,
+`9c8c179f57ef7ca1d2891cac275ee4823a57967c`) et `compatibility_status`, qui
+énonce précisément ce qui a été vérifié de la correspondance
+solveur/documentation (correspondance de tag confirmée par
+`git ls-remote --tags`) et ce qui ne l'a pas été (aucun changelog croisé
+consulté, note déjà présente dans `config/versions.yaml`) — jamais
+« vérifié » sans cette nuance (`CLAUDE.md`, principe 6). Le même objet
+s'applique aux 65 questions, le corpus synchronisé ne couvrant qu'une seule
+révision.
+
+**N2 — `required_documents`/`supporting_documents`.** `expected_documents`
+est scindé sur la base de ce que `verified_by` établissait déjà (aucune
+nouvelle recherche) : un document devient `supporting_documents` quand
+`verified_by` le qualifie lui-même de théorie sous-jacente, de renvoi pour
+détail algorithmique/mathématique, de confirmation/panorama de contexte —
+sinon il reste `required_documents`, conformément à l'instruction (« quand
+`verified_by` ne permet pas de trancher, garde le document en required »).
+Documents déclassés en `supporting_documents` : `U2.02.03` (eval-004,
+notice générale), `R3.03.03`/`R3.03.06` (eval-018, théorie des raccords),
+`R5.03.01` (eval-030/032/034, détail algorithmique de STAT_NON_LINE),
+`R5.03.80` (eval-033, détail des modes de pilotage), `U2.01.05` (eval-035,
+détail des composantes), `U2.03.07` (eval-038, panorama), `R7.01.42`
+(eval-029, justification du choix plutôt que formulation elle-même),
+`U4.23.04` (eval-040, correction du défaut plutôt que la vérification
+elle-même demandée par la question). `evaluate_retrieval` ne lit plus que
+`required_documents` (`src/aster_expert/retrieval/evaluation.py`,
+`QueryScore.required_documents`) ; `supporting_documents` n'est jamais
+scoré.
+
+**N3 — `answerability`.** Quatre valeurs (`explicit`, `inferable`,
+`partial`, `absent`) ajoutées à chaque question. `eval-005`/`eval-007`
+passent à `absent` (`required_documents` vide déjà, comportement inchangé,
+juste explicité). `eval-006`/`eval-008` passent à `inferable` (mécanisme
+documenté générique appliqué à un cas géotechnique/de vocabulaire que le
+corpus ne nomme jamais). `eval-021`/`eval-048` passent à `partial` (voir
+N5).
+
+**N4 — `gold_confidence`.** Trois valeurs (`high`, `medium`, `provisional`)
+d'après `verified_by` seul. `high` : 59/65. `medium` : `eval-006`,
+`eval-008`, `eval-021`, `eval-048` (mécanisme générique ou citation
+documentaire sans citation de contenu). `provisional` : `eval-005`,
+`eval-007` (un « non résolu » est un constat de recherche, pas un fait
+définitif).
+
+**N5 — corrections ciblées, chacune sur preuve.**
+
+- `eval-039` (X1) : `U4.81.44` et `U4.81.46` étaient cités par `U2.03.07`
+  sans que leur propre contenu ait été lu. Lus directement
+  (`external/codeaster-doc/source/manuals/man_u/u4/u4.81.44/But.rst` et
+  `.../u4.81.46/But.rst`) : les deux confirment répondre à la question
+  (`COMBINAISON_FERRAILLAGE` — plusieurs combinaisons de chargement ;
+  `VERI_FERRAILLAGE` — vérification d'un ferraillage existant). Maintenus
+  en `required_documents`, `verified_by` réécrit avec les citations
+  individuelles, `gold_confidence` passé de `medium` à `high`.
+- `eval-013` : question scindée en deux, l'identifiant `eval-013` gardé pour
+  le calcul d'un spectre depuis un accélérogramme (`CALC_FONCTION`,
+  inchangé), et `eval-065` ajoutée en fin de jeu pour la déclaration d'un
+  spectre déjà connu (`LIRE_FONCTION`/`DEFI_NAPPE`, vérifiée par lecture de
+  `U4.84.01/Op_randes.rst` ligne 282 et des `But.rst` de `U4.32.02` et
+  `U4.31.03`) — jamais une reformulation du contenu établi, une séparation
+  de deux mécanismes déjà documentés côte à côte.
+- `eval-048` : lacune consignée dans `docs/corpus.md` §8 (guides ISS
+  `U2.06.05`/`U2.06.07` référencés par 6 documents distincts mais absents du
+  corpus synchronisé, confirmé par 9 arêtes non résolues dans
+  `data/processed/xref_graph.json` — plus large que les deux renvois déjà
+  relevés lors de l'établissement de la question). `answerability` passé à
+  `partial`.
+- `eval-021` : preuve relue — elle ne couvre que les forces nodales
+  concentrées (`FORCE_NODALE`), pas les chargements répartis pour lesquels
+  aucun mécanisme `REPERE='LOCAL'` équivalent n'existe dans le corpus.
+  `answerability` passé à `partial`.
+
+**Hors périmètre, conformément à l'instruction.** Aucun document attendu
+supplémentaire recherché ; aucun ensemble de réponses alternatives, document
+piège, commande conditionnelle ni nouvelle métrique introduits — reportés
+après le lot 7.
+
+**Garde-fou de parallélisme.** Travail réalisé sans sous-agent : `git status
+--short` relevé avant modification (dépôt propre) et après (seuls les
+fichiers listés dans l'inventaire de clôture modifiés).
+
+**Tests.** `tests/unit/test_evaluation.py` mis à jour pour le renommage de
+champ (`required_documents`) et l'ajout d'un test dédié
+(`test_supporting_documents_never_scored`, garantit qu'un document
+`supporting_documents` retrouvé n'est jamais compté comme un hit) ;
+`tests/unit/test_retrieval_models.py` ajouté (5 tests : `version`
+obligatoire et jamais `null`, `answerability`/`gold_confidence` rejettent
+une valeur hors énumération, `required_documents`/`supporting_documents`
+indépendants, question non résolue).
 
 ## Lot 6 — Inventaire du corpus
 

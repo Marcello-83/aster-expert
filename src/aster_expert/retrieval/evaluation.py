@@ -5,10 +5,12 @@ lot 5): the only input this module needs is a ranked list of document ids
 per question, supplied by whatever means (hand-written for a test, or later
 `aster-expert search`). It never reads the corpus or the catalogue itself.
 
-A question with an empty `expected_documents` is unresolved (lot 5
+A question with an empty `required_documents` is unresolved (lot 5
 instruction: "une question non résolue est un résultat, pas un échec à
 masquer") and is excluded from every aggregate metric, never scored as a
-failure.
+failure. `supporting_documents` (lot 5b) is never read here: only
+`required_documents` — the noyau without which the answer is wrong — is
+scored.
 
 Several documents can legitimately answer one question (docs/corpus.md §8);
 `hit` below is intentionally "at least one expected document retrieved",
@@ -44,7 +46,7 @@ class QueryScore(BaseModel):
 
     id: str
     k: int
-    expected_documents: tuple[str, ...]
+    required_documents: tuple[str, ...]
     retrieved_at_k: tuple[str, ...]
     hit: bool
     precision_at_k: float
@@ -72,7 +74,7 @@ class EvaluationReport(BaseModel):
 def _score_one(
     question: EvaluationQuestion, ranked: tuple[str, ...], k: int
 ) -> QueryScore:
-    expected = set(question.expected_documents)
+    expected = set(question.required_documents)
     retrieved_at_k = ranked[:k]
     hits_at_k = [doc for doc in retrieved_at_k if doc in expected]
 
@@ -88,7 +90,7 @@ def _score_one(
     return QueryScore(
         id=question.id,
         k=k,
-        expected_documents=question.expected_documents,
+        required_documents=question.required_documents,
         retrieved_at_k=retrieved_at_k,
         hit=bool(hits_at_k),
         precision_at_k=precision,
@@ -105,7 +107,7 @@ def evaluate_retrieval(
 ) -> EvaluationReport:
     """Score `results` (question id -> ranked document ids) against `questions`.
 
-    A question with `expected_documents == ()` is excluded (unresolved, not
+    A question with `required_documents == ()` is excluded (unresolved, not
     a failure). A resolved question absent from `results` is scored as a
     complete miss (empty ranked list) and counted separately in
     `n_questions_missing_result`, never silently dropped.
@@ -118,7 +120,7 @@ def evaluate_retrieval(
     n_missing_result = 0
 
     for question in questions:
-        if not question.expected_documents:
+        if not question.required_documents:
             n_excluded += 1
             continue
         if question.id not in results:
@@ -205,9 +207,9 @@ def summarize_question_set(questions: list[EvaluationQuestion]) -> QuestionSetSu
 
     for question in questions:
         bucket = by_domain.setdefault(question.domain, {"resolved": 0, "unresolved": 0})
-        if question.expected_documents:
+        if question.required_documents:
             bucket["resolved"] += 1
-            for document_id in question.expected_documents:
+            for document_id in question.required_documents:
                 family_counts[_document_family(document_id)] += 1
         else:
             bucket["unresolved"] += 1
@@ -215,7 +217,7 @@ def summarize_question_set(questions: list[EvaluationQuestion]) -> QuestionSetSu
         if question.answer_outside_corpus:
             outside_corpus_ids.append(question.id)
 
-    resolved = sum(1 for q in questions if q.expected_documents)
+    resolved = sum(1 for q in questions if q.required_documents)
     return QuestionSetSummary(
         total=len(questions),
         resolved=resolved,
