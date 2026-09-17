@@ -41,6 +41,7 @@ une par défaut.
 
 | Famille | Objet | Usage dans le système |
 |---------|-------|-----------------------|
+| U0 | guide de lecture de la documentation d'utilisation | contexte |
 | U1 | présentation générale, supervision | contexte |
 | U2 | guides méthodologiques | démarche de modélisation |
 | U3 | formats et fichiers | entrées/sorties |
@@ -48,11 +49,39 @@ une par défaut.
 | R | références théoriques | hypothèses, formulations, lois |
 | V | documents de validation | cas de référence et valeurs attendues |
 | D | documents divers | selon contenu |
+| SU | guides d'utilisation de la plate-forme Salome-Meca | contexte, hors périmètre Code_Aster |
+| SV | fiches de validation d'outils de la plate-forme Salome-Meca | contexte, hors périmètre Code_Aster |
 | cas tests | fichiers exécutables | exemples de mise en œuvre |
 | catalogue | définition formelle | grammaire, seule autorité syntaxique |
 
-Cette classification est celle attendue. Elle doit être confirmée par
-l'inventaire réel et non présumée exhaustive.
+Cette classification a été confirmée par l'inventaire réel du lot 6
+(`docs/development-plan.md`, lot 6, I1/I2 ; `data/raw/inventory.jsonl`,
+2047 documents), avec deux amendements par rapport à la classification
+initialement attendue :
+
+- **`U0`** : un seul document (`U0.00.01`, « Guide de lecture de la
+  documentation d'Utilisation »), présent sous `source/manuals/man_u/u0/`
+  aux côtés de `u1`..`u7` mais non listé à l'origine. Ajouté comme famille
+  à part entière plutôt que rattaché à `U1` : c'est un document sur la
+  documentation elle-même, pas une présentation de Code_Aster.
+- **`man_s` (`SU`, `SV`)** : famille entièrement absente de la
+  classification initiale, découverte lors de la synchronisation (lot 3,
+  observation de clôture) et qualifiée au lot 6 (I2). Elle documente la
+  plate-forme **Salome-Meca** (pré/post-traitement, outils métier,
+  serveurs de calcul), pas Code_Aster lui-même : `SU1`/`SU4` sont des
+  guides d'utilisation (ex. `SU1.04.01`, tuyauterie sous Salome-Meca ;
+  `SU4.01.01`, serveur de calcul Cronos), `SV1`/`SV3`/`SV4` des fiches de
+  validation d'outils de la plate-forme (ex. `SV1.01.02`, AsterStudy ;
+  `SV3.01.01`, ASTK ; `SV4.02.01`, recette d'installation) — jamais des cas
+  de validation Code_Aster au sens de la famille `V`. Sur le corpus
+  17.4.0 : 10 documents (`SU1` : 2, `SU4` : 2, `SV1` : 4, `SV3` : 1,
+  `SV4` : 1). Réel corpus indexable (structure identique aux autres
+  familles : répertoire par document, label `.. _SUx.yy.zz:` ou
+  `.. _SVx.yy.zz:` en tête d'`index.rst`), mais hors du périmètre de la
+  priorité des sources syntaxiques/théoriques de `CLAUDE.md` (« Priorité
+  des sources ») : ni catalogue, ni sémantique de mots-clés, ni théorie —
+  à retrouver, sur requête, comme contexte d'usage de la plate-forme
+  plutôt que comme source de syntaxe ou de validation physique.
 
 ## 4. Politique de version
 

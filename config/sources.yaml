@@ -72,7 +72,14 @@ sources:
     families:
       manuals:
         enabled: true
-        paths: []
+        # Établi par inspection au lot 6 (docs/development-plan.md, lot 6 ;
+        # observation de clôture du lot 3) : le contenu documentaire vit
+        # sous `source/manuals/`, subdivisé par famille (`man_u`, `man_r`,
+        # `man_v`, `man_d`, et `man_s` — cette dernière non anticipée par
+        # docs/corpus.md §3, amendée au lot 6). Un document est un
+        # répertoire portant son propre `index.rst`, jamais imbriqué sous un
+        # autre document (0 occurrence vérifiée sur 2047 documents).
+        paths: ["source/manuals"]
     update_policy: fetch_and_checkout
 
 # Sources secondaires, non indexées, citables uniquement avec mention
