@@ -57,6 +57,12 @@ from aster_expert.ingestion.xref import (
 )
 from aster_expert.parsing.comm_parser import parse_comm_file
 from aster_expert.parsing.errors import CommParseError
+from aster_expert.retrieval.evaluation import (
+    evaluate_retrieval,
+    load_questions,
+    load_ranked_results,
+    summarize_question_set,
+)
 from aster_expert.validation.errors import ValidationRunError
 from aster_expert.validation.validate import validate_comm_file
 
@@ -69,10 +75,14 @@ env_app = typer.Typer(no_args_is_help=True, help="Environnement Code_Aster.")
 sources_app = typer.Typer(no_args_is_help=True, help="Dépôts sources.")
 catalogue_app = typer.Typer(no_args_is_help=True, help="Catalogue des commandes.")
 comm_app = typer.Typer(no_args_is_help=True, help="Fichiers de commandes .comm.")
+eval_app = typer.Typer(
+    no_args_is_help=True, help="Jeu d'évaluation de la recherche (lot 5)."
+)
 app.add_typer(env_app, name="env")
 app.add_typer(sources_app, name="sources")
 app.add_typer(catalogue_app, name="catalogue")
 app.add_typer(comm_app, name="comm")
+app.add_typer(eval_app, name="eval")
 
 
 def _not_implemented(batch: int, what: str) -> None:
@@ -605,6 +615,88 @@ def comm_parse(comm_path: str) -> None:
     typer.echo(f"Commandes analysées : {len(analysis.statements)}", err=True)
     typer.echo(f"Commandes dynamic   : {dynamic_count}", err=True)
     typer.echo(f"Avertissements      : {len(analysis.parse_warnings)}", err=True)
+
+
+def _default_questions_path(project_root: Path) -> Path:
+    return project_root / "data" / "evaluations" / "questions.jsonl"
+
+
+@eval_app.command("summary")
+def eval_summary(
+    questions_path: str = typer.Option(
+        "", "--questions", help="Défaut : data/evaluations/questions.jsonl."
+    ),
+) -> None:
+    """Compter les questions résolues/non résolues du jeu d'évaluation (lot 5)."""
+    project_root = _project_root()
+    path = (
+        Path(questions_path)
+        if questions_path
+        else _default_questions_path(project_root)
+    )
+    if not path.is_file():
+        typer.echo(f"Jeu d'évaluation introuvable : {path}", err=True)
+        raise typer.Exit(1)
+
+    questions = load_questions(path)
+    summary = summarize_question_set(questions)
+
+    typer.echo(
+        json.dumps(json.loads(summary.model_dump_json()), indent=2, ensure_ascii=False)
+    )
+    typer.echo(f"Total       : {summary.total}", err=True)
+    typer.echo(f"Résolues    : {summary.resolved}", err=True)
+    typer.echo(f"Non résolues: {summary.unresolved}", err=True)
+    typer.echo(f"Hors corpus : {len(summary.outside_corpus_ids)}", err=True)
+
+
+@eval_app.command("score")
+def eval_score(
+    results_path: str,
+    questions_path: str = typer.Option(
+        "", "--questions", help="Défaut : data/evaluations/questions.jsonl."
+    ),
+    k: int = typer.Option(
+        10, "--k", help="Profondeur de coupe pour recall@k/precision@k."
+    ),
+) -> None:
+    """Calculer rappel et précision d'une liste de résultats classés (lot 5).
+
+    `results_path` est un JSONL de `{"id": ..., "ranked_documents": [...]}`,
+    utilisable avant qu'aucun index n'existe : ce n'est jamais le module qui
+    produit ce classement, seulement celui qui le mesure.
+    """
+    project_root = _project_root()
+    path = (
+        Path(questions_path)
+        if questions_path
+        else _default_questions_path(project_root)
+    )
+    if not path.is_file():
+        typer.echo(f"Jeu d'évaluation introuvable : {path}", err=True)
+        raise typer.Exit(1)
+    results_file = Path(results_path)
+    if not results_file.is_file():
+        typer.echo(f"Résultats introuvables : {results_file}", err=True)
+        raise typer.Exit(1)
+
+    questions = load_questions(path)
+    results = load_ranked_results(results_file)
+    report = evaluate_retrieval(questions, results, k=k)
+
+    typer.echo(
+        json.dumps(json.loads(report.model_dump_json()), indent=2, ensure_ascii=False)
+    )
+    typer.echo(
+        f"Questions évaluées : {report.n_questions_evaluated}/"
+        f"{report.n_questions_total} "
+        f"({report.n_questions_excluded_unresolved} non résolues exclues)",
+        err=True,
+    )
+    typer.echo(f"Hit@{k}       : {report.hit_rate_at_k * 100:.1f} %", err=True)
+    typer.echo(f"Precision@{k} : {report.mean_precision_at_k * 100:.1f} %", err=True)
+    typer.echo(f"Recall@{k}    : {report.mean_recall_at_k * 100:.1f} %", err=True)
+    typer.echo(f"MRR          : {report.mean_reciprocal_rank:.3f}", err=True)
 
 
 @app.command("search")
