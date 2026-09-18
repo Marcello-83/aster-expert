@@ -81,6 +81,18 @@ recommandations", at the prose level in
 `.claude/skills/code-aster-expert/references/answer-format.md`, needed a
 place to land inside this *structured* schema too). `notes` on every entry
 carries exactly this, unconstrained by `status`.
+
+**N1 (lot 14b), the gap M5 left open on purpose.** M5's own "Limites
+connues" named it: nothing stopped a `tranche` entry from citing a document
+by id/section alone, never actually read -- exactly what the combi-wall
+specimen itself did for R7.01.25 (cited for "documente les éléments de
+joint", excerpt never captured). `_require_a_verbatim_excerpt_when_documentary`
+makes that structural rather than a matter of skill discipline: a `tranche`
+entry that cites any `DocumentarySource` must have a real, non-empty
+`excerpt` on at least one of them. The combi-wall specimen's R7.01.25
+citation was itself corrected against this rule -- by reading the document
+for real (`get_document_section`), not by inventing a passage to satisfy
+the validator.
 """
 
 from __future__ import annotations
@@ -239,6 +251,39 @@ def _require_decision_fields(
         raise ValueError(message)
 
 
+def _require_a_verbatim_excerpt_when_documentary(
+    sources: tuple[CodeAsterSource, ...],
+) -> None:
+    """N1 (lot 14b), closing the gap `docs/development-plan.md` (clôture lot
+    14, "Limites connues") named explicitly: "aucune règle n'impose qu'une
+    entrée tranche fondée ... par une DocumentarySource porte un excerpt non
+    nul". A `document_id`/`section_path` alone is a *reference*, not a
+    *proof* -- exactly the defect the lot 6 commande-document table carried
+    before its own citation was made to hold the excerpt, not just point at
+    it (CLAUDE.md principle 11: no citation stands for content nobody
+    actually read).
+
+    Deliberately scoped to `DocumentarySource` only: a `CatalogueSource` has
+    no `excerpt` field at all (`citation.md`) because the catalogue node
+    `get_command_schema` returns *is* the verbatim fact, not a paraphrase of
+    one -- there is nothing to quote a second time. An entry founded solely
+    by `CatalogueSource`s is therefore exempt; an entry that also cites a
+    document must have actually read at least one of those documents (M5's
+    own R7.01.25 gap: cited by id and section, never read -- fixed in the
+    combi-wall specimen alongside this validator, not by inventing a passage
+    for it, but by calling `get_document_section` for real).
+    """
+    documentary = [s for s in sources if isinstance(s, DocumentarySource)]
+    if documentary and not any((s.excerpt or "").strip() for s in documentary):
+        message = (
+            "une entrée 'tranche' citant un document exige l'extrait verbatim "
+            "qui la fonde (au moins un `excerpt` non vide parmi ses "
+            "DocumentarySource) -- une référence sans passage lu n'est pas "
+            "vérifiable"
+        )
+        raise ValueError(message)
+
+
 class _HypothesisEntryBase(BaseModel):
     """Fields shared by both natures (M3), factored out once M5's real
     transcription needed to add `point_label`/`notes` to both alike rather
@@ -271,6 +316,9 @@ class CodeAsterHypothesisEntry(_HypothesisEntryBase):
     comparison-table case) -- that is "found the place, content not yet
     confirmed", not a decision, and must stay representable as such rather
     than being forced to drop the citation altogether.
+
+    `tranche` additionally requires a verbatim excerpt (N1, lot 14b): see
+    `_require_a_verbatim_excerpt_when_documentary`.
     """
 
     nature: Literal["code_aster"] = "code_aster"
@@ -290,6 +338,7 @@ class CodeAsterHypothesisEntry(_HypothesisEntryBase):
                 option_retained=self.option_retained,
                 justification=self.justification,
             )
+            _require_a_verbatim_excerpt_when_documentary(self.sources)
         return self
 
 

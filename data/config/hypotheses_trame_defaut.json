@@ -1,0 +1,48 @@
+{
+  "name": "Trame par défaut de fiche d'hypothèses (lot 14b, N4)",
+  "description": "Rubriques dérivées du spécimen combi-wall (data/examples/hypotheses_combiwall_reference.json) : les catégories de points qu'un ouvrage en génie civil/géotechnique fait à Code_Aster soulève systématiquement. Donnée de configuration, jamais du code en dur (N4) -- aster_expert.agent.drafting ne fait que la charger. Une fiche réelle décompose chaque rubrique en autant de HypothesisEntry que nécessaire (un par composant, par loi, par mécanisme catalogue) ; la trame ne prescrit pas ce découpage, seulement l'ordre des questions à instruire.",
+  "topics": [
+    {
+      "label": "1",
+      "heading": "Représentation de chaque composant",
+      "prompt": "Pour chaque composant structurel de l'ouvrage : quelles familles d'éléments finis le catalogue propose (AFFE_MODELE/AFFE/MODELISATION), quel critère géométrique oriente le choix (élancement, épaisseur/longueur caractéristique...) quand le composant s'y prête, quelle formulation retenir.",
+      "profile_hint": "methode"
+    },
+    {
+      "label": "2",
+      "heading": "Liaisons entre composants",
+      "prompt": "Pour chaque interface entre deux composants dont les maillages ne coïncident pas nécessairement : quel mécanisme catalogue raccorde leurs degrés de liberté (LIAISON_ELEM, LIAISON_SOLIDE, LIAISON_MAIL, LIAISON_DDL...), quelles conditions d'emploi ce mécanisme impose.",
+      "profile_hint": "methode"
+    },
+    {
+      "label": "3",
+      "heading": "Représentation du sol et des interfaces",
+      "prompt": "Modélisations disponibles pour le ou les sols (massif continu mécanique pur ou couplage hydromécanique), et mécanisme catalogue pour chaque interface sol-structure (contact-frottement, ressorts discrets, éléments de joint).",
+      "profile_hint": "methode"
+    },
+    {
+      "label": "4",
+      "heading": "Chargements",
+      "prompt": "Pour chaque chargement (poids propre, pression, poussée, effort imposé, chargement sismique...) : quelle commande et quel mot-clé catalogue l'appliquent, sous quelle forme (réel constant, fonction, nappe).",
+      "profile_hint": "syntaxe"
+    },
+    {
+      "label": "5",
+      "heading": "Type d'analyse et lois de comportement",
+      "prompt": "Quel opérateur de résolution correspond au type d'analyse visé (linéaire/non linéaire, statique/dynamique), et quelles lois de comportement le catalogue propose pour chaque matériau (sol, roche, béton, joint), avec leur domaine de validité documenté.",
+      "profile_hint": "syntaxe"
+    },
+    {
+      "label": "6",
+      "heading": "Conditions aux limites",
+      "prompt": "Quels mots-clés catalogue bloquent les degrés de liberté nécessaires, et où placer les limites du modèle (latérales, inférieures) quand l'ouvrage s'inscrit dans un domaine semi-infini.",
+      "profile_hint": "syntaxe"
+    },
+    {
+      "label": "7",
+      "heading": "Convention de nommage des groupes",
+      "prompt": "Pour chaque composant et chaque interface : quel nom de GROUP_MA/GROUP_NO le maillage et le fichier de commandes partageront (MeshGroupNaming) -- jamais sourcé, choix arbitraire de l'ingénieur à fixer explicitement plutôt qu'à laisser implicite.",
+      "profile_hint": null
+    }
+  ]
+}

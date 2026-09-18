@@ -296,6 +296,56 @@ def test_notes_field_is_allowed_regardless_of_status() -> None:
     assert entry.notes is not None
 
 
+def test_code_aster_entry_tranche_rejects_a_documentary_source_without_excerpt() -> (
+    None
+):
+    """N1 (lot 14b): a document cited by id/section alone, never read, does
+    not found a 'tranche' entry -- the R7.01.25 gap M5 left open."""
+    with pytest.raises(ValidationError, match="extrait verbatim"):
+        CodeAsterHypothesisEntry(
+            topic="Éléments de joint pour une interface sol-écran",
+            option_retained="JOINT_MECA_FROT",
+            justification="R7.01.25 documenterait les éléments de joint",
+            sources=(
+                DocumentarySource(**{**_DOC_SOURCE.model_dump(), "excerpt": None}),
+            ),
+            status="tranche",
+        )
+
+
+def test_code_aster_entry_tranche_accepts_a_pure_catalogue_source() -> None:
+    """N1: a CatalogueSource has no excerpt field at all -- the catalogue
+    node get_command_schema returns is already the verbatim fact, nothing
+    to quote a second time, so a purely-catalogue entry is exempt."""
+    entry = CodeAsterHypothesisEntry(
+        topic="Familles d'éléments 1D disponibles pour un tirant",
+        option_retained="BARRE, CABLE, DIS_T, DIS_TR",
+        justification="Catalogue introspecté, AFFE_MODELE/AFFE/MODELISATION.",
+        sources=(_CATALOGUE_SOURCE,),
+        status="tranche",
+    )
+
+    assert entry.status == "tranche"
+
+
+def test_code_aster_entry_tranche_accepts_one_excerpt_among_several_sources() -> None:
+    """N1: the rule is per-entry (at least one real excerpt), not per
+    citation -- a second, unread documentary source stays representable
+    alongside a confirmed one (the real specimen mixes both)."""
+    unread = DocumentarySource(**{**_DOC_SOURCE.model_dump(), "excerpt": None})
+    entry = CodeAsterHypothesisEntry(
+        topic="Lois de comportement de sol disponibles",
+        option_retained="MOHR_COULOMB, HUJEUX",
+        justification=(
+            "get_command_schema liste ces lois ; R7.01.28 confirme MOHR_COULOMB."
+        ),
+        sources=(_DOC_SOURCE, unread),
+        status="tranche",
+    )
+
+    assert entry.status == "tranche"
+
+
 def test_catalogue_source_and_documentary_source_are_told_apart_in_a_tuple() -> None:
     """M5, correction 2: a plain union, no synthetic discriminator, still
     resolves each member to the right concrete class."""

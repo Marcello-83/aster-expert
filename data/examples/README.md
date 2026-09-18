@@ -28,6 +28,20 @@ citations du spécimen (R7.01.25, R7.01.28, R7.01.14, R7.01.18, R7.01.23)
 n'y donnaient pas de chemin source, et R7.01.23 n'y donnait même pas de
 section : `source_path=null`/`section_path=[]` le reflètent tel quel
 (`aster_expert.agent.hypotheses`, docstring du module, M5 correction 3).
+
+**Correction lot 14b (N1).** La citation R7.01.25 (point 4, alternatives au
+contact surfacique) restait sans `excerpt` ni `source_path` : une entrée
+`tranche` fondée sur une référence jamais lue, exactement la lacune que le
+lot 14 avait notée sans la corriger ("Limites connues"). Corrigée en
+relisant réellement R7.01.25 via `get_document_section` (lot 14b) plutôt
+qu'en inventant un passage — le contenu réel confirme que ce document
+documente des lois de joint pour les barrages, sans jamais dire s'il
+s'applique à une interface sol-écran. Les quatre autres citations sans
+chemin (R7.01.28, R7.01.14, R7.01.18, R7.01.23) restent inchangées : chacune
+partage son entrée avec au moins une autre citation qui, elle, porte un
+excerpt réel (§ N1, `_require_a_verbatim_excerpt_when_documentary` — au
+moins un excerpt par entrée, pas un par citation), donc aucune ne violait la
+nouvelle règle structurelle.
 Les cinq points que le spécimen rapportait comme non fondés par le corpus
 (« Bilan 2 » du spécimen) sont ici des `PracticeHypothesisEntry` à
 `status="non_tranche"` — huit au total, le point 1 s'étant décomposé en

@@ -406,7 +406,7 @@
       "option_retained": "Ressorts : lois DIS_CHOC/DIS_CONTACT sur éléments discrets (U2.02.03) ; joints : modélisations 3D_JOINT/PLAN_JOINT et lois JOINT_MECA_FROT/JOINT_MECA_RUPT/JOINT_MECA_ENDO",
       "justification": "get_command_schema (STAT_NON_LINE/COMPORTEMENT.RELATION) liste ces lois ; R7.01.25 documente les éléments de joint pour les joints de barrage.",
       "discarded_variants": [],
-      "notes": "Déduction : le corpus établit trois familles catalogue distinctes pour cette interaction (contact-frottement surfacique, ressorts discrets, éléments de joint), sans qu'aucun document ne les compare entre elles pour le cas spécifique d'un écran de soutènement -- rapprochement, pas une recommandation méthodologique dédiée. R7.01.25 documente les joints pour un usage de barrage, pas explicitement pour une interface sol-écran. Le chemin source de R7.01.25 n'a pas été capturé dans cette session (document/section connus, chemin non donné).",
+      "notes": "Déduction : le corpus établit trois familles catalogue distinctes pour cette interaction (contact-frottement surfacique, ressorts discrets, éléments de joint), sans qu'aucun document ne les compare entre elles pour le cas spécifique d'un écran de soutènement -- rapprochement, pas une recommandation méthodologique dédiée. R7.01.25 (lu intégralement au lot 14b via get_document_section) décrit des lois surfaciques de rupture/frottement dédiées aux joints de barrages (béton/rocher ou entre plots) -- ni écrite ni exclue explicitement pour une interface sol-écran.",
       "nature": "code_aster",
       "sources": [
         {
@@ -427,11 +427,11 @@
           "section_path": [
             "index"
           ],
-          "source_path": null,
-          "source_commit": null,
-          "fragment_id": null,
+          "source_path": "source/manuals/man_r/r7/r7.01.25/index.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": "R7.01.25#index",
           "profile": "methode",
-          "excerpt": null
+          "excerpt": "Ce document décrit des lois surfaciques permettant de modéliser la rupture et le frottement entre les lèvres d'une fissure ou d'un joint."
         }
       ],
       "status": "tranche"

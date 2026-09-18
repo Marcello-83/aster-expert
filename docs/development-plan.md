@@ -2641,6 +2641,96 @@ Aucune contrainte de longueur/caractères n'est vérifiée sur `group_name`
 
 ---
 
+## Lot 14b — Rédaction assistée de la fiche d'hypothèses
+
+**N1, fermeture de la lacune du lot 14.** La limite que le lot 14 avait
+nommée sans la corriger ("aucune règle n'impose qu'une entrée `tranche`
+... porte un `excerpt` non nul") est devenue un validateur de modèle,
+`_require_a_verbatim_excerpt_when_documentary` : une `CodeAsterHypothesisEntry`
+à `status="tranche"` qui cite au moins une `DocumentarySource` doit avoir
+un `excerpt` réel sur au moins une d'entre elles -- une entrée fondée
+uniquement par des `CatalogueSource` reste exemptée (`get_command_schema`
+renvoie déjà le fait verbatim, rien à citer une seconde fois). Appliquée
+au spécimen combi-wall lui-même : une seule entrée violait la règle
+(point 4, alternatives au contact surfacique, citation R7.01.25 jamais
+lue) -- corrigée en relisant réellement R7.01.25 via `get_document_section`
+(contenu réel : lois de joint pour barrages, jamais pour une interface
+sol-écran) plutôt qu'en inventant un passage. Voir
+`data/examples/README.md` (§ « Correction lot 14b ») pour le détail.
+
+**N2/N3, la procédure et sa barrière d'écriture.** `aster_expert.agent.drafting`
+ajoute deux fonctions, et seulement deux, par lesquelles une session de
+rédaction peut écrire une entrée :
+
+- `record_code_aster_finding` -- construit toujours `nature="code_aster"`,
+  `status="tranche"` (pas de paramètre `status`) ; délègue à
+  `CodeAsterHypothesisEntry` la discipline N1 et l'exigence de
+  sources/justification, jamais une règle réimplémentée séparément.
+- `record_unfounded_point` -- construit toujours `nature="pratique"`,
+  `status="non_tranche"` ; n'a ni paramètre `option_retained`, ni
+  `justification`, ni `sources` -- structurellement incapable de produire
+  une décision, quel que soit l'appel. Exige au moins un `SearchAttempt`
+  (profil, requête, résultat) : jamais une entrée vide sans explication.
+
+C'est le chemin d'écriture couvert par la même barrière que le schéma (le
+lot avait explicitement demandé cette garantie après qu'un brouillon de
+transcription du lot 14 ait fabriqué un chemin source et une section
+inventée pour combler un trou). `tests/unit/test_agent_drafting.py`
+vérifie, entre autres par inspection de signature
+(`inspect.signature(...).parameters`), qu'aucun des deux chemins ne peut
+produire les trois formes interdites : une entrée `pratique` tranchée, une
+entrée `code_aster` tranchée sans extrait, une décision sans source.
+
+**N4, la trame.** `data/config/hypotheses_trame_defaut.json` (7 rubriques :
+représentation de chaque composant, liaisons entre composants,
+représentation du sol et des interfaces, chargements, type d'analyse et
+lois, conditions aux limites, convention de nommage des groupes), chargée
+par `aster_expert.agent.drafting.load_trame`/`default_trame_path` --
+donnée de configuration, jamais du code en dur : dérivée des catégories du
+spécimen combi-wall, jamais couplée à son vocabulaire (« composant »,
+jamais « écran »).
+
+**Procédure documentée.** `.claude/skills/hypotheses-drafting/SKILL.md`
+décrit la boucle chercher/lire/confronter/écrire par rubrique de la trame,
+en s'appuyant sur la discipline d'outils du skill `code-aster-expert` et
+sur les deux fonctions ci-dessus comme seul point d'écriture.
+
+**N5, confrontation à un cas neuf.** Procédure appliquée à un radier de
+fondation en béton armé sur sol stratifié (poteaux, chargements verticaux
+et sismiques) -- un cas distinct du combi-wall, jamais retranscrit depuis
+lui. Recherches réelles (`search_codeaster_docs`/`get_document_section`/
+`get_command_schema`, contre le corpus indexé et le catalogue 17.4.0) :
+15 entrées produites, 13 `code_aster`/`tranche` (chacune avec un extrait
+vérifié -- U2.03.10, U2.06.10, U4.42.01, R5.03.31, R4.05.01, U4.84.01,
+U4.51.03, R7.01.28, plus les faits catalogue AFFE_MODELE/AFFE_CHAR_MECA/
+AFFE_CARA_ELEM/STAT_NON_LINE/DEFI_MATERIAU), 2 `pratique`/`non_tranche`
+(choix entre RIGI_PARASOL/FONDATION/impédance MISS3D pour l'interface
+radier-sol ; position exacte des limites du domaine de sol),
+3 `MeshGroupNaming` non sourcés/`non_tranche`. `is_ready_for_generation`
+= `False`. Constat notable, à l'inverse du combi-wall : ce cas est mieux
+couvert par le corpus (patrimoine EDF de génie civil parasismique --
+interaction sol-structure, radiers, R4.05.01/R4.02.05/U4.84.31/U2.06.10)
+que ne l'était l'ancrage géotechnique d'écran de soutènement -- preuve que
+la proportion `code_aster`/`pratique` reflète la couverture réelle du
+corpus pour l'ouvrage traité, pas un biais de la procédure elle-même. La
+fiche produite reste un scratchpad de démonstration, non versionnée
+(CLAUDE.md, principe 11 : un projet, jamais un livrable réel).
+
+**NE PAS FAIT (conforme à la consigne).** Aucune génération de `.comm`,
+aucun script de maillage, aucun gabarit paramétré d'ouvrage.
+
+**Limites connues et points non couverts.** N1 est une règle par entrée,
+pas par citation : une entrée `tranche` peut encore porter, à côté d'une
+citation lue, une ou plusieurs `DocumentarySource` jamais lues (le cas
+R7.01.18/R7.01.23 du spécimen combi-wall, laissé inchangé -- voir
+`data/examples/README.md`). `record_code_aster_finding` ne couvre pas
+l'état intermédiaire "section identifiée, contenu non lu" (M5, cas
+U2.02.01) : ce cas reste construit à la main via
+`CodeAsterHypothesisEntry(status="non_tranche", ...)`, hors du chemin
+d'écriture de ce lot, faute d'un besoin qui le justifie pour l'instant.
+
+---
+
 ## Lots conditionnels
 
 Ces lots ne sont engagés que sur preuve mesurée.
@@ -2685,3 +2775,4 @@ Niveaux D et E. Hors périmètre v1.
 | 12 | | à faire | | |
 | 13 | | à faire | | |
 | 14 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
+| 14b | | fait | (ce lot, voir `git log`) | 2026-09-18 |
