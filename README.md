@@ -75,6 +75,60 @@ aster-expert mess analyze resultats/model.mess
 Les commandes non encore implémentées sont listées dans
 `docs/development-plan.md` avec leur lot d'appartenance.
 
+## Serveur MCP (lot 8)
+
+Un serveur MCP (`aster-expert-mcp`, module `aster_expert.mcp.server`) expose
+quatre outils, chacun un simple emballage d'une capacité déjà existante :
+
+| Outil | Capacité encapsulée | Niveau de la réponse |
+|-------|----------------------|-----------------------|
+| `search_codeaster_docs` | `aster_expert.retrieval` (lot 7/7b/7c) | A |
+| `get_command_schema` | `aster_expert.catalogue` (lot 4/4b) | A |
+| `analyze_comm` | `aster_expert.parsing.comm_parser` (lot 9) | A |
+| `validate_comm` | `aster_expert.validation.validate` (lot 10/10b/10c) | B |
+
+Chaque réponse porte explicitement son niveau (`validation_level`) et ses
+sources (identifiant de document, section, chemin, révision — déjà portées
+par les modèles pydantic existants, jamais redéfinies pour ce serveur) : un
+niveau `A` n'est jamais présenté comme une syntaxe vérifiée, une exécution
+réussie, ni une validité physique. `search_codeaster_docs` exige que
+l'appelant fournisse explicitement `profile` (`syntaxe`/`theorie`/`methode`)
+: ce serveur ne devine jamais le profil à partir du texte de la requête
+(ADR-007, `docs/architecture.md`) — la description de l'outil, visible par
+l'appelant, explique comment le choisir.
+
+Chaque appel est journalisé dans `data/processed/query_log.jsonl`
+(horodatage, outil, requête, profil, filtres, documents retournés avec leurs
+scores, durée) : `analyze_comm` et `validate_comm` n'y enregistrent jamais le
+contenu du fichier fourni, seulement son nom et son empreinte SHA-256.
+
+Prérequis avant de démarrer le serveur : un index construit
+(`aster-expert index build`), un catalogue extrait
+(`aster-expert catalogue extract`) — `search_codeaster_docs`/
+`get_command_schema` échouent explicitement sinon. `validate_comm` a en plus
+besoin de `ASTER_CONTAINER_WORKROOT` (un répertoire dédié, jamais `$HOME` ni
+la racine du dépôt — voir `.env.example`, ADR-006) et de Docker.
+
+Installer les dépendances du serveur puis l'enregistrer dans Claude Code :
+
+```bash
+pip install -e ".[mcp]"
+
+claude mcp add aster-expert -s local \
+  -e ASTER_EXPERT_ROOT=/chemin/vers/aster-expert \
+  -e ASTER_CONTAINER_WORKROOT=/chemin/vers/un/repertoire/dedie \
+  -- /chemin/vers/aster-expert/.venv/bin/aster-expert-mcp
+```
+
+Commande vérifiée telle quelle sur cette machine (`claude mcp get
+aster-expert` rapporte `Status: ✔ Connected` immédiatement après
+l'enregistrement). `-s local` restreint la déclaration à ce projet, sur cette
+machine, pour l'utilisateur courant — jamais partagée par défaut. Le SDK
+`mcp` installé ici est la branche 2.x (`mcp==2.2.0` au moment de ce lot) :
+son API (`MCPServer`, ancien `FastMCP` de la 1.x) est incompatible avec les
+exemples écrits pour la 1.x — `pyproject.toml` épingle `mcp>=2.0,<3` pour ne
+jamais glisser silencieusement de branche majeure.
+
 ## Structure
 
 ```

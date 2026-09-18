@@ -1473,11 +1473,91 @@ de ce lot.
 
 ## Lot 8 — Serveur MCP minimal
 
-Deux outils : `search_codeaster_docs` et `get_command_schema`. Wrapper mince
-sur les fonctions existantes, sans logique propre.
+Quatre outils (amendement à l'ouverture du lot, cf. clôture ci-dessous) :
+`search_codeaster_docs`, `get_command_schema`, `analyze_comm`,
+`validate_comm`. Wrapper mince sur les fonctions existantes, sans logique
+propre.
 
 Critères de sortie : serveur interrogeable, contrats d'entrée et de sortie
 validés par modèle, tests d'intégration sur corpus réduit.
+
+**Clôture du lot 8 — serveur MCP.**
+
+Le lot a été ouvert avec quatre outils à exposer, pas les deux esquissés
+plus haut au moment du plan initial (`search_codeaster_docs`,
+`get_command_schema`, `analyze_comm`, `validate_comm`) : la consigne
+d'ouverture du lot l'a explicitement élargi, et ce paragraphe de plan est mis
+à jour en conséquence plutôt que laissé périmé.
+
+- **H1, contrats jamais redéfinis à la main.** `aster_expert.mcp.models`
+  n'ajoute que ce qui manquait pour porter `validation_level` : trois
+  enveloppes (`SearchDocsResult`, `CommandSchemaResult`, `CommAnalysisResult`)
+  qui composent `SearchHit`/`CommandSchema`/`KeywordSchema`/`CommFileAnalysis`
+  comme champs, jamais en recopiant un de leurs attributs.
+  `validate_comm` ne construit aucune enveloppe : `ValidationReport` porte
+  déjà `validation_level` (toujours `"B"`), donc le rapport est renvoyé tel
+  quel.
+- **H2, le niveau et les sources voyagent avec la réponse.**
+  `search_codeaster_docs`/`get_command_schema`/`analyze_comm` portent
+  `validation_level: "A"` -- aucun des trois ne confronte un fichier réel au
+  catalogue, n'exécute rien, ni ne contrôle un résultat physique ; c'est ce
+  qui distingue "A" de "B", pas la nature de la source consultée (le
+  catalogue lui-même, consulté par `get_command_schema`, est pourtant la
+  source de vérité syntaxique -- ADR-001 -- mais présenter son contenu brut
+  n'est toujours pas confronter un fichier utilisateur à ce contenu :
+  `validate_comm` reste seul à porter "B"). Les sources (document, section,
+  chemin, révision Git ; digest d'image et hash de catalogue pour
+  `get_command_schema`/`validate_comm`) sont déjà portées par les modèles
+  existants, jamais ajoutées à part.
+- **H1, profil jamais deviné (ADR-007 étendu au serveur).**
+  `search_codeaster_docs` prend `profile` en paramètre explicite, sans
+  valeur par défaut cachée au-delà de celle déjà déclarée par
+  `config/retrieval.yaml` (`syntaxe`) ; la description de l'outil (visible
+  par l'appelant avant tout appel) explique quand choisir `syntaxe`,
+  `theorie` ou `methode`, plutôt que de laisser le serveur deviner à partir
+  du texte de la requête.
+- **H3, journalisation.** `aster_expert.mcp.logging.append_query_log` ajoute
+  une ligne JSON à `data/processed/query_log.jsonl` par appel (horodatage,
+  outil, requête, profil, filtres, identifiants retournés avec leurs scores,
+  durée) ; `analyze_comm`/`validate_comm` n'y passent jamais que le nom du
+  fichier et son empreinte SHA-256 (jamais son contenu, jamais un résumé
+  dérivé du contenu comme les noms de commandes rencontrées). Vérifié par
+  test (`tests/unit/test_mcp_tools.py`, assertions `"MAIL" not in
+  json.dumps(entry)` / `"LIRE_MAILLAGE" not in ...`) et par un appel réel
+  (compte rendu de lot) dont le journal produit ne contient que
+  `file_name`/`file_fingerprint`.
+- **Choix du SDK, constaté en session.** `mcp>=1.2` (pyproject.toml avant ce
+  lot) installe en pratique la 2.x (2.2.0 au moment du lot) : son API a
+  renommé `FastMCP` en `MCPServer` entre la 1.x et la 2.x (incompatible --
+  `from mcp.server.fastmcp import FastMCP` échoue avec un message de
+  migration explicite sous 2.x). Ce projet écrit donc contre `MCPServer`,
+  jamais `FastMCP`, et `pyproject.toml` épingle `mcp>=2.0,<3` pour ne plus
+  laisser cette ambiguïté glisser silencieusement. `MCPServer.call_tool`
+  (appel direct, sans transport) sert de harnais de test : il distingue
+  explicitement une erreur anticipée (`ToolError`, message conservé) d'un
+  crash (`UnexpectedToolError`, message générique, cause d'origine dans
+  `__cause__`) -- `aster_expert.mcp.errors.McpToolError` hérite de
+  `ToolError` précisément pour ça (CLAUDE.md, "ne jamais neutraliser une
+  alarme sans en expliquer la cause").
+- **H5, contrat de sortie invalide.** Vérifié directement contre le SDK,
+  pas seulement contre une convention du projet
+  (`tests/integration/test_mcp_server.py::
+  test_invalid_output_contract_fails_loudly_never_partial`) : un outil
+  jouet annoté `-> SearchDocsResult` qui renvoie un objet incomplet fait
+  échouer `call_tool` avec `UnexpectedToolError`, jamais un résultat
+  partiel accepté tel quel.
+- **Limites connues, non traitées ici (hors périmètre du lot).** Aucun cache
+  d'index/catalogue entre deux appels : chaque appel recharge l'index BM25
+  et relit le fichier de schéma depuis le disque -- mesuré négligeable ici
+  (le corpus tient largement en mémoire, lot 6/7) mais non chiffré sous
+  charge répétée ; à traiter sur preuve si un usage réel le justifie, jamais
+  anticipé. `query_log.jsonl` n'est ni relu, ni compacté, ni fait tourner
+  par ce lot -- seule l'écriture existe, conformément à la consigne
+  d'ouverture ("il faut qu'il soit exploitable dès le premier jour d'usage",
+  pas qu'il soit déjà exploité). Aucun outil de génération ou de
+  modification de fichier `.comm` n'est exposé : les quatre outils sont tous
+  en lecture (recherche, catalogue, analyse, validation) au sens où aucun
+  n'écrit dans le dépôt de l'utilisateur.
 
 ## Lot 9 — Parseur `.comm`
 
@@ -2142,7 +2222,7 @@ Niveaux D et E. Hors périmètre v1.
 | 6 | | à faire | | |
 | 7 | lot-7-retrieval | fait | (ce lot, voir `git log`) | 2026-09-17 |
 | 7b | lot-7b-ranking | fait | (ce lot, voir `git log`) | 2026-09-17 |
-| 8 | | à faire | | |
+| 8 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 9 | lot-9-comm-parser | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10 | lot-10-validation-b | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10b | lot-10b-coverage | fait | (ce lot, voir `git log`) | 2026-09-15 |

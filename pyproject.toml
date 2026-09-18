@@ -38,9 +38,14 @@ index = [
     "bm25s>=0.2",
     "numpy>=1.26",
 ]
-# Activé au lot du serveur MCP.
+# Activé au lot du serveur MCP (lot 8). Épinglé à la branche majeure
+# effectivement vérifiée sur cette machine (2.2.0) : le SDK a renommé
+# FastMCP en MCPServer entre la 1.x et la 2.x (API incompatible -- constaté
+# en session, `mcp.server.fastmcp` lève `ModuleNotFoundError` sous 2.x avec
+# un message de migration explicite), donc `mcp>=1.2` seul laisserait
+# glisser silencieusement vers une API que ce projet n'utilise pas.
 mcp = [
-    "mcp>=1.2",
+    "mcp>=2.0,<3",
 ]
 dev = [
     "pytest>=8.2",
@@ -52,6 +57,7 @@ dev = [
 
 [project.scripts]
 aster-expert = "aster_expert.cli:app"
+aster-expert-mcp = "aster_expert.mcp.server:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/aster_expert"]
