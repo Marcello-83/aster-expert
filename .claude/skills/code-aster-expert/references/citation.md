@@ -18,6 +18,22 @@ inventer, ne jamais réutiliser ceux d'un autre outil.
 Format minimal d'une citation : `<document_id> § <section_path> (v.
 <aster_version>, <source_path>)`.
 
+## `get_document_section` → `DocumentSectionResult.section` (`DocumentSection`)
+
+- Document : `document_id` (+ `document_title` s'il est présent)
+- Section : `section_path`
+- Version : `aster_version`
+- Chemin : `source_path`
+- Révision : `source_commit`
+- `content` est le texte intégral de la section, jamais tronqué ;
+  `content_length` en donne la taille (caractères) — une section volumineuse
+  est renvoyée entière avec sa taille annoncée, jamais coupée en silence
+  (cf. `SKILL.md` §5).
+- Appel : soit `fragment_id` (recopié tel quel depuis un `SearchHit`), soit
+  `document_id` + `section_path` + `granularity` ensemble (les trois pris
+  tels quels sur ce même `SearchHit`) — jamais les deux façons à la fois,
+  jamais un identifiant reconstruit à la main.
+
 ## `get_command_schema` → `CommandSchemaResult.command_schema` (`CommandSchema`)
 
 - Commande : `command`

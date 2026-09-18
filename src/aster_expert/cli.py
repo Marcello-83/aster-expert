@@ -31,7 +31,9 @@ from aster_expert.execution.models import DetectedEnvironment
 from aster_expert.indexing.bm25_index import (
     build_bm25_index,
     default_index_dir,
+    find_fragments,
     load_bm25_index,
+    to_document_section,
 )
 from aster_expert.indexing.enrichment import (
     collect_related_commands,
@@ -1406,6 +1408,111 @@ def search(
             f"{hit.source_path}@{hit.source_commit[:12]}"
         )
         typer.echo(f"    {hit.excerpt}")
+
+
+@app.command("section")
+def section(
+    fragment_id: str = typer.Option(
+        "",
+        "--fragment-id",
+        help=(
+            "Identifiant exact d'un fragment, tel que renvoyé par "
+            "'aster-expert search' (colonne document_id, valeur "
+            "fragment_id sous-jacente)."
+        ),
+    ),
+    document: str = typer.Option(
+        "",
+        "--document",
+        help="Identifiant de document ; à combiner avec --section-path.",
+    ),
+    section_path: str = typer.Option(
+        "",
+        "--section-path",
+        help=(
+            "Chemin de section séparé par '/', identique au chemin affiché "
+            "entre crochets par 'aster-expert search' (ex. "
+            "'M_canique/Mécanique/Résolution')."
+        ),
+    ),
+    granularity: str = typer.Option(
+        "by_file",
+        "--granularity",
+        help=(
+            "by_file ou by_subsection (lot 7, D2) ; doit correspondre à la "
+            "granularité de la recherche d'origine."
+        ),
+    ),
+) -> None:
+    """Texte intégral d'un fragment ou d'une section, jamais tronqué (lot 8c, K1)."""
+    project_root = _project_root()
+    if granularity not in _FRAGMENT_GRANULARITIES:
+        typer.echo(f"Granularité inconnue : {granularity}", err=True)
+        raise typer.Exit(1)
+
+    has_fragment_id = bool(fragment_id)
+    has_document = bool(document)
+    has_section_path = bool(section_path)
+    if has_fragment_id and (has_document or has_section_path):
+        typer.echo(
+            "Donner soit --fragment-id, soit --document et --section-path "
+            "ensemble, jamais les deux à la fois.",
+            err=True,
+        )
+        raise typer.Exit(1)
+    if not has_fragment_id and (has_document != has_section_path):
+        typer.echo(
+            "--document et --section-path doivent être donnés ensemble.",
+            err=True,
+        )
+        raise typer.Exit(1)
+    if not has_fragment_id and not has_document:
+        typer.echo(
+            "--fragment-id, ou --document et --section-path, sont requis.",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    index_dir = default_index_dir(project_root, granularity)  # type: ignore[arg-type]
+    if not index_dir.is_dir():
+        typer.echo(
+            f"Section introuvable : index introuvable ({index_dir}) ; lancez "
+            f"'aster-expert index build --granularity {granularity}' d'abord",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    _, corpus = load_bm25_index(index_dir)
+    section_path_tuple = tuple(section_path.split("/")) if has_section_path else None
+    matches = find_fragments(
+        corpus,
+        fragment_id=fragment_id or None,
+        document_id=document or None,
+        section_path=section_path_tuple,
+    )
+    target = fragment_id or f"{document}#{section_path}"
+    if not matches:
+        typer.echo(
+            f"Aucun fragment ne correspond à {target!r} dans l'index "
+            f"{granularity!r} ({index_dir}).",
+            err=True,
+        )
+        raise typer.Exit(1)
+    if len(matches) > 1:
+        typer.echo(
+            f"Plusieurs fragments correspondent à {target!r} : identifiant "
+            "ambigu, jamais résolu en silence -- utilisez --fragment-id.",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    doc_section = to_document_section(matches[0])
+    typer.echo(
+        json.dumps(
+            json.loads(doc_section.model_dump_json()), indent=2, ensure_ascii=False
+        )
+    )
+    typer.echo(f"Taille : {doc_section.content_length} caractères", err=True)
 
 
 @app.command("validate")

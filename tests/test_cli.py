@@ -121,6 +121,53 @@ def test_search_fails_loudly_on_unknown_profile(
     assert "'bogus'" in result.stderr
 
 
+def test_section_returns_full_content_by_fragment_id(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from aster_expert.indexing.bm25_index import build_bm25_index, default_index_dir
+
+    monkeypatch.setenv("ASTER_EXPERT_ROOT", str(tmp_path))
+    long_content = "Phrase de section. " * 50  # over the 280-char search excerpt cap
+    fragment = {
+        "fragment_id": "U2.02.01#Conclusion",
+        "granularity": "by_file",
+        "document_id": "U2.02.01",
+        "document_title": "Comparaison DKT/DST/Q4G",
+        "family": "U2",
+        "aster_version": "17.4.0",
+        "section_path": ["Conclusion"],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/conclusion.rst",
+        "source_commit": "b" * 40,
+        "line_start": 1,
+        "line_end": 65,
+        "related_commands": [],
+        "content": long_content,
+    }
+    fragments_path = tmp_path / "data" / "processed" / "fragments_by_file.jsonl"
+    fragments_path.parent.mkdir(parents=True)
+    fragments_path.write_text(json.dumps(fragment) + "\n", encoding="utf-8")
+    build_bm25_index(fragments_path, default_index_dir(tmp_path, "by_file"))
+
+    result = runner.invoke(app, ["section", "--fragment-id", "U2.02.01#Conclusion"])
+
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert payload["content"] == long_content
+    assert payload["content_length"] == len(long_content)
+    assert f"Taille : {len(long_content)} caractères" in result.stderr
+
+
+def test_section_fails_loudly_without_any_identifier(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("ASTER_EXPERT_ROOT", str(tmp_path))
+
+    result = runner.invoke(app, ["section"])
+
+    assert result.exit_code == 1
+    assert "sont requis" in result.stderr
+
+
 def test_eval_profile_bench_fails_loudly_without_annotations(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

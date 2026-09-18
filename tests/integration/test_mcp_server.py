@@ -115,6 +115,58 @@ def test_search_codeaster_docs_via_mcp_call_tool(project_root: Path) -> None:
     assert payload["results"][0]["document_id"] == "U4.51.03"
 
 
+def test_get_document_section_via_mcp_call_tool(project_root: Path) -> None:
+    res = _run(
+        app.call_tool("get_document_section", {"fragment_id": "U4.51.03#COMPORTEMENT"})
+    )
+
+    assert res.is_error is False
+    payload = res.structured_content
+    assert payload["validation_level"] == "A"
+    assert payload["section"]["fragment_id"] == "U4.51.03#COMPORTEMENT"
+    assert payload["section"]["content"] == (
+        "Mot-clé facteur COMPORTEMENT : loi de comportement non linéaire."
+    )
+
+
+def test_get_document_section_chains_off_a_search_hit(project_root: Path) -> None:
+    """K2: a `SearchHit`'s own fields, unmodified, resolve through this tool."""
+    search_res = _run(
+        app.call_tool(
+            "search_codeaster_docs",
+            {"query": "comportement non linéaire", "profile": "syntaxe"},
+        )
+    )
+    hit = search_res.structured_content["results"][0]
+
+    section_res = _run(
+        app.call_tool(
+            "get_document_section",
+            {
+                "document_id": hit["document_id"],
+                "section_path": list(hit["section_path"]),
+                "granularity": hit["granularity"],
+            },
+        )
+    )
+
+    assert section_res.is_error is False
+    assert (
+        section_res.structured_content["section"]["fragment_id"]
+        == "U4.51.03#COMPORTEMENT"
+    )
+
+
+def test_get_document_section_unknown_fragment_is_an_anticipated_tool_error(
+    project_root: Path,
+) -> None:
+    with pytest.raises(ToolError) as excinfo:
+        _run(app.call_tool("get_document_section", {"fragment_id": "nope"}))
+
+    assert not isinstance(excinfo.value, UnexpectedToolError)
+    assert "Aucun fragment" in str(excinfo.value)
+
+
 def test_get_command_schema_via_mcp_call_tool(project_root: Path) -> None:
     res = _run(app.call_tool("get_command_schema", {"command": "STAT_NON_LINE"}))
 

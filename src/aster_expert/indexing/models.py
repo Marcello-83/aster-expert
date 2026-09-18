@@ -38,6 +38,37 @@ class SearchHit(BaseModel):
     excerpt: str
 
 
+class DocumentSection(BaseModel):
+    """The full, untruncated content of one fragment (lot 8c, K1).
+
+    Carries the same citation fields as `SearchHit` (document id, section,
+    version, source path, source revision) plus the fragment's exact
+    content, never re-rendered and never cut short: `SearchHit.excerpt` is
+    capped at `_EXCERPT_CHARS` (280) for a ranked list of many results, a
+    limit this model deliberately has no equivalent of. `content_length` is
+    reported alongside `content` so a caller can see a section is large
+    without that size ever being a reason to cut it (CLAUDE.md, "une
+    troncature muette est précisément le défaut qu'on corrige").
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    fragment_id: str
+    document_id: str
+    document_title: str | None
+    family: str
+    aster_version: str
+    section_path: tuple[str, ...]
+    source_path: str
+    source_commit: str
+    line_start: int
+    line_end: int
+    related_commands: tuple[str, ...]
+    granularity: FragmentGranularity
+    content: str
+    content_length: int
+
+
 class IndexBuildSummary(BaseModel):
     """Result of `aster-expert index build` (lot 7, D4)."""
 

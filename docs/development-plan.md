@@ -1726,6 +1726,129 @@ du jeu d'évaluation. Le skill décrit un usage des quatre outils
 existants, il n'ajoute aucune capacité ni n'écrit de connaissance
 Code_Aster en dur.
 
+## Lot 8c — Lecture intégrale des sections
+
+**Constat d'usage réel, point de départ du lot.** Un essai de rédaction de
+fiche d'hypothèses (hors périmètre de ce lot -- lot 14) a buté trois fois
+sur la même limite : `search_codeaster_docs` identifiait le bon document et
+la bonne section, mais `excerpt` (`aster_expert.indexing.bm25_index.
+_EXCERPT_CHARS`, 280 caractères, tête du fragment) ne portait jamais le
+contenu réellement utile. Trois cas concrets, retenus comme contrôle du
+lot (K4 ci-dessous) : le tableau comparatif DKT/DST/Q4G/DKTG/Q4GG de
+U2.02.01 § *Conclusion et conseils d'utilisation* (5 252 caractères), le
+panorama des modèles de comportement des sols de U2.03.09 (la
+sous-section *La phénoménologie et les modélisations du comportement des
+sols*, 180 063 caractères à elle seule), et les méthodes de U2.04.06 §
+*Avant de s'attaquer au fichier de commande code_aster…* (14 341
+caractères). Dans les trois cas le document et la section identifiés
+étaient déjà les bons ; seul le contenu restait inaccessible.
+
+**K1 -- nouvel outil `get_document_section`.** Ajouté à
+`aster_expert.indexing.bm25_index` (`find_fragments`, `to_document_section`
+-- les mêmes fonctions pures que `search`/`_matches`/`_to_hit` du lot 7,
+jamais un second chemin de lecture des fragments), `aster_expert.indexing.
+models.DocumentSection` (même jeu de champs de citation qu'un `SearchHit`,
+plus `content` et `content_length`, sans `score` ni `excerpt`),
+`aster_expert.mcp.tools.get_document_section` (wrapper journalisé, niveau
+A, même discipline d'erreurs explicites que les quatre outils existants)
+et `aster_expert.mcp.server` (cinquième outil enregistré). Exposé aussi en
+CLI (`aster-expert section --fragment-id ...` ou `--document
+--section-path ...`). Désigne la section soit par `fragment_id` seul, soit
+par `document_id` + `section_path` (+ `granularity`) ensemble -- jamais les
+deux à la fois, jamais un choix silencieux en cas d'ambiguïté (plusieurs
+fragments partageant le même chemin de section, cas réel possible sur un
+même fichier source, cf. `aster_expert.parsing.doc_fragments.
+build_fragments_for_document`, désambiguïsation `~2`) : l'appel échoue
+alors explicitement en demandant `fragment_id`. `content` provient
+directement de l'entrée déjà chargée en mémoire du corpus BM25 (`aster_
+expert.mcp.cache.cached_bm25_index`, lot 8b), jamais d'une seconde lecture
+du fichier de fragments JSONL -- pas de nouvelle dépendance, pas de second
+chargement à maintenir synchrone avec le premier. Une section volumineuse
+est renvoyée entière avec `content_length` : aucune troncature, y compris
+pour les 180 063 caractères du cas U2.03.09 ci-dessus.
+
+**K2 -- chaînage depuis la recherche, vérifié sur cas réel.** Un
+`SearchHit` porte déjà `fragment_id`, `document_id`, `section_path` et
+`granularity` : aucun identifiant n'a besoin d'être reconstruit par
+l'appelant. Vérifié directement contre le serveur MCP
+(`tests/integration/test_mcp_server.py::
+test_get_document_section_chains_off_a_search_hit`) : un appel réel à
+`search_codeaster_docs`, dont le premier résultat est repris champ par
+champ (`document_id`, `section_path`, `granularity`) sans aucune
+transformation, résout bien vers le même fragment via
+`get_document_section`.
+
+**K3 -- skill amendé.** `.claude/skills/code-aster-expert/SKILL.md` gagne
+une section 5 (« Un extrait de tête ne fonde jamais une affirmation sur le
+corps d'une section ») entre l'ancienne 3 et l'ancienne 4 (renumérotées 6
+à 8) : dès qu'une réponse s'appuie sur le contenu d'une section -- tableau
+comparatif, domaine de validité, liste de conditions ou de modèles -- elle
+doit être lue en entier via `get_document_section` avant toute conclusion,
+jamais fondée sur le seul `excerpt`. `references/citation.md` gagne le
+mapping `DocumentSectionResult.section` -> champs de citation, symétrique
+de celui de `SearchHit`. Toujours aucune connaissance Code_Aster de
+première main écrite en dur dans le skill, conformément à la consigne.
+
+**K4 -- vérification sur les trois cas réels, contenu rapporté.**
+Extraction réelle (`aster_expert.mcp.tools.get_document_section`, sur le
+corpus indexé de ce dépôt, v17.4.0) :
+
+1. `U2.02.01#Conclusion_et_conseils_d_utilisation` (`by_file`, 5 252
+   caractères) : le tableau comparatif complet des sept modélisations
+   (DKT, DST/Q4G, DKTG/Q4GG, COQUE_3D, COQUE_AXIS, GRILLE_*) contre sept
+   critères de domaine d'application (statique linéaire matériau
+   isotrope/orthotrope, statique non linéaire matériau/géométrique,
+   dynamique, flambement d'Euler), suivi des recommandations d'usage
+   (structures minces vs épaisses, MEC3QU9H recommandé sur MEC3TR7H,
+   limites de non-linéarité matériau/géométrique par élément) -- absent de
+   l'`excerpt` à 280 caractères, entièrement lisible ici.
+2. `U2.03.09#La_mod_lisation_du_comportement_en_fonction_du_type_d_analyse___
+   mener::.../la_phenomenologie_et_les_modelisations_du_comportement_des_sols`
+   (`by_subsection`, 180 063 caractères) : dès les premières lignes, un
+   tableau matériau/phénoménologie (argile gonflante, sol pulvérulent, sol
+   granulaire, sols argileux) puis la liste des modèles de comportement
+   disponibles -- `GONF_ELAS`, `MOHR_COULOMB`, `MohrCoulombAS`, `CJS`,
+   `CAM_CLAY`, `HUJEUX`, `IWAN`, `BARCELONE`, `MCC`, `CSSM` -- avec renvoi à
+   un guide de choix par type d'ouvrage ([bib28]). La sous-section
+   d'introduction du même document (`::la_modelisation_...`, 4 760
+   caractères) donne le cadre théorique général (contraintes
+   effectives/totales, capacité portante, tassements, liquéfaction) mais
+   pas cette liste : c'est la sous-section détaillée, jamais atteinte par
+   un `excerpt` de tête, qui porte le panorama recherché.
+3. `U2.04.06#Avant_de_s_attaquer_au_ficher_de_commande_Code_Aster_`
+   (`by_file`, 14 341 caractères) : les questions de modélisation
+   effectivement traitées (définir les modèles depuis un maillage simple,
+   initialiser les contraintes, calculer les réactions nodales au bord de
+   la future galerie, simuler la création d'un vide et la pose du béton)
+   jusqu'au résumé final -- méthode I/II pour l'initialisation des
+   contraintes (calcul sur matériau fictif vs `CREA_CHAMP`), méthode A/B
+   pour le creusement (caractéristiques très souples vs enchaînement de
+   modèles, B recommandée) -- entièrement lisible, alors que l'`excerpt`
+   ne portait que l'incipit générique du chapitre.
+
+Dans les trois cas, le document et la section trouvés par
+`search_codeaster_docs` étaient déjà corrects : ce lot ne change ni le
+classement ni le découpage, seulement l'accès au contenu une fois la
+section identifiée.
+
+**NE PAS FAIT (conforme à la consigne).** Aucun embedding, aucune
+modification du découpage, du classement, du catalogue, du validateur ni
+du jeu d'évaluation. Aucun travail sur la fiche d'hypothèses (lot 14) :
+les trois cas ci-dessus ne servent qu'à vérifier que l'outil résout le
+problème constaté, pas à produire la fiche elle-même.
+
+**Limites connues et points non couverts.** `get_document_section`
+retrouve un fragment par son identifiant exact, jamais par une recherche
+approchée sur `section_path` (une section renommée ou légèrement
+différente du chemin fourni échoue explicitement, jamais un rapprochement
+partiel deviné) -- cohérent avec le principe du lot ("jamais un choix
+silencieux"), mais signifie qu'un appelant doit vraiment provenir d'un
+`SearchHit` récent ou connaître le chemin exact, jamais le deviner à la
+main. Le cache `cached_bm25_index` réutilisé n'est, comme au lot 8b,
+jamais invalidé en cours de processus : un rebuild d'index pendant qu'un
+serveur MCP tourne ne sera visible qu'après redémarrage -- déjà connu,
+non aggravé par ce lot.
+
 ## Lot 9 — Parseur `.comm`
 
 Analyse structurelle sans exécution, conforme à `docs/metadata.md`. Gestion
@@ -2391,6 +2514,7 @@ Niveaux D et E. Hors périmètre v1.
 | 7b | lot-7b-ranking | fait | (ce lot, voir `git log`) | 2026-09-17 |
 | 8 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 8b | | fait | (ce lot, voir `git log`) | 2026-09-18 |
+| 8c | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 9 | lot-9-comm-parser | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10 | lot-10-validation-b | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10b | lot-10b-coverage | fait | (ce lot, voir `git log`) | 2026-09-15 |

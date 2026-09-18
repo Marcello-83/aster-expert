@@ -29,7 +29,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict
 
 from aster_expert.catalogue.models import CommandSchema, KeywordSchema
-from aster_expert.indexing.models import SearchHit
+from aster_expert.indexing.models import DocumentSection, SearchHit
 from aster_expert.parsing.models import CommFileAnalysis
 
 
@@ -71,3 +71,18 @@ class CommAnalysisResult(BaseModel):
 
     validation_level: Literal["A"] = "A"
     analysis: CommFileAnalysis
+
+
+class DocumentSectionResult(BaseModel):
+    """`get_document_section` (lot 8c, K1).
+
+    Wraps `DocumentSection` exactly like the three envelopes above wrap
+    their own existing model -- `section` is never flattened into this
+    envelope's own fields, so `DocumentSection` stays the single place that
+    defines what a section is.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    validation_level: Literal["A"] = "A"
+    section: DocumentSection

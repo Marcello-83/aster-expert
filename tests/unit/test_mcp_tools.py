@@ -24,6 +24,7 @@ from aster_expert.mcp.logging import default_query_log_path
 from aster_expert.mcp.tools import (
     analyze_comm,
     get_command_schema,
+    get_document_section,
     search_codeaster_docs,
     validate_comm,
 )
@@ -158,6 +159,87 @@ def test_search_codeaster_docs_returns_level_a_and_journals_the_call(
             "score": pytest.approx(entry["returned"][0]["score"]),
         }
     ]
+
+
+def test_get_document_section_by_fragment_id_returns_full_content(
+    project_root: Path,
+) -> None:
+    result = get_document_section(
+        project_root=project_root, fragment_id="U4.51.03#COMPORTEMENT"
+    )
+
+    assert result.validation_level == "A"
+    assert result.section.fragment_id == "U4.51.03#COMPORTEMENT"
+    assert result.section.document_id == "U4.51.03"
+    assert result.section.content == (
+        "Mot-clé facteur COMPORTEMENT : loi de comportement non linéaire."
+    )
+    assert result.section.content_length == len(result.section.content)
+
+    entry = json.loads(
+        default_query_log_path(project_root)
+        .read_text(encoding="utf-8")
+        .splitlines()[-1]
+    )
+    assert entry["tool"] == "get_document_section"
+    assert entry["returned"] == [{"identifier": "U4.51.03#COMPORTEMENT", "score": None}]
+
+
+def test_get_document_section_by_document_and_section_path(
+    project_root: Path,
+) -> None:
+    result = get_document_section(
+        project_root=project_root,
+        document_id="U4.51.03",
+        section_path=["COMPORTEMENT"],
+    )
+
+    assert result.section.fragment_id == "U4.51.03#COMPORTEMENT"
+
+
+def test_get_document_section_unknown_granularity_fails_loudly(
+    project_root: Path,
+) -> None:
+    with pytest.raises(McpToolError, match="Granularité inconnue"):
+        get_document_section(
+            project_root=project_root,
+            fragment_id="U4.51.03#COMPORTEMENT",
+            granularity="bogus",
+        )
+
+
+def test_get_document_section_both_identifiers_given_fails_loudly(
+    project_root: Path,
+) -> None:
+    with pytest.raises(McpToolError, match="jamais les deux"):
+        get_document_section(
+            project_root=project_root,
+            fragment_id="U4.51.03#COMPORTEMENT",
+            document_id="U4.51.03",
+            section_path=["COMPORTEMENT"],
+        )
+
+
+def test_get_document_section_no_identifier_given_fails_loudly(
+    project_root: Path,
+) -> None:
+    with pytest.raises(McpToolError, match="sont requis"):
+        get_document_section(project_root=project_root)
+
+
+def test_get_document_section_unknown_fragment_fails_loudly(
+    project_root: Path,
+) -> None:
+    with pytest.raises(McpToolError, match="Aucun fragment"):
+        get_document_section(project_root=project_root, fragment_id="does-not-exist")
+
+
+def test_get_document_section_missing_index_fails_loudly(tmp_path: Path) -> None:
+    root = tmp_path / "no_index"
+    root.mkdir()
+
+    with pytest.raises(McpToolError, match="Index introuvable"):
+        get_document_section(project_root=root, fragment_id="whatever")
 
 
 def _write_catalogue(catalogue_dir: Path) -> None:

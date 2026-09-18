@@ -13,8 +13,10 @@ from pathlib import Path
 from aster_expert.indexing.bm25_index import (
     build_bm25_index,
     default_index_dir,
+    find_fragments,
     load_bm25_index,
     search,
+    to_document_section,
 )
 
 _NOW = datetime(2026, 1, 1, tzinfo=UTC).isoformat()
@@ -280,3 +282,46 @@ def test_search_never_returns_a_document_outside_the_filter_even_ranked_first(
     hits = search(retriever, corpus, "convergence", k=5, family="R")
 
     assert all(h.document_id == "B" for h in hits)
+
+
+def test_find_fragments_by_fragment_id_returns_full_content_never_excerpted(
+    tmp_path: Path,
+) -> None:
+    long_content = "Phrase de section. " * 50  # well over _EXCERPT_CHARS (280)
+    fragments = [_fragment(fragment_id="U2.02.01#Conclusion", content=long_content)]
+    fragments_path = tmp_path / "fragments_by_file.jsonl"
+    _write_fragments(fragments_path, fragments)
+    index_dir = tmp_path / "index"
+    build_bm25_index(fragments_path, index_dir)
+    _, corpus = load_bm25_index(index_dir)
+
+    matches = find_fragments(corpus, fragment_id="U2.02.01#Conclusion")
+
+    assert len(matches) == 1
+    section = to_document_section(matches[0])
+    assert section.content == long_content
+    assert section.content_length == len(long_content)
+
+
+def test_find_fragments_by_document_and_section_path(tmp_path: Path) -> None:
+    fragments_path = tmp_path / "fragments_by_file.jsonl"
+    _write_fragments(fragments_path, _sample_fragments())
+    index_dir = tmp_path / "index"
+    build_bm25_index(fragments_path, index_dir)
+    _, corpus = load_bm25_index(index_dir)
+
+    matches = find_fragments(corpus, document_id="U4.51.03", section_path=("index",))
+
+    assert len(matches) == 1
+    assert matches[0]["fragment_id"] == "U4.51.03#index"
+
+
+def test_find_fragments_unknown_identifier_returns_no_match(tmp_path: Path) -> None:
+    fragments_path = tmp_path / "fragments_by_file.jsonl"
+    _write_fragments(fragments_path, _sample_fragments())
+    index_dir = tmp_path / "index"
+    build_bm25_index(fragments_path, index_dir)
+    _, corpus = load_bm25_index(index_dir)
+
+    assert find_fragments(corpus, fragment_id="does-not-exist") == []
+    assert find_fragments(corpus, document_id="U4.51.03", section_path=("nope",)) == []

@@ -61,6 +61,9 @@ aster-expert catalogue extract
 # Interroger le corpus
 aster-expert search "ressort non linéaire unilatéral" --version 18
 
+# Texte intégral d'une section trouvée par 'search' (jamais tronqué)
+aster-expert section --document U2.02.01 --section-path Conclusion_et_conseils_d_utilisation
+
 # Schéma exact d'une commande
 aster-expert catalogue show STAT_NON_LINE --keyword COMPORTEMENT
 
@@ -78,14 +81,23 @@ Les commandes non encore implémentées sont listées dans
 ## Serveur MCP (lot 8)
 
 Un serveur MCP (`aster-expert-mcp`, module `aster_expert.mcp.server`) expose
-quatre outils, chacun un simple emballage d'une capacité déjà existante :
+cinq outils, chacun un simple emballage d'une capacité déjà existante :
 
 | Outil | Capacité encapsulée | Niveau de la réponse |
 |-------|----------------------|-----------------------|
 | `search_codeaster_docs` | `aster_expert.retrieval` (lot 7/7b/7c) | A |
+| `get_document_section` | `aster_expert.indexing.bm25_index` (lot 8c) | A |
 | `get_command_schema` | `aster_expert.catalogue` (lot 4/4b) | A |
 | `analyze_comm` | `aster_expert.parsing.comm_parser` (lot 9) | A |
 | `validate_comm` | `aster_expert.validation.validate` (lot 10/10b/10c) | B |
+
+`get_document_section` (lot 8c) renvoie le texte intégral, jamais tronqué,
+d'un fragment ou d'une section — `search_codeaster_docs` ne renvoie qu'un
+extrait de 280 caractères par résultat, insuffisant pour fonder une
+affirmation sur le contenu réel d'une section (un tableau comparatif, une
+liste de conditions). Désigner la section soit par `fragment_id` (recopié
+d'un résultat de recherche), soit par `document_id` + `section_path` +
+`granularity` ensemble.
 
 Chaque réponse porte explicitement son niveau (`validation_level`) et ses
 sources (identifiant de document, section, chemin, révision — déjà portées
@@ -105,7 +117,7 @@ contenu du fichier fourni, seulement son nom et son empreinte SHA-256.
 Prérequis avant de démarrer le serveur : un index construit
 (`aster-expert index build`), un catalogue extrait
 (`aster-expert catalogue extract`) — `search_codeaster_docs`/
-`get_command_schema` échouent explicitement sinon. `validate_comm` a en plus
+`get_document_section`/`get_command_schema` échouent explicitement sinon. `validate_comm` a en plus
 besoin de `ASTER_CONTAINER_WORKROOT` (un répertoire dédié, jamais `$HOME` ni
 la racine du dépôt — voir `.env.example`, ADR-006) et de Docker.
 

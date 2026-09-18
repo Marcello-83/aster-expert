@@ -1,4 +1,5 @@
-"""MCP server (lot 8): registers the four tools over `aster_expert.mcp.tools`.
+"""MCP server (lot 8, extended lot 8c): registers the five tools over
+`aster_expert.mcp.tools`.
 
 This module carries no business logic (CLAUDE.md, lot 8 scope): it only
 reads the same environment variables `aster_expert.cli` reads (never
@@ -26,6 +27,7 @@ from aster_expert.mcp import tools
 from aster_expert.mcp.models import (
     CommAnalysisResult,
     CommandSchemaResult,
+    DocumentSectionResult,
     SearchDocsResult,
 )
 from aster_expert.retrieval.query_profiles import DEFAULT_QUERY_PROFILE
@@ -46,7 +48,8 @@ app = MCPServer(
     version=__version__,
     instructions=(
         "Outils de l'agent expert Code_Aster : recherche documentaire "
-        "(search_codeaster_docs), schéma exact d'une commande "
+        "(search_codeaster_docs), lecture intégrale d'une section ou d'un "
+        "fragment (get_document_section), schéma exact d'une commande "
         "(get_command_schema), analyse structurelle "
         "(analyze_comm) et validation de niveau B (validate_comm) d'un "
         "fichier .comm. Chaque réponse porte explicitement son niveau de "
@@ -54,7 +57,12 @@ app = MCPServer(
         "confrontée au catalogue) : un niveau 'A' n'est jamais une preuve "
         "de validité syntaxique, d'exécution, ni de validité physique "
         "(niveaux C/D/E, hors périmètre de ce serveur). Ne jamais présenter "
-        "une réponse de niveau 'A' comme vérifiée."
+        "une réponse de niveau 'A' comme vérifiée. Un extrait de "
+        "search_codeaster_docs est tronqué à 280 caractères : dès qu'une "
+        "réponse s'appuie sur le contenu d'une section (tableau, liste de "
+        "conditions, domaine de validité), lire cette section en entier via "
+        "get_document_section avant de conclure -- jamais fonder une "
+        "affirmation sur le seul extrait de tête."
     ),
 )
 
@@ -106,6 +114,44 @@ def search_codeaster_docs(
         document_id=document_id,
         command=command,
         section_contains=section_contains,
+    )
+
+
+_GET_SECTION_DESCRIPTION = (
+    "Texte intégral d'un fragment ou d'une section documentaire, jamais "
+    "tronqué — niveau A : réponse documentaire, jamais exécutée, jamais "
+    "confrontée au catalogue.\n\n"
+    "À utiliser dès qu'une réponse doit s'appuyer sur le contenu réel d'une "
+    "section (un tableau comparatif, un domaine de validité, une liste de "
+    "conditions) : l'`excerpt` renvoyé par search_codeaster_docs est coupé "
+    "à 280 caractères et ne fonde jamais une telle affirmation à lui seul.\n"
+    "\n"
+    "Désigner la section soit par `fragment_id` (le champ `fragment_id` "
+    "d'un `SearchHit`, à recopier tel quel), soit par `document_id` et "
+    "`section_path` ensemble (les champs `document_id`/`section_path` de "
+    "ce même `SearchHit`) — jamais les deux façons à la fois. `granularity` "
+    "doit correspondre à celle du résultat de recherche d'origine (champ "
+    "`granularity` du `SearchHit`, ou 'by_file' par défaut si vous partez "
+    "d'un `document_id` connu directement).\n\n"
+    "Si la section est volumineuse, le contenu entier est renvoyé quand "
+    "même, avec sa taille en caractères (`content_length`) : jamais coupé "
+    "silencieusement."
+)
+
+
+@app.tool(description=_GET_SECTION_DESCRIPTION)
+def get_document_section(
+    fragment_id: str | None = None,
+    document_id: str | None = None,
+    section_path: list[str] | None = None,
+    granularity: str = "by_file",
+) -> DocumentSectionResult:
+    return tools.get_document_section(
+        project_root=_project_root(),
+        fragment_id=fragment_id,
+        document_id=document_id,
+        section_path=section_path,
+        granularity=granularity,
     )
 
 

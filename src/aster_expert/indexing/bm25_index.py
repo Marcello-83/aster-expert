@@ -27,7 +27,7 @@ import bm25s
 import numpy as np
 
 from aster_expert.indexing.enrichment import enrich_indexed_text
-from aster_expert.indexing.models import IndexBuildSummary, SearchHit
+from aster_expert.indexing.models import DocumentSection, IndexBuildSummary, SearchHit
 from aster_expert.parsing.fragment_models import FragmentGranularity
 
 _EXCERPT_CHARS = 280
@@ -250,6 +250,60 @@ def search(
         if len(hits) >= k:
             break
     return hits
+
+
+def to_document_section(entry: dict[str, Any]) -> DocumentSection:
+    """One corpus entry, whole -- the untruncated counterpart of `_to_hit` (lot 8c, K1).
+
+    `content` is the corpus entry's own raw content, exactly as persisted by
+    `build_bm25_index` (never re-read from the fragments JSONL, which would
+    be a second, divergence-prone source of the same text) -- no
+    `_EXCERPT_CHARS` cut applied.
+    """
+    content = entry.get("content", "")
+    return DocumentSection(
+        fragment_id=entry["fragment_id"],
+        document_id=entry["document_id"],
+        document_title=entry.get("document_title"),
+        family=entry["family"],
+        aster_version=entry["aster_version"],
+        section_path=tuple(entry["section_path"]),
+        source_path=entry["source_path"],
+        source_commit=entry["source_commit"],
+        line_start=entry["line_start"],
+        line_end=entry["line_end"],
+        related_commands=tuple(entry.get("related_commands", ())),
+        granularity=entry["granularity"],
+        content=content,
+        content_length=len(content),
+    )
+
+
+def find_fragments(
+    corpus: list[dict[str, Any]],
+    *,
+    fragment_id: str | None = None,
+    document_id: str | None = None,
+    section_path: tuple[str, ...] | None = None,
+) -> list[dict[str, Any]]:
+    """Exact lookup of corpus entries, never ranked (lot 8c, K1).
+
+    Given `fragment_id`, matches on that identifier alone. Otherwise matches
+    on `document_id` and `section_path` together (both required in that
+    case): a fragment's `section_path` is exactly what `SearchHit` already
+    exposes, so a caller that only has a search result's section path, not
+    its `fragment_id`, can still look the fragment up. Ambiguity (more than
+    one match) or absence is left entirely to the caller to decide what to
+    do with -- this function never guesses which candidate was meant.
+    """
+    if fragment_id is not None:
+        return [entry for entry in corpus if entry["fragment_id"] == fragment_id]
+    return [
+        entry
+        for entry in corpus
+        if entry["document_id"] == document_id
+        and tuple(entry["section_path"]) == section_path
+    ]
 
 
 def default_index_dir(

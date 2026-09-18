@@ -22,18 +22,24 @@ deliberately left to raise whatever pydantic or the underlying module
 itself raises: the MCP SDK turns that into a loud `UnexpectedToolError`
 rather than a partial result (docs/development-plan.md, lot 8, H5).
 
-`search_codeaster_docs` and `get_command_schema` read the BM25 index and
-the command catalogue through `aster_expert.mcp.cache` rather than the raw
-`load_bm25_index`/`load_command_schema` (lot 8b, J1: the first measured
-`search_codeaster_docs` call reloaded the index from disk every time,
-5.2 s) — still no ranking or catalogue logic added, only the disk read
-itself is memoized for the server process's lifetime.
+`search_codeaster_docs`, `get_document_section` and `get_command_schema`
+read the BM25 index and the command catalogue through `aster_expert.mcp.
+cache` rather than the raw `load_bm25_index`/`load_command_schema` (lot 8b,
+J1: the first measured `search_codeaster_docs` call reloaded the index from
+disk every time, 5.2 s) — still no ranking or catalogue logic added, only
+the disk read itself is memoized for the server process's lifetime.
+`get_document_section` (lot 8c, K1) reuses that same cached corpus rather
+than re-reading the fragments JSONL a second time: the corpus entry's
+`content` field already is the fragment's exact raw text
+(`aster_expert.indexing.bm25_index.build_bm25_index`), so there is no
+second source of that text to keep in sync.
 """
 
 from __future__ import annotations
 
 import hashlib
 import time
+from collections.abc import Sequence
 from pathlib import Path
 
 from aster_expert.catalogue.errors import CatalogueExtractionError
@@ -44,7 +50,11 @@ from aster_expert.catalogue.query import (
 )
 from aster_expert.execution.docker_client import find_docker_binary
 from aster_expert.execution.errors import EnvironmentDetectionError
-from aster_expert.indexing.bm25_index import default_index_dir
+from aster_expert.indexing.bm25_index import (
+    default_index_dir,
+    find_fragments,
+    to_document_section,
+)
 from aster_expert.mcp.cache import cached_bm25_index, cached_command_schema
 from aster_expert.mcp.errors import McpToolError
 from aster_expert.mcp.logging import (
@@ -55,6 +65,7 @@ from aster_expert.mcp.logging import (
 from aster_expert.mcp.models import (
     CommAnalysisResult,
     CommandSchemaResult,
+    DocumentSectionResult,
     SearchDocsResult,
 )
 from aster_expert.parsing.comm_parser import parse_comm_file
@@ -168,6 +179,99 @@ def search_codeaster_docs(
         returned=[
             ReturnedItem(identifier=hit.fragment_id, score=hit.score) for hit in hits
         ],
+        duration_s=duration,
+    )
+    return result
+
+
+def get_document_section(
+    *,
+    project_root: Path,
+    fragment_id: str | None = None,
+    document_id: str | None = None,
+    section_path: Sequence[str] | None = None,
+    granularity: str = "by_file",
+    log_path: Path | None = None,
+) -> DocumentSectionResult:
+    """Full, untruncated text of one fragment (lot 8c, K1).
+
+    Chains directly off `search_codeaster_docs`: every `SearchHit` already
+    carries the exact `fragment_id`, `document_id`, `section_path` and
+    `granularity` this tool needs (K2) -- no identifier has to be
+    reconstructed by hand. `SearchHit.excerpt` is capped at 280 characters
+    (`aster_expert.indexing.bm25_index._EXCERPT_CHARS`), fine for a ranked
+    list of many candidates but never enough to found an answer on a
+    section's actual body (a comparison table, a validity domain, a list of
+    conditions): this tool is the only one that returns a section whole, and
+    reports its size rather than ever cutting it silently.
+    """
+    if granularity not in _GRANULARITIES:
+        message = f"Granularité inconnue : {granularity!r} ; attendu {_GRANULARITIES}"
+        raise McpToolError(message)
+
+    has_fragment_id = fragment_id is not None
+    has_document_id = document_id is not None
+    has_section_path = section_path is not None
+    if has_fragment_id and (has_document_id or has_section_path):
+        message = (
+            "Donner soit fragment_id, soit document_id et section_path "
+            "ensemble, jamais les deux façons à la fois."
+        )
+        raise McpToolError(message)
+    if not has_fragment_id and (has_document_id != has_section_path):
+        message = "document_id et section_path doivent être donnés ensemble."
+        raise McpToolError(message)
+    if not has_fragment_id and not has_document_id:
+        message = "fragment_id, ou document_id et section_path, sont requis."
+        raise McpToolError(message)
+
+    index_dir = default_index_dir(project_root, granularity)
+    if not index_dir.is_dir():
+        message = (
+            f"Index introuvable ({index_dir}) ; lancez "
+            f"'aster-expert index build --granularity {granularity}' d'abord"
+        )
+        raise McpToolError(message)
+
+    section_path_tuple = tuple(section_path) if section_path is not None else None
+
+    started = time.monotonic()
+    _, corpus = cached_bm25_index(index_dir)
+    matches = find_fragments(
+        corpus,
+        fragment_id=fragment_id,
+        document_id=document_id,
+        section_path=section_path_tuple,
+    )
+    target = (
+        fragment_id
+        if has_fragment_id
+        else f"{document_id}#{'/'.join(section_path_tuple or ())}"
+    )
+    if not matches:
+        message = (
+            f"Aucun fragment ne correspond à {target!r} dans l'index "
+            f"{granularity!r} ({index_dir})."
+        )
+        raise McpToolError(message)
+    if len(matches) > 1:
+        message = (
+            f"Plusieurs fragments correspondent à {target!r} dans l'index "
+            f"{granularity!r} : identifiant ambigu, jamais résolu en "
+            "silence -- utilisez fragment_id."
+        )
+        raise McpToolError(message)
+    duration = time.monotonic() - started
+
+    section = to_document_section(matches[0])
+    result = DocumentSectionResult(section=section)
+
+    append_query_log(
+        log_path if log_path is not None else default_query_log_path(project_root),
+        tool="get_document_section",
+        query=target,
+        filters={"granularity": granularity},
+        returned=[ReturnedItem(identifier=section.fragment_id)],
         duration_s=duration,
     )
     return result
@@ -322,6 +426,7 @@ def validate_comm(
 __all__: list[str] = [
     "analyze_comm",
     "get_command_schema",
+    "get_document_section",
     "search_codeaster_docs",
     "validate_comm",
 ]
