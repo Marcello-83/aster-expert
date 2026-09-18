@@ -103,3 +103,22 @@ def test_reference_fiche_never_attaches_a_documentary_source_to_a_practice_entry
 def test_reference_fiche_json_is_valid_json_before_schema_validation() -> None:
     """Sanity check on the file itself, independent of the schema."""
     json.loads(_REFERENCE_PATH.read_text(encoding="utf-8"))
+
+
+def test_reference_fiche_validity_domain_set_only_where_the_source_states_one() -> None:
+    """R1/R5 (lot 17): `validity_domain` is populated on exactly the four
+    code_aster entries whose already-captured excerpt/notes state an
+    explicit bound -- never invented for an entry whose source is silent
+    (CLAUDE.md, "ne jamais deviner"); every practice entry stays `None`
+    (all eight remain `non_tranche`, which forbids the field outright)."""
+    sheet = _load()
+
+    with_domain = [
+        (e.point_label, e.topic) for e in sheet.entries if e.validity_domain is not None
+    ]
+    assert len(with_domain) == 4
+    assert {label for label, _ in with_domain} == {"1", "4", "5", "6"}
+    assert with_domain[0][1].startswith("Critère d'élancement")
+    for entry in sheet.entries:
+        if isinstance(entry, PracticeHypothesisEntry):
+            assert entry.validity_domain is None

@@ -68,3 +68,29 @@ arbitration.record_practice_decision` ouvre ce chemin (voir
 -- la fiche de décision qu'il produit à partir de ce spécimen
 (`/media/sf_partage/echanges/fiche_decision_combiwall_arbitrage_pratique.md`,
 non versionnée) présente les huit points à un ingénieur, sans y répondre.
+
+**Lot 16, tentative bloquée.** Une première tentative réelle d'arbitrage
+(`/media/sf_partage/echanges/arbitrage_combiwall_MM.md`, neuf décisions
+d'ingénieur) n'a pu enregistrer aucune des neuf décisions : le schéma
+n'avait ni champ pour les « limites connues » d'une décision, ni chemin
+pour insérer une décision sur un point absent de la fiche. Diagnostic
+livré, rien enregistré (`docs/development-plan.md`, clôture lot 16) ;
+les huit entrées `pratique` restaient `non_tranche`.
+
+**Lot 17, `validity_domain` (R1/R5).** Les deux lacunes du lot 16 sont
+comblées côté schéma (`validity_domain` sur `_HypothesisEntryBase`,
+`insert_practice_entry`) -- voir le module docstring de `aster_expert.
+agent.hypotheses`, R1. Ce fichier lui-même reste `non_tranche` sur ses huit
+entrées `pratique` : les neuf décisions du lot 16 ne sont pas enregistrées
+ici, elles seront resoumises séparément, contre le gabarit de saisie
+(`/media/sf_partage/echanges/gabarit_saisie_fiche_hypotheses.md`, non
+versionné) qui documente les noms de champs exacts. Seul un ajout a été
+fait ici : `validity_domain` sur quatre entrées `code_aster` existantes,
+uniquement là où leur `excerpt`/`notes` déjà transcrits énoncent
+explicitement une limite (le critère d'élancement du point 1, la portée
+des lois de joint R7.01.25 au point 4, le domaine de DEFI_CHAR_SOL au
+point 5, l'hypothèse d'isotropie de Mohr-Coulomb et le domaine du Cam-Clay
+modifié au point 6) -- jamais ajouté à une entrée dont la source citée
+reste silencieuse sur ce point
+(`tests/unit/test_hypotheses_combiwall_reference.py::
+test_reference_fiche_validity_domain_set_only_where_the_source_states_one`).

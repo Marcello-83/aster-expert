@@ -3144,6 +3144,148 @@ de les corriger (et comment) revenant à l'ingénieur du projet.
 
 ---
 
+## Lot 17 — Amendement du schéma : domaine de validité, insertion, nommage
+
+**Constat d'ouverture.** Le lot 16 n'a pu enregistrer aucune des neuf
+décisions de `arbitrage_combiwall_MM.md`. Trois lacunes, chacune bloquante
+seule, toutes comblées ici, sur décision de conception explicite (pas
+d'anticipation) :
+
+- aucun champ pour les limites connues d'une décision (Q1, lot 16) ;
+- aucun chemin pour insérer une décision sur un point absent de la fiche
+  (Q2, lot 16) ;
+- une section `group_naming` jamais commencée se lit, à tort, comme une
+  section entièrement tranchée (Q4, lot 16).
+
+**R1, `validity_domain`.** Nouveau champ sur `_HypothesisEntryBase`
+(`aster_expert.agent.hypotheses`), donc partagé par les deux natures
+d'entrée, avec une exigence asymétrique délibérée :
+
+- obligatoire et non vide sur une `PracticeHypothesisEntry` à
+  `status="tranche"` -- une décision sans limite énoncée est refusée,
+  exactement comme une décision sans justification
+  (`tests/unit/test_agent_hypotheses.py::
+  test_practice_entry_tranche_requires_a_validity_domain`) ; forbidden
+  quand `non_tranche`, symétriquement à `sources`/`option_retained`
+  (`test_practice_entry_non_tranche_rejects_a_validity_domain`) ; laissé
+  non contraint pour `herite`, la même limite déjà consignée pour
+  `discarded_variants`/`decided_by`/`decided_at` (M1, lot 14) ;
+- facultatif, quel que soit `status`, sur une `CodeAsterHypothesisEntry` --
+  le corpus énonce un domaine de validité pour certains faits (un seuil
+  d'élancement, une hypothèse d'isotropie) et pas pour d'autres, différence
+  qui doit rester représentable
+  (`test_code_aster_entry_validity_domain_is_optional_regardless_of_status`) ;
+- `PriorDecision` porte désormais `validity_domain: str` (requis, comme
+  `option_retained`/`justification`) : une décision remplacée garde ses
+  limites propres dans l'historique
+  (`test_prior_decision_requires_a_validity_domain`,
+  `test_record_practice_decision_preserves_history_on_re_arbitration`,
+  étendu pour vérifier la préservation du domaine, pas seulement de
+  l'option).
+
+Distinct de `notes` (déjà pris par `render_decision_sheet`, « Cherché et
+non trouvé », trace de recherche du lot 14b) et, pour une entrée pratique,
+distinct de `option_retained` (ce qui a été décidé) : trois champs, jamais
+fusionnés. Motif consigné dans le module (`aster_expert.agent.hypotheses`,
+docstring, R1) : le domaine de validité d'une décision est à l'ingénierie
+ce que le niveau A-E est à l'outil (CLAUDE.md, « niveaux de validation »)
+-- une décision réutilisée hors de son domaine est le mode de défaillance
+que cette fiche existe pour empêcher. Porté jusque dans un fichier de
+commandes généré ou une note de calcul : hors périmètre de ce lot (aucun
+générateur n'existe), le champ est simplement prévu pour qu'un lot futur
+puisse le lire.
+
+**R2, `insert_practice_entry`.** Nouvelle fonction
+(`aster_expert.agent.arbitration`), symétrique d'`apply_decision` (lot 15)
+mais pour le cas qu'`apply_decision` refuse explicitement : une décision
+sur un point sans entrée `non_tranche` correspondante dans la fiche (le
+point 0, « Objet et périmètre du calcul », bloqué en Q2 du lot 16).
+N'accepte qu'une `PracticeHypothesisEntry` déjà `status="tranche"` --
+refusée sinon (`test_insert_practice_entry_rejects_a_non_tranche_entry`) --
+et refuse toute collision de `(point_label, topic)` avec une entrée
+existante (`test_insert_practice_entry_rejects_a_collision_with_an_existing_
+entry`), symétriquement à la garantie de correspondance unique
+qu'`apply_decision` tient déjà côté remplacement. Une
+`CodeAsterHypothesisEntry` reste structurellement impossible à insérer par
+ce chemin : le paramètre est typé `PracticeHypothesisEntry`, pas l'union
+`HypothesisEntry`
+(`test_insert_practice_entry_signature_only_accepts_practice_entries`).
+
+**R3, `generation_blockers`.** `HypothesesSheet.is_ready_for_generation`
+délègue désormais à une nouvelle méthode, `generation_blockers()`, qui
+retourne les motifs textuels du blocage plutôt qu'un simple booléen. Elle
+comble la lacune consignée à la clôture du lot 16 (Q4) :
+`unresolved_group_names()` ne peut pas distinguer une section
+`group_naming` vide (jamais commencée) d'une section entièrement
+`tranche`, puisqu'un tuple à zéro élément n'a, par construction, aucun
+élément `non_tranche` à lister dans les deux cas.
+`generation_blockers()` traite maintenant `group_naming` vide comme un
+blocage à part entière, avec un motif explicite
+(`test_sheet_blocks_on_empty_group_naming_even_with_all_entries_resolved`),
+en plus des entrées et noms de groupe `non_tranche` déjà couverts
+(inchangé). `is_ready_for_generation` reste la même propriété booléenne,
+maintenant définie comme `not generation_blockers()`
+(`test_generation_blockers_is_empty_when_the_sheet_is_ready`).
+
+**R4, gabarit de saisie.** Document déposé dans
+`/media/sf_partage/echanges/gabarit_saisie_fiche_hypotheses.md` (non
+versionné) : la liste exacte des champs d'une décision pratique
+(`record_practice_decision`) et d'une entrée code_aster, leur caractère
+obligatoire, et deux exemples complets -- l'un réel, extrait tel quel du
+spécimen (`data/examples/hypotheses_combiwall_reference.json`, point 1,
+critère d'élancement), l'autre explicitement marqué illustratif/non
+enregistré, construit à partir du point 3 réel de
+`arbitrage_combiwall_MM.md` (tirants d'ancrage) pour montrer la
+correspondance **Retenu**/**Écarté**/**Limites connues** → `option_
+retained`/`discarded_variants`/`validity_domain`. Le champ `justification`
+de cet exemple illustratif reste un espace réservé explicite (« à rédiger
+par l'ingénieur ») plutôt qu'une valeur inventée : ce fichier ne
+distinguait déjà pas ce membre de la description de l'option retenue
+(lot 16, Q1, deuxième blocage), et le composer à partir des raisons
+d'écart resterait la déduction que la consigne du lot 16 interdisait
+(CLAUDE.md, principe 11).
+
+**R5, spécimen.** `data/examples/hypotheses_combiwall_reference.json` mis
+à jour : `validity_domain` ajouté (explicitement, `null` où absent) sur
+les 24 entrées, rempli sur exactement quatre entrées `code_aster` dont
+l'`excerpt`/les `notes` déjà transcrits énoncent une limite explicite --
+le seuil d'élancement (point 1), la portée des lois de joint R7.01.25 aux
+seuls joints de barrage (point 4), le domaine de DEFI_CHAR_SOL restreint
+à DYNA_VIBRA/DYNA_NON_LINE (point 5), l'hypothèse d'isotropie de
+Mohr-Coulomb et le domaine du Cam-Clay modifié (point 6). Aucune limite
+inventée pour une entrée dont la source citée n'en énonce pas -- vérifié
+par `tests/unit/test_hypotheses_combiwall_reference.py::
+test_reference_fiche_validity_domain_set_only_where_the_source_states_one`.
+Les huit entrées `pratique` restent `non_tranche`, inchangées : aucune des
+neuf décisions du lot 16 n'est enregistrée dans ce lot (voir NE PAS FAIT).
+`data/examples/README.md` documente cet amendement (paragraphes « Lot 16,
+tentative bloquée » et « Lot 17, `validity_domain` »).
+
+**NE PAS FAIT (conforme à la consigne).** Aucune des neuf décisions de MM
+enregistrée : `record_practice_decision`/`insert_practice_entry` ne sont
+appelées, dans ce lot, que par les tests et par l'exemple illustratif du
+gabarit (§D, jamais exécuté contre le schéma réel -- texte descriptif
+seulement, jamais un appel Python). Elles seront resoumises séparément,
+contre le gabarit produit ici. Aucune génération de `.comm`, aucun
+maillage, aucun arbitrage des conventions de nommage de groupe pour le
+spécimen (`group_naming` reste vide -- R3 le fait désormais bloquer
+explicitement `is_ready_for_generation`, il ne le comble pas). Le
+transport de `validity_domain` jusqu'à un `.comm` généré ou une note de
+calcul n'est pas implémenté (R1 le dit explicitement) : seul le modèle le
+prévoit.
+
+**Limites connues et points non couverts.** Le gabarit (R4) documente les
+champs mais ne les valide pas lui-même : une resoumission de MM contre ce
+gabarit peut encore heurter un cas non anticipé ici (aucune garantie
+d'exhaustivité au-delà de ce que ce lot a rencontré). `insert_practice_entry`
+(R2) ne traite qu'un point à la fois, comme `apply_decision` -- aucun
+traitement de lot pour les neuf décisions en une seule opération.
+`generation_blockers()` (R3) ne couvre que le cas `group_naming` vide
+nommé en Q4 du lot 16 ; aucune autre lacune de `is_ready_for_generation`
+n'a été recherchée au-delà de celle-ci.
+
+---
+
 ## Lots conditionnels
 
 Ces lots ne sont engagés que sur preuve mesurée.
@@ -3191,3 +3333,4 @@ Niveaux D et E. Hors périmètre v1.
 | 14b | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 15 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 16 | | fait (bloqué, diagnostic livré) | (ce lot, voir `git log`) | 2026-09-18 |
+| 17 | | fait | (ce lot, voir `git log`) | 2026-09-18 |

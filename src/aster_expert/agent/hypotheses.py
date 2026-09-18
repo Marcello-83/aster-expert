@@ -113,6 +113,48 @@ validator, not by whichever function happens to build the entry -- see
 `aster_expert.agent.arbitration.record_practice_decision`, the one function
 meant to call this, but the guarantee holds against any construction path,
 including a hand-built one.
+
+**R1 (lot 17), the gap lot 16 hit trying to arbitrate for real.** Lot 15's
+own "Limites connues" already predicted this: nothing on `_HypothesisEntryBase`
+carried a decision's *known limits* -- so when a real arbitration file
+(`arbitrage_combiwall_MM.md`) gave every decision a distinct "Limites
+connues" member alongside "Retenu"/"Écarté", `record_practice_decision`
+could not record a single one of its nine decisions without either
+inventing a `justification` the engineer never wrote or dropping the
+limits entirely (`docs/development-plan.md`, clôture lot 16, Q1). `notes`
+was not the answer: it is already claimed, verbatim, by
+`render_decision_sheet`'s "Cherché et non trouvé" (M5 correction 4) -- a
+search trace, not a decision's own bound.
+
+`validity_domain: str | None` fixes this, and is deliberately asymmetric
+between the two natures. On `PracticeHypothesisEntry`, a `status="tranche"`
+entry requires it non-empty, exactly like `option_retained`/`justification`
+(and, symmetrically, a `non_tranche` entry forbids it, like every other
+decision field -- there is no limit to state for a decision not yet made):
+the domain of validity of a decision is to engineering what the A-E level
+is to this project's tooling (CLAUDE.md, "niveaux de validation") -- a
+statement of exactly how far the answer can be trusted. A decision reused
+outside the domain it was scoped to is the failure mode this whole fiche
+exists to prevent (CLAUDE.md, principe 11). On `CodeAsterHypothesisEntry`
+it stays optional regardless of `status`, for the same reason `sources` do
+(M5, correction 3): the corpus states a documented domain of validity for
+some facts (a slenderness bound, a law's isotropy hypothesis) and not for
+others, and that is a real, representable difference, never a schema gap
+to paper over by forcing a value. Never conflated with `notes` (a search
+trace) nor, for a `pratique` entry, with `option_retained` (what was
+decided) -- three distinct things a single free-text field would blur back
+together. `PriorDecision` carries it too, required exactly like
+`option_retained`/`justification`: a superseded decision's own limits are
+as much part of the historical record as what was retained (P2's own
+reasoning, unchanged).
+
+This lot only carries the field through the schema (`PracticeHypothesisEntry`,
+`CodeAsterHypothesisEntry` via the shared base, `PriorDecision`) and the
+one function that writes it (`aster_expert.agent.arbitration.
+record_practice_decision`). Carrying it further -- into a generated
+`.comm` header or a note de calcul -- is explicitly out of scope here
+(no generator exists yet, lot 14's own boundary, unchanged): the field is
+shaped so that future lot can read it, nothing more is built for it now.
 """
 
 from __future__ import annotations
@@ -245,13 +287,17 @@ class PriorDecision(BaseModel):
     here, verbatim, before replacing them -- never edited in place once
     written (frozen, like every model in this module): re-arbitrating a
     point changes what `PracticeHypothesisEntry` currently asserts, never
-    what it asserted before.
+    what it asserted before. `validity_domain` (R1, lot 17) is required
+    here exactly as it is on the live decision: the limits a superseded
+    option was decided under are as much part of the historical record as
+    the option itself.
     """
 
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     option_retained: str
     justification: str
+    validity_domain: str
     sources: tuple[PracticeSource, ...]
     discarded_variants: tuple[DiscardedVariant, ...] = ()
     decided_by: str
@@ -340,6 +386,11 @@ class _HypothesisEntryBase(BaseModel):
     justification: str | None = None
     discarded_variants: tuple[DiscardedVariant, ...] = ()
     notes: str | None = None
+    validity_domain: str | None = None
+    """Known limits of this entry (R1, lot 17) -- distinct from `notes` (a
+    search trace) and, for a `pratique` entry, from `option_retained` (what
+    was decided). See the module docstring's R1 paragraph for the per-nature
+    requirement this base class itself does not enforce."""
 
 
 class CodeAsterHypothesisEntry(_HypothesisEntryBase):
@@ -360,6 +411,11 @@ class CodeAsterHypothesisEntry(_HypothesisEntryBase):
 
     `tranche` additionally requires a verbatim excerpt (N1, lot 14b): see
     `_require_a_verbatim_excerpt_when_documentary`.
+
+    `validity_domain` (R1, lot 17) is optional regardless of `status`: the
+    corpus states an explicit domain of validity for some facts (a
+    slenderness bound, a law's isotropy hypothesis) and not for others, and
+    that difference must stay representable rather than being forced.
     """
 
     nature: Literal["code_aster"] = "code_aster"
@@ -407,6 +463,14 @@ class PracticeHypothesisEntry(_HypothesisEntryBase):
     value inherited from a prior project's own decision, not an
     arbitration made on this fiche, and no function in this project builds
     it (M1, lot 14: hand-built only, unchanged by this lot).
+
+    `validity_domain` (R1, lot 17) follows the same shape as `decided_by`/
+    `decided_at`: required non-empty when `status="tranche"` (a decision
+    without its known limits stated is refused, not merely encouraged to
+    have them), forbidden when `non_tranche` (nothing has been decided, so
+    there is no domain to bound yet), and -- like `discarded_variants`/
+    `decided_by`/`decided_at` before it -- left unconstrained for `herite`,
+    the same deliberate limit named above.
     """
 
     nature: Literal["pratique"] = "pratique"
@@ -433,6 +497,13 @@ class PracticeHypothesisEntry(_HypothesisEntryBase):
                 message = (
                     "une entrée pratique non tranchée ne porte ni arbitre ni date "
                     "d'arbitrage ni historique -- rien n'a encore été tranché"
+                )
+                raise ValueError(message)
+            if self.validity_domain is not None:
+                message = (
+                    "une entrée pratique non tranchée ne porte aucun domaine de "
+                    "validité -- ce champ documente les limites d'une décision "
+                    "(R1, lot 17), et aucune n'a encore été prise"
                 )
                 raise ValueError(message)
         else:
@@ -463,6 +534,14 @@ class PracticeHypothesisEntry(_HypothesisEntryBase):
                     message = (
                         "une entrée pratique tranchée exige qui a tranché "
                         "(decided_by) et quand (decided_at) -- P2, lot 15"
+                    )
+                    raise ValueError(message)
+                if not (self.validity_domain or "").strip():
+                    message = (
+                        "une entrée pratique tranchée exige un domaine de validité "
+                        "non vide (R1, lot 17) -- une décision sans limite énoncée "
+                        "est refusée, exactement comme une décision sans "
+                        "justification"
                     )
                     raise ValueError(message)
         return self
@@ -504,7 +583,10 @@ class HypothesesSheet(BaseModel):
     actually be asked about, not only a sentence in this docstring -- no
     generator is built in this lot (explicitly out of scope), but whatever
     lot builds one has, from day one, a single authoritative check to call
-    rather than reinventing its own notion of "ready".
+    rather than reinventing its own notion of "ready". `generation_blockers`
+    (R3, lot 17) gives the explicit reason behind that boolean, including
+    the one case `unresolved_group_names` cannot see on its own: a
+    `group_naming` section that was never started at all.
     """
 
     model_config = ConfigDict(frozen=True, extra="forbid")
@@ -535,9 +617,41 @@ class HypothesesSheet(BaseModel):
     def unresolved_group_names(self) -> tuple[MeshGroupNaming, ...]:
         return tuple(g for g in self.group_naming if g.status == "non_tranche")
 
+    def generation_blockers(self) -> tuple[str, ...]:
+        """Human-readable reasons `is_ready_for_generation` is `False` (R3,
+        lot 17).
+
+        An empty `group_naming` is not the same state as a `group_naming`
+        whose every entry is `tranche`: `unresolved_group_names()` lists
+        `non_tranche` elements, and a tuple with zero elements has none to
+        list by construction -- indistinguishable, on that check alone,
+        from a naming section that was actually completed (lot 16, clôture,
+        Q4's own "limite consignée"). `group_name` is the interface
+        contract between the mesh and the generated `.comm` (M4): a fiche
+        whose naming rubric was never even started cannot generate anything
+        coherent, and this method says so explicitly rather than leaving
+        `is_ready_for_generation` silently `True`-by-omission.
+        """
+        blockers: list[str] = []
+        if not self.group_naming:
+            blockers.append(
+                "aucune convention de nommage de groupe (group_naming) n'a "
+                "été rédigée pour cette fiche -- section vide, distincte "
+                "d'une section entièrement tranchée (R3, lot 17)"
+            )
+        blockers.extend(
+            f"entrée {e.nature} non tranchée (point {e.point_label or '?'}) : {e.topic}"
+            for e in self.unresolved_entries()
+        )
+        blockers.extend(
+            f"nom de groupe non tranché : {g.group_name} ({g.kind})"
+            for g in self.unresolved_group_names()
+        )
+        return tuple(blockers)
+
     @property
     def is_ready_for_generation(self) -> bool:
-        return not self.unresolved_entries() and not self.unresolved_group_names()
+        return not self.generation_blockers()
 
 
 __all__: list[str] = [

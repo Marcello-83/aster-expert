@@ -17,6 +17,7 @@ from pydantic import ValidationError
 
 from aster_expert.agent.arbitration import (
     apply_decision,
+    insert_practice_entry,
     record_practice_decision,
     render_decision_sheet,
 )
@@ -60,6 +61,11 @@ _DISCARDED = (
     ),
 )
 
+_VALIDITY_DOMAIN = (
+    "Valable pour une interaction permanente, non cyclique -- non validé "
+    "pour un chargement sismique."
+)
+
 _UNRESOLVED_ENTRY = PracticeHypothesisEntry(
     point_label="4",
     topic="Choix entre contact surfacique, ressorts discrets et éléments de joint",
@@ -72,6 +78,7 @@ _ESTABLISHED_SIBLING = CodeAsterHypothesisEntry(
     topic="Mécanisme catalogue de contact-frottement pour une interface sol-écran",
     option_retained="DEFI_CONTACT / FORMULATION='DISCRETE'",
     justification="get_command_schema liste ce mécanisme pour ce cas.",
+    validity_domain=_VALIDITY_DOMAIN,
     sources=(_CATALOGUE_SOURCE, _DOC_SOURCE),
     status="tranche",
 )
@@ -92,6 +99,7 @@ def test_record_practice_decision_builds_a_tranche_entry() -> None:
         entry=_UNRESOLVED_ENTRY,
         option_retained="Contact frottant (DEFI_CONTACT)",
         justification="Cohérent avec les projets antérieurs similaires.",
+        validity_domain=_VALIDITY_DOMAIN,
         sources=(_practice_source(),),
         discarded_variants=_DISCARDED,
         decided_by="J. Dupont",
@@ -112,6 +120,7 @@ def test_record_practice_decision_rejects_no_discarded_variant() -> None:
             entry=_UNRESOLVED_ENTRY,
             option_retained="Contact frottant",
             justification="x",
+            validity_domain=_VALIDITY_DOMAIN,
             sources=(_practice_source(),),
             discarded_variants=(),
             decided_by="J. Dupont",
@@ -125,6 +134,7 @@ def test_record_practice_decision_rejects_no_source() -> None:
             entry=_UNRESOLVED_ENTRY,
             option_retained="Contact frottant",
             justification="x",
+            validity_domain=_VALIDITY_DOMAIN,
             sources=(),
             discarded_variants=_DISCARDED,
             decided_by="J. Dupont",
@@ -140,6 +150,7 @@ def test_record_practice_decision_rejects_a_documentary_source() -> None:
             entry=_UNRESOLVED_ENTRY,
             option_retained="Contact frottant",
             justification="x",
+            validity_domain=_VALIDITY_DOMAIN,
             sources=(_DOC_SOURCE,),  # type: ignore[arg-type]
             discarded_variants=_DISCARDED,
             decided_by="J. Dupont",
@@ -155,8 +166,31 @@ def test_record_practice_decision_has_no_status_parameter() -> None:
 
 def test_record_practice_decision_required_parameters_have_no_default() -> None:
     params = inspect.signature(record_practice_decision).parameters
-    for name in ("sources", "discarded_variants", "decided_by", "decided_at"):
+    for name in (
+        "sources",
+        "discarded_variants",
+        "decided_by",
+        "decided_at",
+        "validity_domain",
+    ):
         assert params[name].default is inspect.Parameter.empty
+
+
+def test_record_practice_decision_rejects_an_empty_validity_domain() -> None:
+    """R1 (lot 17): delegated to `PracticeHypothesisEntry`'s own validator,
+    not re-checked by this function -- same discipline as every other
+    decision field (module docstring)."""
+    with pytest.raises(ValidationError, match="domaine de validité"):
+        record_practice_decision(
+            entry=_UNRESOLVED_ENTRY,
+            option_retained="Contact frottant",
+            justification="x",
+            validity_domain="",
+            sources=(_practice_source(),),
+            discarded_variants=_DISCARDED,
+            decided_by="J. Dupont",
+            decided_at=datetime(2026, 9, 18, 10, 0),
+        )
 
 
 def test_record_practice_decision_first_arbitration_has_empty_history() -> None:
@@ -164,6 +198,7 @@ def test_record_practice_decision_first_arbitration_has_empty_history() -> None:
         entry=_UNRESOLVED_ENTRY,
         option_retained="Contact frottant",
         justification="x",
+        validity_domain=_VALIDITY_DOMAIN,
         sources=(_practice_source(),),
         discarded_variants=_DISCARDED,
         decided_by="J. Dupont",
@@ -174,10 +209,13 @@ def test_record_practice_decision_first_arbitration_has_empty_history() -> None:
 
 
 def test_record_practice_decision_preserves_history_on_re_arbitration() -> None:
+    first_domain = "Valable en situation permanente uniquement."
+    second_domain = "Valable en situation permanente et accidentelle."
     first = record_practice_decision(
         entry=_UNRESOLVED_ENTRY,
         option_retained="Contact frottant",
         justification="Décision initiale",
+        validity_domain=first_domain,
         sources=(_practice_source(18),),
         discarded_variants=_DISCARDED,
         decided_by="J. Dupont",
@@ -188,6 +226,7 @@ def test_record_practice_decision_preserves_history_on_re_arbitration() -> None:
         entry=first,
         option_retained="Ressorts discrets",
         justification="Révision après retour d'expérience",
+        validity_domain=second_domain,
         sources=(_practice_source(20),),
         discarded_variants=_DISCARDED,
         decided_by="M. Martin",
@@ -195,9 +234,11 @@ def test_record_practice_decision_preserves_history_on_re_arbitration() -> None:
     )
 
     assert second.option_retained == "Ressorts discrets"
+    assert second.validity_domain == second_domain
     assert len(second.decision_history) == 1
     assert second.decision_history[0].option_retained == "Contact frottant"
     assert second.decision_history[0].decided_by == "J. Dupont"
+    assert second.decision_history[0].validity_domain == first_domain
 
 
 def test_no_hand_built_shortcut_reaches_a_tranche_practice_entry() -> None:
@@ -210,6 +251,7 @@ def test_no_hand_built_shortcut_reaches_a_tranche_practice_entry() -> None:
             topic=_UNRESOLVED_ENTRY.topic,
             option_retained="Contact frottant",
             justification="x",
+            validity_domain=_VALIDITY_DOMAIN,
             sources=(_practice_source(),),
             status="tranche",
         )
@@ -221,6 +263,7 @@ def test_apply_decision_replaces_matching_entry() -> None:
         entry=_UNRESOLVED_ENTRY,
         option_retained="Contact frottant",
         justification="x",
+        validity_domain=_VALIDITY_DOMAIN,
         sources=(_practice_source(),),
         discarded_variants=_DISCARDED,
         decided_by="J. Dupont",
@@ -241,6 +284,7 @@ def test_apply_decision_rejects_when_entry_not_found() -> None:
         entry=_UNRESOLVED_ENTRY,
         option_retained="Contact frottant",
         justification="x",
+        validity_domain=_VALIDITY_DOMAIN,
         sources=(_practice_source(),),
         discarded_variants=_DISCARDED,
         decided_by="J. Dupont",
@@ -262,6 +306,7 @@ def test_apply_decision_rejects_ambiguous_match() -> None:
         entry=_UNRESOLVED_ENTRY,
         option_retained="Contact frottant",
         justification="x",
+        validity_domain=_VALIDITY_DOMAIN,
         sources=(_practice_source(),),
         discarded_variants=_DISCARDED,
         decided_by="J. Dupont",
@@ -270,6 +315,76 @@ def test_apply_decision_rejects_ambiguous_match() -> None:
 
     with pytest.raises(ValueError, match="ambiguë"):
         apply_decision(sheet, decided)
+
+
+def test_insert_practice_entry_adds_a_new_tranche_entry() -> None:
+    """R2 (lot 17): the path lot 16 was missing for its own "Objet et
+    périmètre du calcul" entry -- a decided point with no `non_tranche`
+    counterpart already in the fiche."""
+    sheet = _sheet((_ESTABLISHED_SIBLING,))
+    new_entry = record_practice_decision(
+        entry=PracticeHypothesisEntry(
+            point_label="0",
+            topic="Objet et périmètre du calcul",
+            status="non_tranche",
+        ),
+        option_retained="Calcul de structure, pas de dimensionnement géotechnique",
+        justification="Cohérent avec la chaîne outillée par ce projet.",
+        validity_domain=_VALIDITY_DOMAIN,
+        sources=(_practice_source(),),
+        discarded_variants=_DISCARDED,
+        decided_by="J. Dupont",
+        decided_at=datetime(2026, 9, 18, 10, 0),
+    )
+
+    updated = insert_practice_entry(sheet, new_entry)
+
+    assert len(updated.entries) == 2
+    assert updated.entries[-1] is new_entry
+    assert len(sheet.entries) == 1
+
+
+def test_insert_practice_entry_rejects_a_non_tranche_entry() -> None:
+    """R2: this path adds a decision, never an open question -- refused by
+    the function itself, since nothing on the model prevents building a
+    structurally valid `non_tranche` entry to pass in."""
+    open_entry = PracticeHypothesisEntry(
+        point_label="0",
+        topic="Objet et périmètre du calcul",
+        status="non_tranche",
+    )
+    sheet = _sheet((_ESTABLISHED_SIBLING,))
+
+    with pytest.raises(ValueError, match="déjà tranchée"):
+        insert_practice_entry(sheet, open_entry)
+
+
+def test_insert_practice_entry_rejects_a_collision_with_an_existing_entry() -> None:
+    sheet = _sheet((_ESTABLISHED_SIBLING, _UNRESOLVED_ENTRY))
+    colliding_decision = record_practice_decision(
+        entry=PracticeHypothesisEntry(
+            point_label=_UNRESOLVED_ENTRY.point_label,
+            topic=_UNRESOLVED_ENTRY.topic,
+            status="non_tranche",
+        ),
+        option_retained="Contact frottant",
+        justification="x",
+        validity_domain=_VALIDITY_DOMAIN,
+        sources=(_practice_source(),),
+        discarded_variants=_DISCARDED,
+        decided_by="J. Dupont",
+        decided_at=datetime(2026, 9, 18, 10, 0),
+    )
+
+    with pytest.raises(ValueError, match="porte déjà"):
+        insert_practice_entry(sheet, colliding_decision)
+
+
+def test_insert_practice_entry_signature_only_accepts_practice_entries() -> None:
+    """The type alone rules out a `CodeAsterHypothesisEntry`, mirroring M2's
+    own discipline for `PracticeHypothesisEntry.sources`."""
+    params = inspect.signature(insert_practice_entry).parameters
+    assert params["decided_entry"].annotation == "PracticeHypothesisEntry"
 
 
 def test_render_decision_sheet_lists_each_unresolved_entry_with_corpus_context() -> (
@@ -313,6 +428,7 @@ def test_render_decision_sheet_ignores_resolved_practice_entries() -> None:
         entry=_UNRESOLVED_ENTRY,
         option_retained="Contact frottant",
         justification="x",
+        validity_domain=_VALIDITY_DOMAIN,
         sources=(_practice_source(),),
         discarded_variants=_DISCARDED,
         decided_by="J. Dupont",

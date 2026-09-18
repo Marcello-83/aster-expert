@@ -12,6 +12,7 @@
       "justification": "Catalogue introspecté, AFFE_MODELE/AFFE/MODELISATION, condition PHENOMENE='MECANIQUE'.",
       "discarded_variants": [],
       "notes": null,
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -37,6 +38,7 @@
       "justification": "U2.02.01 § Introduction et R3.07.03 § Introduction énoncent ce critère.",
       "discarded_variants": [],
       "notes": null,
+      "validity_domain": "Modélisation coque/plaque mince valable pour un rapport épaisseur/longueur caractéristique inférieur à environ 1/10 (U2.02.01 § Introduction, R3.07.03 § Introduction) -- au-delà de ce rapport, ce critère n'est plus établi par ces documents.",
       "nature": "code_aster",
       "sources": [
         {
@@ -74,6 +76,7 @@
       "justification": "U3.12.03 § index et U3.11.01 § Discrétisation documentent respectivement COQUE_3D et les modélisations poutre.",
       "discarded_variants": [],
       "notes": null,
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -111,6 +114,7 @@
       "justification": null,
       "discarded_variants": [],
       "notes": "Section identifiée comme pertinente par search_codeaster_docs mais son contenu n'a pas été extrait via get_document_section dans cette session (seul un extrait de tête de 280 caractères a été vu) -- Bilan 2, point 1 (partiel). Résolu depuis par le lot 8c/14 (get_document_section) : voir docs/development-plan.md.",
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -136,6 +140,7 @@
       "justification": null,
       "discarded_variants": [],
       "notes": "Déduction (aucun document ne le formule pour un écran de soutènement précisément) : un tube métallique + palplanche intercalaire, de faible épaisseur devant sa hauteur et sa longueur, relève a priori du critère d'élancement énoncé par U2.02.01/R3.07.03 pour les coques -- ce qui orienterait vers COQUE_3D/DKT/DST plutôt que vers un massif continu 3D. Une représentation en poutre (répartition par mètre linéaire) est également possible en catalogue (POU_D_T etc.) mais aucun document retourné n'établit de critère de choix coque/poutre spécifique à un écran de soutènement.",
+      "validity_domain": null,
       "nature": "pratique",
       "sources": [],
       "status": "non_tranche"
@@ -148,6 +153,7 @@
       "justification": null,
       "discarded_variants": [],
       "notes": "Recommandation d'ingénieur (non tranchée par la documentation) : le choix entre représentation homogénéisée (une seule loi de plaque équivalente) et représentation distincte des deux profils est une décision de modélisation propre au projet -- aucun des documents retournés ne traite l'homogénéisation d'un combi-wall hétérogène.",
+      "validity_domain": null,
       "nature": "pratique",
       "sources": [],
       "status": "non_tranche"
@@ -160,6 +166,7 @@
       "justification": "Catalogue introspecté, AFFE_MODELE/AFFE/MODELISATION.",
       "discarded_variants": [],
       "notes": null,
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -185,6 +192,7 @@
       "justification": "Notices génériques U3.11.01, U3.11.03, R3.08.02, U2.02.03.",
       "discarded_variants": [],
       "notes": null,
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -246,6 +254,7 @@
       "justification": null,
       "discarded_variants": [],
       "notes": "Ce que la documentation ne tranche pas : les documents câbles trouvés dans le corpus (R7.01.02 « Modélisation des câbles de précontrainte », U2.03.06, DEFI_CABLE_BP, CALC_PRECONT) concernent la précontrainte de béton armé (câbles noyés, mise en tension BPEL/ETCC), pas un tirant d'ancrage géotechnique. Aucun document retourné (profils methode et syntaxe, requêtes « tirant d'ancrage géotechnique, scellement, bulbe », « tirant ancrage rideau de palplanches écran de soutènement butonnage étaiement ») ne traite spécifiquement ce cas. Recommandation d'ingénieur : le choix entre BARRE (traction seule), DIS_T (raideur axiale ponctuelle simplifiée) ou une modélisation câble, ainsi que la représentation ou non du bulbe de scellement, reste à documenter par l'ingénieur.",
+      "validity_domain": null,
       "nature": "pratique",
       "sources": [],
       "status": "non_tranche"
@@ -258,6 +267,7 @@
       "justification": "Catalogue introspecté, AFFE_MODELE.",
       "discarded_variants": [],
       "notes": null,
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -285,6 +295,7 @@
       "justification": "R3.03.06 décrit la liaison coque-poutre pour raccorder deux maillages non coïncidents ; R3.03.03 nomme explicitement AFFE_CHAR_MECA/LIAISON_ELEM avec OPTION='3D_POU'/'2D_POU' pour ce raccord ; get_command_schema confirme COQ_POU parmi les valeurs catalogue de LIAISON_ELEM/OPTION et ses mots-clés enfants.",
       "discarded_variants": [],
       "notes": null,
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -333,6 +344,7 @@
       "justification": null,
       "discarded_variants": [],
       "notes": "Déduction : si les maillages partagent des nœuds coïncidents en pied de couronnement, une liaison cinématique de type LIAISON_SOLIDE sur nœuds confondus est une alternative catalogue à LIAISON_ELEM(OPTION='COQ_POU') -- mais ce choix n'est pas discuté par R3.03.06/R3.03.03, qui documentent spécifiquement le raccord par méthode variationnelle faible entre maillages non coïncidents. Le catalogue AFFE_CHAR_MECA propose aussi, en mots-clés facteurs indépendants, LIAISON_MAIL, LIAISON_DDL, LIAISON_UNIF, sans qu'aucun document ne les mette en regard du cas coque-poutre spécifique. Recommandation d'ingénieur : le choix dépend du maillage retenu -- non tranché par la documentation indexée.",
+      "validity_domain": null,
       "nature": "pratique",
       "sources": [],
       "status": "non_tranche"
@@ -345,6 +357,7 @@
       "justification": "Catalogue AFFE_MODELE ; U2.03.09 confirme que le choix du modèle de sol dépend du type d'analyse à mener.",
       "discarded_variants": [],
       "notes": "Le contenu détaillé de U2.03.09 au-delà de cette phrase d'ouverture n'a pas été extrait dans cette session.",
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -382,6 +395,7 @@
       "justification": "U2.04.04 § Appariement l'indique explicitement.",
       "discarded_variants": [],
       "notes": "U2.04.04 renvoie en bibliographie (§ Bibliographie) à R5.03.50 (formulation discrète du contact-frottement) et R5.03.52 (éléments de contact dérivés d'une formulation hybride continue) ; ces deux documents n'ont pas été lus directement dans cette session.",
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -407,6 +421,7 @@
       "justification": "get_command_schema (STAT_NON_LINE/COMPORTEMENT.RELATION) liste ces lois ; R7.01.25 documente les éléments de joint pour les joints de barrage.",
       "discarded_variants": [],
       "notes": "Déduction : le corpus établit trois familles catalogue distinctes pour cette interaction (contact-frottement surfacique, ressorts discrets, éléments de joint), sans qu'aucun document ne les compare entre elles pour le cas spécifique d'un écran de soutènement -- rapprochement, pas une recommandation méthodologique dédiée. R7.01.25 (lu intégralement au lot 14b via get_document_section) décrit des lois surfaciques de rupture/frottement dédiées aux joints de barrages (béton/rocher ou entre plots) -- ni écrite ni exclue explicitement pour une interface sol-écran.",
+      "validity_domain": "R7.01.25 documente les lois JOINT_MECA_FROT/RUPT/ENDO pour les joints de barrages (interfaces béton/rocher ou entre plots) ; leur applicabilité à une interface sol-écran n'est ni confirmée ni exclue par ce document.",
       "nature": "code_aster",
       "sources": [
         {
@@ -444,6 +459,7 @@
       "justification": null,
       "discarded_variants": [],
       "notes": "Aucune comparaison documentée entre ces trois familles catalogue pour une interface sol-écran spécifiquement. Cherché sous methode (« butée des terres, contact frottement, interface sol-écran »). Recommandation d'ingénieur : le choix reste à motiver et documenter séparément.",
+      "validity_domain": null,
       "nature": "pratique",
       "sources": [],
       "status": "non_tranche"
@@ -456,6 +472,7 @@
       "justification": "get_command_schema confirme cette différence entre les deux variantes de la commande.",
       "discarded_variants": [],
       "notes": null,
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -491,6 +508,7 @@
       "justification": "U4.84.32 § But le formule explicitement.",
       "discarded_variants": [],
       "notes": null,
+      "validity_domain": "Valide uniquement pour produire une charge sismique en entrée de DYNA_VIBRA/DYNA_NON_LINE aux frontières d'un domaine de sol 2D/3D (U4.84.32 § But) ; hors de ce domaine -- notamment pour une poussée statique des terres ou du niveau d'eau -- cette commande n'est pas l'outil approprié.",
       "nature": "code_aster",
       "sources": [
         {
@@ -516,6 +534,7 @@
       "justification": null,
       "discarded_variants": [],
       "notes": "Aucun document retourné (profils syntaxe et methode, requêtes « poussée des terres », « pression au repos K0 », « niveau d'eau », « pression hydrostatique répartie ») n'établit de commande ou de méthode Code_Aster dédiée à ce calcul -- donnée d'entrée à établir hors Code_Aster. Déduction : le mot-clé DDL_IMPO de AFFE_CHAR_MECA comporte un opérande PRES (parmi PRE1, PRE2), suggérant une voie d'imposition de pression interstitielle en modélisation poromécanique (*_HM), distincte de PRES_REP -- non confirmée par un document méthodologique pour ce cas. Recommandation d'ingénieur : distinguer explicitement le chargement mécanique de poussée (PRES_REP, fonction de Z) du couplage hydromécanique éventuel (DDL_IMPO/PRES sur *_HM) ; ce choix engage le type d'analyse (point 6) et n'est pas arbitré par la documentation trouvée.",
+      "validity_domain": null,
       "nature": "pratique",
       "sources": [],
       "status": "non_tranche"
@@ -528,6 +547,7 @@
       "justification": "U4.51.03 § But, U4.53.01 § But, U4.51.11 § But.",
       "discarded_variants": [],
       "notes": null,
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -577,6 +597,7 @@
       "justification": "get_command_schema (STAT_NON_LINE/COMPORTEMENT.RELATION) liste ces lois ; chaque notice R confirme le domaine des lois principales de sol/roche.",
       "discarded_variants": [],
       "notes": "R7.01.23 (loi cyclique HUJEUX) : existence confirmée par recherche, ni section ni chemin capturés, contenu du domaine de validité non extrait dans cette session. R7.01.28/R7.01.14/R7.01.18 : document et section connus, chemin source non capturé. Déduction : la présence, dans la même liste RELATION, de lois de sol (Mohr-Coulomb, Drucker-Prager, Cam-Clay/MCC, Hujeux) et de lois de roche (Hoek-Brown, Laigle) permet de distinguer, pour un sol stratifié hétérogène, un choix de loi par couche plutôt qu'une loi unique -- mais aucun document retourné ne formule cette recommandation de stratification explicitement pour un cas de quai.",
+      "validity_domain": "R7.01.28 : la formulation de Mohr-Coulomb en contraintes principales n'est valable que sous l'hypothèse d'une isotropie du matériau. R7.01.48 : le modèle Cam-Clay modifié (MCC) représente la phénoménologie de sols granulaires sous chargements monotones et drainés -- domaine de validité des autres lois de cette entrée (Drucker-Prager, Hoek-Brown, Hujeux) non précisé par les extraits lus dans cette session.",
       "nature": "code_aster",
       "sources": [
         {
@@ -672,6 +693,7 @@
       "justification": null,
       "discarded_variants": [],
       "notes": "Aucun document du corpus retourné ne traite spécifiquement ce phasage pour un ouvrage de quai (U2.04.06, trouvé sous ce thème, concerne le creusement de tunnel, non transposable tel quel). Le rattachement de ce phasage à STAT_NON_LINE (incréments de temps représentant les étapes) est une déduction d'ingénierie standard, non une lecture documentaire directe pour ce cas.",
+      "validity_domain": null,
       "nature": "pratique",
       "sources": [],
       "status": "non_tranche"
@@ -684,6 +706,7 @@
       "justification": "get_command_schema ; U2.04.02 rappelle l'importance générale des chargements/CL, non spécifique à un modèle géotechnique.",
       "discarded_variants": [],
       "notes": null,
+      "validity_domain": null,
       "nature": "code_aster",
       "sources": [
         {
@@ -720,6 +743,7 @@
       "justification": null,
       "discarded_variants": [],
       "notes": "Aucun document retourné (profils methode puis syntaxe, requêtes « bords latéraux », « symétrie », « fond de fouille », « distance des limites du modèle ») n'établit de critère Code_Aster pour dimensionner ces limites. U2.04.06 § Avant_de_s_attaquer_au_ficher_de_commande_Code_Aster_ existe mais son objet (creusement de tunnel) diffère du cas présent et son contenu détaillé n'a pas été extrait dans cette session -- non utilisable comme fondement ici. Recommandation d'ingénieur : reste un choix d'ingénieur à motiver et documenter séparément.",
+      "validity_domain": null,
       "nature": "pratique",
       "sources": [],
       "status": "non_tranche"

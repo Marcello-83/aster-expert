@@ -1,4 +1,4 @@
-"""Human arbitration channel for `pratique` entries (lot 15).
+"""Human arbitration channel for `pratique` entries (lot 15, amended lot 17).
 
 Lot 14b gave an LLM drafting session exactly two write paths
 (`aster_expert.agent.drafting.record_code_aster_finding`/
@@ -16,26 +16,36 @@ project could record an answer.
 
 This module is that path, and mirrors `drafting.py`'s own discipline: one
 function builds the decision (`record_practice_decision`), delegating
-every safety property -- a source, an option, a justification, at least
-one discarded variant, who decided and when -- to
+every safety property -- a source, an option, a justification, a domain of
+validity, at least one discarded variant, who decided and when -- to
 `PracticeHypothesisEntry`'s own validators (`aster_expert.agent.hypotheses`,
-P1/P2) rather than re-checking them here, so hand-building the entry
+P1/P2, R1) rather than re-checking them here, so hand-building the entry
 directly is held to the exact same rules; this function's own signature
 adds nothing beyond making the correct call convenient. A second function,
 `apply_decision`, is the only way a decided entry is folded back into a
 `HypothesesSheet`: it replaces exactly the entry it decided, and refuses
 to run when it cannot find that entry unambiguously -- never inserting a
-new question. A third, `render_decision_sheet`, turns a sheet's unresolved
-`pratique` entries into a document an engineer can arbitrate from, built
-entirely out of what the sheet's own `code_aster` entries and the entry's
-own search notes already say. It never adds an opinion of its own
-(CLAUDE.md, principe 6 : distinguer faits, déductions, recommandations --
-this document carries no recommendation at all).
+new question. A third, `insert_practice_entry` (R2, lot 17), is the
+opposite operation: it folds in a decided entry for a point that has no
+`non_tranche` counterpart to replace at all -- the gap lot 16 hit for its
+"Objet et périmètre du calcul" entry, which had no place in the fiche to
+land (`docs/development-plan.md`, clôture lot 16, Q2). A fourth,
+`render_decision_sheet`, turns a sheet's unresolved `pratique` entries
+into a document an engineer can arbitrate from, built entirely out of
+what the sheet's own `code_aster` entries and the entry's own search
+notes already say. It never adds an opinion of its own (CLAUDE.md,
+principe 6 : distinguer faits, déductions, recommandations -- this
+document carries no recommendation at all).
 
 No arbitration in this module is ever invented by this project itself:
 this lot ships the channel, never an answer travelling through it. The
 combi-wall fiche stays `is_ready_for_generation=False` at the end of this
-lot (see `docs/development-plan.md`, clôture lot 15).
+lot (see `docs/development-plan.md`, clôture lot 15) -- lot 16's real
+attempt to use this channel diagnosed the two gaps closed here (R1's
+`validity_domain`, R2's `insert_practice_entry`) but still recorded no
+decision of its own; this lot closes the channel's gaps, not lot 16's
+nine pending decisions, which are resubmitted separately, against the
+field names this module now actually exposes.
 """
 
 from __future__ import annotations
@@ -59,12 +69,13 @@ def record_practice_decision(
     entry: PracticeHypothesisEntry,
     option_retained: str,
     justification: str,
+    validity_domain: str,
     sources: tuple[PracticeSource, ...],
     discarded_variants: tuple[DiscardedVariant, ...],
     decided_by: str,
     decided_at: datetime,
 ) -> PracticeHypothesisEntry:
-    """Arbitrate one `pratique` entry (P1).
+    """Arbitrate one `pratique` entry (P1; `validity_domain`, R1 lot 17).
 
     The only function in this project that can move a `pratique` entry to
     `status="tranche"`. `PracticeHypothesisEntry.sources` accepts nothing
@@ -72,18 +83,22 @@ def record_practice_decision(
     `CatalogueSource` is not a member of that field's type at all (M2, lot
     14), so a documentary Code_Aster source stays structurally impossible
     here, exactly as at lot 14. `sources`, `discarded_variants`,
-    `decided_by` and `decided_at` are required keyword parameters with no
-    default: this function cannot be called into producing a decision
-    missing any of them, and `PracticeHypothesisEntry`'s own validator
-    (P1/P2) rejects the result again regardless -- the guarantee is never
-    this function's alone to keep.
+    `decided_by`, `decided_at` and `validity_domain` are required keyword
+    parameters with no default: this function cannot be called into
+    producing a decision missing any of them, and `PracticeHypothesisEntry`'s
+    own validator (P1/P2, R1) rejects the result again regardless -- the
+    guarantee is never this function's alone to keep. `validity_domain`
+    states the known limits of this decision (R1) -- distinct from
+    `justification` (why the option was retained): lot 16's own diagnostic
+    is the reason the two are kept apart rather than merged into one field
+    (`docs/development-plan.md`, clôture lot 16, Q1).
 
     `entry` names the question being decided; its `topic`/`point_label`/
     `options_considered`/`notes` carry over unchanged, only the decision
     itself is new. If `entry` was already `tranche` (a re-arbitration), its
-    current decision is preserved as a `PriorDecision` rather than
-    discarded (P2) -- appended to `decision_history`, never edited in
-    place.
+    current decision -- including its `validity_domain` -- is preserved as
+    a `PriorDecision` rather than discarded (P2), appended to
+    `decision_history`, never edited in place.
     """
     history = entry.decision_history
     if (
@@ -92,11 +107,13 @@ def record_practice_decision(
         and entry.decided_at is not None
         and entry.option_retained is not None
         and entry.justification is not None
+        and entry.validity_domain is not None
     ):
         history = history + (
             PriorDecision(
                 option_retained=entry.option_retained,
                 justification=entry.justification,
+                validity_domain=entry.validity_domain,
                 sources=entry.sources,
                 discarded_variants=entry.discarded_variants,
                 decided_by=entry.decided_by,
@@ -110,6 +127,7 @@ def record_practice_decision(
         notes=entry.notes,
         option_retained=option_retained,
         justification=justification,
+        validity_domain=validity_domain,
         sources=sources,
         discarded_variants=discarded_variants,
         status="tranche",
@@ -156,6 +174,56 @@ def apply_decision(
     entries = list(sheet.entries)
     entries[matches[0]] = decided_entry
     return sheet.model_copy(update={"entries": tuple(entries)})
+
+
+def insert_practice_entry(
+    sheet: HypothesesSheet, decided_entry: PracticeHypothesisEntry
+) -> HypothesesSheet:
+    """Add `decided_entry` to `sheet` as a brand-new entry (R2, lot 17).
+
+    The path `apply_decision` deliberately does not provide: `apply_decision`
+    only ever replaces an entry the fiche already carries as `non_tranche`,
+    and lot 16 hit a real question with no `non_tranche` counterpart to
+    replace at all (its own "Objet et périmètre du calcul", never anticipated
+    when the fiche was first drafted -- `docs/development-plan.md`, clôture
+    lot 16, Q2). This function is that missing path, held to its own,
+    narrower set of guarantees rather than reusing `apply_decision`'s:
+
+    - `decided_entry`'s type is `PracticeHypothesisEntry`, never the
+      `HypothesisEntry` union -- a `CodeAsterHypothesisEntry` is not a
+      member of this parameter's type at all, so inserting one this way is
+      structurally impossible, mirroring M2's own discipline for `sources`.
+    - `decided_entry.status` must be `"tranche"`: an entry not yet decided
+      has no business entering a fiche through an *insertion* path, which
+      by definition adds no `non_tranche` counterpart it could later be
+      arbitrated against.
+    - No existing `pratique` entry may already share `decided_entry`'s
+      `(point_label, topic)` -- symmetric with `apply_decision`'s own
+      ambiguity guard, refused rather than silently duplicated.
+    """
+    if decided_entry.status != "tranche":
+        message = (
+            "insert_practice_entry n'accepte qu'une entrée pratique déjà "
+            f"tranchée (status={decided_entry.status!r} refusé) -- ce chemin "
+            "ajoute une décision, jamais une question ouverte"
+        )
+        raise ValueError(message)
+    collisions = [
+        e
+        for e in sheet.entries
+        if e.nature == "pratique"
+        and e.point_label == decided_entry.point_label
+        and e.topic == decided_entry.topic
+    ]
+    if collisions:
+        message = (
+            "une entrée pratique porte déjà "
+            f"(point_label={decided_entry.point_label!r}, "
+            f"topic={decided_entry.topic!r}) -- insert_practice_entry ne "
+            "remplace jamais une entrée existante, voir apply_decision"
+        )
+        raise ValueError(message)
+    return sheet.model_copy(update={"entries": sheet.entries + (decided_entry,)})
 
 
 def _format_source_reference(source: DocumentarySource | CatalogueSource) -> str:
@@ -245,6 +313,7 @@ def render_decision_sheet(sheet: HypothesesSheet) -> str:
 
 __all__: list[str] = [
     "apply_decision",
+    "insert_practice_entry",
     "record_practice_decision",
     "render_decision_sheet",
 ]

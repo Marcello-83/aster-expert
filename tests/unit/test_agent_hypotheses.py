@@ -271,6 +271,62 @@ def test_sheet_blocks_on_unresolved_group_naming_even_with_all_entries_resolved(
     assert len(sheet.unresolved_group_names()) == 1
 
 
+def test_sheet_blocks_on_empty_group_naming_even_with_all_entries_resolved() -> None:
+    """R3 (lot 17): a `group_naming` section never even started is not the
+    same state as one whose every entry is `tranche` -- `unresolved_group_
+    names()` cannot see the difference (a tuple with zero elements has none
+    to list either way), so `generation_blockers` must name it explicitly."""
+    sheet = HypothesesSheet(
+        project_name="Paroi moulée -- essai",
+        structure_description="Écran de soutènement ancré",
+        created_at=datetime(2026, 9, 18),
+        entries=(
+            CodeAsterHypothesisEntry(
+                topic="Élément de coque retenu",
+                option_retained="DKT",
+                justification="structure mince",
+                sources=(_DOC_SOURCE,),
+                status="tranche",
+            ),
+        ),
+        group_naming=(),
+    )
+
+    assert sheet.unresolved_group_names() == ()
+    assert sheet.is_ready_for_generation is False
+    blockers = sheet.generation_blockers()
+    assert len(blockers) == 1
+    assert "aucune convention de nommage de groupe" in blockers[0]
+
+
+def test_generation_blockers_is_empty_when_the_sheet_is_ready() -> None:
+    sheet = HypothesesSheet(
+        project_name="Paroi moulée -- essai",
+        structure_description="Écran de soutènement ancré",
+        created_at=datetime(2026, 9, 18),
+        entries=(
+            CodeAsterHypothesisEntry(
+                topic="Élément de coque retenu",
+                option_retained="DKT",
+                justification="structure mince",
+                sources=(_DOC_SOURCE,),
+                status="tranche",
+            ),
+        ),
+        group_naming=(
+            MeshGroupNaming(
+                group_name="PAROI_AV",
+                kind="maille",
+                description="Paroi moulée, face amont",
+                status="tranche",
+            ),
+        ),
+    )
+
+    assert sheet.generation_blockers() == ()
+    assert sheet.is_ready_for_generation is True
+
+
 def test_practice_source_date_is_a_real_date_type() -> None:
     source = PracticeSource(
         origin="decision_ingenieur",
@@ -360,6 +416,12 @@ _PRACTICE_DISCARDED = (
 )
 
 
+_VALIDITY_DOMAIN = (
+    "Valable pour un contact permanent, non cyclique -- non validé pour un "
+    "chargement sismique."
+)
+
+
 def test_practice_entry_tranche_requires_decided_by_and_decided_at() -> None:
     """P1/P2 (lot 15): a human arbitration is not represented without
     knowing who decided and when -- the model rejects it regardless of
@@ -369,6 +431,7 @@ def test_practice_entry_tranche_requires_decided_by_and_decided_at() -> None:
             topic="Interface sol-écran",
             option_retained="Contact frottant",
             justification="Décision du bureau d'études",
+            validity_domain=_VALIDITY_DOMAIN,
             sources=(_PRACTICE_SOURCE,),
             discarded_variants=_PRACTICE_DISCARDED,
             status="tranche",
@@ -383,10 +446,56 @@ def test_practice_entry_tranche_requires_discarded_variants() -> None:
             topic="Interface sol-écran",
             option_retained="Contact frottant",
             justification="Décision du bureau d'études",
+            validity_domain=_VALIDITY_DOMAIN,
             sources=(_PRACTICE_SOURCE,),
             status="tranche",
             decided_by="J. Dupont",
             decided_at=datetime(2026, 9, 18, 10, 0),
+        )
+
+
+def test_practice_entry_tranche_requires_a_validity_domain() -> None:
+    """R1 (lot 17): a decision without its known limits stated is refused,
+    exactly like one missing a justification -- the gap lot 16 hit trying
+    to record a real arbitration."""
+    with pytest.raises(ValidationError, match="domaine de validité"):
+        PracticeHypothesisEntry(
+            topic="Interface sol-écran",
+            option_retained="Contact frottant",
+            justification="Décision du bureau d'études",
+            sources=(_PRACTICE_SOURCE,),
+            discarded_variants=_PRACTICE_DISCARDED,
+            status="tranche",
+            decided_by="J. Dupont",
+            decided_at=datetime(2026, 9, 18, 10, 0),
+        )
+
+
+def test_practice_entry_tranche_rejects_a_blank_validity_domain() -> None:
+    """R1: whitespace-only does not count as stated, same discipline as
+    `option_retained`/`justification`."""
+    with pytest.raises(ValidationError, match="domaine de validité"):
+        PracticeHypothesisEntry(
+            topic="Interface sol-écran",
+            option_retained="Contact frottant",
+            justification="Décision du bureau d'études",
+            validity_domain="   ",
+            sources=(_PRACTICE_SOURCE,),
+            discarded_variants=_PRACTICE_DISCARDED,
+            status="tranche",
+            decided_by="J. Dupont",
+            decided_at=datetime(2026, 9, 18, 10, 0),
+        )
+
+
+def test_practice_entry_non_tranche_rejects_a_validity_domain() -> None:
+    """R1: symmetric with `sources`/`option_retained` -- nothing has been
+    decided, so there is no domain to bound yet."""
+    with pytest.raises(ValidationError, match="ne porte aucun domaine de validité"):
+        PracticeHypothesisEntry(
+            topic="Interface sol-écran",
+            validity_domain=_VALIDITY_DOMAIN,
+            status="non_tranche",
         )
 
 
@@ -427,6 +536,7 @@ def test_practice_entry_tranche_with_full_arbitration_is_valid() -> None:
         topic="Interface sol-écran",
         option_retained="Contact frottant",
         justification="Décision du bureau d'études, cohérente avec les précédents",
+        validity_domain=_VALIDITY_DOMAIN,
         sources=(_PRACTICE_SOURCE,),
         discarded_variants=_PRACTICE_DISCARDED,
         status="tranche",
@@ -436,7 +546,33 @@ def test_practice_entry_tranche_with_full_arbitration_is_valid() -> None:
 
     assert entry.status == "tranche"
     assert entry.decided_by == "J. Dupont"
+    assert entry.validity_domain == _VALIDITY_DOMAIN
     assert entry.decision_history == ()
+
+
+def test_code_aster_entry_validity_domain_is_optional_regardless_of_status() -> None:
+    """R1: unlike a practice entry, a code_aster entry's validity_domain is
+    never required, whatever `status` is -- the corpus states one for some
+    facts and not for others, and that must stay representable."""
+    non_tranche = CodeAsterHypothesisEntry(
+        topic="x",
+        sources=(DocumentarySource(**{**_DOC_SOURCE.model_dump(), "excerpt": None}),),
+        status="non_tranche",
+    )
+    tranche = CodeAsterHypothesisEntry(
+        topic="Critère d'élancement",
+        option_retained="DKT",
+        justification="structure mince, h/L < 1/10",
+        validity_domain="Valable pour h/L < 1/10 (coques minces) -- U2.02.01.",
+        sources=(_DOC_SOURCE,),
+        status="tranche",
+    )
+
+    assert non_tranche.validity_domain is None
+    assert (
+        tranche.validity_domain
+        == "Valable pour h/L < 1/10 (coques minces) -- U2.02.01."
+    )
 
 
 def test_practice_entry_non_tranche_rejects_decided_by() -> None:
@@ -457,6 +593,7 @@ def test_practice_entry_can_carry_a_decision_history() -> None:
         topic="Interface sol-écran",
         option_retained="Ressorts discrets",
         justification="Nouvelle décision après revue",
+        validity_domain=_VALIDITY_DOMAIN,
         sources=(_PRACTICE_SOURCE,),
         discarded_variants=_PRACTICE_DISCARDED,
         status="tranche",
@@ -466,6 +603,7 @@ def test_practice_entry_can_carry_a_decision_history() -> None:
             PriorDecision(
                 option_retained="Contact frottant",
                 justification="Décision du bureau d'études",
+                validity_domain=_VALIDITY_DOMAIN,
                 sources=(_PRACTICE_SOURCE,),
                 discarded_variants=_PRACTICE_DISCARDED,
                 decided_by="J. Dupont",
@@ -484,8 +622,22 @@ def test_prior_decision_requires_decided_by_and_decided_at() -> None:
         PriorDecision(
             option_retained="Contact frottant",
             justification="Décision du bureau d'études",
+            validity_domain=_VALIDITY_DOMAIN,
             sources=(_PRACTICE_SOURCE,),
             decided_by="J. Dupont",
+        )  # type: ignore[call-arg]
+
+
+def test_prior_decision_requires_a_validity_domain() -> None:
+    """R1 (lot 17): a superseded decision's own limits are as much part of
+    the historical record as the option it retained."""
+    with pytest.raises(ValidationError):
+        PriorDecision(
+            option_retained="Contact frottant",
+            justification="Décision du bureau d'études",
+            sources=(_PRACTICE_SOURCE,),
+            decided_by="J. Dupont",
+            decided_at=datetime(2026, 9, 18, 10, 0),
         )  # type: ignore[call-arg]
 
 
