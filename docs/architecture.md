@@ -144,6 +144,24 @@ c. **Retenu.** Reproduire la résolution de préfixe du script `run_aster`
    `numpy` réussissent alors, sans shell interactif ni avertissement de
    terminal.
 
+   **Complément `LD_LIBRARY_PATH` (lot 11, exécution encadrée).** Les lots
+   2/4/10 n'importent jamais `libaster` (l'introspection du catalogue et
+   `checkCommandSyntax` sont du Python pur plus `numpy`) : l'écart ci-dessus
+   ne portait donc que sur `PYTHONPATH`. Une exécution réelle importe
+   `libaster` (`code_aster.Utilities.ExecutionParameter`), et ce chemin a
+   échoué en session avec `ImportError: libmed.so.11: cannot open shared
+   object file` — `profile.sh` seul règle `LD_LIBRARY_PATH` pour les
+   bibliothèques embarquées par l'installation Aster elle-même, jamais pour
+   les dépendances tierces que l'emballage Spack de cette image fournit à
+   part (même famille d'écart que `numpy` ci-dessus). Confirmé par
+   localisation directe : `libmed.so.11` ne vit nulle part sous le préfixe
+   Aster, uniquement sous la vue Spack déjà résolue (`$VIEW/lib`). Le
+   mécanisme retenu exporte donc aussi `LD_LIBRARY_PATH` depuis cette même
+   vue avant de sourcer `profile.sh` (qui l'étend plutôt que l'écrase,
+   d'après la même lecture nounset-unsafe déjà notée ci-dessus) —
+   `aster_expert.execution.container_env.build_environment_setup_script`,
+   partagé par tous les appelants, jamais dupliqué par lot.
+
 **Résolution de version.** La version cible n'est jamais le tag `stable` : il
 est mobile côté registre et peut diverger de l'image locale du même nom
 (constaté en session : `docker images` renvoie `simvia/code_aster:stable`
@@ -195,7 +213,7 @@ en reproduisant le motif de montage de `cave` mais restreint à un répertoire
 dédié (voir ADR-006) — jamais la racine du dépôt ni `$HOME`.
 
 `run_aster` demeure la voie d'exécution effective d'un fichier `.export` ou
-`.comm` (lot 12). L'introspection du catalogue (lot 4) n'a pas besoin de
+`.comm` (lot 11). L'introspection du catalogue (lot 4) n'a pas besoin de
 passer par `run_aster` lui-même : un `python3` correctement configuré
 (ADR-002) suffit, et évite l'appareillage de job complet de `run_aster`
 (répertoire `proc.N`, restauration de base, relance MPI) — constaté en
@@ -203,6 +221,12 @@ session lors d'un essai infructueux de `run_aster --no-comm script.py` sur un
 script exécuté sans configuration additionnelle : l'échec (`No module named
 mpi4py`) venait de l'interpréteur Spack brut, qui n'a pas la vue Spack
 complète tant qu'elle n'est pas ajoutée explicitement au `PYTHONPATH` (ADR-002).
+Le répertoire `proc.N` anticipé ici s'est confirmé au lot 11 : l'image
+`simvia/code_aster:17.4.0` se déclare "parallel" (`run_aster.config.CFG`)
+même pour une exécution à un seul processus, donc `RunAster.execute` imbrique
+systématiquement la sortie sous `<répertoire de travail>/proc.0/` — jamais à
+la racine du répertoire monté. `aster_expert.execution.execute` en tient
+compte pour localiser le `.mess`, jamais en supposant un chemin fixe.
 
 Un analyseur `.mess` propre au projet n'est écrit que pour ce que ces modules
 ne couvrent pas — typiquement le relevé structuré des alarmes, des durées par

@@ -2447,17 +2447,19 @@ suivre sur l'échantillon de 400 seul ; le dénombrement précis d'erreurs
 résiduelles rares exige soit un fichier ciblé connu (comme la liste de 29
 fichiers de ce lot), soit la passe complète.
 
-## Lot 11 — Hook de validation
+## Lot 11 — Exécution encadrée
 
-Hook `PostToolUse` déclenchant `aster-expert validate` après modification d'un
-`.comm`, renvoyant les erreurs dans le contexte. Second contrôle refusant une
-déclaration de fin de tâche si la version est inconnue, si le fichier contient
-`...`, ou si des alarmes n'ont pas été signalées.
-
-Critères de sortie : hook testé sur modification réelle, comportement en échec
-vérifié.
-
-## Lot 12 — Exécution encadrée
+**Renumérotation, consignée ici plutôt que devinée en silence.** Ce lot
+portait le numéro 12 dans toutes les versions antérieures de ce plan (le
+11 nommait le hook de validation). L'instruction de session qui a ouvert ce
+lot l'a explicitement rouvert sous le nom « lot 11 » ; plutôt que de laisser
+le nom de session et la numérotation du plan diverger silencieusement
+(`CLAUDE.md`, principe 4 : toute donnée conserve sa source), ce plan est
+renuméroté en conséquence : l'exécution encadrée devient le lot 11, le
+dépouillement `.mess` (ancien lot 13) devient le lot 12, et le hook de
+validation (ancien lot 11) est différé au lot 13 — reporté, jamais
+abandonné : rien n'indique qu'il ne reste pas nécessaire, seulement qu'il
+n'a pas été demandé dans cet ordre.
 
 `aster-expert run`, encapsulation de `run_aster` : répertoire de travail dédié,
 limites de temps et de mémoire, refus d'exécuter hors des répertoires
@@ -2467,7 +2469,140 @@ Critères de sortie : exécution réussie d'un cas test officiel jusqu'à `FIN`,
 comportement correct en dépassement de temps, aucun effet de bord hors du
 répertoire de travail.
 
-## Lot 13 — Dépouillement `.mess`
+**Clôture du lot 11.**
+
+**O1 — Encapsulation, pas réécriture.** `scripts/run_comm.py`, exécuté par le
+Python d'Aster, encapsule exactement deux points d'entrée officiels, jamais
+recopiés ni réimplémentés : `run_aster.run_aster_main.main` (la fonction que
+`bin/run_aster` lui-même appelle) et `run_aster.status.Status.load` (lu
+depuis le `--status-file` que `main` écrit déjà). Aucun analyseur de `.mess`
+propre au projet dans ce lot : `docs/metadata.md` §5 est amendé en
+conséquence (`alarms`/`errors` structurés restent hors périmètre, reportés
+au lot 12).
+
+**Mécanisme d'entrée, une exception étroite documentée.** Le CLI ne prend
+qu'un `.comm` (O4), mais un cas test officiel a besoin de ses fichiers de
+données (maillage, ...), déclarés par un `.export` frère. Plutôt que
+d'écrire un analyseur du format `.export` (une vraie réimplémentation de
+`run_aster.export.Export`, interdite côté Python du projet — ADR-002),
+`aster_expert.execution.execute._stage_inputs` copie tous les fichiers de
+même racine (`<stem>.*`) dans le répertoire de travail dès qu'un `<stem>.
+export` existe, et confie le `.export` copié à `run_aster` : c'est
+`Export`/`File`, exécutés dans le conteneur, qui décident seuls quel fichier
+sert à quelle unité logique. Sans `.export` frère, le `.comm` est passé
+directement à `run_aster` (son propre mode « fichier direct » documenté :
+« no data or result files are managed by run_aster » — une limite réelle de
+ce mode, pas une lacune de ce projet).
+
+**O2 — Encadrement, vérifié contre le conteneur réel, pas seulement simulé.**
+Répertoire de travail dédié par exécution
+(`config/validation.yaml`, `execution.work_dir_root`, projet-relatif,
+jamais `$HOME` ni la racine du dépôt), montage restreint à ce seul
+répertoire, `--memory`/`--cpus` toujours bornés pour cette commande (jamais
+laissés sans limite comme les autres commandes du projet en l'absence de
+variable d'environnement — `execution.cpus_limit`, ajouté à
+`config/validation.yaml` par ce lot), `--user $(id -u):$(id -g)`,
+`--network=none`. `execution.allowed_roots` est vide par défaut : refus
+explicite de tout fichier tant qu'au moins une racine n'est pas déclarée ;
+ce lot y ajoute `external/codeaster-src/astest`, seule racine vérifiée.
+
+Délai : `--timeout` (CLI) fixe le `--time_limit` transmis à `run_aster`
+lui-même, et le délai externe qui enveloppe l'appel `docker run`
+(`subprocess.run(timeout=...)`) est ce même délai plus une marge fixe (20 s,
+mesurée sur le coût de démarrage d'un conteneur au lot 10c). Un dépassement
+de ce délai externe (`subprocess.TimeoutExpired`) ne se contente jamais de
+tuer le processus `docker run` local : `docker_client.kill_container`
+(`docker kill` puis `docker rm -f`, best-effort, jamais levé) est appelé sur
+un conteneur nommé explicitement (`--name`, ajouté à `run_in_container` par
+ce lot) — vérifié en session par `docker ps` après coup, aucun conteneur
+résiduel. `status` devient alors `interrupted_timeout`, jamais un échec
+muet ni une exception qui remonte jusqu'à l'appelant.
+
+**O3 — Ce qui est rapporté.** `ExecutionReport`
+(`aster_expert/execution/models.py`, `docs/metadata.md` §5 amendé) : statut,
+diagnostic verbatim (`Status.diag`), code de retour, répertoire de travail,
+chemin du `.mess`, fichiers produits, durée, version et digest d'image.
+`status` est une étiquette de ce projet (`DIAG_TO_STATUS`), construite par
+lecture directe du code source de `run_aster.status.StateOptions.name()`
+(jamais en l'exécutant : le Python du projet n'importe jamais `run_aster`,
+même raison que pour `code_aster`) — une chaîne de diagnostic non reconnue
+échoue bruyamment (`ExecutionRunError`), jamais absorbée dans une catégorie
+existante. Une exécution jusqu'à `FIN` avec des alarmes porte
+`completed_with_alarms`, jamais `completed_ok` seul (`CLAUDE.md`, principe
+7). `result_files` est une différence d'inventaire du répertoire de travail
+avant/après (jamais une liste devinée depuis les mots-clés du fichier).
+
+**Constat de clôture, non anticipé par le plan initial de ce lot.**
+`simvia/code_aster:17.4.0` se déclare "parallel" (`run_aster.config.CFG`)
+même pour une exécution à un seul processus : `RunAster.execute` imbrique
+systématiquement la sortie sous `<répertoire de travail>/proc.0/`, jamais à
+la racine du répertoire monté — confirmé en session (le premier essai sur
+`astest/zzzz169a.comm` a échoué avec `mess_path: null` avant correction).
+`aster_expert.execution.execute._find_mess_path` cherche `fort.6` à la
+racine puis récursivement, jamais à un chemin supposé fixe.
+
+**Amendement ADR-002, `LD_LIBRARY_PATH`.** Une exécution réelle importe
+`libaster` (contrairement aux lots 2/4/10, purement Python), et ce chemin a
+échoué en session (`ImportError: libmed.so.11: cannot open shared object
+file`) : `profile.sh` seul ne règle `LD_LIBRARY_PATH` que pour les
+bibliothèques embarquées par l'installation Aster, jamais pour les
+dépendances tierces (`libmed`) que l'emballage Spack de cette image fournit
+à part — même famille d'écart que celui déjà documenté pour `numpy`/
+`PYTHONPATH` au lot 4. `aster_expert.execution.container_env` (partagé par
+tous les lots qui invoquent le conteneur) exporte désormais aussi
+`LD_LIBRARY_PATH` depuis la vue Spack résolue, avant de sourcer
+`profile.sh` — voir `docs/architecture.md`, ADR-002, pour le détail complet.
+
+**Vérification sur cas réels (O5), contre le conteneur réel.**
+
+- Cas test officiel : `astest/zzzz169a.comm` (le même que le diagnostic
+  ponctuel du lot 10c) mené jusqu'à `FIN`, `status: "completed_ok"`,
+  `diag: "OK"` — `DIAGNOSTIC JOB : OK` retrouvé verbatim dans le `.mess`
+  produit, cohérent avec le résultat manuel du lot 10c.
+- Cas mis en échec volontairement (`STAT_NON_LINE(MODELE=MA)` sans les
+  mots-clés obligatoires, jamais versionné, exécuté depuis un fichier
+  temporaire sous `external/codeaster-src/astest/` puis supprimé) :
+  `status: "aborted"`, `diag: "<F>_ABNORMAL_ABORT"`, code de sortie 139
+  (SIGSEGV) — rapporté proprement, code de sortie CLI 1, jamais présenté
+  comme un succès partiel.
+- Dépassement de temps provoqué : le délai `run_aster` lui-même
+  (`--timeout` réduit à 2 s) s'est révélé plus rapide à s'auto-interrompre
+  (SIGKILL interne, ~9 s, `<F>_ABNORMAL_ABORT`) que le délai externe de ce
+  projet ne pouvait le mesurer — un résultat légitime, mais pas celui que
+  ce point de vérification visait. Le mécanisme du délai externe
+  (`subprocess.TimeoutExpired` propre à `aster_expert`, ADR-006) a donc été
+  vérifié séparément, contre le conteneur réel, en réduisant la marge
+  interne à 1 s (`execute_module._TIMEOUT_MARGIN_SECONDS`) : `status:
+  "interrupted_timeout"` après 2,7 s, aucun conteneur résiduel (`docker
+  ps`). Couvert aussi par un test automatisé dédié (`run_in_container`
+  simulé), qui reste la vérification de routine de ce mécanisme.
+- Contrôle hors effet de bord : `git status --short` avant/après chaque
+  exécution ne montre jamais que les fichiers de ce lot lui-même — aucune
+  trace d'exécution hors de `data/processed/runs/` (`.gitignore` déjà en
+  place depuis un lot antérieur), aucun fichier modifié ailleurs dans le
+  dépôt.
+
+**O4 — CLI seulement, MCP explicitement différé.** `aster-expert run
+<fichier.comm> [--version] [--timeout] [--memory-mb]`, seule interface de ce
+lot. Aucun outil MCP d'exécution n'est exposé : un tel outil permettrait à
+une session Claude de lancer des calculs sans intervention humaine, ce qui
+demande un garde-fou dont la forme n'est pas encore tranchée — question
+reportée à un lot dédié, jamais résolue par omission silencieuse.
+
+**NE PAS FAIT (conforme à la consigne).** Aucun dépouillement fin du
+`.mess` (alarmes structurées, durées par commande, indicateurs de
+convergence — lot 12), aucun contrôle physique, aucune génération de
+fichier, aucune exposition MCP.
+
+**Limites connues et points non couverts.** L'exécution multi-fichiers
+(`.export` à plusieurs `.comm`) et le pilotage explicite MPI (`mpi_nbcpu >
+1`) ne sont pas exercés : le CLI ne les paramètre jamais, ils restent au
+comportement par défaut de `run_aster` (1 processus). `write_outside_
+work_dir: false` (`config/validation.yaml`) reste une déclaration de
+politique, garantie par construction (montage unique) plutôt que vérifiée
+par un contrôle actif dans le code.
+
+## Lot 12 — Dépouillement `.mess`
 
 Encapsulation de `run_aster.status` et `run_aster.error_messages`. Complément
 propre au projet uniquement pour ce qui n'est pas couvert : relevé structuré
@@ -2476,6 +2611,16 @@ d'être comblée.
 
 Critères de sortie : rapport conforme à `docs/metadata.md` sur au moins trois
 exécutions réelles de natures différentes, dont une en non-convergence.
+
+## Lot 13 — Hook de validation
+
+Hook `PostToolUse` déclenchant `aster-expert validate` après modification d'un
+`.comm`, renvoyant les erreurs dans le contexte. Second contrôle refusant une
+déclaration de fin de tâche si la version est inconnue, si le fichier contient
+`...`, ou si des alarmes n'ont pas été signalées.
+
+Critères de sortie : hook testé sur modification réelle, comportement en échec
+vérifié.
 
 ---
 
@@ -2771,7 +2916,7 @@ Niveaux D et E. Hors périmètre v1.
 | 10 | lot-10-validation-b | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10b | lot-10b-coverage | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10c | lot-10c-placeholders | fait | (ce lot, voir `git log`) | 2026-09-16 |
-| 11 | | à faire | | |
+| 11 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 12 | | à faire | | |
 | 13 | | à faire | | |
 | 14 | | fait | (ce lot, voir `git log`) | 2026-09-18 |

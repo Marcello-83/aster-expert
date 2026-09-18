@@ -308,3 +308,91 @@ def test_run_in_container_builds_restricted_argv(
     # non-root by default
     user_index = argv.index("--user")
     assert ":" in argv[user_index + 1]
+
+
+def test_run_in_container_names_container_when_given(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    workdir = tmp_path / "work"
+    workdir.mkdir()
+    captured: dict[str, list[str]] = {}
+
+    def fake_run(
+        argv: list[str], **_kwargs: object
+    ) -> subprocess.CompletedProcess[str]:
+        captured["argv"] = argv
+        return _completed(argv, stdout="{}")
+
+    monkeypatch.setattr(subprocess, "run", fake_run)
+
+    docker_client.run_in_container(
+        docker_bin=Path("/usr/bin/docker"),
+        image_ref="simvia/code_aster@sha256:abc",
+        workdir=workdir,
+        command="echo hi",
+        container_name="aster-expert-run-deadbeef",
+    )
+
+    argv = captured["argv"]
+    name_index = argv.index("--name")
+    assert argv[name_index + 1] == "aster-expert-run-deadbeef"
+
+
+def test_run_in_container_omits_name_by_default(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    workdir = tmp_path / "work"
+    workdir.mkdir()
+    captured: dict[str, list[str]] = {}
+
+    def fake_run(
+        argv: list[str], **_kwargs: object
+    ) -> subprocess.CompletedProcess[str]:
+        captured["argv"] = argv
+        return _completed(argv, stdout="{}")
+
+    monkeypatch.setattr(subprocess, "run", fake_run)
+
+    docker_client.run_in_container(
+        docker_bin=Path("/usr/bin/docker"),
+        image_ref="simvia/code_aster@sha256:abc",
+        workdir=workdir,
+        command="echo hi",
+    )
+
+    assert "--name" not in captured["argv"]
+
+
+# --- kill_container -----------------------------------------------------------
+
+
+def test_kill_container_issues_kill_then_rm(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[list[str]] = []
+
+    def fake_run(
+        argv: list[str], **_kwargs: object
+    ) -> subprocess.CompletedProcess[str]:
+        calls.append(argv)
+        return _completed(argv)
+
+    monkeypatch.setattr(subprocess, "run", fake_run)
+
+    docker_client.kill_container(Path("/usr/bin/docker"), "aster-expert-run-deadbeef")
+
+    assert calls == [
+        ["/usr/bin/docker", "kill", "aster-expert-run-deadbeef"],
+        ["/usr/bin/docker", "rm", "-f", "aster-expert-run-deadbeef"],
+    ]
+
+
+def test_kill_container_swallows_errors(monkeypatch: pytest.MonkeyPatch) -> None:
+    def fake_run(
+        argv: list[str], **_kwargs: object
+    ) -> subprocess.CompletedProcess[str]:
+        raise OSError("docker daemon unreachable")
+
+    monkeypatch.setattr(subprocess, "run", fake_run)
+
+    # Must not raise -- the caller has already decided to report a timeout
+    # regardless of whether this best-effort cleanup succeeds.
+    docker_client.kill_container(Path("/usr/bin/docker"), "aster-expert-run-deadbeef")

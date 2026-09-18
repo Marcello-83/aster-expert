@@ -1,8 +1,6 @@
 """Command line entry point.
 
-Every subcommand that is not implemented yet fails loudly and names the batch
-("lot") in which it is scheduled. Nothing here guesses a Code_Aster version or
-an installation path.
+Nothing here guesses a Code_Aster version or an installation path.
 """
 
 from __future__ import annotations
@@ -24,9 +22,11 @@ from aster_expert.catalogue.query import (
     resolve_active_digest,
     resolve_digest_for_aster_version,
 )
+from aster_expert.execution.config import load_execution_config
 from aster_expert.execution.detect import detect_environment, write_detected_section
 from aster_expert.execution.docker_client import find_docker_binary
-from aster_expert.execution.errors import EnvironmentDetectionError
+from aster_expert.execution.errors import EnvironmentDetectionError, ExecutionRunError
+from aster_expert.execution.execute import check_allowed, execute_comm_file
 from aster_expert.execution.models import DetectedEnvironment
 from aster_expert.indexing.bm25_index import (
     build_bm25_index,
@@ -99,7 +99,10 @@ from aster_expert.retrieval.source_priority import (
     soft_reweight_search,
 )
 from aster_expert.validation.errors import ValidationRunError
-from aster_expert.validation.validate import validate_comm_file
+from aster_expert.validation.validate import (
+    resolve_digest_for_version,
+    validate_comm_file,
+)
 
 app = typer.Typer(
     add_completion=False,
@@ -124,12 +127,6 @@ app.add_typer(comm_app, name="comm")
 app.add_typer(eval_app, name="eval")
 app.add_typer(fragments_app, name="fragments")
 app.add_typer(index_app, name="index")
-
-
-def _not_implemented(batch: int, what: str) -> None:
-    """Fail explicitly rather than returning an empty or fabricated result."""
-    typer.echo(f"Non implémenté : {what} (lot {batch}).", err=True)
-    raise typer.Exit(1)
 
 
 @app.callback(invoke_without_command=True)
@@ -1598,9 +1595,83 @@ def validate(
 
 
 @app.command("run")
-def run(comm_path: str) -> None:
-    """Exécuter un fichier de commandes sous contrôle (niveau C)."""
-    _not_implemented(12, f"exécution de {comm_path}")
+def run(
+    comm_path: str,
+    version: str = typer.Option(
+        "",
+        "--version",
+        help=(
+            "Version cible (ex. 17.4.0). À défaut, la dernière détection "
+            "dans config/versions.yaml est utilisée."
+        ),
+    ),
+    timeout: int = typer.Option(
+        0,
+        "--timeout",
+        help=(
+            "Délai maximal en secondes (config/validation.yaml, "
+            "execution.timeout_seconds par défaut)."
+        ),
+    ),
+    memory_mb: int = typer.Option(
+        0,
+        "--memory-mb",
+        help=(
+            "Limite mémoire en Mio (config/validation.yaml, "
+            "execution.memory_mb par défaut)."
+        ),
+    ),
+) -> None:
+    """Exécuter un fichier de commandes sous contrôle, dans le conteneur (niveau C)."""
+    project_root = _project_root()
+    versions_path = project_root / "config" / "versions.yaml"
+    validation_config_path = project_root / "config" / "validation.yaml"
+    catalogue_root = project_root / "data" / "processed" / "catalogue"
+
+    try:
+        exec_config = load_execution_config(validation_config_path)
+        # Checked before resolving a catalogue digest: a file outside the
+        # allowed roots is refused on its own terms (lot 11, O2), never
+        # blocked behind an unrelated "no catalogue extracted yet" error.
+        check_allowed(Path(comm_path), config=exec_config, project_root=project_root)
+        digest, aster_version = resolve_digest_for_version(
+            catalogue_root, version or None, versions_path
+        )
+        docker_bin = find_docker_binary(os.environ.get("ASTER_DOCKER_BIN") or None)
+        report = execute_comm_file(
+            Path(comm_path),
+            project_root=project_root,
+            config=exec_config,
+            docker_bin=docker_bin,
+            image_repository=os.environ.get(
+                "ASTER_IMAGE_REPOSITORY", "simvia/code_aster"
+            ),
+            image_digest=digest,
+            aster_version=aster_version,
+            network=os.environ.get("ASTER_CONTAINER_NETWORK", "none"),
+            timeout_seconds=timeout or None,
+            memory_mb=memory_mb or None,
+        )
+    except (EnvironmentDetectionError, ExecutionRunError, ValidationRunError) as exc:
+        typer.echo(f"Exécution échouée : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+    typer.echo(
+        json.dumps(json.loads(report.model_dump_json()), indent=2, ensure_ascii=False)
+    )
+
+    typer.echo(f"Statut         : {report.status}", err=True)
+    if report.diag:
+        typer.echo(f"Diagnostic     : {report.diag}", err=True)
+    typer.echo(f"Répertoire     : {report.work_dir}", err=True)
+    if report.mess_path:
+        typer.echo(f".mess          : {report.mess_path}", err=True)
+    typer.echo(f"Fichiers produits : {len(report.result_files)}", err=True)
+    if report.duration_s is not None:
+        typer.echo(f"Durée          : {report.duration_s:.1f} s", err=True)
+
+    if report.status not in ("completed_ok", "completed_with_alarms"):
+        raise typer.Exit(1)
 
 
 if __name__ == "__main__":

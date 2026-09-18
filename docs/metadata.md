@@ -639,8 +639,9 @@ Règles :
   statique du catalogue et le comportement effectif, dépendant du chemin
   d'exécution, indécidable par simple lecture du catalogue. Confirmé par
   exécution réelle (`run_aster`, dans le conteneur, hors périmètre
-  d'infrastructure du lot 12 — exécution ponctuelle de diagnostic
-  seulement) d'un cas test officiel portant exactement ce motif
+  d'infrastructure du lot 11 — exécution ponctuelle de diagnostic
+  seulement, cette infrastructure n'existant pas encore à ce stade du
+  projet) d'un cas test officiel portant exactement ce motif
   (`astest/zzzz169a.comm`, `CREA_CHAMP(OPERATION="EXTR", RESULTAT=<résultat
   EXTR_COUPE>)` et `POST_RELEVE_T(ACTION=_F(RESULTAT=<résultat
   EXTR_COUPE>, ...))`) : `DIAGNOSTIC JOB : OK`, tous les `TEST_RESU`/
@@ -731,33 +732,86 @@ Règles :
 
 ## 5. Rapport d'exécution
 
+Structure produite par `aster_expert.execution.execute.execute_comm_file`
+(lot 11), par encapsulation de `run_aster.run_aster_main.main` (le point
+d'entrée officiel de `bin/run_aster`) et `run_aster.status.Status` — jamais
+un `.export`/`.mess` réanalysé par ce projet. Modèle pydantic
+`ExecutionReport` dans `aster_expert/execution/models.py`.
+
 ```json
 {
   "comm_path": "chemin/du/fichier.comm",
-  "aster_version": "18",
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea9...",
   "status": "completed_with_alarms",
+  "diag": "<A>_ALARM",
   "return_code": 0,
   "work_dir": "chemin du répertoire de travail",
   "mess_path": "chemin du .mess",
   "result_files": [],
   "duration_s": 0.0,
-  "alarms": [
-    {
-      "code": "MECANONLINE10_1",
-      "count": 3,
-      "first_line": 1200,
-      "excerpt": "texte exact"
-    }
-  ],
-  "errors": [],
-  "extracted_by": "run_aster.error_messages",
+  "extracted_by": "run_aster.status",
   "executed_at": "2026-01-01T00:00:00+00:00"
 }
 ```
 
-Le champ `extracted_by` trace l'outil ayant produit l'analyse, afin de
-distinguer ce qui vient de `run_aster` de ce qui vient d'un traitement propre au
-projet.
+Règles :
+
+- **Périmètre du lot 11, plus étroit que le schéma initialement esquissé
+  ici (lot 1).** Le brouillon initial de cette section portait déjà
+  `alarms` (liste structurée, par alarme) et `errors`, attribués à
+  `run_aster.error_messages` : ce module n'est encapsulé qu'au lot du
+  dépouillement fin (`docs/development-plan.md`, O1 du lot 11 : « aucun
+  analyseur de sortie propre au projet dans ce lot »). Le lot 11 ne
+  rapporte donc que ce que `run_aster.status` fournit nativement : `status`
+  (une étiquette de ce projet, voir `DIAG_TO_STATUS` ci-dessous) et `diag`
+  (la chaîne verbatim de `Status.diag`) — jamais une liste d'alarmes
+  individuelles, jamais un décompte. `alarms`/`errors` structurés rejoignent
+  ce schéma au lot du dépouillement fin, pas avant.
+- **`status`/`diag`, jamais confondus.** `diag` est la chaîne verbatim que
+  `run_aster.status.StateOptions.name()` produit (`"OK"`, `"<A>_ALARM"`,
+  `"<F>_ABNORMAL_ABORT"`, ...), lue directement depuis le `--status-file`
+  que `run_aster_main.main` écrit lui-même — jamais reconstruite depuis un
+  texte de `.mess` gratté. `status` est l'étiquette de ce projet
+  (`aster_expert.execution.models.DIAG_TO_STATUS`), construite une fois par
+  lecture directe du code source de `StateOptions.name()`, jamais en
+  exécutant cette fonction (le Python du projet n'importe jamais
+  `run_aster`, même raison que pour `code_aster`, ADR-002) : une chaîne de
+  diagnostic non reconnue échoue bruyamment plutôt que d'être absorbée dans
+  une catégorie existante. Une exécution qui atteint `FIN` avec des alarmes
+  porte `status: "completed_with_alarms"`, jamais `"completed_ok"` seul
+  (`CLAUDE.md`, « jamais annoncer... sans erreur... sans mention du
+  niveau »). `interrupted_timeout` et `crashed` sont les deux seuls statuts
+  que `run_aster.status` ne produit jamais lui-même : le premier vient du
+  délai maximal propre à ce projet, enveloppant l'appel `docker run`
+  lui-même (`docs/architecture.md`, ADR-006) ; le second signale que
+  `run_aster_main.main` a levé une exception avant même de construire un
+  `Status` (fichier malformé, échec d'import) — `diag` reste alors `null`
+  dans les deux cas, il n'y a rien à rapporter que ce projet n'ait
+  lui-même établi.
+- **`image_digest`** identifie, par digest — jamais par tag (ADR-002) — le
+  conteneur qui a réellement exécuté le fichier, indépendamment de
+  `aster_version` (chaîne lisible), même principe qu'au lot 4/10
+  (`docs/metadata.md` §2/§4).
+- **`mess_path`** localise `fort.6` (`run_aster.run.TMPMESS`), jamais un
+  nom synthétisé : sur `simvia/code_aster:17.4.0`, ce fichier n'est jamais
+  à la racine du répertoire de travail mais sous `proc.0/`, l'image se
+  déclarant "parallel" même pour une exécution à un seul processus
+  (`docs/architecture.md`, ADR-003, constat de clôture du lot 11) —
+  recherché à la racine puis récursivement, jamais supposé à un chemin
+  fixe. `null` si le fichier est absent (échec avant même l'écriture du
+  premier `fort.6`).
+- **`result_files`** est la différence, en noms de fichiers relatifs au
+  répertoire de travail, entre son contenu juste après le dépôt des
+  fichiers d'entrée (le `.comm`, et ses éventuels frères de même racine —
+  voir `aster_expert.execution.execute`) et son contenu après l'exécution —
+  jamais une liste devinée à partir des mots-clés du fichier. Le fichier de
+  statut et le script copiés par ce projet lui-même en sont exclus : ce ne
+  sont jamais des fichiers produits par Code_Aster.
+- `extracted_by` vaut toujours `"run_aster.status"` pour ce lot (jamais
+  `"run_aster.error_messages"`, réservé au dépouillement fin), afin de
+  distinguer sans ambiguïté ce qui vient de `run_aster` de ce qui viendrait
+  d'un traitement propre au projet.
 
 ## 6. Citation
 

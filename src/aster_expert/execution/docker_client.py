@@ -9,6 +9,7 @@ docs/architecture.md, ADR-002, ADR-003, ADR-006.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import shutil
@@ -178,6 +179,7 @@ def run_in_container(
     memory: str | None = None,
     cpus: str | None = None,
     timeout: int = 300,
+    container_name: str | None = None,
 ) -> subprocess.CompletedProcess[str]:
     """Run `command` (a shell string) inside the image, mount restricted.
 
@@ -185,6 +187,14 @@ def run_in_container(
     never a repository root: that guarantee is the caller's responsibility
     (a freshly created temporary directory satisfies it by construction). See
     docs/architecture.md, ADR-006.
+
+    `container_name` (docs/development-plan.md, lot 11) gives the container a
+    known name so a caller whose own `timeout` fires can `kill_container` it
+    explicitly afterward: killing the local `docker run` client process on a
+    `subprocess.TimeoutExpired` does not, by itself, stop the container it
+    started (ADR-006: "le délai maximal... pour couvrir aussi un conteneur
+    qui ne se terminerait pas" -- a client-side kill alone does not satisfy
+    that).
     """
     resolved = workdir.resolve()
     if resolved == Path.home().resolve():
@@ -201,6 +211,8 @@ def run_in_container(
         argv += [f"--memory={memory}"]
     if cpus:
         argv += [f"--cpus={cpus}"]
+    if container_name:
+        argv += ["--name", container_name]
     argv += ["-v", f"{resolved}:{mount_target}", "-w", mount_target]
     argv += [image_ref, "/bin/bash", "-c", command]
 
@@ -211,3 +223,25 @@ def run_in_container(
         timeout=timeout,
         check=False,
     )
+
+
+def kill_container(docker_bin: Path, container_name: str, *, timeout: int = 30) -> None:
+    """Best-effort `docker kill` + `docker rm -f`, never raises.
+
+    Used only after this project's own outer timeout fires on a `docker run`
+    invocation (docs/development-plan.md, lot 11, O2): the local client
+    process is already gone by then, but the container it started may still
+    be running server-side. A failure here (container already gone, docker
+    daemon unreachable) is swallowed -- there is nothing more this project
+    can do about it, and the caller has already decided to report a timeout
+    regardless of whether this cleanup succeeds.
+    """
+    for args in (["kill", container_name], ["rm", "-f", container_name]):
+        with contextlib.suppress(OSError, subprocess.TimeoutExpired):
+            subprocess.run(  # noqa: S603 - fixed argv, no shell
+                [str(docker_bin), *args],
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+                check=False,
+            )

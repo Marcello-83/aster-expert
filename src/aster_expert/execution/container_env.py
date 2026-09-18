@@ -8,6 +8,22 @@ site-packages — derived from the resolved prefix, never a hardcoded path —
 to `PYTHONPATH` beforehand (assumed deviation from the official mechanism,
 needed for `numpy`).
 
+**`LD_LIBRARY_PATH` amendment (lot 11, docs/architecture.md ADR-002).**
+Lots 2/4/10 never import `libaster` (catalogue introspection and
+`checkCommandSyntax` are pure Python + `numpy`), so the Spack view's shared
+libraries were never needed on `LD_LIBRARY_PATH` before this lot. A real
+execution does import it (`code_aster.Utilities.ExecutionParameter` ->
+`import libaster`), and that failed in session with `ImportError:
+libmed.so.11: cannot open shared object file` — `share/aster/profile.sh`
+alone sets `LD_LIBRARY_PATH` for the Aster install's own bundled libraries,
+never for third-party ones the Spack packaging of this image supplies
+externally (the same class of gap `PYTHONPATH_EXTRA` above already works
+around for `numpy`; confirmed by locating `libmed.so.11` directly under the
+resolved `$VIEW/lib`, nowhere under the Aster install prefix itself).
+`LD_LIBRARY_PATH_EXTRA` is exported *before* sourcing `profile.sh`, exactly
+like `PYTHONPATH_EXTRA`, so profile.sh's own append (it reads the prior
+value, per the `set -u` note below) preserves it rather than clobbering it.
+
 Callers append their own ``python3 <script> <args>`` invocation line after
 this setup: lot 2's probe interpolates shell variables computed by the setup
 itself (``$RA``, ``$PYTHONPATH_EXTRA``); lot 4's extractor passes static,
@@ -65,6 +81,7 @@ if [ -n "$SPACK_ROOT" ]; then
 fi
 
 PYTHONPATH_EXTRA=""
+LD_LIBRARY_PATH_EXTRA=""
 if [ -n "$VIEW" ]; then
     PYVER_DIR=$(find "$VIEW/lib" -maxdepth 1 -type d -name 'python3.*' 2>/dev/null \\
         | head -1)
@@ -72,8 +89,15 @@ if [ -n "$VIEW" ]; then
     if [ -n "$PYVER" ] && [ -d "$VIEW/lib/$PYVER/site-packages" ]; then
         PYTHONPATH_EXTRA="$VIEW/lib/$PYVER/site-packages"
     fi
+    if [ -d "$VIEW/lib" ]; then
+        LD_LIBRARY_PATH_EXTRA="$VIEW/lib"
+    fi
+    if [ -d "$VIEW/lib64" ]; then
+        LD_LIBRARY_PATH_EXTRA="$LD_LIBRARY_PATH_EXTRA:$VIEW/lib64"
+    fi
 fi
 export PYTHONPATH="$PYTHONPATH_EXTRA"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH_EXTRA"
 
 set +u
 # shellcheck disable=SC1091

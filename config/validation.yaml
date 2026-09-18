@@ -25,12 +25,23 @@ static:
 
 execution:
   enabled: true
-  # Répertoires depuis lesquels un fichier peut être exécuté.
-  allowed_roots: []
+  # Répertoires (relatifs à la racine du projet, ou absolus) depuis lesquels
+  # un fichier peut être exécuté. Vide -> aucune racine autorisée : refus
+  # explicite pour tout fichier, jamais un repli permissif (lot 11, O2).
+  # `external/codeaster-src/astest` est le corpus des cas tests officiels
+  # (lot 3), seule racine vérifiée par ce lot (compte rendu de clôture,
+  # lot 11) ; toute autre racine (par ex. les fichiers réels d'un projet
+  # utilisateur) est à ajouter explicitement ici, jamais devinée.
+  allowed_roots:
+    - external/codeaster-src/astest
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800
   memory_mb: 8192
+  # Limite `--cpus` du conteneur (lot 11, O2 : jamais non bornée pour une
+  # exécution, à la différence des autres commandes de ce projet qui
+  # laissent Docker sans limite en l'absence d'ASTER_CONTAINER_CPUS).
+  cpus_limit: "1"
   mpi_processes: 1
   # Ne jamais supprimer un fichier utilisateur ni écrire hors du work_dir.
   write_outside_work_dir: false

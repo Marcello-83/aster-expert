@@ -270,3 +270,43 @@ def test_eval_profile_bench_fails_loudly_without_annotations(
 
     assert result.exit_code == 1
     assert "Annotations de profil introuvables" in result.stderr
+
+
+def test_run_fails_loudly_without_execution_config(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("ASTER_EXPERT_ROOT", str(tmp_path))
+    comm_path = tmp_path / "case.comm"
+    comm_path.write_text(_MINIMAL_COMM, encoding="utf-8")
+
+    result = runner.invoke(app, ["run", str(comm_path)])
+
+    assert result.exit_code == 1
+    assert "Exécution échouée" in result.stderr
+
+
+def test_run_fails_loudly_outside_allowed_roots(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("ASTER_EXPERT_ROOT", str(tmp_path))
+    (tmp_path / "config").mkdir()
+    (tmp_path / "config" / "validation.yaml").write_text(
+        "execution:\n"
+        "  enabled: true\n"
+        "  allowed_roots: [astest]\n"
+        "  work_dir_root: data/processed/runs\n"
+        "  keep_work_dir: true\n"
+        "  timeout_seconds: 60\n"
+        "  memory_mb: 512\n"
+        '  cpus_limit: "1"\n'
+        "  mpi_processes: 1\n"
+        "  write_outside_work_dir: false\n",
+        encoding="utf-8",
+    )
+    comm_path = tmp_path / "case.comm"
+    comm_path.write_text(_MINIMAL_COMM, encoding="utf-8")
+
+    result = runner.invoke(app, ["run", str(comm_path)])
+
+    assert result.exit_code == 1
+    assert "allowed_roots" in result.stderr
