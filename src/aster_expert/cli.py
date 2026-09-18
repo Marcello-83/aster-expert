@@ -1443,8 +1443,21 @@ def section(
             "granularité de la recherche d'origine."
         ),
     ),
+    line_start: int = typer.Option(
+        0,
+        "--line-start",
+        help=(
+            "Ligne absolue de début (incluse), à donner avec --line-end. "
+            "Sans plage, la section entière est demandée -- au-delà du "
+            "seuil de taille, la réponse renvoie l'en-tête, le plan des "
+            "sous-sections et la taille plutôt que le contenu (lot 14, L1)."
+        ),
+    ),
+    line_end: int = typer.Option(
+        0, "--line-end", help="Ligne absolue de fin (incluse), avec --line-start."
+    ),
 ) -> None:
-    """Texte intégral d'un fragment ou d'une section, jamais tronqué (lot 8c, K1)."""
+    """Texte d'un fragment/section, par défaut intégral (lot 8c K1 ; lot 14 L1)."""
     project_root = _project_root()
     if granularity not in _FRAGMENT_GRANULARITIES:
         typer.echo(f"Granularité inconnue : {granularity}", err=True)
@@ -1506,13 +1519,24 @@ def section(
         )
         raise typer.Exit(1)
 
-    doc_section = to_document_section(matches[0])
+    try:
+        doc_section = to_document_section(
+            matches[0],
+            line_start=line_start or None,
+            line_end=line_end or None,
+        )
+    except ValueError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(1) from exc
+
     typer.echo(
         json.dumps(
             json.loads(doc_section.model_dump_json()), indent=2, ensure_ascii=False
         )
     )
-    typer.echo(f"Taille : {doc_section.content_length} caractères", err=True)
+    typer.echo(f"Taille totale : {doc_section.content_length} caractères", err=True)
+    if doc_section.content is None:
+        typer.echo(doc_section.guidance, err=True)
 
 
 @app.command("validate")

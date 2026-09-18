@@ -25,14 +25,26 @@ Format minimal d'une citation : `<document_id> § <section_path> (v.
 - Version : `aster_version`
 - Chemin : `source_path`
 - Révision : `source_commit`
-- `content` est le texte intégral de la section, jamais tronqué ;
-  `content_length` en donne la taille (caractères) — une section volumineuse
-  est renvoyée entière avec sa taille annoncée, jamais coupée en silence
-  (cf. `SKILL.md` §5).
+- Par défaut, `content` est le texte intégral de la section ;
+  `content_length` en donne la taille totale (caractères), toujours
+  renseigné même quand `content` est absent.
+- **Au-delà d'un seuil de taille (lot 14, L1) : `content` vaut `null`**,
+  jamais coupé en silence. `outline` (`SectionOutlineEntry`, sous-titres
+  détectés à l'intérieur du fragment avec leurs bornes `line_start`/
+  `line_end` absolues) et `guidance` (texte expliquant quelle plage
+  redemander) sont alors renseignés — vérifier systématiquement `content is
+  None` avant de citer quoi que ce soit (cf. `SKILL.md` §5).
+- `line_start`/`line_end` restent les bornes absolues de tout le fragment
+  (inchangé depuis le lot 8c) ; `requested_line_start`/`requested_line_end`
+  et `requested_length` décrivent la plage effectivement demandée (la
+  section entière par défaut) et sa taille, que `content` l'ait renvoyée ou
+  non ; `is_full_section` dit si cette plage couvre tout le fragment.
 - Appel : soit `fragment_id` (recopié tel quel depuis un `SearchHit`), soit
   `document_id` + `section_path` + `granularity` ensemble (les trois pris
   tels quels sur ce même `SearchHit`) — jamais les deux façons à la fois,
-  jamais un identifiant reconstruit à la main.
+  jamais un identifiant reconstruit à la main. `line_start`/`line_end`
+  (tous deux ensemble, lignes absolues) redemandent une plage plus étroite
+  une fois `content` vu `null`.
 
 ## `get_command_schema` → `CommandSchemaResult.command_schema` (`CommandSchema`)
 

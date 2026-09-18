@@ -167,6 +167,41 @@ def test_get_document_section_unknown_fragment_is_an_anticipated_tool_error(
     assert "Aucun fragment" in str(excinfo.value)
 
 
+def test_get_document_section_with_range_via_mcp_call_tool(project_root: Path) -> None:
+    """L1: line_start/line_end are reachable through the real MCP transport."""
+    res = _run(
+        app.call_tool(
+            "get_document_section",
+            {
+                "fragment_id": "U4.51.03#COMPORTEMENT",
+                "line_start": 1,
+                "line_end": 10,
+            },
+        )
+    )
+
+    assert res.is_error is False
+    payload = res.structured_content
+    assert payload["section"]["is_full_section"] is True
+    assert payload["section"]["requested_line_start"] == 1
+    assert payload["section"]["requested_line_end"] == 10
+
+
+def test_get_document_section_range_mismatch_is_an_anticipated_tool_error(
+    project_root: Path,
+) -> None:
+    with pytest.raises(ToolError) as excinfo:
+        _run(
+            app.call_tool(
+                "get_document_section",
+                {"fragment_id": "U4.51.03#COMPORTEMENT", "line_start": 5},
+            )
+        )
+
+    assert not isinstance(excinfo.value, UnexpectedToolError)
+    assert "line_start et line_end" in str(excinfo.value)
+
+
 def test_get_command_schema_via_mcp_call_tool(project_root: Path) -> None:
     res = _run(app.call_tool("get_command_schema", {"command": "STAT_NON_LINE"}))
 

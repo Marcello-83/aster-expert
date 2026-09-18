@@ -73,6 +73,20 @@ pour l'appel suivant, sans rien reconstruire à la main : passer soit son
 `fragment_id` seul, soit `document_id` + `section_path` + `granularity`
 ensemble. Voir `references/citation.md`.
 
+**Vérifier `content` avant de lire, lire par plages au-delà du seuil (lot
+14, L1).** `get_document_section` ne tronque jamais en silence : au-delà
+d'un seuil de taille, `content` revient à `null` plutôt que coupé --
+`content_length` (toujours renseigné) dit la taille totale de la section,
+`outline` liste les sous-titres détectés avec leurs bornes de lignes
+absolues, et `guidance` explique quelle plage plus étroite demander.
+Vérifier systématiquement `content is None` avant d'exploiter une réponse :
+si c'est le cas, ne jamais conclure sur l'absence de contenu, mais
+enchaîner un ou plusieurs appels avec `line_start`/`line_end` (une entrée
+de `outline` si elle existe, sinon une plage de lignes choisie dans les
+bornes indiquées) jusqu'à couvrir ce qui fonde la réponse. Une lecture par
+plages successives reste une lecture intégrale de ce qui est cité, jamais
+une lecture partielle passée sous silence.
+
 ## 6. Fichier `.comm` : `analyze_comm` puis `validate_comm`, jamais l'œil seul
 
 Un `.comm` fourni par l'utilisateur passe par `analyze_comm` (structure)

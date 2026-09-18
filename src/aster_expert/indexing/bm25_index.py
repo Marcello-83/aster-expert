@@ -27,10 +27,28 @@ import bm25s
 import numpy as np
 
 from aster_expert.indexing.enrichment import enrich_indexed_text
-from aster_expert.indexing.models import DocumentSection, IndexBuildSummary, SearchHit
+from aster_expert.indexing.models import (
+    DocumentSection,
+    IndexBuildSummary,
+    SearchHit,
+    SectionOutlineEntry,
+)
+from aster_expert.parsing.doc_fragments import split_into_subsections
 from aster_expert.parsing.fragment_models import FragmentGranularity
 
 _EXCERPT_CHARS = 280
+
+# "Raisonnable" mesuré, pas deviné (lot 14, L1) : sur le corpus 17.4.0
+# synchronisé, 20000 caractères se situe entre le 95e et le 99e centile de
+# `content_length` en granularité by_file (p95 13909, p99 38014 sur 13116
+# fragments) et bien au-delà du 99e centile en by_subsection (p99 12837 sur
+# 26553 fragments) -- l'écrasante majorité des sections passent donc
+# toujours en entier, sans jamais toucher ce seuil, tout en couvrant
+# confortablement les deux cas réels du lot 8c qui devaient rester lisibles
+# d'un coup (U2.02.01, 5252 caractères ; U2.04.06, 14341 caractères) et en
+# arrêtant les deux qui posaient effectivement problème (U2.03.09, 180063 et
+# 387825 caractères). Script de mesure : compte rendu du lot 14.
+_DEFAULT_MAX_SECTION_CHARS = 20_000
 
 
 def build_bm25_index(
@@ -252,15 +270,114 @@ def search(
     return hits
 
 
-def to_document_section(entry: dict[str, Any]) -> DocumentSection:
-    """One corpus entry, whole -- the untruncated counterpart of `_to_hit` (lot 8c, K1).
+def _section_outline(
+    content: str, *, line_offset: int
+) -> tuple[SectionOutlineEntry, ...]:
+    """Headings found *inside* `content`, absolute lines, self-heading dropped.
+
+    Reuses `split_into_subsections` (lot 7) exactly as-is -- no second
+    heading detector. Its first returned span is either `content`'s own
+    heading (already known to the caller as `DocumentSection.section_path`,
+    so dropped here) or, when `content` has no heading at all, the entire
+    text under an empty `title_path`, also dropped: either way, an empty
+    result correctly means "no finer navigation inside this fragment, only
+    line ranges do." `line_offset` converts the spans' own 1-indexed
+    relative line numbers to the absolute source-file lines a caller can
+    feed straight back into `line_start`/`line_end`.
+    """
+    spans = split_into_subsections(content)
+    if not spans or not spans[0].title_path:
+        return ()
+    return tuple(
+        SectionOutlineEntry(
+            title_path=span.title_path,
+            line_start=span.line_start + line_offset,
+            line_end=span.line_end + line_offset,
+        )
+        for span in spans[1:]
+    )
+
+
+def to_document_section(
+    entry: dict[str, Any],
+    *,
+    line_start: int | None = None,
+    line_end: int | None = None,
+    max_chars: int = _DEFAULT_MAX_SECTION_CHARS,
+) -> DocumentSection:
+    """One corpus entry, by default whole (lot 8c, K1; ranged, lot 14, L1).
 
     `content` is the corpus entry's own raw content, exactly as persisted by
     `build_bm25_index` (never re-read from the fragments JSONL, which would
-    be a second, divergence-prone source of the same text) -- no
-    `_EXCERPT_CHARS` cut applied.
+    be a second, divergence-prone source of the same text). `line_start`/
+    `line_end` (both required together, absolute source-file lines,
+    1-indexed inclusive) select a sub-range of that content; omitted, the
+    whole fragment is the implicit request. Either way, if the resulting
+    slice is longer than `max_chars`, `content` comes back `None` rather
+    than cut short -- `outline`/`guidance` explain what is available and
+    how to ask for a narrower range instead, computed over the *whole*
+    fragment so every navigable heading is visible regardless of which
+    slice was actually requested (CLAUDE.md, "jamais de troncature muette").
+
+    Raises `ValueError` for a range outside the fragment's own bounds, or
+    with `line_start > line_end` -- never silently clamped to what exists.
     """
-    content = entry.get("content", "")
+    full_content = entry.get("content", "")
+    total_line_start: int = entry["line_start"]
+    total_line_end: int = entry["line_end"]
+    # `keepends=True` + `"".join(...)` round-trips `full_content` exactly,
+    # trailing blank lines included (`"".join(s.splitlines(keepends=True))
+    # == s` for any `s`) -- `splitlines()` + `"\n".join(...)` (lot 7's own
+    # fragment-building convention, `doc_fragments.py`) drops a final blank
+    # line's newline on a *second* such round-trip, which this function
+    # would otherwise perform on every full-section request: a silent,
+    # unintended edit of already-persisted content this project never
+    # allows (CLAUDE.md, "ne jamais modifier ni tronquer ... sans
+    # nécessité").
+    lines = full_content.splitlines(keepends=True)
+
+    if (line_start is None) != (line_end is None):
+        message = "line_start et line_end doivent être donnés ensemble."
+        raise ValueError(message)
+
+    requested_start = total_line_start if line_start is None else line_start
+    requested_end = total_line_end if line_end is None else line_end
+    if requested_start > requested_end:
+        message = f"line_start ({requested_start}) > line_end ({requested_end})."
+        raise ValueError(message)
+    if requested_start < total_line_start or requested_end > total_line_end:
+        message = (
+            f"Plage demandée ({requested_start}-{requested_end}) hors des bornes "
+            f"du fragment ({total_line_start}-{total_line_end})."
+        )
+        raise ValueError(message)
+
+    relative_start = requested_start - total_line_start
+    relative_end = requested_end - total_line_start
+    requested_content = "".join(lines[relative_start : relative_end + 1])
+    is_full_section = (
+        requested_start == total_line_start and requested_end == total_line_end
+    )
+
+    content: str | None = requested_content
+    outline: tuple[SectionOutlineEntry, ...] = ()
+    guidance: str | None = None
+    if len(requested_content) > max_chars:
+        content = None
+        outline = _section_outline(full_content, line_offset=total_line_start - 1)
+        guidance = (
+            f"Section trop volumineuse pour être renvoyée en une fois "
+            f"({len(requested_content)} caractères pour les lignes "
+            f"{requested_start}-{requested_end}, seuil {max_chars}). Demandez une "
+            "plage plus étroite via line_start/line_end (bornes valides : "
+            f"{total_line_start}-{total_line_end})"
+            + (
+                ", en s'appuyant si besoin sur le plan des sous-sections ci-dessus."
+                if outline
+                else " : aucune sous-section détectée à l'intérieur de ce fragment."
+            )
+        )
+
     return DocumentSection(
         fragment_id=entry["fragment_id"],
         document_id=entry["document_id"],
@@ -270,12 +387,18 @@ def to_document_section(entry: dict[str, Any]) -> DocumentSection:
         section_path=tuple(entry["section_path"]),
         source_path=entry["source_path"],
         source_commit=entry["source_commit"],
-        line_start=entry["line_start"],
-        line_end=entry["line_end"],
+        line_start=total_line_start,
+        line_end=total_line_end,
         related_commands=tuple(entry.get("related_commands", ())),
         granularity=entry["granularity"],
+        content_length=len(full_content),
+        requested_line_start=requested_start,
+        requested_line_end=requested_end,
+        requested_length=len(requested_content),
+        is_full_section=is_full_section,
         content=content,
-        content_length=len(content),
+        outline=outline,
+        guidance=guidance,
     )
 
 

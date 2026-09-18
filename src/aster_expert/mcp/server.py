@@ -48,9 +48,9 @@ app = MCPServer(
     version=__version__,
     instructions=(
         "Outils de l'agent expert Code_Aster : recherche documentaire "
-        "(search_codeaster_docs), lecture intégrale d'une section ou d'un "
-        "fragment (get_document_section), schéma exact d'une commande "
-        "(get_command_schema), analyse structurelle "
+        "(search_codeaster_docs), lecture d'une section ou d'un fragment, "
+        "par défaut intégrale (get_document_section), schéma exact d'une "
+        "commande (get_command_schema), analyse structurelle "
         "(analyze_comm) et validation de niveau B (validate_comm) d'un "
         "fichier .comm. Chaque réponse porte explicitement son niveau de "
         "validation (validation_level : 'A' documentaire, 'B' syntaxe "
@@ -62,7 +62,11 @@ app = MCPServer(
         "réponse s'appuie sur le contenu d'une section (tableau, liste de "
         "conditions, domaine de validité), lire cette section en entier via "
         "get_document_section avant de conclure -- jamais fonder une "
-        "affirmation sur le seul extrait de tête."
+        "affirmation sur le seul extrait de tête. Si get_document_section "
+        "renvoie content=null (section trop volumineuse, content_length "
+        "au-delà du seuil), lire par plages successives via "
+        "line_start/line_end en s'appuyant sur outline/guidance -- jamais "
+        "conclure sur une lecture partielle sans l'avoir annoncée."
     ),
 )
 
@@ -118,9 +122,9 @@ def search_codeaster_docs(
 
 
 _GET_SECTION_DESCRIPTION = (
-    "Texte intégral d'un fragment ou d'une section documentaire, jamais "
-    "tronqué — niveau A : réponse documentaire, jamais exécutée, jamais "
-    "confrontée au catalogue.\n\n"
+    "Texte d'un fragment ou d'une section documentaire, par défaut intégral "
+    "— niveau A : réponse documentaire, jamais exécutée, jamais confrontée "
+    "au catalogue.\n\n"
     "À utiliser dès qu'une réponse doit s'appuyer sur le contenu réel d'une "
     "section (un tableau comparatif, un domaine de validité, une liste de "
     "conditions) : l'`excerpt` renvoyé par search_codeaster_docs est coupé "
@@ -133,9 +137,13 @@ _GET_SECTION_DESCRIPTION = (
     "doit correspondre à celle du résultat de recherche d'origine (champ "
     "`granularity` du `SearchHit`, ou 'by_file' par défaut si vous partez "
     "d'un `document_id` connu directement).\n\n"
-    "Si la section est volumineuse, le contenu entier est renvoyé quand "
-    "même, avec sa taille en caractères (`content_length`) : jamais coupé "
-    "silencieusement."
+    "Vérifiez toujours `content_length` avant de lire : au-delà d'un seuil "
+    "(20000 caractères), `content` revient à `null` plutôt que d'être coupé "
+    "en silence -- `outline` (les sous-titres détectés, avec leurs bornes "
+    "de lignes) et `guidance` disent alors exactement quelle plage plus "
+    "étroite demander via `line_start`/`line_end` (lignes absolues du "
+    "fichier source, les deux ensemble, bornes indiquées par `line_start`/"
+    "`line_end` du fragment complet ou par une entrée de `outline`)."
 )
 
 
@@ -145,6 +153,8 @@ def get_document_section(
     document_id: str | None = None,
     section_path: list[str] | None = None,
     granularity: str = "by_file",
+    line_start: int | None = None,
+    line_end: int | None = None,
 ) -> DocumentSectionResult:
     return tools.get_document_section(
         project_root=_project_root(),
@@ -152,6 +162,8 @@ def get_document_section(
         document_id=document_id,
         section_path=section_path,
         granularity=granularity,
+        line_start=line_start,
+        line_end=line_end,
     )
 
 

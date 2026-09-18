@@ -191,9 +191,11 @@ def get_document_section(
     document_id: str | None = None,
     section_path: Sequence[str] | None = None,
     granularity: str = "by_file",
+    line_start: int | None = None,
+    line_end: int | None = None,
     log_path: Path | None = None,
 ) -> DocumentSectionResult:
-    """Full, untruncated text of one fragment (lot 8c, K1).
+    """Text of one fragment, by default whole (lot 8c, K1; ranged, lot 14, L1).
 
     Chains directly off `search_codeaster_docs`: every `SearchHit` already
     carries the exact `fragment_id`, `document_id`, `section_path` and
@@ -204,6 +206,14 @@ def get_document_section(
     section's actual body (a comparison table, a validity domain, a list of
     conditions): this tool is the only one that returns a section whole, and
     reports its size rather than ever cutting it silently.
+
+    `line_start`/`line_end` (both required together, absolute source-file
+    lines, matching `DocumentSection.line_start`/`.line_end`) narrow the
+    request to a sub-range -- needed once a fragment is itself too large
+    for one response (`aster_expert.indexing.bm25_index.
+    _DEFAULT_MAX_SECTION_CHARS`, lot 14): `DocumentSection.outline` and
+    `.guidance` then explain exactly which ranges exist and how to request
+    them, rather than a silent cut.
     """
     if granularity not in _GRANULARITIES:
         message = f"Granularité inconnue : {granularity!r} ; attendu {_GRANULARITIES}"
@@ -261,9 +271,14 @@ def get_document_section(
             "silence -- utilisez fragment_id."
         )
         raise McpToolError(message)
+    try:
+        section = to_document_section(
+            matches[0], line_start=line_start, line_end=line_end
+        )
+    except ValueError as exc:
+        raise McpToolError(str(exc)) from exc
     duration = time.monotonic() - started
 
-    section = to_document_section(matches[0])
     result = DocumentSectionResult(section=section)
 
     append_query_log(

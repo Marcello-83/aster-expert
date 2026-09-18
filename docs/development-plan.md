@@ -2479,6 +2479,168 @@ exécutions réelles de natures différentes, dont une en non-convergence.
 
 ---
 
+## Lot 14 — Schéma de la fiche d'hypothèses
+
+**L1 (prérequis) — plages de lignes pour `get_document_section`.** Amende
+`aster_expert.indexing.bm25_index.to_document_section` (lot 8c) : nouveaux
+paramètres `line_start`/`line_end` (lignes absolues du fichier source, les
+deux ensemble) pour lire une plage, `max_chars` (défaut
+`_DEFAULT_MAX_SECTION_CHARS`) au-delà duquel `content` revient `null` --
+jamais coupé en silence. Seuil choisi par mesure sur le corpus 17.4.0
+synchronisé : 20 000 caractères se situe entre le 95e et le 99e centile de
+`content_length` en granularité `by_file` (p95 13909, p99 38014 sur 13116
+fragments) et bien au-delà du 99e centile en `by_subsection` (p99 12837 sur
+26553 fragments) -- l'écrasante majorité des sections passent donc en
+entier, tout en couvrant les deux cas réels restés lisibles d'un coup au
+lot 8c (U2.02.01, 5252 caractères ; U2.04.06, 14341 caractères) et en
+arrêtant le cas qui posait effectivement problème (U2.03.09, 180063 et
+387825 caractères). Au-delà du seuil, `outline` (`SectionOutlineEntry`,
+sous-titres détectés à l'intérieur du fragment avec leurs bornes de lignes
+absolues -- réutilise `aster_expert.parsing.doc_fragments.
+split_into_subsections`, lot 7, jamais un second détecteur d'en-têtes) et
+`guidance` (texte expliquant la plage à redemander) sont renseignés.
+Vérifié contre le cas réel U2.03.09 : `content=null`, `outline=[]` (aucun
+sous-titre interne détecté dans ce bloc de 180063 caractères), `guidance`
+donne les bornes exploitables (37-618).
+
+Régression trouvée et corrigée en cours de lot, avant tout commit : la
+première version de `to_document_section` reconstruisait `content` via
+`full_content.splitlines()` puis `"\n".join(...)`, qui perd la dernière
+ligne vide d'un contenu déjà construit de cette façon par `doc_fragments.py`
+(lot 7) -- un second passage par ce même couple perd le caractère `\n`
+final. Constaté sur le fragment réel U2.03.09 (`content_length=180063`,
+`requested_length` tombait à 180062 avant correction). Corrigé par
+`splitlines(keepends=True)` + `"".join(...)`, qui reconstruit
+`full_content` au caractère près quel que soit le nombre de passages --
+`"".join(s.splitlines(keepends=True)) == s` pour toute chaîne `s`. Test de
+non-régression dédié
+(`test_to_document_section_full_request_never_alters_a_trailing_blank_line`).
+Exposé aussi en CLI (`aster-expert section --line-start/--line-end`) et
+dans le skill (`SKILL.md` §5 amendée : vérifier `content_length`/`content`
+avant de lire, lire par plages au-delà du seuil).
+
+**Constat structurant, confirmé et précisé par ce lot.** La documentation
+Code_Aster fonde des faits d'opérateur (élément, critère d'élancement,
+mécanisme de raccord, lois disponibles et leur domaine, mots-clés de
+chargement/blocage), jamais une pratique d'ouvrage (représentation d'un
+tirant d'ancrage géotechnique, choix contact/ressorts/joints pour une
+interface sol-écran, calcul d'une poussée des terres, phasage
+d'excavation, position des limites d'un modèle de sol).
+
+**M1/M2, deux natures d'entrée, séparées par construction.**
+`aster_expert.agent.hypotheses.HypothesisEntry` est une union discriminée
+sur `nature` entre `CodeAsterHypothesisEntry`
+(`sources: tuple[DocumentarySource | CatalogueSource, ...]`) et
+`PracticeHypothesisEntry` (`sources: tuple[PracticeSource, ...]`) --
+jamais une classe unique dont le champ source accepterait les deux. Chaque
+modèle porte `extra="forbid"` (écart assumé à la convention `frozen=True`
+seul du reste du projet, justifié par cette seule propriété de sûreté) :
+donner un `document_id` à une `PracticeSource` lève `pydantic.
+ValidationError`, jamais un champ silencieusement ignoré. Une entrée
+`pratique` à `status="non_tranche"` n'accepte aucune `source` du tout (une
+source de pratique ne signifie jamais autre chose qu'une décision prise) ;
+`HypothesesSheet.is_ready_for_generation` est fausse dès qu'une entrée ou
+un nom de groupe reste `non_tranche` -- aucun générateur n'est construit
+par ce lot, mais cette propriété est la seule autorité qu'un lot futur
+aurait à consulter.
+
+**M3, contenu d'une entrée.** `topic`, `options_considered`,
+`option_retained`, `justification`, `sources`, `discarded_variants`,
+`status` (`tranche`/`non_tranche`/`herite` -- `herite` réservé à
+`PracticeHypothesisEntry`, exclu du côté `code_aster` : reconfirmer un
+fait catalogue est toujours `tranche` ou `non_tranche`, jamais « hérité »).
+`point_label` et `notes` ajoutés en cours de M5 (voir plus bas).
+
+**M4, convention de nommage des groupes.** `MeshGroupNaming` (nom
+`GROUP_MA`/`GROUP_NO`, nature maille/nœud, description, statut) sur
+`HypothesesSheet.group_naming`, noms uniques (vérifié par un validateur de
+modèle). Jamais sourcé (ni `CodeAsterSource` ni `PracticeSource` : un nom
+de groupe est un choix arbitraire de l'ingénieur, pas un fait à citer).
+Non exercé par la confrontation M5 : le spécimen réel prédate cette
+exigence et ne discute jamais de noms de groupes -- validé par test
+unitaire seul (`tests/unit/test_agent_hypotheses.py`).
+
+**M5, confrontation à un cas réel, quatre corrections.** Le spécimen de
+fiche combi-wall (essai réel motivant le lot 8c) a été transcrit
+intégralement dans `data/examples/hypotheses_combiwall_reference.json`
+(24 entrées ; provenance et discipline de transcription documentées dans
+`data/examples/README.md`). Trois lacunes du premier jet du schéma,
+trouvées par cette transcription et corrigées avant tout commit :
+
+1. Un même point d'ingénierie est fondé par plusieurs citations à la fois
+   (un fait catalogue et une ou plusieurs confirmations documentaires) --
+   `source` (singulier, optionnel) est devenu `sources: tuple[..., ...]`.
+2. Le corpus est atteint par deux formes de sortie d'outil structurellement
+   différentes que `citation.md` distinguait déjà
+   (`search_codeaster_docs`/`get_document_section` contre
+   `get_command_schema`) -- `CodeAsterSource` est devenu une union
+   `DocumentarySource | CatalogueSource`, jamais une classe unique forcée
+   de couvrir les deux formes (pas de discriminant synthétique : les deux
+   variantes se distinguent déjà par leurs champs propres,
+   `document_id`/`command`, mode "smart union" de pydantic).
+3. Le spécimen cite des documents et des faits catalogue sans toujours
+   capturer tous les champs qu'un appel d'outil réel porterait :
+   `source_commit`, `excerpt`, `source_path` (documentaire) et
+   `catalogue_source`/`catalogue_hash`/`image_digest` (catalogue) sont
+   devenus optionnels, `section_path` par défaut vide -- cinq citations du
+   spécimen (R7.01.25, R7.01.28, R7.01.14, R7.01.18, R7.01.23) ne
+   donnaient pas de chemin source, R7.01.23 ne donnait même pas de
+   section. Les rendre obligatoires aurait forcé à inventer ces valeurs
+   pour transcrire une fiche réelle -- interdit (CLAUDE.md, principe 11).
+   Un brouillon intermédiaire du script de transcription a fait
+   exactement cette faute (chemin synthétisé depuis le seul identifiant de
+   document, section « index » inventée pour R7.01.23) : détecté par
+   relecture du JSON produit contre le texte du spécimen avant tout commit,
+   pas par un test.
+
+Une quatrième lacune, non liée aux sources : le spécimen porte des
+paragraphes qui ne sont ni un fait cité ni une décision --
+recherches infructueuses (profils et requêtes essayés) et déductions
+reliant des faits catalogue à la situation du projet sans qu'un document
+ne formule lui-même la conclusion (CLAUDE.md, principe 6 -- déjà traité
+au niveau de la prose par `references/answer-format.md`, mais sans place
+dans ce schéma structuré). Ajout de `notes` (texte libre, jamais contraint
+par `status`) et de `point_label` (regroupement optionnel par numéro de
+point, utile puisqu'un même point du spécimen se décompose en plusieurs
+`HypothesisEntry` -- fait catalogue et question de pratique côte à côte).
+
+Un cinquième point a aussi été confirmé, sans nécessiter de correction :
+une entrée `code_aster` peut rester `non_tranche` tout en portant une
+`source` partielle (section identifiée, contenu non lu -- le cas réel du
+tableau comparatif de U2.02.01, exactement le problème que le lot 8c/K1 a
+résolu). Contrairement à une entrée `pratique`, où `non_tranche` interdit
+toute source, une entrée `code_aster` autorise cet état intermédiaire :
+« l'endroit est connu, le contenu n'est pas confirmé lu » n'est pas une
+décision, et ne doit pas obliger à supprimer la citation pour rester
+représentable.
+
+Résultat de la confrontation : 24 entrées, 15 `code_aster`/`tranche`, 1
+`code_aster`/`non_tranche` (le cas U2.02.01), 8 `pratique`/`non_tranche`
+(les 5 points du « Bilan 2 » du spécimen, le point 1 s'étant décomposé en
+deux questions distinctes -- famille d'éléments, homogénéisation --
+`is_ready_for_generation=False`, fidèle à la conclusion du spécimen
+lui-même. Document et section trouvés par la recherche documentaire
+étaient, dans tous les cas revus, déjà corrects : ce lot ne remet en
+cause ni le classement ni le découpage du lot 7, seulement la structure
+de données qui accueille ce que la recherche renvoie.
+
+**NE PAS FAIT (conforme à la consigne).** Aucune génération de `.comm`,
+aucun gabarit d'ouvrage, aucun script de maillage, aucune rédaction
+automatique de fiche. Le script de transcription
+(scratchpad, non versionné) transcrit une fiche déjà écrite, il n'en
+rédige aucune.
+
+**Limites connues et points non couverts.** M4 n'a pas été confronté à un
+cas réel (voir plus haut). Aucune règle n'impose qu'une entrée `tranche`
+fondée uniquement par une `DocumentarySource` porte un `excerpt` non nul
+(un fait purement catalogue via `CatalogueSource` n'en a structurellement
+pas besoin, ce qui interdit une règle uniforme) -- laissé à la discipline
+du skill plutôt qu'à une validation dure, faute d'un cas qui la justifie.
+Aucune contrainte de longueur/caractères n'est vérifiée sur `group_name`
+(M4) : non vérifié contre un format de maillage réel, à traiter sur preuve.
+
+---
+
 ## Lots conditionnels
 
 Ces lots ne sont engagés que sur preuve mesurée.
@@ -2522,3 +2684,4 @@ Niveaux D et E. Hors périmètre v1.
 | 11 | | à faire | | |
 | 12 | | à faire | | |
 | 13 | | à faire | | |
+| 14 | | fait | (ce lot, voir `git log`) | 2026-09-18 |

@@ -772,3 +772,98 @@ Toute réponse produite cite ses sources avec, au minimum :
 
 Une affirmation sans citation possible est présentée comme une déduction ou
 une recommandation, pas comme un fait documenté.
+
+## 7. Fiche d'hypothèses
+
+Structure produite par `aster_expert.agent.hypotheses` (lot 14). Le schéma
+complet (règles, discriminants, justification de chaque champ optionnel)
+est documenté dans les docstrings du module ; ce qui suit n'en est qu'un
+exemple et un résumé.
+
+```json
+{
+  "project_name": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+  "structure_description": "Quai en combi-wall ancré, poutre de couronnement, sol stratifié",
+  "aster_version": "17.4.0",
+  "created_at": "2026-09-18T00:00:00",
+  "entries": [
+    {
+      "nature": "code_aster",
+      "point_label": "3",
+      "topic": "Mécanisme catalogue pour raccorder un maillage poutre à un maillage coque non coïncidents",
+      "options_considered": ["LIAISON_ELEM(OPTION='COQ_POU')"],
+      "option_retained": "AFFE_CHAR_MECA, mot-clé LIAISON_ELEM, OPTION='COQ_POU'",
+      "justification": "R3.03.03 nomme explicitement cette commande pour ce raccord.",
+      "sources": [
+        {
+          "document_id": "R3.03.03",
+          "section_path": ["Pr_sentation"],
+          "aster_version": "17.4.0",
+          "source_path": "source/manuals/man_r/r3/r3.03.03/Pr_sentation.rst",
+          "source_commit": null,
+          "excerpt": "La commande employée ... est AFFE_CHAR_MECA ..."
+        }
+      ],
+      "discarded_variants": [],
+      "notes": null,
+      "status": "tranche"
+    },
+    {
+      "nature": "pratique",
+      "point_label": "2",
+      "topic": "Représentation d'un tirant d'ancrage géotechnique scellé dans le sol",
+      "sources": [],
+      "notes": "Aucun document méthodologique dédié trouvé (profils methode et syntaxe).",
+      "status": "non_tranche"
+    }
+  ],
+  "group_naming": []
+}
+```
+
+Règles :
+
+- **Deux natures d'entrée, jamais confondues (M1, M2).**
+  `HypothesisEntry` est une union discriminée sur `nature` :
+  `CodeAsterHypothesisEntry` (`sources: DocumentarySource | CatalogueSource`,
+  jamais une source de pratique) et `PracticeHypothesisEntry`
+  (`sources: PracticeSource`, jamais une source Code_Aster). Le champ
+  `sources` d'une entrée `pratique` n'accepte structurellement pas les
+  champs d'une source Code_Aster (`extra="forbid"`) : une tentative
+  échoue par une erreur de validation, jamais par un champ silencieusement
+  ignoré.
+- **`DocumentarySource` vs `CatalogueSource`.** Reflètent respectivement la
+  sortie de `search_codeaster_docs`/`get_document_section` (`document_id`,
+  `section_path`, `source_path`, `source_commit`, `excerpt`) et celle de
+  `get_command_schema` (`command`, `keyword_path`, `catalogue_source`,
+  `catalogue_hash`, `image_digest`) -- jamais un seul type forcé de couvrir
+  les deux formes de citation.
+- **Champs optionnels par nécessité, pas par confort (M5).** `source_path`,
+  `source_commit`, `excerpt` (côté documentaire) et `catalogue_source`/
+  `catalogue_hash`/`image_digest` (côté catalogue) sont optionnels : la
+  transcription d'une fiche réelle (lot 14, M5,
+  `data/examples/hypotheses_combiwall_reference.json`) a montré des
+  citations documentées sans chemin source capturé, voire sans section.
+  Absent, un champ signifie « non capturé dans cette session », jamais une
+  valeur à deviner pour compléter le schéma.
+- **`status` contraint le contenu, pas l'inverse.** `non_tranche` interdit
+  `option_retained`/`justification` (rien n'est décidé) ; côté `pratique`,
+  `non_tranche` interdit aussi toute `source` (une source de pratique ne
+  signifie jamais autre chose qu'une décision prise) ; côté `code_aster`,
+  une source partielle (document identifié, contenu non lu) reste possible
+  en `non_tranche` -- ce n'est pas une décision, c'est une piste
+  documentaire pas encore confirmée. `herite` (uniquement côté `pratique`)
+  exige une source `precedent_projet`.
+- **`notes`** porte le texte qui n'est ni un fait cité ni une décision :
+  recherches infructueuses (profils, requêtes essayées), déductions
+  reliant des faits catalogue à la situation du projet sans qu'un document
+  ne tranche lui-même (CLAUDE.md, principe 6). Toujours autorisé, quel que
+  soit `status`.
+- **`HypothesesSheet.is_ready_for_generation`** est fausse dès qu'une
+  entrée ou un nom de groupe (`group_naming`, M4) reste `non_tranche` --
+  aucun générateur n'est construit par ce lot, mais cette propriété est la
+  seule autorité prévue pour un futur lot qui en construirait un.
+- **`group_naming` (M4)** associe chaque nom `GROUP_MA`/`GROUP_NO` à sa
+  signification physique, pour que le maillage et le `.comm` générés
+  depuis une même fiche emploient toujours les mêmes noms. Noms uniques
+  au sein d'une fiche (vérifié).

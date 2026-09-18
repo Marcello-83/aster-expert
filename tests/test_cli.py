@@ -154,7 +154,96 @@ def test_section_returns_full_content_by_fragment_id(
     payload = json.loads(result.stdout)
     assert payload["content"] == long_content
     assert payload["content_length"] == len(long_content)
-    assert f"Taille : {len(long_content)} caractères" in result.stderr
+    assert payload["is_full_section"] is True
+    assert f"Taille totale : {len(long_content)} caractères" in result.stderr
+
+
+def test_section_with_explicit_range_returns_only_that_slice(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from aster_expert.indexing.bm25_index import build_bm25_index, default_index_dir
+
+    monkeypatch.setenv("ASTER_EXPERT_ROOT", str(tmp_path))
+    fragment = {
+        "fragment_id": "U2.02.01#Conclusion",
+        "granularity": "by_file",
+        "document_id": "U2.02.01",
+        "document_title": "Comparaison DKT/DST/Q4G",
+        "family": "U2",
+        "aster_version": "17.4.0",
+        "section_path": ["Conclusion"],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/conclusion.rst",
+        "source_commit": "b" * 40,
+        "line_start": 1,
+        "line_end": 3,
+        "related_commands": [],
+        "content": "ligne A\nligne B\nligne C",
+    }
+    fragments_path = tmp_path / "data" / "processed" / "fragments_by_file.jsonl"
+    fragments_path.parent.mkdir(parents=True)
+    fragments_path.write_text(json.dumps(fragment) + "\n", encoding="utf-8")
+    build_bm25_index(fragments_path, default_index_dir(tmp_path, "by_file"))
+
+    result = runner.invoke(
+        app,
+        [
+            "section",
+            "--fragment-id",
+            "U2.02.01#Conclusion",
+            "--line-start",
+            "2",
+            "--line-end",
+            "2",
+        ],
+    )
+
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert payload["content"] == "ligne B\n"
+    assert payload["is_full_section"] is False
+
+
+def test_section_range_out_of_bounds_fails_loudly(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from aster_expert.indexing.bm25_index import build_bm25_index, default_index_dir
+
+    monkeypatch.setenv("ASTER_EXPERT_ROOT", str(tmp_path))
+    fragment = {
+        "fragment_id": "U2.02.01#Conclusion",
+        "granularity": "by_file",
+        "document_id": "U2.02.01",
+        "document_title": "Comparaison DKT/DST/Q4G",
+        "family": "U2",
+        "aster_version": "17.4.0",
+        "section_path": ["Conclusion"],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/conclusion.rst",
+        "source_commit": "b" * 40,
+        "line_start": 1,
+        "line_end": 3,
+        "related_commands": [],
+        "content": "ligne A\nligne B\nligne C",
+    }
+    fragments_path = tmp_path / "data" / "processed" / "fragments_by_file.jsonl"
+    fragments_path.parent.mkdir(parents=True)
+    fragments_path.write_text(json.dumps(fragment) + "\n", encoding="utf-8")
+    build_bm25_index(fragments_path, default_index_dir(tmp_path, "by_file"))
+
+    result = runner.invoke(
+        app,
+        [
+            "section",
+            "--fragment-id",
+            "U2.02.01#Conclusion",
+            "--line-start",
+            "1",
+            "--line-end",
+            "50",
+        ],
+    )
+
+    assert result.exit_code == 1
+    assert "hors des bornes" in result.stderr
 
 
 def test_section_fails_loudly_without_any_identifier(

@@ -242,6 +242,86 @@ def test_get_document_section_missing_index_fails_loudly(tmp_path: Path) -> None
         get_document_section(project_root=root, fragment_id="whatever")
 
 
+@pytest.fixture
+def multiline_project_root(tmp_path: Path) -> Path:
+    """A fragment spanning several real lines, for line_start/line_end tests."""
+    root = tmp_path / "project"
+    fragments_path = root / "data" / "processed" / "fragments_by_file.jsonl"
+    fragments_path.parent.mkdir(parents=True)
+    with fragments_path.open("w", encoding="utf-8") as handle:
+        _write_fragment(
+            handle,
+            fragment_id="U2.02.01#Conclusion",
+            document_id="U2.02.01",
+            section_path=["Conclusion"],
+            content="Titre\n=====\n\nligne A\nligne B\nligne C",
+            line_start=1,
+            line_end=7,
+            related_commands=[],
+        )
+    build_bm25_index(fragments_path, default_index_dir(root, "by_file"))
+    return root
+
+
+def test_get_document_section_with_explicit_range(
+    multiline_project_root: Path,
+) -> None:
+    result = get_document_section(
+        project_root=multiline_project_root,
+        fragment_id="U2.02.01#Conclusion",
+        line_start=4,
+        line_end=5,
+    )
+
+    assert result.section.content == "ligne A\nligne B\n"
+    assert result.section.is_full_section is False
+    assert result.section.requested_line_start == 4
+    assert result.section.requested_line_end == 5
+
+
+def test_get_document_section_range_out_of_bounds_fails_loudly(
+    multiline_project_root: Path,
+) -> None:
+    with pytest.raises(McpToolError, match="hors des bornes"):
+        get_document_section(
+            project_root=multiline_project_root,
+            fragment_id="U2.02.01#Conclusion",
+            line_start=1,
+            line_end=100,
+        )
+
+
+def test_get_document_section_only_one_bound_given_fails_loudly(
+    multiline_project_root: Path,
+) -> None:
+    with pytest.raises(McpToolError, match="line_start et line_end"):
+        get_document_section(
+            project_root=multiline_project_root,
+            fragment_id="U2.02.01#Conclusion",
+            line_start=4,
+        )
+
+
+def test_get_document_section_under_threshold_has_no_outline_or_guidance(
+    multiline_project_root: Path,
+) -> None:
+    # Below the real default threshold (`_DEFAULT_MAX_SECTION_CHARS`, lot 14):
+    # `outline`/`guidance` are only populated when content is withheld,
+    # exercised directly against `to_document_section(max_chars=...)` in
+    # tests/unit/test_bm25_index.py, where a small threshold can be forced
+    # without a corpus large enough to hit the real default here.
+    result = get_document_section(
+        project_root=multiline_project_root,
+        fragment_id="U2.02.01#Conclusion",
+        line_start=1,
+        line_end=7,
+    )
+
+    assert result.section.content is not None
+    assert result.section.outline == ()
+    assert result.section.guidance is None
+
+
 def _write_catalogue(catalogue_dir: Path) -> None:
     catalogue_dir.mkdir(parents=True)
     schema = {

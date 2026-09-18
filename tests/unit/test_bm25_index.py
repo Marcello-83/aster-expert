@@ -10,6 +10,8 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
+import pytest
+
 from aster_expert.indexing.bm25_index import (
     build_bm25_index,
     default_index_dir,
@@ -325,3 +327,120 @@ def test_find_fragments_unknown_identifier_returns_no_match(tmp_path: Path) -> N
 
     assert find_fragments(corpus, fragment_id="does-not-exist") == []
     assert find_fragments(corpus, document_id="U4.51.03", section_path=("nope",)) == []
+
+
+def test_to_document_section_defaults_to_whole_fragment() -> None:
+    entry = _fragment(content="ligne 1\nligne 2\nligne 3", line_start=10, line_end=12)
+
+    section = to_document_section(entry)
+
+    assert section.content == "ligne 1\nligne 2\nligne 3"
+    assert section.content_length == len(section.content)
+    assert section.requested_line_start == 10
+    assert section.requested_line_end == 12
+    assert section.requested_length == section.content_length
+    assert section.is_full_section is True
+    assert section.outline == ()
+    assert section.guidance is None
+
+
+def test_to_document_section_full_request_never_alters_a_trailing_blank_line() -> None:
+    """Regression: a naive splitlines()+"\\n".join() round-trip silently drops
+    a final blank line's newline on content already built that way by
+    `doc_fragments.build_fragments_for_document` (lot 7) -- exactly what a
+    full-section request must never do (CLAUDE.md, "ne jamais modifier ni
+    tronquer une partie d'un fichier ... sans nécessité")."""
+    content_with_trailing_blank_line = "Titre\n=====\n\ntexte.\n\n"
+    entry = _fragment(
+        content=content_with_trailing_blank_line, line_start=1, line_end=5
+    )
+
+    section = to_document_section(entry)
+
+    assert section.content == content_with_trailing_blank_line
+    assert section.content_length == len(content_with_trailing_blank_line)
+    assert section.requested_length == section.content_length
+
+
+def test_to_document_section_explicit_range_returns_only_that_slice() -> None:
+    entry = _fragment(
+        content="ligne 1\nligne 2\nligne 3\nligne 4", line_start=5, line_end=8
+    )
+
+    section = to_document_section(entry, line_start=6, line_end=7)
+
+    # The exact substring of the source spanning lines 6-7 inclusive,
+    # trailing newline of the last selected line kept (it is itself part of
+    # that physical line, and the line after it is not included) -- never a
+    # re-joined approximation (lot 14, L1).
+    assert section.content == "ligne 2\nligne 3\n"
+    assert section.requested_line_start == 6
+    assert section.requested_line_end == 7
+    assert section.is_full_section is False
+    # The *whole* fragment's size, never the slice's, so a caller always
+    # knows the total (lot 14, L1).
+    assert section.content_length == len("ligne 1\nligne 2\nligne 3\nligne 4")
+    assert section.requested_length == len("ligne 2\nligne 3\n")
+
+
+def test_to_document_section_only_one_bound_given_raises() -> None:
+    entry = _fragment(content="a\nb\nc", line_start=1, line_end=3)
+
+    with pytest.raises(ValueError, match="line_start et line_end"):
+        to_document_section(entry, line_start=2)
+
+
+def test_to_document_section_start_after_end_raises() -> None:
+    entry = _fragment(content="a\nb\nc", line_start=1, line_end=3)
+
+    with pytest.raises(ValueError, match="line_start"):
+        to_document_section(entry, line_start=3, line_end=2)
+
+
+def test_to_document_section_range_outside_fragment_bounds_raises() -> None:
+    entry = _fragment(content="a\nb\nc", line_start=10, line_end=12)
+
+    with pytest.raises(ValueError, match="hors des bornes"):
+        to_document_section(entry, line_start=1, line_end=5)
+
+
+def test_to_document_section_over_threshold_withholds_content_with_outline() -> None:
+    content = (
+        "Titre\n=====\n\ntexte introductif\n\n"
+        "Sous-titre A\n------------\n\ncontenu A un peu long pour le test\n\n"
+        "Sous-titre B\n------------\n\ncontenu B un peu long pour le test"
+    )
+    entry = _fragment(
+        content=content, line_start=100, line_end=100 + len(content.splitlines()) - 1
+    )
+
+    section = to_document_section(entry, max_chars=10)
+
+    assert section.content is None
+    assert (
+        section.is_full_section is True
+    )  # the withheld request was the whole fragment
+    assert section.content_length == len(content)
+    assert section.requested_length == len(content)
+    assert section.guidance is not None
+    assert "line_start" in section.guidance
+    assert [entry.title_path for entry in section.outline] == [
+        ("Titre", "Sous-titre A"),
+        ("Titre", "Sous-titre B"),
+    ]
+    # Outline line numbers are absolute (offset by the fragment's own
+    # line_start=100), directly usable as the next call's line_start/line_end.
+    assert (
+        section.outline[0].line_start == 100 + 5
+    )  # "Sous-titre A" is line 6 (0-indexed 5)
+
+
+def test_to_document_section_over_threshold_without_headers_has_empty_outline() -> None:
+    content = "prose sans aucun en-tête reStructuredText, juste du texte. " * 5
+    entry = _fragment(content=content, line_start=1, line_end=1)
+
+    section = to_document_section(entry, max_chars=10)
+
+    assert section.content is None
+    assert section.outline == ()
+    assert "aucune sous-section détectée" in section.guidance

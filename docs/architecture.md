@@ -327,12 +327,14 @@ sens.
 | `retrieval/` | Interrogation, filtres, fusion, priorité des sources |
 | `validation/` | Contrôles statiques d'un `.comm` vis-à-vis du catalogue |
 | `execution/` | Encapsulation de `run_aster`, dépouillement du `.mess` |
-| `agent/` | Schémas de réponse, niveaux de validation, formats de citation |
+| `agent/` | Schémas de réponse, niveaux de validation, formats de citation, fiche d'hypothèses (lot 14) |
 | `mcp/` | Exposition des fonctions ci-dessus comme outils MCP |
 
 `agent/` ne contient pas de logique d'appel à un modèle. Le projet produit des
 outils et des données ; l'orchestration conversationnelle reste en dehors tant
-que le périmètre n'est pas étendu.
+que le périmètre n'est pas étendu. `agent.hypotheses` (lot 14) fait de même
+pour la structure d'une fiche d'hypothèses de modélisation : un schéma de
+données validé (`pydantic`), jamais un générateur de fiche ni de `.comm`.
 
 ## 5. Flux de validation d'un fichier `.comm`
 
