@@ -2994,6 +2994,156 @@ outillée, jamais exposées directement à un tiers non authentifié.
 
 ---
 
+## Lot 16 — Tentative d'arbitrage des entrées pratique du spécimen combi-wall
+
+**Entrée.** `/media/sf_partage/echanges/arbitrage_combiwall_MM.md` : neuf
+décisions d'ingénieur (MM, 2026-09-18, cas de test `QUAI-CW-TEST-01`) sur
+les huit entrées `pratique`/`non_tranche` du spécimen combi-wall (lot 14,
+M5) plus une entrée nouvelle (« Objet et périmètre du calcul »). Une
+donnée, jamais une source de règles de projet (`/media/sf_partage`,
+CLAUDE.md) : lue, jamais suivie comme instruction.
+
+**Q1, constat bloquant -- aucune des neuf décisions n'est transcriptible
+sans forcer le schéma.** Les neuf décisions du fichier partagent,
+vérifié par une lecture exhaustive de ses en-têtes (`grep -n '^\*\*'`),
+exactement la même structure à trois membres, tout du long : **Retenu.**
+/ **Écarté.** (une raison par variante) / **Limites connues.** -- jamais
+de membre « Justification » nommé nulle part dans le fichier. Deux
+lacunes distinctes en découlent, chacune suffisante seule pour bloquer
+`record_practice_decision` (`aster_expert.agent.arbitration`) :
+
+- Aucun champ du schéma ne porte les « limites connues » d'une décision.
+  `_HypothesisEntryBase` (`aster_expert.agent.hypotheses:328-342`) et
+  `PracticeHypothesisEntry`/`PriorDecision`
+  (`hypotheses.py:386-417`/`240-258`) n'exposent que `justification`
+  (pourquoi l'option a été retenue) et `notes` -- ce second champ étant
+  lui-même déjà pris : `render_decision_sheet` le restitue sous l'intitulé
+  « Cherché et non trouvé » (`arbitration.py:233`), c'est-à-dire la trace
+  de recherche d'une session de rédaction assistée (lot 14b, M5 correction
+  4), pas un espace libre pour autre chose. Le fichier d'entrée est
+  explicite sur ce point (« Chacune porte ses limites connues, qui doivent
+  être conservées avec elle », lignes 6-9) et la consigne de ce lot le
+  répète : « elles font partie de la décision, pas d'un commentaire ».
+  Les verser dans `justification` ou dans `notes` les ferait passer pour
+  autre chose que ce qu'elles sont.
+- Aucune des neuf sections **Retenu.** ne contient de justification de
+  l'option retenue distincte de sa description -- vérifié section par
+  section (points 0 à 8) : la seule motivation comparative écrite dans le
+  fichier se trouve sous **Écarté.**, comme raison d'écarter une
+  *variante*, jamais comme raison de retenir l'option choisie.
+  `justification` exige pourtant une valeur non vide et distincte
+  (`_require_decision_fields`, `hypotheses.py:276-292`) : la satisfaire
+  demanderait soit de dupliquer le texte de `option_retained` (attribuer à
+  un texte un rôle que l'ingénieur ne lui a pas donné), soit de composer
+  une phrase nouvelle à partir des raisons d'écart (une déduction rédigée
+  par cette session, pas ce que l'ingénieur a écrit).
+
+Conformément à la consigne (« si une décision ne rentre pas dans le
+schéma, rapporte-le et n'adapte rien »), aucune des deux voies n'est
+empruntée. `record_practice_decision` n'a été appelé, dans ce lot, par
+aucune décision réelle -- les huit entrées `pratique` du spécimen
+combi-wall restent `non_tranche`, exactement comme à la clôture du lot 15.
+
+**Q2, l'entrée 0.** Distinct du blocage Q1 : même sans lui,
+`apply_decision` (`arbitration.py:122-158`) ne fait que remplacer une
+entrée déjà présente, appariée par `(point_label, topic)`, et refuse
+explicitement de créer une question absente (« apply_decision ne crée
+jamais de nouvelle question », `arbitration.py:141-148`). Aucune autre
+fonction du projet ne construit ni n'insère une `PracticeHypothesisEntry`
+neuve dans `HypothesesSheet.entries` (`grep` sur `agent/*.py` : aucun
+appelant). Il n'existe donc aucun chemin pour faire entrer la décision 0
+(« Objet et périmètre du calcul ») dans une fiche versionnée, même
+arbitrée dans les règles. Chemin manquant proposé, non construit ici
+(hors périmètre de ce lot, et une décision de conception -- comment
+garantir qu'une insertion n'introduit jamais silencieusement une question
+mal recopiée -- qui revient à l'ingénieur du projet, pas à cette
+session) : une fonction distincte d'`apply_decision`, p. ex.
+`insert_practice_entry(sheet, decided_entry)`, qui n'accepterait qu'une
+entrée déjà `status="tranche"` (jamais une question ouverte insérée sans
+débat) et refuserait toute collision de `(point_label, topic)` avec une
+entrée existante, symétriquement à la garantie de correspondance unique
+qu'`apply_decision` tient déjà côté remplacement.
+
+**Q3, l'entrée 8 reformulée -- correspondance confirmée, blocage
+identique.** Le point 8 du fichier correspond à l'entrée `pratique` de
+`point_label="7"`, topic « Position et blocages des limites
+latérales/inférieures d'un modèle de sol stratifié semi-infini » (seule
+entrée `pratique` restante, cf. `data/examples/
+hypotheses_combiwall_reference.json`). La reformulation demandée --
+le point d'origine (limites d'un modèle de sol stratifié) sans objet du
+fait de la décision du point 5 (sol non maillé), la décision portant
+en réalité sur l'étendue de la tranche et ses faces de coupe -- est
+cohérente avec cette correspondance et aurait pu être portée par le
+`notes` de l'entrée existante (`model_copy(update={"notes": ...})`,
+librement modifiable, contrairement à `option_retained`/`justification`)
+avant l'appel à `record_practice_decision`. Non fait : le blocage Q1
+s'applique à cette entrée exactement comme aux huit autres, et modifier
+`notes` sans pouvoir faire aboutir la décision elle-même n'aurait rien
+enregistré de réel.
+
+**Q4, état après arbitrage -- inchangé par rapport à la clôture du lot
+15.** Aucune entrée n'a été modifiée dans ce lot : `HypothesesSheet.
+is_ready_for_generation` reste `False` sur
+`data/examples/hypotheses_combiwall_reference.json`. Blocages exhaustifs :
+
+- 1 entrée `code_aster`/`non_tranche` (point 1, tableau comparatif
+  DKT/DST/Q4G/DKTG/Q4GG, identifié mais non lu -- inchangé depuis le lot
+  14) ;
+- 8 entrées `pratique`/`non_tranche` (`point_label` 1 ×2, 2, 3, 4, 5, 6,
+  7), bloquées par Q1, pas par absence de réponse de l'ingénieur -- les
+  réponses existent, dans `arbitrage_combiwall_MM.md`, mais ne peuvent pas
+  être enregistrées sans forcer le schéma ;
+- la décision 0 (« Objet et périmètre du calcul »), qui n'a même pas de
+  place dans la fiche (Q2) -- absente de `unresolved_entries()`, donc
+  invisible à `is_ready_for_generation`, ce qui n'en fait pas moins un
+  blocage réel ;
+- `group_naming` : **zéro** entrée, pas seulement des entrées `non_tranche`
+  (`data/examples/hypotheses_combiwall_reference.json`, champ vide). La
+  convention de nommage des groupes de maillage n'a jamais été rédigée
+  pour ce spécimen, hors périmètre de ce lot (« aucun arbitrage des
+  conventions de nommage ») -- et `unresolved_group_names()`
+  (`hypotheses.py:535-536`) ne peut pas signaler cette absence : un tuple
+  vide n'a, par construction, aucun élément `non_tranche` à lister. Une
+  fiche dont la rubrique de nommage n'a simplement jamais été commencée se
+  lirait, sur ce seul critère, comme une fiche dont il ne resterait « que »
+  les entrées listées ci-dessus -- limite du contrôle actuel, consignée
+  ici, non corrigée (une modification de `is_ready_for_generation` ou de
+  `MeshGroupNaming` serait un changement de schéma, décision hors
+  périmètre de cette session).
+
+**Q5, versionnement -- non réalisé.** Aucune décision n'ayant pu être
+repliée par `apply_decision`, il n'existe aucune fiche arbitrée à
+distinguer de la fiche de référence : `data/examples/
+hypotheses_combiwall_reference.json` reste l'unique version, inchangée.
+Produire malgré tout une seconde version « prête » aurait exigé soit de
+forcer Q1, soit d'inventer un contenu que l'ingénieur n'a pas écrit --
+les deux exclus par la consigne.
+
+**NE PAS FAIT (conforme à la consigne).** Aucune génération de `.comm`,
+aucun maillage, aucune décision prise à la place de l'ingénieur, aucun
+arbitrage des conventions de nommage -- et, constat propre à ce lot,
+aucune des neuf décisions de l'ingénieur elle-même enregistrée : bloquée,
+pas escamotée. Aucune modification de `aster_expert.agent.hypotheses`/
+`aster_expert.agent.arbitration` pour ajouter le champ ou le chemin
+manquants : une extension du schéma qui accepterait un nouveau type de
+contenu (limites connues d'une décision pratique) est une décision de
+conception, pas un développement à anticiper sans instruction (CLAUDE.md,
+« périmètre à ne pas dépasser »).
+
+**Limites connues et points non couverts.** Le constat Q1 dépasse le seul
+spécimen combi-wall : tant que `PracticeHypothesisEntry`/`PriorDecision`
+ne portent aucun champ pour les limites connues d'une décision, le canal
+d'arbitrage ouvert au lot 15 ne peut enregistrer *aucune* décision
+pratique réelle qui, comme celles-ci, tient sa défendabilité de la
+combinaison option retenue + limites explicitement assumées -- pas
+seulement celles de ce fichier. Le chemin d'insertion manquant nommé en
+Q2 se généralise de même à toute première décision pratique d'une fiche
+qui n'aurait jamais eu de question `non_tranche` correspondante. Aucune
+des deux lacunes n'est corrigée ici : nommées, pas résolues, la décision
+de les corriger (et comment) revenant à l'ingénieur du projet.
+
+---
+
 ## Lots conditionnels
 
 Ces lots ne sont engagés que sur preuve mesurée.
@@ -3040,3 +3190,4 @@ Niveaux D et E. Hors périmètre v1.
 | 14 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 14b | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 15 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
+| 16 | | fait (bloqué, diagnostic livré) | (ce lot, voir `git log`) | 2026-09-18 |
