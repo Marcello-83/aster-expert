@@ -22,6 +22,7 @@ from aster_expert.agent.hypotheses import (
     MeshGroupNaming,
     PracticeHypothesisEntry,
     PracticeSource,
+    PriorDecision,
 )
 
 _DOC_SOURCE = DocumentarySource(
@@ -344,6 +345,148 @@ def test_code_aster_entry_tranche_accepts_one_excerpt_among_several_sources() ->
     )
 
     assert entry.status == "tranche"
+
+
+_PRACTICE_SOURCE = PracticeSource(
+    origin="decision_ingenieur",
+    reference="Choix du bureau d'études : contact frottant",
+    date=date(2026, 9, 18),
+)
+
+_PRACTICE_DISCARDED = (
+    DiscardedVariant(
+        description="Éléments de joint", reason="non documenté pour ce cas"
+    ),
+)
+
+
+def test_practice_entry_tranche_requires_decided_by_and_decided_at() -> None:
+    """P1/P2 (lot 15): a human arbitration is not represented without
+    knowing who decided and when -- the model rejects it regardless of
+    which function tried to build it."""
+    with pytest.raises(ValidationError, match="qui a tranché"):
+        PracticeHypothesisEntry(
+            topic="Interface sol-écran",
+            option_retained="Contact frottant",
+            justification="Décision du bureau d'études",
+            sources=(_PRACTICE_SOURCE,),
+            discarded_variants=_PRACTICE_DISCARDED,
+            status="tranche",
+        )
+
+
+def test_practice_entry_tranche_requires_discarded_variants() -> None:
+    """P1: an arbitration without at least one alternative actually
+    weighed is refused, not merely encouraged."""
+    with pytest.raises(ValidationError, match="variantes écartées"):
+        PracticeHypothesisEntry(
+            topic="Interface sol-écran",
+            option_retained="Contact frottant",
+            justification="Décision du bureau d'études",
+            sources=(_PRACTICE_SOURCE,),
+            status="tranche",
+            decided_by="J. Dupont",
+            decided_at=datetime(2026, 9, 18, 10, 0),
+        )
+
+
+def test_practice_entry_tranche_rejects_no_source() -> None:
+    """P1: 'une décision sans source est refusée', unchanged from M3/M5's
+    shared decision-fields check -- exercised here on the arbitrated path."""
+    with pytest.raises(ValidationError, match="exige au moins une source"):
+        PracticeHypothesisEntry(
+            topic="Interface sol-écran",
+            option_retained="Contact frottant",
+            justification="Décision du bureau d'études",
+            discarded_variants=_PRACTICE_DISCARDED,
+            status="tranche",
+            decided_by="J. Dupont",
+            decided_at=datetime(2026, 9, 18, 10, 0),
+        )
+
+
+def test_practice_entry_cannot_carry_a_documentary_source() -> None:
+    """P1: 'une source de nature documentaire Code_Aster reste
+    structurellement impossible, comme au lot 14' -- the field's type
+    alone rules this out, exactly as for CodeAsterHypothesisEntry (M2)."""
+    with pytest.raises(ValidationError):
+        PracticeHypothesisEntry(
+            topic="Interface sol-écran",
+            option_retained="Contact frottant",
+            justification="Décision du bureau d'études",
+            sources=(_DOC_SOURCE,),  # type: ignore[arg-type]
+            discarded_variants=_PRACTICE_DISCARDED,
+            status="tranche",
+            decided_by="J. Dupont",
+            decided_at=datetime(2026, 9, 18, 10, 0),
+        )
+
+
+def test_practice_entry_tranche_with_full_arbitration_is_valid() -> None:
+    entry = PracticeHypothesisEntry(
+        topic="Interface sol-écran",
+        option_retained="Contact frottant",
+        justification="Décision du bureau d'études, cohérente avec les précédents",
+        sources=(_PRACTICE_SOURCE,),
+        discarded_variants=_PRACTICE_DISCARDED,
+        status="tranche",
+        decided_by="J. Dupont",
+        decided_at=datetime(2026, 9, 18, 10, 0),
+    )
+
+    assert entry.status == "tranche"
+    assert entry.decided_by == "J. Dupont"
+    assert entry.decision_history == ()
+
+
+def test_practice_entry_non_tranche_rejects_decided_by() -> None:
+    """Symmetric with the `sources` guard: an unresolved point has no
+    arbitration to record yet."""
+    with pytest.raises(ValidationError, match="ni arbitre ni date"):
+        PracticeHypothesisEntry(
+            topic="Interface sol-écran",
+            status="non_tranche",
+            decided_by="J. Dupont",
+        )
+
+
+def test_practice_entry_can_carry_a_decision_history() -> None:
+    """P2: a re-arbitrated entry keeps its previous decision rather than
+    discarding it."""
+    entry = PracticeHypothesisEntry(
+        topic="Interface sol-écran",
+        option_retained="Ressorts discrets",
+        justification="Nouvelle décision après revue",
+        sources=(_PRACTICE_SOURCE,),
+        discarded_variants=_PRACTICE_DISCARDED,
+        status="tranche",
+        decided_by="M. Martin",
+        decided_at=datetime(2026, 10, 1, 9, 0),
+        decision_history=(
+            PriorDecision(
+                option_retained="Contact frottant",
+                justification="Décision du bureau d'études",
+                sources=(_PRACTICE_SOURCE,),
+                discarded_variants=_PRACTICE_DISCARDED,
+                decided_by="J. Dupont",
+                decided_at=datetime(2026, 9, 18, 10, 0),
+            ),
+        ),
+    )
+
+    assert len(entry.decision_history) == 1
+    assert entry.decision_history[0].option_retained == "Contact frottant"
+    assert entry.option_retained == "Ressorts discrets"
+
+
+def test_prior_decision_requires_decided_by_and_decided_at() -> None:
+    with pytest.raises(ValidationError):
+        PriorDecision(
+            option_retained="Contact frottant",
+            justification="Décision du bureau d'études",
+            sources=(_PRACTICE_SOURCE,),
+            decided_by="J. Dupont",
+        )  # type: ignore[call-arg]
 
 
 def test_catalogue_source_and_documentary_source_are_told_apart_in_a_tuple() -> None:

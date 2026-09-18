@@ -57,3 +57,14 @@ Vérifié par `tests/unit/test_hypotheses_combiwall_reference.py` : le
 fichier se recharge sans erreur contre `HypothesesSheet`
 (`model_validate_json`), et son compte d'entrées non tranchées/tranchées
 correspond aux bilans du spécimen.
+
+**Lot 15, canal d'arbitrage.** Les huit entrées `pratique`/`non_tranche`
+de ce fichier restaient, avant ce lot, bloquées par construction : aucune
+fonction du projet ne pouvait faire passer une entrée `pratique` à
+`status="tranche"`, pas même une décision humaine. `aster_expert.agent.
+arbitration.record_practice_decision` ouvre ce chemin (voir
+`docs/development-plan.md`, clôture lot 15). Ce fichier reste inchangé et
+`is_ready_for_generation=False` : ce lot n'y a fait passer aucune décision
+-- la fiche de décision qu'il produit à partir de ce spécimen
+(`/media/sf_partage/echanges/fiche_decision_combiwall_arbitrage_pratique.md`,
+non versionnée) présente les huit points à un ingénieur, sans y répondre.

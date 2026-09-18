@@ -2876,6 +2876,124 @@ d'écriture de ce lot, faute d'un besoin qui le justifie pour l'instant.
 
 ---
 
+## Lot 15 — Canal d'arbitrage des entrées pratique
+
+**Constat d'ouverture.** La barrière du lot 14b couvrait le chemin
+d'écriture d'une session de rédaction assistée (`aster_expert.agent.
+drafting`), mais celle-ci ne construit jamais une entrée `pratique`
+tranchée -- ni ne peut, ni ne doit (ce n'est pas son rôle). Rien d'autre
+dans le dépôt ne construisait `PracticeHypothesisEntry(status="tranche",
+...)` non plus : `PracticeSource` existe depuis le lot 14 (M1) sans qu'un
+seul appelant, humain ou machine, ne l'ait jamais utilisé pour trancher
+quoi que ce soit. Les huit entrées `pratique`/`non_tranche` du spécimen
+combi-wall (lot 14, M5) étaient donc bloquées par construction, pas par
+manque de réponse : aucun chemin d'écriture n'existait pour qu'un
+ingénieur en enregistre une.
+
+**P1, `aster_expert.agent.arbitration.record_practice_decision`.** Une
+seule fonction, symétrique de `record_code_aster_finding`/
+`record_unfounded_point` (lot 14b) : elle ne réimplémente aucune règle,
+elle délègue tout à `PracticeHypothesisEntry` elle-même, désormais amendée
+(`aster_expert.agent.hypotheses`) pour qu'un `status="tranche"` exige :
+
+- au moins une source, de type `PracticeSource` uniquement -- une
+  `CodeAsterSource`/`DocumentarySource`/`CatalogueSource` reste absente du
+  type du champ, donc structurellement impossible (M2, lot 14, inchangé) ;
+- `option_retained` et `justification` non vides (`_require_decision_fields`,
+  partagé avec le côté `code_aster` depuis le lot 14) ;
+- au moins une `discarded_variants` -- une décision qui ne nomme aucune
+  alternative pesée n'est pas un arbitrage ;
+- `decided_by` et `decided_at` (P2 ci-dessous).
+
+Ces exigences vivent dans le validateur du modèle, pas dans la fonction :
+un `PracticeHypothesisEntry(status="tranche", ...)` construit à la main,
+sans passer par `record_practice_decision`, est refusé exactement de la
+même façon (`tests/unit/test_agent_hypotheses.py::
+test_practice_entry_tranche_requires_decided_by_and_decided_at` et les
+tests voisins ; `tests/unit/test_agent_arbitration.py::
+test_no_hand_built_shortcut_reaches_a_tranche_practice_entry`) --
+`record_practice_decision` est bien l'unique moyen *prévu*, mais la
+garantie tient contre tout chemin de construction, pas seulement contre
+celui-ci, comme convenu au lot 14b pour le côté `code_aster`.
+
+**P2, traçabilité.** `PracticeHypothesisEntry` porte désormais
+`decided_by: str | None`, `decided_at: datetime | None` et
+`decision_history: tuple[PriorDecision, ...]`. `non_tranche` interdit les
+trois, symétriquement à `sources` (rien n'est encore tranché). Un
+ré-arbitrage (`record_practice_decision` appelée avec un `entry` déjà
+`tranche`) déplace la décision courante vers `decision_history` --
+`PriorDecision`, gelé comme tout modèle de ce fichier -- avant de la
+remplacer, jamais en l'écrasant :
+`tests/unit/test_agent_arbitration.py::
+test_record_practice_decision_preserves_history_on_re_arbitration`.
+`herite` reste délibérément hors de cette exigence : il nomme une valeur
+héritée d'un projet antérieur, pas un arbitrage pris sur cette fiche, et
+aucune fonction de ce projet ne le construit (M1, lot 14, inchangé par ce
+lot) -- limite consignée plutôt que traitée par défaut.
+
+**P4, le chemin retour.** `apply_decision(sheet, decided_entry)` referme
+la boucle : elle remplace, dans `sheet.entries`, exactement l'entrée
+`pratique` que `decided_entry` arbitre (appariée par `point_label` +
+`topic`, jamais par position), et refuse aussi bien l'absence de
+correspondance que l'ambiguïté -- jamais de nouvelle question insérée en
+silence par une `topic` mal recopiée. C'est le chemin par lequel une
+réponse d'ingénieur, une fois fournie, entrerait dans la fiche ; aucune
+réponse n'est fabriquée par ce lot pour l'emprunter (voir plus bas).
+
+**P3, `render_decision_sheet`.** Produit, à partir d'une `HypothesesSheet`,
+un document Markdown listant chaque entrée `pratique`/`non_tranche`, dans
+l'ordre où elle apparaît sur la fiche. Pour chacune : le `topic` de
+l'entrée elle-même comme point à trancher (déjà rédigé en langage
+d'ingénierie, jamais retouché) ; "ce que le corpus établit" et "options
+disponibles au catalogue", tirés des entrées `code_aster`/`tranche`
+partageant le même `point_label` (respectivement leur `topic`+
+`justification`, et leur `option_retained`, chacun avec la référence de
+ses `sources`) ; "cherché et non trouvé", le champ `notes` de l'entrée
+reproduit verbatim (déjà la trace de recherche que la rédaction assistée y
+avait déposée, lot 14b/M5 correction 4). Rien n'est classé, reformulé ni
+noté en préférence : `tests/unit/test_agent_arbitration.py::
+test_render_decision_sheet_carries_no_recommendation` vérifie l'absence de
+toute langue de recommandation dans la section "options" elle-même (le
+paragraphe d'introduction du document, qui *nomme* l'absence de
+recommandation, en est exempté).
+
+**Vérification sur le cas réel.** `render_decision_sheet` appliquée au
+spécimen combi-wall (`data/examples/hypotheses_combiwall_reference.json`)
+produit les huit sections attendues, chacune retrouvant ses `code_aster`
+frères par `point_label` (jusqu'à trois par point, comme au point 1 ou 4)
+et reproduisant leurs `option_retained`/sources sans erreur. Document
+déposé dans `/media/sf_partage/echanges/
+fiche_decision_combiwall_arbitrage_pratique.md`, avec un avertissement en
+tête rappelant qu'il s'agit du spécimen de référence du dépôt (lot 14,
+M5), pas de la fiche d'un projet en cours -- jamais versionné (CLAUDE.md,
+principe 11 ; script de génération en scratchpad de session, non
+conservé, même discipline que le script de transcription du lot 14).
+
+**NE PAS FAIT (conforme à la consigne).** Aucun arbitrage réel effectué :
+`record_practice_decision` n'est appelée, dans ce lot, que par les tests
+et par le script de génération de la fiche de décision -- jamais sur les
+huit entrées réelles du spécimen combi-wall, qui restent `non_tranche` à
+la clôture de ce lot (`is_ready_for_generation` toujours `False`). Aucune
+recommandation, aucun classement par priorité ou par difficulté des huit
+points, aucune génération de `.comm`, aucun gabarit d'ouvrage.
+
+**Limites connues et points non couverts.** `render_decision_sheet` ne
+présente pas les entrées `code_aster`/`non_tranche` partageant un
+`point_label` (le cas U2.02.01, tableau identifié mais non lu) : ce n'est
+ni un fait établi ni une absence de résultat, un état pour lequel P3 ne
+prévoyait pas de section dédiée -- laissé de côté plutôt que forcé dans
+l'une des quatre rubriques existantes. `apply_decision` ne fusionne
+qu'une entrée à la fois ; arbitrer les huit entrées du spécimen
+demanderait huit appels séparés, non un traitement de lot. Aucune
+interface (CLI ou MCP) n'expose ce canal : comme au lot 11 pour
+l'exécution, une telle interface poserait la question de qui peut
+arbitrer et comment cette identité est vérifiée, question non instruite
+ici et donc non résolue par omission -- `record_practice_decision`/
+`apply_decision` restent des fonctions Python, appelées par une session
+outillée, jamais exposées directement à un tiers non authentifié.
+
+---
+
 ## Lots conditionnels
 
 Ces lots ne sont engagés que sur preuve mesurée.
@@ -2921,3 +3039,4 @@ Niveaux D et E. Hors périmètre v1.
 | 13 | | à faire | | |
 | 14 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 14b | | fait | (ce lot, voir `git log`) | 2026-09-18 |
+| 15 | | fait | (ce lot, voir `git log`) | 2026-09-18 |

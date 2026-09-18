@@ -93,6 +93,26 @@ entry that cites any `DocumentarySource` must have a real, non-empty
 citation was itself corrected against this rule -- by reading the document
 for real (`get_document_section`), not by inventing a passage to satisfy
 the validator.
+
+**P1/P2 (lot 15), the gap lot 14b left open by construction.** Lot 14b gave
+an LLM drafting session exactly two write paths, neither able to produce a
+decided `pratique` entry (`aster_expert.agent.drafting`). That barrier also
+meant no path existed for a *human* decision either: `PracticeSource` has
+existed since M1, yet nothing before this lot ever built a
+`PracticeHypothesisEntry(status="tranche", ...)`, so the combi-wall
+specimen's eight `pratique`/`non_tranche` entries were structurally unable
+to leave that state. `PracticeHypothesisEntry` now requires, when
+`status="tranche"`: at least one `discarded_variants` entry (an arbitration
+with no alternative actually weighed is not one) and both `decided_by` and
+`decided_at` (P2 -- "qui a tranché et quand"). A re-arbitrated entry keeps
+its previous decision in `decision_history` (`PriorDecision`, append-only,
+frozen like every model here) rather than overwriting it: the fiche feeds a
+note de calcul, and which option was retained *before* the current one is
+part of that record. Both requirements are enforced by this model's own
+validator, not by whichever function happens to build the entry -- see
+`aster_expert.agent.arbitration.record_practice_decision`, the one function
+meant to call this, but the guarantee holds against any construction path,
+including a hand-built one.
 """
 
 from __future__ import annotations
@@ -215,6 +235,27 @@ class DiscardedVariant(BaseModel):
 
     description: str
     reason: str
+
+
+class PriorDecision(BaseModel):
+    """One superseded arbitration of a `pratique` entry (P2, lot 15).
+
+    Populated only by `aster_expert.agent.arbitration.record_practice_decision`,
+    always by moving a `PracticeHypothesisEntry`'s *current* decision fields
+    here, verbatim, before replacing them -- never edited in place once
+    written (frozen, like every model in this module): re-arbitrating a
+    point changes what `PracticeHypothesisEntry` currently asserts, never
+    what it asserted before.
+    """
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    option_retained: str
+    justification: str
+    sources: tuple[PracticeSource, ...]
+    discarded_variants: tuple[DiscardedVariant, ...] = ()
+    decided_by: str
+    decided_at: datetime
 
 
 def _forbid_decision_fields_when_unresolved(
@@ -353,11 +394,27 @@ class PracticeHypothesisEntry(_HypothesisEntryBase):
     represents an actual decision (a norme applied, a precedent reused, an
     engineer's dated call) -- there is no partial or "found but unread"
     state for practice the way there is for a document.
+
+    `decided_by`/`decided_at`/`decision_history` (P1/P2, lot 15) exist only
+    to record a *human* arbitration of this entry -- see the module
+    docstring's P1/P2 paragraph and
+    `aster_expert.agent.arbitration.record_practice_decision`. `status=
+    "tranche"` requires both `decided_by` and `decided_at` populated, and
+    at least one `discarded_variants`; `status="non_tranche"` forbids all
+    three fields, symmetrically with `sources`, for the same reason: an
+    unresolved point has neither a decision nor an author of one to record.
+    `herite` is deliberately left out of this requirement -- it names a
+    value inherited from a prior project's own decision, not an
+    arbitration made on this fiche, and no function in this project builds
+    it (M1, lot 14: hand-built only, unchanged by this lot).
     """
 
     nature: Literal["pratique"] = "pratique"
     sources: tuple[PracticeSource, ...] = ()
     status: Literal["tranche", "non_tranche", "herite"]
+    decided_by: str | None = None
+    decided_at: datetime | None = None
+    decision_history: tuple[PriorDecision, ...] = ()
 
     @model_validator(mode="after")
     def _status_matches_content(self) -> PracticeHypothesisEntry:
@@ -368,6 +425,16 @@ class PracticeHypothesisEntry(_HypothesisEntryBase):
             _forbid_decision_fields_when_unresolved(
                 option_retained=self.option_retained, justification=self.justification
             )
+            if (
+                self.decided_by is not None
+                or self.decided_at is not None
+                or self.decision_history
+            ):
+                message = (
+                    "une entrée pratique non tranchée ne porte ni arbitre ni date "
+                    "d'arbitrage ni historique -- rien n'a encore été tranché"
+                )
+                raise ValueError(message)
         else:
             _require_decision_fields(
                 status=self.status,
@@ -384,6 +451,20 @@ class PracticeHypothesisEntry(_HypothesisEntryBase):
                     "décision prise ici"
                 )
                 raise ValueError(message)
+            if self.status == "tranche":
+                if not self.discarded_variants:
+                    message = (
+                        "une entrée pratique tranchée exige les variantes écartées "
+                        "avec leur raison (P1, lot 15) -- une décision sans "
+                        "alternative examinée n'est pas un arbitrage"
+                    )
+                    raise ValueError(message)
+                if not self.decided_by or self.decided_at is None:
+                    message = (
+                        "une entrée pratique tranchée exige qui a tranché "
+                        "(decided_by) et quand (decided_at) -- P2, lot 15"
+                    )
+                    raise ValueError(message)
         return self
 
 
@@ -471,4 +552,5 @@ __all__: list[str] = [
     "PracticeHypothesisEntry",
     "PracticeOrigin",
     "PracticeSource",
+    "PriorDecision",
 ]
