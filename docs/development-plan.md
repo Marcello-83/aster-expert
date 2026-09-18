@@ -1559,6 +1559,173 @@ d'ouverture du lot l'a explicitement élargi, et ce paragraphe de plan est mis
   en lecture (recherche, catalogue, analyse, validation) au sens où aucun
   n'écrit dans le dépôt de l'utilisateur.
 
+## Lot 8b — Discipline d'usage des outils, et latence
+
+**J1 — latence mesurée avant toute optimisation.**
+`data/processed/query_log.jsonl` (écrit par le lot 8) portait déjà six
+appels réels des quatre outils, dans une seule session :
+
+| Outil | Appels | Durée(s) réelle |
+|---|---|---|
+| `search_codeaster_docs` | 3 (même requête) | 5,226 / 1,199 / 1,035 |
+| `get_command_schema` | 1 | 0,028 |
+| `analyze_comm` | 1 | 0,006 |
+| `validate_comm` | 1 | 54,372 |
+
+Le premier appel de `search_codeaster_docs` dépasse le seuil de deux
+secondes fixé par la consigne du lot ; les deux suivants, sur la même
+requête dans le même processus, restent au-dessus d'une seconde alors
+qu'aucun cache applicatif n'existait encore -- cause déjà nommée par la
+clôture du lot 8 (« chaque appel recharge l'index BM25 et relit le
+fichier de schéma depuis le disque ») et confirmée ici par lecture du
+code : `aster_expert.mcp.tools.search_codeaster_docs` appelait
+`load_bm25_index` (rechargement de `bm25s.BM25.load`, retriever + corpus)
+sans aucune mise en cache, à chaque invocation. `get_command_schema`
+(0,028 s) et `analyze_comm` (0,006 s) étaient déjà sous la seconde :
+aucune optimisation n'y est apportée pour cette seule raison (CLAUDE.md,
+« pas d'optimisation sans mesure »). `validate_comm` (54,372 s) est un
+temps d'exécution Docker réel, pas un coût de rechargement : hors du
+périmètre de ce cache.
+
+**Cache posé (`aster_expert.mcp.cache`, nouveau module).** Deux
+dictionnaires en mémoire, vivants pour la durée du processus serveur (un
+redémarrage du serveur MCP les vide ; rien n'est persisté sur disque ni
+partagé entre processus) :
+
+- `cached_bm25_index(index_dir)` mémoïse `load_bm25_index` (clé : chemin
+  résolu de l'index).
+- `cached_command_schema(catalogue_root, digest, command)` mémoïse
+  `load_command_schema` (clé : racine résolue + digest + commande).
+
+`aster_expert.mcp.tools.search_codeaster_docs`/`get_command_schema` les
+utilisent à la place des fonctions de chargement directes ; aucune autre
+logique de classement, de chunking, d'extraction ou de validation n'est
+modifiée. Le catalogue est mis en cache aux côtés de l'index, tel que
+demandé par la consigne d'ouverture du lot (« un cache ... de l'index et
+du catalogue »), même si `get_command_schema` seul n'avait pas franchi le
+seuil de deux secondes.
+
+Mesure après cache, même requête, même processus, trois appels
+consécutifs (journal réel, `data/processed/query_log.jsonl`) :
+
+| Outil | Appel 1 (froid) | Appel 2 | Appel 3 |
+|---|---|---|---|
+| `search_codeaster_docs` | 9,335 s | 0,033 s | 0,028 s |
+| `get_command_schema` | 0,063 s | 0,023 s | 0,029 s |
+
+Le premier appel reste coûteux (chargement disque incompressible, sur
+lequel un cache ne peut agir qu'à partir du deuxième appel) -- plus élevé
+même qu'avant (9,335 s contre 5,226 s), écart attribué à l'état du cache
+disque du système au moment de la mesure, pas au cache applicatif qui
+n'intervient qu'ensuite. Les appels suivants tombent de 1,0-1,2 s à
+0,02-0,03 s pour `search_codeaster_docs` (gain ×35 à ×40), sans recharger
+l'index ni le fichier de schéma. `get_command_schema`, déjà sous la
+seconde avant ce lot, y reste ; son propre gain (0,028 s → 0,02-0,03 s
+après un premier appel mesuré à 0,063 s) n'était pas requis par la mesure
+mais découle du même mécanisme, posé une seule fois pour les deux outils.
+
+Tests : `tests/unit/test_mcp_cache.py` (nouveau, trois cas : chargement
+unique par processus pour l'index et pour le schéma, deux répertoires
+d'index distincts jamais confondus) et deux tests ajoutés à
+`tests/unit/test_mcp_tools.py`
+(`test_search_codeaster_docs_reuses_cached_index_across_calls`,
+`test_get_command_schema_reuses_cached_schema_across_calls`), qui
+vérifient par comptage d'appels à la fonction de chargement réelle qu'un
+second appel identique ne retouche jamais le disque.
+
+**J2 — skill `code-aster-expert`.**
+`.claude/skills/code-aster-expert/SKILL.md`, plus trois fichiers de
+référence chargés à la demande (`references/citation.md`,
+`references/comm-workflow.md`, `references/answer-format.md`), décrivent
+la procédure d'usage des quatre outils du serveur MCP -- identification de
+la version cible, choix explicite et annoncé du profil de recherche,
+interdiction d'énoncer une syntaxe sans preuve outillée, citation
+systématique (document, section, version, chemin), annonce du niveau de
+validation atteint (jamais au-dessus de ce qui a été réellement obtenu),
+`analyze_comm` puis `validate_comm` pour un `.comm` (jamais une lecture à
+l'œil), distinction faits/déductions/recommandations. Aucune connaissance
+Code_Aster de première main n'y est écrite : chaque affirmation de
+syntaxe renvoie à l'outil qui la fournirait, jamais à une valeur citée en
+dur dans le skill.
+
+**J3 — vérification sur trois questions réelles, appels bruts rapportés.**
+Trois questions ont été effectivement posées aux quatre outils MCP dans
+cette session (jamais choisies après coup pour « marcher ») :
+
+1. *« Comment définir une section circulaire pour une poutre avec
+   AFFE_CARA_ELEM ? »* -- `search_codeaster_docs(profile="syntaxe", k=5)`
+   (le meilleur résultat, `U4.42.01#Affectation_de_valeurs`, ne portait
+   pas encore l'opérande cherché), puis
+   `get_command_schema(command="AFFE_CARA_ELEM",
+   keyword="POUTRE.SECTION")` : `allowed_values` contient `"CERCLE"`
+   (variante `e7bec782a25c46a1`, v17.4.0) -- fait documenté, cité par
+   l'outil qui l'a produit (le catalogue, pas la recherche documentaire).
+   Niveau A.
+2. *« Différence entre les lois de comportement DIS_CHOC et DIS_CONTACT
+   pour un élément discret ? »* -- `search_codeaster_docs(profile
+   ="theorie", k=5)` ne renvoyait pas `R5.03.17` ; relancé à `k=15`,
+   `R5.03.17#Modelisation_des_chocs_et_du_frottement_DIS_CONTACT` (rang 11)
+   et `#Modelisation_des_chocs_et_du_frottement_DIS_CHOC` (rang 16) sont
+   sortis. Fait documenté cité : R5.03.17, v17.4.0,
+   `source/manuals/man_r/r5/r5.03.17/...` -- DIS_CONTACT (schéma implicite,
+   raideurs "physiques") est recommandé quand DIS_CHOC (schéma explicite,
+   raideurs "pénalisantes") ne convient pas, les deux exprimant un contact
+   unilatéral. Confirmé en niveau A par `get_command_schema` (`STAT_NON_LINE
+   .COMPORTEMENT.RELATION` liste bien `DIS_CHOC`/`DIS_CONTACT` parmi les
+   valeurs autorisées du catalogue, v17.4.0). Niveau A -- il a fallu
+   élargir `k` pour que le document sorte, observation directement utile
+   au J4 ci-dessous.
+3. *« Comment vérifier la masse totale d'un modèle ? »* (= `eval-051`,
+   profil annoté `methode`) -- `search_codeaster_docs(profile="methode",
+   k=10)` puis `k=20` : le document attendu (`U4.81.22`, opérateur
+   `POST_ELEM`, mot-clé `MASS_INER`) n'apparaît dans aucun des deux, sous
+   ce profil (résultats obtenus : `U4.66.11`, `U4.66.01`, `U2.06.10`,
+   ... -- tous relatifs à la « masse ajoutée » fluide-structure ou à une
+   liste de vérifications préalables en sismique, jamais au calcul de la
+   masse totale d'un modèle). Conclusion rapportée telle quelle à
+   l'utilisateur : *la documentation indexée ne tranche pas cette question
+   sous le profil `methode`*, plutôt que de forcer une réponse à partir
+   d'un résultat hors sujet. Remarque annexe, marquée comme telle (pas une
+   réponse) : sous le profil `syntaxe` (non celui annoté pour cette
+   question), `U4.81.22#But` apparaît en rang 10 -- signalé comme piste,
+   jamais présenté comme une réponse trouvée par le profil retenu.
+
+Aucune des trois réponses n'a été donnée sans appel d'outil ; le skill
+n'a pas été contourné.
+
+**J4 — les cinq questions du lot 7c jamais retrouvées, examen du texte
+attendu.** Rappel nominatif (`docs/development-plan.md`, clôture lot 7c,
+G6) : `eval-001`, `eval-010`, `eval-045`, `eval-051`, `eval-065` --
+5/59 (8,5 %) des questions `answerability=explicit` du banc, jamais
+retrouvées à `k<=20`, sous aucun des trois profils, dans aucun des lots 7/7b/7c.
+
+| id | libellé | `required_documents` | nature du texte attendu |
+|---|---|---|---|
+| `eval-001` | Quels types d'éléments finis de poutre sont disponibles pour modéliser un pieu, et en quoi diffèrent-ils | `U3.11.01`, `U3.11.04`, `U3.11.05`, `U3.11.07` (`index.rst` de chaque modélisation) | Prose réelle mais très courte (un résumé de quelques phrases par fichier, ex. U3.11.01 : « Les quatre modélisations POU_D_T, POU_D_E et BARRE correspondent aux formulations classiques d'éléments de poutres... ») -- jamais un tableau de mots-clés, mais un vocabulaire générique qui ne reprend aucun terme différenciateur de la question (« pieu », « en quoi diffèrent-ils ») : déficit lexical, pas un problème de découpage. |
+| `eval-010` | Quelle relation de comportement décrit un ressort ne travaillant qu'en compression | `R5.03.17` (sections DIS_CHOC/DIS_CONTACT) | Prose réelle et développée (théorie, équations, figures) : « Le comportement DIS_CONTACT traduit le contact avec choc et frottement... la relation de contact unilatéral... ». Aucune occurrence de « ressort » ni « compression » : vocabulaire physique/théorique (« contact unilatéral », « non-interpénétrabilité ») contre vocabulaire de métier de la question -- déficit lexical pur, confirmé en J3.2 ci-dessus (le document ressort dès que la requête emploie les termes techniques `DIS_CHOC`/`DIS_CONTACT` eux-mêmes, à `k=15`). |
+| `eval-045` | Comment obtenir les valeurs extrêmes d'un champ et leur localisation | `U4.81.21` | Le fichier cité par `verified_by` (`Exemples.rst`) est surtout du code et des tables de résultats, peu de prose. Mais le même document (`U4.81.21`, fichier `Principes_d_utilisation...ACTION.rst`) contient une vraie phrase descriptive : « de calcul de minimum et de maximum sur des groupes ou des entités : 'EXTREMA' » et « Le lieu du post-traitement désigne une figure géométrique... ». Prose réelle, présente dans le même document, mais avec un vocabulaire voisin sans être identique (« minimum et maximum » pour « valeurs extrêmes », « lieu » pour « localisation ») -- toujours un déficit lexical (synonymie), pas une absence de prose ni un défaut de découpage : le bon fragment existe et est indexé, il n'emploie simplement pas les mots de la question. |
+| `eval-051` | Comment vérifier la masse totale d'un modèle | `U4.81.22` | `Op_randes.rst`, mot-clé `MASS_INER` : prose réelle (« Mot clé facteur permettant de calculer la masse, les inerties et le centre de gravité... ») mêlée à des formules. Le mot « masse » y figure, mais ni « vérifier » ni « totale » -- registre de documentation de référence (opérande par opérande) contre une question formulée en langage d'usage. Déficit lexical de registre, pas un tableau de mots-clés sans phrase, confirmé en J3.3 ci-dessus (toujours absent à `k=20` sous le profil annoté). |
+| `eval-065` | Comment déclarer un spectre d'oscillateur déjà défini par des valeurs tabulées, sans le calculer depuis un accélérogramme | `U4.31.03`, `U4.32.02` | `But.rst` de chaque opérateur : prose réelle mais extrêmement courte et générique (« Définir une fonction réelle de deux variables réelles... », « Lire un fichier de données contenant des valeurs réelles... ») -- aucune mention de « spectre », « oscillateur », « réglementaire » ni « accélérogramme » : la description générique de l'opérateur ne recoupe jamais le vocabulaire du cas d'usage spécifique posé par la question. Déficit lexical, pas un problème de découpage (le fichier `But.rst` est déjà le plus petit grain indexé pour ce document). |
+
+Dans les cinq cas, le texte attendu est une **prose réelle** (jamais un
+simple tableau de mots-clés sans phrase) qui n'emploie tout simplement pas
+le vocabulaire de la question -- synonymie (`eval-045`, `eval-010`),
+registre documentaire contre langage d'usage (`eval-051`), ou généricité
+d'un résumé qui ne nomme pas le cas d'usage précis (`eval-001`,
+`eval-065`). C'est donc bien un **déficit lexical**, relevant d'un index
+vectoriel (conclusion déjà posée, chiffrée, par la clôture du lot 7c),
+jamais un problème de découpage : aucun de ces cinq documents ne
+bénéficierait d'un correctif de chunking, puisque le fragment concerné
+existe déjà tel quel, indexé, et contient déjà la bonne réponse en prose
+-- il n'est simplement jamais choisi par un score lexical qui ne recoupe
+aucun terme de la question.
+
+**NE PAS FAIT (conforme à la consigne).** Aucun embedding, aucune
+modification du découpage, du classement, du catalogue, du validateur ni
+du jeu d'évaluation. Le skill décrit un usage des quatre outils
+existants, il n'ajoute aucune capacité ni n'écrit de connaissance
+Code_Aster en dur.
+
 ## Lot 9 — Parseur `.comm`
 
 Analyse structurelle sans exécution, conforme à `docs/metadata.md`. Gestion
@@ -2223,6 +2390,7 @@ Niveaux D et E. Hors périmètre v1.
 | 7 | lot-7-retrieval | fait | (ce lot, voir `git log`) | 2026-09-17 |
 | 7b | lot-7b-ranking | fait | (ce lot, voir `git log`) | 2026-09-17 |
 | 8 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
+| 8b | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 9 | lot-9-comm-parser | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10 | lot-10-validation-b | fait | (ce lot, voir `git log`) | 2026-09-15 |
 | 10b | lot-10b-coverage | fait | (ce lot, voir `git log`) | 2026-09-15 |

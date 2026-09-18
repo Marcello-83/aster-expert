@@ -21,6 +21,13 @@ A malformed *response* — this project's own bug, not a caller mistake — is
 deliberately left to raise whatever pydantic or the underlying module
 itself raises: the MCP SDK turns that into a loud `UnexpectedToolError`
 rather than a partial result (docs/development-plan.md, lot 8, H5).
+
+`search_codeaster_docs` and `get_command_schema` read the BM25 index and
+the command catalogue through `aster_expert.mcp.cache` rather than the raw
+`load_bm25_index`/`load_command_schema` (lot 8b, J1: the first measured
+`search_codeaster_docs` call reloaded the index from disk every time,
+5.2 s) — still no ranking or catalogue logic added, only the disk read
+itself is memoized for the server process's lifetime.
 """
 
 from __future__ import annotations
@@ -32,13 +39,13 @@ from pathlib import Path
 from aster_expert.catalogue.errors import CatalogueExtractionError
 from aster_expert.catalogue.query import (
     find_keyword_variants,
-    load_command_schema,
     resolve_active_digest,
     resolve_digest_for_aster_version,
 )
 from aster_expert.execution.docker_client import find_docker_binary
 from aster_expert.execution.errors import EnvironmentDetectionError
-from aster_expert.indexing.bm25_index import default_index_dir, load_bm25_index
+from aster_expert.indexing.bm25_index import default_index_dir
+from aster_expert.mcp.cache import cached_bm25_index, cached_command_schema
 from aster_expert.mcp.errors import McpToolError
 from aster_expert.mcp.logging import (
     ReturnedItem,
@@ -117,7 +124,7 @@ def search_codeaster_docs(
         raise McpToolError(message)
 
     started = time.monotonic()
-    retriever, corpus = load_bm25_index(index_dir)
+    retriever, corpus = cached_bm25_index(index_dir)
     priority_search = (
         hard_filter_search if priority_mode == "hard" else soft_reweight_search
     )
@@ -185,7 +192,7 @@ def get_command_schema(
             if version is not None
             else resolve_active_digest(versions_path)
         )
-        schema = load_command_schema(catalogue_root, digest, command)
+        schema = cached_command_schema(catalogue_root, digest, command)
         variants = (
             find_keyword_variants(schema, keyword.split(".")) if keyword else None
         )

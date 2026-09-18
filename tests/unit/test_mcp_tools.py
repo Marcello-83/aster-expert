@@ -9,12 +9,14 @@ reduced, local corpus/catalogue built in `tmp_path` — no network, no Docker
 from __future__ import annotations
 
 import json
+from collections.abc import Iterator
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 import pytest
 
+import aster_expert.mcp.cache as cache_module
 import aster_expert.validation.validate as validate_module
 from aster_expert.indexing.bm25_index import build_bm25_index, default_index_dir
 from aster_expert.mcp.errors import McpToolError
@@ -27,6 +29,14 @@ from aster_expert.mcp.tools import (
 )
 
 DIGEST = "sha256:testdigest"
+
+
+@pytest.fixture(autouse=True)
+def _clear_mcp_cache() -> Iterator[None]:
+    cache_module.clear_caches()
+    yield
+    cache_module.clear_caches()
+
 
 _RETRIEVAL_YAML = """
 defaults:
@@ -104,6 +114,24 @@ def test_search_codeaster_docs_missing_index_fails_loudly(tmp_path: Path) -> Non
 
     with pytest.raises(McpToolError, match="Index introuvable"):
         search_codeaster_docs(project_root=root, query="comportement")
+
+
+def test_search_codeaster_docs_reuses_cached_index_across_calls(
+    project_root: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    calls: list[Path] = []
+    real_load = cache_module.load_bm25_index
+
+    def counting_load(path: Path) -> Any:
+        calls.append(path)
+        return real_load(path)
+
+    monkeypatch.setattr(cache_module, "load_bm25_index", counting_load)
+
+    search_codeaster_docs(project_root=project_root, query="comportement")
+    search_codeaster_docs(project_root=project_root, query="comportement")
+
+    assert len(calls) == 1
 
 
 def test_search_codeaster_docs_returns_level_a_and_journals_the_call(
@@ -195,6 +223,24 @@ def test_get_command_schema_returns_level_a(catalogue_root: Path) -> None:
     assert result.validation_level == "A"
     assert result.command_schema.command == "STAT_NON_LINE"
     assert result.keyword_variants is None
+
+
+def test_get_command_schema_reuses_cached_schema_across_calls(
+    catalogue_root: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    calls: list[str] = []
+    real_load = cache_module.load_command_schema
+
+    def counting_load(root: Path, digest: str, command: str) -> Any:
+        calls.append(command)
+        return real_load(root, digest, command)
+
+    monkeypatch.setattr(cache_module, "load_command_schema", counting_load)
+
+    get_command_schema(project_root=catalogue_root, command="STAT_NON_LINE")
+    get_command_schema(project_root=catalogue_root, command="STAT_NON_LINE")
+
+    assert len(calls) == 1
 
 
 def test_get_command_schema_keyword_lists_every_variant(catalogue_root: Path) -> None:
