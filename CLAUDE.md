@@ -185,7 +185,7 @@ Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne
 pas installer d'infrastructure non demandée, ne pas inventer la structure d'un
 dépôt externe avant de l'avoir inspectée.
 
-## État de la fiche combi-wall (lots 19-22)
+## État de la fiche combi-wall (lots 19-23)
 
 - `data/examples/hypotheses_combiwall_reference_arbitree.json` est produit par
   `scripts/build_combiwall_reference.py` à partir des entrées versionnées de
@@ -247,14 +247,37 @@ dépôt externe avant de l'avoir inspectée.
   `revision_history`, `RevisionEvent` : motif obligatoire, auteur, date, alternance
   `declared`/`lifted`). Une entrée pratique en révision est un bloqueur de
   génération ; une nouvelle `record_practice_decision` clôt la révision. Refusé
-  sur une entrée non tranchée. Dans la fiche de référence, les décisions 2
-  (point 1, homogénéisation) et 9 (point 8, amarrage/accostage) sont en révision :
-  `arbitrage_combiwall_MM_v4.md` porte encore deux mentions `[À CONFIRMER MM]`
-  (rigidité de membrane horizontale 0,081 MN/m ; largeur de platine ~1,00 m), il
-  n'est donc **pas** enregistré, et la décision 8 (point 7) non plus. Quand MM
-  aura levé les mentions : enregistrer v4 et le delta v3 dans `combiwall_inputs/`,
-  retirer `revisions` de `lot22_essais.json`, mettre à jour le script et le test
-  de rejeu.
+  sur une entrée non tranchée. Lot 23 : `arbitrage_combiwall_MM_v4.md` et
+  `cas_test_quai_combiwall_v3_delta.md` sont recopiés à l'identique dans
+  `combiwall_inputs/` ; ne restent que la phrase de statut de v4 qui cite le
+  marqueur (le test la retire avant de chercher `À CONFIRMER`). Les décisions 8
+  (point 7) et 9 (point 8) sont enregistrées (`_record_decisions(..., only=...)`) ;
+  la décision 9 a clos la révision du point 8 (`declared` lot 22, `lifted` par MM).
+  **La décision 2 (point 1, homogénéisation) n'est pas enregistrée** : elle reste
+  la seule entrée en révision, son motif (`lot22_essais.json`, `revisions`) cite le
+  poids propre (`RHO` exigé, compté dans `EPAIS`) et l'anomalie de post-traitement ;
+  elle sera réécrite après le lot 23. `decided_at` de v4 (2026-09-22 18:00) est
+  l'heure conventionnelle de MM, postérieure à la date de session.
+- Lot 23 (`docs/essais_lot23.md`, niveau C/D, `data/examples/lot23_essais/`,
+  `scripts/build_lot23_essais.py` et `analyze_lot23_essais.py`, entrées
+  `lot23_essais.json`, `lot23_extraits.json`) : sous `ELAS_COQUE` (DKT) les efforts
+  généralisés `EFGE_ELNO`/`EFGE_NOEU` sont **exacts** et indépendants de `EPAIS` et de
+  `CISA_*` ; `SIEF_ELGA` (contraintes `SIXX…` à 3 sous-points en 17.4.0, non des
+  efforts généralisés), `FORC_NODA` et `REAC_NODA` sont faux quand
+  `FLEX ≠ MEMB × EPAIS²/12`, proportionnels à `EPAIS²` (hypothèse du lot 22
+  confirmée). Ne jamais lire de réaction ni de contrainte sous `ELAS_COQUE` : lire
+  `EFGE_NOEU`. Contrôle d'équilibre : forces des ressorts discrets (`FORC_NODA`
+  restreint aux `POI1`) ou `REAC_NODA` sur des nœuds d'appui sans `ELAS_COQUE` ; la
+  somme de `REAC_NODA` sur tout le modèle est juste et ne discrimine rien. `RHO = 0`
+  sur `ELAS_COQUE` : poids nul **sans alarme**. U4.43.01 (« masse par unité de
+  surface ») contredit R3.07.03 (masse volumique) ; l'exécution suit R3.07.03.
+  Non testés : membrane, `MYY`, `MXY`, `QY`, `SIGM_ELNO`, COQUE_3D, DST, TRIA3.
+- Une valeur d'`ExecutionSource` doit être imprimée dans son listing versionné
+  (test) : pas de grandeur dérivée comme source, elle va dans `analyse.json` et les
+  notes.
+- Outils MCP : le serveur attaché à une session peut précéder le code
+  (`search_test_cases`/`read_test_case` absents) ; se reconnecter (`/mcp`), à
+  défaut passer par un client MCP stdio sur un serveur neuf.
 - Ressorts nodaux (point 4, exécuté au lot 22, niveau D) : regrouper les nœuds de
   même raideur (mêmes `VALE`) dans un même groupe `POI1`, une occurrence de
   `CREA_POI1` et de `DISCRET` par classe de raideur, jamais par nœud. Tolérance de

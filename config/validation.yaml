@@ -40,6 +40,9 @@ execution:
     # Essais synthétiques du lot 22 (ELAS_COQUE, pesanteur, ressorts nodaux),
     # entièrement produits par scripts/build_lot22_essais.py.
     - data/examples/lot22_essais
+    # Essais synthétiques du lot 23 (post-traitement sous ELAS_COQUE),
+    # entièrement produits par scripts/build_lot23_essais.py.
+    - data/examples/lot23_essais
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

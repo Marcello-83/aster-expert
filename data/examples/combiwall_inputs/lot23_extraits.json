@@ -1,0 +1,41 @@
+[
+  {
+    "id": "u48104_elas_coque_efge_noeu",
+    "document_id": "U4.81.04",
+    "section_path": [
+      "Operandes_forces_reactions"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.81.04/Operandes_forces_reactions.rst",
+    "line_start": 73,
+    "line_end": 73,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Dans le cas des coques, les composantes DX, DY et DZ donnent les FORC_NODA (de dimension d'une force) dans le repère global du maillage. Ces composantes sont construites avec les efforts normaux et tranchants dans la coque. Les composantes DRX, DRY et DRZ donnent les FORC_NODA (de dimension d'un moment) dans le repère global du maillage, construites avec les moments fléchissants dans la coque. Dans le cas de comportements homogénéisés de coque type ELAS_COQUE, il est préférable de regarder EFGE_NOEU."
+  },
+  {
+    "id": "r30703_epais_rho_elas_coque",
+    "document_id": "R3.07.03",
+    "section_path": [
+      "Implantation_des__l_ments_de_plaque_dans_Code_Aster"
+    ],
+    "source_path": "source/manuals/man_r/r3/r3.07.03/Implantation_des__l_ments_de_plaque_dans_Code_Aster.rst",
+    "line_start": 77,
+    "line_end": 77,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Ce comportement a été ajouté dans DEFI_MATERIAU pour prendre en compte des matrices de rigidité non proportionnelles en membrane et en flexion, obtenues par homogénéisation d’un matériau multicouche. Les coefficients des matrices de rigidité sont alors introduits à la main par l’utilisateur dans le repère utilisateur défini par le mot-clé ANGL_REP. L’épaisseur donnée dans AFFE_CARA_ELEM est seulement utilisée avec la masse volumique définie par RHO. alpha est la dilatation thermique. Si on souhaite utiliser ELAS_COQUE avec du cisaillement transverse, il faut nécessairement employer la modélisation DST. Si on utilise la modélisation DKT, le cisaillement transverse n’est pas pris en compte."
+  },
+  {
+    "id": "u4301_elas_coque_rho",
+    "document_id": "U4.43.01",
+    "section_path": [
+      "Caract_ristiques__lastiques_g_n_rales"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.43.01/Caract_ristiques__lastiques_g_n_rales.rst",
+    "line_start": 680,
+    "line_end": 680,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "L’utilisateur peut également indiquer un coefficient de dilatation thermique isotrope alpha et une masse par unité de surfacerho."
+  }
+]

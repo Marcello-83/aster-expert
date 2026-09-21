@@ -50,7 +50,9 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     # du lot 20 (3 constats code_aster, 1 point non fondé, 1 renvoi pratique)
     # + point non fondé du lot 19 ; le tableau comparatif est remplacé sur place ;
     # + 4 constats d'exécution du lot 22 (le constat des ressorts est remplacé)
-    assert len(sheet.entries) == 35
+    # + 2 constats d'exécution du lot 23 (efforts généralisés, équilibre) ; les
+    # constats REAC_NODA et RHO sont remplacés sur place
+    assert len(sheet.entries) == 37
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -209,12 +211,25 @@ def test_arbitree_fiche_v3_revisions_keep_the_v2_decision_in_history() -> None:
         and e.status == "tranche"
         and e.decision_history
     }
-    assert set(revised) == {"1", "2", "4", "5", "6", "7"}
-    for entry in revised.values():
+    # Lot 23 : v4 revised points 7 and 8 again (2026-09-22, after v3).
+    assert set(revised) == {"1", "2", "4", "5", "6", "7", "8"}
+    for label in ("1", "2", "4", "5", "6"):
+        entry = revised[label]
         assert len(entry.decision_history) == 1
         assert entry.decision_history[0].decided_at.date().isoformat() == "2026-09-18"
         assert entry.decided_at is not None
         assert entry.decided_at.date().isoformat() == "2026-09-21"
+    v7, v8 = revised["7"], revised["8"]
+    assert [h.decided_at.date().isoformat() for h in v7.decision_history] == [
+        "2026-09-18",
+        "2026-09-21",
+    ]
+    assert [h.decided_at.date().isoformat() for h in v8.decision_history] == [
+        "2026-09-21"
+    ]
+    for entry in (v7, v8):
+        assert entry.decided_at is not None
+        assert entry.decided_at.date().isoformat() == "2026-09-22"
 
 
 def test_arbitree_fiche_unrevised_decisions_have_no_history() -> None:
@@ -279,28 +294,45 @@ def test_arbitree_fiche_group_naming_gaps_are_closed() -> None:
     assert sheet.group_naming_gaps() == ()
 
 
-def test_arbitree_fiche_only_blockers_are_the_two_entries_under_revision() -> None:
-    """Lot 22: `arbitrage_combiwall_MM_v4.md` still carries `[À CONFIRMER MM]`
-    mentions, so v4 is not recorded and decisions 2 and 9 are flagged « en
-    révision » (they were silently settled-looking at lot 21)."""
+def test_arbitree_fiche_only_blocker_is_the_entry_under_revision() -> None:
+    """Lot 23: v4 decisions 8 and 9 are recorded (decision 9 closes the revision
+    of point 8); decision 2 (point 1, homogenisation) stays « en révision » and
+    is the only blocker. Its reason cites the self-weight and the
+    post-processing anomaly."""
     sheet = _load()
 
     blockers = sheet.generation_blockers()
-    assert len(blockers) == 2
+    assert len(blockers) == 1
     assert blockers[0].startswith(
         "entrée pratique en révision (point 1) : Homogénéisation ou représentation"
     )
-    assert blockers[1].startswith(
-        "entrée pratique en révision (point 8) : Application des charges localisées"
-    )
-    assert all("[À CONFIRMER MM]" in b for b in blockers)
+    assert "RHO" in blockers[0] and "EPAIS" in blockers[0]
+    assert "REAC_NODA" in blockers[0] and "EFGE" in blockers[0]
     assert sheet.is_ready_for_generation is False
-    # the flagged entries keep their v3 decision untouched
-    for entry in sheet.entries_under_revision():
-        assert entry.status == "tranche" and entry.decided_by == "MM"
-        assert entry.decided_at is not None
-        (event,) = entry.revision_history
-        assert event.kind == "declared" and event.by == "Claude (lot 22)"
+    # the flagged entry keeps its recorded decision untouched
+    (entry,) = sheet.entries_under_revision()
+    assert entry.status == "tranche" and entry.decided_by == "MM"
+    assert entry.decided_at is not None
+    (event,) = entry.revision_history
+    assert event.kind == "declared" and event.by.startswith("Claude (lot 22")
+
+
+def test_arbitree_fiche_point_8_revision_is_declared_then_lifted_by_decision_9() -> (
+    None
+):
+    sheet = _load()
+
+    (entry,) = [
+        e
+        for e in sheet.entries
+        if isinstance(e, PracticeHypothesisEntry)
+        and e.topic.startswith("Application des charges localisées")
+    ]
+    assert not entry.under_revision
+    assert [(ev.kind, ev.by) for ev in entry.revision_history] == [
+        ("declared", "Claude (lot 22)"),
+        ("lifted", "MM"),
+    ]
 
 
 def test_arbitree_fiche_never_attaches_a_documentary_source_to_a_practice_entry() -> (

@@ -1,0 +1,593 @@
+setting '--memory' value to 7372.80 MB (keyword RESERVE_MEMOIRE)
+copying '/work/d5a.mail' to 'fort.20'...
+checking MPI initialization...
+using COMM_WORLD.
+MPI is initialized.
+Ouverture en écriture du fichier ./vola.1
+
+<INFO> Démarrage de l'exécution.
+
+                        -- CODE_ASTER -- VERSION : EXPLOITATION (stable) --                         
+                               Version 17.4.0 modifiée le 02/01/2026                                
+                              révision spack-local - branche 'v17.4.0'                              
+                                   Copyright EDF R&D 1991 - 2026                                    
+                                                                                                    
+                              Exécution du : Mon Sep 21 11:28:06 2026                               
+                                  Nom de la machine : 4af3039b183a                                  
+                                        Architecture : 64bit                                        
+                                    Type de processeur : x86_64                                     
+               Système d'exploitation : Linux-7.0.0-31-generic-x86_64-with-glibc2.36                
+                                  Langue des messages : en (UTF-8)                                  
+                                    Version de Python : 3.11.14                                     
+                                     Version de NumPy : 1.26.4                                      
+                                      Parallélisme MPI : actif                                      
+                                   Rang du processeur courant : 0                                   
+                               Nombre de processeurs MPI utilisés : 1                               
+                                    Parallélisme OpenMP : actif                                     
+                              Nombre de processus OpenMP utilisés : 1                               
+                               Version de la librairie HDF5 : 1.10.7                                
+                                Version de la librairie MED : 4.2.0                                 
+                               Version de la librairie MFront : 5.0.0                               
+                               Version de la librairie MUMPS : 5.6.2                                
+                              Version de la librairie PETSc : 3.24.0p0                              
+                              Version de la librairie SCOTCH : 7.0.10                               
+
+starting the execution...
+Valeur initiale du temps CPU maximum =   1800 secondes
+  Valeur du temps CPU maximum passé aux commandes =   1620 secondes
+  Réserve CPU prévue = 180 secondes
+
+Ouverture en écriture du fichier ./glob.1
+
+Ouverture en écriture du fichier ./vola.1
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Créée avec la version                   :  17.04.00
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre total d'accès en lecture         :  64
+     Volume des accès en lecture             :         50.00 Mo.
+     Nombre total d'accès en écriture        :  0
+     Volume des accès en écriture            :          0.00 Mo.
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Relecture des catalogues des éléments faite.
+
+Fin de lecture (durée  0.053192  s.) 
+
+                      Mémoire limite pour l'allocation dynamique : 7940.65 Mo                       
+                         ajouté à l'initialisation du processus : 647.33 Mo                         
+                               Limite cible du processus : 8587.99 Mo                               
+                         Taille limite des fichiers d'échange : 2048.00 Go                          
+# Mémoire (Mo) :   647.33 /   639.57 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0001   user+syst:        0.00s (syst:        0.30s, elaps:        0.31s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt21
+# ----------------------------------------------------------------------------------------------
+# Commande #0002 de d5a.comm.changed.py, ligne 21
+MAIL0 = LIRE_MAILLAGE(FORMAT='ASTER',
+                      INFO=1,
+                      UNITE=20,
+                      VERI_MAIL=_F(APLAT=0.001,
+                                   VERIF='OUI'))
+
+Vérification du maillage.
+
+
+------------ MAILLAGE 00000001 - IMPRESSIONS NIVEAU  1 ------------
+
+Bande mixte ELAS_COQUE / ELAS, essai D5 (lot 23)                                
+
+NOMBRE DE NOEUDS                         126
+
+NOMBRE DE MAILLES                        105
+                              SEG2                    5
+                              QUAD4                 100
+
+NOMBRE DE GROUPES DE NOEUDS                3
+
+NOMBRE DE GROUPES DE MAILLES               3
+
+--------------------------------------------------------------------------------
+
+# Résultat commande #0002 (LIRE_MAILLAGE): MAIL0 ('<00000001>') de type <Mesh>
+# Mémoire (Mo) :   647.33 /   640.20 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0002   user+syst:        0.00s (syst:        0.02s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt23
+# ----------------------------------------------------------------------------------------------
+# Commande #0003 de d5a.comm.changed.py, ligne 23
+MAIL = CREA_MAILLAGE(CREA_POI1=_F(GROUP_NO='X2',
+                                  NOM_GROUP_MA='RESSORTS'),
+                     INFO=1,
+                     MAILLAGE=MAIL0)
+
+
+------------ MAILLAGE 00000002 - IMPRESSIONS NIVEAU  1 ------------
+
+ASTER 17.04.00 CONCEPT 00000002 CALCULE LE 21/09/2026 A 11:28:06 DE TYPE        
+MAILLAGE_SDASTER                                                                
+
+NOMBRE DE NOEUDS                         126
+
+NOMBRE DE MAILLES                        111
+                              POI1                    6
+                              SEG2                    5
+                              QUAD4                 100
+
+NOMBRE DE GROUPES DE NOEUDS                3
+
+NOMBRE DE GROUPES DE MAILLES               4
+
+--------------------------------------------------------------------------------
+
+#4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0003 (CREA_MAILLAGE): MAIL ('<00000002>') de type <Mesh>
+# Mémoire (Mo) :   647.33 /   640.20 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0003   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt25
+# ----------------------------------------------------------------------------------------------
+# Commande #0004 de d5a.comm.changed.py, ligne 25
+MO = AFFE_MODELE(AFFE=(_F(MODELISATION='DKT',
+                          PHENOMENE='MECANIQUE',
+                          TOUT='OUI'),
+                       _F(GROUP_MA='RESSORTS',
+                          MODELISATION='DIS_TR',
+                          PHENOMENE='MECANIQUE')),
+                 DISTRIBUTION=_F(METHODE='SOUS_DOMAINE',
+                                 PARTITIONNEUR='METIS'),
+                 INFO=1,
+                 MAILLAGE=MAIL,
+                 VERI_FORMULATION_IFS='OUI',
+                 VERI_JACOBIEN='OUI',
+                 VERI_NORM_IFS='OUI',
+                 VERI_PLAN='OUI')
+
+Sur les 111 mailles du maillage 00000002, on a demandé l'affectation de 111, on a pu en affecter
+111.
+Modélisation     Formulation      Type maille  Élément fini     Nombre
+_                _                SEG2         MEBODKT          5
+DIS_TR           _                POI1         MECA_DIS_TR_N    6
+DKT              _                QUAD4        MEDKQU4          100
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0004 (AFFE_MODELE): MO ('<00000003>') de type <Model>
+# Mémoire (Mo) :   769.02 /   769.02 /   207.61 /   197.06 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0004   user+syst:        0.00s (syst:        0.03s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt33
+# ----------------------------------------------------------------------------------------------
+# Commande #0005 de d5a.comm.changed.py, ligne 33
+CARA = AFFE_CARA_ELEM(COQUE=_F(ANGL_REP=(0.0, 0.0),
+                               A_CIS=0.8333333,
+                               COEF_RIGI_DRZ=1e-05,
+                               COQUE_NCOU=1,
+                               EPAIS=0.01,
+                               GROUP_MA=('COQ', 'ELA'),
+                               MODI_METRIQUE='NON'),
+                      DISCRET=_F(CARA='K_TR_D_N',
+                                 GROUP_MA='RESSORTS',
+                                 REPERE='GLOBAL',
+                                 SYME='OUI',
+                                 VALE=(1000000.0, 1000000.0, 1000000.0, 100000.0, 100000.0, 100000.0)),
+                      INFO=1,
+                      MODELE=MO)
+
+
+     LE MODELE 00000003 CONTIENT : 
+                                        6 ELEMENT(S) DISCRET         
+                                      105 ELEMENT(S) COQUE           
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0005 (AFFE_CARA_ELEM): CARA ('<00000004>') de type <ElementaryCharacteristics>
+# Dépend de :
+# - MO ('<00000003>') de type <Model>
+# Mémoire (Mo) :   769.02 /   769.02 /   207.61 /   197.06 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0005   user+syst:        0.02s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt43
+# ----------------------------------------------------------------------------------------------
+# Commande #0006 de d5a.comm.changed.py, ligne 43
+MAT = DEFI_MATERIAU(ELAS_COQUE=_F(CISA_L=10000000000.0,
+                                  CISA_T=10000000000.0,
+                                  FLEX_G_LT=500.0,
+                                  FLEX_L=1000.0,
+                                  FLEX_LT=0.0,
+                                  FLEX_T=4000.0,
+                                  MEMB_G_LT=3500000.0,
+                                  MEMB_L=10000000.0,
+                                  MEMB_LT=3000000.0,
+                                  MEMB_T=10000000.0,
+                                  ORDRE_PARAM=('MEMB_L', 'MEMB_LT', 'MEMB_T', 'MEMB_G_LT', 'FLEX_L', 'FLEX_LT', 'FLEX_T', 'FLEX_G_LT', 'CISA_L', 'CISA_T', 'M_LLLL', 'M_LLTT', 'M_LLLT', 'M_TTTT', 'M_TTLT', 'M_LTLT', 'F_LLLL', 'F_LLTT', 'F_LLLT', 'F_TTTT', 'F_TTLT', 'F_LTLT', 'MF_LLLL', 'MF_LLTT', 'MF_LLLT', 'MF_TTTT', 'MF_TTLT', 'MF_LTLT', 'MC_LLLZ', 'MC_LLTZ', 'MC_TTLZ', 'MC_TTTZ', 'MC_LTLZ', 'MC_LTTZ', 'FC_LLLZ', 'FC_LLTZ', 'FC_TTLZ', 'FC_TTTZ', 'FC_LTLZ', 'FC_LTTZ', 'C_LZLZ', 'C_LZTZ', 'C_TZTZ', 'RHO', 'ALPHA')),
+                    INFO=1)
+
+# Résultat commande #0006 (DEFI_MATERIAU): MAT ('<00000005>') de type <Material>
+# Mémoire (Mo) :   769.02 /   769.02 /   207.61 /   197.06 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0006   user+syst:        0.11s (syst:        0.00s, elaps:        0.12s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt45
+# ----------------------------------------------------------------------------------------------
+# Commande #0007 de d5a.comm.changed.py, ligne 45
+MATE = DEFI_MATERIAU(ELAS=_F(B_ENDOGE=0.0,
+                             COEF_AMOR=1.0,
+                             E=12000000000.0,
+                             K_DESSIC=0.0,
+                             NU=0.0),
+                     INFO=1)
+
+# Résultat commande #0007 (DEFI_MATERIAU): MATE ('<00000006>') de type <Material>
+# Mémoire (Mo) :   769.02 /   769.02 /   207.61 /   197.06 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0007   user+syst:        0.12s (syst:        0.00s, elaps:        0.12s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt47
+# ----------------------------------------------------------------------------------------------
+# Commande #0008 de d5a.comm.changed.py, ligne 47
+CHMAT = AFFE_MATERIAU(AFFE=(_F(GROUP_MA='COQ',
+                               MATER=MAT),
+                            _F(GROUP_MA='ELA',
+                               MATER=MATE)),
+                      INFO=1,
+                      MAILLAGE=MAIL)
+
+# Résultat commande #0008 (AFFE_MATERIAU): CHMAT ('<00000007>') de type <MaterialField>
+# Mémoire (Mo) :   769.02 /   769.02 /   207.61 /   197.06 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0008   user+syst:        0.08s (syst:        0.00s, elaps:        0.08s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt52
+# ----------------------------------------------------------------------------------------------
+# Commande #0009 de d5a.comm.changed.py, ligne 52
+CHAR = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                      FORCE_ARETE=_F(FZ=-10.0,
+                                     GROUP_MA='BOUT0'),
+                      INFO=1,
+                      MODELE=MO,
+                      SYNTAXE='NON',
+                      VERI_AFFE='OUI',
+                      VERI_NORM='OUI')
+
+# Résultat commande #0009 (AFFE_CHAR_MECA): CHAR ('<00000008>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   769.02 /   769.02 /   207.61 /   197.06 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0009   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt57
+# ----------------------------------------------------------------------------------------------
+# Commande #0010 de d5a.comm.changed.py, ligne 57
+RESU = MECA_STATIQUE(CARA_ELEM=CARA,
+                     CHAM_MATER=CHMAT,
+                     EXCIT=_F(CHARGE=CHAR,
+                              TYPE_CHARGE='FIXE_CSTE'),
+                     INFO=1,
+                     INST=0.0,
+                     MODELE=MO,
+                     OPTION='SIEF_ELGA',
+                     SOLVEUR=_F(ACCELERATION='AUTO',
+                                ELIM_LAGR='LAGR2',
+                                GESTION_MEMOIRE='AUTO',
+                                LOW_RANK_SEUIL=0.0,
+                                MATR_DISTRIBUEE='NON',
+                                METHODE='MUMPS',
+                                NB_RHS=1,
+                                NPREC=8,
+                                PCENT_PIVOT=35,
+                                POSTTRAITEMENTS='AUTO',
+                                PRETRAITEMENTS='AUTO',
+                                REDUCTION_MPI=0,
+                                RENUM='AUTO',
+                                RESI_RELA=1e-06,
+                                STOP_SINGULIER='OUI',
+                                TYPE_RESOL='AUTO'))
+
+Le système linéaire à résoudre a 756 degrés de liberté:
+   - 756 sont des degrés de liberté physiques
+     (ils sont portés par 126 noeuds du maillage)
+   - 0 sont les couples de paramètres de Lagrange associés
+     aux 0 relations linéaires dualisées.
+La matrice est de taille 756 équations.
+  Elle contient 17946 termes non nuls si elle est symétrique et 35136 termes non nuls si elle n'est
+pas symétrique.
+  Soit un taux de remplissage de   6.148 %.
+Champ stocké <DEPL> à l'instant  0.000000000000e+00 pour le numéro d'ordre 1
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.00
+# Résultat commande #0010 (MECA_STATIQUE): RESU ('<00000009>') de type <ElasticResult>
+# Mémoire (Mo) :   772.79 /   770.02 /   207.61 /   197.37 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0010   user+syst:        0.22s (syst:        0.00s, elaps:        0.24s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt59
+# ----------------------------------------------------------------------------------------------
+# Commande #0012 de d5a.comm.changed.py, ligne 59
+RESU = CALC_CHAMP(CRITERE='RELATIF',
+                  FORCE='FORC_NODA',
+                  GROUP_MA='RESSORTS',
+                  INFO=1,
+                  PARALLELISME_TEMPS='NON',
+                  PRECISION=1e-06,
+                  RESULTAT=RESU,
+                  reuse=RESU)
+
+Le système linéaire à résoudre a 756 degrés de liberté:
+   - 756 sont des degrés de liberté physiques
+     (ils sont portés par 126 noeuds du maillage)
+   - 0 sont les couples de paramètres de Lagrange associés
+     aux 0 relations linéaires dualisées.
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0012 (CALC_CHAMP): RESU ('<00000009>') de type <ElasticResult>
+# Mémoire (Mo) :   772.79 /   770.02 /   207.61 /   197.37 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0012   user+syst:        0.02s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt61
+# ----------------------------------------------------------------------------------------------
+# Commande #0013 de d5a.comm.changed.py, ligne 61
+T_DEPL = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
+                                 FORMAT_C='MODULE',
+                                 GROUP_NO='X0',
+                                 INTITULE='FLECHE_BOUT',
+                                 MOYE_NOEUD='OUI',
+                                 NOM_CHAM='DEPL',
+                                 NOM_CMP='DZ',
+                                 OPERATION='EXTRACTION',
+                                 PRECISION=1e-06,
+                                 REPERE='GLOBAL',
+                                 RESULTAT=RESU),
+                       INFO=1)
+
+# Résultat commande #0013 (POST_RELEVE_T): T_DEPL ('<0000002a>') de type <Table>
+# Mémoire (Mo) :   772.79 /   770.02 /   207.61 /   197.37 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0013   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt72
+# ----------------------------------------------------------------------------------------------
+# Commande #0014 de d5a.comm.changed.py, ligne 72
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_DEPL,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 0000002a CALCULE LE 21/09/2026 A 11:28:07 DE TYPE        
+INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   INST                 ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DZ                  
+FLECHE_BOUT      1        00000009 DEPL                                1   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -2.670351313871E-02
+FLECHE_BOUT      2        00000009 DEPL                                1   0.000000000000E+00   1.000000000000E-01   0.000000000000E+00   1.000000000000E-01   0.000000000000E+00  -2.670351313883E-02
+FLECHE_BOUT      3        00000009 DEPL                                1   0.000000000000E+00   2.000000000000E-01   0.000000000000E+00   2.000000000000E-01   0.000000000000E+00  -2.670351313890E-02
+FLECHE_BOUT      4        00000009 DEPL                                1   0.000000000000E+00   3.000000000000E-01   0.000000000000E+00   3.000000000000E-01   0.000000000000E+00  -2.670351313890E-02
+FLECHE_BOUT      5        00000009 DEPL                                1   0.000000000000E+00   4.000000000000E-01   0.000000000000E+00   4.000000000000E-01   0.000000000000E+00  -2.670351313885E-02
+FLECHE_BOUT      6        00000009 DEPL                                1   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00  -2.670351313874E-02
+
+# Mémoire (Mo) :   772.79 /   770.02 /   207.61 /   197.37 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0014   user+syst:        0.11s (syst:        0.00s, elaps:        0.11s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt74
+# ----------------------------------------------------------------------------------------------
+# Commande #0015 de d5a.comm.changed.py, ligne 74
+T_RESS = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
+                                 FORMAT_C='MODULE',
+                                 GROUP_NO='X2',
+                                 INTITULE='FORC_NODA_RESSORTS',
+                                 MOMENT=('DRX', 'DRY', 'DRZ'),
+                                 MOYE_NOEUD='OUI',
+                                 NOM_CHAM='FORC_NODA',
+                                 OPERATION='EXTRACTION',
+                                 POINT=(0.0, 0.0, 0.0),
+                                 PRECISION=1e-06,
+                                 REPERE='GLOBAL',
+                                 RESULTANTE=('DX', 'DY', 'DZ'),
+                                 RESULTAT=RESU),
+                       INFO=1)
+
+# Résultat commande #0015 (POST_RELEVE_T): T_RESS ('<0000002b>') de type <Table>
+# Mémoire (Mo) :   772.79 /   770.02 /   207.61 /   197.37 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0015   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt87
+# ----------------------------------------------------------------------------------------------
+# Commande #0016 de d5a.comm.changed.py, ligne 87
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_RESS,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 0000002b CALCULE LE 21/09/2026 A 11:28:07 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 RESULT_X             RESULT_Y             RESULT_Z             MOMENT_X             MOMENT_Y             MOMENT_Z            
+FORC_NODA_RESSOR 00000009 FORC_NODA                           1   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -5.000000000557E+00  -1.250000000181E+00   3.339672982605E-10   0.000000000000E+00
+
+# Mémoire (Mo) :   772.79 /   770.02 /   207.61 /   197.37 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0016   user+syst:        0.09s (syst:        0.00s, elaps:        0.09s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt89
+# ----------------------------------------------------------------------------------------------
+# Commande #0017 de d5a.comm.changed.py, ligne 89
+T_RESS_TOUS = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
+                                      FORMAT_C='MODULE',
+                                      GROUP_NO='TOUS',
+                                      INTITULE='FORC_NODA_TOUS_RESSORTS',
+                                      MOMENT=('DRX', 'DRY', 'DRZ'),
+                                      MOYE_NOEUD='OUI',
+                                      NOM_CHAM='FORC_NODA',
+                                      OPERATION='EXTRACTION',
+                                      POINT=(0.0, 0.0, 0.0),
+                                      PRECISION=1e-06,
+                                      REPERE='GLOBAL',
+                                      RESULTANTE=('DX', 'DY', 'DZ'),
+                                      RESULTAT=RESU),
+                            INFO=1)
+
+# Résultat commande #0017 (POST_RELEVE_T): T_RESS_TOUS ('<0000002c>') de type <Table>
+# Mémoire (Mo) :   772.79 /   770.02 /   207.61 /   197.37 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0017   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt102
+# ----------------------------------------------------------------------------------------------
+# Commande #0018 de d5a.comm.changed.py, ligne 102
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_RESS_TOUS,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 0000002c CALCULE LE 21/09/2026 A 11:28:07 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 RESULT_X             RESULT_Y             RESULT_Z             MOMENT_X             MOMENT_Y             MOMENT_Z            
+FORC_NODA_TOUS_R 00000009 FORC_NODA                           1   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -5.000000000557E+00  -1.250000000181E+00   3.339672982605E-10   0.000000000000E+00
+
+# Mémoire (Mo) :   772.79 /   770.02 /   207.61 /   197.37 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0018   user+syst:        0.10s (syst:        0.00s, elaps:        0.10s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt76
+# ----------------------------------------------------------------------------------------------
+# Commande #0019 de /opt/spack/opt/spack/linux-zen2/code-aster-17.4
+0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/CodeCommands/fin.py, ligne 76
+FIN(INFO_RESU='NON',
+    RETASSAGE='NON')
+
+No database in results, objects not saved on processor #0
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <I> <CATAMESS_89>                                                                              ║
+ ║                                                                                                ║
+ ║ Liste des alarmes émises lors de l'exécution du calcul.                                        ║
+ ║                                                                                                ║
+ ║     Les alarmes que vous avez choisies d'ignorer sont précédées de (*).                        ║
+ ║     Nombre d'occurrences pour chacune des alarmes :                                            ║
+ ║            aucune alarme                                                                       ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+<I> <FIN> ARRET NORMAL DANS "FIN" PAR APPEL A "JEFINI".
+  
+ <I> <FIN> MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :                     197.37 Mo
+ <I> <FIN> MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :                     207.61 Mo
+ <I> <FIN> MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS LORS DE L'EXECUTION :     778.72 Mo
+  
+ <I>       FERMETURE DES BASES EFFECTUEE
+  
+   STATISTIQUES CONCERNANT L'ALLOCATION DYNAMIQUE :
+     TAILLE CUMULEE MAXIMUM            :                  208  Mo.
+     TAILLE CUMULEE LIBEREE            :                    3  Mo.
+     NOMBRE TOTAL D'ALLOCATIONS        :                15430
+     NOMBRE TOTAL DE LIBERATIONS       :                14817
+     APPELS AU MECANISME DE LIBERATION :                    0
+     TAILLE MEMOIRE CUMULEE RECUPEREE  :                    0  Mo.
+     VOLUME DES LECTURES               :                    0  Mo.
+     VOLUME DES ECRITURES              :                    0  Mo.
+  
+   MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :     197.37 Mo
+     - IMPOSE DE NOMBREUX ACCES DISQUE
+     - RALENTIT LA VITESSE D'EXECUTION
+   MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :     207.61 Mo
+     - LIMITE LES ACCES DISQUE
+     - AMELIORE LA VITESSE D'EXECUTION
+   MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS     :     778.72 Mo
+     - COMPREND LA MEMOIRE CONSOMMEE PAR  JEVEUX, 
+       LE SUPERVISEUR PYTHON, LES LIBRAIRIES EXTERNES
+  
+ <I>       FIN D'EXECUTION LE : LU-21-SEPT-2026 11:28:07
+INFO './glob.1' deleted
+Deleting './glob.2': No such file or directory
+INFO './vola.1' deleted
+Deleting './vola.2': No such file or directory
+
+ ********************************************************************************
+ * COMMAND                  :       USER :     SYSTEM :   USER+SYS :    ELAPSED *
+ ********************************************************************************
+ * DEBUT                    :       0.00 :       0.30 :       0.30 :       0.31 *
+ * LIRE_MAILLAGE            :       0.00 :       0.02 :       0.02 :       0.02 *
+ * CREA_MAILLAGE            :       0.00 :       0.01 :       0.01 :       0.01 *
+ * AFFE_MODELE              :       0.00 :       0.03 :       0.03 :       0.03 *
+ * AFFE_CARA_ELEM           :       0.02 :       0.01 :       0.03 :       0.02 *
+ * DEFI_MATERIAU            :       0.11 :       0.00 :       0.11 :       0.12 *
+ * DEFI_MATERIAU            :       0.12 :       0.00 :       0.12 :       0.12 *
+ * AFFE_MATERIAU            :       0.08 :       0.00 :       0.08 :       0.08 *
+ * AFFE_CHAR_MECA           :       0.01 :       0.00 :       0.01 :       0.01 *
+ * MECA_STATIQUE            :       0.22 :       0.00 :       0.22 :       0.24 *
+ * CALC_CHAMP               :       0.02 :       0.00 :       0.02 :       0.01 *
+ * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.02 *
+ * IMPR_TABLE               :       0.11 :       0.00 :       0.11 :       0.11 *
+ * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.02 *
+ * IMPR_TABLE               :       0.09 :       0.00 :       0.09 :       0.09 *
+ * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.02 *
+ * IMPR_TABLE               :       0.10 :       0.00 :       0.10 :       0.10 *
+ * FIN                      :       0.14 :       0.00 :       0.14 :       0.14 *
+ *  . check syntax          :       0.06 :       0.02 :       0.08 :       0.08 *
+ *  . fortran               :       0.18 :       0.33 :       0.51 :       0.54 *
+ *  . cleanup               :       0.60 :       0.00 :       0.60 :       0.51 *
+ ********************************************************************************
+ * TOTAL_JOB                :       1.19 :       0.41 :       1.60 :       1.64 *
+ ********************************************************************************
+
+# Mémoire (Mo) :   778.72 /   778.72 /   207.61 /   197.37 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0019   user+syst:        0.14s (syst:        0.00s, elaps:        0.14s)
+# ----------------------------------------------------------------------------------------------
+End of the Code_Aster execution
+Code_Aster MPI exits normally
+Exited
+
+EXECUTION_CODE_ASTER_EXIT_1=0
+
+
+
+------------------------------------------------------------
+--- DIAGNOSTIC JOB : OK
+------------------------------------------------------------
+

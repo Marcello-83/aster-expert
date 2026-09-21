@@ -80,6 +80,10 @@ ignore = []
 # dépendre que de la bibliothèque standard et peuvent cibler un interpréteur
 # plus ancien.
 "scripts/*" = ["UP"]
+# Les gabarits de fichiers .comm générés portent des lignes longues qui sont
+# le contenu même du cas versionné, non du code Python.
+"scripts/build_lot23_essais.py" = ["UP", "E501"]
+"scripts/analyze_lot23_essais.py" = ["UP", "E501"]
 
 [tool.mypy]
 python_version = "3.12"

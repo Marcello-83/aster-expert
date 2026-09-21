@@ -29,7 +29,11 @@ always through the project's own write paths -- never by editing the JSON:
    former option and notes kept verbatim in the notes); and the entries of
    decisions 2 and 9 are declared « en révision » (`declare_under_revision`)
    because `arbitrage_combiwall_MM_v4.md` still carries `[À CONFIRMER MM]`
-   mentions and is therefore not recorded.
+   mentions and is therefore not recorded;
+6. lot 23: findings on post-processing under ELAS_COQUE (`lot23_essais.json`,
+   `lot23_extraits.json`, cases in `data/examples/lot23_essais/`), and MM's v4
+   decisions 8 and 9 (`arbitrage_combiwall_MM_v4.md`, whose `[À CONFIRMER MM]`
+   passages were removed); decision 2 of v4 is not recorded.
 
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
@@ -143,7 +147,10 @@ def _decision_sections(text: str) -> dict[str, str]:
     }
 
 
-def _record_decisions(sheet: HypothesesSheet, path: Path) -> HypothesesSheet:
+def _record_decisions(
+    sheet: HypothesesSheet, path: Path, only: frozenset[str] | None = None
+) -> HypothesesSheet:
+    """Record the decisions of an arbitration file (all, or the sections in `only`)."""
     text = path.read_text(encoding="utf-8")
     common = text.split("## Conventions communes")[1].split("\n## ")[0]
     decided_by = re.search(r"`decided_by` : `\"(.*?)\"`", common)
@@ -157,6 +164,8 @@ def _record_decisions(sheet: HypothesesSheet, path: Path) -> HypothesesSheet:
         date=date.fromisoformat(source_date[1]),
     )
     for name, body in _decision_sections(text).items():
+        if only is not None and name not in only:
+            continue
         head_part, _, rest = body.partition("**option_retained**")
         f = _fields("**option_retained**" + rest)
         point_label = re.search(r"- `point_label` : `\"(.*?)\"`", head_part)
@@ -498,6 +507,64 @@ def _lot22(sheet: HypothesesSheet) -> HypothesesSheet:
     return sheet
 
 
+def _lot23(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Post-processing findings under ELAS_COQUE, then MM's v4 decisions 8 and 9.
+
+    Decision 2 of v4 is deliberately not recorded (to be rewritten after lot 23).
+    Recording decision 9 closes the revision declared for point 8 at lot 22.
+    """
+    data = json.loads((INPUTS / "lot23_essais.json").read_text("utf-8"))
+    extracts = _load_extracts("lot23_extraits.json")
+    for f in data["findings"]:
+        executions = tuple(_execution_source(x, data["contexts"]) for x in f["sources"])
+        documents = tuple(_documentary(extracts, f["extraits"]))
+        if "replaces_topic" not in f:
+            entry = record_execution_finding(
+                topic=f["topic"],
+                sources=(*documents, *executions),
+                option_retained=f["option_retained"],
+                justification=f["justification"],
+                point_label=f["point_label"],
+                notes=f["notes"],
+                repo_root=ROOT,
+            )
+            sheet = sheet.model_copy(update={"entries": (*sheet.entries, entry)})
+            continue
+        replaced = [
+            e
+            for e in sheet.entries
+            if e.nature == "code_aster" and e.topic == f["replaces_topic"]
+        ]
+        assert len(replaced) == 1, f["replaces_topic"]
+        old = replaced[0]
+        history = (
+            f"Historique du constat remplacé ({f['history_label']}) : option retenue : "
+            f"{old.option_retained} Notes : {old.notes}"
+        )
+        entry = record_execution_finding(
+            topic=f["replaces_topic"],
+            sources=(*old.sources, *documents, *executions),
+            option_retained=f["option_retained"],
+            justification=f"{old.justification} {f['justification_extra']}",
+            point_label=old.point_label,
+            notes=f"{f['notes']} {history}",
+            repo_root=ROOT,
+        )
+        sheet = _replace(
+            sheet,
+            nature="code_aster",
+            point_label=old.point_label or "",
+            topic=f["replaces_topic"],
+            new=entry,
+            status="tranche",
+        )
+    return _record_decisions(
+        sheet,
+        INPUTS / "arbitrage_combiwall_MM_v4.md",
+        only=frozenset({"Décision 8", "Décision 9"}),
+    )
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -506,7 +573,7 @@ def build_sheet() -> HypothesesSheet:
     sheet = sheet.model_copy(update={"group_naming": _group_naming(v3)})
     sheet = _lot20(sheet)
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_lot21.md")
-    return _lot22(_lot21(sheet))
+    return _lot23(_lot22(_lot21(sheet)))
 
 
 def dump(sheet: HypothesesSheet) -> str:

@@ -221,9 +221,9 @@
     {
       "point_label": "1",
       "topic": "Homogénéisation ou représentation distincte du tube métallique et de la palplanche intercalaire",
-      "declared_by": "Claude (lot 22)",
+      "declared_by": "Claude (lot 22 ; motif mis à jour au lot 23)",
       "declared_at": "2026-09-21T06:25:33-04:00",
-      "reason": "Décision 2 en cours de révision : la révision v4 (palplanche en plaque orthotrope, rigidités données directement) n'est pas enregistrée, arbitrage_combiwall_MM_v4.md portant encore une mention [À CONFIRMER MM] dans son tableau de rigidités (rigidité de membrane horizontale 0,081 MN/m). La décision v3 enregistrée reste inchangée en attendant."
+      "reason": "Décision 2 en cours de révision, pour deux raisons établies par exécution. (1) Poids propre : sous PESANTEUR en statique, RHO d'ELAS_COQUE est exigé sur tous les éléments ELAS_COQUE du modèle et agit comme masse volumique comptée dans EPAIS (poids = RHO × EPAIS × g) ; la rédaction v4 de la décision 2, sans RHO et avec une force surfacique explicite, n'est pas exécutable en l'état. (2) Anomalie de post-traitement : sous ELAS_COQUE, SIEF_ELGA, FORC_NODA et REAC_NODA sont calculés avec une rigidité de flexion MEMB × EPAIS²/12 (fausses quand FLEX ≠ MEMB × EPAIS²/12, proportionnelles à EPAIS²), tandis que les efforts généralisés EFGE_ELNO/EFGE_NOEU sont exacts (lot 23). La décision v3 enregistrée reste inchangée ; la décision 2 sera réécrite après le lot 23 et n'est pas enregistrée."
     },
     {
       "point_label": "8",

@@ -1,0 +1,489 @@
+{
+  "alarms": {
+    "d1": true,
+    "d2a": true,
+    "d2b": true,
+    "d3": true,
+    "d4": true,
+    "d5a": true,
+    "d5b": true
+  },
+  "constants": {
+    "FLEX_L": 1000.0,
+    "L": 2.0,
+    "MEMB_L": 10000000.0,
+    "P": 5.0,
+    "b": 0.5,
+    "stiffness_ratio_memb_h2_over_12_over_flex": 0.08333333333333333
+  },
+  "d1": {
+    "EFGE_ELNO": {
+      "MXX_mid": {
+        "max": 9.999999999773,
+        "mean": 9.99999999976775,
+        "min": 9.999999999764
+      },
+      "MXX_mid_ref": 10.0,
+      "MXX_x0": {
+        "max": 19.9999999999,
+        "mean": 19.999999999830003,
+        "min": 19.99999999976
+      },
+      "MXX_x0_ref": 20.0,
+      "QX_mid": {
+        "max": -9.999999999813,
+        "mean": -9.99999999988715,
+        "min": -9.999999999989
+      },
+      "QX_x0": {
+        "max": -9.99999999966,
+        "mean": -10.000000000130601,
+        "min": -10.0000000006
+      },
+      "Q_ref_abs": 10.0,
+      "max_abs_MXX_error_all_points": 2.4999913250667305e-10,
+      "max_abs_other_components": 6.941718311282e-10,
+      "n_points": 400
+    },
+    "EFGE_NOEU": {
+      "MXX_mid": {
+        "max": 9.999999999772,
+        "mean": 9.999999999768,
+        "min": 9.999999999765
+      },
+      "MXX_mid_ref": 10.0,
+      "MXX_x0": {
+        "max": 19.9999999999,
+        "mean": 19.99999999983,
+        "min": 19.99999999976
+      },
+      "MXX_x0_ref": 20.0,
+      "QX_mid": {
+        "max": -9.999999999871,
+        "mean": -9.999999999888166,
+        "min": -9.999999999914
+      },
+      "QX_x0": {
+        "max": -9.99999999966,
+        "mean": -10.0000000001305,
+        "min": -10.0000000006
+      },
+      "Q_ref_abs": 10.0,
+      "max_abs_MXX_error_all_points": 2.4999913250667305e-10,
+      "max_abs_other_components": 5.256879376248e-10,
+      "n_points": 126
+    },
+    "FORC_NODA_all_nodes": {
+      "MOMENT_X": -2.116362640692e-16,
+      "MOMENT_Y": 2.22044604925e-16,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": -1.026956297778e-15
+    },
+    "FORC_NODA_clamp": {
+      "MOMENT_X": 0.1041666666661,
+      "MOMENT_Y": -0.8333333333262,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": 0.416666666672
+    },
+    "REAC_NODA_clamp": {
+      "MOMENT_X": 0.1041666666661,
+      "MOMENT_Y": -0.8333333333262,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": 0.416666666672
+    },
+    "SIEF_ELGA": {
+      "M_equivalent_over_M_ref": {
+        "max": 0.08333333333333338,
+        "mean": 0.08333333333333334,
+        "min": 0.08333333333333326
+      },
+      "n_cells": 100,
+      "sixx_upper_skin_cell_mean_first_cell": 97500.0,
+      "sixx_upper_skin_first_cell": 98943.37567
+    },
+    "deflection_mid": {
+      "max": -0.008333333333223,
+      "mean": -0.008333333333229167,
+      "min": -0.008333333333235
+    },
+    "deflection_tip": {
+      "max": -0.02666666666625,
+      "mean": -0.026666666666261666,
+      "min": -0.02666666666627
+    },
+    "deflection_tip_ref": 0.02666666666666667,
+    "epais": 0.01
+  },
+  "d2a": {
+    "EFGE_ELNO": {
+      "MXX_mid": {
+        "max": 9.999999999773,
+        "mean": 9.99999999976775,
+        "min": 9.999999999764
+      },
+      "MXX_mid_ref": 10.0,
+      "MXX_x0": {
+        "max": 19.9999999999,
+        "mean": 19.999999999830003,
+        "min": 19.99999999976
+      },
+      "MXX_x0_ref": 20.0,
+      "QX_mid": {
+        "max": -9.999999999813,
+        "mean": -9.99999999988715,
+        "min": -9.999999999989
+      },
+      "QX_x0": {
+        "max": -9.99999999966,
+        "mean": -10.000000000130601,
+        "min": -10.0000000006
+      },
+      "Q_ref_abs": 10.0,
+      "max_abs_MXX_error_all_points": 2.4999913250667305e-10,
+      "max_abs_other_components": 6.941718311282e-10,
+      "n_points": 400
+    },
+    "EFGE_NOEU": {
+      "MXX_mid": {
+        "max": 9.999999999772,
+        "mean": 9.999999999768,
+        "min": 9.999999999765
+      },
+      "MXX_mid_ref": 10.0,
+      "MXX_x0": {
+        "max": 19.9999999999,
+        "mean": 19.99999999983,
+        "min": 19.99999999976
+      },
+      "MXX_x0_ref": 20.0,
+      "QX_mid": {
+        "max": -9.999999999871,
+        "mean": -9.999999999888166,
+        "min": -9.999999999914
+      },
+      "QX_x0": {
+        "max": -9.99999999966,
+        "mean": -10.0000000001305,
+        "min": -10.0000000006
+      },
+      "Q_ref_abs": 10.0,
+      "max_abs_MXX_error_all_points": 2.4999913250667305e-10,
+      "max_abs_other_components": 5.256879376248e-10,
+      "n_points": 126
+    },
+    "FORC_NODA_all_nodes": {
+      "MOMENT_X": -8.465450562767e-16,
+      "MOMENT_Y": 8.881784197001e-16,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": -4.107825191113e-15
+    },
+    "FORC_NODA_clamp": {
+      "MOMENT_X": 0.4166666666642,
+      "MOMENT_Y": -3.333333333305,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": 1.666666666688
+    },
+    "REAC_NODA_clamp": {
+      "MOMENT_X": 0.4166666666642,
+      "MOMENT_Y": -3.333333333305,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": 1.666666666688
+    },
+    "SIEF_ELGA": {
+      "M_equivalent_over_M_ref": {
+        "max": 0.33333333333333354,
+        "mean": 0.33333333333333337,
+        "min": 0.33333333333333304
+      },
+      "n_cells": 100,
+      "sixx_upper_skin_cell_mean_first_cell": 97500.0,
+      "sixx_upper_skin_first_cell": 98943.37567
+    },
+    "deflection_mid": {
+      "max": -0.008333333333223,
+      "mean": -0.008333333333229167,
+      "min": -0.008333333333235
+    },
+    "deflection_tip": {
+      "max": -0.02666666666625,
+      "mean": -0.026666666666261666,
+      "min": -0.02666666666627
+    },
+    "deflection_tip_ref": 0.02666666666666667,
+    "epais": 0.02
+  },
+  "d2b": {
+    "EFGE_ELNO": {
+      "MXX_mid": {
+        "max": 9.999999999773,
+        "mean": 9.99999999976775,
+        "min": 9.999999999764
+      },
+      "MXX_mid_ref": 10.0,
+      "MXX_x0": {
+        "max": 19.9999999999,
+        "mean": 19.999999999830003,
+        "min": 19.99999999976
+      },
+      "MXX_x0_ref": 20.0,
+      "QX_mid": {
+        "max": -9.999999999813,
+        "mean": -9.99999999988715,
+        "min": -9.999999999989
+      },
+      "QX_x0": {
+        "max": -9.99999999966,
+        "mean": -10.000000000130601,
+        "min": -10.0000000006
+      },
+      "Q_ref_abs": 10.0,
+      "max_abs_MXX_error_all_points": 2.4999913250667305e-10,
+      "max_abs_other_components": 6.941718311282e-10,
+      "n_points": 400
+    },
+    "EFGE_NOEU": {
+      "MXX_mid": {
+        "max": 9.999999999772,
+        "mean": 9.999999999768,
+        "min": 9.999999999765
+      },
+      "MXX_mid_ref": 10.0,
+      "MXX_x0": {
+        "max": 19.9999999999,
+        "mean": 19.99999999983,
+        "min": 19.99999999976
+      },
+      "MXX_x0_ref": 20.0,
+      "QX_mid": {
+        "max": -9.999999999871,
+        "mean": -9.999999999888166,
+        "min": -9.999999999914
+      },
+      "QX_x0": {
+        "max": -9.99999999966,
+        "mean": -10.0000000001305,
+        "min": -10.0000000006
+      },
+      "Q_ref_abs": 10.0,
+      "max_abs_MXX_error_all_points": 2.4999913250667305e-10,
+      "max_abs_other_components": 5.256879376248e-10,
+      "n_points": 126
+    },
+    "FORC_NODA_all_nodes": {
+      "MOMENT_X": -5.290906601729e-17,
+      "MOMENT_Y": 5.551115123126e-17,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": -2.567390744446e-16
+    },
+    "FORC_NODA_clamp": {
+      "MOMENT_X": 0.02604166666651,
+      "MOMENT_Y": -0.2083333333316,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": 0.104166666668
+    },
+    "REAC_NODA_clamp": {
+      "MOMENT_X": 0.02604166666651,
+      "MOMENT_Y": -0.2083333333316,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": 0.104166666668
+    },
+    "SIEF_ELGA": {
+      "M_equivalent_over_M_ref": {
+        "max": 0.020833333333333346,
+        "mean": 0.020833333333333336,
+        "min": 0.020833333333333315
+      },
+      "n_cells": 100,
+      "sixx_upper_skin_cell_mean_first_cell": 97500.0,
+      "sixx_upper_skin_first_cell": 98943.37567
+    },
+    "deflection_mid": {
+      "max": -0.008333333333223,
+      "mean": -0.008333333333229167,
+      "min": -0.008333333333235
+    },
+    "deflection_tip": {
+      "max": -0.02666666666625,
+      "mean": -0.026666666666261666,
+      "min": -0.02666666666627
+    },
+    "deflection_tip_ref": 0.02666666666666667,
+    "epais": 0.005
+  },
+  "d3": {
+    "EFGE_ELNO": {
+      "MXX_mid": {
+        "max": 9.999999999773,
+        "mean": 9.99999999976775,
+        "min": 9.999999999764
+      },
+      "MXX_mid_ref": 10.0,
+      "MXX_x0": {
+        "max": 19.9999999999,
+        "mean": 19.999999999830003,
+        "min": 19.99999999976
+      },
+      "MXX_x0_ref": 20.0,
+      "QX_mid": {
+        "max": -9.999999999813,
+        "mean": -9.99999999988715,
+        "min": -9.999999999989
+      },
+      "QX_x0": {
+        "max": -9.99999999966,
+        "mean": -10.000000000130601,
+        "min": -10.0000000006
+      },
+      "Q_ref_abs": 10.0,
+      "max_abs_MXX_error_all_points": 2.4999913250667305e-10,
+      "max_abs_other_components": 6.941718311282e-10,
+      "n_points": 400
+    },
+    "EFGE_NOEU": {
+      "MXX_mid": {
+        "max": 9.999999999772,
+        "mean": 9.999999999768,
+        "min": 9.999999999765
+      },
+      "MXX_mid_ref": 10.0,
+      "MXX_x0": {
+        "max": 19.9999999999,
+        "mean": 19.99999999983,
+        "min": 19.99999999976
+      },
+      "MXX_x0_ref": 20.0,
+      "QX_mid": {
+        "max": -9.999999999871,
+        "mean": -9.999999999888166,
+        "min": -9.999999999914
+      },
+      "QX_x0": {
+        "max": -9.99999999966,
+        "mean": -10.0000000001305,
+        "min": -10.0000000006
+      },
+      "Q_ref_abs": 10.0,
+      "max_abs_MXX_error_all_points": 2.4999913250667305e-10,
+      "max_abs_other_components": 5.256879376248e-10,
+      "n_points": 126
+    },
+    "FORC_NODA_all_nodes": {
+      "MOMENT_X": -2.116362640692e-16,
+      "MOMENT_Y": 2.22044604925e-16,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": -1.026956297778e-15
+    },
+    "FORC_NODA_clamp": {
+      "MOMENT_X": 0.1041666666661,
+      "MOMENT_Y": -0.8333333333262,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": 0.416666666672
+    },
+    "REAC_NODA_clamp": {
+      "MOMENT_X": 0.1041666666661,
+      "MOMENT_Y": -0.8333333333262,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": 0.416666666672
+    },
+    "SIEF_ELGA": {
+      "M_equivalent_over_M_ref": {
+        "max": 0.08333333333333338,
+        "mean": 0.08333333333333334,
+        "min": 0.08333333333333326
+      },
+      "n_cells": 100,
+      "sixx_upper_skin_cell_mean_first_cell": 97500.0,
+      "sixx_upper_skin_first_cell": 98943.37567
+    },
+    "deflection_mid": {
+      "max": -0.008333333333223,
+      "mean": -0.008333333333229167,
+      "min": -0.008333333333235
+    },
+    "deflection_tip": {
+      "max": -0.02666666666625,
+      "mean": -0.026666666666261666,
+      "min": -0.02666666666627
+    },
+    "deflection_tip_ref": 0.02666666666666667,
+    "epais": 0.01
+  },
+  "d4": {
+    "plate_1": {
+      "DZ": 770.085
+    },
+    "plate_2": {
+      "DZ": 0.0
+    }
+  },
+  "d5a": {
+    "springs_resultant": {
+      "MOMENT_X": -1.250000000181,
+      "MOMENT_Y": 3.339672982605e-10,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": -5.000000000557
+    },
+    "tip_deflection": {
+      "max": -0.02670351313871,
+      "mean": -0.026703513138821664,
+      "min": -0.0267035131389
+    }
+  },
+  "d5b": {
+    "reac_noda_all": {
+      "MOMENT_X": 1.25,
+      "MOMENT_Y": 4.618492003762e-14,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": 5.0
+    },
+    "reac_noda_x0_loaded_end": {
+      "MOMENT_X": 1.145833333334,
+      "MOMENT_Y": -1.475105844764e-14,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": 4.583333333334
+    },
+    "reac_noda_x2": {
+      "MOMENT_X": 1.250000000167,
+      "MOMENT_Y": -3.120275149371e-10,
+      "MOMENT_Z": 0.0,
+      "RESULT_X": 0.0,
+      "RESULT_Y": 0.0,
+      "RESULT_Z": 5.000000000551
+    },
+    "tip_deflection": {
+      "max": -0.0266666666684,
+      "mean": -0.02666666666841,
+      "min": -0.02666666666842
+    }
+  }
+}

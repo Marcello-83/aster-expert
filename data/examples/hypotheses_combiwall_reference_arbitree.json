@@ -230,8 +230,8 @@
       "revision_history": [
         {
           "kind": "declared",
-          "reason": "Décision 2 en cours de révision : la révision v4 (palplanche en plaque orthotrope, rigidités données directement) n'est pas enregistrée, arbitrage_combiwall_MM_v4.md portant encore une mention [À CONFIRMER MM] dans son tableau de rigidités (rigidité de membrane horizontale 0,081 MN/m). La décision v3 enregistrée reste inchangée en attendant.",
-          "by": "Claude (lot 22)",
+          "reason": "Décision 2 en cours de révision, pour deux raisons établies par exécution. (1) Poids propre : sous PESANTEUR en statique, RHO d'ELAS_COQUE est exigé sur tous les éléments ELAS_COQUE du modèle et agit comme masse volumique comptée dans EPAIS (poids = RHO × EPAIS × g) ; la rédaction v4 de la décision 2, sans RHO et avec une force surfacique explicite, n'est pas exécutable en l'état. (2) Anomalie de post-traitement : sous ELAS_COQUE, SIEF_ELGA, FORC_NODA et REAC_NODA sont calculés avec une rigidité de flexion MEMB × EPAIS²/12 (fausses quand FLEX ≠ MEMB × EPAIS²/12, proportionnelles à EPAIS²), tandis que les efforts généralisés EFGE_ELNO/EFGE_NOEU sont exacts (lot 23). La décision v3 enregistrée reste inchangée ; la décision 2 sera réécrite après le lot 23 et n'est pas enregistrée.",
+          "by": "Claude (lot 22 ; motif mis à jour au lot 23)",
           "at": "2026-09-21T06:25:33-04:00"
         }
       ]
@@ -1030,31 +1030,35 @@
       "point_label": "7",
       "topic": "Position et blocages des limites latérales/inférieures d'un modèle de sol stratifié semi-infini",
       "options_considered": [],
-      "option_retained": "Le point tel que formulé devient sans objet du fait de la décision du point 4 : le sol n'étant pas maillé, il n'existe ni bord latéral ni fond de modèle. La décision porte sur l'étendue de la tranche et ses faces de coupe. Tranche représentative de 20,80 m, soit exactement huit entraxes de tube, comportant neuf tubes et huit palplanches intercalaires ; un bollard d'amarrage et une défense d'accostage au droit du tube central ; conditions de symétrie aux deux faces de coupe. En conséquence, la composante hors plan de 15° de l'effort d'amarrage est supprimée pour ce cas de test.",
-      "justification": "L'ouvrage est régulier le long du quai et les bollards et défenses s'y répètent tous les huit tubes : une tranche de huit entraxes centrée sur ces équipements est l'unité répétitive de l'ouvrage. Les conditions de symétrie aux faces de coupe représentent la continuité avec les tranches voisines, ce qui suppose un chargement lui-même symétrique — d'où la suppression de la composante hors plan.",
+      "option_retained": "Le point tel que formulé devient sans objet du fait de la décision du point 4 : le sol n'étant pas maillé, il n'existe ni bord latéral ni fond de modèle. La décision porte sur l'étendue de la tranche et ses faces de coupe.\n\nLa tranche représentative fait 20,80 m, soit huit entraxes de tube. Ses deux faces de coupe sont des plans de symétrie passant par l'axe des tubes 1 et 9. Les tubes 1 et 9 sont donc des demi-tubes. Leurs tirants, situés dans les plans de symétrie, ont une demi-section, et leurs ressorts de sol ne comptent que la largeur projetée située dans la tranche. La tranche comporte ainsi sept tubes entiers, deux demi-tubes et huit palplanches intercalaires. Le bollard d'amarrage et la défense d'accostage sont au droit du tube central, `TUBE_05`. Les conditions de symétrie s'appliquent aux deux faces de coupe. La composante hors plan de 15° de l'effort d'amarrage est supprimée pour ce cas de test.",
+      "justification": "Bollards et défenses se répètent tous les huit tubes. La cellule répétitive de l'ouvrage va donc de l'axe d'un tube à l'axe du huitième suivant. Des tubes entiers aux deux faces compteraient deux fois le tube partagé avec la tranche voisine. Le demi-tube, la demi-section de tirant et la demi-largeur de ressort aux faces sont la traduction exacte de la symétrie.",
       "discarded_variants": [
         {
-          "description": "Tranche de 41,60 m avec faces de coupe éloignées et composante hors plan conservée.",
-          "reason": "Plus fidèle, mais quadruple le modèle pour un cas de test dont l'objet est d'exercer la chaîne."
+          "description": "Neuf tubes entiers entre les faces de coupe.",
+          "reason": "Compte deux fois les tubes des faces ; la raideur et les charges de la tranche sont surestimées d'un tube."
         },
         {
-          "description": "Modélisation des 120 m réels.",
-          "reason": "Sans objet, l'ouvrage étant régulier et décomposable en tranches."
+          "description": "Demi-tranche de 10,40 m, avec symétrie supplémentaire dans l'axe de `TUBE_05`.",
+          "reason": "Divise le modèle par deux, mais demande de répartir sur demi-tube les charges de bollard et de défense, et supprime le contrôle de symétrie des résultats."
+        },
+        {
+          "description": "Tranche de 41,60 m, composante hors plan conservée.",
+          "reason": "Plus fidèle, mais quadruple le modèle pour un cas de test."
         }
       ],
       "notes": "Aucun document retourné (profils methode puis syntaxe, requêtes « bords latéraux », « symétrie », « fond de fouille », « distance des limites du modèle ») n'établit de critère Code_Aster pour dimensionner ces limites. U2.04.06 § Avant_de_s_attaquer_au_ficher_de_commande_Code_Aster_ existe mais son objet (creusement de tunnel) diffère du cas présent et son contenu détaillé n'a pas été extrait dans cette session -- non utilisable comme fondement ici. Recommandation d'ingénieur : reste un choix d'ingénieur à motiver et documenter séparément.",
-      "validity_domain": "La symétrie impose un chargement symétrique. Tout cas de charge dissymétrique — amarrage oblique réel, accostage hors axe du tube central — sort du domaine de validité de ce modèle et demanderait une tranche allongée.",
+      "validity_domain": "La symétrie impose un chargement symétrique. Tout cas de charge dissymétrique — amarrage oblique réel, accostage hors de l'axe du tube central — sort du domaine de validité et demanderait une tranche allongée. La symétrie des résultats par rapport à l'axe de `TUBE_05` est un contrôle de niveau D.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "decision_ingenieur",
-          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
-          "date": "2026-09-21"
+          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v4 prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-22"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-09-21T18:00:00",
+      "decided_at": "2026-09-22T18:00:00",
       "decision_history": [
         {
           "option_retained": "Le point tel que formulé devient sans objet du fait de la décision du point 5 : le sol n'étant pas maillé, il n'existe ni bord latéral ni fond de modèle. La décision porte sur l'étendue de la tranche et ses faces de coupe. Tranche représentative de 20,80 m, soit exactement huit entraxes de tube, comportant neuf tubes et huit palplanches intercalaires ; un bollard d'amarrage sur le tube central ; conditions de symétrie aux deux faces de coupe. En conséquence, la composante hors plan de 15° de l'effort d'amarrage est supprimée pour ce cas de test, et l'espacement des bollards du cas fictif est porté de 20,00 m à 20,80 m pour le rendre compatible avec l'entraxe des tubes.",
@@ -1079,6 +1083,30 @@
           ],
           "decided_by": "MM",
           "decided_at": "2026-09-18T18:00:00"
+        },
+        {
+          "option_retained": "Le point tel que formulé devient sans objet du fait de la décision du point 4 : le sol n'étant pas maillé, il n'existe ni bord latéral ni fond de modèle. La décision porte sur l'étendue de la tranche et ses faces de coupe. Tranche représentative de 20,80 m, soit exactement huit entraxes de tube, comportant neuf tubes et huit palplanches intercalaires ; un bollard d'amarrage et une défense d'accostage au droit du tube central ; conditions de symétrie aux deux faces de coupe. En conséquence, la composante hors plan de 15° de l'effort d'amarrage est supprimée pour ce cas de test.",
+          "justification": "L'ouvrage est régulier le long du quai et les bollards et défenses s'y répètent tous les huit tubes : une tranche de huit entraxes centrée sur ces équipements est l'unité répétitive de l'ouvrage. Les conditions de symétrie aux faces de coupe représentent la continuité avec les tranches voisines, ce qui suppose un chargement lui-même symétrique — d'où la suppression de la composante hors plan.",
+          "validity_domain": "La symétrie impose un chargement symétrique. Tout cas de charge dissymétrique — amarrage oblique réel, accostage hors axe du tube central — sort du domaine de validité de ce modèle et demanderait une tranche allongée.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-21"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Tranche de 41,60 m avec faces de coupe éloignées et composante hors plan conservée.",
+              "reason": "Plus fidèle, mais quadruple le modèle pour un cas de test dont l'objet est d'exercer la chaîne."
+            },
+            {
+              "description": "Modélisation des 120 m réels.",
+              "reason": "Sans objet, l'ouvrage étant régulier et décomposable en tranches."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-21T18:00:00"
         }
       ],
       "revision_history": []
@@ -1115,42 +1143,81 @@
       "point_label": "8",
       "topic": "Application des charges localisées d'amarrage et d'accostage",
       "options_considered": [],
-      "option_retained": "Les seules charges localisées du modèle sont l'amarrage (Q3) et l'accostage (A). Aucune charge de grue : la voie de grue est un ouvrage distinct, fondé sur pieux, sans interaction avec l'écran.\n\n*Amarrage.* Effort de 1 000 kN incliné de 30° au-dessus de l'horizontale, dans le plan perpendiculaire au quai, dirigé vers le bassin. Appliqué comme force nodale au nœud `BOLLARD`, situé sur l'axe de la poutre de couronnement (cote +3,30) au droit du tube central, accompagné du moment de transport dû au décalage vertical de 0,70 m entre le point d'application réel (+4,00) et l'axe de la poutre : M = 866 kN × 0,70 m ≈ 606 kN·m, d'axe parallèle au quai. Le bollard est supposé sur l'axe de la poutre en plan.\n\n*Accostage.* Effort horizontal de 800 kN, perpendiculaire au quai, dirigé vers la terre. La défense elle-même n'est pas modélisée. Sa réaction est répartie uniformément sur une empreinte, le groupe de mailles `DEFENSE` : face bassin du tube central, de +1,00 à +2,00, soit une hauteur d'empreinte de 1,00 m. L'intensité est une force par unité de surface projetée, de direction fixe dans le repère global : 800 / (1,00 × 1,42) ≈ 563 kN/m². Ce n'est pas une pression normale à la paroi.",
-      "justification": "La réaction de la défense est un résultat du choix de la défense — courbe énergie-réaction — établi en amont ; pour la structure, seule compte la façon dont cette réaction entre dans l'écran. Une force ponctuelle sur des coques crée une singularité locale sans signification ; une répartition sur l'empreinte de fixation donne des contraintes locales exploitables. La direction fixe correspond à la réaction d'un panneau plan ; une pression normale à la paroi courbe du tube produirait des composantes radiales sans contrepartie physique. Pour l'amarrage, la poutre de couronnement étant représentée par son axe, le moment de transport restitue l'effet de l'excentricité du point d'application.",
+      "option_retained": "Les seules charges localisées du modèle sont l'amarrage (Q3) et l'accostage (A). Aucune charge de grue : la voie de grue est un ouvrage distinct, fondé sur pieux, sans interaction avec l'écran.\n\n*Amarrage.* Effort de 1 000 kN incliné de 30° au-dessus de l'horizontale, dans le plan perpendiculaire au quai, dirigé vers le bassin. Appliqué comme force nodale au nœud `BOLLARD`, sur l'axe de la poutre de couronnement (cote +3,30) au droit de `TUBE_05`, avec le moment de transport dû au décalage vertical de 0,70 m : M = 866 kN × 0,70 m ≈ 606 kN·m, d'axe parallèle au quai. Le bollard est supposé sur l'axe de la poutre en plan.\n\n*Accostage.* Effort horizontal de 800 kN, perpendiculaire au quai, dirigé vers la terre. La défense n'est pas modélisée. Sa réaction est répartie uniformément sur l'empreinte `DEFENSE`, formée des facettes de `TUBE_05` comprises entre +1,00 et +2,00 et à ±45° de la génératrice tournée vers le bassin. Cela correspond à une platine de fixation d'environ 1,00 m de large. La charge est une force surfacique de direction fixe dans le repère global. Son intensité est calculée par le générateur à partir de la surface développée réelle des mailles de l'empreinte : q = 800 kN / Σ A_mailles. La valeur est d'environ 717 kN/m² pour une empreinte cylindrique idéale de 1,115 m².",
+      "justification": "La réaction de la défense est une donnée établie en amont par le choix de la défense ; seule compte, pour la structure, la façon dont elle entre dans l'écran. L'essai d'exécution du lot 21 établit que l'intensité d'une force surfacique sur coque se rapporte à la surface développée des mailles, avec un écart de 0,0001 % sur la résultante. Calculer l'intensité sur la surface développée des mailles effectivement générées garantit donc une résultante exacte de 800 kN, quel que soit le nombre de facettes. L'empreinte angulaire représente une platine plane sur un tube courbe, plutôt que la demi-circonférence entière. Pour l'amarrage, le moment de transport restitue l'excentricité du point d'application par rapport à l'axe de la poutre.",
       "discarded_variants": [
         {
-          "description": "Défense modélisée en éléments de coque, force surfacique appliquée sur la défense.",
-          "reason": "Le comportement d'une défense — élastomère, fortement non linéaire — n'est pas celui d'une coque élastique, et sa réaction est déjà une donnée ; modéliser son panneau ajouterait des éléments sans information pour l'écran."
+          "description": "Intensité rapportée à la surface projetée, 800 / (1,00 × 1,42) ≈ 563 kN/m² (décision v3).",
+          "reason": "L'essai du lot 21 montre que la force surfacique sur coque se rapporte à la surface développée ; la résultante aurait été fausse."
+        },
+        {
+          "description": "Empreinte sur toute la demi-circonférence tournée vers le bassin.",
+          "reason": "Ne correspond à aucune platine réelle et étale la charge sur toute la largeur du tube."
+        },
+        {
+          "description": "Défense modélisée en éléments de coque.",
+          "reason": "Le comportement d'une défense en élastomère n'est pas celui d'une coque élastique, et sa réaction est déjà une donnée."
         },
         {
           "description": "Force ponctuelle nodale pour l'accostage.",
-          "reason": "Singularité locale dans les coques ; contraintes inexploitables au point d'application."
-        },
-        {
-          "description": "Force d'amarrage appliquée à l'axe de la poutre sans moment de transport.",
-          "reason": "Omet un moment de l'ordre de 600 kN·m sur la poutre de couronnement."
+          "reason": "Singularité locale dans les coques."
         }
       ],
       "notes": null,
-      "validity_domain": "Les dimensions de l'empreinte sont inventées ; les contraintes locales dans le tube sous l'empreinte y sont sensibles et demandent un maillage raffiné dans cette zone. Le moment de transport suppose la section de la poutre indéformable, cohérent avec sa représentation par un élément de poutre. L'excentricité en plan du bollard n'est pas représentée.",
+      "validity_domain": "Les dimensions de l'empreinte sont inventées. Les contraintes locales du tube sous l'empreinte y sont sensibles et demandent un maillage raffiné dans cette zone. La répartition uniforme ne représente pas la distribution réelle de contact d'une platine. Le moment de transport suppose la section de la poutre indéformable. L'excentricité en plan du bollard n'est pas représentée.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "decision_ingenieur",
-          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
-          "date": "2026-09-21"
+          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v4 prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-22"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-09-21T18:00:00",
-      "decision_history": [],
+      "decided_at": "2026-09-22T18:00:00",
+      "decision_history": [
+        {
+          "option_retained": "Les seules charges localisées du modèle sont l'amarrage (Q3) et l'accostage (A). Aucune charge de grue : la voie de grue est un ouvrage distinct, fondé sur pieux, sans interaction avec l'écran.\n\n*Amarrage.* Effort de 1 000 kN incliné de 30° au-dessus de l'horizontale, dans le plan perpendiculaire au quai, dirigé vers le bassin. Appliqué comme force nodale au nœud `BOLLARD`, situé sur l'axe de la poutre de couronnement (cote +3,30) au droit du tube central, accompagné du moment de transport dû au décalage vertical de 0,70 m entre le point d'application réel (+4,00) et l'axe de la poutre : M = 866 kN × 0,70 m ≈ 606 kN·m, d'axe parallèle au quai. Le bollard est supposé sur l'axe de la poutre en plan.\n\n*Accostage.* Effort horizontal de 800 kN, perpendiculaire au quai, dirigé vers la terre. La défense elle-même n'est pas modélisée. Sa réaction est répartie uniformément sur une empreinte, le groupe de mailles `DEFENSE` : face bassin du tube central, de +1,00 à +2,00, soit une hauteur d'empreinte de 1,00 m. L'intensité est une force par unité de surface projetée, de direction fixe dans le repère global : 800 / (1,00 × 1,42) ≈ 563 kN/m². Ce n'est pas une pression normale à la paroi.",
+          "justification": "La réaction de la défense est un résultat du choix de la défense — courbe énergie-réaction — établi en amont ; pour la structure, seule compte la façon dont cette réaction entre dans l'écran. Une force ponctuelle sur des coques crée une singularité locale sans signification ; une répartition sur l'empreinte de fixation donne des contraintes locales exploitables. La direction fixe correspond à la réaction d'un panneau plan ; une pression normale à la paroi courbe du tube produirait des composantes radiales sans contrepartie physique. Pour l'amarrage, la poutre de couronnement étant représentée par son axe, le moment de transport restitue l'effet de l'excentricité du point d'application.",
+          "validity_domain": "Les dimensions de l'empreinte sont inventées ; les contraintes locales dans le tube sous l'empreinte y sont sensibles et demandent un maillage raffiné dans cette zone. Le moment de transport suppose la section de la poutre indéformable, cohérent avec sa représentation par un élément de poutre. L'excentricité en plan du bollard n'est pas représentée.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-21"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Défense modélisée en éléments de coque, force surfacique appliquée sur la défense.",
+              "reason": "Le comportement d'une défense — élastomère, fortement non linéaire — n'est pas celui d'une coque élastique, et sa réaction est déjà une donnée ; modéliser son panneau ajouterait des éléments sans information pour l'écran."
+            },
+            {
+              "description": "Force ponctuelle nodale pour l'accostage.",
+              "reason": "Singularité locale dans les coques ; contraintes inexploitables au point d'application."
+            },
+            {
+              "description": "Force d'amarrage appliquée à l'axe de la poutre sans moment de transport.",
+              "reason": "Omet un moment de l'ordre de 600 kN·m sur la poutre de couronnement."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-21T18:00:00"
+        }
+      ],
       "revision_history": [
         {
           "kind": "declared",
           "reason": "Décision 9 en cours de révision : la révision v4 (intensité rapportée à la surface développée, empreinte angulaire définie) n'est pas enregistrée, arbitrage_combiwall_MM_v4.md portant encore une mention [À CONFIRMER MM] (largeur de la platine de fixation d'environ 1,00 m). La décision v3 enregistrée reste inchangée en attendant.",
           "by": "Claude (lot 22)",
           "at": "2026-09-21T06:25:33-04:00"
+        },
+        {
+          "kind": "lifted",
+          "reason": "révision tranchée par une nouvelle décision",
+          "by": "MM",
+          "at": "2026-09-22T18:00:00"
         }
       ]
     },
@@ -1683,10 +1750,10 @@
       "point_label": "1",
       "topic": "Résultante des réactions nodales (REAC_NODA) sous ELAS_COQUE lorsque la rigidité de flexion n'est pas MEMB × EPAIS² / 12",
       "options_considered": [],
-      "option_retained": "Avec ELAS_COQUE, la résultante REAC_NODA n'égale la charge appliquée que si la rigidité de flexion portée par la charge vaut MEMB × EPAIS²/12. Essais a1, a2 et a6 (MEMB_L = MEMB_T = 10⁷ N/m, EPAIS = 0,01 m, donc MEMB × EPAIS²/12 = 83,33 N·m, pour FLEX = 1000 ou 4000) : résultante égale à 1/12 (a1, a6) ou 1/48 (a2) de la charge de 5 N, alors que les déplacements sont exacts. Résultante exacte (5 N) sous ELAS (a4), avec des valeurs isotropes cohérentes (a5) et avec une membrane isotrope et FLEX_L ≠ FLEX_T lorsque la console est portée par L (a7, FLEX_L = MEMB_L × EPAIS²/12). Ne pas exploiter REAC_NODA avec ELAS_COQUE sans contrôle d'équilibre.",
-      "justification": "Six exécutions jusqu'à FIN sans alarme (niveau C) ; résultante comparée à l'équilibre (charge appliquée de 5 N), niveau D. Écarts relatifs : -91,7 % (a1, a6), -97,9 % (a2), de l'ordre de 10⁻¹¹ (a4, a5, a7). Les flèches en bout de a1, a4, a5, a6 et a7, où la rigidité portée par la console vaut 1000 N·m, coïncident à 2×10⁻¹¹ près en relatif.",
+      "option_retained": "Sous ELAS_COQUE (DKT), les contraintes SIEF_ELGA (dans la sortie 17.4.0, champ à trois sous-points SIXX… et non des efforts généralisés) et, par suite, FORC_NODA et REAC_NODA, sont calculées avec une rigidité de flexion égale à MEMB × EPAIS²/12 et non avec les coefficients FLEX_* : elles ne sont exactes que si FLEX = MEMB × EPAIS²/12 dans la direction sollicitée. Console de l'essai A (MEMB_L × EPAIS²/12 = 83,33 N·m, FLEX_L = 1000 N·m), charge 5 N : résultante DZ de REAC_NODA et de FORC_NODA à l'encastrement 0,416667 N (D1) ; ×4 pour EPAIS × 2 (1,666667 N), ÷4 pour EPAIS × 0,5 (0,104167 N) : elles varient comme EPAIS². Le moment de réaction suit le même facteur (0,8333 N·m pour 10 N·m). Le rapport du moment équivalent tiré de SIEF_ELGA au moment analytique vaut MEMB_L × EPAIS²/(12 × FLEX_L) : 1/12 (D1), 1/3 (D2, EPAIS × 2), 1/48 (D2, EPAIS × 0,5), à 10⁻¹⁴ près. La contrainte SIXX du premier point de Gauss (98 943,37567 Pa, peau supérieure) est identique pour les trois épaisseurs. CISA_L et CISA_T × 1000 ne changent rien (D3). Les déplacements et les efforts généralisés EFGE_* ne sont pas affectés (constat « efforts généralisés » du même point).",
+      "justification": "Six exécutions jusqu'à FIN sans alarme (niveau C) ; résultante comparée à l'équilibre (charge appliquée de 5 N), niveau D. Écarts relatifs : -91,7 % (a1, a6), -97,9 % (a2), de l'ordre de 10⁻¹¹ (a4, a5, a7). Les flèches en bout de a1, a4, a5, a6 et a7, où la rigidité portée par la console vaut 1000 N·m, coïncident à 2×10⁻¹¹ près en relatif. Lot 23 : cinq exécutions (D1, D2 ×2, D3) jusqu'à FIN sans alarme (niveau C), résultantes comparées à l'équilibre et rapports comparés à la solution analytique (niveau D). L'hypothèse du lot 22 (rigidité MEMB × EPAIS²/12) est confirmée quantitativement et la dépendance en EPAIS² est établie ; U4.81.04 recommande d'ailleurs, pour les comportements homogénéisés de type ELAS_COQUE, de regarder EFGE_NOEU.",
       "discarded_variants": [],
-      "notes": "Déduction, non établie par la documentation : D_eff = MEMB × EPAIS²/12 = 83,33 N·m reproduit exactement le coefficient 3·D_eff·b/L³ = 15,625 qui lie la résultante à la flèche dans a1, a2 et a6 ; le mécanisme (recalcul des efforts généralisés avec une rigidité de flexion déduite de la membrane et de l'épaisseur) n'a pas été isolé. Le cas isotrope cohérent de l'essai B (b2, plaque ELAS_COQUE, FLEX = MEMB × EPAIS²/12) donne une résultante exacte, ce qui va dans le même sens. Portée : DKT, QUAD4, une charge de bord ; FORC_NODA, les efforts généralisés (EFGE_ELNO) et COQUE_3D ne sont pas testés. Pour une palplanche dont les rigidités sont données directement et indépendamment, rien n'assure la relation : réactions et efforts nodaux à ne pas lire sans contrôle (déduction). Le poids propre, l'orientation et l'unité de ELAS_COQUE, eux, ne sont pas affectés.",
+      "notes": "La somme de FORC_NODA sur tous les nœuds vaut 0 à 10⁻¹⁵ près dans les trois cas : un contrôle global ne détecte pas l'anomalie, les erreurs des forces nodales internes s'annulant entre elles. Sur le modèle mixte D5b, la « réaction » REAC_NODA de l'extrémité chargée (nœuds portés par ELAS_COQUE seuls, valeur attendue nulle) vaut 4,5833 N, et la somme sur tous les nœuds vaut 5,0 exactement. Le mécanisme interne (contrainte reconstruite à partir de MEMB/EPAIS) est une déduction compatible avec les valeurs, non une lecture du code. R3.07.03 décrit SIEF_ELGA comme des efforts généralisés (NXX…) : la sortie observée est un champ de contraintes à trois sous-points. Non testés : SIGM_ELNO (probablement affecté, déduction), COQUE_3D, DST, TRIA3, direction T, charge répartie. Les cas tests officiels lus par les outils MCP (12 fichiers appelant ELAS_COQUE) ne contiennent aucune occurrence de FORC_NODA ni de REAC_NODA ; ssls502a-d ont FLEX = MEMB × EPAIS²/12 exactement (57,96338 = 18 692 840 × 0,0061²/12) et n'exercent donc pas l'anomalie. Historique du constat remplacé (lot 22, déduction) : option retenue : Avec ELAS_COQUE, la résultante REAC_NODA n'égale la charge appliquée que si la rigidité de flexion portée par la charge vaut MEMB × EPAIS²/12. Essais a1, a2 et a6 (MEMB_L = MEMB_T = 10⁷ N/m, EPAIS = 0,01 m, donc MEMB × EPAIS²/12 = 83,33 N·m, pour FLEX = 1000 ou 4000) : résultante égale à 1/12 (a1, a6) ou 1/48 (a2) de la charge de 5 N, alors que les déplacements sont exacts. Résultante exacte (5 N) sous ELAS (a4), avec des valeurs isotropes cohérentes (a5) et avec une membrane isotrope et FLEX_L ≠ FLEX_T lorsque la console est portée par L (a7, FLEX_L = MEMB_L × EPAIS²/12). Ne pas exploiter REAC_NODA avec ELAS_COQUE sans contrôle d'équilibre. Notes : Déduction, non établie par la documentation : D_eff = MEMB × EPAIS²/12 = 83,33 N·m reproduit exactement le coefficient 3·D_eff·b/L³ = 15,625 qui lie la résultante à la flèche dans a1, a2 et a6 ; le mécanisme (recalcul des efforts généralisés avec une rigidité de flexion déduite de la membrane et de l'épaisseur) n'a pas été isolé. Le cas isotrope cohérent de l'essai B (b2, plaque ELAS_COQUE, FLEX = MEMB × EPAIS²/12) donne une résultante exacte, ce qui va dans le même sens. Portée : DKT, QUAD4, une charge de bord ; FORC_NODA, les efforts généralisés (EFGE_ELNO) et COQUE_3D ne sont pas testés. Pour une palplanche dont les rigidités sont données directement et indépendamment, rien n'assure la relation : réactions et efforts nodaux à ne pas lire sans contrôle (déduction). Le poids propre, l'orientation et l'unité de ELAS_COQUE, eux, ne sont pas affectés.",
       "validity_domain": null,
       "nature": "code_aster",
       "sources": [
@@ -1779,6 +1846,93 @@
           "reference_value": 5.0,
           "relative_deviation": 1.2400036553117389e-11,
           "validation_level": "D"
+        },
+        {
+          "document_id": "U4.81.04",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Operandes_forces_reactions"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.04/Operandes_forces_reactions.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Dans le cas des coques, les composantes DX, DY et DZ donnent les FORC_NODA (de dimension d'une force) dans le repère global du maillage. Ces composantes sont construites avec les efforts normaux et tranchants dans la coque. Les composantes DRX, DRY et DRZ donnent les FORC_NODA (de dimension d'un moment) dans le repère global du maillage, construites avec les moments fléchissants dans la coque. Dans le cas de comportements homogénéisés de coque type ELAS_COQUE, il est préférable de regarder EFGE_NOEU."
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "case_sha256": "f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D1 (EPAIS = 0,01 ; MEMB_L × EPAIS²/12 = 83,33 ; FLEX_L = 1000)",
+          "value_obtained": 0.416666666672,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "relative_deviation": -0.9166666666656,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "case_sha256": "f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "résultante DZ de FORC_NODA aux nœuds de l'encastrement, D1",
+          "value_obtained": 0.416666666672,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "relative_deviation": -0.9166666666656,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d2/d2a.comm",
+          "case_sha256": "465034b18e37206283e8dac84ffefc02626468a7c6d28c69d52c4f204c758372",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2a.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D2 (EPAIS × 2)",
+          "value_obtained": 1.666666666688,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "relative_deviation": -0.6666666666623999,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d2/d2b.comm",
+          "case_sha256": "b4bc51d0dab52eb963278b3d1dc7f78018e08f39878de9407a80f28d9e098ec8",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2b.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D2 (EPAIS × 0,5)",
+          "value_obtained": 0.104166666668,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "relative_deviation": -0.9791666666664,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d3/d3.comm",
+          "case_sha256": "0c47cf4c7893db5e44ec06355b986aeb35d7cdfd72607a39a354a074ff5a4573",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d3.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D3 (CISA_L et CISA_T × 1000)",
+          "value_obtained": 0.416666666672,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "relative_deviation": -0.9166666666656,
+          "validation_level": "D"
         }
       ],
       "status": "tranche"
@@ -1787,10 +1941,10 @@
       "point_label": "1",
       "topic": "Poids propre des éléments ELAS_COQUE sous PESANTEUR en statique : sens de RHO",
       "options_considered": [],
-      "option_retained": "Sous PESANTEUR en statique, l'élément ELAS_COQUE (DKT) reçoit le poids RHO × EPAIS × g par unité de surface, EPAIS étant l'épaisseur de AFFE_CARA_ELEM : RHO agit comme une masse volumique, non comme la « masse par unité de surface » de U4.43.01. Plaque ELAS_COQUE avec RHO = 100 et EPAIS = 0,02 m : résultante verticale 19,62 N pour 1 m², soit 100 × 0,02 × 9,81 et non 981 N. Console ELAS_COQUE avec RHO = 1 et EPAIS = 0,01 m : flèche en bout 1,9636×10⁻⁴ m, conforme à p·L⁴/(8·FLEX) avec p = RHO × EPAIS × g. Témoin ELAS, RHO = 7850 kg/m³, EPAIS = 0,01 m : 770,085 N.",
-      "justification": "Deux dispositifs indépendants concordent : résultante des réactions du modèle mixte à deux plaques (b2) et flèche d'une console mesurée par déplacement, sans réaction (b3). Exécutions jusqu'à FIN sans alarme (niveau C) ; écarts relatifs de 0 (témoin ELAS), 0 (plaque ELAS_COQUE) et +0,083 % (console, erreur de discrétisation DKT) contre l'hypothèse RHO × EPAIS × g ; contre l'hypothèse « masse surfacique » RHO × g, la plaque serait à -98,0 % et la console à -99 % (niveau D).",
+      "option_retained": "Sous PESANTEUR en statique, l'élément ELAS_COQUE (DKT) reçoit le poids RHO × EPAIS × g par unité de surface, EPAIS étant l'épaisseur de AFFE_CARA_ELEM : RHO agit comme une masse volumique, non comme la « masse par unité de surface » de U4.43.01. Plaque ELAS_COQUE avec RHO = 100 et EPAIS = 0,02 m : résultante verticale 19,62 N pour 1 m², soit 100 × 0,02 × 9,81 et non 981 N. Console ELAS_COQUE avec RHO = 1 et EPAIS = 0,01 m : flèche en bout 1,9636×10⁻⁴ m, conforme à p·L⁴/(8·FLEX) avec p = RHO × EPAIS × g. Témoin ELAS, RHO = 7850 kg/m³, EPAIS = 0,01 m : 770,085 N. RHO = 0 sur les éléments ELAS_COQUE est accepté sans alarme : le poids propre de ces éléments est alors nul, en silence, alors que les éléments ELAS voisins gardent le leur (770,085 N pour la plaque témoin, 0 N pour la plaque ELAS_COQUE, D4).",
+      "justification": "Deux dispositifs indépendants concordent : résultante des réactions du modèle mixte à deux plaques (b2) et flèche d'une console mesurée par déplacement, sans réaction (b3). Exécutions jusqu'à FIN sans alarme (niveau C) ; écarts relatifs de 0 (témoin ELAS), 0 (plaque ELAS_COQUE) et +0,083 % (console, erreur de discrétisation DKT) contre l'hypothèse RHO × EPAIS × g ; contre l'hypothèse « masse surfacique » RHO × g, la plaque serait à -98,0 % et la console à -99 % (niveau D). Lot 23 : D4 (exécution jusqu'à FIN, aucune alarme, niveau C) : plaque ELAS témoin exacte (770,085 N, écart nul, niveau D) et résultante nulle de la plaque ELAS_COQUE avec RHO = 0 (valeur de référence nulle, non exprimable en écart relatif : rapportée ici, non en source). R3.07.03 écrit que l'épaisseur de AFFE_CARA_ELEM « est seulement utilisée avec la masse volumique définie par RHO » : cette formulation est cohérente avec le sens de RHO observé au lot 22 et contredit U4.43.01 ; elle est en revanche contredite par D2 pour le reste du comportement (EPAIS intervient aussi dans SIEF_ELGA, FORC_NODA et REAC_NODA, constat de ce point).",
       "discarded_variants": [],
-      "notes": "Écart avec la documentation : U4.43.01 définit RHO comme « une masse par unité de surface » ; l'essai dit que PESANTEUR le multiplie par l'épaisseur. Exécutions en échec, niveau B seulement, donc non sources : b1 (plaque ELAS_COQUE sans RHO, PESANTEUR sur tout le modèle) et b4 (plaque ELAS_COQUE sans RHO, PESANTEUR restreinte par GROUP_MA au groupe de la plaque ELAS) s'arrêtent sur <EXCEPTION> MODELISA9_77 « Le paramètre 'RHO' doit être fourni » (option CHAR_MECA_PESA_R, type d'élément MEDKQU4, maille 17 du groupe de la plaque ELAS_COQUE) puis MODELISA6_4 : le modèle mixte n'accepte PESANTEUR que si tous ses éléments ELAS_COQUE portent RHO, même quand PESANTEUR est restreinte à un autre groupe. Non testé : RHO nul. Déduction : avec RHO renseigné, PESANTEUR prend déjà le poids en compte ; une force surfacique explicite pour ce même poids serait comptée deux fois. Sans RHO, PESANTEUR est impossible dans ce modèle et la force explicite serait la seule voie ; cette dernière hypothèse n'est pas testée. Le choix reste à faire par l'ingénieur.",
+      "notes": "Libellés exacts : U4.43.01 : « une masse par unité de surface rho » (section ELAS_COQUE) ; R3.07.03 : « L'épaisseur donnée dans AFFE_CARA_ELEM est seulement utilisée avec la masse volumique définie par RHO ». Les deux documents se contredisent ; l'exécution tranche pour la seconde lecture. Exécutions en échec du lot 22, niveau B seulement, donc non sources : b1 et b4 (plaque ELAS_COQUE sans RHO) s'arrêtent sur <EXCEPTION> MODELISA9_77 « Le paramètre 'RHO' doit être fourni » (option CHAR_MECA_PESA_R, type d'élément MEDKQU4) puis MODELISA6_4 : le modèle mixte n'accepte PESANTEUR que si tous ses éléments ELAS_COQUE portent RHO, même quand PESANTEUR est restreinte à un autre groupe. Déduction : avec RHO renseigné, PESANTEUR prend déjà le poids en compte ; une force surfacique explicite pour ce même poids serait comptée deux fois ; avec RHO = 0, la force explicite serait la seule voie de charger ce poids sans dupliquer, mais elle n'est pas testée. Le choix reste à faire par l'ingénieur. Historique du constat remplacé (lot 22) : option retenue : Sous PESANTEUR en statique, l'élément ELAS_COQUE (DKT) reçoit le poids RHO × EPAIS × g par unité de surface, EPAIS étant l'épaisseur de AFFE_CARA_ELEM : RHO agit comme une masse volumique, non comme la « masse par unité de surface » de U4.43.01. Plaque ELAS_COQUE avec RHO = 100 et EPAIS = 0,02 m : résultante verticale 19,62 N pour 1 m², soit 100 × 0,02 × 9,81 et non 981 N. Console ELAS_COQUE avec RHO = 1 et EPAIS = 0,01 m : flèche en bout 1,9636×10⁻⁴ m, conforme à p·L⁴/(8·FLEX) avec p = RHO × EPAIS × g. Témoin ELAS, RHO = 7850 kg/m³, EPAIS = 0,01 m : 770,085 N. Notes : Écart avec la documentation : U4.43.01 définit RHO comme « une masse par unité de surface » ; l'essai dit que PESANTEUR le multiplie par l'épaisseur. Exécutions en échec, niveau B seulement, donc non sources : b1 (plaque ELAS_COQUE sans RHO, PESANTEUR sur tout le modèle) et b4 (plaque ELAS_COQUE sans RHO, PESANTEUR restreinte par GROUP_MA au groupe de la plaque ELAS) s'arrêtent sur <EXCEPTION> MODELISA9_77 « Le paramètre 'RHO' doit être fourni » (option CHAR_MECA_PESA_R, type d'élément MEDKQU4, maille 17 du groupe de la plaque ELAS_COQUE) puis MODELISA6_4 : le modèle mixte n'accepte PESANTEUR que si tous ses éléments ELAS_COQUE portent RHO, même quand PESANTEUR est restreinte à un autre groupe. Non testé : RHO nul. Déduction : avec RHO renseigné, PESANTEUR prend déjà le poids en compte ; une force surfacique explicite pour ce même poids serait comptée deux fois. Sans RHO, PESANTEUR est impossible dans ce modèle et la force explicite serait la seule voie ; cette dernière hypothèse n'est pas testée. Le choix reste à faire par l'ingénieur.",
       "validity_domain": null,
       "nature": "code_aster",
       "sources": [
@@ -1837,6 +1991,307 @@
           "reference": "p·L⁴/(8·FLEX_L) avec p = RHO × EPAIS × g = 0,0981 N/m², L = 2 m, FLEX_L = 1000 N·m (hypothèse masse surfacique : 1,962×10⁻² m)",
           "reference_value": 0.00019620000000000003,
           "relative_deviation": 0.0008333333200814175,
+          "validation_level": "D"
+        },
+        {
+          "document_id": "U4.43.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Caract_ristiques__lastiques_g_n_rales"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.43.01/Caract_ristiques__lastiques_g_n_rales.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "L’utilisateur peut également indiquer un coefficient de dilatation thermique isotrope alpha et une masse par unité de surfacerho."
+        },
+        {
+          "document_id": "R3.07.03",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Implantation_des__l_ments_de_plaque_dans_Code_Aster"
+          ],
+          "source_path": "source/manuals/man_r/r3/r3.07.03/Implantation_des__l_ments_de_plaque_dans_Code_Aster.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Ce comportement a été ajouté dans DEFI_MATERIAU pour prendre en compte des matrices de rigidité non proportionnelles en membrane et en flexion, obtenues par homogénéisation d’un matériau multicouche. Les coefficients des matrices de rigidité sont alors introduits à la main par l’utilisateur dans le repère utilisateur défini par le mot-clé ANGL_REP. L’épaisseur donnée dans AFFE_CARA_ELEM est seulement utilisée avec la masse volumique définie par RHO. alpha est la dilatation thermique. Si on souhaite utiliser ELAS_COQUE avec du cisaillement transverse, il faut nécessairement employer la modélisation DST. Si on utilise la modélisation DKT, le cisaillement transverse n’est pas pris en compte."
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d4/d4.comm",
+          "case_sha256": "2a26ade8d7e6d3a0d970f664998fa4e233d3574aae2066cea8a4992e54f7032c",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d4.txt",
+          "quantity": "résultante verticale des réactions de la plaque 1 (ELAS, RHO = 7850, EPAIS = 0,01) sous PESANTEUR, D4 (plaque 2 : ELAS_COQUE avec RHO = 0)",
+          "value_obtained": 770.085,
+          "reference": "RHO × EPAIS × g × aire = 7850 × 0,01 × 9,81 × 1 m² = 770,085 N",
+          "reference_value": 770.085,
+          "relative_deviation": 0.0,
+          "validation_level": "D"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "1",
+      "topic": "Efforts généralisés (EFGE_ELNO, EFGE_NOEU) sous ELAS_COQUE (DKT) : exactitude et indépendance vis-à-vis de EPAIS et de CISA_L/CISA_T",
+      "options_considered": [],
+      "option_retained": "Sous ELAS_COQUE (DKT, QUAD4), les efforts généralisés EFGE_ELNO et EFGE_NOEU sont exacts et indépendants de EPAIS et de CISA_L/CISA_T, y compris quand FLEX ≠ MEMB × EPAIS²/12. Console de l'essai A (FLEX_L = 1000 N·m, charge 5 N, b = 0,5 m) : MXX = 20 N·m par mètre à l'encastrement et 10 à mi-longueur (M(x) = P·(L − x)/b), |QX| = 10 N par mètre (P/b) ; écart maximal sur MXX en tous les points EFGE_ELNO : 2.5e-10 N·m/m, autres composantes ≤ 7e-10 ; résultats identiques à 12 chiffres pour EPAIS = 0,01, 0,02 et 0,005 (coefficients inchangés) et pour CISA × 1000. Les déplacements sont eux aussi indépendants de EPAIS (flèche en bout 0,0266666666663 m pour 0,0266666666667 m de référence). Signe observé, repère ANGL_REP = (0, 0), charge vers −Z : MXX > 0, QX < 0.",
+      "justification": "Quatre exécutions (D1, D2 ×2, D3) jusqu'à FIN sans alarme (niveau C), efforts comparés aux valeurs analytiques par unité de largeur (niveau D). Le lot 22 avait posé la question (FORC_NODA, EFGE_ELNO « non testés ») ; U4.81.04 recommande de regarder EFGE_NOEU pour les comportements homogénéisés de type ELAS_COQUE, ce que l'exécution confirme.",
+      "discarded_variants": [],
+      "notes": "Conditions de l'essai : flexion pure dans la direction L, FLEX_LT = 0 (MYY = MXY = 0 attendus et obtenus à 10⁻¹⁰ près), membrane non sollicitée (NXX = NYY = NXY = 0) : l'exactitude des efforts de membrane, des moments MYY et MXY et du cisaillement QY n'est pas testée. Une seule modélisation (DKT, QUAD4), un seul maillage (20 × 5), un seul repère (ANGL_REP = (0, 0)), une version (17.4.0). D3 confirme la remarque de U4.43.01 (le cisaillement transverse n'est pas pris en compte en DKT) pour ces deux coefficients. Les cas tests officiels hpla100i, hpla100j et ssls113a vérifient EFGE_ELNO sous ELAS_COQUE avec une tolérance jusqu'à 6 % et EPAIS = 1,0 pour les deux premiers ; ils ne fondent pas l'indépendance vis-à-vis de EPAIS. Rapport : docs/essais_lot23.md.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U4.81.04",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Operandes_forces_reactions"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.04/Operandes_forces_reactions.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Dans le cas des coques, les composantes DX, DY et DZ donnent les FORC_NODA (de dimension d'une force) dans le repère global du maillage. Ces composantes sont construites avec les efforts normaux et tranchants dans la coque. Les composantes DRX, DRY et DRZ donnent les FORC_NODA (de dimension d'un moment) dans le repère global du maillage, construites avec les moments fléchissants dans la coque. Dans le cas de comportements homogénéisés de coque type ELAS_COQUE, il est préférable de regarder EFGE_NOEU."
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "case_sha256": "f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "MXX moyen des points EFGE_ELNO en x = 0 (encastrement), D1 (EPAIS = 0,01)",
+          "value_obtained": 19.999999999830003,
+          "reference": "M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur",
+          "reference_value": 20.0,
+          "relative_deviation": -8.499867476530198e-12,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "case_sha256": "f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "MXX moyen des points EFGE_ELNO en x = L/2, D1 (EPAIS = 0,01)",
+          "value_obtained": 9.99999999976775,
+          "reference": "M(L/2) = P·(L − L/2)/b = 10 N·m par mètre de largeur",
+          "reference_value": 10.0,
+          "relative_deviation": -2.3224977496738575e-11,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "case_sha256": "f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "|QX| moyen des points EFGE_ELNO en x = L/2 (valeur absolue), D1",
+          "value_obtained": 9.99999999988715,
+          "reference": "P/b = 5 N / 0,5 m = 10 N par mètre de largeur",
+          "reference_value": 10.0,
+          "relative_deviation": -1.128501736502585e-11,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "case_sha256": "f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "MXX moyen des points EFGE_NOEU en x = 0 (encastrement), D1",
+          "value_obtained": 19.99999999983,
+          "reference": "M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur",
+          "reference_value": 20.0,
+          "relative_deviation": -8.500045112214139e-12,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d2/d2a.comm",
+          "case_sha256": "465034b18e37206283e8dac84ffefc02626468a7c6d28c69d52c4f204c758372",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2a.txt",
+          "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D2 (EPAIS × 2 = 0,02, coefficients inchangés)",
+          "value_obtained": 19.999999999830003,
+          "reference": "M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur",
+          "reference_value": 20.0,
+          "relative_deviation": -8.499867476530198e-12,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d2/d2b.comm",
+          "case_sha256": "b4bc51d0dab52eb963278b3d1dc7f78018e08f39878de9407a80f28d9e098ec8",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2b.txt",
+          "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D2 (EPAIS × 0,5 = 0,005, coefficients inchangés)",
+          "value_obtained": 19.999999999830003,
+          "reference": "M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur",
+          "reference_value": 20.0,
+          "relative_deviation": -8.499867476530198e-12,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d3/d3.comm",
+          "case_sha256": "0c47cf4c7893db5e44ec06355b986aeb35d7cdfd72607a39a354a074ff5a4573",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d3.txt",
+          "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D3 (CISA_L et CISA_T × 1000)",
+          "value_obtained": 19.999999999830003,
+          "reference": "M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur",
+          "reference_value": 20.0,
+          "relative_deviation": -8.499867476530198e-12,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "case_sha256": "f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "flèche en bout (DZ, valeur absolue), D1 (EPAIS = 0,01)",
+          "value_obtained": 0.026666666666261666,
+          "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+          "reference_value": 0.02666666666666667,
+          "relative_deviation": -1.5187590768350745e-11,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d2/d2a.comm",
+          "case_sha256": "465034b18e37206283e8dac84ffefc02626468a7c6d28c69d52c4f204c758372",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2a.txt",
+          "quantity": "flèche en bout (DZ, valeur absolue), D2 (EPAIS × 2)",
+          "value_obtained": 0.026666666666261666,
+          "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+          "reference_value": 0.02666666666666667,
+          "relative_deviation": -1.5187590768350745e-11,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d2/d2b.comm",
+          "case_sha256": "b4bc51d0dab52eb963278b3d1dc7f78018e08f39878de9407a80f28d9e098ec8",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2b.txt",
+          "quantity": "flèche en bout (DZ, valeur absolue), D2 (EPAIS × 0,5)",
+          "value_obtained": 0.026666666666261666,
+          "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+          "reference_value": 0.02666666666666667,
+          "relative_deviation": -1.5187590768350745e-11,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d3/d3.comm",
+          "case_sha256": "0c47cf4c7893db5e44ec06355b986aeb35d7cdfd72607a39a354a074ff5a4573",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d3.txt",
+          "quantity": "flèche en bout (DZ, valeur absolue), D3 (CISA_L et CISA_T × 1000)",
+          "value_obtained": 0.026666666666261666,
+          "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+          "reference_value": 0.02666666666666667,
+          "relative_deviation": -1.5187590768350745e-11,
+          "validation_level": "D"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "8",
+      "topic": "Contrôle d'équilibre global d'un modèle contenant des éléments ELAS_COQUE : source des réactions",
+      "options_considered": [],
+      "option_retained": "Sur un modèle mixte (bande DKT dont la moitié x < 1 est en ELAS_COQUE de l'essai A et la moitié x > 1 en ELAS de même rigidité de flexion, charge de 5 N en x = 0, appui en x = 2), deux sources de réactions donnent l'équilibre à 1,1×10⁻¹⁰ près en relatif : (a) les forces nodales des ressorts discrets (DIS_TR, K_TR_D_N), CALC_CHAMP/FORCE = FORC_NODA restreint au groupe de mailles POI1, résultante DZ -5,000000001 N ; (b) REAC_NODA lu sur les nœuds d'appui qui ne portent aucun élément ELAS_COQUE, résultante DZ 5,000000001 N. Moments pris autour du point d'application de la charge : MX = ±1,25 N·m (5 N × 0,25 m) dans les deux cas, MY ≈ 3×10⁻¹⁰ N·m (nul attendu). REAC_NODA lu sur les nœuds portés par ELAS_COQUE est faux : l'extrémité chargée, portée par des éléments ELAS_COQUE seuls, donne 4,5833 N au lieu de 0. La somme de REAC_NODA sur tous les nœuds vaut 5,0 exactement et ne discrimine pas : les erreurs locales s'annulent. Un contrôle d'équilibre doit donc porter sur les ressorts ou sur des nœuds d'appui hors ELAS_COQUE, jamais sur la somme de REAC_NODA de tout le modèle.",
+      "justification": "Deux exécutions (D5a, D5b) jusqu'à FIN sans alarme (niveau C), résultantes comparées à la charge appliquée (niveau D). La flèche du modèle mixte D5b coïncide avec la référence analytique à 6×10⁻¹¹ près en relatif (niveau D) : le modèle mixte est bien porté par ELAS_COQUE et ELAS, et le déplacement n'est pas affecté. Suite du constat sur REAC_NODA du point 1.",
+      "discarded_variants": [],
+      "notes": "D5a : la flèche en bout (0,026703513 m) est supérieure à celle du modèle encastré (0,026666667 m) de la souplesse des ressorts (k = 10⁶ N/m et 10⁵ N·m/rad par nœud) ; aucune référence analytique n'est établie pour ce cas, seules les résultantes le sont. Non testé : ressorts liés à des nœuds portés par ELAS_COQUE (déduction : la force d'un ressort discret est k × déplacement du nœud, indépendante du comportement de la coque voisine), appuis sur un nœud commun à ELAS et ELAS_COQUE, ressorts de sol répartis. Le point de réduction des moments est celui de POST_RELEVE_T (POINT = origine). Rapport : docs/essais_lot23.md.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U4.81.04",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Operandes_forces_reactions"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.04/Operandes_forces_reactions.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Dans le cas des coques, les composantes DX, DY et DZ donnent les FORC_NODA (de dimension d'une force) dans le repère global du maillage. Ces composantes sont construites avec les efforts normaux et tranchants dans la coque. Les composantes DRX, DRY et DRZ donnent les FORC_NODA (de dimension d'un moment) dans le repère global du maillage, construites avec les moments fléchissants dans la coque. Dans le cas de comportements homogénéisés de coque type ELAS_COQUE, il est préférable de regarder EFGE_NOEU."
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d5/d5a.comm",
+          "case_sha256": "b3843152e41eb2288915ab09f8ae736d87b4ff6547d9d1fc79006604cfeea80b",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d5a.txt",
+          "quantity": "résultante DZ des forces nodales des ressorts DIS_TR en x = 2 (valeur absolue), FORC_NODA restreint aux mailles POI1",
+          "value_obtained": 5.000000000557,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "relative_deviation": 1.1139995592657214e-10,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d5/d5b.comm",
+          "case_sha256": "99e24f60dbbde89f86ace5d806c4de0a903e1a405a7aac48d6339e573d305089",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d5b.txt",
+          "quantity": "résultante DZ de REAC_NODA aux nœuds d'appui en x = 2, sans élément ELAS_COQUE (valeur absolue)",
+          "value_obtained": 5.000000000551,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "relative_deviation": 1.1020002688155728e-10,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot23_essais/essai_d5/d5b.comm",
+          "case_sha256": "99e24f60dbbde89f86ace5d806c4de0a903e1a405a7aac48d6339e573d305089",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d5b.txt",
+          "quantity": "flèche en bout chargé, modèle mixte ELAS_COQUE / ELAS (DZ, valeur absolue)",
+          "value_obtained": 0.02666666666841,
+          "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+          "reference_value": 0.02666666666666667,
+          "relative_deviation": 6.537491901992265e-11,
           "validation_level": "D"
         }
       ],

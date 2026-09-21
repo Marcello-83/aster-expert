@@ -42,15 +42,19 @@ def test_replaying_the_build_script_reproduces_the_versioned_json(
 
 
 def test_arbitration_inputs_carry_no_unresolved_confirmation_marker() -> None:
+    # v4 quotes the marker once, in its status sentence (how to read a marked
+    # passage); no passage of any file carries it any more (lot 23).
+    status_sentence = "Les passages marqués **[À CONFIRMER MM]** doivent"
     for path in _INPUTS.glob("*.md"):
-        assert "À CONFIRMER" not in path.read_text(encoding="utf-8"), path.name
+        text = path.read_text(encoding="utf-8").replace(status_sentence, "")
+        assert "À CONFIRMER" not in text, path.name
 
 
 def test_every_excerpt_is_verbatim_in_the_documentation_clone() -> None:
     """Skipped when `external/` is absent (never committed, CLAUDE.md)."""
     if not _DOC_ROOT.is_dir():
         pytest.skip("external/codeaster-doc absent")
-    for name in ("lot20_extraits.json", "lot21_extraits.json"):
+    for name in ("lot20_extraits.json", "lot21_extraits.json", "lot23_extraits.json"):
         extracts = json.loads((_INPUTS / name).read_text("utf-8"))
         assert extracts
         for x in extracts:

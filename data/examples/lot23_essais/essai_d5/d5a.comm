@@ -1,0 +1,92 @@
+# Essai D5 (lot 23), variante d5a -- appui par ressorts DIS_TR nodaux en x = 2 : FORC_NODA restreint aux ressorts.
+# Bande DKT L = 2.0 m, b = 0.5 m ; x < 1 : ELAS_COQUE (essai A), x > 1 : ELAS
+# (E = 1.2e10, nu = 0, h = 0.01 : D = 1000 N.m/m, meme raideur de flexion). P = 5.0 N en x = 0 (bout ELAS_COQUE), appui en x = 2.
+# Moments pris autour de (0,0,0), point d'application de la charge : equilibre
+# global attendu MY = 0, |MX| = P x 0.25 (charge centree sur la largeur), |RZ| = P.
+
+DEBUT()
+
+MAIL0 = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+
+MAIL = CREA_MAILLAGE(MAILLAGE=MAIL0, CREA_POI1=_F(NOM_GROUP_MA="RESSORTS", GROUP_NO="X2"))
+
+MO = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(TOUT="OUI", PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+        _F(GROUP_MA="RESSORTS", PHENOMENE="MECANIQUE", MODELISATION="DIS_TR"),
+    ),
+)
+
+CARA = AFFE_CARA_ELEM(
+    MODELE=MO,
+    COQUE=_F(GROUP_MA=("COQ", "ELA"), EPAIS=0.01, ANGL_REP=(0.0, 0.0)),
+    DISCRET=_F(
+        GROUP_MA="RESSORTS",
+        CARA="K_TR_D_N",
+        VALE=(1000000.0, 1000000.0, 1000000.0, 100000.0, 100000.0, 100000.0),
+    ),
+)
+
+MAT = DEFI_MATERIAU(ELAS_COQUE=_F(MEMB_L=10000000.0, MEMB_LT=3000000.0, MEMB_T=10000000.0, MEMB_G_LT=3500000.0, FLEX_L=1000.0, FLEX_LT=0.0, FLEX_T=4000.0, FLEX_G_LT=500.0, CISA_L=10000000000.0, CISA_T=10000000000.0))
+
+MATE = DEFI_MATERIAU(ELAS=_F(E=1.2e10, NU=0.0))
+
+CHMAT = AFFE_MATERIAU(
+    MAILLAGE=MAIL,
+    AFFE=(_F(GROUP_MA="COQ", MATER=MAT), _F(GROUP_MA="ELA", MATER=MATE)),
+)
+
+CHAR = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_ARETE=_F(GROUP_MA="BOUT0", FZ=-10.0),
+)
+
+RESU = MECA_STATIQUE(MODELE=MO, CHAM_MATER=CHMAT, CARA_ELEM=CARA, EXCIT=_F(CHARGE=CHAR))
+
+RESU = CALC_CHAMP(reuse=RESU, RESULTAT=RESU, GROUP_MA="RESSORTS", FORCE="FORC_NODA")
+
+T_DEPL = POST_RELEVE_T(
+    ACTION=_F(
+        INTITULE="FLECHE_BOUT",
+        GROUP_NO="X0",
+        RESULTAT=RESU,
+        NOM_CHAM="DEPL",
+        NOM_CMP="DZ",
+        OPERATION="EXTRACTION",
+    )
+)
+
+IMPR_TABLE(TABLE=T_DEPL, UNITE=6, FORMAT_R="E20.12")
+
+T_RESS = POST_RELEVE_T(
+    ACTION=_F(
+        INTITULE="FORC_NODA_RESSORTS",
+        GROUP_NO="X2",
+        RESULTAT=RESU,
+        NOM_CHAM="FORC_NODA",
+        RESULTANTE=("DX", "DY", "DZ"),
+        MOMENT=("DRX", "DRY", "DRZ"),
+        POINT=(0.0, 0.0, 0.0),
+        OPERATION="EXTRACTION",
+    )
+)
+
+IMPR_TABLE(TABLE=T_RESS, UNITE=6, FORMAT_R="E20.12")
+
+T_RESS_TOUS = POST_RELEVE_T(
+    ACTION=_F(
+        INTITULE="FORC_NODA_TOUS_RESSORTS",
+        GROUP_NO="TOUS",
+        RESULTAT=RESU,
+        NOM_CHAM="FORC_NODA",
+        RESULTANTE=("DX", "DY", "DZ"),
+        MOMENT=("DRX", "DRY", "DRZ"),
+        POINT=(0.0, 0.0, 0.0),
+        OPERATION="EXTRACTION",
+    )
+)
+
+IMPR_TABLE(TABLE=T_RESS_TOUS, UNITE=6, FORMAT_R="E20.12")
+
+FIN()

@@ -1,0 +1,268 @@
+{
+  "contexts": {
+    "lot23": {
+      "aster_version": "17.4.0",
+      "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+      "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+      "working_tree_modified": true,
+      "note": "HEAD au moment des exécutions du lot 23 (commit du lot 22) ; les fichiers des cas n'étaient pas encore commités."
+    }
+  },
+  "findings": [
+    {
+      "id": "elas_coque_reac_noda_v2",
+      "point_label": "1",
+      "replaces_topic": "Résultante des réactions nodales (REAC_NODA) sous ELAS_COQUE lorsque la rigidité de flexion n'est pas MEMB × EPAIS² / 12",
+      "history_label": "lot 22, déduction",
+      "extraits": [
+        "u48104_elas_coque_efge_noeu"
+      ],
+      "option_retained": "Sous ELAS_COQUE (DKT), les contraintes SIEF_ELGA (dans la sortie 17.4.0, champ à trois sous-points SIXX… et non des efforts généralisés) et, par suite, FORC_NODA et REAC_NODA, sont calculées avec une rigidité de flexion égale à MEMB × EPAIS²/12 et non avec les coefficients FLEX_* : elles ne sont exactes que si FLEX = MEMB × EPAIS²/12 dans la direction sollicitée. Console de l'essai A (MEMB_L × EPAIS²/12 = 83,33 N·m, FLEX_L = 1000 N·m), charge 5 N : résultante DZ de REAC_NODA et de FORC_NODA à l'encastrement 0,416667 N (D1) ; ×4 pour EPAIS × 2 (1,666667 N), ÷4 pour EPAIS × 0,5 (0,104167 N) : elles varient comme EPAIS². Le moment de réaction suit le même facteur (0,8333 N·m pour 10 N·m). Le rapport du moment équivalent tiré de SIEF_ELGA au moment analytique vaut MEMB_L × EPAIS²/(12 × FLEX_L) : 1/12 (D1), 1/3 (D2, EPAIS × 2), 1/48 (D2, EPAIS × 0,5), à 10⁻¹⁴ près. La contrainte SIXX du premier point de Gauss (98 943,37567 Pa, peau supérieure) est identique pour les trois épaisseurs. CISA_L et CISA_T × 1000 ne changent rien (D3). Les déplacements et les efforts généralisés EFGE_* ne sont pas affectés (constat « efforts généralisés » du même point).",
+      "justification_extra": "Lot 23 : cinq exécutions (D1, D2 ×2, D3) jusqu'à FIN sans alarme (niveau C), résultantes comparées à l'équilibre et rapports comparés à la solution analytique (niveau D). L'hypothèse du lot 22 (rigidité MEMB × EPAIS²/12) est confirmée quantitativement et la dépendance en EPAIS² est établie ; U4.81.04 recommande d'ailleurs, pour les comportements homogénéisés de type ELAS_COQUE, de regarder EFGE_NOEU.",
+      "notes": "La somme de FORC_NODA sur tous les nœuds vaut 0 à 10⁻¹⁵ près dans les trois cas : un contrôle global ne détecte pas l'anomalie, les erreurs des forces nodales internes s'annulant entre elles. Sur le modèle mixte D5b, la « réaction » REAC_NODA de l'extrémité chargée (nœuds portés par ELAS_COQUE seuls, valeur attendue nulle) vaut 4,5833 N, et la somme sur tous les nœuds vaut 5,0 exactement. Le mécanisme interne (contrainte reconstruite à partir de MEMB/EPAIS) est une déduction compatible avec les valeurs, non une lecture du code. R3.07.03 décrit SIEF_ELGA comme des efforts généralisés (NXX…) : la sortie observée est un champ de contraintes à trois sous-points. Non testés : SIGM_ELNO (probablement affecté, déduction), COQUE_3D, DST, TRIA3, direction T, charge répartie. Les cas tests officiels lus par les outils MCP (12 fichiers appelant ELAS_COQUE) ne contiennent aucune occurrence de FORC_NODA ni de REAC_NODA ; ssls502a-d ont FLEX = MEMB × EPAIS²/12 exactement (57,96338 = 18 692 840 × 0,0061²/12) et n'exercent donc pas l'anomalie.",
+      "sources": [
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D1 (EPAIS = 0,01 ; MEMB_L × EPAIS²/12 = 83,33 ; FLEX_L = 1000)",
+          "value_obtained": 0.416666666672,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "résultante DZ de FORC_NODA aux nœuds de l'encastrement, D1",
+          "value_obtained": 0.416666666672,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d2/d2a.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2a.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D2 (EPAIS × 2)",
+          "value_obtained": 1.666666666688,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d2/d2b.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2b.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D2 (EPAIS × 0,5)",
+          "value_obtained": 0.104166666668,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d3/d3.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d3.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D3 (CISA_L et CISA_T × 1000)",
+          "value_obtained": 0.416666666672,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        }
+      ]
+    },
+    {
+      "id": "elas_coque_efge",
+      "point_label": "1",
+      "topic": "Efforts généralisés (EFGE_ELNO, EFGE_NOEU) sous ELAS_COQUE (DKT) : exactitude et indépendance vis-à-vis de EPAIS et de CISA_L/CISA_T",
+      "extraits": [
+        "u48104_elas_coque_efge_noeu"
+      ],
+      "option_retained": "Sous ELAS_COQUE (DKT, QUAD4), les efforts généralisés EFGE_ELNO et EFGE_NOEU sont exacts et indépendants de EPAIS et de CISA_L/CISA_T, y compris quand FLEX ≠ MEMB × EPAIS²/12. Console de l'essai A (FLEX_L = 1000 N·m, charge 5 N, b = 0,5 m) : MXX = 20 N·m par mètre à l'encastrement et 10 à mi-longueur (M(x) = P·(L − x)/b), |QX| = 10 N par mètre (P/b) ; écart maximal sur MXX en tous les points EFGE_ELNO : 2.5e-10 N·m/m, autres composantes ≤ 7e-10 ; résultats identiques à 12 chiffres pour EPAIS = 0,01, 0,02 et 0,005 (coefficients inchangés) et pour CISA × 1000. Les déplacements sont eux aussi indépendants de EPAIS (flèche en bout 0,0266666666663 m pour 0,0266666666667 m de référence). Signe observé, repère ANGL_REP = (0, 0), charge vers −Z : MXX > 0, QX < 0.",
+      "justification": "Quatre exécutions (D1, D2 ×2, D3) jusqu'à FIN sans alarme (niveau C), efforts comparés aux valeurs analytiques par unité de largeur (niveau D). Le lot 22 avait posé la question (FORC_NODA, EFGE_ELNO « non testés ») ; U4.81.04 recommande de regarder EFGE_NOEU pour les comportements homogénéisés de type ELAS_COQUE, ce que l'exécution confirme.",
+      "notes": "Conditions de l'essai : flexion pure dans la direction L, FLEX_LT = 0 (MYY = MXY = 0 attendus et obtenus à 10⁻¹⁰ près), membrane non sollicitée (NXX = NYY = NXY = 0) : l'exactitude des efforts de membrane, des moments MYY et MXY et du cisaillement QY n'est pas testée. Une seule modélisation (DKT, QUAD4), un seul maillage (20 × 5), un seul repère (ANGL_REP = (0, 0)), une version (17.4.0). D3 confirme la remarque de U4.43.01 (le cisaillement transverse n'est pas pris en compte en DKT) pour ces deux coefficients. Les cas tests officiels hpla100i, hpla100j et ssls113a vérifient EFGE_ELNO sous ELAS_COQUE avec une tolérance jusqu'à 6 % et EPAIS = 1,0 pour les deux premiers ; ils ne fondent pas l'indépendance vis-à-vis de EPAIS. Rapport : docs/essais_lot23.md.",
+      "sources": [
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "MXX moyen des points EFGE_ELNO en x = 0 (encastrement), D1 (EPAIS = 0,01)",
+          "value_obtained": 19.999999999830003,
+          "reference": "M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur",
+          "reference_value": 20.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "MXX moyen des points EFGE_ELNO en x = L/2, D1 (EPAIS = 0,01)",
+          "value_obtained": 9.99999999976775,
+          "reference": "M(L/2) = P·(L − L/2)/b = 10 N·m par mètre de largeur",
+          "reference_value": 10.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "|QX| moyen des points EFGE_ELNO en x = L/2 (valeur absolue), D1",
+          "value_obtained": 9.99999999988715,
+          "reference": "P/b = 5 N / 0,5 m = 10 N par mètre de largeur",
+          "reference_value": 10.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "MXX moyen des points EFGE_NOEU en x = 0 (encastrement), D1",
+          "value_obtained": 19.99999999983,
+          "reference": "M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur",
+          "reference_value": 20.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d2/d2a.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2a.txt",
+          "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D2 (EPAIS × 2 = 0,02, coefficients inchangés)",
+          "value_obtained": 19.999999999830003,
+          "reference": "M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur",
+          "reference_value": 20.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d2/d2b.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2b.txt",
+          "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D2 (EPAIS × 0,5 = 0,005, coefficients inchangés)",
+          "value_obtained": 19.999999999830003,
+          "reference": "M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur",
+          "reference_value": 20.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d3/d3.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d3.txt",
+          "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D3 (CISA_L et CISA_T × 1000)",
+          "value_obtained": 19.999999999830003,
+          "reference": "M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur",
+          "reference_value": 20.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+          "quantity": "flèche en bout (DZ, valeur absolue), D1 (EPAIS = 0,01)",
+          "value_obtained": 0.026666666666261666,
+          "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+          "reference_value": 0.02666666666666667,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d2/d2a.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2a.txt",
+          "quantity": "flèche en bout (DZ, valeur absolue), D2 (EPAIS × 2)",
+          "value_obtained": 0.026666666666261666,
+          "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+          "reference_value": 0.02666666666666667,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d2/d2b.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d2b.txt",
+          "quantity": "flèche en bout (DZ, valeur absolue), D2 (EPAIS × 0,5)",
+          "value_obtained": 0.026666666666261666,
+          "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+          "reference_value": 0.02666666666666667,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d3/d3.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d3.txt",
+          "quantity": "flèche en bout (DZ, valeur absolue), D3 (CISA_L et CISA_T × 1000)",
+          "value_obtained": 0.026666666666261666,
+          "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+          "reference_value": 0.02666666666666667,
+          "validation_level": "D"
+        }
+      ]
+    },
+    {
+      "id": "elas_coque_rho_v2",
+      "point_label": "1",
+      "replaces_topic": "Poids propre des éléments ELAS_COQUE sous PESANTEUR en statique : sens de RHO",
+      "history_label": "lot 22",
+      "extraits": [
+        "u4301_elas_coque_rho",
+        "r30703_epais_rho_elas_coque"
+      ],
+      "option_retained": "Sous PESANTEUR en statique, l'élément ELAS_COQUE (DKT) reçoit le poids RHO × EPAIS × g par unité de surface, EPAIS étant l'épaisseur de AFFE_CARA_ELEM : RHO agit comme une masse volumique, non comme la « masse par unité de surface » de U4.43.01. Plaque ELAS_COQUE avec RHO = 100 et EPAIS = 0,02 m : résultante verticale 19,62 N pour 1 m², soit 100 × 0,02 × 9,81 et non 981 N. Console ELAS_COQUE avec RHO = 1 et EPAIS = 0,01 m : flèche en bout 1,9636×10⁻⁴ m, conforme à p·L⁴/(8·FLEX) avec p = RHO × EPAIS × g. Témoin ELAS, RHO = 7850 kg/m³, EPAIS = 0,01 m : 770,085 N. RHO = 0 sur les éléments ELAS_COQUE est accepté sans alarme : le poids propre de ces éléments est alors nul, en silence, alors que les éléments ELAS voisins gardent le leur (770,085 N pour la plaque témoin, 0 N pour la plaque ELAS_COQUE, D4).",
+      "justification_extra": "Lot 23 : D4 (exécution jusqu'à FIN, aucune alarme, niveau C) : plaque ELAS témoin exacte (770,085 N, écart nul, niveau D) et résultante nulle de la plaque ELAS_COQUE avec RHO = 0 (valeur de référence nulle, non exprimable en écart relatif : rapportée ici, non en source). R3.07.03 écrit que l'épaisseur de AFFE_CARA_ELEM « est seulement utilisée avec la masse volumique définie par RHO » : cette formulation est cohérente avec le sens de RHO observé au lot 22 et contredit U4.43.01 ; elle est en revanche contredite par D2 pour le reste du comportement (EPAIS intervient aussi dans SIEF_ELGA, FORC_NODA et REAC_NODA, constat de ce point).",
+      "notes": "Libellés exacts : U4.43.01 : « une masse par unité de surface rho » (section ELAS_COQUE) ; R3.07.03 : « L'épaisseur donnée dans AFFE_CARA_ELEM est seulement utilisée avec la masse volumique définie par RHO ». Les deux documents se contredisent ; l'exécution tranche pour la seconde lecture. Exécutions en échec du lot 22, niveau B seulement, donc non sources : b1 et b4 (plaque ELAS_COQUE sans RHO) s'arrêtent sur <EXCEPTION> MODELISA9_77 « Le paramètre 'RHO' doit être fourni » (option CHAR_MECA_PESA_R, type d'élément MEDKQU4) puis MODELISA6_4 : le modèle mixte n'accepte PESANTEUR que si tous ses éléments ELAS_COQUE portent RHO, même quand PESANTEUR est restreinte à un autre groupe. Déduction : avec RHO renseigné, PESANTEUR prend déjà le poids en compte ; une force surfacique explicite pour ce même poids serait comptée deux fois ; avec RHO = 0, la force explicite serait la seule voie de charger ce poids sans dupliquer, mais elle n'est pas testée. Le choix reste à faire par l'ingénieur.",
+      "sources": [
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d4/d4.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d4.txt",
+          "quantity": "résultante verticale des réactions de la plaque 1 (ELAS, RHO = 7850, EPAIS = 0,01) sous PESANTEUR, D4 (plaque 2 : ELAS_COQUE avec RHO = 0)",
+          "value_obtained": 770.085,
+          "reference": "RHO × EPAIS × g × aire = 7850 × 0,01 × 9,81 × 1 m² = 770,085 N",
+          "reference_value": 770.085,
+          "validation_level": "D"
+        }
+      ]
+    },
+    {
+      "id": "equilibre_hors_elas_coque",
+      "point_label": "8",
+      "topic": "Contrôle d'équilibre global d'un modèle contenant des éléments ELAS_COQUE : source des réactions",
+      "extraits": [
+        "u48104_elas_coque_efge_noeu"
+      ],
+      "option_retained": "Sur un modèle mixte (bande DKT dont la moitié x < 1 est en ELAS_COQUE de l'essai A et la moitié x > 1 en ELAS de même rigidité de flexion, charge de 5 N en x = 0, appui en x = 2), deux sources de réactions donnent l'équilibre à 1,1×10⁻¹⁰ près en relatif : (a) les forces nodales des ressorts discrets (DIS_TR, K_TR_D_N), CALC_CHAMP/FORCE = FORC_NODA restreint au groupe de mailles POI1, résultante DZ -5,000000001 N ; (b) REAC_NODA lu sur les nœuds d'appui qui ne portent aucun élément ELAS_COQUE, résultante DZ 5,000000001 N. Moments pris autour du point d'application de la charge : MX = ±1,25 N·m (5 N × 0,25 m) dans les deux cas, MY ≈ 3×10⁻¹⁰ N·m (nul attendu). REAC_NODA lu sur les nœuds portés par ELAS_COQUE est faux : l'extrémité chargée, portée par des éléments ELAS_COQUE seuls, donne 4,5833 N au lieu de 0. La somme de REAC_NODA sur tous les nœuds vaut 5,0 exactement et ne discrimine pas : les erreurs locales s'annulent. Un contrôle d'équilibre doit donc porter sur les ressorts ou sur des nœuds d'appui hors ELAS_COQUE, jamais sur la somme de REAC_NODA de tout le modèle.",
+      "justification": "Deux exécutions (D5a, D5b) jusqu'à FIN sans alarme (niveau C), résultantes comparées à la charge appliquée (niveau D). La flèche du modèle mixte D5b coïncide avec la référence analytique à 6×10⁻¹¹ près en relatif (niveau D) : le modèle mixte est bien porté par ELAS_COQUE et ELAS, et le déplacement n'est pas affecté. Suite du constat sur REAC_NODA du point 1.",
+      "notes": "D5a : la flèche en bout (0,026703513 m) est supérieure à celle du modèle encastré (0,026666667 m) de la souplesse des ressorts (k = 10⁶ N/m et 10⁵ N·m/rad par nœud) ; aucune référence analytique n'est établie pour ce cas, seules les résultantes le sont. Non testé : ressorts liés à des nœuds portés par ELAS_COQUE (déduction : la force d'un ressort discret est k × déplacement du nœud, indépendante du comportement de la coque voisine), appuis sur un nœud commun à ELAS et ELAS_COQUE, ressorts de sol répartis. Le point de réduction des moments est celui de POST_RELEVE_T (POINT = origine). Rapport : docs/essais_lot23.md.",
+      "sources": [
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d5/d5a.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d5a.txt",
+          "quantity": "résultante DZ des forces nodales des ressorts DIS_TR en x = 2 (valeur absolue), FORC_NODA restreint aux mailles POI1",
+          "value_obtained": 5.000000000557,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d5/d5b.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d5b.txt",
+          "quantity": "résultante DZ de REAC_NODA aux nœuds d'appui en x = 2, sans élément ELAS_COQUE (valeur absolue)",
+          "value_obtained": 5.000000000551,
+          "reference": "P = 5 N (charge appliquée)",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot23",
+          "case_path": "data/examples/lot23_essais/essai_d5/d5b.comm",
+          "mess_path": "data/examples/lot23_essais/mess/mess_d5b.txt",
+          "quantity": "flèche en bout chargé, modèle mixte ELAS_COQUE / ELAS (DZ, valeur absolue)",
+          "value_obtained": 0.02666666666841,
+          "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+          "reference_value": 0.02666666666666667,
+          "validation_level": "D"
+        }
+      ]
+    }
+  ]
+}
