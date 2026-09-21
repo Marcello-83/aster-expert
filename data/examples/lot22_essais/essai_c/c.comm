@@ -1,0 +1,80 @@
+# Essai C (lot 22) -- plaque DKT 1 m x 1 m, 4 x 4, sur ressorts nodaux normaux.
+# CREA_MAILLAGE/CREA_POI1 : une maille POI1 par noeud, un groupe par classe de
+# raideur (interieur, bord, coin) ; DIS_T ; DISCRET/K_T_D_N. Raideur nodale =
+# 1e+06 N/m^3 x aire tributaire. Pression uniforme 1000 Pa :
+# deplacement attendu uniforme p/ks, somme des reactions des ressorts = p x aire.
+
+DEBUT()
+
+MAIL0 = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+
+MAIL = CREA_MAILLAGE(
+    MAILLAGE=MAIL0,
+    CREA_POI1=(
+        _F(NOM_GROUP_MA="P_COIN", GROUP_NO="COIN"),
+        _F(NOM_GROUP_MA="P_BORD", GROUP_NO="BORD"),
+        _F(NOM_GROUP_MA="P_INT", GROUP_NO="INT"),
+    ),
+)
+
+MO = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(GROUP_MA="PLAQUE", PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+        _F(GROUP_MA=("P_COIN", "P_BORD", "P_INT"), PHENOMENE="MECANIQUE", MODELISATION="DIS_T"),
+    ),
+)
+
+CARA = AFFE_CARA_ELEM(
+    MODELE=MO,
+    COQUE=_F(GROUP_MA="PLAQUE", EPAIS=0.01),
+    DISCRET=(
+        _F(GROUP_MA="P_COIN", CARA="K_T_D_N", VALE=(0.0, 0.0, 15625.0)),
+        _F(GROUP_MA="P_BORD", CARA="K_T_D_N", VALE=(0.0, 0.0, 31250.0)),
+        _F(GROUP_MA="P_INT", CARA="K_T_D_N", VALE=(0.0, 0.0, 62500.0)),
+    ),
+)
+
+ACIER = DEFI_MATERIAU(ELAS=_F(E=2.1e11, NU=0.3))
+
+CHMAT = AFFE_MATERIAU(MAILLAGE=MAIL, AFFE=_F(GROUP_MA="PLAQUE", MATER=ACIER))
+
+# Blocage des mouvements dans le plan (DX, DY, DRZ) : A DX, DY ; B DY.
+CHAR = AFFE_CHAR_MECA(
+    MODELE=MO,
+    DDL_IMPO=(_F(GROUP_NO="A", DX=0.0, DY=0.0), _F(GROUP_NO="B", DY=0.0)),
+    PRES_REP=_F(GROUP_MA="PLAQUE", PRES=1000.0),
+)
+
+RESU = MECA_STATIQUE(MODELE=MO, CHAM_MATER=CHMAT, CARA_ELEM=CARA, EXCIT=_F(CHARGE=CHAR))
+
+# Forces nodales calculees sur les seuls elements ressorts.
+RESS = CALC_CHAMP(RESULTAT=RESU, GROUP_MA=("P_COIN", "P_BORD", "P_INT"), FORCE="FORC_NODA")
+
+TAB_W = POST_RELEVE_T(
+    ACTION=_F(
+        INTITULE="DEPLACEMENT_DZ",
+        GROUP_NO="TOUS",
+        RESULTAT=RESU,
+        NOM_CHAM="DEPL",
+        NOM_CMP="DZ",
+        OPERATION="EXTRACTION",
+    )
+)
+
+TAB_R = POST_RELEVE_T(
+    ACTION=_F(
+        INTITULE="RESULTANTE_RESSORTS",
+        GROUP_NO="TOUS",
+        RESULTAT=RESS,
+        NOM_CHAM="FORC_NODA",
+        RESULTANTE=("DX", "DY", "DZ"),
+        OPERATION="EXTRACTION",
+    )
+)
+
+IMPR_TABLE(TABLE=TAB_W, UNITE=6, FORMAT_R="E20.12")
+
+IMPR_TABLE(TABLE=TAB_R, UNITE=6, FORMAT_R="E20.12")
+
+FIN()

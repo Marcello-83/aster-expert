@@ -68,6 +68,13 @@ from aster_expert.mcp.models import (
     DocumentSectionResult,
     SearchDocsResult,
 )
+from aster_expert.mcp.testcases import (
+    SearchTestcasesResult,
+    TestcaseFileResult,
+    read_testcase,
+    resolve_corpus,
+    search_testcases,
+)
 from aster_expert.parsing.comm_parser import parse_comm_file
 from aster_expert.parsing.errors import CommParseError
 from aster_expert.parsing.fragment_models import FragmentGranularity
@@ -438,10 +445,79 @@ def validate_comm(
     return report
 
 
+def search_test_cases(
+    *,
+    project_root: Path,
+    command: str,
+    keyword: str | None = None,
+    limit: int = 50,
+    log_path: Path | None = None,
+) -> SearchTestcasesResult:
+    """Test-case command files using `command` (and `keyword`), level A (lot 22).
+
+    Structural match through the project's parser, at the corpus commit the
+    synchronisation manifest recorded; read-only.
+    """
+    started = time.monotonic()
+    root, source = resolve_corpus(project_root)
+    result = search_testcases(
+        root, source, command=command, keyword=keyword, limit=limit
+    )
+    duration = time.monotonic() - started
+    append_query_log(
+        log_path if log_path is not None else default_query_log_path(project_root),
+        tool="search_test_cases",
+        query=f"{command}.{keyword}" if keyword else command,
+        filters={
+            "keyword": keyword,
+            "limit": str(limit),
+            "source_commit": source.source_commit,
+        },
+        returned=[ReturnedItem(identifier=hit.path) for hit in result.results],
+        duration_s=duration,
+    )
+    return result
+
+
+def read_test_case(
+    *,
+    project_root: Path,
+    path: str,
+    line_start: int | None = None,
+    line_end: int | None = None,
+    log_path: Path | None = None,
+) -> TestcaseFileResult:
+    """One test-case command file, whole under a threshold, else by range (lot 22).
+
+    A path outside the corpus root, or not a command file, is refused.
+    """
+    started = time.monotonic()
+    root, source = resolve_corpus(project_root)
+    result = read_testcase(
+        root, source, path=path, line_start=line_start, line_end=line_end
+    )
+    duration = time.monotonic() - started
+    append_query_log(
+        log_path if log_path is not None else default_query_log_path(project_root),
+        tool="read_test_case",
+        query=path,
+        filters={
+            "line_start": None if line_start is None else str(line_start),
+            "line_end": None if line_end is None else str(line_end),
+            "source_commit": source.source_commit,
+        },
+        returned=[ReturnedItem(identifier=result.path)],
+        duration_s=duration,
+    )
+    return result
+
+
 __all__: list[str] = [
     "analyze_comm",
     "get_command_schema",
     "get_document_section",
+    "read_test_case",
     "search_codeaster_docs",
+    "search_test_cases",
     "validate_comm",
 ]

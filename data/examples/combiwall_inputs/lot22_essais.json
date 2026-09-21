@@ -1,0 +1,236 @@
+{
+  "contexts": {
+    "lot21": {
+      "aster_version": "17.4.0",
+      "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+      "repo_commit": "28b1fe87ac70a54c116f3927e3f0fc20b7af3ae1",
+      "working_tree_modified": true,
+      "note": "HEAD au moment de l'exécution du lot 21 (commit du lot 20) ; les fichiers du cas n'étaient pas encore commités (commit b7ce267 postérieur)."
+    },
+    "lot22": {
+      "aster_version": "17.4.0",
+      "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+      "repo_commit": "b7ce267408c2cfa7a2b1719e2aeff93d13fb05b6",
+      "working_tree_modified": true,
+      "note": "HEAD au moment des exécutions du lot 22 (commit du lot 21) ; les fichiers des cas n'étaient pas encore commités."
+    }
+  },
+  "findings": [
+    {
+      "id": "force_coque",
+      "point_label": "8",
+      "topic": "Surface de référence de l'intensité de FORCE_COQUE (surface développée ou surface projetée des mailles)",
+      "option_retained": "L'intensité de FORCE_COQUE se rapporte à la surface développée des mailles, non à leur surface projetée : pour une intensité unitaire, la résultante des réactions vaut 2,22982 N, soit la surface des facettes (2,229823 m²) et non la surface projetée (1,42 m²). Établi pour la modélisation DKT (QUAD4 plans), Code_Aster 17.4.0, une composante globale constante. Une intensité exprimée par surface projetée doit être ramenée à la surface développée de chaque maille.",
+      "justification": "Essai d'exécution du lot 21 (demi-cylindre facetté de 360 QUAD4, rayon 0,71 m, hauteur 1,00 m) exécuté jusqu'à FIN sans alarme (niveau C). Résultante comparée à deux hypothèses : surface développée des facettes, écart de -1,4×10⁻⁶ à la précision d'impression de 5 chiffres ; surface projetée, la résultante la dépasse de 57 %. Les composantes DY et DZ de la résultante valent environ 10⁻¹⁰ (équilibre) : niveau D pour cette question seulement.",
+      "notes": "Fait d'exécution, non documentaire : U4.44.01 ne tranche pas (recherche du lot 20). Non testé : TRIA3, COQUE_3D, une autre direction de charge, une intensité non uniforme. Rapport : docs/essai_lot21_force_coque.md. Le facteur entre surface développée et surface projetée varie avec l'inclinaison de chaque facette.",
+      "sources": [
+        {
+          "context": "lot21",
+          "case_path": "data/examples/fcoque_essai/demi_cylindre.comm",
+          "mess_path": "data/examples/fcoque_essai/mess_execution_lot21.txt",
+          "quantity": "résultante DX des réactions REAC_NODA (valeur absolue), intensité unitaire FX = 1",
+          "value_obtained": 2.22982,
+          "reference": "surface développée exacte des 36 × 10 facettes planes (36 cordes, R = 0,71 m, H = 1,00 m) = 2,229823082115976 m²",
+          "reference_value": 2.229823082115976,
+          "validation_level": "D"
+        }
+      ]
+    },
+    {
+      "id": "elas_coque_unites",
+      "point_label": "1",
+      "topic": "Unité des rigidités de flexion de ELAS_COQUE et orientation des axes L et T du repère utilisateur (DKT)",
+      "option_retained": "FLEX_L et FLEX_T sont des rigidités par unité de largeur de coque, en unités SI cohérentes avec le maillage (N·m, soit N·m² par mètre de largeur) : une console DKT de longueur L et de largeur b, chargée en bout par une force totale P, fléchit de P·L³/(3·FLEX·b), FLEX étant celui de la direction portée par la console. L est l'axe x_l du repère utilisateur : ANGL_REP = (0, 0) place L le long de X global ; VECTEUR = (0, 1, 0) et ANGL_REP = (90, 0) placent L le long de Y global, donc T le long de X. Le rapport des flèches des deux orientations vaut FLEX_T/FLEX_L (4 pour FLEX_L = 1000 et FLEX_T = 4000).",
+      "justification": "Trois exécutions (a1, a2, a3) jusqu'à FIN sans alarme (niveau C), matériau défini par ELAS_COQUE seul. Flèche en bout comparée à la solution analytique : écarts relatifs de -1,5×10⁻¹¹ (a1) et de +3,5×10⁻¹² (a2 et a3, résultats identiques), rapport a1/a2 = 4,00000000 à 10⁻¹⁰ près (niveau D). Unité (par unité de largeur) et orientation confirmées ensemble : une unité par mètre absente, ou un repère inversé, donnerait un écart de facteur 0,5 ou 4.",
+      "notes": "Conditions de l'essai : FLEX_LT = 0 (pas d'effet anticlastique, la bande se comporte comme des poutres en parallèle) ; CISA_L et CISA_T renseignés à 10¹⁰ car la validation de niveau B (checkCommandSyntax) a refusé un premier fichier sans eux (« must be all defined » sur MEMB_LT, MEMB_T, MEMB_G_LT, FLEX_L, FLEX_LT, FLEX_T, FLEX_G_LT, CISA_L, CISA_T) : le groupe est indissociable dès qu'un de ses membres est donné, règle que le schéma exposé ne portait pas (lot 21, non établi) ; sans effet en DKT selon U4.43.01 (non testé ici). Correspondance L/T établie pour FLEX_L et FLEX_T seulement ; membrane et termes de couplage non testés. Une seule modélisation (DKT, QUAD4), un seul maillage (20 × 5). Rapport : docs/essais_lot22.md.",
+      "sources": [
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_a/a1.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_a1.txt",
+          "quantity": "flèche en bout (DZ, valeur absolue), L le long de la console (ANGL_REP = (0, 0))",
+          "value_obtained": 0.02666666666627,
+          "reference": "P·L³/(3·FLEX·b) avec P = 10 N/m × 0,5 m = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+          "reference_value": 0.02666666666666667,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_a/a2.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_a2.txt",
+          "quantity": "flèche en bout (DZ, valeur absolue), T le long de la console (VECTEUR = (0, 1, 0))",
+          "value_obtained": 0.00666666666669,
+          "reference": "P·L³/(3·FLEX·b) avec P = 10 N/m × 0,5 m = 5 N, L = 2 m, b = 0,5 m, FLEX = 4000 N·m : 0.006666666666666667",
+          "reference_value": 0.006666666666666667,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_a/a3.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_a3.txt",
+          "quantity": "flèche en bout (DZ, valeur absolue), T le long de la console (ANGL_REP = (90, 0))",
+          "value_obtained": 0.00666666666669,
+          "reference": "P·L³/(3·FLEX·b) avec P = 10 N/m × 0,5 m = 5 N, L = 2 m, b = 0,5 m, FLEX = 4000 N·m : 0.006666666666666667",
+          "reference_value": 0.006666666666666667,
+          "validation_level": "D"
+        }
+      ]
+    },
+    {
+      "id": "elas_coque_reac_noda",
+      "point_label": "1",
+      "topic": "Résultante des réactions nodales (REAC_NODA) sous ELAS_COQUE lorsque la rigidité de flexion n'est pas MEMB × EPAIS² / 12",
+      "option_retained": "Avec ELAS_COQUE, la résultante REAC_NODA n'égale la charge appliquée que si la rigidité de flexion portée par la charge vaut MEMB × EPAIS²/12. Essais a1, a2 et a6 (MEMB_L = MEMB_T = 10⁷ N/m, EPAIS = 0,01 m, donc MEMB × EPAIS²/12 = 83,33 N·m, pour FLEX = 1000 ou 4000) : résultante égale à 1/12 (a1, a6) ou 1/48 (a2) de la charge de 5 N, alors que les déplacements sont exacts. Résultante exacte (5 N) sous ELAS (a4), avec des valeurs isotropes cohérentes (a5) et avec une membrane isotrope et FLEX_L ≠ FLEX_T lorsque la console est portée par L (a7, FLEX_L = MEMB_L × EPAIS²/12). Ne pas exploiter REAC_NODA avec ELAS_COQUE sans contrôle d'équilibre.",
+      "justification": "Six exécutions jusqu'à FIN sans alarme (niveau C) ; résultante comparée à l'équilibre (charge appliquée de 5 N), niveau D. Écarts relatifs : -91,7 % (a1, a6), -97,9 % (a2), de l'ordre de 10⁻¹¹ (a4, a5, a7). Les flèches en bout de a1, a4, a5, a6 et a7, où la rigidité portée par la console vaut 1000 N·m, coïncident à 2×10⁻¹¹ près en relatif.",
+      "notes": "Déduction, non établie par la documentation : D_eff = MEMB × EPAIS²/12 = 83,33 N·m reproduit exactement le coefficient 3·D_eff·b/L³ = 15,625 qui lie la résultante à la flèche dans a1, a2 et a6 ; le mécanisme (recalcul des efforts généralisés avec une rigidité de flexion déduite de la membrane et de l'épaisseur) n'a pas été isolé. Le cas isotrope cohérent de l'essai B (b2, plaque ELAS_COQUE, FLEX = MEMB × EPAIS²/12) donne une résultante exacte, ce qui va dans le même sens. Portée : DKT, QUAD4, une charge de bord ; FORC_NODA, les efforts généralisés (EFGE_ELNO) et COQUE_3D ne sont pas testés. Pour une palplanche dont les rigidités sont données directement et indépendamment, rien n'assure la relation : réactions et efforts nodaux à ne pas lire sans contrôle (déduction). Le poids propre, l'orientation et l'unité de ELAS_COQUE, eux, ne sont pas affectés.",
+      "sources": [
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_a/a1.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_a1.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a1 (MEMB × EPAIS²/12 = 83,33 ; FLEX_L = 1000)",
+          "value_obtained": 0.416666666672,
+          "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_a/a2.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_a2.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a2 (T le long de la console, FLEX_T = 4000)",
+          "value_obtained": 0.1041666666671,
+          "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_a/a6.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_a6.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a6 (membrane de a1, flexion isotrope 1000)",
+          "value_obtained": 0.4166666666576,
+          "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_a/a4.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_a4.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a4 (témoin ELAS isotrope)",
+          "value_obtained": 4.999999999892,
+          "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_a/a5.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_a5.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a5 (ELAS_COQUE isotrope cohérent)",
+          "value_obtained": 4.999999999892,
+          "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_a/a7.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_a7.txt",
+          "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a7 (membrane isotrope, FLEX_L = 1000 ≠ FLEX_T = 4000)",
+          "value_obtained": 5.000000000062,
+          "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+          "reference_value": 5.0,
+          "validation_level": "D"
+        }
+      ]
+    },
+    {
+      "id": "elas_coque_rho",
+      "point_label": "1",
+      "topic": "Poids propre des éléments ELAS_COQUE sous PESANTEUR en statique : sens de RHO",
+      "option_retained": "Sous PESANTEUR en statique, l'élément ELAS_COQUE (DKT) reçoit le poids RHO × EPAIS × g par unité de surface, EPAIS étant l'épaisseur de AFFE_CARA_ELEM : RHO agit comme une masse volumique, non comme la « masse par unité de surface » de U4.43.01. Plaque ELAS_COQUE avec RHO = 100 et EPAIS = 0,02 m : résultante verticale 19,62 N pour 1 m², soit 100 × 0,02 × 9,81 et non 981 N. Console ELAS_COQUE avec RHO = 1 et EPAIS = 0,01 m : flèche en bout 1,9636×10⁻⁴ m, conforme à p·L⁴/(8·FLEX) avec p = RHO × EPAIS × g. Témoin ELAS, RHO = 7850 kg/m³, EPAIS = 0,01 m : 770,085 N.",
+      "justification": "Deux dispositifs indépendants concordent : résultante des réactions du modèle mixte à deux plaques (b2) et flèche d'une console mesurée par déplacement, sans réaction (b3). Exécutions jusqu'à FIN sans alarme (niveau C) ; écarts relatifs de 0 (témoin ELAS), 0 (plaque ELAS_COQUE) et +0,083 % (console, erreur de discrétisation DKT) contre l'hypothèse RHO × EPAIS × g ; contre l'hypothèse « masse surfacique » RHO × g, la plaque serait à -98,0 % et la console à -99 % (niveau D).",
+      "notes": "Écart avec la documentation : U4.43.01 définit RHO comme « une masse par unité de surface » ; l'essai dit que PESANTEUR le multiplie par l'épaisseur. Exécutions en échec, niveau B seulement, donc non sources : b1 (plaque ELAS_COQUE sans RHO, PESANTEUR sur tout le modèle) et b4 (plaque ELAS_COQUE sans RHO, PESANTEUR restreinte par GROUP_MA au groupe de la plaque ELAS) s'arrêtent sur <EXCEPTION> MODELISA9_77 « Le paramètre 'RHO' doit être fourni » (option CHAR_MECA_PESA_R, type d'élément MEDKQU4, maille 17 du groupe de la plaque ELAS_COQUE) puis MODELISA6_4 : le modèle mixte n'accepte PESANTEUR que si tous ses éléments ELAS_COQUE portent RHO, même quand PESANTEUR est restreinte à un autre groupe. Non testé : RHO nul. Déduction : avec RHO renseigné, PESANTEUR prend déjà le poids en compte ; une force surfacique explicite pour ce même poids serait comptée deux fois. Sans RHO, PESANTEUR est impossible dans ce modèle et la force explicite serait la seule voie ; cette dernière hypothèse n'est pas testée. Le choix reste à faire par l'ingénieur.",
+      "sources": [
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_b/b2.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_b2.txt",
+          "quantity": "résultante verticale des réactions de la plaque 1 (ELAS, RHO = 7850, EPAIS = 0,01) sous PESANTEUR",
+          "value_obtained": 770.085,
+          "reference": "RHO × EPAIS × g × aire = 7850 × 0,01 × 9,81 × 1 m²",
+          "reference_value": 770.085,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_b/b2.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_b2.txt",
+          "quantity": "résultante verticale des réactions de la plaque 2 (ELAS_COQUE, RHO = 100, EPAIS = 0,02) sous PESANTEUR",
+          "value_obtained": 19.62,
+          "reference": "RHO × EPAIS × g × aire = 100 × 0,02 × 9,81 × 1 m² (hypothèse masse volumique ; l'hypothèse masse surfacique donnerait 981 N)",
+          "reference_value": 19.62,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_b/b3.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_b3.txt",
+          "quantity": "flèche en bout d'une console ELAS_COQUE (RHO = 1, EPAIS = 0,01) sous PESANTEUR (valeur absolue)",
+          "value_obtained": 0.0001963634999974,
+          "reference": "p·L⁴/(8·FLEX_L) avec p = RHO × EPAIS × g = 0,0981 N/m², L = 2 m, FLEX_L = 1000 N·m (hypothèse masse surfacique : 1,962×10⁻² m)",
+          "reference_value": 0.00019620000000000003,
+          "validation_level": "D"
+        }
+      ]
+    },
+    {
+      "id": "ressorts_nodaux",
+      "point_label": "4",
+      "replaces_topic": "Affectation, à des nœuds existants d'un maillage, d'une raideur de translation dans une direction globale fixe, liée à un point fixe, de valeur propre à chaque nœud",
+      "option_retained": "Chaîne de commandes confirmée par exécution (niveau D) : (1) CREA_MAILLAGE/CREA_POI1 (GROUP_NO, NOM_GROUP_MA) crée une maille POI1 par nœud ; (2) AFFE_MODELE/AFFE/MODELISATION = DIS_T sur les groupes de mailles POI1 ; (3) AFFE_CARA_ELEM/DISCRET, CARA = K_T_D_N, VALE = (kx, ky, kz), REPERE = GLOBAL (défaut), GROUP_MA = groupe POI1. Règle de regroupement : les nœuds de même raideur (mêmes valeurs de VALE) sont regroupés dans un même groupe de mailles POI1, avec une occurrence de CREA_POI1 et une occurrence de DISCRET par classe de raideur, non par nœud. Plaque 1 m × 1 m maillée 4 × 4, raideur nodale = raideur surfacique (10⁶ N/m³) × aire tributaire : trois classes, intérieur (9 nœuds, 62 500 N/m), bord (12 nœuds, 31 250 N/m) et coin (4 nœuds, 15 625 N/m), donc trois groupes au lieu de vingt-cinq.",
+      "justification_extra": "Confirmé par exécution (lot 22, essai C), jusqu'à FIN sans alarme (niveau C) : sous pression uniforme de 1000 Pa, le déplacement DZ vaut -1,000000000000×10⁻³ m sur les 25 nœuds, égal à p/ks = 10³/10⁶ (écart nul à 12 chiffres), et la somme des forces nodales des ressorts (CALC_CHAMP/FORCE = FORC_NODA limité aux mailles POI1) vaut -1000,0 N, en valeur absolue la charge p × aire (niveau D).",
+      "notes": "Correction de la déduction (a) du lot 21 (« valeur propre à chaque nœud = un groupe de mailles POI1 par nœud ») : un groupe par valeur de raideur suffit ; un groupe par nœud n'est nécessaire que si toutes les raideurs diffèrent. Observé : kx = ky = 0 accepté sans alarme ; PRES > 0 sur une plaque de normale +Z donne DZ < 0 (seul cas testé). Non testé : maillage irrégulier (tolérance de comparaison de deux raideurs à définir pour le générateur, non établie), raideurs tangentielles non nulles, autre direction que la normale, COQUE_3D. Règle destinée au générateur.",
+      "sources": [
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_c/c.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_c.txt",
+          "quantity": "déplacement DZ des 25 nœuds de la plaque (valeur absolue, identique aux 25 nœuds)",
+          "value_obtained": 0.001,
+          "reference": "p/ks = 1000 Pa / 10⁶ N/m³ (raideur proportionnelle à l'aire tributaire, déplacement uniforme)",
+          "reference_value": 0.001,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot22",
+          "case_path": "data/examples/lot22_essais/essai_c/c.comm",
+          "mess_path": "data/examples/lot22_essais/mess/mess_c.txt",
+          "quantity": "résultante DZ des forces nodales des ressorts (FORC_NODA sur les mailles POI1, valeur absolue)",
+          "value_obtained": 1000.0,
+          "reference": "charge appliquée p × aire = 1000 Pa × 1 m²",
+          "reference_value": 1000.0,
+          "validation_level": "D"
+        }
+      ]
+    }
+  ],
+  "revisions": [
+    {
+      "point_label": "1",
+      "topic": "Homogénéisation ou représentation distincte du tube métallique et de la palplanche intercalaire",
+      "declared_by": "Claude (lot 22)",
+      "declared_at": "2026-09-21T06:25:33-04:00",
+      "reason": "Décision 2 en cours de révision : la révision v4 (palplanche en plaque orthotrope, rigidités données directement) n'est pas enregistrée, arbitrage_combiwall_MM_v4.md portant encore une mention [À CONFIRMER MM] dans son tableau de rigidités (rigidité de membrane horizontale 0,081 MN/m). La décision v3 enregistrée reste inchangée en attendant."
+    },
+    {
+      "point_label": "8",
+      "topic": "Application des charges localisées d'amarrage et d'accostage",
+      "declared_by": "Claude (lot 22)",
+      "declared_at": "2026-09-21T06:25:33-04:00",
+      "reason": "Décision 9 en cours de révision : la révision v4 (intensité rapportée à la surface développée, empreinte angulaire définie) n'est pas enregistrée, arbitrage_combiwall_MM_v4.md portant encore une mention [À CONFIRMER MM] (largeur de la platine de fixation d'environ 1,00 m). La décision v3 enregistrée reste inchangée en attendant."
+    }
+  ]
+}

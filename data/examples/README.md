@@ -154,3 +154,16 @@ Le tableau comparatif du point 1 est devenu un constat documenté ; les points
 `FORCE_COQUE` et `FORCE_NODALE` sont fondés (catalogue confirmé) ; la raideur
 surfacique projetée reste non fondée ; le choix DKT / COQUE_3D pour le tube
 est une entrée pratique ouverte. Blocages de génération : 2.
+
+## `lot22_essais/`, `fcoque_essai/`
+
+Cas d'essai d'exécution synthétiques (aucun projet). `fcoque_essai/` : lot 21
+(`scripts/build_fcoque_essai.py`). `lot22_essais/` : lot 22
+(`scripts/build_lot22_essais.py`, maillages au format ASTER natif, un `.export`
+par cas, listings `mess/mess_<cas>.txt` copiés des exécutions ; rapport
+`docs/essais_lot22.md`). Deux cas (`b1`, `b4`) échouent à l'exécution, par
+construction de l'essai : leur listing porte l'erreur `MODELISA9_77`. Les
+fichiers `combiwall_inputs/lot22_essais.json` donnent les résultats de ces essais
+à `scripts/build_combiwall_reference.py`, qui les enregistre comme constats
+`code_aster` à source d'exécution (`ExecutionSource`) : l'empreinte du cas et
+l'écart relatif y sont calculés, jamais saisis.

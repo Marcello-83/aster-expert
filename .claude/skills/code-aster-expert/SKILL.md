@@ -5,16 +5,17 @@ description: >-
   modelisations, comportements, or command usage, or when checking a
   `.comm` file — whenever the answer would rely on the `aster-expert` MCP
   server (search_codeaster_docs, get_document_section, get_command_schema,
-  analyze_comm, validate_comm). Not a source of Code_Aster knowledge
-  itself: describes the procedure for using those five tools correctly.
+  analyze_comm, validate_comm, search_test_cases, read_test_case). Not a
+  source of Code_Aster knowledge itself: describes the procedure for using
+  those seven tools correctly.
 ---
 
 # Expert Code_Aster — procédure d'usage des outils
 
 Ce skill ne contient aucune connaissance Code_Aster de première main. Il
-décrit comment utiliser les cinq outils du serveur MCP `aster-expert` —
+décrit comment utiliser les sept outils du serveur MCP `aster-expert` —
 `search_codeaster_docs`, `get_document_section`, `get_command_schema`,
-`analyze_comm`, `validate_comm` — de façon à ne jamais confondre pertinence
+`analyze_comm`, `validate_comm`, `search_test_cases`, `read_test_case` — de façon à ne jamais confondre pertinence
 documentaire, validité syntaxique et exécution (CLAUDE.md). Toute
 connaissance Code_Aster affirmée dans une réponse doit venir de la sortie
 d'un de ces outils, jamais de la mémoire du modèle.
@@ -94,16 +95,48 @@ puis, si une confrontation au catalogue est utile, `validate_comm` (niveau
 B) — jamais une simple lecture visuelle du fichier tenant lieu de l'un ou
 l'autre. Voir `references/comm-workflow.md`.
 
+## 6 bis. Cas tests : `search_test_cases` puis `read_test_case`, jamais une lecture directe (lot 22)
+
+Les fichiers de commandes des cas tests officiels (`.comm`, `.com1`, ...)
+ne sont pas dans l'index documentaire. Deux outils en lecture seule y
+donnent accès, au commit de `codeaster-src` enregistré par la dernière
+synchronisation (`source.source_commit` de chaque réponse ; l'outil refuse
+de répondre si la copie de travail a quitté ce commit ou porte des
+modifications locales) :
+
+- `search_test_cases(command, keyword=None, limit=50)` : les fichiers qui
+  utilisent une commande et, facultativement, un mot-clé (nom seul, ou
+  chemin pointé dont la queue est comparée, ex. `ELAS_COQUE.FLEX_L`). La
+  correspondance est structurelle (parseur du projet) : un commentaire ou une
+  chaîne ne compte pas. Lire `files_unparsable` (fichiers que le parseur n'a
+  pas pu lire, jamais omis en silence) et `truncated` (résultats coupés par
+  `limit`) avant de conclure « aucun cas test n'utilise ... ».
+- `read_test_case(path, line_start=None, line_end=None)` : `path` est le nom
+  relatif renvoyé par la recherche. Comme `get_document_section`, `content`
+  revient à `null` au-delà de 20000 caractères ; `guidance` dit alors quelle
+  plage demander (`line_start` et `line_end` ensemble, lignes 1..`total_lines`).
+  Un chemin hors du corpus, ou qui n'est pas un fichier de commandes, est
+  refusé.
+
+Toute lecture d'un cas test passe par ces deux outils, jamais par `cat`, un
+outil de lecture de fichier ou `grep` sur `external/codeaster-src/astest` :
+la lecture directe échappe au journal (`data/processed/query_log.jsonl`) et
+au contrôle de commit. Un cas test est une référence exécutable, jamais un
+modèle transposable (CLAUDE.md, principe 5) : le citer par son `path` et
+`source_commit`, et comparer modélisation, éléments, loi, chargements,
+conditions aux limites, type d'analyse et version avant toute réutilisation.
+Niveau A : lire un cas test ne prouve rien sur un autre fichier.
+
 ## 7. Annoncer le niveau de validation atteint, jamais un niveau supérieur
 
 `search_codeaster_docs`, `get_document_section`, `get_command_schema`,
-`analyze_comm` sont niveau A (documentaire, non exécuté, non confronté à
+`analyze_comm`, `search_test_cases`, `read_test_case` sont niveau A (documentaire, non exécuté, non confronté à
 un fichier réel — y compris `get_command_schema`, qui lit le catalogue
 mais ne confronte rien, et `get_document_section`, qui renvoie un texte
 intégral mais toujours non exécuté). `validate_comm` est niveau B (syntaxe
 confrontée au catalogue). Les niveaux C/D/E (exécution, validité physique,
 comparaison à une référence) sont hors du périmètre de ce serveur : ne
-jamais les annoncer à partir de ces cinq outils. Les mots « validé »,
+jamais les annoncer à partir de ces sept outils. Les mots « validé »,
 « correct », « sans erreur » sont toujours qualifiés par leur niveau.
 
 ## 8. Distinguer faits, déductions, recommandations

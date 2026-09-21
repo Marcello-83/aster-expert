@@ -1,0 +1,443 @@
+setting '--memory' value to 7372.80 MB (keyword RESERVE_MEMOIRE)
+copying '/work/b1.mail' to 'fort.20'...
+checking MPI initialization...
+using COMM_WORLD.
+MPI is initialized.
+Ouverture en écriture du fichier ./vola.1
+
+<INFO> Démarrage de l'exécution.
+
+                        -- CODE_ASTER -- VERSION : EXPLOITATION (stable) --                         
+                               Version 17.4.0 modifiée le 02/01/2026                                
+                              révision spack-local - branche 'v17.4.0'                              
+                                   Copyright EDF R&D 1991 - 2026                                    
+                                                                                                    
+                              Exécution du : Mon Sep 21 10:23:42 2026                               
+                                  Nom de la machine : 5ccd5d32c7d6                                  
+                                        Architecture : 64bit                                        
+                                    Type de processeur : x86_64                                     
+               Système d'exploitation : Linux-7.0.0-31-generic-x86_64-with-glibc2.36                
+                                  Langue des messages : en (UTF-8)                                  
+                                    Version de Python : 3.11.14                                     
+                                     Version de NumPy : 1.26.4                                      
+                                      Parallélisme MPI : actif                                      
+                                   Rang du processeur courant : 0                                   
+                               Nombre de processeurs MPI utilisés : 1                               
+                                    Parallélisme OpenMP : actif                                     
+                              Nombre de processus OpenMP utilisés : 1                               
+                               Version de la librairie HDF5 : 1.10.7                                
+                                Version de la librairie MED : 4.2.0                                 
+                               Version de la librairie MFront : 5.0.0                               
+                               Version de la librairie MUMPS : 5.6.2                                
+                              Version de la librairie PETSc : 3.24.0p0                              
+                              Version de la librairie SCOTCH : 7.0.10                               
+
+starting the execution...
+Valeur initiale du temps CPU maximum =   1800 secondes
+  Valeur du temps CPU maximum passé aux commandes =   1620 secondes
+  Réserve CPU prévue = 180 secondes
+
+Ouverture en écriture du fichier ./glob.1
+
+Ouverture en écriture du fichier ./vola.1
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Créée avec la version                   :  17.04.00
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre total d'accès en lecture         :  64
+     Volume des accès en lecture             :         50.00 Mo.
+     Nombre total d'accès en écriture        :  0
+     Volume des accès en écriture            :          0.00 Mo.
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Relecture des catalogues des éléments faite.
+
+Fin de lecture (durée  0.047817  s.) 
+
+                      Mémoire limite pour l'allocation dynamique : 7939.63 Mo                       
+                         ajouté à l'initialisation du processus : 648.34 Mo                         
+                               Limite cible du processus : 8587.97 Mo                               
+                         Taille limite des fichiers d'échange : 2048.00 Go                          
+# Mémoire (Mo) :   648.34 /   640.57 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0001   user+syst:        0.04s (syst:        0.43s, elaps:        0.50s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt21
+# ----------------------------------------------------------------------------------------------
+# Commande #0002 de b1.comm.changed.py, ligne 21
+MAIL = LIRE_MAILLAGE(FORMAT='ASTER',
+                     INFO=1,
+                     UNITE=20,
+                     VERI_MAIL=_F(APLAT=0.001,
+                                  VERIF='OUI'))
+
+Vérification du maillage.
+
+
+------------ MAILLAGE 00000001 - IMPRESSIONS NIVEAU  1 ------------
+
+Deux plaques DKT synthetiques, essai B (lot 22)                                 
+
+NOMBRE DE NOEUDS                          50
+
+NOMBRE DE MAILLES                         32
+                              QUAD4                  32
+
+NOMBRE DE GROUPES DE NOEUDS                6
+
+NOMBRE DE GROUPES DE MAILLES               2
+
+--------------------------------------------------------------------------------
+
+# Résultat commande #0002 (LIRE_MAILLAGE): MAIL ('<00000001>') de type <Mesh>
+# Mémoire (Mo) :   648.34 /   641.21 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0002   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt23
+# ----------------------------------------------------------------------------------------------
+# Commande #0003 de b1.comm.changed.py, ligne 23
+MO = AFFE_MODELE(AFFE=_F(MODELISATION='DKT',
+                         PHENOMENE='MECANIQUE',
+                         TOUT='OUI'),
+                 DISTRIBUTION=_F(METHODE='SOUS_DOMAINE',
+                                 PARTITIONNEUR='METIS'),
+                 INFO=1,
+                 MAILLAGE=MAIL,
+                 VERI_FORMULATION_IFS='OUI',
+                 VERI_JACOBIEN='OUI',
+                 VERI_NORM_IFS='OUI',
+                 VERI_PLAN='OUI')
+
+Sur les 32 mailles du maillage 00000001, on a demandé l'affectation de 32, on a pu en affecter 32.
+Modélisation     Formulation      Type maille  Élément fini     Nombre
+DKT              _                QUAD4        MEDKQU4          32
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0003 (AFFE_MODELE): MO ('<00000002>') de type <Model>
+# Mémoire (Mo) :   770.02 /   770.02 /   207.61 /   197.03 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0003   user+syst:        0.01s (syst:        0.01s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt28
+# ----------------------------------------------------------------------------------------------
+# Commande #0004 de b1.comm.changed.py, ligne 28
+CARA = AFFE_CARA_ELEM(COQUE=(_F(A_CIS=0.8333333,
+                                COEF_RIGI_DRZ=1e-05,
+                                COQUE_NCOU=1,
+                                EPAIS=0.01,
+                                GROUP_MA='P1',
+                                MODI_METRIQUE='NON'),
+                             _F(A_CIS=0.8333333,
+                                COEF_RIGI_DRZ=1e-05,
+                                COQUE_NCOU=1,
+                                EPAIS=0.02,
+                                GROUP_MA='P2',
+                                MODI_METRIQUE='NON')),
+                      INFO=1,
+                      MODELE=MO)
+
+
+     LE MODELE 00000002 CONTIENT : 
+                                       32 ELEMENT(S) COQUE           
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0004 (AFFE_CARA_ELEM): CARA ('<00000003>') de type <ElementaryCharacteristics>
+# Dépend de :
+# - MO ('<00000002>') de type <Model>
+# Mémoire (Mo) :   770.02 /   770.02 /   207.61 /   197.03 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0004   user+syst:        0.03s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt36
+# ----------------------------------------------------------------------------------------------
+# Commande #0005 de b1.comm.changed.py, ligne 36
+MAT1 = DEFI_MATERIAU(ELAS=_F(B_ENDOGE=0.0,
+                             COEF_AMOR=1.0,
+                             E=210000000000.0,
+                             K_DESSIC=0.0,
+                             NU=0.3,
+                             RHO=7850.0),
+                     INFO=1)
+
+# Résultat commande #0005 (DEFI_MATERIAU): MAT1 ('<00000004>') de type <Material>
+# Mémoire (Mo) :   770.02 /   770.02 /   207.61 /   197.03 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0005   user+syst:        0.11s (syst:        0.00s, elaps:        0.11s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt38
+# ----------------------------------------------------------------------------------------------
+# Commande #0006 de b1.comm.changed.py, ligne 38
+MAT2 = DEFI_MATERIAU(ELAS_COQUE=_F(CISA_L=1346153846.153846,
+                                   CISA_T=1346153846.153846,
+                                   FLEX_G_LT=53846.15384615385,
+                                   FLEX_L=153846.15384615387,
+                                   FLEX_LT=46153.84615384616,
+                                   FLEX_T=153846.15384615387,
+                                   MEMB_G_LT=1615384615.3846152,
+                                   MEMB_L=4615384615.384615,
+                                   MEMB_LT=1384615384.6153843,
+                                   MEMB_T=4615384615.384615,
+                                   ORDRE_PARAM=('MEMB_L', 'MEMB_LT', 'MEMB_T', 'MEMB_G_LT', 'FLEX_L', 'FLEX_LT', 'FLEX_T', 'FLEX_G_LT', 'CISA_L', 'CISA_T', 'M_LLLL', 'M_LLTT', 'M_LLLT', 'M_TTTT', 'M_TTLT', 'M_LTLT', 'F_LLLL', 'F_LLTT', 'F_LLLT', 'F_TTTT', 'F_TTLT', 'F_LTLT', 'MF_LLLL', 'MF_LLTT', 'MF_LLLT', 'MF_TTTT', 'MF_TTLT', 'MF_LTLT', 'MC_LLLZ', 'MC_LLTZ', 'MC_TTLZ', 'MC_TTTZ', 'MC_LTLZ', 'MC_LTTZ', 'FC_LLLZ', 'FC_LLTZ', 'FC_TTLZ', 'FC_TTTZ', 'FC_LTLZ', 'FC_LTTZ', 'C_LZLZ', 'C_LZTZ', 'C_TZTZ', 'RHO', 'ALPHA')),
+                     INFO=1)
+
+# Résultat commande #0006 (DEFI_MATERIAU): MAT2 ('<00000005>') de type <Material>
+# Mémoire (Mo) :   770.02 /   770.02 /   207.61 /   197.03 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0006   user+syst:        0.11s (syst:        0.00s, elaps:        0.12s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt40
+# ----------------------------------------------------------------------------------------------
+# Commande #0007 de b1.comm.changed.py, ligne 40
+CHMAT = AFFE_MATERIAU(AFFE=(_F(GROUP_MA='P1',
+                               MATER=MAT1),
+                            _F(GROUP_MA='P2',
+                               MATER=MAT2)),
+                      INFO=1,
+                      MAILLAGE=MAIL)
+
+# Résultat commande #0007 (AFFE_MATERIAU): CHMAT ('<00000006>') de type <MaterialField>
+# Mémoire (Mo) :   770.02 /   770.02 /   207.61 /   197.03 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0007   user+syst:        0.09s (syst:        0.01s, elaps:        0.11s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt46
+# ----------------------------------------------------------------------------------------------
+# Commande #0008 de b1.comm.changed.py, ligne 46
+CHAR = AFFE_CHAR_MECA(DDL_IMPO=(_F(DX=0.0,
+                                   DY=0.0,
+                                   DZ=0.0,
+                                   GROUP_NO=('A1', 'A2')),
+                                _F(DY=0.0,
+                                   DZ=0.0,
+                                   GROUP_NO=('B1', 'B2')),
+                                _F(DZ=0.0,
+                                   GROUP_NO=('APP1', 'APP2'))),
+                      DOUBLE_LAGRANGE='OUI',
+                      INFO=1,
+                      MODELE=MO,
+                      PESANTEUR=_F(DIRECTION=(0.0, 0.0, -1.0),
+                                   GRAVITE=9.81),
+                      SYNTAXE='NON',
+                      VERI_AFFE='OUI',
+                      VERI_NORM='OUI')
+
+# Résultat commande #0008 (AFFE_CHAR_MECA): CHAR ('<00000007>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   770.02 /   770.02 /   207.61 /   197.03 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0008   user+syst:        0.02s (syst:        0.00s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt56
+# ----------------------------------------------------------------------------------------------
+# Commande #0009 de b1.comm.changed.py, ligne 56
+RESU = MECA_STATIQUE(CARA_ELEM=CARA,
+                     CHAM_MATER=CHMAT,
+                     EXCIT=_F(CHARGE=CHAR,
+                              TYPE_CHARGE='FIXE_CSTE'),
+                     INFO=1,
+                     INST=0.0,
+                     MODELE=MO,
+                     OPTION='SIEF_ELGA',
+                     SOLVEUR=_F(ACCELERATION='AUTO',
+                                ELIM_LAGR='LAGR2',
+                                GESTION_MEMOIRE='AUTO',
+                                LOW_RANK_SEUIL=0.0,
+                                MATR_DISTRIBUEE='NON',
+                                METHODE='MUMPS',
+                                NB_RHS=1,
+                                NPREC=8,
+                                PCENT_PIVOT=35,
+                                POSTTRAITEMENTS='AUTO',
+                                PRETRAITEMENTS='AUTO',
+                                REDUCTION_MPI=0,
+                                RENUM='AUTO',
+                                RESI_RELA=1e-06,
+                                STOP_SINGULIER='OUI',
+                                TYPE_RESOL='AUTO'))
+
+Le système linéaire à résoudre a 328 degrés de liberté:
+   - 300 sont des degrés de liberté physiques
+     (ils sont portés par 50 noeuds du maillage)
+   - 28 sont les couples de paramètres de Lagrange associés
+     aux 14 relations linéaires dualisées.
+La matrice est de taille 328 équations.
+  Elle contient 6444 termes non nuls si elle est symétrique et 12560 termes non nuls si elle n'est
+pas symétrique.
+  Soit un taux de remplissage de  11.675 %.
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <EXCEPTION> <MODELISA9_77>                                                                     ║
+ ║                                                                                                ║
+ ║ Le paramètre 'RHO' doit être fourni                                                            ║
+ ║                                                                                                ║
+ ║  pour la maille  17                                                                            ║
+ ║                                                                                                ║
+ ║ --------------------------------------------                                                   ║
+ ║ Contexte du message :                                                                          ║
+ ║    Option         : CHAR_MECA_PESA_R                                                           ║
+ ║    Type d'élément : MEDKQU4                                                                    ║
+ ║    Maillage       : 00000001                                                                   ║
+ ║    Maille         : 17                                                                         ║
+ ║    Type de maille : QUAD4                                                                      ║
+ ║    Cette maille appartient aux groupes de mailles suivants :                                   ║
+ ║       P2                                                                                       ║
+ ║    Position du centre de gravité de la maille :                                                ║
+ ║       x=2.125000 y=0.125000 z=0.000000                                                         ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <EXCEPTION> <MODELISA6_4>                                                                      ║
+ ║                                                                                                ║
+ ║ Erreurs dans les données                                                                       ║
+ ║                                                                                                ║
+ ║ --------------------------------------------                                                   ║
+ ║ Contexte du message :                                                                          ║
+ ║    Option         : CHAR_MECA_PESA_R                                                           ║
+ ║    Type d'élément : MEDKQU4                                                                    ║
+ ║    Maillage       : 00000001                                                                   ║
+ ║    Maille         : 17                                                                         ║
+ ║    Type de maille : QUAD4                                                                      ║
+ ║    Cette maille appartient aux groupes de mailles suivants :                                   ║
+ ║       P2                                                                                       ║
+ ║    Position du centre de gravité de la maille :                                                ║
+ ║       x=2.125000 y=0.125000 z=0.000000                                                         ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+# Mémoire (Mo) :   771.36 /   771.36 /   207.61 /   197.03 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0009   user+syst:        0.27s (syst:        0.01s, elaps:        0.31s)
+# ----------------------------------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/opt/spack/var/spack/environments/simvia_env/.spack-env/view/lib/python3.11/site-packages/mpi4py/__main__.py", line 7, in <module>
+    main()
+  File "/opt/spack/var/spack/environments/simvia_env/.spack-env/view/lib/python3.11/site-packages/mpi4py/run.py", line 230, in main
+    run_command_line(args)
+  File "/opt/spack/var/spack/environments/simvia_env/.spack-env/view/lib/python3.11/site-packages/mpi4py/run.py", line 47, in run_command_line
+    run_path(sys.argv[0], run_name='__main__')
+  File "<frozen runpy>", line 291, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "b1.comm.changed.py", line 56, in <module>
+    RESU = MECA_STATIQUE(MODELE=MO, CHAM_MATER=CHMAT, CARA_ELEM=CARA, EXCIT=_F(CHARGE=CHAR))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/Supervis/ExecuteCommand.py", line 183, in run
+    return cmd.run_(**kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/Supervis/ExecuteCommand.py", line 226, in run_
+    self.exec_(keywords)
+  File "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/Supervis/ExecuteCommand.py", line 742, in exec_
+    output = self._op(self, **keywords)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/MacroCommands/meca_statique_ops.py", line 262, in meca_statique_ops
+    rhs = _computeRhs(phys_pb, disc_comp, phys_state.time_curr)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/Utilities/statistics_manager.py", line 54, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/MacroCommands/meca_statique_ops.py", line 153, in _computeRhs
+    rhs += disr_comp.getVolumetricForces(time, varc_curr=varc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/Utilities/statistics_manager.py", line 54, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/ObjectsExt/discretecomputation_ext.py", line 303, in getVolumetricForces
+    return self.getMechanicalVolumetricForces(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+libaster.AsterError: 
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <EXCEPTION> <MODELISA6_4>                                                                      ║
+ ║                                                                                                ║
+ ║ Erreurs dans les données                                                                       ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+
+Exception: Trying to close the database after an uncaught exception...
+
+
+Publishing the result of the current command MECA_STATIQUE...
+
+No database in results, objects not saved on processor #0
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <I> <CATAMESS_89>                                                                              ║
+ ║                                                                                                ║
+ ║ Liste des alarmes émises lors de l'exécution du calcul.                                        ║
+ ║                                                                                                ║
+ ║     Les alarmes que vous avez choisies d'ignorer sont précédées de (*).                        ║
+ ║     Nombre d'occurrences pour chacune des alarmes :                                            ║
+ ║            aucune alarme                                                                       ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+<I> <FIN> ARRET NORMAL DANS "FIN" PAR APPEL A "JEFINI".
+  
+ <I> <FIN> MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :                     197.03 Mo
+ <I> <FIN> MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :                     207.61 Mo
+ <I> <FIN> MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS LORS DE L'EXECUTION :     781.06 Mo
+  
+ <I>       FERMETURE DES BASES EFFECTUEE
+  
+   STATISTIQUES CONCERNANT L'ALLOCATION DYNAMIQUE :
+     TAILLE CUMULEE MAXIMUM            :                  208  Mo.
+     TAILLE CUMULEE LIBEREE            :                    2  Mo.
+     NOMBRE TOTAL D'ALLOCATIONS        :                 5306
+     NOMBRE TOTAL DE LIBERATIONS       :                 4837
+     APPELS AU MECANISME DE LIBERATION :                    0
+     TAILLE MEMOIRE CUMULEE RECUPEREE  :                    0  Mo.
+     VOLUME DES LECTURES               :                    0  Mo.
+     VOLUME DES ECRITURES              :                    0  Mo.
+  
+   MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :     197.03 Mo
+     - IMPOSE DE NOMBREUX ACCES DISQUE
+     - RALENTIT LA VITESSE D'EXECUTION
+   MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :     207.61 Mo
+     - LIMITE LES ACCES DISQUE
+     - AMELIORE LA VITESSE D'EXECUTION
+   MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS     :     781.06 Mo
+     - COMPREND LA MEMOIRE CONSOMMEE PAR  JEVEUX, 
+       LE SUPERVISEUR PYTHON, LES LIBRAIRIES EXTERNES
+  
+ <I>       FIN D'EXECUTION LE : LU-21-SEPT-2026 10:23:43
+INFO './glob.1' deleted
+Deleting './glob.2': No such file or directory
+INFO './vola.1' deleted
+Deleting './vola.2': No such file or directory
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+  Proc: [[51834,0],0]
+  Errorcode: 1
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+
+EXECUTION_CODE_ASTER_EXIT_1=1
+
+
+
+------------------------------------------------------------
+--- DIAGNOSTIC JOB : <S>_ERROR
+------------------------------------------------------------
+

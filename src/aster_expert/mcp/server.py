@@ -1,4 +1,4 @@
-"""MCP server (lot 8, extended lot 8c): registers the five tools over
+"""MCP server (lot 8, extended lot 8c): registers the tools over
 `aster_expert.mcp.tools`.
 
 This module carries no business logic (CLAUDE.md, lot 8 scope): it only
@@ -30,6 +30,7 @@ from aster_expert.mcp.models import (
     DocumentSectionResult,
     SearchDocsResult,
 )
+from aster_expert.mcp.testcases import SearchTestcasesResult, TestcaseFileResult
 from aster_expert.retrieval.query_profiles import DEFAULT_QUERY_PROFILE
 from aster_expert.validation.models import ValidationReport
 
@@ -66,7 +67,10 @@ app = MCPServer(
         "renvoie content=null (section trop volumineuse, content_length "
         "au-delà du seuil), lire par plages successives via "
         "line_start/line_end en s'appuyant sur outline/guidance -- jamais "
-        "conclure sur une lecture partielle sans l'avoir annoncée."
+        "conclure sur une lecture partielle sans l'avoir annoncée. Les "
+        "fichiers de commandes des cas tests officiels se cherchent par "
+        "commande (search_test_cases) et se lisent par read_test_case : "
+        "jamais par lecture directe du dépôt."
     ),
 )
 
@@ -243,6 +247,51 @@ def validate_comm(comm_path: str, version: str | None = None) -> ValidationRepor
         memory=os.environ.get("ASTER_CONTAINER_MEMORY") or None,
         cpus=os.environ.get("ASTER_CONTAINER_CPUS") or None,
         timeout=int(os.environ.get("ASTER_RUN_TIMEOUT", "1800")),
+    )
+
+
+_SEARCH_TESTS_DESCRIPTION = (
+    "Cherche, dans les fichiers de commandes des cas tests officiels "
+    "(external/codeaster-src/astest, commit enregistré au manifeste de "
+    "synchronisation), ceux qui utilisent une `command` et, facultativement, "
+    "un `keyword` — nom seul (à tout niveau) ou chemin pointé de queue "
+    "('COMPORTEMENT.RELATION'). La correspondance est structurelle (parseur "
+    "du projet), non textuelle : un commentaire ou une chaîne ne compte pas. "
+    "Niveau A : un cas test est une référence exécutable, jamais un modèle "
+    "transposable (CLAUDE.md, principe 5). `files_unparsable` déclare les "
+    "fichiers non analysables, jamais omis en silence. Lecture seule ; "
+    "enchaîner avec read_test_case."
+)
+
+
+@app.tool(description=_SEARCH_TESTS_DESCRIPTION)
+def search_test_cases(
+    command: str, keyword: str | None = None, limit: int = 50
+) -> SearchTestcasesResult:
+    return tools.search_test_cases(
+        project_root=_project_root(), command=command, keyword=keyword, limit=limit
+    )
+
+
+_READ_TEST_DESCRIPTION = (
+    "Lit un fichier de commandes de cas test (`path` = nom relatif au corpus, "
+    "ex. le champ `path` d'un résultat de search_test_cases). Niveau A, "
+    "lecture seule. Au-delà de 20000 caractères, `content` revient à `null` "
+    "et `guidance` indique la plage à demander via `line_start`/`line_end` "
+    "(les deux ensemble, lignes 1..total_lines). Un chemin hors du corpus, ou "
+    "qui n'est pas un fichier de commandes, est refusé."
+)
+
+
+@app.tool(description=_READ_TEST_DESCRIPTION)
+def read_test_case(
+    path: str, line_start: int | None = None, line_end: int | None = None
+) -> TestcaseFileResult:
+    return tools.read_test_case(
+        project_root=_project_root(),
+        path=path,
+        line_start=line_start,
+        line_end=line_end,
     )
 
 

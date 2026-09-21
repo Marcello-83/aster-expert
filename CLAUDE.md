@@ -185,7 +185,7 @@ Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne
 pas installer d'infrastructure non demandée, ne pas inventer la structure d'un
 dépôt externe avant de l'avoir inspectée.
 
-## État de la fiche combi-wall (lots 19-21)
+## État de la fiche combi-wall (lots 19-22)
 
 - `data/examples/hypotheses_combiwall_reference_arbitree.json` est produit par
   `scripts/build_combiwall_reference.py` à partir des entrées versionnées de
@@ -213,20 +213,55 @@ dépôt externe avant de l'avoir inspectée.
   `options_considered = (DKT, COQUE_3D)`, paramètre optionnel de
   `record_unfounded_point`. Le point non fondé de la raideur surfacique (point 4)
   est remplacé par un constat `code_aster` (chaîne CREA_POI1 → DIS_T → DISCRET
-  K_T_D_N, valeur par nœud = un groupe POI1 par nœud) ; la trace de recherche
-  de l'ancien point reste dans les `notes` du constat. La fiche n'a plus
-  d'entrée non tranchée, `generation_blockers()` est vide : cela ne dit rien de
-  ce que la fiche ne porte pas encore (option orthotrope de la palplanche, à
+  K_T_D_N) ; la trace de recherche de l'ancien point reste dans les `notes` du
+  constat. Il n'y avait alors plus d'entrée non tranchée : cela ne disait rien de
+  ce que la fiche ne portait pas encore (option orthotrope de la palplanche, à
   enregistrer avec ses coefficients).
-- `ELAS_COQUE` : `docs/etude_lot21_elas_coque.md` (niveau A). Non établi : usage
-  de `RHO` sous `PESANTEUR` en statique ; règles exactes de combinaison des
-  opérandes (le schéma n'en expose pas).
+- `ELAS_COQUE` : `docs/etude_lot21_elas_coque.md` (niveau A, avec mise à jour du
+  lot 22). Établi au lot 22 par exécution (`docs/essais_lot22.md`) : `FLEX_*` par
+  unité de largeur, L = axe x_l du repère utilisateur ; sous `PESANTEUR` statique
+  le poids vaut `RHO` × `EPAIS` × g (RHO agit en masse **volumique**, contre le
+  libellé de U4.43.01) et `PESANTEUR` exige `RHO` sur tous les éléments
+  `ELAS_COQUE` du modèle, même restreinte par `GROUP_MA` ; `REAC_NODA` est faux
+  sous `ELAS_COQUE` quand FLEX ≠ MEMB × EPAIS²/12 (déduction : ne pas lire de
+  réaction sans contrôle d'équilibre) ; le groupe `MEMB_LT` … `CISA_T` est
+  indissociable (`checkCommandSyntax`, niveau B).
 - Essai d'exécution `FORCE_COQUE` (`docs/essai_lot21_force_coque.md`, niveau C,
   D pour cet essai) : l'intensité se rapporte à la surface **développée** des
   mailles (résultante 2,22982 pour 2,229823 m² de facettes, contre 1,42 m²
   projetés). Le modèle est produit par `scripts/build_fcoque_essai.py` (maillage
-  au format ASTER natif) ; un résultat d'exécution n'a pas de source adaptée dans
-  le schéma (`ExecutionSource` proposée, non implémentée).
+  au format ASTER natif). Enregistré au lot 22 au point 8 avec sa source d'exécution.
+- Lot 22, source d'exécution : `ExecutionSource` est le troisième membre de
+  `CodeAsterSource`. Admise **uniquement** sur les constats `code_aster`
+  (`PracticeHypothesisEntry.sources` est typé `PracticeSource`, elle y est
+  refusée). Champs : version, digest d'image, commit du dépôt et arbre modifié
+  ou non, chemin versionné du cas et son `case_sha256`, listing versionné,
+  grandeur, valeur obtenue, référence, valeur de référence, écart relatif
+  (recalculé par le modèle, refusé s'il diverge), niveau **C ou D** (jamais
+  plus). Le chemin et l'empreinte sont confrontés au dépôt par
+  `record_execution_finding`, jamais à la lecture du modèle ; un test le fait
+  pour toute la fiche. Une exécution en échec est de niveau B : elle se rapporte
+  dans les `notes`, elle n'est pas une source. Écriture : `lot22_essais.json` +
+  `scripts/build_combiwall_reference.py` ; jamais à la main.
+- Lot 22, « en révision » : `declare_under_revision` / `lift_revision` (journal
+  `revision_history`, `RevisionEvent` : motif obligatoire, auteur, date, alternance
+  `declared`/`lifted`). Une entrée pratique en révision est un bloqueur de
+  génération ; une nouvelle `record_practice_decision` clôt la révision. Refusé
+  sur une entrée non tranchée. Dans la fiche de référence, les décisions 2
+  (point 1, homogénéisation) et 9 (point 8, amarrage/accostage) sont en révision :
+  `arbitrage_combiwall_MM_v4.md` porte encore deux mentions `[À CONFIRMER MM]`
+  (rigidité de membrane horizontale 0,081 MN/m ; largeur de platine ~1,00 m), il
+  n'est donc **pas** enregistré, et la décision 8 (point 7) non plus. Quand MM
+  aura levé les mentions : enregistrer v4 et le delta v3 dans `combiwall_inputs/`,
+  retirer `revisions` de `lot22_essais.json`, mettre à jour le script et le test
+  de rejeu.
+- Ressorts nodaux (point 4, exécuté au lot 22, niveau D) : regrouper les nœuds de
+  même raideur (mêmes `VALE`) dans un même groupe `POI1`, une occurrence de
+  `CREA_POI1` et de `DISCRET` par classe de raideur, jamais par nœud. Tolérance de
+  comparaison de deux raideurs (maillage irrégulier) non établie.
+- Cas tests : toute lecture passe par les outils MCP `search_test_cases` et
+  `read_test_case` (journalisés, au commit de `codeaster-src` du manifeste, refus
+  hors corpus). Jamais `cat`/`grep`/lecture directe de `external/codeaster-src/astest`.
 - Chaîne d'exécution : un cas avec maillage exige un `.export` (seul un `.export`
   fait copier les fichiers `<nom>.*` voisins) et sa racine dans
   `execution.allowed_roots`. Les listes de noms d'un maillage ASTER se répartissent

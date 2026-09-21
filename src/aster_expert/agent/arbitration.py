@@ -53,14 +53,16 @@ from __future__ import annotations
 from datetime import datetime
 
 from aster_expert.agent.hypotheses import (
-    CatalogueSource,
     CodeAsterHypothesisEntry,
+    CodeAsterSource,
     DiscardedVariant,
     DocumentarySource,
+    ExecutionSource,
     HypothesesSheet,
     PracticeHypothesisEntry,
     PracticeSource,
     PriorDecision,
+    RevisionEvent,
 )
 
 
@@ -101,6 +103,17 @@ def record_practice_decision(
     `decision_history`, never edited in place.
     """
     history = entry.decision_history
+    revisions = entry.revision_history
+    if entry.under_revision:
+        # A new decision closes the revision it answers (V1, lot 22).
+        revisions = revisions + (
+            RevisionEvent(
+                kind="lifted",
+                reason="révision tranchée par une nouvelle décision",
+                by=decided_by,
+                at=decided_at,
+            ),
+        )
     if (
         entry.status == "tranche"
         and entry.decided_by is not None
@@ -134,6 +147,58 @@ def record_practice_decision(
         decided_by=decided_by,
         decided_at=decided_at,
         decision_history=history,
+        revision_history=revisions,
+    )
+
+
+def declare_under_revision(
+    entry: PracticeHypothesisEntry,
+    *,
+    reason: str,
+    declared_by: str,
+    declared_at: datetime,
+) -> PracticeHypothesisEntry:
+    """Declare a decided `pratique` entry « en révision » (V1, lot 22).
+
+    The entry keeps its current decision untouched and becomes a generation
+    blocker (`HypothesesSheet.generation_blockers`) until the revision is
+    closed, by a new `record_practice_decision` or by `lift_revision`. `reason`
+    is mandatory and non-blank (validated by `RevisionEvent`). Refused for a
+    `non_tranche` entry (nothing to revise) and for an entry already under
+    revision (the log must alternate). The declaration is appended to
+    `revision_history`; nothing is ever edited in place.
+    """
+    if entry.status == "non_tranche":
+        message = "une entrée non tranchée ne se déclare pas « en révision »"
+        raise ValueError(message)
+    if entry.under_revision:
+        message = (
+            "l'entrée est déjà en révision : levez-la avant d'en déclarer une autre"
+        )
+        raise ValueError(message)
+    event = RevisionEvent(
+        kind="declared", reason=reason, by=declared_by, at=declared_at
+    )
+    return entry.model_copy(
+        update={"revision_history": entry.revision_history + (event,)}
+    )
+
+
+def lift_revision(
+    entry: PracticeHypothesisEntry, *, reason: str, lifted_by: str, lifted_at: datetime
+) -> PracticeHypothesisEntry:
+    """Close a revision without changing the decision (the decision stands).
+
+    The mandatory `reason` says why the current decision was kept. To replace
+    the decision instead, call `record_practice_decision`, which closes the
+    revision itself.
+    """
+    if not entry.under_revision:
+        message = "l'entrée n'est pas en révision"
+        raise ValueError(message)
+    event = RevisionEvent(kind="lifted", reason=reason, by=lifted_by, at=lifted_at)
+    return entry.model_copy(
+        update={"revision_history": entry.revision_history + (event,)}
     )
 
 
@@ -226,7 +291,12 @@ def insert_practice_entry(
     return sheet.model_copy(update={"entries": sheet.entries + (decided_entry,)})
 
 
-def _format_source_reference(source: DocumentarySource | CatalogueSource) -> str:
+def _format_source_reference(source: CodeAsterSource) -> str:
+    if isinstance(source, ExecutionSource):
+        return (
+            f"exécution {source.case_path} : {source.quantity} "
+            f"(niveau {source.validation_level}, v{source.aster_version})"
+        )
     if isinstance(source, DocumentarySource):
         if source.section_path:
             section = "/".join(source.section_path)
@@ -313,7 +383,9 @@ def render_decision_sheet(sheet: HypothesesSheet) -> str:
 
 __all__: list[str] = [
     "apply_decision",
+    "declare_under_revision",
     "insert_practice_entry",
+    "lift_revision",
     "record_practice_decision",
     "render_decision_sheet",
 ]

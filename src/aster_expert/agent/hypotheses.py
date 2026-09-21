@@ -155,10 +155,38 @@ record_practice_decision`). Carrying it further -- into a generated
 `.comm` header or a note de calcul -- is explicitly out of scope here
 (no generator exists yet, lot 14's own boundary, unchanged): the field is
 shaped so that future lot can read it, nothing more is built for it now.
+
+**E1 (lot 22), the origin the lot 21 trial could not record.** A fact
+established by running Code_Aster (the `FORCE_COQUE` intensity refers to the
+developed area of the elements) fitted neither `DocumentarySource` (it needs
+an excerpt of a document nobody wrote) nor `CatalogueSource` (it needs a
+catalogue node). `ExecutionSource` is the third member of `CodeAsterSource`:
+it binds the fact to the version and image digest, to the repository commit
+and the exact bytes (`case_sha256`) of a versioned trial case, to the
+quantity measured, the value obtained, the reference it was compared to and
+the relative deviation, and to the level actually reached (`C` or `D`, never
+higher: `E` needs a validated reference this project has not built). It is
+admitted only on `code_aster` entries -- `PracticeHypothesisEntry.sources`
+is typed `PracticeSource`, which refuses it as it refuses any documentary
+source (M2). Whether the case path exists in the repository is a filesystem
+question a pydantic model must not answer on load; it is checked by
+`aster_expert.agent.drafting.record_execution_finding` when a finding is
+written, and by a test over the versioned fiche.
+
+**V1 (lot 22), the blocker lot 21 missed.** `generation_blockers()` was empty
+at lot 21 while decision 2 was being revised: an entry decided yesterday and
+under revision today looked exactly like a settled one. `RevisionEvent` /
+`PracticeHypothesisEntry.revision_history` make "under revision" an explicit,
+reasoned, dated state -- a mandatory `reason`, an author, a date, appended
+to an append-only history (never edited), lifted by another event carrying
+its own reason (`aster_expert.agent.arbitration.declare_under_revision`,
+`lift_revision`, or automatically by a new `record_practice_decision`). An
+entry under revision is a generation blocker.
 """
 
 from __future__ import annotations
 
+import math
 import re
 from datetime import date as date_type
 from datetime import datetime
@@ -233,10 +261,95 @@ class CatalogueSource(BaseModel):
     image_digest: str | None = None
 
 
-CodeAsterSource = DocumentarySource | CatalogueSource
-"""No discriminator field: the two variants share no common literal tag and
+ExecutionLevel = Literal["C", "D"]
+
+_SHA256_DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
+_GIT_COMMIT = re.compile(r"^[0-9a-f]{40}$")
+_SHA256_HEX = re.compile(r"^[0-9a-f]{64}$")
+
+
+class ExecutionSource(BaseModel):
+    """A fact established by executing a versioned trial case (E1, lot 22).
+
+    Admitted on `code_aster` entries only (see the module docstring).
+    `validation_level` is the level the trial actually reached, `C` (run to
+    `FIN`) or `D` (results checked physically or against a closed form); the
+    trial's own report says what was checked, this field never claims more.
+    `relative_deviation` is `(value_obtained - reference_value) /
+    reference_value` as a fraction (not a percentage), recomputed and
+    compared on validation so that a transcription slip is refused, and
+    undefined for a zero reference (refused: state an absolute comparison in
+    `reference` instead of a meaningless ratio).
+
+    `repo_commit` is the repository `HEAD` when the case ran; the case files
+    are usually not in that commit yet (the batch commit follows the run), so
+    `working_tree_modified` says whether the tree was dirty and `case_sha256`
+    pins the exact bytes of the case file. `case_path` is relative to the
+    repository root and stays inside it. `mess_path`, when a copy of the
+    listing was versioned, is relative too.
+    """
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    aster_version: str
+    image_digest: str
+    repo_commit: str
+    working_tree_modified: bool
+    case_path: str
+    case_sha256: str
+    mess_path: str | None = None
+    quantity: str
+    value_obtained: float
+    reference: str
+    reference_value: float
+    relative_deviation: float
+    validation_level: ExecutionLevel
+
+    @model_validator(mode="after")
+    def _check_fields(self) -> ExecutionSource:
+        for name in ("aster_version", "quantity", "reference"):
+            if not getattr(self, name).strip():
+                message = f"une source d'exécution exige `{name}` non vide"
+                raise ValueError(message)
+        if not _SHA256_DIGEST.match(self.image_digest):
+            message = "image_digest doit être de la forme sha256:<64 hexadécimaux>"
+            raise ValueError(message)
+        if not _GIT_COMMIT.match(self.repo_commit):
+            message = "repo_commit doit être un hash Git complet (40 hexadécimaux)"
+            raise ValueError(message)
+        if not _SHA256_HEX.match(self.case_sha256):
+            message = "case_sha256 doit être 64 hexadécimaux"
+            raise ValueError(message)
+        for name in ("case_path", "mess_path"):
+            value = getattr(self, name)
+            if value is None:
+                continue
+            parts = value.split("/")
+            if not value or value.startswith("/") or ".." in parts or "" in parts:
+                message = (
+                    f"`{name}` doit être un chemin relatif à la racine du dépôt, "
+                    f"sans `..` : {value!r}"
+                )
+                raise ValueError(message)
+        if self.reference_value == 0.0:
+            message = "écart relatif indéfini pour une référence nulle"
+            raise ValueError(message)
+        expected = (self.value_obtained - self.reference_value) / self.reference_value
+        if not math.isclose(
+            expected, self.relative_deviation, rel_tol=1e-6, abs_tol=1e-9
+        ):
+            message = (
+                f"relative_deviation={self.relative_deviation} incohérent avec "
+                f"(valeur obtenue - référence)/référence = {expected}"
+            )
+            raise ValueError(message)
+        return self
+
+
+CodeAsterSource = DocumentarySource | CatalogueSource | ExecutionSource
+"""No discriminator field: the variants share no common literal tag and
 are told apart by their own distinct, non-overlapping required fields
-instead (`document_id` vs `command`) -- pydantic's default "smart" union
+instead (`document_id` vs `command` vs `case_path`) -- pydantic's default "smart" union
 mode resolves this without one, and adding a synthetic tag neither
 citation.md nor any tool output actually carries would be inventing a field
 this schema does not need (M5 discipline: no field beyond what the real
@@ -303,6 +416,30 @@ class PriorDecision(BaseModel):
     discarded_variants: tuple[DiscardedVariant, ...] = ()
     decided_by: str
     decided_at: datetime
+
+
+class RevisionEvent(BaseModel):
+    """One step of a `pratique` entry's revision log (V1, lot 22).
+
+    `declared` opens a revision, `lifted` closes it; each carries a mandatory
+    non-blank `reason` (why the decision is in question, or why it stands or
+    was replaced), the author and the date. Append-only and frozen, like
+    `PriorDecision`.
+    """
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    kind: Literal["declared", "lifted"]
+    reason: str
+    by: str
+    at: datetime
+
+    @model_validator(mode="after")
+    def _reason_and_author_required(self) -> RevisionEvent:
+        if not self.reason.strip() or not self.by.strip():
+            message = "un événement de révision exige un motif et un auteur non vides"
+            raise ValueError(message)
+        return self
 
 
 def _forbid_decision_fields_when_unresolved(
@@ -480,6 +617,37 @@ class PracticeHypothesisEntry(_HypothesisEntryBase):
     decided_by: str | None = None
     decided_at: datetime | None = None
     decision_history: tuple[PriorDecision, ...] = ()
+    revision_history: tuple[RevisionEvent, ...] = ()
+
+    @property
+    def under_revision(self) -> bool:
+        """True when the last revision event opened a revision (V1, lot 22)."""
+        return bool(self.revision_history) and self.revision_history[-1].kind == (
+            "declared"
+        )
+
+    @property
+    def revision_reason(self) -> str | None:
+        return self.revision_history[-1].reason if self.under_revision else None
+
+    @model_validator(mode="after")
+    def _revision_log_is_coherent(self) -> PracticeHypothesisEntry:
+        expected = "declared"
+        for event in self.revision_history:
+            if event.kind != expected:
+                message = (
+                    "l'historique de révision doit alterner 'declared' puis "
+                    f"'lifted' en commençant par 'declared' (reçu {event.kind!r})"
+                )
+                raise ValueError(message)
+            expected = "lifted" if expected == "declared" else "declared"
+        if self.under_revision and self.status == "non_tranche":
+            message = (
+                "une entrée non tranchée ne peut être « en révision » : "
+                "rien n'a été décidé, il n'y a rien à réviser"
+            )
+            raise ValueError(message)
+        return self
 
     @model_validator(mode="after")
     def _status_matches_content(self) -> PracticeHypothesisEntry:
@@ -624,6 +792,13 @@ class HypothesesSheet(BaseModel):
     def unresolved_entries(self) -> tuple[HypothesisEntry, ...]:
         return tuple(e for e in self.entries if e.status == "non_tranche")
 
+    def entries_under_revision(self) -> tuple[PracticeHypothesisEntry, ...]:
+        return tuple(
+            e
+            for e in self.entries
+            if isinstance(e, PracticeHypothesisEntry) and e.under_revision
+        )
+
     def unresolved_group_names(self) -> tuple[MeshGroupNaming, ...]:
         return tuple(g for g in self.group_naming if g.status == "non_tranche")
 
@@ -652,6 +827,11 @@ class HypothesesSheet(BaseModel):
         blockers.extend(
             f"entrée {e.nature} non tranchée (point {e.point_label or '?'}) : {e.topic}"
             for e in self.unresolved_entries()
+        )
+        blockers.extend(
+            f"entrée pratique en révision (point {e.point_label or '?'}) : "
+            f"{e.topic} -- motif : {e.revision_reason}"
+            for e in self.entries_under_revision()
         )
         blockers.extend(
             f"nom de groupe non tranché : {g.group_name} ({g.kind})"
@@ -714,6 +894,8 @@ __all__: list[str] = [
     "CodeAsterSource",
     "DiscardedVariant",
     "DocumentarySource",
+    "ExecutionLevel",
+    "ExecutionSource",
     "HypothesesSheet",
     "HypothesisEntry",
     "MeshGroupNaming",
@@ -721,4 +903,5 @@ __all__: list[str] = [
     "PracticeOrigin",
     "PracticeSource",
     "PriorDecision",
+    "RevisionEvent",
 ]

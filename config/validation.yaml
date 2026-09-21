@@ -37,6 +37,9 @@ execution:
     # Essai synthétique du lot 21 (FORCE_COQUE), entièrement produit par
     # scripts/build_fcoque_essai.py.
     - data/examples/fcoque_essai
+    # Essais synthétiques du lot 22 (ELAS_COQUE, pesanteur, ressorts nodaux),
+    # entièrement produits par scripts/build_lot22_essais.py.
+    - data/examples/lot22_essais
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

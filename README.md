@@ -81,7 +81,7 @@ Les commandes non encore implémentées sont listées dans
 ## Serveur MCP (lot 8)
 
 Un serveur MCP (`aster-expert-mcp`, module `aster_expert.mcp.server`) expose
-cinq outils, chacun un simple emballage d'une capacité déjà existante :
+sept outils, chacun un simple emballage d'une capacité déjà existante :
 
 | Outil | Capacité encapsulée | Niveau de la réponse |
 |-------|----------------------|-----------------------|
@@ -90,6 +90,8 @@ cinq outils, chacun un simple emballage d'une capacité déjà existante :
 | `get_command_schema` | `aster_expert.catalogue` (lot 4/4b) | A |
 | `analyze_comm` | `aster_expert.parsing.comm_parser` (lot 9) | A |
 | `validate_comm` | `aster_expert.validation.validate` (lot 10/10b/10c) | B |
+| `search_test_cases` | `aster_expert.parsing.comm_parser` sur `astest` (lot 22) | A |
+| `read_test_case` | lecture bornée d'un fichier de commandes de `astest` (lot 22) | A |
 
 `get_document_section` (lot 8c) renvoie le texte intégral, jamais tronqué,
 d'un fragment ou d'une section — `search_codeaster_docs` ne renvoie qu'un

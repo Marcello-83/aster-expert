@@ -20,7 +20,16 @@ always through the project's own write paths -- never by editing the JSON:
    `combiwall_inputs/arbitrage_combiwall_MM_lot21.md`), and the nodal-spring
    finding that replaces the unfounded surface-stiffness entry of point 4
    (`lot21_recherche.json`, `lot21_extraits.json`); the replaced entry's
-   search trace is kept verbatim in the finding's notes.
+   search trace is kept verbatim in the finding's notes;
+5. lot 22: findings established by execution (`lot22_essais.json`, cases in
+   `data/examples/lot22_essais/` and `fcoque_essai/`), recorded with an
+   `ExecutionSource` through `record_execution_finding` -- the case file's
+   sha256 and the relative deviation are computed here, never typed; the
+   nodal-spring finding of point 4 is replaced by its executed version (the
+   former option and notes kept verbatim in the notes); and the entries of
+   decisions 2 and 9 are declared « en révision » (`declare_under_revision`)
+   because `arbitrage_combiwall_MM_v4.md` still carries `[À CONFIRMER MM]`
+   mentions and is therefore not recorded.
 
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
@@ -28,6 +37,7 @@ Usage: python scripts/build_combiwall_reference.py [--output PATH]
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from datetime import date, datetime
@@ -36,12 +46,14 @@ from typing import Any
 
 from aster_expert.agent.arbitration import (
     apply_decision,
+    declare_under_revision,
     insert_practice_entry,
     record_practice_decision,
 )
 from aster_expert.agent.drafting import (
     SearchAttempt,
     record_code_aster_finding,
+    record_execution_finding,
     record_unfounded_point,
 )
 from aster_expert.agent.hypotheses import (
@@ -49,6 +61,7 @@ from aster_expert.agent.hypotheses import (
     CodeAsterSource,
     DiscardedVariant,
     DocumentarySource,
+    ExecutionSource,
     HypothesesSheet,
     HypothesisEntry,
     MeshGroupNaming,
@@ -239,15 +252,16 @@ def _replace(
     point_label: str,
     topic: str,
     new: HypothesisEntry,
+    status: str = "non_tranche",
 ) -> HypothesesSheet:
-    """Swap the one `non_tranche` entry (nature, point_label, topic) for `new`."""
+    """Swap the one entry (nature, point_label, topic, status) for `new`."""
     idx = [
         i
         for i, e in enumerate(sheet.entries)
         if e.nature == nature
         and e.point_label == point_label
         and e.topic == topic
-        and e.status == "non_tranche"
+        and e.status == status
     ]
     if len(idx) != 1:
         message = f"remplacement ambigu ou introuvable : {(nature, point_label, topic)}"
@@ -396,6 +410,94 @@ def _lot21(sheet: HypothesesSheet) -> HypothesesSheet:
     return sheet
 
 
+def _execution_source(raw: dict[str, Any], contexts: dict[str, Any]) -> ExecutionSource:
+    ctx = contexts[raw["context"]]
+    obtained, reference = raw["value_obtained"], raw["reference_value"]
+    case_bytes = (ROOT / raw["case_path"]).read_bytes()
+    return ExecutionSource(
+        aster_version=ctx["aster_version"],
+        image_digest=ctx["image_digest"],
+        repo_commit=ctx["repo_commit"],
+        working_tree_modified=ctx["working_tree_modified"],
+        case_path=raw["case_path"],
+        case_sha256=hashlib.sha256(case_bytes).hexdigest(),
+        mess_path=raw["mess_path"],
+        quantity=raw["quantity"],
+        value_obtained=obtained,
+        reference=raw["reference"],
+        reference_value=reference,
+        relative_deviation=(obtained - reference) / reference,
+        validation_level=raw["validation_level"],
+    )
+
+
+def _lot22(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Executed findings, the executed nodal-spring finding, revision flags."""
+    data = json.loads((INPUTS / "lot22_essais.json").read_text("utf-8"))
+    for f in data["findings"]:
+        executions = tuple(_execution_source(x, data["contexts"]) for x in f["sources"])
+        if "replaces_topic" not in f:
+            entry = record_execution_finding(
+                topic=f["topic"],
+                sources=executions,
+                option_retained=f["option_retained"],
+                justification=f["justification"],
+                point_label=f["point_label"],
+                notes=f["notes"],
+                repo_root=ROOT,
+            )
+            sheet = sheet.model_copy(update={"entries": (*sheet.entries, entry)})
+            continue
+        replaced = [
+            e
+            for e in sheet.entries
+            if e.nature == "code_aster" and e.topic == f["replaces_topic"]
+        ]
+        assert len(replaced) == 1, f["replaces_topic"]
+        old = replaced[0]
+        history = (
+            "Historique du constat remplacé (lot 21, niveau A) : option retenue : "
+            f"{old.option_retained} Notes : {old.notes}"
+        )
+        entry = record_execution_finding(
+            topic=f["replaces_topic"],
+            sources=(*old.sources, *executions),
+            option_retained=f["option_retained"],
+            justification=f"{old.justification} {f['justification_extra']}",
+            point_label=old.point_label,
+            notes=f"{f['notes']} {history}",
+            repo_root=ROOT,
+        )
+        sheet = _replace(
+            sheet,
+            nature="code_aster",
+            point_label=old.point_label or "",
+            topic=f["replaces_topic"],
+            new=entry,
+            status="tranche",
+        )
+    for r in data["revisions"]:
+        matches = [
+            i
+            for i, e in enumerate(sheet.entries)
+            if isinstance(e, PracticeHypothesisEntry)
+            and e.point_label == r["point_label"]
+            and e.topic == r["topic"]
+        ]
+        assert len(matches) == 1, r["topic"]
+        entries = list(sheet.entries)
+        target = entries[matches[0]]
+        assert isinstance(target, PracticeHypothesisEntry)
+        entries[matches[0]] = declare_under_revision(
+            target,
+            reason=r["reason"],
+            declared_by=r["declared_by"],
+            declared_at=datetime.fromisoformat(r["declared_at"]),
+        )
+        sheet = sheet.model_copy(update={"entries": tuple(entries)})
+    return sheet
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -404,7 +506,7 @@ def build_sheet() -> HypothesesSheet:
     sheet = sheet.model_copy(update={"group_naming": _group_naming(v3)})
     sheet = _lot20(sheet)
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_lot21.md")
-    return _lot21(sheet)
+    return _lot22(_lot21(sheet))
 
 
 def dump(sheet: HypothesesSheet) -> str:

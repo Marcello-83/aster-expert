@@ -77,3 +77,15 @@ mot-clé pointé (`path`) en tient lieu.
   (avec `reasons`) — toujours mentionner le taux de couverture
   (`len(commands_checked)` vs `len(commands_not_checked)`), jamais
   seulement `valid=true/false` isolé de ce contexte.
+
+## `search_test_cases` / `read_test_case` → `SearchTestcasesResult` / `TestcaseFileResult` (lot 22)
+
+- Cas test : `path` (nom relatif au corpus `astest`), avec `source.source_name`
+  (`codeaster-src`), `source.source_commit` (hash complet) et
+  `source.aster_version`.
+- Recherche : `line_starts` (première ligne de chaque instruction de la
+  commande) et `keyword_paths` (chemins pointés du mot-clé trouvés).
+- Lecture : `line_start`/`line_end` de la plage réellement renvoyée,
+  `total_lines`, `content_length`.
+- Un cas test se cite comme référence exécutable, jamais comme modèle :
+  voir SKILL.md, § 6 bis.

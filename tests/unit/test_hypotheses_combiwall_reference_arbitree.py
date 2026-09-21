@@ -20,6 +20,7 @@ from aster_expert.agent.hypotheses import (
     CatalogueSource,
     CodeAsterHypothesisEntry,
     DocumentarySource,
+    ExecutionSource,
     HypothesesSheet,
     PracticeHypothesisEntry,
 )
@@ -47,8 +48,9 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
 
     # 24 du spécimen + décision 0 (lot 18) + décision 9 (lot 19, R2) + 5 entrées
     # du lot 20 (3 constats code_aster, 1 point non fondé, 1 renvoi pratique)
-    # + point non fondé du lot 19 ; le tableau comparatif est remplacé sur place
-    assert len(sheet.entries) == 31
+    # + point non fondé du lot 19 ; le tableau comparatif est remplacé sur place ;
+    # + 4 constats d'exécution du lot 22 (le constat des ressorts est remplacé)
+    assert len(sheet.entries) == 35
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -277,13 +279,28 @@ def test_arbitree_fiche_group_naming_gaps_are_closed() -> None:
     assert sheet.group_naming_gaps() == ()
 
 
-def test_arbitree_fiche_has_no_generation_blocker_left() -> None:
-    """No unresolved entry remains. This says nothing of what the fiche does
-    not carry yet (e.g. the orthotropic sheet-pile option, to be recorded)."""
+def test_arbitree_fiche_only_blockers_are_the_two_entries_under_revision() -> None:
+    """Lot 22: `arbitrage_combiwall_MM_v4.md` still carries `[À CONFIRMER MM]`
+    mentions, so v4 is not recorded and decisions 2 and 9 are flagged « en
+    révision » (they were silently settled-looking at lot 21)."""
     sheet = _load()
 
-    assert sheet.generation_blockers() == ()
-    assert sheet.is_ready_for_generation is True
+    blockers = sheet.generation_blockers()
+    assert len(blockers) == 2
+    assert blockers[0].startswith(
+        "entrée pratique en révision (point 1) : Homogénéisation ou représentation"
+    )
+    assert blockers[1].startswith(
+        "entrée pratique en révision (point 8) : Application des charges localisées"
+    )
+    assert all("[À CONFIRMER MM]" in b for b in blockers)
+    assert sheet.is_ready_for_generation is False
+    # the flagged entries keep their v3 decision untouched
+    for entry in sheet.entries_under_revision():
+        assert entry.status == "tranche" and entry.decided_by == "MM"
+        assert entry.decided_at is not None
+        (event,) = entry.revision_history
+        assert event.kind == "declared" and event.by == "Claude (lot 22)"
 
 
 def test_arbitree_fiche_never_attaches_a_documentary_source_to_a_practice_entry() -> (
@@ -295,7 +312,9 @@ def test_arbitree_fiche_never_attaches_a_documentary_source_to_a_practice_entry(
     for entry in sheet.entries:
         if isinstance(entry, PracticeHypothesisEntry):
             for source in entry.sources:
-                assert not isinstance(source, (DocumentarySource, CatalogueSource))
+                assert not isinstance(
+                    source, (DocumentarySource, CatalogueSource, ExecutionSource)
+                )
 
 
 def test_original_reference_fiche_is_unchanged() -> None:

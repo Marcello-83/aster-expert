@@ -144,3 +144,23 @@ sont pas disponibles. Comme la structure est mince (h/R = 0.045), on suppose que
 effets du cisaillement transverse sont négligeables, nous avons donc imposé
 CISA_L = CISA_T = 10¹⁰ » (sans effet en DKT, d'après la remarque de U4.43.01).
 L'écart des valeurs MEMB/FLEX avec h·H et h³·H/12 est nul (Q2).
+
+## Mise à jour du lot 22 (niveaux C et D, ce document reste de niveau A)
+
+Les points laissés « non établis » ou déduits ci-dessus ont été essayés par
+exécution (`docs/essais_lot22.md`, source d'exécution dans la fiche) :
+
+- § 2, unité et sens de L/T : `FLEX` est une rigidité par unité de largeur ; L est
+  l'axe x_l du repère utilisateur (`ANGL_REP = (0, 0)` : X ; `VECTEUR = (0, 1, 0)`
+  ou `ANGL_REP = (90, 0)` : Y). Confirmé (niveau D).
+- § 4, poids propre : sous `PESANTEUR` en statique, le poids vaut
+  `RHO` × `EPAIS` × g par unité de surface. **Contredit** le libellé « masse par
+  unité de surface » cité au § 1 : `RHO` agit comme une masse volumique.
+- § 1, règles de combinaison : le groupe `MEMB_LT` … `CISA_T` doit être défini en
+  entier dès qu'un de ses membres l'est (`checkCommandSyntax`, niveau B) ; le
+  schéma exposé ne portait pas cette règle.
+- Nouveau : `REAC_NODA` est faux sous `ELAS_COQUE` quand la rigidité de flexion
+  n'est pas MEMB × EPAIS²/12 (déduction, essais a1, a2, a6).
+- § 3, rôle de l'épaisseur : « ne sert qu'à calculer la masse en dynamique » est
+  incomplet : `EPAIS` multiplie `RHO` dans le poids propre statique, et intervient
+  (déduction) dans le calcul de `REAC_NODA`.

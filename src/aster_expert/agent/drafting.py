@@ -33,6 +33,12 @@ an entry should say. Each is deliberately narrower than
   reviewing the sheet afterwards, makes that call (CLAUDE.md: la fiche
   produite est un projet, jamais une fiche validée).
 
+`record_execution_finding` (lot 22) is the third path and follows the same
+discipline: it records a `code_aster` fact established by running a versioned
+trial case, refusing a source whose case path does not exist in the
+repository or whose bytes no longer match the pinned `case_sha256`. It still
+cannot build a `pratique` entry.
+
 A lot 14 draft of the transcription script fabricated a `source_path` and
 even an invented section for one citation to fill a gap -- caught by
 reviewing the JSON against the specimen's own text, not by a test. That is
@@ -42,6 +48,7 @@ unreachable: there is no field on it a fabricated value could land in.
 
 from __future__ import annotations
 
+import hashlib
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -50,6 +57,7 @@ from aster_expert.agent.hypotheses import (
     CodeAsterHypothesisEntry,
     CodeAsterSource,
     DiscardedVariant,
+    ExecutionSource,
     PracticeHypothesisEntry,
 )
 from aster_expert.retrieval.query_profiles import QueryProfile
@@ -146,6 +154,75 @@ def record_code_aster_finding(
     )
 
 
+def check_execution_source(source: ExecutionSource, *, repo_root: Path) -> None:
+    """Confront an `ExecutionSource` with the repository (E1, lot 22).
+
+    The model cannot answer filesystem questions on load, so this is where
+    they are asked: `case_path` must exist inside `repo_root` (a symbolic link
+    escaping the repository is refused), its bytes must hash to
+    `case_sha256`, and `mess_path`, when given, must exist too. Raises
+    `ValueError` with the specific reason.
+    """
+    root = repo_root.resolve()
+    for label, relative in (
+        ("case_path", source.case_path),
+        ("mess_path", source.mess_path),
+    ):
+        if relative is None:
+            continue
+        target = (root / relative).resolve()
+        if root not in target.parents:
+            message = f"{label} sort du dépôt : {relative!r}"
+            raise ValueError(message)
+        if not target.is_file():
+            message = f"{label} inexistant dans le dépôt : {relative!r}"
+            raise ValueError(message)
+    digest = hashlib.sha256((root / source.case_path).read_bytes()).hexdigest()
+    if digest != source.case_sha256:
+        message = (
+            f"case_sha256 ne correspond pas au fichier {source.case_path!r} "
+            f"(calculé {digest}) : le cas a changé depuis l'exécution"
+        )
+        raise ValueError(message)
+
+
+def record_execution_finding(
+    *,
+    topic: str,
+    sources: tuple[CodeAsterSource, ...],
+    option_retained: str,
+    justification: str,
+    repo_root: Path,
+    point_label: str | None = None,
+    options_considered: tuple[str, ...] = (),
+    notes: str | None = None,
+) -> CodeAsterHypothesisEntry:
+    """Record a `code_aster` fact established by execution (E1, lot 22).
+
+    Always `nature="code_aster"`, `status="tranche"`. `sources` must hold at
+    least one `ExecutionSource` (documentary or catalogue sources may
+    accompany it, e.g. a documentary finding confirmed by a trial), and every
+    `ExecutionSource` is confronted with the repository
+    (`check_execution_source`) before the entry is built; the entry itself
+    never touches the filesystem.
+    """
+    executions = tuple(s for s in sources if isinstance(s, ExecutionSource))
+    if not executions:
+        message = "un constat d'exécution exige au moins une source d'exécution"
+        raise ValueError(message)
+    for source in executions:
+        check_execution_source(source, repo_root=repo_root)
+    return record_code_aster_finding(
+        topic=topic,
+        sources=sources,
+        option_retained=option_retained,
+        justification=justification,
+        point_label=point_label,
+        options_considered=options_considered,
+        notes=notes,
+    )
+
+
 def record_unfounded_point(
     *,
     topic: str,
@@ -193,8 +270,10 @@ __all__: list[str] = [
     "SearchAttempt",
     "Trame",
     "TrameTopic",
+    "check_execution_source",
     "default_trame_path",
     "load_trame",
     "record_code_aster_finding",
+    "record_execution_finding",
     "record_unfounded_point",
 ]

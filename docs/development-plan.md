@@ -3423,3 +3423,17 @@ Niveaux D et E. Hors périmètre v1.
 | 18 | | fait | (ce lot, voir `git log`) | 2026-09-21 |
 | 19 | | fait (point 1 Code_Aster non tranché) | (ce lot, voir `git log`) | 2026-09-21 |
 | 20 | | fait (choix DKT/COQUE_3D renvoyé à la pratique) | (ce lot, voir `git log`) | 2026-09-21 |
+| 21 | | fait (ELAS_COQUE étudié, premier essai FORCE_COQUE) | (ce lot, voir `git log`) | 2026-09-21 |
+| 22 | | fait (source d'exécution, essais A/B/C, accès aux cas tests ; v4 non enregistrée) | (ce lot, voir `git log`) | 2026-09-21 |
+
+## Lot 22 — Source « exécution », essais ciblés, accès aux cas tests
+
+Compte rendu complet : message du commit du lot et `docs/essais_lot22.md`.
+Livré : `ExecutionSource` (troisième membre de `CodeAsterSource`, admise sur les
+seuls constats `code_aster`) et `record_execution_finding` ; trois essais
+(`ELAS_COQUE`, pesanteur, ressorts nodaux) et un contrôle des réactions ;
+outils MCP `search_test_cases` / `read_test_case` ; état « en révision » des
+entrées pratique (`RevisionEvent`, `declare_under_revision`, `lift_revision`).
+Non fait : l'enregistrement de `arbitrage_combiwall_MM_v4.md`, qui porte encore
+deux mentions `[À CONFIRMER MM]` (décisions 2 et 9, avec les entrées
+correspondantes déclarées en révision).
