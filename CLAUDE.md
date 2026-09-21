@@ -221,6 +221,59 @@ de la machine.
   D, U2, U3, U7, U1, SV, SU, U0) : les chercher par `search_test_cases`. Une `family`
   absente de l'index est refusée avec la liste des familles présentes.
 
+## Scripts Salomé (lot 26)
+
+Les maillages d'ouvrage sont produits par des scripts Python exécutés dans
+Salomé-Méca (`aster-expert mesh run`, configuration `mesh:` de
+`config/validation.yaml`) et contrôlés par un vérificateur indépendant qui relit
+le MED sans Salomé (`aster-expert mesh check <fichier.med> <invariants.yaml>`,
+`medcoupling` de l'image Docker de `cave`). Règles d'écriture d'un script :
+
+- toute la géométrie est assemblée en **une seule partition** (`MakePartition`)
+  avant le maillage, pour garantir le partage des nœuds aux interfaces ; le bloc
+  est encadré par `# ASSEMBLY begin` / `# ASSEMBLY end` (les variantes altérées
+  le remplacent) ;
+- les groupes sont créés **sur la géométrie** (`CreateGroup`, `GetInPlace`,
+  `UnionIDs`) puis transférés au maillage (`GroupOnGeom`), jamais sélectionnés à
+  la main ;
+- **aucune coordonnée en dur** : tout est lu du fichier de paramètres passé au
+  script (`args:<params>,<sortie.med>`) ;
+- le script écrit `<sortie>.meta.json` avec l'empreinte SHA-256 de ses
+  paramètres ; `mesh run` échoue si elle manque ou diverge.
+
+Noms et signatures GEOM/SMESH : jamais de mémoire. Ils sont relevés par
+introspection dans l'image (`scripts/salome/lot26_sonde_signatures.py`, sortie
+versionnée `data/examples/lot26_essais/signatures_geom_smesh.txt`). Piège
+constaté : dans `MakePartition`, `KeepNonlimitShapes` est le **8e** argument
+(`RemoveWebs` est le 6e) ; le passer en 6e position supprime silencieusement les
+arêtes isolées (poutre, barre) du maillage.
+
+Le vérificateur évalue **tous** les invariants (comptages de nœuds et de mailles
+par type, présence, cardinalité, type de mailles et boîte englobante de chaque
+groupe, nœuds à des coordonnées imposées, nœuds partagés entre groupes, nœuds
+orphelins, nœuds confondus non fusionnés), les liste avec valeur attendue et
+valeur obtenue, et sort en erreur (code 1) dès qu'un seul est en écart en
+désignant le premier. Les valeurs attendues d'un fichier d'invariants sont
+calculées **analytiquement à partir des paramètres**, avant l'exécution, jamais
+relues d'un MED produit.
+
+Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
+(bords compris) ; les comptages de mailles les incluent.
+
+- Lot 26 (`docs/essais_lot26.md`, `data/examples/lot26_essais/`,
+  `scripts/salome/`, `scripts/build_lot26_essais.py`, `collect_lot26_essais.py`,
+  `analyze_lot26_essais.py`) : trois géométries qualifiées (plaque avec raidisseur,
+  tube facettisé à 40 facettes et deux plaques sur ses génératrices Y = 0, poutre et
+  barre sur une coque), chacune avec une variante altérée rejetée par `mesh check`.
+  Limites : la règle d'arrondi de `LocalLength` pour une longueur non multiple de la
+  taille n'est pas qualifiée (toutes les longueurs des essais sont des multiples de
+  0,25) ; la connexion réelle barre/coque n'est pas éprouvée par un calcul de
+  rigidité ; la seule lecture par Code_Aster est celle des groupes (masses).
+- **Étape 1 du lot 26 non faite** : `donnees_complementaires_combiwall_v1.md` porte
+  encore `[À CONFIRMER MM]` (0,25 m et 40 facettes) ; ni la décision 11 ni les 22
+  valeurs « à fournir » ne sont enregistrées. Rien à faire tant que MM ne l'a pas
+  levée.
+
 ## Périmètre à ne pas dépasser sans instruction
 
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne

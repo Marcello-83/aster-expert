@@ -1,0 +1,22 @@
+{
+  "comm_path": "data/examples/lot26_essais/tube_plaques/aster/lot26_g2.comm",
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "status": "completed_ok",
+  "diag": "OK",
+  "return_code": 0,
+  "work_dir": "data/processed/runs/20260921T153045-aa1e1211",
+  "mess_path": "data/processed/runs/20260921T153045-aa1e1211/proc.0/fort.6",
+  "result_files": [
+    "proc.0/1.export",
+    "proc.0/__timer__",
+    "proc.0/fort.20",
+    "proc.0/fort.6",
+    "proc.0/fort.8",
+    "proc.0/fort.9",
+    "proc.0/lot26_g2.comm.changed.py"
+  ],
+  "duration_s": 13.501320831994235,
+  "extracted_by": "run_aster.status",
+  "executed_at": "2026-09-21T15:30:58.670796Z"
+}

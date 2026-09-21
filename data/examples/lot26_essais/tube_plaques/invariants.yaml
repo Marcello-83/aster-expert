@@ -1,0 +1,170 @@
+schema_version: 1
+counts:
+  nodes: 836
+  cells:
+    QUAD4: 792
+    SEG2: 976
+groups:
+- name: TUBE
+  count: 720
+  cell_type: QUAD4
+  bbox:
+  - -0.71
+  - 0.71
+  - -0.71
+  - 0.71
+  - -2.0
+  - 2.5
+  tolerance: 1.0e-09
+- name: PLAQUE_D
+  count: 36
+  cell_type: QUAD4
+  bbox:
+  - 0.71
+  - 1.21
+  - 0
+  - 0
+  - -2.0
+  - 2.5
+  tolerance: 1.0e-09
+- name: PLAQUE_G
+  count: 36
+  cell_type: QUAD4
+  bbox:
+  - -1.21
+  - -0.71
+  - 0
+  - 0
+  - -2.0
+  - 2.5
+  tolerance: 1.0e-09
+- name: EMPREINTE
+  count: 180
+  cell_type: QUAD4
+  bbox:
+  - -0.5020458146424488
+  - 0.5020458146424488
+  - -0.71
+  - -0.5020458146424488
+  - -2.0
+  - 2.5
+  tolerance: 1.0e-09
+- name: SERRURE_D
+  count: 18
+  cell_type: SEG2
+  bbox:
+  - 0.71
+  - 0.71
+  - 0
+  - 0
+  - -2.0
+  - 2.5
+  tolerance: 1.0e-09
+- name: SERRURE_G
+  count: 18
+  cell_type: SEG2
+  bbox:
+  - -0.71
+  - -0.71
+  - 0
+  - 0
+  - -2.0
+  - 2.5
+  tolerance: 1.0e-09
+nodes_at:
+- label: génératrice côté bassin, cote -2
+  point:
+  - 0
+  - -0.71
+  - -2.0
+  tolerance: 1.0e-09
+- label: génératrice côté bassin, cote 0
+  point:
+  - 0
+  - -0.71
+  - 0.0
+  tolerance: 1.0e-09
+- label: génératrice côté bassin, cote 1
+  point:
+  - 0
+  - -0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: génératrice côté bassin, cote 2
+  point:
+  - 0
+  - -0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: génératrice côté bassin, cote 2.5
+  point:
+  - 0
+  - -0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: serrure droite, cote -2
+  point:
+  - 0.71
+  - 0
+  - -2.0
+  tolerance: 1.0e-09
+- label: serrure droite, cote 0
+  point:
+  - 0.71
+  - 0
+  - 0.0
+  tolerance: 1.0e-09
+- label: serrure droite, cote 1
+  point:
+  - 0.71
+  - 0
+  - 1.0
+  tolerance: 1.0e-09
+- label: serrure droite, cote 2
+  point:
+  - 0.71
+  - 0
+  - 2.0
+  tolerance: 1.0e-09
+- label: serrure droite, cote 2.5
+  point:
+  - 0.71
+  - 0
+  - 2.5
+  tolerance: 1.0e-09
+shared_nodes:
+- label: serrure D
+  groups:
+  - TUBE
+  - PLAQUE_D
+  count: 19
+  at:
+  - - 0.71
+    - 0
+    - -2.0
+  - - 0.71
+    - 0
+    - 2.5
+  tolerance: 1.0e-09
+- label: serrure G
+  groups:
+  - TUBE
+  - PLAQUE_G
+  count: 19
+  at:
+  - - -0.71
+    - 0
+    - -2.0
+  - - -0.71
+    - 0
+    - 2.5
+  tolerance: 1.0e-09
+- label: plaques entre elles
+  groups:
+  - PLAQUE_D
+  - PLAQUE_G
+  count: 0
+  tolerance: 1.0e-09
+no_orphan_nodes: true
+no_coincident_nodes:
+  tolerance: 1.0e-09

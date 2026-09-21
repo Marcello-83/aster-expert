@@ -47,6 +47,9 @@ execution:
     - data/examples/lot24_essais
     # Cas du lot 25 (D7), entièrement produits par scripts/build_lot25_essais.py.
     - data/examples/lot25_essais
+    # Cas du lot 26 (lecture des MED de qualification par Code_Aster),
+    # entièrement produits par scripts/build_lot26_essais.py.
+    - data/examples/lot26_essais
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800
@@ -73,3 +76,40 @@ reporting:
   # Un niveau supérieur à celui réellement atteint ne doit jamais être écrit.
   max_claimable_level_without_execution: B
   require_sources: true
+
+mesh:
+  # Chaîne de maillage (lot 26) : scripts Salomé exécutés sans interface
+  # (`aster-expert mesh run`) et vérificateur de MED (`aster-expert mesh check`).
+  # Rien de ceci n'est codé en dur dans le code Python.
+  work_dir_root: data/processed/mesh_runs
+  salome:
+    # Image Singularity de Salomé-Méca. `~` est développé au lancement.
+    runtime: singularity
+    image_path: ~/Desktop/salome_meca.sif
+    # Version lue dans le fichier `version_file` de l'installation, dans
+    # l'image ; un écart avec `expected_version` arrête l'exécution.
+    expected_version: V2024.1.0_scibian_univ
+    install_root: /opt/salome_meca/V2024.1.0_scibian_univ
+    version_file: README
+    version_pattern: 'Version\s*:\s*(\S+)'
+    # Scripts d'environnement chargés (relatifs à `install_root`) avant la
+    # commande ; établis au lot 25 (docs/inventaire_lot25.md, §3.1).
+    env_scripts:
+      - salome_prerequisites.sh
+      - salome_modules.sh
+    # Options de `singularity exec` : conteneur isolé, réseau coupé,
+    # `$HOME` non monté.
+    container_options: [--containall, --cleanenv, --no-home, --net, --network, none]
+    # Commande d'exécution sans interface ; `{script}` et `{args}` sont
+    # remplacés (le script reçoit `sys.argv[1:]` = les arguments séparés par
+    # des virgules).
+    command: "salome -t --shutdown-servers=1 {script} args:{args}"
+    timeout_seconds: 900
+  checker:
+    work_dir_root: data/processed/mesh_checks
+    # Le vérificateur lit le MED dans le conteneur Docker de `cave` (image
+    # résolue par digest comme pour `aster-expert run`), avec `medcoupling`
+    # de l'image : jamais Salomé, jamais un module installé dans le projet.
+    timeout_seconds: 300
+    memory_mb: 2048
+    cpus_limit: "1"

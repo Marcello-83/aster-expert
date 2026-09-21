@@ -1,0 +1,29 @@
+Rapport mesh check : lot26_plaque_raidisseur.med
+Invariants : 23, tenus : 23, en écart : 0
+
+[OK    ] comptage | nombre de nœuds | attendu : 25 | obtenu : 25
+[OK    ] comptage | mailles par type | attendu : {'QUAD4': 16, 'SEG2': 20} | obtenu : {'QUAD4': 16, 'SEG2': 20}
+[OK    ] groupe | groupe PLAQUE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PLAQUE : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe PLAQUE : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 8}
+[OK    ] groupe | groupe PLAQUE : boîte englobante (tol. 1e-09) | attendu : (0, 1, 0, 0.5, 0, 0) | obtenu : (0, 1, 0, 0.5, 0, 0)
+[OK    ] groupe | groupe RAIDISSEUR : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe RAIDISSEUR : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe RAIDISSEUR : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 8}
+[OK    ] groupe | groupe RAIDISSEUR : boîte englobante (tol. 1e-09) | attendu : (0, 1, 0, 0, 0, 0.5) | obtenu : (0, 1, 0, 0, 0, 0.5)
+[OK    ] groupe | groupe ARETE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ARETE : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe ARETE : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 4}
+[OK    ] groupe | groupe ARETE : boîte englobante (tol. 1e-09) | attendu : (0, 1, 0, 0, 0, 0) | obtenu : (0, 1, 0, 0, 0, 0)
+[OK    ] nœud imposé | nœud en coin (0, 0, 0) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en milieu de l'arête (0.5, 0, 0) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en sommet du raidisseur (1, 0, 0.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] interface | nœuds partagés PLAQUE / RAIDISSEUR (interface plaque / raidisseur) | attendu : 5 | obtenu : 5
+[OK    ] interface | nœuds partagés PLAQUE / RAIDISSEUR (interface plaque / raidisseur) : nœud partagé en (0, 0, 0) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PLAQUE / RAIDISSEUR (interface plaque / raidisseur) : nœud partagé en (0.5, 0, 0) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PLAQUE / RAIDISSEUR (interface plaque / raidisseur) : nœud partagé en (1, 0, 0) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] nœuds orphelins | nœuds sans maille | attendu : 0 | obtenu : 0
+[OK    ] nœuds confondus | paires de nœuds à moins de 1e-09 | attendu : 0 | obtenu : 0
+
+Tous les invariants sont tenus.
+Rapport : /home/ubuntu/projets/aster-expert/data/processed/mesh_checks/20260921T152932-d0fbd255/rapport_mesh_check.txt

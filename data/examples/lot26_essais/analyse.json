@@ -1,0 +1,152 @@
+{
+  "g1": {
+    "nodes": 25,
+    "cells": {
+      "SEG2": 20,
+      "QUAD4": 16
+    },
+    "groups": {
+      "PLAQUE": 8,
+      "RAIDISSEUR": 8,
+      "ARETE": 4
+    },
+    "masses": {
+      "PLAQUE": 0.5,
+      "RAIDISSEUR": 0.5,
+      "ARETE": 1.0
+    },
+    "alarms": [],
+    "expected_nodes": 25,
+    "expected_cells": {
+      "QUAD4": 16,
+      "SEG2": 20
+    },
+    "expected_group_counts": {
+      "PLAQUE": 8,
+      "RAIDISSEUR": 8,
+      "ARETE": 4
+    },
+    "expected_masses": {
+      "PLAQUE": 0.5,
+      "RAIDISSEUR": 0.5,
+      "ARETE": 1.0
+    },
+    "mass_relative_errors": {
+      "PLAQUE": 0.0,
+      "RAIDISSEUR": 0.0,
+      "ARETE": 0.0
+    },
+    "verdict": {
+      "nodes": true,
+      "cells": true,
+      "group_cardinalities": true,
+      "masses_within_1e-6": true,
+      "no_alarm": true
+    }
+  },
+  "g2": {
+    "nodes": 836,
+    "cells": {
+      "SEG2": 976,
+      "QUAD4": 792
+    },
+    "groups": {
+      "TUBE": 720,
+      "PLAQUE_D": 36,
+      "PLAQUE_G": 36,
+      "EMPREINTE": 180,
+      "SERRURE_D": 18,
+      "SERRURE_G": 18
+    },
+    "masses": {
+      "TUBE": 20.05414486804,
+      "PLAQUE_D": 2.25,
+      "PLAQUE_G": 2.25,
+      "EMPREINTE": 5.01353621701,
+      "SERRURE_D": 4.5,
+      "SERRURE_G": 4.5
+    },
+    "alarms": [],
+    "expected_nodes": 836,
+    "expected_cells": {
+      "QUAD4": 792,
+      "SEG2": 976
+    },
+    "expected_group_counts": {
+      "TUBE": 720,
+      "PLAQUE_D": 36,
+      "PLAQUE_G": 36,
+      "EMPREINTE": 180,
+      "SERRURE_D": 18,
+      "SERRURE_G": 18
+    },
+    "expected_masses": {
+      "TUBE": 20.054144868037167,
+      "PLAQUE_D": 2.25,
+      "PLAQUE_G": 2.25,
+      "EMPREINTE": 5.013536217009292,
+      "SERRURE_D": 4.5,
+      "SERRURE_G": 4.5
+    },
+    "mass_relative_errors": {
+      "TUBE": 1.4144241333724494e-13,
+      "PLAQUE_D": 0.0,
+      "PLAQUE_G": 0.0,
+      "EMPREINTE": 1.4144241333724494e-13,
+      "SERRURE_D": 0.0,
+      "SERRURE_G": 0.0
+    },
+    "verdict": {
+      "nodes": true,
+      "cells": true,
+      "group_cardinalities": true,
+      "masses_within_1e-6": true,
+      "no_alarm": true
+    }
+  },
+  "g3": {
+    "nodes": 19,
+    "cells": {
+      "SEG2": 16,
+      "QUAD4": 8
+    },
+    "groups": {
+      "COQUE": 8,
+      "POUTRE": 2,
+      "BARRE": 2
+    },
+    "masses": {
+      "COQUE": 0.5,
+      "POUTRE": 0.5,
+      "BARRE": 0.5
+    },
+    "alarms": [],
+    "expected_nodes": 19,
+    "expected_cells": {
+      "QUAD4": 8,
+      "SEG2": 16
+    },
+    "expected_group_counts": {
+      "COQUE": 8,
+      "POUTRE": 2,
+      "BARRE": 2
+    },
+    "expected_masses": {
+      "COQUE": 0.5,
+      "POUTRE": 0.5,
+      "BARRE": 0.5
+    },
+    "mass_relative_errors": {
+      "COQUE": 0.0,
+      "POUTRE": 0.0,
+      "BARRE": 0.0
+    },
+    "verdict": {
+      "nodes": true,
+      "cells": true,
+      "group_cardinalities": true,
+      "masses_within_1e-6": true,
+      "no_alarm": true
+    }
+  }
+}

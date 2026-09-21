@@ -1,0 +1,51 @@
+Rapport mesh check : lot26_tube_plaques.med
+Invariants : 45, tenus : 45, en écart : 0
+
+[OK    ] comptage | nombre de nœuds | attendu : 836 | obtenu : 836
+[OK    ] comptage | mailles par type | attendu : {'QUAD4': 792, 'SEG2': 976} | obtenu : {'QUAD4': 792, 'SEG2': 976}
+[OK    ] groupe | groupe TUBE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TUBE : cardinalité | attendu : 720 | obtenu : 720
+[OK    ] groupe | groupe TUBE : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 720}
+[OK    ] groupe | groupe TUBE : boîte englobante (tol. 1e-09) | attendu : (-0.71, 0.71, -0.71, 0.71, -2, 2.5) | obtenu : (-0.71, 0.71, -0.71, 0.71, -2, 2.5)
+[OK    ] groupe | groupe PLAQUE_D : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PLAQUE_D : cardinalité | attendu : 36 | obtenu : 36
+[OK    ] groupe | groupe PLAQUE_D : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 36}
+[OK    ] groupe | groupe PLAQUE_D : boîte englobante (tol. 1e-09) | attendu : (0.71, 1.21, 0, 0, -2, 2.5) | obtenu : (0.71, 1.21, 0, 0, -2, 2.5)
+[OK    ] groupe | groupe PLAQUE_G : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PLAQUE_G : cardinalité | attendu : 36 | obtenu : 36
+[OK    ] groupe | groupe PLAQUE_G : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 36}
+[OK    ] groupe | groupe PLAQUE_G : boîte englobante (tol. 1e-09) | attendu : (-1.21, -0.71, 0, 0, -2, 2.5) | obtenu : (-1.21, -0.71, 0, 0, -2, 2.5)
+[OK    ] groupe | groupe EMPREINTE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe EMPREINTE : cardinalité | attendu : 180 | obtenu : 180
+[OK    ] groupe | groupe EMPREINTE : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 180}
+[OK    ] groupe | groupe EMPREINTE : boîte englobante (tol. 1e-09) | attendu : (-0.502045815, 0.502045815, -0.71, -0.502045815, -2, 2.5) | obtenu : (-0.502045815, 0.502045815, -0.71, -0.502045815, -2, 2.5)
+[OK    ] groupe | groupe SERRURE_D : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe SERRURE_D : cardinalité | attendu : 18 | obtenu : 18
+[OK    ] groupe | groupe SERRURE_D : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 18}
+[OK    ] groupe | groupe SERRURE_D : boîte englobante (tol. 1e-09) | attendu : (0.71, 0.71, 0, 0, -2, 2.5) | obtenu : (0.71, 0.71, 0, 0, -2, 2.5)
+[OK    ] groupe | groupe SERRURE_G : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe SERRURE_G : cardinalité | attendu : 18 | obtenu : 18
+[OK    ] groupe | groupe SERRURE_G : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 18}
+[OK    ] groupe | groupe SERRURE_G : boîte englobante (tol. 1e-09) | attendu : (-0.71, -0.71, 0, 0, -2, 2.5) | obtenu : (-0.71, -0.71, 0, 0, -2, 2.5)
+[OK    ] nœud imposé | nœud en génératrice côté bassin, cote -2 (0, -0.71, -2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en génératrice côté bassin, cote 0 (0, -0.71, 0) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en génératrice côté bassin, cote 1 (0, -0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en génératrice côté bassin, cote 2 (0, -0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en génératrice côté bassin, cote 2.5 (0, -0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en serrure droite, cote -2 (0.71, 0, -2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en serrure droite, cote 0 (0.71, 0, 0) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en serrure droite, cote 1 (0.71, 0, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en serrure droite, cote 2 (0.71, 0, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en serrure droite, cote 2.5 (0.71, 0, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] interface | nœuds partagés TUBE / PLAQUE_D (serrure D) | attendu : 19 | obtenu : 19
+[OK    ] interface | nœuds partagés TUBE / PLAQUE_D (serrure D) : nœud partagé en (0.71, 0, -2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TUBE / PLAQUE_D (serrure D) : nœud partagé en (0.71, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TUBE / PLAQUE_G (serrure G) | attendu : 19 | obtenu : 19
+[OK    ] interface | nœuds partagés TUBE / PLAQUE_G (serrure G) : nœud partagé en (-0.71, 0, -2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TUBE / PLAQUE_G (serrure G) : nœud partagé en (-0.71, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PLAQUE_D / PLAQUE_G (plaques entre elles) | attendu : 0 | obtenu : 0
+[OK    ] nœuds orphelins | nœuds sans maille | attendu : 0 | obtenu : 0
+[OK    ] nœuds confondus | paires de nœuds à moins de 1e-09 | attendu : 0 | obtenu : 0
+
+Tous les invariants sont tenus.
+Rapport : /home/ubuntu/projets/aster-expert/data/processed/mesh_checks/20260921T152940-cf8244c5/rapport_mesh_check.txt

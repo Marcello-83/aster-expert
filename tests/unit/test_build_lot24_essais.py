@@ -62,6 +62,42 @@ def test_replaying_the_analysis_reproduces_the_versioned_json(tmp_path: Path) ->
     assert out.read_text("utf-8") == (_VERSIONED / "analyse.json").read_text("utf-8")
 
 
+def _load_builder() -> Any:
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("build_lot24_essais", _BUILD)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.path.insert(0, str(_BUILD.parent))
+    try:
+        spec.loader.exec_module(module)
+    finally:
+        sys.path.remove(str(_BUILD.parent))
+    return module
+
+
+@pytest.mark.parametrize("n", [8, 16])
+def test_plate_mesh_edge_segments_join_neighbouring_nodes(n: int) -> None:
+    """Regression: `BORD_XA` and `BORD_YA` mixed `n` and `N` (lot 24), so at
+    n != N a segment joined two nodes that are not neighbours."""
+    builder = _load_builder()
+    mesh = builder.plate_mesh("essai", n)
+    length = builder.SIDE / n
+    for group in ("BORD_X0", "BORD_XA", "BORD_Y0", "BORD_YA"):
+        members = mesh.groups_ma[group]
+        assert len(members) == n, group
+        for member in members:
+            first, second = mesh.segs[int(member.removeprefix("SG"))]
+            distance = (
+                sum(
+                    (a - b) ** 2
+                    for a, b in zip(mesh.nodes[first], mesh.nodes[second], strict=True)
+                )
+                ** 0.5
+            )
+            assert distance == pytest.approx(length, rel=1e-9), (group, member)
+
+
 @pytest.fixture(scope="module")
 def analysis() -> dict[str, Any]:
     data: dict[str, Any] = json.loads((_VERSIONED / "analyse.json").read_text("utf-8"))

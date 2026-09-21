@@ -1,0 +1,22 @@
+{
+  "tube": {
+    "rayon": 0.71,
+    "facettes": 36
+  },
+  "plaques": {
+    "largeur": 0.5
+  },
+  "cotes": [
+    -2.0,
+    0.0,
+    1.0,
+    2.0,
+    2.5
+  ],
+  "empreinte": {
+    "angle_centre_deg": -90.0,
+    "demi_angle_deg": 45.0
+  },
+  "taille": 0.25,
+  "precision": 1e-07
+}

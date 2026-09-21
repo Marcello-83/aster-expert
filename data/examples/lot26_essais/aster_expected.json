@@ -1,0 +1,56 @@
+{
+  "g1": {
+    "PLAQUE": {
+      "kind": "shell",
+      "mass": 0.5
+    },
+    "RAIDISSEUR": {
+      "kind": "shell",
+      "mass": 0.5
+    },
+    "ARETE": {
+      "kind": "bar",
+      "mass": 1.0
+    }
+  },
+  "g2": {
+    "TUBE": {
+      "kind": "shell",
+      "mass": 20.054144868037167
+    },
+    "PLAQUE_D": {
+      "kind": "shell",
+      "mass": 2.25
+    },
+    "PLAQUE_G": {
+      "kind": "shell",
+      "mass": 2.25
+    },
+    "EMPREINTE": {
+      "kind": "shell",
+      "mass": 5.013536217009292
+    },
+    "SERRURE_D": {
+      "kind": "bar",
+      "mass": 4.5
+    },
+    "SERRURE_G": {
+      "kind": "bar",
+      "mass": 4.5
+    }
+  },
+  "g3": {
+    "COQUE": {
+      "kind": "shell",
+      "mass": 0.5
+    },
+    "POUTRE": {
+      "kind": "beam",
+      "mass": 0.5
+    },
+    "BARRE": {
+      "kind": "bar",
+      "mass": 0.5
+    }
+  }
+}

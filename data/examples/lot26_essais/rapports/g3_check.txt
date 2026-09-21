@@ -1,0 +1,30 @@
+Rapport mesh check : lot26_poutre_barre.med
+Invariants : 24, tenus : 24, en écart : 0
+
+[OK    ] comptage | nombre de nœuds | attendu : 19 | obtenu : 19
+[OK    ] comptage | mailles par type | attendu : {'QUAD4': 8, 'SEG2': 16} | obtenu : {'QUAD4': 8, 'SEG2': 16}
+[OK    ] groupe | groupe COQUE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe COQUE : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe COQUE : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 8}
+[OK    ] groupe | groupe COQUE : boîte englobante (tol. 1e-09) | attendu : (0, 1, 0, 0.5, 0, 0) | obtenu : (0, 1, 0, 0.5, 0, 0)
+[OK    ] groupe | groupe POUTRE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe POUTRE : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe POUTRE : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 2}
+[OK    ] groupe | groupe POUTRE : boîte englobante (tol. 1e-09) | attendu : (0, 0, 0, 0, 0, 0.5) | obtenu : (0, 0, 0, 0, 0, 0.5)
+[OK    ] groupe | groupe BARRE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe BARRE : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe BARRE : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 2}
+[OK    ] groupe | groupe BARRE : boîte englobante (tol. 1e-09) | attendu : (0.5, 0.5, -0.3, 0, -0.4, 0) | obtenu : (0.5, 0.5, -0.3, 0, -0.4, 0)
+[OK    ] nœud imposé | nœud en départ de la barre (0.5, 0, 0) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en extrémité de la barre (0.5, -0.3, -0.4) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en extrémité de la poutre (0, 0, 0.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] interface | nœuds partagés BARRE / COQUE (départ de la barre sur la coque) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés BARRE / COQUE (départ de la barre sur la coque) : nœud partagé en (0.5, 0, 0) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés POUTRE / COQUE (pied de la poutre sur la coque) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés POUTRE / COQUE (pied de la poutre sur la coque) : nœud partagé en (0, 0, 0) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés POUTRE / BARRE (poutre et barre entre elles) | attendu : 0 | obtenu : 0
+[OK    ] nœuds orphelins | nœuds sans maille | attendu : 0 | obtenu : 0
+[OK    ] nœuds confondus | paires de nœuds à moins de 1e-09 | attendu : 0 | obtenu : 0
+
+Tous les invariants sont tenus.
+Rapport : /home/ubuntu/projets/aster-expert/data/processed/mesh_checks/20260921T152952-80e1813c/rapport_mesh_check.txt

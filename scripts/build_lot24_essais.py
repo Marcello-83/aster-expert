@@ -71,9 +71,9 @@ def plate_mesh(title: str, n: int = N) -> l22.Mesh:
     mesh.groups_ma["PLAQUE"] = [f"MA{q}" for q in quads]
     edges = {
         "BORD_X0": [(ids[(0, j)], ids[(0, j + 1)]) for j in range(n)],
-        "BORD_XA": [(ids[(n, j)], ids[(N, j + 1)]) for j in range(n)],
+        "BORD_XA": [(ids[(n, j)], ids[(n, j + 1)]) for j in range(n)],
         "BORD_Y0": [(ids[(i, 0)], ids[(i + 1, 0)]) for i in range(n)],
-        "BORD_YA": [(ids[(i, n)], ids[(i + 1, N)]) for i in range(n)],
+        "BORD_YA": [(ids[(i, n)], ids[(i + 1, n)]) for i in range(n)],
     }
     next_id = 1
     for name, segments in edges.items():

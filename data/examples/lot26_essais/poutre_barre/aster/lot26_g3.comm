@@ -1,0 +1,42 @@
+# Lot 26 -- lecture par Code_Aster du MED de la geometrie g3 (critere dans
+# docs/essais_lot26.md, ecrit avant l'execution). RHO = 1, EPAIS = 1, A = 1 :
+# la masse d'un groupe est son aire (coque) ou sa longueur (barre, poutre).
+
+DEBUT()
+
+MAIL = LIRE_MAILLAGE(FORMAT="MED", UNITE=20, INFO=2)
+
+MO = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(GROUP_MA=("COQUE",), PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+        _F(GROUP_MA=("BARRE",), PHENOMENE="MECANIQUE", MODELISATION="BARRE"),
+        _F(GROUP_MA=("POUTRE",), PHENOMENE="MECANIQUE", MODELISATION="POU_D_E"),
+    ),
+)
+
+CARA = AFFE_CARA_ELEM(
+    MODELE=MO,
+    COQUE=_F(GROUP_MA=("COQUE",), EPAIS=1.0),
+    BARRE=_F(GROUP_MA=("BARRE",), SECTION="GENERALE", CARA="A", VALE=1.0),
+    POUTRE=_F(GROUP_MA=("POUTRE",), SECTION="GENERALE", CARA=("A", "IY", "IZ", "JX"), VALE=(1.0, 1.0, 1.0, 1.0)),
+)
+
+MAT = DEFI_MATERIAU(ELAS=_F(E=1.0e6, NU=0.3, RHO=1.0))
+
+CHMAT = AFFE_MATERIAU(MAILLAGE=MAIL, AFFE=_F(GROUP_MA=("COQUE", "POUTRE", "BARRE",), MATER=MAT))
+
+MASSE = POST_ELEM(
+    MODELE=MO,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    MASS_INER=(
+        _F(GROUP_MA="COQUE"),
+        _F(GROUP_MA="POUTRE"),
+        _F(GROUP_MA="BARRE"),
+    ),
+)
+
+IMPR_TABLE(TABLE=MASSE, UNITE=6, FORMAT_R="E20.12")
+
+FIN()

@@ -1,0 +1,412 @@
+setting '--memory' value to 7372.80 MB (keyword RESERVE_MEMOIRE)
+copying '/work/lot26_g3.mmed' to 'fort.20'...
+checking MPI initialization...
+using COMM_WORLD.
+MPI is initialized.
+Ouverture en écriture du fichier ./vola.1
+
+<INFO> Démarrage de l'exécution.
+
+                        -- CODE_ASTER -- VERSION : EXPLOITATION (stable) --                         
+                               Version 17.4.0 modifiée le 02/01/2026                                
+                              révision spack-local - branche 'v17.4.0'                              
+                                   Copyright EDF R&D 1991 - 2026                                    
+                                                                                                    
+                              Exécution du : Mon Sep 21 15:31:07 2026                               
+                                  Nom de la machine : b3e04741280d                                  
+                                        Architecture : 64bit                                        
+                                    Type de processeur : x86_64                                     
+               Système d'exploitation : Linux-7.0.0-31-generic-x86_64-with-glibc2.36                
+                                  Langue des messages : en (UTF-8)                                  
+                                    Version de Python : 3.11.14                                     
+                                     Version de NumPy : 1.26.4                                      
+                                      Parallélisme MPI : actif                                      
+                                   Rang du processeur courant : 0                                   
+                               Nombre de processeurs MPI utilisés : 1                               
+                                    Parallélisme OpenMP : actif                                     
+                              Nombre de processus OpenMP utilisés : 1                               
+                               Version de la librairie HDF5 : 1.10.7                                
+                                Version de la librairie MED : 4.2.0                                 
+                               Version de la librairie MFront : 5.0.0                               
+                               Version de la librairie MUMPS : 5.6.2                                
+                              Version de la librairie PETSc : 3.24.0p0                              
+                              Version de la librairie SCOTCH : 7.0.10                               
+
+starting the execution...
+Valeur initiale du temps CPU maximum =   1800 secondes
+  Valeur du temps CPU maximum passé aux commandes =   1620 secondes
+  Réserve CPU prévue = 180 secondes
+
+Ouverture en écriture du fichier ./glob.1
+
+Ouverture en écriture du fichier ./vola.1
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Créée avec la version                   :  17.04.00
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre total d'accès en lecture         :  64
+     Volume des accès en lecture             :         50.00 Mo.
+     Nombre total d'accès en écriture        :  0
+     Volume des accès en écriture            :          0.00 Mo.
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Relecture des catalogues des éléments faite.
+
+Fin de lecture (durée  0.069612  s.) 
+
+                      Mémoire limite pour l'allocation dynamique : 7939.68 Mo                       
+                         ajouté à l'initialisation du processus : 648.33 Mo                         
+                               Limite cible du processus : 8588.01 Mo                               
+                         Taille limite des fichiers d'échange : 2048.00 Go                          
+# Mémoire (Mo) :   648.33 /   640.56 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0001   user+syst:        0.00s (syst:        0.34s, elaps:        0.44s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt19
+# ----------------------------------------------------------------------------------------------
+# Commande #0002 de lot26_g3.comm.changed.py, ligne 19
+MAIL = LIRE_MAILLAGE(FORMAT='MED',
+                     INFO=2,
+                     INFO_MED=0,
+                     PARTITIONNEUR='SANS',
+                     UNITE=20,
+                     VERI_MAIL=_F(APLAT=0.001,
+                                  VERIF='OUI'))
+
+Nom MED du maillage : maillage
+
+
+------------ MAILLAGE 00000001 - IMPRESSIONS NIVEAU  2 ------------
+
+
+NOMBRE DE NOEUDS                          19
+
+NOMBRE DE MAILLES                         24
+                              SEG2                   16
+                              QUAD4                   8
+
+NOMBRE DE GROUPES DE MAILLES               3
+                              COQUE                                8
+                              POUTRE                               2
+                              BARRE                                2
+
+               ------  LISTE DES NOEUDS                  ------
+
+         1  1                                    0.00000D+00     0.00000D+00     0.00000D+00
+         2  2                                    0.50000D+00     0.00000D+00     0.00000D+00
+         3  3                                    0.10000D+01     0.00000D+00     0.00000D+00
+         4  4                                    0.10000D+01     0.50000D+00     0.00000D+00
+         5  5                                    0.00000D+00     0.50000D+00     0.00000D+00
+         6  6                                    0.00000D+00     0.00000D+00     0.50000D+00
+         7  7                                    0.50000D+00    -0.30000D+00    -0.40000D+00
+         8  8                                    0.25000D+00     0.00000D+00     0.00000D+00
+         9  9                                    0.75000D+00     0.00000D+00     0.00000D+00
+        10  10                                   0.10000D+01     0.25000D+00     0.00000D+00
+        11  11                                   0.75000D+00     0.50000D+00     0.00000D+00
+        12  12                                   0.50000D+00     0.50000D+00     0.00000D+00
+        13  13                                   0.25000D+00     0.50000D+00     0.00000D+00
+        14  14                                   0.00000D+00     0.25000D+00     0.00000D+00
+        15  15                                   0.00000D+00     0.00000D+00     0.25000D+00
+        16  16                                   0.50000D+00    -0.15000D+00    -0.20000D+00
+        17  17                                   0.25000D+00     0.25000D+00     0.00000D+00
+        18  18                                   0.50000D+00     0.25000D+00     0.00000D+00
+        19  19                                   0.75000D+00     0.25000D+00     0.00000D+00
+
+               ------  LISTE DES MAILLES                 ------
+
+         1  1                         SEG2             1         8
+         2  2                         SEG2             8         2
+         3  3                         SEG2             2         9
+         4  4                         SEG2             9         3
+         5  5                         SEG2             3        10
+         6  6                         SEG2            10         4
+         7  7                         SEG2             4        11
+         8  8                         SEG2            11        12
+         9  9                         SEG2            12        13
+        10  10                        SEG2            13         5
+        11  11                        SEG2             5        14
+        12  12                        SEG2            14         1
+        13  13                        SEG2             1        15
+        14  14                        SEG2            15         6
+        15  15                        SEG2             2        16
+        16  16                        SEG2            16         7
+        17  17                        QUAD4            1         8        17        14
+        18  18                        QUAD4           14        17        13         5
+        19  19                        QUAD4            8         2        18        17
+        20  20                        QUAD4           17        18        12        13
+        21  21                        QUAD4            2         9        19        18
+        22  22                        QUAD4           18        19        11        12
+        23  23                        QUAD4            9         3        10        19
+        24  24                        QUAD4           19        10         4        11
+
+               ------  LISTE DES GROUPES DE MAILLES      ------
+
+         1  COQUE                            8        17        18        19        20        21
+                                      22        23        24
+         2  POUTRE                           2        13        14
+         3  BARRE                            2        15        16
+
+--------------------------------------------------------------------------------
+
+Vérification du maillage.
+
+# Résultat commande #0002 (LIRE_MAILLAGE): MAIL ('<00000001>') de type <Mesh>
+# Mémoire (Mo) :   648.33 /   641.28 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0002   user+syst:        0.00s (syst:        0.04s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt21
+# ----------------------------------------------------------------------------------------------
+# Commande #0003 de lot26_g3.comm.changed.py, ligne 21
+MO = AFFE_MODELE(AFFE=(_F(GROUP_MA='COQUE',
+                          MODELISATION='DKT',
+                          PHENOMENE='MECANIQUE'),
+                       _F(GROUP_MA='BARRE',
+                          MODELISATION='BARRE',
+                          PHENOMENE='MECANIQUE'),
+                       _F(GROUP_MA='POUTRE',
+                          MODELISATION='POU_D_E',
+                          PHENOMENE='MECANIQUE')),
+                 DISTRIBUTION=_F(METHODE='SOUS_DOMAINE',
+                                 PARTITIONNEUR='METIS'),
+                 INFO=1,
+                 MAILLAGE=MAIL,
+                 VERI_FORMULATION_IFS='OUI',
+                 VERI_JACOBIEN='OUI',
+                 VERI_NORM_IFS='OUI',
+                 VERI_PLAN='OUI')
+
+Sur les 24 mailles du maillage 00000001, on a demandé l'affectation de 12, on a pu en affecter 12.
+Modélisation     Formulation      Type maille  Élément fini     Nombre
+BARRE            _                SEG2         MECA_BARRE       2
+POU_D_E          _                SEG2         MECA_POU_D_E     2
+DKT              _                QUAD4        MEDKQU4          8
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.00
+# Résultat commande #0003 (AFFE_MODELE): MO ('<00000002>') de type <Model>
+# Mémoire (Mo) :   770.01 /   770.01 /   207.61 /   197.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0003   user+syst:        0.02s (syst:        0.03s, elaps:        0.04s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt30
+# ----------------------------------------------------------------------------------------------
+# Commande #0004 de lot26_g3.comm.changed.py, ligne 30
+CARA = AFFE_CARA_ELEM(BARRE=_F(CARA='A',
+                               GROUP_MA='BARRE',
+                               SECTION='GENERALE',
+                               VALE=1.0),
+                      COQUE=_F(A_CIS=0.8333333,
+                               COEF_RIGI_DRZ=1e-05,
+                               COQUE_NCOU=1,
+                               EPAIS=1.0,
+                               GROUP_MA='COQUE',
+                               MODI_METRIQUE='NON'),
+                      INFO=1,
+                      MODELE=MO,
+                      POUTRE=_F(CARA=('A', 'IY', 'IZ', 'JX'),
+                                GROUP_MA='POUTRE',
+                                SECTION='GENERALE',
+                                VALE=(1.0, 1.0, 1.0, 1.0),
+                                VARI_SECT='CONSTANT'))
+
+
+     LE MODELE 00000002 CONTIENT : 
+                                        2 ELEMENT(S) POUTRE          
+                                        8 ELEMENT(S) COQUE           
+                                        2 ELEMENT(S) BARRE           
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0004 (AFFE_CARA_ELEM): CARA ('<00000003>') de type <ElementaryCharacteristics>
+# Dépend de :
+# - MO ('<00000002>') de type <Model>
+# Mémoire (Mo) :   770.01 /   770.01 /   207.61 /   197.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0004   user+syst:        0.04s (syst:        0.00s, elaps:        0.04s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt37
+# ----------------------------------------------------------------------------------------------
+# Commande #0005 de lot26_g3.comm.changed.py, ligne 37
+MAT = DEFI_MATERIAU(ELAS=_F(B_ENDOGE=0.0,
+                            COEF_AMOR=1.0,
+                            E=1000000.0,
+                            K_DESSIC=0.0,
+                            NU=0.3,
+                            RHO=1.0),
+                    INFO=1)
+
+# Résultat commande #0005 (DEFI_MATERIAU): MAT ('<00000004>') de type <Material>
+# Mémoire (Mo) :   770.01 /   770.01 /   207.61 /   197.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0005   user+syst:        0.12s (syst:        0.00s, elaps:        0.12s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt39
+# ----------------------------------------------------------------------------------------------
+# Commande #0006 de lot26_g3.comm.changed.py, ligne 39
+CHMAT = AFFE_MATERIAU(AFFE=_F(GROUP_MA=('COQUE', 'POUTRE', 'BARRE'),
+                              MATER=MAT),
+                      INFO=1,
+                      MAILLAGE=MAIL)
+
+# Résultat commande #0006 (AFFE_MATERIAU): CHMAT ('<00000005>') de type <MaterialField>
+# Mémoire (Mo) :   770.01 /   770.01 /   207.61 /   197.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0006   user+syst:        0.11s (syst:        0.00s, elaps:        0.11s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt41
+# ----------------------------------------------------------------------------------------------
+# Commande #0007 de lot26_g3.comm.changed.py, ligne 41
+MASSE = POST_ELEM(CARA_ELEM=CARA,
+                  CHAM_MATER=CHMAT,
+                  CRITERE='RELATIF',
+                  GEOMETRIE='INITIALE',
+                  INFO=1,
+                  MASS_INER=(_F(GROUP_MA='COQUE'),
+                             _F(GROUP_MA='POUTRE'),
+                             _F(GROUP_MA='BARRE')),
+                  MODELE=MO,
+                  MODE_FOURIER=0,
+                  NIVE_COUCHE='MOY',
+                  NUME_COUCHE=1,
+                  PRECISION=1e-06)
+
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.00
+# Résultat commande #0007 (POST_ELEM): MASSE ('<00000006>') de type <Table>
+# Mémoire (Mo) :   770.01 /   770.01 /   207.61 /   197.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0007   user+syst:        0.03s (syst:        0.00s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt52
+# ----------------------------------------------------------------------------------------------
+# Commande #0008 de lot26_g3.comm.changed.py, ligne 52
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=MASSE,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 00000006 CALCULE LE 21/09/2026 A 15:31:08 DE TYPE        
+LIEU                     ENTITE   MASSE                CDG_X                CDG_Y                CDG_Z                IX_G                 IY_G                 IZ_G                 IXY_G                IXZ_G                IYZ_G                IX_PRIN_G            IY_PRIN_G            IZ_PRIN_G            ALPHA                BETA                 GAMMA               
+COQUE                    GROUP_MA   5.000000000000E-01   5.000000000000E-01   2.500000000000E-01   0.000000000000E+00   5.208333333333E-02   8.333333333333E-02   5.208333333333E-02   8.673617379884E-19   0.000000000000E+00   0.000000000000E+00   5.208333333333E-02   5.208333333333E-02   8.333333333333E-02   0.000000000000E+00  -9.000000000000E+01  -9.000000000000E+01
+POUTRE                   GROUP_MA   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   2.500000000000E-01   5.104166666667E-01   5.104166666667E-01   1.000000000000E+00   0.000000000000E+00   3.045671076004E-17   0.000000000000E+00   5.104166666667E-01   5.104166666667E-01   1.000000000000E+00   9.000000000000E+01  -0.000000000000E+00   1.800000000000E+02
+BARRE                    GROUP_MA   5.000000000000E-01   5.000000000000E-01  -1.500000000000E-01  -2.000000000000E-01   7.812500000000E-03   5.000000000000E-03   2.812500000000E-03   0.000000000000E+00   0.000000000000E+00   3.750000000000E-03   8.326672684689E-19   7.812500000000E-03   7.812500000000E-03   9.000000000000E+01  -5.313010235416E+01  -1.800000000000E+02
+
+# Mémoire (Mo) :   770.01 /   770.01 /   207.61 /   197.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0008   user+syst:        0.14s (syst:        0.00s, elaps:        0.15s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt76
+# ----------------------------------------------------------------------------------------------
+# Commande #0009 de /opt/spack/opt/spack/linux-zen2/code-aster-17.4
+0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/CodeCommands/fin.py, ligne 76
+FIN(INFO_RESU='NON',
+    RETASSAGE='NON')
+
+No database in results, objects not saved on processor #0
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <I> <CATAMESS_89>                                                                              ║
+ ║                                                                                                ║
+ ║ Liste des alarmes émises lors de l'exécution du calcul.                                        ║
+ ║                                                                                                ║
+ ║     Les alarmes que vous avez choisies d'ignorer sont précédées de (*).                        ║
+ ║     Nombre d'occurrences pour chacune des alarmes :                                            ║
+ ║            aucune alarme                                                                       ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+<I> <FIN> ARRET NORMAL DANS "FIN" PAR APPEL A "JEFINI".
+  
+ <I> <FIN> MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :                     197.02 Mo
+ <I> <FIN> MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :                     207.61 Mo
+ <I> <FIN> MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS LORS DE L'EXECUTION :     778.71 Mo
+  
+ <I>       FERMETURE DES BASES EFFECTUEE
+  
+   STATISTIQUES CONCERNANT L'ALLOCATION DYNAMIQUE :
+     TAILLE CUMULEE MAXIMUM            :                  208  Mo.
+     TAILLE CUMULEE LIBEREE            :                    1  Mo.
+     NOMBRE TOTAL D'ALLOCATIONS        :                 4052
+     NOMBRE TOTAL DE LIBERATIONS       :                 3680
+     APPELS AU MECANISME DE LIBERATION :                    0
+     TAILLE MEMOIRE CUMULEE RECUPEREE  :                    0  Mo.
+     VOLUME DES LECTURES               :                    0  Mo.
+     VOLUME DES ECRITURES              :                    0  Mo.
+  
+   MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :     197.02 Mo
+     - IMPOSE DE NOMBREUX ACCES DISQUE
+     - RALENTIT LA VITESSE D'EXECUTION
+   MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :     207.61 Mo
+     - LIMITE LES ACCES DISQUE
+     - AMELIORE LA VITESSE D'EXECUTION
+   MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS     :     778.71 Mo
+     - COMPREND LA MEMOIRE CONSOMMEE PAR  JEVEUX, 
+       LE SUPERVISEUR PYTHON, LES LIBRAIRIES EXTERNES
+  
+ <I>       FIN D'EXECUTION LE : LU-21-SEPT-2026 15:31:08
+INFO './glob.1' deleted
+Deleting './glob.2': No such file or directory
+INFO './vola.1' deleted
+Deleting './vola.2': No such file or directory
+
+ ********************************************************************************
+ * COMMAND                  :       USER :     SYSTEM :   USER+SYS :    ELAPSED *
+ ********************************************************************************
+ * DEBUT                    :       0.00 :       0.34 :       0.34 :       0.44 *
+ * LIRE_MAILLAGE            :       0.00 :       0.04 :       0.04 :       0.03 *
+ * AFFE_MODELE              :       0.02 :       0.03 :       0.05 :       0.04 *
+ * AFFE_CARA_ELEM           :       0.04 :       0.00 :       0.04 :       0.04 *
+ * DEFI_MATERIAU            :       0.12 :       0.00 :       0.12 :       0.12 *
+ * AFFE_MATERIAU            :       0.11 :       0.00 :       0.11 :       0.11 *
+ * POST_ELEM                :       0.03 :       0.00 :       0.03 :       0.03 *
+ * IMPR_TABLE               :       0.14 :       0.00 :       0.14 :       0.15 *
+ * FIN                      :       0.14 :       0.00 :       0.14 :       0.14 *
+ *  . check syntax          :       0.03 :       0.02 :       0.05 :       0.03 *
+ *  . fortran               :       0.19 :       0.34 :       0.53 :       0.63 *
+ *  . cleanup               :       0.34 :       0.00 :       0.34 :       0.33 *
+ ********************************************************************************
+ * TOTAL_JOB                :       0.74 :       0.43 :       1.17 :       1.29 *
+ ********************************************************************************
+
+# Mémoire (Mo) :   778.71 /   778.71 /   207.61 /   197.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0009   user+syst:        0.14s (syst:        0.00s, elaps:        0.14s)
+# ----------------------------------------------------------------------------------------------
+End of the Code_Aster execution
+Code_Aster MPI exits normally
+Exited
+
+EXECUTION_CODE_ASTER_EXIT_1=0
+
+
+
+------------------------------------------------------------
+--- DIAGNOSTIC JOB : OK
+------------------------------------------------------------
+

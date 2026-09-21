@@ -1,0 +1,79 @@
+schema_version: 1
+counts:
+  nodes: 25
+  cells:
+    QUAD4: 16
+    SEG2: 20
+groups:
+- name: PLAQUE
+  count: 8
+  cell_type: QUAD4
+  bbox:
+  - 0
+  - 1.0
+  - 0
+  - 0.5
+  - 0
+  - 0
+  tolerance: 1.0e-09
+- name: RAIDISSEUR
+  count: 8
+  cell_type: QUAD4
+  bbox:
+  - 0
+  - 1.0
+  - 0
+  - 0
+  - 0
+  - 0.5
+  tolerance: 1.0e-09
+- name: ARETE
+  count: 4
+  cell_type: SEG2
+  bbox:
+  - 0
+  - 1.0
+  - 0
+  - 0
+  - 0
+  - 0
+  tolerance: 1.0e-09
+nodes_at:
+- label: coin
+  point:
+  - 0
+  - 0
+  - 0
+  tolerance: 1.0e-09
+- label: milieu de l'arête
+  point:
+  - 0.5
+  - 0
+  - 0
+  tolerance: 1.0e-09
+- label: sommet du raidisseur
+  point:
+  - 1.0
+  - 0
+  - 0.5
+  tolerance: 1.0e-09
+shared_nodes:
+- label: interface plaque / raidisseur
+  groups:
+  - PLAQUE
+  - RAIDISSEUR
+  count: 5
+  at:
+  - - 0
+    - 0
+    - 0
+  - - 0.5
+    - 0
+    - 0
+  - - 1.0
+    - 0
+    - 0
+  tolerance: 1.0e-09
+no_orphan_nodes: true
+no_coincident_nodes:
+  tolerance: 1.0e-09

@@ -120,6 +120,9 @@ fragments_app = typer.Typer(
     no_args_is_help=True, help="Découpage du corpus en fragments (lot 7)."
 )
 index_app = typer.Typer(no_args_is_help=True, help="Index lexical (lot 7).")
+mesh_app = typer.Typer(
+    no_args_is_help=True, help="Maillage : scripts Salomé et vérificateur MED (lot 26)."
+)
 app.add_typer(env_app, name="env")
 app.add_typer(sources_app, name="sources")
 app.add_typer(catalogue_app, name="catalogue")
@@ -127,6 +130,7 @@ app.add_typer(comm_app, name="comm")
 app.add_typer(eval_app, name="eval")
 app.add_typer(fragments_app, name="fragments")
 app.add_typer(index_app, name="index")
+app.add_typer(mesh_app, name="mesh")
 
 
 @app.callback(invoke_without_command=True)
@@ -1696,6 +1700,81 @@ def run(
         typer.echo(f"Durée          : {report.duration_s:.1f} s", err=True)
 
     if report.status not in ("completed_ok", "completed_with_alarms"):
+        raise typer.Exit(1)
+
+
+@mesh_app.command("run")
+def mesh_run(
+    script: Path,
+    params: str = typer.Option(
+        "",
+        "--params",
+        help="Fichier de paramètres JSON passé au script (empreinte vérifiée).",
+    ),
+) -> None:
+    """Exécuter un script Salomé sans interface (config/validation.yaml, mesh)."""
+    from aster_expert.meshing.config import load_mesh_config
+    from aster_expert.meshing.errors import MeshError
+    from aster_expert.meshing.run import run_salome_script
+
+    project_root = _project_root()
+    try:
+        config = load_mesh_config(project_root / "config" / "validation.yaml")
+        report = run_salome_script(
+            script,
+            project_root=project_root,
+            config=config,
+            params=Path(params) if params else None,
+        )
+    except MeshError as exc:
+        typer.echo(f"mesh run ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    typer.echo(
+        json.dumps(json.loads(report.model_dump_json()), indent=2, ensure_ascii=False)
+    )
+    typer.echo(f"MED produit : {report.med_path}", err=True)
+    typer.echo(f"Journal     : {report.log_path}", err=True)
+
+
+@mesh_app.command("check")
+def mesh_check(
+    med: Path,
+    invariants: Path,
+    version: str = typer.Option(
+        "",
+        "--version",
+        help="Version cible (ex. 17.4.0) de l'image lisant le MED.",
+    ),
+) -> None:
+    """Vérifier un MED contre un fichier d'invariants (medcoupling, sans Salomé)."""
+    from aster_expert.meshing.check import check_med
+    from aster_expert.meshing.config import load_mesh_config
+    from aster_expert.meshing.errors import MeshError
+
+    project_root = _project_root()
+    try:
+        config = load_mesh_config(project_root / "config" / "validation.yaml")
+        digest, _aster_version = resolve_digest_for_version(
+            project_root / "data" / "processed" / "catalogue",
+            version or None,
+            project_root / "config" / "versions.yaml",
+        )
+        docker_bin = find_docker_binary(os.environ.get("ASTER_DOCKER_BIN") or None)
+        repository = os.environ.get("ASTER_IMAGE_REPOSITORY", "simvia/code_aster")
+        report = check_med(
+            med,
+            invariants,
+            project_root=project_root,
+            config=config,
+            docker_bin=docker_bin,
+            image_ref=f"{repository}@{digest}",
+        )
+    except (MeshError, EnvironmentDetectionError, ValidationRunError) as exc:
+        typer.echo(f"mesh check ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    typer.echo(Path(report.report_path).read_text(encoding="utf-8"), nl=False)
+    typer.echo(f"Rapport : {report.report_path}", err=True)
+    if not report.ok:
         raise typer.Exit(1)
 
 
