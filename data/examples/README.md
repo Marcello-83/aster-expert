@@ -94,3 +94,33 @@ modifié au point 6) -- jamais ajouté à une entrée dont la source citée
 reste silencieuse sur ce point
 (`tests/unit/test_hypotheses_combiwall_reference.py::
 test_reference_fiche_validity_domain_set_only_where_the_source_states_one`).
+
+## `hypotheses_combiwall_reference_arbitree.json`
+
+Second exemple de référence (lot 18), dérivé du premier : les neuf décisions
+de `/media/sf_partage/echanges/arbitrage_combiwall_MM_v2.md` (MM,
+`decided_at`=2026-09-18T18:00:00, cas de test `QUAI-CW-TEST-01`) y sont
+enregistrées pour de vrai, contre le gabarit produit au lot 17
+(`gabarit_saisie_fiche_hypotheses.md`). Les huit décisions rattachées à une
+entrée `pratique`/`non_tranche` existante passent par `apply_decision` ; la
+neuvième (« Objet et périmètre du calcul », absente de la fiche) passe par
+`insert_practice_entry` (R2, lot 17) -- 25 entrées au total contre 24 dans
+l'original. Chaque `(point_label, topic)` a été confronté, avant
+enregistrement, à `HypothesesSheet.entries` du fichier non arbitré : les
+neuf couples correspondent exactement, aucun rapprochement par ressemblance.
+
+**`hypotheses_combiwall_reference.json` reste inchangé** (S4) : c'est la
+version non arbitrée, toujours versionnée telle quelle.
+
+**État après arbitrage -- toujours pas prête pour une génération.**
+`is_ready_for_generation` reste `False`, avec exactement deux blocages
+(`HypothesesSheet.generation_blockers()`) :
+
+- l'entrée `code_aster`/`non_tranche` du point 1 (tableau comparatif
+  DKT/DST/Q4G/DKTG/Q4GG), inchangée depuis le lot 14 -- hors périmètre de
+  cet arbitrage, qui ne porte que sur les entrées `pratique` ;
+- `group_naming`, toujours vide -- comme attendu, aucun arbitrage de la
+  convention de nommage des groupes n'a été fait dans ce lot.
+
+Vérifié par
+`tests/unit/test_hypotheses_combiwall_reference_arbitree.py`.

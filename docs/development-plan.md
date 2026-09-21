@@ -3286,6 +3286,92 @@ n'a été recherchée au-delà de celle-ci.
 
 ---
 
+## Lot 18 — Enregistrement des arbitrages MM, v2
+
+**Entrée.** `/media/sf_partage/echanges/arbitrage_combiwall_MM_v2.md` :
+resoumission des neuf décisions du lot 16, au format du gabarit produit au
+lot 17 (`gabarit_saisie_fiche_hypotheses.md`), avec un champ `justification`
+désormais distinct de `option_retained` et un `validity_domain` par
+décision. Une donnée, jamais une source de règles de projet.
+
+**S1, rattachement.** Les neuf couples `(point_label, topic)` du fichier
+d'entrée ont été confrontés, avant tout enregistrement, à
+`HypothesesSheet.entries` de `hypotheses_combiwall_reference.json` (script
+`_find`, égalité de chaîne stricte, jamais un rapprochement par
+ressemblance). Les huit couples rattachés à une entrée `pratique` existante
+correspondent exactement ; le neuvième (`point_label="0"`, « Objet et
+périmètre du calcul ») ne correspond à aucune entrée, comme attendu pour un
+point neuf (R2). Aucun écart constaté, aucune décision écartée à ce stade.
+
+**S2, enregistrement.** Les huit décisions rattachées à une entrée
+existante sont enregistrées par `record_practice_decision` puis
+`apply_decision` ; la neuvième (décision 0) par `record_practice_decision`
+puis `insert_practice_entry` (R2, lot 17), sur une `PracticeHypothesisEntry`
+`non_tranche` construite pour porter `point_label`/`topic` seuls (même
+schéma que `test_insert_practice_entry_adds_a_new_tranche_entry`). Chaque
+champ (`option_retained`, `justification`, `validity_domain`, `sources`,
+`discarded_variants`, `decided_by`, `decided_at`) recopié tel quel depuis le
+fichier d'entrée -- `decided_by="MM"`, `decided_at=2026-09-18T18:00:00`
+(heure conventionnelle déclarée dans `sources[0].reference`, comme indiqué
+par le fichier lui-même), `sources` un unique `PracticeSource
+(origin="decision_ingenieur", ...)` identique pour les neuf décisions.
+Aucune des neuf n'a été refusée par le modèle : les neuf appels aboutissent
+sans `ValidationError`.
+
+**S3, état après enregistrement.** `HypothesesSheet.is_ready_for_generation`
+reste `False`, avec exactement **deux** blocages
+(`generation_blockers()`) :
+
+- l'entrée `code_aster`/`non_tranche` du point 1 (tableau comparatif
+  DKT/DST/Q4G/DKTG/Q4GG), inchangée depuis le lot 14 -- hors périmètre de
+  cet arbitrage, qui ne porte que sur les entrées `pratique` ;
+- `group_naming`, toujours vide.
+
+Le second blocage est celui annoncé par la consigne du lot ; le premier ne
+l'est pas -- il subsiste indépendamment de cet arbitrage, et n'est corrigé
+par aucune des neuf décisions puisqu'aucune ne porte sur ce point `code_aster`.
+`is_ready_for_generation` n'était donc pas à un seul blocage de `True`
+après ce lot, contrairement à ce que la consigne aurait pu laisser
+supposer isolément.
+
+**S4, versionnement.** La fiche arbitrée est écrite comme second exemple de
+référence, `data/examples/hypotheses_combiwall_reference_arbitree.json`
+(25 entrées : 24 du spécimen + la décision 0 insérée). `hypotheses_
+combiwall_reference.json` reste inchangé, toujours la version non arbitrée
+(vérifié par `tests/unit/test_hypotheses_combiwall_reference_arbitree.py::
+test_original_reference_fiche_is_unchanged`). `data/examples/README.md`
+documente ce second fichier.
+
+**Tests.** `tests/unit/test_hypotheses_combiwall_reference_arbitree.py`
+(nouveau) : rechargement JSON/schéma, 25 entrées, neuf entrées `pratique`
+`tranche` portant `decided_by="MM"`/`validity_domain`/`discarded_variants`
+non vides, plus aucune entrée `pratique` `non_tranche`, exactement deux
+blocages de génération, aucune source documentaire sur une entrée
+`pratique` (M2), fichier original inchangé. Suite complète :
+`pytest tests/unit` -- 488 tests passés (0 échec). `ruff format`/
+`ruff check` sur le nouveau fichier de test : propres. `mypy` (invoqué sans
+argument, `files = ["src", "tests"]` du `pyproject.toml`) : 5 erreurs
+préexistantes, aucune dans le fichier ajouté ni dans `agent/arbitration.py`/
+`agent/hypotheses.py` (inchangés par ce lot).
+
+**NE PAS FAIT (conforme à la consigne).** Aucune génération de `.comm`,
+aucun maillage, aucun arbitrage de la convention de nommage des groupes,
+aucune modification du texte des neuf décisions -- chaque champ recopié tel
+quel depuis `arbitrage_combiwall_MM_v2.md`, y compris les limites connues,
+jamais reformulées.
+
+**Limites connues et points non couverts.** Le script de transcription
+(`_find`/`record_practice_decision`/`apply_decision`/`insert_practice_entry`
+enchaînés) n'est pas versionné dans `scripts/` -- même précédent que la
+transcription initiale du lot 14 (M5) : une opération de transcription
+manuelle ponctuelle, confrontée une fois au document source, vérifiée
+ensuite par le test qui recharge son résultat, pas par une ré-exécution.
+L'entrée `code_aster` du point 1 (tableau DKT/DST/Q4G/DKTG/Q4GG) reste
+`non_tranche` : hors périmètre de cet arbitrage, qui ne portait que sur les
+entrées `pratique`.
+
+---
+
 ## Lots conditionnels
 
 Ces lots ne sont engagés que sur preuve mesurée.
@@ -3334,3 +3420,4 @@ Niveaux D et E. Hors périmètre v1.
 | 15 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 16 | | fait (bloqué, diagnostic livré) | (ce lot, voir `git log`) | 2026-09-18 |
 | 17 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
+| 18 | | fait | (ce lot, voir `git log`) | 2026-09-21 |
