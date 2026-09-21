@@ -142,3 +142,15 @@ point 1 reste non tranchée : U2.02.01 laisse DKT-DKQ et COQUE_3D recevables
 pour un tube courbe sans les départager. Blocages de génération : 4.
 Le contrôle `HypothesesSheet.group_naming_gaps()` signale 49 groupes de la
 convention cités par aucune décision (rien n'est corrigé).
+
+### Lot 20
+
+Le JSON arbitré est désormais reconstruit par
+`scripts/build_combiwall_reference.py` depuis `combiwall_inputs/`
+(arbitrages v2 et v3, `lot20_extraits.json`, `lot20_recherche.json`) ; le
+test `tests/unit/test_build_combiwall_reference.py` compare le résultat au
+fichier versionné. Chaque groupe de `group_naming` porte un `point_label`.
+Le tableau comparatif du point 1 est devenu un constat documenté ; les points
+`FORCE_COQUE` et `FORCE_NODALE` sont fondés (catalogue confirmé) ; la raideur
+surfacique projetée reste non fondée ; le choix DKT / COQUE_3D pour le tube
+est une entrée pratique ouverte. Blocages de génération : 2.

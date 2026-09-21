@@ -443,4 +443,5 @@ def test_to_document_section_over_threshold_without_headers_has_empty_outline() 
 
     assert section.content is None
     assert section.outline == ()
+    assert section.guidance is not None
     assert "aucune sous-section détectée" in section.guidance

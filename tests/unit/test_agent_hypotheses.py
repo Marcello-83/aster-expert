@@ -72,7 +72,9 @@ def test_code_aster_entry_non_tranche_may_carry_a_partial_source() -> None:
         status="non_tranche",
     )
 
-    assert entry.sources[0].excerpt is None
+    source = entry.sources[0]
+    assert isinstance(source, DocumentarySource)
+    assert source.excerpt is None
     assert entry.status == "non_tranche"
 
 
@@ -656,12 +658,18 @@ def test_catalogue_source_and_documentary_source_are_told_apart_in_a_tuple() -> 
     assert isinstance(entry.sources[1], DocumentarySource)
 
 
-def _decided(option: str, text: str = "j") -> PracticeHypothesisEntry:
+def _decided(
+    option: str, point_label: str = "8", status: str = "tranche"
+) -> PracticeHypothesisEntry:
+    if status == "non_tranche":
+        return PracticeHypothesisEntry(
+            point_label=point_label, topic=f"t{point_label}", status="non_tranche"
+        )
     return PracticeHypothesisEntry(
-        point_label="8",
-        topic="Charges localisées",
+        point_label=point_label,
+        topic=f"t{point_label}",
         option_retained=option,
-        justification=text,
+        justification="j",
         validity_domain="d",
         sources=(
             PracticeSource(
@@ -677,31 +685,40 @@ def _decided(option: str, text: str = "j") -> PracticeHypothesisEntry:
     )
 
 
-def _naming(*names: str) -> tuple[MeshGroupNaming, ...]:
-    return tuple(
-        MeshGroupNaming(group_name=n, kind="maille", description="d", status="tranche")
-        for n in names
+def _group(name: str, point_label: str | None) -> MeshGroupNaming:
+    return MeshGroupNaming(
+        group_name=name,
+        kind="maille",
+        description="d",
+        status="tranche",
+        point_label=point_label,
     )
 
 
-def _gap_sheet(entry: PracticeHypothesisEntry, *names: str) -> HypothesesSheet:
+def _gap_sheet(
+    entries: tuple[PracticeHypothesisEntry, ...], *groups: MeshGroupNaming
+) -> HypothesesSheet:
     return HypothesesSheet(
         project_name="p",
         structure_description="s",
         created_at=datetime(2026, 9, 21),
-        entries=(entry,),
-        group_naming=_naming(*names),
+        entries=entries,
+        group_naming=groups,
     )
 
 
-def test_group_naming_gaps_is_empty_when_convention_and_decisions_agree() -> None:
-    sheet = _gap_sheet(_decided("Groupe `DEFENSE` ; réunion TUBES"), "DEFENSE", "TUBES")
+def test_group_naming_gaps_is_empty_when_every_group_hangs_on_a_decided_point() -> None:
+    sheet = _gap_sheet(
+        (_decided("Groupe `DEFENSE`"),), _group("DEFENSE", "8"), _group("BOLLARD", "8")
+    )
 
     assert sheet.group_naming_gaps() == ()
 
 
 def test_group_naming_gaps_reports_a_cited_group_missing_from_the_convention() -> None:
-    sheet = _gap_sheet(_decided("Groupe `DEFENSE` et `BOLLARD`"), "DEFENSE")
+    sheet = _gap_sheet(
+        (_decided("Groupe `DEFENSE` et `BOLLARD`"),), _group("DEFENSE", "8")
+    )
 
     gaps = sheet.group_naming_gaps()
 
@@ -709,42 +726,50 @@ def test_group_naming_gaps_reports_a_cited_group_missing_from_the_convention() -
     assert "BOLLARD" in gaps[0] and "absent de la convention" in gaps[0]
 
 
-def test_group_naming_gaps_reports_an_uncited_group_but_exempts_unions() -> None:
+def test_group_naming_gaps_no_longer_requires_a_group_to_be_cited_in_prose() -> None:
+    """Lot 20: the lot-19 "cited by a decision" check is gone."""
+    sheet = _gap_sheet((_decided("Rien de nommé"),), _group("SYM_G", "8"))
+
+    assert sheet.group_naming_gaps() == ()
+
+
+def test_group_naming_gaps_reports_a_group_without_point_label() -> None:
+    sheet = _gap_sheet((_decided("x"),), _group("SYM_G", None))
+
+    assert sheet.group_naming_gaps() == ("groupe sans point_label : SYM_G",)
+
+
+def test_group_naming_gaps_reports_a_point_that_does_not_exist() -> None:
+    sheet = _gap_sheet((_decided("x"),), _group("SYM_G", "7"))
+
+    gaps = sheet.group_naming_gaps()
+
+    assert len(gaps) == 1
+    assert "SYM_G" in gaps[0] and "n'existe pas" in gaps[0]
+
+
+def test_group_naming_gaps_reports_a_group_on_an_unresolved_point() -> None:
     sheet = _gap_sheet(
-        _decided("Groupe `DEFENSE`"), "DEFENSE", "TUBES", "PALPS", "ECRAN", "SYM_G"
+        (_decided("x"), _decided("", point_label="1", status="non_tranche")),
+        _group("TUBE_01", "1"),
+        _group("SYM_G", "8"),
     )
 
     gaps = sheet.group_naming_gaps()
 
     assert len(gaps) == 1
-    assert "SYM_G" in gaps[0]
+    assert "TUBE_01" in gaps[0] and "non tranchée" in gaps[0]
 
 
-def test_group_naming_gaps_matches_whole_names_only() -> None:
+def test_group_naming_gaps_flags_the_whole_point_when_one_entry_is_open() -> None:
+    """Two entries share point 1: one decided, one open -> the point is open."""
     sheet = _gap_sheet(
-        _decided("Groupe `TUBE_05`", "voir TUBE_050"), "TUBE_05", "TUBE_0"
+        (_decided("x", point_label="1"), _decided("", "1", "non_tranche")),
+        _group("PALP_01", "1"),
     )
 
-    gaps = sheet.group_naming_gaps()
-
-    assert len(gaps) == 1
-    assert "TUBE_0" in gaps[0] and "TUBE_05" not in gaps[0]
-
-
-def test_group_naming_gaps_reads_the_text_of_the_discarded_variants() -> None:
-    entry = _decided("x").model_copy(
-        update={
-            "discarded_variants": (
-                DiscardedVariant(description="via ANCRAGES", reason="y"),
-            )
-        }
-    )
-    sheet = _gap_sheet(entry, "SYM_D")
-
-    assert sheet.group_naming_gaps() == (
-        "groupe de la convention cité par aucune décision : SYM_D",
-    )
+    assert len(sheet.group_naming_gaps()) == 1
 
 
 def test_group_naming_gaps_is_empty_for_an_empty_convention() -> None:
-    assert _gap_sheet(_decided("Groupe `DEFENSE`")).group_naming_gaps() == ()
+    assert _gap_sheet((_decided("Groupe `DEFENSE`"),)).group_naming_gaps() == ()

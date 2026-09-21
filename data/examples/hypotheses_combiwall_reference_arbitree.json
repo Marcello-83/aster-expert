@@ -110,10 +110,10 @@
       "point_label": "1",
       "topic": "Contenu détaillé du tableau comparatif DKT/DST/Q4G/DKTG/Q4GG (domaines d'application par modélisation)",
       "options_considered": [],
-      "option_retained": null,
-      "justification": null,
+      "option_retained": "Tableau récapitulatif de U2.02.01 § Conclusion et conseils d'utilisation : statique linéaire isotrope et analyse dynamique, toutes les modélisations du tableau ; matériau orthotrope ou composite en statique linéaire, DKT et DST/Q4G seulement ; non-linéaire matériau, DKT, DKTG/Q4GG, COQUE_3D, COQUE_AXIS et GRILLE_* ; non-linéaire géométrique, COQUE_3D seulement ; flambement d'Euler, DKT, COQUE_3D et GRILLE_*.",
+      "justification": "Section lue en entier par get_document_section (lignes 1-65, v17.4.0) ; le tableau est recopié dans l'extrait.",
       "discarded_variants": [],
-      "notes": "Section identifiée comme pertinente par search_codeaster_docs mais son contenu n'a pas été extrait via get_document_section dans cette session (seul un extrait de tête de 280 caractères a été vu) -- Bilan 2, point 1 (partiel). Résolu depuis par le lot 8c/14 (get_document_section) : voir docs/development-plan.md.",
+      "notes": "Divergence documentaire constatée dans U2.02.01 : ce tableau ne coche pas COQUE_3D pour « Matériau orthotrope, composite », alors que le tableau des matériaux de la section M_canique (lignes 551-556) coche ELAS_ORTH/ELAS_ISTR pour COQUE_3D. Les deux tableaux ne sont pas conciliés ici.",
       "validity_domain": null,
       "nature": "code_aster",
       "sources": [
@@ -124,13 +124,25 @@
             "Conclusion_et_conseils_d_utilisation"
           ],
           "source_path": "source/manuals/man_u/u2/u2.02.01/Conclusion_et_conseils_d_utilisation.rst",
-          "source_commit": null,
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
           "fragment_id": null,
           "profile": "methode",
-          "excerpt": null
+          "excerpt": "    \"**Modélisation**\", \"**DKT**\", \"**DST, Q4G**\", \"**DKTG,Q4GG**\", \"**COQUE_3D**\", \"**COQUE_AXIS**\", \"**GRILLE_***\"\n    \"Domaine d'application\", \"\", \"\", \"\", \"\", \"\", \"\"\n    \"Statique linéaire:\n    Matériau isotrope\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\"\n    \"Matériau orthotrope, composite\", \"**X**\", \"**X**\", \"\", \"\", \"\", \"\"\n    \"Statique non-linéaire matériau\", \"**X**\", \"\", \"**X**\", \"**X**\", \"**X**\", \"**X**\"\n    \"Statique non-linéaire géométrique\", \"\", \"\", \"\", \"**X**\", \"\", \"\"\n    \"Analyse dynamique\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\"\n    \"Flambement d'Euler\", \"**X**\", \"\", \"\", \"**X**\", \"\", \"**X**\""
+        },
+        {
+          "document_id": "U2.02.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "M_canique"
+          ],
+          "source_path": "source/manuals/man_u/u2/u2.02.01/M_canique.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "    \"**DEFI_MATERIAU**\", \"**COQUE_3D**\", \"**DKT, DST, Q4G**\", \"**DKTG,**\n    **Q4GG**\", \"**COQUE_AXIS**\", \"**GRILLE_EXCENTRE, GRILLE_MEMBRANE**\", \"**MEMBRANE**\"\n    \"ELASTICITE . LINEAIRE\", \"\", \"\", \"\", \"\", \"\", \"\"\n    \"ELAS\", \"•\", \"•\", \"•\", \"•\", \"•\", \"•\"\n    \"ELAS_ORTH ELAS_ISTR\", \"•\", \"•\", \"\", \"\", \"\", \"\"\n    \"ELAS_COQUE\", \"\", \"•\", \"\", \"\", \"\", \"\""
         }
       ],
-      "status": "non_tranche"
+      "status": "tranche"
     },
     {
       "point_label": "1",
@@ -1119,13 +1131,245 @@
       "decision_history": []
     },
     {
+      "point_label": "1",
+      "topic": "Modélisations de coque recevables pour le tube (surface courbe) selon la documentation U2.02.01",
+      "options_considered": [],
+      "option_retained": "Recevables : DKT (plaque plane, géométrie approchée par facettes) et COQUE_3D (coque courbe). La documentation ne les départage pas pour une surface courbe. DKQ n'est pas une modélisation distincte : c'est l'élément quadrangle de la modélisation DKT sur mailles QUAD4 ; DKQ ne figure pas parmi les valeurs de AFFE_MODELE/AFFE/MODELISATION du catalogue.",
+      "justification": "U2.02.01 conseille, pour une structure mince (h/L < 1/20), DKT-DKQ ou COQUE_3D, avec une préférence générale pour DKT et DKQ, et avertit dans la même section que les éléments plans ne prennent pas en compte la courbure et exigent un maillage raffiné si la courbure est importante, sans seuil chiffré. Recherche élargie, lexicale (facett, courbure, rayon, arête) dans toutes les sections de U2.02.01, dans R3.07.03, R3.07.04, U3.12.01, U3.12.03, U4.42.01, U4.44.01, puis lecture ciblée de V3.03.020 et V3.03.502 : aucun critère documenté de facettisation (discrétisation angulaire, rapport rayon / taille de maille). V3.03.020 (cylindre mince pincé) : DKT « Solution convenable pour un maillage fin », COQUE_3D quadrangle « très bonne solution obtenue avec un maillage relativement grossier ».",
+      "discarded_variants": [],
+      "notes": "Déduction, non extraite d'un document : le tube (diamètre 1420 mm, épaisseur 16 mm) a un rapport épaisseur / rayon moyen voisin de 1/44, inférieur à 1/20. Limite : le choix entre DKT et COQUE_3D pour le tube relève de la pratique ; il est renvoyé à l'entrée pratique non tranchée du même point.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U2.02.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Conclusion_et_conseils_d_utilisation"
+          ],
+          "source_path": "source/manuals/man_u/u2/u2.02.01/Conclusion_et_conseils_d_utilisation.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "* *Structures minces* **:** pour ces structures, dont le rapport h/L est inférieur à 1/20, les effets de cisaillement transverse peuvent être négligés et la théorie de Kirchhoff s’applique. On conseille d’utiliser pour ce type de structure des éléments plaques DKT-DKQ ou des éléments de coque courbe (COQUE_3D, _AXIS). **Il est conseillé d’utiliser de préférence les éléments** **DKT et DKQ**  qui donnent de très bons résultats sur les déplacements et plus approximatifs sur les contraintes (à recommander pour les analyses vibratoires). Même si on doit utiliser un grand nombre de ces éléments, les temps d’exécution restent raisonnables comparés à ceux des éléments courbes. On conseille de ne pas dépasser un rapport h/L=1/500 afin d'éviter des problèmes liés au verrouillages numériques."
+        },
+        {
+          "document_id": "U2.02.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Conclusion_et_conseils_d_utilisation"
+          ],
+          "source_path": "source/manuals/man_u/u2/u2.02.01/Conclusion_et_conseils_d_utilisation.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Les éléments DKT, DKQ, DST, DSQ et Q4G sont des éléments plans, ils ne prennent pas en compte la courbure des structures, il est donc nécessaire de raffiner le maillage dans le cas où la courbure est importante si on veut éviter les flexions parasites."
+        },
+        {
+          "document_id": "U2.02.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Introduction"
+          ],
+          "source_path": "source/manuals/man_u/u2/u2.02.01/Introduction.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "*   Les éléments de **plaques** , qui sont plans. La courbure de la structure à représenter n’est pas prise en compte et il est donc nécessaire d’utiliser un grand nombre d’éléments de façon à approcher correctement la géométrie de la structure (aspect facettes)."
+        },
+        {
+          "document_id": "U2.02.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Introduction"
+          ],
+          "source_path": "source/manuals/man_u/u2/u2.02.01/Introduction.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "*   DKT: maille TRIA3élément DKT, maille QUAD4éléments DKQ(linéaire géométrique);"
+        },
+        {
+          "document_id": "U2.02.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "M_canique"
+          ],
+          "source_path": "source/manuals/man_u/u2/u2.02.01/M_canique.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Lorsque l’on souhaite modéliser un solide de forme quelconque (non plan), on peut utiliser des éléments de coques pour rendre compte de la courbure, ou bien des éléments de plaques. Dans ce dernier cas, la géométrie est approximée par un réseau de facettes."
+        },
+        {
+          "document_id": "R3.07.03",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Implantation_des__l_ments_de_plaque_dans_Code_Aster"
+          ],
+          "source_path": "source/manuals/man_r/r3/r3.07.03/Implantation_des__l_ments_de_plaque_dans_Code_Aster.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": ""
+        },
+        {
+          "document_id": "U3.12.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "index"
+          ],
+          "source_path": "source/manuals/man_u/u3/u3.12.01/index.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Elles sont utilisables pour des problèmes de plaque en tridimensionnel [:external:ref:`R3.07.03 <R3.07.03>`] en analyse mécanique linéaire pour toutes les modélisations et en non linéaire matériau pour les modélisations DKT, DKTGet Q4GG uniquement. Leur utilisation pour des problèmes de coque est couramment admise en considérant que le plan de l'élément est assimilable à une facette tangente au feuillet moyen de la coque (attention, seules les facettes planes sont permises)."
+        },
+        {
+          "document_id": "V3.03.020",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Synth_se_des_r_sultats"
+          ],
+          "source_path": "source/manuals/man_v/v3/v3.03.020/Synth_se_des_r_sultats.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "*   Solution convenable pour un maillage fin."
+        },
+        {
+          "document_id": "V3.03.020",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Synth_se_des_r_sultats"
+          ],
+          "source_path": "source/manuals/man_v/v3/v3.03.020/Synth_se_des_r_sultats.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "*   COQUE_3D sur des quadrangles: très bonne solution obtenue avec un maillage relativement grossier."
+        },
+        {
+          "command": "AFFE_MODELE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "MODELISATION"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "8",
+      "topic": "Application d'une force surfacique de direction globale fixe sur une empreinte d'éléments de coque courbes (et non d'une pression normale à la paroi)",
+      "options_considered": [],
+      "option_retained": "Mot-clé facteur FORCE_COQUE de AFFE_CHAR_MECA, composantes FX, FY, FZ (repère global), affecté par GROUP_MA à l'empreinte ; la composante PRES (pression normale) n'est pas utilisée.",
+      "justification": "U4.44.01 documente FORCE_COQUE pour des efforts surfaciques sur DKT, DST, Q4G, COQUE_3D, en composantes du repère global (FX, FY, FZ), distinctes de PRES normale à la surface. Confirmé au catalogue : FORCE_COQUE et ses composantes FX, FY, FZ existent sous AFFE_CHAR_MECA.",
+      "discarded_variants": [],
+      "notes": "Non établi par la documentation : la surface de référence de l'effort surfacique (surface développée de la maille ou surface projetée). La conversion en intensité par surface projetée (point 8 pratique) et son effet sur la résultante d'une empreinte courbe relèvent du modélisateur.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U4.44.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Chargements_de_type_Neumann_pour_les__l_ments_de_structure_"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_pour_les__l_ments_de_structure_.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Le mot-clé facteur FORCE_COQUE est utilisable pour appliquer des efforts **surfaciques**  sur des éléments de type coque (DKT, DST, Q4G, COQUE_3D…). Les opérandes de FORCE_COQUE peuvent être définis:\n\n\n*   Dans le repère **global**  avec les mot-clefs FX, FY, FZ, MX, MY et MZ si l'on veut imposer un torseur des efforts surfaciques par composante.\n\n\n*   La composante PRES impose une pression **normale**  à la surface;"
+        },
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "FORCE_COQUE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "8",
+      "topic": "Application d'une force et d'un moment nodaux sur un nœud d'élément de poutre",
+      "options_considered": [],
+      "option_retained": "Mot-clé facteur FORCE_NODALE de AFFE_CHAR_MECA, affecté par GROUP_NO, composantes FX, FY, FZ (forces) et MX, MY, MZ (moments), définies dans le repère global par défaut.",
+      "justification": "U4.44.01 documente FORCE_NODALE (forces et moments nodaux, repère global) ; U3.11.01 donne, pour POU_D_T et POU_D_E, six degrés de liberté par nœud dont trois rotations. Confirmé au catalogue : FORCE_NODALE, GROUP_NO, FX, FY, FZ, MX, MY, MZ existent sous AFFE_CHAR_MECA.",
+      "discarded_variants": [],
+      "notes": "Déduction : la documentation de FORCE_NODALE ne nomme pas les éléments de poutre ; l'applicabilité des moments à un nœud de poutre vient des degrés de liberté de rotation de U3.11.01. La même documentation avertit que le chargement nodal est physiquement incorrect et préfère les chargements répartis.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U4.44.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Chargements_de_type_Neumann_"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Le mot-clé facteur FORCE_NODALE est utilisable pour appliquer, à des nœuds ou des groupes de nœuds, des forces nodales, définies composante par composante dans le repère **global**  ou dans un repère **oblique**  défini par trois angles nautiques. En toute rigueur, l’application d’un chargement nodal est physiquement incorrect et peut provoquer des concentrations de contraintes. Il est préférable d’utiliser des chargements répartis."
+        },
+        {
+          "document_id": "U4.44.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Chargements_de_type_Neumann_"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Valeurs des composantes des forces nodales des moments nodaux appliqués aux nœuds spécifiés. Ces forces nodales viendront se superposer aux forces nodales issues, éventuellement, d’autres chargements. En axisymétrique, les valeurs correspondent à un secteur d’un radian (diviser le chargement réel par :math:`2\\pi` )."
+        },
+        {
+          "document_id": "U3.11.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Discr_tisation"
+          ],
+          "source_path": "source/manuals/man_u/u3/u3.11.01/Discr_tisation.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Pour les trois modélisations de poutre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les six composantes de déplacement (trois translations et trois rotations). Ces nœuds sont supposés décrire un segment de la fibre moyenne de la poutre."
+        },
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "FORCE_NODALE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
       "point_label": "4",
       "topic": "Répartition d'une raideur de réaction horizontale surfacique (MN/m³) sur des éléments de coque, dans une direction globale fixe, rapportée à la surface projetée sur le plan de l'écran et non à la surface développée des tubes",
       "options_considered": [],
       "option_retained": null,
       "justification": null,
       "discarded_variants": [],
-      "notes": "Cherché sous methode (\"raideur de réaction surfacique ressort réparti coque direction globale surface projetée\") : résultats de tête R3.08.07, U4.43.01, U4.42.01 (§ RIGI_PARASOL), R3.07.04, U2.01.05 ; extraits de tête (280 caractères) seulement, aucune section lue en entier dans ce lot ; point non tranché, à instruire dans un lot dédié.",
+      "notes": "Cherché sous methode (\"raideur de réaction surfacique ressort réparti coque direction globale surface projetée\") : lot 19 : extraits de tête seulement (R3.08.07, U4.43.01, U4.42.01, R3.07.04, U2.01.05), rien de retenu. Cherché sous methode (\"module de réaction coefficient de raideur surfacique ressort Winkler appui élastique sur coque N/m3\") : lot 20 : 8 résultats de tête (U4.43.01, U4.23.02, U4.42.01, R5.03.17, U4.84.46, U4.01.13, U4.42.06), aucun ne traite d'une raideur surfacique de sol sur coque. Cherché sous syntaxe (\"ressort réparti sur surface DIS_T nœuds raideur par unité de surface fondation élastique\") : lot 20 : seul candidat, RIGI_PARASOL (AFFE_CARA_ELEM) ; MASS_REP répartit une masse, pas une raideur. Cherché sous syntaxe (\"U4.42.01 § RIGI_PARASOL, lecture intégrale lignes 1-188\") : lot 20 : lu en entier ; répartit une raideur globale Kx, Ky, Kz sur des discrets DIS_T portés par des mailles POI1, au prorata de la surface attachée à chaque nœud (surface de la maille divisée par son nombre de sommets) et d'une fonction de la distance au centre ; entrée = raideur globale en N/m, pas un module en N/m³ ; aucune pondération par surface projetée sur un plan. Déduction : RIGI_PARASOL répartit au prorata de la surface développée des mailles, non de la surface projetée exigée par le point ; répartir l'équivalent de k_h par surface projetée demanderait un calcul des raideurs nodales par l'utilisateur, non documenté comme méthode. Point laissé non fondé.",
       "validity_domain": null,
       "nature": "pratique",
       "sources": [],
@@ -1135,29 +1379,13 @@
       "decision_history": []
     },
     {
-      "point_label": "8",
-      "topic": "Application d'une force surfacique de direction globale fixe sur une empreinte d'éléments de coque courbes (et non d'une pression normale à la paroi)",
+      "point_label": "1",
+      "topic": "Choix de la modélisation de coque du tube entre les modélisations recevables (DKT ou COQUE_3D)",
       "options_considered": [],
       "option_retained": null,
       "justification": null,
       "discarded_variants": [],
-      "notes": "Cherché sous syntaxe (\"force surfacique direction fixe repère global éléments de coque FORCE_COQUE\") : résultats de tête U4.44.01 (chargements de Neumann pour les éléments de structure), U4.42.01, U4.74.01, U4.51.03 ; extraits de tête (280 caractères) seulement, aucune section lue en entier dans ce lot ; point non tranché, à instruire dans un lot dédié.",
-      "validity_domain": null,
-      "nature": "pratique",
-      "sources": [],
-      "status": "non_tranche",
-      "decided_by": null,
-      "decided_at": null,
-      "decision_history": []
-    },
-    {
-      "point_label": "8",
-      "topic": "Application d'une force et d'un moment nodaux sur un nœud d'élément de poutre",
-      "options_considered": [],
-      "option_retained": null,
-      "justification": null,
-      "discarded_variants": [],
-      "notes": "Cherché sous syntaxe (\"force et moment nodaux sur un noeud d'élément de poutre FORCE_NODALE\") : résultats de tête U4.64.02, U4.51.02, U4.44.01 (chargements de Neumann) ; extraits de tête (280 caractères) seulement, aucune section lue en entier dans ce lot ; point non tranché, à instruire dans un lot dédié.",
+      "notes": "Cherché sous methode (\"critère de facettisation d'une surface courbe par des plaques planes (discrétisation angulaire, rayon sur taille de maille), recherche lexicale dans U2.02.01 (toutes sections), R3.07.03, R3.07.04, U3.12.01, U3.12.03, U4.42.01, U4.44.01 ; lecture ciblée de V3.03.020, V3.03.502\") : aucun critère chiffré trouvé ; seules mentions qualitatives : « aspect facettes », « raffiner le maillage dans le cas où la courbure est importante ». Déduction : Le catalogue de la version cible et U2.02.01 admettent DKT et COQUE_3D pour le tube et ne les départagent pas (entrée code_aster « Modélisations de coque recevables pour le tube » du même point) ; le choix est renvoyé à l'ingénieur.",
       "validity_domain": null,
       "nature": "pratique",
       "sources": [],
@@ -1172,343 +1400,400 @@
       "group_name": "TUBE_01",
       "kind": "maille",
       "description": "coques de chaque tube, numérotées dans le sens du quai",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "TUBE_02",
       "kind": "maille",
       "description": "coques de chaque tube, numérotées dans le sens du quai",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "TUBE_03",
       "kind": "maille",
       "description": "coques de chaque tube, numérotées dans le sens du quai",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "TUBE_04",
       "kind": "maille",
       "description": "coques de chaque tube, numérotées dans le sens du quai",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "TUBE_05",
       "kind": "maille",
       "description": "coques de chaque tube, numérotées dans le sens du quai",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "TUBE_06",
       "kind": "maille",
       "description": "coques de chaque tube, numérotées dans le sens du quai",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "TUBE_07",
       "kind": "maille",
       "description": "coques de chaque tube, numérotées dans le sens du quai",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "TUBE_08",
       "kind": "maille",
       "description": "coques de chaque tube, numérotées dans le sens du quai",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "TUBE_09",
       "kind": "maille",
       "description": "coques de chaque tube, numérotées dans le sens du quai",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "TUBES",
       "kind": "maille",
       "description": "réunion des neuf tubes",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "PALP_01",
       "kind": "maille",
       "description": "coques de chaque palplanche intercalaire",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "PALP_02",
       "kind": "maille",
       "description": "coques de chaque palplanche intercalaire",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "PALP_03",
       "kind": "maille",
       "description": "coques de chaque palplanche intercalaire",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "PALP_04",
       "kind": "maille",
       "description": "coques de chaque palplanche intercalaire",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "PALP_05",
       "kind": "maille",
       "description": "coques de chaque palplanche intercalaire",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "PALP_06",
       "kind": "maille",
       "description": "coques de chaque palplanche intercalaire",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "PALP_07",
       "kind": "maille",
       "description": "coques de chaque palplanche intercalaire",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "PALP_08",
       "kind": "maille",
       "description": "coques de chaque palplanche intercalaire",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "PALPS",
       "kind": "maille",
       "description": "réunion des huit palplanches",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "ECRAN",
       "kind": "maille",
       "description": "`TUBES` ∪ `PALPS`",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "1"
     },
     {
       "group_name": "ECRAN_POUSSEE",
       "kind": "maille",
       "description": "mailles de l'écran recevant le profil de poussée et de pression d'eau",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "5"
     },
     {
       "group_name": "POUTRE_COUR",
       "kind": "maille",
       "description": "poutre de couronnement, sur son axe à +3,30",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "3"
     },
     {
       "group_name": "TIRANT_01",
       "kind": "maille",
       "description": "barre d'ancrage de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "TIRANT_02",
       "kind": "maille",
       "description": "barre d'ancrage de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "TIRANT_03",
       "kind": "maille",
       "description": "barre d'ancrage de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "TIRANT_04",
       "kind": "maille",
       "description": "barre d'ancrage de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "TIRANT_05",
       "kind": "maille",
       "description": "barre d'ancrage de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "TIRANT_06",
       "kind": "maille",
       "description": "barre d'ancrage de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "TIRANT_07",
       "kind": "maille",
       "description": "barre d'ancrage de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "TIRANT_08",
       "kind": "maille",
       "description": "barre d'ancrage de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "TIRANT_09",
       "kind": "maille",
       "description": "barre d'ancrage de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "TIRANTS",
       "kind": "maille",
       "description": "réunion des neuf tirants",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "RESS_AV_ARGI",
       "kind": "maille",
       "description": "mailles de l'écran de −12,00 à −18,00 (tubes et palplanches)",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "4"
     },
     {
       "group_name": "RESS_AV_MARNE",
       "kind": "maille",
       "description": "mailles des tubes de −18,00 à −26,00",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "4"
     },
     {
       "group_name": "DEFENSE",
       "kind": "maille",
       "description": "empreinte d'accostage, face bassin de `TUBE_05`, de +1,00 à +2,00",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "8"
     },
     {
       "group_name": "TETE_TUBE_01",
       "kind": "noeud",
       "description": "anneau de nœuds supérieur de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "3"
     },
     {
       "group_name": "TETE_TUBE_02",
       "kind": "noeud",
       "description": "anneau de nœuds supérieur de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "3"
     },
     {
       "group_name": "TETE_TUBE_03",
       "kind": "noeud",
       "description": "anneau de nœuds supérieur de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "3"
     },
     {
       "group_name": "TETE_TUBE_04",
       "kind": "noeud",
       "description": "anneau de nœuds supérieur de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "3"
     },
     {
       "group_name": "TETE_TUBE_05",
       "kind": "noeud",
       "description": "anneau de nœuds supérieur de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "3"
     },
     {
       "group_name": "TETE_TUBE_06",
       "kind": "noeud",
       "description": "anneau de nœuds supérieur de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "3"
     },
     {
       "group_name": "TETE_TUBE_07",
       "kind": "noeud",
       "description": "anneau de nœuds supérieur de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "3"
     },
     {
       "group_name": "TETE_TUBE_08",
       "kind": "noeud",
       "description": "anneau de nœuds supérieur de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "3"
     },
     {
       "group_name": "TETE_TUBE_09",
       "kind": "noeud",
       "description": "anneau de nœuds supérieur de chaque tube",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "3"
     },
     {
       "group_name": "ANC_01",
       "kind": "noeud",
       "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "ANC_02",
       "kind": "noeud",
       "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "ANC_03",
       "kind": "noeud",
       "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "ANC_04",
       "kind": "noeud",
       "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "ANC_05",
       "kind": "noeud",
       "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "ANC_06",
       "kind": "noeud",
       "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "ANC_07",
       "kind": "noeud",
       "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "ANC_08",
       "kind": "noeud",
       "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "ANC_09",
       "kind": "noeud",
       "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "ANCRAGES",
       "kind": "noeud",
       "description": "réunion des `ANC_xx`",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "2"
     },
     {
       "group_name": "BOLLARD",
       "kind": "noeud",
       "description": "nœud de l'axe de `POUTRE_COUR` au droit de `TUBE_05`",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "8"
     },
     {
       "group_name": "SYM_G",
       "kind": "noeud",
       "description": "nœuds des deux faces de coupe",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "7"
     },
     {
       "group_name": "SYM_D",
       "kind": "noeud",
       "description": "nœuds des deux faces de coupe",
-      "status": "tranche"
+      "status": "tranche",
+      "point_label": "7"
     }
   ]
 }

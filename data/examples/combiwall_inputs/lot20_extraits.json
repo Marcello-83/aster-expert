@@ -1,0 +1,405 @@
+[
+  {
+    "id": "u2_conclusion_table",
+    "document_id": "U2.02.01",
+    "section_path": [
+      "Conclusion_et_conseils_d_utilisation"
+    ],
+    "source_path": "source/manuals/man_u/u2/u2.02.01/Conclusion_et_conseils_d_utilisation.rst",
+    "line_start": 9,
+    "line_end": 17,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "    \"**Modélisation**\", \"**DKT**\", \"**DST, Q4G**\", \"**DKTG,Q4GG**\", \"**COQUE_3D**\", \"**COQUE_AXIS**\", \"**GRILLE_***\"\n    \"Domaine d'application\", \"\", \"\", \"\", \"\", \"\", \"\"\n    \"Statique linéaire:\n    Matériau isotrope\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\"\n    \"Matériau orthotrope, composite\", \"**X**\", \"**X**\", \"\", \"\", \"\", \"\"\n    \"Statique non-linéaire matériau\", \"**X**\", \"\", \"**X**\", \"**X**\", \"**X**\", \"**X**\"\n    \"Statique non-linéaire géométrique\", \"\", \"\", \"\", \"**X**\", \"\", \"\"\n    \"Analyse dynamique\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\"\n    \"Flambement d'Euler\", \"**X**\", \"\", \"\", \"**X**\", \"\", \"**X**\""
+  },
+  {
+    "id": "u2_structures_minces",
+    "document_id": "U2.02.01",
+    "section_path": [
+      "Conclusion_et_conseils_d_utilisation"
+    ],
+    "source_path": "source/manuals/man_u/u2/u2.02.01/Conclusion_et_conseils_d_utilisation.rst",
+    "line_start": 35,
+    "line_end": 35,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "* *Structures minces* **:** pour ces structures, dont le rapport h/L est inférieur à 1/20, les effets de cisaillement transverse peuvent être négligés et la théorie de Kirchhoff s’applique. On conseille d’utiliser pour ce type de structure des éléments plaques DKT-DKQ ou des éléments de coque courbe (COQUE_3D, _AXIS). **Il est conseillé d’utiliser de préférence les éléments** **DKT et DKQ**  qui donnent de très bons résultats sur les déplacements et plus approximatifs sur les contraintes (à recommander pour les analyses vibratoires). Même si on doit utiliser un grand nombre de ces éléments, les temps d’exécution restent raisonnables comparés à ceux des éléments courbes. On conseille de ne pas dépasser un rapport h/L=1/500 afin d'éviter des problèmes liés au verrouillages numériques."
+  },
+  {
+    "id": "u2_plans_sans_courbure",
+    "document_id": "U2.02.01",
+    "section_path": [
+      "Conclusion_et_conseils_d_utilisation"
+    ],
+    "source_path": "source/manuals/man_u/u2/u2.02.01/Conclusion_et_conseils_d_utilisation.rst",
+    "line_start": 42,
+    "line_end": 42,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Les éléments DKT, DKQ, DST, DSQ et Q4G sont des éléments plans, ils ne prennent pas en compte la courbure des structures, il est donc nécessaire de raffiner le maillage dans le cas où la courbure est importante si on veut éviter les flexions parasites."
+  },
+  {
+    "id": "u2_intro_plaques_facettes",
+    "document_id": "U2.02.01",
+    "section_path": [
+      "Introduction"
+    ],
+    "source_path": "source/manuals/man_u/u2/u2.02.01/Introduction.rst",
+    "line_start": 11,
+    "line_end": 11,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "*   Les éléments de **plaques** , qui sont plans. La courbure de la structure à représenter n’est pas prise en compte et il est donc nécessaire d’utiliser un grand nombre d’éléments de façon à approcher correctement la géométrie de la structure (aspect facettes)."
+  },
+  {
+    "id": "u2_intro_dkt_dkq",
+    "document_id": "U2.02.01",
+    "section_path": [
+      "Introduction"
+    ],
+    "source_path": "source/manuals/man_u/u2/u2.02.01/Introduction.rst",
+    "line_start": 19,
+    "line_end": 19,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "*   DKT: maille TRIA3élément DKT, maille QUAD4éléments DKQ(linéaire géométrique);"
+  },
+  {
+    "id": "u2_solide_non_plan",
+    "document_id": "U2.02.01",
+    "section_path": [
+      "M_canique"
+    ],
+    "source_path": "source/manuals/man_u/u2/u2.02.01/M_canique.rst",
+    "line_start": 47,
+    "line_end": 47,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Lorsque l’on souhaite modéliser un solide de forme quelconque (non plan), on peut utiliser des éléments de coques pour rendre compte de la courbure, ou bien des éléments de plaques. Dans ce dernier cas, la géométrie est approximée par un réseau de facettes."
+  },
+  {
+    "id": "r3073_dkt_triangle_quadrangle",
+    "document_id": "R3.07.03",
+    "section_path": [
+      "Implantation_des__l_ments_de_plaque_dans_Code_Aster"
+    ],
+    "source_path": "source/manuals/man_r/r3/r3.07.03/Implantation_des__l_ments_de_plaque_dans_Code_Aster.rst",
+    "line_start": 18,
+    "line_end": 18,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": ""
+  },
+  {
+    "id": "v3020_dkt",
+    "document_id": "V3.03.020",
+    "section_path": [
+      "Synth_se_des_r_sultats"
+    ],
+    "source_path": "source/manuals/man_v/v3/v3.03.020/Synth_se_des_r_sultats.rst",
+    "line_start": 10,
+    "line_end": 10,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "*   Solution convenable pour un maillage fin."
+  },
+  {
+    "id": "v3020_coque3d_quad",
+    "document_id": "V3.03.020",
+    "section_path": [
+      "Synth_se_des_r_sultats"
+    ],
+    "source_path": "source/manuals/man_v/v3/v3.03.020/Synth_se_des_r_sultats.rst",
+    "line_start": 25,
+    "line_end": 25,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "*   COQUE_3D sur des quadrangles: très bonne solution obtenue avec un maillage relativement grossier."
+  },
+  {
+    "id": "u3121_facettes_planes",
+    "document_id": "U3.12.01",
+    "section_path": [
+      "index"
+    ],
+    "source_path": "source/manuals/man_u/u3/u3.12.01/index.rst",
+    "line_start": 26,
+    "line_end": 26,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Elles sont utilisables pour des problèmes de plaque en tridimensionnel [:external:ref:`R3.07.03 <R3.07.03>`] en analyse mécanique linéaire pour toutes les modélisations et en non linéaire matériau pour les modélisations DKT, DKTGet Q4GG uniquement. Leur utilisation pour des problèmes de coque est couramment admise en considérant que le plan de l'élément est assimilable à une facette tangente au feuillet moyen de la coque (attention, seules les facettes planes sont permises)."
+  },
+  {
+    "id": "u2_orth_table_materiaux",
+    "document_id": "U2.02.01",
+    "section_path": [
+      "M_canique"
+    ],
+    "source_path": "source/manuals/man_u/u2/u2.02.01/M_canique.rst",
+    "line_start": 551,
+    "line_end": 556,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "    \"**DEFI_MATERIAU**\", \"**COQUE_3D**\", \"**DKT, DST, Q4G**\", \"**DKTG,**\n    **Q4GG**\", \"**COQUE_AXIS**\", \"**GRILLE_EXCENTRE, GRILLE_MEMBRANE**\", \"**MEMBRANE**\"\n    \"ELASTICITE . LINEAIRE\", \"\", \"\", \"\", \"\", \"\", \"\"\n    \"ELAS\", \"•\", \"•\", \"•\", \"•\", \"•\", \"•\"\n    \"ELAS_ORTH ELAS_ISTR\", \"•\", \"•\", \"\", \"\", \"\", \"\"\n    \"ELAS_COQUE\", \"\", \"•\", \"\", \"\", \"\", \"\""
+  },
+  {
+    "id": "u2_orth_repere",
+    "document_id": "U2.02.01",
+    "section_path": [
+      "M_canique"
+    ],
+    "source_path": "source/manuals/man_u/u2/u2.02.01/M_canique.rst",
+    "line_start": 462,
+    "line_end": 464,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "*   Une direction de référence permettant de définir un repère local dans le plan tangent en tout point d'une coque. La construction du repère local se fait soit à l'aide des deux angles «nautiques» :math:`\\alpha` et :math:`\\beta` (fournis en degrés) qui définissent un vecteur :math:`v` dont la projection sur le plan tangent à la coque fixe la direction :math:`{x}_{l}` . soit , si le mot clef VECTEUR est présent, par les 3 composantes du vecteur :math:`v` On peut définir un unique vecteur :math:`V` pour toute la structure, ou bien un par zone (mots clés GROUP_MA / MAILLE). La construction du repère local est définie dans AFFE_CARA_ELEM [:external:ref:`U4.42.01 <U4.42.01>`]. On appellera par la suite ce repère local **repère utilisateur** .\n\nLa définition de cet axe de référence est utile également pour définir l'orientation des fibres d'une coque multicouche ou orthotrope (Cf. opérateur DEFI_COMPOSITE [:external:ref:`U4.42.03 <U4.42.03>`])."
+  },
+  {
+    "id": "u2_orth_elas_coque",
+    "document_id": "U2.02.01",
+    "section_path": [
+      "M_canique"
+    ],
+    "source_path": "source/manuals/man_u/u2/u2.02.01/M_canique.rst",
+    "line_start": 579,
+    "line_end": 579,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Les structures minces en matériaux composites ne peuvent être traitées actuellement que par les modélisations plaques, en utilisant DEFI_COMPOSITE avec des caractéristiques de matériaux homogénéisés. On peut aussi introduire directement les coefficients de rigidité des matrices de membrane, flexion et cisaillement avec ELAS_COQUE. Ces coefficients sont donnés dans le repère utilisateur de l’élément défini par ANGL_REP. Il est à noter que les termes de cisaillement ne sont pris en compte avec le comportement ELAS_COQUE que pour les éléments DST et Q4G. Ils ne sont pas pris en compte avec les éléments DKT."
+  },
+  {
+    "id": "u4_elas_coque",
+    "document_id": "U4.43.01",
+    "section_path": [
+      "Caract_ristiques__lastiques_g_n_rales"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.43.01/Caract_ristiques__lastiques_g_n_rales.rst",
+    "line_start": 677,
+    "line_end": 677,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "ELAS_COQUE permet à l’utilisateur de fournir directement les coefficients de la matrice d’élasticité (décomposée en membrane et flexion) des coques minces orthotropes en élasticité linéaire [:ref:`R3.07.03 <R3.07.03>`]."
+  },
+  {
+    "id": "u4_elas_coque_pas_eeq",
+    "document_id": "U4.43.01",
+    "section_path": [
+      "Caract_ristiques__lastiques_g_n_rales"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.43.01/Caract_ristiques__lastiques_g_n_rales.rst",
+    "line_start": 693,
+    "line_end": 695,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Pour les coques orthotropes dont les modules d’élasticité sont obtenus par une méthode d’homogénéisation, il n’est pas possible dans le cas général de trouver un module de Young équivalent :math:`\\mathit{Eeq}` , et une épaisseur équivalente :math:`\\mathit{heq}` pour retrouver les expressions précédentes.\n\nLes matrices de rigidité élastique en absence de couplage reliant les efforts généralisés aux déformations généralisées sont donc données directement sous la forme:"
+  },
+  {
+    "id": "u4_elas_coque_repere",
+    "document_id": "U4.43.01",
+    "section_path": [
+      "Caract_ristiques__lastiques_g_n_rales"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.43.01/Caract_ristiques__lastiques_g_n_rales.rst",
+    "line_start": 704,
+    "line_end": 704,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Ces coefficients sont à fournir dans le repère local de l’élément. Celui-ci est défini sous le mot-clé COQUE de AFFE_CARA_ELEM [:external:ref:`U4.42.01 <U4.42.01>`]."
+  },
+  {
+    "id": "u4_elas_orth_coques",
+    "document_id": "U4.43.01",
+    "section_path": [
+      "Caract_ristiques__lastiques_g_n_rales"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.43.01/Caract_ristiques__lastiques_g_n_rales.rst",
+    "line_start": 331,
+    "line_end": 331,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Définition des caractéristiques élastiques orthotropes constantes ou fonctions de la température pour les éléments massifs isoparamétriques ou les couches constitutives d’un composite [:ref:`R4.01.02 <R4.01.02>`]. Il est possible de définir des caractéristiques viscoélastiques orthotropes constantes (ELAS_VISCO_ORTH) à une fréquence donnée, les modules à renseigner sont alors complexes."
+  },
+  {
+    "id": "u4_elas_orth_repere_coque",
+    "document_id": "U4.43.01",
+    "section_path": [
+      "Caract_ristiques__lastiques_g_n_rales"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.43.01/Caract_ristiques__lastiques_g_n_rales.rst",
+    "line_start": 340,
+    "line_end": 346,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Pour définir le repère d’orthotropie :math:`(\\text{L},\\text{T},\\text{N})` lié aux éléments, le lecteur se reportera:\n\n\n*   pour les éléments massifs isoparamétriques à la documentation [:external:ref:`U4.42.01 <U4.42.01>`] AFFE_CARA_ELEM mot-clé MASSIF,\n\n\n*   pour les éléments de coques composites à la documentation [:external:ref:`U4.42.01 <U4.42.01>`] AFFE_CARA_ELEM mot-clé COQUE ainsi qu’à la documentation [:external:ref:`U4.42.03 <U4.42.03>`] DEFI_COMPOSITE mot-clé ORIENTATION."
+  },
+  {
+    "id": "u4_composite_mater",
+    "document_id": "U4.42.03",
+    "section_path": [
+      "Op_randes"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.03/Op_randes.rst",
+    "line_start": 33,
+    "line_end": 33,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Le concept MA contient le matériau constitutif de la couche et est produit par l'opérateur DEFI_MATERIAU sous le mot clé facteur ELAS_ORTH."
+  },
+  {
+    "id": "u4_composite_orientation",
+    "document_id": "U4.42.03",
+    "section_path": [
+      "Op_randes"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.03/Op_randes.rst",
+    "line_start": 45,
+    "line_end": 45,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Angle de la 1ère direction d'orthotropie (sens longitudinal ou sens des fibres) dans le plan tangent à l'élément par rapport à la 1ère direction du repère de référence défini dans l'opérateur AFFE_CARA_ELEM par le mot clé facteur COQUE et le mot clé ANGL_REP [:ref:`U4.42.01 <U4.42.01>`]."
+  },
+  {
+    "id": "u4_coque_angl_rep",
+    "document_id": "U4.42.01",
+    "section_path": [
+      "Mot_cle_COQUE"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_COQUE.rst",
+    "line_start": 124,
+    "line_end": 124,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Les mots clés ANGL_REP ou VECTEUR permettent de renseigner le repère «utilisateur» en chaque élément de coque. C’est dans ce repère que sont exprimées par exemple les contraintes dans la coque ou les efforts généralisés [:ref:`U2.01.05 <U2.01.05>`]."
+  },
+  {
+    "id": "v3502_resume",
+    "document_id": "V3.03.502",
+    "section_path": [
+      "index"
+    ],
+    "source_path": "source/manuals/man_v/v3/v3.03.502/index.rst",
+    "line_start": 9,
+    "line_end": 9,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Ce test représente le calcul quasi-statique, d’un cylindre court orthotrope et d’un cylindre long orthotrope soumis à une ligne de charge. À leurs extrémités, les cylindres reposent sur des diaphragmes rigides. Ce cas-test permet de valider la modélisation éléments finis DST avec les mailles TRIA3 et QUAD4, avec un matériau homogène orthotrope."
+  },
+  {
+    "id": "v3502_synthese",
+    "document_id": "V3.03.502",
+    "section_path": [
+      "Synth_se_des_r_sultats"
+    ],
+    "source_path": "source/manuals/man_v/v3/v3.03.502/Synth_se_des_r_sultats.rst",
+    "line_start": 19,
+    "line_end": 19,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "On constate donc que les résultats se dégradent quand le rapport de la longueur sur le diamètre diminue, en effet les effets géométriques deviennent importants avec ce type de modélisation. Il serait souhaitable de pouvoir effectuer un calcul en éléments finis de coques en milieu orthotrope, afin de mieux prendre en compte la courbure, les plaques constituant un cas limite."
+  },
+  {
+    "id": "v3113_resume",
+    "document_id": "V3.03.113",
+    "section_path": [
+      "index"
+    ],
+    "source_path": "source/manuals/man_v/v3/v3.03.113/index.rst",
+    "line_start": 9,
+    "line_end": 11,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Ce test permet de valider l’excentrement des plaques ayant un comportement ‘ELAS_COQUE’.\n\nLa référence est donnée par une première résolution où l’on modélise un bi-couche orthotrope ayant une non-symétrie matérielle par rapport au plan moyen."
+  },
+  {
+    "id": "u4_force_coque",
+    "document_id": "U4.44.01",
+    "section_path": [
+      "Chargements_de_type_Neumann_pour_les__l_ments_de_structure_"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_pour_les__l_ments_de_structure_.rst",
+    "line_start": 214,
+    "line_end": 220,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Le mot-clé facteur FORCE_COQUE est utilisable pour appliquer des efforts **surfaciques**  sur des éléments de type coque (DKT, DST, Q4G, COQUE_3D…). Les opérandes de FORCE_COQUE peuvent être définis:\n\n\n*   Dans le repère **global**  avec les mot-clefs FX, FY, FZ, MX, MY et MZ si l'on veut imposer un torseur des efforts surfaciques par composante.\n\n\n*   La composante PRES impose une pression **normale**  à la surface;"
+  },
+  {
+    "id": "u4_force_nodale",
+    "document_id": "U4.44.01",
+    "section_path": [
+      "Chargements_de_type_Neumann_"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_.rst",
+    "line_start": 22,
+    "line_end": 22,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Le mot-clé facteur FORCE_NODALE est utilisable pour appliquer, à des nœuds ou des groupes de nœuds, des forces nodales, définies composante par composante dans le repère **global**  ou dans un repère **oblique**  défini par trois angles nautiques. En toute rigueur, l’application d’un chargement nodal est physiquement incorrect et peut provoquer des concentrations de contraintes. Il est préférable d’utiliser des chargements répartis."
+  },
+  {
+    "id": "u4_force_nodale_composantes",
+    "document_id": "U4.44.01",
+    "section_path": [
+      "Chargements_de_type_Neumann_"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_.rst",
+    "line_start": 38,
+    "line_end": 38,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Valeurs des composantes des forces nodales des moments nodaux appliqués aux nœuds spécifiés. Ces forces nodales viendront se superposer aux forces nodales issues, éventuellement, d’autres chargements. En axisymétrique, les valeurs correspondent à un secteur d’un radian (diviser le chargement réel par :math:`2\\pi` )."
+  },
+  {
+    "id": "u3111_pou_ddl",
+    "document_id": "U3.11.01",
+    "section_path": [
+      "Discr_tisation"
+    ],
+    "source_path": "source/manuals/man_u/u3/u3.11.01/Discr_tisation.rst",
+    "line_start": 9,
+    "line_end": 9,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Pour les trois modélisations de poutre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les six composantes de déplacement (trois translations et trois rotations). Ces nœuds sont supposés décrire un segment de la fibre moyenne de la poutre."
+  },
+  {
+    "id": "u4_parasol_but",
+    "document_id": "U4.42.01",
+    "section_path": [
+      "Mot_cle_RIGI_PARASOL"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_RIGI_PARASOL.rst",
+    "line_start": 43,
+    "line_end": 43,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Cette fonctionnalité correspond à une méthodologie utilisée pour déterminer les caractéristiques d'éléments discrets (ressorts de translation et/ou de rotation) à appliquer aux nœuds d'un radier à partir d'une raideur globale."
+  },
+  {
+    "id": "u4_parasol_repartition",
+    "document_id": "U4.42.01",
+    "section_path": [
+      "Mot_cle_RIGI_PARASOL"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_RIGI_PARASOL.rst",
+    "line_start": 150,
+    "line_end": 150,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Pour déterminer les raideurs de translation, on impose qu’elles soient proportionnelles à la surface représentée par le nœud et à une fonction de répartition dépendant de la distance au centre de gravité du radier. Soit :math:`S(P)` la surface attachée au nœud :math:`P` et :math:`f(r)` la fonction de répartition où :math:`r` est la distance du nœud :math:`P` au nœud :math:`O`."
+  },
+  {
+    "id": "u4_parasol_surface",
+    "document_id": "U4.42.01",
+    "section_path": [
+      "Mot_cle_RIGI_PARASOL"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_RIGI_PARASOL.rst",
+    "line_start": 162,
+    "line_end": 162,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "    | Pour chaque maille surfacique du radier on calcule, la surface en 3D, la longueur de la ligne en 2D, on la divise par le nombre de sommets de la maille et on affecte cette contribution à chaque nœud de la maille. On assure alors : :math:`{S}_{radier} = \\sum_{p}S(p)`."
+  }
+]

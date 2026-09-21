@@ -185,15 +185,26 @@ Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne
 pas installer d'infrastructure non demandée, ne pas inventer la structure d'un
 dépôt externe avant de l'avoir inspectée.
 
-## État de la fiche combi-wall (lot 19)
+## État de la fiche combi-wall (lots 19-20)
 
-- `data/examples/hypotheses_combiwall_reference_arbitree.json` porte les
-  décisions v3 ; les décisions v2 restent dans `decision_history`. Ne jamais
-  éditer ce JSON à la main : passer par `record_practice_decision`,
-  `apply_decision`, `insert_practice_entry`, `record_unfounded_point`.
-- Une source `norme` datée d'un mois seulement ne peut porter de `date`
-  (le schéma exige une date complète) : `date=None`, le mois reste dans
+- `data/examples/hypotheses_combiwall_reference_arbitree.json` est produit par
+  `scripts/build_combiwall_reference.py` à partir des entrées versionnées de
+  `data/examples/combiwall_inputs/` (arbitrages MM v2 et v3, extraits et
+  recherches du lot 20). Ne jamais éditer ce JSON à la main : modifier les
+  entrées puis relancer le script ; un test rejoue le script et compare
+  octet pour octet.
+- Une révision de décision passe par `record_practice_decision` (la décision
+  précédente va dans `decision_history`, jamais modifiée).
+- Une source `norme` datée d'un mois seulement ne peut porter de `date` (le
+  schéma exige une date complète) : `date=None`, le mois reste dans
   `reference`. Ne jamais inventer un jour.
-- `HypothesesSheet.group_naming_gaps()` contrôle la convention de nommage
-  contre les décisions ; il signale, il ne corrige pas.
-- Point 1 `code_aster` (coque du tube et de la palplanche) : non tranché.
+- `HypothesesSheet.group_naming_gaps()` : chaque groupe porte le
+  `point_label` du point qui le fonde ; le contrôle signale un point absent
+  ou portant une entrée pratique non tranchée. Il signale, il ne corrige pas.
+- Point 1 (coque du tube) : la documentation U2.02.01 ne départage pas DKT et
+  COQUE_3D, l'ensemble recevable est un constat `code_aster`, le choix est une
+  entrée pratique ouverte. Aucun critère chiffré de facettisation n'existe
+  dans la documentation. Étude de la palplanche : `docs/etude_lot20_coque_orthotrope.md`.
+- Une entrée `code_aster` non tranchée ne peut pas porter d'option retenue ;
+  un ensemble d'options recevables se consigne dans une entrée tranchée qui
+  le dit, plus une entrée pratique ouverte du même `point_label`.

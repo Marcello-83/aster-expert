@@ -580,20 +580,9 @@ class MeshGroupNaming(BaseModel):
     kind: Literal["maille", "noeud"]
     description: str
     status: Literal["tranche", "non_tranche"] = "non_tranche"
-
-
-UNION_GROUP_NAMES: frozenset[str] = frozenset(
-    {"TUBES", "PALPS", "ECRAN", "TIRANTS", "ANCRAGES"}
-)
-"""Union groups: exempt from the "cited by a decision" check of
-`HypothesesSheet.group_naming_gaps`."""
-
-
-def _decision_text(entry: PracticeHypothesisEntry) -> str:
-    parts = [entry.option_retained, entry.justification, entry.validity_domain]
-    for v in entry.discarded_variants:
-        parts += [v.description, v.reason]
-    return "\n".join(p for p in parts if p)
+    point_label: str | None = None
+    """`point_label` of the fiche point that grounds this group (lot 20),
+    checked by `HypothesesSheet.group_naming_gaps`."""
 
 
 class HypothesesSheet(BaseModel):
@@ -671,26 +660,25 @@ class HypothesesSheet(BaseModel):
         return tuple(blockers)
 
     def group_naming_gaps(self) -> tuple[str, ...]:
-        """Report mismatches between `group_naming` and the decided entries.
+        """Report mismatches between `group_naming` and the fiche's points.
 
-        Two checks, reported and never corrected: (1) every identifier
-        written between backticks in a decided `pratique` entry's
-        `option_retained` must be a `group_naming` name; (2) every
-        `group_naming` name must appear, as a whole word, in the text of at
-        least one decided `pratique` entry, unless it is a union group
-        (`UNION_GROUP_NAMES`). Nothing is checked while `group_naming` is
-        empty (R3 already reports that state).
+        Reported, never corrected. Lot 20 replaced lot 19's "every group is
+        cited by a decision" check, which produced false gaps because
+        decisions are written in prose. Now: (1) every identifier written
+        between backticks in a decided `pratique` entry's `option_retained`
+        must be a `group_naming` name; (2) every group carries a
+        `point_label`, that point exists among the `pratique` entries, and
+        every `pratique` entry bearing it is `tranche`. Nothing is checked
+        while `group_naming` is empty (R3 already reports that state).
         """
         if not self.group_naming:
             return ()
         names = {g.group_name for g in self.group_naming}
-        decided = tuple(
-            e
-            for e in self.entries
-            if isinstance(e, PracticeHypothesisEntry) and e.status == "tranche"
-        )
+        practice = tuple(e for e in self.entries if e.nature == "pratique")
         gaps: list[str] = []
-        for e in decided:
+        for e in practice:
+            if e.status != "tranche":
+                continue
             cited = re.findall(r"`([A-Z][A-Z0-9_]*)`", e.option_retained or "")
             gaps.extend(
                 f"groupe cité par la décision du point {e.point_label} "
@@ -698,12 +686,21 @@ class HypothesesSheet(BaseModel):
                 for c in dict.fromkeys(cited)
                 if c not in names
             )
-        corpus = "\n".join(_decision_text(e) for e in decided)
-        gaps.extend(
-            f"groupe de la convention cité par aucune décision : {name}"
-            for name in sorted(names - UNION_GROUP_NAMES)
-            if not re.search(rf"(?<![A-Z0-9_]){re.escape(name)}(?![A-Z0-9_])", corpus)
-        )
+        for g in self.group_naming:
+            if g.point_label is None:
+                gaps.append(f"groupe sans point_label : {g.group_name}")
+                continue
+            at_point = [e for e in practice if e.point_label == g.point_label]
+            if not at_point:
+                gaps.append(
+                    f"groupe {g.group_name} : le point {g.point_label} "
+                    "n'existe pas parmi les entrées pratique"
+                )
+            elif any(e.status != "tranche" for e in at_point):
+                gaps.append(
+                    f"groupe {g.group_name} : le point {g.point_label} porte "
+                    "une entrée pratique non tranchée"
+                )
         return tuple(gaps)
 
     @property
@@ -724,5 +721,4 @@ __all__: list[str] = [
     "PracticeOrigin",
     "PracticeSource",
     "PriorDecision",
-    "UNION_GROUP_NAMES",
 ]

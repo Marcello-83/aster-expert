@@ -48,7 +48,9 @@ def _question(**overrides: object) -> EvaluationQuestion:
 
 def test_hit_when_expected_document_anywhere_in_top_k() -> None:
     questions = [_question(required_documents=("U4.10.01", "U4.10.02"))]
-    results = {"eval-001": ("U4.99.99", "U4.10.02", "U4.00.00")}
+    results: dict[str, tuple[str, ...]] = {
+        "eval-001": ("U4.99.99", "U4.10.02", "U4.00.00")
+    }
 
     report = evaluate_retrieval(questions, results, k=3)
 
@@ -63,7 +65,7 @@ def test_hit_when_expected_document_anywhere_in_top_k() -> None:
 
 def test_miss_when_no_expected_document_within_k() -> None:
     questions = [_question(required_documents=("U4.10.01",))]
-    results = {"eval-001": ("U4.10.01", "U4.00.00")}
+    results: dict[str, tuple[str, ...]] = {"eval-001": ("U4.10.01", "U4.00.00")}
 
     report = evaluate_retrieval(questions, results, k=1)
 
@@ -86,7 +88,7 @@ def test_unresolved_question_excluded_not_scored_as_failure() -> None:
         ),
         _question(id="eval-002", required_documents=("U4.10.01",)),
     ]
-    results = {"eval-002": ("U4.10.01",)}
+    results: dict[str, tuple[str, ...]] = {"eval-002": ("U4.10.01",)}
 
     report = evaluate_retrieval(questions, results, k=5)
 

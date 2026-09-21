@@ -3422,3 +3422,4 @@ Niveaux D et E. Hors périmètre v1.
 | 17 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
 | 18 | | fait | (ce lot, voir `git log`) | 2026-09-21 |
 | 19 | | fait (point 1 Code_Aster non tranché) | (ce lot, voir `git log`) | 2026-09-21 |
+| 20 | | fait (choix DKT/COQUE_3D renvoyé à la pratique) | (ce lot, voir `git log`) | 2026-09-21 |

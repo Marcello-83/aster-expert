@@ -18,6 +18,7 @@ from pathlib import Path
 
 from aster_expert.agent.hypotheses import (
     CatalogueSource,
+    CodeAsterHypothesisEntry,
     DocumentarySource,
     HypothesesSheet,
     PracticeHypothesisEntry,
@@ -44,9 +45,10 @@ def test_arbitree_fiche_json_is_valid_json_before_schema_validation() -> None:
 def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     sheet = _load()
 
-    # 24 du spécimen + décision 0 (lot 18) + décision 9 (lot 19, R2) + 3 points
-    # Code_Aster non fondés (lot 19, record_unfounded_point)
-    assert len(sheet.entries) == 29
+    # 24 du spécimen + décision 0 (lot 18) + décision 9 (lot 19, R2) + 5 entrées
+    # du lot 20 (3 constats code_aster, 1 point non fondé, 1 renvoi pratique)
+    # + point non fondé du lot 19 ; le tableau comparatif est remplacé sur place
+    assert len(sheet.entries) == 31
 
 
 def test_arbitree_fiche_has_ten_decided_practice_entries() -> None:
@@ -74,20 +76,60 @@ def test_arbitree_fiche_has_ten_decided_practice_entries() -> None:
     assert all(e.discarded_variants for e in tranche_practice)
 
 
-def test_arbitree_fiche_has_exactly_the_three_new_unfounded_practice_points() -> None:
-    """Lot 19, step 5: three Code_Aster points revealed by v3, recorded by
-    `record_unfounded_point`, never decided."""
+def test_arbitree_fiche_has_exactly_two_open_practice_entries() -> None:
+    """Lot 20: the surface-spring point (still unfounded after a full search)
+    and the referral of the tube shell choice (DKT or COQUE_3D) to practice."""
     sheet = _load()
 
-    non_tranche_practice = [
+    open_practice = [
         e
         for e in sheet.entries
         if isinstance(e, PracticeHypothesisEntry) and e.status == "non_tranche"
     ]
-    assert len(non_tranche_practice) == 3
-    assert all(
-        e.notes and e.notes.startswith("Cherché sous") for e in non_tranche_practice
+    assert {e.point_label for e in open_practice} == {"1", "4"}
+    assert all(e.notes and e.notes.startswith("Cherché sous") for e in open_practice)
+
+
+def test_arbitree_fiche_lot20_code_aster_findings_are_decided_and_sourced() -> None:
+    sheet = _load()
+
+    findings = {
+        e.topic: e
+        for e in sheet.entries
+        if isinstance(e, CodeAsterHypothesisEntry) and e.status == "tranche"
+    }
+    force_coque = next(
+        t for t in findings if t.startswith("Application d'une force surfacique")
     )
+    force_nodale = next(t for t in findings if "force et d'un moment nodaux" in t)
+    recevables = next(
+        t for t in findings if t.startswith("Modélisations de coque recevables")
+    )
+    for topic, keyword in (
+        (force_coque, "FORCE_COQUE"),
+        (force_nodale, "FORCE_NODALE"),
+    ):
+        entry = findings[topic]
+        assert keyword in (entry.option_retained or "")
+        catalogue = [s for s in entry.sources if isinstance(s, CatalogueSource)]
+        assert [s.keyword_path for s in catalogue] == [(keyword,)]
+        assert any(
+            isinstance(s, DocumentarySource) and keyword in (s.excerpt or "")
+            for s in entry.sources
+        )
+    assert "ne les départage pas" in (findings[recevables].option_retained or "")
+
+
+def test_arbitree_fiche_comparison_table_entry_is_now_a_documented_finding() -> None:
+    sheet = _load()
+
+    table = [
+        e
+        for e in sheet.entries
+        if isinstance(e, CodeAsterHypothesisEntry)
+        and e.topic.startswith("Contenu détaillé du tableau comparatif")
+    ]
+    assert len(table) == 1 and table[0].status == "tranche"
 
 
 def test_arbitree_fiche_v3_revisions_keep_the_v2_decision_in_history() -> None:
@@ -149,28 +191,45 @@ def test_arbitree_fiche_group_naming_is_registered() -> None:
     assert not names & {"RESS_AR_REMB", "RESS_AV_REMB", "RESS_AV_SABLE"}
 
 
-def test_arbitree_fiche_group_naming_gaps_are_only_uncited_groups() -> None:
-    """Lot 19, step 3: no group cited by a decision is missing from the
-    convention; the gaps are groups no decision names (reported, not fixed)."""
+def test_arbitree_fiche_every_group_carries_a_point_label() -> None:
+    sheet = _load()
+
+    assert all(g.point_label for g in sheet.group_naming)
+    assert {g.point_label for g in sheet.group_naming} == {
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "7",
+        "8",
+    }
+
+
+def test_arbitree_fiche_group_naming_gaps_report_the_open_points() -> None:
+    """Lot 20, step 5: gaps are the groups hung on a point that still carries
+    an open practice entry (point 1: tube shell choice; point 4: surface
+    spring) -- reported, not masked."""
     sheet = _load()
 
     gaps = sheet.group_naming_gaps()
+    assert len(gaps) == 22
     assert not [g for g in gaps if "absent de la convention" in g]
-    assert gaps
-    assert not any("BOLLARD" in g or "DEFENSE" in g for g in gaps)
+    assert any("PALP_01" in g and "point 1" in g for g in gaps)
+    assert any("RESS_AV_ARGI" in g and "point 4" in g for g in gaps)
+    assert not any("BOLLARD" in g or "DEFENSE" in g or "ANC_01" in g for g in gaps)
 
 
 def test_arbitree_fiche_is_still_not_ready_for_generation() -> None:
-    """Four blockers remain: the `code_aster` point 1 comparison table
-    (U2.02.01 leaves DKT-DKQ and COQUE_3D admissible without ranking them for
-    a curved tube) and the three unfounded Code_Aster points of lot 19."""
+    """Two blockers remain (lot 20): the surface-spring point and the tube
+    shell choice referred to practice."""
     sheet = _load()
 
     assert sheet.is_ready_for_generation is False
     blockers = sheet.generation_blockers()
-    assert len(blockers) == 4
-    assert not any("group_naming" in b for b in blockers)
-    assert any("tableau comparatif" in b for b in blockers)
+    assert len(blockers) == 2
+    assert any("point 4" in b and "raideur de réaction" in b for b in blockers)
+    assert any("point 1" in b and "DKT ou COQUE_3D" in b for b in blockers)
 
 
 def test_arbitree_fiche_never_attaches_a_documentary_source_to_a_practice_entry() -> (

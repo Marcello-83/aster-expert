@@ -1,0 +1,129 @@
+{
+  "catalogue": {
+    "aster_version": "17.4.0",
+    "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+    "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+    "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+  },
+  "code_aster_findings": [
+    {
+      "replaces_topic": "Contenu détaillé du tableau comparatif DKT/DST/Q4G/DKTG/Q4GG (domaines d'application par modélisation)",
+      "point_label": "1",
+      "topic": "Contenu détaillé du tableau comparatif DKT/DST/Q4G/DKTG/Q4GG (domaines d'application par modélisation)",
+      "option_retained": "Tableau récapitulatif de U2.02.01 § Conclusion et conseils d'utilisation : statique linéaire isotrope et analyse dynamique, toutes les modélisations du tableau ; matériau orthotrope ou composite en statique linéaire, DKT et DST/Q4G seulement ; non-linéaire matériau, DKT, DKTG/Q4GG, COQUE_3D, COQUE_AXIS et GRILLE_* ; non-linéaire géométrique, COQUE_3D seulement ; flambement d'Euler, DKT, COQUE_3D et GRILLE_*.",
+      "justification": "Section lue en entier par get_document_section (lignes 1-65, v17.4.0) ; le tableau est recopié dans l'extrait.",
+      "notes": "Divergence documentaire constatée dans U2.02.01 : ce tableau ne coche pas COQUE_3D pour « Matériau orthotrope, composite », alors que le tableau des matériaux de la section M_canique (lignes 551-556) coche ELAS_ORTH/ELAS_ISTR pour COQUE_3D. Les deux tableaux ne sont pas conciliés ici.",
+      "extraits": [
+        "u2_conclusion_table",
+        "u2_orth_table_materiaux"
+      ],
+      "catalogue_refs": []
+    },
+    {
+      "point_label": "1",
+      "topic": "Modélisations de coque recevables pour le tube (surface courbe) selon la documentation U2.02.01",
+      "option_retained": "Recevables : DKT (plaque plane, géométrie approchée par facettes) et COQUE_3D (coque courbe). La documentation ne les départage pas pour une surface courbe. DKQ n'est pas une modélisation distincte : c'est l'élément quadrangle de la modélisation DKT sur mailles QUAD4 ; DKQ ne figure pas parmi les valeurs de AFFE_MODELE/AFFE/MODELISATION du catalogue.",
+      "justification": "U2.02.01 conseille, pour une structure mince (h/L < 1/20), DKT-DKQ ou COQUE_3D, avec une préférence générale pour DKT et DKQ, et avertit dans la même section que les éléments plans ne prennent pas en compte la courbure et exigent un maillage raffiné si la courbure est importante, sans seuil chiffré. Recherche élargie, lexicale (facett, courbure, rayon, arête) dans toutes les sections de U2.02.01, dans R3.07.03, R3.07.04, U3.12.01, U3.12.03, U4.42.01, U4.44.01, puis lecture ciblée de V3.03.020 et V3.03.502 : aucun critère documenté de facettisation (discrétisation angulaire, rapport rayon / taille de maille). V3.03.020 (cylindre mince pincé) : DKT « Solution convenable pour un maillage fin », COQUE_3D quadrangle « très bonne solution obtenue avec un maillage relativement grossier ».",
+      "notes": "Déduction, non extraite d'un document : le tube (diamètre 1420 mm, épaisseur 16 mm) a un rapport épaisseur / rayon moyen voisin de 1/44, inférieur à 1/20. Limite : le choix entre DKT et COQUE_3D pour le tube relève de la pratique ; il est renvoyé à l'entrée pratique non tranchée du même point.",
+      "extraits": [
+        "u2_structures_minces",
+        "u2_plans_sans_courbure",
+        "u2_intro_plaques_facettes",
+        "u2_intro_dkt_dkq",
+        "u2_solide_non_plan",
+        "r3073_dkt_triangle_quadrangle",
+        "u3121_facettes_planes",
+        "v3020_dkt",
+        "v3020_coque3d_quad"
+      ],
+      "catalogue_refs": [
+        {
+          "command": "AFFE_MODELE",
+          "keyword_path": [
+            "AFFE",
+            "MODELISATION"
+          ]
+        }
+      ]
+    },
+    {
+      "point_label": "8",
+      "topic": "Application d'une force surfacique de direction globale fixe sur une empreinte d'éléments de coque courbes (et non d'une pression normale à la paroi)",
+      "option_retained": "Mot-clé facteur FORCE_COQUE de AFFE_CHAR_MECA, composantes FX, FY, FZ (repère global), affecté par GROUP_MA à l'empreinte ; la composante PRES (pression normale) n'est pas utilisée.",
+      "justification": "U4.44.01 documente FORCE_COQUE pour des efforts surfaciques sur DKT, DST, Q4G, COQUE_3D, en composantes du repère global (FX, FY, FZ), distinctes de PRES normale à la surface. Confirmé au catalogue : FORCE_COQUE et ses composantes FX, FY, FZ existent sous AFFE_CHAR_MECA.",
+      "notes": "Non établi par la documentation : la surface de référence de l'effort surfacique (surface développée de la maille ou surface projetée). La conversion en intensité par surface projetée (point 8 pratique) et son effet sur la résultante d'une empreinte courbe relèvent du modélisateur.",
+      "extraits": [
+        "u4_force_coque"
+      ],
+      "catalogue_refs": [
+        {
+          "command": "AFFE_CHAR_MECA",
+          "keyword_path": [
+            "FORCE_COQUE"
+          ]
+        }
+      ]
+    },
+    {
+      "point_label": "8",
+      "topic": "Application d'une force et d'un moment nodaux sur un nœud d'élément de poutre",
+      "option_retained": "Mot-clé facteur FORCE_NODALE de AFFE_CHAR_MECA, affecté par GROUP_NO, composantes FX, FY, FZ (forces) et MX, MY, MZ (moments), définies dans le repère global par défaut.",
+      "justification": "U4.44.01 documente FORCE_NODALE (forces et moments nodaux, repère global) ; U3.11.01 donne, pour POU_D_T et POU_D_E, six degrés de liberté par nœud dont trois rotations. Confirmé au catalogue : FORCE_NODALE, GROUP_NO, FX, FY, FZ, MX, MY, MZ existent sous AFFE_CHAR_MECA.",
+      "notes": "Déduction : la documentation de FORCE_NODALE ne nomme pas les éléments de poutre ; l'applicabilité des moments à un nœud de poutre vient des degrés de liberté de rotation de U3.11.01. La même documentation avertit que le chargement nodal est physiquement incorrect et préfère les chargements répartis.",
+      "extraits": [
+        "u4_force_nodale",
+        "u4_force_nodale_composantes",
+        "u3111_pou_ddl"
+      ],
+      "catalogue_refs": [
+        {
+          "command": "AFFE_CHAR_MECA",
+          "keyword_path": [
+            "FORCE_NODALE"
+          ]
+        }
+      ]
+    }
+  ],
+  "unfounded_points": [
+    {
+      "point_label": "4",
+      "topic": "Répartition d'une raideur de réaction horizontale surfacique (MN/m³) sur des éléments de coque, dans une direction globale fixe, rapportée à la surface projetée sur le plan de l'écran et non à la surface développée des tubes",
+      "searches": [
+        {
+          "profile": "methode",
+          "query": "raideur de réaction surfacique ressort réparti coque direction globale surface projetée",
+          "outcome": "lot 19 : extraits de tête seulement (R3.08.07, U4.43.01, U4.42.01, R3.07.04, U2.01.05), rien de retenu"
+        },
+        {
+          "profile": "methode",
+          "query": "module de réaction coefficient de raideur surfacique ressort Winkler appui élastique sur coque N/m3",
+          "outcome": "lot 20 : 8 résultats de tête (U4.43.01, U4.23.02, U4.42.01, R5.03.17, U4.84.46, U4.01.13, U4.42.06), aucun ne traite d'une raideur surfacique de sol sur coque"
+        },
+        {
+          "profile": "syntaxe",
+          "query": "ressort réparti sur surface DIS_T nœuds raideur par unité de surface fondation élastique",
+          "outcome": "lot 20 : seul candidat, RIGI_PARASOL (AFFE_CARA_ELEM) ; MASS_REP répartit une masse, pas une raideur"
+        },
+        {
+          "profile": "syntaxe",
+          "query": "U4.42.01 § RIGI_PARASOL, lecture intégrale lignes 1-188",
+          "outcome": "lot 20 : lu en entier ; répartit une raideur globale Kx, Ky, Kz sur des discrets DIS_T portés par des mailles POI1, au prorata de la surface attachée à chaque nœud (surface de la maille divisée par son nombre de sommets) et d'une fonction de la distance au centre ; entrée = raideur globale en N/m, pas un module en N/m³ ; aucune pondération par surface projetée sur un plan"
+        }
+      ],
+      "deduction": "RIGI_PARASOL répartit au prorata de la surface développée des mailles, non de la surface projetée exigée par le point ; répartir l'équivalent de k_h par surface projetée demanderait un calcul des raideurs nodales par l'utilisateur, non documenté comme méthode. Point laissé non fondé."
+    }
+  ],
+  "practice_referral": {
+    "point_label": "1",
+    "topic": "Choix de la modélisation de coque du tube entre les modélisations recevables (DKT ou COQUE_3D)",
+    "searches": [
+      {
+        "profile": "methode",
+        "query": "critère de facettisation d'une surface courbe par des plaques planes (discrétisation angulaire, rayon sur taille de maille), recherche lexicale dans U2.02.01 (toutes sections), R3.07.03, R3.07.04, U3.12.01, U3.12.03, U4.42.01, U4.44.01 ; lecture ciblée de V3.03.020, V3.03.502",
+        "outcome": "aucun critère chiffré trouvé ; seules mentions qualitatives : « aspect facettes », « raffiner le maillage dans le cas où la courbure est importante »"
+      }
+    ],
+    "deduction": "Le catalogue de la version cible et U2.02.01 admettent DKT et COQUE_3D pour le tube et ne les départagent pas (entrée code_aster « Modélisations de coque recevables pour le tube » du même point) ; le choix est renvoyé à l'ingénieur."
+  }
+}
