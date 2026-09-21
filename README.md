@@ -123,25 +123,39 @@ Prérequis avant de démarrer le serveur : un index construit
 besoin de `ASTER_CONTAINER_WORKROOT` (un répertoire dédié, jamais `$HOME` ni
 la racine du dépôt — voir `.env.example`, ADR-006) et de Docker.
 
-Installer les dépendances du serveur puis l'enregistrer dans Claude Code :
+Installer les dépendances du serveur (installation éditable : le serveur lance
+toujours le code source du dépôt) :
 
 ```bash
 pip install -e ".[mcp]"
-
-claude mcp add aster-expert -s local \
-  -e ASTER_EXPERT_ROOT=/chemin/vers/aster-expert \
-  -e ASTER_CONTAINER_WORKROOT=/chemin/vers/un/repertoire/dedie \
-  -- /chemin/vers/aster-expert/.venv/bin/aster-expert-mcp
 ```
 
-Commande vérifiée telle quelle sur cette machine (`claude mcp get
-aster-expert` rapporte `Status: ✔ Connected` immédiatement après
-l'enregistrement). `-s local` restreint la déclaration à ce projet, sur cette
-machine, pour l'utilisateur courant — jamais partagée par défaut. Le SDK
-`mcp` installé ici est la branche 2.x (`mcp==2.2.0` au moment de ce lot) :
-son API (`MCPServer`, ancien `FastMCP` de la 1.x) est incompatible avec les
-exemples écrits pour la 1.x — `pyproject.toml` épingle `mcp>=2.0,<3` pour ne
-jamais glisser silencieusement de branche majeure.
+Le serveur est déclaré au niveau du projet, dans `.mcp.json` (versionné) :
+
+```bash
+claude mcp add aster-expert -s project \
+  -e 'ASTER_EXPERT_ROOT=${CLAUDE_PROJECT_DIR}' \
+  -e 'ASTER_CONTAINER_WORKROOT=${CLAUDE_PROJECT_DIR}/data/processed/workroot' \
+  -- '${CLAUDE_PROJECT_DIR}/.venv/bin/aster-expert-mcp'
+```
+
+`${CLAUDE_PROJECT_DIR}` est développé par Claude Code (documentation MCP :
+`${VAR}` et `${VAR:-défaut}` dans `command`, `args` et `env`). Une entrée du même
+nom en portée `local` ou `user` primerait sur `.mcp.json` sans fusion : la
+retirer (`claude mcp remove aster-expert -s local`). Le répertoire de travail
+est créé au démarrage du serveur.
+
+Une session Claude Code garde le processus serveur lancé à son démarrage : du
+code ajouté ensuite n'y est pas visible. Vérifier avant tout lot, sur un serveur
+neuf lancé comme `.mcp.json` le déclare :
+
+```bash
+aster-expert mcp-check
+```
+
+La commande compare les outils du serveur à ceux que déclare `server.py`, appelle
+chacun sur une requête minimale (dont `validate_comm`, qui lance le conteneur) et
+sort en erreur au premier écart.
 
 ## Structure
 

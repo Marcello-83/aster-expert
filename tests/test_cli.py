@@ -310,3 +310,33 @@ def test_run_fails_loudly_outside_allowed_roots(
 
     assert result.exit_code == 1
     assert "allowed_roots" in result.stderr
+
+
+def test_mcp_check_reports_the_first_discrepancy_and_exits_nonzero(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import aster_expert.mcp.check as check
+
+    async def failing(*args: object, **kwargs: object) -> list[check.ToolCheck]:
+        message = "outils du serveur [] ≠ outils déclarés dans le code"
+        raise check.McpCheckError(message)
+
+    monkeypatch.setattr(check, "run_check", failing)
+    result = runner.invoke(app, ["mcp-check"])
+    assert result.exit_code == 1
+    assert "mcp-check ÉCHEC" in result.output
+    assert "search_test_cases" in result.output  # the declared tools are listed first
+
+
+def test_mcp_check_succeeds_when_every_tool_answers(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import aster_expert.mcp.check as check
+
+    async def passing(*args: object, **kwargs: object) -> list[check.ToolCheck]:
+        return [check.ToolCheck(tool="x", request={"a": 1}, summary="level A")]
+
+    monkeypatch.setattr(check, "run_check", passing)
+    result = runner.invoke(app, ["mcp-check"])
+    assert result.exit_code == 0
+    assert "mcp-check OK : 1 outils" in result.output

@@ -1594,6 +1594,31 @@ def validate(
         raise typer.Exit(1)
 
 
+@app.command("mcp-check")
+def mcp_check() -> None:
+    """Démarrer un serveur MCP neuf (comme `.mcp.json`) et appeler chaque outil."""
+    import asyncio
+
+    from aster_expert.mcp.check import McpCheckError, declared_tools, run_check
+
+    project_root = _project_root()
+    expected = declared_tools()
+    typer.echo(
+        f"Outils déclarés dans le code ({len(expected)}) : {', '.join(expected)}"
+    )
+    try:
+        checks = asyncio.run(run_check(project_root, expected=expected))
+    except McpCheckError as exc:
+        typer.echo(f"mcp-check ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    for check in checks:
+        typer.echo(f"  OK {check.tool} {json.dumps(check.request)} -> {check.summary}")
+    typer.echo(
+        f"mcp-check OK : {len(checks)} outils appelés sur un serveur neuf, "
+        "identiques aux outils du code."
+    )
+
+
 @app.command("run")
 def run(
     comm_path: str,

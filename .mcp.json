@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "aster-expert": {
+      "type": "stdio",
+      "command": "${CLAUDE_PROJECT_DIR}/.venv/bin/aster-expert-mcp",
+      "args": [],
+      "env": {
+        "ASTER_EXPERT_ROOT": "${CLAUDE_PROJECT_DIR}",
+        "ASTER_CONTAINER_WORKROOT": "${CLAUDE_PROJECT_DIR}/data/processed/workroot"
+      }
+    }
+  }
+}

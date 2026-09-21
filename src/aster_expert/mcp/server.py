@@ -77,7 +77,8 @@ app = MCPServer(
 
 _SEARCH_DESCRIPTION = (
     "Recherche lexicale (BM25) dans le corpus documentaire Code_Aster "
-    "indexé (manuels U2/U3/U4/U7, documents R/V, cas tests) — niveau A : "
+    "indexé (manuels U2/U3/U4/U7, documents R/V ; les cas tests n'y sont pas, "
+    "voir search_test_cases) — niveau A : "
     "réponse documentaire, jamais exécutée, jamais confrontée au "
     "catalogue.\n\n"
     "`profile` DOIT être choisi par l'appelant selon la nature de la "
@@ -92,8 +93,10 @@ _SEARCH_DESCRIPTION = (
     "une formulation — privilégie R/U2/U4/U3/V ;\n"
     "- 'methode' : un choix de modélisation, une comparaison d'éléments "
     "finis disponibles, un cas d'usage — privilégie U2/U4/R/U3.\n\n"
-    "Combinable avec des filtres exacts (`version`, `family`, "
-    "`document_id`, `command`, `section_contains`)."
+    "`granularity` : 'by_file' (défaut) ou 'by_subsection'. Combinable avec "
+    "des filtres exacts (`version`, `family`, `document_id`, `command`, "
+    "`section_contains`) ; une `family` absente de l'index est refusée avec "
+    "la liste des familles présentes, jamais renvoyée vide."
 )
 
 
@@ -296,6 +299,11 @@ def read_test_case(
 
 
 def main() -> None:
+    workroot = _workroot()
+    if workroot is not None and workroot.is_relative_to(_project_root()):
+        # A work root inside the project is ignored by Git and so absent from
+        # a fresh clone: created here rather than failing at the first call.
+        workroot.mkdir(parents=True, exist_ok=True)
     app.run(transport="stdio")
 
 

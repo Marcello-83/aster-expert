@@ -288,33 +288,49 @@ def test_arbitree_fiche_every_group_carries_a_point_label() -> None:
 
 def test_arbitree_fiche_group_naming_gaps_are_closed() -> None:
     """Lot 21: no point hung on by a group carries an open practice entry any
-    more (lot 20 reported 22 gaps, on points 1 and 4)."""
+    more (lot 20 reported 22 gaps, on points 1 and 4).
+
+    Lot 24: the only two reports left are false positives of the check, which
+    reads every identifier between backticks in a decided entry as a mesh group :
+    MM's v5 decision 2 writes the Code_Aster keyword `EPAIS` and the field
+    `EFGE_NOEU` that way. The decision is recorded as worded ; the check is
+    reported, not corrected (its heuristic is not this lot's scope).
+    """
     sheet = _load()
 
-    assert sheet.group_naming_gaps() == ()
-
-
-def test_arbitree_fiche_only_blocker_is_the_entry_under_revision() -> None:
-    """Lot 23: v4 decisions 8 and 9 are recorded (decision 9 closes the revision
-    of point 8); decision 2 (point 1, homogenisation) stays « en révision » and
-    is the only blocker. Its reason cites the self-weight and the
-    post-processing anomaly."""
-    sheet = _load()
-
-    blockers = sheet.generation_blockers()
-    assert len(blockers) == 1
-    assert blockers[0].startswith(
-        "entrée pratique en révision (point 1) : Homogénéisation ou représentation"
+    assert sheet.group_naming_gaps() == (
+        "groupe cité par la décision du point 1 absent de la convention : EPAIS",
+        "groupe cité par la décision du point 1 absent de la convention : EFGE_NOEU",
     )
-    assert "RHO" in blockers[0] and "EPAIS" in blockers[0]
-    assert "REAC_NODA" in blockers[0] and "EFGE" in blockers[0]
-    assert sheet.is_ready_for_generation is False
-    # the flagged entry keeps its recorded decision untouched
-    (entry,) = sheet.entries_under_revision()
+    # nothing else: no group without point, no point left open
+    assert not [g for g in sheet.group_naming_gaps() if "groupe cité" not in g]
+
+
+def test_arbitree_fiche_has_no_blocker_left_after_decision_2_v5() -> None:
+    """Lot 24: MM's v5 decision 2 (point 1, homogenisation) is recorded and closes
+    the revision declared at lot 22; no entry is under revision any more. No
+    blocker does not mean the decision's validity domain is met (it requires a
+    sensitivity study of the horizontal membrane rigidity)."""
+    sheet = _load()
+
+    assert sheet.generation_blockers() == ()
+    assert sheet.is_ready_for_generation is True
+    assert sheet.entries_under_revision() == ()
+    (entry,) = [
+        e
+        for e in sheet.entries
+        if isinstance(e, PracticeHypothesisEntry)
+        and e.topic.startswith("Homogénéisation ou représentation distincte")
+    ]
     assert entry.status == "tranche" and entry.decided_by == "MM"
     assert entry.decided_at is not None
-    (event,) = entry.revision_history
-    assert event.kind == "declared" and event.by.startswith("Claude (lot 22")
+    assert entry.decided_at.date().isoformat() == "2026-09-21"
+    assert [(ev.kind, ev.by) for ev in entry.revision_history] == [
+        ("declared", "Claude (lot 22 ; motif mis à jour au lot 23)"),
+        ("lifted", "MM"),
+    ]
+    assert entry.validity_domain is not None
+    assert "sensibilité" in entry.validity_domain
 
 
 def test_arbitree_fiche_point_8_revision_is_declared_then_lifted_by_decision_9() -> (

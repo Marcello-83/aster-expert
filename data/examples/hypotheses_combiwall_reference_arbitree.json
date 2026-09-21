@@ -205,34 +205,77 @@
       "point_label": "1",
       "topic": "Homogénéisation ou représentation distincte du tube métallique et de la palplanche intercalaire",
       "options_considered": [],
-      "option_retained": "Représentation distincte des deux profils. Tubes en coque cylindrique au diamètre réel, palplanches intercalaires en coque plane d'épaisseur équivalente calée sur le module de flexion. Serrures représentées par partage de nœuds entre les deux.",
-      "justification": "Le combi-wall associe deux profils de raideurs très différentes : les tubes reprennent l'essentiel de la flexion verticale, les palplanches assurent la continuité de l'écran et transmettent la poussée aux tubes. La répartition des efforts entre ces deux profils sous une charge localisée est l'une des informations que ce calcul doit fournir ; les représenter distinctement est la condition pour l'obtenir.",
+      "option_retained": "Tube et palplanche intercalaire représentés distinctement. Le tube est en coque DKT à sa géométrie réelle (décision du point 1). La palplanche intercalaire est une coque plane DKT placée dans le plan des serrures, qui partage ses nœuds avec les tubes sur les lignes de serrure. Son comportement est une plaque élastique orthotrope dont les rigidités par mètre de largeur de la surface plane sont données directement. Axe L vertical, axe T horizontal dans le plan de l'écran.\n\nGéométrie de profil (cas de test v3) : ondulation trapézoïdale de période 1,18 m, hauteur 0,45 m, semelles de 0,35 m, épaisseur 9,5 mm, acier E = 210 000 MPa, ν = 0,3, G = 80 770 MPa. Longueur développée par période : s = 1,720 m, soit s/b = 1,458.\n\n| Rigidité | Formule | Valeur |\n|---|---|---|\n| Membrane verticale | E·t·(s/b) | 2 908 MN/m |\n| Membrane horizontale | D/h², avec D = E·t³/[12(1−ν²)] | 0,081 MN/m |\n| Cisaillement de membrane | G·t·(b/s) | 526 MN/m |\n| Flexion verticale | E·I du profil par mètre | 89,0 MN·m²/m |\n| Flexion horizontale | D·(b/s) | 0,0113 MN·m²/m |\n| Torsion de plaque | G·t³/12·(s/b) | 0,0084 MN·m²/m |\n| Couplages de Poisson, membrane-flexion | — | nuls |\n| Cisaillement transverse | G·t·(b/s), sans effet en DKT | 526 MN/m |\n\n*Poids propre.* Il est porté par le matériau : masse volumique ρ = 7 850 kg/m³ et épaisseur de coque déclarée `EPAIS` = t·(s/b) = 13,85 mm, soit ρ·EPAIS ≈ 108,7 kg/m², la masse surfacique du profil rapportée au plan de l'écran. Aucune force surfacique de poids propre n'est ajoutée.\n\n*Règles d'exploitation.*\n\n- Les efforts dans la palplanche sont lus **uniquement** dans les efforts généralisés aux nœuds (`EFGE_NOEU`) ou aux éléments.\n- Les contraintes dans le profil sont calculées hors Code_Aster, à partir de ces efforts et des caractéristiques du profil réel.\n- Les contraintes, forces nodales et réactions calculées par Code_Aster sur les éléments de palplanche ne sont pas utilisées.\n- Les contrôles d'équilibre utilisent les efforts dans les ressorts discrets et les réactions aux nœuds qui ne portent aucun élément de palplanche.",
+      "justification": "Un profil en Z est raide en flexion verticale et presque sans raideur en flexion horizontale : il se déforme en accordéon, avec un rapport de plus de 7 000 entre les deux. Ce rapport gouverne le report de la poussée vers les tubes, donc la répartition des efforts que ce calcul doit fournir. Une coque isotrope ne peut pas le reproduire. Une plaque DKT accepte des rigidités données séparément dans les deux directions (lot 20). Leur convention, rigidité par unité de largeur dans le repère utilisateur, est établie par essai (lot 22, niveau D).\n\nLes essais du lot 23 établissent que les déplacements et les efforts généralisés sont exacts, indépendants de l'épaisseur déclarée et des coefficients de cisaillement transverse. En revanche, les contraintes, les forces nodales et les réactions sont calculées avec une rigidité de flexion reconstruite à partir de la membrane et de l'épaisseur. Elles sont donc fausses pour une plaque dont la flexion n'est pas celle d'une plaque pleine homogène, ce qui est le cas de ce profil. D'où les règles d'exploitation. L'épaisseur déclarée n'ayant pas d'effet sur la raideur, elle est choisie pour que le poids propre soit exact : la pesanteur exige une masse volumique sur tous ces éléments et la multiplie par l'épaisseur (lot 22).",
       "discarded_variants": [
         {
-          "description": "Homogénéisation en une plaque équivalente unique.",
-          "reason": "Reviendrait à payer un modèle tridimensionnel pour en perdre le bénéfice, et interdirait de sortir les contraintes réelles dans chaque profil."
+          "description": "Coque isotrope d'épaisseur équivalente calée sur le module de flexion (décision v2).",
+          "reason": "Ne reproduit ni l'inertie verticale ni l'orthotropie ; la raideur horizontale est fausse d'environ trois ordres de grandeur."
+        },
+        {
+          "description": "Géométrie réelle du Z maillée en coques minces de 9,5 mm, en acier isotrope.",
+          "reason": "Fidèle, sans restriction de post-traitement, mais alourdit sensiblement la branche maillage. C'est la variante de repli si l'essai du lot 24 ou l'étude de sensibilité invalident la représentation orthotrope."
+        },
+        {
+          "description": "Loi orthotrope par modules et épaisseur communs.",
+          "reason": "Ne permet pas d'imposer séparément les deux flexions (lot 20)."
+        },
+        {
+          "description": "Poids propre appliqué par force surfacique explicite, sans masse volumique (rédaction v4).",
+          "reason": "Non exécutable : la pesanteur exige une masse volumique sur ces éléments. Une masse volumique nulle est acceptée en silence (lot 23), mais le poids disparaîtrait alors sans signal si la force explicite était omise."
+        },
+        {
+          "description": "Homogénéisation en une plaque unique pour tubes et palplanches.",
+          "reason": "Perd la répartition des efforts entre les deux profils."
         }
       ],
       "notes": "Recommandation d'ingénieur (non tranchée par la documentation) : le choix entre représentation homogénéisée (une seule loi de plaque équivalente) et représentation distincte des deux profils est une décision de modélisation propre au projet -- aucun des documents retournés ne traite l'homogénéisation d'un combi-wall hétérogène.",
-      "validity_domain": "Le partage de nœuds surestime la continuité de flexion d'une serrure réelle, qui transmet essentiellement du cisaillement. Les moments transmis de la palplanche au tube au droit des serrures sont donc surestimés.",
+      "validity_domain": "1. La membrane horizontale est un ordre de grandeur, issu de la flexion des plis, dont le coefficient de forme n'est pas établi. Une étude de sensibilité à ×10 et ÷10 est requise. Si la répartition tube/palplanche en dépend sensiblement, la décision doit être revue vers la géométrie réelle.\n2. Le cisaillement de membrane néglige le gauchissement du profil ; il est donc surestimé.\n3. La palplanche est représentée dans le plan des serrures : l'excentricité réelle du profil par rapport à ce plan n'est pas représentée.\n4. L'exactitude des efforts généralisés est établie en flexion uniaxiale sur quadrangles. Les autres composantes utilisées — membrane, flexion horizontale, torsion — relèvent de l'essai du lot 24.\n5. Le partage de nœuds surestime la continuité de flexion des serrures.\n6. Les réactions des nœuds de serrure et de la palplanche ne sont pas exploitables (lot 23).",
       "nature": "pratique",
       "sources": [
         {
           "origin": "decision_ingenieur",
-          "reference": "MM, cas de test QUAI-CW-TEST-01, décision de test prise en séance de travail ; heure de decided_at conventionnelle",
-          "date": "2026-09-18"
+          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v5 de la décision 2 prise en séance de travail",
+          "date": "2026-09-21"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-09-18T18:00:00",
-      "decision_history": [],
+      "decided_at": "2026-09-21T08:27:13-04:00",
+      "decision_history": [
+        {
+          "option_retained": "Représentation distincte des deux profils. Tubes en coque cylindrique au diamètre réel, palplanches intercalaires en coque plane d'épaisseur équivalente calée sur le module de flexion. Serrures représentées par partage de nœuds entre les deux.",
+          "justification": "Le combi-wall associe deux profils de raideurs très différentes : les tubes reprennent l'essentiel de la flexion verticale, les palplanches assurent la continuité de l'écran et transmettent la poussée aux tubes. La répartition des efforts entre ces deux profils sous une charge localisée est l'une des informations que ce calcul doit fournir ; les représenter distinctement est la condition pour l'obtenir.",
+          "validity_domain": "Le partage de nœuds surestime la continuité de flexion d'une serrure réelle, qui transmet essentiellement du cisaillement. Les moments transmis de la palplanche au tube au droit des serrures sont donc surestimés.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décision de test prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-18"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Homogénéisation en une plaque équivalente unique.",
+              "reason": "Reviendrait à payer un modèle tridimensionnel pour en perdre le bénéfice, et interdirait de sortir les contraintes réelles dans chaque profil."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-18T18:00:00"
+        }
+      ],
       "revision_history": [
         {
           "kind": "declared",
           "reason": "Décision 2 en cours de révision, pour deux raisons établies par exécution. (1) Poids propre : sous PESANTEUR en statique, RHO d'ELAS_COQUE est exigé sur tous les éléments ELAS_COQUE du modèle et agit comme masse volumique comptée dans EPAIS (poids = RHO × EPAIS × g) ; la rédaction v4 de la décision 2, sans RHO et avec une force surfacique explicite, n'est pas exécutable en l'état. (2) Anomalie de post-traitement : sous ELAS_COQUE, SIEF_ELGA, FORC_NODA et REAC_NODA sont calculés avec une rigidité de flexion MEMB × EPAIS²/12 (fausses quand FLEX ≠ MEMB × EPAIS²/12, proportionnelles à EPAIS²), tandis que les efforts généralisés EFGE_ELNO/EFGE_NOEU sont exacts (lot 23). La décision v3 enregistrée reste inchangée ; la décision 2 sera réécrite après le lot 23 et n'est pas enregistrée.",
           "by": "Claude (lot 22 ; motif mis à jour au lot 23)",
           "at": "2026-09-21T06:25:33-04:00"
+        },
+        {
+          "kind": "lifted",
+          "reason": "révision tranchée par une nouvelle décision",
+          "by": "MM",
+          "at": "2026-09-21T08:27:13-04:00"
         }
       ]
     },
@@ -2039,10 +2082,10 @@
       "point_label": "1",
       "topic": "Efforts généralisés (EFGE_ELNO, EFGE_NOEU) sous ELAS_COQUE (DKT) : exactitude et indépendance vis-à-vis de EPAIS et de CISA_L/CISA_T",
       "options_considered": [],
-      "option_retained": "Sous ELAS_COQUE (DKT, QUAD4), les efforts généralisés EFGE_ELNO et EFGE_NOEU sont exacts et indépendants de EPAIS et de CISA_L/CISA_T, y compris quand FLEX ≠ MEMB × EPAIS²/12. Console de l'essai A (FLEX_L = 1000 N·m, charge 5 N, b = 0,5 m) : MXX = 20 N·m par mètre à l'encastrement et 10 à mi-longueur (M(x) = P·(L − x)/b), |QX| = 10 N par mètre (P/b) ; écart maximal sur MXX en tous les points EFGE_ELNO : 2.5e-10 N·m/m, autres composantes ≤ 7e-10 ; résultats identiques à 12 chiffres pour EPAIS = 0,01, 0,02 et 0,005 (coefficients inchangés) et pour CISA × 1000. Les déplacements sont eux aussi indépendants de EPAIS (flèche en bout 0,0266666666663 m pour 0,0266666666667 m de référence). Signe observé, repère ANGL_REP = (0, 0), charge vers −Z : MXX > 0, QX < 0.",
-      "justification": "Quatre exécutions (D1, D2 ×2, D3) jusqu'à FIN sans alarme (niveau C), efforts comparés aux valeurs analytiques par unité de largeur (niveau D). Le lot 22 avait posé la question (FORC_NODA, EFGE_ELNO « non testés ») ; U4.81.04 recommande de regarder EFGE_NOEU pour les comportements homogénéisés de type ELAS_COQUE, ce que l'exécution confirme.",
+      "option_retained": "Sous ELAS_COQUE (DKT, QUAD4), les efforts généralisés EFGE_ELNO et EFGE_NOEU sont exacts et indépendants de EPAIS et de CISA_L/CISA_T, y compris quand FLEX ≠ MEMB × EPAIS²/12 ; les déplacements sont exacts aux erreurs de discrétisation près. Lot 23 : flexion uniaxiale selon L d'une bande console (M(x) = P·(L − x)/b, |QX| = P/b, écart maximal sur MXX 2,5e-10 N·m/m). Lot 24, plaque carrée de 1 m en quadrangles 8 × 8, coefficients du tableau de la décision 2 rédigée en v5 (MEMB_L 2 908 MN/m, MEMB_T 0,081 MN/m, MEMB_G_LT 526 MN/m, FLEX_L 89,0 MN·m²/m, FLEX_T 0,0113 MN·m²/m, FLEX_G_LT 0,0084 MN·m²/m, CISA_L = CISA_T = 526 MN/m, couplages nuls, EPAIS = 13,85 mm, RHO = 7 850 kg/m³), L selon l'axe Y du maillage et T selon l'axe X (ANGL_REP = (90, 0)). (1) Traction de membrane selon T (q = 100 N/m) : allongement 1,2345679012408e-3 m pour q·a/MEMB_T = 1,2345679012346e-3 m (écart relatif 5e-12) ; NYY = 100 N/m en tous les nœuds, toutes les autres composantes ≤ 1e-7. (2) Flexion cylindrique selon T, appuis simples sur x = 0 et x = a, pression 100 Pa : MYY exact en tous les nœuds (écart absolu maximal 7,2e-9 N·m/m pour 12,5 à mi-portée), QY exact aux nœuds intérieurs (25 N/m en x = a/4), autres composantes ≤ 4e-8 ; flèche à mi-portée 1,13788e-4 m pour 5·p·a⁴/(384·FLEX_T) = 1,15229e-4 m (−1,25 %), écart divisé par 4 en maillage 16 × 16 (1,14869e-4 m, −0,3125 %) : écart de discrétisation, non une erreur de coefficient ; QY aux nœuds d'appui 43,75 N/m pour 50 (−12,5 %), 46,875 en 16 × 16 (−6,25 %) : valeur constante sur l'élément adjacent, moyenne des deux éléments aux nœuds intérieurs. (3) Cisaillement de membrane pur (τ = 1e5 N/m sur les quatre bords) : déplacement DX du bord supérieur 1,9011406844114e-4 m pour τ·a/MEMB_G_LT = 1,9011406844106e-4 m (écart relatif 4e-13), DX = γ·y et DY = 0 à 2e-16 près, |NXY| = τ. Signes observés : NYY > 0 en traction ; MYY < 0 et DZ < 0 sous pression positive (PRES_REP) ; NXY < 0 pour une force en +X sur le bord y = a (déduction compatible avec le repère local x_l = Y, y_l = −X de ANGL_REP = (90, 0), non lue dans la documentation).",
+      "justification": "Quatre exécutions (D1, D2 ×2, D3) jusqu'à FIN sans alarme (niveau C), efforts comparés aux valeurs analytiques par unité de largeur (niveau D). Le lot 22 avait posé la question (FORC_NODA, EFGE_ELNO « non testés ») ; U4.81.04 recommande de regarder EFGE_NOEU pour les comportements homogénéisés de type ELAS_COQUE, ce que l'exécution confirme. Lot 24 : quatre exécutions (D6a, D6b, D6b en 16 × 16, D6c) jusqu'à FIN sans alarme (niveau C), déplacements et efforts généralisés comparés à des solutions analytiques (niveau D). Elles couvrent les composantes que la palplanche de la décision 2 rédigée en v5 mobilise et que le lot 23 n'avait pas testées : membrane selon T (MEMB_T), flexion selon T (FLEX_T), cisaillement de membrane (MEMB_G_LT). Les efforts généralisés sont exacts, ce qui fonde la règle de lecture par EFGE_NOEU ; le raffinement de maillage établit l'origine des seuls écarts observés (flèche, QY d'appui).",
       "discarded_variants": [],
-      "notes": "Conditions de l'essai : flexion pure dans la direction L, FLEX_LT = 0 (MYY = MXY = 0 attendus et obtenus à 10⁻¹⁰ près), membrane non sollicitée (NXX = NYY = NXY = 0) : l'exactitude des efforts de membrane, des moments MYY et MXY et du cisaillement QY n'est pas testée. Une seule modélisation (DKT, QUAD4), un seul maillage (20 × 5), un seul repère (ANGL_REP = (0, 0)), une version (17.4.0). D3 confirme la remarque de U4.43.01 (le cisaillement transverse n'est pas pris en compte en DKT) pour ces deux coefficients. Les cas tests officiels hpla100i, hpla100j et ssls113a vérifient EFGE_ELNO sous ELAS_COQUE avec une tolérance jusqu'à 6 % et EPAIS = 1,0 pour les deux premiers ; ils ne fondent pas l'indépendance vis-à-vis de EPAIS. Rapport : docs/essais_lot23.md.",
+      "notes": "Sous REAC_NODA, contrôle demandé au lot 24 : exact en membrane (D6a : résultante en X du bord x = 0 égale à −q·a, écart relatif 8e-12 ; D6c : résultantes de tous les groupes ≤ 3e-10 pour des charges de 1e5 N/m) ; faux en flexion sous pression (D6b : résultante en Z du bord d'appui 6,255 N pour une réaction de 50 N, −87,5 % ; 3,130 N en 16 × 16), tandis que la somme sur tous les nœuds vaut 100 N, exacte, et ne discrimine rien. Les valeurs 6,255 et 3,130 sont, à 0,08 % et 0,17 % près, l'opposé de la part nodale de la pression sur le bord (p·a·h/2 = 6,25 puis 3,125 N) : déduction, la réaction ne contiendrait pratiquement que le terme de charge (la contribution interne, de l'ordre de 5e-3 N, étant celle d'une rigidité MEMB × EPAIS²/12 très inférieure à FLEX_T, rapport 1/8 727) ; non démontrée. Non testés : la membrane verticale (MEMB_L) et la flexion verticale (FLEX_L) seules dans la plaque du lot 24 (la flexion selon L est celle du lot 23), la torsion (FLEX_G_LT, MXY : la flexion cylindrique n'en produit pas), les couplages de Poisson (MEMB_LT = FLEX_LT = 0), la superposition des trois sollicitations, le cisaillement transverse (sans effet en DKT), un plan de plaque autre que le plan XY du maillage (la palplanche vraie est verticale ; la convention ANGL_REP pour un plan vertical n'a pas été établie), TRIA3, DST, COQUE_3D. Les cas de membrane imposent DZ, DRX, DRY et DRZ nuls sur tous les nœuds pour isoler la réponse de membrane. Un seul maillage régulier (8 × 8 ; 16 × 16 pour la flexion), une version (17.4.0). Aucune solution de référence externe (niveau E). Rapport : docs/essais_lot24.md. Historique du constat remplacé (lot 23, flexion uniaxiale d'une bande console) : option retenue : Sous ELAS_COQUE (DKT, QUAD4), les efforts généralisés EFGE_ELNO et EFGE_NOEU sont exacts et indépendants de EPAIS et de CISA_L/CISA_T, y compris quand FLEX ≠ MEMB × EPAIS²/12. Console de l'essai A (FLEX_L = 1000 N·m, charge 5 N, b = 0,5 m) : MXX = 20 N·m par mètre à l'encastrement et 10 à mi-longueur (M(x) = P·(L − x)/b), |QX| = 10 N par mètre (P/b) ; écart maximal sur MXX en tous les points EFGE_ELNO : 2.5e-10 N·m/m, autres composantes ≤ 7e-10 ; résultats identiques à 12 chiffres pour EPAIS = 0,01, 0,02 et 0,005 (coefficients inchangés) et pour CISA × 1000. Les déplacements sont eux aussi indépendants de EPAIS (flèche en bout 0,0266666666663 m pour 0,0266666666667 m de référence). Signe observé, repère ANGL_REP = (0, 0), charge vers −Z : MXX > 0, QX < 0. Notes : Conditions de l'essai : flexion pure dans la direction L, FLEX_LT = 0 (MYY = MXY = 0 attendus et obtenus à 10⁻¹⁰ près), membrane non sollicitée (NXX = NYY = NXY = 0) : l'exactitude des efforts de membrane, des moments MYY et MXY et du cisaillement QY n'est pas testée. Une seule modélisation (DKT, QUAD4), un seul maillage (20 × 5), un seul repère (ANGL_REP = (0, 0)), une version (17.4.0). D3 confirme la remarque de U4.43.01 (le cisaillement transverse n'est pas pris en compte en DKT) pour ces deux coefficients. Les cas tests officiels hpla100i, hpla100j et ssls113a vérifient EFGE_ELNO sous ELAS_COQUE avec une tolérance jusqu'à 6 % et EPAIS = 1,0 pour les deux premiers ; ils ne fondent pas l'indépendance vis-à-vis de EPAIS. Rapport : docs/essais_lot23.md.",
       "validity_domain": null,
       "nature": "code_aster",
       "sources": [
@@ -2221,6 +2264,201 @@
           "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
           "reference_value": 0.02666666666666667,
           "relative_deviation": -1.5187590768350745e-11,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6a/d6a.comm",
+          "case_sha256": "43a3a5131c82ac7821fc8ade99aa96c114f85c3d7671a935476e4ef715451c26",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6a.txt",
+          "quantity": "allongement DX du bord chargé (x = a), valeur moyenne, D6a (traction de membrane selon T, q = 100 N/m)",
+          "value_obtained": 0.0012345679012407778,
+          "reference": "q·a/MEMB_T = 100 N/m × 1 m / 81 000 N/m",
+          "reference_value": 0.0012345679012345679,
+          "relative_deviation": 5.02999985413366e-12,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6a/d6a.comm",
+          "case_sha256": "43a3a5131c82ac7821fc8ade99aa96c114f85c3d7671a935476e4ef715451c26",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6a.txt",
+          "quantity": "effort normal NYY (selon T) moyen des nœuds EFGE_NOEU, D6a",
+          "value_obtained": 100.00000000049383,
+          "reference": "NYY = q = 100 N/m",
+          "reference_value": 100.0,
+          "relative_deviation": 4.938272013532696e-12,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6a/d6a.comm",
+          "case_sha256": "43a3a5131c82ac7821fc8ade99aa96c114f85c3d7671a935476e4ef715451c26",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6a.txt",
+          "quantity": "résultante REAC_NODA en X du bord x = 0 (valeur absolue), D6a",
+          "value_obtained": 100.0000000008,
+          "reference": "équilibre : q·a = 100 N/m × 1 m = 100 N",
+          "reference_value": 100.0,
+          "relative_deviation": 8.000000661922969e-12,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "case_sha256": "daead04b27ff918e12fc3d6bf9936b4c500fc7bfc1d04965aa02597ccd4d6d22",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "flèche DZ à mi-portée (valeur absolue), valeur moyenne, D6b (maillage 8 × 8)",
+          "value_obtained": 0.00011378825595336666,
+          "reference": "5·p·a⁴/(384·FLEX_T) = 5 × 100 × 1 / (384 × 11 300)",
+          "reference_value": 0.00011522861356932153,
+          "relative_deviation": -0.012499999534302784,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b16.comm",
+          "case_sha256": "198c257322eac130bf8744759c570efa32817bdd6e45330bbcad69639104ff85",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b16.txt",
+          "quantity": "flèche DZ à mi-portée (valeur absolue), valeur moyenne, D6b16 (maillage 16 × 16)",
+          "value_obtained": 0.00011486852428059412,
+          "reference": "5·p·a⁴/(384·FLEX_T) = 5 × 100 × 1 / (384 × 11 300)",
+          "reference_value": 0.00011522861356932153,
+          "relative_deviation": -0.0031249988832920076,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "case_sha256": "daead04b27ff918e12fc3d6bf9936b4c500fc7bfc1d04965aa02597ccd4d6d22",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "moment MYY (valeur absolue) moyen des nœuds EFGE_NOEU en x = a/2, D6b",
+          "value_obtained": 12.500000006371112,
+          "reference": "p·a²/8 = 100 × 1 / 8 = 12,5 N·m par mètre de largeur",
+          "reference_value": 12.5,
+          "relative_deviation": 5.096889310607366e-10,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "case_sha256": "daead04b27ff918e12fc3d6bf9936b4c500fc7bfc1d04965aa02597ccd4d6d22",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "effort tranchant QY (valeur absolue) moyen des nœuds EFGE_NOEU en x = a/4, D6b",
+          "value_obtained": 25.00000001356111,
+          "reference": "p·(a − 2x)/2 en x = a/4 : 100 × 0,5 / 2 = 25 N par mètre de largeur",
+          "reference_value": 25.0,
+          "relative_deviation": 5.424443827450886e-10,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "case_sha256": "daead04b27ff918e12fc3d6bf9936b4c500fc7bfc1d04965aa02597ccd4d6d22",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "effort tranchant QY (valeur absolue) moyen des nœuds EFGE_NOEU d'appui x = 0, D6b (maillage 8 × 8)",
+          "value_obtained": 43.75000002313,
+          "reference": "p·a/2 = 50 N par mètre de largeur",
+          "reference_value": 50.0,
+          "relative_deviation": -0.12499999953740001,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b16.comm",
+          "case_sha256": "198c257322eac130bf8744759c570efa32817bdd6e45330bbcad69639104ff85",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b16.txt",
+          "quantity": "effort tranchant QY (valeur absolue) moyen des nœuds EFGE_NOEU d'appui x = 0, D6b16 (maillage 16 × 16)",
+          "value_obtained": 46.87500006827353,
+          "reference": "p·a/2 = 50 N par mètre de largeur",
+          "reference_value": 50.0,
+          "relative_deviation": -0.062499998634529416,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "case_sha256": "daead04b27ff918e12fc3d6bf9936b4c500fc7bfc1d04965aa02597ccd4d6d22",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "résultante REAC_NODA en Z du bord d'appui x = 0, D6b (maillage 8 × 8)",
+          "value_obtained": 6.255013060359,
+          "reference": "réaction d'appui p·a²/2 = 50 N",
+          "reference_value": 50.0,
+          "relative_deviation": -0.87489973879282,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "case_sha256": "daead04b27ff918e12fc3d6bf9936b4c500fc7bfc1d04965aa02597ccd4d6d22",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "somme des résultantes REAC_NODA en Z sur tous les nœuds, D6b",
+          "value_obtained": 100.0,
+          "reference": "p·a² = 100 N (pression totale)",
+          "reference_value": 100.0,
+          "relative_deviation": 0.0,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6c/d6c.comm",
+          "case_sha256": "7f6d7f321ce06a8549e2ea60be5164ee059700c77366552f3a2503eb6148e4a9",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6c.txt",
+          "quantity": "déplacement DX du bord supérieur (y = a), valeur moyenne, D6c (cisaillement de membrane pur, τ = 1e5 N/m)",
+          "value_obtained": 0.00019011406844114445,
+          "reference": "γ·a = τ·a/MEMB_G_LT = 1e5 × 1 / 5,26e8",
+          "reference_value": 0.00019011406844106463,
+          "relative_deviation": 4.1987626483303014e-13,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot24_essais/essai_d6c/d6c.comm",
+          "case_sha256": "7f6d7f321ce06a8549e2ea60be5164ee059700c77366552f3a2503eb6148e4a9",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6c.txt",
+          "quantity": "effort de cisaillement NXY (valeur absolue) moyen des nœuds EFGE_NOEU, D6c",
+          "value_obtained": 100000.0,
+          "reference": "NXY = τ = 1e5 N/m",
+          "reference_value": 100000.0,
+          "relative_deviation": 0.0,
           "validation_level": "D"
         }
       ],

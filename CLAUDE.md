@@ -179,13 +179,35 @@ antérieurs sont des commits directs, et c'est le commit lui-même, avec son
 message complet, qui a permis de retrouver le travail après un arrêt brutal
 de la machine.
 
+## Accès MCP (lot 24)
+
+- Le serveur MCP est déclaré en portée projet dans `.mcp.json` (versionné) : il
+  lance `.venv/bin/aster-expert-mcp` (installation éditable, code source du
+  dépôt). Une entrée du même nom en portée `local` ou `user` primerait sur elle,
+  sans fusion : ne pas en recréer. Voir `README.md` pour la commande exacte.
+- Une session garde le processus serveur lancé à son démarrage : du code ajouté
+  ensuite n'y est pas visible.
+- Chaque lot commence par `aster-expert mcp-check` (serveur neuf, outils comparés
+  au code, chaque outil appelé sur une requête minimale, arrêt au premier écart).
+  Quiconque ajoute un outil à `server.py` lui ajoute sa requête minimale dans
+  `aster_expert/mcp/check.py` : à défaut le contrôle échoue.
+- Si un outil attendu n'est pas visible dans la session, la session s'arrête et
+  demande à MM de relancer Claude Code ou de reconnecter le serveur (`/mcp`). Elle
+  ne se replie jamais sur une lecture directe de la documentation ou des cas tests.
+- Un lot qui ajoute ou modifie un outil MCP se termine par une consigne explicite à
+  MM : redémarrer la session avant le lot suivant.
+- Une session par lot.
+- `search_codeaster_docs` n'indexe pas les cas tests (familles présentes : V, R, U4,
+  D, U2, U3, U7, U1, SV, SU, U0) : les chercher par `search_test_cases`. Une `family`
+  absente de l'index est refusée avec la liste des familles présentes.
+
 ## Périmètre à ne pas dépasser sans instruction
 
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne
 pas installer d'infrastructure non demandée, ne pas inventer la structure d'un
 dépôt externe avant de l'avoir inspectée.
 
-## État de la fiche combi-wall (lots 19-23)
+## État de la fiche combi-wall (lots 19-24)
 
 - `data/examples/hypotheses_combiwall_reference_arbitree.json` est produit par
   `scripts/build_combiwall_reference.py` à partir des entrées versionnées de
@@ -289,3 +311,25 @@ dépôt externe avant de l'avoir inspectée.
   fait copier les fichiers `<nom>.*` voisins) et sa racine dans
   `execution.allowed_roots`. Les listes de noms d'un maillage ASTER se répartissent
   sur plusieurs lignes.
+- Lot 24 (`docs/essais_lot24.md`, niveau C/D, `data/examples/lot24_essais/`,
+  `scripts/build_lot24_essais.py` et `analyze_lot24_essais.py`, entrées
+  `lot24_essais.json`, `lot24_enregistrement.json`) : plaque carrée DKT en quadrangles
+  avec les coefficients de la décision 2 v5 (L = axe Y du maillage, `ANGL_REP = (90, 0)`).
+  Membrane selon T, flexion cylindrique selon T et cisaillement de membrane sont exacts
+  en déplacements et en `EFGE_NOEU`, aux erreurs de discrétisation près (flèche −1,25 %
+  en 8 × 8, −0,3125 % en 16 × 16 ; `QY` des nœuds d'appui = valeur constante de l'élément
+  adjacent). `REAC_NODA` : exact en membrane, faux en flexion (bord d'appui 6,255 N pour
+  50 N, valeur proche de la part nodale de la charge : déduction) ; la somme reste
+  exacte. Non testés : torsion (`FLEX_G_LT`, `MXY`), `MEMB_L` seule, couplages,
+  superposition, plan de plaque vertical (`ANGL_REP` hors plan XY non établi).
+- Lot 24, décision 2 v5 (`arbitrage_combiwall_MM_v5_decision2.md`, recopié à
+  l'identique) : enregistrée, révision du point 1 close (`lifted`), plus aucun
+  bloqueur de génération. MM n'a écrit ni date ni heure : `decided_at` est l'heure de
+  l'enregistrement (2026-09-21T08:27:13-04:00, `lot24_enregistrement.json`), antérieure à
+  l'heure conventionnelle des décisions 8 et 9 de la v4. Le constat des efforts
+  généralisés du point 1 remplace celui du lot 23 (sources conservées). L'absence de
+  bloqueur ne dit pas que le domaine de validité est satisfait : l'étude de
+  sensibilité de la membrane horizontale (×10 et ÷10) reste requise et non faite.
+  `group_naming_gaps()` signale `EPAIS` et `EFGE_NOEU` (faux positifs : mots-clés
+  entre apostrophes inverses lus comme groupes) ; le contrôle signale, il ne corrige
+  pas.

@@ -143,6 +143,17 @@ def search_codeaster_docs(
 
     started = time.monotonic()
     retriever, corpus = cached_bm25_index(index_dir)
+    if family is not None:
+        # An unknown family would otherwise return an empty result with no
+        # explanation (lot 21: `family="testcase"`, absent from the index).
+        families = sorted({str(fragment.get("family")) for fragment in corpus})
+        if family not in families:
+            message = (
+                f"Famille inconnue : {family!r} ; familles présentes dans "
+                f"l'index ({granularity}) : {families}. Les cas tests ne sont pas "
+                "indexés ici : les chercher par search_test_cases."
+            )
+            raise McpToolError(message)
     priority_search = (
         hard_filter_search if priority_mode == "hard" else soft_reweight_search
     )
@@ -404,6 +415,14 @@ def validate_comm(
         message = (
             "ASTER_CONTAINER_WORKROOT n'est pas renseigné : aucune validation "
             "n'est autorisée sans répertoire de travail dédié (voir .env.example)."
+        )
+        raise McpToolError(message)
+
+    if not workroot.is_dir():
+        message = (
+            f"Le répertoire de travail ASTER_CONTAINER_WORKROOT n'existe pas : "
+            f"{workroot}. Le créer (ou corriger la variable dans .mcp.json) ; "
+            "un répertoire sous /tmp disparaît au redémarrage de la machine."
         )
         raise McpToolError(message)
 

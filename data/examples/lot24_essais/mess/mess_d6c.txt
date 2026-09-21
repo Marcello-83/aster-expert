@@ -1,0 +1,1097 @@
+setting '--memory' value to 7372.80 MB (keyword RESERVE_MEMOIRE)
+copying '/work/d6c.mail' to 'fort.20'...
+checking MPI initialization...
+using COMM_WORLD.
+MPI is initialized.
+Ouverture en écriture du fichier ./vola.1
+
+<INFO> Démarrage de l'exécution.
+
+                        -- CODE_ASTER -- VERSION : EXPLOITATION (stable) --                         
+                               Version 17.4.0 modifiée le 02/01/2026                                
+                              révision spack-local - branche 'v17.4.0'                              
+                                   Copyright EDF R&D 1991 - 2026                                    
+                                                                                                    
+                              Exécution du : Mon Sep 21 12:20:03 2026                               
+                                  Nom de la machine : cbd1c3b907bc                                  
+                                        Architecture : 64bit                                        
+                                    Type de processeur : x86_64                                     
+               Système d'exploitation : Linux-7.0.0-31-generic-x86_64-with-glibc2.36                
+                                  Langue des messages : en (UTF-8)                                  
+                                    Version de Python : 3.11.14                                     
+                                     Version de NumPy : 1.26.4                                      
+                                      Parallélisme MPI : actif                                      
+                                   Rang du processeur courant : 0                                   
+                               Nombre de processeurs MPI utilisés : 1                               
+                                    Parallélisme OpenMP : actif                                     
+                              Nombre de processus OpenMP utilisés : 1                               
+                               Version de la librairie HDF5 : 1.10.7                                
+                                Version de la librairie MED : 4.2.0                                 
+                               Version de la librairie MFront : 5.0.0                               
+                               Version de la librairie MUMPS : 5.6.2                                
+                              Version de la librairie PETSc : 3.24.0p0                              
+                              Version de la librairie SCOTCH : 7.0.10                               
+
+starting the execution...
+Valeur initiale du temps CPU maximum =   1800 secondes
+  Valeur du temps CPU maximum passé aux commandes =   1620 secondes
+  Réserve CPU prévue = 180 secondes
+
+Ouverture en écriture du fichier ./glob.1
+
+Ouverture en écriture du fichier ./vola.1
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Créée avec la version                   :  17.04.00
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre total d'accès en lecture         :  64
+     Volume des accès en lecture             :         50.00 Mo.
+     Nombre total d'accès en écriture        :  0
+     Volume des accès en écriture            :          0.00 Mo.
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Relecture des catalogues des éléments faite.
+
+Fin de lecture (durée  0.054054  s.) 
+
+                      Mémoire limite pour l'allocation dynamique : 7940.61 Mo                       
+                         ajouté à l'initialisation du processus : 647.16 Mo                         
+                               Limite cible du processus : 8587.76 Mo                               
+                         Taille limite des fichiers d'échange : 2048.00 Go                          
+# Mémoire (Mo) :   647.16 /   639.39 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0001   user+syst:        0.00s (syst:        0.30s, elaps:        0.33s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt19
+# ----------------------------------------------------------------------------------------------
+# Commande #0002 de d6c.comm.changed.py, ligne 19
+MAIL = LIRE_MAILLAGE(FORMAT='ASTER',
+                     INFO=1,
+                     UNITE=20,
+                     VERI_MAIL=_F(APLAT=0.001,
+                                  VERIF='OUI'))
+
+Vérification du maillage.
+
+
+------------ MAILLAGE 00000001 - IMPRESSIONS NIVEAU  1 ------------
+
+Plaque D6c (lot 24)                                                             
+
+NOMBRE DE NOEUDS                          81
+
+NOMBRE DE MAILLES                         96
+                              SEG2                   32
+                              QUAD4                  64
+
+NOMBRE DE GROUPES DE NOEUDS                6
+
+NOMBRE DE GROUPES DE MAILLES               5
+
+--------------------------------------------------------------------------------
+
+# Résultat commande #0002 (LIRE_MAILLAGE): MAIL ('<00000001>') de type <Mesh>
+# Mémoire (Mo) :   647.16 /   640.03 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0002   user+syst:        0.00s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt21
+# ----------------------------------------------------------------------------------------------
+# Commande #0003 de d6c.comm.changed.py, ligne 21
+MO = AFFE_MODELE(AFFE=_F(MODELISATION='DKT',
+                         PHENOMENE='MECANIQUE',
+                         TOUT='OUI'),
+                 DISTRIBUTION=_F(METHODE='SOUS_DOMAINE',
+                                 PARTITIONNEUR='METIS'),
+                 INFO=1,
+                 MAILLAGE=MAIL,
+                 VERI_FORMULATION_IFS='OUI',
+                 VERI_JACOBIEN='OUI',
+                 VERI_NORM_IFS='OUI',
+                 VERI_PLAN='OUI')
+
+Sur les 96 mailles du maillage 00000001, on a demandé l'affectation de 96, on a pu en affecter 96.
+Modélisation     Formulation      Type maille  Élément fini     Nombre
+_                _                SEG2         MEBODKT          32
+DKT              _                QUAD4        MEDKQU4          64
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.01      0.01      0.00
+# Résultat commande #0003 (AFFE_MODELE): MO ('<00000002>') de type <Model>
+# Mémoire (Mo) :   769.84 /   769.84 /   207.61 /   197.04 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0003   user+syst:        0.00s (syst:        0.03s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt26
+# ----------------------------------------------------------------------------------------------
+# Commande #0004 de d6c.comm.changed.py, ligne 26
+CARA = AFFE_CARA_ELEM(COQUE=_F(ANGL_REP=(90.0, 0.0),
+                               A_CIS=0.8333333,
+                               COEF_RIGI_DRZ=1e-05,
+                               COQUE_NCOU=1,
+                               EPAIS=0.01385,
+                               GROUP_MA='PLAQUE',
+                               MODI_METRIQUE='NON'),
+                      INFO=1,
+                      MODELE=MO)
+
+
+     LE MODELE 00000002 CONTIENT : 
+                                       96 ELEMENT(S) COQUE           
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0004 (AFFE_CARA_ELEM): CARA ('<00000003>') de type <ElementaryCharacteristics>
+# Dépend de :
+# - MO ('<00000002>') de type <Model>
+# Mémoire (Mo) :   769.84 /   769.84 /   207.61 /   197.04 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0004   user+syst:        0.00s (syst:        0.02s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt28
+# ----------------------------------------------------------------------------------------------
+# Commande #0005 de d6c.comm.changed.py, ligne 28
+MAT = DEFI_MATERIAU(ELAS_COQUE=_F(CISA_L=526000000.0,
+                                  CISA_T=526000000.0,
+                                  FLEX_G_LT=8400.0,
+                                  FLEX_L=89000000.0,
+                                  FLEX_LT=0.0,
+                                  FLEX_T=11300.0,
+                                  MEMB_G_LT=526000000.0,
+                                  MEMB_L=2908000000.0,
+                                  MEMB_LT=0.0,
+                                  MEMB_T=81000.0,
+                                  ORDRE_PARAM=('MEMB_L', 'MEMB_LT', 'MEMB_T', 'MEMB_G_LT', 'FLEX_L', 'FLEX_LT', 'FLEX_T', 'FLEX_G_LT', 'CISA_L', 'CISA_T', 'M_LLLL', 'M_LLTT', 'M_LLLT', 'M_TTTT', 'M_TTLT', 'M_LTLT', 'F_LLLL', 'F_LLTT', 'F_LLLT', 'F_TTTT', 'F_TTLT', 'F_LTLT', 'MF_LLLL', 'MF_LLTT', 'MF_LLLT', 'MF_TTTT', 'MF_TTLT', 'MF_LTLT', 'MC_LLLZ', 'MC_LLTZ', 'MC_TTLZ', 'MC_TTTZ', 'MC_LTLZ', 'MC_LTTZ', 'FC_LLLZ', 'FC_LLTZ', 'FC_TTLZ', 'FC_TTTZ', 'FC_LTLZ', 'FC_LTTZ', 'C_LZLZ', 'C_LZTZ', 'C_TZTZ', 'RHO', 'ALPHA'),
+                                  RHO=7850.0),
+                    INFO=1)
+
+# Résultat commande #0005 (DEFI_MATERIAU): MAT ('<00000004>') de type <Material>
+# Mémoire (Mo) :   769.84 /   769.84 /   207.61 /   197.04 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0005   user+syst:        0.03s (syst:        0.08s, elaps:        0.10s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt30
+# ----------------------------------------------------------------------------------------------
+# Commande #0006 de d6c.comm.changed.py, ligne 30
+CHMAT = AFFE_MATERIAU(AFFE=_F(GROUP_MA='PLAQUE',
+                              MATER=MAT),
+                      INFO=1,
+                      MAILLAGE=MAIL)
+
+# Résultat commande #0006 (AFFE_MATERIAU): CHMAT ('<00000005>') de type <MaterialField>
+# Mémoire (Mo) :   769.84 /   769.84 /   207.61 /   197.04 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0006   user+syst:        0.12s (syst:        0.00s, elaps:        0.13s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt32
+# ----------------------------------------------------------------------------------------------
+# Commande #0007 de d6c.comm.changed.py, ligne 32
+CHAR = AFFE_CHAR_MECA(DDL_IMPO=(_F(DRX=0.0,
+                                   DRY=0.0,
+                                   DRZ=0.0,
+                                   DZ=0.0,
+                                   GROUP_NO='TOUS'),
+                                _F(DX=0.0,
+                                   DY=0.0,
+                                   GROUP_NO='COIN0'),
+                                _F(DY=0.0,
+                                   GROUP_NO='COINA')),
+                      DOUBLE_LAGRANGE='OUI',
+                      FORCE_ARETE=(_F(FX=100000.0,
+                                      GROUP_MA='BORD_YA'),
+                                   _F(FX=-100000.0,
+                                      GROUP_MA='BORD_Y0'),
+                                   _F(FY=100000.0,
+                                      GROUP_MA='BORD_XA'),
+                                   _F(FY=-100000.0,
+                                      GROUP_MA='BORD_X0')),
+                      INFO=1,
+                      MODELE=MO,
+                      SYNTAXE='NON',
+                      VERI_AFFE='OUI',
+                      VERI_NORM='OUI')
+
+# Résultat commande #0007 (AFFE_CHAR_MECA): CHAR ('<00000006>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   769.84 /   769.84 /   207.61 /   197.04 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0007   user+syst:        0.02s (syst:        0.00s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt47
+# ----------------------------------------------------------------------------------------------
+# Commande #0008 de d6c.comm.changed.py, ligne 47
+RESU = MECA_STATIQUE(CARA_ELEM=CARA,
+                     CHAM_MATER=CHMAT,
+                     EXCIT=_F(CHARGE=CHAR,
+                              TYPE_CHARGE='FIXE_CSTE'),
+                     INFO=1,
+                     INST=0.0,
+                     MODELE=MO,
+                     OPTION='SIEF_ELGA',
+                     SOLVEUR=_F(ACCELERATION='AUTO',
+                                ELIM_LAGR='LAGR2',
+                                GESTION_MEMOIRE='AUTO',
+                                LOW_RANK_SEUIL=0.0,
+                                MATR_DISTRIBUEE='NON',
+                                METHODE='MUMPS',
+                                NB_RHS=1,
+                                NPREC=8,
+                                PCENT_PIVOT=35,
+                                POSTTRAITEMENTS='AUTO',
+                                PRETRAITEMENTS='AUTO',
+                                REDUCTION_MPI=0,
+                                RENUM='AUTO',
+                                RESI_RELA=1e-06,
+                                STOP_SINGULIER='OUI',
+                                TYPE_RESOL='AUTO'))
+
+Le système linéaire à résoudre a 1140 degrés de liberté:
+   - 486 sont des degrés de liberté physiques
+     (ils sont portés par 81 noeuds du maillage)
+   - 654 sont les couples de paramètres de Lagrange associés
+     aux 327 relations linéaires dualisées.
+La matrice est de taille 1140 équations.
+  Elle contient 16398 termes non nuls si elle est symétrique et 31656 termes non nuls si elle n'est
+pas symétrique.
+  Soit un taux de remplissage de   2.436 %.
+Champ stocké <DEPL> à l'instant  0.000000000000e+00 pour le numéro d'ordre 1
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0008 (MECA_STATIQUE): RESU ('<00000007>') de type <ElasticResult>
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0008   user+syst:        0.29s (syst:        0.00s, elaps:        0.30s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt49
+# ----------------------------------------------------------------------------------------------
+# Commande #0010 de d6c.comm.changed.py, ligne 49
+RESU = CALC_CHAMP(CONTRAINTE=('EFGE_ELNO', 'EFGE_NOEU'),
+                  CRITERE='RELATIF',
+                  FORCE='REAC_NODA',
+                  INFO=1,
+                  PARALLELISME_TEMPS='NON',
+                  PRECISION=1e-06,
+                  RESULTAT=RESU,
+                  reuse=RESU)
+
+Le système linéaire à résoudre a 1140 degrés de liberté:
+   - 486 sont des degrés de liberté physiques
+     (ils sont portés par 81 noeuds du maillage)
+   - 654 sont les couples de paramètres de Lagrange associés
+     aux 327 relations linéaires dualisées.
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.02      0.00      0.00
+# Résultat commande #0010 (CALC_CHAMP): RESU ('<00000007>') de type <ElasticResult>
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0010   user+syst:        0.04s (syst:        0.00s, elaps:        0.05s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt56
+# ----------------------------------------------------------------------------------------------
+# Commande #0011 de d6c.comm.changed.py, ligne 56
+T_DEPL = CREA_TABLE(RESU=_F(CRITERE='RELATIF',
+                            INTITULE='RESU',
+                            NOM_CHAM='DEPL',
+                            NOM_CMP=('DX', 'DY', 'DZ'),
+                            NUME_ORDRE=1,
+                            PRECISION=1e-06,
+                            RESULTAT=RESU,
+                            TOUT='OUI'),
+                    TYPE_TABLE='TABLE')
+
+# Résultat commande #0011 (CREA_TABLE): T_DEPL ('<0000002a>') de type <Table>
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0011   user+syst:        0.02s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt60
+# ----------------------------------------------------------------------------------------------
+# Commande #0012 de d6c.comm.changed.py, ligne 60
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_DEPL,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 0000002a CALCULE LE 21/09/2026 A 12:20:04 DE TYPE        
+RESULTAT         NOM_CHAM                 NUME_ORDRE   NOEUD    COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
+RESU             DEPL                                1 1          0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             DEPL                                1 2          0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   2.376425855514E-05  -2.711209190274E-19   0.000000000000E+00
+RESU             DEPL                                1 3          0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   4.752851711028E-05  -4.892184540241E-19   0.000000000000E+00
+RESU             DEPL                                1 4          0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   7.129277566542E-05  -6.736324219672E-19   0.000000000000E+00
+RESU             DEPL                                1 5          0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   9.505703422056E-05  -8.274530976605E-19   0.000000000000E+00
+RESU             DEPL                                1 6          0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   1.188212927757E-04  -9.498173012358E-19   0.000000000000E+00
+RESU             DEPL                                1 7          0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   1.425855513308E-04  -1.049599029610E-18   0.000000000000E+00
+RESU             DEPL                                1 8          0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   1.663498098860E-04  -1.128945815757E-18   0.000000000000E+00
+RESU             DEPL                                1 9          0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   1.901140684411E-04  -1.159139235261E-18   0.000000000000E+00
+RESU             DEPL                                1 10         1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   4.400998308694E-17  -7.434697767536E-18   0.000000000000E+00
+RESU             DEPL                                1 11         1.250000000000E-01   1.250000000000E-01   0.000000000000E+00   2.376425855518E-05  -7.391222454776E-18   0.000000000000E+00
+RESU             DEPL                                1 12         1.250000000000E-01   2.500000000000E-01   0.000000000000E+00   4.752851711032E-05  -7.380308142784E-18   0.000000000000E+00
+RESU             DEPL                                1 13         1.250000000000E-01   3.750000000000E-01   0.000000000000E+00   7.129277566546E-05  -7.380821967948E-18   0.000000000000E+00
+RESU             DEPL                                1 14         1.250000000000E-01   5.000000000000E-01   0.000000000000E+00   9.505703422060E-05  -7.384103601036E-18   0.000000000000E+00
+RESU             DEPL                                1 15         1.250000000000E-01   6.250000000000E-01   0.000000000000E+00   1.188212927757E-04  -7.387045290938E-18   0.000000000000E+00
+RESU             DEPL                                1 16         1.250000000000E-01   7.500000000000E-01   0.000000000000E+00   1.425855513309E-04  -7.383404093880E-18   0.000000000000E+00
+RESU             DEPL                                1 17         1.250000000000E-01   8.750000000000E-01   0.000000000000E+00   1.663498098860E-04  -7.374672587224E-18   0.000000000000E+00
+RESU             DEPL                                1 18         1.250000000000E-01   1.000000000000E+00   0.000000000000E+00   1.901140684412E-04  -7.368233970019E-18   0.000000000000E+00
+RESU             DEPL                                1 19         2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   9.966751658598E-17  -1.247555741857E-17   0.000000000000E+00
+RESU             DEPL                                1 20         2.500000000000E-01   1.250000000000E-01   0.000000000000E+00   2.376425855524E-05  -1.247709455599E-17   0.000000000000E+00
+RESU             DEPL                                1 21         2.500000000000E-01   2.500000000000E-01   0.000000000000E+00   4.752851711037E-05  -1.246163384720E-17   0.000000000000E+00
+RESU             DEPL                                1 22         2.500000000000E-01   3.750000000000E-01   0.000000000000E+00   7.129277566551E-05  -1.244454928669E-17   0.000000000000E+00
+RESU             DEPL                                1 23         2.500000000000E-01   5.000000000000E-01   0.000000000000E+00   9.505703422065E-05  -1.242843499077E-17   0.000000000000E+00
+RESU             DEPL                                1 24         2.500000000000E-01   6.250000000000E-01   0.000000000000E+00   1.188212927758E-04  -1.241595486029E-17   0.000000000000E+00
+RESU             DEPL                                1 25         2.500000000000E-01   7.500000000000E-01   0.000000000000E+00   1.425855513309E-04  -1.240631090168E-17   0.000000000000E+00
+RESU             DEPL                                1 26         2.500000000000E-01   8.750000000000E-01   0.000000000000E+00   1.663498098861E-04  -1.240562801875E-17   0.000000000000E+00
+RESU             DEPL                                1 27         2.500000000000E-01   1.000000000000E+00   0.000000000000E+00   1.901140684412E-04  -1.240125001134E-17   0.000000000000E+00
+RESU             DEPL                                1 28         3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   1.694276564589E-16  -1.544760725810E-17   0.000000000000E+00
+RESU             DEPL                                1 29         3.750000000000E-01   1.250000000000E-01   0.000000000000E+00   2.376425855530E-05  -1.545023516433E-17   0.000000000000E+00
+RESU             DEPL                                1 30         3.750000000000E-01   2.500000000000E-01   0.000000000000E+00   4.752851711044E-05  -1.545866894598E-17   0.000000000000E+00
+RESU             DEPL                                1 31         3.750000000000E-01   3.750000000000E-01   0.000000000000E+00   7.129277566557E-05  -1.546371900467E-17   0.000000000000E+00
+RESU             DEPL                                1 32         3.750000000000E-01   5.000000000000E-01   0.000000000000E+00   9.505703422071E-05  -1.546340471560E-17   0.000000000000E+00
+RESU             DEPL                                1 33         3.750000000000E-01   6.250000000000E-01   0.000000000000E+00   1.188212927758E-04  -1.546169063048E-17   0.000000000000E+00
+RESU             DEPL                                1 34         3.750000000000E-01   7.500000000000E-01   0.000000000000E+00   1.425855513310E-04  -1.545817899415E-17   0.000000000000E+00
+RESU             DEPL                                1 35         3.750000000000E-01   8.750000000000E-01   0.000000000000E+00   1.663498098861E-04  -1.545861863102E-17   0.000000000000E+00
+RESU             DEPL                                1 36         3.750000000000E-01   1.000000000000E+00   0.000000000000E+00   1.901140684412E-04  -1.546063991319E-17   0.000000000000E+00
+RESU             DEPL                                1 37         5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   1.745051735370E-16  -1.622000701352E-17   0.000000000000E+00
+RESU             DEPL                                1 38         5.000000000000E-01   1.250000000000E-01   0.000000000000E+00   2.376425855531E-05  -1.622269673941E-17   0.000000000000E+00
+RESU             DEPL                                1 39         5.000000000000E-01   2.500000000000E-01   0.000000000000E+00   4.752851711044E-05  -1.622694351534E-17   0.000000000000E+00
+RESU             DEPL                                1 40         5.000000000000E-01   3.750000000000E-01   0.000000000000E+00   7.129277566557E-05  -1.623375964354E-17   0.000000000000E+00
+RESU             DEPL                                1 41         5.000000000000E-01   5.000000000000E-01   0.000000000000E+00   9.505703422071E-05  -1.623989647299E-17   0.000000000000E+00
+RESU             DEPL                                1 42         5.000000000000E-01   6.250000000000E-01   0.000000000000E+00   1.188212927758E-04  -1.624304753036E-17   0.000000000000E+00
+RESU             DEPL                                1 43         5.000000000000E-01   7.500000000000E-01   0.000000000000E+00   1.425855513310E-04  -1.624308075899E-17   0.000000000000E+00
+RESU             DEPL                                1 44         5.000000000000E-01   8.750000000000E-01   0.000000000000E+00   1.663498098861E-04  -1.624678199618E-17   0.000000000000E+00
+RESU             DEPL                                1 45         5.000000000000E-01   1.000000000000E+00   0.000000000000E+00   1.901140684412E-04  -1.624592796737E-17   0.000000000000E+00
+RESU             DEPL                                1 46         6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   1.860836214441E-16  -1.480733922362E-17   0.000000000000E+00
+RESU             DEPL                                1 47         6.250000000000E-01   1.250000000000E-01   0.000000000000E+00   2.376425855532E-05  -1.480846727734E-17   0.000000000000E+00
+RESU             DEPL                                1 48         6.250000000000E-01   2.500000000000E-01   0.000000000000E+00   4.752851711045E-05  -1.481412453522E-17   0.000000000000E+00
+RESU             DEPL                                1 49         6.250000000000E-01   3.750000000000E-01   0.000000000000E+00   7.129277566558E-05  -1.481679085953E-17   0.000000000000E+00
+RESU             DEPL                                1 50         6.250000000000E-01   5.000000000000E-01   0.000000000000E+00   9.505703422071E-05  -1.481771022539E-17   0.000000000000E+00
+RESU             DEPL                                1 51         6.250000000000E-01   6.250000000000E-01   0.000000000000E+00   1.188212927758E-04  -1.481859376355E-17   0.000000000000E+00
+RESU             DEPL                                1 52         6.250000000000E-01   7.500000000000E-01   0.000000000000E+00   1.425855513310E-04  -1.481518667373E-17   0.000000000000E+00
+RESU             DEPL                                1 53         6.250000000000E-01   8.750000000000E-01   0.000000000000E+00   1.663498098861E-04  -1.481664369068E-17   0.000000000000E+00
+RESU             DEPL                                1 54         6.250000000000E-01   1.000000000000E+00   0.000000000000E+00   1.901140684412E-04  -1.481763311548E-17   0.000000000000E+00
+RESU             DEPL                                1 55         7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   1.167910551100E-16  -1.145660355651E-17   0.000000000000E+00
+RESU             DEPL                                1 56         7.500000000000E-01   1.250000000000E-01   0.000000000000E+00   2.376425855525E-05  -1.146112725294E-17   0.000000000000E+00
+RESU             DEPL                                1 57         7.500000000000E-01   2.500000000000E-01   0.000000000000E+00   4.752851711037E-05  -1.144821774045E-17   0.000000000000E+00
+RESU             DEPL                                1 58         7.500000000000E-01   3.750000000000E-01   0.000000000000E+00   7.129277566550E-05  -1.143400586429E-17   0.000000000000E+00
+RESU             DEPL                                1 59         7.500000000000E-01   5.000000000000E-01   0.000000000000E+00   9.505703422063E-05  -1.141993996917E-17   0.000000000000E+00
+RESU             DEPL                                1 60         7.500000000000E-01   6.250000000000E-01   0.000000000000E+00   1.188212927758E-04  -1.141011311044E-17   0.000000000000E+00
+RESU             DEPL                                1 61         7.500000000000E-01   7.500000000000E-01   0.000000000000E+00   1.425855513309E-04  -1.139911611346E-17   0.000000000000E+00
+RESU             DEPL                                1 62         7.500000000000E-01   8.750000000000E-01   0.000000000000E+00   1.663498098860E-04  -1.139006018698E-17   0.000000000000E+00
+RESU             DEPL                                1 63         7.500000000000E-01   1.000000000000E+00   0.000000000000E+00   1.901140684411E-04  -1.137856238331E-17   0.000000000000E+00
+RESU             DEPL                                1 64         8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   4.749977099954E-17  -6.501290507005E-18   0.000000000000E+00
+RESU             DEPL                                1 65         8.750000000000E-01   1.250000000000E-01   0.000000000000E+00   2.376425855517E-05  -6.453176616451E-18   0.000000000000E+00
+RESU             DEPL                                1 66         8.750000000000E-01   2.500000000000E-01   0.000000000000E+00   4.752851711030E-05  -6.448322693904E-18   0.000000000000E+00
+RESU             DEPL                                1 67         8.750000000000E-01   3.750000000000E-01   0.000000000000E+00   7.129277566543E-05  -6.458823993269E-18   0.000000000000E+00
+RESU             DEPL                                1 68         8.750000000000E-01   5.000000000000E-01   0.000000000000E+00   9.505703422056E-05  -6.470720392846E-18   0.000000000000E+00
+RESU             DEPL                                1 69         8.750000000000E-01   6.250000000000E-01   0.000000000000E+00   1.188212927757E-04  -6.484198429089E-18   0.000000000000E+00
+RESU             DEPL                                1 70         8.750000000000E-01   7.500000000000E-01   0.000000000000E+00   1.425855513308E-04  -6.495884931700E-18   0.000000000000E+00
+RESU             DEPL                                1 71         8.750000000000E-01   8.750000000000E-01   0.000000000000E+00   1.663498098859E-04  -6.512131531268E-18   0.000000000000E+00
+RESU             DEPL                                1 72         8.750000000000E-01   1.000000000000E+00   0.000000000000E+00   1.901140684411E-04  -6.524352995411E-18   0.000000000000E+00
+RESU             DEPL                                1 73         1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   3.012211574034E-17   0.000000000000E+00   0.000000000000E+00
+RESU             DEPL                                1 74         1.000000000000E+00   1.250000000000E-01   0.000000000000E+00   2.376425855516E-05  -3.031348979051E-19   0.000000000000E+00
+RESU             DEPL                                1 75         1.000000000000E+00   2.500000000000E-01   0.000000000000E+00   4.752851711028E-05  -5.305252686109E-19   0.000000000000E+00
+RESU             DEPL                                1 76         1.000000000000E+00   3.750000000000E-01   0.000000000000E+00   7.129277566541E-05  -7.094424150574E-19   0.000000000000E+00
+RESU             DEPL                                1 77         1.000000000000E+00   5.000000000000E-01   0.000000000000E+00   9.505703422054E-05  -8.562035866470E-19   0.000000000000E+00
+RESU             DEPL                                1 78         1.000000000000E+00   6.250000000000E-01   0.000000000000E+00   1.188212927757E-04  -9.686803418732E-19   0.000000000000E+00
+RESU             DEPL                                1 79         1.000000000000E+00   7.500000000000E-01   0.000000000000E+00   1.425855513308E-04  -1.034685917552E-18   0.000000000000E+00
+RESU             DEPL                                1 80         1.000000000000E+00   8.750000000000E-01   0.000000000000E+00   1.663498098859E-04  -1.063464021950E-18   0.000000000000E+00
+RESU             DEPL                                1 81         1.000000000000E+00   1.000000000000E+00   0.000000000000E+00   1.901140684410E-04  -1.065875158861E-18   0.000000000000E+00
+
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0012   user+syst:        0.09s (syst:        0.00s, elaps:        0.09s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt62
+# ----------------------------------------------------------------------------------------------
+# Commande #0013 de d6c.comm.changed.py, ligne 62
+T_EFGE_ELNO = CREA_TABLE(RESU=_F(CRITERE='RELATIF',
+                                 INTITULE='RESU',
+                                 NOM_CHAM='EFGE_ELNO',
+                                 NOM_CMP=('NXX', 'NYY', 'NXY', 'MXX', 'MYY', 'MXY', 'QX', 'QY'),
+                                 NUME_ORDRE=1,
+                                 PRECISION=1e-06,
+                                 RESULTAT=RESU,
+                                 TOUT='OUI'),
+                         TYPE_TABLE='TABLE')
+
+# Résultat commande #0013 (CREA_TABLE): T_EFGE_ELNO ('<0000002b>') de type <Table>
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0013   user+syst:        0.03s (syst:        0.00s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt66
+# ----------------------------------------------------------------------------------------------
+# Commande #0014 de d6c.comm.changed.py, ligne 66
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_EFGE_ELNO,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 0000002b CALCULE LE 21/09/2026 A 12:20:04 DE TYPE        
+RESULTAT         NOM_CHAM                 NUME_ORDRE   MAILLE   NOEUD            SOUS_POINT   COOR_X               COOR_Y               COOR_Z               NXX                  NYY                  NXY                  MXX                  MYY                  MXY                  QX                   QY                  
+RESU             EFGE_ELNO                           1 33       1                           1   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -6.273504656338E-09   2.851752610886E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 33       10                          1   1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   1.045262079967E-09   2.851752610886E-11  -9.999999999999E+04   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 33       11                          1   1.250000000000E-01   1.250000000000E-01   0.000000000000E+00   1.045262079967E-09   2.722776463844E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 33       2                           1   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00  -6.273504656338E-09   2.722776463844E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 34       2                           1   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00  -5.039968650249E-09   2.722776463844E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 34       11                          1   1.250000000000E-01   1.250000000000E-01   0.000000000000E+00   2.877629580991E-10   2.722776463844E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 34       12                          1   1.250000000000E-01   2.500000000000E-01   0.000000000000E+00   2.877629580991E-10   2.610805484480E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 34       3                           1   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00  -5.039968650249E-09   2.610805484480E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 35       3                           1   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00  -4.256354146311E-09   2.610805484480E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 35       12                          1   1.250000000000E-01   2.500000000000E-01   0.000000000000E+00   2.189877529145E-11   2.610805484480E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 35       13                          1   1.250000000000E-01   3.750000000000E-01   0.000000000000E+00   2.189877529145E-11   2.512446663393E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 35       4                           1   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00  -4.256354146311E-09   2.512446663393E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 36       4                           1   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00  -3.544631795415E-09   2.512446663393E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 36       13                          1   1.250000000000E-01   3.750000000000E-01   0.000000000000E+00  -4.249150823952E-11   2.512446663393E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 36       14                          1   1.250000000000E-01   5.000000000000E-01   0.000000000000E+00  -4.249150823952E-11   2.423748083662E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 36       5                           1   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00  -3.544631795415E-09   2.423748083662E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 37       5                           1   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00  -2.812828428059E-09   2.423748083662E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 37       14                          1   1.250000000000E-01   5.000000000000E-01   0.000000000000E+00  -3.458306997470E-11   2.423748083662E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 37       15                          1   1.250000000000E-01   6.250000000000E-01   0.000000000000E+00  -3.458306997470E-11   2.350857171605E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 37       6                           1   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00  -2.812828428059E-09   2.350857171605E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 38       6                           1   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00  -2.287469724987E-09   2.350857171605E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 38       15                          1   1.250000000000E-01   6.250000000000E-01   0.000000000000E+00   1.185612122853E-10   2.350857171605E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 38       16                          1   1.250000000000E-01   7.500000000000E-01   0.000000000000E+00   1.185612122853E-10   2.283235482107E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 38       7                           1   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00  -2.287469724987E-09   2.283235482107E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 39       7                           1   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00  -1.812071229007E-09   2.283235482107E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 39       16                          1   1.250000000000E-01   7.500000000000E-01   0.000000000000E+00   2.369821747458E-10   2.283235482107E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 39       17                          1   1.250000000000E-01   8.750000000000E-01   0.000000000000E+00   2.369821747458E-10   2.225274033966E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 39       8                           1   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00  -1.812071229007E-09   2.225274033966E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 40       8                           1   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00  -6.685673074172E-10   2.225274033966E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 40       17                          1   1.250000000000E-01   8.750000000000E-01   0.000000000000E+00   1.836403945848E-10   2.225274033966E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 40       18                          1   1.250000000000E-01   1.000000000000E+00   0.000000000000E+00   1.836403945848E-10   2.179607438461E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 40       9                           1   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00  -6.685673074172E-10   2.179607438461E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 41       10                          1   1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   1.045262079967E-09   3.606513877591E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 41       19                          1   2.500000000000E-01   0.000000000000E+00   0.000000000000E+00  -1.907561118299E-12   3.606513877591E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 41       20                          1   2.500000000000E-01   1.250000000000E-01   0.000000000000E+00  -1.907561118299E-12   3.463980437042E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 41       11                          1   1.250000000000E-01   1.250000000000E-01   0.000000000000E+00   1.045262079967E-09   3.463980437042E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 42       11                          1   1.250000000000E-01   1.250000000000E-01   0.000000000000E+00   2.877629580991E-10   3.463980437042E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 42       20                          1   2.500000000000E-01   1.250000000000E-01   0.000000000000E+00   3.935303331506E-10   3.463980437042E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 42       21                          1   2.500000000000E-01   2.500000000000E-01   0.000000000000E+00   3.935303331506E-10   3.332688974965E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 42       12                          1   1.250000000000E-01   2.500000000000E-01   0.000000000000E+00   2.877629580991E-10   3.332688974965E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 43       12                          1   1.250000000000E-01   2.500000000000E-01   0.000000000000E+00   2.189877529145E-11   3.332688974965E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 43       21                          1   2.500000000000E-01   2.500000000000E-01   0.000000000000E+00   4.313076195935E-10   3.332688974965E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 43       22                          1   2.500000000000E-01   3.750000000000E-01   0.000000000000E+00   4.313076195935E-10   3.208862244845E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 43       13                          1   1.250000000000E-01   3.750000000000E-01   0.000000000000E+00   2.189877529145E-11   3.208862244845E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 44       13                          1   1.250000000000E-01   3.750000000000E-01   0.000000000000E+00  -4.249150823952E-11   3.208862244845E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 44       22                          1   2.500000000000E-01   3.750000000000E-01   0.000000000000E+00   4.087353842502E-10   3.208862244845E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 44       23                          1   2.500000000000E-01   5.000000000000E-01   0.000000000000E+00   4.087353842502E-10   3.095573959842E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 44       14                          1   1.250000000000E-01   5.000000000000E-01   0.000000000000E+00  -4.249150823952E-11   3.095573959842E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 45       14                          1   1.250000000000E-01   5.000000000000E-01   0.000000000000E+00  -3.458306997470E-11   3.095573959842E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 45       23                          1   2.500000000000E-01   5.000000000000E-01   0.000000000000E+00   3.241901594746E-10   3.095573959842E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 45       24                          1   2.500000000000E-01   6.250000000000E-01   0.000000000000E+00   3.241901594746E-10   2.977016452281E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 45       15                          1   1.250000000000E-01   6.250000000000E-01   0.000000000000E+00  -3.458306997470E-11   2.977016452281E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 46       15                          1   1.250000000000E-01   6.250000000000E-01   0.000000000000E+00   1.185612122853E-10   2.977016452281E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 46       24                          1   2.500000000000E-01   6.250000000000E-01   0.000000000000E+00   2.582094570232E-10   2.977016452281E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 46       25                          1   2.500000000000E-01   7.500000000000E-01   0.000000000000E+00   2.582094570232E-10   2.864606371038E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 46       16                          1   1.250000000000E-01   7.500000000000E-01   0.000000000000E+00   1.185612122853E-10   2.864606371038E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 47       16                          1   1.250000000000E-01   7.500000000000E-01   0.000000000000E+00   2.369821747458E-10   2.864606371038E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 47       25                          1   2.500000000000E-01   7.500000000000E-01   0.000000000000E+00   4.973899239477E-11   2.864606371038E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 47       26                          1   2.500000000000E-01   8.750000000000E-01   0.000000000000E+00   4.973899239477E-11   2.755709104833E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 47       17                          1   1.250000000000E-01   8.750000000000E-01   0.000000000000E+00   2.369821747458E-10   2.755709104833E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 48       17                          1   1.250000000000E-01   8.750000000000E-01   0.000000000000E+00   1.836403945848E-10   2.755709104833E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 48       26                          1   2.500000000000E-01   8.750000000000E-01   0.000000000000E+00   1.357023682807E-10   2.755709104833E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 48       27                          1   2.500000000000E-01   1.000000000000E+00   0.000000000000E+00   1.357023682807E-10   2.648568246148E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 48       18                          1   1.250000000000E-01   1.000000000000E+00   0.000000000000E+00   1.836403945848E-10   2.648568246148E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 49       19                          1   2.500000000000E-01   0.000000000000E+00   0.000000000000E+00  -1.907561118296E-12   4.520362770618E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 49       28                          1   3.750000000000E-01   0.000000000000E+00   0.000000000000E+00  -2.728320674605E-11   4.520362770618E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 49       29                          1   3.750000000000E-01   1.250000000000E-01   0.000000000000E+00  -2.728320674605E-11   4.383898875342E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 49       20                          1   2.500000000000E-01   1.250000000000E-01   0.000000000000E+00  -1.907561118296E-12   4.383898875342E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 50       20                          1   2.500000000000E-01   1.250000000000E-01   0.000000000000E+00   3.935303331506E-10   4.383898875342E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 50       29                          1   3.750000000000E-01   1.250000000000E-01   0.000000000000E+00  -1.623510922903E-10   4.383898875342E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 50       30                          1   3.750000000000E-01   2.500000000000E-01   0.000000000000E+00  -1.623510922903E-10   4.245142681307E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 50       21                          1   2.500000000000E-01   2.500000000000E-01   0.000000000000E+00   3.935303331506E-10   4.245142681307E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 51       21                          1   2.500000000000E-01   2.500000000000E-01   0.000000000000E+00   4.313076195935E-10   4.245142681307E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 51       30                          1   3.750000000000E-01   2.500000000000E-01   0.000000000000E+00  -8.363216138470E-11   4.245142681307E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 51       31                          1   3.750000000000E-01   3.750000000000E-01   0.000000000000E+00  -8.363216138470E-11   4.103751875993E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 51       22                          1   2.500000000000E-01   3.750000000000E-01   0.000000000000E+00   4.313076195935E-10   4.103751875993E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 52       22                          1   2.500000000000E-01   3.750000000000E-01   0.000000000000E+00   4.087353842502E-10   4.103751875993E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 52       31                          1   3.750000000000E-01   3.750000000000E-01   0.000000000000E+00   4.116402475347E-11   4.103751875993E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 52       32                          1   3.750000000000E-01   5.000000000000E-01   0.000000000000E+00   4.116402475347E-11   3.958848255640E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 52       23                          1   2.500000000000E-01   5.000000000000E-01   0.000000000000E+00   4.087353842502E-10   3.958848255640E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 53       23                          1   2.500000000000E-01   5.000000000000E-01   0.000000000000E+00   3.241901594746E-10   3.958848255640E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 53       32                          1   3.750000000000E-01   5.000000000000E-01   0.000000000000E+00   7.372888004836E-11   3.958848255640E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 53       33                          1   3.750000000000E-01   6.250000000000E-01   0.000000000000E+00   7.372888004836E-11   3.823604876644E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 53       24                          1   2.500000000000E-01   6.250000000000E-01   0.000000000000E+00   3.241901594746E-10   3.823604876644E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 54       24                          1   2.500000000000E-01   6.250000000000E-01   0.000000000000E+00   2.582094570232E-10   3.823604876644E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 54       33                          1   3.750000000000E-01   6.250000000000E-01   0.000000000000E+00   1.155471115285E-10   3.823604876644E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 54       34                          1   3.750000000000E-01   7.500000000000E-01   0.000000000000E+00   1.155471115285E-10   3.683092275090E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 54       25                          1   2.500000000000E-01   7.500000000000E-01   0.000000000000E+00   2.582094570232E-10   3.683092275090E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 55       25                          1   2.500000000000E-01   7.500000000000E-01   0.000000000000E+00   4.973899239477E-11   3.683092275090E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 55       34                          1   3.750000000000E-01   7.500000000000E-01   0.000000000000E+00   2.362469171286E-11   3.683092275090E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 55       35                          1   3.750000000000E-01   8.750000000000E-01   0.000000000000E+00   2.362469171286E-11   3.542579673536E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 55       26                          1   2.500000000000E-01   8.750000000000E-01   0.000000000000E+00   4.973899239477E-11   3.542579673536E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 56       26                          1   2.500000000000E-01   8.750000000000E-01   0.000000000000E+00   1.357023682807E-10   3.542579673536E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 56       35                          1   3.750000000000E-01   8.750000000000E-01   0.000000000000E+00  -1.317070446127E-11   3.542579673536E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 56       36                          1   3.750000000000E-01   1.000000000000E+00   0.000000000000E+00  -1.317070446127E-11   3.398554256943E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 56       27                          1   2.500000000000E-01   1.000000000000E+00   0.000000000000E+00   1.357023682807E-10   3.398554256943E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 57       28                          1   3.750000000000E-01   0.000000000000E+00   0.000000000000E+00  -2.728320674604E-11   3.289288135142E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 57       37                          1   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00  -2.872137913414E-11   3.289288135142E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 57       38                          1   5.000000000000E-01   1.250000000000E-01   0.000000000000E+00  -2.872137913414E-11   1.834502926330E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 57       29                          1   3.750000000000E-01   1.250000000000E-01   0.000000000000E+00  -2.728320674604E-11   1.834502926330E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 58       29                          1   3.750000000000E-01   1.250000000000E-01   0.000000000000E+00  -1.623510922903E-10   1.834502926330E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 58       38                          1   5.000000000000E-01   1.250000000000E-01   0.000000000000E+00  -6.494459136129E-11   1.834502926330E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 58       39                          1   5.000000000000E-01   2.500000000000E-01   0.000000000000E+00  -6.494459136129E-11   3.635116288102E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 58       30                          1   3.750000000000E-01   2.500000000000E-01   0.000000000000E+00  -1.623510922903E-10   3.635116288102E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 59       30                          1   3.750000000000E-01   2.500000000000E-01   0.000000000000E+00  -8.363216138469E-11   3.635116288102E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 59       39                          1   5.000000000000E-01   2.500000000000E-01   0.000000000000E+00  -1.247180025012E-10   3.635116288102E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 59       40                          1   5.000000000000E-01   3.750000000000E-01   0.000000000000E+00  -1.247180025012E-10  -1.098697631112E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 59       31                          1   3.750000000000E-01   3.750000000000E-01   0.000000000000E+00  -8.363216138469E-11  -1.098697631112E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 60       31                          1   3.750000000000E-01   3.750000000000E-01   0.000000000000E+00   4.116402475347E-11  -1.098697631112E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 60       40                          1   5.000000000000E-01   3.750000000000E-01   0.000000000000E+00  -1.089147962809E-10  -1.098697631112E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 60       41                          1   5.000000000000E-01   5.000000000000E-01   0.000000000000E+00  -1.089147962809E-10  -2.591644022625E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 60       32                          1   3.750000000000E-01   5.000000000000E-01   0.000000000000E+00   4.116402475347E-11  -2.591644022625E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 61       32                          1   3.750000000000E-01   5.000000000000E-01   0.000000000000E+00   7.372888004836E-11  -2.591644022625E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 61       41                          1   5.000000000000E-01   5.000000000000E-01   0.000000000000E+00  -3.945379474359E-11  -2.591644022625E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 61       42                          1   5.000000000000E-01   6.250000000000E-01   0.000000000000E+00  -3.945379474359E-11  -4.128500602123E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 61       33                          1   3.750000000000E-01   6.250000000000E-01   0.000000000000E+00   7.372888004836E-11  -4.128500602123E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 62       33                          1   3.750000000000E-01   6.250000000000E-01   0.000000000000E+00   1.155471115285E-10  -4.128500602123E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 62       42                          1   5.000000000000E-01   6.250000000000E-01   0.000000000000E+00   3.307937309435E-11  -4.128500602123E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 62       43                          1   5.000000000000E-01   7.500000000000E-01   0.000000000000E+00   3.307937309435E-11  -5.639011068830E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 62       34                          1   3.750000000000E-01   7.500000000000E-01   0.000000000000E+00   1.155471115285E-10  -5.639011068830E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 63       34                          1   3.750000000000E-01   7.500000000000E-01   0.000000000000E+00   2.362469171287E-11  -5.639011068830E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 63       43                          1   5.000000000000E-01   7.500000000000E-01   0.000000000000E+00  -5.225317826322E-11  -5.639011068830E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 63       44                          1   5.000000000000E-01   8.750000000000E-01   0.000000000000E+00  -5.225317826322E-11  -7.096829309954E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 63       35                          1   3.750000000000E-01   8.750000000000E-01   0.000000000000E+00   2.362469171287E-11  -7.096829309954E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 64       35                          1   3.750000000000E-01   8.750000000000E-01   0.000000000000E+00  -1.317070446126E-11  -7.096829309954E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 64       44                          1   5.000000000000E-01   8.750000000000E-01   0.000000000000E+00   5.372053027948E-11  -7.096829309954E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 64       45                          1   5.000000000000E-01   1.000000000000E+00   0.000000000000E+00   5.372053027948E-11  -8.589775701466E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 64       36                          1   3.750000000000E-01   1.000000000000E+00   0.000000000000E+00  -1.317070446126E-11  -8.589775701466E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 65       37                          1   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00  -2.872137913413E-11   7.501891312329E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 65       46                          1   6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   7.609362215838E-12   7.501891312329E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 65       47                          1   6.250000000000E-01   1.250000000000E-01   0.000000000000E+00   7.609362215838E-12   6.155265424119E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 65       38                          1   5.000000000000E-01   1.250000000000E-01   0.000000000000E+00  -2.872137913413E-11   6.155265424119E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 66       38                          1   5.000000000000E-01   1.250000000000E-01   0.000000000000E+00  -6.494459136129E-11   6.155265424119E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 66       47                          1   6.250000000000E-01   1.250000000000E-01   0.000000000000E+00  -9.775804342908E-11   6.155265424119E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 66       48                          1   6.250000000000E-01   2.500000000000E-01   0.000000000000E+00  -9.775804342908E-11   4.824786728154E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 66       39                          1   5.000000000000E-01   2.500000000000E-01   0.000000000000E+00  -6.494459136129E-11   4.824786728154E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 67       39                          1   5.000000000000E-01   2.500000000000E-01   0.000000000000E+00  -1.247180025012E-10   4.824786728154E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 67       48                          1   6.250000000000E-01   2.500000000000E-01   0.000000000000E+00  -2.817696489064E-11   4.824786728154E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 67       49                          1   6.250000000000E-01   3.750000000000E-01   0.000000000000E+00  -2.817696489064E-11   3.494308032188E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 67       40                          1   5.000000000000E-01   3.750000000000E-01   0.000000000000E+00  -1.247180025012E-10   3.494308032188E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 68       40                          1   5.000000000000E-01   3.750000000000E-01   0.000000000000E+00  -1.089147962809E-10   3.494308032188E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 68       49                          1   6.250000000000E-01   3.750000000000E-01   0.000000000000E+00   1.246427658993E-11   3.494308032188E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 68       50                          1   6.250000000000E-01   5.000000000000E-01   0.000000000000E+00   1.246427658993E-11   2.168220355021E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 68       41                          1   5.000000000000E-01   5.000000000000E-01   0.000000000000E+00  -1.089147962809E-10   2.168220355021E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 69       41                          1   5.000000000000E-01   5.000000000000E-01   0.000000000000E+00  -3.945379474359E-11   2.168220355021E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 69       50                          1   6.250000000000E-01   5.000000000000E-01   0.000000000000E+00   1.329777204660E-11   2.168220355021E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 69       51                          1   6.250000000000E-01   6.250000000000E-01   0.000000000000E+00   1.329777204660E-11   8.684787906453E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 69       42                          1   5.000000000000E-01   6.250000000000E-01   0.000000000000E+00  -3.945379474359E-11   8.684787906453E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 70       42                          1   5.000000000000E-01   6.250000000000E-01   0.000000000000E+00   3.307937309435E-11   8.684787906453E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 70       51                          1   6.250000000000E-01   6.250000000000E-01   0.000000000000E+00   1.131149415578E-10   8.684787906453E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 70       52                          1   6.250000000000E-01   7.500000000000E-01   0.000000000000E+00   1.131149415578E-10  -3.873525857447E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 70       43                          1   5.000000000000E-01   7.500000000000E-01   0.000000000000E+00   3.307937309435E-11  -3.873525857447E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 71       43                          1   5.000000000000E-01   7.500000000000E-01   0.000000000000E+00  -5.225317826321E-11  -3.873525857447E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 71       52                          1   6.250000000000E-01   7.500000000000E-01   0.000000000000E+00  -4.363839452485E-14  -3.873525857447E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 71       53                          1   6.250000000000E-01   8.750000000000E-01   0.000000000000E+00  -4.363839452482E-14  -1.810042676480E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 71       44                          1   5.000000000000E-01   8.750000000000E-01   0.000000000000E+00  -5.225317826321E-11  -1.810042676480E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 72       44                          1   5.000000000000E-01   8.750000000000E-01   0.000000000000E+00   5.372053027948E-11  -1.810042676480E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 72       53                          1   6.250000000000E-01   8.750000000000E-01   0.000000000000E+00   1.083442532149E-11  -1.810042676480E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 72       54                          1   6.250000000000E-01   1.000000000000E+00   0.000000000000E+00   1.083442532149E-11  -3.162476466439E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 72       45                          1   5.000000000000E-01   1.000000000000E+00   0.000000000000E+00   5.372053027948E-11  -3.162476466439E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 73       46                          1   6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   7.609362215840E-12  -4.490252591597E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 73       55                          1   7.500000000000E-01   0.000000000000E+00   0.000000000000E+00  -7.138686969003E-11  -4.490252591597E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 73       56                          1   7.500000000000E-01   1.250000000000E-01   0.000000000000E+00  -7.138686969003E-11  -4.604736156264E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 73       47                          1   6.250000000000E-01   1.250000000000E-01   0.000000000000E+00   7.609362215840E-12  -4.604736156264E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 74       47                          1   6.250000000000E-01   1.250000000000E-01   0.000000000000E+00  -9.775804342907E-11  -4.604736156264E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 74       56                          1   7.500000000000E-01   1.250000000000E-01   0.000000000000E+00   3.341793024478E-10  -4.604736156264E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 74       57                          1   7.500000000000E-01   2.500000000000E-01   0.000000000000E+00   3.341793024478E-10  -4.723074112885E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 74       48                          1   6.250000000000E-01   2.500000000000E-01   0.000000000000E+00  -9.775804342907E-11  -4.723074112885E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 75       48                          1   6.250000000000E-01   2.500000000000E-01   0.000000000000E+00  -2.817696489063E-11  -4.723074112885E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 75       57                          1   7.500000000000E-01   2.500000000000E-01   0.000000000000E+00   3.644774909009E-10  -4.723074112885E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 75       58                          1   7.500000000000E-01   3.750000000000E-01   0.000000000000E+00   3.644774909009E-10  -4.842509824206E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 75       49                          1   6.250000000000E-01   3.750000000000E-01   0.000000000000E+00  -2.817696489063E-11  -4.842509824206E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 76       49                          1   6.250000000000E-01   3.750000000000E-01   0.000000000000E+00   1.246427658993E-11  -4.842509824206E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 76       58                          1   7.500000000000E-01   3.750000000000E-01   0.000000000000E+00   3.610813879986E-10  -4.842509824206E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 76       59                          1   7.500000000000E-01   5.000000000000E-01   0.000000000000E+00   3.610813879986E-10  -4.961945535527E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 76       50                          1   6.250000000000E-01   5.000000000000E-01   0.000000000000E+00   1.246427658993E-11  -4.961945535527E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 77       50                          1   6.250000000000E-01   5.000000000000E-01   0.000000000000E+00   1.329777204660E-11  -4.961945535527E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 77       59                          1   7.500000000000E-01   5.000000000000E-01   0.000000000000E+00   2.624644453830E-10  -4.961945535527E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 77       60                          1   7.500000000000E-01   6.250000000000E-01   0.000000000000E+00   2.624644453830E-10  -5.088406876926E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 77       51                          1   6.250000000000E-01   6.250000000000E-01   0.000000000000E+00   1.329777204660E-11  -5.088406876926E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 78       51                          1   6.250000000000E-01   6.250000000000E-01   0.000000000000E+00   1.131149415578E-10  -5.088406876926E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 78       60                          1   7.500000000000E-01   6.250000000000E-01   0.000000000000E+00   2.896865415521E-10  -5.088406876926E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 78       61                          1   7.500000000000E-01   7.500000000000E-01   0.000000000000E+00   2.896865415521E-10  -5.218381033363E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 78       52                          1   6.250000000000E-01   7.500000000000E-01   0.000000000000E+00   1.131149415578E-10  -5.218381033363E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 79       52                          1   6.250000000000E-01   7.500000000000E-01   0.000000000000E+00  -4.363839452200E-14  -5.218381033363E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 79       61                          1   7.500000000000E-01   7.500000000000E-01   0.000000000000E+00   2.445294776697E-10  -5.218381033363E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 79       62                          1   7.500000000000E-01   8.750000000000E-01   0.000000000000E+00   2.445294776697E-10  -5.334303929645E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 79       53                          1   6.250000000000E-01   8.750000000000E-01   0.000000000000E+00  -4.363839452197E-14  -5.334303929645E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 80       53                          1   6.250000000000E-01   8.750000000000E-01   0.000000000000E+00   1.083442532150E-11  -5.334303929645E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 80       62                          1   7.500000000000E-01   8.750000000000E-01   0.000000000000E+00   3.013373083827E-10  -5.334303929645E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 80       63                          1   7.500000000000E-01   1.000000000000E+00   0.000000000000E+00   3.013373083827E-10  -5.448470418408E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 80       54                          1   6.250000000000E-01   1.000000000000E+00   0.000000000000E+00   1.083442532150E-11  -5.448470418408E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 81       55                          1   7.500000000000E-01   0.000000000000E+00   0.000000000000E+00  -7.138686969003E-11  -4.490169503505E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 81       64                          1   8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   1.153173953773E-09  -4.490169503505E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 81       65                          1   8.750000000000E-01   1.250000000000E-01   0.000000000000E+00   1.153173953773E-09  -4.593758609267E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 81       56                          1   7.500000000000E-01   1.250000000000E-01   0.000000000000E+00  -7.138686969003E-11  -4.593758609267E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 82       56                          1   7.500000000000E-01   1.250000000000E-01   0.000000000000E+00   3.341793024478E-10  -4.593758609267E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 82       65                          1   8.750000000000E-01   1.250000000000E-01   0.000000000000E+00   1.467740580500E-10  -4.593758609267E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 82       66                          1   8.750000000000E-01   2.500000000000E-01   0.000000000000E+00   1.467740580500E-10  -4.687945962496E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 82       57                          1   7.500000000000E-01   2.500000000000E-01   0.000000000000E+00   3.341793024478E-10  -4.687945962496E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 83       57                          1   7.500000000000E-01   2.500000000000E-01   0.000000000000E+00   3.644774909009E-10  -4.687945962496E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 83       66                          1   8.750000000000E-01   2.500000000000E-01   0.000000000000E+00  -2.104498245142E-10  -4.687945962496E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 83       67                          1   8.750000000000E-01   3.750000000000E-01   0.000000000000E+00  -2.104498245142E-10  -4.776644542227E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 83       58                          1   7.500000000000E-01   3.750000000000E-01   0.000000000000E+00   3.644774909009E-10  -4.776644542227E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 84       58                          1   7.500000000000E-01   3.750000000000E-01   0.000000000000E+00   3.610813879986E-10  -4.776644542227E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 84       67                          1   8.750000000000E-01   3.750000000000E-01   0.000000000000E+00  -2.429054358335E-10  -4.776644542227E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 84       68                          1   8.750000000000E-01   5.000000000000E-01   0.000000000000E+00  -2.429054358335E-10  -4.856561084361E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 84       59                          1   7.500000000000E-01   5.000000000000E-01   0.000000000000E+00   3.610813879986E-10  -4.856561084361E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 85       59                          1   7.500000000000E-01   5.000000000000E-01   0.000000000000E+00   2.624644453830E-10  -4.856561084361E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 85       68                          1   8.750000000000E-01   5.000000000000E-01   0.000000000000E+00  -2.797006312439E-10  -4.856561084361E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 85       69                          1   8.750000000000E-01   6.250000000000E-01   0.000000000000E+00  -2.797006312439E-10  -4.925060977619E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 85       60                          1   7.500000000000E-01   6.250000000000E-01   0.000000000000E+00   2.624644453830E-10  -4.925060977619E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 86       60                          1   7.500000000000E-01   6.250000000000E-01   0.000000000000E+00   2.896865415521E-10  -4.925060977619E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 86       69                          1   8.750000000000E-01   6.250000000000E-01   0.000000000000E+00  -2.380223928328E-10  -4.925060977619E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 86       70                          1   8.750000000000E-01   7.500000000000E-01   0.000000000000E+00  -2.380223928328E-10  -4.990048055838E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 86       61                          1   7.500000000000E-01   7.500000000000E-01   0.000000000000E+00   2.896865415521E-10  -4.990048055838E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 87       61                          1   7.500000000000E-01   7.500000000000E-01   0.000000000000E+00   2.445294776698E-10  -4.990048055838E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 87       70                          1   8.750000000000E-01   7.500000000000E-01   0.000000000000E+00  -3.441084884310E-10  -4.990048055838E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 87       71                          1   8.750000000000E-01   8.750000000000E-01   0.000000000000E+00  -3.441084884310E-10  -5.058547949095E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 87       62                          1   7.500000000000E-01   8.750000000000E-01   0.000000000000E+00   2.445294776698E-10  -5.058547949095E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 88       62                          1   7.500000000000E-01   8.750000000000E-01   0.000000000000E+00   3.013373083827E-10  -5.058547949095E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 88       71                          1   8.750000000000E-01   8.750000000000E-01   0.000000000000E+00  -2.504677379133E-10  -5.058547949095E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 88       72                          1   8.750000000000E-01   1.000000000000E+00   0.000000000000E+00  -2.504677379133E-10  -5.123535027314E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 88       63                          1   7.500000000000E-01   1.000000000000E+00   0.000000000000E+00   3.013373083827E-10  -5.123535027314E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 89       64                          1   8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   1.153173953773E-09  -1.126166353943E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 89       73                          1   1.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -7.018277860949E-09  -1.126166353943E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 89       74                          1   1.000000000000E+00   1.250000000000E-01   0.000000000000E+00  -7.018277860949E-09  -1.178204636802E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 89       65                          1   8.750000000000E-01   1.250000000000E-01   0.000000000000E+00   1.153173953773E-09  -1.178204636802E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 90       65                          1   8.750000000000E-01   1.250000000000E-01   0.000000000000E+00   1.467740580500E-10  -1.178204636802E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 90       74                          1   1.000000000000E+00   1.250000000000E-01   0.000000000000E+00  -5.256157180182E-09  -1.178204636802E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 90       75                          1   1.000000000000E+00   2.500000000000E-01   0.000000000000E+00  -5.256157180182E-09  -1.212015481551E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 90       66                          1   8.750000000000E-01   2.500000000000E-01   0.000000000000E+00   1.467740580500E-10  -1.212015481551E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 91       66                          1   8.750000000000E-01   2.500000000000E-01   0.000000000000E+00  -2.104498245142E-10  -1.212015481551E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 91       75                          1   1.000000000000E+00   2.500000000000E-01   0.000000000000E+00  -4.128476091016E-09  -1.212015481551E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 91       76                          1   1.000000000000E+00   3.750000000000E-01   0.000000000000E+00  -4.128476091016E-09  -1.232214168025E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 91       67                          1   8.750000000000E-01   3.750000000000E-01   0.000000000000E+00  -2.104498245142E-10  -1.232214168025E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 92       67                          1   8.750000000000E-01   3.750000000000E-01   0.000000000000E+00  -2.429054358335E-10  -1.232214168025E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 92       76                          1   1.000000000000E+00   3.750000000000E-01   0.000000000000E+00  -3.380399491946E-09  -1.232214168025E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 92       77                          1   1.000000000000E+00   5.000000000000E-01   0.000000000000E+00  -3.380399491946E-09  -1.246265428180E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 92       68                          1   8.750000000000E-01   5.000000000000E-01   0.000000000000E+00  -2.429054358335E-10  -1.246265428180E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 93       68                          1   8.750000000000E-01   5.000000000000E-01   0.000000000000E+00  -2.797006312439E-10  -1.246265428180E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 93       77                          1   1.000000000000E+00   5.000000000000E-01   0.000000000000E+00  -2.582806829667E-09  -1.246265428180E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 93       78                          1   1.000000000000E+00   6.250000000000E-01   0.000000000000E+00  -2.582806829667E-09  -1.256803873297E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 93       69                          1   8.750000000000E-01   6.250000000000E-01   0.000000000000E+00  -2.797006312439E-10  -1.256803873297E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 94       69                          1   8.750000000000E-01   6.250000000000E-01   0.000000000000E+00  -2.380223928328E-10  -1.256803873297E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 94       78                          1   1.000000000000E+00   6.250000000000E-01   0.000000000000E+00  -1.501701308679E-09  -1.256803873297E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 94       79                          1   1.000000000000E+00   7.500000000000E-01   0.000000000000E+00  -1.501701308679E-09  -1.266464114654E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 94       70                          1   8.750000000000E-01   7.500000000000E-01   0.000000000000E+00  -2.380223928328E-10  -1.266464114654E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 95       70                          1   8.750000000000E-01   7.500000000000E-01   0.000000000000E+00  -3.441084884310E-10  -1.266464114654E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 95       79                          1   1.000000000000E+00   7.500000000000E-01   0.000000000000E+00  -6.356414167865E-10  -1.266464114654E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 95       80                          1   1.000000000000E+00   8.750000000000E-01   0.000000000000E+00  -6.356414167865E-10  -1.275246152251E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 95       71                          1   8.750000000000E-01   8.750000000000E-01   0.000000000000E+00  -3.441084884310E-10  -1.275246152251E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 96       71                          1   8.750000000000E-01   8.750000000000E-01   0.000000000000E+00  -2.504677379133E-10  -1.275246152251E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 96       80                          1   1.000000000000E+00   8.750000000000E-01   0.000000000000E+00  -2.224028518008E-11  -1.275246152251E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 96       81                          1   1.000000000000E+00   1.000000000000E+00   0.000000000000E+00  -2.224028518008E-11  -1.299835857523E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_ELNO                           1 96       72                          1   8.750000000000E-01   1.000000000000E+00   0.000000000000E+00  -2.504677379133E-10  -1.299835857523E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0014   user+syst:        0.10s (syst:        0.00s, elaps:        0.11s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt68
+# ----------------------------------------------------------------------------------------------
+# Commande #0015 de d6c.comm.changed.py, ligne 68
+T_EFGE_NOEU = CREA_TABLE(RESU=_F(CRITERE='RELATIF',
+                                 INTITULE='RESU',
+                                 NOM_CHAM='EFGE_NOEU',
+                                 NOM_CMP=('NXX', 'NYY', 'NXY', 'MXX', 'MYY', 'MXY', 'QX', 'QY'),
+                                 NUME_ORDRE=1,
+                                 PRECISION=1e-06,
+                                 RESULTAT=RESU,
+                                 TOUT='OUI'),
+                         TYPE_TABLE='TABLE')
+
+# Résultat commande #0015 (CREA_TABLE): T_EFGE_NOEU ('<0000002c>') de type <Table>
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0015   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt72
+# ----------------------------------------------------------------------------------------------
+# Commande #0016 de d6c.comm.changed.py, ligne 72
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_EFGE_NOEU,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 0000002c CALCULE LE 21/09/2026 A 12:20:05 DE TYPE        
+RESULTAT         NOM_CHAM                 NUME_ORDRE   NOEUD    COOR_X               COOR_Y               COOR_Z               NXX                  NYY                  NXY                  MXX                  MYY                  MXY                  QX                   QY                  
+RESU             EFGE_NOEU                           1 1          0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -6.273504656338E-09   2.851752610886E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 2          0.000000000000E+00   1.250000000000E-01   0.000000000000E+00  -5.656736653293E-09   2.722776463844E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 3          0.000000000000E+00   2.500000000000E-01   0.000000000000E+00  -4.648161398280E-09   2.610805484480E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 4          0.000000000000E+00   3.750000000000E-01   0.000000000000E+00  -3.900492970863E-09   2.512446663393E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 5          0.000000000000E+00   5.000000000000E-01   0.000000000000E+00  -3.178730111737E-09   2.423748083662E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 6          0.000000000000E+00   6.250000000000E-01   0.000000000000E+00  -2.550149076523E-09   2.350857171605E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 7          0.000000000000E+00   7.500000000000E-01   0.000000000000E+00  -2.049770476997E-09   2.283235482107E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 8          0.000000000000E+00   8.750000000000E-01   0.000000000000E+00  -1.240319268212E-09   2.225274033966E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 9          0.000000000000E+00   1.000000000000E+00   0.000000000000E+00  -6.685673074172E-10   2.179607438461E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 10         1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   1.045262079967E-09   3.229133244239E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 11         1.250000000000E-01   1.250000000000E-01   0.000000000000E+00   6.665125190329E-10   3.093378450443E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 12         1.250000000000E-01   2.500000000000E-01   0.000000000000E+00   1.548308666953E-10   2.971747229723E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 13         1.250000000000E-01   3.750000000000E-01   0.000000000000E+00  -1.029636647404E-11   2.860654454119E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 14         1.250000000000E-01   5.000000000000E-01   0.000000000000E+00  -3.853728910711E-11   2.759661021752E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 15         1.250000000000E-01   6.250000000000E-01   0.000000000000E+00   4.198907115530E-11   2.663936811943E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 16         1.250000000000E-01   7.500000000000E-01   0.000000000000E+00   1.777716935156E-10   2.573920926572E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 17         1.250000000000E-01   8.750000000000E-01   0.000000000000E+00   2.103112846653E-10   2.490491569400E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 18         1.250000000000E-01   1.000000000000E+00   0.000000000000E+00   1.836403945848E-10   2.414087842305E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 19         2.500000000000E-01   0.000000000000E+00   0.000000000000E+00  -1.907561118298E-12   4.063438324105E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 20         2.500000000000E-01   1.250000000000E-01   0.000000000000E+00   1.958113860162E-10   3.923939656192E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 21         2.500000000000E-01   2.500000000000E-01   0.000000000000E+00   4.124189763721E-10   3.788915828136E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 22         2.500000000000E-01   3.750000000000E-01   0.000000000000E+00   4.200215019219E-10   3.656307060419E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 23         2.500000000000E-01   5.000000000000E-01   0.000000000000E+00   3.664627718624E-10   3.527211107741E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 24         2.500000000000E-01   6.250000000000E-01   0.000000000000E+00   2.911998082489E-10   3.400310664463E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 25         2.500000000000E-01   7.500000000000E-01   0.000000000000E+00   1.539742247090E-10   3.273849323064E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 26         2.500000000000E-01   8.750000000000E-01   0.000000000000E+00   9.272068033774E-11   3.149144389185E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 27         2.500000000000E-01   1.000000000000E+00   0.000000000000E+00   1.357023682807E-10   3.023561251546E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 28         3.750000000000E-01   0.000000000000E+00   0.000000000000E+00  -2.728320674604E-11   2.424645792066E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 29         3.750000000000E-01   1.250000000000E-01   0.000000000000E+00  -9.481714951817E-11   2.283674583987E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 30         3.750000000000E-01   2.500000000000E-01   0.000000000000E+00  -1.229916268375E-10   2.140746922094E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 31         3.750000000000E-01   3.750000000000E-01   0.000000000000E+00  -2.123406831561E-11   1.996941056441E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 32         3.750000000000E-01   5.000000000000E-01   0.000000000000E+00   5.744645240091E-11   1.849841926689E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 33         3.750000000000E-01   6.250000000000E-01   0.000000000000E+00   9.463799578842E-11   1.705377408216E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 34         3.750000000000E-01   7.500000000000E-01   0.000000000000E+00   6.958590162067E-11   1.559595584104E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 35         3.750000000000E-01   8.750000000000E-01   0.000000000000E+00   5.226993625800E-12   1.416448371270E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 36         3.750000000000E-01   1.000000000000E+00   0.000000000000E+00  -1.317070446127E-11   1.269788343398E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 37         5.000000000000E-01   0.000000000000E+00   0.000000000000E+00  -2.872137913414E-11   5.395589723735E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 38         5.000000000000E-01   1.250000000000E-01   0.000000000000E+00  -4.683298524771E-11   3.994884175225E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 39         5.000000000000E-01   2.500000000000E-01   0.000000000000E+00  -9.483129693125E-11   2.594149178482E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 40         5.000000000000E-01   3.750000000000E-01   0.000000000000E+00  -1.168163993911E-10   1.197805200538E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 41         5.000000000000E-01   5.000000000000E-01   0.000000000000E+00  -7.418429551226E-11  -2.117118338020E-13  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 42         5.000000000000E-01   6.250000000000E-01   0.000000000000E+00  -3.187210824621E-12  -1.630010905739E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 43         5.000000000000E-01   7.500000000000E-01   0.000000000000E+00  -9.586902584433E-12  -3.013181827287E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 44         5.000000000000E-01   8.750000000000E-01   0.000000000000E+00   7.336760081335E-13  -4.453435993217E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 45         5.000000000000E-01   1.000000000000E+00   0.000000000000E+00   5.372053027948E-11  -5.876126083953E-12  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 46         6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   7.609362215839E-12  -1.870031730182E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 47         6.250000000000E-01   1.250000000000E-01   0.000000000000E+00  -4.507434060662E-11  -1.994604806926E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 48         6.250000000000E-01   2.500000000000E-01   0.000000000000E+00  -6.296750415986E-11  -2.120297720035E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 49         6.250000000000E-01   3.750000000000E-01   0.000000000000E+00  -7.856344150354E-12  -2.246539510494E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 50         6.250000000000E-01   5.000000000000E-01   0.000000000000E+00   1.288102431826E-11  -2.372561750012E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 51         6.250000000000E-01   6.250000000000E-01   0.000000000000E+00   6.320635680219E-11  -2.500779498931E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 52         6.250000000000E-01   7.500000000000E-01   0.000000000000E+00   5.653565158162E-11  -2.628558145969E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 53         6.250000000000E-01   8.750000000000E-01   0.000000000000E+00   5.395393463485E-12  -2.757654098647E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 54         6.250000000000E-01   1.000000000000E+00   0.000000000000E+00   1.083442532149E-11  -2.882359032526E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 55         7.500000000000E-01   0.000000000000E+00   0.000000000000E+00  -7.138686969003E-11  -4.490211047551E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 56         7.500000000000E-01   1.250000000000E-01   0.000000000000E+00   1.313962163789E-10  -4.599247382765E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 57         7.500000000000E-01   2.500000000000E-01   0.000000000000E+00   3.493283966744E-10  -4.705510037691E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 58         7.500000000000E-01   3.750000000000E-01   0.000000000000E+00   3.627794394497E-10  -4.809577183217E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 59         7.500000000000E-01   5.000000000000E-01   0.000000000000E+00   3.117729166908E-10  -4.909253309944E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 60         7.500000000000E-01   6.250000000000E-01   0.000000000000E+00   2.760754934676E-10  -5.006733927272E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 61         7.500000000000E-01   7.500000000000E-01   0.000000000000E+00   2.671080096109E-10  -5.104214544601E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 62         7.500000000000E-01   8.750000000000E-01   0.000000000000E+00   2.729333930262E-10  -5.196425939370E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 63         7.500000000000E-01   1.000000000000E+00   0.000000000000E+00   3.013373083827E-10  -5.286002722861E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 64         8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   1.153173953773E-09  -2.808167928724E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 65         8.750000000000E-01   1.250000000000E-01   0.000000000000E+00   6.499740059114E-10  -2.885981623035E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 66         8.750000000000E-01   2.500000000000E-01   0.000000000000E+00  -3.183788323210E-11  -2.949980722024E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 67         8.750000000000E-01   3.750000000000E-01   0.000000000000E+00  -2.266776301738E-10  -3.004429355126E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 68         8.750000000000E-01   5.000000000000E-01   0.000000000000E+00  -2.613030335387E-10  -3.051413256271E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 69         8.750000000000E-01   6.250000000000E-01   0.000000000000E+00  -2.588615120384E-10  -3.090932425458E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 70         8.750000000000E-01   7.500000000000E-01   0.000000000000E+00  -2.910654406319E-10  -3.128256085246E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 71         8.750000000000E-01   8.750000000000E-01   0.000000000000E+00  -2.972881131722E-10  -3.166897050673E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 72         8.750000000000E-01   1.000000000000E+00   0.000000000000E+00  -2.504677379133E-10  -3.211685442418E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 73         1.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -7.018277860949E-09  -1.126166353943E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 74         1.000000000000E+00   1.250000000000E-01   0.000000000000E+00  -6.137217520566E-09  -1.178204636802E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 75         1.000000000000E+00   2.500000000000E-01   0.000000000000E+00  -4.692316635599E-09  -1.212015481551E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 76         1.000000000000E+00   3.750000000000E-01   0.000000000000E+00  -3.754437791481E-09  -1.232214168025E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 77         1.000000000000E+00   5.000000000000E-01   0.000000000000E+00  -2.981603160806E-09  -1.246265428180E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 78         1.000000000000E+00   6.250000000000E-01   0.000000000000E+00  -2.042254069173E-09  -1.256803873297E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 79         1.000000000000E+00   7.500000000000E-01   0.000000000000E+00  -1.068671362733E-09  -1.266464114654E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 80         1.000000000000E+00   8.750000000000E-01   0.000000000000E+00  -3.289408509833E-10  -1.275246152251E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             EFGE_NOEU                           1 81         1.000000000000E+00   1.000000000000E+00   0.000000000000E+00  -2.224028518008E-11  -1.299835857523E-11  -1.000000000000E+05   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0016   user+syst:        0.11s (syst:        0.00s, elaps:        0.11s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt74
+# ----------------------------------------------------------------------------------------------
+# Commande #0017 de d6c.comm.changed.py, ligne 74
+T_R_NX0 = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
+                                  FORMAT_C='MODULE',
+                                  GROUP_NO='NX0',
+                                  INTITULE='REAC_NODA_NX0',
+                                  MOMENT=('DRX', 'DRY', 'DRZ'),
+                                  MOYE_NOEUD='OUI',
+                                  NOM_CHAM='REAC_NODA',
+                                  OPERATION='EXTRACTION',
+                                  POINT=(0.0, 0.0, 0.0),
+                                  PRECISION=1e-06,
+                                  REPERE='GLOBAL',
+                                  RESULTANTE=('DX', 'DY', 'DZ'),
+                                  RESULTAT=RESU),
+                        INFO=1)
+
+# Résultat commande #0017 (POST_RELEVE_T): T_R_NX0 ('<0000002d>') de type <Table>
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0017   user+syst:        0.02s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt87
+# ----------------------------------------------------------------------------------------------
+# Commande #0018 de d6c.comm.changed.py, ligne 87
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_R_NX0,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 0000002d CALCULE LE 21/09/2026 A 12:20:05 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 RESULT_X             RESULT_Y             RESULT_Z             MOMENT_X             MOMENT_Y             MOMENT_Z            
+REAC_NODA_NX0    00000007 REAC_NODA                           1   0.000000000000E+00  -4.092726157978E-11   2.473825588822E-10   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -2.069100446533E-11
+
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0018   user+syst:        0.09s (syst:        0.00s, elaps:        0.09s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt89
+# ----------------------------------------------------------------------------------------------
+# Commande #0019 de d6c.comm.changed.py, ligne 89
+T_R_NXA = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
+                                  FORMAT_C='MODULE',
+                                  GROUP_NO='NXA',
+                                  INTITULE='REAC_NODA_NXA',
+                                  MOMENT=('DRX', 'DRY', 'DRZ'),
+                                  MOYE_NOEUD='OUI',
+                                  NOM_CHAM='REAC_NODA',
+                                  OPERATION='EXTRACTION',
+                                  POINT=(0.0, 0.0, 0.0),
+                                  PRECISION=1e-06,
+                                  REPERE='GLOBAL',
+                                  RESULTANTE=('DX', 'DY', 'DZ'),
+                                  RESULTAT=RESU),
+                        INFO=1)
+
+# Résultat commande #0019 (POST_RELEVE_T): T_R_NXA ('<0000002e>') de type <Table>
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0019   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt102
+# ----------------------------------------------------------------------------------------------
+# Commande #0020 de d6c.comm.changed.py, ligne 102
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_R_NXA,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 0000002e CALCULE LE 21/09/2026 A 12:20:05 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 RESULT_X             RESULT_Y             RESULT_Z             MOMENT_X             MOMENT_Y             MOMENT_Z            
+REAC_NODA_NXA    00000007 REAC_NODA                           1   0.000000000000E+00   0.000000000000E+00   2.737579052337E-10   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   2.708020474529E-10
+
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0020   user+syst:        0.11s (syst:        0.00s, elaps:        0.11s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt104
+# ----------------------------------------------------------------------------------------------
+# Commande #0021 de d6c.comm.changed.py, ligne 104
+T_R_TOUS = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
+                                   FORMAT_C='MODULE',
+                                   GROUP_NO='TOUS',
+                                   INTITULE='REAC_NODA_TOUS',
+                                   MOMENT=('DRX', 'DRY', 'DRZ'),
+                                   MOYE_NOEUD='OUI',
+                                   NOM_CHAM='REAC_NODA',
+                                   OPERATION='EXTRACTION',
+                                   POINT=(0.0, 0.0, 0.0),
+                                   PRECISION=1e-06,
+                                   REPERE='GLOBAL',
+                                   RESULTANTE=('DX', 'DY', 'DZ'),
+                                   RESULTAT=RESU),
+                         INFO=1)
+
+# Résultat commande #0021 (POST_RELEVE_T): T_R_TOUS ('<0000002f>') de type <Table>
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0021   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt117
+# ----------------------------------------------------------------------------------------------
+# Commande #0022 de d6c.comm.changed.py, ligne 117
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_R_TOUS,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 0000002f CALCULE LE 21/09/2026 A 12:20:05 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 RESULT_X             RESULT_Y             RESULT_Z             MOMENT_X             MOMENT_Y             MOMENT_Z            
+REAC_NODA_TOUS   00000007 REAC_NODA                           1   0.000000000000E+00   9.094947017729E-12  -5.456968210638E-12   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -7.844391802792E-12
+
+# Mémoire (Mo) :   777.17 /   769.85 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0022   user+syst:        0.13s (syst:        0.00s, elaps:        0.13s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt76
+# ----------------------------------------------------------------------------------------------
+# Commande #0023 de /opt/spack/opt/spack/linux-zen2/code-aster-17.4
+0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/CodeCommands/fin.py, ligne 76
+FIN(INFO_RESU='NON',
+    RETASSAGE='NON')
+
+No database in results, objects not saved on processor #0
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <I> <CATAMESS_89>                                                                              ║
+ ║                                                                                                ║
+ ║ Liste des alarmes émises lors de l'exécution du calcul.                                        ║
+ ║                                                                                                ║
+ ║     Les alarmes que vous avez choisies d'ignorer sont précédées de (*).                        ║
+ ║     Nombre d'occurrences pour chacune des alarmes :                                            ║
+ ║            aucune alarme                                                                       ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+<I> <FIN> ARRET NORMAL DANS "FIN" PAR APPEL A "JEFINI".
+  
+ <I> <FIN> MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :                     197.35 Mo
+ <I> <FIN> MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :                     207.61 Mo
+ <I> <FIN> MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS LORS DE L'EXECUTION :     778.54 Mo
+  
+ <I>       FERMETURE DES BASES EFFECTUEE
+  
+   STATISTIQUES CONCERNANT L'ALLOCATION DYNAMIQUE :
+     TAILLE CUMULEE MAXIMUM            :                  208  Mo.
+     TAILLE CUMULEE LIBEREE            :                    3  Mo.
+     NOMBRE TOTAL D'ALLOCATIONS        :                17230
+     NOMBRE TOTAL DE LIBERATIONS       :                16572
+     APPELS AU MECANISME DE LIBERATION :                    0
+     TAILLE MEMOIRE CUMULEE RECUPEREE  :                    0  Mo.
+     VOLUME DES LECTURES               :                    0  Mo.
+     VOLUME DES ECRITURES              :                    0  Mo.
+  
+   MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :     197.35 Mo
+     - IMPOSE DE NOMBREUX ACCES DISQUE
+     - RALENTIT LA VITESSE D'EXECUTION
+   MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :     207.61 Mo
+     - LIMITE LES ACCES DISQUE
+     - AMELIORE LA VITESSE D'EXECUTION
+   MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS     :     778.54 Mo
+     - COMPREND LA MEMOIRE CONSOMMEE PAR  JEVEUX, 
+       LE SUPERVISEUR PYTHON, LES LIBRAIRIES EXTERNES
+  
+ <I>       FIN D'EXECUTION LE : LU-21-SEPT-2026 12:20:05
+INFO './glob.1' deleted
+Deleting './glob.2': No such file or directory
+INFO './vola.1' deleted
+Deleting './vola.2': No such file or directory
+
+ ********************************************************************************
+ * COMMAND                  :       USER :     SYSTEM :   USER+SYS :    ELAPSED *
+ ********************************************************************************
+ * DEBUT                    :       0.00 :       0.30 :       0.30 :       0.33 *
+ * LIRE_MAILLAGE            :       0.00 :       0.01 :       0.01 :       0.02 *
+ * AFFE_MODELE              :       0.00 :       0.03 :       0.03 :       0.03 *
+ * AFFE_CARA_ELEM           :       0.00 :       0.02 :       0.02 :       0.01 *
+ * DEFI_MATERIAU            :       0.03 :       0.08 :       0.11 :       0.10 *
+ * AFFE_MATERIAU            :       0.12 :       0.00 :       0.12 :       0.13 *
+ * AFFE_CHAR_MECA           :       0.02 :       0.00 :       0.02 :       0.03 *
+ * MECA_STATIQUE            :       0.29 :       0.00 :       0.29 :       0.30 *
+ * CALC_CHAMP               :       0.04 :       0.00 :       0.04 :       0.05 *
+ * CREA_TABLE               :       0.02 :       0.00 :       0.02 :       0.01 *
+ * IMPR_TABLE               :       0.09 :       0.00 :       0.09 :       0.09 *
+ * CREA_TABLE               :       0.03 :       0.00 :       0.03 :       0.03 *
+ * IMPR_TABLE               :       0.10 :       0.00 :       0.10 :       0.11 *
+ * CREA_TABLE               :       0.01 :       0.00 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.11 :       0.00 :       0.11 :       0.11 *
+ * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.01 *
+ * IMPR_TABLE               :       0.09 :       0.00 :       0.09 :       0.09 *
+ * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.02 *
+ * IMPR_TABLE               :       0.11 :       0.00 :       0.11 :       0.11 *
+ * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.02 *
+ * IMPR_TABLE               :       0.13 :       0.00 :       0.13 :       0.13 *
+ * FIN                      :       0.14 :       0.00 :       0.14 :       0.14 *
+ *  . check syntax          :       0.09 :       0.02 :       0.11 :       0.05 *
+ *  . fortran               :       0.21 :       0.33 :       0.54 :       0.60 *
+ *  . cleanup               :       0.77 :       0.07 :       0.84 :       0.85 *
+ ********************************************************************************
+ * TOTAL_JOB                :       1.52 :       0.48 :       2.00 :       2.06 *
+ ********************************************************************************
+
+# Mémoire (Mo) :   778.54 /   778.54 /   207.61 /   197.35 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0023   user+syst:        0.14s (syst:        0.00s, elaps:        0.14s)
+# ----------------------------------------------------------------------------------------------
+End of the Code_Aster execution
+Code_Aster MPI exits normally
+Exited
+
+EXECUTION_CODE_ASTER_EXIT_1=0
+
+
+
+------------------------------------------------------------
+--- DIAGNOSTIC JOB : OK
+------------------------------------------------------------
+

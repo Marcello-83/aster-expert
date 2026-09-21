@@ -1,0 +1,155 @@
+{
+  "contexts": {
+    "lot24": {
+      "aster_version": "17.4.0",
+      "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+      "repo_commit": "f5ede572884e271543b11ef593e4f4c0b4caad7a",
+      "working_tree_modified": true,
+      "note": "HEAD au moment des exécutions du lot 24 (commit du lot 23) ; les fichiers des cas n'étaient pas encore commités."
+    }
+  },
+  "findings": [
+    {
+      "id": "elas_coque_efge_v3",
+      "point_label": "1",
+      "replaces_topic": "Efforts généralisés (EFGE_ELNO, EFGE_NOEU) sous ELAS_COQUE (DKT) : exactitude et indépendance vis-à-vis de EPAIS et de CISA_L/CISA_T",
+      "history_label": "lot 23, flexion uniaxiale d'une bande console",
+      "extraits": [],
+      "option_retained": "Sous ELAS_COQUE (DKT, QUAD4), les efforts généralisés EFGE_ELNO et EFGE_NOEU sont exacts et indépendants de EPAIS et de CISA_L/CISA_T, y compris quand FLEX ≠ MEMB × EPAIS²/12 ; les déplacements sont exacts aux erreurs de discrétisation près. Lot 23 : flexion uniaxiale selon L d'une bande console (M(x) = P·(L − x)/b, |QX| = P/b, écart maximal sur MXX 2,5e-10 N·m/m). Lot 24, plaque carrée de 1 m en quadrangles 8 × 8, coefficients du tableau de la décision 2 rédigée en v5 (MEMB_L 2 908 MN/m, MEMB_T 0,081 MN/m, MEMB_G_LT 526 MN/m, FLEX_L 89,0 MN·m²/m, FLEX_T 0,0113 MN·m²/m, FLEX_G_LT 0,0084 MN·m²/m, CISA_L = CISA_T = 526 MN/m, couplages nuls, EPAIS = 13,85 mm, RHO = 7 850 kg/m³), L selon l'axe Y du maillage et T selon l'axe X (ANGL_REP = (90, 0)). (1) Traction de membrane selon T (q = 100 N/m) : allongement 1,2345679012408e-3 m pour q·a/MEMB_T = 1,2345679012346e-3 m (écart relatif 5e-12) ; NYY = 100 N/m en tous les nœuds, toutes les autres composantes ≤ 1e-7. (2) Flexion cylindrique selon T, appuis simples sur x = 0 et x = a, pression 100 Pa : MYY exact en tous les nœuds (écart absolu maximal 7,2e-9 N·m/m pour 12,5 à mi-portée), QY exact aux nœuds intérieurs (25 N/m en x = a/4), autres composantes ≤ 4e-8 ; flèche à mi-portée 1,13788e-4 m pour 5·p·a⁴/(384·FLEX_T) = 1,15229e-4 m (−1,25 %), écart divisé par 4 en maillage 16 × 16 (1,14869e-4 m, −0,3125 %) : écart de discrétisation, non une erreur de coefficient ; QY aux nœuds d'appui 43,75 N/m pour 50 (−12,5 %), 46,875 en 16 × 16 (−6,25 %) : valeur constante sur l'élément adjacent, moyenne des deux éléments aux nœuds intérieurs. (3) Cisaillement de membrane pur (τ = 1e5 N/m sur les quatre bords) : déplacement DX du bord supérieur 1,9011406844114e-4 m pour τ·a/MEMB_G_LT = 1,9011406844106e-4 m (écart relatif 4e-13), DX = γ·y et DY = 0 à 2e-16 près, |NXY| = τ. Signes observés : NYY > 0 en traction ; MYY < 0 et DZ < 0 sous pression positive (PRES_REP) ; NXY < 0 pour une force en +X sur le bord y = a (déduction compatible avec le repère local x_l = Y, y_l = −X de ANGL_REP = (90, 0), non lue dans la documentation).",
+      "justification_extra": "Lot 24 : quatre exécutions (D6a, D6b, D6b en 16 × 16, D6c) jusqu'à FIN sans alarme (niveau C), déplacements et efforts généralisés comparés à des solutions analytiques (niveau D). Elles couvrent les composantes que la palplanche de la décision 2 rédigée en v5 mobilise et que le lot 23 n'avait pas testées : membrane selon T (MEMB_T), flexion selon T (FLEX_T), cisaillement de membrane (MEMB_G_LT). Les efforts généralisés sont exacts, ce qui fonde la règle de lecture par EFGE_NOEU ; le raffinement de maillage établit l'origine des seuls écarts observés (flèche, QY d'appui).",
+      "notes": "Sous REAC_NODA, contrôle demandé au lot 24 : exact en membrane (D6a : résultante en X du bord x = 0 égale à −q·a, écart relatif 8e-12 ; D6c : résultantes de tous les groupes ≤ 3e-10 pour des charges de 1e5 N/m) ; faux en flexion sous pression (D6b : résultante en Z du bord d'appui 6,255 N pour une réaction de 50 N, −87,5 % ; 3,130 N en 16 × 16), tandis que la somme sur tous les nœuds vaut 100 N, exacte, et ne discrimine rien. Les valeurs 6,255 et 3,130 sont, à 0,08 % et 0,17 % près, l'opposé de la part nodale de la pression sur le bord (p·a·h/2 = 6,25 puis 3,125 N) : déduction, la réaction ne contiendrait pratiquement que le terme de charge (la contribution interne, de l'ordre de 5e-3 N, étant celle d'une rigidité MEMB × EPAIS²/12 très inférieure à FLEX_T, rapport 1/8 727) ; non démontrée. Non testés : la membrane verticale (MEMB_L) et la flexion verticale (FLEX_L) seules dans la plaque du lot 24 (la flexion selon L est celle du lot 23), la torsion (FLEX_G_LT, MXY : la flexion cylindrique n'en produit pas), les couplages de Poisson (MEMB_LT = FLEX_LT = 0), la superposition des trois sollicitations, le cisaillement transverse (sans effet en DKT), un plan de plaque autre que le plan XY du maillage (la palplanche vraie est verticale ; la convention ANGL_REP pour un plan vertical n'a pas été établie), TRIA3, DST, COQUE_3D. Les cas de membrane imposent DZ, DRX, DRY et DRZ nuls sur tous les nœuds pour isoler la réponse de membrane. Un seul maillage régulier (8 × 8 ; 16 × 16 pour la flexion), une version (17.4.0). Aucune solution de référence externe (niveau E). Rapport : docs/essais_lot24.md.",
+      "sources": [
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6a/d6a.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6a.txt",
+          "quantity": "allongement DX du bord chargé (x = a), valeur moyenne, D6a (traction de membrane selon T, q = 100 N/m)",
+          "value_obtained": 0.0012345679012407778,
+          "reference": "q·a/MEMB_T = 100 N/m × 1 m / 81 000 N/m",
+          "reference_value": 0.0012345679012345679,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6a/d6a.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6a.txt",
+          "quantity": "effort normal NYY (selon T) moyen des nœuds EFGE_NOEU, D6a",
+          "value_obtained": 100.00000000049383,
+          "reference": "NYY = q = 100 N/m",
+          "reference_value": 100.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6a/d6a.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6a.txt",
+          "quantity": "résultante REAC_NODA en X du bord x = 0 (valeur absolue), D6a",
+          "value_obtained": 100.0000000008,
+          "reference": "équilibre : q·a = 100 N/m × 1 m = 100 N",
+          "reference_value": 100.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "flèche DZ à mi-portée (valeur absolue), valeur moyenne, D6b (maillage 8 × 8)",
+          "value_obtained": 0.00011378825595336666,
+          "reference": "5·p·a⁴/(384·FLEX_T) = 5 × 100 × 1 / (384 × 11 300)",
+          "reference_value": 0.00011522861356932153,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b16.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b16.txt",
+          "quantity": "flèche DZ à mi-portée (valeur absolue), valeur moyenne, D6b16 (maillage 16 × 16)",
+          "value_obtained": 0.00011486852428059412,
+          "reference": "5·p·a⁴/(384·FLEX_T) = 5 × 100 × 1 / (384 × 11 300)",
+          "reference_value": 0.00011522861356932153,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "moment MYY (valeur absolue) moyen des nœuds EFGE_NOEU en x = a/2, D6b",
+          "value_obtained": 12.500000006371112,
+          "reference": "p·a²/8 = 100 × 1 / 8 = 12,5 N·m par mètre de largeur",
+          "reference_value": 12.5,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "effort tranchant QY (valeur absolue) moyen des nœuds EFGE_NOEU en x = a/4, D6b",
+          "value_obtained": 25.00000001356111,
+          "reference": "p·(a − 2x)/2 en x = a/4 : 100 × 0,5 / 2 = 25 N par mètre de largeur",
+          "reference_value": 25.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "effort tranchant QY (valeur absolue) moyen des nœuds EFGE_NOEU d'appui x = 0, D6b (maillage 8 × 8)",
+          "value_obtained": 43.75000002313,
+          "reference": "p·a/2 = 50 N par mètre de largeur",
+          "reference_value": 50.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b16.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b16.txt",
+          "quantity": "effort tranchant QY (valeur absolue) moyen des nœuds EFGE_NOEU d'appui x = 0, D6b16 (maillage 16 × 16)",
+          "value_obtained": 46.87500006827353,
+          "reference": "p·a/2 = 50 N par mètre de largeur",
+          "reference_value": 50.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "résultante REAC_NODA en Z du bord d'appui x = 0, D6b (maillage 8 × 8)",
+          "value_obtained": 6.255013060359,
+          "reference": "réaction d'appui p·a²/2 = 50 N",
+          "reference_value": 50.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6b.txt",
+          "quantity": "somme des résultantes REAC_NODA en Z sur tous les nœuds, D6b",
+          "value_obtained": 100.0,
+          "reference": "p·a² = 100 N (pression totale)",
+          "reference_value": 100.0,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6c/d6c.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6c.txt",
+          "quantity": "déplacement DX du bord supérieur (y = a), valeur moyenne, D6c (cisaillement de membrane pur, τ = 1e5 N/m)",
+          "value_obtained": 0.00019011406844114445,
+          "reference": "γ·a = τ·a/MEMB_G_LT = 1e5 × 1 / 5,26e8",
+          "reference_value": 0.00019011406844106463,
+          "validation_level": "D"
+        },
+        {
+          "context": "lot24",
+          "case_path": "data/examples/lot24_essais/essai_d6c/d6c.comm",
+          "mess_path": "data/examples/lot24_essais/mess/mess_d6c.txt",
+          "quantity": "effort de cisaillement NXY (valeur absolue) moyen des nœuds EFGE_NOEU, D6c",
+          "value_obtained": 100000.0,
+          "reference": "NXY = τ = 1e5 N/m",
+          "reference_value": 100000.0,
+          "validation_level": "D"
+        }
+      ]
+    }
+  ]
+}

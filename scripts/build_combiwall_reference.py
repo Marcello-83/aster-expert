@@ -33,7 +33,12 @@ always through the project's own write paths -- never by editing the JSON:
 6. lot 23: findings on post-processing under ELAS_COQUE (`lot23_essais.json`,
    `lot23_extraits.json`, cases in `data/examples/lot23_essais/`), and MM's v4
    decisions 8 and 9 (`arbitrage_combiwall_MM_v4.md`, whose `[À CONFIRMER MM]`
-   passages were removed); decision 2 of v4 is not recorded.
+   passages were removed); decision 2 of v4 is not recorded;
+7. lot 24: the generalised-force finding of point 1 extended with the D6 trials
+   (`lot24_essais.json`, cases in `data/examples/lot24_essais/`), then MM's v5
+   decision 2 (`arbitrage_combiwall_MM_v5_decision2.md`, copied verbatim), which
+   closes the revision of point 1; its `decided_at` is the recording time
+   (`lot24_enregistrement.json`), MM having written none.
 
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
@@ -100,7 +105,8 @@ _GROUP_POINTS: tuple[tuple[str, str], ...] = (
 
 
 def _unwrap(block: str) -> str:
-    """Join composition line breaks with spaces; keep one line per list item."""
+    """Join composition line breaks with spaces; keep one line per list item
+    or table row."""
     paragraphs = []
     for para in re.split(r"\n\s*\n", block.strip()):
         text = ""
@@ -108,7 +114,7 @@ def _unwrap(block: str) -> str:
             line = raw.strip()
             if i == 0:
                 text = line
-            elif re.match(r"(\d+\. |- )", line):
+            elif re.match(r"(\d+\. |- |\|)", line):
                 text += "\n" + line
             else:
                 text += " " + line
@@ -148,20 +154,37 @@ def _decision_sections(text: str) -> dict[str, str]:
 
 
 def _record_decisions(
-    sheet: HypothesesSheet, path: Path, only: frozenset[str] | None = None
+    sheet: HypothesesSheet,
+    path: Path,
+    only: frozenset[str] | None = None,
+    decided_at_override: datetime | None = None,
 ) -> HypothesesSheet:
-    """Record the decisions of an arbitration file (all, or the sections in `only`)."""
+    """Record the decisions of an arbitration file (all, or the sections in `only`).
+
+    A file that writes no `decided_at` (v5, lot 24) needs `decided_at_override`
+    (the recording time, declared in `lot24_enregistrement.json`); its source
+    date is then that day, as the file says.
+    """
     text = path.read_text(encoding="utf-8")
-    common = text.split("## Conventions communes")[1].split("\n## ")[0]
+    common = re.split(r"^## Conventions[^\n]*$", text, maxsplit=1, flags=re.M)[1]
+    common = common.split("\n## ")[0]
     decided_by = re.search(r"`decided_by` : `\"(.*?)\"`", common)
     decided_at = re.search(r"`decided_at` : `(\S+?)`", common)
     reference = re.search(r"- `reference` : `\"(.*?)\"`", common, flags=re.S)
     source_date = re.search(r"- `date` : `(\d{4}-\d{2}-\d{2})`", common)
-    assert decided_by and decided_at and reference and source_date, path
+    assert decided_by and reference, path
+    if decided_at_override is not None:
+        assert decided_at is None and source_date is None, path
+        decision_time = decided_at_override
+        decision_day = decided_at_override.date()
+    else:
+        assert decided_at and source_date, path
+        decision_time = datetime.fromisoformat(decided_at[1])
+        decision_day = date.fromisoformat(source_date[1])
     decision_source = PracticeSource(
         origin="decision_ingenieur",
         reference=_collapse(reference[1]),
-        date=date.fromisoformat(source_date[1]),
+        date=decision_day,
     )
     for name, body in _decision_sections(text).items():
         if only is not None and name not in only:
@@ -191,7 +214,7 @@ def _record_decisions(
             "sources": tuple(sources),
             "discarded_variants": _variants(f["discarded_variants"]),
             "decided_by": decided_by[1],
-            "decided_at": datetime.fromisoformat(decided_at[1]),
+            "decided_at": decision_time,
         }
         matches = [
             e
@@ -507,14 +530,14 @@ def _lot22(sheet: HypothesesSheet) -> HypothesesSheet:
     return sheet
 
 
-def _lot23(sheet: HypothesesSheet) -> HypothesesSheet:
-    """Post-processing findings under ELAS_COQUE, then MM's v4 decisions 8 and 9.
+def _apply_findings(
+    sheet: HypothesesSheet, data: dict[str, Any], extracts: dict[str, Any]
+) -> HypothesesSheet:
+    """Record the executed findings of a lot file (lots 23, 24).
 
-    Decision 2 of v4 is deliberately not recorded (to be rewritten after lot 23).
-    Recording decision 9 closes the revision declared for point 8 at lot 22.
+    A finding with `replaces_topic` extends the entry of that topic: its sources
+    are kept, its former option and notes go to the notes.
     """
-    data = json.loads((INPUTS / "lot23_essais.json").read_text("utf-8"))
-    extracts = _load_extracts("lot23_extraits.json")
     for f in data["findings"]:
         executions = tuple(_execution_source(x, data["contexts"]) for x in f["sources"])
         documents = tuple(_documentary(extracts, f["extraits"]))
@@ -558,10 +581,40 @@ def _lot23(sheet: HypothesesSheet) -> HypothesesSheet:
             new=entry,
             status="tranche",
         )
+    return sheet
+
+
+def _lot23(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Post-processing findings under ELAS_COQUE, then MM's v4 decisions 8 and 9.
+
+    Decision 2 of v4 is deliberately not recorded (superseded by v5, lot 24).
+    Recording decision 9 closes the revision declared for point 8 at lot 22.
+    """
+    data = json.loads((INPUTS / "lot23_essais.json").read_text("utf-8"))
+    sheet = _apply_findings(sheet, data, _load_extracts("lot23_extraits.json"))
     return _record_decisions(
         sheet,
         INPUTS / "arbitrage_combiwall_MM_v4.md",
         only=frozenset({"Décision 8", "Décision 9"}),
+    )
+
+
+def _lot24(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Generalised forces of a full ELAS_COQUE plate (D6), then MM's v5 decision 2.
+
+    Recording decision 2 closes the revision of the entry at point 1. Its
+    `decided_at` is the recording time (`lot24_enregistrement.json`): the file
+    carries none.
+    """
+    data = json.loads((INPUTS / "lot24_essais.json").read_text("utf-8"))
+    sheet = _apply_findings(sheet, data, {})
+    record = json.loads((INPUTS / "lot24_enregistrement.json").read_text("utf-8"))
+    return _record_decisions(
+        sheet,
+        INPUTS / "arbitrage_combiwall_MM_v5_decision2.md",
+        decided_at_override=datetime.fromisoformat(
+            record["decision_2_v5"]["decided_at"]
+        ),
     )
 
 
@@ -573,7 +626,7 @@ def build_sheet() -> HypothesesSheet:
     sheet = sheet.model_copy(update={"group_naming": _group_naming(v3)})
     sheet = _lot20(sheet)
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_lot21.md")
-    return _lot23(_lot22(_lot21(sheet)))
+    return _lot24(_lot23(_lot22(_lot21(sheet))))
 
 
 def dump(sheet: HypothesesSheet) -> str:

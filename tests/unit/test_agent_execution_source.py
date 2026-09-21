@@ -291,7 +291,9 @@ def test_every_execution_source_of_the_fiche_points_to_an_existing_case() -> Non
     are the ones pinned, and the versioned listing exists."""
     sources = _fiche_execution_sources()
 
-    assert len(sources) == 35  # 1 + 3 + 6 + 3 + 2 (lot 22) + 5 + 11 + 1 + 3 (lot 23)
+    assert (
+        len(sources) == 48
+    )  # 1 + 3 + 6 + 3 + 2 (lot 22) + 5 + 11 + 1 + 3 (lot 23) + 13 (lot 24)
     for _, source in sources:
         check_execution_source(source, repo_root=_ROOT)
         assert source.mess_path is not None

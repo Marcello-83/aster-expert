@@ -92,6 +92,17 @@ def project_root(tmp_path: Path) -> Path:
     return root
 
 
+def test_search_codeaster_docs_unknown_family_lists_the_present_ones(
+    project_root: Path,
+) -> None:
+    with pytest.raises(McpToolError, match="Famille inconnue") as info:
+        search_codeaster_docs(
+            project_root=project_root, query="comportement", family="testcase"
+        )
+    assert "['D', 'U4']" in str(info.value)
+    assert "search_test_cases" in str(info.value)
+
+
 def test_search_codeaster_docs_unknown_profile_fails_loudly(project_root: Path) -> None:
     with pytest.raises(McpToolError, match="Profil inconnu"):
         search_codeaster_docs(
@@ -475,6 +486,21 @@ def test_validate_comm_missing_workroot_fails_loudly(tmp_path: Path) -> None:
         validate_comm(
             project_root=tmp_path / "project", comm_path=str(comm_path), workroot=None
         )
+
+
+def test_validate_comm_absent_workroot_directory_names_the_variable(
+    tmp_path: Path,
+) -> None:
+    comm_path = tmp_path / "case.comm"
+    comm_path.write_text('MAIL = LIRE_MAILLAGE(FORMAT="MED")\n', encoding="utf-8")
+
+    with pytest.raises(McpToolError, match="n'existe pas") as info:
+        validate_comm(
+            project_root=tmp_path / "project",
+            comm_path=str(comm_path),
+            workroot=tmp_path / "absent",
+        )
+    assert "ASTER_CONTAINER_WORKROOT" in str(info.value)
 
 
 def test_validate_comm_missing_file_fails_loudly(tmp_path: Path) -> None:

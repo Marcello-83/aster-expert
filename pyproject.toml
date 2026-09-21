@@ -84,6 +84,8 @@ ignore = []
 # le contenu même du cas versionné, non du code Python.
 "scripts/build_lot23_essais.py" = ["UP", "E501"]
 "scripts/analyze_lot23_essais.py" = ["UP", "E501"]
+"scripts/build_lot24_essais.py" = ["UP", "E501"]
+"scripts/analyze_lot24_essais.py" = ["UP", "E501"]
 
 [tool.mypy]
 python_version = "3.12"
