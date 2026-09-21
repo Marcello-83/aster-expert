@@ -129,3 +129,34 @@ def find_keyword_variants(
         message = f"keyword path not found in {schema.command!r}: {'.'.join(path)}"
         raise CatalogueExtractionError(message)
     return results
+
+
+def catalogue_vocabulary(catalogue_root: Path, digest: str) -> frozenset[str]:
+    """Every identifier the extracted catalogue defines for one digest.
+
+    Command names, keyword names (every element of every keyword path) and
+    the string values keywords allow (`allowed_values`: field names such as a
+    `NOM_CHAM`, options, enumerations). Read from the extracted schemas, never
+    from a hand-written list: a caller that must tell a Code_Aster identifier
+    from a user-chosen name (mesh group, lot 25) asks this.
+    """
+    digest_dir = catalogue_root / digest
+    if not digest_dir.is_dir():
+        message = f"no extracted catalogue at {digest_dir}"
+        raise CatalogueExtractionError(message)
+    words: set[str] = set()
+
+    def walk(entries: list[KeywordSchema]) -> None:
+        for entry in entries:
+            words.update(entry.path)
+            if entry.kind == "simple":
+                if entry.allowed_values:
+                    words.update(v for v in entry.allowed_values if isinstance(v, str))
+            else:
+                walk(entry.children)
+
+    for path in sorted(digest_dir.glob("*.json")):
+        schema = CommandSchema.model_validate_json(path.read_text(encoding="utf-8"))
+        words.add(schema.command)
+        walk(schema.keywords)
+    return frozenset(words)

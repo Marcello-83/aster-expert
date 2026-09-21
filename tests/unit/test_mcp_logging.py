@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from aster_expert.mcp.logging import (
     QueryLogEntry,
     ReturnedItem,
@@ -81,3 +83,27 @@ def test_append_query_log_never_receives_file_content_for_comm_tools(
     assert entry.returned == []
     assert entry.file_name == "sslv104a.comm"
     assert entry.file_fingerprint == "sha256:" + "a" * 64
+
+
+def test_check_origin_is_recorded_and_excluded_from_usage(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from aster_expert.mcp.logging import (
+        CALL_ORIGIN_ENV,
+        CHECK_ORIGIN,
+        SESSION_ORIGIN,
+        read_usage_entries,
+    )
+
+    log = tmp_path / "log.jsonl"
+    monkeypatch.delenv(CALL_ORIGIN_ENV, raising=False)
+    assert append_query_log(log, tool="a", duration_s=0.1).origin == SESSION_ORIGIN
+    monkeypatch.setenv(CALL_ORIGIN_ENV, CHECK_ORIGIN)
+    assert append_query_log(log, tool="b", duration_s=0.1).origin == CHECK_ORIGIN
+    # A line written before the origin existed reads as usage.
+    with log.open("a", encoding="utf-8") as handle:
+        handle.write(
+            '{"timestamp":"2026-01-01T00:00:00Z","tool":"old","duration_s":1}\n'
+        )
+    assert [e.tool for e in read_usage_entries(log)] == ["a", "old"]
+    assert read_usage_entries(tmp_path / "absent.jsonl") == []

@@ -38,7 +38,13 @@ always through the project's own write paths -- never by editing the JSON:
    (`lot24_essais.json`, cases in `data/examples/lot24_essais/`), then MM's v5
    decision 2 (`arbitrage_combiwall_MM_v5_decision2.md`, copied verbatim), which
    closes the revision of point 1; its `decided_at` is the recording time
-   (`lot24_enregistrement.json`), MM having written none.
+   (`lot24_enregistrement.json`), MM having written none;
+8. lot 25: the D7 finding on the axes of ELAS_COQUE in a vertical plane
+   (`lot25_essais.json`, `lot25_extraits.json`, cases in
+   `data/examples/lot25_essais/`), and MM's decision on the global frame (point 9,
+   `arbitrage_combiwall_MM_lot25_repere.md`, copied verbatim), inserted with
+   `insert_practice_entry`; its `decided_at` is the recording time
+   (`lot25_enregistrement.json`).
 
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
@@ -618,6 +624,24 @@ def _lot24(sheet: HypothesesSheet) -> HypothesesSheet:
     )
 
 
+def _lot25(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Axes of ELAS_COQUE on a vertical shell (D7), then MM's frame decision (point 9).
+
+    The D7 finding is recorded as a new entry (its criterion failed on one point,
+    reported in its notes); the frame decision is recorded as worded.
+    """
+    data = json.loads((INPUTS / "lot25_essais.json").read_text("utf-8"))
+    sheet = _apply_findings(sheet, data, _load_extracts("lot25_extraits.json"))
+    record = json.loads((INPUTS / "lot25_enregistrement.json").read_text("utf-8"))
+    return _record_decisions(
+        sheet,
+        INPUTS / "arbitrage_combiwall_MM_lot25_repere.md",
+        decided_at_override=datetime.fromisoformat(
+            record["decision_repere"]["decided_at"]
+        ),
+    )
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -626,7 +650,7 @@ def build_sheet() -> HypothesesSheet:
     sheet = sheet.model_copy(update={"group_naming": _group_naming(v3)})
     sheet = _lot20(sheet)
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_lot21.md")
-    return _lot24(_lot23(_lot22(_lot21(sheet))))
+    return _lot25(_lot24(_lot23(_lot22(_lot21(sheet)))))
 
 
 def dump(sheet: HypothesesSheet) -> str:

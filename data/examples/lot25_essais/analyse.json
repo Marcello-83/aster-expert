@@ -1,0 +1,159 @@
+{
+  "alarms": {
+    "d7a": true,
+    "d7a16": true,
+    "d7b": true,
+    "d7b16": true,
+    "d7c": true
+  },
+  "constants": {
+    "H": 1.0,
+    "criterion": "docs/essais_lot25.md",
+    "flex_ratio": 7876.1061946902655,
+    "q": 100.0,
+    "w_L_ref": 3.7453183520599253e-07,
+    "w_T_ref": 0.0029498525073746312
+  },
+  "d7a": {
+    "DY_spread_on_tip": 5.000141366760542e-19,
+    "MXY_max_abs_over_qH": 1.042421370567e-15,
+    "moment_at_base_mean_abs": 100.00000000003,
+    "moment_component": "MXX",
+    "moment_max_abs_error_over_qH": 1.000017846308765e-12,
+    "moment_signs": [
+      "+",
+      "-"
+    ],
+    "n_efge_points": 81,
+    "other_bending_max_abs_over_qH": 7.369964775452e-15,
+    "tip_deflection": {
+      "expected_reference": 3.7453183520599253e-07,
+      "max": 3.745318352063e-07,
+      "mean": 3.745318352061111e-07,
+      "min": 3.745318352058e-07,
+      "other_reference": 0.0029498525073746312,
+      "rel_error_vs_expected": 3.1662091568365747e-13,
+      "rel_error_vs_other": -0.9998730337078652,
+      "sign": "+Y"
+    }
+  },
+  "d7a16": {
+    "DY_spread_on_tip": 4.299962756736456e-18,
+    "MXY_max_abs_over_qH": 5.85177070929e-15,
+    "moment_at_base_mean_abs": 100.00000000017471,
+    "moment_component": "MXX",
+    "moment_max_abs_error_over_qH": 1.1000054200849262e-11,
+    "moment_signs": [
+      "+",
+      "-"
+    ],
+    "n_efge_points": 289,
+    "other_bending_max_abs_over_qH": 7.245553849044001e-14,
+    "tip_deflection": {
+      "expected_reference": 3.7453183520599253e-07,
+      "max": 3.745318352095e-07,
+      "mean": 3.7453183520647057e-07,
+      "min": 3.745318352052e-07,
+      "other_reference": 0.0029498525073746312,
+      "rel_error_vs_expected": 1.2763780663497442e-12,
+      "rel_error_vs_other": -0.999873033707865,
+      "sign": "+Y"
+    }
+  },
+  "d7b": {
+    "DY_spread_on_tip": 5.969998800869902e-13,
+    "MXY_max_abs_over_qH": 1.8783943038300002e-10,
+    "moment_at_base_mean_abs": 100.00000010257777,
+    "moment_component": "MYY",
+    "moment_max_abs_error_over_qH": 1.5199999836568168e-09,
+    "moment_signs": [
+      "+",
+      "-"
+    ],
+    "n_efge_points": 81,
+    "other_bending_max_abs_over_qH": 1.866301596101e-09,
+    "tip_deflection": {
+      "expected_reference": 0.0029498525073746312,
+      "max": 0.002949852509145,
+      "mean": 0.0029498525088463333,
+      "min": 0.002949852508548,
+      "other_reference": 3.7453183520599253e-07,
+      "rel_error_vs_expected": 4.989070120572925e-10,
+      "rel_error_vs_other": 7875.106198619709,
+      "sign": "+Y"
+    }
+  },
+  "d7b16": {
+    "DY_spread_on_tip": 2.1300001692980963e-12,
+    "MXY_max_abs_over_qH": 6.384152126262e-10,
+    "moment_at_base_mean_abs": 100.00000472834118,
+    "moment_component": "MYY",
+    "moment_max_abs_error_over_qH": 4.766299994685142e-08,
+    "moment_signs": [
+      "+",
+      "-"
+    ],
+    "n_efge_points": 289,
+    "other_bending_max_abs_over_qH": 1.825818198272e-08,
+    "tip_deflection": {
+      "expected_reference": 0.0029498525073746312,
+      "max": 0.002949852639322,
+      "mean": 0.002949852638257706,
+      "min": 0.002949852637192,
+      "other_reference": 3.7453183520599253e-07,
+      "rel_error_vs_expected": 4.4369362349559044e-08,
+      "rel_error_vs_other": 7875.106544148074,
+      "sign": "+Y"
+    }
+  },
+  "d7c": {
+    "DY_spread_on_tip": 5.000141366760542e-19,
+    "MXY_max_abs_over_qH": 1.042421370567e-15,
+    "moment_at_base_mean_abs": 100.00000000003,
+    "moment_component": "MXX",
+    "moment_max_abs_error_over_qH": 1.000017846308765e-12,
+    "moment_signs": [
+      "+",
+      "-"
+    ],
+    "n_efge_points": 81,
+    "other_bending_max_abs_over_qH": 7.369964775452e-15,
+    "tip_deflection": {
+      "expected_reference": 3.7453183520599253e-07,
+      "max": 3.745318352063e-07,
+      "mean": 3.745318352061111e-07,
+      "min": 3.745318352058e-07,
+      "other_reference": 0.0029498525073746312,
+      "rel_error_vs_expected": 3.1662091568365747e-13,
+      "rel_error_vs_other": -0.9998730337078652,
+      "sign": "+Y"
+    }
+  },
+  "verdict": {
+    "1_moment_exact": true,
+    "2_error_decreases_d7a": {
+      "err_16": 1.2763780663497442e-12,
+      "err_8": 3.1662091568365747e-13,
+      "ok": false
+    },
+    "2_error_decreases_d7b": {
+      "err_16": 4.4369362349559044e-08,
+      "err_8": 4.989070120572925e-10,
+      "ok": false
+    },
+    "3_axis_identified_d7a": {
+      "err_expected": 1.2763780663497442e-12,
+      "err_other": 0.999873033707865,
+      "ok": true
+    },
+    "3_axis_identified_d7b": {
+      "err_expected": 4.4369362349559044e-08,
+      "err_other": 7875.106544148074,
+      "ok": true
+    },
+    "4_angl_rep_equals_vecteur": {
+      "ok": true,
+      "rel_diff": 0.0
+    }
+  }
+}

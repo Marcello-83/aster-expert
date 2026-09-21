@@ -1,0 +1,629 @@
+setting '--memory' value to 7372.80 MB (keyword RESERVE_MEMOIRE)
+copying '/work/d7b.mail' to 'fort.20'...
+checking MPI initialization...
+using COMM_WORLD.
+MPI is initialized.
+Ouverture en écriture du fichier ./vola.1
+
+<INFO> Démarrage de l'exécution.
+
+                        -- CODE_ASTER -- VERSION : EXPLOITATION (stable) --                         
+                               Version 17.4.0 modifiée le 02/01/2026                                
+                              révision spack-local - branche 'v17.4.0'                              
+                                   Copyright EDF R&D 1991 - 2026                                    
+                                                                                                    
+                              Exécution du : Mon Sep 21 14:04:34 2026                               
+                                  Nom de la machine : cbfe475675c3                                  
+                                        Architecture : 64bit                                        
+                                    Type de processeur : x86_64                                     
+               Système d'exploitation : Linux-7.0.0-31-generic-x86_64-with-glibc2.36                
+                                  Langue des messages : en (UTF-8)                                  
+                                    Version de Python : 3.11.14                                     
+                                     Version de NumPy : 1.26.4                                      
+                                      Parallélisme MPI : actif                                      
+                                   Rang du processeur courant : 0                                   
+                               Nombre de processeurs MPI utilisés : 1                               
+                                    Parallélisme OpenMP : actif                                     
+                              Nombre de processus OpenMP utilisés : 1                               
+                               Version de la librairie HDF5 : 1.10.7                                
+                                Version de la librairie MED : 4.2.0                                 
+                               Version de la librairie MFront : 5.0.0                               
+                               Version de la librairie MUMPS : 5.6.2                                
+                              Version de la librairie PETSc : 3.24.0p0                              
+                              Version de la librairie SCOTCH : 7.0.10                               
+
+starting the execution...
+Valeur initiale du temps CPU maximum =   1800 secondes
+  Valeur du temps CPU maximum passé aux commandes =   1620 secondes
+  Réserve CPU prévue = 180 secondes
+
+Ouverture en écriture du fichier ./glob.1
+
+Ouverture en écriture du fichier ./vola.1
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Créée avec la version                   :  17.04.00
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre total d'accès en lecture         :  64
+     Volume des accès en lecture             :         50.00 Mo.
+     Nombre total d'accès en écriture        :  0
+     Volume des accès en écriture            :          0.00 Mo.
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Relecture des catalogues des éléments faite.
+
+Fin de lecture (durée  0.051372  s.) 
+
+                      Mémoire limite pour l'allocation dynamique : 7940.62 Mo                       
+                         ajouté à l'initialisation du processus : 647.51 Mo                         
+                               Limite cible du processus : 8588.13 Mo                               
+                         Taille limite des fichiers d'échange : 2048.00 Go                          
+# Mémoire (Mo) :   647.51 /   639.39 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0001   user+syst:        0.06s (syst:        0.22s, elaps:        0.29s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt19
+# ----------------------------------------------------------------------------------------------
+# Commande #0002 de d7b.comm.changed.py, ligne 19
+MAIL = LIRE_MAILLAGE(FORMAT='ASTER',
+                     INFO=1,
+                     UNITE=20,
+                     VERI_MAIL=_F(APLAT=0.001,
+                                  VERIF='OUI'))
+
+Vérification du maillage.
+
+
+------------ MAILLAGE 00000001 - IMPRESSIONS NIVEAU  1 ------------
+
+Console verticale d7b (lot 25)                                                  
+
+NOMBRE DE NOEUDS                          81
+
+NOMBRE DE MAILLES                         72
+                              SEG2                    8
+                              QUAD4                  64
+
+NOMBRE DE GROUPES DE NOEUDS                3
+
+NOMBRE DE GROUPES DE MAILLES               2
+
+--------------------------------------------------------------------------------
+
+# Résultat commande #0002 (LIRE_MAILLAGE): MAIL ('<00000001>') de type <Mesh>
+# Mémoire (Mo) :   647.51 /   640.02 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0002   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt21
+# ----------------------------------------------------------------------------------------------
+# Commande #0003 de d7b.comm.changed.py, ligne 21
+MO = AFFE_MODELE(AFFE=_F(MODELISATION='DKT',
+                         PHENOMENE='MECANIQUE',
+                         TOUT='OUI'),
+                 DISTRIBUTION=_F(METHODE='SOUS_DOMAINE',
+                                 PARTITIONNEUR='METIS'),
+                 INFO=1,
+                 MAILLAGE=MAIL,
+                 VERI_FORMULATION_IFS='OUI',
+                 VERI_JACOBIEN='OUI',
+                 VERI_NORM_IFS='OUI',
+                 VERI_PLAN='OUI')
+
+Sur les 72 mailles du maillage 00000001, on a demandé l'affectation de 72, on a pu en affecter 72.
+Modélisation     Formulation      Type maille  Élément fini     Nombre
+_                _                SEG2         MEBODKT          8
+DKT              _                QUAD4        MEDKQU4          64
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0003 (AFFE_MODELE): MO ('<00000002>') de type <Model>
+# Mémoire (Mo) :   769.83 /   769.83 /   207.61 /   197.04 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0003   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt26
+# ----------------------------------------------------------------------------------------------
+# Commande #0004 de d7b.comm.changed.py, ligne 26
+CARA = AFFE_CARA_ELEM(COQUE=_F(A_CIS=0.8333333,
+                               COEF_RIGI_DRZ=1e-05,
+                               COQUE_NCOU=1,
+                               EPAIS=0.01385,
+                               GROUP_MA='PLAQUE',
+                               MODI_METRIQUE='NON',
+                               VECTEUR=(1.0, 0.0, 0.0)),
+                      INFO=1,
+                      MODELE=MO)
+
+
+     LE MODELE 00000002 CONTIENT : 
+                                       72 ELEMENT(S) COQUE           
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0004 (AFFE_CARA_ELEM): CARA ('<00000003>') de type <ElementaryCharacteristics>
+# Dépend de :
+# - MO ('<00000002>') de type <Model>
+# Mémoire (Mo) :   769.83 /   769.83 /   207.61 /   197.04 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0004   user+syst:        0.02s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt28
+# ----------------------------------------------------------------------------------------------
+# Commande #0005 de d7b.comm.changed.py, ligne 28
+MAT = DEFI_MATERIAU(ELAS_COQUE=_F(CISA_L=526000000.0,
+                                  CISA_T=526000000.0,
+                                  FLEX_G_LT=8400.0,
+                                  FLEX_L=89000000.0,
+                                  FLEX_LT=0.0,
+                                  FLEX_T=11300.0,
+                                  MEMB_G_LT=526000000.0,
+                                  MEMB_L=2908000000.0,
+                                  MEMB_LT=0.0,
+                                  MEMB_T=81000.0,
+                                  ORDRE_PARAM=('MEMB_L', 'MEMB_LT', 'MEMB_T', 'MEMB_G_LT', 'FLEX_L', 'FLEX_LT', 'FLEX_T', 'FLEX_G_LT', 'CISA_L', 'CISA_T', 'M_LLLL', 'M_LLTT', 'M_LLLT', 'M_TTTT', 'M_TTLT', 'M_LTLT', 'F_LLLL', 'F_LLTT', 'F_LLLT', 'F_TTTT', 'F_TTLT', 'F_LTLT', 'MF_LLLL', 'MF_LLTT', 'MF_LLLT', 'MF_TTTT', 'MF_TTLT', 'MF_LTLT', 'MC_LLLZ', 'MC_LLTZ', 'MC_TTLZ', 'MC_TTTZ', 'MC_LTLZ', 'MC_LTTZ', 'FC_LLLZ', 'FC_LLTZ', 'FC_TTLZ', 'FC_TTTZ', 'FC_LTLZ', 'FC_LTTZ', 'C_LZLZ', 'C_LZTZ', 'C_TZTZ', 'RHO', 'ALPHA'),
+                                  RHO=7850.0),
+                    INFO=1)
+
+# Résultat commande #0005 (DEFI_MATERIAU): MAT ('<00000004>') de type <Material>
+# Mémoire (Mo) :   769.83 /   769.83 /   207.61 /   197.04 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0005   user+syst:        0.10s (syst:        0.00s, elaps:        0.10s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt30
+# ----------------------------------------------------------------------------------------------
+# Commande #0006 de d7b.comm.changed.py, ligne 30
+CHMAT = AFFE_MATERIAU(AFFE=_F(GROUP_MA='PLAQUE',
+                              MATER=MAT),
+                      INFO=1,
+                      MAILLAGE=MAIL)
+
+# Résultat commande #0006 (AFFE_MATERIAU): CHMAT ('<00000005>') de type <MaterialField>
+# Mémoire (Mo) :   769.83 /   769.83 /   207.61 /   197.04 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0006   user+syst:        0.08s (syst:        0.00s, elaps:        0.09s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt32
+# ----------------------------------------------------------------------------------------------
+# Commande #0007 de d7b.comm.changed.py, ligne 32
+CHAR = AFFE_CHAR_MECA(DDL_IMPO=(_F(DRY=0.0,
+                                   GROUP_NO='TOUS'),
+                                _F(DRX=0.0,
+                                   DRZ=0.0,
+                                   DX=0.0,
+                                   DY=0.0,
+                                   DZ=0.0,
+                                   GROUP_NO='NBASE')),
+                      DOUBLE_LAGRANGE='OUI',
+                      FORCE_ARETE=_F(FY=100.0,
+                                     GROUP_MA='BORD_HAUT'),
+                      INFO=1,
+                      MODELE=MO,
+                      SYNTAXE='NON',
+                      VERI_AFFE='OUI',
+                      VERI_NORM='OUI')
+
+# Résultat commande #0007 (AFFE_CHAR_MECA): CHAR ('<00000006>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   769.83 /   769.83 /   207.61 /   197.04 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0007   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt41
+# ----------------------------------------------------------------------------------------------
+# Commande #0008 de d7b.comm.changed.py, ligne 41
+RESU = MECA_STATIQUE(CARA_ELEM=CARA,
+                     CHAM_MATER=CHMAT,
+                     EXCIT=_F(CHARGE=CHAR,
+                              TYPE_CHARGE='FIXE_CSTE'),
+                     INFO=1,
+                     INST=0.0,
+                     MODELE=MO,
+                     OPTION='SIEF_ELGA',
+                     SOLVEUR=_F(ACCELERATION='AUTO',
+                                ELIM_LAGR='LAGR2',
+                                GESTION_MEMOIRE='AUTO',
+                                LOW_RANK_SEUIL=0.0,
+                                MATR_DISTRIBUEE='NON',
+                                METHODE='MUMPS',
+                                NB_RHS=1,
+                                NPREC=8,
+                                PCENT_PIVOT=35,
+                                POSTTRAITEMENTS='AUTO',
+                                PRETRAITEMENTS='AUTO',
+                                REDUCTION_MPI=0,
+                                RENUM='AUTO',
+                                RESI_RELA=1e-06,
+                                STOP_SINGULIER='OUI',
+                                TYPE_RESOL='AUTO'))
+
+Le système linéaire à résoudre a 738 degrés de liberté:
+   - 486 sont des degrés de liberté physiques
+     (ils sont portés par 81 noeuds du maillage)
+   - 252 sont les couples de paramètres de Lagrange associés
+     aux 126 relations linéaires dualisées.
+La matrice est de taille 738 équations.
+  Elle contient 13383 termes non nuls si elle est symétrique et 26028 termes non nuls si elle n'est
+pas symétrique.
+  Soit un taux de remplissage de   4.779 %.
+Champ stocké <DEPL> à l'instant  0.000000000000e+00 pour le numéro d'ordre 1
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0008 (MECA_STATIQUE): RESU ('<00000007>') de type <ElasticResult>
+# Mémoire (Mo) :   773.71 /   769.84 /   207.61 /   197.27 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0008   user+syst:        0.20s (syst:        0.02s, elaps:        0.22s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt43
+# ----------------------------------------------------------------------------------------------
+# Commande #0010 de d7b.comm.changed.py, ligne 43
+RESU = CALC_CHAMP(CONTRAINTE='EFGE_NOEU',
+                  CRITERE='RELATIF',
+                  INFO=1,
+                  PARALLELISME_TEMPS='NON',
+                  PRECISION=1e-06,
+                  RESULTAT=RESU,
+                  reuse=RESU)
+
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0010 (CALC_CHAMP): RESU ('<00000007>') de type <ElasticResult>
+# Mémoire (Mo) :   773.71 /   769.84 /   207.61 /   197.27 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0010   user+syst:        0.03s (syst:        0.00s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt45
+# ----------------------------------------------------------------------------------------------
+# Commande #0011 de d7b.comm.changed.py, ligne 45
+T_DEPL = CREA_TABLE(RESU=_F(CRITERE='RELATIF',
+                            INTITULE='RESU',
+                            NOM_CHAM='DEPL',
+                            NOM_CMP=('DX', 'DY', 'DZ'),
+                            NUME_ORDRE=1,
+                            PRECISION=1e-06,
+                            RESULTAT=RESU,
+                            TOUT='OUI'),
+                    TYPE_TABLE='TABLE')
+
+# Résultat commande #0011 (CREA_TABLE): T_DEPL ('<0000002a>') de type <Table>
+# Mémoire (Mo) :   773.71 /   769.84 /   207.61 /   197.27 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0011   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt49
+# ----------------------------------------------------------------------------------------------
+# Commande #0012 de d7b.comm.changed.py, ligne 49
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_DEPL,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 0000002a CALCULE LE 21/09/2026 A 14:04:35 DE TYPE        
+RESULTAT         NOM_CHAM                 NUME_ORDRE   NOEUD    COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
+RESU             DEPL                                1 1          0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             DEPL                                1 2          0.000000000000E+00   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   6.625645283822E-05   0.000000000000E+00
+RESU             DEPL                                1 3          0.000000000000E+00   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   2.535029499892E-04   0.000000000000E+00
+RESU             DEPL                                1 4          0.000000000000E+00   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   5.444551993985E-04   0.000000000000E+00
+RESU             DEPL                                1 5          0.000000000000E+00   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   9.218289090084E-04   0.000000000000E+00
+RESU             DEPL                                1 6          0.000000000000E+00   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   1.368339786767E-03   0.000000000000E+00
+RESU             DEPL                                1 7          0.000000000000E+00   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   1.866703540633E-03   0.000000000000E+00
+RESU             DEPL                                1 8          0.000000000000E+00   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   2.399635878575E-03   0.000000000000E+00
+RESU             DEPL                                1 9          0.000000000000E+00   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   2.949852508548E-03   0.000000000000E+00
+RESU             DEPL                                1 10         1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             DEPL                                1 11         1.250000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   6.625645284514E-05   0.000000000000E+00
+RESU             DEPL                                1 12         1.250000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   2.535029500112E-04   0.000000000000E+00
+RESU             DEPL                                1 13         1.250000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   5.444551994382E-04   0.000000000000E+00
+RESU             DEPL                                1 14         1.250000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   9.218289090649E-04   0.000000000000E+00
+RESU             DEPL                                1 15         1.250000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   1.368339786836E-03   0.000000000000E+00
+RESU             DEPL                                1 16         1.250000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   1.866703540709E-03   0.000000000000E+00
+RESU             DEPL                                1 17         1.250000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   2.399635878651E-03   0.000000000000E+00
+RESU             DEPL                                1 18         1.250000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   2.949852508622E-03   0.000000000000E+00
+RESU             DEPL                                1 19         2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             DEPL                                1 20         2.500000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   6.625645285205E-05   0.000000000000E+00
+RESU             DEPL                                1 21         2.500000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   2.535029500333E-04   0.000000000000E+00
+RESU             DEPL                                1 22         2.500000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   5.444551994779E-04   0.000000000000E+00
+RESU             DEPL                                1 23         2.500000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   9.218289091213E-04   0.000000000000E+00
+RESU             DEPL                                1 24         2.500000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   1.368339786906E-03   0.000000000000E+00
+RESU             DEPL                                1 25         2.500000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   1.866703540785E-03   0.000000000000E+00
+RESU             DEPL                                1 26         2.500000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   2.399635878727E-03   0.000000000000E+00
+RESU             DEPL                                1 27         2.500000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   2.949852508697E-03   0.000000000000E+00
+RESU             DEPL                                1 28         3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             DEPL                                1 29         3.750000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   6.625645285896E-05   0.000000000000E+00
+RESU             DEPL                                1 30         3.750000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   2.535029500553E-04   0.000000000000E+00
+RESU             DEPL                                1 31         3.750000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   5.444551995176E-04   0.000000000000E+00
+RESU             DEPL                                1 32         3.750000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   9.218289091778E-04   0.000000000000E+00
+RESU             DEPL                                1 33         3.750000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   1.368339786975E-03   0.000000000000E+00
+RESU             DEPL                                1 34         3.750000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   1.866703540861E-03   0.000000000000E+00
+RESU             DEPL                                1 35         3.750000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   2.399635878803E-03   0.000000000000E+00
+RESU             DEPL                                1 36         3.750000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   2.949852508772E-03   0.000000000000E+00
+RESU             DEPL                                1 37         5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             DEPL                                1 38         5.000000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   6.625645286587E-05   0.000000000000E+00
+RESU             DEPL                                1 39         5.000000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   2.535029500773E-04   0.000000000000E+00
+RESU             DEPL                                1 40         5.000000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   5.444551995573E-04   0.000000000000E+00
+RESU             DEPL                                1 41         5.000000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   9.218289092343E-04   0.000000000000E+00
+RESU             DEPL                                1 42         5.000000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   1.368339787045E-03   0.000000000000E+00
+RESU             DEPL                                1 43         5.000000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   1.866703540938E-03   0.000000000000E+00
+RESU             DEPL                                1 44         5.000000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   2.399635878880E-03   0.000000000000E+00
+RESU             DEPL                                1 45         5.000000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   2.949852508846E-03   0.000000000000E+00
+RESU             DEPL                                1 46         6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             DEPL                                1 47         6.250000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   6.625645287277E-05   0.000000000000E+00
+RESU             DEPL                                1 48         6.250000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   2.535029500993E-04   0.000000000000E+00
+RESU             DEPL                                1 49         6.250000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   5.444551995970E-04   0.000000000000E+00
+RESU             DEPL                                1 50         6.250000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   9.218289092907E-04   0.000000000000E+00
+RESU             DEPL                                1 51         6.250000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   1.368339787114E-03   0.000000000000E+00
+RESU             DEPL                                1 52         6.250000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   1.866703541014E-03   0.000000000000E+00
+RESU             DEPL                                1 53         6.250000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   2.399635878956E-03   0.000000000000E+00
+RESU             DEPL                                1 54         6.250000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   2.949852508921E-03   0.000000000000E+00
+RESU             DEPL                                1 55         7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             DEPL                                1 56         7.500000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   6.625645287969E-05   0.000000000000E+00
+RESU             DEPL                                1 57         7.500000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   2.535029501213E-04   0.000000000000E+00
+RESU             DEPL                                1 58         7.500000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   5.444551996367E-04   0.000000000000E+00
+RESU             DEPL                                1 59         7.500000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   9.218289093472E-04   0.000000000000E+00
+RESU             DEPL                                1 60         7.500000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   1.368339787184E-03   0.000000000000E+00
+RESU             DEPL                                1 61         7.500000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   1.866703541090E-03   0.000000000000E+00
+RESU             DEPL                                1 62         7.500000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   2.399635879032E-03   0.000000000000E+00
+RESU             DEPL                                1 63         7.500000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   2.949852508996E-03   0.000000000000E+00
+RESU             DEPL                                1 64         8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             DEPL                                1 65         8.750000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   6.625645288660E-05   0.000000000000E+00
+RESU             DEPL                                1 66         8.750000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   2.535029501433E-04   0.000000000000E+00
+RESU             DEPL                                1 67         8.750000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   5.444551996764E-04   0.000000000000E+00
+RESU             DEPL                                1 68         8.750000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   9.218289094036E-04   0.000000000000E+00
+RESU             DEPL                                1 69         8.750000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   1.368339787253E-03   0.000000000000E+00
+RESU             DEPL                                1 70         8.750000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   1.866703541166E-03   0.000000000000E+00
+RESU             DEPL                                1 71         8.750000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   2.399635879109E-03   0.000000000000E+00
+RESU             DEPL                                1 72         8.750000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   2.949852509070E-03   0.000000000000E+00
+RESU             DEPL                                1 73         1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00
+RESU             DEPL                                1 74         1.000000000000E+00   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   6.625645289352E-05   0.000000000000E+00
+RESU             DEPL                                1 75         1.000000000000E+00   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   2.535029501653E-04   0.000000000000E+00
+RESU             DEPL                                1 76         1.000000000000E+00   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   5.444551997160E-04   0.000000000000E+00
+RESU             DEPL                                1 77         1.000000000000E+00   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   9.218289094601E-04   0.000000000000E+00
+RESU             DEPL                                1 78         1.000000000000E+00   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   1.368339787323E-03   0.000000000000E+00
+RESU             DEPL                                1 79         1.000000000000E+00   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   1.866703541242E-03   0.000000000000E+00
+RESU             DEPL                                1 80         1.000000000000E+00   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   2.399635879185E-03   0.000000000000E+00
+RESU             DEPL                                1 81         1.000000000000E+00   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   2.949852509145E-03   0.000000000000E+00
+
+# Mémoire (Mo) :   773.71 /   769.84 /   207.61 /   197.27 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0012   user+syst:        0.22s (syst:        0.05s, elaps:        0.26s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt51
+# ----------------------------------------------------------------------------------------------
+# Commande #0013 de d7b.comm.changed.py, ligne 51
+T_EFGE_NOEU = CREA_TABLE(RESU=_F(CRITERE='RELATIF',
+                                 INTITULE='RESU',
+                                 NOM_CHAM='EFGE_NOEU',
+                                 NOM_CMP=('NXX', 'NYY', 'NXY', 'MXX', 'MYY', 'MXY', 'QX', 'QY'),
+                                 NUME_ORDRE=1,
+                                 PRECISION=1e-06,
+                                 RESULTAT=RESU,
+                                 TOUT='OUI'),
+                         TYPE_TABLE='TABLE')
+
+# Résultat commande #0013 (CREA_TABLE): T_EFGE_NOEU ('<0000002b>') de type <Table>
+# Mémoire (Mo) :   773.71 /   769.84 /   207.61 /   197.27 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0013   user+syst:        0.01s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt55
+# ----------------------------------------------------------------------------------------------
+# Commande #0014 de d7b.comm.changed.py, ligne 55
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_EFGE_NOEU,
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##ASTER 17.04.00 CONCEPT 0000002b CALCULE LE 21/09/2026 A 14:04:35 DE TYPE        
+RESULTAT         NOM_CHAM                 NUME_ORDRE   NOEUD    COOR_X               COOR_Y               COOR_Z               NXX                  NYY                  NXY                  MXX                  MYY                  MXY                  QX                   QY                  
+RESU             EFGE_NOEU                           1 1          0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.000000000531E+02   3.717956871723E-09   7.500216270273E-08  -1.000000000307E+02
+RESU             EFGE_NOEU                           1 2          0.000000000000E+00   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   8.847015809738E-10   8.750000004877E+01   1.238325496735E-08  -1.087507826014E-07  -1.000000000731E+02
+RESU             EFGE_NOEU                           1 3          0.000000000000E+00   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -8.835670092880E-10   7.500000003346E+01   1.796159074042E-08  -1.741682353895E-09  -1.000000001227E+02
+RESU             EFGE_NOEU                           1 4          0.000000000000E+00   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -2.340642520599E-09   6.250000001665E+01   1.874332295695E-08   4.800926944881E-08  -1.000000001182E+02
+RESU             EFGE_NOEU                           1 5          0.000000000000E+00   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   4.031160550794E-09   5.000000000290E+01   1.626347659686E-08   1.326147867076E-07  -1.000000000613E+02
+RESU             EFGE_NOEU                           1 6          0.000000000000E+00   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -2.710121305736E-09   3.750000000049E+01   1.069038326282E-08   2.056212906609E-07  -9.999999998764E+01
+RESU             EFGE_NOEU                           1 7          0.000000000000E+00   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.912671485339E-08   2.500000000570E+01   3.401000024997E-09   1.060516297002E-08  -1.000000000265E+02
+RESU             EFGE_NOEU                           1 8          0.000000000000E+00   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   2.007223766125E-09   1.249999999445E+01  -1.065110268758E-09  -6.095251592342E-08  -1.000000000263E+02
+RESU             EFGE_NOEU                           1 9          0.000000000000E+00   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.056718610100E-08  -9.158229730133E-11  -1.861502618716E-09  -2.985507308040E-08  -9.999999995855E+01
+RESU             EFGE_NOEU                           1 10         1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.000000000658E+02   3.717193627490E-09   7.386040579149E-08  -1.000000000933E+02
+RESU             EFGE_NOEU                           1 11         1.250000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -1.749515339576E-08   8.750000005422E+01   1.245248051803E-08  -4.299420197640E-08  -1.000000001244E+02
+RESU             EFGE_NOEU                           1 12         1.250000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.379776244196E-09   7.500000003500E+01   1.799154445687E-08  -1.814385086618E-08  -1.000000001550E+02
+RESU             EFGE_NOEU                           1 13         1.250000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -2.419140148449E-09   6.250000001586E+01   1.876550621905E-08  -1.561181761645E-08  -1.000000001397E+02
+RESU             EFGE_NOEU                           1 14         1.250000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   2.164002935795E-08   5.000000000035E+01   1.628744815635E-08   1.291471107834E-08  -1.000000000831E+02
+RESU             EFGE_NOEU                           1 15         1.250000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   5.630164635452E-09   3.749999999531E+01   1.071191074233E-08   1.897856236610E-07  -1.000000000012E+02
+RESU             EFGE_NOEU                           1 16         1.250000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   2.334821446224E-08   2.500000000012E+01   3.373030552727E-09   7.487301445508E-08  -1.000000000052E+02
+RESU             EFGE_NOEU                           1 17         1.250000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.983075641725E-08   1.249999999388E+01  -1.099252848084E-09   6.571417543455E-08  -9.999999999962E+01
+RESU             EFGE_NOEU                           1 18         1.250000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.195351938109E-08   2.948197241892E-11  -1.858967146884E-09  -1.001262717182E-08  -9.999999995026E+01
+RESU             EFGE_NOEU                           1 19         2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.000000000780E+02   3.715430656766E-09   7.293840553757E-08  -1.000000001468E+02
+RESU             EFGE_NOEU                           1 20         2.500000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -1.894532407103E-08   8.750000005960E+01   1.250554868726E-08   5.636763944494E-08  -1.000000001649E+02
+RESU             EFGE_NOEU                           1 21         2.500000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -3.842877797876E-09   7.500000003667E+01   1.801296929365E-08   1.545947725390E-08  -1.000000001776E+02
+RESU             EFGE_NOEU                           1 22         2.500000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -1.133181722331E-08   6.250000001510E+01   1.878189179157E-08  -1.639227775740E-08  -1.000000001552E+02
+RESU             EFGE_NOEU                           1 23         2.500000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.179724684287E-08   4.999999999780E+01   1.630776040376E-08  -1.526556161480E-07  -1.000000000990E+02
+RESU             EFGE_NOEU                           1 24         2.500000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   4.004234752296E-08   3.749999999028E+01   1.073093291202E-08   1.889468421723E-07  -1.000000000124E+02
+RESU             EFGE_NOEU                           1 25         2.500000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   4.011338532030E-08   2.499999999468E+01   3.350808676510E-09   2.728199888224E-07  -9.999999998839E+01
+RESU             EFGE_NOEU                           1 26         2.500000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   3.932824614576E-08   1.249999999322E+01  -1.126537633275E-09  -1.513269580755E-07  -9.999999997902E+01
+RESU             EFGE_NOEU                           1 27         2.500000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   2.637111855030E-09  -1.411371020055E-11  -1.857859699417E-09   6.174041118356E-07  -9.999999994609E+01
+RESU             EFGE_NOEU                           1 28         3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.000000000903E+02   3.713993993597E-09   7.308290150831E-08  -1.000000002022E+02
+RESU             EFGE_NOEU                           1 29         3.750000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -1.139208647177E-08   8.750000006502E+01   1.249247817859E-08   1.192665877170E-07  -1.000000002081E+02
+RESU             EFGE_NOEU                           1 30         3.750000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -4.958870537648E-09   7.500000003830E+01   1.800702536545E-08   1.647913450142E-08  -1.000000002028E+02
+RESU             EFGE_NOEU                           1 31         3.750000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -6.493569884105E-09   6.250000001434E+01   1.877828686524E-08   5.165611582925E-08  -1.000000001723E+02
+RESU             EFGE_NOEU                           1 32         3.750000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -4.529231135344E-09   4.999999999524E+01   1.630766114512E-08  -1.475663111705E-07  -1.000000001165E+02
+RESU             EFGE_NOEU                           1 33         3.750000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   5.446436637510E-08   3.749999998521E+01   1.073468164159E-08  -6.972095434321E-08  -1.000000000241E+02
+RESU             EFGE_NOEU                           1 34         3.750000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   7.882143211297E-08   2.499999998920E+01   3.351293508621E-09   3.473294327705E-07  -9.999999997048E+01
+RESU             EFGE_NOEU                           1 35         3.750000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -2.454889097133E-08   1.249999999259E+01  -1.121164845138E-09  -3.664852101792E-07  -9.999999995672E+01
+RESU             EFGE_NOEU                           1 36         3.750000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.410072640490E-07   5.959122084676E-12  -1.840111396589E-09   9.304094419349E-07  -9.999999994053E+01
+RESU             EFGE_NOEU                           1 37         5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.000000001026E+02   3.713675863599E-09   7.301957793970E-08  -1.000000002570E+02
+RESU             EFGE_NOEU                           1 38         5.000000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   4.114889073029E-09   8.750000007043E+01   1.249503695672E-08   1.336092054771E-07  -1.000000002506E+02
+RESU             EFGE_NOEU                           1 39         5.000000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -1.104403468590E-08   7.500000003992E+01   1.800961503079E-08   6.003460839565E-09  -1.000000002274E+02
+RESU             EFGE_NOEU                           1 40         5.000000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   3.607687627540E-09   6.250000001358E+01   1.878017723302E-08   4.059643288201E-08  -1.000000001890E+02
+RESU             EFGE_NOEU                           1 41         5.000000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -7.393940772812E-09   4.999999999268E+01   1.631064165500E-08  -1.238948925675E-07  -1.000000001337E+02
+RESU             EFGE_NOEU                           1 42         5.000000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   4.195508415044E-09   3.749999998016E+01   1.074759513993E-08  -2.945921551145E-07  -1.000000000359E+02
+RESU             EFGE_NOEU                           1 43         5.000000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.081603285702E-07   2.499999998369E+01   3.341774313952E-09   1.161770342151E-07  -9.999999995263E+01
+RESU             EFGE_NOEU                           1 44         5.000000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -3.474724576699E-08   1.249999999200E+01  -1.120115955930E-09  -1.590929059603E-07  -9.999999993473E+01
+RESU             EFGE_NOEU                           1 45         5.000000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.866301596101E-07   4.390932062392E-12  -1.799194127017E-09   4.068642738275E-07  -9.999999993588E+01
+RESU             EFGE_NOEU                           1 46         6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.000000001148E+02   3.714572416471E-09   7.312314664887E-08  -1.000000003119E+02
+RESU             EFGE_NOEU                           1 47         6.250000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.528923138048E-08   8.750000007584E+01   1.249069363154E-08   9.357279395772E-08  -1.000000002931E+02
+RESU             EFGE_NOEU                           1 48         6.250000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -6.161081414936E-09   7.500000004156E+01   1.800701637025E-08   9.135305845120E-08  -1.000000002520E+02
+RESU             EFGE_NOEU                           1 49         6.250000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.362271427456E-08   6.250000001281E+01   1.877874428765E-08  -5.520189461095E-08  -1.000000002057E+02
+RESU             EFGE_NOEU                           1 50         6.250000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -1.782177789469E-08   4.999999999013E+01   1.630478069359E-08  -6.083132575441E-08  -1.000000001506E+02
+RESU             EFGE_NOEU                           1 51         6.250000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -3.071620719650E-08   3.749999997514E+01   1.075924855866E-08  -2.441170181555E-07  -1.000000000480E+02
+RESU             EFGE_NOEU                           1 52         6.250000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   6.849195611442E-08   2.499999997811E+01   3.339229047862E-09  -1.031676220009E-07  -9.999999993464E+01
+RESU             EFGE_NOEU                           1 53         6.250000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -4.522685374021E-09   1.249999999150E+01  -1.113347730539E-09  -4.317028015066E-07  -9.999999991247E+01
+RESU             EFGE_NOEU                           1 54         6.250000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.566861752402E-07   3.136380044566E-13  -1.752710476755E-09   6.139634933788E-08  -9.999999993188E+01
+RESU             EFGE_NOEU                           1 55         7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.000000001272E+02   3.716254185389E-09   7.299354365387E-08  -1.000000003675E+02
+RESU             EFGE_NOEU                           1 56         7.500000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.997120462086E-08   8.750000008125E+01   1.250335601263E-08   2.836509338522E-08  -1.000000003361E+02
+RESU             EFGE_NOEU                           1 57         7.500000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   5.673802066870E-09   7.500000004321E+01   1.801174634977E-08   7.722348982497E-08  -1.000000002772E+02
+RESU             EFGE_NOEU                           1 58         7.500000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -5.949294130608E-09   6.250000001204E+01   1.878394303830E-08  -1.136128275903E-07  -1.000000002228E+02
+RESU             EFGE_NOEU                           1 59         7.500000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   6.290615215619E-10   4.999999998757E+01   1.630208737448E-08  -5.813365078211E-08  -1.000000001678E+02
+RESU             EFGE_NOEU                           1 60         7.500000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -5.898020012764E-08   3.749999997015E+01   1.077290427272E-08  -9.260725164495E-08  -1.000000000606E+02
+RESU             EFGE_NOEU                           1 61         7.500000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   6.339579753189E-08   2.499999997245E+01   3.333501882857E-09  -3.398256467335E-07  -9.999999991624E+01
+RESU             EFGE_NOEU                           1 62         7.500000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -8.806906904749E-08   1.249999999107E+01  -1.118555032568E-09  -2.507197223167E-07  -9.999999988959E+01
+RESU             EFGE_NOEU                           1 63         7.500000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.122815433048E-07   1.035005414707E-11  -1.712929798003E-09  -5.887495717616E-07  -9.999999992819E+01
+RESU             EFGE_NOEU                           1 64         8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.000000001394E+02   3.717898977900E-09   7.390633527393E-08  -1.000000004212E+02
+RESU             EFGE_NOEU                           1 65         8.750000000000E-01   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.544499758263E-08   8.750000008662E+01   1.245116431844E-08  -5.638014499709E-08  -1.000000003766E+02
+RESU             EFGE_NOEU                           1 66         8.750000000000E-01   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   6.913601366920E-09   7.500000004488E+01   1.798844526450E-08  -7.284370440175E-09  -1.000000002998E+02
+RESU             EFGE_NOEU                           1 67         8.750000000000E-01   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -1.197106066430E-08   6.250000001128E+01   1.876796016114E-08  -1.436410457245E-08  -1.000000002384E+02
+RESU             EFGE_NOEU                           1 68         8.750000000000E-01   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -4.139150150715E-09   4.999999998499E+01   1.628015484901E-08  -1.179585069622E-07  -1.000000001833E+02
+RESU             EFGE_NOEU                           1 69         8.750000000000E-01   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -3.821721417672E-08   3.749999996525E+01   1.075998267826E-08   1.213809355249E-07  -1.000000000726E+02
+RESU             EFGE_NOEU                           1 70         8.750000000000E-01   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -8.907370258109E-09   2.499999996677E+01   3.357989077267E-09  -2.513049821573E-07  -9.999999989881E+01
+RESU             EFGE_NOEU                           1 71         8.750000000000E-01   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.883358704903E-08   1.249999999069E+01  -1.092128381595E-09   1.802322913136E-08  -9.999999986796E+01
+RESU             EFGE_NOEU                           1 72         8.750000000000E-01   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -1.323267654967E-08  -3.167743845012E-11  -1.700631302448E-09  -6.998770913924E-07  -9.999999992630E+01
+RESU             EFGE_NOEU                           1 73         1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.000000001520E+02   3.718657387349E-09   7.504036148021E-08  -1.000000004839E+02
+RESU             EFGE_NOEU                           1 74         1.000000000000E+00   0.000000000000E+00   1.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -2.735048576069E-11   8.750000009206E+01   1.238237058265E-08  -1.010030246107E-07  -1.000000004280E+02
+RESU             EFGE_NOEU                           1 75         1.000000000000E+00   0.000000000000E+00   2.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -2.619926640542E-10   7.500000004643E+01   1.795807941058E-08  -3.082323019044E-08  -1.000000003320E+02
+RESU             EFGE_NOEU                           1 76         1.000000000000E+00   0.000000000000E+00   3.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   4.386298605827E-09   6.250000001050E+01   1.874567504005E-08   6.376467354130E-08  -1.000000002602E+02
+RESU             EFGE_NOEU                           1 77         1.000000000000E+00   0.000000000000E+00   5.000000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -9.516853823312E-09   4.999999998240E+01   1.625610697495E-08  -9.012933332997E-08  -1.000000002044E+02
+RESU             EFGE_NOEU                           1 78         1.000000000000E+00   0.000000000000E+00   6.250000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -1.616523300619E-09   3.749999996023E+01   1.073691505422E-08   1.855410118878E-07  -1.000000000871E+02
+RESU             EFGE_NOEU                           1 79         1.000000000000E+00   0.000000000000E+00   7.500000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -7.514818778015E-09   2.499999996091E+01   3.389690462715E-09   2.651177055668E-08  -9.999999987696E+01
+RESU             EFGE_NOEU                           1 80         1.000000000000E+00   0.000000000000E+00   8.750000000000E-01   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.790701097464E-08   1.249999999040E+01  -1.057363974258E-09  -2.456695256114E-07  -9.999999984011E+01
+RESU             EFGE_NOEU                           1 81         1.000000000000E+00   0.000000000000E+00   1.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -5.725298997032E-08   7.088218900719E-11  -1.709724029020E-09  -2.773504093057E-07  -9.999999992027E+01
+
+# Mémoire (Mo) :   773.71 /   769.84 /   207.61 /   197.27 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0014   user+syst:        0.08s (syst:        0.00s, elaps:        0.08s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt76
+# ----------------------------------------------------------------------------------------------
+# Commande #0015 de /opt/spack/opt/spack/linux-zen2/code-aster-17.4
+0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/CodeCommands/fin.py, ligne 76
+FIN(INFO_RESU='NON',
+    RETASSAGE='NON')
+
+No database in results, objects not saved on processor #0
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <I> <CATAMESS_89>                                                                              ║
+ ║                                                                                                ║
+ ║ Liste des alarmes émises lors de l'exécution du calcul.                                        ║
+ ║                                                                                                ║
+ ║     Les alarmes que vous avez choisies d'ignorer sont précédées de (*).                        ║
+ ║     Nombre d'occurrences pour chacune des alarmes :                                            ║
+ ║            aucune alarme                                                                       ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+<I> <FIN> ARRET NORMAL DANS "FIN" PAR APPEL A "JEFINI".
+  
+ <I> <FIN> MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :                     197.27 Mo
+ <I> <FIN> MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :                     207.61 Mo
+ <I> <FIN> MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS LORS DE L'EXECUTION :     778.54 Mo
+  
+ <I>       FERMETURE DES BASES EFFECTUEE
+  
+   STATISTIQUES CONCERNANT L'ALLOCATION DYNAMIQUE :
+     TAILLE CUMULEE MAXIMUM            :                  208  Mo.
+     TAILLE CUMULEE LIBEREE            :                    3  Mo.
+     NOMBRE TOTAL D'ALLOCATIONS        :                14075
+     NOMBRE TOTAL DE LIBERATIONS       :                13572
+     APPELS AU MECANISME DE LIBERATION :                    0
+     TAILLE MEMOIRE CUMULEE RECUPEREE  :                    0  Mo.
+     VOLUME DES LECTURES               :                    0  Mo.
+     VOLUME DES ECRITURES              :                    0  Mo.
+  
+   MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :     197.27 Mo
+     - IMPOSE DE NOMBREUX ACCES DISQUE
+     - RALENTIT LA VITESSE D'EXECUTION
+   MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :     207.61 Mo
+     - LIMITE LES ACCES DISQUE
+     - AMELIORE LA VITESSE D'EXECUTION
+   MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS     :     778.54 Mo
+     - COMPREND LA MEMOIRE CONSOMMEE PAR  JEVEUX, 
+       LE SUPERVISEUR PYTHON, LES LIBRAIRIES EXTERNES
+  
+ <I>       FIN D'EXECUTION LE : LU-21-SEPT-2026 14:04:36
+INFO './glob.1' deleted
+Deleting './glob.2': No such file or directory
+INFO './vola.1' deleted
+Deleting './vola.2': No such file or directory
+
+ ********************************************************************************
+ * COMMAND                  :       USER :     SYSTEM :   USER+SYS :    ELAPSED *
+ ********************************************************************************
+ * DEBUT                    :       0.06 :       0.22 :       0.28 :       0.29 *
+ * LIRE_MAILLAGE            :       0.02 :       0.00 :       0.02 :       0.02 *
+ * AFFE_MODELE              :       0.02 :       0.00 :       0.02 :       0.02 *
+ * AFFE_CARA_ELEM           :       0.02 :       0.00 :       0.02 :       0.01 *
+ * DEFI_MATERIAU            :       0.10 :       0.00 :       0.10 :       0.10 *
+ * AFFE_MATERIAU            :       0.08 :       0.00 :       0.08 :       0.09 *
+ * AFFE_CHAR_MECA           :       0.02 :       0.00 :       0.02 :       0.02 *
+ * MECA_STATIQUE            :       0.20 :       0.02 :       0.22 :       0.22 *
+ * CALC_CHAMP               :       0.03 :       0.00 :       0.03 :       0.03 *
+ * CREA_TABLE               :       0.01 :       0.00 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.22 :       0.05 :       0.27 :       0.26 *
+ * CREA_TABLE               :       0.01 :       0.01 :       0.02 :       0.02 *
+ * IMPR_TABLE               :       0.08 :       0.00 :       0.08 :       0.08 *
+ * FIN                      :       0.11 :       0.01 :       0.12 :       0.12 *
+ *  . check syntax          :       0.03 :       0.00 :       0.03 :       0.03 *
+ *  . fortran               :       0.23 :       0.23 :       0.46 :       0.46 *
+ *  . cleanup               :       0.51 :       0.05 :       0.56 :       0.56 *
+ ********************************************************************************
+ * TOTAL_JOB                :       1.08 :       0.34 :       1.42 :       1.44 *
+ ********************************************************************************
+
+# Mémoire (Mo) :   778.54 /   778.54 /   207.61 /   197.27 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0015   user+syst:        0.11s (syst:        0.01s, elaps:        0.12s)
+# ----------------------------------------------------------------------------------------------
+End of the Code_Aster execution
+Code_Aster MPI exits normally
+Exited
+
+EXECUTION_CODE_ASTER_EXIT_1=0
+
+
+
+------------------------------------------------------------
+--- DIAGNOSTIC JOB : OK
+------------------------------------------------------------
+

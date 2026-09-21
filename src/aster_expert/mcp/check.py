@@ -27,6 +27,8 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from pydantic import BaseModel, ConfigDict
 
+from aster_expert.mcp.logging import CALL_ORIGIN_ENV, CHECK_ORIGIN
+
 SERVER_NAME = "aster-expert"
 _SERVER_SOURCE = Path(__file__).with_name("server.py")
 _VAR = re.compile(r"\$\{([A-Za-z_][A-Za-z0-9_]*)(?::-([^}]*))?\}")
@@ -83,7 +85,11 @@ def load_server_spec(project_root: Path) -> ServerSpec:
     except (ValueError, KeyError, TypeError) as exc:
         message = f"{config_path} ne déclare pas le serveur {SERVER_NAME!r} ({exc!r})"
         raise McpCheckError(message) from exc
-    variables = {**os.environ, "CLAUDE_PROJECT_DIR": str(project_root)}
+    # Claude Code defines CLAUDE_PROJECT_DIR in the environment of the launched
+    # server, not when it reads the configuration (lot 25): the expansion uses
+    # the shell environment only. Injecting the variable here (lot 24) made the
+    # check pass while Claude Code failed on an empty `${CLAUDE_PROJECT_DIR}`.
+    variables = dict(os.environ)
     return ServerSpec(
         command=_expand(str(entry["command"]), variables),
         args=[_expand(str(arg), variables) for arg in entry.get("args", [])],
@@ -92,6 +98,17 @@ def load_server_spec(project_root: Path) -> ServerSpec:
             for key, value in entry.get("env", {}).items()
         },
     )
+
+
+def ensure_command_executable(spec: ServerSpec) -> None:
+    """Fail unless the expanded command is an existing executable file."""
+    command = Path(spec.command)
+    if not command.is_file():
+        message = f"commande du serveur introuvable après expansion : {spec.command}"
+        raise McpCheckError(message)
+    if not os.access(command, os.X_OK):
+        message = f"commande du serveur non exécutable : {spec.command}"
+        raise McpCheckError(message)
 
 
 def declared_tools(server_source: Path = _SERVER_SOURCE) -> list[str]:
@@ -268,8 +285,11 @@ async def run_check(
 
     Raises `McpCheckError` at the first discrepancy.
     """
+    spec_from_config = spec is None
     spec = spec if spec is not None else load_server_spec(project_root)
     expected = expected if expected is not None else declared_tools()
+    if spec_from_config:
+        ensure_command_executable(spec)
     unprobed = sorted(
         tool for tool in expected if tool not in _PROBES and tool not in _COVERED_BY
     )
@@ -278,7 +298,10 @@ async def run_check(
         raise McpCheckError(message)
 
     parameters = StdioServerParameters(
-        command=spec.command, args=spec.args, env=spec.env, cwd=project_root
+        command=spec.command,
+        args=spec.args,
+        env={**spec.env, CALL_ORIGIN_ENV: CHECK_ORIGIN},
+        cwd=project_root,
     )
     checks: list[ToolCheck] = []
     try:
@@ -316,6 +339,7 @@ __all__: list[str] = [
     "ServerSpec",
     "ToolCheck",
     "declared_tools",
+    "ensure_command_executable",
     "load_server_spec",
     "run_check",
 ]

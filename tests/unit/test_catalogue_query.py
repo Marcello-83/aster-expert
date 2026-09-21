@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -237,3 +238,66 @@ def test_find_keyword_variants_returns_every_duplicate_never_just_one() -> None:
         ("equal_to(\"RELATION\", 'ELAS')",),
         ("equal_to(\"RELATION\", 'VMIS_ISOT_LINE')",),
     }
+
+
+def test_catalogue_vocabulary_collects_commands_keywords_and_values(
+    tmp_path: Path,
+) -> None:
+    import pytest
+
+    from aster_expert.catalogue.errors import CatalogueExtractionError
+    from aster_expert.catalogue.models import (
+        CommandSchema,
+        FactorKeywordSchema,
+        SimpleKeywordSchema,
+    )
+    from aster_expert.catalogue.query import catalogue_vocabulary
+
+    child = SimpleKeywordSchema(
+        path=["GRP", "CHAMP"],
+        variant_id="v",
+        kind="simple",
+        status="optional",
+        value_type="TXM",
+        allowed_values=["EFGE_NOEU", 3],
+        default=None,
+        min_values=None,
+        max_values=None,
+        condition=[],
+    )
+    factor = FactorKeywordSchema(
+        path=["GRP"],
+        variant_id="v",
+        kind="factor",
+        status="optional",
+        min_occurrences=None,
+        max_occurrences=None,
+        condition=[],
+        children=[child],
+    )
+    schema = CommandSchema(
+        command="CMD",
+        aster_version="x",
+        image_digest="d",
+        catalogue_source="s",
+        catalogue_hash="h",
+        kind="operator",
+        result_type=None,
+        result_type_dynamic=False,
+        docu=None,
+        keywords=[factor],
+        extracted_at=datetime(2026, 1, 1, tzinfo=UTC),
+    )
+    (tmp_path / "sha256:d").mkdir()
+    (tmp_path / "sha256:d" / "CMD.json").write_text(
+        schema.model_dump_json(), encoding="utf-8"
+    )
+
+    assert catalogue_vocabulary(tmp_path, "sha256:d") == {
+        "CMD",
+        "GRP",
+        "CHAMP",
+        "EFGE_NOEU",
+    }
+    with pytest.raises(CatalogueExtractionError):
+        catalogue_vocabulary(tmp_path, "sha256:absent")

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "u4420_coque_repere_utilisateur",
+    "document_id": "U4.42.01",
+    "section_path": [
+      "Mot_cle_COQUE",
+      "Mot clé COQUE",
+      "Opérandes",
+      "Opérande ANGL_REP / VECTEUR"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_COQUE.rst",
+    "line_start": 124,
+    "line_end": 134,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Les mots clés ANGL_REP ou VECTEUR permettent de renseigner le repère «utilisateur» en chaque élément de coque. C’est dans ce repère que sont exprimées par exemple les contraintes dans la coque ou les efforts généralisés [:ref:`U2.01.05 <U2.01.05>`].\n\nL’utilisateur fournit à l’aide de ces mots clés un vecteur :math:`V` qui permettra de définir entièrement le repère. La construction de ce repère «utilisateur» à partir de :math:`V` est effectuée en tout point :math:`P` de la façon suivante (cf. Figure ):\n\n•    la projection de :math:`V` sur le plan tangent fournit l’axe :math:`{x}_{l}` ,\n\n•    le vecteur :math:`{z}_{l}` est colinéaire à la normale :math:`n` au plan de la coque qui est connue pour chaque élément, son orientation peut être changée par MODI_MAILLAGE/ORIE_NORM_COQUE[U4.23.04],\n\n•    le vecteur :math:`{y}_{l}` est construit de manière à avoir un repère orthonormé.\n\nLe repère «utilisateur» est donc: :math:`(P,{x}_{l},{y}_{l},{z}_{l})` avec: :math:`{z}_{l}=n` et :math:`{y}_{l}={z}_{l}\\text{^}{x}_{l}`"
+  },
+  {
+    "id": "u4420_coque_angl_rep",
+    "document_id": "U4.42.01",
+    "section_path": [
+      "Mot_cle_COQUE",
+      "Mot clé COQUE",
+      "Opérandes",
+      "Opérande ANGL_REP / VECTEUR"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_COQUE.rst",
+    "line_start": 147,
+    "line_end": 149,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "◊ ANGL_REP= (:math:`\\alpha`  , :math:`\\beta` )\n\nLe mot-clé ANGL_REP définit le vecteur :math:`V` dans le repère global :math:`(O,X,Y,Z)` à partir de deux angles nautiques :math:`\\alpha` et :math:`\\beta` comme expliqué Figure et Figure ."
+  },
+  {
+    "id": "u4420_coque_vecteur",
+    "document_id": "U4.42.01",
+    "section_path": [
+      "Mot_cle_COQUE",
+      "Mot clé COQUE",
+      "Opérandes",
+      "Opérande ANGL_REP / VECTEUR"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_COQUE.rst",
+    "line_start": 188,
+    "line_end": 194,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "◊ VECTEUR = :math:`(\\mathrm{vx},\\mathrm{vy},\\mathrm{vz})`\n\nLe vecteur :math:`V` est défini par ses coordonnées dans le repère global :math:`(O,X,Y,Z)` .\n\n**Remarques:**\n\n*•* *Si aucun des mots clés ci-dessus n’est renseigné, c’est donc l’axe global* :math:`X` *qui détermine, par projection sur le plan tangent de la coque, le repère «utilisateur» de chaque maille.*"
+  }
+]

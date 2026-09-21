@@ -167,3 +167,19 @@ fichiers `combiwall_inputs/lot22_essais.json` donnent les résultats de ces essa
 à `scripts/build_combiwall_reference.py`, qui les enregistre comme constats
 `code_aster` à source d'exécution (`ExecutionSource`) : l'empreinte du cas et
 l'écart relatif y sont calculés, jamais saisis.
+
+## Lot 25
+
+- `combiwall_model_data.yaml` : données chiffrées du modèle QUAI-CW-TEST-01, validées
+  par `aster_expert.agent.model_data` (valeur, unité, source, commentaire ; les
+  valeurs absentes de toutes les sources sont « à fournir » et bloquent la
+  génération). Écrit à la main, contrôlé par `check_consistency` et par
+  `tests/unit/test_model_data.py`.
+- `lot25_essais/` : cas de l'essai D7 (console verticale `ELAS_COQUE` dans le plan
+  XZ), `.mess` versionnés et `analyse.json` (`scripts/build_lot25_essais.py`,
+  `scripts/analyze_lot25_essais.py`).
+- `combiwall_inputs/` : `arbitrage_combiwall_MM_lot25_repere.md` (décision du repère
+  global, recopiée), `lot25_enregistrement.json`, `lot25_essais.json`,
+  `lot25_extraits.json`, `cas_test_quai_combiwall_v2.md` (recopié du dossier
+  d'échange).
+

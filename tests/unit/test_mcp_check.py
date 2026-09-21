@@ -17,6 +17,7 @@ from aster_expert.mcp.check import (
     McpCheckError,
     ServerSpec,
     declared_tools,
+    ensure_command_executable,
     load_server_spec,
     run_check,
 )
@@ -59,6 +60,7 @@ def test_load_server_spec_expands_variables(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     monkeypatch.delenv("ASTER_TEST_UNSET", raising=False)
+    monkeypatch.setenv("CLAUDE_PROJECT_DIR", str(tmp_path))
     (tmp_path / ".mcp.json").write_text(
         json.dumps(
             {
@@ -79,7 +81,10 @@ def test_load_server_spec_expands_variables(
     assert spec.env == {"ROOT": str(tmp_path)}
 
 
-def test_load_server_spec_rejects_missing_or_unset(tmp_path: Path) -> None:
+def test_load_server_spec_rejects_missing_or_unset(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.delenv("ASTER_TEST_UNSET_2", raising=False)
     with pytest.raises(McpCheckError, match="introuvable"):
         load_server_spec(tmp_path)
     (tmp_path / ".mcp.json").write_text(
@@ -92,11 +97,90 @@ def test_load_server_spec_rejects_missing_or_unset(tmp_path: Path) -> None:
         load_server_spec(tmp_path)
 
 
-def test_repository_mcp_json_declares_the_server() -> None:
+def test_project_dir_is_not_injected_by_the_check(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Lot 24 injected CLAUDE_PROJECT_DIR: the check passed where Claude Code
+    # failed on an empty variable.
+    monkeypatch.delenv("CLAUDE_PROJECT_DIR", raising=False)
+    (tmp_path / ".mcp.json").write_text(
+        json.dumps(
+            {
+                "mcpServers": {
+                    "aster-expert": {"command": "${CLAUDE_PROJECT_DIR}/.venv/bin/srv"}
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(McpCheckError, match="non définie"):
+        load_server_spec(tmp_path)
+
+
+def test_default_value_applies_when_variable_is_unset(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.delenv("CLAUDE_PROJECT_DIR", raising=False)
+    (tmp_path / ".mcp.json").write_text(
+        json.dumps(
+            {
+                "mcpServers": {
+                    "aster-expert": {
+                        "command": "${CLAUDE_PROJECT_DIR:-/opt/x}/bin/srv",
+                        "env": {"A": "${CLAUDE_PROJECT_DIR:-}"},
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    spec = load_server_spec(tmp_path)
+    assert spec.command == "/opt/x/bin/srv"
+    assert spec.env == {"A": ""}
+
+
+def test_repository_mcp_json_resolves_to_an_executable(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     root = Path(__file__).resolve().parents[2]
+    monkeypatch.delenv("CLAUDE_PROJECT_DIR", raising=False)
     spec = load_server_spec(root)
     assert Path(spec.command) == root / ".venv" / "bin" / "aster-expert-mcp"
     assert spec.env["ASTER_EXPERT_ROOT"] == str(root)
+    ensure_command_executable(spec)
+
+
+def test_ensure_command_executable_rejects_absent_and_non_executable(
+    tmp_path: Path,
+) -> None:
+    absent = ServerSpec(command=str(tmp_path / "absent"), args=[], env={})
+    with pytest.raises(McpCheckError, match="introuvable"):
+        ensure_command_executable(absent)
+    plain = tmp_path / "plain"
+    plain.write_text("x", encoding="utf-8")
+    plain.chmod(0o644)
+    with pytest.raises(McpCheckError, match="non exécutable"):
+        ensure_command_executable(ServerSpec(command=str(plain), args=[], env={}))
+
+
+def test_run_check_stops_when_configured_command_is_missing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.delenv("CLAUDE_PROJECT_DIR", raising=False)
+    (tmp_path / ".mcp.json").write_text(
+        json.dumps(
+            {
+                "mcpServers": {
+                    "aster-expert": {
+                        "command": "${CLAUDE_PROJECT_DIR:-" + str(tmp_path) + "}/nope"
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(McpCheckError, match="introuvable après expansion"):
+        asyncio.run(run_check(tmp_path))
 
 
 def test_run_check_fails_on_missing_tools(tmp_path: Path) -> None:

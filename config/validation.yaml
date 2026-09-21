@@ -45,6 +45,8 @@ execution:
     - data/examples/lot23_essais
     # Cas du lot 24 (D6), entièrement produits par scripts/build_lot24_essais.py.
     - data/examples/lot24_essais
+    # Cas du lot 25 (D7), entièrement produits par scripts/build_lot25_essais.py.
+    - data/examples/lot25_essais
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

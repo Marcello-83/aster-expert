@@ -1,0 +1,98 @@
+{
+ "contexts": {
+  "lot25": {
+   "aster_version": "17.4.0",
+   "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+   "repo_commit": "5718698a16bf62ffde907c6a2c3f18a3c5081a32",
+   "working_tree_modified": true,
+   "note": "HEAD au moment des exécutions du lot 25 (commit du correctif .mcp.json) ; les fichiers des cas n'étaient pas encore commités."
+  }
+ },
+ "findings": [
+  {
+   "id": "elas_coque_axes_plan_vertical",
+   "point_label": "1",
+   "topic": "Orientation des axes L et T d'ELAS_COQUE pour une coque dans un plan vertical (VECTEUR, ANGL_REP)",
+   "extraits": [
+    "u4420_coque_repere_utilisateur",
+    "u4420_coque_angl_rep",
+    "u4420_coque_vecteur"
+   ],
+   "option_retained": "Pour une plaque DKT située dans le plan vertical XZ du repère global du point 9 (X le long du quai, Y vers la terre, Z vertical ascendant), l'axe L d'ELAS_COQUE est l'axe x_l du repère utilisateur de la coque, que la projection sur le plan tangent du vecteur V fixe (U4.42.01) : VECTEUR = (0, 0, 1) place L selon Z et T selon X ; VECTEUR = (1, 0, 0) place L selon X et T selon Z ; ANGL_REP = (0, −90) (α = 0, β = −90 degrés) est équivalent à VECTEUR = (0, 0, 1) (flèches identiques, écart relatif nul). Essai D7 (docs/essais_lot25.md, critère écrit avant l'exécution) : console verticale DKT (quadrangles) dans le plan XZ, X de 0 à 1 m, Z de 0 à 1 m, encastrée en Z = 0, effort linéique 100 N/m selon +Y sur l'arête Z = 1 m, coefficients de la décision 2 v5 en SI (FLEX_L = 89e6, FLEX_T = 11 300 N·m²/m, rapport 7 876), DRY = 0 sur tous les nœuds. (1) VECTEUR = (0, 0, 1) : flèche en tête 3,745318352061e-7 m pour q·H³/(3·FLEX_L) = 3,745318352060e-7 m (écart relatif 3e-13 en 8 × 8, 1,3e-12 en 16 × 16) ; la flexion selon L = Z apparaît en MXX de EFGE_NOEU, |MXX| = q·(H − z) à 1e-11·q·H près en tous les nœuds, QX = −100 N/m, MYY et MXY nuls à 1e-13·q·H près. (2) Contre-épreuve VECTEUR = (1, 0, 0) : flèche en tête 2,949852509e-3 m pour q·H³/(3·FLEX_T) = 2,949852507e-3 m (écart relatif 5e-10 en 8 × 8, 4,4e-8 en 16 × 16) ; la flexion selon Z apparaît alors en MYY, |MYY| = q·(H − z) à 5e-8·q·H près. (3) Le rapport des flèches D7b/D7a vaut 7 876,1066 en 16 × 16 (7 876,1062 en 8 × 8) pour 7 876,1062 de rapport FLEX_L/FLEX_T (écart relatif 4,4e-8 puis 5,0e-10) : une orientation inversée est rejetée sans ambiguïté, l'écart relatif de la flèche à la mauvaise référence valant −0,9999 (D7a) et 7 875 (D7b) au lieu de 1e-12 et 4e-8. Signe : la flèche est vers +Y (sens de la charge) ; la normale du maillage plan XZ construit ici est −Y ; MXX > 0 et MXX < 0 coexistent dans le champ nodal (signes observés, non exploités).",
+   "justification": "Fondement documentaire (niveau A) : U4.42.01, opérande ANGL_REP / VECTEUR. Le constat du lot 22 établit par exécution que L d'ELAS_COQUE est x_l ; le lot 24 avait employé ANGL_REP = (90, 0) dans le plan XY du maillage. Le présent essai (niveau C : quatre exécutions jusqu'à FIN sans alarme, validation B 14/14 ; niveau D : flèche et moments comparés à la solution analytique de la console) établit la donnée pour un plan vertical XZ : la déduction tirée de la documentation (projection de V = Z sur le plan XZ est Z) est confirmée par la flèche et par la contre-épreuve, l'équivalence d'ANGL_REP (0, −90) par D7c. Le générateur reprend VECTEUR = (0, 0, 1) pour la palplanche intercalaire du plan Y = 0 (décision 10 du point 9).",
+   "notes": "ÉCHEC du critère 2 du rapport, rapporté tel quel : « l'écart relatif de la flèche décroît du maillage 8 × 8 au 16 × 16 » n'est pas satisfait. Écarts relatifs à la référence : D7a 3,2e-13 puis 1,3e-12 ; D7b 5,0e-10 puis 4,4e-8 (le moment de D7b passe de 1,5e-9 à 4,8e-8 de q·H). L'écart croît avec le raffinement au lieu de décroître ; il reste inférieur à 5e-8, très en deçà de 1e-6. Lecture (déduction, non démontrée) : la flèche de la console est reproduite à la précision du solveur, le critère la classait à tort parmi les grandeurs sensibles à la discrétisation ; la croissance de l'écart en D7b relève probablement du conditionnement (MEMB_L de 2,9e9 N/m pour FLEX_T de 1,13e4 N·m²/m). Le critère n'est pas modifié après coup ; les critères 1 (moment exact ≤ 1e-6·q·H : satisfait, maximum 4,8e-8), 3 (identification de l'axe : satisfait) et 4 (ANGL_REP = VECTEUR à 1e-6 : satisfait, écart nul) le sont. Non testés : plans autres que XZ (par exemple YZ), palplanche non rectangulaire ou de normale opposée (ORIE_NORM_COQUE), TRIA3, DST, COQUE_3D, la superposition avec la membrane, un maillage irrégulier ; un seul maillage par cas (8 × 8, 16 × 16), une seule version (17.4.0) ; aucune référence externe (niveau E). Signe de ANGL_REP : β = −90 degrés donne V = +Z ; β = +90 donnerait −Z, même axe L, non exécuté. Défaut relevé dans scripts/build_lot24_essais.py : plate_mesh mélange n et N pour BORD_XA et BORD_YA (groupes non utilisés par les charges de D6b 16 × 16 ; sans effet sur ses résultats).",
+   "sources": [
+    {
+     "context": "lot25",
+     "case_path": "data/examples/lot25_essais/essai_d7a/d7a.comm",
+     "mess_path": "data/examples/lot25_essais/mess/mess_d7a.txt",
+     "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7a (VECTEUR = (0, 0, 1)), maillage 8 × 8",
+     "value_obtained": 3.745318352061111e-07,
+     "reference": "q·H³/(3·FLEX_L) = 100 N/m × 1 m³ / (3 × 89e6 N·m²/m)",
+     "reference_value": 3.7453183520599253e-07,
+     "validation_level": "D"
+    },
+    {
+     "context": "lot25",
+     "case_path": "data/examples/lot25_essais/essai_d7a/d7a16.comm",
+     "mess_path": "data/examples/lot25_essais/mess/mess_d7a16.txt",
+     "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7a (VECTEUR = (0, 0, 1)), maillage 16 × 16",
+     "value_obtained": 3.7453183520647057e-07,
+     "reference": "q·H³/(3·FLEX_L) = 100 N/m × 1 m³ / (3 × 89e6 N·m²/m)",
+     "reference_value": 3.7453183520599253e-07,
+     "validation_level": "D"
+    },
+    {
+     "context": "lot25",
+     "case_path": "data/examples/lot25_essais/essai_d7b/d7b.comm",
+     "mess_path": "data/examples/lot25_essais/mess/mess_d7b.txt",
+     "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7b (VECTEUR = (1, 0, 0)), maillage 8 × 8",
+     "value_obtained": 0.0029498525088463333,
+     "reference": "q·H³/(3·FLEX_T) = 100 N/m × 1 m³ / (3 × 11 300 N·m²/m)",
+     "reference_value": 0.0029498525073746312,
+     "validation_level": "D"
+    },
+    {
+     "context": "lot25",
+     "case_path": "data/examples/lot25_essais/essai_d7b/d7b16.comm",
+     "mess_path": "data/examples/lot25_essais/mess/mess_d7b16.txt",
+     "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7b (VECTEUR = (1, 0, 0)), maillage 16 × 16",
+     "value_obtained": 0.002949852638257706,
+     "reference": "q·H³/(3·FLEX_T) = 100 N/m × 1 m³ / (3 × 11 300 N·m²/m)",
+     "reference_value": 0.0029498525073746312,
+     "validation_level": "D"
+    },
+    {
+     "context": "lot25",
+     "case_path": "data/examples/lot25_essais/essai_d7c/d7c.comm",
+     "mess_path": "data/examples/lot25_essais/mess/mess_d7c.txt",
+     "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7c (ANGL_REP = (0, −90)), maillage 8 × 8",
+     "value_obtained": 3.745318352061111e-07,
+     "reference": "q·H³/(3·FLEX_L) = 100 N/m × 1 m³ / (3 × 89e6 N·m²/m)",
+     "reference_value": 3.7453183520599253e-07,
+     "validation_level": "D"
+    },
+    {
+     "context": "lot25",
+     "case_path": "data/examples/lot25_essais/essai_d7a/d7a.comm",
+     "mess_path": "data/examples/lot25_essais/mess/mess_d7a.txt",
+     "quantity": "moment fléchissant |MXX| de EFGE_NOEU à l'encastrement (Z = 0, moyenne des nœuds), D7a, maillage 8 × 8",
+     "value_obtained": 100.00000000003,
+     "reference": "q·H = 100 N/m × 1 m",
+     "reference_value": 100.0,
+     "validation_level": "D"
+    },
+    {
+     "context": "lot25",
+     "case_path": "data/examples/lot25_essais/essai_d7b/d7b.comm",
+     "mess_path": "data/examples/lot25_essais/mess/mess_d7b.txt",
+     "quantity": "moment fléchissant |MYY| de EFGE_NOEU à l'encastrement (Z = 0, moyenne des nœuds), D7b, maillage 8 × 8",
+     "value_obtained": 100.00000010257777,
+     "reference": "q·H = 100 N/m × 1 m",
+     "reference_value": 100.0,
+     "validation_level": "D"
+    }
+   ]
+  }
+ ]
+}

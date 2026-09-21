@@ -161,6 +161,18 @@ le signale.
 Ne jamais annoncer qu'un test a réussi sans l'avoir exécuté et sans en donner
 la sortie.
 
+## Critère de réussite des essais (à partir du lot 25)
+
+Modèle : `docs/modele_rapport_essai.md`.
+
+- Le critère est écrit dans le rapport **avant** l'exécution et n'est pas
+  modifié après elle.
+- Une grandeur que la théorie de l'élément reproduit exactement doit l'être à
+  10⁻⁶ près en relatif.
+- Une grandeur sensible à la discrétisation doit présenter une erreur qui
+  décroît quand le maillage est raffiné d'un facteur 2.
+- Toute autre issue est un échec, rapporté tel quel.
+
 ## Fin de lot
 
 Un lot n'est terminé qu'avec un commit Git distinct, dont le message porte
@@ -189,6 +201,14 @@ de la machine.
   ensuite n'y est pas visible.
 - Chaque lot commence par `aster-expert mcp-check` (serveur neuf, outils comparés
   au code, chaque outil appelé sur une requête minimale, arrêt au premier écart).
+  Depuis le lot 25, `mcp-check` lit `.mcp.json`, applique `${VAR}` et `${VAR:-défaut}`
+  à partir de l'environnement du shell **seul** (Claude Code ne définit
+  `CLAUDE_PROJECT_DIR` que dans l'environnement du serveur lancé : ne jamais
+  l'injecter dans le contrôle), vérifie que la commande obtenue existe et est
+  exécutable, puis démarre le serveur avec cette commande. Ses appels portent
+  `origin: "mcp-check"` dans `query_log.jsonl` (variable `ASTER_EXPERT_CALL_ORIGIN`) ;
+  `read_usage_entries` les exclut des statistiques d'usage (les lignes antérieures
+  au lot 25 n'ont pas d'origine et comptent comme usage).
   Quiconque ajoute un outil à `server.py` lui ajoute sa requête minimale dans
   `aster_expert/mcp/check.py` : à défaut le contrôle échoue.
 - Si un outil attendu n'est pas visible dans la session, la session s'arrête et
@@ -330,6 +350,47 @@ dépôt externe avant de l'avoir inspectée.
   généralisés du point 1 remplace celui du lot 23 (sources conservées). L'absence de
   bloqueur ne dit pas que le domaine de validité est satisfait : l'étude de
   sensibilité de la membrane horizontale (×10 et ÷10) reste requise et non faite.
-  `group_naming_gaps()` signale `EPAIS` et `EFGE_NOEU` (faux positifs : mots-clés
-  entre apostrophes inverses lus comme groupes) ; le contrôle signale, il ne corrige
-  pas.
+  `group_naming_gaps()` signalait `EPAIS` et `EFGE_NOEU` (faux positifs : mots-clés
+  entre apostrophes inverses lus comme groupes) ; corrigé au lot 25 (ci-dessous).
+- Lot 25 (`docs/essais_lot25.md`, `docs/inventaire_lot25.md`) : `HypothesesSheet.
+  group_naming_gaps(catalogue_identifiers)` reçoit le vocabulaire du catalogue
+  (`aster_expert.catalogue.query.catalogue_vocabulary` : commandes, mots-clés,
+  valeurs permises) et ne lit plus un identifiant du catalogue comme un groupe ;
+  sans vocabulaire, les deux faux positifs réapparaissent (l'appelant le fournit, le
+  module ne dépend pas du catalogue). Décision de MM du point 9 (repère global :
+  X le long du quai de `SYM_G` vers `SYM_D`, Y vers la terre, Z ascendant, origine
+  dans l'axe de `TUBE_05` à la cote 0,00 CM, palplanche dans le plan Y = 0, unités
+  m, N, Pa, kg) enregistrée par `insert_practice_entry`, telle que rédigée
+  (`arbitrage_combiwall_MM_lot25_repere.md` ; `decided_at` = heure d'enregistrement,
+  `lot25_enregistrement.json`). Ne pas confondre avec la « décision 9 » de la v4
+  (point 8).
+- Lot 25, essai D7 (niveau C/D, `data/examples/lot25_essais/`,
+  `scripts/build_lot25_essais.py` et `analyze_lot25_essais.py`, entrées
+  `lot25_essais.json`, `lot25_extraits.json`) : pour une plaque dans le plan XZ,
+  `VECTEUR = (0, 0, 1)` place L (`x_l`) selon Z et T selon X ; `VECTEUR = (1, 0, 0)`
+  place L selon X ; `ANGL_REP = (0, -90)` équivaut à `VECTEUR = (0, 0, 1)`. Flexion
+  selon `x_l` en `MXX`, selon `y_l` en `MYY` (`EFGE_NOEU`). **Critère 2 du rapport en
+  échec, rapporté tel quel** : l'erreur de flèche ne décroît pas avec le raffinement
+  (elle est ≤ 5e-8 : grandeur reproduite à la précision du solveur, classée à tort
+  sensible à la discrétisation) ; les critères 1, 3 et 4 sont satisfaits. Le
+  constat est enregistré au point 1 (7 sources d'exécution) avec cet échec dans ses
+  notes. Non testés : plans autres que XZ, normale opposée, TRIA3, DST, COQUE_3D.
+- Lot 25, données chiffrées : `data/examples/combiwall_model_data.yaml`, schéma
+  `aster_expert.agent.model_data` (valeur, unité, source, commentaire ; valeurs dans
+  l'unité de leur source, jamais converties ni calculées). 108 valeurs, 86 fournies,
+  22 « à fournir » (profils de poussée et de pression d'eau du point 5, cotes de tête,
+  propriétés du tube, du béton et du tirant, position de l'axe de la poutre,
+  accrochage des tirants, pesanteur, discrétisation). Une valeur « à fournir » bloque :
+  `HypothesesSheet.generation_blockers(model_data)` la signale (sans argument,
+  seule la fiche est examinée : elle est prête, le fichier de données ne l'est pas).
+  `check_consistency` confronte chaque valeur fournie à son texte source
+  (0 écart) ; il signale, il ne corrige pas. Ne jamais compléter une valeur « à
+  fournir » sans source : la demander à MM. Le cas de test complet vit dans
+  `combiwall_inputs/cas_test_quai_combiwall_v2.md` (v3 = v2 + delta).
+- Salomé (état au lot 25, `docs/inventaire_lot25.md` §3) : pas d'installation native ;
+  Salomé-Méca V2024.1.0 en conteneur Singularity (`~/Desktop/salome_meca.sif`,
+  Python 3.9) ; `salome -t --shutdown-servers=1 script.py` exécute GEOM + SMESH sans
+  interface (vérifié) ; l'image Docker de `cave` ne contient pas Salomé mais
+  `medcoupling` et `MEDLoader` (Python 3.11). Le Python du projet n'a aucun module
+  MED. Ne pas lancer le lanceur `salome_meca` sans nécessité : son premier démarrage
+  écrit une configuration.

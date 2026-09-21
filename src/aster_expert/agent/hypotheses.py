@@ -188,9 +188,10 @@ from __future__ import annotations
 
 import math
 import re
+from collections.abc import Collection
 from datetime import date as date_type
 from datetime import datetime
-from typing import Annotated, Literal
+from typing import Annotated, Literal, Protocol
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -753,6 +754,12 @@ class MeshGroupNaming(BaseModel):
     checked by `HypothesesSheet.group_naming_gaps`."""
 
 
+class MissingValues(Protocol):
+    """What `generation_blockers` asks of a data file (lot 25)."""
+
+    def missing_values(self) -> tuple[str, ...]: ...
+
+
 class HypothesesSheet(BaseModel):
     """One structure's fiche d'hypothèses (lot 14).
 
@@ -802,9 +809,16 @@ class HypothesesSheet(BaseModel):
     def unresolved_group_names(self) -> tuple[MeshGroupNaming, ...]:
         return tuple(g for g in self.group_naming if g.status == "non_tranche")
 
-    def generation_blockers(self) -> tuple[str, ...]:
+    def generation_blockers(
+        self, model_data: MissingValues | None = None
+    ) -> tuple[str, ...]:
         """Human-readable reasons `is_ready_for_generation` is `False` (R3,
         lot 17).
+
+        `model_data` (lot 25) is the structured data file of the model
+        (`aster_expert.agent.model_data.ModelData`): each value it still marks
+        « à fournir » is one more blocker. Without it, only the fiche is
+        examined, as before.
 
         An empty `group_naming` is not the same state as a `group_naming`
         whose every entry is `tranche`: `unresolved_group_names()` lists
@@ -837,9 +851,13 @@ class HypothesesSheet(BaseModel):
             f"nom de groupe non tranché : {g.group_name} ({g.kind})"
             for g in self.unresolved_group_names()
         )
+        if model_data is not None:
+            blockers.extend(model_data.missing_values())
         return tuple(blockers)
 
-    def group_naming_gaps(self) -> tuple[str, ...]:
+    def group_naming_gaps(
+        self, catalogue_identifiers: Collection[str] = ()
+    ) -> tuple[str, ...]:
         """Report mismatches between `group_naming` and the fiche's points.
 
         Reported, never corrected. Lot 20 replaced lot 19's "every group is
@@ -850,10 +868,19 @@ class HypothesesSheet(BaseModel):
         `point_label`, that point exists among the `pratique` entries, and
         every `pratique` entry bearing it is `tranche`. Nothing is checked
         while `group_naming` is empty (R3 already reports that state).
+
+        `catalogue_identifiers` (lot 25) is the vocabulary of the target
+        version's catalogue (`aster_expert.catalogue.query.catalogue_vocabulary`:
+        command names, keywords, allowed values such as field names). A
+        backticked identifier that belongs to it is Code_Aster's, not a group
+        (lot 24: `EPAIS`, `EFGE_NOEU`). This module does not import the
+        catalogue: the caller supplies the vocabulary; without it, every
+        backticked identifier is still read as a group.
         """
         if not self.group_naming:
             return ()
         names = {g.group_name for g in self.group_naming}
+        known = frozenset(catalogue_identifiers)
         practice = tuple(e for e in self.entries if e.nature == "pratique")
         gaps: list[str] = []
         for e in practice:
@@ -864,7 +891,7 @@ class HypothesesSheet(BaseModel):
                 f"groupe cité par la décision du point {e.point_label} "
                 f"absent de la convention : {c}"
                 for c in dict.fromkeys(cited)
-                if c not in names
+                if c not in names and c not in known
             )
         for g in self.group_naming:
             if g.point_label is None:
@@ -899,6 +926,7 @@ __all__: list[str] = [
     "HypothesesSheet",
     "HypothesisEntry",
     "MeshGroupNaming",
+    "MissingValues",
     "PracticeHypothesisEntry",
     "PracticeOrigin",
     "PracticeSource",

@@ -54,7 +54,12 @@ def test_every_excerpt_is_verbatim_in_the_documentation_clone() -> None:
     """Skipped when `external/` is absent (never committed, CLAUDE.md)."""
     if not _DOC_ROOT.is_dir():
         pytest.skip("external/codeaster-doc absent")
-    for name in ("lot20_extraits.json", "lot21_extraits.json", "lot23_extraits.json"):
+    for name in (
+        "lot20_extraits.json",
+        "lot21_extraits.json",
+        "lot23_extraits.json",
+        "lot25_extraits.json",
+    ):
         extracts = json.loads((_INPUTS / name).read_text("utf-8"))
         assert extracts
         for x in extracts:

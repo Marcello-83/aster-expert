@@ -17,10 +17,15 @@ lot actually consumes it (docs/development-plan.md, lot C1).
 
 from __future__ import annotations
 
+import os
 from datetime import UTC, datetime
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field
+
+CALL_ORIGIN_ENV = "ASTER_EXPERT_CALL_ORIGIN"
+SESSION_ORIGIN = "session"
+CHECK_ORIGIN = "mcp-check"
 
 
 class ReturnedItem(BaseModel):
@@ -51,6 +56,9 @@ class QueryLogEntry(BaseModel):
     duration_s: float
     file_name: str | None = None
     file_fingerprint: str | None = None
+    # `mcp-check` starts its server with CALL_ORIGIN_ENV set: its calls are not
+    # usage. Lines written before lot 25 have no origin and read as "session".
+    origin: str = SESSION_ORIGIN
 
 
 def default_query_log_path(project_root: Path) -> Path:
@@ -86,8 +94,25 @@ def append_query_log(
         duration_s=duration_s,
         file_name=file_name,
         file_fingerprint=file_fingerprint,
+        origin=os.environ.get(CALL_ORIGIN_ENV) or SESSION_ORIGIN,
     )
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with log_path.open("a", encoding="utf-8") as handle:
         handle.write(entry.model_dump_json() + "\n")
     return entry
+
+
+def read_usage_entries(log_path: Path) -> list[QueryLogEntry]:
+    """Entries of the journal that are real usage: `mcp-check` calls excluded.
+
+    Lines written by `mcp-check` before the origin existed (lot 24) cannot be
+    told apart and are counted as usage.
+    """
+    if not log_path.is_file():
+        return []
+    entries = [
+        QueryLogEntry.model_validate_json(line)
+        for line in log_path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    return [entry for entry in entries if entry.origin != CHECK_ORIGIN]

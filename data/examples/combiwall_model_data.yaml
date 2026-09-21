@@ -1,0 +1,243 @@
+# Données chiffrées du modèle QUAI-CW-TEST-01 (lot 25).
+#
+# Schéma : aster_expert.agent.model_data (Pydantic). Chaque valeur porte sa
+# valeur, son unité, sa source (section du cas de test, ou point_label d'une
+# décision ou d'un constat de la fiche) et un commentaire facultatif. Les
+# valeurs sont recopiées, dans l'unité de leur source (MN, kN, cm, mm, degrés) :
+# aucune n'est convertie, calculée ni déduite ici. La conversion en unités du
+# modèle (m, N, Pa, kg) est à la charge du générateur (décision du point 9).
+# Une valeur qu'aucune source ne donne reste absente : `status: a_fournir`, et
+# bloque la génération (HypothesesSheet.generation_blockers).
+#
+# Sources : cas_test_quai_combiwall_v2.md (« v2 »), cas_test_quai_combiwall_v3_delta.md
+# (« delta v3 » : le cas de test v3 est v2 modifié par ce delta), décisions de MM
+# de la fiche arbitrée (point_label).
+project: QUAI-CW-TEST-01
+case_reference: "Cas de test fictif QUAI-CW-TEST-01, v3 (v2 + delta v3) ; fiche data/examples/hypotheses_combiwall_reference_arbitree.json"
+groups:
+  repere:
+    x_face_coupe_gauche:
+      {status: fourni, value: -10.40, unit: m, source: {kind: decision, point_label: "9"}, comment: "Face SYM_G."}
+    x_face_coupe_droite:
+      {status: fourni, value: 10.40, unit: m, source: {kind: decision, point_label: "9"}, comment: "Face SYM_D."}
+    x_serrure_par_rapport_axe_tube:
+      {status: fourni, value: 0.71, unit: m, source: {kind: decision, point_label: "9"}, comment: "Génératrices du tube en Y = 0, en X = ± cette valeur de l'axe du tube ; la palplanche intercalaire est dans le plan Y = 0."}
+  geometrie:
+    longueur_tranche:
+      {status: fourni, value: 20.80, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§1"}}
+    entraxe_tubes:
+      {status: fourni, value: 2.60, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}}
+    nombre_entraxes_tranche:
+      {status: fourni, value: 8, unit: "-", source: {kind: decision, point_label: "7"}, comment: "Écrit en lettres (« huit entraxes de tube »)."}
+    nombre_tubes_entiers:
+      {status: fourni, value: 7, unit: "-", source: {kind: decision, point_label: "7"}, comment: "Écrit en lettres (« sept tubes entiers »)."}
+    nombre_demi_tubes:
+      {status: fourni, value: 2, unit: "-", source: {kind: decision, point_label: "7"}, comment: "Écrit en lettres (« deux demi-tubes ») : tubes 1 et 9, sur les faces de coupe."}
+    nombre_palplanches_intercalaires:
+      {status: fourni, value: 8, unit: "-", source: {kind: decision, point_label: "7"}, comment: "Écrit en lettres (« huit palplanches intercalaires »)."}
+    cote_arase_terre_plein:
+      {status: fourni, value: 4.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§1"}}
+    cote_dragage:
+      {status: fourni, value: -12.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§1"}}
+    cote_pied_tubes:
+      {status: fourni, value: -26.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§1"}}
+    cote_pied_palplanches:
+      {status: fourni, value: -18.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§1"}}
+    cote_tete_tubes:
+      {status: a_fournir, unit: m CM, required_by: "3", comment: "Le cas de test donne le pied des tubes, la sous-face (+2,60) et l'arase (+4,00) de la poutre et un encastrement de 0,80 m dans la poutre ; aucune source n'énonce la cote de tête du tube, dont la décision du point 3 exige l'anneau de nœuds supérieur."}
+    cote_tete_palplanches:
+      {status: a_fournir, unit: m CM, required_by: "1", comment: "Le cas de test donne le pied des palplanches intercalaires (-18,00), aucune source n'en donne la tête."}
+  tube:
+    diametre_exterieur:
+      {status: fourni, value: 1420, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}}
+    rayon:
+      {status: fourni, value: 0.71, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§7"}}
+    epaisseur_nominale:
+      {status: fourni, value: 16, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}}
+    surepaisseur_corrosion:
+      {status: fourni, value: 2.0, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}, comment: "Déduite sur la face bassin des tubes (protection anticorrosion non modélisée)."}
+    nuance_acier:
+      {status: fourni, value: S355, unit: "-", source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}}
+    epaisseur_coque_retenue:
+      {status: a_fournir, unit: mm, required_by: "1", comment: "Le cas de test donne l'épaisseur nominale et une surépaisseur de corrosion déduite sur la face bassin seulement ; aucune source ne dit quelle épaisseur de coque DKT (uniforme) en résulte."}
+    module_young:
+      {status: a_fournir, unit: MPa, required_by: "1", comment: "Les sources donnent E pour l'acier du profil de palplanche (décision du point 1) et pour les tirants (v2 §4), pas pour le tube ; la nuance est la même (S355) mais l'identité des propriétés n'est pas une décision enregistrée."}
+    coefficient_poisson:
+      {status: a_fournir, unit: "-", required_by: "1", comment: "Idem module_young : donné pour le profil de palplanche (décision du point 1), non pour le tube."}
+    masse_volumique:
+      {status: a_fournir, unit: kg/m3, required_by: "1", comment: "Idem module_young : 7 850 kg/m3 est donnée pour le profil de palplanche (décision du point 1), non pour le tube."}
+  palplanche:
+    periode:
+      {status: fourni, value: 1.18, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Espace libre entre tubes."}
+    hauteur_profil:
+      {status: fourni, value: 0.45, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}}
+    largeur_semelles:
+      {status: fourni, value: 0.35, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}}
+    epaisseur:
+      {status: fourni, value: 9.5, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Semelles et âmes."}
+    inclinaison_ames:
+      {status: fourni, value: 62, unit: deg, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Valeur approchée (« ≈ 62° »)."}
+    longueur_developpee_par_periode:
+      {status: fourni, value: 1.720, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}}
+    inertie_par_metre:
+      {status: fourni, value: 42400, unit: cm4/m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Valeur approchée."}
+    module_flexion_par_metre:
+      {status: fourni, value: 1845, unit: cm3/m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Valeur approchée."}
+    masse_surfacique_plan_ecran:
+      {status: fourni, value: 109, unit: kg/m2, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Valeur approchée, rapportée au plan de l'écran."}
+    nuance_acier:
+      {status: fourni, value: S355, unit: "-", source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}}
+    module_young:
+      {status: fourni, value: 210000, unit: MPa, source: {kind: decision, point_label: "1"}}
+    coefficient_poisson:
+      {status: fourni, value: 0.3, unit: "-", source: {kind: decision, point_label: "1"}}
+    module_cisaillement:
+      {status: fourni, value: 80770, unit: MPa, source: {kind: decision, point_label: "1"}}
+    masse_volumique:
+      {status: fourni, value: 7850, unit: kg/m3, source: {kind: decision, point_label: "1"}}
+    rapport_developpee_sur_periode:
+      {status: fourni, value: 1.458, unit: "-", source: {kind: decision, point_label: "1"}, comment: "s/b."}
+    epaisseur_coque_EPAIS:
+      {status: fourni, value: 13.85, unit: mm, source: {kind: decision, point_label: "1"}, comment: "t·(s/b), déclarée en EPAIS."}
+    masse_surfacique_rho_epais:
+      {status: fourni, value: 108.7, unit: kg/m2, source: {kind: decision, point_label: "1"}, comment: "Valeur approchée (« ρ·EPAIS ≈ 108,7 kg/m² »)."}
+    MEMB_L:
+      {status: fourni, value: 2908, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Membrane verticale."}
+    MEMB_T:
+      {status: fourni, value: 0.081, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Membrane horizontale."}
+    MEMB_G_LT:
+      {status: fourni, value: 526, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Cisaillement de membrane."}
+    MEMB_LT:
+      {status: fourni, value: 0, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Couplage de Poisson, « nul » dans la décision."}
+    FLEX_L:
+      {status: fourni, value: 89.0, unit: MN.m2/m, source: {kind: decision, point_label: "1"}, comment: "Flexion verticale."}
+    FLEX_T:
+      {status: fourni, value: 0.0113, unit: MN.m2/m, source: {kind: decision, point_label: "1"}, comment: "Flexion horizontale."}
+    FLEX_G_LT:
+      {status: fourni, value: 0.0084, unit: MN.m2/m, source: {kind: decision, point_label: "1"}, comment: "Torsion de plaque."}
+    FLEX_LT:
+      {status: fourni, value: 0, unit: MN.m2/m, source: {kind: decision, point_label: "1"}, comment: "Couplage de Poisson, « nul » dans la décision."}
+    CISA_L:
+      {status: fourni, value: 526, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Cisaillement transverse, sans effet en DKT ; le catalogue exige CISA_L et CISA_T (lot 22)."}
+    CISA_T:
+      {status: fourni, value: 526, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Idem CISA_L."}
+    vecteur_axe_L:
+      {status: fourni, value: [0, 0, 1], unit: "-", source: {kind: constat, point_label: "1", topic_prefix: "Orientation des axes L et T d'ELAS_COQUE pour une coque dans un plan vertical"}, comment: "VECTEUR de AFFE_CARA_ELEM/COQUE pour une plaque du plan XZ : L selon Z, T selon X (essai D7, niveau D)."}
+  poutre_couronnement:
+    largeur:
+      {status: fourni, value: 2.50, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}}
+    hauteur:
+      {status: fourni, value: 1.40, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}}
+    cote_sous_face:
+      {status: fourni, value: 2.60, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}}
+    cote_arase:
+      {status: fourni, value: 4.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}}
+    cote_centre_gravite:
+      {status: fourni, value: 3.30, unit: m CM, source: {kind: decision, point_label: "8"}, comment: "Cote de l'axe de la poutre, où est appliqué l'effort d'amarrage."}
+    encastrement_tubes:
+      {status: fourni, value: 0.80, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}, comment: "Le cas de test : tubes encastrés sur 0,80 m dans la poutre ; la décision du point 3 modélise une liaison rigide sur l'anneau de nœuds supérieur du tube."}
+    beton:
+      {status: fourni, value: C35/45, unit: "-", source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}}
+    module_young:
+      {status: a_fournir, unit: MPa, required_by: "3", comment: "Le cas de test nomme la classe de béton (C35/45) ; aucune source ne donne le module d'élasticité à retenir."}
+    coefficient_poisson:
+      {status: a_fournir, unit: "-", required_by: "3", comment: "Aucune source ne donne le coefficient de Poisson du béton."}
+    masse_volumique:
+      {status: a_fournir, unit: kg/m3, required_by: "3", comment: "Le poids propre de la poutre est une charge G (v2 §7) ; aucune source ne donne la masse volumique du béton."}
+    position_axe_y:
+      {status: a_fournir, unit: m, required_by: "3", comment: "L'effort d'amarrage est appliqué « sur l'axe de la poutre en plan » (décision du point 8) ; aucune source ne place cet axe par rapport au plan des axes des tubes (Y = 0, décision du point 9)."}
+  tirants:
+    diametre:
+      {status: fourni, value: 75, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    nuance:
+      {status: fourni, value: 500/700, unit: "-", source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    module_young:
+      {status: fourni, value: 210000, unit: MPa, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    entraxe:
+      {status: fourni, value: 2.60, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}, comment: "Un tirant par tube."}
+    inclinaison:
+      {status: fourni, value: 20, unit: deg, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}, comment: "Sur l'horizontale, descendant vers l'arrière."}
+    cote_tete:
+      {status: fourni, value: 2.50, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    longueur_libre:
+      {status: fourni, value: 22.00, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    longueur_scellement:
+      {status: fourni, value: 8.00, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    diametre_scellement:
+      {status: fourni, value: 200, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    longueur_modelisee:
+      {status: fourni, value: 26.00, unit: m, source: {kind: decision, point_label: "2"}, comment: "lf + lb/2, le long de l'axe ; extrémité arrière bloquée."}
+    section_brute:
+      {status: fourni, value: 44.2, unit: cm2, source: {kind: decision, point_label: "2"}}
+    raideur_axiale:
+      {status: fourni, value: 35.7, unit: MN/m, source: {kind: decision, point_label: "2"}, comment: "Valeur approchée (« ≈ 35,7 MN/m ») ; KMA de la NF P 94-282, F.4.2."}
+    masse_volumique:
+      {status: a_fournir, unit: kg/m3, required_by: "2", comment: "Le poids propre des tirants est une charge G (v2 §7) ; les sources donnent 7 850 kg/m3 pour le profil de palplanche seulement."}
+    position_tete_sur_tube:
+      {status: a_fournir, unit: deg, required_by: "2", comment: "Le cas de test donne la cote de la tête (+2,50) « sur le tube » ; aucune source ne dit sur quelle génératrice de la section du tube (position angulaire) la barre est accrochée."}
+  sol:
+    k_h_argile_marneuse_raide:
+      {status: fourni, value: 35, unit: MN/m3, source: {kind: decision, point_label: "4"}, comment: "De -12,00 à -18,00 ; rapportée à la surface projetée sur le plan de l'écran ; côté bassin uniquement."}
+    k_h_marne_compacte:
+      {status: fourni, value: 80, unit: MN/m3, source: {kind: decision, point_label: "4"}, comment: "De -18,00 à -26,00 ; rapportée à la surface projetée sur le plan de l'écran ; côté bassin uniquement."}
+    cote_haut_ressorts:
+      {status: fourni, value: -12.00, unit: m CM, source: {kind: decision, point_label: "4"}, comment: "Cote de dragage."}
+    cote_interface_argile_marne:
+      {status: fourni, value: -18.00, unit: m CM, source: {kind: decision, point_label: "4"}}
+  eau_terres:
+    differentiel_permanent:
+      {status: fourni, value: 1.50, unit: m, source: {kind: decision, point_label: "5"}}
+    differentiel_accidentel:
+      {status: fourni, value: 3.50, unit: m, source: {kind: decision, point_label: "5"}}
+    niveau_nappe_terre_normal:
+      {status: fourni, value: 2.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§6"}}
+    niveau_nappe_terre_haut:
+      {status: fourni, value: 3.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§6"}, comment: "Cas accidentel."}
+    profil_poussee_terres_permanent:
+      {status: a_fournir, unit: "Pa en fonction de Z", required_by: "5", comment: "La décision du point 5 dit le profil calculé hors Code_Aster (incrément de Q1 inclus) ; aucune source ne le chiffre."}
+    profil_pression_eau_permanent:
+      {status: a_fournir, unit: "Pa en fonction de Z", required_by: "5", comment: "Calculé hors Code_Aster (décision du point 5) pour un différentiel de 1,50 m ; aucune source ne le chiffre."}
+    profil_poussee_terres_accidentel:
+      {status: a_fournir, unit: "Pa en fonction de Z", required_by: "5", comment: "Aucune source ne dit si le profil des terres diffère en situation accidentelle ni ne le chiffre."}
+    profil_pression_eau_accidentel:
+      {status: a_fournir, unit: "Pa en fonction de Z", required_by: "5", comment: "Calculé hors Code_Aster (décision du point 5) pour un différentiel de 3,50 m ; aucune source ne le chiffre."}
+  charges:
+    amarrage_effort:
+      {status: fourni, value: 1000, unit: kN, source: {kind: decision, point_label: "8"}, comment: "Dirigé vers le bassin, soit -Y dans le repère du point 9 (Y positif vers la terre) : signe à la charge du générateur."}
+    amarrage_inclinaison:
+      {status: fourni, value: 30, unit: deg, source: {kind: decision, point_label: "8"}, comment: "Au-dessus de l'horizontale, dans le plan perpendiculaire au quai."}
+    amarrage_composante_horizontale:
+      {status: fourni, value: 866, unit: kN, source: {kind: decision, point_label: "8"}, comment: "Valeur écrite dans la décision, non recalculée."}
+    amarrage_cote_application:
+      {status: fourni, value: 3.30, unit: m CM, source: {kind: decision, point_label: "8"}, comment: "Nœud BOLLARD sur l'axe de la poutre, au droit de TUBE_05."}
+    amarrage_decalage_vertical:
+      {status: fourni, value: 0.70, unit: m, source: {kind: decision, point_label: "8"}}
+    amarrage_moment_transport:
+      {status: fourni, value: 606, unit: kN.m, source: {kind: decision, point_label: "8"}, comment: "Valeur approchée (« ≈ 606 kN·m »), d'axe parallèle au quai."}
+    accostage_effort:
+      {status: fourni, value: 800, unit: kN, source: {kind: decision, point_label: "8"}, comment: "Perpendiculaire au quai, vers la terre, soit +Y dans le repère du point 9."}
+    accostage_cote_bas_empreinte:
+      {status: fourni, value: 1.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§7"}}
+    accostage_cote_haut_empreinte:
+      {status: fourni, value: 2.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§7"}}
+    accostage_demi_angle_empreinte:
+      {status: fourni, value: 45, unit: deg, source: {kind: decision, point_label: "8"}, comment: "De part et d'autre de la génératrice de TUBE_05 tournée vers le bassin."}
+    accostage_largeur_platine:
+      {status: fourni, value: 1.00, unit: m, source: {kind: decision, point_label: "8"}, comment: "Valeur approchée (« environ 1,00 m »)."}
+    accostage_surface_empreinte_ideale:
+      {status: fourni, value: 1.115, unit: m2, source: {kind: decision, point_label: "8"}, comment: "Valeur de contrôle (empreinte cylindrique idéale) ; l'intensité est calculée par le générateur sur la surface développée des mailles."}
+    accostage_intensite_indicative:
+      {status: fourni, value: 717, unit: kN/m2, source: {kind: decision, point_label: "8"}, comment: "Valeur de contrôle (« environ 717 kN/m² »), non une donnée d'entrée."}
+    acceleration_pesanteur:
+      {status: a_fournir, unit: m/s2, required_by: "0", comment: "Le poids propre est une charge G (v2 §7) portée par les masses volumiques (décision du point 1) ; aucune source ne donne l'accélération de la pesanteur. La direction découle du repère du point 9 (Z ascendant)."}
+  maillage:
+    nombre_facettes_par_tube:
+      {status: a_fournir, unit: "-", required_by: "1", comment: "La décision du point 1 fixe la discrétisation angulaire dans la branche maillage ; aucune source ne la chiffre (aucun critère chiffré de facettisation dans la documentation, lot 20). Des nœuds sont requis sur les génératrices Y = 0 (serrures, point 9) et à ±45° de la génératrice tournée vers le bassin (empreinte DEFENSE, point 8) : déduction, à confirmer."}
+    nombre_divisions_verticales:
+      {status: a_fournir, unit: "-", required_by: "1", comment: "Aucune source ne chiffre le pas vertical des tubes et des palplanches (nœuds communs sur les lignes de serrure). Des nœuds sont requis aux cotes +1,00 et +2,00 (empreinte), -12,00 et -18,00 (ressorts) : déduction, à confirmer."}
+    nombre_elements_largeur_palplanche:
+      {status: a_fournir, unit: "-", required_by: "1", comment: "Aucune source ne chiffre la division de la palplanche intercalaire entre deux tubes (période de 1,18 m)."}
+    nombre_elements_par_entraxe_poutre:
+      {status: a_fournir, unit: "-", required_by: "3", comment: "Aucune source ne chiffre la division de la poutre de couronnement."}
+    nombre_elements_par_tirant:
+      {status: a_fournir, unit: "-", required_by: "2", comment: "Aucune source ne chiffre la division des barres de 26,00 m."}

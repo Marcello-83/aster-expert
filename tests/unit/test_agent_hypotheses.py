@@ -726,6 +726,21 @@ def test_group_naming_gaps_reports_a_cited_group_missing_from_the_convention() -
     assert "BOLLARD" in gaps[0] and "absent de la convention" in gaps[0]
 
 
+def test_group_naming_gaps_ignores_identifiers_of_the_catalogue() -> None:
+    """Lot 25: a backticked keyword or field name is not a group."""
+    sheet = _gap_sheet(
+        (_decided("Groupe `DEFENSE`, mot-clé `EPAIS`, champ `EFGE_NOEU`"),),
+        _group("DEFENSE", "8"),
+    )
+
+    assert len(sheet.group_naming_gaps()) == 2
+    assert sheet.group_naming_gaps({"EPAIS", "EFGE_NOEU"}) == ()
+    # a real missing group is still reported
+    sheet = _gap_sheet((_decided("`BOLLARD` `EPAIS`"),), _group("DEFENSE", "8"))
+    (gap,) = sheet.group_naming_gaps({"EPAIS"})
+    assert "BOLLARD" in gap
+
+
 def test_group_naming_gaps_no_longer_requires_a_group_to_be_cited_in_prose() -> None:
     """Lot 20: the lot-19 "cited by a decision" check is gone."""
     sheet = _gap_sheet((_decided("Rien de nommé"),), _group("SYM_G", "8"))

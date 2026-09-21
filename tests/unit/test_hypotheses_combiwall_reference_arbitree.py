@@ -16,6 +16,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from aster_expert.agent.hypotheses import (
     CatalogueSource,
     CodeAsterHypothesisEntry,
@@ -24,6 +26,7 @@ from aster_expert.agent.hypotheses import (
     HypothesesSheet,
     PracticeHypothesisEntry,
 )
+from aster_expert.catalogue.query import catalogue_vocabulary
 
 _ARBITREE_PATH = (
     Path(__file__).resolve().parents[2]
@@ -52,7 +55,9 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     # + 4 constats d'exécution du lot 22 (le constat des ressorts est remplacé)
     # + 2 constats d'exécution du lot 23 (efforts généralisés, équilibre) ; les
     # constats REAC_NODA et RHO sont remplacés sur place
-    assert len(sheet.entries) == 37
+    # + 1 constat d'exécution (axes d'ELAS_COQUE, lot 25) et la décision du repère
+    # global (point 9, lot 25)
+    assert len(sheet.entries) == 39
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -63,8 +68,9 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
         for e in sheet.entries
         if isinstance(e, PracticeHypothesisEntry) and e.status == "tranche"
     ]
-    # 10 up to lot 20, plus MM's decision on the tube shell choice (lot 21)
-    assert len(tranche_practice) == 11
+    # 10 up to lot 20, plus MM's decision on the tube shell choice (lot 21) and
+    # the global frame (point 9, lot 25)
+    assert len(tranche_practice) == 12
     assert {e.point_label for e in tranche_practice} == {
         "0",
         "1",
@@ -75,6 +81,7 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
         "6",
         "7",
         "8",
+        "9",
     }
     assert all(e.decided_by == "MM" for e in tranche_practice)
     assert all(e.validity_domain for e in tranche_practice)
@@ -286,15 +293,22 @@ def test_arbitree_fiche_every_group_carries_a_point_label() -> None:
     }
 
 
+def _catalogue_vocabulary() -> frozenset[str]:
+    root = Path(__file__).resolve().parents[2] / "data" / "processed" / "catalogue"
+    digests = sorted(p for p in root.glob("sha256:*") if p.is_dir())
+    if not digests:
+        pytest.skip("catalogue extrait absent (data/processed/catalogue)")
+    return catalogue_vocabulary(root, digests[-1].name)
+
+
 def test_arbitree_fiche_group_naming_gaps_are_closed() -> None:
     """Lot 21: no point hung on by a group carries an open practice entry any
     more (lot 20 reported 22 gaps, on points 1 and 4).
 
-    Lot 24: the only two reports left are false positives of the check, which
-    reads every identifier between backticks in a decided entry as a mesh group :
-    MM's v5 decision 2 writes the Code_Aster keyword `EPAIS` and the field
-    `EFGE_NOEU` that way. The decision is recorded as worded ; the check is
-    reported, not corrected (its heuristic is not this lot's scope).
+    Lot 24 reported two false positives, `EPAIS` and `EFGE_NOEU` (backticked
+    Code_Aster identifiers read as mesh groups). Lot 25: the check now takes the
+    catalogue vocabulary (no hard-coded list) and reports nothing. Without the
+    vocabulary the two reports are still there: the check needs it, by design.
     """
     sheet = _load()
 
@@ -302,8 +316,7 @@ def test_arbitree_fiche_group_naming_gaps_are_closed() -> None:
         "groupe cité par la décision du point 1 absent de la convention : EPAIS",
         "groupe cité par la décision du point 1 absent de la convention : EFGE_NOEU",
     )
-    # nothing else: no group without point, no point left open
-    assert not [g for g in sheet.group_naming_gaps() if "groupe cité" not in g]
+    assert sheet.group_naming_gaps(_catalogue_vocabulary()) == ()
 
 
 def test_arbitree_fiche_has_no_blocker_left_after_decision_2_v5() -> None:
