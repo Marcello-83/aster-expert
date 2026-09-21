@@ -23,6 +23,7 @@ from aster_expert.agent.hypotheses import (
 from aster_expert.agent.model_data import (
     DataValue,
     ModelData,
+    ProfilePoint,
     ValueSource,
     check_consistency,
     load_model_data,
@@ -204,20 +205,93 @@ def test_the_versioned_file_is_valid_and_consistent_with_its_sources() -> None:
     assert check_consistency(data, sheet, _INPUTS) == []
 
 
-def test_the_versioned_file_marks_the_absent_values_as_such() -> None:
+def test_the_versioned_file_has_no_missing_value_left_since_lot_27() -> None:
+    """The 22 values `a_fournir` of lot 25 all found a source in the complementary
+    data (`donnees_complementaires_combiwall_v1.md`); none remains, none was filled
+    without one (each provided value is checked against its source text)."""
     items = load_model_data(_YAML).items()
-    missing = {name for name, v in items.items() if v.status == "a_fournir"}
-    # the profiles of earth and water pressure (point 5) are absent from every source
-    assert {
-        "eau_terres.profil_poussee_terres_permanent",
-        "eau_terres.profil_pression_eau_permanent",
-        "eau_terres.profil_poussee_terres_accidentel",
-        "eau_terres.profil_pression_eau_accidentel",
-    } <= missing
-    assert "charges.acceleration_pesanteur" in missing
-    assert "maillage.nombre_facettes_par_tube" in missing
-    assert len(missing) == 22
-    assert all(items[name].value is None for name in missing)
+    assert [n for n, v in items.items() if v.status == "a_fournir"] == []
+    for name in (
+        "geometrie.cote_tete_tubes",
+        "tube.epaisseur_coque_retenue",
+        "poutre_couronnement.position_axe_y",
+        "charges.acceleration_pesanteur",
+        "maillage.nombre_facettes_par_tube",
+        "maillage.taille_verticale_visee",
+    ):
+        assert items[name].status == "fourni", name
+
+
+def test_the_pressure_profiles_are_arrays_of_points_with_layers() -> None:
+    items = load_model_data(_YAML).items()
+    terres = items["eau_terres.profil_poussee_terres_permanent"].profile
+    assert terres is not None
+    g = [pt for pt in terres if pt.component == "G"]
+    assert [(pt.z, pt.p, pt.layer) for pt in g][2:4] == [
+        (-2.0, 24.0, "remblai"),
+        (-2.0, 21.2, "sable"),
+    ]  # a discontinuity: two points of the same Z, one per layer
+    assert all(pt.layer for pt in terres)
+    eau = items["eau_terres.profil_pression_eau_accidentel"].profile
+    assert eau is not None
+    assert [(pt.z, pt.p) for pt in eau] == [(3.0, 0.0), (-0.5, 35.0)]
+    assert items["eau_terres.profil_poussee_terres_accidentel"].profile == terres
+
+
+def test_a_profile_excludes_a_scalar_value() -> None:
+    point = ProfilePoint(z=1.0, p=2.0)
+    with pytest.raises(ValidationError, match="un seul"):
+        DataValue(
+            status="fourni", value=1, profile=(point,), unit="kPa", source=_DECISION
+        )
+    with pytest.raises(ValidationError, match="ni `profile`|ni `value`"):
+        DataValue(
+            status="a_fournir",
+            profile=(point,),
+            unit="kPa",
+            required_by="5",
+            comment="c",
+        )
+
+
+def test_the_consistency_check_reads_the_points_of_a_profile(tmp_path: Path) -> None:
+    raw = yaml.safe_load(_YAML.read_text("utf-8"))
+    raw["groups"]["eau_terres"]["profil_pression_eau_permanent"]["profile"][1]["p"] = (
+        16.0
+    )
+    altered = tmp_path / "altered.yaml"
+    altered.write_text(yaml.safe_dump(raw, allow_unicode=True), encoding="utf-8")
+    sheet = HypothesesSheet.model_validate_json(_SHEET.read_text("utf-8"))
+    report = check_consistency(load_model_data(altered), sheet, _INPUTS)
+    assert [r.name for r in report] == ["eau_terres.profil_pression_eau_permanent"]
+
+
+def test_a_subsection_of_the_complementary_file_is_found_by_its_label() -> None:
+    values = load_model_data(_YAML).items()
+    assert values["tube.module_young"].source == ValueSource(
+        kind="cas_test",
+        document="donnees_complementaires_combiwall_v1.md",
+        section="A.1",
+    )
+    altered = values["tube.module_young"].model_copy(update={"value": 200000})
+    data = ModelData(
+        project="p", case_reference="c", groups={"tube": {"module_young": altered}}
+    )
+    sheet = HypothesesSheet.model_validate_json(_SHEET.read_text("utf-8"))
+    (line,) = check_consistency(data, sheet, _INPUTS)
+    assert "200000" in line.reason
+    missing = altered.model_copy(
+        update={
+            "source": ValueSource(
+                kind="cas_test",
+                document="donnees_complementaires_combiwall_v1.md",
+                section="A.9",
+            )
+        }
+    )
+    data = ModelData(project="p", case_reference="c", groups={"t": {"m": missing}})
+    (line,) = check_consistency(data, sheet, _INPUTS)
+    assert "introuvable" in line.reason
 
 
 def test_the_versioned_file_keeps_the_units_of_its_sources() -> None:
@@ -239,13 +313,9 @@ def test_the_consistency_check_catches_an_altered_file(tmp_path: Path) -> None:
     assert sorted(r.name for r in report) == ["charges.amarrage_effort", "tube.rayon"]
 
 
-def test_the_fiche_still_reports_no_blocker_of_its_own_and_the_file_adds_its_own() -> (
-    None
-):
+def test_the_fiche_and_the_data_file_report_no_blocker() -> None:
     sheet = HypothesesSheet.model_validate_json(_SHEET.read_text("utf-8"))
     data = load_model_data(_YAML)
     assert sheet.generation_blockers() == ()
-    blockers = sheet.generation_blockers(data)
-    assert len(blockers) == 22
-    assert all(b.startswith("valeur à fournir (point ") for b in blockers)
-    assert sheet.is_ready_for_generation  # the fiche alone: ready, the data file blocks
+    assert sheet.generation_blockers(data) == ()  # lot 27: the 22 values found a source
+    assert sheet.is_ready_for_generation

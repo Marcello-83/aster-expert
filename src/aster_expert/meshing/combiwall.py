@@ -1,0 +1,869 @@
+"""Parameters, expected counts and expected invariants of the quay mesh (lot 27).
+
+This module is **distinct from the Salome script** (`scripts/salome/combiwall_mesh.py`)
+and runs before it: from the numerical data of the model (`ModelData`) it builds
+
+- the parameters file the script reads (`build_params`): every value the script uses
+  comes from there, none is written in the script;
+- the invariants the produced MED must satisfy (`expected_invariants`), computed
+  **analytically** from those parameters (closed-form counts of the structured
+  meshes of the shells), never read back from a MED;
+- the masses `POST_ELEM(MASS_INER)` must find with `RHO = 1`, `EPAIS = 1`, `A = 1`
+  (`expected_masses`: areas and lengths of the groups, faceting included).
+
+Discretisation rule (CLAUDE.md, "Scripts Salome", rule 2): no reliance on the
+rounding of a local length. Each edge gets an integer number of segments, from the
+target size and the real length of the edge (`segment_count`), or from the number a
+decision fixes (5 per sheet-pile interval, 8 per beam bay, 1 per tie rod). The
+script applies the same rule with its own code; the invariants check the outcome.
+
+Frame (decision of point 9): X along the quay from `SYM_G` to `SYM_D`, Y towards the
+land, Z up, origin on the axis of the central tube at level 0.00 CM; metres.
+The basin side of a tube is its generatrix at Y = -R (angle 270 degrees).
+"""
+
+from __future__ import annotations
+
+import math
+from typing import Any
+
+from aster_expert.agent.model_data import ModelData
+
+TOL = 1e-9
+"""Tolerance of the invariants (m): the nodes are computed, not measured."""
+
+_LENGTH_UNITS = {"m", "m CM"}
+
+
+class CombiwallMeshError(ValueError):
+    """The data of the model cannot define the mesh."""
+
+
+def segment_count(length: float, size: float) -> int:
+    """Integer number of segments of an edge: nearest integer to length / size, >= 1.
+
+    Half-way values round up. The count is imposed on the edge; the rounding of a
+    local length by the mesher is never relied on.
+    """
+    if length <= 0 or size <= 0:
+        message = f"longueur et taille doivent être positives : {length}, {size}"
+        raise CombiwallMeshError(message)
+    return max(1, math.floor(length / size + 0.5 + 1e-9))
+
+
+# --- parameters -------------------------------------------------------------------
+
+
+def _value(data: ModelData, name: str, *, unit: set[str] | None = None) -> Any:
+    item = data.items().get(name)
+    if item is None or item.status != "fourni":
+        message = f"valeur absente ou à fournir : {name}"
+        raise CombiwallMeshError(message)
+    if unit is not None and item.unit not in unit:
+        message = f"{name} : unité {item.unit!r} au lieu de {sorted(unit)}"
+        raise CombiwallMeshError(message)
+    return item.profile if item.profile is not None else item.value
+
+
+def build_params(data: ModelData) -> dict[str, Any]:
+    """Parameters file of the Salome script, from the numerical data of the model.
+
+    Values are copied in metres (the data file already holds them in m or m CM) and
+    checked against each other: the imposed levels must contain the levels the
+    decisions need, the tie rod must be the segment the data describe, the tubes
+    must fill the slice.
+    """
+
+    def length(name: str) -> float:
+        return float(_value(data, name, unit=_LENGTH_UNITS))
+
+    radius = length("tube.rayon")
+    if abs(radius - length("repere.x_serrure_par_rapport_axe_tube")) > TOL:
+        message = "le rayon du tube et le décalage des serrures diffèrent"
+        raise CombiwallMeshError(message)
+    x_left = length("repere.x_face_coupe_gauche")
+    x_right = length("repere.x_face_coupe_droite")
+    pitch = length("geometrie.entraxe_tubes")
+    bays = int(_value(data, "geometrie.nombre_entraxes_tranche"))
+    n_tubes = bays + 1
+    if int(_value(data, "geometrie.nombre_tubes_entiers")) + int(
+        _value(data, "geometrie.nombre_demi_tubes")
+    ) != n_tubes or int(_value(data, "geometrie.nombre_palplanches_intercalaires")) != (
+        bays
+    ):
+        message = "les comptes de tubes et de palplanches ne concordent pas"
+        raise CombiwallMeshError(message)
+    if abs(x_left + bays * pitch - x_right) > TOL:
+        message = "les faces de coupe ne sont pas à huit entraxes l'une de l'autre"
+        raise CombiwallMeshError(message)
+    axes = [x_left + pitch * k for k in range(n_tubes)]
+    central = (n_tubes + 1) // 2
+    if abs(axes[central - 1]) > TOL:
+        message = "le tube central n'est pas à X = 0"
+        raise CombiwallMeshError(message)
+
+    facets = int(_value(data, "maillage.nombre_facettes_par_tube"))
+    if facets % 4 != 0:
+        message = "le nombre de facettes doit être un multiple de 4 (coupe à ±90°)"
+        raise CombiwallMeshError(message)
+    levels = [float(v) for v in _value(data, "maillage.cotes_imposees")]
+    if levels != sorted(levels) or len(set(levels)) != len(levels):
+        message = "les cotes imposées doivent être strictement croissantes"
+        raise CombiwallMeshError(message)
+    foot_tube = length("geometrie.cote_pied_tubes")
+    head_tube = length("geometrie.cote_tete_tubes")
+    foot_sheet = length("geometrie.cote_pied_palplanches")
+    head_sheet = length("geometrie.cote_tete_palplanches")
+    if levels[0] != foot_tube or levels[-1] != head_tube:
+        message = "les cotes imposées ne vont pas du pied à la tête des tubes"
+        raise CombiwallMeshError(message)
+    imposed_by_decisions = {
+        "pied des palplanches": foot_sheet,
+        "tête des palplanches": head_sheet,
+        "dragage (ressorts)": length("geometrie.cote_dragage"),
+        "interface argile/marne": length("sol.cote_interface_argile_marne"),
+        "bas de l'empreinte": length("charges.accostage_cote_bas_empreinte"),
+        "haut de l'empreinte": length("charges.accostage_cote_haut_empreinte"),
+        "tête des tirants": length("tirants.cote_tete"),
+    }
+    for label, z in imposed_by_decisions.items():
+        if z not in levels:
+            message = f"la cote {z:g} ({label}) n'est pas une cote imposée"
+            raise CombiwallMeshError(message)
+
+    start = [0.0, length("tirants.position_tete_sur_tube"), length("tirants.cote_tete")]
+    if abs(start[1] - radius) > TOL:
+        message = "l'accrochage des tirants n'est pas sur la génératrice côté terre"
+        raise CombiwallMeshError(message)
+    anchor_y = length("tirants.ancrage_y")
+    anchor_z = length("tirants.ancrage_z")
+    run, drop = anchor_y - start[1], start[2] - anchor_z
+    rod = math.hypot(run, drop)
+    slope = math.degrees(math.atan2(drop, run))
+    stated_length = length("tirants.longueur_modelisee")
+    stated_slope = float(_value(data, "tirants.inclinaison"))
+    # The anchor coordinates are stated to the centimetre: the length and the slope
+    # they give differ slightly from the stated 26.00 m and 20 degrees. The
+    # coordinates are used as stated; the gap is bounded here and reported.
+    if (
+        abs(rod - stated_length) > 1e-3 * stated_length
+        or abs(slope - stated_slope) > 0.05
+    ):
+        message = (
+            f"tirant : longueur {rod:.5f} m et pente {slope:.4f}° incompatibles "
+            f"avec {stated_length} m et {stated_slope}°"
+        )
+        raise CombiwallMeshError(message)
+
+    # Facet ranges [j0, j1) of each tube (facet j spans 360 j / N to 360 (j + 1) / N
+    # degrees): whole tubes, and the two half tubes cut through their axis by the
+    # planes of symmetry (the half on the inner side of the slice).
+    quarter = facets // 4
+    sectors = [[0, facets] for _ in range(n_tubes)]
+    sectors[0] = [-quarter, quarter]
+    sectors[-1] = [quarter, 3 * quarter]
+
+    return {
+        "schema": "combiwall_mesh_params_v1",
+        "taille_verticale": length("maillage.taille_verticale_visee"),
+        "tube": {
+            "rayon": radius,
+            "facettes": facets,
+            "cotes": levels,
+            "axes_x": axes,
+            "central": central,
+            "secteurs": sectors,
+        },
+        "palplanche": {
+            "cotes": [z for z in levels if foot_sheet <= z <= head_sheet],
+            "segments_largeur": int(
+                _value(data, "maillage.nombre_elements_largeur_palplanche")
+            ),
+            # serrure lines: generatrices at Y = 0, on the +X side of a tube (angle 0)
+            # and on the -X side of the next one (angle 180)
+            "angles_serrure_deg": [0.0, 180.0],
+        },
+        "poutre": {
+            "y": length("poutre_couronnement.position_axe_y"),
+            "z": length("poutre_couronnement.cote_centre_gravite"),
+            "segments_par_entraxe": int(
+                _value(data, "maillage.nombre_elements_par_entraxe_poutre")
+            ),
+        },
+        "tirants": {
+            "debut_y": start[1],
+            "debut_z": start[2],
+            "angle_debut_deg": 90.0,  # generatrix at Y = +R: land side
+            "fin_y": anchor_y,
+            "fin_z": anchor_z,
+            "segments": int(_value(data, "maillage.nombre_elements_par_tirant")),
+            "longueur_donnee": stated_length,
+            "longueur_des_coordonnees": rod,
+            "pente_des_coordonnees_deg": slope,
+        },
+        "empreinte": {
+            "tube": central,
+            "cote_bas": length("charges.accostage_cote_bas_empreinte"),
+            "cote_haut": length("charges.accostage_cote_haut_empreinte"),
+            "angle_centre_deg": 270.0,
+            "demi_angle_deg": float(
+                _value(data, "charges.accostage_demi_angle_empreinte")
+            ),
+        },
+        "ecran_poussee": {"angle_centre_deg": 90.0, "demi_angle_deg": 90.0},
+        "bandes": {
+            "RESS_AV_ARGI": {
+                "cote_bas": length("sol.cote_interface_argile_marne"),
+                "cote_haut": length("sol.cote_haut_ressorts"),
+                "avec_palplanches": True,
+            },
+            "RESS_AV_MARNE": {
+                "cote_bas": foot_tube,
+                "cote_haut": length("sol.cote_interface_argile_marne"),
+                "avec_palplanches": False,
+            },
+        },
+        "symetrie": {"x_gauche": x_left, "x_droite": x_right},
+        "precision": TOL,
+    }
+
+
+# --- layout, analytic ---------------------------------------------------------------
+
+
+class _Layout:
+    """Counts and coordinates derived from the parameters (no mesh involved)."""
+
+    def __init__(self, params: dict[str, Any]) -> None:
+        tube = params["tube"]
+        self.params = params
+        self.radius: float = tube["rayon"]
+        self.facets: int = tube["facettes"]
+        self.size: float = params["taille_verticale"]
+        self.levels: list[float] = tube["cotes"]
+        self.axes: list[float] = tube["axes_x"]
+        self.central: int = tube["central"]
+        self.n_tubes = len(self.axes)
+        self.chord = 2.0 * self.radius * math.sin(math.pi / self.facets)
+        if segment_count(self.chord, self.size) != 1:
+            message = "facette plus longue que la taille visée : non prévu (1 segment)"
+            raise CombiwallMeshError(message)
+        self.sheet_levels: list[float] = params["palplanche"]["cotes"]
+        self.sheet_columns: int = params["palplanche"]["segments_largeur"]
+        self.rows = self._rows(self.levels)
+        self.sheet_rows = self._rows(self.sheet_levels)
+        self.vertical = sum(self.rows)
+        self.sheet_vertical = sum(self.sheet_rows)
+        # (j0, j1) facet index range of each tube, j1 excluded
+        self.sectors: list[tuple[int, int]] = [
+            (int(s[0]), int(s[1])) for s in tube["secteurs"]
+        ]
+
+    def _rows(self, levels: list[float]) -> list[int]:
+        return [
+            segment_count(b - a, self.size)
+            for a, b in zip(levels[:-1], levels[1:], strict=True)
+        ]
+
+    def rows_between(self, low: float, high: float, *, sheet: bool = False) -> int:
+        levels = self.sheet_levels if sheet else self.levels
+        rows = self.sheet_rows if sheet else self.rows
+        return sum(
+            n
+            for (a, b), n in zip(
+                zip(levels[:-1], levels[1:], strict=True), rows, strict=True
+            )
+            if a >= low - TOL and b <= high + TOL
+        )
+
+    def is_full(self, number: int) -> bool:
+        j0, j1 = self.sectors[number - 1]
+        return j1 - j0 == self.facets
+
+    def facet_count(self, number: int) -> int:
+        j0, j1 = self.sectors[number - 1]
+        return j1 - j0
+
+    def in_window(self, j: int, center: float, half: float) -> bool:
+        """Facet j (angles 360 j / N to 360 (j+1) / N) lies within the window."""
+        low, high = center - half, center + half
+        for angle in (360.0 * j / self.facets, 360.0 * (j + 1) / self.facets):
+            if (angle - low) % 360.0 > (high - low) + 1e-6:
+                return False
+        return True
+
+    def window_facets(self, number: int, center: float, half: float) -> list[int]:
+        j0, j1 = self.sectors[number - 1]
+        return [j for j in range(j0, j1) if self.in_window(j, center, half)]
+
+    def vertex(self, number: int, j: int) -> tuple[float, float]:
+        angle = 2.0 * math.pi * j / self.facets
+        return (
+            self.axes[number - 1] + self.radius * math.cos(angle),
+            self.radius * math.sin(angle),
+        )
+
+    def ring_nodes(self, number: int) -> int:
+        n = self.facet_count(number)
+        return n if self.is_full(number) else n + 1
+
+    def tube_nodes(self, number: int) -> int:
+        return self.ring_nodes(number) * (self.vertical + 1)
+
+    def tube_quads(self, number: int) -> int:
+        return self.facet_count(number) * self.vertical
+
+    def tube_seg2(self, number: int) -> int:
+        n = self.facet_count(number)
+        lines = n if self.is_full(number) else n + 1
+        return n * len(self.levels) + lines * self.vertical
+
+    def sheet_x(self, k: int) -> tuple[float, float]:
+        """X of the two serrure lines of sheet pile k (1-based)."""
+        return self.axes[k - 1] + self.radius, self.axes[k] - self.radius
+
+    def sheet_nodes(self) -> int:  # interior columns only: the serrures are tube nodes
+        return (self.sheet_columns - 1) * (self.sheet_vertical + 1)
+
+    def sheet_quads(self) -> int:
+        return self.sheet_columns * self.sheet_vertical
+
+    def sheet_seg2(self) -> int:
+        return self.sheet_columns * len(self.sheet_levels)
+
+    @property
+    def bay_segments(self) -> int:
+        return int(self.params["poutre"]["segments_par_entraxe"])
+
+    @property
+    def tie_segments(self) -> int:
+        return int(self.params["tirants"]["segments"])
+
+
+def expected_segments(params: dict[str, Any]) -> dict[str, Any]:
+    """Segments imposed on each type of edge (the mesh report lists them)."""
+    lay = _Layout(params)
+    return {
+        "taille_visee": lay.size,
+        "aretes_verticales_tube_et_palplanche": {
+            f"{a:g} -> {b:g}": {"longueur": b - a, "segments": n}
+            for (a, b), n in zip(
+                zip(lay.levels[:-1], lay.levels[1:], strict=True),
+                lay.rows,
+                strict=True,
+            )
+        },
+        "aretes_horizontales_facette": {"longueur": lay.chord, "segments": 1},
+        "aretes_horizontales_palplanche": {
+            "longueur": lay.axes[1] - lay.axes[0] - 2 * lay.radius,
+            "segments": lay.sheet_columns,
+        },
+        "aretes_poutre": {
+            "longueur": lay.axes[1] - lay.axes[0],
+            "segments": lay.bay_segments,
+        },
+        "aretes_tirant": {
+            "longueur": params["tirants"]["longueur_des_coordonnees"],
+            "segments": lay.tie_segments,
+        },
+    }
+
+
+# --- expected invariants -----------------------------------------------------------
+
+
+def _bbox(*v: float) -> list[float]:
+    return [float(x) for x in v]
+
+
+def _union(boxes: list[list[float]]) -> list[float]:
+    return _bbox(
+        min(b[0] for b in boxes),
+        max(b[1] for b in boxes),
+        min(b[2] for b in boxes),
+        max(b[3] for b in boxes),
+        min(b[4] for b in boxes),
+        max(b[5] for b in boxes),
+    )
+
+
+def _tube_box(
+    lay: _Layout, number: int, js: range, z0: float, z1: float
+) -> list[float]:
+    xs, ys = zip(*(lay.vertex(number, j) for j in js), strict=True)
+    return _bbox(min(xs), max(xs), min(ys), max(ys), z0, z1)
+
+
+def _pt(x: float, y: float, z: float) -> list[float]:
+    return [float(x), float(y), float(z)]
+
+
+def _names(prefix: str, count: int) -> list[str]:
+    return [f"{prefix}{k:02d}" for k in range(1, count + 1)]
+
+
+def expected_invariants(params: dict[str, Any]) -> dict[str, Any]:
+    """Invariants of the quay MED, computed from the parameters (schema of
+    `aster_expert.meshing.invariants.Invariants`)."""
+    lay = _Layout(params)
+    n_tubes, n_sheets = lay.n_tubes, lay.n_tubes - 1
+    z_foot, z_head = lay.levels[0], lay.levels[-1]
+    z_sheet_foot = lay.sheet_levels[0]
+    radius = lay.radius
+    beam_y, beam_z = params["poutre"]["y"], params["poutre"]["z"]
+    tie = params["tirants"]
+    x_left, x_right = params["symetrie"]["x_gauche"], params["symetrie"]["x_droite"]
+
+    # counts
+    nodes = (
+        sum(lay.tube_nodes(k) for k in range(1, n_tubes + 1))
+        + n_sheets * lay.sheet_nodes()
+        + (n_sheets * lay.bay_segments + 1)  # beam
+        + n_tubes * lay.tie_segments  # tie rods: the start node is a tube node
+    )
+    quads = sum(lay.tube_quads(k) for k in range(1, n_tubes + 1)) + n_sheets * (
+        lay.sheet_quads()
+    )
+    seg2 = (
+        sum(lay.tube_seg2(k) for k in range(1, n_tubes + 1))
+        + n_sheets * lay.sheet_seg2()
+        + n_sheets * lay.bay_segments
+        + n_tubes * lay.tie_segments
+    )
+
+    groups: list[dict[str, Any]] = []
+
+    def cell_group(name: str, count: int, cell_type: str, bbox: list[float]) -> None:
+        groups.append(
+            {
+                "name": name,
+                "count": count,
+                "cell_type": cell_type,
+                "bbox": bbox,
+                "tolerance": TOL,
+            }
+        )
+
+    def node_group(name: str, count: int, bbox: list[float]) -> None:
+        groups.append(
+            {
+                "name": name,
+                "kind": "node",
+                "count": count,
+                "bbox": bbox,
+                "tolerance": TOL,
+            }
+        )
+
+    tube_boxes: list[list[float]] = []
+    for k in range(1, n_tubes + 1):
+        j0, j1 = lay.sectors[k - 1]
+        box = _tube_box(lay, k, range(j0, j1 + 1), z_foot, z_head)
+        tube_boxes.append(box)
+        cell_group(f"TUBE_{k:02d}", lay.tube_quads(k), "QUAD4", box)
+    cell_group(
+        "TUBES",
+        sum(lay.tube_quads(k) for k in range(1, n_tubes + 1)),
+        "QUAD4",
+        _union(tube_boxes),
+    )
+    sheet_boxes: list[list[float]] = []
+    for k in range(1, n_sheets + 1):
+        x0, x1 = lay.sheet_x(k)
+        box = _bbox(x0, x1, 0.0, 0.0, z_sheet_foot, z_head)
+        sheet_boxes.append(box)
+        cell_group(f"PALP_{k:02d}", lay.sheet_quads(), "QUAD4", box)
+    cell_group("PALPS", n_sheets * lay.sheet_quads(), "QUAD4", _union(sheet_boxes))
+    tubes_total = sum(lay.tube_quads(k) for k in range(1, n_tubes + 1))
+    cell_group(
+        "ECRAN",
+        tubes_total + n_sheets * lay.sheet_quads(),
+        "QUAD4",
+        _union(tube_boxes + sheet_boxes),
+    )
+
+    # ECRAN_POUSSEE: the facets of the tubes on the land side (Y >= 0), and the sheets
+    push = params["ecran_poussee"]
+    push_tubes = [
+        lay.window_facets(k, push["angle_centre_deg"], push["demi_angle_deg"])
+        for k in range(1, n_tubes + 1)
+    ]
+    push_boxes = [
+        _tube_box(lay, k, range(min(js), max(js) + 2), z_foot, z_head)
+        for k, js in enumerate(push_tubes, start=1)
+    ]
+    cell_group(
+        "ECRAN_POUSSEE",
+        sum(len(js) for js in push_tubes) * lay.vertical + n_sheets * lay.sheet_quads(),
+        "QUAD4",
+        _union(push_boxes + sheet_boxes),
+    )
+    cell_group(
+        "POUTRE_COUR",
+        n_sheets * lay.bay_segments,
+        "SEG2",
+        _bbox(x_left, x_right, beam_y, beam_y, beam_z, beam_z),
+    )
+    tie_boxes: list[list[float]] = []
+    for k in range(1, n_tubes + 1):
+        x = lay.axes[k - 1]
+        box = _bbox(x, x, tie["debut_y"], tie["fin_y"], tie["fin_z"], tie["debut_z"])
+        tie_boxes.append(box)
+        cell_group(f"TIRANT_{k:02d}", lay.tie_segments, "SEG2", box)
+    cell_group("TIRANTS", n_tubes * lay.tie_segments, "SEG2", _union(tie_boxes))
+
+    # spring bands: every cell of the screen (or of the tubes only) between two levels
+    for name, band in params["bandes"].items():
+        low, high = band["cote_bas"], band["cote_haut"]
+        count = sum(
+            lay.facet_count(k) for k in range(1, n_tubes + 1)
+        ) * lay.rows_between(low, high)
+        boxes = list(tube_boxes)
+        if band["avec_palplanches"]:
+            count += (
+                n_sheets * lay.sheet_columns * lay.rows_between(low, high, sheet=True)
+            )
+            boxes += sheet_boxes
+        box = _union(boxes)
+        box[4], box[5] = low, high
+        cell_group(name, count, "QUAD4", box)
+
+    # DEFENSE: the imprint on the basin side of the central tube
+    imp = params["empreinte"]
+    imp_facets = lay.window_facets(
+        imp["tube"], imp["angle_centre_deg"], imp["demi_angle_deg"]
+    )
+    cell_group(
+        "DEFENSE",
+        len(imp_facets) * lay.rows_between(imp["cote_bas"], imp["cote_haut"]),
+        "QUAD4",
+        _tube_box(
+            lay,
+            imp["tube"],
+            range(min(imp_facets), max(imp_facets) + 2),
+            imp["cote_bas"],
+            imp["cote_haut"],
+        ),
+    )
+
+    # node groups
+    for k in range(1, n_tubes + 1):
+        j0, j1 = lay.sectors[k - 1]
+        ring = _tube_box(lay, k, range(j0, j1 + 1), z_head, z_head)
+        node_group(f"TETE_TUBE_{k:02d}", lay.ring_nodes(k), ring)
+    for k in range(1, n_tubes + 1):
+        x = lay.axes[k - 1]
+        node_group(
+            f"ANC_{k:02d}",
+            1,
+            _bbox(x, x, tie["fin_y"], tie["fin_y"], tie["fin_z"], tie["fin_z"]),
+        )
+    node_group(
+        "ANCRAGES",
+        n_tubes,
+        _bbox(x_left, x_right, tie["fin_y"], tie["fin_y"], tie["fin_z"], tie["fin_z"]),
+    )
+    x_c = lay.axes[lay.central - 1]
+    node_group("BOLLARD", 1, _bbox(x_c, x_c, beam_y, beam_y, beam_z, beam_z))
+    y_low = -radius
+    y_high = max(tie["fin_y"], beam_y, radius)
+    sym_count = 2 * (lay.vertical + 1) + 2  # two cut generatrices, tie anchor, beam end
+    for name, x in (("SYM_G", x_left), ("SYM_D", x_right)):
+        node_group(name, sym_count, _bbox(x, x, y_low, y_high, z_foot, beam_z))
+
+    # nodes at the imposed levels, on every tube and every sheet pile
+    nodes_at: list[dict[str, Any]] = []
+    for k in range(1, n_tubes + 1):
+        x = lay.axes[k - 1]
+        for z in lay.levels:
+            for side, y in (("bassin", -radius), ("terre", radius)):
+                nodes_at.append(
+                    {
+                        "label": f"tube {k}, génératrice côté {side}, cote {z:g}",
+                        "point": _pt(x, y, z),
+                        "tolerance": TOL,
+                    }
+                )
+    for k in range(1, n_sheets + 1):
+        x0, x1 = lay.sheet_x(k)
+        x_mid = x0 + 2 * (x1 - x0) / lay.sheet_columns
+        for z in lay.sheet_levels:
+            nodes_at.append(
+                {
+                    "label": f"palplanche {k}, colonne 2, cote {z:g}",
+                    "point": _pt(x_mid, 0.0, z),
+                    "tolerance": TOL,
+                }
+            )
+    for k in range(1, n_tubes + 1):
+        nodes_at.append(
+            {
+                "label": f"poutre au droit du tube {k}",
+                "point": _pt(lay.axes[k - 1], beam_y, beam_z),
+                "tolerance": TOL,
+            }
+        )
+
+    shared: list[dict[str, Any]] = []
+    for k in range(1, n_sheets + 1):
+        x0, x1 = lay.sheet_x(k)
+        for tube, x in ((k, x0), (k + 1, x1)):
+            shared.append(
+                {
+                    "label": f"serrure de la palplanche {k} sur le tube {tube}",
+                    "groups": [f"PALP_{k:02d}", f"TUBE_{tube:02d}"],
+                    "count": lay.sheet_vertical + 1,
+                    "at": [_pt(x, 0.0, z) for z in lay.sheet_levels],
+                    "tolerance": TOL,
+                }
+            )
+    for k in range(1, n_tubes + 1):
+        shared.append(
+            {
+                "label": f"nœud de départ du tirant {k} sur le tube {k}",
+                "groups": [f"TIRANT_{k:02d}", f"TUBE_{k:02d}"],
+                "count": 1,
+                "at": [_pt(lay.axes[k - 1], tie["debut_y"], tie["debut_z"])],
+                "tolerance": TOL,
+            }
+        )
+        shared.append(
+            {
+                "label": f"extrémité arrière du tirant {k} distincte de l'écran",
+                "groups": [f"ANC_{k:02d}", "ECRAN"],
+                "kinds": ["node", "cell"],
+                "count": 0,
+                "tolerance": TOL,
+            }
+        )
+        shared.append(
+            {
+                "label": f"extrémité arrière du tirant {k} sur son tirant",
+                "groups": [f"ANC_{k:02d}", f"TIRANT_{k:02d}"],
+                "kinds": ["node", "cell"],
+                "count": 1,
+                "tolerance": TOL,
+            }
+        )
+    shared.append(
+        {
+            "label": "BOLLARD sur la poutre",
+            "groups": ["BOLLARD", "POUTRE_COUR"],
+            "kinds": ["node", "cell"],
+            "count": 1,
+            "at": [_pt(x_c, beam_y, beam_z)],
+            "tolerance": TOL,
+        }
+    )
+    shared.append(
+        {
+            "label": "BOLLARD hors de l'écran",
+            "groups": ["BOLLARD", "ECRAN"],
+            "kinds": ["node", "cell"],
+            "count": 0,
+            "tolerance": TOL,
+        }
+    )
+    shared.append(
+        {
+            "label": "poutre non reliée à l'écran (liaison rigide au lot 28)",
+            "groups": ["POUTRE_COUR", "ECRAN"],
+            "count": 0,
+            "tolerance": TOL,
+        }
+    )
+    shared.append(
+        {
+            "label": "tubes voisins sans nœud commun",
+            "groups": ["TUBE_01", "TUBE_02"],
+            "count": 0,
+            "tolerance": TOL,
+        }
+    )
+    shared.append(
+        {
+            "label": "palplanches voisines sans nœud commun",
+            "groups": ["PALP_01", "PALP_02"],
+            "count": 0,
+            "tolerance": TOL,
+        }
+    )
+
+    subsets = (
+        [
+            {"group": "TUBES", "of": "ECRAN"},
+            {"group": "PALPS", "of": "ECRAN"},
+            {"group": "ECRAN_POUSSEE", "of": "ECRAN"},
+            {"group": "RESS_AV_ARGI", "of": "ECRAN"},
+            {"group": "RESS_AV_MARNE", "of": "TUBES"},
+            {"group": "DEFENSE", "of": f"TUBE_{imp['tube']:02d}"},
+            {"group": "DEFENSE", "of": "TUBES"},
+        ]
+        + [{"group": f"TUBE_{k:02d}", "of": "TUBES"} for k in range(1, n_tubes + 1)]
+        + [{"group": f"PALP_{k:02d}", "of": "PALPS"} for k in range(1, n_sheets + 1)]
+        + [{"group": f"TIRANT_{k:02d}", "of": "TIRANTS"} for k in range(1, n_tubes + 1)]
+    )
+
+    # geometric checks from the areas of the cells
+    ideal = 2.0 * (math.pi / 4.0) * radius * (imp["cote_haut"] - imp["cote_bas"])
+    developed = len(imp_facets) * lay.chord * (imp["cote_haut"] - imp["cote_bas"])
+    mid_rows = _mid_row_levels(lay)
+    tube_width = sum(
+        2 * radius if lay.is_full(k) else radius for k in range(1, n_tubes + 1)
+    )
+    sheet_width = sum(
+        lay.sheet_x(k)[1] - lay.sheet_x(k)[0] for k in range(1, n_sheets + 1)
+    )
+    widths = [
+        {
+            "label": (
+                f"bande de {z_sheet_foot:g} à {z_head:+g} : "
+                "tubes côté terre et palplanches"
+            ),
+            "group": "ECRAN_POUSSEE",
+            "z": mid_rows["haut"],
+            "width": tube_width + sheet_width,
+            "tolerance": TOL,
+        },
+        {
+            "label": f"bande de {z_foot:g} à {z_sheet_foot:g} : tubes seuls",
+            "group": "ECRAN_POUSSEE",
+            "z": mid_rows["bas"],
+            "width": tube_width,
+            "tolerance": TOL,
+        },
+    ]
+
+    return {
+        "schema_version": 1,
+        "counts": {"nodes": nodes, "cells": {"QUAD4": quads, "SEG2": seg2}},
+        "bbox": _bbox(x_left, x_right, -radius, tie["fin_y"], z_foot, beam_z),
+        "bbox_tolerance": TOL,
+        "groups": groups,
+        "group_areas": [
+            {
+                "group": "DEFENSE",
+                "area": developed,
+                "tolerance": TOL,
+                "reference_area": ideal,
+            }
+        ],
+        "projected_widths": widths,
+        "subsets": subsets,
+        "plane_nodes": [
+            {"group": "SYM_G", "axis": "x", "value": x_left, "tolerance": TOL},
+            {"group": "SYM_D", "axis": "x", "value": x_right, "tolerance": TOL},
+        ],
+        "symmetry": {"tolerance": TOL},
+        "nodes_at": nodes_at,
+        "shared_nodes": shared,
+        "no_orphan_nodes": True,
+        "no_coincident_nodes": {"tolerance": TOL},
+    }
+
+
+def _mid_row_levels(lay: _Layout) -> dict[str, float]:
+    """A level inside a row of cells of each band (never on a node level)."""
+
+    def mid(low: float, high: float, rows: int) -> float:
+        return low + (rows // 2 + 0.5) * (high - low) / rows
+
+    sheet_intervals = list(
+        zip(lay.sheet_levels[:-1], lay.sheet_levels[1:], strict=True)
+    )
+    a, b = sheet_intervals[len(sheet_intervals) // 2]
+    upper = mid(a, b, lay.sheet_rows[len(sheet_intervals) // 2])
+    a0, b0 = lay.levels[0], lay.levels[1]
+    return {"haut": upper, "bas": mid(a0, b0, lay.rows[0])}
+
+
+# --- expected masses (Code_Aster reading) -------------------------------------------
+
+
+def expected_masses(params: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Area (shell groups) or length (bar and beam groups) of every cell group.
+
+    `POST_ELEM(MASS_INER)` with `RHO = 1`, `EPAIS = 1`, `A = 1` returns them as masses.
+    The faceting is included: the shells are the flat facets, not the cylinder.
+    """
+    lay = _Layout(params)
+    n_tubes, n_sheets = lay.n_tubes, lay.n_tubes - 1
+    height = lay.levels[-1] - lay.levels[0]
+    sheet_height = lay.sheet_levels[-1] - lay.sheet_levels[0]
+    out: dict[str, dict[str, Any]] = {}
+
+    def add(name: str, kind: str, mass: float) -> None:
+        out[name] = {"kind": kind, "mass": mass}
+
+    for k in range(1, n_tubes + 1):
+        add(f"TUBE_{k:02d}", "shell", lay.facet_count(k) * lay.chord * height)
+    add(
+        "TUBES",
+        "shell",
+        sum(out[f"TUBE_{k:02d}"]["mass"] for k in range(1, n_tubes + 1)),
+    )
+    for k in range(1, n_sheets + 1):
+        x0, x1 = lay.sheet_x(k)
+        add(f"PALP_{k:02d}", "shell", (x1 - x0) * sheet_height)
+    add(
+        "PALPS",
+        "shell",
+        sum(out[f"PALP_{k:02d}"]["mass"] for k in range(1, n_sheets + 1)),
+    )
+    add("ECRAN", "shell", out["TUBES"]["mass"] + out["PALPS"]["mass"])
+    push = params["ecran_poussee"]
+    push_facets = sum(
+        len(lay.window_facets(k, push["angle_centre_deg"], push["demi_angle_deg"]))
+        for k in range(1, n_tubes + 1)
+    )
+    add(
+        "ECRAN_POUSSEE",
+        "shell",
+        push_facets * lay.chord * height + out["PALPS"]["mass"],
+    )
+    for name, band in params["bandes"].items():
+        low, high = band["cote_bas"], band["cote_haut"]
+        area = (
+            sum(lay.facet_count(k) for k in range(1, n_tubes + 1))
+            * lay.chord
+            * (high - low)
+        )
+        if band["avec_palplanches"]:
+            area += sum(
+                lay.sheet_x(k)[1] - lay.sheet_x(k)[0] for k in range(1, n_sheets + 1)
+            ) * (high - low)
+        add(name, "shell", area)
+    imp = params["empreinte"]
+    facets = lay.window_facets(
+        imp["tube"], imp["angle_centre_deg"], imp["demi_angle_deg"]
+    )
+    add(
+        "DEFENSE",
+        "shell",
+        len(facets) * lay.chord * (imp["cote_haut"] - imp["cote_bas"]),
+    )
+    add("POUTRE_COUR", "beam", lay.axes[-1] - lay.axes[0])
+    rod = params["tirants"]["longueur_des_coordonnees"]
+    for k in range(1, n_tubes + 1):
+        add(f"TIRANT_{k:02d}", "bar", rod)
+    add("TIRANTS", "bar", n_tubes * rod)
+    return out
+
+
+def group_names(params: dict[str, Any]) -> dict[str, list[str]]:
+    """The names of the convention (v3 of MM), by kind of group."""
+    n = len(params["tube"]["axes_x"])
+    cells = (
+        _names("TUBE_", n)
+        + ["TUBES"]
+        + _names("PALP_", n - 1)
+        + ["PALPS", "ECRAN", "ECRAN_POUSSEE", "POUTRE_COUR"]
+        + _names("TIRANT_", n)
+        + ["TIRANTS", *params["bandes"], "DEFENSE"]
+    )
+    nodes = (
+        _names("TETE_TUBE_", n)
+        + _names("ANC_", n)
+        + ["ANCRAGES", "BOLLARD", "SYM_G", "SYM_D"]
+    )
+    return {"maille": cells, "noeud": nodes}

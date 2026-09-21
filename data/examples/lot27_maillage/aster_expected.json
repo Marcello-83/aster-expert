@@ -1,0 +1,142 @@
+{
+  "TUBE_01": {
+    "kind": "shell",
+    "mass": 63.72761591398477
+  },
+  "TUBE_02": {
+    "kind": "shell",
+    "mass": 127.45523182796954
+  },
+  "TUBE_03": {
+    "kind": "shell",
+    "mass": 127.45523182796954
+  },
+  "TUBE_04": {
+    "kind": "shell",
+    "mass": 127.45523182796954
+  },
+  "TUBE_05": {
+    "kind": "shell",
+    "mass": 127.45523182796954
+  },
+  "TUBE_06": {
+    "kind": "shell",
+    "mass": 127.45523182796954
+  },
+  "TUBE_07": {
+    "kind": "shell",
+    "mass": 127.45523182796954
+  },
+  "TUBE_08": {
+    "kind": "shell",
+    "mass": 127.45523182796954
+  },
+  "TUBE_09": {
+    "kind": "shell",
+    "mass": 63.72761591398477
+  },
+  "TUBES": {
+    "kind": "shell",
+    "mass": 1019.6418546237563
+  },
+  "PALP_01": {
+    "kind": "shell",
+    "mass": 24.307999999999996
+  },
+  "PALP_02": {
+    "kind": "shell",
+    "mass": 24.308000000000014
+  },
+  "PALP_03": {
+    "kind": "shell",
+    "mass": 24.308000000000014
+  },
+  "PALP_04": {
+    "kind": "shell",
+    "mass": 24.307999999999996
+  },
+  "PALP_05": {
+    "kind": "shell",
+    "mass": 24.307999999999996
+  },
+  "PALP_06": {
+    "kind": "shell",
+    "mass": 24.308000000000032
+  },
+  "PALP_07": {
+    "kind": "shell",
+    "mass": 24.30799999999996
+  },
+  "PALP_08": {
+    "kind": "shell",
+    "mass": 24.308000000000067
+  },
+  "PALPS": {
+    "kind": "shell",
+    "mass": 194.46400000000008
+  },
+  "ECRAN": {
+    "kind": "shell",
+    "mass": 1214.1058546237564
+  },
+  "ECRAN_POUSSEE": {
+    "kind": "shell",
+    "mass": 704.2849273118783
+  },
+  "RESS_AV_ARGI": {
+    "kind": "shell",
+    "mass": 270.55087859239643
+  },
+  "RESS_AV_MARNE": {
+    "kind": "shell",
+    "mass": 285.2145047898619
+  },
+  "DEFENSE": {
+    "kind": "shell",
+    "mass": 1.114119159335398
+  },
+  "POUTRE_COUR": {
+    "kind": "beam",
+    "mass": 20.8
+  },
+  "TIRANT_01": {
+    "kind": "bar",
+    "mass": 25.997249854551924
+  },
+  "TIRANT_02": {
+    "kind": "bar",
+    "mass": 25.997249854551924
+  },
+  "TIRANT_03": {
+    "kind": "bar",
+    "mass": 25.997249854551924
+  },
+  "TIRANT_04": {
+    "kind": "bar",
+    "mass": 25.997249854551924
+  },
+  "TIRANT_05": {
+    "kind": "bar",
+    "mass": 25.997249854551924
+  },
+  "TIRANT_06": {
+    "kind": "bar",
+    "mass": 25.997249854551924
+  },
+  "TIRANT_07": {
+    "kind": "bar",
+    "mass": 25.997249854551924
+  },
+  "TIRANT_08": {
+    "kind": "bar",
+    "mass": 25.997249854551924
+  },
+  "TIRANT_09": {
+    "kind": "bar",
+    "mass": 25.997249854551924
+  },
+  "TIRANTS": {
+    "kind": "bar",
+    "mass": 233.9752486909673
+  }
+}

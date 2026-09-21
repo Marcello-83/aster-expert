@@ -14,6 +14,7 @@ hand-built fixtures of `tests/unit/test_agent_arbitration.py`.
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from pathlib import Path
 
 import pytest
@@ -57,7 +58,8 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     # constats REAC_NODA et RHO sont remplacés sur place
     # + 1 constat d'exécution (axes d'ELAS_COQUE, lot 25) et la décision du repère
     # global (point 9, lot 25)
-    assert len(sheet.entries) == 39
+    # + la décision 11 (point 10, lot 27)
+    assert len(sheet.entries) == 40
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -69,8 +71,8 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
         if isinstance(e, PracticeHypothesisEntry) and e.status == "tranche"
     ]
     # 10 up to lot 20, plus MM's decision on the tube shell choice (lot 21) and
-    # the global frame (point 9, lot 25)
-    assert len(tranche_practice) == 12
+    # the global frame (point 9, lot 25) and decision 11 (point 10, lot 27)
+    assert len(tranche_practice) == 13
     assert {e.point_label for e in tranche_practice} == {
         "0",
         "1",
@@ -82,6 +84,7 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
         "7",
         "8",
         "9",
+        "10",
     }
     assert all(e.decided_by == "MM" for e in tranche_practice)
     assert all(e.validity_domain for e in tranche_practice)
@@ -287,9 +290,9 @@ def test_arbitree_fiche_every_group_carries_a_point_label() -> None:
         "2",
         "3",
         "4",
-        "5",
         "7",
         "8",
+        "10",
     }
 
 
@@ -397,3 +400,27 @@ def test_original_reference_fiche_is_unchanged() -> None:
         if isinstance(e, PracticeHypothesisEntry) and e.status == "non_tranche"
     ]
     assert len(non_tranche_practice) == 8
+
+
+def test_arbitree_fiche_records_decision_11_and_grounds_the_screen_on_it() -> None:
+    """Lot 27: part B of `donnees_complementaires_combiwall_v1.md` is inserted at
+    point 10 (its option table verbatim), `decided_at` is the recording time, and
+    `ECRAN_POUSSEE` is defined by point 10 (it was on point 5)."""
+    sheet = _load()
+    (entry,) = [
+        e
+        for e in sheet.entries
+        if isinstance(e, PracticeHypothesisEntry) and e.point_label == "10"
+    ]
+    assert entry.status == "tranche"
+    assert entry.decided_by == "MM"
+    assert entry.decided_at == datetime.fromisoformat("2026-09-21T11:51:43-04:00")
+    assert entry.option_retained is not None
+    assert "| Facettisation des tubes | 40 facettes sur la circonférence (9°)." in (
+        entry.option_retained
+    )
+    assert len(entry.discarded_variants) == 3
+    assert entry.sources[0].origin == "decision_ingenieur"
+    (screen,) = [g for g in sheet.group_naming if g.group_name == "ECRAN_POUSSEE"]
+    assert screen.point_label == "10"
+    assert sheet.entries_under_revision() == ()

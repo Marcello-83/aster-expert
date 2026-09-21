@@ -1,0 +1,83 @@
+# Lot 27 -- lecture par Code_Aster du MED du quai (critere dans docs/essais_lot27.md,
+# ecrit avant l'execution). RHO = 1, EPAIS = 1, A = 1 : la masse d'un groupe est son
+# aire developpee (coque, facettisation incluse) ou sa longueur (barre, poutre).
+# Ce calcul n'est pas le .comm du quai (lot 28).
+
+DEBUT()
+
+MAIL = LIRE_MAILLAGE(FORMAT="MED", UNITE=20, INFO=2)
+
+MO = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(GROUP_MA=("TUBES", "PALPS",), PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+        _F(GROUP_MA=("TIRANTS",), PHENOMENE="MECANIQUE", MODELISATION="BARRE"),
+        _F(GROUP_MA=("POUTRE_COUR",), PHENOMENE="MECANIQUE", MODELISATION="POU_D_E"),
+    ),
+)
+
+CARA = AFFE_CARA_ELEM(
+    MODELE=MO,
+    COQUE=_F(GROUP_MA=("TUBES", "PALPS",), EPAIS=1.0),
+    BARRE=_F(GROUP_MA=("TIRANTS",), SECTION="GENERALE", CARA="A", VALE=1.0),
+    POUTRE=_F(
+        GROUP_MA=("POUTRE_COUR",),
+        SECTION="GENERALE",
+        CARA=("A", "IY", "IZ", "JX"),
+        VALE=(1.0, 1.0, 1.0, 1.0),
+    ),
+)
+
+MAT = DEFI_MATERIAU(ELAS=_F(E=1.0e6, NU=0.3, RHO=1.0))
+
+CHMAT = AFFE_MATERIAU(
+    MAILLAGE=MAIL,
+    AFFE=_F(GROUP_MA=("TUBES", "PALPS", "TIRANTS", "POUTRE_COUR",), MATER=MAT),
+)
+
+MASSE = POST_ELEM(
+    MODELE=MO,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    MASS_INER=(
+        _F(GROUP_MA="TUBE_01"),
+        _F(GROUP_MA="TUBE_02"),
+        _F(GROUP_MA="TUBE_03"),
+        _F(GROUP_MA="TUBE_04"),
+        _F(GROUP_MA="TUBE_05"),
+        _F(GROUP_MA="TUBE_06"),
+        _F(GROUP_MA="TUBE_07"),
+        _F(GROUP_MA="TUBE_08"),
+        _F(GROUP_MA="TUBE_09"),
+        _F(GROUP_MA="TUBES"),
+        _F(GROUP_MA="PALP_01"),
+        _F(GROUP_MA="PALP_02"),
+        _F(GROUP_MA="PALP_03"),
+        _F(GROUP_MA="PALP_04"),
+        _F(GROUP_MA="PALP_05"),
+        _F(GROUP_MA="PALP_06"),
+        _F(GROUP_MA="PALP_07"),
+        _F(GROUP_MA="PALP_08"),
+        _F(GROUP_MA="PALPS"),
+        _F(GROUP_MA="ECRAN"),
+        _F(GROUP_MA="ECRAN_POUSSEE"),
+        _F(GROUP_MA="RESS_AV_ARGI"),
+        _F(GROUP_MA="RESS_AV_MARNE"),
+        _F(GROUP_MA="DEFENSE"),
+        _F(GROUP_MA="POUTRE_COUR"),
+        _F(GROUP_MA="TIRANT_01"),
+        _F(GROUP_MA="TIRANT_02"),
+        _F(GROUP_MA="TIRANT_03"),
+        _F(GROUP_MA="TIRANT_04"),
+        _F(GROUP_MA="TIRANT_05"),
+        _F(GROUP_MA="TIRANT_06"),
+        _F(GROUP_MA="TIRANT_07"),
+        _F(GROUP_MA="TIRANT_08"),
+        _F(GROUP_MA="TIRANT_09"),
+        _F(GROUP_MA="TIRANTS"),
+    ),
+)
+
+IMPR_TABLE(TABLE=MASSE, UNITE=6, FORMAT_R="E20.12")
+
+FIN()

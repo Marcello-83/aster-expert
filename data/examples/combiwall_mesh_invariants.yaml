@@ -1,0 +1,2537 @@
+# Invariants du maillage du quai QUAI-CW-TEST-01 (lot 27).
+#
+# Produit par scripts/build_lot27_maillage.py, à partir de
+# data/examples/combiwall_model_data.yaml et du module analytique
+# aster_expert.meshing.combiwall : les comptages sont calculés AVANT toute
+# exécution de Salomé, jamais relus d'un MED. Ne pas éditer à la main.
+schema_version: 1
+counts:
+  nodes: 40114
+  cells:
+    QUAD4: 40120
+    SEG2: 39583
+bbox:
+- -10.4
+- 10.4
+- -0.71
+- 25.14
+- -26.0
+- 3.3
+bbox_tolerance: 1.0e-09
+groups:
+- name: TUBE_01
+  count: 2300
+  cell_type: QUAD4
+  bbox:
+  - -10.4
+  - -9.690000000000001
+  - -0.71
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: TUBE_02
+  count: 4600
+  cell_type: QUAD4
+  bbox:
+  - -8.510000000000002
+  - -7.090000000000001
+  - -0.71
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: TUBE_03
+  count: 4600
+  cell_type: QUAD4
+  bbox:
+  - -5.91
+  - -4.49
+  - -0.71
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: TUBE_04
+  count: 4600
+  cell_type: QUAD4
+  bbox:
+  - -3.3099999999999996
+  - -1.8899999999999997
+  - -0.71
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: TUBE_05
+  count: 4600
+  cell_type: QUAD4
+  bbox:
+  - -0.71
+  - 0.71
+  - -0.71
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: TUBE_06
+  count: 4600
+  cell_type: QUAD4
+  bbox:
+  - 1.8899999999999997
+  - 3.3099999999999996
+  - -0.71
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: TUBE_07
+  count: 4600
+  cell_type: QUAD4
+  bbox:
+  - 4.490000000000001
+  - 5.910000000000001
+  - -0.71
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: TUBE_08
+  count: 4600
+  cell_type: QUAD4
+  bbox:
+  - 7.089999999999999
+  - 8.509999999999998
+  - -0.71
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: TUBE_09
+  count: 2300
+  cell_type: QUAD4
+  bbox:
+  - 9.690000000000001
+  - 10.4
+  - -0.71
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: TUBES
+  count: 36800
+  cell_type: QUAD4
+  bbox:
+  - -10.4
+  - 10.4
+  - -0.71
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: PALP_01
+  count: 415
+  cell_type: QUAD4
+  bbox:
+  - -9.690000000000001
+  - -8.510000000000002
+  - 0.0
+  - 0.0
+  - -18.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: PALP_02
+  count: 415
+  cell_type: QUAD4
+  bbox:
+  - -7.090000000000001
+  - -5.91
+  - 0.0
+  - 0.0
+  - -18.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: PALP_03
+  count: 415
+  cell_type: QUAD4
+  bbox:
+  - -4.49
+  - -3.3099999999999996
+  - 0.0
+  - 0.0
+  - -18.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: PALP_04
+  count: 415
+  cell_type: QUAD4
+  bbox:
+  - -1.8899999999999997
+  - -0.71
+  - 0.0
+  - 0.0
+  - -18.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: PALP_05
+  count: 415
+  cell_type: QUAD4
+  bbox:
+  - 0.71
+  - 1.8899999999999997
+  - 0.0
+  - 0.0
+  - -18.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: PALP_06
+  count: 415
+  cell_type: QUAD4
+  bbox:
+  - 3.3099999999999996
+  - 4.490000000000001
+  - 0.0
+  - 0.0
+  - -18.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: PALP_07
+  count: 415
+  cell_type: QUAD4
+  bbox:
+  - 5.910000000000001
+  - 7.089999999999999
+  - 0.0
+  - 0.0
+  - -18.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: PALP_08
+  count: 415
+  cell_type: QUAD4
+  bbox:
+  - 8.509999999999998
+  - 9.690000000000001
+  - 0.0
+  - 0.0
+  - -18.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: PALPS
+  count: 3320
+  cell_type: QUAD4
+  bbox:
+  - -9.690000000000001
+  - 9.690000000000001
+  - 0.0
+  - 0.0
+  - -18.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: ECRAN
+  count: 40120
+  cell_type: QUAD4
+  bbox:
+  - -10.4
+  - 10.4
+  - -0.71
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: ECRAN_POUSSEE
+  count: 21720
+  cell_type: QUAD4
+  bbox:
+  - -10.4
+  - 10.4
+  - 0.0
+  - 0.71
+  - -26.0
+  - 2.6
+  tolerance: 1.0e-09
+- name: POUTRE_COUR
+  count: 64
+  cell_type: SEG2
+  bbox:
+  - -10.4
+  - 10.4
+  - 0.34
+  - 0.34
+  - 3.3
+  - 3.3
+  tolerance: 1.0e-09
+- name: TIRANT_01
+  count: 1
+  cell_type: SEG2
+  bbox:
+  - -10.4
+  - -10.4
+  - 0.71
+  - 25.14
+  - -6.39
+  - 2.5
+  tolerance: 1.0e-09
+- name: TIRANT_02
+  count: 1
+  cell_type: SEG2
+  bbox:
+  - -7.800000000000001
+  - -7.800000000000001
+  - 0.71
+  - 25.14
+  - -6.39
+  - 2.5
+  tolerance: 1.0e-09
+- name: TIRANT_03
+  count: 1
+  cell_type: SEG2
+  bbox:
+  - -5.2
+  - -5.2
+  - 0.71
+  - 25.14
+  - -6.39
+  - 2.5
+  tolerance: 1.0e-09
+- name: TIRANT_04
+  count: 1
+  cell_type: SEG2
+  bbox:
+  - -2.5999999999999996
+  - -2.5999999999999996
+  - 0.71
+  - 25.14
+  - -6.39
+  - 2.5
+  tolerance: 1.0e-09
+- name: TIRANT_05
+  count: 1
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 0.0
+  - 0.71
+  - 25.14
+  - -6.39
+  - 2.5
+  tolerance: 1.0e-09
+- name: TIRANT_06
+  count: 1
+  cell_type: SEG2
+  bbox:
+  - 2.5999999999999996
+  - 2.5999999999999996
+  - 0.71
+  - 25.14
+  - -6.39
+  - 2.5
+  tolerance: 1.0e-09
+- name: TIRANT_07
+  count: 1
+  cell_type: SEG2
+  bbox:
+  - 5.200000000000001
+  - 5.200000000000001
+  - 0.71
+  - 25.14
+  - -6.39
+  - 2.5
+  tolerance: 1.0e-09
+- name: TIRANT_08
+  count: 1
+  cell_type: SEG2
+  bbox:
+  - 7.799999999999999
+  - 7.799999999999999
+  - 0.71
+  - 25.14
+  - -6.39
+  - 2.5
+  tolerance: 1.0e-09
+- name: TIRANT_09
+  count: 1
+  cell_type: SEG2
+  bbox:
+  - 10.4
+  - 10.4
+  - 0.71
+  - 25.14
+  - -6.39
+  - 2.5
+  tolerance: 1.0e-09
+- name: TIRANTS
+  count: 9
+  cell_type: SEG2
+  bbox:
+  - -10.4
+  - 10.4
+  - 0.71
+  - 25.14
+  - -6.39
+  - 2.5
+  tolerance: 1.0e-09
+- name: RESS_AV_ARGI
+  count: 8640
+  cell_type: QUAD4
+  bbox:
+  - -10.4
+  - 10.4
+  - -0.71
+  - 0.71
+  - -18.0
+  - -12.0
+  tolerance: 1.0e-09
+- name: RESS_AV_MARNE
+  count: 10240
+  cell_type: QUAD4
+  bbox:
+  - -10.4
+  - 10.4
+  - -0.71
+  - 0.71
+  - -26.0
+  - -18.0
+  tolerance: 1.0e-09
+- name: DEFENSE
+  count: 40
+  cell_type: QUAD4
+  bbox:
+  - -0.5020458146424488
+  - 0.5020458146424486
+  - -0.71
+  - -0.5020458146424487
+  - 1.0
+  - 2.0
+  tolerance: 1.0e-09
+- name: TETE_TUBE_01
+  kind: node
+  count: 21
+  bbox:
+  - -10.4
+  - -9.690000000000001
+  - -0.71
+  - 0.71
+  - 2.6
+  - 2.6
+  tolerance: 1.0e-09
+- name: TETE_TUBE_02
+  kind: node
+  count: 40
+  bbox:
+  - -8.510000000000002
+  - -7.090000000000001
+  - -0.71
+  - 0.71
+  - 2.6
+  - 2.6
+  tolerance: 1.0e-09
+- name: TETE_TUBE_03
+  kind: node
+  count: 40
+  bbox:
+  - -5.91
+  - -4.49
+  - -0.71
+  - 0.71
+  - 2.6
+  - 2.6
+  tolerance: 1.0e-09
+- name: TETE_TUBE_04
+  kind: node
+  count: 40
+  bbox:
+  - -3.3099999999999996
+  - -1.8899999999999997
+  - -0.71
+  - 0.71
+  - 2.6
+  - 2.6
+  tolerance: 1.0e-09
+- name: TETE_TUBE_05
+  kind: node
+  count: 40
+  bbox:
+  - -0.71
+  - 0.71
+  - -0.71
+  - 0.71
+  - 2.6
+  - 2.6
+  tolerance: 1.0e-09
+- name: TETE_TUBE_06
+  kind: node
+  count: 40
+  bbox:
+  - 1.8899999999999997
+  - 3.3099999999999996
+  - -0.71
+  - 0.71
+  - 2.6
+  - 2.6
+  tolerance: 1.0e-09
+- name: TETE_TUBE_07
+  kind: node
+  count: 40
+  bbox:
+  - 4.490000000000001
+  - 5.910000000000001
+  - -0.71
+  - 0.71
+  - 2.6
+  - 2.6
+  tolerance: 1.0e-09
+- name: TETE_TUBE_08
+  kind: node
+  count: 40
+  bbox:
+  - 7.089999999999999
+  - 8.509999999999998
+  - -0.71
+  - 0.71
+  - 2.6
+  - 2.6
+  tolerance: 1.0e-09
+- name: TETE_TUBE_09
+  kind: node
+  count: 21
+  bbox:
+  - 9.690000000000001
+  - 10.4
+  - -0.71
+  - 0.71
+  - 2.6
+  - 2.6
+  tolerance: 1.0e-09
+- name: ANC_01
+  kind: node
+  count: 1
+  bbox:
+  - -10.4
+  - -10.4
+  - 25.14
+  - 25.14
+  - -6.39
+  - -6.39
+  tolerance: 1.0e-09
+- name: ANC_02
+  kind: node
+  count: 1
+  bbox:
+  - -7.800000000000001
+  - -7.800000000000001
+  - 25.14
+  - 25.14
+  - -6.39
+  - -6.39
+  tolerance: 1.0e-09
+- name: ANC_03
+  kind: node
+  count: 1
+  bbox:
+  - -5.2
+  - -5.2
+  - 25.14
+  - 25.14
+  - -6.39
+  - -6.39
+  tolerance: 1.0e-09
+- name: ANC_04
+  kind: node
+  count: 1
+  bbox:
+  - -2.5999999999999996
+  - -2.5999999999999996
+  - 25.14
+  - 25.14
+  - -6.39
+  - -6.39
+  tolerance: 1.0e-09
+- name: ANC_05
+  kind: node
+  count: 1
+  bbox:
+  - 0.0
+  - 0.0
+  - 25.14
+  - 25.14
+  - -6.39
+  - -6.39
+  tolerance: 1.0e-09
+- name: ANC_06
+  kind: node
+  count: 1
+  bbox:
+  - 2.5999999999999996
+  - 2.5999999999999996
+  - 25.14
+  - 25.14
+  - -6.39
+  - -6.39
+  tolerance: 1.0e-09
+- name: ANC_07
+  kind: node
+  count: 1
+  bbox:
+  - 5.200000000000001
+  - 5.200000000000001
+  - 25.14
+  - 25.14
+  - -6.39
+  - -6.39
+  tolerance: 1.0e-09
+- name: ANC_08
+  kind: node
+  count: 1
+  bbox:
+  - 7.799999999999999
+  - 7.799999999999999
+  - 25.14
+  - 25.14
+  - -6.39
+  - -6.39
+  tolerance: 1.0e-09
+- name: ANC_09
+  kind: node
+  count: 1
+  bbox:
+  - 10.4
+  - 10.4
+  - 25.14
+  - 25.14
+  - -6.39
+  - -6.39
+  tolerance: 1.0e-09
+- name: ANCRAGES
+  kind: node
+  count: 9
+  bbox:
+  - -10.4
+  - 10.4
+  - 25.14
+  - 25.14
+  - -6.39
+  - -6.39
+  tolerance: 1.0e-09
+- name: BOLLARD
+  kind: node
+  count: 1
+  bbox:
+  - 0.0
+  - 0.0
+  - 0.34
+  - 0.34
+  - 3.3
+  - 3.3
+  tolerance: 1.0e-09
+- name: SYM_G
+  kind: node
+  count: 234
+  bbox:
+  - -10.4
+  - -10.4
+  - -0.71
+  - 25.14
+  - -26.0
+  - 3.3
+  tolerance: 1.0e-09
+- name: SYM_D
+  kind: node
+  count: 234
+  bbox:
+  - 10.4
+  - 10.4
+  - -0.71
+  - 25.14
+  - -26.0
+  - 3.3
+  tolerance: 1.0e-09
+group_areas:
+- group: DEFENSE
+  area: 1.114119159335398
+  tolerance: 1.0e-09
+  reference_area: 1.1152653920243765
+projected_widths:
+- label: 'bande de -18 à +2.6 : tubes côté terre et palplanches'
+  group: ECRAN_POUSSEE
+  z: 1.625
+  width: 20.800000000000004
+  tolerance: 1.0e-09
+- label: 'bande de -26 à -18 : tubes seuls'
+  group: ECRAN_POUSSEE
+  z: -21.875
+  width: 11.36
+  tolerance: 1.0e-09
+subsets:
+- group: TUBES
+  of: ECRAN
+- group: PALPS
+  of: ECRAN
+- group: ECRAN_POUSSEE
+  of: ECRAN
+- group: RESS_AV_ARGI
+  of: ECRAN
+- group: RESS_AV_MARNE
+  of: TUBES
+- group: DEFENSE
+  of: TUBE_05
+- group: DEFENSE
+  of: TUBES
+- group: TUBE_01
+  of: TUBES
+- group: TUBE_02
+  of: TUBES
+- group: TUBE_03
+  of: TUBES
+- group: TUBE_04
+  of: TUBES
+- group: TUBE_05
+  of: TUBES
+- group: TUBE_06
+  of: TUBES
+- group: TUBE_07
+  of: TUBES
+- group: TUBE_08
+  of: TUBES
+- group: TUBE_09
+  of: TUBES
+- group: PALP_01
+  of: PALPS
+- group: PALP_02
+  of: PALPS
+- group: PALP_03
+  of: PALPS
+- group: PALP_04
+  of: PALPS
+- group: PALP_05
+  of: PALPS
+- group: PALP_06
+  of: PALPS
+- group: PALP_07
+  of: PALPS
+- group: PALP_08
+  of: PALPS
+- group: TIRANT_01
+  of: TIRANTS
+- group: TIRANT_02
+  of: TIRANTS
+- group: TIRANT_03
+  of: TIRANTS
+- group: TIRANT_04
+  of: TIRANTS
+- group: TIRANT_05
+  of: TIRANTS
+- group: TIRANT_06
+  of: TIRANTS
+- group: TIRANT_07
+  of: TIRANTS
+- group: TIRANT_08
+  of: TIRANTS
+- group: TIRANT_09
+  of: TIRANTS
+plane_nodes:
+- group: SYM_G
+  axis: x
+  value: -10.4
+  tolerance: 1.0e-09
+- group: SYM_D
+  axis: x
+  value: 10.4
+  tolerance: 1.0e-09
+symmetry:
+  tolerance: 1.0e-09
+nodes_at:
+- label: tube 1, génératrice côté bassin, cote -26
+  point:
+  - -10.4
+  - -0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté terre, cote -26
+  point:
+  - -10.4
+  - 0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté bassin, cote -18
+  point:
+  - -10.4
+  - -0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté terre, cote -18
+  point:
+  - -10.4
+  - 0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté bassin, cote -12
+  point:
+  - -10.4
+  - -0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté terre, cote -12
+  point:
+  - -10.4
+  - 0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté bassin, cote 1
+  point:
+  - -10.4
+  - -0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté terre, cote 1
+  point:
+  - -10.4
+  - 0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté bassin, cote 2
+  point:
+  - -10.4
+  - -0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté terre, cote 2
+  point:
+  - -10.4
+  - 0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté bassin, cote 2.5
+  point:
+  - -10.4
+  - -0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté terre, cote 2.5
+  point:
+  - -10.4
+  - 0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté bassin, cote 2.6
+  point:
+  - -10.4
+  - -0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 1, génératrice côté terre, cote 2.6
+  point:
+  - -10.4
+  - 0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté bassin, cote -26
+  point:
+  - -7.800000000000001
+  - -0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté terre, cote -26
+  point:
+  - -7.800000000000001
+  - 0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté bassin, cote -18
+  point:
+  - -7.800000000000001
+  - -0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté terre, cote -18
+  point:
+  - -7.800000000000001
+  - 0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté bassin, cote -12
+  point:
+  - -7.800000000000001
+  - -0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté terre, cote -12
+  point:
+  - -7.800000000000001
+  - 0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté bassin, cote 1
+  point:
+  - -7.800000000000001
+  - -0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté terre, cote 1
+  point:
+  - -7.800000000000001
+  - 0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté bassin, cote 2
+  point:
+  - -7.800000000000001
+  - -0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté terre, cote 2
+  point:
+  - -7.800000000000001
+  - 0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté bassin, cote 2.5
+  point:
+  - -7.800000000000001
+  - -0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté terre, cote 2.5
+  point:
+  - -7.800000000000001
+  - 0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté bassin, cote 2.6
+  point:
+  - -7.800000000000001
+  - -0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 2, génératrice côté terre, cote 2.6
+  point:
+  - -7.800000000000001
+  - 0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté bassin, cote -26
+  point:
+  - -5.2
+  - -0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté terre, cote -26
+  point:
+  - -5.2
+  - 0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté bassin, cote -18
+  point:
+  - -5.2
+  - -0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté terre, cote -18
+  point:
+  - -5.2
+  - 0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté bassin, cote -12
+  point:
+  - -5.2
+  - -0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté terre, cote -12
+  point:
+  - -5.2
+  - 0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté bassin, cote 1
+  point:
+  - -5.2
+  - -0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté terre, cote 1
+  point:
+  - -5.2
+  - 0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté bassin, cote 2
+  point:
+  - -5.2
+  - -0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté terre, cote 2
+  point:
+  - -5.2
+  - 0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté bassin, cote 2.5
+  point:
+  - -5.2
+  - -0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté terre, cote 2.5
+  point:
+  - -5.2
+  - 0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté bassin, cote 2.6
+  point:
+  - -5.2
+  - -0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 3, génératrice côté terre, cote 2.6
+  point:
+  - -5.2
+  - 0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté bassin, cote -26
+  point:
+  - -2.5999999999999996
+  - -0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté terre, cote -26
+  point:
+  - -2.5999999999999996
+  - 0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté bassin, cote -18
+  point:
+  - -2.5999999999999996
+  - -0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté terre, cote -18
+  point:
+  - -2.5999999999999996
+  - 0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté bassin, cote -12
+  point:
+  - -2.5999999999999996
+  - -0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté terre, cote -12
+  point:
+  - -2.5999999999999996
+  - 0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté bassin, cote 1
+  point:
+  - -2.5999999999999996
+  - -0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté terre, cote 1
+  point:
+  - -2.5999999999999996
+  - 0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté bassin, cote 2
+  point:
+  - -2.5999999999999996
+  - -0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté terre, cote 2
+  point:
+  - -2.5999999999999996
+  - 0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté bassin, cote 2.5
+  point:
+  - -2.5999999999999996
+  - -0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté terre, cote 2.5
+  point:
+  - -2.5999999999999996
+  - 0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté bassin, cote 2.6
+  point:
+  - -2.5999999999999996
+  - -0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 4, génératrice côté terre, cote 2.6
+  point:
+  - -2.5999999999999996
+  - 0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté bassin, cote -26
+  point:
+  - 0.0
+  - -0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté terre, cote -26
+  point:
+  - 0.0
+  - 0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté bassin, cote -18
+  point:
+  - 0.0
+  - -0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté terre, cote -18
+  point:
+  - 0.0
+  - 0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté bassin, cote -12
+  point:
+  - 0.0
+  - -0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté terre, cote -12
+  point:
+  - 0.0
+  - 0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté bassin, cote 1
+  point:
+  - 0.0
+  - -0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté terre, cote 1
+  point:
+  - 0.0
+  - 0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté bassin, cote 2
+  point:
+  - 0.0
+  - -0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté terre, cote 2
+  point:
+  - 0.0
+  - 0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté bassin, cote 2.5
+  point:
+  - 0.0
+  - -0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté terre, cote 2.5
+  point:
+  - 0.0
+  - 0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté bassin, cote 2.6
+  point:
+  - 0.0
+  - -0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 5, génératrice côté terre, cote 2.6
+  point:
+  - 0.0
+  - 0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté bassin, cote -26
+  point:
+  - 2.5999999999999996
+  - -0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté terre, cote -26
+  point:
+  - 2.5999999999999996
+  - 0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté bassin, cote -18
+  point:
+  - 2.5999999999999996
+  - -0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté terre, cote -18
+  point:
+  - 2.5999999999999996
+  - 0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté bassin, cote -12
+  point:
+  - 2.5999999999999996
+  - -0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté terre, cote -12
+  point:
+  - 2.5999999999999996
+  - 0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté bassin, cote 1
+  point:
+  - 2.5999999999999996
+  - -0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté terre, cote 1
+  point:
+  - 2.5999999999999996
+  - 0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté bassin, cote 2
+  point:
+  - 2.5999999999999996
+  - -0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté terre, cote 2
+  point:
+  - 2.5999999999999996
+  - 0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté bassin, cote 2.5
+  point:
+  - 2.5999999999999996
+  - -0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté terre, cote 2.5
+  point:
+  - 2.5999999999999996
+  - 0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté bassin, cote 2.6
+  point:
+  - 2.5999999999999996
+  - -0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 6, génératrice côté terre, cote 2.6
+  point:
+  - 2.5999999999999996
+  - 0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté bassin, cote -26
+  point:
+  - 5.200000000000001
+  - -0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté terre, cote -26
+  point:
+  - 5.200000000000001
+  - 0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté bassin, cote -18
+  point:
+  - 5.200000000000001
+  - -0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté terre, cote -18
+  point:
+  - 5.200000000000001
+  - 0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté bassin, cote -12
+  point:
+  - 5.200000000000001
+  - -0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté terre, cote -12
+  point:
+  - 5.200000000000001
+  - 0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté bassin, cote 1
+  point:
+  - 5.200000000000001
+  - -0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté terre, cote 1
+  point:
+  - 5.200000000000001
+  - 0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté bassin, cote 2
+  point:
+  - 5.200000000000001
+  - -0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté terre, cote 2
+  point:
+  - 5.200000000000001
+  - 0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté bassin, cote 2.5
+  point:
+  - 5.200000000000001
+  - -0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté terre, cote 2.5
+  point:
+  - 5.200000000000001
+  - 0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté bassin, cote 2.6
+  point:
+  - 5.200000000000001
+  - -0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 7, génératrice côté terre, cote 2.6
+  point:
+  - 5.200000000000001
+  - 0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté bassin, cote -26
+  point:
+  - 7.799999999999999
+  - -0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté terre, cote -26
+  point:
+  - 7.799999999999999
+  - 0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté bassin, cote -18
+  point:
+  - 7.799999999999999
+  - -0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté terre, cote -18
+  point:
+  - 7.799999999999999
+  - 0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté bassin, cote -12
+  point:
+  - 7.799999999999999
+  - -0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté terre, cote -12
+  point:
+  - 7.799999999999999
+  - 0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté bassin, cote 1
+  point:
+  - 7.799999999999999
+  - -0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté terre, cote 1
+  point:
+  - 7.799999999999999
+  - 0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté bassin, cote 2
+  point:
+  - 7.799999999999999
+  - -0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté terre, cote 2
+  point:
+  - 7.799999999999999
+  - 0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté bassin, cote 2.5
+  point:
+  - 7.799999999999999
+  - -0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté terre, cote 2.5
+  point:
+  - 7.799999999999999
+  - 0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté bassin, cote 2.6
+  point:
+  - 7.799999999999999
+  - -0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 8, génératrice côté terre, cote 2.6
+  point:
+  - 7.799999999999999
+  - 0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté bassin, cote -26
+  point:
+  - 10.4
+  - -0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté terre, cote -26
+  point:
+  - 10.4
+  - 0.71
+  - -26.0
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté bassin, cote -18
+  point:
+  - 10.4
+  - -0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté terre, cote -18
+  point:
+  - 10.4
+  - 0.71
+  - -18.0
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté bassin, cote -12
+  point:
+  - 10.4
+  - -0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté terre, cote -12
+  point:
+  - 10.4
+  - 0.71
+  - -12.0
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté bassin, cote 1
+  point:
+  - 10.4
+  - -0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté terre, cote 1
+  point:
+  - 10.4
+  - 0.71
+  - 1.0
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté bassin, cote 2
+  point:
+  - 10.4
+  - -0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté terre, cote 2
+  point:
+  - 10.4
+  - 0.71
+  - 2.0
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté bassin, cote 2.5
+  point:
+  - 10.4
+  - -0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté terre, cote 2.5
+  point:
+  - 10.4
+  - 0.71
+  - 2.5
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté bassin, cote 2.6
+  point:
+  - 10.4
+  - -0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: tube 9, génératrice côté terre, cote 2.6
+  point:
+  - 10.4
+  - 0.71
+  - 2.6
+  tolerance: 1.0e-09
+- label: palplanche 1, colonne 2, cote -18
+  point:
+  - -9.218000000000002
+  - 0.0
+  - -18.0
+  tolerance: 1.0e-09
+- label: palplanche 1, colonne 2, cote -12
+  point:
+  - -9.218000000000002
+  - 0.0
+  - -12.0
+  tolerance: 1.0e-09
+- label: palplanche 1, colonne 2, cote 1
+  point:
+  - -9.218000000000002
+  - 0.0
+  - 1.0
+  tolerance: 1.0e-09
+- label: palplanche 1, colonne 2, cote 2
+  point:
+  - -9.218000000000002
+  - 0.0
+  - 2.0
+  tolerance: 1.0e-09
+- label: palplanche 1, colonne 2, cote 2.5
+  point:
+  - -9.218000000000002
+  - 0.0
+  - 2.5
+  tolerance: 1.0e-09
+- label: palplanche 1, colonne 2, cote 2.6
+  point:
+  - -9.218000000000002
+  - 0.0
+  - 2.6
+  tolerance: 1.0e-09
+- label: palplanche 2, colonne 2, cote -18
+  point:
+  - -6.618
+  - 0.0
+  - -18.0
+  tolerance: 1.0e-09
+- label: palplanche 2, colonne 2, cote -12
+  point:
+  - -6.618
+  - 0.0
+  - -12.0
+  tolerance: 1.0e-09
+- label: palplanche 2, colonne 2, cote 1
+  point:
+  - -6.618
+  - 0.0
+  - 1.0
+  tolerance: 1.0e-09
+- label: palplanche 2, colonne 2, cote 2
+  point:
+  - -6.618
+  - 0.0
+  - 2.0
+  tolerance: 1.0e-09
+- label: palplanche 2, colonne 2, cote 2.5
+  point:
+  - -6.618
+  - 0.0
+  - 2.5
+  tolerance: 1.0e-09
+- label: palplanche 2, colonne 2, cote 2.6
+  point:
+  - -6.618
+  - 0.0
+  - 2.6
+  tolerance: 1.0e-09
+- label: palplanche 3, colonne 2, cote -18
+  point:
+  - -4.018
+  - 0.0
+  - -18.0
+  tolerance: 1.0e-09
+- label: palplanche 3, colonne 2, cote -12
+  point:
+  - -4.018
+  - 0.0
+  - -12.0
+  tolerance: 1.0e-09
+- label: palplanche 3, colonne 2, cote 1
+  point:
+  - -4.018
+  - 0.0
+  - 1.0
+  tolerance: 1.0e-09
+- label: palplanche 3, colonne 2, cote 2
+  point:
+  - -4.018
+  - 0.0
+  - 2.0
+  tolerance: 1.0e-09
+- label: palplanche 3, colonne 2, cote 2.5
+  point:
+  - -4.018
+  - 0.0
+  - 2.5
+  tolerance: 1.0e-09
+- label: palplanche 3, colonne 2, cote 2.6
+  point:
+  - -4.018
+  - 0.0
+  - 2.6
+  tolerance: 1.0e-09
+- label: palplanche 4, colonne 2, cote -18
+  point:
+  - -1.4179999999999997
+  - 0.0
+  - -18.0
+  tolerance: 1.0e-09
+- label: palplanche 4, colonne 2, cote -12
+  point:
+  - -1.4179999999999997
+  - 0.0
+  - -12.0
+  tolerance: 1.0e-09
+- label: palplanche 4, colonne 2, cote 1
+  point:
+  - -1.4179999999999997
+  - 0.0
+  - 1.0
+  tolerance: 1.0e-09
+- label: palplanche 4, colonne 2, cote 2
+  point:
+  - -1.4179999999999997
+  - 0.0
+  - 2.0
+  tolerance: 1.0e-09
+- label: palplanche 4, colonne 2, cote 2.5
+  point:
+  - -1.4179999999999997
+  - 0.0
+  - 2.5
+  tolerance: 1.0e-09
+- label: palplanche 4, colonne 2, cote 2.6
+  point:
+  - -1.4179999999999997
+  - 0.0
+  - 2.6
+  tolerance: 1.0e-09
+- label: palplanche 5, colonne 2, cote -18
+  point:
+  - 1.182
+  - 0.0
+  - -18.0
+  tolerance: 1.0e-09
+- label: palplanche 5, colonne 2, cote -12
+  point:
+  - 1.182
+  - 0.0
+  - -12.0
+  tolerance: 1.0e-09
+- label: palplanche 5, colonne 2, cote 1
+  point:
+  - 1.182
+  - 0.0
+  - 1.0
+  tolerance: 1.0e-09
+- label: palplanche 5, colonne 2, cote 2
+  point:
+  - 1.182
+  - 0.0
+  - 2.0
+  tolerance: 1.0e-09
+- label: palplanche 5, colonne 2, cote 2.5
+  point:
+  - 1.182
+  - 0.0
+  - 2.5
+  tolerance: 1.0e-09
+- label: palplanche 5, colonne 2, cote 2.6
+  point:
+  - 1.182
+  - 0.0
+  - 2.6
+  tolerance: 1.0e-09
+- label: palplanche 6, colonne 2, cote -18
+  point:
+  - 3.782
+  - 0.0
+  - -18.0
+  tolerance: 1.0e-09
+- label: palplanche 6, colonne 2, cote -12
+  point:
+  - 3.782
+  - 0.0
+  - -12.0
+  tolerance: 1.0e-09
+- label: palplanche 6, colonne 2, cote 1
+  point:
+  - 3.782
+  - 0.0
+  - 1.0
+  tolerance: 1.0e-09
+- label: palplanche 6, colonne 2, cote 2
+  point:
+  - 3.782
+  - 0.0
+  - 2.0
+  tolerance: 1.0e-09
+- label: palplanche 6, colonne 2, cote 2.5
+  point:
+  - 3.782
+  - 0.0
+  - 2.5
+  tolerance: 1.0e-09
+- label: palplanche 6, colonne 2, cote 2.6
+  point:
+  - 3.782
+  - 0.0
+  - 2.6
+  tolerance: 1.0e-09
+- label: palplanche 7, colonne 2, cote -18
+  point:
+  - 6.382000000000001
+  - 0.0
+  - -18.0
+  tolerance: 1.0e-09
+- label: palplanche 7, colonne 2, cote -12
+  point:
+  - 6.382000000000001
+  - 0.0
+  - -12.0
+  tolerance: 1.0e-09
+- label: palplanche 7, colonne 2, cote 1
+  point:
+  - 6.382000000000001
+  - 0.0
+  - 1.0
+  tolerance: 1.0e-09
+- label: palplanche 7, colonne 2, cote 2
+  point:
+  - 6.382000000000001
+  - 0.0
+  - 2.0
+  tolerance: 1.0e-09
+- label: palplanche 7, colonne 2, cote 2.5
+  point:
+  - 6.382000000000001
+  - 0.0
+  - 2.5
+  tolerance: 1.0e-09
+- label: palplanche 7, colonne 2, cote 2.6
+  point:
+  - 6.382000000000001
+  - 0.0
+  - 2.6
+  tolerance: 1.0e-09
+- label: palplanche 8, colonne 2, cote -18
+  point:
+  - 8.982
+  - 0.0
+  - -18.0
+  tolerance: 1.0e-09
+- label: palplanche 8, colonne 2, cote -12
+  point:
+  - 8.982
+  - 0.0
+  - -12.0
+  tolerance: 1.0e-09
+- label: palplanche 8, colonne 2, cote 1
+  point:
+  - 8.982
+  - 0.0
+  - 1.0
+  tolerance: 1.0e-09
+- label: palplanche 8, colonne 2, cote 2
+  point:
+  - 8.982
+  - 0.0
+  - 2.0
+  tolerance: 1.0e-09
+- label: palplanche 8, colonne 2, cote 2.5
+  point:
+  - 8.982
+  - 0.0
+  - 2.5
+  tolerance: 1.0e-09
+- label: palplanche 8, colonne 2, cote 2.6
+  point:
+  - 8.982
+  - 0.0
+  - 2.6
+  tolerance: 1.0e-09
+- label: poutre au droit du tube 1
+  point:
+  - -10.4
+  - 0.34
+  - 3.3
+  tolerance: 1.0e-09
+- label: poutre au droit du tube 2
+  point:
+  - -7.800000000000001
+  - 0.34
+  - 3.3
+  tolerance: 1.0e-09
+- label: poutre au droit du tube 3
+  point:
+  - -5.2
+  - 0.34
+  - 3.3
+  tolerance: 1.0e-09
+- label: poutre au droit du tube 4
+  point:
+  - -2.5999999999999996
+  - 0.34
+  - 3.3
+  tolerance: 1.0e-09
+- label: poutre au droit du tube 5
+  point:
+  - 0.0
+  - 0.34
+  - 3.3
+  tolerance: 1.0e-09
+- label: poutre au droit du tube 6
+  point:
+  - 2.5999999999999996
+  - 0.34
+  - 3.3
+  tolerance: 1.0e-09
+- label: poutre au droit du tube 7
+  point:
+  - 5.200000000000001
+  - 0.34
+  - 3.3
+  tolerance: 1.0e-09
+- label: poutre au droit du tube 8
+  point:
+  - 7.799999999999999
+  - 0.34
+  - 3.3
+  tolerance: 1.0e-09
+- label: poutre au droit du tube 9
+  point:
+  - 10.4
+  - 0.34
+  - 3.3
+  tolerance: 1.0e-09
+shared_nodes:
+- label: serrure de la palplanche 1 sur le tube 1
+  groups:
+  - PALP_01
+  - TUBE_01
+  count: 84
+  at:
+  - - -9.690000000000001
+    - 0.0
+    - -18.0
+  - - -9.690000000000001
+    - 0.0
+    - -12.0
+  - - -9.690000000000001
+    - 0.0
+    - 1.0
+  - - -9.690000000000001
+    - 0.0
+    - 2.0
+  - - -9.690000000000001
+    - 0.0
+    - 2.5
+  - - -9.690000000000001
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 1 sur le tube 2
+  groups:
+  - PALP_01
+  - TUBE_02
+  count: 84
+  at:
+  - - -8.510000000000002
+    - 0.0
+    - -18.0
+  - - -8.510000000000002
+    - 0.0
+    - -12.0
+  - - -8.510000000000002
+    - 0.0
+    - 1.0
+  - - -8.510000000000002
+    - 0.0
+    - 2.0
+  - - -8.510000000000002
+    - 0.0
+    - 2.5
+  - - -8.510000000000002
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 2 sur le tube 2
+  groups:
+  - PALP_02
+  - TUBE_02
+  count: 84
+  at:
+  - - -7.090000000000001
+    - 0.0
+    - -18.0
+  - - -7.090000000000001
+    - 0.0
+    - -12.0
+  - - -7.090000000000001
+    - 0.0
+    - 1.0
+  - - -7.090000000000001
+    - 0.0
+    - 2.0
+  - - -7.090000000000001
+    - 0.0
+    - 2.5
+  - - -7.090000000000001
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 2 sur le tube 3
+  groups:
+  - PALP_02
+  - TUBE_03
+  count: 84
+  at:
+  - - -5.91
+    - 0.0
+    - -18.0
+  - - -5.91
+    - 0.0
+    - -12.0
+  - - -5.91
+    - 0.0
+    - 1.0
+  - - -5.91
+    - 0.0
+    - 2.0
+  - - -5.91
+    - 0.0
+    - 2.5
+  - - -5.91
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 3 sur le tube 3
+  groups:
+  - PALP_03
+  - TUBE_03
+  count: 84
+  at:
+  - - -4.49
+    - 0.0
+    - -18.0
+  - - -4.49
+    - 0.0
+    - -12.0
+  - - -4.49
+    - 0.0
+    - 1.0
+  - - -4.49
+    - 0.0
+    - 2.0
+  - - -4.49
+    - 0.0
+    - 2.5
+  - - -4.49
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 3 sur le tube 4
+  groups:
+  - PALP_03
+  - TUBE_04
+  count: 84
+  at:
+  - - -3.3099999999999996
+    - 0.0
+    - -18.0
+  - - -3.3099999999999996
+    - 0.0
+    - -12.0
+  - - -3.3099999999999996
+    - 0.0
+    - 1.0
+  - - -3.3099999999999996
+    - 0.0
+    - 2.0
+  - - -3.3099999999999996
+    - 0.0
+    - 2.5
+  - - -3.3099999999999996
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 4 sur le tube 4
+  groups:
+  - PALP_04
+  - TUBE_04
+  count: 84
+  at:
+  - - -1.8899999999999997
+    - 0.0
+    - -18.0
+  - - -1.8899999999999997
+    - 0.0
+    - -12.0
+  - - -1.8899999999999997
+    - 0.0
+    - 1.0
+  - - -1.8899999999999997
+    - 0.0
+    - 2.0
+  - - -1.8899999999999997
+    - 0.0
+    - 2.5
+  - - -1.8899999999999997
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 4 sur le tube 5
+  groups:
+  - PALP_04
+  - TUBE_05
+  count: 84
+  at:
+  - - -0.71
+    - 0.0
+    - -18.0
+  - - -0.71
+    - 0.0
+    - -12.0
+  - - -0.71
+    - 0.0
+    - 1.0
+  - - -0.71
+    - 0.0
+    - 2.0
+  - - -0.71
+    - 0.0
+    - 2.5
+  - - -0.71
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 5 sur le tube 5
+  groups:
+  - PALP_05
+  - TUBE_05
+  count: 84
+  at:
+  - - 0.71
+    - 0.0
+    - -18.0
+  - - 0.71
+    - 0.0
+    - -12.0
+  - - 0.71
+    - 0.0
+    - 1.0
+  - - 0.71
+    - 0.0
+    - 2.0
+  - - 0.71
+    - 0.0
+    - 2.5
+  - - 0.71
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 5 sur le tube 6
+  groups:
+  - PALP_05
+  - TUBE_06
+  count: 84
+  at:
+  - - 1.8899999999999997
+    - 0.0
+    - -18.0
+  - - 1.8899999999999997
+    - 0.0
+    - -12.0
+  - - 1.8899999999999997
+    - 0.0
+    - 1.0
+  - - 1.8899999999999997
+    - 0.0
+    - 2.0
+  - - 1.8899999999999997
+    - 0.0
+    - 2.5
+  - - 1.8899999999999997
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 6 sur le tube 6
+  groups:
+  - PALP_06
+  - TUBE_06
+  count: 84
+  at:
+  - - 3.3099999999999996
+    - 0.0
+    - -18.0
+  - - 3.3099999999999996
+    - 0.0
+    - -12.0
+  - - 3.3099999999999996
+    - 0.0
+    - 1.0
+  - - 3.3099999999999996
+    - 0.0
+    - 2.0
+  - - 3.3099999999999996
+    - 0.0
+    - 2.5
+  - - 3.3099999999999996
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 6 sur le tube 7
+  groups:
+  - PALP_06
+  - TUBE_07
+  count: 84
+  at:
+  - - 4.490000000000001
+    - 0.0
+    - -18.0
+  - - 4.490000000000001
+    - 0.0
+    - -12.0
+  - - 4.490000000000001
+    - 0.0
+    - 1.0
+  - - 4.490000000000001
+    - 0.0
+    - 2.0
+  - - 4.490000000000001
+    - 0.0
+    - 2.5
+  - - 4.490000000000001
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 7 sur le tube 7
+  groups:
+  - PALP_07
+  - TUBE_07
+  count: 84
+  at:
+  - - 5.910000000000001
+    - 0.0
+    - -18.0
+  - - 5.910000000000001
+    - 0.0
+    - -12.0
+  - - 5.910000000000001
+    - 0.0
+    - 1.0
+  - - 5.910000000000001
+    - 0.0
+    - 2.0
+  - - 5.910000000000001
+    - 0.0
+    - 2.5
+  - - 5.910000000000001
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 7 sur le tube 8
+  groups:
+  - PALP_07
+  - TUBE_08
+  count: 84
+  at:
+  - - 7.089999999999999
+    - 0.0
+    - -18.0
+  - - 7.089999999999999
+    - 0.0
+    - -12.0
+  - - 7.089999999999999
+    - 0.0
+    - 1.0
+  - - 7.089999999999999
+    - 0.0
+    - 2.0
+  - - 7.089999999999999
+    - 0.0
+    - 2.5
+  - - 7.089999999999999
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 8 sur le tube 8
+  groups:
+  - PALP_08
+  - TUBE_08
+  count: 84
+  at:
+  - - 8.509999999999998
+    - 0.0
+    - -18.0
+  - - 8.509999999999998
+    - 0.0
+    - -12.0
+  - - 8.509999999999998
+    - 0.0
+    - 1.0
+  - - 8.509999999999998
+    - 0.0
+    - 2.0
+  - - 8.509999999999998
+    - 0.0
+    - 2.5
+  - - 8.509999999999998
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: serrure de la palplanche 8 sur le tube 9
+  groups:
+  - PALP_08
+  - TUBE_09
+  count: 84
+  at:
+  - - 9.690000000000001
+    - 0.0
+    - -18.0
+  - - 9.690000000000001
+    - 0.0
+    - -12.0
+  - - 9.690000000000001
+    - 0.0
+    - 1.0
+  - - 9.690000000000001
+    - 0.0
+    - 2.0
+  - - 9.690000000000001
+    - 0.0
+    - 2.5
+  - - 9.690000000000001
+    - 0.0
+    - 2.6
+  tolerance: 1.0e-09
+- label: nœud de départ du tirant 1 sur le tube 1
+  groups:
+  - TIRANT_01
+  - TUBE_01
+  count: 1
+  at:
+  - - -10.4
+    - 0.71
+    - 2.5
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 1 distincte de l'écran
+  groups:
+  - ANC_01
+  - ECRAN
+  kinds:
+  - node
+  - cell
+  count: 0
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 1 sur son tirant
+  groups:
+  - ANC_01
+  - TIRANT_01
+  kinds:
+  - node
+  - cell
+  count: 1
+  tolerance: 1.0e-09
+- label: nœud de départ du tirant 2 sur le tube 2
+  groups:
+  - TIRANT_02
+  - TUBE_02
+  count: 1
+  at:
+  - - -7.800000000000001
+    - 0.71
+    - 2.5
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 2 distincte de l'écran
+  groups:
+  - ANC_02
+  - ECRAN
+  kinds:
+  - node
+  - cell
+  count: 0
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 2 sur son tirant
+  groups:
+  - ANC_02
+  - TIRANT_02
+  kinds:
+  - node
+  - cell
+  count: 1
+  tolerance: 1.0e-09
+- label: nœud de départ du tirant 3 sur le tube 3
+  groups:
+  - TIRANT_03
+  - TUBE_03
+  count: 1
+  at:
+  - - -5.2
+    - 0.71
+    - 2.5
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 3 distincte de l'écran
+  groups:
+  - ANC_03
+  - ECRAN
+  kinds:
+  - node
+  - cell
+  count: 0
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 3 sur son tirant
+  groups:
+  - ANC_03
+  - TIRANT_03
+  kinds:
+  - node
+  - cell
+  count: 1
+  tolerance: 1.0e-09
+- label: nœud de départ du tirant 4 sur le tube 4
+  groups:
+  - TIRANT_04
+  - TUBE_04
+  count: 1
+  at:
+  - - -2.5999999999999996
+    - 0.71
+    - 2.5
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 4 distincte de l'écran
+  groups:
+  - ANC_04
+  - ECRAN
+  kinds:
+  - node
+  - cell
+  count: 0
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 4 sur son tirant
+  groups:
+  - ANC_04
+  - TIRANT_04
+  kinds:
+  - node
+  - cell
+  count: 1
+  tolerance: 1.0e-09
+- label: nœud de départ du tirant 5 sur le tube 5
+  groups:
+  - TIRANT_05
+  - TUBE_05
+  count: 1
+  at:
+  - - 0.0
+    - 0.71
+    - 2.5
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 5 distincte de l'écran
+  groups:
+  - ANC_05
+  - ECRAN
+  kinds:
+  - node
+  - cell
+  count: 0
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 5 sur son tirant
+  groups:
+  - ANC_05
+  - TIRANT_05
+  kinds:
+  - node
+  - cell
+  count: 1
+  tolerance: 1.0e-09
+- label: nœud de départ du tirant 6 sur le tube 6
+  groups:
+  - TIRANT_06
+  - TUBE_06
+  count: 1
+  at:
+  - - 2.5999999999999996
+    - 0.71
+    - 2.5
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 6 distincte de l'écran
+  groups:
+  - ANC_06
+  - ECRAN
+  kinds:
+  - node
+  - cell
+  count: 0
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 6 sur son tirant
+  groups:
+  - ANC_06
+  - TIRANT_06
+  kinds:
+  - node
+  - cell
+  count: 1
+  tolerance: 1.0e-09
+- label: nœud de départ du tirant 7 sur le tube 7
+  groups:
+  - TIRANT_07
+  - TUBE_07
+  count: 1
+  at:
+  - - 5.200000000000001
+    - 0.71
+    - 2.5
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 7 distincte de l'écran
+  groups:
+  - ANC_07
+  - ECRAN
+  kinds:
+  - node
+  - cell
+  count: 0
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 7 sur son tirant
+  groups:
+  - ANC_07
+  - TIRANT_07
+  kinds:
+  - node
+  - cell
+  count: 1
+  tolerance: 1.0e-09
+- label: nœud de départ du tirant 8 sur le tube 8
+  groups:
+  - TIRANT_08
+  - TUBE_08
+  count: 1
+  at:
+  - - 7.799999999999999
+    - 0.71
+    - 2.5
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 8 distincte de l'écran
+  groups:
+  - ANC_08
+  - ECRAN
+  kinds:
+  - node
+  - cell
+  count: 0
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 8 sur son tirant
+  groups:
+  - ANC_08
+  - TIRANT_08
+  kinds:
+  - node
+  - cell
+  count: 1
+  tolerance: 1.0e-09
+- label: nœud de départ du tirant 9 sur le tube 9
+  groups:
+  - TIRANT_09
+  - TUBE_09
+  count: 1
+  at:
+  - - 10.4
+    - 0.71
+    - 2.5
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 9 distincte de l'écran
+  groups:
+  - ANC_09
+  - ECRAN
+  kinds:
+  - node
+  - cell
+  count: 0
+  tolerance: 1.0e-09
+- label: extrémité arrière du tirant 9 sur son tirant
+  groups:
+  - ANC_09
+  - TIRANT_09
+  kinds:
+  - node
+  - cell
+  count: 1
+  tolerance: 1.0e-09
+- label: BOLLARD sur la poutre
+  groups:
+  - BOLLARD
+  - POUTRE_COUR
+  kinds:
+  - node
+  - cell
+  count: 1
+  at:
+  - - 0.0
+    - 0.34
+    - 3.3
+  tolerance: 1.0e-09
+- label: BOLLARD hors de l'écran
+  groups:
+  - BOLLARD
+  - ECRAN
+  kinds:
+  - node
+  - cell
+  count: 0
+  tolerance: 1.0e-09
+- label: poutre non reliée à l'écran (liaison rigide au lot 28)
+  groups:
+  - POUTRE_COUR
+  - ECRAN
+  count: 0
+  tolerance: 1.0e-09
+- label: tubes voisins sans nœud commun
+  groups:
+  - TUBE_01
+  - TUBE_02
+  count: 0
+  tolerance: 1.0e-09
+- label: palplanches voisines sans nœud commun
+  groups:
+  - PALP_01
+  - PALP_02
+  count: 0
+  tolerance: 1.0e-09
+no_orphan_nodes: true
+no_coincident_nodes:
+  tolerance: 1.0e-09

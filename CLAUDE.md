@@ -241,6 +241,22 @@ le MED sans Salomé (`aster-expert mesh check <fichier.med> <invariants.yaml>`,
 - le script écrit `<sortie>.meta.json` avec l'empreinte SHA-256 de ses
   paramètres ; `mesh run` échoue si elle manque ou diverge.
 
+Règles complémentaires (lot 27, leçons du lot 26) :
+
+- **Arguments nommés.** Tout appel GEOM ou SMESH à plus de trois paramètres passe
+  ses arguments par nom, jamais par position (erreur de `MakePartition` au lot 26).
+- **Discrétisation explicite.** Ne pas s'appuyer sur l'arrondi d'une longueur
+  locale : pour chaque arête, le script calcule un nombre de segments entier à
+  partir de la taille visée et de la longueur réelle (`segment_count`) ou prend celui
+  qu'une décision fixe, et l'impose par une hypothèse de sous-maillage sur un groupe
+  d'arêtes de la partition. Ces nombres sont écrits dans `<sortie>.meta.json` et
+  reportés dans le rapport de maillage.
+- **Comptages attendus.** Les nombres de nœuds et de mailles attendus sont calculés
+  analytiquement à partir des mêmes paramètres, par un module distinct du script
+  Salomé (`aster_expert.meshing.combiwall`), avant l'exécution.
+- Un script long écrit sa progression dans `<sortie>.progress.txt` (le journal d'un
+  processus tué par le délai est perdu).
+
 Noms et signatures GEOM/SMESH : jamais de mémoire. Ils sont relevés par
 introspection dans l'image (`scripts/salome/lot26_sonde_signatures.py`, sortie
 versionnée `data/examples/lot26_essais/signatures_geom_smesh.txt`). Piège
@@ -269,10 +285,23 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   taille n'est pas qualifiée (toutes les longueurs des essais sont des multiples de
   0,25) ; la connexion réelle barre/coque n'est pas éprouvée par un calcul de
   rigidité ; la seule lecture par Code_Aster est celle des groupes (masses).
-- **Étape 1 du lot 26 non faite** : `donnees_complementaires_combiwall_v1.md` porte
-  encore `[À CONFIRMER MM]` (0,25 m et 40 facettes) ; ni la décision 11 ni les 22
-  valeurs « à fournir » ne sont enregistrées. Rien à faire tant que MM ne l'a pas
-  levée.
+- Étape 1 du lot 26 faite au lot 27 : `donnees_complementaires_combiwall_v1.md` (copié à
+  l'identique) ; décision 11 enregistrée au point 10 (`_record_decision_11`,
+  `lot27_enregistrement.json`) ; `ECRAN_POUSSEE` rattaché au point 10 ; les 22 valeurs « à
+  fournir » ont toutes une source (`generation_blockers(model_data)` vide). Deux
+  correspondances de nature différente : `position_tete_sur_tube` est donnée en Y (0,71 m) et
+  non en degrés ; `nombre_divisions_verticales` est remplacée par `taille_verticale_visee`
+  (0,25 m) et `cotes_imposees`. Les profils de pression sont des tableaux de points
+  (`ProfilePoint` : z, p, couche, composante G/Q1) ; G et Q1 ne sont pas sommés.
+- Lot 27 (`docs/essais_lot27.md`, `data/examples/lot27_maillage/`,
+  `scripts/salome/combiwall_mesh.py`, `scripts/build_lot27_maillage.py`,
+  `analyze_lot27_maillage.py`, `aster_expert.meshing.combiwall`) : maillage du quai
+  (40 114 nœuds, 40 120 QUAD4, 39 583 SEG2, 57 groupes), 588/588 invariants
+  (`data/examples/combiwall_mesh_invariants.yaml`, généré, ne pas éditer), lecture Code_Aster
+  niveau C, masses exactes à 5e-13. Le script exécuté ne diffère du versionné que par des
+  commentaires et le formatage (AST identique). Le maillage dure ~17 min (groupes : 805 s) ;
+  délai `mesh.salome.timeout_seconds` porté à 3 000 s. Limite : la poutre n'est pas reliée à
+  l'écran (lot 28) ; les groupes de nœuds ne sont contrôlés que par `mesh check`.
 
 ## Périmètre à ne pas dépasser sans instruction
 

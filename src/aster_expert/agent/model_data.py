@@ -79,13 +79,34 @@ class ValueSource(BaseModel):
         return f"{self.kind} du point {self.point_label}"
 
 
+class ProfilePoint(BaseModel):
+    """One point (Z, p) of a piecewise-linear profile (lot 27).
+
+    A discontinuity at an interface is two points of the same `z`, one per layer.
+    How a discontinuity reaches Code_Aster is the generator's, not settled here.
+    """
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    z: float
+    """Level, in the unit `z_unit` of the value (m CM)."""
+    p: float
+    """Pressure, in the unit of the value."""
+    layer: str | None = None
+    """Layer of the point (`remblai`, `sable`, ...), when the profile has any."""
+    component: str | None = None
+    """Series of the source table (`G`, `Q1`), when it gives several."""
+
+
 class DataValue(BaseModel):
-    """One number (or short text) of the model, with unit and source."""
+    """One number (or short text, or profile) of the model, with unit and source."""
 
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     status: Literal["fourni", "a_fournir"]
     value: Scalar | tuple[float, ...] | None = None
+    profile: tuple[ProfilePoint, ...] | None = None
+    """A profile as an array of points (Z, p): alternative to `value`."""
     unit: str
     source: ValueSource | None = None
     required_by: str | None = None
@@ -95,17 +116,24 @@ class DataValue(BaseModel):
     @model_validator(mode="after")
     def _status_is_coherent(self) -> DataValue:
         if self.status == "fourni":
-            if self.value is None or self.source is None:
-                message = "valeur `fourni` : `value` et `source` sont requis"
+            if (self.value is None) == (self.profile is None) or self.source is None:
+                message = (
+                    "valeur `fourni` : `source` et un seul de `value` ou `profile` "
+                    "sont requis"
+                )
                 raise ValueError(message)
             if self.required_by is not None:
                 message = "valeur `fourni` : `required_by` n'a pas de sens"
                 raise ValueError(message)
         else:
-            if self.value is not None or self.source is not None:
+            if (
+                self.value is not None
+                or self.profile is not None
+                or self.source is not None
+            ):
                 message = (
-                    "valeur `a_fournir` : ni `value` ni `source` -- une valeur "
-                    "absente de toutes les sources reste absente"
+                    "valeur `a_fournir` : ni `value`, ni `profile`, ni `source` -- une "
+                    "valeur absente de toutes les sources reste absente"
                 )
                 raise ValueError(message)
             if not self.required_by or not self.comment:
@@ -208,6 +236,11 @@ def numbers_in(text: str) -> list[tuple[float, int]]:
 
 
 def _appears(value: float, text: str) -> bool:
+    # « un » / « une » only stand for the value 1, exactly: read as a number of
+    # tolerance 0.5 they would accept every value between 0.5 and 1.5. The check is
+    # weak for that value (the article is everywhere): it is not a proof.
+    if value == 1 and re.search(r"\b[Uu]ne?\b", text):
+        return True
     for number, decimals in numbers_in(text):
         tolerance = 0.5 * 10 ** (-decimals) + 1e-12 * abs(number)
         if abs(value - number) <= tolerance:
@@ -217,6 +250,12 @@ def _appears(value: float, text: str) -> bool:
 
 def _section(text: str, section: str) -> str | None:
     """Text of a section `§N` of a test-case file (`## N. …` or `## §N …`)."""
+    if re.fullmatch(r"[A-Z]\.\d+", section):
+        # sub-section `### A.1 …` of a complementary-data file: up to the next heading
+        match = re.search(
+            rf"^### {re.escape(section)}\b.*?(?=^#{{1,3}} |\Z)", text, flags=re.M | re.S
+        )
+        return match[0] if match else None
     number = section.removeprefix("§")
     parts = re.split(r"^## ", text, flags=re.M)
     for part in parts[1:]:
@@ -278,16 +317,39 @@ def check_consistency(
     """
     report: list[Discrepancy] = []
     for name, item in data.items().items():
-        if item.status != "fourni" or item.source is None or item.value is None:
+        if item.status != "fourni" or item.source is None:
             continue
         text, problem = _source_text(item.source, sheet, inputs_dir)
         label = item.source.label()
         if text is None:
             report.append(
-                Discrepancy(name=name, value=item.value, source=label, reason=problem)
+                Discrepancy(
+                    name=name,
+                    value=item.value if item.value is not None else (),
+                    source=label,
+                    reason=problem,
+                )
             )
             continue
         values = item.value
+        if item.profile is not None:
+            absent = [
+                f"{n:g}"
+                for point in item.profile
+                for n in (point.z, point.p)
+                if not _appears(n, text)
+            ]
+            if absent:
+                report.append(
+                    Discrepancy(
+                        name=name,
+                        value=tuple(x for pt in item.profile for x in (pt.z, pt.p)),
+                        source=label,
+                        reason=f"absent du texte de la source : {', '.join(absent)}",
+                    )
+                )
+            continue
+        assert values is not None
         if isinstance(values, str):
             ok = values in text
             missing: list[str] = [] if ok else [values]
@@ -302,7 +364,7 @@ def check_consistency(
             report.append(
                 Discrepancy(
                     name=name,
-                    value=item.value,
+                    value=values,
                     source=label,
                     reason=f"absent du texte de la source : {', '.join(missing)}",
                 )
@@ -314,6 +376,7 @@ __all__: list[str] = [
     "DataValue",
     "Discrepancy",
     "ModelData",
+    "ProfilePoint",
     "ValueSource",
     "check_consistency",
     "load_model_data",

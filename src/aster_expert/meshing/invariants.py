@@ -52,6 +52,9 @@ class NodeAtInvariant(_Model):
 class SharedNodesInvariant(_Model):
     label: str
     groups: tuple[str, str]
+    # Kind of each group: a cell group contributes the nodes of its cells, a node
+    # group its own nodes (lot 27: an anchor node distinct from every screen node).
+    kinds: tuple[Literal["cell", "node"], Literal["cell", "node"]] = ("cell", "cell")
     count: int
     # Points where the shared nodes must lie (each within `tolerance` of a shared node).
     at: tuple[Point, ...] = ()
@@ -62,10 +65,69 @@ class CoincidentNodesInvariant(_Model):
     tolerance: float
 
 
+class GroupAreaInvariant(_Model):
+    """Developed area of a cell group (sum of the areas of its 2D cells).
+
+    `reference_area` is a value the mesh is compared with -- e.g. the ideal,
+    unfaceted area: the invariant then also reports `area - reference_area`, which
+    is the analytic effect of the discretisation (lot 27).
+    """
+
+    group: str
+    area: float
+    tolerance: float
+    reference_area: float | None = None
+
+
+class ProjectedWidthInvariant(_Model):
+    """Width of a cell group projected on the plane Y = 0, at the level `z`.
+
+    Computed from the areas of the cells: for each cell of the group whose vertical
+    extent contains `z`, its area projected on the plane Y = 0 divided by its
+    height. `z` must lie inside a row of cells, not on a node level (a node level
+    belongs to two rows).
+    """
+
+    label: str
+    group: str
+    z: float
+    width: float
+    tolerance: float
+
+
+class SubsetInvariant(_Model):
+    """Every cell of `group` is a cell of `of`."""
+
+    group: str
+    of: str
+
+
+class PlaneNodesInvariant(_Model):
+    """The node group `group` is exactly the set of nodes with `axis` = `value`."""
+
+    group: str
+    axis: Literal["x", "y", "z"]
+    value: float
+    tolerance: float
+
+
+class SymmetryInvariant(_Model):
+    """For every node of coordinate x, a node exists at -x (same y and z)."""
+
+    tolerance: float
+
+
 class Invariants(_Model):
     schema_version: Literal[1]
     counts: CountsInvariant | None = None
+    bbox: BBox | None = None
+    bbox_tolerance: float = 1e-9
     groups: tuple[GroupInvariant, ...] = ()
+    group_areas: tuple[GroupAreaInvariant, ...] = ()
+    projected_widths: tuple[ProjectedWidthInvariant, ...] = ()
+    subsets: tuple[SubsetInvariant, ...] = ()
+    plane_nodes: tuple[PlaneNodesInvariant, ...] = ()
+    symmetry: SymmetryInvariant | None = None
     nodes_at: tuple[NodeAtInvariant, ...] = ()
     shared_nodes: tuple[SharedNodesInvariant, ...] = ()
     no_orphan_nodes: bool = False
@@ -166,6 +228,43 @@ def _bbox(dump: MedDump, nodes: set[int]) -> BBox | None:
     )
 
 
+def _group_cells(dump: MedDump, name: str) -> list[tuple[str, int, int]]:
+    """(type, level, cell id) of the cells of a group, merged over every level."""
+    cells: list[tuple[str, int, int]] = []
+    for group in dump.groups:
+        if group.name != name or group.level == 1:
+            continue
+        level = dump.levels[str(group.level)]
+        cells.extend((_short_type(level.types[i]), group.level, i) for i in group.ids)
+    return cells
+
+
+def _cell_area(dump: MedDump, level: int, cell_id: int) -> float:
+    """Area of a planar polygonal cell (Newell), 0 for cells of dimension 1."""
+    nodes = dump.levels[str(level)].connectivity[cell_id]
+    if len(nodes) < 3:
+        return 0.0
+    pts = [dump.coords[n] for n in nodes]
+    nx = ny = nz = 0.0
+    for a, b in zip(pts, pts[1:] + pts[:1], strict=True):
+        nx += (a[1] - b[1]) * (a[2] + b[2])
+        ny += (a[2] - b[2]) * (a[0] + b[0])
+        nz += (a[0] - b[0]) * (a[1] + b[1])
+    return 0.5 * math.sqrt(nx * nx + ny * ny + nz * nz)
+
+
+def _projected_area_on_y(dump: MedDump, level: int, cell_id: int) -> float:
+    """Area of a cell projected on the plane Y = 0 (shoelace on x, z)."""
+    nodes = dump.levels[str(level)].connectivity[cell_id]
+    if len(nodes) < 3:
+        return 0.0
+    pts = [dump.coords[n] for n in nodes]
+    twice = sum(
+        a[0] * b[2] - b[0] * a[2] for a, b in zip(pts, pts[1:] + pts[:1], strict=True)
+    )
+    return abs(twice) / 2.0
+
+
 def find_coincident_pairs(
     coords: tuple[Point, ...], tolerance: float
 ) -> list[tuple[int, int]]:
@@ -222,6 +321,20 @@ def evaluate(dump: MedDump, invariants: Invariants) -> list[InvariantResult]:
             expected = dict(sorted(invariants.counts.cells.items()))
             add("comptage", "mailles par type", expected, by_type, by_type == expected)
 
+    if invariants.bbox is not None:
+        box = _bbox(dump, set(range(len(dump.coords))))
+        ok = box is not None and all(
+            abs(a - b) <= invariants.bbox_tolerance
+            for a, b in zip(box, invariants.bbox, strict=True)
+        )
+        add(
+            "boîte",
+            f"boîte englobante du modèle (tol. {invariants.bbox_tolerance:g})",
+            _fmt_point(invariants.bbox),
+            _fmt_point(box) if box else "vide",
+            ok,
+        )
+
     for spec in invariants.groups:
         present, types, nodes = _group_members(dump, spec.name, spec.kind)
         prefix = f"groupe {spec.name}"
@@ -266,6 +379,116 @@ def evaluate(dump: MedDump, invariants: Invariants) -> list[InvariantResult]:
                 ok,
             )
 
+    for area in invariants.group_areas:
+        cells_of = _group_cells(dump, area.group)
+        label = f"aire développée de {area.group} (tol. {area.tolerance:g})"
+        if not cells_of:
+            add("aire", label, area.area, "groupe absent ou sans maille", False)
+            continue
+        total = sum(_cell_area(dump, lv, i) for _, lv, i in cells_of)
+        add(
+            "aire",
+            label,
+            f"{area.area:.9g}",
+            f"{total:.9g}",
+            abs(total - area.area) <= area.tolerance,
+        )
+        if area.reference_area is not None:
+            expected_gap = area.area - area.reference_area
+            gap = total - area.reference_area
+            add(
+                "aire",
+                f"écart de {area.group} à la référence {area.reference_area:.9g} "
+                f"(effet de facettisation, tol. {area.tolerance:g})",
+                f"{expected_gap:.9g}",
+                f"{gap:.9g}",
+                abs(gap - expected_gap) <= area.tolerance,
+            )
+
+    for width in invariants.projected_widths:
+        cells_of = _group_cells(dump, width.group)
+        label = (
+            f"largeur projetée sur Y = 0 de {width.group} à z = {width.z:g} "
+            f"({width.label})"
+        )
+        total = 0.0
+        for _, lv, i in cells_of:
+            zs = [dump.coords[n][2] for n in dump.levels[str(lv)].connectivity[i]]
+            low, high = min(zs), max(zs)
+            if high - low > 0 and low <= width.z <= high:
+                total += _projected_area_on_y(dump, lv, i) / (high - low)
+        add(
+            "largeur projetée",
+            f"{label} (tol. {width.tolerance:g})",
+            f"{width.width:.9g}",
+            f"{total:.9g}",
+            bool(cells_of) and abs(total - width.width) <= width.tolerance,
+        )
+
+    for sub in invariants.subsets:
+        inner = {(lv, i) for _, lv, i in _group_cells(dump, sub.group)}
+        outer = {(lv, i) for _, lv, i in _group_cells(dump, sub.of)}
+        outside = inner - outer
+        add(
+            "inclusion",
+            f"mailles de {sub.group} dans {sub.of}",
+            f"{len(inner)} mailles incluses",
+            f"{len(inner) - len(outside)} sur {len(inner)}",
+            bool(inner) and not outside,
+        )
+
+    for plane in invariants.plane_nodes:
+        axis = "xyz".index(plane.axis)
+        in_plane = {
+            n
+            for n, p in enumerate(dump.coords)
+            if abs(p[axis] - plane.value) <= plane.tolerance
+        }
+        present, _, members = _group_members(dump, plane.group, "node")
+        label = (
+            f"groupe {plane.group} = nœuds en {plane.axis.upper()} = {plane.value:g} "
+            f"(tol. {plane.tolerance:g})"
+        )
+        add(
+            "plan",
+            label,
+            f"{len(in_plane)} nœuds du plan",
+            f"{len(members)} nœuds du groupe, {len(members & in_plane)} dans le plan"
+            if present
+            else "groupe absent",
+            present and members == in_plane,
+        )
+
+    if invariants.symmetry is not None:
+        tol = invariants.symmetry.tolerance
+        keyed: dict[tuple[int, int, int], list[Point]] = {}
+        for p in dump.coords:
+            keyed.setdefault(
+                (round(p[0] / tol), round(p[1] / tol), round(p[2] / tol)), []
+            ).append(p)
+        unmatched = 0
+        example: Point | None = None
+        for p in dump.coords:
+            mirror = (round(-p[0] / tol), round(p[1] / tol), round(p[2] / tol))
+            found = any(
+                math.dist((-p[0], p[1], p[2]), q) <= tol
+                for dx in (-1, 0, 1)
+                for dy in (-1, 0, 1)
+                for dz in (-1, 0, 1)
+                for q in keyed.get((mirror[0] + dx, mirror[1] + dy, mirror[2] + dz), ())
+            )
+            if not found:
+                unmatched += 1
+                example = example or p
+        add(
+            "symétrie",
+            f"nœud en -x pour chaque nœud en x (tol. {tol:g})",
+            "0 nœud sans symétrique",
+            f"{unmatched} nœud(s) sans symétrique"
+            + (f", ex. {_fmt_point(example)}" if example else ""),
+            unmatched == 0,
+        )
+
     for at in invariants.nodes_at:
         nearest = min((math.dist(at.point, p) for p in dump.coords), default=math.inf)
         add(
@@ -278,8 +501,8 @@ def evaluate(dump: MedDump, invariants: Invariants) -> list[InvariantResult]:
 
     for shared in invariants.shared_nodes:
         first, second = shared.groups
-        present_a, _, nodes_a = _group_members(dump, first, "cell")
-        present_b, _, nodes_b = _group_members(dump, second, "cell")
+        present_a, _, nodes_a = _group_members(dump, first, shared.kinds[0])
+        present_b, _, nodes_b = _group_members(dump, second, shared.kinds[1])
         label = f"nœuds partagés {first} / {second} ({shared.label})"
         if not (present_a and present_b):
             missing = [n for n, p in ((first, present_a), (second, present_b)) if not p]

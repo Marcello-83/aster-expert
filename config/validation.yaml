@@ -50,6 +50,9 @@ execution:
     # Cas du lot 26 (lecture des MED de qualification par Code_Aster),
     # entièrement produits par scripts/build_lot26_essais.py.
     - data/examples/lot26_essais
+    # Lecture du MED du quai par Code_Aster (lot 27), produite par
+    # scripts/build_lot27_maillage.py.
+    - data/examples/lot27_maillage
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800
@@ -104,7 +107,8 @@ mesh:
     # remplacés (le script reçoit `sys.argv[1:]` = les arguments séparés par
     # des virgules).
     command: "salome -t --shutdown-servers=1 {script} args:{args}"
-    timeout_seconds: 900
+    # 900 s ne suffisait pas au maillage du quai (lot 27).
+    timeout_seconds: 3000
   checker:
     work_dir_root: data/processed/mesh_checks
     # Le vérificateur lit le MED dans le conteneur Docker de `cave` (image

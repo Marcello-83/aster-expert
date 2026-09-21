@@ -44,7 +44,11 @@ always through the project's own write paths -- never by editing the JSON:
    `data/examples/lot25_essais/`), and MM's decision on the global frame (point 9,
    `arbitrage_combiwall_MM_lot25_repere.md`, copied verbatim), inserted with
    `insert_practice_entry`; its `decided_at` is the recording time
-   (`lot25_enregistrement.json`).
+   (`lot25_enregistrement.json`);
+9. lot 27: MM's decision 11 (point 10, part B of
+   `donnees_complementaires_combiwall_v1.md`, copied verbatim), inserted with
+   `insert_practice_entry`; its `decided_at` is the recording time
+   (`lot27_enregistrement.json`). `ECRAN_POUSSEE` is grounded on point 10.
 
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
@@ -104,7 +108,7 @@ _GROUP_POINTS: tuple[tuple[str, str], ...] = (
     (r"TIRANT_\d+|TIRANTS|ANC_\d+|ANCRAGES", "2"),
     (r"POUTRE_COUR|TETE_TUBE_\d+", "3"),
     (r"RESS_AV_ARGI|RESS_AV_MARNE", "4"),
-    (r"ECRAN_POUSSEE", "5"),
+    (r"ECRAN_POUSSEE", "10"),
     (r"SYM_G|SYM_D", "7"),
     (r"BOLLARD|DEFENSE", "8"),
 )
@@ -642,6 +646,57 @@ def _lot25(sheet: HypothesesSheet) -> HypothesesSheet:
     )
 
 
+def _record_decision_11(
+    sheet: HypothesesSheet, path: Path, decided_at: datetime
+) -> HypothesesSheet:
+    """Insert decision 11 (part B of the complementary-data file) as worded.
+
+    The part has the fields of an arbitration file, in a header list (`point_label`,
+    `topic`, `decided_by`, `sources`) followed by the `**…**` blocks.
+    """
+    part = path.read_text(encoding="utf-8").split("## Partie B", 1)[1]
+    head, _, rest = part.partition("**option_retained**")
+    f = _fields("**option_retained**" + rest)
+    point_label = re.search(r"- `point_label` : `\"(.*?)\"`", head)
+    topic = re.search(r"- `topic` : `\"(.*)\"`\s*$", head, flags=re.M)
+    decided_by = re.search(r"- `decided_by` : `\"(.*?)\"`", head)
+    reference = re.search(r"avec la référence `\"(.*?)\"`", head, flags=re.S)
+    assert point_label and topic and decided_by and reference, path
+    entry = PracticeHypothesisEntry(
+        point_label=point_label[1], topic=topic[1], status="non_tranche"
+    )
+    return insert_practice_entry(
+        sheet,
+        record_practice_decision(
+            entry=entry,
+            option_retained=_unwrap(f["option_retained"]),
+            justification=_unwrap(f["justification"]),
+            validity_domain=_unwrap(f["validity_domain"]),
+            sources=(
+                PracticeSource(
+                    origin="decision_ingenieur",
+                    reference=_collapse(reference[1]),
+                    date=decided_at.date(),
+                ),
+            ),
+            discarded_variants=_variants(f["discarded_variants"]),
+            decided_by=decided_by[1],
+            decided_at=decided_at,
+        ),
+    )
+
+
+def _lot27(sheet: HypothesesSheet) -> HypothesesSheet:
+    """MM's decision 11 (point 10), recorded as worded; `decided_at` is the
+    recording time (`lot27_enregistrement.json`)."""
+    record = json.loads((INPUTS / "lot27_enregistrement.json").read_text("utf-8"))
+    return _record_decision_11(
+        sheet,
+        INPUTS / "donnees_complementaires_combiwall_v1.md",
+        datetime.fromisoformat(record["decision_11"]["decided_at"]),
+    )
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -650,7 +705,7 @@ def build_sheet() -> HypothesesSheet:
     sheet = sheet.model_copy(update={"group_naming": _group_naming(v3)})
     sheet = _lot20(sheet)
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_lot21.md")
-    return _lot25(_lot24(_lot23(_lot22(_lot21(sheet)))))
+    return _lot27(_lot25(_lot24(_lot23(_lot22(_lot21(sheet))))))
 
 
 def dump(sheet: HypothesesSheet) -> str:

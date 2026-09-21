@@ -165,3 +165,119 @@ def test_invalid_or_missing_invariants_files_are_refused(tmp_path: Path) -> None
     bad.write_text("schema_version: 1\nunknown_key: 3\n", encoding="utf-8")
     with pytest.raises(MeshCheckError, match="invalid"):
         load_invariants(bad)
+
+
+# --- lot 27 invariants: areas, projected widths, subsets, planes, symmetry ---------
+
+_INV_BASE = {"schema_version": 1}
+
+
+def _wall_dump() -> MedDump:
+    """Two vertical quadrangles in the plane Y = 0 (x in [-1, 0] and [0, 1], z in
+    [0, 2]) and a third one folded at 45 degrees (x in [1, 2], y in [0, 1], z in
+    [0, 2]) : projected on Y = 0 it is 1 wide, developed it is sqrt(2) * 2 in area."""
+    coords = [
+        (-1.0, 0.0, 0.0),
+        (0.0, 0.0, 0.0),
+        (1.0, 0.0, 0.0),
+        (-1.0, 0.0, 2.0),
+        (0.0, 0.0, 2.0),
+        (1.0, 0.0, 2.0),
+        (2.0, 1.0, 0.0),
+        (2.0, 1.0, 2.0),
+    ]
+    return MedDump.model_validate(
+        {
+            "mesh_name": "wall",
+            "space_dimension": 3,
+            "coords": coords,
+            "levels": {
+                "0": {
+                    "types": ["NORM_QUAD4"] * 3,
+                    "connectivity": [[0, 1, 4, 3], [1, 2, 5, 4], [2, 6, 7, 5]],
+                }
+            },
+            "groups": [
+                {"name": "WALL", "level": 0, "ids": [0, 1, 2]},
+                {"name": "FOLD", "level": 0, "ids": [2]},
+                {"name": "PLANE", "level": 1, "ids": [2, 5]},
+                {"name": "PLANE_BAD", "level": 1, "ids": [2]},
+            ],
+        }
+    )
+
+
+def _run(dump: MedDump, **spec: object) -> list[bool]:
+    invariants = Invariants.model_validate({**_INV_BASE, **spec})
+    return [r.ok for r in evaluate(dump, invariants)]
+
+
+def test_the_developed_area_and_its_gap_to_a_reference_are_checked() -> None:
+    dump = _wall_dump()
+    total = 2.0 + 2.0 + 2.0 * 2**0.5  # two 1 x 2 walls, one 45-degree fold
+    hit = {"group": "WALL", "area": total, "tolerance": 1e-9, "reference_area": 6.0}
+    assert _run(dump, group_areas=[hit]) == [True, True]
+    miss = {**hit, "area": total + 1e-3}
+    assert _run(dump, group_areas=[miss]) == [False, False]
+    assert _run(dump, group_areas=[{**hit, "group": "ABSENT"}]) == [False]
+
+
+def test_the_projected_width_counts_the_projection_not_the_developed_width() -> None:
+    dump = _wall_dump()
+    spec = {"label": "band", "group": "WALL", "z": 1.0, "tolerance": 1e-9}
+    # 1 + 1 + (the fold: x from 1 to 2 and y from 0 to 1 -> projected width 1)
+    assert _run(dump, projected_widths=[{**spec, "width": 3.0}]) == [True]
+    # the developed width of the fold, 2**0.5, is not what is asked
+    assert _run(dump, projected_widths=[{**spec, "width": 2.0 + 2**0.5}]) == [False]
+    # a level above the cells counts nothing: width 0, so 3 is a mismatch
+    assert _run(dump, projected_widths=[{**spec, "z": 5.0, "width": 3.0}]) == [False]
+
+
+def test_a_subset_is_an_inclusion_of_cells() -> None:
+    dump = _wall_dump()
+    assert _run(dump, subsets=[{"group": "FOLD", "of": "WALL"}]) == [True]
+    assert _run(dump, subsets=[{"group": "WALL", "of": "FOLD"}]) == [False]
+
+
+def test_a_node_group_must_be_the_whole_set_of_nodes_of_its_plane() -> None:
+    dump = _wall_dump()
+    spec = {"axis": "z", "value": 0.0, "tolerance": 1e-9}
+    # nodes 0, 1, 2, 6 are at z = 0; PLANE has 2 and 5 (z = 2): not the plane
+    assert _run(dump, plane_nodes=[{**spec, "group": "PLANE"}]) == [False]
+    assert _run(dump, plane_nodes=[{**spec, "group": "ABSENT"}]) == [False]
+    top = {"axis": "z", "value": 2.0, "tolerance": 1e-9, "group": "PLANE"}
+    assert _run(dump, plane_nodes=[top]) == [False]  # 3 nodes at z = 2, group has 2
+
+
+def test_the_x_symmetry_is_checked_on_every_node() -> None:
+    sym = MedDump.model_validate(
+        {
+            "mesh_name": "s",
+            "space_dimension": 3,
+            "coords": [(-1.0, 2.0, 3.0), (1.0, 2.0, 3.0), (0.0, 0.0, 0.0)],
+            "levels": {"0": {"types": ["NORM_TRI3"], "connectivity": [[0, 1, 2]]}},
+            "groups": [],
+        }
+    )
+    spec = {"symmetry": {"tolerance": 1e-9}}
+    assert _run(sym, **spec) == [True]
+    assert _run(_wall_dump(), **spec) == [False]
+    shifted = sym.model_copy(
+        update={"coords": ((-1.0, 2.0, 3.0), (1.0, 2.0, 3.001), (0.0, 0.0, 0.0))}
+    )
+    assert _run(shifted, **spec) == [False]
+
+
+def test_the_model_bbox_and_node_group_kinds_of_shared_nodes() -> None:
+    dump = _wall_dump()
+    assert _run(dump, bbox=[-1, 2, 0, 1, 0, 2]) == [True]
+    assert _run(dump, bbox=[-1, 2, 0, 1, 0, 3]) == [False]
+    # a node group against a cell group: PLANE (nodes 2, 5) and FOLD (nodes 2, 6, 7, 5)
+    shared = {
+        "label": "kinds",
+        "groups": ["PLANE", "FOLD"],
+        "kinds": ["node", "cell"],
+        "count": 2,
+    }
+    assert _run(dump, shared_nodes=[shared]) == [True]
+    assert _run(dump, shared_nodes=[{**shared, "kinds": ["cell", "cell"]}]) == [False]
