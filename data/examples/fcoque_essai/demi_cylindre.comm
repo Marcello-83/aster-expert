@@ -1,0 +1,49 @@
+# Essai FORCE_COQUE (lot 21) -- demi-cylindre synthetique, hors de tout projet.
+# Question : l'intensite de FORCE_COQUE se rapporte-t-elle a la surface developpee
+# des mailles ou a leur surface projetee sur le plan diametral ?
+# Charge unitaire FX = 1 sur toute la surface ; resultante des reactions aux appuis.
+
+DEBUT()
+
+MAIL = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+
+MO = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=_F(TOUT="OUI", PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+)
+
+CARA = AFFE_CARA_ELEM(MODELE=MO, COQUE=_F(GROUP_MA="COQUE", EPAIS=0.01))
+
+ACIER = DEFI_MATERIAU(ELAS=_F(E=2.1e11, NU=0.3))
+
+CHMAT = AFFE_MATERIAU(MAILLAGE=MAIL, AFFE=_F(TOUT="OUI", MATER=ACIER))
+
+# Trois appuis ponctuels : 3 + 2 + 1 blocages, six mouvements de corps rigide.
+CHAR = AFFE_CHAR_MECA(
+    MODELE=MO,
+    DDL_IMPO=(
+        _F(GROUP_NO="NA", DX=0.0, DY=0.0, DZ=0.0),
+        _F(GROUP_NO="NB", DX=0.0, DZ=0.0),
+        _F(GROUP_NO="NC", DX=0.0),
+    ),
+    FORCE_COQUE=_F(GROUP_MA="COQUE", FX=1.0),
+)
+
+RESU = MECA_STATIQUE(MODELE=MO, CHAM_MATER=CHMAT, CARA_ELEM=CARA, EXCIT=_F(CHARGE=CHAR))
+
+RESU = CALC_CHAMP(reuse=RESU, RESULTAT=RESU, FORCE="REAC_NODA")
+
+TAB_X = POST_RELEVE_T(
+    ACTION=_F(
+        INTITULE="RESULTANTE_REACTIONS",
+        GROUP_NO="APPUIS",
+        RESULTAT=RESU,
+        NOM_CHAM="REAC_NODA",
+        RESULTANTE=("DX", "DY", "DZ"),
+        OPERATION="EXTRACTION",
+    )
+)
+
+IMPR_TABLE(TABLE=TAB_X, UNITE=6)
+
+FIN()

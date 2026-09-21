@@ -34,6 +34,9 @@ execution:
   # utilisateur) est à ajouter explicitement ici, jamais devinée.
   allowed_roots:
     - external/codeaster-src/astest
+    # Essai synthétique du lot 21 (FORCE_COQUE), entièrement produit par
+    # scripts/build_fcoque_essai.py.
+    - data/examples/fcoque_essai
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

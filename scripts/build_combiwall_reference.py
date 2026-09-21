@@ -15,7 +15,12 @@ always through the project's own write paths -- never by editing the JSON:
    replayed), from
    `combiwall_inputs/lot20_recherche.json` (verbatim excerpts in
    `combiwall_inputs/lot20_extraits.json`), through
-   `record_code_aster_finding`/`record_unfounded_point`.
+   `record_code_aster_finding`/`record_unfounded_point`;
+4. lot 21: MM's decision on the tube shell choice (point 1, from
+   `combiwall_inputs/arbitrage_combiwall_MM_lot21.md`), and the nodal-spring
+   finding that replaces the unfounded surface-stiffness entry of point 4
+   (`lot21_recherche.json`, `lot21_extraits.json`); the replaced entry's
+   search trace is kept verbatim in the finding's notes.
 
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
@@ -41,6 +46,7 @@ from aster_expert.agent.drafting import (
 )
 from aster_expert.agent.hypotheses import (
     CatalogueSource,
+    CodeAsterSource,
     DiscardedVariant,
     DocumentarySource,
     HypothesesSheet,
@@ -251,30 +257,31 @@ def _replace(
     return sheet.model_copy(update={"entries": tuple(entries)})
 
 
-def _lot20(sheet: HypothesesSheet) -> HypothesesSheet:
-    research = json.loads((INPUTS / "lot20_recherche.json").read_text("utf-8"))
-    extracts = {
-        x["id"]: x
-        for x in json.loads((INPUTS / "lot20_extraits.json").read_text("utf-8"))
-    }
-    cat = research["catalogue"]
+def _load_extracts(name: str) -> dict[str, Any]:
+    return {x["id"]: x for x in json.loads((INPUTS / name).read_text("utf-8"))}
 
-    def documentary(ids: list[str]) -> list[DocumentarySource]:
-        return [
-            DocumentarySource(
-                document_id=extracts[i]["document_id"],
-                aster_version=extracts[i]["aster_version"],
-                section_path=tuple(extracts[i]["section_path"]),
-                source_path=extracts[i]["source_path"],
-                source_commit=extracts[i]["source_commit"],
-                profile="methode",
-                excerpt=extracts[i]["text"],
-            )
-            for i in ids
-        ]
 
-    for f in research["code_aster_findings"]:
-        sources = documentary(f["extraits"]) + [
+def _documentary(extracts: dict[str, Any], ids: list[str]) -> list[DocumentarySource]:
+    return [
+        DocumentarySource(
+            document_id=extracts[i]["document_id"],
+            aster_version=extracts[i]["aster_version"],
+            section_path=tuple(extracts[i]["section_path"]),
+            source_path=extracts[i]["source_path"],
+            source_commit=extracts[i]["source_commit"],
+            profile="methode",
+            excerpt=extracts[i]["text"],
+        )
+        for i in ids
+    ]
+
+
+def _finding_sources(
+    f: dict[str, Any], cat: dict[str, Any], extracts: dict[str, Any]
+) -> tuple[CodeAsterSource, ...]:
+    return (
+        *_documentary(extracts, f["extraits"]),
+        *(
             CatalogueSource(
                 command=ref["command"],
                 keyword_path=tuple(ref["keyword_path"]),
@@ -284,10 +291,19 @@ def _lot20(sheet: HypothesesSheet) -> HypothesesSheet:
                 image_digest=cat["image_digest"],
             )
             for ref in f["catalogue_refs"]
-        ]
+        ),
+    )
+
+
+def _lot20(sheet: HypothesesSheet) -> HypothesesSheet:
+    research = json.loads((INPUTS / "lot20_recherche.json").read_text("utf-8"))
+    extracts = _load_extracts("lot20_extraits.json")
+    cat = research["catalogue"]
+
+    for f in research["code_aster_findings"]:
         entry = record_code_aster_finding(
             topic=f["topic"],
-            sources=tuple(sources),
+            sources=_finding_sources(f, cat, extracts),
             option_retained=f["option_retained"],
             justification=f["justification"],
             point_label=f["point_label"],
@@ -337,10 +353,47 @@ def _lot20(sheet: HypothesesSheet) -> HypothesesSheet:
                     topic=ref["topic"],
                     searches=searches(ref["searches"]),
                     deduction=ref["deduction"],
+                    options_considered=tuple(ref.get("options_considered", ())),
                 ),
             )
         }
     )
+
+
+def _lot21(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Replace the unfounded point-4 entry by the nodal-spring finding.
+
+    The finding's notes end with the replaced entry's own notes, verbatim, so
+    that the search trace of the former unfounded point is kept.
+    """
+    research = json.loads((INPUTS / "lot21_recherche.json").read_text("utf-8"))
+    extracts = _load_extracts("lot21_extraits.json")
+    cat = json.loads((INPUTS / "lot20_recherche.json").read_text("utf-8"))["catalogue"]
+    for f in research["code_aster_findings"]:
+        replaced = [
+            e
+            for e in sheet.entries
+            if e.status == "non_tranche" and e.topic == f["replaces_topic"]
+        ]
+        assert len(replaced) == 1, f["replaces_topic"]
+        old = replaced[0]
+        history = f"Historique du point non fondé remplacé (lot 20) : {old.notes}"
+        entry = record_code_aster_finding(
+            topic=f["topic"],
+            sources=_finding_sources(f, cat, extracts),
+            option_retained=f["option_retained"],
+            justification=f["justification"],
+            point_label=f["point_label"],
+            notes=f"{f['notes']} {history}",
+        )
+        sheet = _replace(
+            sheet,
+            nature=old.nature,
+            point_label=old.point_label or "",
+            topic=f["replaces_topic"],
+            new=entry,
+        )
+    return sheet
 
 
 def build_sheet() -> HypothesesSheet:
@@ -349,7 +402,9 @@ def build_sheet() -> HypothesesSheet:
     v3 = INPUTS / "arbitrage_combiwall_MM_v3.md"
     sheet = _record_decisions(sheet, v3)
     sheet = sheet.model_copy(update={"group_naming": _group_naming(v3)})
-    return _lot20(sheet)
+    sheet = _lot20(sheet)
+    sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_lot21.md")
+    return _lot21(sheet)
 
 
 def dump(sheet: HypothesesSheet) -> str:

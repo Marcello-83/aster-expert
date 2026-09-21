@@ -1364,34 +1364,176 @@
     },
     {
       "point_label": "4",
-      "topic": "Répartition d'une raideur de réaction horizontale surfacique (MN/m³) sur des éléments de coque, dans une direction globale fixe, rapportée à la surface projetée sur le plan de l'écran et non à la surface développée des tubes",
+      "topic": "Affectation, à des nœuds existants d'un maillage, d'une raideur de translation dans une direction globale fixe, liée à un point fixe, de valeur propre à chaque nœud",
       "options_considered": [],
-      "option_retained": null,
-      "justification": null,
+      "option_retained": "Chaîne de commandes : (1) CREA_MAILLAGE/CREA_POI1 (GROUP_NO, NOM_GROUP_MA) crée une maille ponctuelle POI1 par nœud ; (2) AFFE_MODELE/AFFE/MODELISATION = DIS_T sur ce groupe de mailles POI1 ; (3) AFFE_CARA_ELEM/DISCRET, CARA = K_T_D_N, VALE = (kx, ky, kz), REPERE = GLOBAL (valeur par défaut), GROUP_MA = groupe de mailles POI1. Valeur propre à chaque nœud : une occurrence de DISCRET par groupe de mailles POI1, donc un groupe d'une seule maille par nœud, obtenu par une occurrence de CREA_POI1 par nœud.",
+      "justification": "U4.42.01 (DISCRET) : les matrices de rigidité s'affectent à des nœuds ou à des mailles POI1 (matrices nodales), le type d'élément DISCRET devant être affecté au préalable par AFFE_MODELE ; K_T_D_N donne kx, ky, kz, la valeur du repère étant par défaut le repère global. U4.23.02 : CREA_POI1 crée une maille POI1 par nœud à partir de GROUP_NO et les regroupe sous NOM_GROUP_MA. U2.02.03 : DIS_T admet les mailles POI1. Confirmé au catalogue 17.4.0 : DIS_T figure parmi les valeurs de AFFE_MODELE/AFFE/MODELISATION ; DISCRET n'offre que GROUP_MA comme désignation d'entité (ni GROUP_NO ni NOEUD) ; CREA_POI1 admet un nombre d'occurrences non borné et NOM_GROUP_MA.",
       "discarded_variants": [],
-      "notes": "Cherché sous methode (\"raideur de réaction surfacique ressort réparti coque direction globale surface projetée\") : lot 19 : extraits de tête seulement (R3.08.07, U4.43.01, U4.42.01, R3.07.04, U2.01.05), rien de retenu. Cherché sous methode (\"module de réaction coefficient de raideur surfacique ressort Winkler appui élastique sur coque N/m3\") : lot 20 : 8 résultats de tête (U4.43.01, U4.23.02, U4.42.01, R5.03.17, U4.84.46, U4.01.13, U4.42.06), aucun ne traite d'une raideur surfacique de sol sur coque. Cherché sous syntaxe (\"ressort réparti sur surface DIS_T nœuds raideur par unité de surface fondation élastique\") : lot 20 : seul candidat, RIGI_PARASOL (AFFE_CARA_ELEM) ; MASS_REP répartit une masse, pas une raideur. Cherché sous syntaxe (\"U4.42.01 § RIGI_PARASOL, lecture intégrale lignes 1-188\") : lot 20 : lu en entier ; répartit une raideur globale Kx, Ky, Kz sur des discrets DIS_T portés par des mailles POI1, au prorata de la surface attachée à chaque nœud (surface de la maille divisée par son nombre de sommets) et d'une fonction de la distance au centre ; entrée = raideur globale en N/m, pas un module en N/m³ ; aucune pondération par surface projetée sur un plan. Déduction : RIGI_PARASOL répartit au prorata de la surface développée des mailles, non de la surface projetée exigée par le point ; répartir l'équivalent de k_h par surface projetée demanderait un calcul des raideurs nodales par l'utilisateur, non documenté comme méthode. Point laissé non fondé.",
+      "notes": "Déductions, non extraites d'un document : (a) valeur propre à chaque nœud = un groupe de mailles POI1 par nœud, parce que le catalogue ne propose que GROUP_MA sous DISCRET (U4.42.01 écrit « nœuds ou mailles POI1 » mais le catalogue 17.4.0 ne porte pas de mot-clé nœud) ; (b) « liée à un point fixe » : la matrice nodale K_T_D_N agit sur les seuls degrés de liberté du nœud, alors que K_T_D_L (maille SEG2) relie deux nœuds par [K -K ; -K K] ; un POI1 est donc un ressort vers un point fixe implicite. Cas tests : V1.01.372 (PLEXU11, modélisation A, intitulé « ressorts de sol ») décrit un ressort ponctuel DIS_T/K_T_D_N sur POI1, en repère global, de raideurs 60000, 75000, 50000 N/m selon X, Y, Z. Lus directement dans external/codeaster-src/astest, hors outils MCP (les fichiers .comm n'y sont pas indexés) : sdld01a.comm applique K_T_D_N et M_T_D_N à un groupe POI1 issu de CREA_POI1 (GROUP_NO vers NOM_GROUP_MA), à la masse ; sdlv128a.comm crée des POI1 par CREA_POI1 sur des nœuds d'un maillage 3D et leur affecte K_T_D_N de valeurs différentes selon le groupe (SOU_MA3D, SOU_DIS1, SOU_DIS2). Limites : aucun cas test trouvé n'affecte une valeur distincte à chaque nœud d'un maillage de coque ; sdls118c.comm (listé par U2.02.03 comme raideurs de sol réparties) affecte K_TR_D_N à valeurs nulles puis RIGI_PARASOL, il n'illustre donc pas des valeurs par nœud ; la chaîne n'a pas été exécutée sur une coque (niveau A). Historique du point non fondé remplacé (lot 20) : Cherché sous methode (\"raideur de réaction surfacique ressort réparti coque direction globale surface projetée\") : lot 19 : extraits de tête seulement (R3.08.07, U4.43.01, U4.42.01, R3.07.04, U2.01.05), rien de retenu. Cherché sous methode (\"module de réaction coefficient de raideur surfacique ressort Winkler appui élastique sur coque N/m3\") : lot 20 : 8 résultats de tête (U4.43.01, U4.23.02, U4.42.01, R5.03.17, U4.84.46, U4.01.13, U4.42.06), aucun ne traite d'une raideur surfacique de sol sur coque. Cherché sous syntaxe (\"ressort réparti sur surface DIS_T nœuds raideur par unité de surface fondation élastique\") : lot 20 : seul candidat, RIGI_PARASOL (AFFE_CARA_ELEM) ; MASS_REP répartit une masse, pas une raideur. Cherché sous syntaxe (\"U4.42.01 § RIGI_PARASOL, lecture intégrale lignes 1-188\") : lot 20 : lu en entier ; répartit une raideur globale Kx, Ky, Kz sur des discrets DIS_T portés par des mailles POI1, au prorata de la surface attachée à chaque nœud (surface de la maille divisée par son nombre de sommets) et d'une fonction de la distance au centre ; entrée = raideur globale en N/m, pas un module en N/m³ ; aucune pondération par surface projetée sur un plan. Déduction : RIGI_PARASOL répartit au prorata de la surface développée des mailles, non de la surface projetée exigée par le point ; répartir l'équivalent de k_h par surface projetée demanderait un calcul des raideurs nodales par l'utilisateur, non documenté comme méthode. Point laissé non fondé.",
       "validity_domain": null,
-      "nature": "pratique",
-      "sources": [],
-      "status": "non_tranche",
-      "decided_by": null,
-      "decided_at": null,
-      "decision_history": []
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U4.23.02",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.23.02/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Mot-clef facteur CREA_POI1\n--------------------------\n\nUne occurrence du mot-clef facteur CREA_POI1 permet de définir des mailles de type 'POI1' (maille à un seul nœud) à partir de nœuds ou de nœuds de mailles.\n\n\nMots-clefs TOUT/GROUP_MA/GROUP_NO\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nTous les nœuds qui appartiennent à des entités stipulées par l’utilisateur avec ces mots clés, génèrent une maille de type POI1. La maille créée aura le même nom que le nœud qui la supporte.\n\n\nMot-clef NOM_GROUP_MA\n~~~~~~~~~~~~~~~~~~~~~\n\nToutes les mailles POI1 créées peuvent être regroupées dans un même groupe de mailles nommé par le mot-clef NOM_GROUP_MA."
+        },
+        {
+          "document_id": "U4.23.02",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.23.02/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Les mailles POI1 créées par CREA_POI1 ont les mêmes noms que les nœuds à partir desquels elles ont été créées. Il n'est donc pas possible de créer plusieurs mailles POI1 sur un même nœud en utilisant plusieurs occurrences du mot-clef CREA_POI1."
+        },
+        {
+          "document_id": "U4.42.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Mot_cle_DISCRET_DISCRET_2D"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_DISCRET_DISCRET_2D.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Les matrices peuvent être affectées:\n\n•    à des nœuds ou à des mailles de types POI1; elles sont alors dites matrices nodales :math:`(N)` ,\n\n•    à des mailles de type SEG2; elles sont alors dites matrices de liaison :math:`(L)` .\n\nEn cas d’affectation de matrices à des mailles ou à des nœuds, le type d’élément DISCRET doit être affecté, au préalable, à ces mailles ou à ces nœuds par l’opérateur AFFE_MODELE[U4.41.01]."
+        },
+        {
+          "document_id": "U4.42.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Mot_cle_DISCRET_DISCRET_2D"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_DISCRET_DISCRET_2D.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "K_T_D_N / A_T_D_N et SYME = ’OUI’ (valeur par défaut)\n\npour une maille de type POI1 ou un nœud, on trouve en correspondance dans VALE 3 valeurs :math:`{k}_{x}` , :math:`{k}_{y}` , :math:`{k}_{z}` en DIS_T et 2 valeurs :math:`{k}_{x}` , :math:`{k}_{y}` en 2D_DIS_T telles que:"
+        },
+        {
+          "document_id": "U4.42.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Mot_cle_DISCRET_DISCRET_2D"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_DISCRET_DISCRET_2D.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Par défaut les valeurs des matrices fournies pour les éléments discrets sont utilisées pour exprimer les quantités correspondantes dans le REPERE=’GLOBAL’."
+        },
+        {
+          "document_id": "U2.02.03",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Affectation_des_proprietes_des_discrets"
+          ],
+          "source_path": "source/manuals/man_u/u2/u2.02.03/Affectation_des_proprietes_des_discrets.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Mailles support des matrices\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n.. csv-table::\n    :align: right\n    :delim: ;\n\n    **Modélisation**; **Maille**          ; **Élément fini**\n    ``2D_DIS_T``    ;  ``POI1``, ``SEG2`` ; ``MECA_2D_DIS_T_N``, ``MECA_2D_DIS_T_L``\n    ``2D_DIS_TR``   ;  ``POI1``, ``SEG2`` ; ``MECA_2D_DIS_TR_N``, ``MECA_2D_DIS_TR_L``\n    ``DIS_T``       ;  ``POI1``, ``SEG2`` ; ``MECA_DIS_T_N``, ``MECA_DIS_T_L``\n    ``DIS_TR``      ;  ``POI1``, ``SEG2`` ; ``MECA_DIS_TR_N``, ``MECA_DIS_TR_L``\n\nRemarque :\n    Dans un maillage, pour transformer un nœud en une maille POI1, on peut utiliser la commande :ref:`CREA_MAILLAGE<u4.23.02>` avec le mot clé CREA_POI1."
+        },
+        {
+          "document_id": "V1.01.372",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Mod_lisation_A"
+          ],
+          "source_path": "source/manuals/man_v/v1/v1.01.372/Mod_lisation_A.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Deux systèmes sont comparés. Dans les deux cas il s'agit d'une poutre :math:`\\mathit{AB}` (POU_D_E) de longueur :math:`1m` reliée à un ressort en :math:`B` . Une masse de :math:`1000\\mathit{kg}` est également ajoutée au point :math:`B` . Dans le premier système, la poutre est reliée à un ressort ponctuel (DIS_T/K_T_D_N+A_T_D_N), dans le second à un ressort linéique :math:`\\mathit{BC}` orienté selon :math:`Y` (DIS_T/K_T_D_L+A_T_D_L)."
+        },
+        {
+          "document_id": "V1.01.372",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Mod_lisation_A"
+          ],
+          "source_path": "source/manuals/man_v/v1/v1.01.372/Mod_lisation_A.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Éléments en repère global(DIS_T du calcul 2 et DIS_T/POI1 du calcul 1):\n\n Raideur selon :math:`X` : :math:`60000.N/m`\n\n Raideur selon :math:`Y` : :math:`75000.N/m`\n\n Raideur selon :math:`Z` : :math:`50000.N/m`"
+        },
+        {
+          "command": "CREA_MAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "CREA_POI1"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_MODELE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "MODELISATION"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CARA_ELEM",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "DISCRET"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        }
+      ],
+      "status": "tranche"
     },
     {
       "point_label": "1",
       "topic": "Choix de la modélisation de coque du tube entre les modélisations recevables (DKT ou COQUE_3D)",
-      "options_considered": [],
-      "option_retained": null,
-      "justification": null,
-      "discarded_variants": [],
+      "options_considered": [
+        "DKT",
+        "COQUE_3D"
+      ],
+      "option_retained": "Le tube est modélisé en DKT, sur une surface facettisée représentant sa géométrie cylindrique. La discrétisation angulaire est fixée par la branche maillage, et figure dans les invariants de maillage déclarés par la fiche.",
+      "justification": "DKT et COQUE_3D sont tous deux recevables pour ce tube selon le constat Code_Aster du point 1 (U2.02.01, structure mince, h/R ≈ 1/44). DKT est retenu pour l'homogénéité avec la palplanche intercalaire, qui partage ses nœuds avec le tube sur les lignes de serrure : la représentation orthotrope envisagée pour la palplanche n'est admise qu'en DKT, DST ou Q4G, et DKT reste recevable si la géométrie réelle du profil est retenue à la place. La documentation officielle modélise elle-même un cylindre mince en facettes DKT (cas test SSLS502).",
+      "discarded_variants": [
+        {
+          "description": "Tube en COQUE_3D.",
+          "reason": "N'apporte rien pour un tube mince. Et la compatibilité d'un maillage coïncident entre COQUE_3D et une palplanche en DKT n'est pas établie."
+        }
+      ],
       "notes": "Cherché sous methode (\"critère de facettisation d'une surface courbe par des plaques planes (discrétisation angulaire, rayon sur taille de maille), recherche lexicale dans U2.02.01 (toutes sections), R3.07.03, R3.07.04, U3.12.01, U3.12.03, U4.42.01, U4.44.01 ; lecture ciblée de V3.03.020, V3.03.502\") : aucun critère chiffré trouvé ; seules mentions qualitatives : « aspect facettes », « raffiner le maillage dans le cas où la courbure est importante ». Déduction : Le catalogue de la version cible et U2.02.01 admettent DKT et COQUE_3D pour le tube et ne les départagent pas (entrée code_aster « Modélisations de coque recevables pour le tube » du même point) ; le choix est renvoyé à l'ingénieur.",
-      "validity_domain": null,
+      "validity_domain": "La facettisation remplace la courbure par des facettes planes. Aucun critère chiffré de discrétisation angulaire n'a été trouvé dans la documentation ; l'écart géométrique et son effet sur la raideur du tube dépendent du nombre de facettes retenu par la branche maillage.",
       "nature": "pratique",
-      "sources": [],
-      "status": "non_tranche",
-      "decided_by": null,
-      "decided_at": null,
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décision prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-21"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-21T18:00:00",
       "decision_history": []
     }
   ],

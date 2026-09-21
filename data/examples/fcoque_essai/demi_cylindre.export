@@ -1,0 +1,7 @@
+P time_limit 300
+P memory_limit 2048
+P ncpus 1
+P mpi_nbcpu 1
+P mpi_nbnoeud 1
+F comm demi_cylindre.comm D 1
+F mail demi_cylindre.mail D 20

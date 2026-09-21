@@ -185,7 +185,7 @@ Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne
 pas installer d'infrastructure non demandée, ne pas inventer la structure d'un
 dépôt externe avant de l'avoir inspectée.
 
-## État de la fiche combi-wall (lots 19-20)
+## État de la fiche combi-wall (lots 19-21)
 
 - `data/examples/hypotheses_combiwall_reference_arbitree.json` est produit par
   `scripts/build_combiwall_reference.py` à partir des entrées versionnées de
@@ -208,3 +208,26 @@ dépôt externe avant de l'avoir inspectée.
 - Une entrée `code_aster` non tranchée ne peut pas porter d'option retenue ;
   un ensemble d'options recevables se consigne dans une entrée tranchée qui
   le dit, plus une entrée pratique ouverte du même `point_label`.
+- Lot 21 : le point 1 (tube) est tranché par MM en DKT facettisé
+  (`arbitrage_combiwall_MM_lot21.md`, recopié à l'identique) ; l'entrée porte
+  `options_considered = (DKT, COQUE_3D)`, paramètre optionnel de
+  `record_unfounded_point`. Le point non fondé de la raideur surfacique (point 4)
+  est remplacé par un constat `code_aster` (chaîne CREA_POI1 → DIS_T → DISCRET
+  K_T_D_N, valeur par nœud = un groupe POI1 par nœud) ; la trace de recherche
+  de l'ancien point reste dans les `notes` du constat. La fiche n'a plus
+  d'entrée non tranchée, `generation_blockers()` est vide : cela ne dit rien de
+  ce que la fiche ne porte pas encore (option orthotrope de la palplanche, à
+  enregistrer avec ses coefficients).
+- `ELAS_COQUE` : `docs/etude_lot21_elas_coque.md` (niveau A). Non établi : usage
+  de `RHO` sous `PESANTEUR` en statique ; règles exactes de combinaison des
+  opérandes (le schéma n'en expose pas).
+- Essai d'exécution `FORCE_COQUE` (`docs/essai_lot21_force_coque.md`, niveau C,
+  D pour cet essai) : l'intensité se rapporte à la surface **développée** des
+  mailles (résultante 2,22982 pour 2,229823 m² de facettes, contre 1,42 m²
+  projetés). Le modèle est produit par `scripts/build_fcoque_essai.py` (maillage
+  au format ASTER natif) ; un résultat d'exécution n'a pas de source adaptée dans
+  le schéma (`ExecutionSource` proposée, non implémentée).
+- Chaîne d'exécution : un cas avec maillage exige un `.export` (seul un `.export`
+  fait copier les fichiers `<nom>.*` voisins) et sa racine dans
+  `execution.allowed_roots`. Les listes de noms d'un maillage ASTER se répartissent
+  sur plusieurs lignes.

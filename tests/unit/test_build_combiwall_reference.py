@@ -1,4 +1,4 @@
-"""Reproducibility of the combi-wall reference fiche (lot 20, step 6).
+"""Reproducibility of the combi-wall reference fiche (lot 20, step 6; lot 21).
 
 `scripts/build_combiwall_reference.py` rebuilds
 `data/examples/hypotheses_combiwall_reference_arbitree.json` from the
@@ -50,10 +50,12 @@ def test_every_excerpt_is_verbatim_in_the_documentation_clone() -> None:
     """Skipped when `external/` is absent (never committed, CLAUDE.md)."""
     if not _DOC_ROOT.is_dir():
         pytest.skip("external/codeaster-doc absent")
-    extracts = json.loads((_INPUTS / "lot20_extraits.json").read_text("utf-8"))
-    assert extracts
-    for x in extracts:
-        lines = (_DOC_ROOT / x["source_path"]).read_text("utf-8").split("\n")
-        assert x["text"] == "\n".join(lines[x["line_start"] - 1 : x["line_end"]]), x[
-            "id"
-        ]
+    for name in ("lot20_extraits.json", "lot21_extraits.json"):
+        extracts = json.loads((_INPUTS / name).read_text("utf-8"))
+        assert extracts
+        for x in extracts:
+            lines = (_DOC_ROOT / x["source_path"]).read_text("utf-8").split("\n")
+            assert x["text"] == "\n".join(lines[x["line_start"] - 1 : x["line_end"]]), (
+                name,
+                x["id"],
+            )

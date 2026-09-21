@@ -124,6 +124,10 @@
         "outcome": "aucun critère chiffré trouvé ; seules mentions qualitatives : « aspect facettes », « raffiner le maillage dans le cas où la courbure est importante »"
       }
     ],
-    "deduction": "Le catalogue de la version cible et U2.02.01 admettent DKT et COQUE_3D pour le tube et ne les départagent pas (entrée code_aster « Modélisations de coque recevables pour le tube » du même point) ; le choix est renvoyé à l'ingénieur."
+    "deduction": "Le catalogue de la version cible et U2.02.01 admettent DKT et COQUE_3D pour le tube et ne les départagent pas (entrée code_aster « Modélisations de coque recevables pour le tube » du même point) ; le choix est renvoyé à l'ingénieur.",
+    "options_considered": [
+      "DKT",
+      "COQUE_3D"
+    ]
   }
 }

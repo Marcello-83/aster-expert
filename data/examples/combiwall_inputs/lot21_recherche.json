@@ -1,0 +1,43 @@
+{
+  "code_aster_findings": [
+    {
+      "point_label": "4",
+      "replaces_topic": "Répartition d'une raideur de réaction horizontale surfacique (MN/m³) sur des éléments de coque, dans une direction globale fixe, rapportée à la surface projetée sur le plan de l'écran et non à la surface développée des tubes",
+      "topic": "Affectation, à des nœuds existants d'un maillage, d'une raideur de translation dans une direction globale fixe, liée à un point fixe, de valeur propre à chaque nœud",
+      "option_retained": "Chaîne de commandes : (1) CREA_MAILLAGE/CREA_POI1 (GROUP_NO, NOM_GROUP_MA) crée une maille ponctuelle POI1 par nœud ; (2) AFFE_MODELE/AFFE/MODELISATION = DIS_T sur ce groupe de mailles POI1 ; (3) AFFE_CARA_ELEM/DISCRET, CARA = K_T_D_N, VALE = (kx, ky, kz), REPERE = GLOBAL (valeur par défaut), GROUP_MA = groupe de mailles POI1. Valeur propre à chaque nœud : une occurrence de DISCRET par groupe de mailles POI1, donc un groupe d'une seule maille par nœud, obtenu par une occurrence de CREA_POI1 par nœud.",
+      "justification": "U4.42.01 (DISCRET) : les matrices de rigidité s'affectent à des nœuds ou à des mailles POI1 (matrices nodales), le type d'élément DISCRET devant être affecté au préalable par AFFE_MODELE ; K_T_D_N donne kx, ky, kz, la valeur du repère étant par défaut le repère global. U4.23.02 : CREA_POI1 crée une maille POI1 par nœud à partir de GROUP_NO et les regroupe sous NOM_GROUP_MA. U2.02.03 : DIS_T admet les mailles POI1. Confirmé au catalogue 17.4.0 : DIS_T figure parmi les valeurs de AFFE_MODELE/AFFE/MODELISATION ; DISCRET n'offre que GROUP_MA comme désignation d'entité (ni GROUP_NO ni NOEUD) ; CREA_POI1 admet un nombre d'occurrences non borné et NOM_GROUP_MA.",
+      "notes": "Déductions, non extraites d'un document : (a) valeur propre à chaque nœud = un groupe de mailles POI1 par nœud, parce que le catalogue ne propose que GROUP_MA sous DISCRET (U4.42.01 écrit « nœuds ou mailles POI1 » mais le catalogue 17.4.0 ne porte pas de mot-clé nœud) ; (b) « liée à un point fixe » : la matrice nodale K_T_D_N agit sur les seuls degrés de liberté du nœud, alors que K_T_D_L (maille SEG2) relie deux nœuds par [K -K ; -K K] ; un POI1 est donc un ressort vers un point fixe implicite. Cas tests : V1.01.372 (PLEXU11, modélisation A, intitulé « ressorts de sol ») décrit un ressort ponctuel DIS_T/K_T_D_N sur POI1, en repère global, de raideurs 60000, 75000, 50000 N/m selon X, Y, Z. Lus directement dans external/codeaster-src/astest, hors outils MCP (les fichiers .comm n'y sont pas indexés) : sdld01a.comm applique K_T_D_N et M_T_D_N à un groupe POI1 issu de CREA_POI1 (GROUP_NO vers NOM_GROUP_MA), à la masse ; sdlv128a.comm crée des POI1 par CREA_POI1 sur des nœuds d'un maillage 3D et leur affecte K_T_D_N de valeurs différentes selon le groupe (SOU_MA3D, SOU_DIS1, SOU_DIS2). Limites : aucun cas test trouvé n'affecte une valeur distincte à chaque nœud d'un maillage de coque ; sdls118c.comm (listé par U2.02.03 comme raideurs de sol réparties) affecte K_TR_D_N à valeurs nulles puis RIGI_PARASOL, il n'illustre donc pas des valeurs par nœud ; la chaîne n'a pas été exécutée sur une coque (niveau A).",
+      "extraits": [
+        "u4232_crea_poi1",
+        "u4232_poi1_noms",
+        "u4421_discret_nodal",
+        "u4421_k_t_d_n",
+        "u4421_repere_defaut",
+        "u2203_mailles_support",
+        "v1372_ressort_ponctuel",
+        "v1372_repere_global"
+      ],
+      "catalogue_refs": [
+        {
+          "command": "CREA_MAILLAGE",
+          "keyword_path": [
+            "CREA_POI1"
+          ]
+        },
+        {
+          "command": "AFFE_MODELE",
+          "keyword_path": [
+            "AFFE",
+            "MODELISATION"
+          ]
+        },
+        {
+          "command": "AFFE_CARA_ELEM",
+          "keyword_path": [
+            "DISCRET"
+          ]
+        }
+      ]
+    }
+  ]
+}

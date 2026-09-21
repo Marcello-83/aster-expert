@@ -487,3 +487,28 @@ def test_render_decision_sheet_ignores_resolved_practice_entries() -> None:
     document = render_decision_sheet(sheet)
 
     assert "## 1." not in document
+
+
+def test_record_practice_decision_keeps_the_options_considered_of_the_open_entry() -> (
+    None
+):
+    open_entry = PracticeHypothesisEntry(
+        point_label="4",
+        topic="Choix entre DKT et COQUE_3D",
+        options_considered=("DKT", "COQUE_3D"),
+        status="non_tranche",
+    )
+
+    decided = record_practice_decision(
+        entry=open_entry,
+        option_retained="DKT",
+        justification="Homogénéité.",
+        validity_domain=_VALIDITY_DOMAIN,
+        sources=(_practice_source(),),
+        discarded_variants=_DISCARDED,
+        decided_by="J. Dupont",
+        decided_at=datetime(2026, 9, 21, 18, 0),
+    )
+
+    assert decided.options_considered == ("DKT", "COQUE_3D")
+    assert decided.decision_history == ()

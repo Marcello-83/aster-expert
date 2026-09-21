@@ -51,7 +51,7 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     assert len(sheet.entries) == 31
 
 
-def test_arbitree_fiche_has_ten_decided_practice_entries() -> None:
+def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
     sheet = _load()
 
     tranche_practice = [
@@ -59,7 +59,8 @@ def test_arbitree_fiche_has_ten_decided_practice_entries() -> None:
         for e in sheet.entries
         if isinstance(e, PracticeHypothesisEntry) and e.status == "tranche"
     ]
-    assert len(tranche_practice) == 10
+    # 10 up to lot 20, plus MM's decision on the tube shell choice (lot 21)
+    assert len(tranche_practice) == 11
     assert {e.point_label for e in tranche_practice} == {
         "0",
         "1",
@@ -76,18 +77,80 @@ def test_arbitree_fiche_has_ten_decided_practice_entries() -> None:
     assert all(e.discarded_variants for e in tranche_practice)
 
 
-def test_arbitree_fiche_has_exactly_two_open_practice_entries() -> None:
-    """Lot 20: the surface-spring point (still unfounded after a full search)
-    and the referral of the tube shell choice (DKT or COQUE_3D) to practice."""
+def test_arbitree_fiche_has_no_open_practice_entry_left() -> None:
+    """Lot 21: the tube shell choice is decided by MM and the surface-spring
+    point is replaced by a documented Code_Aster finding."""
     sheet = _load()
 
-    open_practice = [
+    assert not [
         e
         for e in sheet.entries
         if isinstance(e, PracticeHypothesisEntry) and e.status == "non_tranche"
     ]
-    assert {e.point_label for e in open_practice} == {"1", "4"}
-    assert all(e.notes and e.notes.startswith("Cherché sous") for e in open_practice)
+
+
+def test_arbitree_fiche_tube_shell_decision_is_recorded_as_worded() -> None:
+    sheet = _load()
+
+    (entry,) = [
+        e
+        for e in sheet.entries
+        if isinstance(e, PracticeHypothesisEntry)
+        and e.topic.startswith("Choix de la modélisation de coque du tube")
+    ]
+    assert entry.point_label == "1"
+    assert entry.status == "tranche"
+    assert entry.decided_by == "MM"
+    assert entry.decided_at is not None
+    assert entry.decided_at.isoformat() == "2026-09-21T18:00:00"
+    # the entry was open, never decided before: no prior decision to keep
+    assert entry.decision_history == ()
+    # `options_considered` (lot 21) survives the decision
+    assert entry.options_considered == ("DKT", "COQUE_3D")
+    assert (entry.option_retained or "").startswith("Le tube est modélisé en DKT")
+    assert [v.description for v in entry.discarded_variants] == ["Tube en COQUE_3D."]
+    (source,) = entry.sources
+    assert source.origin == "decision_ingenieur"
+    assert source.date is not None and source.date.isoformat() == "2026-09-21"
+
+
+def test_arbitree_fiche_nodal_spring_finding_replaces_the_unfounded_point() -> None:
+    sheet = _load()
+
+    topics = [e.topic for e in sheet.entries]
+    assert not [t for t in topics if t.startswith("Répartition d'une raideur")]
+    (entry,) = [
+        e
+        for e in sheet.entries
+        if isinstance(e, CodeAsterHypothesisEntry)
+        and e.topic.startswith("Affectation, à des nœuds existants")
+    ]
+    assert entry.status == "tranche" and entry.point_label == "4"
+    for identifier in ("CREA_POI1", "DIS_T", "K_T_D_N", "REPERE = GLOBAL"):
+        assert identifier in (entry.option_retained or "")
+    catalogue = {
+        (s.command, s.keyword_path)
+        for s in entry.sources
+        if isinstance(s, CatalogueSource)
+    }
+    assert catalogue == {
+        ("CREA_MAILLAGE", ("CREA_POI1",)),
+        ("AFFE_MODELE", ("AFFE", "MODELISATION")),
+        ("AFFE_CARA_ELEM", ("DISCRET",)),
+    }
+    assert {
+        s.document_id for s in entry.sources if isinstance(s, DocumentarySource)
+    } == {
+        "U4.23.02",
+        "U4.42.01",
+        "U2.02.03",
+        "V1.01.372",
+    }
+    # the former unfounded point's search trace is kept in the notes
+    assert "Historique du point non fondé remplacé (lot 20) : Cherché sous" in (
+        entry.notes or ""
+    )
+    assert "RIGI_PARASOL" in (entry.notes or "")
 
 
 def test_arbitree_fiche_lot20_code_aster_findings_are_decided_and_sourced() -> None:
@@ -206,30 +269,21 @@ def test_arbitree_fiche_every_group_carries_a_point_label() -> None:
     }
 
 
-def test_arbitree_fiche_group_naming_gaps_report_the_open_points() -> None:
-    """Lot 20, step 5: gaps are the groups hung on a point that still carries
-    an open practice entry (point 1: tube shell choice; point 4: surface
-    spring) -- reported, not masked."""
+def test_arbitree_fiche_group_naming_gaps_are_closed() -> None:
+    """Lot 21: no point hung on by a group carries an open practice entry any
+    more (lot 20 reported 22 gaps, on points 1 and 4)."""
     sheet = _load()
 
-    gaps = sheet.group_naming_gaps()
-    assert len(gaps) == 22
-    assert not [g for g in gaps if "absent de la convention" in g]
-    assert any("PALP_01" in g and "point 1" in g for g in gaps)
-    assert any("RESS_AV_ARGI" in g and "point 4" in g for g in gaps)
-    assert not any("BOLLARD" in g or "DEFENSE" in g or "ANC_01" in g for g in gaps)
+    assert sheet.group_naming_gaps() == ()
 
 
-def test_arbitree_fiche_is_still_not_ready_for_generation() -> None:
-    """Two blockers remain (lot 20): the surface-spring point and the tube
-    shell choice referred to practice."""
+def test_arbitree_fiche_has_no_generation_blocker_left() -> None:
+    """No unresolved entry remains. This says nothing of what the fiche does
+    not carry yet (e.g. the orthotropic sheet-pile option, to be recorded)."""
     sheet = _load()
 
-    assert sheet.is_ready_for_generation is False
-    blockers = sheet.generation_blockers()
-    assert len(blockers) == 2
-    assert any("point 4" in b and "raideur de réaction" in b for b in blockers)
-    assert any("point 1" in b and "DKT ou COQUE_3D" in b for b in blockers)
+    assert sheet.generation_blockers() == ()
+    assert sheet.is_ready_for_generation is True
 
 
 def test_arbitree_fiche_never_attaches_a_documentary_source_to_a_practice_entry() -> (

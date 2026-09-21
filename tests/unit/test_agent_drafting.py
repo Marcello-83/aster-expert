@@ -173,3 +173,25 @@ def test_record_unfounded_point_can_carry_a_deduction_without_becoming_a_decisio
     assert entry.option_retained is None
     assert entry.justification is None
     assert "Déduction" in (entry.notes or "")
+
+
+_ONE_SEARCH = (SearchAttempt(profile="methode", query="q", outcome="rien"),)
+
+
+def test_record_unfounded_point_options_considered_defaults_to_empty() -> None:
+    entry = record_unfounded_point(topic="x", searches=_ONE_SEARCH)
+
+    assert entry.options_considered == ()
+
+
+def test_record_unfounded_point_carries_options_without_becoming_a_decision() -> None:
+    entry = record_unfounded_point(
+        topic="x",
+        searches=_ONE_SEARCH,
+        options_considered=("DKT", "COQUE_3D"),
+    )
+
+    assert entry.options_considered == ("DKT", "COQUE_3D")
+    assert entry.status == "non_tranche"
+    assert entry.option_retained is None
+    assert entry.justification is None

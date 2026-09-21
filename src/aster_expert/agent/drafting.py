@@ -152,6 +152,7 @@ def record_unfounded_point(
     searches: tuple[SearchAttempt, ...],
     point_label: str | None = None,
     deduction: str | None = None,
+    options_considered: tuple[str, ...] = (),
 ) -> PracticeHypothesisEntry:
     """Record a point the corpus does not found, with the trace of what was
     searched (N2/N3). Always `nature="pratique"`, `status="non_tranche"` --
@@ -166,6 +167,9 @@ def record_unfounded_point(
     connects catalogue facts to this situation without a document stating
     the conclusion itself (M5 correction 4) -- still not a decision, and
     still landing in `notes`, never in a field that would look like one.
+    `options_considered` (lot 21) lists the options the question opposes,
+    so that a later decision keeps them; it is a list of candidates, not a
+    choice, and does not make the entry any less `non_tranche`.
     """
     if not searches:
         message = (
@@ -179,6 +183,7 @@ def record_unfounded_point(
     return PracticeHypothesisEntry(
         point_label=point_label,
         topic=topic,
+        options_considered=options_considered,
         notes=notes,
         status="non_tranche",
     )

@@ -1,0 +1,106 @@
+[
+  {
+    "id": "u4232_crea_poi1",
+    "document_id": "U4.23.02",
+    "section_path": [
+      "Op_randes"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.23.02/Op_randes.rst",
+    "line_start": 39,
+    "line_end": 54,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Mot-clef facteur CREA_POI1\n--------------------------\n\nUne occurrence du mot-clef facteur CREA_POI1 permet de définir des mailles de type 'POI1' (maille à un seul nœud) à partir de nœuds ou de nœuds de mailles.\n\n\nMots-clefs TOUT/GROUP_MA/GROUP_NO\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nTous les nœuds qui appartiennent à des entités stipulées par l’utilisateur avec ces mots clés, génèrent une maille de type POI1. La maille créée aura le même nom que le nœud qui la supporte.\n\n\nMot-clef NOM_GROUP_MA\n~~~~~~~~~~~~~~~~~~~~~\n\nToutes les mailles POI1 créées peuvent être regroupées dans un même groupe de mailles nommé par le mot-clef NOM_GROUP_MA."
+  },
+  {
+    "id": "u4232_poi1_noms",
+    "document_id": "U4.23.02",
+    "section_path": [
+      "Op_randes"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.23.02/Op_randes.rst",
+    "line_start": 59,
+    "line_end": 59,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Les mailles POI1 créées par CREA_POI1 ont les mêmes noms que les nœuds à partir desquels elles ont été créées. Il n'est donc pas possible de créer plusieurs mailles POI1 sur un même nœud en utilisant plusieurs occurrences du mot-clef CREA_POI1."
+  },
+  {
+    "id": "u4421_discret_nodal",
+    "document_id": "U4.42.01",
+    "section_path": [
+      "Mot_cle_DISCRET_DISCRET_2D"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_DISCRET_DISCRET_2D.rst",
+    "line_start": 24,
+    "line_end": 30,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Les matrices peuvent être affectées:\n\n•    à des nœuds ou à des mailles de types POI1; elles sont alors dites matrices nodales :math:`(N)` ,\n\n•    à des mailles de type SEG2; elles sont alors dites matrices de liaison :math:`(L)` .\n\nEn cas d’affectation de matrices à des mailles ou à des nœuds, le type d’élément DISCRET doit être affecté, au préalable, à ces mailles ou à ces nœuds par l’opérateur AFFE_MODELE[U4.41.01]."
+  },
+  {
+    "id": "u4421_k_t_d_n",
+    "document_id": "U4.42.01",
+    "section_path": [
+      "Mot_cle_DISCRET_DISCRET_2D"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_DISCRET_DISCRET_2D.rst",
+    "line_start": 159,
+    "line_end": 161,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "K_T_D_N / A_T_D_N et SYME = ’OUI’ (valeur par défaut)\n\npour une maille de type POI1 ou un nœud, on trouve en correspondance dans VALE 3 valeurs :math:`{k}_{x}` , :math:`{k}_{y}` , :math:`{k}_{z}` en DIS_T et 2 valeurs :math:`{k}_{x}` , :math:`{k}_{y}` en 2D_DIS_T telles que:"
+  },
+  {
+    "id": "u4421_repere_defaut",
+    "document_id": "U4.42.01",
+    "section_path": [
+      "Mot_cle_DISCRET_DISCRET_2D"
+    ],
+    "source_path": "source/manuals/man_u/u4/u4.42.01/Mot_cle_DISCRET_DISCRET_2D.rst",
+    "line_start": 377,
+    "line_end": 377,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Par défaut les valeurs des matrices fournies pour les éléments discrets sont utilisées pour exprimer les quantités correspondantes dans le REPERE=’GLOBAL’."
+  },
+  {
+    "id": "u2203_mailles_support",
+    "document_id": "U2.02.03",
+    "section_path": [
+      "Affectation_des_proprietes_des_discrets"
+    ],
+    "source_path": "source/manuals/man_u/u2/u2.02.03/Affectation_des_proprietes_des_discrets.rst",
+    "line_start": 32,
+    "line_end": 46,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Mailles support des matrices\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n.. csv-table::\n    :align: right\n    :delim: ;\n\n    **Modélisation**; **Maille**          ; **Élément fini**\n    ``2D_DIS_T``    ;  ``POI1``, ``SEG2`` ; ``MECA_2D_DIS_T_N``, ``MECA_2D_DIS_T_L``\n    ``2D_DIS_TR``   ;  ``POI1``, ``SEG2`` ; ``MECA_2D_DIS_TR_N``, ``MECA_2D_DIS_TR_L``\n    ``DIS_T``       ;  ``POI1``, ``SEG2`` ; ``MECA_DIS_T_N``, ``MECA_DIS_T_L``\n    ``DIS_TR``      ;  ``POI1``, ``SEG2`` ; ``MECA_DIS_TR_N``, ``MECA_DIS_TR_L``\n\nRemarque :\n    Dans un maillage, pour transformer un nœud en une maille POI1, on peut utiliser la commande :ref:`CREA_MAILLAGE<u4.23.02>` avec le mot clé CREA_POI1."
+  },
+  {
+    "id": "v1372_ressort_ponctuel",
+    "document_id": "V1.01.372",
+    "section_path": [
+      "Mod_lisation_A"
+    ],
+    "source_path": "source/manuals/man_v/v1/v1.01.372/Mod_lisation_A.rst",
+    "line_start": 36,
+    "line_end": 36,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Deux systèmes sont comparés. Dans les deux cas il s'agit d'une poutre :math:`\\mathit{AB}` (POU_D_E) de longueur :math:`1m` reliée à un ressort en :math:`B` . Une masse de :math:`1000\\mathit{kg}` est également ajoutée au point :math:`B` . Dans le premier système, la poutre est reliée à un ressort ponctuel (DIS_T/K_T_D_N+A_T_D_N), dans le second à un ressort linéique :math:`\\mathit{BC}` orienté selon :math:`Y` (DIS_T/K_T_D_L+A_T_D_L)."
+  },
+  {
+    "id": "v1372_repere_global",
+    "document_id": "V1.01.372",
+    "section_path": [
+      "Mod_lisation_A"
+    ],
+    "source_path": "source/manuals/man_v/v1/v1.01.372/Mod_lisation_A.rst",
+    "line_start": 79,
+    "line_end": 85,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Éléments en repère global(DIS_T du calcul 2 et DIS_T/POI1 du calcul 1):\n\n Raideur selon :math:`X` : :math:`60000.N/m`\n\n Raideur selon :math:`Y` : :math:`75000.N/m`\n\n Raideur selon :math:`Z` : :math:`50000.N/m`"
+  }
+]
