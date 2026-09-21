@@ -654,3 +654,97 @@ def test_catalogue_source_and_documentary_source_are_told_apart_in_a_tuple() -> 
 
     assert isinstance(entry.sources[0], CatalogueSource)
     assert isinstance(entry.sources[1], DocumentarySource)
+
+
+def _decided(option: str, text: str = "j") -> PracticeHypothesisEntry:
+    return PracticeHypothesisEntry(
+        point_label="8",
+        topic="Charges localisées",
+        option_retained=option,
+        justification=text,
+        validity_domain="d",
+        sources=(
+            PracticeSource(
+                origin="decision_ingenieur",
+                reference="MM, test",
+                date=date(2026, 9, 21),
+            ),
+        ),
+        discarded_variants=(DiscardedVariant(description="x", reason="y"),),
+        status="tranche",
+        decided_by="MM",
+        decided_at=datetime(2026, 9, 21, 18),
+    )
+
+
+def _naming(*names: str) -> tuple[MeshGroupNaming, ...]:
+    return tuple(
+        MeshGroupNaming(group_name=n, kind="maille", description="d", status="tranche")
+        for n in names
+    )
+
+
+def _gap_sheet(entry: PracticeHypothesisEntry, *names: str) -> HypothesesSheet:
+    return HypothesesSheet(
+        project_name="p",
+        structure_description="s",
+        created_at=datetime(2026, 9, 21),
+        entries=(entry,),
+        group_naming=_naming(*names),
+    )
+
+
+def test_group_naming_gaps_is_empty_when_convention_and_decisions_agree() -> None:
+    sheet = _gap_sheet(_decided("Groupe `DEFENSE` ; réunion TUBES"), "DEFENSE", "TUBES")
+
+    assert sheet.group_naming_gaps() == ()
+
+
+def test_group_naming_gaps_reports_a_cited_group_missing_from_the_convention() -> None:
+    sheet = _gap_sheet(_decided("Groupe `DEFENSE` et `BOLLARD`"), "DEFENSE")
+
+    gaps = sheet.group_naming_gaps()
+
+    assert len(gaps) == 1
+    assert "BOLLARD" in gaps[0] and "absent de la convention" in gaps[0]
+
+
+def test_group_naming_gaps_reports_an_uncited_group_but_exempts_unions() -> None:
+    sheet = _gap_sheet(
+        _decided("Groupe `DEFENSE`"), "DEFENSE", "TUBES", "PALPS", "ECRAN", "SYM_G"
+    )
+
+    gaps = sheet.group_naming_gaps()
+
+    assert len(gaps) == 1
+    assert "SYM_G" in gaps[0]
+
+
+def test_group_naming_gaps_matches_whole_names_only() -> None:
+    sheet = _gap_sheet(
+        _decided("Groupe `TUBE_05`", "voir TUBE_050"), "TUBE_05", "TUBE_0"
+    )
+
+    gaps = sheet.group_naming_gaps()
+
+    assert len(gaps) == 1
+    assert "TUBE_0" in gaps[0] and "TUBE_05" not in gaps[0]
+
+
+def test_group_naming_gaps_reads_the_text_of_the_discarded_variants() -> None:
+    entry = _decided("x").model_copy(
+        update={
+            "discarded_variants": (
+                DiscardedVariant(description="via ANCRAGES", reason="y"),
+            )
+        }
+    )
+    sheet = _gap_sheet(entry, "SYM_D")
+
+    assert sheet.group_naming_gaps() == (
+        "groupe de la convention cité par aucune décision : SYM_D",
+    )
+
+
+def test_group_naming_gaps_is_empty_for_an_empty_convention() -> None:
+    assert _gap_sheet(_decided("Groupe `DEFENSE`")).group_naming_gaps() == ()

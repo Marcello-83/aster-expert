@@ -241,6 +241,54 @@ def test_record_practice_decision_preserves_history_on_re_arbitration() -> None:
     assert second.decision_history[0].validity_domain == first_domain
 
 
+@pytest.mark.parametrize("field", ["justification", "validity_domain"])
+def test_record_practice_decision_refuses_an_incomplete_revision(field: str) -> None:
+    first = record_practice_decision(
+        entry=_UNRESOLVED_ENTRY,
+        option_retained="Contact frottant",
+        justification="Décision initiale",
+        validity_domain="Domaine initial.",
+        sources=(_practice_source(18),),
+        discarded_variants=_DISCARDED,
+        decided_by="J. Dupont",
+        decided_at=datetime(2026, 9, 18, 10, 0),
+    )
+    revision = {
+        "option_retained": "Ressorts discrets",
+        "justification": "Révision",
+        "validity_domain": "Domaine révisé.",
+        "sources": (_practice_source(20),),
+        "discarded_variants": _DISCARDED,
+        "decided_by": "M. Martin",
+        "decided_at": datetime(2026, 10, 1, 9, 0),
+    }
+    revision[field] = "  "
+
+    with pytest.raises(ValidationError):
+        record_practice_decision(entry=first, **revision)  # type: ignore[arg-type]
+
+    assert first.decision_history == ()
+    assert first.option_retained == "Contact frottant"
+
+
+def test_record_practice_decision_history_is_append_only_over_two_revisions() -> None:
+    entry = _UNRESOLVED_ENTRY
+    for day, label in ((18, "A"), (19, "B"), (20, "C")):
+        entry = record_practice_decision(
+            entry=entry,
+            option_retained=label,
+            justification=f"j{label}",
+            validity_domain=f"d{label}",
+            sources=(_practice_source(day),),
+            discarded_variants=_DISCARDED,
+            decided_by="MM",
+            decided_at=datetime(2026, 9, day, 10, 0),
+        )
+
+    assert [h.option_retained for h in entry.decision_history] == ["A", "B"]
+    assert entry.option_retained == "C"
+
+
 def test_no_hand_built_shortcut_reaches_a_tranche_practice_entry() -> None:
     """The guarantee P1 asks to be tested for: any construction path --
     not just this module's function -- that tries to produce a decided

@@ -184,3 +184,16 @@ de la machine.
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne
 pas installer d'infrastructure non demandée, ne pas inventer la structure d'un
 dépôt externe avant de l'avoir inspectée.
+
+## État de la fiche combi-wall (lot 19)
+
+- `data/examples/hypotheses_combiwall_reference_arbitree.json` porte les
+  décisions v3 ; les décisions v2 restent dans `decision_history`. Ne jamais
+  éditer ce JSON à la main : passer par `record_practice_decision`,
+  `apply_decision`, `insert_practice_entry`, `record_unfounded_point`.
+- Une source `norme` datée d'un mois seulement ne peut porter de `date`
+  (le schéma exige une date complète) : `date=None`, le mois reste dans
+  `reference`. Ne jamais inventer un jour.
+- `HypothesesSheet.group_naming_gaps()` contrôle la convention de nommage
+  contre les décisions ; il signale, il ne corrige pas.
+- Point 1 `code_aster` (coque du tube et de la palplanche) : non tranché.

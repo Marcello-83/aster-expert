@@ -124,3 +124,21 @@ version non arbitrée, toujours versionnée telle quelle.
 
 Vérifié par
 `tests/unit/test_hypotheses_combiwall_reference_arbitree.py`.
+
+### Révision v3 (lot 19)
+
+`hypotheses_combiwall_reference_arbitree.json` porte désormais les décisions
+v3 de `/media/sf_partage/echanges/arbitrage_combiwall_MM_v3.md`
+(`decided_at`=2026-09-21T18:00:00). Les points 1, 2, 4, 5, 6, 7 sont révisés
+par `record_practice_decision` : la décision v2 (2026-09-18) est conservée
+dans `decision_history`. Le point 8 est inséré par `insert_practice_entry`.
+Les sources `norme` des points 2 et 4 portent `date=None` : le schéma exige
+une date complète, et « 2009-03 » n'en est pas une ; le mois reste dans
+`reference`. `group_naming` porte les 57 groupes de la convention validée.
+Trois points Code_Aster non fondés sont ajoutés (`record_unfounded_point`) :
+raideur surfacique en direction fixe, force surfacique sur empreinte de
+coques courbes, force et moment nodaux sur poutre. L'entrée `code_aster` du
+point 1 reste non tranchée : U2.02.01 laisse DKT-DKQ et COQUE_3D recevables
+pour un tube courbe sans les départager. Blocages de génération : 4.
+Le contrôle `HypothesesSheet.group_naming_gaps()` signale 49 groupes de la
+convention cités par aucune décision (rien n'est corrigé).
