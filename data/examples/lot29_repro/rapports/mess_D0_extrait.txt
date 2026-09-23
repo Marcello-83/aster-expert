@@ -1,0 +1,50 @@
+# Extrait de fort.6, cas D0_sym_redundant (lot 29, H1(4) : BC redondante,
+# reproduction isolée du bug déjà corrigé de lot 28 -- data/processed/runs/
+# 20260923T131537-3ba24073/proc.0/fort.6, non versionné intégralement.
+# Signature identique à data/examples/lot28_quai/rapports/mess_case_g_extrait.txt
+# (<F> <FACTOR_11>, "Noeud X / Noeud Y" juste avant), sur un modèle sans
+# aucun ressort (n_springs=0) : la seule redondance liaison/CL suffit.
+
+                                POSTTRAITEMENTS='AUTO',
+                                PRETRAITEMENTS='AUTO',
+                                REDUCTION_MPI=0,
+                                RENUM='AUTO',
+                                RESI_RELA=0.0001,
+                                STOP_SINGULIER='OUI',
+                                TYPE_RESOL='AUTO'))
+
+Le système linéaire à résoudre a 1620 degrés de liberté:
+   - 1146 sont des degrés de liberté physiques
+     (ils sont portés par 191 noeuds du maillage)
+   - 474 sont les couples de paramètres de Lagrange associés
+     aux 237 relations linéaires dualisées.
+La matrice est de taille 1620 équations.
+  Elle contient 33162 termes non nuls si elle est symétrique et 64704 termes non nuls si elle n'est
+pas symétrique.
+  Soit un taux de remplissage de   2.465 %.
+Degré de liberté de Lagrange associé à une relation linéaire entre plusieurs degrés de liberté.
+  La relation linéaire a été définie par la commande ayant produit le concept de nom 00000007.
+  La liste des noeuds impliqués dans cette relation linéaire est la suivante:
+
+Noeud 189
+Noeud 169
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <F> <FACTOR_11>                                                                                ║
+ ║                                                                                                ║
+ ║ Problème : la matrice est singulière ou presque singulière :                                   ║
+ ║   Lors de la factorisation de la matrice, on a rencontré un problème                           ║
+ ║   (pivot nul ou presque nul) à la ligne 1334 qui correspond au degré de liberté donné          ║
+ ║ ci-dessus.                                                                                     ║
+ ║                                                                                                ║
+ ║ Risques et conseils :                                                                          ║
+ ║    * Si la ligne correspond a un degré de liberté physique, il s'agit probablement d'un        ║
+ ║ mouvement                                                                                      ║
+ ║      de corps rigide mal bloqué.                                                               ║
+ ║      Vérifiez les conditions aux limites.                                                      ║
+ ║      Si vous faites du contact, il ne faut pas que la structure ne "tienne" que par le         ║
+ ║ contact.                                                                                       ║
+ ║      Vérifiez également les caractéristiques matériaux (module d'Young, ...).                  ║
+ ║                                                                                                ║
+ ║    * Si la ligne correspond a un degré de liberté de Lagrange, il s'agit sans doute d'une      ║
+ ║ condition                                                                                      ║

@@ -1,0 +1,93 @@
+# Reproducteur lot 29 -- extension a deux unites (hors des quatre facteurs
+# prescrits, voir le docstring de ce script). Hors de tout projet.
+# Parametres : n_springs_total=10000, stiffness_n_per_m=1000000.000000000000.
+
+DEBUT(CODE="OUI", ERREUR=_F(ALARME="EXCEPTION"), DEBUG=_F(SDVERI="OUI"))
+
+MAIL = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+
+MAIL = CREA_MAILLAGE(
+    MAILLAGE=MAIL,
+    CREA_POI1=(
+        _F(NOM_GROUP_MA="RESSORTS_A", GROUP_NO=("RESSORTS_A",)),
+        _F(NOM_GROUP_MA="RESSORTS_B", GROUP_NO=("RESSORTS_B",)),
+    ),
+)
+
+MO = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(GROUP_MA=("COQUE_A", "COQUE_B"), PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+        _F(GROUP_MA=("POUTRE_A", "POUTRE_B"), PHENOMENE="MECANIQUE", MODELISATION="POU_D_E"),
+        _F(GROUP_MA=("RESSORTS_A",), PHENOMENE="MECANIQUE", MODELISATION="DIS_T"),
+        _F(GROUP_MA=("RESSORTS_B",), PHENOMENE="MECANIQUE", MODELISATION="DIS_T"),
+    ),
+)
+
+CARA = AFFE_CARA_ELEM(
+    MODELE=MO,
+    COQUE=_F(
+        GROUP_MA=("COQUE_A", "COQUE_B"), EPAIS=0.014000000000,
+        COEF_RIGI_DRZ=0.001000000000,
+    ),
+    POUTRE=_F(
+        GROUP_MA=("POUTRE_A", "POUTRE_B"), SECTION="RECTANGLE", CARA=("HY", "HZ"),
+        VALE=(2.500000000000, 1.400000000000),
+    ),
+    DISCRET=(
+        _F(GROUP_MA=("RESSORTS_A",), CARA="K_T_D_N", VALE=(0.0, 1000000.000000000000, 0.0)),
+        _F(GROUP_MA=("RESSORTS_B",), CARA="K_T_D_N", VALE=(0.0, 1000000.000000000000, 0.0)),
+    ),
+)
+
+MAT_TUBE = DEFI_MATERIAU(
+    ELAS=_F(E=210000000000.000000000000, NU=0.300000000000, RHO=7850.000000000000)
+)
+MAT_BETON = DEFI_MATERIAU(
+    ELAS=_F(E=34000000000.000000000000, NU=0.200000000000, RHO=2500.000000000000)
+)
+
+CHMAT = AFFE_MATERIAU(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(GROUP_MA=("COQUE_A", "COQUE_B"), MATER=MAT_TUBE),
+        _F(GROUP_MA=("POUTRE_A", "POUTRE_B"), MATER=MAT_BETON),
+    ),
+)
+
+# Deux occurrences independantes de LIAISON_SOLIDE, comme les neuf du quai
+# (aster_expert.generation.comm.liaison_solide_block), jamais une seule.
+CH_SOLIDE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    LIAISON_SOLIDE=(
+        _F(GROUP_NO=("TETE_A", "POUTRE_N_A")),
+        _F(GROUP_NO=("TETE_B", "POUTRE_N_B")),
+    ),
+)
+
+CH_BLOC = AFFE_CHAR_MECA(
+    MODELE=MO,
+    DDL_IMPO=(
+        _F(GROUP_NO=("PIED_A", "PIED_B"), DX=0.0, DY=0.0, DZ=0.0),
+    ),
+)
+
+CH_CHARGE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_NODALE=(
+        _F(GROUP_NO=("POUTRE_LIBRE_A",), FZ=-1000.0),
+        _F(GROUP_NO=("POUTRE_LIBRE_B",), FZ=-1000.0),
+    ),
+)
+
+RESU = MECA_STATIQUE(
+    MODELE=MO,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(_F(CHARGE=CH_SOLIDE), _F(CHARGE=CH_BLOC), _F(CHARGE=CH_CHARGE)),
+    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.000100000000),
+)
+
+RESU = CALC_CHAMP(reuse=RESU, RESULTAT=RESU, FORCE=("REAC_NODA",))
+
+FIN()

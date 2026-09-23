@@ -1,0 +1,20 @@
+{
+  "label": "B2_khigh",
+  "n_springs": 10000,
+  "stiffness_n_per_m": 10000000000.0,
+  "symmetry": false,
+  "redundant_bc": false,
+  "mesh": {
+    "npl": 40,
+    "n_layers": 251,
+    "tete_layer": 251,
+    "ring_z": 62.75,
+    "n_tube_nodes": 10080,
+    "n_quads": 10040,
+    "beam_n1": "N10081",
+    "beam_n2": "N10082",
+    "n_springs": 10000
+  },
+  "mesh_sha256": "7664fe07c43c53c03e1cdf98b5979957eba1a4540b173fd97444effb484cad9a",
+  "comm_sha256": "4a3c1ef4b9884eb96b31c6835da84f5a26c94d4a05f0a085db4d451a930b2f20"
+}

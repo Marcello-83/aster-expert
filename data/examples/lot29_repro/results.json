@@ -1,0 +1,182 @@
+[
+  {
+    "label": "A0_n0",
+    "note": "baseline, calibration",
+    "n_springs": 0,
+    "stiffness_n_per_m": 1000000.0,
+    "symmetry": false,
+    "redundant_bc": false,
+    "status": "completed_ok",
+    "diag": "OK",
+    "duration_s": 11.039486008000495,
+    "wall_s": 11.90624451637268,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260923T131330-808db161",
+    "mess_excerpt": null,
+    "mesh_counts": {
+      "n_layers": 8,
+      "n_quads": 320
+    }
+  },
+  {
+    "label": "A1_n10",
+    "note": "H3: N petit",
+    "n_springs": 10,
+    "stiffness_n_per_m": 1000000.0,
+    "symmetry": false,
+    "redundant_bc": false,
+    "status": "completed_ok",
+    "diag": "OK",
+    "duration_s": 9.580915130999529,
+    "wall_s": 10.518549919128418,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260923T131342-ced1d55b",
+    "mess_excerpt": null,
+    "mesh_counts": {
+      "n_layers": 8,
+      "n_quads": 320
+    }
+  },
+  {
+    "label": "A2_n1000",
+    "note": "H3: N moyen",
+    "n_springs": 1000,
+    "stiffness_n_per_m": 1000000.0,
+    "symmetry": false,
+    "redundant_bc": false,
+    "status": "completed_ok",
+    "diag": "OK",
+    "duration_s": 11.254808048000086,
+    "wall_s": 12.000070095062256,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260923T131352-6d6ffd02",
+    "mess_excerpt": null,
+    "mesh_counts": {
+      "n_layers": 26,
+      "n_quads": 1040
+    }
+  },
+  {
+    "label": "A3_n10000",
+    "note": "H3: N grand",
+    "n_springs": 10000,
+    "stiffness_n_per_m": 1000000.0,
+    "symmetry": false,
+    "redundant_bc": false,
+    "status": "completed_ok",
+    "diag": "OK",
+    "duration_s": 16.917194577999908,
+    "wall_s": 17.894822359085083,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260923T131404-c6323a07",
+    "mess_excerpt": null,
+    "mesh_counts": {
+      "n_layers": 251,
+      "n_quads": 10040
+    }
+  },
+  {
+    "label": "B1_klow",
+    "note": "H2: raideur / 1e4",
+    "n_springs": 10000,
+    "stiffness_n_per_m": 100.0,
+    "symmetry": false,
+    "redundant_bc": false,
+    "status": "completed_ok",
+    "diag": "OK",
+    "duration_s": 14.058867294000265,
+    "wall_s": 14.83794617652893,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260923T131446-d68cfba5",
+    "mess_excerpt": null,
+    "mesh_counts": {
+      "n_layers": 251,
+      "n_quads": 10040
+    }
+  },
+  {
+    "label": "B2_khigh",
+    "note": "H2: raideur x 1e4",
+    "n_springs": 10000,
+    "stiffness_n_per_m": 10000000000.0,
+    "symmetry": false,
+    "redundant_bc": false,
+    "status": "completed_ok",
+    "diag": "OK",
+    "duration_s": 12.989938529000028,
+    "wall_s": 13.795432329177856,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260923T131501-3f7de9dd",
+    "mess_excerpt": null,
+    "mesh_counts": {
+      "n_layers": 251,
+      "n_quads": 10040
+    }
+  },
+  {
+    "label": "C0_sym_n0",
+    "note": "H1(3): symetrie seule",
+    "n_springs": 0,
+    "stiffness_n_per_m": 1000000.0,
+    "symmetry": true,
+    "redundant_bc": false,
+    "status": "completed_ok",
+    "diag": "OK",
+    "duration_s": 8.917340118000538,
+    "wall_s": 9.708922624588013,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260923T131514-681fbd57",
+    "mess_excerpt": null,
+    "mesh_counts": {
+      "n_layers": 8,
+      "n_quads": 160
+    }
+  },
+  {
+    "label": "C1_sym_n",
+    "note": "H1(3): symetrie + ressorts",
+    "n_springs": 10000,
+    "stiffness_n_per_m": 1000000.0,
+    "symmetry": true,
+    "redundant_bc": false,
+    "status": "completed_ok",
+    "diag": "OK",
+    "duration_s": 12.13705962199947,
+    "wall_s": 12.947657346725464,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260923T131524-3b12f8eb",
+    "mess_excerpt": null,
+    "mesh_counts": {
+      "n_layers": 478,
+      "n_quads": 9560
+    }
+  },
+  {
+    "label": "D0_sym_redundant",
+    "note": "H1(4): BC redondante (bug connu)",
+    "n_springs": 0,
+    "stiffness_n_per_m": 1000000.0,
+    "symmetry": true,
+    "redundant_bc": true,
+    "status": "failed",
+    "diag": "<F>_ERROR",
+    "duration_s": 8.373137089999545,
+    "wall_s": 8.988260984420776,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260923T131537-3ba24073",
+    "mess_excerpt": "║ <F> <FACTOR_11>                                                                                ║\n ║                                                                                                ║\n ║ Problème : la matrice est singulière ou presque singulière :                                   ║\n ║   Lors de la factorisation de la matrice, on a rencontré un problème                           ║\n ║   (pivot nul ou presque nul) à la ligne 1334 qui correspond au degré de liberté donné          ║\n ║ ci-dessus.                                                                                     ║\n ║                                                                                                ║\n ║ Risques et conseils :                                                                          ║\n ║    * Si la ligne correspond a un degré de liberté physique, il s'agit probablement d'un        ║\n ║ mouvement                                                                                      ║\n ║      de corps rigide mal bloqué.                                                               ║\n ║      Vérifiez les conditions aux limites.                                                      ║\n ║      Si vous faites du contact, il ne faut pas que la structure ne \"tienne\" que par le         ║\n ║ contact.                                                                                       ║\n ║      Vérifiez également les caractéristiques matériaux (module d'Young, ...).                  ║\n ║                                                                                                ║\n ║    * Si la ligne correspond a un degré de liberté de Lagrange, il s'agit sans doute d'une      ║\n ║ condition                                                                                      ║\n ║      limite redondante.                                                                        ║\n ║      En particulier, il se peut que la relation linéaire surabondante provienne des conditions ║\n ║ de contact.                                                                                    ║\n ║      Peut-être devriez vous exclure certains noeuds des conditions de contact                  ║\n ║      (mots clés SANS_NOEUD et SANS_GROUP_NO).                                                  ║\n ║                                                                                                ║\n ║    * Si le solveur utilisé est LDLT ou MULT_FRONT, vous pouvez utiliser le solveur MUMPS       ║\n ║      car celui-ci est le seul à pouvoir factoriser les matrices qui ne sont pas définies       ║\n ║ positives.                                                                                     ║\n ║                                                                                                ║\n ║    * Parfois, en parallèle, le critère de détection de singularité de MUMPS est trop           ║\n ║ pessimiste ! Il reste néanmoins souvent                                                        ║\n ║      possible de faire passer le calcul complet en relaxant ce critère (augmenter de 1 ou 2 la ║\n ║ valeur du mot-clé NPREC) ou                                                                    ║\n ║      en le débranchant (valeur du mot-clé NPREC=-1) ou en relançant le calcul sur moins de     ║\n ║ processeurs.                                                                                   ║\n ║                                                                                                ║\n ║    * Il se peut aussi que ce phénomène soit tout à fait normal avec X-FEM si la fissure passe  ║\n ║      très près d'un noeud.                                                                     ║\n ║      Si le nombre de décimales perdues n'est pas trop grand (max 10 décimales),                ║\n ║      vous pouvez relancer le calcul en augmentant le nombre de décimales perdues autorisé :    ║\n ║      mot-clé NPREC du mot clé facteur SOLVEUR.                                                 ║",
+    "mesh_counts": {
+      "n_layers": 8,
+      "n_quads": 160
+    }
+  },
+  {
+    "label": "E0_two_units",
+    "note": "extension: deux LIAISON_SOLIDE independantes (hors des 4 facteurs)",
+    "n_springs": 10000,
+    "stiffness_n_per_m": 1000000.0,
+    "symmetry": false,
+    "redundant_bc": false,
+    "status": "completed_ok",
+    "diag": "OK",
+    "duration_s": 19.812188279999646,
+    "wall_s": null,
+    "work_dir": "data/processed/runs/20260923T131916-585a22eb",
+    "mess_excerpt": null,
+    "mesh_counts": {
+      "n_layers": 126,
+      "n_quads": 5040
+    }
+  }
+]

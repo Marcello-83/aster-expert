@@ -1,0 +1,19 @@
+{
+  "label": "E0_two_units",
+  "n_springs_total": 10000,
+  "stiffness_n_per_m": 1000000.0,
+  "mesh": {
+    "unit_a": {
+      "n_layers": 126,
+      "n_quads": 5040,
+      "n_springs": 5000
+    },
+    "unit_b": {
+      "n_layers": 126,
+      "n_quads": 5040,
+      "n_springs": 5000
+    }
+  },
+  "mesh_sha256": "f79805fe8550973efc16fab04cedc09c8307ce8ee25b2e0c50780a49f5df46b5",
+  "comm_sha256": "33e965c7f6e6e7d69e7a5f371939ffcf81b02e5429aa788a43520dc0ad11b672"
+}

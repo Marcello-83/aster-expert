@@ -55,6 +55,9 @@ execution:
     - data/examples/lot27_maillage
     # .comm du quai, produit par `aster-expert generate` (lot 28).
     - data/examples/lot28_quai
+    # Reproducteur minimal du diagnostic de pivot nul (lot 29), entièrement
+    # produit par scripts/build_lot29_repro.py.
+    - data/examples/lot29_repro
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

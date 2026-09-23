@@ -1,0 +1,23 @@
+{
+  "label": "C1_sym_n",
+  "n_springs": 10000,
+  "stiffness_n_per_m": 1000000.0,
+  "symmetry": true,
+  "redundant_bc": false,
+  "mesh": {
+    "npl": 21,
+    "n_layers": 478,
+    "tete_layer": 478,
+    "ring_z": 119.5,
+    "n_tube_nodes": 10059,
+    "n_quads": 9560,
+    "beam_n1": "N10060",
+    "beam_n2": "N10061",
+    "plan_x0": 956,
+    "plan_x0_ring": 2,
+    "plan_x0_rest": 954,
+    "n_springs": 10000
+  },
+  "mesh_sha256": "bd1666271ab49d8c157092c6a4163b5d1a7fe8979d62423fc80c7b8b38423908",
+  "comm_sha256": "4353e9bda55be64e52f0bc18c70f301d5ccc19ea38bd8e17c53edaf1bba7a9df"
+}

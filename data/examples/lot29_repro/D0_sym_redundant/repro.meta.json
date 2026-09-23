@@ -1,0 +1,23 @@
+{
+  "label": "D0_sym_redundant",
+  "n_springs": 0,
+  "stiffness_n_per_m": 1000000.0,
+  "symmetry": true,
+  "redundant_bc": true,
+  "mesh": {
+    "npl": 21,
+    "n_layers": 8,
+    "tete_layer": 8,
+    "ring_z": 2.0,
+    "n_tube_nodes": 189,
+    "n_quads": 160,
+    "beam_n1": "N190",
+    "beam_n2": "N191",
+    "plan_x0": 16,
+    "plan_x0_ring": 2,
+    "plan_x0_rest": 14,
+    "n_springs": 0
+  },
+  "mesh_sha256": "cf49a194665eeef59404d95486aaa7b7a0d8fccddf8dc7ec3ff2968387c50528",
+  "comm_sha256": "2aa723621c5a6cb82f2dd82a3a1a31ebf4fb2637b593818de0cd58245710975b"
+}

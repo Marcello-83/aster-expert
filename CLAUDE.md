@@ -328,6 +328,26 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   hors de portée des sept outils MCP. Aucun contrôle D fait. Piste pour un prochain lot :
   `LIAISON_ELEM`/raccord coque-poutre dédié (R3.03.03, R3.03.06) à la place de `LIAISON_SOLIDE`,
   avec sa propre étude de faisabilité avant exécution.
+- Lot 29 (`docs/essais_lot29.md`, `data/examples/lot29_repro/`,
+  `scripts/build_lot29_repro.py`, `scripts/build_lot29_repro_two_units.py`) : diagnostic du pivot
+  nul du lot 28 par reproducteur minimal (un tube facetté + `LIAISON_SOLIDE` + N ressorts `DIS_T`,
+  hors de tout projet, maillage ASTER natif sans Salomé), 21 exécutions réelles en ~15 min (jamais
+  le modèle complet, interdit par ce lot). Trois hypothèses **écartées** par la matrice
+  (`data/examples/lot29_repro/results.json`) : nombre de ressorts (0 à 10 000, insensible),
+  échelle de raideur (1e2 à 1e10 N/m, insensible, cohérent avec l'insensibilité de
+  `COEF_RIGI_DRZ` du lot 28), symétrie seule avec la logique de production actuelle. La
+  redondance liaison/CL (H1, déjà corrigée en production par `symmetry_and_support_block`) est
+  **reconfirmée comme un mécanisme réel** en isolation totale (`D0_sym_redundant`, zéro ressort,
+  même signature `<F> <FACTOR_11>` que `data/examples/lot28_quai/rapports/mess_case_g_extrait.txt`
+  — noms de fichiers similaires, deux nœuds listés juste avant l'erreur) mais **insuffisante** :
+  la géométrie corrigée réussit systématiquement, avec ou sans ressorts. Extension hors matrice
+  (`E0_two_units`, deux `LIAISON_SOLIDE` indépendantes + 10 000 ressorts partagés) : réussit aussi,
+  la simple multiplicité de liaisons ne suffit pas. `search_test_cases` : la combinaison
+  `LIAISON_SOLIDE` + `DISCRET` a des précédents officiels (≥25 cas, ex. `sdlx106a.comm`,
+  `zzzz200b.comm`) — ce n'était pas une combinaison inédite. **Aucune correction apportée** (aucune
+  cause établie pour l'échec résiduel) ; modèle complet non relancé. Piste non testée : la poutre
+  de couronnement du quai est **continue** entre les neuf `LIAISON_SOLIDE` (contrairement aux
+  poutres-tronçons isolées de ce lot) — candidat pour un prochain lot.
 
 ## Périmètre à ne pas dépasser sans instruction
 

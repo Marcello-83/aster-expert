@@ -1,0 +1,20 @@
+{
+  "label": "A2_n1000",
+  "n_springs": 1000,
+  "stiffness_n_per_m": 1000000.0,
+  "symmetry": false,
+  "redundant_bc": false,
+  "mesh": {
+    "npl": 40,
+    "n_layers": 26,
+    "tete_layer": 26,
+    "ring_z": 6.5,
+    "n_tube_nodes": 1080,
+    "n_quads": 1040,
+    "beam_n1": "N1081",
+    "beam_n2": "N1082",
+    "n_springs": 1000
+  },
+  "mesh_sha256": "cc3cd51ae458807aea9c54b202d6d20c15b2a5e68dea6160c8b7ef2d3ee554d3",
+  "comm_sha256": "31d0e1c2687da5a0c0c4102e9062a418d72f8aa0a21d189dfcff5dd6c3ae4ba1"
+}
