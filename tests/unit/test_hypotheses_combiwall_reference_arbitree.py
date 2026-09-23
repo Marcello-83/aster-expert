@@ -59,7 +59,9 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     # + 1 constat d'exécution (axes d'ELAS_COQUE, lot 25) et la décision du repère
     # global (point 9, lot 25)
     # + la décision 11 (point 10, lot 27)
-    assert len(sheet.entries) == 40
+    # + la décision 12 (point 11, lot 28) et 6 constats code_aster (points 2, 3, 5 x3,
+    #   7) dont 2 remplacent sur place des constats minces de la fiche de base (lot 14)
+    assert len(sheet.entries) == 45
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -71,8 +73,9 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
         if isinstance(e, PracticeHypothesisEntry) and e.status == "tranche"
     ]
     # 10 up to lot 20, plus MM's decision on the tube shell choice (lot 21) and
-    # the global frame (point 9, lot 25) and decision 11 (point 10, lot 27)
-    assert len(tranche_practice) == 13
+    # the global frame (point 9, lot 25), decision 11 (point 10, lot 27) and
+    # decision 12 (point 11, lot 28)
+    assert len(tranche_practice) == 14
     assert {e.point_label for e in tranche_practice} == {
         "0",
         "1",
@@ -85,6 +88,7 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
         "8",
         "9",
         "10",
+        "11",
     }
     assert all(e.decided_by == "MM" for e in tranche_practice)
     assert all(e.validity_domain for e in tranche_practice)
@@ -274,10 +278,10 @@ def test_arbitree_fiche_norme_sources_carry_no_invented_day() -> None:
 def test_arbitree_fiche_group_naming_is_registered() -> None:
     sheet = _load()
 
-    assert len(sheet.group_naming) == 57
+    assert len(sheet.group_naming) == 58
     assert all(g.status == "tranche" for g in sheet.group_naming)
     names = {g.group_name for g in sheet.group_naming}
-    assert {"BOLLARD", "DEFENSE", "TUBE_05", "SYM_G", "ANC_09"} <= names
+    assert {"BOLLARD", "DEFENSE", "TUBE_05", "SYM_G", "ANC_09", "PIED_TUBES"} <= names
     assert not names & {"RESS_AR_REMB", "RESS_AV_REMB", "RESS_AV_SABLE"}
 
 
@@ -293,6 +297,7 @@ def test_arbitree_fiche_every_group_carries_a_point_label() -> None:
         "7",
         "8",
         "10",
+        "11",
     }
 
 
@@ -424,3 +429,107 @@ def test_arbitree_fiche_records_decision_11_and_grounds_the_screen_on_it() -> No
     (screen,) = [g for g in sheet.group_naming if g.group_name == "ECRAN_POUSSEE"]
     assert screen.point_label == "10"
     assert sheet.entries_under_revision() == ()
+
+
+def test_arbitree_fiche_records_decision_12_and_adds_pied_tubes() -> None:
+    """Lot 28: `decision12_appui_vertical.md` is inserted at point 11 (its option
+    verbatim), `decided_at` is the recording time, and `PIED_TUBES` is added to the
+    group naming convention, grounded on point 11."""
+    sheet = _load()
+    (entry,) = [
+        e
+        for e in sheet.entries
+        if isinstance(e, PracticeHypothesisEntry) and e.point_label == "11"
+    ]
+    assert entry.status == "tranche"
+    assert entry.topic == "Appui vertical de l'écran"
+    assert entry.decided_by == "MM"
+    assert entry.decided_at == datetime.fromisoformat("2026-09-22T03:04:42-04:00")
+    assert entry.option_retained is not None
+    assert "PIED_TUBES" in entry.option_retained
+    assert len(entry.discarded_variants) == 2
+    assert entry.sources[0].origin == "decision_ingenieur"
+    (pied,) = [g for g in sheet.group_naming if g.group_name == "PIED_TUBES"]
+    assert pied.kind == "noeud"
+    assert pied.point_label == "11"
+    assert sheet.entries_under_revision() == ()
+    assert sheet.generation_blockers() == ()
+
+
+def test_arbitree_fiche_lot28_facts_are_recorded_and_sourced() -> None:
+    """Lot 28, Étape 2: the five code_aster findings, catalogue- and
+    doc-confirmed, with a verbatim excerpt each."""
+    sheet = _load()
+
+    findings = {
+        e.topic: e
+        for e in sheet.entries
+        if isinstance(e, CodeAsterHypothesisEntry) and e.status == "tranche"
+    }
+    liaison = findings[
+        "Liaison de corps solide entre un anneau de nœuds de coque et un nœud de poutre"
+    ]
+    assert liaison.point_label == "3"
+    assert "LIAISON_SOLIDE" in (liaison.option_retained or "")
+    assert {
+        (s.command, s.keyword_path)
+        for s in liaison.sources
+        if isinstance(s, CatalogueSource)
+    } >= {("AFFE_CHAR_MECA", ("LIAISON_SOLIDE",))}
+
+    pression = findings["Pression répartie fonction de Z sur des coques DKT"]
+    assert pression.point_label == "5"
+    assert "FORCE_COQUE" in (pression.option_retained or "")
+    assert "PRES_REP n'est PAS utilisé" in (pression.option_retained or "")
+
+    orientation = findings[
+        "Orientation cohérente des normales de coque pour qu'une pression positive "
+        "agisse côté terre"
+    ]
+    assert orientation.point_label == "5"
+    assert "ORIE_NORM_COQUE" in (orientation.option_retained or "")
+
+    profil = findings[
+        "Représentation d'un profil de pression discontinu par points doublés à "
+        "Z ± 0,001 m"
+    ]
+    assert profil.point_label == "5"
+    assert profil.sources and all(
+        isinstance(s, DocumentarySource) for s in profil.sources
+    )
+
+    symetrie = findings[
+        "Conditions de symétrie par rapport à un plan X = constante pour des coques "
+        "DKT et des poutres POU_D_E"
+    ]
+    assert symetrie.point_label == "7"
+    for token in ("DX=0.0", "DRY=0.0", "DRZ=0.0"):
+        assert token in (symetrie.option_retained or "")
+
+    barre = findings[
+        "Élément de barre : section, matériau, et absence de degré de rotation au "
+        "nœud commun avec la coque"
+    ]
+    assert barre.point_label == "2"
+    assert "GENERALE" in (barre.option_retained or "")
+
+    # every excerpt is a real, non-empty passage (N1) -- exercised again here for
+    # good measure, on top of `_require_a_verbatim_excerpt_when_documentary`
+    for finding in (liaison, pression, orientation, symetrie, barre):
+        documentary = [s for s in finding.sources if isinstance(s, DocumentarySource)]
+        assert any((s.excerpt or "").strip() for s in documentary)
+
+
+def test_arbitree_fiche_lot28_facts_supersede_the_thin_base_fiche_notes() -> None:
+    """The two lot-14 catalogue-schema-only notes on points 3 and 5 (no verbatim
+    excerpt, no source_commit) are gone -- superseded, not merely accumulated."""
+    sheet = _load()
+
+    topics = [e.topic for e in sheet.entries]
+    assert (
+        "Mécanisme catalogue pour raccorder un maillage poutre à un maillage "
+        "coque non coïncidents"
+    ) not in topics
+    assert (
+        "Mécanisme catalogue d'application d'une pression fonction de la profondeur"
+    ) not in topics

@@ -302,6 +302,32 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   commentaires et le formatage (AST identique). Le maillage dure ~17 min (groupes : 805 s) ;
   délai `mesh.salome.timeout_seconds` porté à 3 000 s. Limite : la poutre n'est pas reliée à
   l'écran (lot 28) ; les groupes de nœuds ne sont contrôlés que par `mesh check`.
+- Lot 28 (`docs/essais_lot28.md`, `data/examples/lot28_quai/`,
+  `src/aster_expert/generation/`) : décision 12 (appui vertical, DZ seul au pied des tubes) et
+  groupe `PIED_TUBES` (322 nœuds = 7×40 + 2×21, `mesh check` 592/592) ; six constats
+  `code_aster` (points 2, 3, 5×3, 7) sourcés catalogue + cas test officiel chacun
+  (`sdlx03b.comm`, `ssls118a.comm`, `sdls118a.comm`, `ssls100b.comm`, `comp009a.comm`) ;
+  générateur `aster_expert.generation` (`aster-expert generate <fiche> <données>
+  <maillage vérifié>`) refusant si la fiche n'est pas prête, un fait manque, ou le maillage
+  ne correspond pas au dernier `mesh check` réussi (`find_verified_mesh`, cache de maillage
+  ajouté ce lot dans `aster_expert.meshing.run`). `.comm` déterministe, 2410 lignes, niveau B
+  intégral (80/80). Ressorts : 48 classes (`aster_expert.generation.springs`), groupées par
+  colonne (`ENV_CYLINDRE`) × ligne haute/basse (`PLAN`) plutôt que par nœud (~10 600 occurrences
+  initiales avaient fait perdre la connexion MCP sur `analyze_comm`) ; Σk_i exact
+  (35×20,80×6,00 et 80×11,36×8,00, écart ≤1e-9). Noms de groupe générateur limités à 24
+  caractères (`aster_expert.generation.comm._gn`) : au-delà, Code_Aster tronque en silence et
+  ne le signale qu'au premier doublon résultant (`<F> <SOUSTRUC_37>`, fait établi par
+  exécution, absent du schéma catalogue où `NOM` est un `TXM` sans longueur). **Niveau C non
+  atteint** : `LIAISON_SOLIDE` (neuf occurrences, anneau DKT + nœud de poutre, point 3) combiné
+  aux ~10 400 éléments `DIS_T` des ressorts (point 4) produit un pivot de Lagrange exactement
+  nul à la factorisation MUMPS (`<F> <FACTOR_11>`), systémique sur les neuf tubes (confirmé par
+  sept exécutions réelles : `COEF_RIGI_DRZ` sans effet même ×100, une reproduction isolée sans
+  les ressorts aboutit, l'exclusion d'un nœud déplace l'échec vers un autre tube). Cause
+  probable non confirmée : choix interne par Code_Aster du nœud de référence du corps rigide
+  parmi des nœuds nominalement équivalents (R3.03.02), sensible à la numérotation globale —
+  hors de portée des sept outils MCP. Aucun contrôle D fait. Piste pour un prochain lot :
+  `LIAISON_ELEM`/raccord coque-poutre dédié (R3.03.03, R3.03.06) à la place de `LIAISON_SOLIDE`,
+  avec sa propre étude de faisabilité avant exécution.
 
 ## Périmètre à ne pas dépasser sans instruction
 

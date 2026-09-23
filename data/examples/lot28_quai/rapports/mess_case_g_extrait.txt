@@ -1,0 +1,32 @@
+# Extrait de fort.6 (listing Code_Aster), cas G, dernière exécution du .comm
+# actuellement versionné (rapports/execution_report.json). Le fichier complet fait
+# 157 641 lignes (écho intégral de la commande développée) : non versionné.
+
+                                  TYPE_RESOL='AUTO'))
+
+Le système linéaire à résoudre a 247999 degrés de liberté:
+   - 240657 sont des degrés de liberté physiques
+     (ils sont portés par 40114 noeuds du maillage)
+   - 7342 sont les couples de paramètres de Lagrange associés
+     aux 3671 relations linéaires dualisées.
+La matrice est de taille 247999 équations.
+  Elle contient 6697428 termes non nuls si elle est symétrique et 13146857 termes non nuls si elle
+n'est pas symétrique.
+  Soit un taux de remplissage de   0.021 %.
+Degré de liberté de Lagrange associé à une relation linéaire entre plusieurs degrés de liberté.
+  La relation linéaire a été définie par la commande ayant produit le concept de nom 0000000a.
+  La liste des noeuds impliqués dans cette relation linéaire est la suivante:
+
+Noeud 2263
+Noeud 2120
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <F> <FACTOR_11>                                                                                ║
+ ║                                                                                                ║
+ ║ Problème : la matrice est singulière ou presque singulière :                                   ║
+ ║   Lors de la factorisation de la matrice, on a rencontré un problème                           ║
+ ║   (pivot nul ou presque nul) à la ligne 17118 qui correspond au degré de liberté donné         ║
+ ║ ci-dessus.                                                                                     ║
+ ║                                                                                                ║
+ ║ Risques et conseils :                                                                          ║
+ ║    * Si la ligne correspond a un degré de liberté physique, il s'agit probablement d'un        ║

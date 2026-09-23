@@ -49,6 +49,11 @@ always through the project's own write paths -- never by editing the JSON:
    `donnees_complementaires_combiwall_v1.md`, copied verbatim), inserted with
    `insert_practice_entry`; its `decided_at` is the recording time
    (`lot27_enregistrement.json`). `ECRAN_POUSSEE` is grounded on point 10.
+10. lot 28: MM's decision 12 (point 11, `decision12_appui_vertical.md`, copied
+    verbatim), inserted with `insert_practice_entry`; its `decided_at` is the
+    recording time (`lot28_enregistrement.json`). `PIED_TUBES` (nodes of the
+    tubes at Z = -26.00) is added to the group naming convention, grounded on
+    point 11.
 
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
@@ -697,6 +702,140 @@ def _lot27(sheet: HypothesesSheet) -> HypothesesSheet:
     )
 
 
+def _record_decision_12(
+    sheet: HypothesesSheet, path: Path, decided_at: datetime
+) -> HypothesesSheet:
+    """Insert decision 12 (point 11, vertical support of the screen) as worded.
+
+    The file has the fields of an arbitration file in a header list
+    (`point_label`, `topic`, `decided_by`, `sources`) followed by the `**…**`
+    blocks -- the same shape as part B of `donnees_complementaires_combiwall_v1.md`
+    (lot 27), but its own dedicated file rather than a part of a larger one.
+    """
+    # The trailing "**Convention de nommage**" paragraph is not one of the
+    # decision's own fields (`_FIELDS`) and is handled separately by `_lot28`
+    # (the group is added directly, not parsed from this prose).
+    text = path.read_text(encoding="utf-8").split("**Convention de nommage**")[0]
+    head, _, rest = text.partition("**option_retained**")
+    f = _fields("**option_retained**" + rest)
+    point_label = re.search(r"- `point_label` : `\"(.*?)\"`", head)
+    topic = re.search(r"- `topic` : `\"(.*)\"`\s*$", head, flags=re.M)
+    decided_by = re.search(r"- `decided_by` : `\"(.*?)\"`", head)
+    reference = re.search(r"la référence `\"(.*?)\"`", head, flags=re.S)
+    assert point_label and topic and decided_by and reference, path
+    entry = PracticeHypothesisEntry(
+        point_label=point_label[1], topic=topic[1], status="non_tranche"
+    )
+    return insert_practice_entry(
+        sheet,
+        record_practice_decision(
+            entry=entry,
+            option_retained=_unwrap(f["option_retained"]),
+            justification=_unwrap(f["justification"]),
+            validity_domain=_unwrap(f["validity_domain"]),
+            sources=(
+                PracticeSource(
+                    origin="decision_ingenieur",
+                    reference=_collapse(reference[1]),
+                    date=decided_at.date(),
+                ),
+            ),
+            discarded_variants=_variants(f["discarded_variants"]),
+            decided_by=decided_by[1],
+            decided_at=decided_at,
+        ),
+    )
+
+
+def _lot28_facts(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Étape 2's five code_aster findings (points 2, 3, 5 ×3, 7), from
+    `lot28_facts.json` (research) and `lot28_extraits.json` (verbatim excerpts,
+    exact byte ranges of `external/codeaster-doc` located via the aster-expert
+    MCP tools). Point 8's existing finding (lot 20) is confirmed current
+    (identical catalogue_hash/image_digest) and not re-recorded.
+
+    Two findings (points 3 and 5) supersede thin, catalogue-schema-only notes
+    that were already present in the *unarbitrated base fiche* (lot 14,
+    `source_commit`/`catalogue_hash` null, no verbatim excerpt, no applicability
+    check against the target modélisation) -- `replaces_topic`, mirroring
+    `_apply_findings`'s pattern: the old finding's own sources are kept, its
+    former option and notes go to the notes.
+    """
+    research = json.loads((INPUTS / "lot28_facts.json").read_text("utf-8"))
+    extracts = _load_extracts("lot28_extraits.json")
+    cat = research["catalogue"]
+    for f in research["code_aster_findings"]:
+        sources = _finding_sources(f, cat, extracts)
+        if "replaces_topic" not in f:
+            entry = record_code_aster_finding(
+                topic=f["topic"],
+                sources=sources,
+                option_retained=f["option_retained"],
+                justification=f["justification"],
+                point_label=f["point_label"],
+                notes=f["notes"],
+            )
+            sheet = sheet.model_copy(update={"entries": (*sheet.entries, entry)})
+            continue
+        replaced = [
+            e
+            for e in sheet.entries
+            if e.nature == "code_aster" and e.topic == f["replaces_topic"]
+        ]
+        assert len(replaced) == 1, f["replaces_topic"]
+        old = replaced[0]
+        history = (
+            "Historique du constat remplacé (fiche de base, lot 14, niveau A, "
+            f"sans excerpt ni cas test) : option retenue : {old.option_retained} "
+            f"Notes : {old.notes or '(aucune)'}"
+        )
+        entry = record_code_aster_finding(
+            topic=f["topic"],
+            sources=(*old.sources, *sources),
+            option_retained=f["option_retained"],
+            justification=f["justification"],
+            point_label=old.point_label,
+            notes=f"{f['notes']} {history}",
+        )
+        sheet = _replace(
+            sheet,
+            nature="code_aster",
+            point_label=old.point_label or "",
+            topic=f["replaces_topic"],
+            new=entry,
+            status="tranche",
+        )
+    return sheet
+
+
+def _lot28(sheet: HypothesesSheet) -> HypothesesSheet:
+    """MM's decision 12 (point 11), recorded as worded; `decided_at` is the
+    recording time (`lot28_enregistrement.json`). Adds `PIED_TUBES` (nodes of
+    the tubes at Z = -26.00) to the group naming convention, on point 11.
+    Then Étape 2's five code_aster findings (`_lot28_facts`)."""
+    record = json.loads((INPUTS / "lot28_enregistrement.json").read_text("utf-8"))
+    sheet = _record_decision_12(
+        sheet,
+        INPUTS / "decision12_appui_vertical.md",
+        datetime.fromisoformat(record["decision_12"]["decided_at"]),
+    )
+    sheet = sheet.model_copy(
+        update={
+            "group_naming": (
+                *sheet.group_naming,
+                MeshGroupNaming(
+                    group_name="PIED_TUBES",
+                    kind="noeud",
+                    description="Nœuds des tubes à Z = -26,00 (pied).",
+                    status="tranche",
+                    point_label="11",
+                ),
+            )
+        }
+    )
+    return _lot28_facts(sheet)
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -705,7 +844,7 @@ def build_sheet() -> HypothesesSheet:
     sheet = sheet.model_copy(update={"group_naming": _group_naming(v3)})
     sheet = _lot20(sheet)
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_lot21.md")
-    return _lot27(_lot25(_lot24(_lot23(_lot22(_lot21(sheet))))))
+    return _lot28(_lot27(_lot25(_lot24(_lot23(_lot22(_lot21(sheet)))))))
 
 
 def dump(sheet: HypothesesSheet) -> str:

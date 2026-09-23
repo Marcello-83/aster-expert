@@ -17,7 +17,14 @@ import pytest
 from aster_expert.meshing.check import check_med
 from aster_expert.meshing.config import MeshConfig, load_mesh_config
 from aster_expert.meshing.errors import MeshCheckError, MeshConfigError, MeshRunError
-from aster_expert.meshing.run import Runner, build_shell_command, run_salome_script
+from aster_expert.meshing.run import (
+    Runner,
+    build_shell_command,
+    find_verified_mesh,
+    record_verified_mesh,
+    run_salome_script,
+    sha256_file,
+)
 
 _ROOT = Path(__file__).resolve().parents[2]
 _README = "Version        : V2024.1.0_scibian_univ\n"
@@ -243,6 +250,131 @@ def test_check_med_reads_through_the_container_and_evaluates(
         runner=runner,
     )
     assert not failing.ok
+
+
+def test_a_verified_med_is_reused_without_relaunching_salome(
+    tmp_path: Path, image: MeshConfig, script_and_params: tuple[Path, Path]
+) -> None:
+    """Lot 28, "cache de maillage": once a MED is recorded verified, a later
+    `run_salome_script` with the identical fingerprint returns it unchanged
+    (`from_cache=True`) and never calls the runner at all."""
+    script, params = script_and_params
+    report = run_salome_script(
+        script,
+        project_root=tmp_path,
+        config=image,
+        params=params,
+        runner=_fake_salome(),
+    )
+    assert not report.from_cache
+    record_verified_mesh(tmp_path / image.work_dir_root, report)
+
+    def forbidden(argv: list[str], timeout: int) -> subprocess.CompletedProcess[str]:
+        raise AssertionError("Salome must not be invoked on a cache hit")
+
+    cached = run_salome_script(
+        script, project_root=tmp_path, config=image, params=params, runner=forbidden
+    )
+    assert cached.from_cache
+    assert cached.model_copy(update={"from_cache": False}) == report
+
+
+def test_a_changed_script_misses_the_cache(
+    tmp_path: Path, image: MeshConfig, script_and_params: tuple[Path, Path]
+) -> None:
+    script, params = script_and_params
+    report = run_salome_script(
+        script,
+        project_root=tmp_path,
+        config=image,
+        params=params,
+        runner=_fake_salome(),
+    )
+    record_verified_mesh(tmp_path / image.work_dir_root, report)
+
+    script.write_text("print(2)\n", encoding="utf-8")
+    again = run_salome_script(
+        script,
+        project_root=tmp_path,
+        config=image,
+        params=params,
+        runner=_fake_salome(),
+    )
+    assert not again.from_cache
+    assert again.work_dir != report.work_dir
+
+
+def test_a_missing_med_is_a_cache_miss_not_a_stale_hit(
+    tmp_path: Path, image: MeshConfig, script_and_params: tuple[Path, Path]
+) -> None:
+    script, params = script_and_params
+    report = run_salome_script(
+        script,
+        project_root=tmp_path,
+        config=image,
+        params=params,
+        runner=_fake_salome(),
+    )
+    record_verified_mesh(tmp_path / image.work_dir_root, report)
+    Path(report.med_path).unlink()
+
+    found = find_verified_mesh(
+        tmp_path / image.work_dir_root,
+        script_sha256=report.script_sha256,
+        params_sha256=report.params_sha256,
+    )
+    assert found is None
+
+
+def test_check_med_records_a_verified_med_in_the_run_cache(
+    tmp_path: Path, image: MeshConfig, script_and_params: tuple[Path, Path]
+) -> None:
+    """`mesh check` finding a `mesh run`-produced MED `ok` feeds the same cache a
+    later `mesh run` call consults (integration of the two lot 28 halves)."""
+    script, params = script_and_params
+    run_report = run_salome_script(
+        script,
+        project_root=tmp_path,
+        config=image,
+        params=params,
+        runner=_fake_salome(),
+    )
+    med = Path(run_report.med_path)
+    invariants = tmp_path / "inv.yaml"
+    invariants.write_text("schema_version: 1\n", encoding="utf-8")
+
+    def dump_runner(**kwargs: object) -> subprocess.CompletedProcess[str]:
+        work = Path(str(kwargs["workdir"]))
+        (work / "dump.json").write_text(
+            json.dumps(
+                {
+                    "mesh_name": "m",
+                    "space_dimension": 3,
+                    "coords": [],
+                    "levels": {},
+                    "groups": [],
+                }
+            )
+        )
+        return _result()
+
+    check_report = check_med(
+        med,
+        invariants,
+        project_root=tmp_path,
+        config=image,
+        docker_bin=Path("docker"),
+        image_ref="img@sha256:x",
+        runner=dump_runner,
+    )
+    assert check_report.ok
+    found = find_verified_mesh(
+        tmp_path / image.work_dir_root,
+        script_sha256=run_report.script_sha256,
+        params_sha256=run_report.params_sha256,
+    )
+    assert found is not None
+    assert found.med_sha256 == sha256_file(med) == run_report.med_sha256
 
 
 def test_check_med_fails_when_the_reader_fails(

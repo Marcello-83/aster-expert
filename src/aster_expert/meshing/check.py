@@ -5,6 +5,11 @@ The MED file is read **without Salome**: `scripts/dump_med.py` runs with
 disabled, non-root user, resource limits, only a dedicated directory mounted).
 Nothing is installed in the project environment. The comparison itself is done
 here, on the JSON dump (`aster_expert.meshing.invariants`).
+
+An `ok` result records the MED as verified in the mesh cache
+(`aster_expert.meshing.run.record_verified_mesh`, lot 28), when it came from a
+real `mesh run` (its own `mesh_run_report.json` sits next to it) -- see that
+module's docstring.
 """
 
 from __future__ import annotations
@@ -34,7 +39,8 @@ from aster_expert.meshing.invariants import (
     format_report,
     load_invariants,
 )
-from aster_expert.meshing.run import sha256_file
+from aster_expert.meshing.run import REPORT_NAME as RUN_REPORT_NAME
+from aster_expert.meshing.run import MeshRunReport, record_verified_mesh, sha256_file
 
 logger = logging.getLogger(__name__)
 
@@ -130,6 +136,25 @@ def check_med(
     report_text = format_report(med.name, results)
     report_path = work_dir / REPORT_NAME
     report_path.write_text(report_text, encoding="utf-8")
+    ok = all(r.ok for r in results)
+
+    if ok:
+        # Cache de maillage (lot 28): a MED found `mesh check`-ok is recorded by its
+        # own `mesh run` fingerprint, so a later run with the same script/parameters
+        # skips Salome (aster_expert.meshing.run). Only possible for a MED that
+        # actually came from `mesh run` (its own report sits next to it); a MED
+        # produced any other way (a synthetic test fixture) is simply not cached.
+        run_report_path = med.parent / RUN_REPORT_NAME
+        if run_report_path.is_file():
+            try:
+                run_report = MeshRunReport.model_validate_json(
+                    run_report_path.read_text(encoding="utf-8")
+                )
+            except ValueError:
+                run_report = None
+            if run_report is not None and run_report.med_sha256 == sha256_file(med):
+                record_verified_mesh(project_root / config.work_dir_root, run_report)
+
     return MeshCheckReport(
         med_path=str(med),
         med_sha256=sha256_file(med),
@@ -139,6 +164,6 @@ def check_med(
         work_dir=str(work_dir),
         report_path=str(report_path),
         results=tuple(results),
-        ok=all(r.ok for r in results),
+        ok=ok,
         checked_at=datetime.now(UTC),
     )

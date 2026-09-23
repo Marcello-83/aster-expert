@@ -1732,6 +1732,12 @@ def mesh_run(
     typer.echo(
         json.dumps(json.loads(report.model_dump_json()), indent=2, ensure_ascii=False)
     )
+    if report.from_cache:
+        typer.echo(
+            "MED déjà vérifié par mesh check pour cette empreinte "
+            "script/paramètres : Salomé non relancé.",
+            err=True,
+        )
     typer.echo(f"MED produit : {report.med_path}", err=True)
     typer.echo(f"Journal     : {report.log_path}", err=True)
 
@@ -1776,6 +1782,47 @@ def mesh_check(
     typer.echo(f"Rapport : {report.report_path}", err=True)
     if not report.ok:
         raise typer.Exit(1)
+
+
+@app.command("generate")
+def generate(
+    fiche: str,
+    donnees: str,
+    maillage: str,
+) -> None:
+    """Générer le .comm du quai (lot 28) à partir de la fiche, des données et
+    du maillage vérifié (aster_expert.generation.generate_comm)."""
+    from aster_expert.generation.errors import GenerationError
+    from aster_expert.generation.generate import generate_comm
+
+    project_root = _project_root()
+    versions_path = project_root / "config" / "versions.yaml"
+    aster_version = _resolve_aster_version_tag(versions_path)
+
+    try:
+        text, report = generate_comm(
+            fiche_path=Path(fiche),
+            data_path=Path(donnees),
+            med_path=Path(maillage),
+            project_root=project_root,
+            work_dir_root="data/processed/mesh_runs",
+            aster_version=aster_version,
+        )
+    except GenerationError as exc:
+        typer.echo(f"generate ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+    output_path = (
+        project_root / "data" / "examples" / "lot28_quai" / "quai_combiwall.comm"
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(text, encoding="utf-8")
+
+    typer.echo(
+        json.dumps(json.loads(report.model_dump_json()), indent=2, ensure_ascii=False)
+    )
+    typer.echo(f".comm écrit dans {output_path}", err=True)
+    typer.echo(f"Classes de ressorts : {report.n_spring_classes}", err=True)
 
 
 if __name__ == "__main__":

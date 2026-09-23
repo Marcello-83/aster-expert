@@ -1,5 +1,6 @@
 # ruff: noqa: E501, C401, PTH123
-"""Lot 27 -- mesh of the combi-wall quay QUAI-CW-TEST-01 (slice of 8 bays).
+"""Lot 27 (lot 28: `PIED_TUBES`) -- mesh of the combi-wall quay QUAI-CW-TEST-01
+(slice of 8 bays).
 
 Run by `aster-expert mesh run --params <params.json> combiwall_mesh.py` inside
 Salome (Python 3.9). Arguments: parameters file, output MED name. The parameters
@@ -452,6 +453,18 @@ for number in NUMBERS:
 node_group("ANCRAGES", set().union(*ANCHOR_IDS.values()), "VERTEX")
 node_group(
     "BOLLARD", geometry_ids([BEAM_VERTICES[TUBE["central"] - 1]], "VERTEX"), "VERTEX"
+)
+
+# Point 11 -- PIED_TUBES (decision 12): foot ring of every tube (Z = z_foot), where
+# the generator blocks the vertical displacement. No other geometry reaches that
+# level (sheet piles stop at z_sheet_foot).
+node_group(
+    "PIED_TUBES",
+    geometry_ids(
+        [v for (n, j, level_index), v in VERTICES.items() if level_index == 0],
+        "VERTEX",
+    ),
+    "VERTEX",
 )
 
 # Point 7 -- SYM_G, SYM_D: every node of the plane X = x of a face of the cut. The

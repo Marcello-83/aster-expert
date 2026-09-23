@@ -53,6 +53,8 @@ execution:
     # Lecture du MED du quai par Code_Aster (lot 27), produite par
     # scripts/build_lot27_maillage.py.
     - data/examples/lot27_maillage
+    # .comm du quai, produit par `aster-expert generate` (lot 28).
+    - data/examples/lot28_quai
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

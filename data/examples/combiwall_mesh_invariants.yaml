@@ -646,6 +646,17 @@ groups:
   - -26.0
   - 3.3
   tolerance: 1.0e-09
+- name: PIED_TUBES
+  kind: node
+  count: 322
+  bbox:
+  - -10.4
+  - 10.4
+  - -0.71
+  - 0.71
+  - -26.0
+  - -26.0
+  tolerance: 1.0e-09
 group_areas:
 - group: DEFENSE
   area: 1.114119159335398
@@ -737,6 +748,10 @@ plane_nodes:
 - group: SYM_D
   axis: x
   value: 10.4
+  tolerance: 1.0e-09
+- group: PIED_TUBES
+  axis: z
+  value: -26.0
   tolerance: 1.0e-09
 symmetry:
   tolerance: 1.0e-09

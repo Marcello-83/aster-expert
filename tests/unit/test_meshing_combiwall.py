@@ -23,6 +23,7 @@ from aster_expert.meshing.combiwall import (
     expected_segments,
     group_names,
     segment_count,
+    spring_node_areas,
 )
 from aster_expert.meshing.invariants import Invariants
 
@@ -129,15 +130,27 @@ def test_segments_per_edge_type() -> None:
     assert seg["aretes_tirant"]["segments"] == 1
 
 
-def test_the_convention_has_57_groups_and_the_invariants_cover_them_all() -> None:
+def test_the_convention_has_58_groups_and_the_invariants_cover_them_all() -> None:
     params = _params()
     names = group_names(params)
-    assert len(names["maille"]) + len(names["noeud"]) == 57
+    assert len(names["maille"]) + len(names["noeud"]) == 58
     inv = expected_invariants(params)
     assert sorted(g["name"] for g in inv["groups"]) == sorted(
         names["maille"] + names["noeud"]
     )
     Invariants.model_validate(inv)  # the schema of `mesh check` accepts it
+
+
+def test_pied_tubes_is_the_foot_ring_of_every_tube() -> None:
+    """Decision 12 (point 11, lot 28): 7 full tubes (40 nodes) + 2 half tubes
+    (21 nodes each) = 322, all at Z = -26.00 (the only level any node sits at)."""
+    inv = expected_invariants(_params())
+    (group,) = [g for g in inv["groups"] if g["name"] == "PIED_TUBES"]
+    assert group["kind"] == "node"
+    assert group["count"] == 322 == 7 * 40 + 2 * 21
+    assert group["bbox"][4] == group["bbox"][5] == -26.00
+    (plane,) = [p for p in inv["plane_nodes"] if p["group"] == "PIED_TUBES"]
+    assert plane["axis"] == "z" and plane["value"] == -26.00
 
 
 def test_geometric_controls_of_the_specification() -> None:
@@ -173,6 +186,56 @@ def test_the_versioned_files_are_those_of_the_module() -> None:
     assert yaml.safe_load(text) == yaml.safe_load(
         yaml.safe_dump(expected_invariants(params), sort_keys=False)
     )
+
+
+def test_spring_node_areas_sum_to_the_projected_band_area() -> None:
+    """Decision 5 / point 4 (lot 28): Sigma of the nodal tributary areas of each
+    band equals its projected width (bassin side, by symmetry with the terre
+    side already checked in `test_geometric_controls_of_the_specification`)
+    times its height -- a closed-form identity, independent of mesh density."""
+    areas = spring_node_areas(_params())
+    assert sum(areas["RESS_AV_ARGI"].values()) == pytest.approx(20.80 * 6.00)
+    assert sum(areas["RESS_AV_MARNE"].values()) == pytest.approx(11.36 * 8.00)
+    # every node lies at Y <= 0 (bassin side only) with a tiny numeric slack for
+    # the vertex() trig round-off cleaned by combiwall_mesh.py's own `clean()`
+    for band in areas.values():
+        assert all(y <= 1e-9 for _, y, _ in band)
+    # no negative or zero-area entry: `add()` never creates a spurious node
+    assert all(v > 0 for band in areas.values() for v in band.values())
+
+
+def test_spring_node_areas_share_the_lock_line_node_once() -> None:
+    """A lock-line node (tube generatrix at angle 180 degrees, Y = 0) is shared
+    between a tube's own bassin-side quads and its neighbouring sheet-pile's
+    quads: removing the sheet-pile's contribution (`avec_palplanches=False`)
+    changes exactly the lock-line nodes' value, never a tube-interior node far
+    from any lock line -- confirming the two contributions are summed onto one
+    entry, not kept apart or double-counted."""
+    params = _params()
+    radius = params["tube"]["rayon"]
+    axis2 = params["tube"]["axes_x"][1]
+    with_sheets = spring_node_areas(params)["RESS_AV_ARGI"]
+
+    without_sheets_params = {
+        **params,
+        "bandes": {
+            **params["bandes"],
+            "RESS_AV_ARGI": {
+                **params["bandes"]["RESS_AV_ARGI"],
+                "avec_palplanches": False,
+            },
+        },
+    }
+    without_sheets = spring_node_areas(without_sheets_params)["RESS_AV_ARGI"]
+
+    lock_key = (round(axis2 - radius, 9), 0.0, -15.0)
+    assert lock_key in with_sheets and lock_key in without_sheets
+    assert with_sheets[lock_key] > without_sheets[lock_key]
+
+    # the tube's own bassin-most generatrix (opposite the locks): untouched
+    basin_key = (round(axis2, 9), round(-radius, 9), -15.0)
+    assert basin_key in with_sheets and basin_key in without_sheets
+    assert with_sheets[basin_key] == pytest.approx(without_sheets[basin_key])
 
 
 def test_inconsistent_data_are_refused(tmp_path: Path) -> None:

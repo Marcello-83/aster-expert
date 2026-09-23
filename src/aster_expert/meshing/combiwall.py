@@ -20,6 +20,12 @@ script applies the same rule with its own code; the invariants check the outcome
 Frame (decision of point 9): X along the quay from `SYM_G` to `SYM_D`, Y towards the
 land, Z up, origin on the axis of the central tube at level 0.00 CM; metres.
 The basin side of a tube is its generatrix at Y = -R (angle 270 degrees).
+
+`PIED_TUBES` (decision 12, point 11, lot 28): the node group of the foot ring of
+every tube (Z = z_foot = -26.00), where the generator blocks the vertical
+displacement. No other geometry reaches that level (the sheet piles stop at
+z_sheet_foot = -18.00), so a `plane_nodes` invariant applies alongside the
+group's own count/bbox.
 """
 
 from __future__ import annotations
@@ -571,6 +577,24 @@ def expected_invariants(params: dict[str, Any]) -> dict[str, Any]:
     for name, x in (("SYM_G", x_left), ("SYM_D", x_right)):
         node_group(name, sym_count, _bbox(x, x, y_low, y_high, z_foot, beam_z))
 
+    # PIED_TUBES (decision 12, point 11): the foot ring of every tube (Z = z_foot);
+    # no other geometry reaches that level, so a plane_nodes invariant applies too.
+    foot_boxes = [
+        _tube_box(
+            lay,
+            k,
+            range(lay.sectors[k - 1][0], lay.sectors[k - 1][1] + 1),
+            z_foot,
+            z_foot,
+        )
+        for k in range(1, n_tubes + 1)
+    ]
+    node_group(
+        "PIED_TUBES",
+        sum(lay.ring_nodes(k) for k in range(1, n_tubes + 1)),
+        _union(foot_boxes),
+    )
+
     # nodes at the imposed levels, on every tube and every sheet pile
     nodes_at: list[dict[str, Any]] = []
     for k in range(1, n_tubes + 1):
@@ -753,6 +777,7 @@ def expected_invariants(params: dict[str, Any]) -> dict[str, Any]:
         "plane_nodes": [
             {"group": "SYM_G", "axis": "x", "value": x_left, "tolerance": TOL},
             {"group": "SYM_D", "axis": "x", "value": x_right, "tolerance": TOL},
+            {"group": "PIED_TUBES", "axis": "z", "value": z_foot, "tolerance": TOL},
         ],
         "symmetry": {"tolerance": TOL},
         "nodes_at": nodes_at,
@@ -850,6 +875,172 @@ def expected_masses(params: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return out
 
 
+Point3D = tuple[float, float, float]
+
+
+def spring_node_areas(params: dict[str, Any]) -> dict[str, dict[Point3D, float]]:
+    """Nodal tributary area (m^2, decision 5 / point 4, lot 28) of every node on the
+    **bassin side only** (Y <= 0) of each spring band -- analytic, no MED involved.
+
+    "Projetée sur le plan Y = 0" (the decision's own wording) means the area of
+    each quad counted here is its projection on the XZ plane (dropping Y), not its
+    true developed area -- exactly what a subgrade-reaction spring reacts against
+    (a load per unit *plan* area, not per unit facet area): for a quad spanning two
+    tube vertices j, j+1 (or two sheet-pile columns) and two Z levels a, b, that
+    projected area is the simple rectangle `abs(x(j+1) - x(j)) * (b - a)` (both
+    vertical edges of the projection share their own x, so the shoelace area is
+    exact, not approximate). Only the tube facets whose two bounding generatrices
+    lie at Y <= 0 -- a window centred on the bassin generatrix (270 degrees) of
+    half-angle 90 degrees, `lay.window_facets`, the same mechanism
+    `ECRAN_POUSSEE`/`DEFENSE` already use, correctly intersected with each tube's
+    own existing sector (the two half-tubes, 1 and 9, do not carry the facets a
+    blind `[facets // 2, facets)` range would assume) -- and, when the band
+    carries them (`avec_palplanches`), every sheet-pile column contribute.
+
+    Each quad contributes exactly 1/4 of its projected area to each of its 4
+    corner nodes -- the standard structured-grid tributary rule, applied by
+    accumulation rather than by hand-classifying which nodes are "boundary": an
+    edge node simply has fewer quads (from the selected set) touching it, so it
+    accumulates less, with no separate case to get wrong. A lock-line node
+    (angle 0 or 180 degrees) is shared between a tube's own bassin-side quads
+    and its neighbouring sheet-pile's quads: both accumulate onto the same
+    coordinate key, so it is counted once, not twice, exactly as decided.
+
+    This is a closed-form identity, not a discretisation choice: summing every
+    returned area reproduces exactly the band's own projected width (as
+    `expected_invariants` computes it for the terre side; the bassin side gives
+    the same value by symmetry) times its height, independently of
+    `taille_verticale` -- checked by `test_meshing_combiwall.py`.
+    """
+
+    def key(x: float, y: float, z: float) -> Point3D:
+        return (round(x, 9) + 0.0, round(y, 9) + 0.0, round(z, 9) + 0.0)
+
+    def add(
+        areas: dict[Point3D, float], x: float, y: float, z: float, value: float
+    ) -> None:
+        k = key(x, y, z)
+        areas[k] = areas.get(k, 0.0) + value
+
+    def rows_of(size: float, a: float, b: float) -> list[tuple[float, float]]:
+        n = segment_count(b - a, size)
+        zs = [a + (b - a) * r / n for r in range(n + 1)]
+        return list(zip(zs[:-1], zs[1:], strict=True))
+
+    lay = _Layout(params)
+    out: dict[str, dict[Point3D, float]] = {}
+
+    for name, band in params["bandes"].items():
+        low, high = band["cote_bas"], band["cote_haut"]
+        levels = [z for z in lay.levels if low - TOL <= z <= high + TOL]
+        areas: dict[Point3D, float] = {}
+
+        for tube in range(1, lay.n_tubes + 1):
+            facets = lay.window_facets(tube, 270.0, 90.0)
+            for level_a, level_b in zip(levels[:-1], levels[1:], strict=True):
+                for a, b in rows_of(lay.size, level_a, level_b):
+                    for j in facets:
+                        xj, yj = lay.vertex(tube, j)
+                        xj1, yj1 = lay.vertex(tube, j + 1)
+                        quarter = abs(xj1 - xj) * (b - a) / 4.0
+                        for x, y, z in (
+                            (xj, yj, a),
+                            (xj1, yj1, a),
+                            (xj, yj, b),
+                            (xj1, yj1, b),
+                        ):
+                            add(areas, x, y, z, quarter)
+        if band["avec_palplanches"]:
+            cols = lay.sheet_columns
+            for sheet in range(1, lay.n_tubes):
+                x0, x1 = lay.sheet_x(sheet)
+                for level_a, level_b in zip(levels[:-1], levels[1:], strict=True):
+                    for a, b in rows_of(lay.size, level_a, level_b):
+                        for c in range(cols):
+                            xc = x0 + (x1 - x0) * c / cols
+                            xc1 = x0 + (x1 - x0) * (c + 1) / cols
+                            quarter = (xc1 - xc) * (b - a) / 4.0
+                            for x, z in ((xc, a), (xc1, a), (xc, b), (xc1, b)):
+                                add(areas, x, 0.0, z, quarter)
+        out[name] = areas
+    return out
+
+
+PressurePoint = tuple[float, float]
+
+
+def expected_pressure_resultant_y(
+    params: dict[str, Any], profile_points: list[PressurePoint]
+) -> float:
+    """Exact Y-component resultant (N, if `profile_points` is in Pa/m) of a
+    Z-dependent pressure applied to `ECRAN_POUSSEE` by `FORCE_COQUE`/`PRES`
+    (point 5), analytic and computed **before** execution -- lot 28, Étape 4,
+    "résultante appliquée" control.
+
+    `profile_points` are exactly the `(z, p)` pairs a `DEFI_FONCTION` block
+    receives (ascending Z, already through `doubled_profile`): the same
+    linear interpolation, constant beyond the extremes (`PROL_DROITE`/
+    `PROL_GAUCHE` = "CONSTANT").
+
+    This does **not** integrate the true, continuous pressure field: it
+    integrates the piecewise-linear function *as `DEFI_FONCTION` evaluates
+    it*, at the mesh's own row boundaries (`_Layout.rows`, from
+    `taille_verticale`) -- a bilinear DKT/QUAD4 shell element reconstructs a
+    row's own pressure exactly this way, from the two nodal values at its
+    own Z levels, regardless of any kink the profile has *inside* that row.
+    Reproducing the same discrete sum, rather than the continuous integral,
+    is what makes the comparison exact (1e-6) rather than merely
+    discretisation-sensitive.
+
+    `FORCE_COQUE` convention (U4.44.01, point 5): force = -pressure x normal.
+    A tube facet's outward normal is exactly `(cos(theta_mid), sin(theta_mid),
+    0)` (a regular polygon's chord normal bisects its two vertices' angles);
+    a palplanche panel is flat in the Y = 0 plane, normal `(0, 1, 0)`
+    (`ORIE_NORM_COQUE` propagates the same "outward, towards terre"
+    orientation `MAIL`'s own reference point fixes on a tube facet, point 5).
+    """
+    lay = _Layout(params)
+    push = params["ecran_poussee"]
+
+    def p_at(z: float) -> float:
+        if z <= profile_points[0][0]:
+            return profile_points[0][1]
+        if z >= profile_points[-1][0]:
+            return profile_points[-1][1]
+        for (z0, p0), (z1, p1) in zip(
+            profile_points[:-1], profile_points[1:], strict=True
+        ):
+            if z0 <= z <= z1:
+                return p0 + (p1 - p0) * (z - z0) / (z1 - z0)
+        message = f"z={z} hors du domaine couvert par le profil"
+        raise CombiwallMeshError(message)
+
+    def rows_of(a: float, b: float) -> list[tuple[float, float]]:
+        n = segment_count(b - a, lay.size)
+        zs = [a + (b - a) * r / n for r in range(n + 1)]
+        return list(zip(zs[:-1], zs[1:], strict=True))
+
+    all_rows: list[tuple[float, float]] = []
+    for a, b in zip(lay.levels[:-1], lay.levels[1:], strict=True):
+        all_rows.extend(rows_of(a, b))
+    pressure_integral = sum((p_at(a) + p_at(b)) / 2.0 * (b - a) for a, b in all_rows)
+
+    tube_y_width = 0.0
+    for k in range(1, lay.n_tubes + 1):
+        for j in lay.window_facets(k, push["angle_centre_deg"], push["demi_angle_deg"]):
+            theta_mid = math.pi * (2 * j + 1) / lay.facets
+            tube_y_width += math.sin(theta_mid) * lay.chord
+
+    # Palplanche panels: flat, in the Y = 0 plane, continuing the same
+    # outward-to-terre orientation from the tube facets they share a
+    # lock-line node with -- normal_y = +1.
+    sheet_width = sum(
+        lay.sheet_x(sheet)[1] - lay.sheet_x(sheet)[0] for sheet in range(1, lay.n_tubes)
+    )
+
+    return -(tube_y_width + sheet_width) * pressure_integral
+
+
 def group_names(params: dict[str, Any]) -> dict[str, list[str]]:
     """The names of the convention (v3 of MM), by kind of group."""
     n = len(params["tube"]["axes_x"])
@@ -864,6 +1055,6 @@ def group_names(params: dict[str, Any]) -> dict[str, list[str]]:
     nodes = (
         _names("TETE_TUBE_", n)
         + _names("ANC_", n)
-        + ["ANCRAGES", "BOLLARD", "SYM_G", "SYM_D"]
+        + ["ANCRAGES", "BOLLARD", "SYM_G", "SYM_D", "PIED_TUBES"]
     )
     return {"maille": cells, "noeud": nodes}

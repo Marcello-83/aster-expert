@@ -11,6 +11,17 @@ file was given and the script did not record its fingerprint (rule of
 The script receives `sys.argv[1:] = [<params file name>, <output MED name>]`
 (or only the output name without parameters) and must write, next to the MED,
 `<output stem>.meta.json` holding `{"params_sha256": ...}`.
+
+**Cache de maillage (lot 28).** A MED that `aster-expert mesh check` has found
+`ok` (`aster_expert.meshing.check.check_med`) is recorded by fingerprint --
+`(script_sha256, params_sha256)` -- in `<work_dir_root>/verified_meshes.json`
+(`record_verified_mesh`). A later `run_salome_script` call with the identical
+fingerprint finds it (`find_verified_mesh`) and returns it unchanged
+(`from_cache=True`) without invoking Salome at all -- not even the version
+read -- as long as the recorded MED file still exists on disk with the
+recorded hash (a missing or altered MED is a cache miss, never a stale hit).
+Any change to the script or the parameters changes the fingerprint and misses
+the cache, exactly like the very first run.
 """
 
 from __future__ import annotations
@@ -63,12 +74,81 @@ class MeshRunReport(BaseModel):
     command: tuple[str, ...]
     duration_s: float
     executed_at: datetime
+    from_cache: bool = False
+    """True when this report was found in the mesh cache (lot 28) rather than
+    produced by an actual Salome run just now -- every other field is the
+    original run's, unchanged."""
 
 
 def _default_runner(argv: list[str], timeout: int) -> subprocess.CompletedProcess[str]:
     return subprocess.run(  # noqa: S603 - argv built from typed configuration, no shell
         argv, capture_output=True, text=True, timeout=timeout, check=False
     )
+
+
+CACHE_NAME = "verified_meshes.json"
+
+
+def _cache_path(work_dir_root: Path) -> Path:
+    return work_dir_root / CACHE_NAME
+
+
+def _load_cache(work_dir_root: Path) -> list[MeshRunReport]:
+    path = _cache_path(work_dir_root)
+    if not path.is_file():
+        return []
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except ValueError:
+        return []
+    if not isinstance(raw, list):
+        return []
+    reports: list[MeshRunReport] = []
+    for entry in raw:
+        try:
+            reports.append(MeshRunReport.model_validate(entry))
+        except ValueError:
+            continue
+    return reports
+
+
+def record_verified_mesh(work_dir_root: Path, report: MeshRunReport) -> None:
+    """Record `report`'s MED as `mesh check`-verified (lot 28, "cache de
+    maillage"), keyed by `(script_sha256, params_sha256)`. A prior entry for
+    the same key is replaced, never duplicated."""
+    key = (report.script_sha256, report.params_sha256)
+    entries = [
+        e
+        for e in _load_cache(work_dir_root)
+        if (e.script_sha256, e.params_sha256) != key
+    ]
+    entries.append(report.model_copy(update={"from_cache": False}))
+    work_dir_root.mkdir(parents=True, exist_ok=True)
+    _cache_path(work_dir_root).write_text(
+        json.dumps(
+            [json.loads(e.model_dump_json()) for e in entries], indent=2, sort_keys=True
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
+def find_verified_mesh(
+    work_dir_root: Path, *, script_sha256: str, params_sha256: str | None
+) -> MeshRunReport | None:
+    """The cached, still-valid report for this fingerprint, or `None`.
+
+    A recorded MED that no longer exists, or whose bytes no longer match the
+    recorded hash, is a cache miss -- never returned stale.
+    """
+    for entry in _load_cache(work_dir_root):
+        if entry.script_sha256 != script_sha256 or entry.params_sha256 != params_sha256:
+            continue
+        med_path = Path(entry.med_path)
+        if med_path.is_file() and sha256_file(med_path) == entry.med_sha256:
+            return entry
+        return None
+    return None
 
 
 def sha256_file(path: Path) -> str:
@@ -156,6 +236,24 @@ def run_salome_script(
     if params is not None and not params.is_file():
         message = f"parameters file not found: {params}"
         raise MeshRunError(message)
+
+    work_dir_root = project_root / config.work_dir_root
+    script_sha_upfront = sha256_file(script)
+    params_sha_upfront = sha256_file(params) if params is not None else None
+    cached = find_verified_mesh(
+        work_dir_root,
+        script_sha256=script_sha_upfront,
+        params_sha256=params_sha_upfront,
+    )
+    if cached is not None:
+        logger.info(
+            "MED already verified by mesh check for this script/parameters "
+            "fingerprint (script %s): Salome not relaunched, reusing %s",
+            script_sha_upfront[:12],
+            cached.med_path,
+        )
+        return cached.model_copy(update={"from_cache": True})
+
     salome = config.salome
     image = Path(salome.image_path).expanduser()
     if not image.is_file():
@@ -173,7 +271,6 @@ def run_salome_script(
         )
         raise MeshRunError(message)
 
-    work_dir_root = project_root / config.work_dir_root
     work_dir_root.mkdir(parents=True, exist_ok=True)
     image_digest, digest_source = image_sha256(image, work_dir_root / DIGEST_CACHE_NAME)
 
@@ -233,7 +330,7 @@ def run_salome_script(
         message = f"no MED file produced ({med_name} absent); log: {log_path}"
         raise MeshRunError(message)
 
-    params_sha = sha256_file(params) if params is not None else None
+    params_sha = params_sha_upfront
     recorded: str | None = None
     meta_path = work_dir / f"{script.stem}.meta.json"
     if meta_path.is_file():
@@ -252,7 +349,7 @@ def run_salome_script(
     report = MeshRunReport(
         work_dir=str(work_dir),
         script_name=script.name,
-        script_sha256=sha256_file(script),
+        script_sha256=script_sha_upfront,
         params_name=params.name if params is not None else None,
         params_sha256=params_sha,
         params_sha256_recorded_by_script=recorded,

@@ -1,0 +1,88 @@
+{
+  "catalogue": {
+    "aster_version": "17.4.0",
+    "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+    "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+    "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+  },
+  "code_aster_findings": [
+    {
+      "point_label": "3",
+      "topic": "Liaison de corps solide entre un anneau de nœuds de coque et un nœud de poutre",
+      "replaces_topic": "Mécanisme catalogue pour raccorder un maillage poutre à un maillage coque non coïncidents",
+      "extraits": ["liaison_solide"],
+      "catalogue_refs": [
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["LIAISON_SOLIDE"]},
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["LIAISON_SOLIDE", "GROUP_NO"]}
+      ],
+      "option_retained": "Mot-clé facteur LIAISON_SOLIDE de AFFE_CHAR_MECA, GROUP_NO = (nom du groupe de nœuds de l'anneau de tête du tube, nom du groupe de nœuds du nœud de poutre au droit de ce tube), une occurrence par tube : les nœuds cités deviennent un unique corps rigide, sans relation superflue avec les autres tubes. GROUP_NO accepte un tuple de plusieurs groupes de nœuds dans une même occurrence, chacun désignant un ensemble distinct de nœuds réunis dans le même corps solide (confirmé par le cas test officiel sdlx03b.comm : `LIAISON_SOLIDE=(_F(GROUP_NO=(\"N241\", \"N44\")), ...)`, jonction de plaques DKT perpendiculaires, GROUP_NO à deux éléments par occurrence).",
+      "justification": "U4.44.01 (Mot-clé LIAISON_SOLIDE) : « Le mot-clé LIAISON_SOLIDE permet de modéliser une partie indéformable d'une structure. On impose des relations linéaires entre les degrés de liberté des nœuds de cette partie indéformable... Ces nœuds sont définis par les groupes de mailles et les groupes de nœuds auxquels ils appartiennent. » Confirmé au catalogue : le mot-clé facteur LIAISON_SOLIDE de AFFE_CHAR_MECA existe, avec l'opérande GROUP_NO (type grno, sans limite de nombre de valeurs -- max_values null). Le mécanisme ne distingue pas le type d'élément porté par chaque nœud (coque DKT ou poutre POU_D_E) : la remarque du même paragraphe (« Si un élément a tous ses nœuds dans une zone «solidifiée»... ses efforts généralisés sont nuls ») s'applique aux deux également. Un cas test officiel, sdlx03b.comm (assemblage de plaques DKT entretoisées), utilise exactement cette syntaxe -- GROUP_NO à plusieurs éléments par occurrence -- pour unir des nœuds de deux parties distinctes de la structure ; il ne combine pas coque et poutre, mais le mécanisme cité (relations linéaires entre degrés de liberté de nœuds appartenant aux groupes donnés) ne dépend pas de la modélisation portée par chaque nœud.",
+      "notes": "Alternative recevable, non retenue : LIAISON_ELEM (option COQ_POU, U4.44.01), un raccord coque/poutre dédié qui laisse respirer l'interface au lieu d'un corps rigide -- écarté car le point demande explicitement une « liaison de corps solide », terminologie qui nomme LIAISON_SOLIDE, et parce que le cas de test (encastrement du tube dans la poutre sur 0,80 m, cas_test_quai_combiwall_v2.md §3) est mieux représenté par un raccord rigide que par un raccord souple conçu pour ne pas transmettre de contrainte parasite. Non établi par la documentation seule : DIST_MIN (distance de confusion des points, par défaut 0,001 × plus petite arête du maillage) n'a pas été vérifié compatible avec la géométrie du modèle (l'anneau de tête a un rayon 0,71 m et 40 ou 21 nœuds : la plus petite arête du maillage entier, hors anneau, doit être identifiée avant génération pour écarter un DIST_MIN trop grand qui engloberait des nœuds voisins non voulus)."
+    },
+    {
+      "point_label": "5",
+      "topic": "Pression répartie fonction de Z sur des coques DKT",
+      "replaces_topic": "Mécanisme catalogue d'application d'une pression fonction de la profondeur",
+      "extraits": ["force_coque", "pres_rep"],
+      "catalogue_refs": [
+        {"command": "AFFE_CHAR_MECA_F", "keyword_path": ["FORCE_COQUE"]},
+        {"command": "AFFE_CHAR_MECA_F", "keyword_path": ["FORCE_COQUE", "PRES"]},
+        {"command": "AFFE_CHAR_MECA_F", "keyword_path": ["PRES_REP"]},
+        {"command": "AFFE_CHAR_MECA_F", "keyword_path": ["PRES_REP", "PRES"]}
+      ],
+      "option_retained": "AFFE_CHAR_MECA_F, mot-clé facteur FORCE_COQUE, opérande PRES = une FORMULE(NOM_PARA='Z', ...) (pression normale, positive suivant le sens contraire de la normale à l'élément), GROUP_MA = le groupe de mailles concerné. PRES_REP n'est PAS utilisé : sa liste de modélisations applicables (U4.44.01) ne cite pas DKT, et la documentation avertit explicitement que « les pressions de type «fonction», ne sont pour l'instant pas compatibles avec la modélisation COQUE_3D et COQUE_SOLIDE » -- PRES_REP n'est donc, au mieux, utilisable qu'à valeur constante sur COQUE_3D, jamais fonction de Z sur DKT.",
+      "justification": "U4.44.01 (Mot-clé FORCE_COQUE) : « Le mot-clé facteur FORCE_COQUE est utilisable pour appliquer des efforts surfaciques sur des éléments de type coque (DKT, DST, Q4G, COQUE_3D…) [...] La composante PRES impose une pression normale à la surface [...] Valeur de la pression imposée (réel ou fonction), normale à la coque. » Confirmé au catalogue : sous AFFE_CHAR_MECA_F, FORCE_COQUE.PRES accepte fonction_sdaster, nappe_sdaster ou formule. Un cas test officiel, ssls118a.comm (modélisation DKT), applique exactement ce mécanisme : `P = FORMULE(VALE=\"PO*sin(pi*X)*sin(pi*Y)\", NOM_PARA=[\"X\",\"Y\"])` puis `AFFE_CHAR_MECA_F(MODELE=MO, FORCE_COQUE=_F(PRES=P, GROUP_MA=\"MAIL1\"))` -- une pression fonction de position sur DKT, avec NOM_PARA différent (X, Y) mais le même mécanisme de commande + mot-clé ; ssls100b.comm confirme la variante à fonction constante (DEFI_CONSTANTE) sur TOUT='OUI'. La liste des modélisations de PRES_REP (U4.44.01, Mot-clé PRES_REP) ne mentionne que « AXIS, D_PLAN, C_PLAN, ..., 3D et COQUE_3D » -- DKT en est absent -- et la même section précise que la pression «fonction» n'est pas compatible avec COQUE_3D.",
+      "notes": "Signe : d'après U4.44.01, une valeur PRES positive pousse dans le sens opposé à la normale de l'élément ; combinée à l'orientation retenue au point 5 suivant (normale vers la terre), une valeur positive de la poussée des terres pousse bien vers le bassin. Existe aussi FORCE_COQUE_FO (U4.44.01), « en quelque sorte équivalent à AFFE_CHAR_MECA_F/FORCE_COQUE » pour une fonction indépendante du temps évaluée une seule fois : non retenu ici, aucun cas test officiel ne l'utilise (search_test_cases, 0 résultat), alors que AFFE_CHAR_MECA_F/FORCE_COQUE l'est. Le paramètre Z d'une FORMULE se réfère à la géométrie initiale (U4.44.01 : « la dépendance à la géométrie peut être faite par rapport à la géométrie initiale avec les paramètres X, Y et Z »), cohérent avec un calcul en petits déplacements."
+    },
+    {
+      "point_label": "5",
+      "topic": "Orientation cohérente des normales de coque pour qu'une pression positive agisse côté terre",
+      "extraits": ["orie_norm_coque"],
+      "catalogue_refs": [
+        {"command": "MODI_MAILLAGE", "keyword_path": ["ORIE_NORM_COQUE"]},
+        {"command": "MODI_MAILLAGE", "keyword_path": ["ORIE_NORM_COQUE", "VECT_NORM"]},
+        {"command": "MODI_MAILLAGE", "keyword_path": ["ORIE_NORM_COQUE", "GROUP_NO"]}
+      ],
+      "option_retained": "MODI_MAILLAGE(reuse=..., ORIE_NORM_COQUE=_F(GROUP_MA=(\"ECRAN_POUSSEE\",), VECT_NORM=(0.0, 1.0, 0.0), GROUP_NO=<un nœud de la génératrice côté terre, angle 90°, où la normale géométrique vaut exactement (0, 1, 0)>)), exécuté avant l'affectation de la charge. Combiné avec une valeur PRES positive (fait précédent), la pression pousse alors vers le bassin (-Y), sens physique de la poussée des terres.",
+      "justification": "U4.23.04 (Mot-clé ORIE_NORM_COQUE) : « Ce mot-clé sert à vérifier que dans une liste de mailles surfaciques (coques), les normales sont cohérentes entre elles. [...] Les mailles de lgrma doivent former un groupe «connexe» [...] On peut imposer le sens de l'orientation à l'aide des mots-clé GROUP_NO/VECT_NORM. [...] La normale choisie sera celle qui fait un angle aigu avec le vecteur donné par VECT_NORM. » Confirmé au catalogue : GROUP_MA, VECT_NORM, GROUP_NO existent sous ORIE_NORM_COQUE de MODI_MAILLAGE. Un cas test officiel, sdls118a.comm, utilise exactement cette syntaxe : `MODI_MAILLAGE(reuse=MAILLAGE, MAILLAGE=MAILLAGE, ORIE_NORM_COQUE=_F(GROUP_MA=\"RADIER\", VECT_NORM=(0, 0, -1), GROUP_NO=\"P3\"))`. ECRAN_POUSSEE (tubes côté terre + palplanches, point 10) est topologiquement connexe : les palplanches partagent des nœuds de serrure avec les tubes adjacents sur toute leur hauteur (lot 27, invariants « nœuds partagés »).",
+      "notes": "GROUP_NO de ORIE_NORM_COQUE doit désigner un groupe à un seul nœud (\"grno doit être une GROUP_NO ne contenant qu'un seul nœud\", U4.23.04) : la convention de nommage actuelle n'a pas de tel groupe sur la génératrice côté terre d'un tube -- à créer par le générateur (DEFI_GROUP/CREA_GROUP_NO sur critère géométrique), hors convention de maillage (lot 26/27)."
+    },
+    {
+      "point_label": "5",
+      "topic": "Représentation d'un profil de pression discontinu par points doublés à Z ± 0,001 m",
+      "extraits": ["r3_01_01_quadrangle_fpg"],
+      "catalogue_refs": [],
+      "option_retained": "La proposition (points doublés à Z ± 0,001 m, une valeur par couche) est retenue : aucune interface de couche pertinente pour le modèle (remblai/sable à -2,00, sable/argile à -9,00, argile/marne à -18,00) ne tombe à moins de 1 mm d'un point d'intégration, pour toute famille de quadrature documentée du quadrangle à 4 nœuds (QU4).",
+      "justification": "Fait calculé (module aster_expert.meshing.combiwall / data/examples/combiwall_model_data.yaml, jamais deviné) : les trois interfaces de couche à -2,00, -9,00 et -18,00 tombent exactement sur une cote de nœud du maillage -- -18,00 est une cote imposée (maillage.cotes_imposees) ; -2,00 et -9,00 sont des multiples exacts du pas régulier de 0,25 m de l'intervalle -12,00 -> +1,00 (52 segments, aucun arrondi, lot 27) -- et les rangées de mailles adjacentes à chacune des trois cotes ont une hauteur de 0,25 m. R3.01.01 (Quadrangles : ELREFE QU4, QU8, QU9) donne les trois familles de points d'intégration disponibles pour un quadrangle à 4 nœuds : FPG1 (1 point, au centre), FPG4 (2×2 points de Gauss, coordonnée naturelle a = 1/√3 ≈ 0,5774) et FPG9 (3×3 points, a ≈ 0,7746). Pour la famille la plus dense (FPG9), le point le plus proche d'un bord de l'élément est à une fraction (1 − 0,7746)/2 ≈ 11,3 % de la hauteur de l'élément, soit environ 28 mm pour un élément de 0,25 m -- très supérieur à 1 mm quelle que soit la famille effectivement utilisée par l'option de chargement.",
+      "notes": "Déduction, non un fait documenté directement : R3.01.01 donne les familles de points disponibles pour l'élément de référence QU4, mais ne dit pas laquelle l'option de calcul du chargement FORCE_COQUE sélectionne effectivement (R3.07.03 mentionne « la routine INI079 pour la position des points de Hammer et de Gauss » sans en donner le nombre pour ce cas). La marge (>= 11 mm dans le pire cas documenté, pour un critère de 1 mm) est jugée suffisante pour ne pas bloquer la génération, mais reste une déduction, pas un fait catalogue direct -- à vérifier de façon décisive si un doute apparaît à l'exécution (ex. une discontinuité de contrainte visible à l'interface). Aucun cas test officiel ne correspond à cette question (ce n'est pas un usage de commande, mais une propriété géométrique de la discrétisation) : search_test_cases n'est pas pertinent ici."
+    },
+    {
+      "point_label": "7",
+      "topic": "Conditions de symétrie par rapport à un plan X = constante pour des coques DKT et des poutres POU_D_E",
+      "extraits": ["ddl_impo_degres_de_liberte", "ddl_impo_mot_cle", "u3_12_01_dkt_ddl", "u3_11_01_pou_barre_ddl"],
+      "catalogue_refs": [
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["DDL_IMPO"]},
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["DDL_IMPO", "DX"]},
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["DDL_IMPO", "DRY"]},
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["DDL_IMPO", "DRZ"]}
+      ],
+      "option_retained": "DDL_IMPO(GROUP_NO=(\"SYM_G\",) ou (\"SYM_D\",), DX=0.0, DRY=0.0, DRZ=0.0) : translation normale au plan et rotations autour des deux axes du plan bloquées ; DY, DZ, DRX libres. Identique pour les nœuds de coque (DKT) et de poutre (POU_D_E) du groupe : les six degrés de liberté nommés DX/DY/DZ/DRX/DRY/DRZ et leur repère (le repère global) sont les mêmes pour les deux modélisations.",
+      "justification": "U4.44.01 (Tableau 5-2) : « DX, DY, DZ [toutes modélisations] : composantes de déplacement en translation dans le repère global » ; « DRX, DRY, DRZ [éléments discrets, de poutre, de tuyaux, de coque ou de plaque] : composantes de déplacement en rotation dans le repère global. » U4.44.01 (Mot-clé DDL_IMPO) : « Les degrés de liberté imposés sont définis dans le repère global de définition du maillage. » U3.12.01 (Discrétisation, DKT/DKQ/DKTG) et U3.11.01 (Discrétisation, POU_D_E) donnent le même sextuplet DX, DY, DZ, DRX, DRY, DRZ à chaque nœud sommet pour les deux modélisations. Un cas test officiel, ssls100b.comm (plaque DKT), applique exactement ce schéma sur un bord de symétrie : `_F(GROUP_NO=\"GRNO_OC\", DX=0.0, DRY=0.0, DRZ=0.0)` (plan de symétrie X = constante) et, sur l'autre bord, `_F(GROUP_NO=\"GRNO_OA\", DY=0.0, DRX=0.0, DRZ=0.0)` (plan de symétrie Y = constante, schéma symétrique en DY/DRX/DRZ) -- confirmant que le choix (translation normale + deux rotations dans le plan bloquées, translations et rotation normale libres) est bien celui retenu par un cas de référence, pour DKT.",
+      "notes": "Déduction pour la partie « pourquoi ces trois DDL et pas d'autres » : un déplacement DX, ou une rotation DRY ou DRZ (qui produirait un déplacement hors du plan de symétrie sur les nœuds voisins par symétrie miroir) romprait la symétrie miroir par rapport au plan X = constante ; DY, DZ (translations dans le plan) et DRX (rotation autour de la normale au plan) sont compatibles avec elle. Ce raisonnement mécanique n'est pas énoncé comme tel dans la documentation (Code_Aster ne propose pas de mot-clé dédié « SYMETRIE » pour un chargement mécanique -- SYMETRIE de MODI_MAILLAGE est une opération purement géométrique sur le maillage, sans rapport). Non confirmé par un cas test officiel pour POU_D_E spécifiquement (seul DKT l'est, via ssls100b.comm) : l'extension à POU_D_E s'appuie sur l'identité documentée du sextuplet de degrés de liberté et de son repère (U3.11.01), non sur un second cas test."
+    },
+    {
+      "point_label": "2",
+      "topic": "Élément de barre : section, matériau, et absence de degré de rotation au nœud commun avec la coque",
+      "extraits": ["u3_11_01_pou_barre_ddl"],
+      "catalogue_refs": [
+        {"command": "AFFE_MODELE", "keyword_path": ["AFFE", "MODELISATION"]},
+        {"command": "AFFE_CARA_ELEM", "keyword_path": ["BARRE"]},
+        {"command": "AFFE_CARA_ELEM", "keyword_path": ["BARRE", "SECTION"]},
+        {"command": "DEFI_MATERIAU", "keyword_path": ["ELAS"]}
+      ],
+      "option_retained": "AFFE_MODELE(..., MODELISATION=\"BARRE\") sur GROUP_MA=(\"TIRANTS\",) ; AFFE_CARA_ELEM(BARRE=_F(GROUP_MA=\"TIRANTS\", SECTION=\"GENERALE\", CARA=\"A\", VALE=<aire de la section brute, en m²>)) ; DEFI_MATERIAU(ELAS=_F(E=..., NU=..., RHO=...)) affecté par AFFE_MATERIAU. Le nœud commun avec l'anneau de tête du tube (via la liaison de corps solide du point 3, ou directement si le tirant part d'un nœud de l'anneau) ne porte, côté barre, que DX, DY, DZ : aucun degré de rotation n'est imposé ni transmis par l'élément de barre lui-même à ce nœud.",
+      "justification": "U3.11.01 (Discrétisation, Degrés de libertés) : tableau des degrés de liberté par modélisation -- « BARRE : DX, DY, DZ » (cases DRX, DRY, DRZ vides), contre « POU_D_E : DX, DY, DZ, DRX, DRY, DRZ ». Texte : « Pour la modélisation de barre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les trois composantes de déplacement en translation. » Confirmé au catalogue : AFFE_MODELE/AFFE/MODELISATION accepte la valeur \"BARRE\" ; AFFE_CARA_ELEM/BARRE/SECTION accepte \"GENERALE\" avec CARA=\"A\". Cas test officiel : comp009a.comm, `AFFE_CARA_ELEM(MODELE=MOMECA, BARRE=_F(GROUP_MA=\"M1\", SECTION=\"GENERALE\", CARA=\"A\", VALE=1.0))` sur un modèle AFFE_MODELE(MODELISATION=\"BARRE\") -- exactement la combinaison retenue. forma41a.comm illustre BARRE avec SECTION=\"CERCLE\" (variante non retenue ici, la section du tirant est donnée par son aire brute, non un rayon).",
+      "notes": "« Absence de degré de rotation » est un fait de la modélisation BARRE elle-même (la maille n'a pas de DDL de rotation), pas une conséquence de la liaison du point 3 : au nœud partagé, seule la coque (ou la liaison de corps solide) porte des rotations. Non vérifié par exécution dans ce lot : la valeur de l'aire de section brute (44,2 cm², donnée du modèle) est utilisée telle quelle par le générateur, sans recalcul ici."
+    }
+  ]
+}

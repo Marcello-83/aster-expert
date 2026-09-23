@@ -473,14 +473,12 @@
     },
     {
       "point_label": "3",
-      "topic": "Mécanisme catalogue pour raccorder un maillage poutre à un maillage coque non coïncidents",
-      "options_considered": [
-        "LIAISON_ELEM(OPTION='COQ_POU')"
-      ],
-      "option_retained": "AFFE_CHAR_MECA, mot-clé LIAISON_ELEM, OPTION='COQ_POU' (mots-clés enfants GROUP_MA_1, GROUP_NO_2, CARA_ELEM, AXE_POUTRE)",
-      "justification": "R3.03.06 décrit la liaison coque-poutre pour raccorder deux maillages non coïncidents ; R3.03.03 nomme explicitement AFFE_CHAR_MECA/LIAISON_ELEM avec OPTION='3D_POU'/'2D_POU' pour ce raccord ; get_command_schema confirme COQ_POU parmi les valeurs catalogue de LIAISON_ELEM/OPTION et ses mots-clés enfants.",
+      "topic": "Liaison de corps solide entre un anneau de nœuds de coque et un nœud de poutre",
+      "options_considered": [],
+      "option_retained": "Mot-clé facteur LIAISON_SOLIDE de AFFE_CHAR_MECA, GROUP_NO = (nom du groupe de nœuds de l'anneau de tête du tube, nom du groupe de nœuds du nœud de poutre au droit de ce tube), une occurrence par tube : les nœuds cités deviennent un unique corps rigide, sans relation superflue avec les autres tubes. GROUP_NO accepte un tuple de plusieurs groupes de nœuds dans une même occurrence, chacun désignant un ensemble distinct de nœuds réunis dans le même corps solide (confirmé par le cas test officiel sdlx03b.comm : `LIAISON_SOLIDE=(_F(GROUP_NO=(\"N241\", \"N44\")), ...)`, jonction de plaques DKT perpendiculaires, GROUP_NO à deux éléments par occurrence).",
+      "justification": "U4.44.01 (Mot-clé LIAISON_SOLIDE) : « Le mot-clé LIAISON_SOLIDE permet de modéliser une partie indéformable d'une structure. On impose des relations linéaires entre les degrés de liberté des nœuds de cette partie indéformable... Ces nœuds sont définis par les groupes de mailles et les groupes de nœuds auxquels ils appartiennent. » Confirmé au catalogue : le mot-clé facteur LIAISON_SOLIDE de AFFE_CHAR_MECA existe, avec l'opérande GROUP_NO (type grno, sans limite de nombre de valeurs -- max_values null). Le mécanisme ne distingue pas le type d'élément porté par chaque nœud (coque DKT ou poutre POU_D_E) : la remarque du même paragraphe (« Si un élément a tous ses nœuds dans une zone «solidifiée»... ses efforts généralisés sont nuls ») s'applique aux deux également. Un cas test officiel, sdlx03b.comm (assemblage de plaques DKT entretoisées), utilise exactement cette syntaxe -- GROUP_NO à plusieurs éléments par occurrence -- pour unir des nœuds de deux parties distinctes de la structure ; il ne combine pas coque et poutre, mais le mécanisme cité (relations linéaires entre degrés de liberté de nœuds appartenant aux groupes donnés) ne dépend pas de la modélisation portée par chaque nœud.",
       "discarded_variants": [],
-      "notes": null,
+      "notes": "Alternative recevable, non retenue : LIAISON_ELEM (option COQ_POU, U4.44.01), un raccord coque/poutre dédié qui laisse respirer l'interface au lieu d'un corps rigide -- écarté car le point demande explicitement une « liaison de corps solide », terminologie qui nomme LIAISON_SOLIDE, et parce que le cas de test (encastrement du tube dans la poutre sur 0,80 m, cas_test_quai_combiwall_v2.md §3) est mieux représenté par un raccord rigide que par un raccord souple conçu pour ne pas transmettre de contrainte parasite. Non établi par la documentation seule : DIST_MIN (distance de confusion des points, par défaut 0,001 × plus petite arête du maillage) n'a pas été vérifié compatible avec la géométrie du modèle (l'anneau de tête a un rayon 0,71 m et 40 ou 21 nœuds : la plus petite arête du maillage entier, hors anneau, doit être identifiée avant génération pour écarter un DIST_MIN trop grand qui engloberait des nœuds voisins non voulus). Historique du constat remplacé (fiche de base, lot 14, niveau A, sans excerpt ni cas test) : option retenue : AFFE_CHAR_MECA, mot-clé LIAISON_ELEM, OPTION='COQ_POU' (mots-clés enfants GROUP_MA_1, GROUP_NO_2, CARA_ELEM, AXE_POUTRE) Notes : (aucune)",
       "validity_domain": null,
       "nature": "code_aster",
       "sources": [
@@ -518,6 +516,42 @@
           "catalogue_source": null,
           "catalogue_hash": null,
           "image_digest": null
+        },
+        {
+          "document_id": "U4.44.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Chargements de type Dirichlet",
+            "Mot-clé LIAISON_SOLIDE"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Dirichlet_.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Mot-clé LIAISON_SOLIDE\n----------------------\n\n.. code-block:: text\n\n    LIAISON_SOLIDE = _F(\n               ◆ / GROUP_NO = grno,\n                 / GROUP_MA = grma,\n               ◇ SANS_GROUP_MA = grma,\n               ◇ SANS_GROUP_NO = grno,\n               ◇ DIST_MIN = float,\n    )\n\nLe mot-clé LIAISON_SOLIDE permet de modéliser une partie indéformable d’une structure. On impose des relations linéaires entre les degrés de liberté des nœuds de cette partie indéformable de telle sorte que les déplacements relatifs entre ces nœuds soient nuls et on impose éventuellement les déplacements aux valeurs résultant de la translation et/ou de la rotation. Ces nœuds sont définis par les groupes de mailles et les groupes de nœuds auxquels ils appartiennent. Pour les restrictions d’usage, voir le § :ref:`3.2.1 <RefNumPara__16466_348240213>` .\n\nEn petites perturbations, on impose en 2D :math:`({{nb}}_{{ddl}}{\\times}{{nb}}_{{noeud}}–3)` relations et en 3D :math:`({{nb}}_{{ddl}}{\\times}{{nb}}_{{noeud}}–6)` relations, où :math:`{{nb}}_{{ddl}}` est le nombre de degrés de liberté par nœud et :math:`{{nb}}_{{noeud}}` est le nombre de nœuds de la liste donnée après LIAISON_SOLIDE. Un solide est déterminé par la position d’un de ses points et d’un repère en ce point. Des relations sont écrites en prenant la formule vectorielle traduisant un mouvement de corps rigide en petites rotations:\n\n.. math::\n    :label: eq-6\n\n    \\overrightarrow{u}(M)=\\overrightarrow{u}(A)+\\overrightarrow{\\Omega}(A)\\wedge \\overrightarrow{{AM}}\n\n\noù :math:`A` est un nœud arbitraire du solide. Pour plus de détails, voir la doc [:external:ref:`R3.03.02 <R3.03.02>`].\n\nIl est possible d’utiliser LIAISON_SOLIDE en grandes transformations dans STAT_NON_LINE (puisque le problème devient non-linéaire) uniquement en imposant que le chargement soit suiveur (TYPE_CHARGE=’SUIV’, voir [:external:ref:`U4.51.03 <U4.51.03>`]).\n\nAffectation topologique:\n\n.. code-block:: text\n\n    ◆ GROUP_MA, SANS_GROUP_MA, SANS_GROUP_NO\n\nLes conditions cinématiques de corps rigide sont imposées sur les nœuds appartenant aux mailles données par les mots-clés TOUT, GROUP_MA tout en excluant éventuellement grâce aux mots-clés SANS_*.\n\n.. code-block:: text\n\n    ◇ DIST_MIN\n\nCe mot-clé sert à définir une distance (dans les unités du maillage) en dessous de laquelle on considère que les points du maillage sont confondus. Cette distance sert aussi à déterminer si des points sont alignés, c’est-à-dire s’ils se trouvent dans un cylindre de diamètre inférieur à :math:`{dmin}` . Par défaut, :math:`{dmin}{=}0.001{\\times}{armin}` , où :math:`{armin}` est la plus petite arête du maillage.\n\n**Remarques:**\n\n*Si un élément a tous ses nœuds dans une zone «solidifiée» par* LIAISON_SOLIDE *, sa déformation est nulle. L’état de contrainte est alors également nul ainsi que les efforts généralisés s’il s’agit d’un élément de structure.*\n\n*Si la liste des nœuds à lier ne comporte que des nœuds alignés ne portant aucun degré de liberté de rotation, alors, si le système doit être soumis à une rotation, il faut rajouter un nœud fictif non aligné dans la liste. L'autre solution est de se placer dans l'hypothèse des grandes rotations et grands déplacements(TYPE_CHARGE='SUIV'), on impose en effet explicitement à la liaison solide de vérifier que les distances sont constantes.*\n\n\n\n.. _u4.44.01-LIAISON_ELEM:\n"
+        },
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "LIAISON_SOLIDE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "LIAISON_SOLIDE",
+            "GROUP_NO"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
         }
       ],
       "status": "tranche"
@@ -724,12 +758,12 @@
     },
     {
       "point_label": "5",
-      "topic": "Mécanisme catalogue d'application d'une pression fonction de la profondeur",
+      "topic": "Pression répartie fonction de Z sur des coques DKT",
       "options_considered": [],
-      "option_retained": "AFFE_CHAR_MECA_F, mot-clé PRES_REP, opérande PRES de type fonction_sdaster/nappe_sdaster/formule -- contre AFFE_CHAR_MECA où PRES_REP n'accepte qu'un réel constant (plus CISA_2D)",
-      "justification": "get_command_schema confirme cette différence entre les deux variantes de la commande.",
+      "option_retained": "AFFE_CHAR_MECA_F, mot-clé facteur FORCE_COQUE, opérande PRES = une FORMULE(NOM_PARA='Z', ...) (pression normale, positive suivant le sens contraire de la normale à l'élément), GROUP_MA = le groupe de mailles concerné. PRES_REP n'est PAS utilisé : sa liste de modélisations applicables (U4.44.01) ne cite pas DKT, et la documentation avertit explicitement que « les pressions de type «fonction», ne sont pour l'instant pas compatibles avec la modélisation COQUE_3D et COQUE_SOLIDE » -- PRES_REP n'est donc, au mieux, utilisable qu'à valeur constante sur COQUE_3D, jamais fonction de Z sur DKT.",
+      "justification": "U4.44.01 (Mot-clé FORCE_COQUE) : « Le mot-clé facteur FORCE_COQUE est utilisable pour appliquer des efforts surfaciques sur des éléments de type coque (DKT, DST, Q4G, COQUE_3D…) [...] La composante PRES impose une pression normale à la surface [...] Valeur de la pression imposée (réel ou fonction), normale à la coque. » Confirmé au catalogue : sous AFFE_CHAR_MECA_F, FORCE_COQUE.PRES accepte fonction_sdaster, nappe_sdaster ou formule. Un cas test officiel, ssls118a.comm (modélisation DKT), applique exactement ce mécanisme : `P = FORMULE(VALE=\"PO*sin(pi*X)*sin(pi*Y)\", NOM_PARA=[\"X\",\"Y\"])` puis `AFFE_CHAR_MECA_F(MODELE=MO, FORCE_COQUE=_F(PRES=P, GROUP_MA=\"MAIL1\"))` -- une pression fonction de position sur DKT, avec NOM_PARA différent (X, Y) mais le même mécanisme de commande + mot-clé ; ssls100b.comm confirme la variante à fonction constante (DEFI_CONSTANTE) sur TOUT='OUI'. La liste des modélisations de PRES_REP (U4.44.01, Mot-clé PRES_REP) ne mentionne que « AXIS, D_PLAN, C_PLAN, ..., 3D et COQUE_3D » -- DKT en est absent -- et la même section précise que la pression «fonction» n'est pas compatible avec COQUE_3D.",
       "discarded_variants": [],
-      "notes": null,
+      "notes": "Signe : d'après U4.44.01, une valeur PRES positive pousse dans le sens opposé à la normale de l'élément ; combinée à l'orientation retenue au point 5 suivant (normale vers la terre), une valeur positive de la poussée des terres pousse bien vers le bassin. Existe aussi FORCE_COQUE_FO (U4.44.01), « en quelque sorte équivalent à AFFE_CHAR_MECA_F/FORCE_COQUE » pour une fonction indépendante du temps évaluée une seule fois : non retenu ici, aucun cas test officiel ne l'utilise (search_test_cases, 0 résultat), alors que AFFE_CHAR_MECA_F/FORCE_COQUE l'est. Le paramètre Z d'une FORMULE se réfère à la géométrie initiale (U4.44.01 : « la dépendance à la géométrie peut être faite par rapport à la géométrie initiale avec les paramètres X, Y et Z »), cohérent avec un calcul en petits déplacements. Historique du constat remplacé (fiche de base, lot 14, niveau A, sans excerpt ni cas test) : option retenue : AFFE_CHAR_MECA_F, mot-clé PRES_REP, opérande PRES de type fonction_sdaster/nappe_sdaster/formule -- contre AFFE_CHAR_MECA où PRES_REP n'accepte qu'un réel constant (plus CISA_2D) Notes : (aucune)",
       "validity_domain": null,
       "nature": "code_aster",
       "sources": [
@@ -754,6 +788,78 @@
           "catalogue_source": null,
           "catalogue_hash": null,
           "image_digest": null
+        },
+        {
+          "document_id": "U4.44.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Chargements de type Neumann pour les éléments de structure",
+            "Mot-clé FORCE_COQUE"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_pour_les__l_ments_de_structure_.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Mot-clé FORCE_COQUE\n-------------------\n\n.. code-block:: text\n\n          | FORCE_COQUE = _F(\n               ◆ / TOUT = \"OUI\" (ou non renseigné),\n                 / GROUP_MA = grma,\n               ◆ | FX = float,\n                 | FY = float,\n                 | FZ = float,\n                 | MX = float,\n                 | MY = float,\n                 | MZ = float,\n                 | PRES = float,\n                 | F1 = float,\n                 | F2 = float,\n                 | F3 = float,\n                 | MF1 = float,\n                 | MF2 = float,\n               ◇ PLAN = / \"SUP\",\n                        / \"INF\",\n                        / \"MOY\",\n                        / \"MAIL\" (par défaut),\n            ),\n\n\nLe mot-clé facteur FORCE_COQUE est utilisable pour appliquer des efforts **surfaciques**  sur des éléments de type coque (DKT, DST, Q4G, COQUE_3D…). Les opérandes de FORCE_COQUE peuvent être définis:\n\n\n*   Dans le repère **global**  avec les mot-clefs FX, FY, FZ, MX, MY et MZ si l'on veut imposer un torseur des efforts surfaciques par composante.\n\n\n*   La composante PRES impose une pression **normale**  à la surface;\n\n\n*   Dans un repère **de référence défini sur chaque maille** avec les mot-clefs F1, F2, F3, MF1 et MF2 si l'on veut imposer un torseur des efforts **surfaciques**  par composante; le repère est construit autour de la normale à l’élément de coque :math:`({z}_{\\mathit{ref}})` et d’une direction fixe :math:`({x}_{\\mathit{ref}})` (pour le groupe de maille) définie par le mot-clé ANGL_REP en même temps que l’épaisseur de la coque (voir mot-clé facteur COQUE de l’opérateur AFFE_CARA_ELEM [:external:ref:`U4.42.01 <U4.42.01>`]).\n\nS’il est appliqué sur des éléments COQUE_3D, ce chargement peut-être de type suiveur mais uniquement s’il s’agit d’une pression (opérande PRES).\n\n\n.. image:: images/10000C8A00001A2600000C18F7C8329E10CC3DC1.svg\n    :width: 337\n    :height: 156\n\n\n.. _RefImage_10000C8A00001A2600000C18F7C8329E10CC3DC1.svg:\n\nIl est aussi possible de définir un torseur d’efforts **surfaciques**  sur le plan moyen, inférieur, supérieur ou du maillage. Si on note :math:`d` l’excentrement, :math:`h` l’épaisseur de la coque, :math:`(\\mathit{F2X},\\mathit{F2Y},\\mathit{F2Z},\\mathit{M2X},\\mathit{M2Y},\\mathit{M2Z})` le torseur des efforts sur le plan défini par l’utilisateur (soit excentré) et :math:`(\\mathit{F1X},\\mathit{F1Y},\\mathit{F1Z},\\mathit{M1X},\\mathit{M1Y},\\mathit{M1Z})` le torseur des efforts dans le plan du maillage.\n\nLes formules de passage sont les suivantes:\n\n\n*   Si le plan de calcul est le plan du maillage:\n\n:math:`\\mathit{F2}=\\mathit{F1}`\n\n:math:`\\mathit{M2}=\\mathit{M1}`\n\n\n*   Si le plan de calcul est le feuillet moyen excentré:\n\n:math:`\\mathit{F2}=\\mathit{F1}`\n\n:math:`\\mathit{M2X}=\\mathit{M1X}–\\mathit{dx}\\mathit{F1Y}`\n\n:math:`\\mathit{M2Y}=\\mathit{M1Y}+\\mathit{dx}\\mathit{F1X}`\n\n\n*   Si le plan de calcul est le feuillet supérieur excentré:\n\n:math:`\\mathit{F2}=\\mathit{F1}`\n\n:math:`\\mathit{M2X}=\\mathit{M1X}–d+\\frac{h}{2}.\\mathit{F1Y}`\n\n:math:`\\mathit{M2Y}=\\mathit{M1Y}+d+\\frac{h}{2}.\\mathit{F1X}`\n\n\n*   Si le plan de calcul est le feuillet inférieur excentré:\n\n:math:`\\mathit{F2}=\\mathit{F1}`\n\n:math:`\\mathit{M2X}=\\mathit{M1X}–d-\\frac{h}{2}.\\mathit{F1Y}`\n\n:math:`\\mathit{M2Y}=\\mathit{M1Y}+d-\\frac{h}{2}.\\mathit{F1X}`\n\nNotons que l’on doit rester homogène dans chaque occurrence du mot-clé facteur FORCE_COQUE: soit tout en composante d’effort dans le repère global soit tout en composante d’effort dans le repère de définition de la coque.\n\nLa pression appliquée est positive suivant le sens contraire de la normale à l’élément (définie par l’orientation de chaque maille (cf. [§ :ref:`3.9.1 <RefNumPara__18240_53696255>` ]).\n\nLe chargement est affecté sur ces mailles qui sont nécessairement des triangles ou des quadrangles.\n\n.. code-block:: text\n\n    ◆ PRES\n\nValeur de la pression imposée (réel ou fonction), normale à la coque.\n\nComposantes:\n\n.. code-block:: text\n\n  ◆ FX, FY, FZ, MX, MY, MZ\n\nValeur des efforts et des moments dans le repère global.\n\nComposantes:\n\n.. code-block:: text\n\n  ◆ F1, F2\n\nEfforts de membrane suivant :math:`{x}_{\\mathit{ref}}` et :math:`{y}_{\\mathit{ref}}` .\n\nComposantes:\n\n.. code-block:: text\n\n  ◆  F3\n\nEffort normal suivant :math:`{z}_{\\mathit{ref}}` .\n\nComposantes:\n\n.. code-block:: text\n\n  ◆ MF1, MF2\n\nMoments fléchissants d’axe :math:`X` et :math:`Y`\n\nDéfinition du PLAN pour écrire le torseur d’efforts:\n\n*   ’MOY’: on applique le torseur d’efforts sur le feuillet moyen excentré;\n\n*   ’INF’: on applique le torseur d’efforts sur la peau inférieure;\n\n*   ’SUP’: on applique le torseur d’efforts sur la peau supérieure;\n\n*   ’MAIL’: on applique le torseur d’efforts au niveau du plan du maillage.\n"
+        },
+        {
+          "document_id": "U4.44.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Chargements de type Neumann",
+            "Mot-clé PRES_REP"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Mot-clé PRES_REP\n----------------\n\n.. code-block:: text\n\n    PRES_REP = _F(\n               ◆ | TOUT = \"OUI\" (ou non renseigné),\n                 | GROUP_MA = grma,\n                 | FISSURE = fiss_xfem,\n               ◆ | PRES = float ou fonction,\n                 | CISA_2D = float ou fonction,\n    )\n\nLe mot-clé facteur PRES_REP est utilisable pour appliquer:\n\n*   une **pression**  à un domaine de milieu continu 2D, 3D ou éléments d'interface fluide/structure ( \\*_FLUI_STRU);\n\n*   une **pression**  sur une coque de type COQUE_3D;\n\n*   un **cisaillement**  à un domaine de milieu continu 2D;\n\n*   une **pression** sur les lèvres d'une fissure XFEM.\n\n\nAffectation topologique:\n\n.. code-block:: text\n\n    ◆ |TOUT, GROUP_MA\n\nLe chargement est affecté sur les mailles qui sont nécessairement des segmentsen 2D et des trianglesou quadranglesen 3D.\n\n.. code-block:: text\n\n    ◆ | FISSURE\n\nL’imposition d’une pression sur les lèvres d’une fissure X-FEMse fait par le mot-clé spécifique FISSURE, puisque aucun groupe de maille ne correspond aux lèvres. On renseigne alors le ou les noms des fissures (provenant de la commande DEFI_FISS_XFEM[U4.82.08])sur lesquelles on souhaite appliquer la pression. Attention, il n’est pas possible d’appliquer un chargement de pression sur les lèvres d’un modèle XFEM de type cohésif.\n\n\n.. code-block:: text\n\n    ◆ | PRES\n\nValeur de la pression imposée.\n\nPour les éléments isoparamétriques (2D ou 3D), la pression est positive suivant le sens contraire de la normale à l’élément. Soit :math:`\\sigma` le tenseur des contraintes, le chargement imposé est: :math:`{\\sigma}_{ij}{n}_{i}{n}_{j}=-p{n}_{i}{n}_{j}` . Ce chargement s’applique aux modélisations suivantes: AXIS, D_PLAN, C_PLAN, AXIS_FOURIER, D_PLAN_HHM, D_PLAN_HM, D_PLAN_THHM, D_PLAN_THM, AXIS_HHM, AXIS_HM, AXIS_THHM, AXIS_THM, TUYAU_3M, TUYAU_6M, 3D_HHM, 3D_HM, 3D_THHM, 3D_THM, 3D et COQUE_3D.\n\nPour les éléments d'interface fluide-structure, ce chargement s'applique à FLUI_STRU, 2D_FLUI_STRU et AXIS_FLUI_STRU.\n\nDans le cas d’une pression «fonction», la dépendance à la géométrie peut être faite par rapport à la géométrie initiale avec les paramètres X, Y, et Z ou par rapport à la géométrie réactualisée (uniquement si TYPE_CHAR = ’SUIV’) avec les paramètres XF, YF, et ZF.\n\nRemarques:\n\n\n*   Les pressions de type «fonction», ne sont pour l’instant pas compatibles avec la modélisation COQUE_3D et COQUE_SOLIDE\n\n\n*   Pour les éléments de type COQUE_SOLIDE, une contribution **volumique**  de pincement est ajoutée aux chargements affectés sur les éléments de peau. Le processus est automatique lors de l’affectation du chargement\n\n\n.. code-block:: text\n\n    ◆ | CISA_2D\n\nValeur du cisaillement imposé. Le cisaillement est positif suivant la tangente à l’élément. Ce chargement s’applique aux modélisations suivantes: AXIS, D_PLAN, C_PLAN et AXIS_FOURIER.\n\n\n.. image:: images/10001836000069BB00002CF56467ACEC5629749D.svg\n    :width: 390\n    :height: 165\n\n\n.. _RefImage_10001836000069BB00002CF56467ACEC5629749D.svg:\n\n\n.. _RefNumPara__15038_1588186163:\n\n\n\n"
+        },
+        {
+          "command": "AFFE_CHAR_MECA_F",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "FORCE_COQUE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CHAR_MECA_F",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "FORCE_COQUE",
+            "PRES"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CHAR_MECA_F",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "PRES_REP"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CHAR_MECA_F",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "PRES_REP",
+            "PRES"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
         }
       ],
       "status": "tranche"
@@ -2762,6 +2868,313 @@
       "decided_at": "2026-09-21T11:51:43-04:00",
       "decision_history": [],
       "revision_history": []
+    },
+    {
+      "point_label": "11",
+      "topic": "Appui vertical de l'écran",
+      "options_considered": [],
+      "option_retained": "Le déplacement vertical est bloqué aux nœuds du pied des tubes, à la cote −26,00, qui forment le groupe de nœuds `PIED_TUBES`. Seul le déplacement vertical est bloqué : les déplacements horizontaux et les rotations du pied restent libres. Le pied des palplanches (−18,00) n'a pas d'appui vertical.",
+      "justification": "Les ressorts de sol de la décision 5 sont horizontaux. Sans autre appui, le poids de l'écran et de la poutre, la composante verticale des tirants et celle de l'effort d'amarrage ne seraient repris que par la composante verticale des tirants inclinés. Ce mécanisme est artificiel, et proche d'un mode rigide. La reprise verticale réelle se fait par la pointe et le frottement latéral des tubes ; la représenter par un appui en pointe est la forme la plus simple qui place la réaction verticale au bon endroit.",
+      "discarded_variants": [
+        {
+          "description": "Aucun appui vertical.",
+          "reason": "Reprise verticale par les seuls tirants ; mécanisme artificiel, voisin d'un mode rigide."
+        },
+        {
+          "description": "Ressorts verticaux de frottement répartis le long de la fiche.",
+          "reason": "Exige des raideurs de frottement absentes des données du cas."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "- Le frottement latéral n'est pas représenté : tout l'effort vertical descend jusqu'à la pointe, donc l'effort normal dans les tubes est surestimé en partie basse.\n- L'appui est rigide : le tassement de la pointe n'est pas représenté.\n- Les palplanches ne portent pas verticalement ; leur poids transite par les serrures vers les tubes.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, appui vertical décidé en séance de travail",
+          "date": "2026-09-22"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-22T03:04:42-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "5",
+      "topic": "Orientation cohérente des normales de coque pour qu'une pression positive agisse côté terre",
+      "options_considered": [],
+      "option_retained": "MODI_MAILLAGE(reuse=..., ORIE_NORM_COQUE=_F(GROUP_MA=(\"ECRAN_POUSSEE\",), VECT_NORM=(0.0, 1.0, 0.0), GROUP_NO=<un nœud de la génératrice côté terre, angle 90°, où la normale géométrique vaut exactement (0, 1, 0)>)), exécuté avant l'affectation de la charge. Combiné avec une valeur PRES positive (fait précédent), la pression pousse alors vers le bassin (-Y), sens physique de la poussée des terres.",
+      "justification": "U4.23.04 (Mot-clé ORIE_NORM_COQUE) : « Ce mot-clé sert à vérifier que dans une liste de mailles surfaciques (coques), les normales sont cohérentes entre elles. [...] Les mailles de lgrma doivent former un groupe «connexe» [...] On peut imposer le sens de l'orientation à l'aide des mots-clé GROUP_NO/VECT_NORM. [...] La normale choisie sera celle qui fait un angle aigu avec le vecteur donné par VECT_NORM. » Confirmé au catalogue : GROUP_MA, VECT_NORM, GROUP_NO existent sous ORIE_NORM_COQUE de MODI_MAILLAGE. Un cas test officiel, sdls118a.comm, utilise exactement cette syntaxe : `MODI_MAILLAGE(reuse=MAILLAGE, MAILLAGE=MAILLAGE, ORIE_NORM_COQUE=_F(GROUP_MA=\"RADIER\", VECT_NORM=(0, 0, -1), GROUP_NO=\"P3\"))`. ECRAN_POUSSEE (tubes côté terre + palplanches, point 10) est topologiquement connexe : les palplanches partagent des nœuds de serrure avec les tubes adjacents sur toute leur hauteur (lot 27, invariants « nœuds partagés »).",
+      "discarded_variants": [],
+      "notes": "GROUP_NO de ORIE_NORM_COQUE doit désigner un groupe à un seul nœud (\"grno doit être une GROUP_NO ne contenant qu'un seul nœud\", U4.23.04) : la convention de nommage actuelle n'a pas de tel groupe sur la génératrice côté terre d'un tube -- à créer par le générateur (DEFI_GROUP/CREA_GROUP_NO sur critère géométrique), hors convention de maillage (lot 26/27).",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U4.23.04",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Opérandes",
+            "Mot-clé ORIE_NORM_COQUE"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.23.04/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Mot-clé ORIE_NORM_COQUE\n-----------------------\n\n ◊    ORIE_NORM_COQUE= _F(\n\nCe mot-clé sert à vérifier que dans une liste de mailles surfaciques (coques), les normales sont cohérentes entre elles. Dans le cas contraire, certaines mailles sont réorientées.\n\n ♦    GROUP_MA=    lgrma,                [l_gr_ma]\n\nGroupes de mailles surfaciques à réorienter. Les mailles de lgrma doivent former un groupe \"connexe\" pour que l'on puisse les réorienter par continuité.\n\nOn peut imposer le sens de l'orientation à l’aide des mots-clé GROUP_NO/VECT_NORM. Si on ne le fait pas, l'orientation retenue sera celle de la 1ère maille de lgrma, mais ce n'est pas forcément la 1ère maille du 1er GROUP_MA ! Il est donc conseillé de toujours utiliser le mot clé VECT_NORM.\n\n ◊    VECT_NORM= (n1, n2, [:ref:`n3 <n3>`]),    [l_R]\n\nni: 2 ou 3 composantes (selon la dimension) du vecteur normal. Il faut également préciser le nœud support de cette normale:\n\n ◊    GROUP_NO    =    grno,        [gr_no]\n\n     grno doit être une GROUP_NO ne contenant qu'un seul nœud.\n\n     La normale choisie sera celle qui fait un angle aigu avec le vecteur donné par VECT_NORM.\n\n**Remarque:** si GROUP_NO n'est pas donné par l'utilisateur, le code choisira automatiquement l'un des noeuds de GROUP_MA. Il faut donc être prudent dans la définition de ce dernier, de manière à ce que la normale soit bien définie sur l'ensemble des mailles. En particulier, il faut éviter les cas où le groupe ne définit pas une zone topologique presque plane."
+        },
+        {
+          "command": "MODI_MAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "ORIE_NORM_COQUE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "MODI_MAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "ORIE_NORM_COQUE",
+            "VECT_NORM"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "MODI_MAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "ORIE_NORM_COQUE",
+            "GROUP_NO"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "5",
+      "topic": "Représentation d'un profil de pression discontinu par points doublés à Z ± 0,001 m",
+      "options_considered": [],
+      "option_retained": "La proposition (points doublés à Z ± 0,001 m, une valeur par couche) est retenue : aucune interface de couche pertinente pour le modèle (remblai/sable à -2,00, sable/argile à -9,00, argile/marne à -18,00) ne tombe à moins de 1 mm d'un point d'intégration, pour toute famille de quadrature documentée du quadrangle à 4 nœuds (QU4).",
+      "justification": "Fait calculé (module aster_expert.meshing.combiwall / data/examples/combiwall_model_data.yaml, jamais deviné) : les trois interfaces de couche à -2,00, -9,00 et -18,00 tombent exactement sur une cote de nœud du maillage -- -18,00 est une cote imposée (maillage.cotes_imposees) ; -2,00 et -9,00 sont des multiples exacts du pas régulier de 0,25 m de l'intervalle -12,00 -> +1,00 (52 segments, aucun arrondi, lot 27) -- et les rangées de mailles adjacentes à chacune des trois cotes ont une hauteur de 0,25 m. R3.01.01 (Quadrangles : ELREFE QU4, QU8, QU9) donne les trois familles de points d'intégration disponibles pour un quadrangle à 4 nœuds : FPG1 (1 point, au centre), FPG4 (2×2 points de Gauss, coordonnée naturelle a = 1/√3 ≈ 0,5774) et FPG9 (3×3 points, a ≈ 0,7746). Pour la famille la plus dense (FPG9), le point le plus proche d'un bord de l'élément est à une fraction (1 − 0,7746)/2 ≈ 11,3 % de la hauteur de l'élément, soit environ 28 mm pour un élément de 0,25 m -- très supérieur à 1 mm quelle que soit la famille effectivement utilisée par l'option de chargement.",
+      "discarded_variants": [],
+      "notes": "Déduction, non un fait documenté directement : R3.01.01 donne les familles de points disponibles pour l'élément de référence QU4, mais ne dit pas laquelle l'option de calcul du chargement FORCE_COQUE sélectionne effectivement (R3.07.03 mentionne « la routine INI079 pour la position des points de Hammer et de Gauss » sans en donner le nombre pour ce cas). La marge (>= 11 mm dans le pire cas documenté, pour un critère de 1 mm) est jugée suffisante pour ne pas bloquer la génération, mais reste une déduction, pas un fait catalogue direct -- à vérifier de façon décisive si un doute apparaît à l'exécution (ex. une discontinuité de contrainte visible à l'interface). Aucun cas test officiel ne correspond à cette question (ce n'est pas un usage de commande, mais une propriété géométrique de la discrétisation) : search_test_cases n'est pas pertinent ici.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "R3.01.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Les éléments surfaciques",
+            "Quadrangles : ELREFE QU4, QU8, QU9"
+          ],
+          "source_path": "source/manuals/man_r/r3/r3.01.01/Les__l_ments_surfaciques.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Quadrangles : ELREFE QU4, QU8, QU9\n----------------------------------\n\n\n.. image:: images/Object_98.svg\n    :width: 229\n    :height: 241\n\n\n.. _RefImage_Object_98.svg:\n\nCoordonnées des nœuds:\n\n.. csv-table::\n\n    \"\", \":math:`\\xi`\", \":math:`\\eta`\"\n    \":math:`\\mathrm{N1}`\", \"-1.0\", \"-1.0\"\n    \":math:`\\mathrm{N2}`\", \"1.0\", \"-1.0\"\n    \":math:`\\mathrm{N3}`\", \"1.0\", \"1.0\"\n    \":math:`\\mathrm{N4}`\", \"-1.0\", \"1.0\"\n    \":math:`\\mathrm{N5}`\", \"0.0\", \"-1.0\"\n    \":math:`\\mathrm{N6}`\", \"1.0\", \"0.0\"\n    \":math:`\\mathrm{N7}`\", \"0.0\", \"1.0\"\n    \":math:`\\mathrm{N8}`\", \"-1.0\", \"0.0\"\n    \":math:`\\mathrm{N9}`\", \"0.0\", \"0.0\"\n\n\n\n.. csv-table::\n\n    \"**Famille**\", \"**Point**\", \":math:`\\xi`\", \":math:`\\eta`\", \"**Poids**\"\n    \"FPG1\", \"1\", \"0\", \"0\", \"4\"\n    \"FPG4\", \"1\", \":math:`-a`\", \":math:`-a`\", \"1.0\"\n    \"\", \"2\", \":math:`a`\", \":math:`-a`\", \"1.0\"\n    \"\", \"3\", \":math:`a`\", \":math:`a`\", \"1.0\"\n    \"\", \"4\", \":math:`-a`\", \":math:`a`\", \"1.0\"\n    \"\", \"\", \":math:`a=1/\\sqrt{3}`\", \"\", \"\"\n    \"FPG9\", \"1\", \":math:`-a`\", \":math:`-a`\", \"25/81\"\n    \"\", \"2\", \":math:`a`\", \":math:`-a`\", \"25/81\"\n    \"\", \"3\", \":math:`a`\", \":math:`a`\", \"25/81\"\n    \"\", \"4\", \":math:`-a`\", \":math:`a`\", \"25/81\"\n    \"\", \"5\", \"0.0\", \":math:`-a`\", \"40/81\"\n    \"\", \"6\", \":math:`a`\", \"0.0\", \"40/81\"\n    \"\", \"7\", \"0.0\", \"a\", \"40/81\"\n    \"\", \"8\", \":math:`-a`\", \"0.0\", \"40/81\"\n    \"\", \"9\", \"0.0\", \"0.0\", \"64/81\"\n    \"\", \"\", \":math:`a=0.774596669241483`\", \"\", \"\""
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "7",
+      "topic": "Conditions de symétrie par rapport à un plan X = constante pour des coques DKT et des poutres POU_D_E",
+      "options_considered": [],
+      "option_retained": "DDL_IMPO(GROUP_NO=(\"SYM_G\",) ou (\"SYM_D\",), DX=0.0, DRY=0.0, DRZ=0.0) : translation normale au plan et rotations autour des deux axes du plan bloquées ; DY, DZ, DRX libres. Identique pour les nœuds de coque (DKT) et de poutre (POU_D_E) du groupe : les six degrés de liberté nommés DX/DY/DZ/DRX/DRY/DRZ et leur repère (le repère global) sont les mêmes pour les deux modélisations.",
+      "justification": "U4.44.01 (Tableau 5-2) : « DX, DY, DZ [toutes modélisations] : composantes de déplacement en translation dans le repère global » ; « DRX, DRY, DRZ [éléments discrets, de poutre, de tuyaux, de coque ou de plaque] : composantes de déplacement en rotation dans le repère global. » U4.44.01 (Mot-clé DDL_IMPO) : « Les degrés de liberté imposés sont définis dans le repère global de définition du maillage. » U3.12.01 (Discrétisation, DKT/DKQ/DKTG) et U3.11.01 (Discrétisation, POU_D_E) donnent le même sextuplet DX, DY, DZ, DRX, DRY, DRZ à chaque nœud sommet pour les deux modélisations. Un cas test officiel, ssls100b.comm (plaque DKT), applique exactement ce schéma sur un bord de symétrie : `_F(GROUP_NO=\"GRNO_OC\", DX=0.0, DRY=0.0, DRZ=0.0)` (plan de symétrie X = constante) et, sur l'autre bord, `_F(GROUP_NO=\"GRNO_OA\", DY=0.0, DRX=0.0, DRZ=0.0)` (plan de symétrie Y = constante, schéma symétrique en DY/DRX/DRZ) -- confirmant que le choix (translation normale + deux rotations dans le plan bloquées, translations et rotation normale libres) est bien celui retenu par un cas de référence, pour DKT.",
+      "discarded_variants": [],
+      "notes": "Déduction pour la partie « pourquoi ces trois DDL et pas d'autres » : un déplacement DX, ou une rotation DRY ou DRZ (qui produirait un déplacement hors du plan de symétrie sur les nœuds voisins par symétrie miroir) romprait la symétrie miroir par rapport au plan X = constante ; DY, DZ (translations dans le plan) et DRX (rotation autour de la normale au plan) sont compatibles avec elle. Ce raisonnement mécanique n'est pas énoncé comme tel dans la documentation (Code_Aster ne propose pas de mot-clé dédié « SYMETRIE » pour un chargement mécanique -- SYMETRIE de MODI_MAILLAGE est une opération purement géométrique sur le maillage, sans rapport). Non confirmé par un cas test officiel pour POU_D_E spécifiquement (seul DKT l'est, via ssls100b.comm) : l'extension à POU_D_E s'appuie sur l'identité documentée du sextuplet de degrés de liberté et de son repère (U3.11.01), non sur un second cas test.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U4.44.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Chargements de type Dirichlet",
+            "Degrés de liberté"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Dirichlet_.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Degrés de liberté\n------------------\n\nLes chargements de Dirichlet sont imposés sur les degrés de liberté de la grandeur DEPL_R\n(ou DEPL_C ou DEPL_F ) , représentant les degrés de liberté du problème de mécanique\n(ou de thermo-hydro-mécanique ou d’hydraulique). \n\nLe tableau ci-dessous permet de s'orienter dans le choix du mot-clé facteur selon le besoin.\n\n\n**Tableau 5-1 : Besoins.**\n\n.. csv-table::\n    :header: \"**Relation linéaire entre certains degrés de liberté sur des groupes de nœuds choisis**\", \"**mot-clé facteur**\"\n    :widths: 50, 20\n\n    \"Imposer une ou plusieurs valeurs de degré de liberté\", \"``DDL_IMPO`` § :ref:`u4.44.01-DDL_IMPO`\"\n    \"Imposer à une arête sur des éléments volumiques, une ou plusieurs valeurs de degré de liberté\", \"``ARETE_IMPO`` § :ref:`u4.44.01-ARETE_IMPO`\"\n    \"Imposer à une face sur des éléments surfaciques ou volumiques, une ou plusieurs valeurs de degré de liberté\", \"``FACE_IMPO`` § :ref:`u4.44.01-FACE_IMPO`\"\n    \"Définir une **liaison unique** entre nœuds de deux groupes de nœuds\", \"``LIAISON_DDL`` § :ref:`u4.44.01-LIAISON_DDL`\"\n    \"Appliquer la même valeur définie composante par composante de degré de liberté dans un **repère oblique** quelconque\", \"``LIAISON_OBLIQUE`` § :ref:`u4.44.01-LIAISON_OBLIQUE`\"\n    \"Imposer la **même valeur** (inconnue)\", \"``LIAISON_UNIF`` § :ref:`u4.44.01-LIAISON_UNIF`\"\n    \"Définir une relation linéaire entre tous les degrés de liberté présents dans un concept CHAM_NO\", \"``LIAISON_CHAMNO`` § :ref:`u4.44.01-LIAISON_CHAMNO`\"\n    \"Définir une relation linéaire entre tous les degrés de liberté dont le second membre est issu du contenu d’un CHAM_NO\", \"``CHAMNO_IMPO`` § :ref:`u4.44.01-CHAMNO_IMPO`\"\n    \"Définir une **même liaison par couples de nœuds en « vis-à-vis »** dans deux groupes\", \"``LIAISON_GROUP`` § :ref:`u4.44.01-LIAISON_GROUP`\"\n    \"« Recoller » deux « bords » d’une structure **sans contrainte de compatibilité** sur les maillages de ces « bords ». Un d’entre eux est déclaré « esclave », l’autre « maître »\", \"``LIAISON_MAIL`` § :ref:`u4.44.01-LIAISON_MAIL`\"\n    \"Relier un « bord » d’une structure déclaré « esclave », en vis-à-vis d’un autre « bord » déclaré « maître » dont les maillages sont identiques\", \"``LIAISON_PROJ`` § :ref:`u4.44.01-LIAISON_PROJ`\"\n    \"Imposer des conditions de **répétitivité cyclique** entre deux « bords » avec prise en compte d’un déphasage\", \"``LIAISON_CYCL`` § :ref:`u4.44.01-LIAISON_CYCL`\"\n    \"Modéliser une partie indéformable d’une structure, pour obtenir une **cinématique de corps rigide**\", \"``LIAISON_SOLIDE`` § :ref:`u4.44.01-LIAISON_SOLIDE`\"\n    \"Relier les interfaces entre deux modélisations différentes d’une structure : partie massive ou coque avec une partie poutre, tuyau ou élément discret\", \"``LIAISON_ELEM`` § :ref:`u4.44.01-LIAISON_ELEM`\"\n    \"Relier deux « bords » d’une structure, de manière généraliste, par transmission du torseur résultant, tout en autorisant l’ajout d'une pondération\", \"``LIAISON_RBE3`` § :ref:`u4.44.01-LIAISON_RBE3`\"\n    \"Imposer des degrés de liberté dans un **repère local d’une poutre**\", \"``DDL_POUTRE`` *cf.*  §  :ref:`6.1 <u4.44.01-Chargements_de_type_Dirichlet_pour_les__l_ments_de_structure>`\"\n    \"Relier un « bord » d’une coque au niveau de la peau supérieure ou inférieure de cette dernière en vis-à-vis d’un autre « bord » du feuillet moyen d’une autre coque\", \"``LIAISON_COQUE`` *cf.*  § 6.2  :ref:`3.3 <u4.44.01-Chargements_de_type_Dirichlet_pour_les__l_ments_de_structure>`\"\n\nNous rappelons dans le tableau ci-dessous la signification des\ndifférentes composantes de degrés de liberté :\n\n**Tableau 5-2: Degrés de liberté.**\n\n.. csv-table::\n    :header: \"**Nom**\", \"**Modélisation**\", \"**Description**\"\n    :widths: 20, 30, 50\n\n    \"DX, DY, DZ\", \"Toutes sauf 2D_FLUI_PESA\", \"Composantes de déplacement en **translation** dans le repère global\"\n    \"DH\", \"2D_FLUI_PESA\", \"Déplacement de la surface libre d'un fluide en ballottement\"\n    \"DRX, DRY, DRZ\", \"Éléments discrets, de poutre, de tuyaux, de coque ou de plaque\", \"Composantes de déplacement en **rotation** dans le repère global\"\n    \"DRGX, DRGY, DRGZ\", \"Élément multi-poutres multi-fibres pour les assemblages combustibles\", \"Composantes de déplacement en **rotation** des grilles d’assemblage dans le repère global\"\n    \"GRX\", \"POU_D_TG\", \"Valeur du gauchissement de la poutre\"\n    \"PRES\", \"3D_FLUIDE\", \"Pression acoustique dans le fluide pour les formulations :math:`u-p-\\varphi` et :math:`u-p`\"\n    \"PRES\", \"3D_JOINT_CT\", \"Pression du fluide interstitiel\"\n    \"PRES\", \"Formulation second gradient\", \"Multiplicateur de Lagrange introduit pour la formulation mixte\"\n    \"PHI\", \"3D_FLUIDE, FLUI_STRU, 2D_FLUI_PESA\", \"Potentiel des déplacements du fluide pour la formulation :math:`u-p-\\varphi`\"\n    \"PSI\", \"3D_FLUIDE, FLUI_STRU\", \"Potentiel des vitesses du fluide pour la formulation :math:`u-\\psi`\"\n    \"TEMP\", \"THM, THHM, THH\", \"Température\"\n    \"PRE1\", \"THM, THHM, THH, HM, HHM\", \"Pression capillaire ou pression du liquide ou du gaz\"\n    \"PRE2\", \"THM, THHM, THH\", \"Pression du gaz\"\n    \"UIx\", \"Tuyaux\", \"Gauchissement « in plane » du mode x [1]_\"\n    \"VIx, WIx\", \"Tuyaux\", \"Ovalisations « in plane » du mode x\"\n    \"UOx\", \"Tuyaux\", \"Gauchissement « out of plane » du mode x\"\n    \"VOx, WOx\", \"Tuyaux\", \"Ovalisations « out of plane » du mode x\"\n    \"W0, WI1, WO1\", \"Tuyaux\", \"Degrés de liberté de gonflement et mode 1 sur l’ovalisation\"\n    \"GONF\", \"Formulation incompressible _INCO_UPG, Formulation second gradient\", \"Gonflement\"\n    \"V11, V12, V13, V21, V22, V23, V31, V32, V33\", \"Formulation second gradient\", \"Composantes du tenseur de déformation microscopique\"\n    \"PRES11, PRES12, PRES13, PRES21, PRES22, PRES23, PRES31, PRES32, PRES33\", \"Formulation second gradient\", \"Multiplicateurs de Lagrange introduits pour la formulation mixte\"\n    \"LAGS_C\", \"Contact continu ou XFEM\", \"Pression de contact\"\n    \"LAGS_F1, LAGS_F2\", \"Contact continu ou XFEM\", \"Densité surfacique d'effort de frottement (vectorielle)\"\n    \"H1X, H1Y, H1Z, H2X, H2Y, H2Z, H3X, H3Y, H3Z, H4X, H4Y, H4Z\", \"XFEM\", \"Degrés de liberté enrichis d’Heaviside\"\n    \"H1PRE1, H2PRE1, H3PRE1\", \"HM-XFEM\", \"Degrés de liberté enrichis d’Heaviside pour la pression capillaire ou la pression du liquide ou du gaz.\"\n    \"K1, K2, K3\", \"XFEM\", \"Degrés de liberté enrichis vectoriels crack-tip\"\n    \"LAG2_C, LAG3_C, LAG4_C\", \"XFEM (multi-fissuration)\", \"Pressions de contact\"\n    \"LAG2_F1, LAG2_F2, LAG3_F1, LAG3_F2, LAG4_F1, LAG4_F2\", \"XFEM (multi-fissuration)\", \"Densités surfaciques d'effort de frottement (vectorielles)\"\n    \"PRE_FLU, PR2_FLU, PR3_FLU\", \"HM-XFEM\", \"Pression de fluide dans la fissure\"\n    \"LAG_FLI, LAG_FLS, LA2_FLI, LA2_FLS, LA3_FLI, LA3_FLS\", \"HM-XFEM\", \"Flux\"\n    \"LH1\", \"Éléments joints de type ‘_JHMS’\", \"Multiplicateur de Lagrange hydraulique\"\n    \"GLIS\", \"Éléments CABLE_GAINE\", \"Déplacement relatif suivant la tangente (repère local)\"\n\n\n"
+        },
+        {
+          "document_id": "U4.44.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Chargements de type Dirichlet",
+            "Mot-clé DDL_IMPO"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Dirichlet_.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Mot-clé DDL_IMPO\n----------------\n\nLe mot-clé DDL_IMPO est utilisable pour imposer à des nœuds une ou plusieurs valeurs de degré de liberté.\n\nAffectation topologique: TOUT, GROUP_MA, GROUP_NO, SANS_GROUP_MA, SANS_GROUP_NO\n\nLes conditions cinématiques sont imposées sur les nœuds donnés par les mots-clés TOUT,\nGROUP_MA, GROUP_NO tout en excluant éventuellement grâce aux mots-clés SANS_*.\n\nComposantes:\n\n*   Pour AFFE_CHAR_MECA:DX, DY, DZ, DRX, DRY, DRZ, DRGX, DRGY, DRGZ, GRX, PRES, PSI, PHI, TEMP, PRE1, PRE2, UI2, UI3, UI4, UI5, UI6, UO2, UO3, UO4, UO5, UO6, VI2, VI3, VI4, VI5, VI6, VO2, VO3, VO4, VO5, VO6, WI2, WI3, WI4, WI5, WI6, WO2, WO3, WO4, WO5, WO6, WO, WI1, WO1, GONF, H1X, H1Y, H1Z, H1PRE1, H2X, H2Y, H2Z, H2PRE1, H3X, H3Y, H3Z, H3PRE1, H4X, H4Y, H4Z, K1, K2, K3, PRE_FLU, LAG_FLI, LAG_FLS, PR2_FLU, LA2_FLI, LA2_FLS, PR3_FLU, LA3_FLI, LA3_FLS, LAGS_C, LAGS_F1, LAGS_F2, LAG2_C, LAG2_F1, LAG2_F2, LAG3_C, LAG3_F1, LAG3_F2, LAG4_C, LAG4_F1, LAG4_F2, V11, V12, V13, V21, V22, V23, V31, V32, V33, PRES11, PRES12, PRES13, PRES21, PRES22, PRES23, PRES31, PRES32, PRES33, LH1et GLIS.\n\n*   Pour AFFE_CHAR_MECA_C: DX, DY, DZ, DRX, DRY, DRZ, GRX, PRES, PHI et GLIS.\n\n*   Pour AFFE_CHAR_MECA_F: DX, DY, DZ, DRX, DRY, DRZ, GRX, PRES, PHI, TEMP, PRE1, PRE2, GONF, H1X, H1Y, H1Z, H1PRE1, K1, K2, K3, LAGS_Cet GLIS.\n\n\nRemarques\n\n*   Lors d’un calcul avec la méthode X-FEM, il est possible d’imposer le déplacement de nœuds\n    enrichis. (AFFE_CHAR_MECA seulement). Cela se fait de manière habituelle (bien que ces nœuds\n    ne possèdent pas de degré de liberté :math:`{DX}`, :math:`{DY}` ou :math:`{DZ}`). Si le nœud\n    demandé est sur les lèvres, alors on impose la condition de blocage sur les nœuds des lèvres\n    supérieure et inférieure.\n\n*   Le degré de liberté LH1 (multiplicateur de Lagrange hydraulique pour les éléments joints de\n    type ’_JHMS’) permet de neutraliser les degrés de liberté au bord du joint dans le cas où le\n    massif d’appui est purement mécanique.\n\n*   Les degrés de liberté imposés sont définis dans le repère global de définition du maillage\n\nLe mot-clé BLOCAGE permet d’encastrer une ou plusieurs catégories de degré de liberté aux nœuds,\nc’est à dire de forcer à zéro ces degrés de liberté.\n\n*   DEPLACEMENT bloque : DX, DY, DZ\n*   ROTATION bloque : DRX, DRY, DRZ\n*   TUYAU_FOURIER ne peut être utilisé qu’avec les éléments de tuyaux (TUYAU_3M ou TUYAU_6M). Il\n    bloque : les 15 DDL de TUYAU_3M ou les 33 DDL de TUYAU_6M liés aux modes Fourier (voir [:ref:`U2.02.02 <U2.02.02>`]).\n\nOn peut faire toutes les combinaisons des catégories.\n\n\n.. _u4.44.01-ARETE_IMPO:"
+        },
+        {
+          "document_id": "U3.12.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Discrétisation",
+            "Degrés de libertés"
+          ],
+          "source_path": "source/manuals/man_u/u3/u3.12.01/Discr_tisation.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Discrétisation\n==============\n\n\nDegrés de libertés\n------------------\n\nPour les trois modélisations de plaque en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support les six composantes de déplacement (trois translations et trois rotations) aux nœuds sommets de la maille support. Ces nœuds sont supposés décrire une facette tangente au feuillet moyen de la coque.\n\n\n.. csv-table::\n\n    \"**Élément fini**\", \"**Degrés de liberté (à chaque nœud sommet)**\"\n\n\n\n.. csv-table::\n\n    \"DKT / DKQ / DKTG\", \"DX\", \"DY\", \"DZ\", \"DRX\", \"DRY\", \"DRZ\"\n    \"DST / DSQ\", \"DX\", \"DY\", \"DZ\", \"DRX\", \"DRY\", \"DRZ\"\n    \"Q4G (Q4 :math:`\\gamma` )/ Q4GG\", \"DX\", \"DY\", \"DZ\", \"DRX\", \"DRY\", \"DRZ\"\n\n\n\nMaille support des matrices de rigidité\n---------------------------------------\n\nLes mailles support des éléments finis, en formulation déplacement, peuvent être des triangles ou des quadrangles. Dans ce dernier cas, les mailles sont supposées planes (4 nœuds sommets co‑planaires):\n\n\n.. csv-table::\n\n    \"**Modélisation**\", \"**Maille**\", \"**Élément fini**\", \"**Remarques**\"\n\n\n\n.. csv-table::\n\n    \"DKT\", \"TRIA3\n    QUAD4\", \"MEDKTR3\n    MEDKQU4\", \"\"\n    \"DKTG\", \"TRIA3\n    QUAD4\", \"MEDKTG3\n    MEDKQG4\", \"\"\n    \"DST\", \"TRIA3\n    QUAD4\", \"MEDSTR3\n    MEDSQU4\", \"\"\n    \"Q4G (Q4 :math:`\\gamma` )\", \"QUAD4\n    TRIA3\", \"MEQ4QU4\n    MET3TR3\", \"\"\n    \"Q4GG\", \"TRIA3\n    QUAD4\", \"MET3GG3\n    MEQ4GG4\", \"\"\n\n\n\nMaille support des chargements\n------------------------------\n\nTous les chargements applicables aux facettes des éléments de plaque sont traités par discrétisation directe sur la maille support de l'élément en formulation déplacement.\n\n*Aucune maille support de chargement n'est donc nécessaire pour les faces des éléments de plaques.*\n\nPour les chargements applicables sur les bords des éléments de plaque, une maille support de type SEG2 est utilisable:\n\n\n.. csv-table::\n\n    \"**Modélisation**\", \"**Maille**\", \"**Élément fini**\", \"**Remarques**\"\n\n\n\n.. csv-table::\n\n    \"DKT\", \"SEG2\", \"MEBODKT\", \"\"\n    \"DST\", \"SEG2\", \"MEBODST\", \"\"\n    \"DKTG\", \"SEG2\", \"MEBODKT\", \"\"\n    \"Q4G (Q4 :math:`\\gamma` )\", \"SEG2\", \"MEBOQ4G\", \"\"\n    \"Q4GG\", \"SEG2\", \"MEBOQ4G\", \"\"\n"
+        },
+        {
+          "document_id": "U3.11.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Discrétisation",
+            "Degrés de libertés"
+          ],
+          "source_path": "source/manuals/man_u/u3/u3.11.01/Discr_tisation.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Discrétisation\n==============\n\n\n\nDegrés de libertés\n------------------\n\nPour les trois modélisations de poutre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les six composantes de déplacement (trois translations et trois rotations). Ces nœuds sont supposés décrire un segment de la fibre moyenne de la poutre.\n\nPour la modélisation de barre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les trois composantes de déplacement en translation.\n\n\n+------------------+----------------------------------------------------------------------------+\n| **Élément fini** | **Degrés de liberté (à chaque nœud sommet)**                               |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| POU_D_T          | DX                                           | DY  | DZ  | DRX | DRY | DRZ |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| POU_D_E          | DX                                           | DY  | DZ  | DRX | DRY | DRZ |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| BARRE            | DX                                           | DY  | DZ  |     |     |     |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n\n\n\n\nMaille support des matrices de rigidité\n---------------------------------------\n\nLes mailles support des éléments finis, en formulation déplacement, sont des segments à deux nœuds SEG2:\n\n.. csv-table::\n\n    \"**Modélisation**\", \"**Maille**\", \"**Élément fini**\", \"**Remarques**\"\n    \"POU_D_T\", \"SEG2\", \"MECA_POU_D_T\", \"\"\n    \"POU_D_E\", \"SEG2\", \"MECA_POU_D_E\", \"\"\n    \"BARRE\", \"SEG2\", \"MECA_BARRE\", \"\"\n\n\n\n\n\nMaille support des chargements\n------------------------------\n\nTous les chargements applicables aux éléments de poutre et de barre sont traités par discrétisation directe sur la maille support de l’élément en formulation déplacement.\n\n*Aucune maille support de chargement n’est donc nécessaire pour le bord des éléments de poutre ou de barre.*\n\n\n\n\nPrincipales caractéristiques des modélisations\n----------------------------------------------\n\nLa modélisation POU_D_E (Poutre Droite d’Euler) correspond à l’hypothèse d’Euler‑Bernouilli, c’est‑à‑dire que les sections restent droites et perpendiculaires à la fibre moyenne (hypothèse de grand élancement).\n\nLa modélisation POU_D_T (Poutre Droite de Timoshenko) prend en compte les effets de cisaillement transverse.\n\nLa modélisation BARRE ne traite que les efforts et déformations axiales.\n\nLa poutre avec gauchissement est traitée en [:external:ref:`U3.11.04 <U3.11.04>`].\n"
+        },
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "DDL_IMPO"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "DDL_IMPO",
+            "DX"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "DDL_IMPO",
+            "DRY"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "DDL_IMPO",
+            "DRZ"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "2",
+      "topic": "Élément de barre : section, matériau, et absence de degré de rotation au nœud commun avec la coque",
+      "options_considered": [],
+      "option_retained": "AFFE_MODELE(..., MODELISATION=\"BARRE\") sur GROUP_MA=(\"TIRANTS\",) ; AFFE_CARA_ELEM(BARRE=_F(GROUP_MA=\"TIRANTS\", SECTION=\"GENERALE\", CARA=\"A\", VALE=<aire de la section brute, en m²>)) ; DEFI_MATERIAU(ELAS=_F(E=..., NU=..., RHO=...)) affecté par AFFE_MATERIAU. Le nœud commun avec l'anneau de tête du tube (via la liaison de corps solide du point 3, ou directement si le tirant part d'un nœud de l'anneau) ne porte, côté barre, que DX, DY, DZ : aucun degré de rotation n'est imposé ni transmis par l'élément de barre lui-même à ce nœud.",
+      "justification": "U3.11.01 (Discrétisation, Degrés de libertés) : tableau des degrés de liberté par modélisation -- « BARRE : DX, DY, DZ » (cases DRX, DRY, DRZ vides), contre « POU_D_E : DX, DY, DZ, DRX, DRY, DRZ ». Texte : « Pour la modélisation de barre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les trois composantes de déplacement en translation. » Confirmé au catalogue : AFFE_MODELE/AFFE/MODELISATION accepte la valeur \"BARRE\" ; AFFE_CARA_ELEM/BARRE/SECTION accepte \"GENERALE\" avec CARA=\"A\". Cas test officiel : comp009a.comm, `AFFE_CARA_ELEM(MODELE=MOMECA, BARRE=_F(GROUP_MA=\"M1\", SECTION=\"GENERALE\", CARA=\"A\", VALE=1.0))` sur un modèle AFFE_MODELE(MODELISATION=\"BARRE\") -- exactement la combinaison retenue. forma41a.comm illustre BARRE avec SECTION=\"CERCLE\" (variante non retenue ici, la section du tirant est donnée par son aire brute, non un rayon).",
+      "discarded_variants": [],
+      "notes": "« Absence de degré de rotation » est un fait de la modélisation BARRE elle-même (la maille n'a pas de DDL de rotation), pas une conséquence de la liaison du point 3 : au nœud partagé, seule la coque (ou la liaison de corps solide) porte des rotations. Non vérifié par exécution dans ce lot : la valeur de l'aire de section brute (44,2 cm², donnée du modèle) est utilisée telle quelle par le générateur, sans recalcul ici.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U3.11.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Discrétisation",
+            "Degrés de libertés"
+          ],
+          "source_path": "source/manuals/man_u/u3/u3.11.01/Discr_tisation.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Discrétisation\n==============\n\n\n\nDegrés de libertés\n------------------\n\nPour les trois modélisations de poutre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les six composantes de déplacement (trois translations et trois rotations). Ces nœuds sont supposés décrire un segment de la fibre moyenne de la poutre.\n\nPour la modélisation de barre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les trois composantes de déplacement en translation.\n\n\n+------------------+----------------------------------------------------------------------------+\n| **Élément fini** | **Degrés de liberté (à chaque nœud sommet)**                               |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| POU_D_T          | DX                                           | DY  | DZ  | DRX | DRY | DRZ |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| POU_D_E          | DX                                           | DY  | DZ  | DRX | DRY | DRZ |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| BARRE            | DX                                           | DY  | DZ  |     |     |     |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n\n\n\n\nMaille support des matrices de rigidité\n---------------------------------------\n\nLes mailles support des éléments finis, en formulation déplacement, sont des segments à deux nœuds SEG2:\n\n.. csv-table::\n\n    \"**Modélisation**\", \"**Maille**\", \"**Élément fini**\", \"**Remarques**\"\n    \"POU_D_T\", \"SEG2\", \"MECA_POU_D_T\", \"\"\n    \"POU_D_E\", \"SEG2\", \"MECA_POU_D_E\", \"\"\n    \"BARRE\", \"SEG2\", \"MECA_BARRE\", \"\"\n\n\n\n\n\nMaille support des chargements\n------------------------------\n\nTous les chargements applicables aux éléments de poutre et de barre sont traités par discrétisation directe sur la maille support de l’élément en formulation déplacement.\n\n*Aucune maille support de chargement n’est donc nécessaire pour le bord des éléments de poutre ou de barre.*\n\n\n\n\nPrincipales caractéristiques des modélisations\n----------------------------------------------\n\nLa modélisation POU_D_E (Poutre Droite d’Euler) correspond à l’hypothèse d’Euler‑Bernouilli, c’est‑à‑dire que les sections restent droites et perpendiculaires à la fibre moyenne (hypothèse de grand élancement).\n\nLa modélisation POU_D_T (Poutre Droite de Timoshenko) prend en compte les effets de cisaillement transverse.\n\nLa modélisation BARRE ne traite que les efforts et déformations axiales.\n\nLa poutre avec gauchissement est traitée en [:external:ref:`U3.11.04 <U3.11.04>`].\n"
+        },
+        {
+          "command": "AFFE_MODELE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "MODELISATION"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CARA_ELEM",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "BARRE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CARA_ELEM",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "BARRE",
+            "SECTION"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "DEFI_MATERIAU",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "ELAS"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        }
+      ],
+      "status": "tranche"
     }
   ],
   "group_naming": [
@@ -3163,6 +3576,13 @@
       "description": "nœuds des deux faces de coupe",
       "status": "tranche",
       "point_label": "7"
+    },
+    {
+      "group_name": "PIED_TUBES",
+      "kind": "noeud",
+      "description": "Nœuds des tubes à Z = -26,00 (pied).",
+      "status": "tranche",
+      "point_label": "11"
     }
   ]
 }

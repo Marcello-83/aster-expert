@@ -1,0 +1,12 @@
+{
+  "comm_path": "/home/ubuntu/projets/aster-expert/data/examples/lot28_quai/quai_combiwall.comm",
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "status": "failed",
+  "diag": "<F>_ERROR",
+  "return_code": 6,
+  "duration_s": 43.896395905999725,
+  "extracted_by": "run_aster.status",
+  "executed_at": "2026-09-23T12:26:24.268872Z",
+  "note": "Dernière exécution du .comm actuellement versionné (COEF_RIGI_DRZ=1e-3, symétrie scindée anneau/reste, RESI_RELA=1e-4). Répertoire d'exécution non versionné (data/processed/runs, .gitignore) : voir mess_case_g_extrait.txt pour l'extrait pertinent de fort.6."
+}
