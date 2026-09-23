@@ -1,0 +1,91 @@
+{
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "mesh_run": {
+    "work_dir": "data/processed/mesh_runs/20260923T135537-6993814e",
+    "duration_s": 112.60476451700015,
+    "nodes": 10204,
+    "quad4": 10030,
+    "seg2": 10069
+  },
+  "mesh_check": {
+    "work_dir": "data/processed/mesh_checks/20260923T135740-12bc15c5",
+    "invariants": 232,
+    "ok": 232
+  },
+  "runs": [
+    {
+      "label": "baseline (quai_reduit.comm, tous ingredients)",
+      "comm": "data/examples/lot30_quai_reduit/quai_reduit.comm",
+      "work_dir": "data/processed/runs/20260923T140055-163894f7",
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "duration_s": 13.655332653001096,
+      "note": "Meme mecanisme FACTOR_11 que lot 28, tube de bord oppose (1 au lieu de 9). Noeud 2263->575 (GEN_POUTRE_01, SYM_G), noeud 2120->13 (anneau ordinaire TETE_TUBE_01)."
+    },
+    {
+      "label": "retrait 1a (sans ressorts, .export mal nomme -- erreur de preparation)",
+      "comm": "data/examples/lot30_quai_reduit/quai_reduit_sans_ressorts.comm",
+      "work_dir": "data/processed/runs/20260923T141049-0f80be92",
+      "status": "aborted",
+      "diag": "<F>_ABNORMAL_ABORT",
+      "duration_s": 7.793874857999981,
+      "note": "Segmentation fault : fort.20 (MED) absent, le .export ne portait pas le meme nom de base que le .comm. Corrige (retrait 1b)."
+    },
+    {
+      "label": "retrait 1b (sans ressorts, corrige)",
+      "comm": "data/examples/lot30_quai_reduit/quai_reduit_sans_ressorts.comm",
+      "work_dir": "data/processed/runs/20260923T171214-6bc1f4c8",
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "duration_s": 21.219246190001286,
+      "note": "FACTOR_11 identique, memes noeuds 575/13. Les ressorts ne sont pas la cause."
+    },
+    {
+      "label": "retrait 2 (sans tirants)",
+      "comm": "data/examples/lot30_quai_reduit/quai_reduit_sans_tirants.comm",
+      "work_dir": "data/processed/runs/20260923T171704-c70aaccf",
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "duration_s": 18.23823349899976,
+      "note": "FACTOR_11 identique, memes noeuds 575/13. Les tirants ne sont pas la cause."
+    },
+    {
+      "label": "retrait 3a (sans palplanches, VERI_NORM par defaut -- erreur de preparation)",
+      "comm": "data/examples/lot30_quai_reduit/quai_reduit_sans_palplanches.comm",
+      "work_dir": "data/processed/runs/20260923T172128-71b3a102",
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "duration_s": 17.30715856399911,
+      "note": "MESH3_99 : GEN_ECRAN_POUSSEE_TUBES n'est plus connexe sans les panneaux de palplanche qui reliaient les tubes ; VERI_NORM='OUI' (defaut) refuse. Corrige (retrait 3b, VERI_NORM='NON')."
+    },
+    {
+      "label": "retrait 3b (sans palplanches, corrige)",
+      "comm": "data/examples/lot30_quai_reduit/quai_reduit_sans_palplanches.comm",
+      "work_dir": "data/processed/runs/20260923T172405-7a9edc2e",
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "duration_s": 17.87986441400062,
+      "note": "FACTOR_11 identique. Les palplanches ne sont pas la cause."
+    },
+    {
+      "label": "retrait 4a (sans poutre/LIAISON_SOLIDE, CH_Q3 non retire -- erreur de preparation)",
+      "comm": "data/examples/lot30_quai_reduit/quai_reduit_sans_poutre.comm",
+      "work_dir": "data/processed/runs/20260923T172818-a733f4f9",
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "duration_s": 14.369655490001605,
+      "note": "CHARGES2_46 : CH_Q3 (amarrage sur BOLLARD) construit avant meme le cas G ; BOLLARD est hors modele (aucun DDL) sans la poutre. Corrige (retrait 4b, cas Q3 et CH_Q3 omis)."
+    },
+    {
+      "label": "retrait 4b (sans poutre/LIAISON_SOLIDE, corrige)",
+      "comm": "data/examples/lot30_quai_reduit/quai_reduit_sans_poutre.comm",
+      "work_dir": "data/processed/runs/20260923T173024-00363e2e",
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "duration_s": 19.038296093996905,
+      "note": "AUCUN FACTOR_11. Le cas G (MECA_STATIQUE, commande #0025) atteint l'assemblage puis echoue sur DISCRETS_26/30/31 (masse non affectee sur les ressorts DIS_T sous PESANTEUR) -- defaut preexistant, sans rapport avec LIAISON_SOLIDE, jamais rencontre auparavant car le pivot FACTOR_11 arretait toujours l'execution avant ce point. Le retrait de la poutre/LIAISON_SOLIDE fait disparaitre le pivot."
+    }
+  ],
+  "total_duration_aster_run_s": 129.50166176200037
+}

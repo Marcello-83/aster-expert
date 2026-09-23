@@ -1,0 +1,78 @@
+# Extraits réels de fort.6 (lot 30, étape 3), un par exécution informative.
+# Répertoires complets (non versionnés, data/processed/runs) listés dans
+# executions.json à côté de ce fichier. Chaque extrait est copié tel quel.
+
+## Baseline (quai_reduit.comm, tous ingrédients) -- data/processed/runs/20260923T140055-163894f7/proc.0/fort.6
+
+Le système linéaire à résoudre a 65161 degrés de liberté:
+   - 61215 sont des degrés de liberté physiques
+     (ils sont portés par 10204 noeuds du maillage)
+   - 3946 sont les couples de paramètres de Lagrange associés
+     aux 1973 relations linéaires dualisées.
+Degré de liberté de Lagrange associé à une relation linéaire entre plusieurs degrés de liberté.
+  La relation linéaire a été définie par la commande ayant produit le concept de nom 0000000a.
+  La liste des noeuds impliqués dans cette relation linéaire est la suivante:
+
+Noeud 575
+Noeud 13
+
+ ║ <F> <FACTOR_11>                                                                                ║
+ ║ Problème : la matrice est singulière ou presque singulière :                                   ║
+ ║   Lors de la factorisation de la matrice, on a rencontré un problème                           ║
+ ║   (pivot nul ou presque nul) à la ligne 230 qui correspond au degré de liberté donné            ║
+ ║ ci-dessus.                                                                                      ║
+
+Identité des nœuds (sonde medcoupling autonome sur quai_reduit.mmed) :
+- Nœud 575 = (-2.6, 0.34, 3.3), groupe SYM_G, cellule POUTRE_COUR (GEN_POUTRE_01)
+- Nœud 13  = (-2.488931529821, -0.701258721823, 2.6), anneau ordinaire TETE_TUBE_01
+  (ni sur le plan de symétrie, ni un nœud remarquable)
+Concept fautif : commande #0014 (AFFE_CHAR_MECA/LIAISON_SOLIDE), résultat CH_SOLIDE.
+
+## Retrait 1b (sans ressorts, corrigé) -- data/processed/runs/20260923T171214-6bc1f4c8/proc.0/fort.6
+
+Noeud 575
+Noeud 13
+
+ ║ <F> <FACTOR_11>                                                                                ║
+ ║   (pivot nul ou presque nul) à la ligne 230 qui correspond au degré de liberté donné            ║
+
+Identique au cas baseline : les ressorts ne sont pas la cause.
+
+## Retrait 2 (sans tirants) -- data/processed/runs/20260923T171704-c70aaccf/proc.0/fort.6
+
+Noeud 575
+Noeud 13
+
+ ║ <F> <FACTOR_11>                                                                                ║
+
+Identique. Les tirants ne sont pas la cause.
+
+## Retrait 3b (sans palplanches, corrigé) -- data/processed/runs/20260923T172405-7a9edc2e/proc.0/fort.6
+
+ ║ <F> <FACTOR_11>                                                                                ║
+
+Identique (mécanisme confirmé par le diagnostic, extrait FACTOR_11 identique aux
+précédents). Les palplanches ne sont pas la cause.
+
+## Retrait 4b (sans poutre / sans LIAISON_SOLIDE, corrigé) -- data/processed/runs/20260923T173024-00363e2e/proc.0/fort.6
+
+Le système linéaire à résoudre a 64063 degrés de liberté:
+   - 61113 sont des degrés de liberté physiques
+     (ils sont portés par 10187 noeuds du maillage)
+   - 2950 sont les couples de paramètres de Lagrange associés
+     aux 1475 relations linéaires dualisées.
+
+ ║ <E> <CATAMESS_3>                                                                               ║
+ ║ L'alarme DISCRETS_26 est aggravée en erreur.                                                   ║
+
+ ║ <F> <DISCRETS_26>                                                                              ║
+ ║ Vous utilisez la matrice de MASSE pour un discret MECA_DIS_T_N alors que vous n'avez pas        ║
+ ║ affecté                                                                                         ║
+ ║ les caractéristiques de masses. Par défaut la masse est nulle.                                 ║
+ ║ Il faut vérifier les affectations sous AFFE_CARA_ELEM/DISCRET.                                 ║
+
+**Aucun `<F> <FACTOR_11>` dans ce listing.** Le pivot nul a disparu avec
+LIAISON_SOLIDE. L'échec obtenu (DISCRETS_26/30/31) est un défaut préexistant
+et sans rapport (masse non affectée sur les ressorts DIS_T sous PESANTEUR),
+jamais rencontré avant ce lot car FACTOR_11 arrêtait systématiquement
+l'exécution avant d'atteindre ce point de calcul.

@@ -1,0 +1,315 @@
+# Données chiffrées du « quai réduit » (lot 30, étape 2) : copie de
+# data/examples/combiwall_model_data.yaml (lot 25, QUAI-CW-TEST-01) dont
+# seuls les six champs de tranche (geometrie.*, repere.x_face_coupe_*) sont
+# changés, de huit entraxes à deux, pour isoler par la chaîne de production
+# elle-même (même script Salomé, même générateur, mêmes décisions) le pivot
+# nul du lot 28 (`<F> <FACTOR_11>`, docs/essais_lot28.md, étape 4).
+#
+# Ce n'est PAS une nouvelle donnée de projet : aucune décision n'est prise ou
+# complétée ici (CLAUDE.md, « interdits » du lot 30). Les deux commentaires
+# qui citaient TUBE_05 (tube central du modèle complet) sont mis à jour vers
+# TUBE_02 (tube central du modèle réduit, calculé par
+# aster_expert.meshing.combiwall.build_params : central = (n_tubes+1)//2 = 2
+# pour n_tubes = 3) ; les valeurs elles-mêmes ne changent pas, les charges
+# ponctuelles restant portées par le tube central quel qu'il soit.
+#
+# Schéma, sources et conventions : voir l'en-tête de combiwall_model_data.yaml.
+project: QUAI-CW-TEST-01-LOT30-REDUIT
+case_reference: "Quai réduit (lot 30, diagnostic) : deux entraxes au lieu de huit, dérivé de data/examples/combiwall_model_data.yaml (lot 25) ; fiche data/examples/hypotheses_combiwall_reference_arbitree.json inchangée."
+groups:
+  repere:
+    x_face_coupe_gauche:
+      {status: fourni, value: -2.60, unit: m, source: {kind: decision, point_label: "9"}, comment: "Face SYM_G (lot 30 : 1 entraxe à gauche du tube central au lieu de 4)."}
+    x_face_coupe_droite:
+      {status: fourni, value: 2.60, unit: m, source: {kind: decision, point_label: "9"}, comment: "Face SYM_D (lot 30 : 1 entraxe à droite du tube central au lieu de 4)."}
+    x_serrure_par_rapport_axe_tube:
+      {status: fourni, value: 0.71, unit: m, source: {kind: decision, point_label: "9"}, comment: "Génératrices du tube en Y = 0, en X = ± cette valeur de l'axe du tube ; la palplanche intercalaire est dans le plan Y = 0."}
+  geometrie:
+    longueur_tranche:
+      {status: fourni, value: 5.20, unit: m, source: {kind: decision, point_label: "9"}, comment: "Lot 30 : deux entraxes (2 x 2,60 m) au lieu de huit ; valeur dérivée, non lue d'un cas de test."}
+    entraxe_tubes:
+      {status: fourni, value: 2.60, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}}
+    nombre_entraxes_tranche:
+      {status: fourni, value: 2, unit: "-", source: {kind: decision, point_label: "9"}, comment: "Lot 30 (quai réduit) : deux entraxes au lieu de huit."}
+    nombre_tubes_entiers:
+      {status: fourni, value: 1, unit: "-", source: {kind: decision, point_label: "9"}, comment: "Lot 30 (quai réduit) : un seul tube entier (le tube central)."}
+    nombre_demi_tubes:
+      {status: fourni, value: 2, unit: "-", source: {kind: decision, point_label: "9"}, comment: "Lot 30 (quai réduit) : deux demi-tubes, sur les faces de coupe (tubes 1 et 3)."}
+    nombre_palplanches_intercalaires:
+      {status: fourni, value: 2, unit: "-", source: {kind: decision, point_label: "9"}, comment: "Lot 30 (quai réduit) : deux palplanches intercalaires au lieu de huit."}
+    cote_arase_terre_plein:
+      {status: fourni, value: 4.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§1"}}
+    cote_dragage:
+      {status: fourni, value: -12.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§1"}}
+    cote_pied_tubes:
+      {status: fourni, value: -26.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§1"}}
+    cote_pied_palplanches:
+      {status: fourni, value: -18.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§1"}}
+    cote_tete_tubes:
+      {status: fourni, value: 2.60, unit: m CM, source: {kind: decision, point_label: "10"}, comment: "Tubes maillés jusqu'à la sous-face de la poutre."}
+    cote_tete_palplanches:
+      {status: fourni, value: 2.60, unit: m CM, source: {kind: decision, point_label: "10"}, comment: "Bord supérieur libre."}
+  tube:
+    diametre_exterieur:
+      {status: fourni, value: 1420, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}}
+    rayon:
+      {status: fourni, value: 0.71, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§7"}}
+    epaisseur_nominale:
+      {status: fourni, value: 16, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}}
+    surepaisseur_corrosion:
+      {status: fourni, value: 2.0, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}, comment: "Déduite sur la face bassin des tubes (protection anticorrosion non modélisée)."}
+    nuance_acier:
+      {status: fourni, value: S355, unit: "-", source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}}
+    epaisseur_coque_retenue:
+      {status: fourni, value: 14, unit: mm, source: {kind: decision, point_label: "10"}, comment: "Uniforme sur la circonférence : 16 mm moins 2 mm de corrosion."}
+    module_young:
+      {status: fourni, value: 210000, unit: MPa, source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.1"}, comment: "Tubes (S355)."}
+    coefficient_poisson:
+      {status: fourni, value: 0.30, unit: "-", source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.1"}}
+    masse_volumique:
+      {status: fourni, value: 7850, unit: kg/m3, source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.1"}}
+  palplanche:
+    periode:
+      {status: fourni, value: 1.18, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Espace libre entre tubes."}
+    hauteur_profil:
+      {status: fourni, value: 0.45, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}}
+    largeur_semelles:
+      {status: fourni, value: 0.35, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}}
+    epaisseur:
+      {status: fourni, value: 9.5, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Semelles et âmes."}
+    inclinaison_ames:
+      {status: fourni, value: 62, unit: deg, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Valeur approchée (« ≈ 62° »)."}
+    longueur_developpee_par_periode:
+      {status: fourni, value: 1.720, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}}
+    inertie_par_metre:
+      {status: fourni, value: 42400, unit: cm4/m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Valeur approchée."}
+    module_flexion_par_metre:
+      {status: fourni, value: 1845, unit: cm3/m, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Valeur approchée."}
+    masse_surfacique_plan_ecran:
+      {status: fourni, value: 109, unit: kg/m2, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§2"}, comment: "Valeur approchée, rapportée au plan de l'écran."}
+    nuance_acier:
+      {status: fourni, value: S355, unit: "-", source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§2"}}
+    module_young:
+      {status: fourni, value: 210000, unit: MPa, source: {kind: decision, point_label: "1"}}
+    coefficient_poisson:
+      {status: fourni, value: 0.3, unit: "-", source: {kind: decision, point_label: "1"}}
+    module_cisaillement:
+      {status: fourni, value: 80770, unit: MPa, source: {kind: decision, point_label: "1"}}
+    masse_volumique:
+      {status: fourni, value: 7850, unit: kg/m3, source: {kind: decision, point_label: "1"}}
+    rapport_developpee_sur_periode:
+      {status: fourni, value: 1.458, unit: "-", source: {kind: decision, point_label: "1"}, comment: "s/b."}
+    epaisseur_coque_EPAIS:
+      {status: fourni, value: 13.85, unit: mm, source: {kind: decision, point_label: "1"}, comment: "t·(s/b), déclarée en EPAIS."}
+    masse_surfacique_rho_epais:
+      {status: fourni, value: 108.7, unit: kg/m2, source: {kind: decision, point_label: "1"}, comment: "Valeur approchée (« ρ·EPAIS ≈ 108,7 kg/m² »)."}
+    MEMB_L:
+      {status: fourni, value: 2908, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Membrane verticale."}
+    MEMB_T:
+      {status: fourni, value: 0.081, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Membrane horizontale."}
+    MEMB_G_LT:
+      {status: fourni, value: 526, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Cisaillement de membrane."}
+    MEMB_LT:
+      {status: fourni, value: 0, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Couplage de Poisson, « nul » dans la décision."}
+    FLEX_L:
+      {status: fourni, value: 89.0, unit: MN.m2/m, source: {kind: decision, point_label: "1"}, comment: "Flexion verticale."}
+    FLEX_T:
+      {status: fourni, value: 0.0113, unit: MN.m2/m, source: {kind: decision, point_label: "1"}, comment: "Flexion horizontale."}
+    FLEX_G_LT:
+      {status: fourni, value: 0.0084, unit: MN.m2/m, source: {kind: decision, point_label: "1"}, comment: "Torsion de plaque."}
+    FLEX_LT:
+      {status: fourni, value: 0, unit: MN.m2/m, source: {kind: decision, point_label: "1"}, comment: "Couplage de Poisson, « nul » dans la décision."}
+    CISA_L:
+      {status: fourni, value: 526, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Cisaillement transverse, sans effet en DKT ; le catalogue exige CISA_L et CISA_T (lot 22)."}
+    CISA_T:
+      {status: fourni, value: 526, unit: MN/m, source: {kind: decision, point_label: "1"}, comment: "Idem CISA_L."}
+    vecteur_axe_L:
+      {status: fourni, value: [0, 0, 1], unit: "-", source: {kind: constat, point_label: "1", topic_prefix: "Orientation des axes L et T d'ELAS_COQUE pour une coque dans un plan vertical"}, comment: "VECTEUR de AFFE_CARA_ELEM/COQUE pour une plaque du plan XZ : L selon Z, T selon X (essai D7, niveau D)."}
+  poutre_couronnement:
+    largeur:
+      {status: fourni, value: 2.50, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}}
+    hauteur:
+      {status: fourni, value: 1.40, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}}
+    cote_sous_face:
+      {status: fourni, value: 2.60, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}}
+    cote_arase:
+      {status: fourni, value: 4.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}}
+    cote_centre_gravite:
+      {status: fourni, value: 3.30, unit: m CM, source: {kind: decision, point_label: "8"}, comment: "Cote de l'axe de la poutre, où est appliqué l'effort d'amarrage."}
+    encastrement_tubes:
+      {status: fourni, value: 0.80, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}, comment: "Le cas de test : tubes encastrés sur 0,80 m dans la poutre ; la décision du point 3 modélise une liaison rigide sur l'anneau de nœuds supérieur du tube."}
+    beton:
+      {status: fourni, value: C35/45, unit: "-", source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§3"}}
+    module_young:
+      {status: fourni, value: 34000, unit: MPa, source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.1"}, comment: "C35/45."}
+    coefficient_poisson:
+      {status: fourni, value: 0.20, unit: "-", source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.1"}}
+    masse_volumique:
+      {status: fourni, value: 2500, unit: kg/m3, source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.1"}}
+    position_axe_y:
+      {status: fourni, value: 0.34, unit: m, source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.3"}, comment: "Face avant en Y = −0,91, face arrière en Y = +1,59 (valeurs ci-dessous)."}
+    face_avant_y:
+      {status: fourni, value: -0.91, unit: m, source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.3"}, comment: "Côté bassin, à 0,20 m en avant de la face bassin des tubes."}
+    face_arriere_y:
+      {status: fourni, value: 1.59, unit: m, source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.3"}}
+  tirants:
+    diametre:
+      {status: fourni, value: 75, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    nuance:
+      {status: fourni, value: 500/700, unit: "-", source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    module_young:
+      {status: fourni, value: 210000, unit: MPa, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    entraxe:
+      {status: fourni, value: 2.60, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}, comment: "Un tirant par tube."}
+    inclinaison:
+      {status: fourni, value: 20, unit: deg, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}, comment: "Sur l'horizontale, descendant vers l'arrière."}
+    cote_tete:
+      {status: fourni, value: 2.50, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    longueur_libre:
+      {status: fourni, value: 22.00, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    longueur_scellement:
+      {status: fourni, value: 8.00, unit: m, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    diametre_scellement:
+      {status: fourni, value: 200, unit: mm, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§4"}}
+    longueur_modelisee:
+      {status: fourni, value: 26.00, unit: m, source: {kind: decision, point_label: "2"}, comment: "lf + lb/2, le long de l'axe ; extrémité arrière bloquée."}
+    section_brute:
+      {status: fourni, value: 44.2, unit: cm2, source: {kind: decision, point_label: "2"}}
+    raideur_axiale:
+      {status: fourni, value: 35.7, unit: MN/m, source: {kind: decision, point_label: "2"}, comment: "Valeur approchée (« ≈ 35,7 MN/m ») ; KMA de la NF P 94-282, F.4.2."}
+    masse_volumique:
+      {status: fourni, value: 7850, unit: kg/m3, source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.1"}}
+    position_tete_sur_tube:
+      {status: fourni, value: 0.71, unit: m, source: {kind: decision, point_label: "10"}, comment: "Ordonnée Y de la génératrice côté terre (Y = +rayon) : la source la donne en Y, non en angle ; l'unité de la valeur à fournir (deg) est remplacée, aucun angle n'est calculé ici."}
+    ancrage_y:
+      {status: fourni, value: 25.14, unit: m, source: {kind: decision, point_label: "10"}, comment: "Extrémité ANC_xx."}
+    ancrage_z:
+      {status: fourni, value: -6.39, unit: m CM, source: {kind: decision, point_label: "10"}, comment: "Extrémité ANC_xx."}
+  sol:
+    k_h_argile_marneuse_raide:
+      {status: fourni, value: 35, unit: MN/m3, source: {kind: decision, point_label: "4"}, comment: "De -12,00 à -18,00 ; rapportée à la surface projetée sur le plan de l'écran ; côté bassin uniquement."}
+    k_h_marne_compacte:
+      {status: fourni, value: 80, unit: MN/m3, source: {kind: decision, point_label: "4"}, comment: "De -18,00 à -26,00 ; rapportée à la surface projetée sur le plan de l'écran ; côté bassin uniquement."}
+    cote_haut_ressorts:
+      {status: fourni, value: -12.00, unit: m CM, source: {kind: decision, point_label: "4"}, comment: "Cote de dragage."}
+    cote_interface_argile_marne:
+      {status: fourni, value: -18.00, unit: m CM, source: {kind: decision, point_label: "4"}}
+  eau_terres:
+    differentiel_permanent:
+      {status: fourni, value: 1.50, unit: m, source: {kind: decision, point_label: "5"}}
+    differentiel_accidentel:
+      {status: fourni, value: 3.50, unit: m, source: {kind: decision, point_label: "5"}}
+    niveau_nappe_terre_normal:
+      {status: fourni, value: 2.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§6"}}
+    niveau_nappe_terre_haut:
+      {status: fourni, value: 3.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v2.md, section: "§6"}, comment: "Cas accidentel."}
+    profil_poussee_terres_permanent:
+      status: fourni
+      unit: "kPa"
+      source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.4"}
+      comment: "Points (Z, p) recopiés du tableau A.4 en kPa, Z en m CM ; deux points de même Z à une interface, étiquetés par couche (couche des lignes +4,00, +2,00 et −26,00 lue de l'ordre du tableau) ; composantes G et Q1 (incrément) recopiées séparément, non sommées ; profil appliqué de +4,00 au pied des profils ; transmission d'une discontinuité à Code_Aster : au générateur, non tranchée. Situation permanente."
+      profile: [
+        {z: 4.0, p: 0.0, layer: remblai, component: G},
+        {z: 2.0, p: 11.7, layer: remblai, component: G},
+        {z: -2.0, p: 24.0, layer: remblai, component: G},
+        {z: -2.0, p: 21.2, layer: sable, component: G},
+        {z: -9.0, p: 41.1, layer: sable, component: G},
+        {z: -9.0, p: 42.4, layer: argile, component: G},
+        {z: -18.0, p: 80.8, layer: argile, component: G},
+        {z: -18.0, p: 35.8, layer: marne, component: G},
+        {z: -26.0, p: 66.5, layer: marne, component: G},
+        {z: 4.0, p: 12.3, layer: remblai, component: Q1},
+        {z: 2.0, p: 12.3, layer: remblai, component: Q1},
+        {z: -2.0, p: 12.3, layer: remblai, component: Q1},
+        {z: -2.0, p: 10.8, layer: sable, component: Q1},
+        {z: -9.0, p: 10.8, layer: sable, component: Q1},
+        {z: -9.0, p: 16.2, layer: argile, component: Q1},
+        {z: -18.0, p: 16.2, layer: argile, component: Q1},
+        {z: -18.0, p: 13.3, layer: marne, component: Q1},
+        {z: -26.0, p: 13.3, layer: marne, component: Q1}
+      ]
+    profil_pression_eau_permanent:
+      status: fourni
+      unit: "kPa"
+      source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.5"}
+      comment: "Points (Z, p) recopiés de A.5 (kPa, Z en m CM) ; nul jusqu'à +2,00, linéaire jusqu'à 15 kPa à +0,50, constant en dessous (prolongement jusqu'au pied non écrit ici : au générateur)."
+      profile: [
+        {z: 2.0, p: 0.0},
+        {z: 0.5, p: 15.0}
+      ]
+    profil_poussee_terres_accidentel:
+      status: fourni
+      unit: "kPa"
+      source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.4"}
+      comment: "Points (Z, p) recopiés du tableau A.4 en kPa, Z en m CM ; deux points de même Z à une interface, étiquetés par couche (couche des lignes +4,00, +2,00 et −26,00 lue de l'ordre du tableau) ; composantes G et Q1 (incrément) recopiées séparément, non sommées ; profil appliqué de +4,00 au pied des profils ; transmission d'une discontinuité à Code_Aster : au générateur, non tranchée. Situation accidentelle : profils de A.4 conservés tels quels (A.5)."
+      profile: [
+        {z: 4.0, p: 0.0, layer: remblai, component: G},
+        {z: 2.0, p: 11.7, layer: remblai, component: G},
+        {z: -2.0, p: 24.0, layer: remblai, component: G},
+        {z: -2.0, p: 21.2, layer: sable, component: G},
+        {z: -9.0, p: 41.1, layer: sable, component: G},
+        {z: -9.0, p: 42.4, layer: argile, component: G},
+        {z: -18.0, p: 80.8, layer: argile, component: G},
+        {z: -18.0, p: 35.8, layer: marne, component: G},
+        {z: -26.0, p: 66.5, layer: marne, component: G},
+        {z: 4.0, p: 12.3, layer: remblai, component: Q1},
+        {z: 2.0, p: 12.3, layer: remblai, component: Q1},
+        {z: -2.0, p: 12.3, layer: remblai, component: Q1},
+        {z: -2.0, p: 10.8, layer: sable, component: Q1},
+        {z: -9.0, p: 10.8, layer: sable, component: Q1},
+        {z: -9.0, p: 16.2, layer: argile, component: Q1},
+        {z: -18.0, p: 16.2, layer: argile, component: Q1},
+        {z: -18.0, p: 13.3, layer: marne, component: Q1},
+        {z: -26.0, p: 13.3, layer: marne, component: Q1}
+      ]
+    profil_pression_eau_accidentel:
+      status: fourni
+      unit: "kPa"
+      source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.5"}
+      comment: "Points (Z, p) recopiés de A.5 (kPa, Z en m CM) ; nul jusqu'à +3,00, linéaire jusqu'à 35 kPa à −0,50, constant en dessous (prolongement jusqu'au pied non écrit ici : au générateur)."
+      profile: [
+        {z: 3.0, p: 0.0},
+        {z: -0.5, p: 35.0}
+      ]
+  charges:
+    amarrage_effort:
+      {status: fourni, value: 1000, unit: kN, source: {kind: decision, point_label: "8"}, comment: "Dirigé vers le bassin, soit -Y dans le repère du point 9 (Y positif vers la terre) : signe à la charge du générateur."}
+    amarrage_inclinaison:
+      {status: fourni, value: 30, unit: deg, source: {kind: decision, point_label: "8"}, comment: "Au-dessus de l'horizontale, dans le plan perpendiculaire au quai."}
+    amarrage_composante_horizontale:
+      {status: fourni, value: 866, unit: kN, source: {kind: decision, point_label: "8"}, comment: "Valeur écrite dans la décision, non recalculée."}
+    amarrage_cote_application:
+      {status: fourni, value: 3.30, unit: m CM, source: {kind: decision, point_label: "8"}, comment: "Nœud BOLLARD sur l'axe de la poutre, au droit du tube central (TUBE_02 dans le quai réduit du lot 30 ; TUBE_05 dans le modèle complet)."}
+    amarrage_decalage_vertical:
+      {status: fourni, value: 0.70, unit: m, source: {kind: decision, point_label: "8"}}
+    amarrage_moment_transport:
+      {status: fourni, value: 606, unit: kN.m, source: {kind: decision, point_label: "8"}, comment: "Valeur approchée (« ≈ 606 kN·m »), d'axe parallèle au quai."}
+    accostage_effort:
+      {status: fourni, value: 800, unit: kN, source: {kind: decision, point_label: "8"}, comment: "Perpendiculaire au quai, vers la terre, soit +Y dans le repère du point 9."}
+    accostage_cote_bas_empreinte:
+      {status: fourni, value: 1.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§7"}}
+    accostage_cote_haut_empreinte:
+      {status: fourni, value: 2.00, unit: m CM, source: {kind: cas_test, document: cas_test_quai_combiwall_v3_delta.md, section: "§7"}}
+    accostage_demi_angle_empreinte:
+      {status: fourni, value: 45, unit: deg, source: {kind: decision, point_label: "8"}, comment: "De part et d'autre de la génératrice du tube central tournée vers le bassin (TUBE_02 dans le quai réduit du lot 30 ; TUBE_05 dans le modèle complet)."}
+    accostage_largeur_platine:
+      {status: fourni, value: 1.00, unit: m, source: {kind: decision, point_label: "8"}, comment: "Valeur approchée (« environ 1,00 m »)."}
+    accostage_surface_empreinte_ideale:
+      {status: fourni, value: 1.115, unit: m2, source: {kind: decision, point_label: "8"}, comment: "Valeur de contrôle (empreinte cylindrique idéale) ; l'intensité est calculée par le générateur sur la surface développée des mailles."}
+    accostage_intensite_indicative:
+      {status: fourni, value: 717, unit: kN/m2, source: {kind: decision, point_label: "8"}, comment: "Valeur de contrôle (« environ 717 kN/m² »), non une donnée d'entrée."}
+    acceleration_pesanteur:
+      {status: fourni, value: 9.81, unit: m/s2, source: {kind: cas_test, document: donnees_complementaires_combiwall_v1.md, section: "A.2"}, comment: "Dirigée selon −Z."}
+  maillage:
+    nombre_facettes_par_tube:
+      {status: fourni, value: 40, unit: "-", source: {kind: decision, point_label: "10"}, comment: "9° par facette ; des génératrices en Y = 0 (serrures) et à ±45° de la génératrice côté bassin (DEFENSE)."}
+    taille_verticale_visee:
+      {status: fourni, value: 0.25, unit: m, source: {kind: decision, point_label: "10"}, comment: "Taille visée ; remplace `nombre_divisions_verticales` : la source donne une taille et des cotes imposées, non un nombre. Le nombre de segments de chaque arête est calculé par le module de comptage (lot 27, règle 2)."}
+    cotes_imposees:
+      {status: fourni, value: [-26.00, -18.00, -12.00, 1.00, 2.00, 2.50, 2.60], unit: m CM, source: {kind: decision, point_label: "10"}, comment: "Nœuds imposés (interfaces de strates, limites de ressorts, points d'application de charge)."}
+    nombre_elements_largeur_palplanche:
+      {status: fourni, value: 5, unit: "-", source: {kind: decision, point_label: "10"}, comment: "Mailles par intervalle de 1,18 m."}
+    nombre_elements_par_entraxe_poutre:
+      {status: fourni, value: 8, unit: "-", source: {kind: decision, point_label: "10"}, comment: "Un nœud au droit de chaque tube, X = 0 compris (BOLLARD)."}
+    nombre_elements_par_tirant:
+      {status: fourni, value: 1, unit: "-", source: {kind: decision, point_label: "10"}, comment: "Un élément de barre par tirant."}

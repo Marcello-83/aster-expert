@@ -1,0 +1,96 @@
+{
+  "schema": "combiwall_mesh_params_v1",
+  "taille_verticale": 0.25,
+  "tube": {
+    "rayon": 0.71,
+    "facettes": 40,
+    "cotes": [
+      -26.0,
+      -18.0,
+      -12.0,
+      1.0,
+      2.0,
+      2.5,
+      2.6
+    ],
+    "axes_x": [
+      -2.6,
+      0.0,
+      2.6
+    ],
+    "central": 2,
+    "secteurs": [
+      [
+        -10,
+        10
+      ],
+      [
+        0,
+        40
+      ],
+      [
+        10,
+        30
+      ]
+    ]
+  },
+  "palplanche": {
+    "cotes": [
+      -18.0,
+      -12.0,
+      1.0,
+      2.0,
+      2.5,
+      2.6
+    ],
+    "segments_largeur": 5,
+    "angles_serrure_deg": [
+      0.0,
+      180.0
+    ]
+  },
+  "poutre": {
+    "y": 0.34,
+    "z": 3.3,
+    "segments_par_entraxe": 8
+  },
+  "tirants": {
+    "debut_y": 0.71,
+    "debut_z": 2.5,
+    "angle_debut_deg": 90.0,
+    "fin_y": 25.14,
+    "fin_z": -6.39,
+    "segments": 1,
+    "longueur_donnee": 26.0,
+    "longueur_des_coordonnees": 25.997249854551924,
+    "pente_des_coordonnees_deg": 19.996287055256868
+  },
+  "empreinte": {
+    "tube": 2,
+    "cote_bas": 1.0,
+    "cote_haut": 2.0,
+    "angle_centre_deg": 270.0,
+    "demi_angle_deg": 45.0
+  },
+  "ecran_poussee": {
+    "angle_centre_deg": 90.0,
+    "demi_angle_deg": 90.0
+  },
+  "bandes": {
+    "RESS_AV_ARGI": {
+      "cote_bas": -18.0,
+      "cote_haut": -12.0,
+      "avec_palplanches": true
+    },
+    "RESS_AV_MARNE": {
+      "cote_bas": -26.0,
+      "cote_haut": -18.0,
+      "avec_palplanches": false
+    }
+  },
+  "symetrie": {
+    "x_gauche": -2.6,
+    "x_droite": 2.6
+  },
+  "precision": 1e-09
+}

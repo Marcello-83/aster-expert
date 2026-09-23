@@ -20,9 +20,17 @@ from aster_expert.agent.hypotheses import CodeAsterHypothesisEntry, HypothesesSh
 from aster_expert.agent.model_data import load_model_data
 from aster_expert.generation import comm
 from aster_expert.generation.errors import GenerationError
-from aster_expert.generation.springs import build_spring_classes, check_spring_sum
+from aster_expert.generation.springs import (
+    SpringClass,
+    build_spring_classes,
+    check_spring_sum,
+)
 from aster_expert.generation.values import ModelValues
-from aster_expert.meshing.combiwall import build_params, expected_masses
+from aster_expert.meshing.combiwall import (
+    band_projected_width,
+    build_params,
+    expected_masses,
+)
 from aster_expert.meshing.run import REPORT_NAME as RUN_REPORT_NAME
 from aster_expert.meshing.run import MeshRunReport, find_verified_mesh, sha256_file
 
@@ -97,6 +105,41 @@ def _ascending_component(
     return doubled_profile(list(reversed(comp)))
 
 
+class DiagnosticOmissions(BaseModel):
+    """Lot 30, étape 3 : options de retrait d'un seul ingrédient à la fois,
+    pour isoler le pivot nul (`<F> <FACTOR_11>`) de `LIAISON_SOLIDE`
+    (docs/essais_lot28.md, docs/essais_lot30.md). **Outil de diagnostic
+    uniquement** : chaque champ, à `True`, produit un `.comm` qui ne
+    représente plus le modèle du quai et ne sert jamais à une production
+    (CLAUDE.md, lot 30, « interdits »). Par défaut (tous `False`), le `.comm`
+    produit est strictement celui de la production -- les tests de
+    régression le vérifient octet pour octet."""
+
+    model_config = ConfigDict(frozen=True)
+
+    sans_ressorts: bool = False
+    """Aucune classe de ressort : ni `CREA_POI1`, ni `DIS_T`, ni le contrôle
+    d'équilibre des ressorts (`aster_expert.generation.comm.controls_block`
+    omet `TAB_RESS_*` en leur absence)."""
+
+    sans_tirants: bool = False
+    """Aucun tirant : ni modélisation `BARRE`, ni matériau, ni blocage
+    d'`ANCRAGES` (`CH_BLOC`), ni ce groupe dans le contrôle d'équilibre des
+    réactions."""
+
+    sans_palplanches: bool = False
+    """Aucune palplanche : ni modélisation DKT ni matériau sur `PALPS` ; les
+    charges de pression (point 5) portent alors sur `GEN_ECRAN_POUSSEE_TUBES`
+    (`ECRAN_POUSSEE` moins `PALPS`, `aster_expert.generation.comm
+    .ecran_poussee_tubes_group_block`) plutôt que sur `ECRAN_POUSSEE`, qui
+    mêlerait une maille non affectée."""
+
+    sans_poutre: bool = False
+    """Aucune poutre de couronnement, donc aucune `LIAISON_SOLIDE` (`CH_
+    SOLIDE` n'existe pas dans cette variante -- omis de `EXCIT` par
+    `case_block`) ; BOLLARD exclu du contrôle de symétrie."""
+
+
 def generate_comm(
     *,
     fiche_path: Path,
@@ -105,7 +148,9 @@ def generate_comm(
     project_root: Path,
     work_dir_root: str,
     aster_version: str,
+    diagnostic: DiagnosticOmissions | None = None,
 ) -> tuple[str, GenerationReport]:
+    omit = diagnostic or DiagnosticOmissions()
     if not fiche_path.is_file():
         message = f"fiche introuvable : {fiche_path}"
         raise GenerationError(message)
@@ -168,6 +213,10 @@ def generate_comm(
 
     beam_points = _tube_beam_points(params)
     beam_group_names = list(beam_points)
+    edge_tube_low, edge_tube_high = min(beam_group_names), max(beam_group_names)
+    sorted_tube_names = sorted(beam_group_names)
+    inner_tube_low = sorted_tube_names[min(1, len(sorted_tube_names) - 1)]
+    inner_tube_high = sorted_tube_names[max(-2, -len(sorted_tube_names))]
     beam_group_full_names = {
         f"{comm.BEAM_NODE_PREFIX}{n}": p for n, p in beam_points.items()
     }
@@ -177,21 +226,19 @@ def generate_comm(
         "RESS_AV_ARGI": float(mv.raw("sol.k_h_argile_marneuse_raide")),
         "RESS_AV_MARNE": float(mv.raw("sol.k_h_marne_compacte")),
     }
-    spring_classes = build_spring_classes(params, k_h)
-    check_spring_sum(
-        spring_classes,
-        band="RESS_AV_ARGI",
-        k_h=k_h["RESS_AV_ARGI"],
-        projected_width_m=20.80,
-        projected_height_m=6.00,
-    )
-    check_spring_sum(
-        spring_classes,
-        band="RESS_AV_MARNE",
-        k_h=k_h["RESS_AV_MARNE"],
-        projected_width_m=11.36,
-        projected_height_m=8.00,
-    )
+    if omit.sans_ressorts:
+        spring_classes: list[SpringClass] = []
+    else:
+        spring_classes = build_spring_classes(params, k_h)
+        for band_name in ("RESS_AV_ARGI", "RESS_AV_MARNE"):
+            band = params["bandes"][band_name]
+            check_spring_sum(
+                spring_classes,
+                band=band_name,
+                k_h=k_h[band_name],
+                projected_width_m=band_projected_width(params, band),
+                projected_height_m=band["cote_haut"] - band["cote_bas"],
+            )
     spring_group_names = [c.group_name for c in spring_classes]
 
     g_profile = _ascending_component(
@@ -217,6 +264,10 @@ def generate_comm(
     defense_area = expected_masses(params)["DEFENSE"]["mass"]
     accostage_fy = accostage_effort / defense_area
 
+    poussee_group_ma = (
+        comm.ECRAN_POUSSEE_TUBES_GROUP if omit.sans_palplanches else "ECRAN_POUSSEE"
+    )
+
     text_parts = [
         comm.header(
             aster_version=aster_version,
@@ -232,41 +283,154 @@ def generate_comm(
                 band: (b["cote_bas"], b["cote_haut"])
                 for band, b in params["bandes"].items()
             },
-            edge_tube_low=min(beam_group_names),
-            edge_tube_high=max(beam_group_names),
+            edge_tube_low=edge_tube_low,
+            edge_tube_high=edge_tube_high,
         ),
-        comm.model_and_cara_block(mv, spring_classes),
-        comm.materials_block(mv),
-        comm.liaison_solide_block(beam_group_names),
-        comm.symmetry_and_support_block(),
+        comm.ecran_poussee_tubes_group_block() if omit.sans_palplanches else "",
+        comm.model_and_cara_block(
+            mv,
+            spring_classes,
+            sans_tirants=omit.sans_tirants,
+            sans_palplanches=omit.sans_palplanches,
+            sans_poutre=omit.sans_poutre,
+        ),
+        comm.materials_block(
+            mv,
+            sans_tirants=omit.sans_tirants,
+            sans_palplanches=omit.sans_palplanches,
+            sans_poutre=omit.sans_poutre,
+        ),
+        comm.liaison_solide_block(beam_group_names, sans_poutre=omit.sans_poutre),
+        comm.symmetry_and_support_block(sans_tirants=omit.sans_tirants),
         comm.formule_block("F_G", g_profile),
         comm.formule_block("F_Q1", q1_profile),
         comm.formule_block("F_EAU_P", eau_p_profile),
         comm.formule_block("F_EAU_A", eau_a_profile),
-        comm.pressure_load_block("CH_G_POUSSEE", "F_G"),
+        comm.pressure_load_block(
+            "CH_G_POUSSEE",
+            "F_G",
+            group_ma=poussee_group_ma,
+            veri_norm=not omit.sans_palplanches,
+        ),
         comm.pesanteur_block("CH_G_POIDS", g_accel),
-        comm.pressure_load_block("CH_Q1", "F_Q1"),
-        comm.pressure_load_block("CH_EAU_P", "F_EAU_P"),
-        comm.pressure_load_block("CH_EAU_A", "F_EAU_A"),
-        comm.bollard_force_block(
-            "CH_Q3", fy=amarrage_fy, fz=amarrage_fz, mx=amarrage_mx
+        comm.pressure_load_block(
+            "CH_Q1",
+            "F_Q1",
+            group_ma=poussee_group_ma,
+            veri_norm=not omit.sans_palplanches,
+        ),
+        comm.pressure_load_block(
+            "CH_EAU_P",
+            "F_EAU_P",
+            group_ma=poussee_group_ma,
+            veri_norm=not omit.sans_palplanches,
+        ),
+        comm.pressure_load_block(
+            "CH_EAU_A",
+            "F_EAU_A",
+            group_ma=poussee_group_ma,
+            veri_norm=not omit.sans_palplanches,
+        ),
+        (
+            ""
+            if omit.sans_poutre
+            else comm.bollard_force_block(
+                "CH_Q3", fy=amarrage_fy, fz=amarrage_fz, mx=amarrage_mx
+            )
         ),
         comm.defense_force_block("CH_A", fy=accostage_fy),
-        comm.case_block("G", extra_charges=["CH_G_POUSSEE", "CH_G_POIDS"]),
-        comm.controls_block("G", spring_group_names),
+        comm.case_block(
+            "G",
+            extra_charges=["CH_G_POUSSEE", "CH_G_POIDS"],
+            sans_poutre=omit.sans_poutre,
+        ),
+        comm.controls_block(
+            "G",
+            spring_group_names,
+            edge_tube_low=edge_tube_low,
+            edge_tube_high=edge_tube_high,
+            inner_tube_low=inner_tube_low,
+            inner_tube_high=inner_tube_high,
+            sans_tirants=omit.sans_tirants,
+            sans_poutre=omit.sans_poutre,
+        ),
         comm.order_of_magnitude_block("G", beam_group_names),
-        comm.case_block("EAU_P", extra_charges=["CH_EAU_P"]),
-        comm.controls_block("EAU_P", spring_group_names),
-        comm.case_block("EAU_A", extra_charges=["CH_EAU_A"]),
-        comm.controls_block("EAU_A", spring_group_names),
-        comm.case_block("Q1", extra_charges=["CH_Q1"]),
-        comm.controls_block("Q1", spring_group_names),
-        comm.case_block("Q3", extra_charges=["CH_Q3"]),
-        comm.controls_block("Q3", spring_group_names, reaction_components=("DY", "DZ")),
-        comm.order_of_magnitude_block("Q3", beam_group_names),
-        comm.case_block("A", extra_charges=["CH_A"]),
-        comm.controls_block("A", spring_group_names),
-        comm.footer(["G", "EAU_P", "EAU_A", "Q1", "Q3", "A"]),
+        comm.case_block(
+            "EAU_P", extra_charges=["CH_EAU_P"], sans_poutre=omit.sans_poutre
+        ),
+        comm.controls_block(
+            "EAU_P",
+            spring_group_names,
+            edge_tube_low=edge_tube_low,
+            edge_tube_high=edge_tube_high,
+            inner_tube_low=inner_tube_low,
+            inner_tube_high=inner_tube_high,
+            sans_tirants=omit.sans_tirants,
+            sans_poutre=omit.sans_poutre,
+        ),
+        comm.case_block(
+            "EAU_A", extra_charges=["CH_EAU_A"], sans_poutre=omit.sans_poutre
+        ),
+        comm.controls_block(
+            "EAU_A",
+            spring_group_names,
+            edge_tube_low=edge_tube_low,
+            edge_tube_high=edge_tube_high,
+            inner_tube_low=inner_tube_low,
+            inner_tube_high=inner_tube_high,
+            sans_tirants=omit.sans_tirants,
+            sans_poutre=omit.sans_poutre,
+        ),
+        comm.case_block("Q1", extra_charges=["CH_Q1"], sans_poutre=omit.sans_poutre),
+        comm.controls_block(
+            "Q1",
+            spring_group_names,
+            edge_tube_low=edge_tube_low,
+            edge_tube_high=edge_tube_high,
+            inner_tube_low=inner_tube_low,
+            inner_tube_high=inner_tube_high,
+            sans_tirants=omit.sans_tirants,
+            sans_poutre=omit.sans_poutre,
+        ),
+        *(
+            []
+            if omit.sans_poutre
+            else [
+                comm.case_block(
+                    "Q3", extra_charges=["CH_Q3"], sans_poutre=omit.sans_poutre
+                ),
+                comm.controls_block(
+                    "Q3",
+                    spring_group_names,
+                    edge_tube_low=edge_tube_low,
+                    edge_tube_high=edge_tube_high,
+                    inner_tube_low=inner_tube_low,
+                    inner_tube_high=inner_tube_high,
+                    reaction_components=("DY", "DZ"),
+                    sans_tirants=omit.sans_tirants,
+                    sans_poutre=omit.sans_poutre,
+                ),
+                comm.order_of_magnitude_block("Q3", beam_group_names),
+            ]
+        ),
+        comm.case_block("A", extra_charges=["CH_A"], sans_poutre=omit.sans_poutre),
+        comm.controls_block(
+            "A",
+            spring_group_names,
+            edge_tube_low=edge_tube_low,
+            edge_tube_high=edge_tube_high,
+            inner_tube_low=inner_tube_low,
+            inner_tube_high=inner_tube_high,
+            sans_tirants=omit.sans_tirants,
+            sans_poutre=omit.sans_poutre,
+        ),
+        comm.footer(
+            [
+                n
+                for n in ("G", "EAU_P", "EAU_A", "Q1", "Q3", "A")
+                if n != "Q3" or not omit.sans_poutre
+            ]
+        ),
     ]
     text = "".join(text_parts)
 

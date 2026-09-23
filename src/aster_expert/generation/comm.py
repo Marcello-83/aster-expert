@@ -290,6 +290,38 @@ def mesh_prep_block(
         f'_F(NOM_GROUP_MA="{_gn(c.group_name)}", GROUP_NO=("{c.group_name}",)),'
         for c in spring_classes
     )
+    # Lot 30, étape 3 (diagnostic « sans les ressorts ») : `CREA_GROUP_NO`
+    # (réunion des classes) et `CREA_POI1` ont chacun un minimum d'une
+    # occurrence -- avec `spring_classes` vide, les deux commandes sont
+    # omises plutôt que d'écrire une occurrence factice ; MAIL reste alors
+    # celui du premier DEFI_GROUP.
+    union_block = (
+        f"""
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_NO=(
+        {union_body}
+    ),
+)
+"""
+        if unions
+        else ""
+    )
+    creation_poi1 = (
+        f"""
+# Point 4 : une maille POI1 par nœud de ressort, regroupée par classe de
+# raideur (une occurrence de CREA_POI1 par classe, jamais par nœud).
+MAIL = CREA_MAILLAGE(
+    MAILLAGE=MAIL,
+    CREA_POI1=(
+        {poi1}
+    ),
+)
+"""
+        if spring_classes
+        else ""
+    )
     return f"""
 # Groupes créés par le générateur (préfixe réservé GEN_, hors convention de
 # maillage) : un nœud de poutre par tube (point 3), le nœud de référence de
@@ -308,23 +340,8 @@ MAIL = DEFI_GROUP(
     ),
 )
 
-MAIL = DEFI_GROUP(
-    reuse=MAIL,
-    MAILLAGE=MAIL,
-    CREA_GROUP_NO=(
-        {union_body}
-    ),
-)
-
-# Point 4 : une maille POI1 par nœud de ressort, regroupée par classe de
-# raideur (une occurrence de CREA_POI1 par classe, jamais par nœud).
-MAIL = CREA_MAILLAGE(
-    MAILLAGE=MAIL,
-    CREA_POI1=(
-        {poi1}
-    ),
-)
-
+{union_block}
+{creation_poi1}
 # Point 5 : normales de coque cohérentes sur ECRAN_POUSSEE, orientées côté
 # terre (MODI_MAILLAGE/ORIE_NORM_COQUE, U4.23.04 ; cas test sdls118a.comm) --
 # une pression FORCE_COQUE/PRES positive (U4.44.01 : positive "suivant le
@@ -341,11 +358,50 @@ MAIL = MODI_MAILLAGE(
 """
 
 
-def model_and_cara_block(mv: ModelValues, spring_classes: list[SpringClass]) -> str:
+def _palp_coque_keyword(
+    sans_palplanches: bool, epais_palp: float, vecteur_l: tuple[float, ...]
+) -> str:
+    if sans_palplanches:
+        return ""
+    vecteur = f"({_fmt(vecteur_l[0])}, {_fmt(vecteur_l[1])}, {_fmt(vecteur_l[2])})"
+    return (
+        '_F(\n            GROUP_MA=("PALPS",),\n            '
+        f"EPAIS={_fmt(epais_palp)},\n            "
+        f"VECTEUR={vecteur},\n            "
+        f"COEF_RIGI_DRZ={_fmt(DRZ_STIFFNESS_COEF)},\n        ),"
+    )
+
+
+def _barre_keyword(sans_tirants: bool, section_tirant: float) -> str:
+    if sans_tirants:
+        return ""
+    return (
+        f'BARRE=_F(\n        GROUP_MA=("TIRANTS",), SECTION="GENERALE", CARA="A", '
+        f"VALE={_fmt(section_tirant)}\n    ),"
+    )
+
+
+def model_and_cara_block(
+    mv: ModelValues,
+    spring_classes: list[SpringClass],
+    *,
+    sans_tirants: bool = False,
+    sans_palplanches: bool = False,
+    sans_poutre: bool = False,
+) -> str:
     """One `AFFE_MODELE` and one `AFFE_CARA_ELEM`, every element type at once
     (points 1, 2, 3, 4): DKT on the shells, BARRE on the tie rods (no
     rotation dof, point 2), POU_D_E on the crown beam, DIS_T on every spring
-    group (point 4)."""
+    group (point 4).
+
+    Lot 30, étape 3 (diagnostic « sans les tirants ») : `sans_tirants`
+    omits the `BARRE` model and characteristics entirely -- `TIRANTS` has a
+    minimum of one occurrence too, so it is dropped rather than left empty.
+    `sans_palplanches` (retrait 3) similarly omits `PALPS` from the DKT
+    `AFFE` and its own `COQUE` occurrence -- `TUBES` alone still satisfies
+    `AFFE`'s own minimum. `sans_poutre` (retrait 4) omits `POUTRE_COUR`'s
+    `POU_D_E` model and its `POUTRE` characteristics -- `CH_SOLIDE` does not
+    exist either in this variant (`liaison_solide_block`, `case_block`)."""
     epais_tube = mv.si("tube.epaisseur_coque_retenue")
     epais_palp = mv.si("palplanche.epaisseur_coque_EPAIS")
     vecteur_l = mv.si_vector("palplanche.vecteur_axe_L")
@@ -363,14 +419,50 @@ def model_and_cara_block(mv: ModelValues, spring_classes: list[SpringClass]) -> 
         f"VALE=(0.0, {_fmt(c.stiffness_n_per_m)}, 0.0)),"
         for c in spring_classes
     )
+    # Lot 30, étape 3 (diagnostic « sans les ressorts ») : `AFFE`/`DISCRET`
+    # ont chacun un minimum d'une occurrence -- avec `spring_classes` vide,
+    # l'affectation DIS_T et le mot-clé DISCRET sont omis plutôt que d'écrire
+    # une occurrence factice.
+    dis_t_affe = (
+        f'\n        _F(GROUP_MA={_tup(spring_names)}, PHENOMENE="MECANIQUE", '
+        'MODELISATION="DIS_T"),'
+        if spring_classes
+        else ""
+    )
+    discret_keyword = (
+        f"""
+    DISCRET=(
+        {discret}
+    ),"""
+        if spring_classes
+        else ""
+    )
+    tirant_affe = (
+        ""
+        if sans_tirants
+        else (
+            '\n        _F(GROUP_MA=("TIRANTS",), PHENOMENE="MECANIQUE", '
+            'MODELISATION="BARRE"),'
+        )
+    )
+    dkt_group_ma = '("TUBES",)' if sans_palplanches else '("TUBES", "PALPS")'
+    poutre_affe = (
+        ""
+        if sans_poutre
+        else (
+            '\n        _F(GROUP_MA=("POUTRE_COUR",), PHENOMENE="MECANIQUE", '
+            'MODELISATION="POU_D_E"),'
+        )
+    )
+    dkt_affe = (
+        f'_F(GROUP_MA={dkt_group_ma}, PHENOMENE="MECANIQUE", MODELISATION="DKT"),'
+        f"{tirant_affe}{poutre_affe}{dis_t_affe}"
+    )
     return f"""
 MO = AFFE_MODELE(
     MAILLAGE=MAIL,
     AFFE=(
-        _F(GROUP_MA=("TUBES", "PALPS"), PHENOMENE="MECANIQUE", MODELISATION="DKT"),
-        _F(GROUP_MA=("TIRANTS",), PHENOMENE="MECANIQUE", MODELISATION="BARRE"),
-        _F(GROUP_MA=("POUTRE_COUR",), PHENOMENE="MECANIQUE", MODELISATION="POU_D_E"),
-        _F(GROUP_MA={_tup(spring_names)}, PHENOMENE="MECANIQUE", MODELISATION="DIS_T"),
+        {dkt_affe}
     ),
 )
 
@@ -394,30 +486,38 @@ CARA = AFFE_CARA_ELEM(
             EPAIS={_fmt(epais_tube)},
             COEF_RIGI_DRZ={_fmt(DRZ_STIFFNESS_COEF)},
         ),
-        _F(
-            GROUP_MA=("PALPS",),
-            EPAIS={_fmt(epais_palp)},
-            VECTEUR=({_fmt(vecteur_l[0])}, {_fmt(vecteur_l[1])}, {_fmt(vecteur_l[2])}),
-            COEF_RIGI_DRZ={_fmt(DRZ_STIFFNESS_COEF)},
-        ),
+        {_palp_coque_keyword(sans_palplanches, epais_palp, vecteur_l)}
     ),
-    BARRE=_F(
-        GROUP_MA=("TIRANTS",), SECTION="GENERALE", CARA="A", VALE={_fmt(section_tirant)}
-    ),
-    POUTRE=_F(
-        GROUP_MA=("POUTRE_COUR",),
-        SECTION="RECTANGLE",
-        CARA=("HY", "HZ"),
-        VALE=({_fmt(largeur_poutre)}, {_fmt(hauteur_poutre)}),
-    ),
-    DISCRET=(
-        {discret}
-    ),
+    {_barre_keyword(sans_tirants, section_tirant)}
+    {_poutre_keyword(sans_poutre, largeur_poutre, hauteur_poutre)}{discret_keyword}
 )
 """
 
 
-def materials_block(mv: ModelValues) -> str:
+def _poutre_keyword(sans_poutre: bool, largeur: float, hauteur: float) -> str:
+    if sans_poutre:
+        return ""
+    return (
+        'POUTRE=_F(\n        GROUP_MA=("POUTRE_COUR",),\n        '
+        'SECTION="RECTANGLE",\n        CARA=("HY", "HZ"),\n        '
+        f"VALE=({_fmt(largeur)}, {_fmt(hauteur)}),\n    ),"
+    )
+
+
+def materials_block(
+    mv: ModelValues,
+    *,
+    sans_tirants: bool = False,
+    sans_palplanches: bool = False,
+    sans_poutre: bool = False,
+) -> str:
+    """Lot 30, étape 3 (diagnostic « sans les tirants ») : `sans_tirants`
+    omits `MAT_TIRANT` and its `AFFE_MATERIAU` occurrence entirely.
+    `sans_palplanches` (retrait 3) omits `PALPS`' own `AFFE_MATERIAU`
+    occurrence (`MAT_PALP` stays defined, simply unused -- an unused
+    material concept is not an error). `sans_poutre` (retrait 4) similarly
+    omits `POUTRE_COUR`'s own `AFFE_MATERIAU` occurrence (`MAT_BETON` stays
+    defined, unused)."""
     tube_e = mv.si("tube.module_young")
     tube_nu = mv.si("tube.coefficient_poisson")
     tube_rho = mv.si("tube.masse_volumique")
@@ -481,25 +581,63 @@ MAT_BETON = DEFI_MATERIAU(
     ELAS=_F(E={_fmt(beton_e)}, NU={_fmt(beton_nu)}, RHO={_fmt(beton_rho)})
 )
 
-MAT_TIRANT = DEFI_MATERIAU(
-    ELAS=_F(E={_fmt(tirant_e)}, NU={_fmt(tirant_nu)}, RHO={_fmt(tirant_rho)})
-)
-
+{_mat_tirant_def(sans_tirants, tirant_e, tirant_nu, tirant_rho)}
 CHMAT = AFFE_MATERIAU(
     MAILLAGE=MAIL,
     AFFE=(
-        _F(GROUP_MA=("TUBES",), MATER=MAT_TUBE),
-        _F(GROUP_MA=("PALPS",), MATER=MAT_PALP),
-        _F(GROUP_MA=("POUTRE_COUR",), MATER=MAT_BETON),
-        _F(GROUP_MA=("TIRANTS",), MATER=MAT_TIRANT),
+        {_chmat_affe(sans_tirants, sans_palplanches, sans_poutre)}
     ),
 )
 """
 
 
-def liaison_solide_block(beam_group_names: list[str]) -> str:
+def _chmat_affe(sans_tirants: bool, sans_palplanches: bool, sans_poutre: bool) -> str:
+    return (
+        '_F(GROUP_MA=("TUBES",), MATER=MAT_TUBE),'
+        f"{_mat_palp_affe(sans_palplanches)}"
+        f"{_mat_beton_affe(sans_poutre)}"
+        f"{_mat_tirant_affe(sans_tirants)}"
+    )
+
+
+def _mat_palp_affe(sans_palplanches: bool) -> str:
+    if sans_palplanches:
+        return ""
+    return '\n        _F(GROUP_MA=("PALPS",), MATER=MAT_PALP),'
+
+
+def _mat_beton_affe(sans_poutre: bool) -> str:
+    if sans_poutre:
+        return ""
+    return '\n        _F(GROUP_MA=("POUTRE_COUR",), MATER=MAT_BETON),'
+
+
+def _mat_tirant_def(sans_tirants: bool, e: float, nu: float, rho: float) -> str:
+    if sans_tirants:
+        return ""
+    return f"""MAT_TIRANT = DEFI_MATERIAU(
+    ELAS=_F(E={_fmt(e)}, NU={_fmt(nu)}, RHO={_fmt(rho)})
+)
+"""
+
+
+def _mat_tirant_affe(sans_tirants: bool) -> str:
+    if sans_tirants:
+        return ""
+    return '\n        _F(GROUP_MA=("TIRANTS",), MATER=MAT_TIRANT),'
+
+
+def liaison_solide_block(
+    beam_group_names: list[str], *, sans_poutre: bool = False
+) -> str:
     """Point 3 : one rigid-body junction per tube, ring of head nodes + beam
-    node (`LIAISON_SOLIDE`, U4.44.01; cas test sdlx03b.comm)."""
+    node (`LIAISON_SOLIDE`, U4.44.01; cas test sdlx03b.comm).
+
+    Lot 30, étape 3 (diagnostic « sans la poutre, donc sans liaison de corps
+    solide ») : `sans_poutre` returns an empty string -- `CH_SOLIDE` does not
+    exist in this variant, `case_block` omits it from `EXCIT` accordingly."""
+    if sans_poutre:
+        return ""
     occurrences = "\n        ".join(
         f'_F(GROUP_NO=("TETE_TUBE_{n}", "{BEAM_NODE_PREFIX}{n}")),'
         for n in beam_group_names
@@ -517,7 +655,7 @@ CH_SOLIDE = AFFE_CHAR_MECA(
 """
 
 
-def symmetry_and_support_block() -> str:
+def symmetry_and_support_block(*, sans_tirants: bool = False) -> str:
     """Point 7 (symmetry, X = constant planes), point 11 (`PIED_TUBES`,
     decision 12: vertical displacement blocked only), and point 2 (tie-rod
     anchor: "extrémité arrière bloquée", `tirants.longueur_modelisee`'s own
@@ -550,7 +688,7 @@ def symmetry_and_support_block() -> str:
 # Point 11 (décision 12) : appui vertical seul au pied des tubes.
 # Point 2 : extrémité arrière du tirant bloquée (ANCRAGES) -- donnée du
 # modèle (tirants.longueur_modelisee : "extrémité arrière bloquée"),
-# BARRE n'ayant pas de degré de rotation à bloquer.
+# BARRE n'ayant pas de degré de rotation à bloquer.{_ancrages_comment(sans_tirants)}
 CH_BLOC = AFFE_CHAR_MECA(
     MODELE=MO,
     DDL_IMPO=(
@@ -559,10 +697,25 @@ CH_BLOC = AFFE_CHAR_MECA(
         _F(GROUP_NO=("SYM_D",), DX=0.0),
         _F(GROUP_NO=("{SYMD_ROT_GROUP}",), DRY=0.0, DRZ=0.0),
         _F(GROUP_NO=("PIED_TUBES",), DZ=0.0),
-        _F(GROUP_NO=("ANCRAGES",), DX=0.0, DY=0.0, DZ=0.0),
+        {_ancrages_ddl_impo(sans_tirants)}
     ),
 )
 """
+
+
+def _ancrages_comment(sans_tirants: bool) -> str:
+    if not sans_tirants:
+        return ""
+    return (
+        "\n# Lot 30, étape 3 (diagnostic « sans les tirants ») : ANCRAGES "
+        "n'est plus bloqué, les tirants n'étant plus dans le modèle."
+    )
+
+
+def _ancrages_ddl_impo(sans_tirants: bool) -> str:
+    if sans_tirants:
+        return ""
+    return '_F(GROUP_NO=("ANCRAGES",), DX=0.0, DY=0.0, DZ=0.0),'
 
 
 def formule_block(name: str, points: list[tuple[float, float]]) -> str:
@@ -584,10 +737,48 @@ def formule_block(name: str, points: list[tuple[float, float]]) -> str:
 """
 
 
-def pressure_load_block(concept: str, formule_name: str) -> str:
+ECRAN_POUSSEE_TUBES_GROUP = "GEN_ECRAN_POUSSEE_TUBES"
+"""Lot 30, étape 3 (diagnostic « sans les palplanches ») : `ECRAN_POUSSEE`
+mêle tubes et palplanches -- sans modèle sur `PALPS`, `FORCE_COQUE` n'y est
+plus applicable (une coque non affectée). Ce groupe (`DIFFE`, créé seulement
+dans ce diagnostic) porte les mêmes tubes, sans les panneaux de palplanche."""
+
+
+def ecran_poussee_tubes_group_block() -> str:
+    """Lot 30, étape 3 (diagnostic « sans les palplanches »): `GEN_
+    ECRAN_POUSSEE_TUBES = ECRAN_POUSSEE \\ PALPS`, une maille de coque
+    (`CREA_GROUP_MA`/`DIFFE`), pour porter `FORCE_COQUE` (point 5) sans
+    toucher un panneau de palplanche que le modèle n'affecte plus."""
+    return f"""
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_MA=_F(
+        NOM="{ECRAN_POUSSEE_TUBES_GROUP}", DIFFE=("ECRAN_POUSSEE", "PALPS")
+    ),
+)
+"""
+
+
+def pressure_load_block(
+    concept: str,
+    formule_name: str,
+    *,
+    group_ma: str = "ECRAN_POUSSEE",
+    veri_norm: bool = True,
+) -> str:
+    """`veri_norm=False` (lot 30, étape 3, diagnostic « sans les palplanches »
+    only): `GEN_ECRAN_POUSSEE_TUBES` is the tubes' facets alone, no longer
+    connected to each other once the palplanche panels that bridged them are
+    gone -- `FORCE_COQUE`'s own automatic normal-orientation check
+    (`VERI_NORM`, catalogue default `'OUI'`) refuses a disconnected boundary
+    group (`<F> <MESH3_99>`, an actual execution): the check itself is
+    disabled, exactly as its own message suggests, never a normal
+    orientation this diagnostic needs to get right."""
+    veri = "" if veri_norm else ' VERI_NORM="NON",'
     return f"""
 {concept} = AFFE_CHAR_MECA_F(
-    MODELE=MO, FORCE_COQUE=_F(GROUP_MA=("ECRAN_POUSSEE",), PRES={formule_name})
+    MODELE=MO,{veri} FORCE_COQUE=_F(GROUP_MA=("{group_ma}",), PRES={formule_name})
 )
 """
 
@@ -647,18 +838,26 @@ fix -- see `symmetry_and_support_block`). MUMPS' own message names
 `SOLVEUR/RESI_RELA` as the remedy."""
 
 
-def case_block(name: str, *, extra_charges: list[str]) -> str:
+def case_block(
+    name: str, *, extra_charges: list[str], sans_poutre: bool = False
+) -> str:
     """One elementary load case (Étape 3, point 4 of the table): its own
     `MECA_STATIQUE` and `REAC_NODA`/`FORC_NODA` for the equilibrium controls
-    -- never combined with another case (no `COEF_MULT`, no superposition)."""
+    -- never combined with another case (no `COEF_MULT`, no superposition).
+
+    Lot 30, étape 3 (diagnostic « sans la poutre, donc sans liaison de corps
+    solide ») : `sans_poutre` omits `CH_SOLIDE` from `EXCIT` -- the concept
+    itself does not exist in this variant
+    (`aster_expert.generation.comm.liaison_solide_block` returns an empty
+    string)."""
     charges = "\n        ".join(f"_F(CHARGE={c})," for c in extra_charges)
+    ch_solide = "" if sans_poutre else "\n        _F(CHARGE=CH_SOLIDE),"
     return f"""
 RESU_{name} = MECA_STATIQUE(
     MODELE=MO,
     CHAM_MATER=CHMAT,
     CARA_ELEM=CARA,
-    EXCIT=(
-        _F(CHARGE=CH_SOLIDE),
+    EXCIT=({ch_solide}
         _F(CHARGE=CH_BLOC),
         {charges}
     ),
@@ -683,17 +882,38 @@ def controls_block(
     name: str,
     spring_group_names: list[str],
     *,
+    edge_tube_low: str,
+    edge_tube_high: str,
+    inner_tube_low: str,
+    inner_tube_high: str,
     reaction_components: tuple[str, ...] = ("DY",),
+    sans_tirants: bool = False,
+    sans_poutre: bool = False,
 ) -> str:
     """Étape 4's D-level controls, per elementary case: the resultant in the
     springs (`FORC_NODA`, point 4's own established restriction to the POI1
     group) and in the support reactions (`REAC_NODA`, `_SUPPORT_GROUPS`
     only -- lot 23), for the equilibrium check; symmetric-pair displacements
     (`DEPL`) for the symmetry check. `POST_RELEVE_T`/`RESULTANTE`: 158 cas
-    tests officiels (ex. forma40a.comm)."""
+    tests officiels (ex. forma40a.comm).
+
+    The symmetry pair used to be the full quay's own tube numbers, typed by
+    hand (`ANC_01`/`ANC_09`, `TETE_TUBE_02`/`TETE_TUBE_08`): wrong for any
+    slice with a different tube count (lot 30, étape 2 -- a quay with three
+    tubes has no ninth). `edge_tube_low`/`edge_tube_high` (as
+    `mesh_prep_block`'s own argument of the same name) and
+    `inner_tube_low`/`inner_tube_high` (the tube adjacent to each edge, from
+    `sorted(beam_group_names)`) are `generate_comm`'s own -- for three
+    tubes, `inner_tube_low == inner_tube_high` (the same, central tube):
+    still a valid pair, on the axis of symmetry, degenerate rather than
+    wrong."""
     springs = ", ".join(f'"{n}"' for n in spring_group_names)
     components = ", ".join(f'"{c}"' for c in reaction_components)
-    return f"""
+    # Lot 30, étape 3 (diagnostic « sans les ressorts ») : `GROUP_NO` a un
+    # minimum d'une occurrence -- sans classe de ressort, ce contrôle n'a
+    # rien à extraire et est omis plutôt que d'écrire un GROUP_NO vide.
+    ressorts_block = (
+        f"""
 TAB_RESS_{name} = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -706,7 +926,39 @@ TAB_RESS_{name} = POST_RELEVE_T(
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_{name}, UNITE=6)
-
+"""
+        if spring_group_names
+        else ""
+    )
+    # GROUP_NO n'admet aucune valeur répétée (`checkCommandSyntax` : "All the
+    # values must be different") : pour trois tubes, le voisin immédiat de
+    # chaque bord est le même tube central (`inner_tube_low ==
+    # inner_tube_high`) -- dédoublonné ici plutôt que d'écrire une paire
+    # dégénérée que le catalogue refuse.
+    # Lot 30, étape 3 (diagnostic « sans la poutre ») : BOLLARD est sur
+    # POUTRE_COUR, hors du modèle (aucun DDL) une fois la poutre omise --
+    # exclu du contrôle, comme ANCRAGES l'est pour « sans les tirants ».
+    sym_group_no = list(
+        dict.fromkeys(
+            (
+                f"ANC_{edge_tube_low}",
+                f"ANC_{edge_tube_high}",
+                f"TETE_TUBE_{inner_tube_low}",
+                f"TETE_TUBE_{inner_tube_high}",
+                *(() if sans_poutre else ("BOLLARD",)),
+            )
+        )
+    )
+    sym_groups = ", ".join(f'"{n}"' for n in sym_group_no)
+    # Lot 30, étape 3 (diagnostic « sans les tirants ») : ANCRAGES n'a plus
+    # aucun élément ni condition limite directe -- ses nœuds sont hors du
+    # modèle (aucun DDL), REAC_NODA y échouerait ; exclu du contrôle.
+    support_groups = (
+        tuple(g for g in _SUPPORT_GROUPS if g != "ANCRAGES")
+        if sans_tirants
+        else _SUPPORT_GROUPS
+    )
+    return f"""{ressorts_block}
 TAB_REAC_{name} = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -714,15 +966,16 @@ TAB_REAC_{name} = POST_RELEVE_T(
         RESULTAT=RESU_{name},
         NOM_CHAM="REAC_NODA",
         TOUT_ORDRE="OUI",
-        GROUP_NO={_tup(list(_SUPPORT_GROUPS))},
+        GROUP_NO={_tup(list(support_groups))},
         RESULTANTE=({components}),
     )
 )
 IMPR_TABLE(TABLE=TAB_REAC_{name}, UNITE=6)
 
 # Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes de tube 1/9) et le nœud BOLLARD, sur l'axe de
-# symétrie lui-même (attendu DX ~ 0).
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
 TAB_SYM_{name} = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -730,7 +983,7 @@ TAB_SYM_{name} = POST_RELEVE_T(
         RESULTAT=RESU_{name},
         NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
-        GROUP_NO=("ANC_01", "ANC_09", "TETE_TUBE_02", "TETE_TUBE_08", "BOLLARD"),
+        GROUP_NO=({sym_groups}),
         NOM_CMP=("DX", "DY", "DZ"),
     )
 )

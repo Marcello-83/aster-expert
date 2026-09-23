@@ -1,0 +1,45 @@
+{
+  "taille_visee": 0.25,
+  "aretes_verticales_tube_et_palplanche": {
+    "-26 -> -18": {
+      "longueur": 8.0,
+      "segments": 32
+    },
+    "-18 -> -12": {
+      "longueur": 6.0,
+      "segments": 24
+    },
+    "-12 -> 1": {
+      "longueur": 13.0,
+      "segments": 52
+    },
+    "1 -> 2": {
+      "longueur": 1.0,
+      "segments": 4
+    },
+    "2 -> 2.5": {
+      "longueur": 0.5,
+      "segments": 2
+    },
+    "2.5 -> 2.6": {
+      "longueur": 0.10000000000000009,
+      "segments": 1
+    }
+  },
+  "aretes_horizontales_facette": {
+    "longueur": 0.11141191593353982,
+    "segments": 1
+  },
+  "aretes_horizontales_palplanche": {
+    "longueur": 1.1800000000000002,
+    "segments": 5
+  },
+  "aretes_poutre": {
+    "longueur": 2.6,
+    "segments": 8
+  },
+  "aretes_tirant": {
+    "longueur": 25.997249854551924,
+    "segments": 1
+  }
+}

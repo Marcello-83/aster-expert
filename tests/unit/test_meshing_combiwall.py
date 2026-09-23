@@ -17,6 +17,7 @@ import yaml
 from aster_expert.agent.model_data import load_model_data
 from aster_expert.meshing.combiwall import (
     CombiwallMeshError,
+    band_projected_width,
     build_params,
     expected_invariants,
     expected_masses,
@@ -175,6 +176,18 @@ def test_the_masses_are_areas_and_lengths() -> None:
     assert masses["ECRAN"]["mass"] == pytest.approx(
         masses["TUBES"]["mass"] + masses["PALPS"]["mass"]
     )
+
+
+def test_band_projected_width_matches_the_generator_own_former_constants() -> None:
+    """Lot 30, étape 2 : `aster_expert.generation.generate` hardcodait ces deux
+    largeurs (20,80 m / 11,36 m) pour `check_spring_sum` -- valeurs propres au
+    quai complet (huit entraxes), fausses pour toute autre tranche. Cette
+    fonction les reproduit analytiquement à partir des mêmes paramètres."""
+    params = _params()
+    argi = params["bandes"]["RESS_AV_ARGI"]
+    marne = params["bandes"]["RESS_AV_MARNE"]
+    assert band_projected_width(params, argi) == pytest.approx(20.80)
+    assert band_projected_width(params, marne) == pytest.approx(11.36)
 
 
 def test_the_versioned_files_are_those_of_the_module() -> None:

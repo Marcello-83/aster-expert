@@ -1,5 +1,15 @@
 # AsterExpert
 
+## Langue de travail (lire en premier)
+
+**Toute production de ce dépôt est en français** : comptes rendus au fil de la
+session, messages de commit, rapports d'essai (`docs/essais_lotXX.md`),
+commentaires techniques, noms de sections. Le code Python (identifiants,
+docstrings) reste en anglais — voir la section « Langue » ci-dessous, qui ne
+fait que détailler cette règle. Cette règle a déjà dû être rappelée en tête de
+fichier une fois (lot 30) parce qu'un rappel plus bas dans le document n'avait
+pas suffi à la faire respecter : ne pas la redéplacer plus bas.
+
 ## Mission
 
 Construire un agent expert Code_Aster versionné, traçable, capable de valider
@@ -348,6 +358,34 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   cause établie pour l'échec résiduel) ; modèle complet non relancé. Piste non testée : la poutre
   de couronnement du quai est **continue** entre les neuf `LIAISON_SOLIDE` (contrairement aux
   poutres-tronçons isolées de ce lot) — candidat pour un prochain lot.
+- Lot 30 (`docs/essais_lot30.md`, `data/examples/lot30_quai_reduit/`,
+  `scripts/build_lot30_quai_reduit.py`, `scripts/generate_lot30_quai_reduit.py`) : la piste laissée
+  par le lot 29 (poutre continue) confirmée par un **quai réduit** produit par la chaîne de
+  production elle-même (même script Salomé, même générateur, mêmes décisions ; deux entraxes, trois
+  tubes, 10 204 nœuds contre 40 114) — reproduit le pivot `<F> <FACTOR_11>` du lot 28 en 13,7 s
+  (contre 44 s pour le modèle complet, 112,6 s de maillage contre ~17 min). Quatre retraits
+  d'ingrédient ajoutés au générateur, diagnostic seulement, jamais actifs par défaut
+  (`aster_expert.generation.generate.DiagnosticOmissions` : `sans_ressorts`, `sans_tirants`,
+  `sans_palplanches`, `sans_poutre`) : les trois premiers **n'évitent pas** l'échec (contredit le
+  lot 28 sur le rôle nécessaire des ressorts, établi sur un reproducteur distinct du générateur de
+  production) ; le quatrième (poutre, donc `LIAISON_SOLIDE`) fait disparaître le pivot. **Fait
+  établi** : `LIAISON_SOLIDE`, avec plusieurs occurrences simultanées liées par une poutre
+  **continue**, produit le pivot nul indépendamment des ressorts/tirants/palplanches — précise, sans
+  le contredire, le rôle de `LIAISON_SOLIDE` déjà établi au lot 28. Cause touchant la décision du
+  point 3 : **non modifiée**, modèle complet **non relancé** (recommandation reconduite du lot 28 :
+  étudier `LIAISON_ELEM`/R3.03.03-06). Deux généralisations corrigées dans le générateur de
+  *production*, sans rapport avec la cause (révélées par le premier usage sur une géométrie autre
+  que huit entraxes) : `check_spring_sum` (largeurs/hauteurs de bande tapées en dur →
+  `aster_expert.meshing.combiwall.band_projected_width`) et la paire de symétrie du contrôle D de
+  `controls_block` (`ANC_01/09`, `TETE_TUBE_02/08` tapés en dur → calculés depuis les tubes de bord,
+  dédoublonnés — `GROUP_NO` refuse toute valeur répétée, constaté par `validate_comm`) ; le `.comm`
+  de production reste octet pour octet identique (vérifié deux fois). Défaut latent découvert sans
+  rapport avec `LIAISON_SOLIDE`, non corrigé : ressorts `DIS_T` sans masse sous `PESANTEUR`
+  (`<F> <DISCRETS_26/30/31>`), jamais atteint avant ce lot car `FACTOR_11` arrêtait toujours
+  l'exécution plus tôt. 8 exécutions Code_Aster réelles (129,5 s cumulées, dont 3 refaites après une
+  erreur de préparation sans rapport : nommage `.export`/`.mmed`, `VERI_NORM`, charge fantôme
+  `CH_Q3`) ; 5 tests unitaires ajoutés. Non testé : retrait 5 (partage de nœud, non exprimable sans
+  modifier le maillage) et retrait 6 (symétrie, le premier retrait informatif ayant déjà tranché).
 
 ## Périmètre à ne pas dépasser sans instruction
 

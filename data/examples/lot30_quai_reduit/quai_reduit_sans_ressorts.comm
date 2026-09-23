@@ -1,0 +1,586 @@
+# Généré par aster-expert generate (lot 28) -- NE PAS ÉDITER À LA MAIN.
+# Toute modification doit passer par la fiche, le fichier de données ou le
+# maillage vérifié, puis une nouvelle génération.
+#
+# Code_Aster ciblé : 17.4.0
+# Fiche             : sha256:cef5b349403b72a44b9b97995c30981ab1603cbda3b72d737a75f765a2e31610
+# Données           : sha256:a3899575b0117573bd4b99d1f542c9fd0a1392e1d6fa02e2e474880397a8ecee
+# Maillage vérifié  : sha256:507a0942d5c1e0bd07325e443e511f061432e625b0262a53d96b12355812b5b6
+
+DEBUT(CODE="OUI", ERREUR=_F(ALARME="EXCEPTION"), DEBUG=_F(SDVERI="OUI"))
+
+# Point 9 (repère global) : X le long du quai de SYM_G vers SYM_D, Y vers la
+# terre, Z ascendant, unités m, N, Pa, kg -- imposé par le maillage, non
+# recréé ici.
+MAIL = LIRE_MAILLAGE(FORMAT="MED", UNITE=20, INFO=2)
+
+# Groupes créés par le générateur (préfixe réservé GEN_, hors convention de
+# maillage) : un nœud de poutre par tube (point 3), le nœud de référence de
+# ORIE_NORM_COQUE (point 5). Point 4 : chaque classe de raideur est bâtie par
+# colonne (X, Y) -- ENV_CYLINDRE, une occurrence par colonne, jamais par
+# nœud -- croisée avec la ligne haute ou basse de sa bande (PLAN) ou son
+# complément (INTERIEUR = TOUT - HAUT - BAS), puis réunie (UNION) : voir
+# spring_group_plan pour la justification et les sources.
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_NO=(
+        _F(NOM="GEN_POUTRE_01", OPTION="ENV_SPHERE", POINT=(-2.6, 0.34, 3.3), RAYON=1e-06, PRECISION=1e-06),
+        _F(NOM="GEN_POUTRE_02", OPTION="ENV_SPHERE", POINT=(0.0, 0.34, 3.3), RAYON=1e-06, PRECISION=1e-06),
+        _F(NOM="GEN_POUTRE_03", OPTION="ENV_SPHERE", POINT=(2.6, 0.34, 3.3), RAYON=1e-06, PRECISION=1e-06),
+        _F(NOM="GEN_REF_NORM", OPTION="ENV_SPHERE", POINT=(0.0, 0.71, 2.6), RAYON=1e-06, PRECISION=1e-06),
+        _F(NOM="GEN_ALL_ARGI", GROUP_MA=("RESS_AV_ARGI",)),
+        _F(NOM="GEN_PLAN_ARGI_BAS", OPTION="PLAN", POINT=(0.0, 0.0, -18.0), VECT_NORMALE=(0.0, 0.0, 1.0), PRECISION=1e-06),
+        _F(NOM="GEN_BNDPART_ARGI_BAS", INTERSEC=("GEN_ALL_ARGI", "GEN_PLAN_ARGI_BAS")),
+        _F(NOM="GEN_PLAN_ARGI_HAUT", OPTION="PLAN", POINT=(0.0, 0.0, -12.0), VECT_NORMALE=(0.0, 0.0, 1.0), PRECISION=1e-06),
+        _F(NOM="GEN_BNDPART_ARGI_HAUT", INTERSEC=("GEN_ALL_ARGI", "GEN_PLAN_ARGI_HAUT")),
+        _F(NOM="GEN_BND_ARGI", UNION=("GEN_BNDPART_ARGI_BAS", "GEN_BNDPART_ARGI_HAUT")),
+        _F(NOM="GEN_INT_ARGI", DIFFE=("GEN_ALL_ARGI", "GEN_BND_ARGI")),
+        _F(NOM="GEN_ALL_MARNE", GROUP_MA=("RESS_AV_MARNE",)),
+        _F(NOM="GEN_PLAN_MARNE_BAS", OPTION="PLAN", POINT=(0.0, 0.0, -26.0), VECT_NORMALE=(0.0, 0.0, 1.0), PRECISION=1e-06),
+        _F(NOM="GEN_BNDPART_MARNE_BAS", INTERSEC=("GEN_ALL_MARNE", "GEN_PLAN_MARNE_BAS")),
+        _F(NOM="GEN_PLAN_MARNE_HAUT", OPTION="PLAN", POINT=(0.0, 0.0, -18.0), VECT_NORMALE=(0.0, 0.0, 1.0), PRECISION=1e-06),
+        _F(NOM="GEN_BNDPART_MARNE_HAUT", INTERSEC=("GEN_ALL_MARNE", "GEN_PLAN_MARNE_HAUT")),
+        _F(NOM="GEN_BND_MARNE", UNION=("GEN_BNDPART_MARNE_BAS", "GEN_BNDPART_MARNE_HAUT")),
+        _F(NOM="GEN_INT_MARNE", DIFFE=("GEN_ALL_MARNE", "GEN_BND_MARNE")),
+        _F(NOM="GEN_SYMG_RING", INTERSEC=("SYM_G", "TETE_TUBE_01")),
+        _F(NOM="GEN_SYMG_ROT", DIFFE=("SYM_G", "TETE_TUBE_01")),
+        _F(NOM="GEN_SYMD_RING", INTERSEC=("SYM_D", "TETE_TUBE_03")),
+        _F(NOM="GEN_SYMD_ROT", DIFFE=("SYM_D", "TETE_TUBE_03")),
+    ),
+)
+
+
+
+# Point 5 : normales de coque cohérentes sur ECRAN_POUSSEE, orientées côté
+# terre (MODI_MAILLAGE/ORIE_NORM_COQUE, U4.23.04 ; cas test sdls118a.comm) --
+# une pression FORCE_COQUE/PRES positive (U4.44.01 : positive "suivant le
+# sens contraire de la normale") pousse alors vers le bassin.
+MAIL = MODI_MAILLAGE(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    ORIE_NORM_COQUE=_F(
+        GROUP_MA=("ECRAN_POUSSEE",),
+        VECT_NORM=(0.0, 1.0, 0.0),
+        GROUP_NO="GEN_REF_NORM",
+    ),
+)
+
+MO = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(GROUP_MA=("TUBES", "PALPS"), PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+        _F(GROUP_MA=("TIRANTS",), PHENOMENE="MECANIQUE", MODELISATION="BARRE"),
+        _F(GROUP_MA=("POUTRE_COUR",), PHENOMENE="MECANIQUE", MODELISATION="POU_D_E"),
+    ),
+)
+
+# Point 1 : épaisseurs de coque (tube : décision point 10 ; palplanche :
+# EPAIS = t x s/b, décision point 1). VECTEUR fixe l'axe L (vertical) de la
+# palplanche, plaque du plan Y = 0 (XZ) -- établi par l'essai D7 (lot 25,
+# point 1) : VECTEUR = (0, 0, 1) place L selon Z.
+# Point 2 : section brute du tirant (aire donnée, SECTION="GENERALE").
+# Point 3 : section rectangulaire de la poutre de couronnement (HY = largeur
+# horizontale perpendiculaire à l'axe X de la poutre, HZ = hauteur verticale
+# -- convention du repère local par défaut d'une poutre d'axe X).
+# Point 4 : raideur K_T_D_N (0, ky, 0) par classe, repère global par défaut --
+# ressorts horizontaux seuls, dirigés selon Y (décision 5), convertis de
+# MN/m en N/m (x1e6).
+# Point 3 : COEF_RIGI_DRZ sur les deux groupes DKT -- voir DRZ_STIFFNESS_COEF.
+CARA = AFFE_CARA_ELEM(
+    MODELE=MO,
+    COQUE=(
+        _F(
+            GROUP_MA=("TUBES",),
+            EPAIS=0.014,
+            COEF_RIGI_DRZ=0.001,
+        ),
+        _F(
+            GROUP_MA=("PALPS",),
+            EPAIS=0.01385,
+            VECTEUR=(0.0, 0.0, 1.0),
+            COEF_RIGI_DRZ=0.001,
+        ),
+    ),
+    BARRE=_F(
+        GROUP_MA=("TIRANTS",), SECTION="GENERALE", CARA="A", VALE=0.00442
+    ),
+    POUTRE=_F(
+        GROUP_MA=("POUTRE_COUR",),
+        SECTION="RECTANGLE",
+        CARA=("HY", "HZ"),
+        VALE=(2.5, 1.4),
+    ),
+)
+
+# Point 1 : matériau du tube (ELAS) et de la palplanche (décision 2 --
+# ELAS_COQUE, rigidités homogénéisées converties de MN/m et MN.m2/m en N/m
+# et N.m2/m : facteur 1e6). Point 2 : matériaux poutre (béton C35/45) et
+# tirant (E, NU, RHO -- DEFI_MATERIAU/ELAS exige E et NU définis ensemble ou
+# non définis du tout, même si une modélisation BARRE, purement axiale,
+# n'utilise pas NU ; NU du tirant repris du tube faute de donnée propre, voir
+# le commentaire sur MAT_TIRANT). Les ressorts (DIS_T) ne portent pas de
+# matériau.
+MAT_TUBE = DEFI_MATERIAU(
+    ELAS=_F(E=210000000000.0, NU=0.3, RHO=7850.0)
+)
+
+MAT_PALP = DEFI_MATERIAU(
+    ELAS_COQUE=_F(
+        MEMB_L=2908000000.0,
+        MEMB_T=81000.0,
+        MEMB_G_LT=526000000.0,
+        MEMB_LT=0.0,
+        FLEX_L=89000000.0,
+        FLEX_T=11300.0,
+        FLEX_G_LT=8400.0,
+        FLEX_LT=0.0,
+        CISA_L=526000000.0,
+        CISA_T=526000000.0,
+        RHO=7850.0,
+    )
+)
+
+MAT_BETON = DEFI_MATERIAU(
+    ELAS=_F(E=34000000000.0, NU=0.2, RHO=2500.0)
+)
+
+MAT_TIRANT = DEFI_MATERIAU(
+    ELAS=_F(E=210000000000.0, NU=0.3, RHO=7850.0)
+)
+
+CHMAT = AFFE_MATERIAU(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(GROUP_MA=("TUBES",), MATER=MAT_TUBE),
+        _F(GROUP_MA=("PALPS",), MATER=MAT_PALP),
+        _F(GROUP_MA=("POUTRE_COUR",), MATER=MAT_BETON),
+        _F(GROUP_MA=("TIRANTS",), MATER=MAT_TIRANT),
+    ),
+)
+
+# Point 3 : liaison de corps solide entre l'anneau de tête de chaque tube et
+# le nœud de poutre à son droit (encastrement dans la poutre, cas de test
+# §3, U4.44.01 mot-clé LIAISON_SOLIDE).
+CH_SOLIDE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    LIAISON_SOLIDE=(
+        _F(GROUP_NO=("TETE_TUBE_01", "GEN_POUTRE_01")),
+        _F(GROUP_NO=("TETE_TUBE_02", "GEN_POUTRE_02")),
+        _F(GROUP_NO=("TETE_TUBE_03", "GEN_POUTRE_03")),
+    ),
+)
+
+# Point 7 : symétrie par rapport aux plans X = constante (SYM_G, SYM_D) --
+# translation normale au plan (DX) sur tout le plan, rotations autour des
+# deux axes du plan (DRY, DRZ) sur sa part hors anneau de tête seulement
+# (voir le commentaire de symmetry_and_support_block : la part de l'anneau
+# tient sa rotation de LIAISON_SOLIDE, l'imposer une seconde fois y a produit
+# un pivot nul) ; DY, DZ, DRX libres (U4.44.01, tableau 5-2 : degrés de
+# liberté dans le repère global ; cas test ssls100b.comm, bords de symétrie).
+# Point 11 (décision 12) : appui vertical seul au pied des tubes.
+# Point 2 : extrémité arrière du tirant bloquée (ANCRAGES) -- donnée du
+# modèle (tirants.longueur_modelisee : "extrémité arrière bloquée"),
+# BARRE n'ayant pas de degré de rotation à bloquer.
+CH_BLOC = AFFE_CHAR_MECA(
+    MODELE=MO,
+    DDL_IMPO=(
+        _F(GROUP_NO=("SYM_G",), DX=0.0),
+        _F(GROUP_NO=("GEN_SYMG_ROT",), DRY=0.0, DRZ=0.0),
+        _F(GROUP_NO=("SYM_D",), DX=0.0),
+        _F(GROUP_NO=("GEN_SYMD_ROT",), DRY=0.0, DRZ=0.0),
+        _F(GROUP_NO=("PIED_TUBES",), DZ=0.0),
+        _F(GROUP_NO=("ANCRAGES",), DX=0.0, DY=0.0, DZ=0.0),
+    ),
+)
+
+F_G = DEFI_FONCTION(
+    NOM_PARA="Z",
+    ABSCISSE=(-26.0, -18.001, -17.999, -9.001, -8.999, -2.001, -1.999, 2.0, 4.0),
+    ORDONNEE=(66500.0, 35800.0, 80800.0, 42400.0, 41100.0, 21200.0, 24000.0, 11700.0, 0.0),
+    INTERPOL="LIN",
+    PROL_DROITE="CONSTANT",
+    PROL_GAUCHE="CONSTANT",
+)
+
+F_Q1 = DEFI_FONCTION(
+    NOM_PARA="Z",
+    ABSCISSE=(-26.0, -18.001, -17.999, -9.001, -8.999, -2.001, -1.999, 2.0, 4.0),
+    ORDONNEE=(13300.0, 13300.0, 16200.0, 16200.0, 10800.0, 10800.0, 12300.0, 12300.0, 12300.0),
+    INTERPOL="LIN",
+    PROL_DROITE="CONSTANT",
+    PROL_GAUCHE="CONSTANT",
+)
+
+F_EAU_P = DEFI_FONCTION(
+    NOM_PARA="Z",
+    ABSCISSE=(0.5, 2.0),
+    ORDONNEE=(15000.0, 0.0),
+    INTERPOL="LIN",
+    PROL_DROITE="CONSTANT",
+    PROL_GAUCHE="CONSTANT",
+)
+
+F_EAU_A = DEFI_FONCTION(
+    NOM_PARA="Z",
+    ABSCISSE=(-0.5, 3.0),
+    ORDONNEE=(35000.0, 0.0),
+    INTERPOL="LIN",
+    PROL_DROITE="CONSTANT",
+    PROL_GAUCHE="CONSTANT",
+)
+
+CH_G_POUSSEE = AFFE_CHAR_MECA_F(
+    MODELE=MO, FORCE_COQUE=_F(GROUP_MA=("ECRAN_POUSSEE",), PRES=F_G)
+)
+
+# Point 8 : pesanteur (cas G), tous matériaux porteurs de RHO (tube, poutre,
+# tirant, palplanche via ELAS_COQUE/RHO -- lot 22 : RHO exigé sur tout
+# élément ELAS_COQUE du modèle sous PESANTEUR).
+CH_G_POIDS = AFFE_CHAR_MECA(
+    MODELE=MO, PESANTEUR=_F(GRAVITE=9.81, DIRECTION=(0.0, 0.0, -1.0))
+)
+
+CH_Q1 = AFFE_CHAR_MECA_F(
+    MODELE=MO, FORCE_COQUE=_F(GROUP_MA=("ECRAN_POUSSEE",), PRES=F_Q1)
+)
+
+CH_EAU_P = AFFE_CHAR_MECA_F(
+    MODELE=MO, FORCE_COQUE=_F(GROUP_MA=("ECRAN_POUSSEE",), PRES=F_EAU_P)
+)
+
+CH_EAU_A = AFFE_CHAR_MECA_F(
+    MODELE=MO, FORCE_COQUE=_F(GROUP_MA=("ECRAN_POUSSEE",), PRES=F_EAU_A)
+)
+
+# Point 8 (cas Q3) : force et moment de transport sur BOLLARD (U4.44.01,
+# FORCE_NODALE, repère global). FY : composante horizontale (donnée, non
+# recalculée), vers le bassin (-Y). FZ : composante verticale, déduite de
+# l'intensité et de l'inclinaison (amarrage_effort x sin(inclinaison)),
+# calcul commenté ici, non typé en dur. MX : moment de transport (donné, non
+# recalculé), d'axe parallèle au quai.
+CH_Q3 = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_NODALE=_F(GROUP_NO=("BOLLARD",), FY=-866000.0, FZ=499999.99999999994, MX=606000.0),
+)
+
+# Point 8 (cas A) : effort d'accostage sur DEFENSE, direction globale +Y
+# (perpendiculaire au quai, vers la terre -- décision point 8), intensité
+# rapportée à la surface développée des mailles de DEFENSE (essai lot 21,
+# point 8 : la référence de FORCE_COQUE est la surface développée, non la
+# surface projetée), FX = FZ = 0.
+CH_A = AFFE_CHAR_MECA(
+    MODELE=MO, FORCE_COQUE=_F(GROUP_MA=("DEFENSE",), FY=718056.0475032325)
+)
+
+RESU_G = MECA_STATIQUE(
+    MODELE=MO,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(
+        _F(CHARGE=CH_SOLIDE),
+        _F(CHARGE=CH_BLOC),
+        _F(CHARGE=CH_G_POUSSEE),
+        _F(CHARGE=CH_G_POIDS),
+    ),
+    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+)
+RESU_G = CALC_CHAMP(
+    reuse=RESU_G, RESULTAT=RESU_G, FORCE=("REAC_NODA", "FORC_NODA")
+)
+
+TAB_REAC_G = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REACTIONS_G",
+        RESULTAT=RESU_G,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANCRAGES", "PIED_TUBES", "SYM_G", "SYM_D",),
+        RESULTANTE=("DY"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_REAC_G, UNITE=6)
+
+# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
+TAB_SYM_G = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="SYMETRIE_G",
+        RESULTAT=RESU_G,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANC_01", "ANC_03", "TETE_TUBE_02", "BOLLARD"),
+        NOM_CMP=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_SYM_G, UNITE=6)
+
+TAB_ORDRE_G = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTREMA",
+        INTITULE="ORDRE_GRANDEUR_G",
+        RESULTAT=RESU_G,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("TETE_TUBE_01", "TETE_TUBE_02", "TETE_TUBE_03"),
+        NOM_CMP="DY",
+    )
+)
+IMPR_TABLE(TABLE=TAB_ORDRE_G, UNITE=6)
+
+RESU_EAU_P = MECA_STATIQUE(
+    MODELE=MO,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(
+        _F(CHARGE=CH_SOLIDE),
+        _F(CHARGE=CH_BLOC),
+        _F(CHARGE=CH_EAU_P),
+    ),
+    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+)
+RESU_EAU_P = CALC_CHAMP(
+    reuse=RESU_EAU_P, RESULTAT=RESU_EAU_P, FORCE=("REAC_NODA", "FORC_NODA")
+)
+
+TAB_REAC_EAU_P = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REACTIONS_EAU_P",
+        RESULTAT=RESU_EAU_P,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANCRAGES", "PIED_TUBES", "SYM_G", "SYM_D",),
+        RESULTANTE=("DY"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_REAC_EAU_P, UNITE=6)
+
+# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
+TAB_SYM_EAU_P = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="SYMETRIE_EAU_P",
+        RESULTAT=RESU_EAU_P,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANC_01", "ANC_03", "TETE_TUBE_02", "BOLLARD"),
+        NOM_CMP=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_SYM_EAU_P, UNITE=6)
+
+RESU_EAU_A = MECA_STATIQUE(
+    MODELE=MO,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(
+        _F(CHARGE=CH_SOLIDE),
+        _F(CHARGE=CH_BLOC),
+        _F(CHARGE=CH_EAU_A),
+    ),
+    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+)
+RESU_EAU_A = CALC_CHAMP(
+    reuse=RESU_EAU_A, RESULTAT=RESU_EAU_A, FORCE=("REAC_NODA", "FORC_NODA")
+)
+
+TAB_REAC_EAU_A = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REACTIONS_EAU_A",
+        RESULTAT=RESU_EAU_A,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANCRAGES", "PIED_TUBES", "SYM_G", "SYM_D",),
+        RESULTANTE=("DY"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_REAC_EAU_A, UNITE=6)
+
+# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
+TAB_SYM_EAU_A = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="SYMETRIE_EAU_A",
+        RESULTAT=RESU_EAU_A,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANC_01", "ANC_03", "TETE_TUBE_02", "BOLLARD"),
+        NOM_CMP=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_SYM_EAU_A, UNITE=6)
+
+RESU_Q1 = MECA_STATIQUE(
+    MODELE=MO,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(
+        _F(CHARGE=CH_SOLIDE),
+        _F(CHARGE=CH_BLOC),
+        _F(CHARGE=CH_Q1),
+    ),
+    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+)
+RESU_Q1 = CALC_CHAMP(
+    reuse=RESU_Q1, RESULTAT=RESU_Q1, FORCE=("REAC_NODA", "FORC_NODA")
+)
+
+TAB_REAC_Q1 = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REACTIONS_Q1",
+        RESULTAT=RESU_Q1,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANCRAGES", "PIED_TUBES", "SYM_G", "SYM_D",),
+        RESULTANTE=("DY"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_REAC_Q1, UNITE=6)
+
+# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
+TAB_SYM_Q1 = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="SYMETRIE_Q1",
+        RESULTAT=RESU_Q1,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANC_01", "ANC_03", "TETE_TUBE_02", "BOLLARD"),
+        NOM_CMP=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_SYM_Q1, UNITE=6)
+
+RESU_Q3 = MECA_STATIQUE(
+    MODELE=MO,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(
+        _F(CHARGE=CH_SOLIDE),
+        _F(CHARGE=CH_BLOC),
+        _F(CHARGE=CH_Q3),
+    ),
+    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+)
+RESU_Q3 = CALC_CHAMP(
+    reuse=RESU_Q3, RESULTAT=RESU_Q3, FORCE=("REAC_NODA", "FORC_NODA")
+)
+
+TAB_REAC_Q3 = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REACTIONS_Q3",
+        RESULTAT=RESU_Q3,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANCRAGES", "PIED_TUBES", "SYM_G", "SYM_D",),
+        RESULTANTE=("DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_REAC_Q3, UNITE=6)
+
+# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
+TAB_SYM_Q3 = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="SYMETRIE_Q3",
+        RESULTAT=RESU_Q3,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANC_01", "ANC_03", "TETE_TUBE_02", "BOLLARD"),
+        NOM_CMP=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_SYM_Q3, UNITE=6)
+
+TAB_ORDRE_Q3 = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTREMA",
+        INTITULE="ORDRE_GRANDEUR_Q3",
+        RESULTAT=RESU_Q3,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("TETE_TUBE_01", "TETE_TUBE_02", "TETE_TUBE_03"),
+        NOM_CMP="DY",
+    )
+)
+IMPR_TABLE(TABLE=TAB_ORDRE_Q3, UNITE=6)
+
+RESU_A = MECA_STATIQUE(
+    MODELE=MO,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(
+        _F(CHARGE=CH_SOLIDE),
+        _F(CHARGE=CH_BLOC),
+        _F(CHARGE=CH_A),
+    ),
+    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+)
+RESU_A = CALC_CHAMP(
+    reuse=RESU_A, RESULTAT=RESU_A, FORCE=("REAC_NODA", "FORC_NODA")
+)
+
+TAB_REAC_A = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REACTIONS_A",
+        RESULTAT=RESU_A,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANCRAGES", "PIED_TUBES", "SYM_G", "SYM_D",),
+        RESULTANTE=("DY"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_REAC_A, UNITE=6)
+
+# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
+TAB_SYM_A = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="SYMETRIE_A",
+        RESULTAT=RESU_A,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("ANC_01", "ANC_03", "TETE_TUBE_02", "BOLLARD"),
+        NOM_CMP=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_SYM_A, UNITE=6)
+
+IMPR_RESU(
+    FORMAT="MED",
+    UNITE=80,
+    RESU=(
+        _F(RESULTAT=RESU_G),
+        _F(RESULTAT=RESU_EAU_P),
+        _F(RESULTAT=RESU_EAU_A),
+        _F(RESULTAT=RESU_Q1),
+        _F(RESULTAT=RESU_Q3),
+        _F(RESULTAT=RESU_A),
+    ),
+)
+
+FIN()

@@ -58,6 +58,10 @@ execution:
     # Reproducteur minimal du diagnostic de pivot nul (lot 29), entièrement
     # produit par scripts/build_lot29_repro.py.
     - data/examples/lot29_repro
+    # Quai réduit (lot 30, étape 2) : maillage par mesh run/mesh check,
+    # .comm produit par scripts/generate_lot30_quai_reduit.py (le générateur
+    # de production, aucune décision modifiée).
+    - data/examples/lot30_quai_reduit
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

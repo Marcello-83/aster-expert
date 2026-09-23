@@ -802,6 +802,30 @@ def _mid_row_levels(lay: _Layout) -> dict[str, float]:
     return {"haut": upper, "bas": mid(a0, b0, lay.rows[0])}
 
 
+def band_projected_width(params: dict[str, Any], band: dict[str, Any]) -> float:
+    """Projected width (m) of a spring band's cross-section: the tubes' own
+    width (a half-tube on an edge tube contributes its radius, a full tube
+    its diameter) plus, when the band carries them (`avec_palplanches`), the
+    sheet-pile panels between -- the same closed-form width
+    `expected_invariants` computes for its own `projected_widths` control on
+    `ECRAN_POUSSEE`, generalised here to any band and any number of tubes
+    (lot 30, étape 2: `aster_expert.generation.generate` no longer hardcodes
+    the full quay's own 20.80/11.36 m for `aster_expert.generation.springs
+    .check_spring_sum` -- a value tied to eight bays, wrong for any other
+    slice length)."""
+    lay = _Layout(params)
+    tube_width = sum(
+        2.0 * lay.radius if lay.is_full(k) else lay.radius
+        for k in range(1, lay.n_tubes + 1)
+    )
+    if not band["avec_palplanches"]:
+        return tube_width
+    sheet_width = sum(
+        lay.sheet_x(k)[1] - lay.sheet_x(k)[0] for k in range(1, lay.n_tubes)
+    )
+    return tube_width + sheet_width
+
+
 # --- expected masses (Code_Aster reading) -------------------------------------------
 
 
