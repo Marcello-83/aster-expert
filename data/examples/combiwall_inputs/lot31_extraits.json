@@ -1,0 +1,83 @@
+[
+  {
+    "id": "cas_de_figure_liaison_solide",
+    "document_id": "R3.03.02",
+    "section_path": [
+      "Quels sont les cas de figure traités ?"
+    ],
+    "source_path": "source/manuals/man_r/r3/r3.03.02/Quels_sont_les_cas_de_figure_trait_s__.rst",
+    "line_start": 1,
+    "line_end": 28,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Quels sont les cas de figure traités ?\n======================================\n\nSelon les degrés de liberté portés par les nœuds de la liste des nœuds à rigidifier, on se place dans un des quatre cas de figure suivants. Si on ne se retrouve pas dans l’un de ces cas de figure, le code s’arrête en erreur fatale:\n\n\n*   Les cas :math:`\\mathrm{2DA}` et :math:`\\mathrm{2DB}` correspondent à des problèmes «plans» ou axisymétriques;\n\n\n*   Les cas :math:`\\mathrm{3DA}` et :math:`\\mathrm{3DB}` correspondent à des problèmes 3D.\n\n**Cas** :math:`\\mathrm{2DA}` **:**\n\n**Tous**  les nœuds de la liste des nœuds à rigidifier portent les degrés de liberté :math:`\\mathit{DX}` et :math:`\\mathit{DY}` et au moins l'un des nœuds porte :math:`\\mathit{DRZ}` .\n\n**Cas** :math:`\\mathrm{2DB}` **:**\n\nTous les nœuds de la liste des nœuds à rigidifier portent :math:`\\mathit{DX}` , :math:`\\mathit{DY}` mais ils ne portent pas :math:`\\mathit{DRX}` , :math:`\\mathit{DRY}` et :math:`\\mathit{DZ}` .\n\n**Cas** :math:`\\mathrm{3DA}` **:**\n\n**Tous**  les nœuds de la liste des nœuds à rigidifier portent les degrés de liberté :math:`\\mathit{DX}` , :math:`\\mathit{DY}` et :math:`\\mathit{DZ}` et au moins l'un des nœuds porte :math:`\\mathit{DRX}` , :math:`\\mathit{DRY}` ou :math:`\\mathit{DRZ}` .\n\n**Cas** :math:`\\mathrm{3DB}` **:**\n\nTous les nœuds de la liste des nœuds à rigidifier portent :math:`\\mathit{DX}` , :math:`\\mathit{DY}` , :math:`\\mathit{DZ}` et il n’existe pas de noeud de la liste des nœuds à rigidifier portant des degrés de liberté de rotation :math:`\\mathit{DRX}` , :math:`\\mathit{DRY}` , :math:`\\mathit{DRZ}` .\n\nSeuls les cas :math:`\\mathrm{2DB}` et :math:`\\mathrm{3DB}` peuvent être actuellement traités en non linéaire (TYPE_CHARGE='SUIV')."
+  },
+  {
+    "id": "traitement_cas_3da",
+    "document_id": "R3.03.02",
+    "section_path": [
+      "Traitement des cas 2DA et 3DA"
+    ],
+    "source_path": "source/manuals/man_r/r3/r3.03.02/Traitement_des_cas_2DA_et_3DA.rst",
+    "line_start": 1,
+    "line_end": 38,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Traitement des cas 2DA et 3DA\n=============================\n\nDans ces deux cas de figure, on a pu trouver un noeud de la liste des noeuds à rigidifier qui portait **tous**  les degrés de liberté du solide. Soit :math:`A` ce nœud, alors:\n\n\n*   En 2D: :math:`\\mathit{DX}` , :math:`\\mathit{DY}` , :math:`\\mathit{DRZ}` ;\n\n\n*   En 3D: :math:`\\mathit{DX}` , :math:`\\mathit{DY}` , :math:`\\mathit{DZ}` , :math:`\\mathit{DRX}` , :math:`\\mathit{DRY}` , :math:`\\mathit{DRZ}`\n\nSoit un nœud :math:`M` de la liste des nœuds à rigidifier quelconque. En théorie des petits déplacements, le mouvement d’un corps solide s’exprime par:\n\n.. math::\n    :label: eq-2\n\n    {U}_{M}={U}_{A}+\\theta \\Lambda \\text{AM}\n\n\n\n\nCas 2DA\n-------\n\nOn écrit les relations linéaires:\n\n.. math::\n    :label: eq-3\n\n    \\begin{array}{}\\forall M\\ne A:\\left\\lbrace \\begin{array}{}\\text{DX}(M)-\\text{DX}(A)+y\\text{DRZ}(A)=0\\\\ \\text{DY}(M)-\\text{DY}(A)-x\\text{DRZ}(A)=0\\end{array}\\right\\rbrace \\mathrm{avec}\\mathrm{AM}=(\\begin{array}{}x\\\\ y\\end{array})\\\\ +\\text{si}M\\text{porte}\\text{DRZ}:\\text{DRZ}(M)-\\text{DRZ}(A)=0\\end{array}\n\n\n\n\nCas 3DA\n-------\n\n:math:`\\begin{array}{}\\forall M\\ne A:\\left\\lbrace \\begin{array}{}\\text{DX}(M)-\\text{DX}(A)-\\text{DRY}(A).z+\\text{DRZ}(A).y=0\\\\ \\text{DY}(M)-\\text{DY}(A)-\\text{DRZ}(A).x+\\text{DRX}(A).z=0\\\\ \\text{DZ}(M)-\\text{DZ}(A)-\\text{DRX}(A).y+\\text{DRY}(A).x=0\\end{array}\\right\\rbrace \\\\ \\\\ +\\text{si}M\\text{porte}\\text{DRX},\\text{DRY},\\text{DRZ}:\\left\\lbrace \\begin{array}{}\\text{DRX}(M)-\\text{DRX}(A)=0\\\\ \\text{DRY}(M)-\\text{DRY}(A)=0\\\\ \\text{DRZ}(M)-\\text{DRZ}(A)=0\\end{array}\\right\\rbrace \\end{array}`"
+  },
+  {
+    "id": "coef_rigi_drz",
+    "document_id": "R3.07.03",
+    "section_path": [
+      "Implantation des éléments de plaque dans Code_Aster"
+    ],
+    "source_path": "source/manuals/man_r/r3/r3.07.03/Implantation_des__l_ments_de_plaque_dans_Code_Aster.rst",
+    "line_start": 42,
+    "line_end": 42,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "La valeur CTOR correspond au coefficient que l’utilisateur peut introduire pour le traitement des termes de rigidité et de masse suivant la rotation normale au plan de la plaque. Ce coefficient doit être suffisamment petit pour ne pas perturber le bilan énergétique de l’élément et pas trop petit pour que les matrices de rigidité et de masse soient inversibles. Une valeur de :math:`{10}^{-5}` est mise par défaut."
+  },
+  {
+    "id": "dof_dkt_dst",
+    "document_id": "U3.12.01",
+    "section_path": [
+      "Discrétisation",
+      "Degrés de libertés"
+    ],
+    "source_path": "source/manuals/man_u/u3/u3.12.01/Discr_tisation.rst",
+    "line_start": 1,
+    "line_end": 20,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Discrétisation\n==============\n\n\nDegrés de libertés\n------------------\n\nPour les trois modélisations de plaque en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support les six composantes de déplacement (trois translations et trois rotations) aux nœuds sommets de la maille support. Ces nœuds sont supposés décrire une facette tangente au feuillet moyen de la coque.\n\n\n.. csv-table::\n\n    \"**Élément fini**\", \"**Degrés de liberté (à chaque nœud sommet)**\"\n\n\n\n.. csv-table::\n\n    \"DKT / DKQ / DKTG\", \"DX\", \"DY\", \"DZ\", \"DRX\", \"DRY\", \"DRZ\"\n    \"DST / DSQ\", \"DX\", \"DY\", \"DZ\", \"DRX\", \"DRY\", \"DRZ\""
+  },
+  {
+    "id": "dualisation_dernier_ddl",
+    "document_id": "R3.03.01",
+    "section_path": [
+      "Inconvénients de cette dualisation",
+      "Exemple 1"
+    ],
+    "source_path": "source/manuals/man_r/r3/r3.03.01/Inconv_nients_de_cette_dualisation.rst",
+    "line_start": 208,
+    "line_end": 208,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "*   Soit une structure physique qui, par malchance, est \"retenue par son dernier ddl physique\" c’est-à-dire telle que si on ne bloque pas ce ddl, la matrice est singulière, et telle que si on le bloque la matrice est inversible. L’utilisation d’un degré de liberté de Lagrange :math:`\\lambda` pour ce blocage est impossible. En effet, si on numérote :math:`\\lambda` avant le dernier degré de liberté physique, il y aura un pivot nul au niveau de :math:`\\lambda` , et si on le numérote après (donc en tout dernier degré de liberté), la matrice :math:`{\\tensTwo{K}}_{n-1}` ne sera pas inversible puisque le blocage n’est pas encore pris en compte. On verra au que la technique des \"double lagrange\" permet de résoudre ce problème."
+  },
+  {
+    "id": "liaison_coque_poutre_utilisation",
+    "document_id": "R3.03.06",
+    "section_path": [
+      "Utilisation",
+      "Modélisation"
+    ],
+    "source_path": "source/manuals/man_r/r3/r3.03.06/Utilisation.rst",
+    "line_start": 1,
+    "line_end": 17,
+    "aster_version": "17.4.0",
+    "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+    "text": "Utilisation\n===========\n\n\n\n\nModélisation\n------------\n\nPour chaque raccord, l'utilisateur doit définir sous le mot clé facteur LIAISON_ELEM de AFFE_CHAR_MECA:\n\n\n.. csv-table::\n\n    \":math:`S` :\", \"la trace de la section droite de la poutre sur la coque : il le fait par les mots clés MAILLE_1et/ou GROUP_MA_1c'est-à-dire qu'il donne la liste des mailles linéiques (affectées d'éléments 'bord' de modélisation coque) qui représentent géométriquement cette section.\"\n    \":math:`\\text{P}` :\", \"un nœud (mot clé NOEUD_1ou GROUP_NO_1) portant les 6 degrés de liberté classiques de poutre : DX, DY, DZ, DRX, DRY, DRZ\"\n    \":math:`V` :\", \"le vecteur définissant l’axe de la poutre, orienté de la coque vers la poutre, et défini par ses coordonnées à l’aide du mot-clé AXE_POUTRE : (v1, v2, v3)\""
+  }
+]

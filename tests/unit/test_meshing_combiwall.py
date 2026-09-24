@@ -25,6 +25,7 @@ from aster_expert.meshing.combiwall import (
     group_names,
     segment_count,
     spring_node_areas,
+    tube_head_ring_points,
 )
 from aster_expert.meshing.invariants import Invariants
 
@@ -152,6 +153,31 @@ def test_pied_tubes_is_the_foot_ring_of_every_tube() -> None:
     assert group["bbox"][4] == group["bbox"][5] == -26.00
     (plane,) = [p for p in inv["plane_nodes"] if p["group"] == "PIED_TUBES"]
     assert plane["axis"] == "z" and plane["value"] == -26.00
+
+
+def test_tube_head_ring_points_match_the_tete_tube_group() -> None:
+    """Lot 31, étape 2: `tube_head_ring_points` (junction candidates) must
+    enumerate exactly the `TETE_TUBE_<k>` node group `expected_invariants`
+    already counts and bounds, for a full tube (05, 40 nodes) and a half
+    tube at a plan of symmetry (01, 21 nodes)."""
+    params = _params()
+    inv = expected_invariants(params)
+    for number, name in ((5, "TETE_TUBE_05"), (1, "TETE_TUBE_01")):
+        (group,) = [g for g in inv["groups"] if g["name"] == name]
+        points = tube_head_ring_points(params, number)
+        assert len(points) == group["count"]
+        assert len({round(p[2], 9) for p in points}) == 1
+        z_head = points[0][2]
+        assert z_head == group["bbox"][4] == group["bbox"][5]
+        xs = [p[0] for p in points]
+        ys = [p[1] for p in points]
+        assert min(xs) == pytest.approx(group["bbox"][0])
+        assert max(xs) == pytest.approx(group["bbox"][1])
+        assert min(ys) == pytest.approx(group["bbox"][2])
+        assert max(ys) == pytest.approx(group["bbox"][3])
+        assert len(
+            {(round(x, 9), round(y, 9)) for x, y in zip(xs, ys, strict=True)}
+        ) == len(points)
 
 
 def test_geometric_controls_of_the_specification() -> None:

@@ -990,6 +990,24 @@ def spring_node_areas(params: dict[str, Any]) -> dict[str, dict[Point3D, float]]
     return out
 
 
+def tube_head_ring_points(params: dict[str, Any], number: int) -> tuple[Point3D, ...]:
+    """Analytic (x, y, z) of every node of tube `number`'s own head ring
+    (`TETE_TUBE_<number>`), at `z = tube.cotes[-1]` -- lot 31, étape 2:
+    junction candidates need each ring node's own coordinates (never just the
+    group's bounding box `expected_invariants` computes). Same enumeration as
+    that function's own `TETE_TUBE_<k>` node count (`lay.ring_nodes`):
+    `lay.vertex` is periodic in the facet index with period `lay.facets`, so
+    `range(j0, j0 + ring_nodes)` gives exactly `ring_nodes` distinct points
+    whether the ring is a full loop (no facet repeated) or a partial one (no
+    wrap-around)."""
+    lay = _Layout(params)
+    j0, _j1 = lay.sectors[number - 1]
+    z_head = lay.levels[-1]
+    return tuple(
+        (*lay.vertex(number, j0 + i), z_head) for i in range(lay.ring_nodes(number))
+    )
+
+
 PressurePoint = tuple[float, float]
 
 

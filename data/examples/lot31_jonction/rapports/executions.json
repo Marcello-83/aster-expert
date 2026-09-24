@@ -1,0 +1,52 @@
+{
+  "note": "Les six exécutions réelles Code_Aster du lot 31, dans l'ordre. `mess_extrait` pointe vers un extrait versionné (data/examples/lot31_jonction/rapports/). Les répertoires data/processed/runs/<horodatage>/ ne sont pas versionnés (CLAUDE.md).",
+  "runs": [
+    {
+      "label": "baseline_liaison_solide_masse_corrigee",
+      "comm": "data/examples/lot31_jonction/quai_reduit_liaison_solide.comm",
+      "duration_s": 26.450347492005676,
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "mechanism": "<F> <FACTOR_11>, ligne 230, nœuds 575/13 (tube de bord, identique au lot 30)",
+      "mess_extrait": "data/examples/lot31_jonction/rapports/mess_liaison_solide_extrait.txt"
+    },
+    {
+      "label": "candidat_C1_liaison_ddl_translations",
+      "comm": "data/examples/lot31_jonction/quai_reduit_liaison_ddl_translations.comm",
+      "duration_s": 29.566046962994733,
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "mechanism": "<F> <FACTOR_11>, ligne 3073, nœuds 441 (anneau, tube de bord SYM_D, génératrice terre) / 577 x3 (nœud de poutre à X=2,6=SYM_D)",
+      "mess_extrait": "data/examples/lot31_jonction/rapports/mess_c1_extrait.txt"
+    },
+    {
+      "label": "candidat_C4_noeud_unique",
+      "comm": "data/examples/lot31_jonction/quai_reduit_noeud_unique.comm",
+      "duration_s": 24.307663935993332,
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "mechanism": "<F> <FACTOR_11>, ligne 999, nœuds 575 (nœud de poutre à X=-2,6=SYM_G) / 147 (anneau, tube de bord SYM_G, génératrice terre)",
+      "mess_extrait": "data/examples/lot31_jonction/rapports/mess_c4_extrait.txt"
+    },
+    {
+      "label": "etape3_verification_avant_correction_impr_resu",
+      "comm": "data/examples/lot31_jonction/quai_reduit_sans_poutre_masse_corrigee.comm (avant correction footer())",
+      "duration_s": 49.74156551799388,
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "mechanism": "Plus de <F> <DISCRETS_26/30/31> : les 5 cas de charge (G, EAU_P, EAU_A, Q1, A) atteignent MECA_STATIQUE + CALC_CHAMP + POST_RELEVE_T sans erreur. Nouvel arrêt, sans rapport : <F> <MED2_14> à IMPR_RESU (CARA_ELEM manquant pour SIEF_ELGA sous-points d'un élément COQUE).",
+      "mess_extrait": "data/examples/lot31_jonction/rapports/mess_masse_avant_correction_impr_resu_extrait.txt"
+    },
+    {
+      "label": "etape3_verification_apres_correction_impr_resu",
+      "comm": "data/examples/lot31_jonction/quai_reduit_sans_poutre_masse_corrigee.comm (après correction footer(), CARA_ELEM=CARA)",
+      "duration_s": 40.23374963099195,
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "mechanism": "Plus de <F> <MED2_14>. Nouvel arrêt, sans rapport avec ce lot, non corrigé : <F> <MED2_4>, collision de nom de champ MED (« RESU_EAUDEPL » présent deux fois, RESU_EAU_P et RESU_EAU_A) -- signalé pour un prochain lot.",
+      "mess_extrait": "data/examples/lot31_jonction/rapports/mess_masse_apres_correction_med_field_extrait.txt"
+    }
+  ],
+  "duree_cumulee_s": 170.29936614401477,
+  "sondes_medcoupling_jetables": 1
+}

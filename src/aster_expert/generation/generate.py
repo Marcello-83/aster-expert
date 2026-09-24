@@ -30,6 +30,7 @@ from aster_expert.meshing.combiwall import (
     band_projected_width,
     build_params,
     expected_masses,
+    tube_head_ring_points,
 )
 from aster_expert.meshing.run import REPORT_NAME as RUN_REPORT_NAME
 from aster_expert.meshing.run import MeshRunReport, find_verified_mesh, sha256_file
@@ -140,6 +141,26 @@ class DiagnosticOmissions(BaseModel):
     `case_block`) ; BOLLARD exclu du contrôle de symétrie."""
 
 
+class JunctionCandidate(BaseModel):
+    """Lot 31, étape 2 : méthode de jonction tête de tube / poutre de
+    couronnement, comparée sur le quai réduit. **Outil de diagnostic
+    uniquement** : `method` autre que `liaison_solide` produit un `.comm` qui
+    ne représente plus la décision de la fiche (point 3) et ne sert jamais à
+    une production (CLAUDE.md, lot 31, « interdits »). Par défaut
+    (`liaison_solide`), le `.comm` produit est strictement celui de la
+    production -- les tests de régression le vérifient octet pour octet."""
+
+    model_config = ConfigDict(frozen=True)
+
+    method: comm.JunctionMethod = "liaison_solide"
+    """`liaison_solide` (production, point 3, inchangée) ; `liaison_ddl_
+    translations` (candidat C1 : translations de chaque nœud d'anneau liées à
+    celles du nœud de poutre par LIAISON_DDL, bras de levier inclus,
+    rotations de l'anneau libres) ; `noeud_unique` (candidat C4 : un seul
+    nœud d'anneau -- le plus proche de la poutre -- rigidement lié au nœud de
+    poutre)."""
+
+
 def generate_comm(
     *,
     fiche_path: Path,
@@ -149,8 +170,10 @@ def generate_comm(
     work_dir_root: str,
     aster_version: str,
     diagnostic: DiagnosticOmissions | None = None,
+    junction: JunctionCandidate | None = None,
 ) -> tuple[str, GenerationReport]:
     omit = diagnostic or DiagnosticOmissions()
+    junc = junction or JunctionCandidate()
     if not fiche_path.is_file():
         message = f"fiche introuvable : {fiche_path}"
         raise GenerationError(message)
@@ -268,6 +291,24 @@ def generate_comm(
         comm.ECRAN_POUSSEE_TUBES_GROUP if omit.sans_palplanches else "ECRAN_POUSSEE"
     )
 
+    # Lot 31, étape 2 : coordonnées analytiques de chaque nœud d'anneau de
+    # tête, exigées par les candidats C1/C4 (comm.junction_ring_groups_block,
+    # comm.junction_charge_block) -- jamais lues du MED, jamais nécessaires
+    # sous LIAISON_SOLIDE (méthode de production, qui travaille sur
+    # TETE_TUBE_<n> entier) ni quand la poutre elle-même n'existe pas.
+    ring_points: dict[str, tuple[tuple[float, float, float], ...]] = (
+        {}
+        if omit.sans_poutre or junc.method == "liaison_solide"
+        else {n: tube_head_ring_points(params, int(n)) for n in beam_group_names}
+    )
+    junction_charge = (
+        ""
+        if omit.sans_poutre
+        else comm.junction_charge_block(
+            junc.method, beam_group_names, ring_points, beam_points
+        )
+    )
+
     text_parts = [
         comm.header(
             aster_version=aster_version,
@@ -285,6 +326,8 @@ def generate_comm(
             },
             edge_tube_low=edge_tube_low,
             edge_tube_high=edge_tube_high,
+            junction_method=junc.method,
+            ring_points=ring_points,
         ),
         comm.ecran_poussee_tubes_group_block() if omit.sans_palplanches else "",
         comm.model_and_cara_block(
@@ -300,8 +343,11 @@ def generate_comm(
             sans_palplanches=omit.sans_palplanches,
             sans_poutre=omit.sans_poutre,
         ),
-        comm.liaison_solide_block(beam_group_names, sans_poutre=omit.sans_poutre),
-        comm.symmetry_and_support_block(sans_tirants=omit.sans_tirants),
+        junction_charge,
+        comm.symmetry_and_support_block(
+            sans_tirants=omit.sans_tirants,
+            split_ring_rotation=junc.method == "liaison_solide",
+        ),
         comm.formule_block("F_G", g_profile),
         comm.formule_block("F_Q1", q1_profile),
         comm.formule_block("F_EAU_P", eau_p_profile),
@@ -457,4 +503,9 @@ def generate_comm(
     return text, report
 
 
-__all__ = ["GenerationReport", "generate_comm"]
+__all__ = [
+    "DiagnosticOmissions",
+    "GenerationReport",
+    "JunctionCandidate",
+    "generate_comm",
+]

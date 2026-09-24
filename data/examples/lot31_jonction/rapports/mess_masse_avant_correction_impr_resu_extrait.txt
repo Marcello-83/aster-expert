@@ -1,0 +1,33 @@
+                   RESULTAT=RESU_A,
+                   TOUT_CHAM='OUI')),
+          UNITE=80,
+          VERSION_MED='3.3.1')
+
+Création du fichier au format MED 3.3.1.
+
+-> Votre modèle semble être composé de plusieurs modélisations, les composantes
+      de DEPL qui n'existent pas pour une partie du modèle ont été
+      mises à zéro.
+
+     Dans certains cas, le fichier MED produit peut devenir volumineux. Dans ce
+     cas, l'utilisation du mot-clé NOM_CMP est conseillée.
+
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <F> <MED2_14>                                                                                  ║
+ ║                                                                                                ║
+ ║ On essaie d'imprimer le champ SIEF_ELGA au format MED mais pour l'élément de type MEDKQU4 ce   ║
+ ║ champ contient des sous-points.                                                                ║
+ ║ On a besoin du CARA_ELEM pour imprimer des champs à sous-points pour les éléments de structure ║
+ ║ de type COQUE, GRILLE, TUYAU ou PMF                                                            ║
+ ║                                                                                                ║
+ ║     Conseils :                                                                                 ║
+ ║         - Préciser le mot-clé CARA_ELEM sous le mot clé facteur RESU.                          ║
+ ║         - Autoriser l'impression sans CARA_ELEM en précisant le mot-clé VISU_SP='NON' sous le  ║
+ ║           mot clé facteur RESU ; le résultat n'est exploitable que pour la commande LIRE_RESU  ║
+ ║           et il ne faut surtout pas chercher à le visualiser.                                  ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║ Cette erreur est fatale. Le code s'arrête.                                                     ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+

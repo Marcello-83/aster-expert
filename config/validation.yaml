@@ -62,6 +62,11 @@ execution:
     # .comm produit par scripts/generate_lot30_quai_reduit.py (le générateur
     # de production, aucune décision modifiée).
     - data/examples/lot30_quai_reduit
+    # Candidats de jonction tête de tube / poutre de couronnement (lot 31,
+    # étape 2), même maillage que le quai réduit, .comm produits par
+    # scripts/generate_lot31_candidat.py (options de diagnostic du
+    # générateur, aucune décision modifiée).
+    - data/examples/lot31_jonction
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

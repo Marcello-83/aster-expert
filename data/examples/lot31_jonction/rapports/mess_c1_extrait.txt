@@ -1,0 +1,66 @@
+Le système linéaire à résoudre a 64685 degrés de liberté:
+   - 61215 sont des degrés de liberté physiques
+     (ils sont portés par 10204 noeuds du maillage)
+   - 3470 sont les couples de paramètres de Lagrange associés
+     aux 1735 relations linéaires dualisées.
+La matrice est de taille 64685 équations.
+  Elle contient 1693656 termes non nuls si elle est symétrique et 3322627 termes non nuls si elle
+n'est pas symétrique.
+  Soit un taux de remplissage de   0.079 %.
+Degré de liberté de Lagrange associé à une relation linéaire entre plusieurs degrés de liberté.
+  La relation linéaire a été définie par la commande ayant produit le concept de nom 0000000a.
+  La liste des noeuds impliqués dans cette relation linéaire est la suivante:
+
+Noeud 441
+Noeud 577
+Noeud 577
+Noeud 577
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <F> <FACTOR_11>                                                                                ║
+ ║                                                                                                ║
+ ║ Problème : la matrice est singulière ou presque singulière :                                   ║
+ ║   Lors de la factorisation de la matrice, on a rencontré un problème                           ║
+ ║   (pivot nul ou presque nul) à la ligne 3073 qui correspond au degré de liberté donné          ║
+ ║ ci-dessus.                                                                                     ║
+ ║                                                                                                ║
+ ║ Risques et conseils :                                                                          ║
+ ║    * Si la ligne correspond a un degré de liberté physique, il s'agit probablement d'un        ║
+ ║ mouvement                                                                                      ║
+ ║      de corps rigide mal bloqué.                                                               ║
+ ║      Vérifiez les conditions aux limites.                                                      ║
+ ║      Si vous faites du contact, il ne faut pas que la structure ne "tienne" que par le         ║
+ ║ contact.                                                                                       ║
+ ║      Vérifiez également les caractéristiques matériaux (module d'Young, ...).                  ║
+ ║                                                                                                ║
+ ║    * Si la ligne correspond a un degré de liberté de Lagrange, il s'agit sans doute d'une      ║
+ ║ condition                                                                                      ║
+ ║      limite redondante.                                                                        ║
+ ║      En particulier, il se peut que la relation linéaire surabondante provienne des conditions ║
+ ║ de contact.                                                                                    ║
+ ║      Peut-être devriez vous exclure certains noeuds des conditions de contact                  ║
+ ║      (mots clés SANS_NOEUD et SANS_GROUP_NO).                                                  ║
+ ║                                                                                                ║
+ ║    * Si le solveur utilisé est LDLT ou MULT_FRONT, vous pouvez utiliser le solveur MUMPS       ║
+ ║      car celui-ci est le seul à pouvoir factoriser les matrices qui ne sont pas définies       ║
+ ║ positives.                                                                                     ║
+ ║                                                                                                ║
+ ║    * Parfois, en parallèle, le critère de détection de singularité de MUMPS est trop           ║
+ ║ pessimiste ! Il reste néanmoins souvent                                                        ║
+ ║      possible de faire passer le calcul complet en relaxant ce critère (augmenter de 1 ou 2 la ║
+ ║ valeur du mot-clé NPREC) ou                                                                    ║
+ ║      en le débranchant (valeur du mot-clé NPREC=-1) ou en relançant le calcul sur moins de     ║
+ ║ processeurs.                                                                                   ║
+ ║                                                                                                ║
+ ║    * Il se peut aussi que ce phénomène soit tout à fait normal avec X-FEM si la fissure passe  ║
+ ║      très près d'un noeud.                                                                     ║
+ ║      Si le nombre de décimales perdues n'est pas trop grand (max 10 décimales),                ║
+ ║      vous pouvez relancer le calcul en augmentant le nombre de décimales perdues autorisé :    ║
+ ║      mot-clé NPREC du mot clé facteur SOLVEUR.                                                 ║
+ ║      Sinon, contactez l'équipe de développement.                                               ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║ Cette erreur est fatale. Le code s'arrête.                                                     ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+

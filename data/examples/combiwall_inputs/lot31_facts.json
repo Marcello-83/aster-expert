@@ -1,0 +1,29 @@
+{
+  "catalogue": {
+    "aster_version": "17.4.0",
+    "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+    "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+    "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+  },
+  "code_aster_findings": [
+    {
+      "point_label": "3",
+      "topic": "Mécanisme documentaire du pivot nul de LIAISON_SOLIDE (jonction tête de tube / poutre de couronnement)",
+      "extraits": [
+        "cas_de_figure_liaison_solide",
+        "traitement_cas_3da",
+        "coef_rigi_drz",
+        "dof_dkt_dst",
+        "dualisation_dernier_ddl",
+        "liaison_coque_poutre_utilisation"
+      ],
+      "catalogue_refs": [
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["LIAISON_SOLIDE"]},
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["LIAISON_DDL"]}
+      ],
+      "option_retained": "Le pivot nul (<F> <FACTOR_11>) est cohérent avec la combinaison documentée de trois mécanismes catalogue distincts, jamais formulée ensemble avant ce lot : (1) un anneau de tête DKT et un nœud de poutre POU_D_E portent tous deux les six degrés de liberté du solide (DX, DY, DZ, DRX, DRY, DRZ, U3.12.01) : LIAISON_SOLIDE se place donc dans le cas 3DA (R3.03.02), qui dualise, pour chaque nœud d'anneau M, une relation liant sa rotation DRZ à celle du nœud de référence A (DRZ(M)-DRZ(A)=0, en plus des relations de translation) ; (2) la rotation DRZ d'une coque DKT (rotation autour de la normale, « drilling ») ne porte qu'une raideur fictive, délibérément faible (COEF_RIGI_DRZ, R3.07.03 : « suffisamment petit pour ne pas perturber le bilan énergétique ... et pas trop petit pour que les matrices ... soient inversibles », valeur 1e-5 par défaut) -- c'est la description même d'une structure « à la limite de la singularité » sur ce degré de liberté précis ; (3) R3.03.01 décrit exactement ce cas comme pathologique pour la dualisation par multiplicateur de Lagrange : « une structure physique qui, par malchance, est retenue par son dernier ddl physique » produit un pivot nul quelle que soit la numérotation choisie pour le multiplicateur associé, un phénomène sensible à la numérotation globale, non à la formulation de la relation elle-même. Établi par exécution (notes) : deux candidats alternatifs de jonction (LIAISON_DDL restreinte aux translations, un seul nœud d'anneau lié) échouent avec la même signature <F> <FACTOR_11>, sur les tubes de bord (plan de symétrie), pas sur le tube central -- la cause touche donc la combinaison d'une relation dualisée quelconque (LIAISON_SOLIDE ou LIAISON_DDL) avec un nœud (d'anneau ou de poutre) dont une rotation est déjà dualisée séparément par la condition de symétrie (CH_BLOC), pas seulement le mécanisme propre de LIAISON_SOLIDE. LIAISON_ELEM(OPTION='COQ_POU') (candidat C3, R3.03.06) ne s'applique pas à cette géométrie : la commande exige S, la trace de la section droite de la poutre sur un bord libre de coque, et un vecteur d'axe V orienté « de la coque vers la poutre » -- une poutre dans le prolongement de la coque, jamais une poutre transversale traversant un anneau fermé comme la poutre de couronnement au droit de chaque tube.",
+      "justification": "R3.03.02 (§Quels sont les cas de figure traités ?, §Traitement des cas 2DA et 3DA), R3.07.03 (§Implantation des éléments de plaque, COEF_RIGI_DRZ), U3.12.01 (§Discrétisation), R3.03.01 (§Inconvénients de cette dualisation, exemple 1), R3.03.06 (§Utilisation), get_command_schema (AFFE_CHAR_MECA/LIAISON_SOLIDE, AFFE_CHAR_MECA/LIAISON_DDL). Aucun cas test officiel combinant LIAISON_SOLIDE, coques DKT et une poutre transversale (jonction en T) n'a été trouvé par search_test_cases parmi les 69 fichiers utilisant LIAISON_SOLIDE : le plus proche, sdlx102a.comm (SDLX102, interaction sol-structure), lie un nœud de poutre POU_D_T à un groupe de nœuds de coque DST par LIAISON_SOLIDE, mais sans poutre transversale ni occurrences multiples sur une poutre continue.",
+      "notes": "Déduction, pas un fait unique établi par un seul document : la combinaison des trois mécanismes catalogue est cohérente avec toutes les observations (lot 28, lot 30, ce lot), mais aucun document ne l'énonce en ces termes pour ce cas précis -- hors de portée d'une confirmation documentaire directe, comme au lot 28. Exécutions (niveau B, échecs, non des sources -- CLAUDE.md) : candidat C1 (LIAISON_DDL, translations seules, rotations d'anneau libres), quai réduit, <F> <FACTOR_11> ligne 3073, nœuds 441 (anneau, tube de bord côté SYM_D, génératrice terre, Y=+0,71) et 577 (nœud de poutre à X=2,6=SYM_D, répété 3 fois dans la relation en cause) -- identifiés par sonde medcoupling autonome sur le MED du quai réduit, jetable, non versionnée. Candidat C4 (un seul nœud d'anneau lié), même quai réduit, <F> <FACTOR_11> ligne 999, nœuds 575 (poutre à X=-2,6=SYM_G) et 147 (anneau, tube de bord côté SYM_G, génératrice terre) -- même sonde. Dans les deux cas, le nœud de poutre en cause est exactement celui du plan de symétrie, dont DX/DRY/DRZ sont déjà dualisés par CH_BLOC (point 7) : cohérent avec le mécanisme R3.03.01 mais pas la reproduction à l'identique du cas lot 28 (qui portait sur la propre rotation dualisée de l'anneau par LIAISON_SOLIDE, jamais sur le nœud de poutre). Non testé : un candidat qui exclurait spécifiquement le nœud de poutre du plan de symétrie de la dualisation de rotation de CH_BLOC (hors périmètre de ce lot, aucune décision prise)."
+    }
+  ]
+}

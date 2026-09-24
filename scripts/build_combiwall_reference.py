@@ -54,6 +54,14 @@ always through the project's own write paths -- never by editing the JSON:
     recording time (`lot28_enregistrement.json`). `PIED_TUBES` (nodes of the
     tubes at Z = -26.00) is added to the group naming convention, grounded on
     point 11.
+11. lot 31: the documentary finding on the null-pivot mechanism of
+    `LIAISON_SOLIDE` (point 3, `lot31_facts.json`/`lot31_extraits.json`),
+    added as a new `code_aster` entry (never replacing the existing point-3
+    findings, which cover a different question: syntax, not failure
+    mechanism); then the point-3 practice entry ("Choix entre maillage
+    coïncident...", decision 4) declared « en révision »
+    (`declare_under_revision`, `lot31_enregistrement.json`) -- the decision
+    itself is not touched, per this lot's own instructions.
 
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
@@ -836,6 +844,59 @@ def _lot28(sheet: HypothesesSheet) -> HypothesesSheet:
     return _lot28_facts(sheet)
 
 
+def _lot31_facts(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Étape 1's documentary finding on the null-pivot mechanism (point 3),
+    from `lot31_facts.json`/`lot31_extraits.json`: a brand-new entry (its own
+    topic), never replacing the existing point-3 findings, which answer a
+    different question (the syntax of `LIAISON_SOLIDE`, not why it fails)."""
+    research = json.loads((INPUTS / "lot31_facts.json").read_text("utf-8"))
+    extracts = _load_extracts("lot31_extraits.json")
+    cat = research["catalogue"]
+    for f in research["code_aster_findings"]:
+        entry = record_code_aster_finding(
+            topic=f["topic"],
+            sources=_finding_sources(f, cat, extracts),
+            option_retained=f["option_retained"],
+            justification=f["justification"],
+            point_label=f["point_label"],
+            notes=f["notes"],
+        )
+        sheet = sheet.model_copy(update={"entries": (*sheet.entries, entry)})
+    return sheet
+
+
+def _lot31_revision(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Declares the point-3 practice entry (decision 4, maillage coïncident /
+    `LIAISON_SOLIDE`) « en révision », citing the cause `_lot31_facts` just
+    recorded -- the decision itself is not touched (`lot31_enregistrement.json`)."""
+    record = json.loads((INPUTS / "lot31_enregistrement.json").read_text("utf-8"))
+    r = record["revision"]
+    matches = [
+        i
+        for i, e in enumerate(sheet.entries)
+        if isinstance(e, PracticeHypothesisEntry)
+        and e.point_label == r["point_label"]
+        and e.topic == r["topic"]
+    ]
+    assert len(matches) == 1, r["topic"]
+    entries = list(sheet.entries)
+    target = entries[matches[0]]
+    assert isinstance(target, PracticeHypothesisEntry)
+    entries[matches[0]] = declare_under_revision(
+        target,
+        reason=r["reason"],
+        declared_by=r["declared_by"],
+        declared_at=datetime.fromisoformat(r["declared_at"]),
+    )
+    return sheet.model_copy(update={"entries": tuple(entries)})
+
+
+def _lot31(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Étape 1's documentary finding (`_lot31_facts`), then the point-3
+    revision it grounds (`_lot31_revision`). No decision is taken this lot."""
+    return _lot31_revision(_lot31_facts(sheet))
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -844,7 +905,14 @@ def build_sheet() -> HypothesesSheet:
     sheet = sheet.model_copy(update={"group_naming": _group_naming(v3)})
     sheet = _lot20(sheet)
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_lot21.md")
-    return _lot28(_lot27(_lot25(_lot24(_lot23(_lot22(_lot21(sheet)))))))
+    sheet = _lot21(sheet)
+    sheet = _lot22(sheet)
+    sheet = _lot23(sheet)
+    sheet = _lot24(sheet)
+    sheet = _lot25(sheet)
+    sheet = _lot27(sheet)
+    sheet = _lot28(sheet)
+    return _lot31(sheet)
 
 
 def dump(sheet: HypothesesSheet) -> str:

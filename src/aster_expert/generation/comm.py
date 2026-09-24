@@ -16,9 +16,18 @@ from an earlier one's own keywords.
 
 from __future__ import annotations
 
+from typing import Literal
+
 from aster_expert.generation.errors import GenerationError
 from aster_expert.generation.springs import SpringClass
 from aster_expert.generation.values import ModelValues
+from aster_expert.meshing.combiwall import Point3D
+
+JunctionMethod = Literal["liaison_solide", "liaison_ddl_translations", "noeud_unique"]
+"""Lot 31, étape 2 : méthode de jonction tête de tube / poutre de
+couronnement. `liaison_solide` est la méthode de production (point 3,
+inchangée) ; les deux autres sont des candidats de diagnostic, comparés sur
+le quai réduit, jamais actifs par défaut (`generate.JunctionCandidate`)."""
 
 REF_NORM_GROUP = "GEN_REF_NORM"
 BEAM_NODE_PREFIX = "GEN_POUTRE_"
@@ -257,6 +266,8 @@ def mesh_prep_block(
     spring_bands: dict[str, tuple[float, float]],
     edge_tube_low: str,
     edge_tube_high: str,
+    junction_method: JunctionMethod = "liaison_solide",
+    ring_points: dict[str, tuple[Point3D, ...]] | None = None,
 ) -> str:
     """Every group the generator itself creates (reserved `GEN_` prefix,
     CLAUDE.md -- never part of the mesh's own naming convention), the spring
@@ -266,7 +277,13 @@ def mesh_prep_block(
     is defined on this mesh. `edge_tube_low`/`edge_tube_high` are the tube
     numbers (as `beam_points`' own keys) whose head ring sits on `SYM_G`/
     `SYM_D` respectively (point 9: X runs from `SYM_G` to `SYM_D`, so these
-    are always the lowest and highest tube numbers)."""
+    are always the lowest and highest tube numbers).
+
+    Lot 31, étape 2 : `junction_method`/`ring_points` add the per-ring-node
+    selectors candidates C1/C4 need (`junction_ring_groups_block`); the
+    default (`liaison_solide`) adds nothing, reproducing the production text
+    exactly."""
+    junction_groups = junction_ring_groups_block(junction_method, ring_points or {})
     beam_groups = "\n        ".join(_env_sphere(n, p) for n, p in beam_points.items())
     prep, unions = spring_group_plan(spring_classes, spring_bands)
     sym_splits = (
@@ -284,7 +301,9 @@ def mesh_prep_block(
             SYMD_RING_GROUP,
         )
     )
-    prep_body = "\n        ".join([*prep, sym_splits])
+    prep_body = "\n        ".join(
+        [*prep, sym_splits, *([junction_groups] if junction_groups else [])]
+    )
     union_body = "\n        ".join(unions)
     poi1 = "\n        ".join(
         f'_F(NOM_GROUP_MA="{_gn(c.group_name)}", GROUP_NO=("{c.group_name}",)),'
@@ -414,9 +433,16 @@ def model_and_cara_block(
     # ressort is horizontal, resisting the poussee's own Y direction, so the
     # stiffness sits in the SECOND component, never the first (X, along the
     # quay, which the ressort has no reason to resist).
+    # Lot 31, étape 3 : un DIS_T sous PESANTEUR sans masse propre affectée
+    # arrête l'exécution (`<F> <DISCRETS_26>`, "Vous utilisez la matrice de
+    # MASSE ... alors que vous n'avez pas affecté les caractéristiques de
+    # masses. Par défaut la masse est nulle.", U4.42.01 mot-clé DISCRET,
+    # CARA="M_T_D_N" : 1 terme, la masse). Un ressort est un appui, pas de la
+    # matière : la masse affectée est explicitement nulle, jamais omise.
     discret = "\n        ".join(
         f'_F(GROUP_MA=("{c.group_name}",), CARA="K_T_D_N", '
-        f"VALE=(0.0, {_fmt(c.stiffness_n_per_m)}, 0.0)),"
+        f"VALE=(0.0, {_fmt(c.stiffness_n_per_m)}, 0.0)),\n        "
+        f'_F(GROUP_MA=("{c.group_name}",), CARA="M_T_D_N", VALE=(0.0,)),'
         for c in spring_classes
     )
     # Lot 30, étape 3 (diagnostic « sans les ressorts ») : `AFFE`/`DISCRET`
@@ -476,7 +502,9 @@ MO = AFFE_MODELE(
 # -- convention du repère local par défaut d'une poutre d'axe X).
 # Point 4 : raideur K_T_D_N (0, ky, 0) par classe, repère global par défaut --
 # ressorts horizontaux seuls, dirigés selon Y (décision 5), convertis de
-# MN/m en N/m (x1e6).
+# MN/m en N/m (x1e6). M_T_D_N = 0 par classe (lot 31, étape 3) : un ressort
+# est un appui, pas de la matière -- masse explicitement nulle sous
+# PESANTEUR, jamais omise (U4.42.01 DISCRET, <F> <DISCRETS_26> sinon).
 # Point 3 : COEF_RIGI_DRZ sur les deux groupes DKT -- voir DRZ_STIFFNESS_COEF.
 CARA = AFFE_CARA_ELEM(
     MODELE=MO,
@@ -655,7 +683,106 @@ CH_SOLIDE = AFFE_CHAR_MECA(
 """
 
 
-def symmetry_and_support_block(*, sans_tirants: bool = False) -> str:
+def _ring_node_group(prefix: str, tube: str, index: int) -> str:
+    return _gn(f"{prefix}{tube}_{index:02d}")
+
+
+def junction_ring_groups_block(
+    method: JunctionMethod,
+    ring_points: dict[str, tuple[Point3D, ...]],
+) -> str:
+    """Lot 31, étape 2 : sélecteurs de nœuds (`CREA_GROUP_NO`/`ENV_SPHERE`)
+    que les candidats C1 (`liaison_ddl_translations`) et C4 (`noeud_unique`)
+    doivent ajouter pour adresser un nœud d'anneau à la fois -- `liaison_solide`
+    (méthode de production, point 3) n'en a besoin d'aucun, la commande
+    travaillant directement sur le groupe `TETE_TUBE_<n>` entier."""
+    if method == "liaison_solide":
+        return ""
+    if method == "noeud_unique":
+        return "\n        ".join(
+            _env_sphere(f"GEN_J4_{tube}", max(points, key=lambda p: p[1]))
+            for tube, points in ring_points.items()
+        )
+    return "\n        ".join(
+        _env_sphere(_ring_node_group("GEN_J1_", tube, i), p)
+        for tube, points in ring_points.items()
+        for i, p in enumerate(points)
+    )
+
+
+def junction_charge_block(
+    method: JunctionMethod,
+    beam_group_names: list[str],
+    ring_points: dict[str, tuple[Point3D, ...]],
+    beam_points: dict[str, Point3D],
+) -> str:
+    """Lot 31, étape 2 : le chargement `CH_SOLIDE` de jonction tête de tube /
+    poutre de couronnement, sous la méthode retenue. Candidats de diagnostic
+    comparés sur le quai réduit, jamais actifs par défaut -- `liaison_solide`
+    reproduit exactement `liaison_solide_block` (méthode de production)."""
+    if method == "liaison_solide":
+        return liaison_solide_block(beam_group_names, sans_poutre=False)
+    if method == "noeud_unique":
+        occurrences = "\n        ".join(
+            f'_F(GROUP_NO=("GEN_J4_{tube}", "{BEAM_NODE_PREFIX}{tube}")),'
+            for tube in beam_group_names
+        )
+        return f"""
+# Lot 31, étape 2, candidat C4 : un seul nœud d'anneau (le plus proche de la
+# poutre -- celui de plus grand Y, génératrice terre) rigidement lié au nœud
+# de poutre ; le reste de l'anneau n'est plus tenu par cette liaison
+# (réponse à la remarque de MM sur un maillage coïncident, sans modifier le
+# maillage : le nœud d'anneau existant le plus proche joue ce rôle).
+CH_SOLIDE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    LIAISON_SOLIDE=(
+        {occurrences}
+    ),
+)
+"""
+    blocks: list[str] = []
+    for tube in beam_group_names:
+        xa, ya, za = beam_points[tube]
+        beam = f"{BEAM_NODE_PREFIX}{tube}"
+        for i, (xm, ym, zm) in enumerate(ring_points[tube]):
+            dx, dy, dz = xm - xa, ym - ya, zm - za
+            node = _ring_node_group("GEN_J1_", tube, i)
+            blocks.append(
+                f'_F(GROUP_NO=("{node}", "{beam}", "{beam}", "{beam}"), '
+                f'DDL=("DX", "DX", "DRY", "DRZ"), '
+                f"COEF_MULT=(1.0, -1.0, {_fmt(-dz)}, {_fmt(dy)}), COEF_IMPO=0.0),"
+            )
+            blocks.append(
+                f'_F(GROUP_NO=("{node}", "{beam}", "{beam}", "{beam}"), '
+                f'DDL=("DY", "DY", "DRZ", "DRX"), '
+                f"COEF_MULT=(1.0, -1.0, {_fmt(-dx)}, {_fmt(dz)}), COEF_IMPO=0.0),"
+            )
+            blocks.append(
+                f'_F(GROUP_NO=("{node}", "{beam}", "{beam}", "{beam}"), '
+                f'DDL=("DZ", "DZ", "DRX", "DRY"), '
+                f"COEF_MULT=(1.0, -1.0, {_fmt(-dy)}, {_fmt(dx)}), COEF_IMPO=0.0),"
+            )
+    body = "\n        ".join(blocks)
+    return f"""
+# Lot 31, étape 2, candidat C1 : translations de chaque nœud d'anneau liées à
+# celles du nœud de poutre, bras de levier inclus (R3.03.02, cas 3DA, relations
+# de translation seulement -- les relations de rotation DRX(M)=DRX(A), etc.,
+# sont omises : la rotation de chaque nœud d'anneau reste libre). LIAISON_DDL
+# (U4.44.01), jamais LIAISON_SOLIDE : un multiplicateur de Lagrange par
+# relation (même dualisation que LIAISON_SOLIDE), mais la rotation DRZ de
+# l'anneau (quasi singulière, voir DRZ_STIFFNESS_COEF) n'est jamais dualisée.
+CH_SOLIDE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    LIAISON_DDL=(
+        {body}
+    ),
+)
+"""
+
+
+def symmetry_and_support_block(
+    *, sans_tirants: bool = False, split_ring_rotation: bool = True
+) -> str:
     """Point 7 (symmetry, X = constant planes), point 11 (`PIED_TUBES`,
     decision 12: vertical displacement blocked only), and point 2 (tie-rod
     anchor: "extrémité arrière bloquée", `tirants.longueur_modelisee`'s own
@@ -676,15 +803,34 @@ def symmetry_and_support_block(*, sans_tirants: bool = False) -> str:
     translation the same way it derives another node's translation from
     them) and stays on every symmetry-plane node, ring or not; only the
     rotation part (DRY, DRZ) is withheld on the ring's own share of the
-    plane (`GEN_SYMG_RING`/`GEN_SYMD_RING`, `mesh_prep_block`)."""
+    plane (`GEN_SYMG_RING`/`GEN_SYMD_RING`, `mesh_prep_block`).
+
+    Lot 31, étape 2 : `split_ring_rotation=False` (junction candidates C1/C4,
+    `generate.JunctionCandidate`) imposes DRY/DRZ on the *entire* symmetry
+    plane, ring included -- neither candidate ties a ring node's own rotation
+    to the beam node's the way `LIAISON_SOLIDE` does, so the split that avoids
+    the redundant pivot above is neither needed nor correct: withholding the
+    ring's own rotation there would instead leave it unconstrained."""
+    sym_g_rot = (
+        f'_F(GROUP_NO=("{SYMG_ROT_GROUP}",), DRY=0.0, DRZ=0.0),'
+        if split_ring_rotation
+        else '_F(GROUP_NO=("SYM_G",), DRY=0.0, DRZ=0.0),'
+    )
+    sym_d_rot = (
+        f'_F(GROUP_NO=("{SYMD_ROT_GROUP}",), DRY=0.0, DRZ=0.0),'
+        if split_ring_rotation
+        else '_F(GROUP_NO=("SYM_D",), DRY=0.0, DRZ=0.0),'
+    )
     return f"""
 # Point 7 : symétrie par rapport aux plans X = constante (SYM_G, SYM_D) --
 # translation normale au plan (DX) sur tout le plan, rotations autour des
 # deux axes du plan (DRY, DRZ) sur sa part hors anneau de tête seulement
-# (voir le commentaire de symmetry_and_support_block : la part de l'anneau
-# tient sa rotation de LIAISON_SOLIDE, l'imposer une seconde fois y a produit
-# un pivot nul) ; DY, DZ, DRX libres (U4.44.01, tableau 5-2 : degrés de
-# liberté dans le repère global ; cas test ssls100b.comm, bords de symétrie).
+# quand la jonction est LIAISON_SOLIDE (voir le commentaire de
+# symmetry_and_support_block : la part de l'anneau tient alors sa rotation de
+# LIAISON_SOLIDE, l'imposer une seconde fois y a produit un pivot nul), sur le
+# plan entier sinon (candidats C1/C4, lot 31) ; DY, DZ, DRX libres (U4.44.01,
+# tableau 5-2 : degrés de liberté dans le repère global ; cas test
+# ssls100b.comm, bords de symétrie).
 # Point 11 (décision 12) : appui vertical seul au pied des tubes.
 # Point 2 : extrémité arrière du tirant bloquée (ANCRAGES) -- donnée du
 # modèle (tirants.longueur_modelisee : "extrémité arrière bloquée"),
@@ -693,9 +839,9 @@ CH_BLOC = AFFE_CHAR_MECA(
     MODELE=MO,
     DDL_IMPO=(
         _F(GROUP_NO=("SYM_G",), DX=0.0),
-        _F(GROUP_NO=("{SYMG_ROT_GROUP}",), DRY=0.0, DRZ=0.0),
+        {sym_g_rot}
         _F(GROUP_NO=("SYM_D",), DX=0.0),
-        _F(GROUP_NO=("{SYMD_ROT_GROUP}",), DRY=0.0, DRZ=0.0),
+        {sym_d_rot}
         _F(GROUP_NO=("PIED_TUBES",), DZ=0.0),
         {_ancrages_ddl_impo(sans_tirants)}
     ),
@@ -1013,7 +1159,18 @@ IMPR_TABLE(TABLE=TAB_ORDRE_{name}, UNITE=6)
 
 
 def footer(result_names: list[str]) -> str:
-    resu = "\n        ".join(f"_F(RESULTAT=RESU_{n})," for n in result_names)
+    """Lot 31, étape 3 (défaut latent découvert en vérifiant la correction de
+    masse) : `CARA_ELEM=CARA` sur chaque occurrence de `RESU` -- sans lui,
+    l'écriture MED de `SIEF_ELGA` (sous-points d'un élément COQUE) échoue en
+    fin d'exécution (`<F> <MED2_14>`, "On a besoin du CARA_ELEM pour imprimer
+    des champs à sous-points pour les éléments de structure de type COQUE...
+    Préciser le mot-clé CARA_ELEM sous le mot clé facteur RESU", IMPR_RESU/
+    RESU/CARA_ELEM, condition FORMAT='MED') : jamais atteint avant ce lot, le
+    pivot nul de LIAISON_SOLIDE arrêtant systématiquement l'exécution avant
+    IMPR_RESU."""
+    resu = "\n        ".join(
+        f"_F(RESULTAT=RESU_{n}, CARA_ELEM=CARA)," for n in result_names
+    )
     return f"""
 IMPR_RESU(
     FORMAT="MED",
@@ -1030,12 +1187,15 @@ FIN()
 __all__ = [
     "BEAM_NODE_PREFIX",
     "REF_NORM_GROUP",
+    "JunctionMethod",
     "bollard_force_block",
     "case_block",
     "defense_force_block",
     "footer",
     "formule_block",
     "header",
+    "junction_charge_block",
+    "junction_ring_groups_block",
     "liaison_solide_block",
     "materials_block",
     "mesh_prep_block",

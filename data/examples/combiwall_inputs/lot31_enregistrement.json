@@ -1,0 +1,9 @@
+{
+  "revision": {
+    "point_label": "3",
+    "topic": "Choix entre maillage coïncident (liaison rigide directe) et raccord par méthode variationnelle (LIAISON_ELEM/COQ_POU) pour la liaison poutre de couronnement - écran",
+    "declared_by": "Claude (lot 31)",
+    "declared_at": "2026-09-24T07:45:00-04:00",
+    "reason": "Cause établie à l'étape 1 (constat code_aster enregistré au même point 3) : LIAISON_SOLIDE, dans le cas 3DA (R3.03.02), dualise la rotation DRZ des nœuds d'anneau -- un degré de liberté à raideur fictive délibérément faible sous DKT (COEF_RIGI_DRZ, R3.07.03) -- exactement le cas pathologique décrit par R3.03.01 (« structure retenue par son dernier ddl physique », pivot nul quelle que soit la numérotation). Deux candidats alternatifs testés sur le quai réduit (LIAISON_DDL restreinte aux translations, un seul nœud d'anneau lié) échouent avec la même signature <F> <FACTOR_11>, cette fois sur le nœud de poutre du plan de symétrie plutôt que sur l'anneau : la cause touche plus largement toute relation dualisée combinée à une rotation déjà dualisée par la condition de symétrie, pas seulement LIAISON_SOLIDE. La décision retenue (maillage coïncident, liaison rigide directe par LIAISON_SOLIDE) n'est ni remplacée ni modifiée par ce lot -- aucune décision n'y est prise, conformément à ses instructions."
+  }
+}

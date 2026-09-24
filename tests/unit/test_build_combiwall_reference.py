@@ -59,6 +59,7 @@ def test_every_excerpt_is_verbatim_in_the_documentation_clone() -> None:
         "lot21_extraits.json",
         "lot23_extraits.json",
         "lot25_extraits.json",
+        "lot31_extraits.json",
     ):
         extracts = json.loads((_INPUTS / name).read_text("utf-8"))
         assert extracts

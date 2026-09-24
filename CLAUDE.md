@@ -386,6 +386,50 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   erreur de préparation sans rapport : nommage `.export`/`.mmed`, `VERI_NORM`, charge fantôme
   `CH_Q3`) ; 5 tests unitaires ajoutés. Non testé : retrait 5 (partage de nœud, non exprimable sans
   modifier le maillage) et retrait 6 (symétrie, le premier retrait informatif ayant déjà tranché).
+- Lot 31 (`docs/essais_lot31.md`, `data/examples/lot31_jonction/`,
+  `scripts/generate_lot31_candidat.py`) : cause documentaire du pivot nul établie (constat point 3,
+  `data/examples/combiwall_inputs/lot31_facts.json`/`lot31_extraits.json`) en combinant trois faits
+  catalogue jamais réunis avant ce lot : `LIAISON_SOLIDE` place un anneau DKT + un nœud de poutre
+  POU_D_E dans le cas 3DA (R3.03.02), qui dualise la rotation DRZ de chaque nœud d'anneau ; DRZ, sous
+  DKT, ne porte qu'une raideur fictive minimale (`COEF_RIGI_DRZ`, R3.07.03, 1e-5 par défaut) ; dualiser
+  une relation sur un tel ddl est exactement le cas pathologique décrit par R3.03.01 (« structure
+  retenue par son dernier ddl physique », pivot nul indépendant de la formulation). Aucun cas test
+  officiel ne combine `LIAISON_SOLIDE` + coques DKT + poutre transversale en T sur plusieurs occurrences
+  (`search_test_cases`, 69 fichiers `LIAISON_SOLIDE` croisés avec `POUTRE`/`COQUE` ; le plus proche,
+  `sdlx102a.comm`, n'a ni poutre transversale ni occurrences multiples). Quatre candidats comparés sur
+  le quai réduit du lot 30 (générateur, `aster_expert.generation.generate.JunctionCandidate`, diagnostic
+  seulement, jamais actif par défaut) : C1 (`LIAISON_DDL`, translations seules, bras de levier exact,
+  rotations d'anneau libres) et C4 (un seul nœud d'anneau lié, réponse à la coïncidence suggérée par MM)
+  validés niveau B puis exécutés, **échouent tous deux avec le même `<F> <FACTOR_11>`** -- mais sur le
+  **nœud de poutre du plan de symétrie** (déjà dualisé par `CH_BLOC`), jamais sur l'anneau : la cause
+  touche plus largement toute relation dualisée combinée à une rotation déjà dualisée à la symétrie, pas
+  seulement le mécanisme propre de `LIAISON_SOLIDE`. C2 (rayons rigides matériels) non exécuté, bloqué
+  par le catalogue : `CREA_MAILLAGE` ne propose aucun moyen de créer une maille SEG2 entre deux nœuds
+  existants non reliés (seul `CREA_POI1` crée de nouvelles mailles, ponctuelles). C3
+  (`LIAISON_ELEM`/`COQ_POU`) non exécuté, inapplicable par la documentation seule (R3.03.06 exige une
+  poutre dans le prolongement d'un bord libre de coque, jamais une jonction en T). **Aucun candidat
+  retenu.** Le point 3 (décision 4, méthode de jonction) est déclaré **en révision**
+  (`declare_under_revision`, motif = cause établie) sans être modifié : conséquence directe, la fiche
+  n'est plus prête pour la génération (`HypothesesSheet.generation_blockers`, `aster-expert generate`
+  refusera désormais tant que MM n'aura pas tranché) -- les tests de mécanique du générateur
+  (`test_generation_generate*.py`) utilisent depuis ce lot une copie de la fiche avec la révision levée
+  en mémoire seulement, jamais écrite. Étape 3 : `DIS_T` sous `PESANTEUR` exige une masse explicitement
+  affectée (`AFFE_CARA_ELEM/DISCRET`, `CARA="M_T_D_N"`, sinon `<F> <DISCRETS_26>`) ; corrigé dans le
+  générateur de production (`M_T_D_N=(0.0,)` par classe de ressort -- un ressort est un appui, pas de la
+  matière) et vérifié par exécution (le quai réduit `sans_poutre` atteint désormais les cinq cas de
+  charge sans ce défaut). Deux défauts latents découverts en vérifiant, jamais atteints avant ce lot
+  (le pivot arrêtait toujours l'exécution plus tôt) : `IMPR_RESU` sans `CARA_ELEM` (`<F> <MED2_14>`,
+  SIEF_ELGA à sous-points d'un élément COQUE) **corrigé** (`footer()`, `CARA_ELEM=CARA` sur chaque
+  `RESU`, testé) ; collision de nom de champ MED entre `RESU_EAU_P` et `RESU_EAU_A`
+  (`<F> <MED2_4>`, « RESU_EAUDEPL » présent deux fois) **non corrigé**, sans rapport avec ce lot, mais
+  qui bloquera le niveau C du modèle complet même une fois la jonction réglée -- signalé pour un
+  prochain lot. 5 exécutions Code_Aster réelles (170,3 s cumulées,
+  `data/examples/lot31_jonction/rapports/executions.json`), 1 sonde `medcoupling` jetable (identité
+  des nœuds 441/577 et 575/147). Modèle complet non relancé. Limites : le mécanisme précis de
+  numérotation interne de Code_Aster reste hors de portée des sept outils MCP (comme aux lots 28/30) ;
+  la piste « exclure le nœud de poutre du plan de symétrie de la dualisation de rotation de `CH_BLOC` »
+  n'a pas été testée (hors périmètre de ce lot) ; `LIAISON_ELEM`/`OPTION='3D_POU'` (R3.03.03), recommandé
+  depuis le lot 28, reste à étudier.
 
 ## Périmètre à ne pas dépasser sans instruction
 

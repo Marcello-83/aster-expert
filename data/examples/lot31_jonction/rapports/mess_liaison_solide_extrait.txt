@@ -1,0 +1,51 @@
+                                  PRETRAITEMENTS='AUTO',
+                                  REDUCTION_MPI=0,
+                                  RENUM='AUTO',
+                                  RESI_RELA=0.0001,
+                                  STOP_SINGULIER='OUI',
+                                  TYPE_RESOL='AUTO'))
+
+Le système linéaire à résoudre a 65161 degrés de liberté:
+   - 61215 sont des degrés de liberté physiques
+     (ils sont portés par 10204 noeuds du maillage)
+   - 3946 sont les couples de paramètres de Lagrange associés
+     aux 1973 relations linéaires dualisées.
+La matrice est de taille 65161 équations.
+  Elle contient 1700178 termes non nuls si elle est symétrique et 3335195 termes non nuls si elle
+n'est pas symétrique.
+  Soit un taux de remplissage de   0.079 %.
+Degré de liberté de Lagrange associé à une relation linéaire entre plusieurs degrés de liberté.
+  La relation linéaire a été définie par la commande ayant produit le concept de nom 0000000a.
+  La liste des noeuds impliqués dans cette relation linéaire est la suivante:
+
+Noeud 575
+Noeud 13
+Noeud 13
+Noeud 13
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <F> <FACTOR_11>                                                                                ║
+ ║                                                                                                ║
+ ║ Problème : la matrice est singulière ou presque singulière :                                   ║
+ ║   Lors de la factorisation de la matrice, on a rencontré un problème                           ║
+ ║   (pivot nul ou presque nul) à la ligne 230 qui correspond au degré de liberté donné           ║
+ ║ ci-dessus.                                                                                     ║
+ ║                                                                                                ║
+ ║ Risques et conseils :                                                                          ║
+ ║    * Si la ligne correspond a un degré de liberté physique, il s'agit probablement d'un        ║
+ ║ mouvement                                                                                      ║
+ ║      de corps rigide mal bloqué.                                                               ║
+ ║      Vérifiez les conditions aux limites.                                                      ║
+ ║      Si vous faites du contact, il ne faut pas que la structure ne "tienne" que par le         ║
+ ║ contact.                                                                                       ║
+ ║      Vérifiez également les caractéristiques matériaux (module d'Young, ...).                  ║
+ ║                                                                                                ║
+ ║    * Si la ligne correspond a un degré de liberté de Lagrange, il s'agit sans doute d'une      ║
+ ║ condition                                                                                      ║
+ ║      limite redondante.                                                                        ║
+ ║      En particulier, il se peut que la relation linéaire surabondante provienne des conditions ║
+ ║ de contact.                                                                                    ║
+ ║      Peut-être devriez vous exclure certains noeuds des conditions de contact                  ║
+ ║      (mots clés SANS_NOEUD et SANS_GROUP_NO).                                                  ║
+ ║                                                                                                ║
+ ║    * Si le solveur utilisé est LDLT ou MULT_FRONT, vous pouvez utiliser le solveur MUMPS       ║

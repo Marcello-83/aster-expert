@@ -1,0 +1,31 @@
+-> Votre modèle semble être composé de plusieurs modélisations, les composantes
+      de FORC_NODA qui n'existent pas pour une partie du modèle ont été
+      mises à zéro.
+
+     Dans certains cas, le fichier MED produit peut devenir volumineux. Dans ce
+     cas, l'utilisation du mot-clé NOM_CMP est conseillée.
+
+-> Votre modèle semble être composé de plusieurs modélisations, les composantes
+      de REAC_NODA qui n'existent pas pour une partie du modèle ont été
+      mises à zéro.
+
+     Dans certains cas, le fichier MED produit peut devenir volumineux. Dans ce
+     cas, l'utilisation du mot-clé NOM_CMP est conseillée.
+
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <F> <MED2_4>                                                                                   ║
+ ║                                                                                                ║
+ ║ Le champ 'RESU_EAUDEPL' est déjà présent                                                       ║
+ ║ dans le fichier MED pour l'instant 0.                                                          ║
+ ║   -> Conseil :                                                                                 ║
+ ║      Vous pouvez soit imprimer le champ dans un autre fichier, soit                            ║
+ ║      nommer le champ différemment.                                                             ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║ Cette erreur est fatale. Le code s'arrête.                                                     ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+Traceback returned by GNU libc (last 25 stack frames):
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibc.so(print_trace_+0x1f) [0x7074692f435f]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(utmess_core_+0xa48) [0x707468a22078]

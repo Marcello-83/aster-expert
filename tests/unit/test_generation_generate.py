@@ -7,11 +7,14 @@ from __future__ import annotations
 
 import hashlib
 import json
+import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
 
+from aster_expert.agent.arbitration import lift_revision
+from aster_expert.agent.hypotheses import HypothesesSheet, PracticeHypothesisEntry
 from aster_expert.agent.model_data import load_model_data
 from aster_expert.generation.errors import GenerationError
 from aster_expert.generation.generate import _params_json_bytes, generate_comm
@@ -19,8 +22,44 @@ from aster_expert.meshing.combiwall import build_params
 from aster_expert.meshing.run import MeshRunReport, record_verified_mesh, sha256_file
 
 _ROOT = Path(__file__).resolve().parents[2]
-_FICHE = _ROOT / "data" / "examples" / "hypotheses_combiwall_reference_arbitree.json"
+_REFERENCE_FICHE = (
+    _ROOT / "data" / "examples" / "hypotheses_combiwall_reference_arbitree.json"
+)
 _DATA = _ROOT / "data" / "examples" / "combiwall_model_data.yaml"
+
+
+def _resolved_fiche_path() -> Path:
+    """The real fiche, with the point-3 junction revision (lot 31) lifted in
+    memory only -- never written back to the versioned file. This module
+    tests `generate_comm`'s own mechanics (determinism, spring sums,
+    diagnostics), a question independent of whether MM has closed that
+    revision; the versioned fiche itself stays a faithful, blocked record."""
+    sheet = HypothesesSheet.model_validate_json(
+        _REFERENCE_FICHE.read_text(encoding="utf-8")
+    )
+    entries = list(sheet.entries)
+    for i, e in enumerate(entries):
+        if (
+            isinstance(e, PracticeHypothesisEntry)
+            and e.point_label == "3"
+            and e.under_revision
+        ):
+            entries[i] = lift_revision(
+                e,
+                reason="Levée locale, pour les seuls besoins de ce test (mécanique du "
+                "générateur, indépendante de la décision) -- jamais écrite dans la "
+                "fiche versionnée.",
+                lifted_by="tests/unit/test_generation_generate.py",
+                lifted_at=datetime.now(UTC),
+            )
+    resolved = sheet.model_copy(update={"entries": tuple(entries)})
+    directory = Path(tempfile.mkdtemp(prefix="aster-expert-resolved-fiche-"))
+    path = directory / "fiche_resolue.json"
+    path.write_text(resolved.model_dump_json(), encoding="utf-8")
+    return path
+
+
+_FICHE = _resolved_fiche_path()
 
 
 def _params_sha256() -> str:
@@ -106,6 +145,43 @@ def test_spring_sums_match_the_decision_5_invariant(
         80.0 * 11.36 * 8.00
     )
     assert report.n_spring_classes == 48
+
+
+def test_impr_resu_carries_cara_elem_for_every_result(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    """Lot 31, étape 3 : sans CARA_ELEM, l'écriture MED de SIEF_ELGA (sous-
+    points d'un élément COQUE) échoue en fin d'exécution (`<F> <MED2_14>`),
+    jamais atteint avant ce lot (le pivot de LIAISON_SOLIDE arrêtait
+    systématiquement l'exécution plus tôt)."""
+    text, _ = generate_comm(
+        fiche_path=_FICHE,
+        data_path=_DATA,
+        med_path=verified_mesh,
+        project_root=tmp_path,
+        work_dir_root="mesh_runs",
+        aster_version="17.4.0",
+    )
+    for name in ("RESU_G", "RESU_EAU_P", "RESU_EAU_A", "RESU_Q1", "RESU_Q3", "RESU_A"):
+        assert f"_F(RESULTAT={name}, CARA_ELEM=CARA)," in text
+
+
+def test_springs_carry_an_explicit_zero_mass(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    """Lot 31, étape 3 : un ressort est un appui, pas de la matière -- sa
+    masse est affectée à zéro explicitement (jamais omise, sous peine de
+    `<F> <DISCRETS_26>` dès que PESANTEUR est calculée, U4.42.01 DISCRET)."""
+    text, report = generate_comm(
+        fiche_path=_FICHE,
+        data_path=_DATA,
+        med_path=verified_mesh,
+        project_root=tmp_path,
+        work_dir_root="mesh_runs",
+        aster_version="17.4.0",
+    )
+    assert text.count('CARA="M_T_D_N", VALE=(0.0,)') == report.n_spring_classes
+    assert text.count('CARA="K_T_D_N"') == report.n_spring_classes
 
 
 def test_refuses_when_mesh_report_fingerprint_does_not_match(

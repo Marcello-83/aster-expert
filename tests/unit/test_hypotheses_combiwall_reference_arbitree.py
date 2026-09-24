@@ -61,7 +61,8 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     # + la décision 11 (point 10, lot 27)
     # + la décision 12 (point 11, lot 28) et 6 constats code_aster (points 2, 3, 5 x3,
     #   7) dont 2 remplacent sur place des constats minces de la fiche de base (lot 14)
-    assert len(sheet.entries) == 45
+    # + 1 constat code_aster (mécanisme du pivot nul, point 3, lot 31)
+    assert len(sheet.entries) == 46
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -329,14 +330,18 @@ def test_arbitree_fiche_group_naming_gaps_are_closed() -> None:
 
 def test_arbitree_fiche_has_no_blocker_left_after_decision_2_v5() -> None:
     """Lot 24: MM's v5 decision 2 (point 1, homogenisation) is recorded and closes
-    the revision declared at lot 22; no entry is under revision any more. No
-    blocker does not mean the decision's validity domain is met (it requires a
-    sensitivity study of the horizontal membrane rigidity)."""
+    the revision declared at lot 22; no entry of point 1 is under revision any
+    more. No blocker does not mean the decision's validity domain is met (it
+    requires a sensitivity study of the horizontal membrane rigidity).
+
+    Lot 31: point 3 (junction decision 4) is declared under revision in turn,
+    for an unrelated reason (the null-pivot mechanism established there) --
+    the fiche is no longer blocker-free overall, but point 1's own revision
+    stays closed."""
     sheet = _load()
 
-    assert sheet.generation_blockers() == ()
-    assert sheet.is_ready_for_generation is True
-    assert sheet.entries_under_revision() == ()
+    assert [e.point_label for e in sheet.entries_under_revision()] == ["3"]
+    assert sheet.is_ready_for_generation is False
     (entry,) = [
         e
         for e in sheet.entries
@@ -428,7 +433,7 @@ def test_arbitree_fiche_records_decision_11_and_grounds_the_screen_on_it() -> No
     assert entry.sources[0].origin == "decision_ingenieur"
     (screen,) = [g for g in sheet.group_naming if g.group_name == "ECRAN_POUSSEE"]
     assert screen.point_label == "10"
-    assert sheet.entries_under_revision() == ()
+    assert not entry.under_revision
 
 
 def test_arbitree_fiche_records_decision_12_and_adds_pied_tubes() -> None:
@@ -452,8 +457,44 @@ def test_arbitree_fiche_records_decision_12_and_adds_pied_tubes() -> None:
     (pied,) = [g for g in sheet.group_naming if g.group_name == "PIED_TUBES"]
     assert pied.kind == "noeud"
     assert pied.point_label == "11"
-    assert sheet.entries_under_revision() == ()
-    assert sheet.generation_blockers() == ()
+    assert not entry.under_revision
+
+
+def test_arbitree_fiche_records_the_lot31_finding_and_revision() -> None:
+    """Lot 31: the null-pivot mechanism (point 3) is recorded as a new
+    code_aster finding (never replacing the two existing point-3 findings,
+    which answer a different question), then the point-3 practice entry
+    (decision 4, junction method) is declared under revision citing it --
+    the decision itself is untouched."""
+    sheet = _load()
+    code_aster_point_3 = [
+        e
+        for e in sheet.entries
+        if isinstance(e, CodeAsterHypothesisEntry) and e.point_label == "3"
+    ]
+    assert len(code_aster_point_3) == 3
+    (finding,) = [
+        e
+        for e in code_aster_point_3
+        if e.topic.startswith("Mécanisme documentaire du pivot nul")
+    ]
+    assert finding.status == "tranche"
+    assert any(isinstance(s, DocumentarySource) for s in finding.sources)
+    assert any(isinstance(s, CatalogueSource) for s in finding.sources)
+    (decision,) = [
+        e
+        for e in sheet.entries
+        if isinstance(e, PracticeHypothesisEntry)
+        and e.point_label == "3"
+        and e.topic.startswith("Choix entre maillage coïncident")
+    ]
+    assert decision.under_revision
+    assert decision.option_retained is not None
+    assert "Maillage coïncident" in decision.option_retained  # unchanged
+    (event,) = decision.revision_history
+    assert event.kind == "declared"
+    assert event.by == "Claude (lot 31)"
+    assert [e.point_label for e in sheet.entries_under_revision()] == ["3"]
 
 
 def test_arbitree_fiche_lot28_facts_are_recorded_and_sourced() -> None:

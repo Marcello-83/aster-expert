@@ -314,8 +314,12 @@ def test_the_consistency_check_catches_an_altered_file(tmp_path: Path) -> None:
 
 
 def test_the_fiche_and_the_data_file_report_no_blocker() -> None:
+    """Lot 31 : le point 3 (décision 4, jonction tête de tube / poutre) est en
+    révision depuis ce lot -- seul bloqueur restant, plus aucune donnée
+    manquante (lot 27, les 22 valeurs ont toutes trouvé une source)."""
     sheet = HypothesesSheet.model_validate_json(_SHEET.read_text("utf-8"))
     data = load_model_data(_YAML)
-    assert sheet.generation_blockers() == ()
-    assert sheet.generation_blockers(data) == ()  # lot 27: the 22 values found a source
-    assert sheet.is_ready_for_generation
+    (blocker,) = sheet.generation_blockers()
+    assert "en révision (point 3)" in blocker
+    assert sheet.generation_blockers(data) == sheet.generation_blockers()
+    assert not sheet.is_ready_for_generation
