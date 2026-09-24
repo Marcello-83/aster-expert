@@ -1,0 +1,154 @@
+##ASTER 17.04.00 CONCEPT 0000004d CALCULE LE 24/09/2026 A 16:04:43 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REACTIONS_G      00000021 REAC_NODA                           1   0.000000000000E+00   8.656460863676E-06   3.231000867722E+06   3.060416239914E+06
+
+##ASTER 17.04.00 CONCEPT 0000004e CALCULE LE 24/09/2026 A 16:04:43 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_ANCR_G      00000021 REAC_NODA                           1   0.000000000000E+00   1.143252268399E-10   3.209623803009E+06  -1.128152022327E+06
+
+##ASTER 17.04.00 CONCEPT 0000004f CALCULE LE 24/09/2026 A 16:04:44 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_PIED_G      00000021 REAC_NODA                           1   0.000000000000E+00  -8.594042810728E-09   7.276137026224E-08   4.299916231633E+06
+
+##ASTER 17.04.00 CONCEPT 00000050 CALCULE LE 24/09/2026 A 16:04:44 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMG_G      00000021 REAC_NODA                           1   0.000000000000E+00   4.893756102056E+04   3.157046742011E+05  -1.507778781625E+05
+
+##ASTER 17.04.00 CONCEPT 00000051 CALCULE LE 24/09/2026 A 16:04:44 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMD_G      00000021 REAC_NODA                           1   0.000000000000E+00  -4.893756101189E+04   3.157046741312E+05  -1.507778781661E+05
+
+##ASTER 17.04.00 CONCEPT 00000052 CALCULE LE 24/09/2026 A 16:04:44 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_TOUS_G      00000021 REAC_NODA                           1   0.000000000000E+00   3.174065454914E-09   3.209623804132E+06   3.171764209329E+06
+
+##ASTER 17.04.00 CONCEPT 0000007e CALCULE LE 24/09/2026 A 16:05:06 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REACTIONS_EAU_P  00000055 REAC_NODA                           1   0.000000000000E+00  -1.131188133030E-05   1.656013964069E+06  -1.679046182551E+05
+
+##ASTER 17.04.00 CONCEPT 0000007f CALCULE LE 24/09/2026 A 16:05:06 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_ANCR_EAU_P  00000055 REAC_NODA                           1   0.000000000000E+00   5.886286710478E-11   1.652563205675E+06  -6.013625418933E+05
+
+##ASTER 17.04.00 CONCEPT 00000080 CALCULE LE 24/09/2026 A 16:05:06 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_PIED_EAU_P  00000055 REAC_NODA                           1   0.000000000000E+00  -3.746976062757E-10   1.691368289869E-08   6.013625418906E+05
+
+##ASTER 17.04.00 CONCEPT 00000081 CALCULE LE 24/09/2026 A 16:05:06 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMG_EAU_P  00000055 REAC_NODA                           1   0.000000000000E+00  -1.455901814918E+05   1.587750998508E+05  -1.394729219330E+05
+
+##ASTER 17.04.00 CONCEPT 00000082 CALCULE LE 24/09/2026 A 16:05:06 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMD_EAU_P  00000055 REAC_NODA                           1   0.000000000000E+00   1.455901814805E+05   1.587750998785E+05  -1.394729219294E+05
+
+##ASTER 17.04.00 CONCEPT 00000083 CALCULE LE 24/09/2026 A 16:05:06 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_TOUS_EAU_P  00000055 REAC_NODA                           1   0.000000000000E+00   5.907772049341E-10   1.652563206053E+06  -6.394984097824E-09
+
+##ASTER 17.04.00 CONCEPT 000000ae CALCULE LE 24/09/2026 A 16:05:27 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REACTIONS_EAU_A  00000085 REAC_NODA                           1   0.000000000000E+00  -1.437529185466E-05   3.888582433515E+06  -3.940598832299E+05
+
+##ASTER 17.04.00 CONCEPT 000000af CALCULE LE 24/09/2026 A 16:05:28 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_ANCR_EAU_A  00000085 REAC_NODA                           1   0.000000000000E+00   1.381437188343E-10   3.878357240632E+06  -1.411321975817E+06
+
+##ASTER 17.04.00 CONCEPT 000000b0 CALCULE LE 24/09/2026 A 16:05:28 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_PIED_EAU_A  00000085 REAC_NODA                           1   0.000000000000E+00   2.833814960468E-09   3.832480111043E-08   1.411321975804E+06
+
+##ASTER 17.04.00 CONCEPT 000000b1 CALCULE LE 24/09/2026 A 16:05:28 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMG_EAU_A  00000085 REAC_NODA                           1   0.000000000000E+00  -3.464389561542E+05   3.736884664765E+05  -3.273215296180E+05
+
+##ASTER 17.04.00 CONCEPT 000000b2 CALCULE LE 24/09/2026 A 16:05:28 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMD_EAU_A  00000085 REAC_NODA                           1   0.000000000000E+00   3.464389561398E+05   3.736884664460E+05  -3.273215296146E+05
+
+##ASTER 17.04.00 CONCEPT 000000b3 CALCULE LE 24/09/2026 A 16:05:28 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_TOUS_EAU_A  00000085 REAC_NODA                           1   0.000000000000E+00   5.625295784739E-09   3.878357242009E+06   1.649942049653E-08
+
+##ASTER 17.04.00 CONCEPT 000000de CALCULE LE 24/09/2026 A 16:05:47 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REACTIONS_Q1     000000b5 REAC_NODA                           1   0.000000000000E+00   3.328789738077E-05   2.010466770312E+06  -1.994418194435E+05
+
+##ASTER 17.04.00 CONCEPT 000000df CALCULE LE 24/09/2026 A 16:05:47 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_ANCR_Q1     000000b5 REAC_NODA                           1   0.000000000000E+00   6.986665406387E-11   1.961492320801E+06  -7.137808731854E+05
+
+##ASTER 17.04.00 CONCEPT 000000e0 CALCULE LE 24/09/2026 A 16:05:47 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_PIED_Q1     000000b5 REAC_NODA                           1   0.000000000000E+00   4.926860697196E-09   1.318514275539E-08   7.137808731800E+05
+
+##ASTER 17.04.00 CONCEPT 000000e1 CALCULE LE 24/09/2026 A 16:05:48 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMG_Q1     000000b5 REAC_NODA                           1   0.000000000000E+00  -2.453583807338E+05   2.108957203350E+05  -1.656736311987E+05
+
+##ASTER 17.04.00 CONCEPT 000000e2 CALCULE LE 24/09/2026 A 16:05:48 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMD_Q1     000000b5 REAC_NODA                           1   0.000000000000E+00   2.453583807671E+05   2.108957204019E+05  -1.656736312089E+05
+
+##ASTER 17.04.00 CONCEPT 000000e3 CALCULE LE 24/09/2026 A 16:05:48 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_TOUS_Q1     000000b5 REAC_NODA                           1   0.000000000000E+00   6.554472520293E-10   1.961492321445E+06  -7.845358140912E-09
+
+##ASTER 17.04.00 CONCEPT 0000010b CALCULE LE 24/09/2026 A 16:06:07 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REACTIONS_Q3     000000e5 REAC_NODA                           1   0.000000000000E+00   4.399044854608E-06   1.019729811549E+06  -5.929530575952E+05
+
+##ASTER 17.04.00 CONCEPT 0000010c CALCULE LE 24/09/2026 A 16:06:07 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_ANCR_Q3     000000e5 REAC_NODA                           1   0.000000000000E+00   3.315611579098E-11   9.127263561314E+05  -3.321382442083E+05
+
+##ASTER 17.04.00 CONCEPT 0000010d CALCULE LE 24/09/2026 A 16:06:07 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_PIED_Q3     000000e5 REAC_NODA                           1   0.000000000000E+00   2.990433678463E-09  -2.026684174650E-09  -1.678617557908E+05
+
+##ASTER 17.04.00 CONCEPT 0000010e CALCULE LE 24/09/2026 A 16:06:08 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMG_Q3     000000e5 REAC_NODA                           1   0.000000000000E+00  -2.322254685030E+05   1.369249046150E+05  -7.569085616389E+04
+
+##ASTER 17.04.00 CONCEPT 0000010f CALCULE LE 24/09/2026 A 16:06:08 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMD_Q3     000000e5 REAC_NODA                           1   0.000000000000E+00   2.322254685074E+05   1.369249046218E+05  -7.569085616517E+04
+
+##ASTER 17.04.00 CONCEPT 00000110 CALCULE LE 24/09/2026 A 16:06:08 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_TOUS_Q3     000000e5 REAC_NODA                           1   0.000000000000E+00  -2.901003881561E-10   9.127263563286E+05  -5.000000000000E+05
+
+##ASTER 17.04.00 CONCEPT 00000139 CALCULE LE 24/09/2026 A 16:06:31 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REACTIONS_A      00000113 REAC_NODA                           1   0.000000000000E+00  -1.513992933866E-05  -7.741667847246E+05   6.260041858173E+04
+
+##ASTER 17.04.00 CONCEPT 0000013a CALCULE LE 24/09/2026 A 16:06:31 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_ANCR_A      00000113 REAC_NODA                           1   0.000000000000E+00  -2.488217643259E-11  -6.818982118454E+05   2.481406100411E+05
+
+##ASTER 17.04.00 CONCEPT 0000013b CALCULE LE 24/09/2026 A 16:06:32 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_PIED_A      00000113 REAC_NODA                           1   0.000000000000E+00  -1.475424227237E-09   2.604475754855E-09  -2.481406100411E+05
+
+##ASTER 17.04.00 CONCEPT 0000013c CALCULE LE 24/09/2026 A 16:06:32 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMG_A      00000113 REAC_NODA                           1   0.000000000000E+00   1.721831390864E+05  -1.079625284254E+05   5.280049272846E+04
+
+##ASTER 17.04.00 CONCEPT 0000013d CALCULE LE 24/09/2026 A 16:06:32 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMD_A      00000113 REAC_NODA                           1   0.000000000000E+00  -1.721831391016E+05  -1.079625284283E+05   5.280049273323E+04
+
+##ASTER 17.04.00 CONCEPT 0000013e CALCULE LE 24/09/2026 A 16:06:33 DE TYPE        
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_TOUS_A      00000113 REAC_NODA                           1   0.000000000000E+00   3.478817234281E-11  -6.818982120169E+05   2.517481334507E-09
+
+ ║                                                                                                ║
+ ║ Liste des alarmes émises lors de l'exécution du calcul.                                        ║
+ ║                                                                                                ║
+ ║     Les alarmes que vous avez choisies d'ignorer sont précédées de (*).                        ║
+ ║     Nombre d'occurrences pour chacune des alarmes :                                            ║
+ ║            aucune alarme                                                                       ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+<I> <FIN> ARRET NORMAL DANS "FIN" PAR APPEL A "JEFINI".
+--- DIAGNOSTIC JOB : OK

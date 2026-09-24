@@ -1,0 +1,7 @@
+P time_limit 1800
+P memory_limit 8192
+P ncpus 1
+P mpi_nbcpu 1
+P mpi_nbnoeud 1
+F comm quai_reduit_controles.comm D 1
+F mmed quai_reduit_controles.mmed D 20

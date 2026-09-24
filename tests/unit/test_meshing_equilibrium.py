@@ -113,3 +113,39 @@ def test_group_pressure_resultant_refuses_an_absent_group() -> None:
     )
     with pytest.raises(ValueError, match="absent"):
         group_pressure_resultant(dump, "AUTRE", [(0.0, 1.0), (1.0, 1.0)])
+
+
+_STEP_AT_THE_BOTTOM_EDGE = [(-1.0, 0.0), (-0.001, 0.0), (0.001, 100.0), (2.0, 100.0)]
+
+
+def test_a_step_at_an_element_edge_is_read_differently_by_the_two_rules() -> None:
+    """Un palier écrit comme une rampe de 2 mm exactement sur l'arête basse d'une
+    maille (le doublement à 1 mm du générateur) : à l'intégration de Gauss la
+    maille voit 100 partout ; évaluée aux nœuds, elle voit la valeur de mi-rampe
+    (50) au nœud du bas et 100 en haut, soit 75 en moyenne. Code_Aster évalue
+    la fonction de `FORCE_COQUE/PRES` aux nœuds (lot 34, nœud par nœud)."""
+    corners = ((0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 0.0, 1.0), (0.0, 0.0, 1.0))
+    _, fy_gauss, _ = quad_pressure_force(corners, _STEP_AT_THE_BOTTOM_EDGE)
+    _, fy_nodes, _ = quad_pressure_force(corners, _STEP_AT_THE_BOTTOM_EDGE, "nodes")
+    assert fy_gauss == pytest.approx(-100.0)
+    assert fy_nodes == pytest.approx(-75.0)
+
+
+def test_the_two_rules_agree_on_a_profile_linear_across_the_element() -> None:
+    corners = ((0.0, 0.0, 0.0), (2.0, 0.0, 0.0), (2.0, 0.0, 1.0), (0.0, 0.0, 1.0))
+    ramp = [(0.0, 10.0), (1.0, 20.0)]
+    gauss = quad_pressure_force(corners, ramp)
+    nodes = quad_pressure_force(corners, ramp, "nodes")
+    assert nodes == pytest.approx(gauss)
+    assert gauss[1] == pytest.approx(-30.0)  # -15 x aire 2
+
+
+def test_group_resultant_takes_the_evaluation_rule() -> None:
+    corners = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 0.0, 1.0), (0.0, 0.0, 1.0)]
+    dump = _square_dump(corners)
+    _, gauss, _ = group_pressure_resultant(dump, "ECRAN", _STEP_AT_THE_BOTTOM_EDGE)
+    _, nodes, _ = group_pressure_resultant(
+        dump, "ECRAN", _STEP_AT_THE_BOTTOM_EDGE, "nodes"
+    )
+    assert gauss == pytest.approx(-100.0)
+    assert nodes == pytest.approx(-75.0)

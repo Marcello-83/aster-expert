@@ -27,6 +27,7 @@ cette règle en Y coïncident."""
 from __future__ import annotations
 
 import math
+from typing import Literal
 
 from aster_expert.generation.profiles import profile_value_at
 from aster_expert.meshing.invariants import MedDump
@@ -87,8 +88,18 @@ def _weighted_sum(
     return total
 
 
+Evaluation = Literal["gauss", "nodes"]
+"""Où la fonction de pression est évaluée sur une maille : `gauss` (aux points
+d'intégration, l'intégrale du profil spécifié) ou `nodes` (aux quatre nœuds,
+puis interpolée par les fonctions de forme -- ce que Code_Aster fait de
+`FORCE_COQUE/PRES` donnée par une fonction, fait établi par exécution au lot 34
+nœud par nœud, jamais documenté : U4.44.01 dit seulement « réel ou fonction »)."""
+
+
 def quad_pressure_force(
-    corners: tuple[Point, Point, Point, Point], profile: list[tuple[float, float]]
+    corners: tuple[Point, Point, Point, Point],
+    profile: list[tuple[float, float]],
+    evaluation: Evaluation = "gauss",
 ) -> Point:
     """`-integral p(z) n dA` over one planar QUAD4, by 2x2 Gauss quadrature.
 
@@ -108,15 +119,24 @@ def quad_pressure_force(
             dx_dxi = _weighted_sum(dxi, corners)
             dx_deta = _weighted_sum(deta, corners)
             normal_da = _scale(_cross(dx_dxi, dx_deta), orientation)
-            z = sum(n[i] * corners[i][2] for i in range(4))
-            p = profile_value_at(profile, z)
+            if evaluation == "nodes":
+                p = sum(
+                    n[i] * profile_value_at(profile, corners[i][2]) for i in range(4)
+                )
+            else:
+                p = profile_value_at(
+                    profile, sum(n[i] * corners[i][2] for i in range(4))
+                )
             w = wx * weta * p
             force = _add(force, _scale(normal_da, -w))
     return force
 
 
 def group_pressure_resultant(
-    dump: MedDump, group: str, profile: list[tuple[float, float]]
+    dump: MedDump,
+    group: str,
+    profile: list[tuple[float, float]],
+    evaluation: Evaluation = "gauss",
 ) -> Point:
     """Sum of `quad_pressure_force` over every 2D cell of `group` -- every
     cell must be a QUAD4 (the only cell type `ECRAN_POUSSEE` carries, lot
@@ -142,11 +162,11 @@ def group_pressure_resultant(
                 dump.coords[nodes[2]],
                 dump.coords[nodes[3]],
             )
-            total = _add(total, quad_pressure_force(corners, profile))
+            total = _add(total, quad_pressure_force(corners, profile, evaluation))
     if not found:
         message = f"groupe absent ou sans maille de niveau 2 : {group}"
         raise ValueError(message)
     return total
 
 
-__all__ = ["group_pressure_resultant", "quad_pressure_force"]
+__all__ = ["Evaluation", "group_pressure_resultant", "quad_pressure_force"]

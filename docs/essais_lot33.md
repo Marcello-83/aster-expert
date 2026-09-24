@@ -124,3 +124,13 @@ nécessaire à ce contrôle, n'a pas été demandée. Poids attendu calculé
 (tubes + palplanches + tirants, `expected_masses`) : -1 386 344,2 N. Limite
 connue, non anticipée avant l'exécution unique, non contournable sans une
 seconde exécution -- interdite par ce lot.
+
+## Suite (lot 34) -- cause de l'écart d'équilibre établie
+
+Ajouté après coup, sans modifier les critères ni les résultats ci-dessus : l'écart
+d'équilibre rapporté ici est expliqué et fermé au lot 34 (`docs/essais_lot34.md`). Il venait de
+quatre causes : la référence indépendante (tri des paires), l'évaluation aux nœuds de la
+fonction de pression par Code_Aster, 43 nœuds de ressort à raideur partielle sur le quai
+réduit (169 sur le modèle complet), et la lecture des réactions (composantes libres, table
+`REACTIONS_<cas>` combinée). Les critères de ce document restent en échec tels que rapportés :
+la correction n'est pas une requalification.

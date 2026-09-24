@@ -11,6 +11,8 @@ element, lies within 1 mm of an edge).
 
 from __future__ import annotations
 
+from pydantic import BaseModel, ConfigDict
+
 _DOUBLE_OFFSET_M = 0.001
 
 
@@ -56,6 +58,101 @@ def component_profile(
     """The sub-profile of one component (`G` or `Q1`) of a table that gives both,
     in the source's own row order."""
     return [p for p in points if p[3] == component]
+
+
+INTERFACE_EPSILON_M = 1.0e-9
+"""Écart, de part et d'autre d'une interface de couches, entre les deux valeurs
+de `layered_profile` : assez petit pour qu'aucun point d'intégration d'un
+maillage réel ne s'y trouve, distinct du doublement à 1 mm de
+`doubled_profile` (celui de la fonction écrite dans le `.comm`)."""
+
+
+class LayerProfile(BaseModel):
+    """Une couche de sol et sa pression, linéaire par morceaux sur `[z_low, z_high]`."""
+
+    model_config = ConfigDict(frozen=True)
+
+    name: str
+    z_low: float
+    z_high: float
+    points: tuple[tuple[float, float], ...]
+    """`(z, p)` strictement croissants en `z`, du bas de la couche à son haut."""
+
+
+def layer_profiles(
+    points: list[tuple[float, float, str | None, str | None]], component: str
+) -> list[LayerProfile]:
+    """Les couches d'un composant, de la plus basse à la plus haute. Une couche
+    porte au moins deux points (un sommet intérieur est admis) ; deux couches
+    voisines partagent la cote de leur interface, sans se recouvrir."""
+    layers: dict[str, list[tuple[float, float]]] = {}
+    for z, p, layer, comp in points:
+        if comp != component:
+            continue
+        if layer is None:
+            message = (
+                f"point sans couche à la cote {z:g} : profil par couche impossible"
+            )
+            raise ValueError(message)
+        layers.setdefault(layer, []).append((z, p))
+    out: list[LayerProfile] = []
+    for layer, pts in layers.items():
+        if len(pts) < 2:
+            message = f"la couche {layer} porte {len(pts)} point(s), 2 au moins requis"
+            raise ValueError(message)
+        polyline = tuple(sorted(pts))
+        if not polyline[0][0] < polyline[-1][0]:
+            message = f"couche {layer} d'épaisseur nulle à la cote {polyline[0][0]:g}"
+            raise ValueError(message)
+        if any(a[0] >= b[0] for a, b in zip(polyline[:-1], polyline[1:], strict=True)):
+            message = f"couche {layer} : deux points à la même cote"
+            raise ValueError(message)
+        out.append(
+            LayerProfile(
+                name=layer,
+                z_low=polyline[0][0],
+                z_high=polyline[-1][0],
+                points=polyline,
+            )
+        )
+    out.sort(key=lambda layer: layer.z_low)
+    for below, above in zip(out[:-1], out[1:], strict=True):
+        if above.z_low < below.z_high:
+            message = f"les couches {below.name} et {above.name} se recouvrent"
+            raise ValueError(message)
+    return out
+
+
+def layered_profile(
+    points: list[tuple[float, float, str | None, str | None]], component: str
+) -> list[tuple[float, float]]:
+    """Profil `(z, p)` strictement croissant d'un composant, construit **par
+    couche** : chaque couche porte ses points et sa pression varie linéairement
+    entre eux ; à l'interface entre deux couches, la valeur de la couche
+    inférieure s'arrête à `z - epsilon` et celle de la couche supérieure commence
+    à `z + epsilon`.
+
+    Ne dépend ni de l'ordre des lignes du fichier de données ni du tri des
+    valeurs : trier des paires `(z, p)` permute les deux points d'une interface
+    quand la pression de la couche du dessus est inférieure à celle du dessous,
+    et relie alors deux couches par une rampe fictive (lot 34). Sans voisin au-
+    dessus ou au-dessous, une couche garde son point extrême tel quel."""
+    layers = layer_profiles(points, component)
+    out: list[tuple[float, float]] = []
+    for i, layer in enumerate(layers):
+        has_below = i > 0 and layers[i - 1].z_high == layer.z_low
+        has_above = i + 1 < len(layers) and layers[i + 1].z_low == layer.z_high
+        for j, (z, p) in enumerate(layer.points):
+            if j == 0 and has_below:
+                z += INTERFACE_EPSILON_M
+            elif j == len(layer.points) - 1 and has_above:
+                z -= INTERFACE_EPSILON_M
+            out.append((z, p))
+    for a, b in zip(out[:-1], out[1:], strict=True):
+        if not a[0] < b[0]:
+            message = f"profil par couche non strictement croissant : {a}, {b}"
+            raise ValueError(message)
+    return out
 
 
 def profile_value_at(points: list[tuple[float, float]], z: float) -> float:
@@ -110,6 +207,9 @@ def integrate_profile(
 __all__ = [
     "component_profile",
     "doubled_profile",
+    "LayerProfile",
     "integrate_profile",
+    "layer_profiles",
+    "layered_profile",
     "profile_value_at",
 ]

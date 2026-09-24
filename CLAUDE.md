@@ -465,6 +465,36 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   (exploration libre) non nécessaire, l'étape 1 a réussi du premier coup. Limites : le mécanisme précis
   de numérotation interne de Code_Aster reste hors de portée des sept outils MCP (comme aux lots
   28/30/31) ; aucune décision pratique prise ni complétée par ce lot.
+- Lot 34 (`docs/essais_lot34.md`, `data/examples/lot34_equilibre/`, `scripts/analyze_lot34_*.py`,
+  `generate_lot34_sonde.py`, `report_lot34.py`) : **l'écart d'équilibre du lot 33 est expliqué et fermé.**
+  Quatre causes, chacune démontrée par exécution sur le quai réduit (15 exécutions sur 20) puis corrigée :
+  (1) la référence indépendante du lot 33 triait les paires `(z, p)` (rampe fictive entre couches à
+  une interface dont le dessus est moins chargé) -- `profiles.layered_profile` ; (2) **Code_Aster évalue
+  `FORCE_COQUE/PRES` (fonction) aux nœuds** puis interpole (fait établi nœud par nœud, non documenté :
+  U4.44.01 dit « réel ou fonction ») : une marche de pression écrite en rampe de 2 mm sur une arête de
+  maille déborde d'une demi-maille (G 1,2e-3, Q1 2,3e-4) -- la poussée G/Q1 est maintenant appliquée
+  **par couche** (`comm.layered_pressure_load_block`, groupes `CREA_GROUP_MA/BANDE` `CRIT_NOEUD="TOUS"`,
+  `VERI_NORM="NON"` car la couche de marne n'a que les trois tubes non connexes) ; (3) **`CREA_POI1` ne
+  crée qu'une maille par nœud** : sur un nœud partagé par deux bandes de ressorts la 2ᵉ occurrence de
+  `DISCRET` écrasait la 1ʳᵉ (43 nœuds du quai réduit, 169 du modèle complet : raideur de l'argile perdue)
+  -- classes communes de raideur sommée, écrites après (`springs._combined_classes`,
+  `check_spring_coverage`) ; (4) lecture : seules les composantes **réellement bloquées** entrent dans la
+  somme (`SYM_G`/`SYM_D` DX ; `PIED_TUBES` DZ ; ancrages DX, DY, DZ), les réactions des composantes libres
+  de `SYM` sont des forces de liaison de `LIAISON_SOLIDE` qui s'annulent sur l'ensemble des nœuds, et
+  `POST_RELEVE_T/RESULTANTE` sur plusieurs groupes de nœuds **n'est pas la somme** des résultantes par
+  groupe (table `REACTIONS_<cas>` du lot 33 : ne plus la lire ; toujours écrite dans le `.comm` exécuté,
+  à retirer au prochain lot). `IMPR_TABLE` tronque l'intitulé à **16 caractères** (deux tables au même
+  début deviennent indiscernables) et son format par défaut `E12.5` (6 chiffres) limite tout critère à
+  ~1e-6 : les tables de contrôle sont imprimées en `E20.12` (le 6,07e-7 de symétrie du lot 33 n'était
+  que cet arrondi). Sonde de charge assemblée (`generation.generate.EquilibriumProbe`, diagnostic seul) :
+  tous les ddl bloqués, `REAC_NODA` sommé sur tous les nœuds. **Résultat sur le modèle complet, une
+  exécution (208 s, aucune alarme) : équilibre X, Y, Z ≤ 9e-11, symétrie ≤ 5,7e-11 sur 20 057 paires,
+  pesanteur fermée à 1e-12 : niveau C avec contrôles D, jamais E.** Le modèle a changé (ressorts aux limites
+  de bande, poussée par couche) : ne pas comparer aux résultats des lots 32/33. La fiche (point 5 :
+  « doublement à 1 mm sûr, aucun point d'intégration à moins de 1 mm d'une arête ») est contredite par
+  l'évaluation aux nœuds -- non modifiée, à enregistrer par MM. Limites : couches non alignées sur les
+  rangées de mailles (maille sans pression, signalée par l'équilibre seulement) ; cause du comportement de
+  `RESULTANTE` multi-groupes non établie.
 
 ## Périmètre à ne pas dépasser sans instruction
 

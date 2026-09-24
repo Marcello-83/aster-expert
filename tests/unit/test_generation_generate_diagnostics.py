@@ -17,6 +17,7 @@ import pytest
 from aster_expert.agent.model_data import load_model_data
 from aster_expert.generation.generate import (
     DiagnosticOmissions,
+    EquilibriumProbe,
     GenerationReport,
     _params_json_bytes,
     generate_comm,
@@ -144,3 +145,79 @@ def test_sans_poutre_omits_liaison_solide_and_q3(
     assert "RESU_Q3" not in text
     assert '"BOLLARD"' not in text
     assert 'MODELISATION="BARRE"' in text  # unaffected ingredient stays
+
+
+def _probe(verified_mesh: Path, tmp_path: Path, probe: EquilibriumProbe) -> str:
+    text, _ = generate_comm(
+        fiche_path=_FICHE,
+        data_path=_DATA,
+        med_path=verified_mesh,
+        project_root=tmp_path,
+        work_dir_root="mesh_runs",
+        aster_version="17.4.0",
+        probe=probe,
+    )
+    return text
+
+
+def test_default_probe_matches_production(verified_mesh: Path, tmp_path: Path) -> None:
+    production = _probe(verified_mesh, tmp_path, EquilibriumProbe())
+    text, _ = generate_comm(
+        fiche_path=_FICHE,
+        data_path=_DATA,
+        med_path=verified_mesh,
+        project_root=tmp_path,
+        work_dir_root="mesh_runs",
+        aster_version="17.4.0",
+    )
+    assert production == text
+    # `pression_sur` n'a d'effet qu'avec `blocage_total`.
+    assert (
+        _probe(verified_mesh, tmp_path, EquilibriumProbe(pression_sur="aucune")) == text
+    )
+
+
+def test_probe_blocks_every_dof_without_liaison_solide(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    text = _probe(verified_mesh, tmp_path, EquilibriumProbe(blocage_total=True))
+    assert "GEN_NOEUDS_6DDL" in text
+    assert (
+        'DDL_IMPO=(\n        _F(GROUP_NO=("GEN_TOUS_NOEUDS",), DX=0.0, DY=0.0, DZ=0.0)'
+        in text
+    )
+    assert "CH_SOLIDE" not in text
+    assert "LIAISON_SOLIDE=(" not in text
+    for case in ("G", "EAU_P", "EAU_A", "Q1", "Q3", "A"):
+        assert f"TAB_CHARGE_{case} = POST_RELEVE_T(" in text
+    assert "TAB_REAC_" not in text
+    assert "TAB_RESS_" not in text
+    assert "IMPR_RESU" not in text
+    assert text.rstrip().endswith("FIN()")
+
+
+@pytest.mark.parametrize(
+    ("pression", "group", "in_excit"),
+    [
+        ("ecran", "ECRAN_POUSSEE", True),
+        ("tubes", "GEN_ECRAN_POUSSEE_TUBES", True),
+        ("palplanches", "PALPS", True),
+        ("aucune", "ECRAN_POUSSEE", False),
+    ],
+)
+def test_probe_pressure_location(
+    verified_mesh: Path, tmp_path: Path, pression: str, group: str, in_excit: bool
+) -> None:
+    text = _probe(
+        verified_mesh,
+        tmp_path,
+        EquilibriumProbe(blocage_total=True, pression_sur=pression),  # type: ignore[arg-type]
+    )
+    # La poussée G est portée par couche : chaque groupe de couche est
+    # l'intersection de sa bande et du groupe qui porte la pression.
+    assert f'INTERSEC=("GEN_BANDE_MARNE", "{group}")' in text
+    assert (
+        'FORCE_COQUE=(\n        _F(GROUP_MA=("GEN_COUCHE_MARNE",), PRES=F_G_MARNE),'
+        in text
+    )
+    assert ("_F(CHARGE=CH_G_POUSSEE)," in text) is in_excit

@@ -19,7 +19,8 @@ from __future__ import annotations
 from typing import Literal
 
 from aster_expert.generation.errors import GenerationError
-from aster_expert.generation.springs import SpringClass
+from aster_expert.generation.profiles import LayerProfile
+from aster_expert.generation.springs import COMBINED_BAND, SpringClass
 from aster_expert.generation.values import ModelValues
 from aster_expert.meshing.combiwall import Point3D
 
@@ -349,6 +350,29 @@ MAIL = DEFI_GROUP(
         if unions
         else ""
     )
+    # Lot 34 : classes communes (nœuds partagés par deux bandes), créées par
+    # INTERSEC des deux groupes de classe -- une troisième commande, après celle
+    # qui crée les groupes de classe (un groupe n'est visible qu'après la
+    # commande qui le crée).
+    combined = [c for c in spring_classes if c.band == COMBINED_BAND]
+    combined_body = "\n        ".join(
+        f'_F(NOM="{_gn(c.group_name)}", '
+        f"INTERSEC=({', '.join(f'"{p}"' for p in c.parents)},)),"
+        for c in combined
+    )
+    combined_block = (
+        f"""
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_NO=(
+        {combined_body}
+    ),
+)
+"""
+        if combined
+        else ""
+    )
     creation_poi1 = (
         f"""
 # Point 4 : une maille POI1 par nœud de ressort, regroupée par classe de
@@ -382,6 +406,7 @@ MAIL = DEFI_GROUP(
 )
 
 {union_block}
+{combined_block}
 {creation_poi1}
 # Lot 33, étape 4 : GEN_TOUS_NOEUDS, en deux passes -- un groupe par nom de
 # maille (comme les classes de ressort, spring_group_plan) puis leur UNION,
@@ -1049,6 +1074,108 @@ def pressure_load_block(
 """
 
 
+LAYER_BAND_TOLERANCE_M = 1.0e-6
+"""Marge ajoutée à la demi-largeur de la bande d'une couche (`CREA_GROUP_MA/
+OPTION="BANDE"`, `DIST` = demi-largeur) pour qu'une maille dont les nœuds sont
+exactement sur les plans limites en fasse partie malgré l'arrondi."""
+
+
+def layer_key(layer_name: str) -> str:
+    """Identifiant de groupe/fonction d'une couche : son nom en majuscules."""
+    return "".join(c if c.isalnum() else "_" for c in layer_name).upper()
+
+
+def pressure_layer_groups_block(
+    layers: list[LayerProfile], *, poussee_group_ma: str = "ECRAN_POUSSEE"
+) -> str:
+    """Lot 34 : le groupe de mailles de chaque couche de sol, `GEN_COUCHE_<COUCHE>`
+    = mailles de `poussee_group_ma` dont **tous** les nœuds sont dans la bande de la
+    couche (`CREA_GROUP_MA/OPTION="BANDE"`, `CRIT_NOEUD="TOUS"`, plan milieu
+    horizontal, `DIST` demi-largeur). Deux commandes : un groupe n'est visible
+    qu'après la commande qui le crée.
+
+    Pourquoi : Code_Aster évalue la fonction de `FORCE_COQUE/PRES` **aux nœuds**
+    de chaque maille (fait établi par exécution, lot 34 ; U4.44.01 dit seulement
+    « réel ou fonction »). Une marche de pression à l'interface de deux couches,
+    écrite comme une rampe de 2 mm, est alors lue à mi-rampe par les nœuds de
+    l'interface et déborde d'une demi-maille sur les deux couches (0,12 % de la
+    poussée G, 0,02 % de Q1, quai réduit). Appliquer à chaque couche sa propre
+    fonction supprime le mélange : la fonction d'une couche, linéaire sur elle,
+    est exacte aux nœuds. Une maille qui n'est dans aucune bande ne reçoit
+    aucune pression : l'équilibre (`scripts/analyze_lot34_equilibre.py`) le
+    signale."""
+    bands = "\n        ".join(
+        f'_F(NOM="{_gn("GEN_BANDE_" + layer_key(layer.name))}", '
+        f'OPTION="BANDE", POINT=(0.0, 0.0, {_fmt((layer.z_low + layer.z_high) / 2)}), '
+        f"VECT_NORMALE=(0.0, 0.0, 1.0), "
+        f"DIST={_fmt((layer.z_high - layer.z_low) / 2 + LAYER_BAND_TOLERANCE_M)}, "
+        f'CRIT_NOEUD="TOUS"),'
+        for layer in layers
+    )
+    inter = "\n        ".join(
+        f'_F(NOM="{_gn("GEN_COUCHE_" + layer_key(layer.name))}", '
+        f'INTERSEC=("{_gn("GEN_BANDE_" + layer_key(layer.name))}", '
+        f'"{poussee_group_ma}")),'
+        for layer in layers
+    )
+    return f"""
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_MA=(
+        {bands}
+    ),
+)
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_MA=(
+        {inter}
+    ),
+)
+"""
+
+
+def layer_pressure_functions_block(prefix: str, layers: list[LayerProfile]) -> str:
+    """Une `DEFI_FONCTION` par couche (`F_<prefix>_<COUCHE>`) : la pression de la
+    couche seule, en pascals, croissante en `z` (aucune interface à doubler)."""
+    return "".join(
+        formule_block(f"F_{prefix}_{layer_key(layer.name)}", list(layer.points))
+        for layer in layers
+    )
+
+
+def layered_pressure_load_block(
+    concept: str,
+    prefix: str,
+    layers: list[LayerProfile],
+) -> str:
+    """`FORCE_COQUE/PRES` par couche : une occurrence par couche, sur son groupe
+    `GEN_COUCHE_<COUCHE>` avec sa fonction `F_<prefix>_<COUCHE>`.
+
+    `VERI_NORM="NON"` : le contrôle automatique d'orientation exige des groupes de
+    bord connexes (`<F> <MESH3_99>` sinon, constaté au lot 34 : la couche de marne
+    ne porte que les trois tubes, que les palplanches, arrêtées à -18 m, ne relient
+    pas). Les mailles et leur orientation (`MODI_MAILLAGE/ORIE_NORM_COQUE`, sur
+    `ECRAN_POUSSEE` entier) sont celles des charges d'eau, qui portent sur l'écran
+    entier, connexe, et gardent ce contrôle : une orientation incohérente
+    arrêterait toujours l'exécution."""
+    veri = ' VERI_NORM="NON",'
+    occurrences = "\n        ".join(
+        f'_F(GROUP_MA=("{_gn("GEN_COUCHE_" + layer_key(layer.name))}",), '
+        f"PRES=F_{prefix}_{layer_key(layer.name)}),"
+        for layer in layers
+    )
+    return f"""
+{concept} = AFFE_CHAR_MECA_F(
+    MODELE=MO,{veri}
+    FORCE_COQUE=(
+        {occurrences}
+    ),
+)
+"""
+
+
 def pesanteur_block(
     concept: str,
     g: float,
@@ -1255,12 +1382,96 @@ tube foot): every node here belongs only to `ELAS` shells (the tube), a
 `BARRE` (the anchor) or nothing at all."""
 
 
+TABLE_FORMAT_R = "E20.12"
+"""`IMPR_TABLE/FORMAT_R` des tables de contrôle (défaut catalogue `E12.5`, six
+chiffres significatifs : trop peu pour un critère d'équilibre à 1e-6, l'arrondi
+d'une résultante de 1e6 N vaut déjà 5 N -- lot 34)."""
+
+
+TABLE_TITLE_MAX = 16
+"""`IMPR_TABLE` tronque la colonne `INTITULE` à 16 caractères : deux intitulés
+qui ne diffèrent qu'après le 16e sont indiscernables dans le `.mess` (constaté
+au lot 34 : `REAC_PIED_TUBES_G` et `REAC_PIED_TUBES_Q1` devenaient tous deux
+`REAC_PIED_TUBES_`)."""
+
+REACTION_TABLE_LABELS = {
+    "ANCRAGES": "ANCR",
+    "PIED_TUBES": "PIED",
+    "SYM_G": "SYMG",
+    "SYM_D": "SYMD",
+    "TOUS": "TOUS",
+}
+"""Étiquette courte de l'intitulé de chaque table de réactions par groupe."""
+
+
+def reaction_table_title(label: str, name: str) -> str:
+    """Intitulé `REAC_<étiquette>_<cas>` d'une table de réactions par groupe,
+    contrôlé à `TABLE_TITLE_MAX` caractères."""
+    title = f"REAC_{REACTION_TABLE_LABELS[label]}_{name}"
+    if len(title) > TABLE_TITLE_MAX:
+        message = (
+            f"intitulé de table trop long ({len(title)} > {TABLE_TITLE_MAX}) : {title}"
+        )
+        raise GenerationError(message)
+    return title
+
+
+def _reaction_table(name: str, label: str, group: str, components: str) -> str:
+    """Résultante de `REAC_NODA` (composantes `components`) sur un groupe de
+    nœuds, pour le cas `name` : table `TAB_REAC_<label>_<name>`, intitulé
+    `reaction_table_title` (lot 34, étape 2)."""
+    return f"""
+TAB_REAC_{label}_{name} = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="{reaction_table_title(label, name)}",
+        RESULTAT=RESU_{name},
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("{group}",),
+        RESULTANTE=({components}),
+    )
+)
+IMPR_TABLE(TABLE=TAB_REAC_{label}_{name}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
+"""
+
+
+def spring_force_block(name: str, spring_group_names: list[str]) -> str:
+    """Lot 34, étape 2 (diagnostic seulement, `EquilibriumProbe`) : la force de
+    chaque ressort telle que Code_Aster la calcule, `FORC_NODA` restreint aux
+    mailles `POI1` des classes de ressort (jamais le champ sommé sur tout le
+    modèle, contaminé par les coques du même nœud), DY seul -- à comparer nœud
+    par nœud à k * DY (`TAB_RESS_<cas>`)."""
+    groups = ", ".join(f'"{n}"' for n in spring_group_names)
+    return f"""
+RESU_{name} = CALC_CHAMP(
+    reuse=RESU_{name},
+    RESULTAT=RESU_{name},
+    GROUP_MA=({groups}),
+    FORCE=("FORC_NODA",),
+)
+TAB_FRESS_{name} = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="FRESS_{name}",
+        RESULTAT=RESU_{name},
+        NOM_CHAM="FORC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=({groups}),
+        NOM_CMP=("DY",),
+    )
+)
+IMPR_TABLE(TABLE=TAB_FRESS_{name}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
+"""
+
+
 def controls_block(
     name: str,
     spring_group_names: list[str],
     *,
-    reaction_components: tuple[str, ...] = ("DY",),
+    reaction_components: tuple[str, ...] = ("DX", "DY", "DZ"),
     sans_tirants: bool = False,
+    spring_force_check: bool = False,
 ) -> str:
     """Étape 4's D-level controls, per elementary case: the displacement of
     every spring node (`DEPL`/`DY`, lot 33 étape 3 -- never `FORC_NODA`'s
@@ -1325,7 +1536,7 @@ TAB_RESS_{name} = POST_RELEVE_T(
         NOM_CMP=("DY",),
     )
 )
-IMPR_TABLE(TABLE=TAB_RESS_{name}, UNITE=6)
+IMPR_TABLE(TABLE=TAB_RESS_{name}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
 """
         if spring_group_names
         else ""
@@ -1338,6 +1549,15 @@ IMPR_TABLE(TABLE=TAB_RESS_{name}, UNITE=6)
         if sans_tirants
         else _SUPPORT_GROUPS
     )
+    # Lot 34, étape 2 : la résultante des quatre groupes d'appui ne dit pas d'où
+    # vient un écart ; chaque groupe a donc sa propre table, et `GEN_TOUS_NOEUDS`
+    # (tous les nœuds) donne la somme globale, exacte même sous `ELAS_COQUE`
+    # (lot 23), pour le contrôle croisé.
+    per_group_reactions = "".join(
+        _reaction_table(name, g, g, components) for g in support_groups
+    ) + _reaction_table(name, "TOUS", ALL_NODES_GROUP, components)
+    if spring_force_check and spring_group_names:
+        ressorts_block += spring_force_block(name, spring_group_names)
     return f"""{ressorts_block}
 TAB_REAC_{name} = POST_RELEVE_T(
     ACTION=_F(
@@ -1350,8 +1570,8 @@ TAB_REAC_{name} = POST_RELEVE_T(
         RESULTANTE=({components}),
     )
 )
-IMPR_TABLE(TABLE=TAB_REAC_{name}, UNITE=6)
-
+IMPR_TABLE(TABLE=TAB_REAC_{name}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
+{per_group_reactions}
 # Point 7 : symétrie -- lot 33, étape 4 : TOUT le maillage, jamais deux
 # paires choisies à la main (docs/essais_lot33.md) : le script d'analyse
 # associe chaque nœud à son image miroir (x -> -x, mêmes y, z) par les
@@ -1368,8 +1588,84 @@ TAB_SYM_{name} = POST_RELEVE_T(
         NOM_CMP=("DX", "DY", "DZ"),
     )
 )
-IMPR_TABLE(TABLE=TAB_SYM_{name}, UNITE=6)
+IMPR_TABLE(TABLE=TAB_SYM_{name}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
 """
+
+
+SIX_DOF_GROUP = "GEN_NOEUDS_6DDL"
+"""Lot 34, sonde de charge assemblée : nœuds portant les six degrés de liberté
+(coques, poutre) ; les nœuds restants (barre, ressort) n'en portent que trois."""
+
+
+def six_dof_group_block() -> str:
+    """Lot 34 (sonde `EquilibriumProbe` seulement) : `GEN_NOEUDS_6DDL`, réunion
+    des nœuds de `TUBES`, `PALPS` et `POUTRE_COUR` (groupes de nœuds déjà créés
+    par `mesh_prep_block`), avant `AFFE_MODELE`."""
+    return f"""
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_NO=_F(
+        NOM="{SIX_DOF_GROUP}",
+        UNION=("GEN_TOUS_TUBES", "GEN_TOUS_PALPS", "GEN_TOUS_POUTRE"),
+    ),
+)
+"""
+
+
+def full_block_charge_block() -> str:
+    """Lot 34 (sonde seulement) : `CH_BLOC` bloque tous les degrés de liberté de
+    tous les nœuds (translations partout, rotations sur `GEN_NOEUDS_6DDL`). Les
+    déplacements sont alors nuls et `REAC_NODA` vaut l'opposé de la charge
+    assemblée par Code_Aster, nœud par nœud. Sans `LIAISON_SOLIDE` (redondante
+    avec un blocage total)."""
+    return f"""
+CH_BLOC = AFFE_CHAR_MECA(
+    MODELE=MO,
+    DDL_IMPO=(
+        _F(GROUP_NO=("{ALL_NODES_GROUP}",), DX=0.0, DY=0.0, DZ=0.0),
+        _F(GROUP_NO=("{SIX_DOF_GROUP}",), DRX=0.0, DRY=0.0, DRZ=0.0),
+    ),
+)
+"""
+
+
+def assembled_load_block(name: str, *, nodal: bool = False) -> str:
+    """Lot 34 (sonde seulement) : résultante de `REAC_NODA` sur tous les nœuds
+    (DX, DY, DZ) du cas `name` ; `nodal=True` ajoute la table nœud par nœud
+    (`COOR_X/Y/Z` ajoutés par `POST_RELEVE_T`), pour localiser un écart."""
+    nodal_table = (
+        f"""
+TAB_CHARGE_NODES_{name} = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="CH_NOEUDS_{name}",
+        RESULTAT=RESU_{name},
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("{ALL_NODES_GROUP}",),
+        NOM_CMP=("DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_CHARGE_NODES_{name}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
+"""
+        if nodal
+        else ""
+    )
+    return f"""
+TAB_CHARGE_{name} = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="CHARGE_{name}",
+        RESULTAT=RESU_{name},
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("{ALL_NODES_GROUP}",),
+        RESULTANTE=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=TAB_CHARGE_{name}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
+{nodal_table}"""
 
 
 def order_of_magnitude_block(name: str, tube_names: list[str]) -> str:

@@ -8,6 +8,8 @@ from aster_expert.generation.profiles import (
     component_profile,
     doubled_profile,
     integrate_profile,
+    layered_profile,
+    profile_value_at,
 )
 
 Point = tuple[float, float, str | None, str | None]
@@ -128,3 +130,72 @@ def test_integrate_profile_reproduces_the_lot33_reference_resultants() -> None:
     for name, (points, expected_kn) in cases.items():
         resultant, _ = integrate_profile(sorted(points), 2.60, 4.00)
         assert resultant * width_m == pytest.approx(expected_kn, abs=0.05), name
+
+
+def _layers_with_a_step_down() -> list[Point]:
+    """Trois couches dont celle du milieu est plus chargée que celle du dessus
+    (la forme de la composante Q1 du quai) : à l'interface z = -9, la couche
+    du dessous vaut 16200 et celle du dessus 10800."""
+    return [
+        (4.0, 12300.0, "haut", "Q1"),
+        (-2.0, 12300.0, "haut", "Q1"),
+        (-2.0, 10800.0, "milieu", "Q1"),
+        (-9.0, 10800.0, "milieu", "Q1"),
+        (-9.0, 16200.0, "bas", "Q1"),
+        (-18.0, 16200.0, "bas", "Q1"),
+    ]
+
+
+def test_layered_profile_keeps_each_layer_constant_across_a_step_down() -> None:
+    """Le tri de paires `(z, p)` permute les deux points d'une interface dont la
+    couche supérieure est moins chargée et relie alors deux couches par une
+    rampe fictive (défaut de la référence indépendante du lot 33, trouvé au
+    lot 34) ; le profil par couche ne le fait pas."""
+    points = _layers_with_a_step_down()
+    naive = sorted((z, p) for z, p, _, _ in points)
+    assert profile_value_at(naive, -5.0) != 10800.0  # la rampe fictive
+
+    profile = layered_profile(points, "Q1")
+    assert [z for z, _ in profile] == sorted(z for z, _ in profile)
+    assert profile_value_at(profile, -15.0) == 16200.0
+    assert profile_value_at(profile, -12.0) == 16200.0
+    assert profile_value_at(profile, -5.0) == 10800.0
+    assert profile_value_at(profile, -3.0) == 10800.0
+    assert profile_value_at(profile, 0.0) == 12300.0
+    assert profile_value_at(profile, 3.0) == 12300.0
+
+
+def test_layered_profile_is_independent_of_the_row_order() -> None:
+    points = _layers_with_a_step_down()
+    assert layered_profile(points, "Q1") == layered_profile(points[::-1], "Q1")
+
+
+def test_layered_profile_accepts_an_interior_vertex_and_a_ramp() -> None:
+    points: list[Point] = [
+        (4.0, 0.0, "remblai", "G"),
+        (2.0, 11700.0, "remblai", "G"),
+        (-2.0, 24000.0, "remblai", "G"),
+        (-2.0, 21200.0, "sable", "G"),
+        (-9.0, 41100.0, "sable", "G"),
+    ]
+    profile = layered_profile(points, "G")
+    assert profile_value_at(profile, 3.0) == pytest.approx(5850.0)
+    assert profile_value_at(profile, 0.0) == pytest.approx(17850.0)
+    assert profile_value_at(profile, -5.0) == pytest.approx(
+        21200.0 + (41100.0 - 21200.0) * 3.0 / 7.0
+    )
+
+
+def test_layered_profile_refuses_a_layer_without_two_points() -> None:
+    with pytest.raises(ValueError, match="2 au moins"):
+        layered_profile([(0.0, 1.0, "seule", "G")], "G")
+
+
+def test_layered_profile_refuses_a_point_without_layer() -> None:
+    with pytest.raises(ValueError, match="sans couche"):
+        layered_profile([(0.0, 1.0, None, "G"), (1.0, 2.0, None, "G")], "G")
+
+
+def test_layered_profile_refuses_a_zero_thickness_layer() -> None:
+    with pytest.raises(ValueError, match="épaisseur nulle"):
+        layered_profile([(1.0, 1.0, "plate", "G"), (1.0, 2.0, "plate", "G")], "G")

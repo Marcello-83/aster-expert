@@ -110,7 +110,8 @@ def test_spring_sums_match_the_decision_5_invariant(
     assert report.spring_sums_mn_per_m["RESS_AV_MARNE"] == pytest.approx(
         80.0 * 11.36 * 8.00
     )
-    assert report.n_spring_classes == 48
+    # 48 classes de bande + 12 classes communes (nœuds partagés, lot 34)
+    assert report.n_spring_classes == 60
 
 
 def test_impr_resu_carries_cara_elem_for_every_result(

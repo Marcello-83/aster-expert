@@ -80,6 +80,7 @@ execution:
     # Vérification de la méthode d'extraction de l'effort dans un ressort
     # DIS_T (lot 33, étape 3), cas isolé à réponse analytique connue.
     - data/examples/lot33_equilibre
+    - data/examples/lot34_equilibre
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

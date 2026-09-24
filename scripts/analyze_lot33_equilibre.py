@@ -295,7 +295,10 @@ def main(argv: list[str] | None = None) -> int:
     sys.path.insert(0, str(ROOT / "src"))
     from aster_expert.agent.model_data import load_model_data  # noqa: PLC0415
     from aster_expert.execution.docker_client import find_docker_binary  # noqa: PLC0415
-    from aster_expert.generation.springs import build_spring_classes  # noqa: PLC0415
+    from aster_expert.generation.springs import (  # noqa: PLC0415
+        COMBINED_BAND,
+        build_spring_classes,
+    )
     from aster_expert.meshing.check import check_med  # noqa: PLC0415
     from aster_expert.meshing.combiwall import build_params  # noqa: PLC0415
     from aster_expert.meshing.config import load_mesh_config  # noqa: PLC0415
@@ -316,7 +319,7 @@ def main(argv: list[str] | None = None) -> int:
         "RESS_AV_ARGI": float(data.items()["sol.k_h_argile_marneuse_raide"].value),
         "RESS_AV_MARNE": float(data.items()["sol.k_h_marne_compacte"].value),
     }
-    classes = build_spring_classes(params, k_h)
+    classes = [c for c in build_spring_classes(params, k_h) if c.band != COMBINED_BAND]
 
     config = load_mesh_config(ROOT / "config" / "validation.yaml")
     digest, _ = resolve_digest_for_version(
@@ -337,6 +340,7 @@ def main(argv: list[str] | None = None) -> int:
         (Path(report.work_dir) / "dump.json").read_text(encoding="utf-8")
     )
 
+    from aster_expert.generation.profiles import layered_profile  # noqa: PLC0415
     from aster_expert.generation.values import ModelValues  # noqa: PLC0415
 
     mv = ModelValues(data)
@@ -346,7 +350,9 @@ def main(argv: list[str] | None = None) -> int:
     ) -> list[tuple[float, float]]:
         points = mv.profile_si(name)
         if component is not None:
-            points = [p for p in points if p[3] == component]
+            # Par couche (lot 34) : trier des paires (z, p) permute les deux
+            # points d'une interface et crée des rampes fictives entre couches.
+            return layered_profile(points, component)
         return sorted((z, p) for z, p, _, _ in points)
 
     profiles = {

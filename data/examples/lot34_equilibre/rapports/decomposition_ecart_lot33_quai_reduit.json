@@ -1,0 +1,42 @@
+[
+  {
+    "case": "G",
+    "applied_lot33_n": -5604228.000000012,
+    "gap_lot33_style_n": -36088.38203320932,
+    "gap_rel": 0.006439492117952595,
+    "contrib_tri_n": 6759.999988347292,
+    "contrib_regle_nodale_n": -6649.748208359815,
+    "contrib_table_combinee_n": -52370.22478739999,
+    "contrib_ressorts_partages_n": 16171.59097420331
+  },
+  {
+    "case": "Q1",
+    "applied_lot33_n": -1809135.9999999981,
+    "gap_lot33_style_n": 34940.48125830758,
+    "gap_rel": -0.019313352483344325,
+    "contrib_tri_n": 28079.99999999837,
+    "contrib_regle_nodale_n": -427.74999999650754,
+    "contrib_table_combinee_n": 3894.050962899986,
+    "contrib_ressorts_partages_n": 3394.1802954056766
+  },
+  {
+    "case": "EAU_P",
+    "applied_lot33_n": -1842300.0000000445,
+    "gap_lot33_style_n": -31193.288508141413,
+    "gap_rel": 0.016931709552266548,
+    "contrib_tri_n": 0.0,
+    "contrib_regle_nodale_n": -4.44706529378891e-08,
+    "contrib_table_combinee_n": -34528.466720999975,
+    "contrib_ressorts_partages_n": 3335.178212903207
+  },
+  {
+    "case": "EAU_A",
+    "applied_lot33_n": -4298699.999999995,
+    "gap_lot33_style_n": -71111.54025380593,
+    "gap_rel": 0.016542568742597998,
+    "contrib_tri_n": 0.0,
+    "contrib_regle_nodale_n": 4.6566128730773926e-09,
+    "contrib_table_combinee_n": -78907.2885279,
+    "contrib_ressorts_partages_n": 7795.748274089303
+  }
+]

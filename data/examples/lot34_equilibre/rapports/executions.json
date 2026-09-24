@@ -1,0 +1,154 @@
+{
+  "n_runs_reduced_quai": 15,
+  "budget_reduced_quai": 20,
+  "cumulative_reduced_s": 1144.9,
+  "n_runs_full_model": 1,
+  "full_model_s": 208.3,
+  "cumulative_total_s": 1353.2,
+  "runs": [
+    {
+      "run": "20260924T150718-bcf3d1a5",
+      "comm": "sonde_blocage_total.comm",
+      "comm_sha256": "11033038ca0d16b49663b276a61db1b045fac2e2a802527a86ca8df57cc04287",
+      "status": "completed_ok",
+      "duration_s": 97.9,
+      "model": "quai réduit",
+      "note": "Étape 1, sonde : tous les ddl bloqués, application unique, tables à 6 chiffres (E12.5)"
+    },
+    {
+      "run": "20260924T151118-48cf559a",
+      "comm": "sonde_pression_tubes.comm",
+      "comm_sha256": "9e2374b29246e54b3e78a7636900a041f708db95af38d3e1a094de09845ea0b5",
+      "status": "completed_ok",
+      "duration_s": 107.5,
+      "model": "quai réduit",
+      "note": "Localisation : pression sur les tubes seuls"
+    },
+    {
+      "run": "20260924T151306-8364f73d",
+      "comm": "sonde_pression_palplanches.comm",
+      "comm_sha256": "e49a05a708874cdcd7d76f1707025fb7e4baf8f75561742579f1f6e142f0875b",
+      "status": "completed_ok",
+      "duration_s": 100.3,
+      "model": "quai réduit",
+      "note": "Localisation : pression sur les palplanches seules"
+    },
+    {
+      "run": "20260924T151447-7d8347d4",
+      "comm": "sonde_pression_aucune.comm",
+      "comm_sha256": "5e9a74d6c11085544f82d503154e5d9f46284071672f954a1833c322e9bdc686",
+      "status": "completed_ok",
+      "duration_s": 91.1,
+      "model": "quai réduit",
+      "note": "Localisation : poutre et poids seuls"
+    },
+    {
+      "run": "20260924T151629-51d45446",
+      "comm": "sonde_pression_tubes_nodal.comm",
+      "comm_sha256": "b268ae9b754af5fc269d00f62a4a8cdc737dcf5646e9dfb5e02a24ec9331293e",
+      "status": "completed_ok",
+      "duration_s": 100.4,
+      "model": "quai réduit",
+      "note": "Localisation : REAC_NODA nœud par nœud, tubes seuls"
+    },
+    {
+      "run": "20260924T152209-9e61e72a",
+      "comm": "sonde_pression_palplanches_nodal.comm",
+      "comm_sha256": "ac62c10e6250c31081c7aad26637a418cdd96f337824b90c510fdd39be63d224",
+      "status": "completed_ok",
+      "duration_s": 109.6,
+      "model": "quai réduit",
+      "note": "Localisation : REAC_NODA nœud par nœud, palplanches seules (règle nodale établie)"
+    },
+    {
+      "run": "20260924T152835-7443735d",
+      "comm": "quai_reduit_controles.comm",
+      "comm_sha256": "826199811c3773f5606615afdd1b6c952aeb7db5a7c5bfcc55e5da09d66919ec",
+      "status": "completed_ok",
+      "duration_s": 61.1,
+      "model": "quai réduit",
+      "note": "Étape 2 : production réduite, réactions par groupe ; intitulés tronqués à 16 caractères (ambigus)"
+    },
+    {
+      "run": "20260924T152937-a4da70cf",
+      "comm": "sonde_blocage_total.comm",
+      "comm_sha256": "8a7dbf6d8a465c3d1577ce9e38fdb1d5c24afa7e83f7f0db486ebc8bb6602fa1",
+      "status": "completed_ok",
+      "duration_s": 102.1,
+      "model": "quai réduit",
+      "note": "Étape 1 : sonde, tables à 12 chiffres, application unique de la fonction doublée"
+    },
+    {
+      "run": "20260924T153254-726c58d9",
+      "comm": "quai_reduit_controles.comm",
+      "comm_sha256": "9ada8a2dbb739df78c5ec746a19eb4947436ec496526b5a61d26f7cae4108ded",
+      "status": "completed_ok",
+      "duration_s": 55.9,
+      "model": "quai réduit",
+      "note": "Étape 2 : production réduite, intitulés courts ; bilan : ressorts non fermés (7,8 kN en Y)"
+    },
+    {
+      "run": "20260924T153701-fcac67f2",
+      "comm": "quai_reduit_forces_ressorts.comm",
+      "comm_sha256": "646598c7855046e5a0335dcbb47f748a509a8532704db29228dfc1a40c927a0a",
+      "status": "completed_ok",
+      "duration_s": 59.5,
+      "model": "quai réduit",
+      "note": "Étape 2 : FORC_NODA restreint aux POI1 ; 43 nœuds à raideur partielle établis"
+    },
+    {
+      "run": "20260924T154200-f7ec9180",
+      "comm": "quai_reduit_forces_ressorts.comm",
+      "comm_sha256": "97ce90bec429e780dcc2f4e5ce23f7fefb33aeccf2570e08ca0d743dc63d00c8",
+      "status": "completed_ok",
+      "duration_s": 59.5,
+      "model": "quai réduit",
+      "note": "Étape 2 : classes communes de ressorts ; 0 nœud en écart"
+    },
+    {
+      "run": "20260924T155517-5d41bb8c",
+      "comm": "quai_reduit_forces_ressorts.comm",
+      "comm_sha256": "9c9d8f5ee1e9eb00ea8b2b20697705f8e79184c1a481b2a4d2d93cfd1dde1fac",
+      "status": "failed",
+      "duration_s": 19.9,
+      "model": "quai réduit",
+      "note": "Charge par couche avec VERI_NORM par défaut : <F> <MESH3_99> (groupe de bord non connexe)"
+    },
+    {
+      "run": "20260924T155538-bc2079e8",
+      "comm": "sonde_blocage_total.comm",
+      "comm_sha256": "285a32e3c828e8de8d937ccc190d7405e411d93976558c7b2e16f228d5fd8f0d",
+      "status": "failed",
+      "duration_s": 19.3,
+      "model": "quai réduit",
+      "note": "Sonde par couche avec VERI_NORM par défaut : <F> <MESH3_99>"
+    },
+    {
+      "run": "20260924T155720-2ddc3a8c",
+      "comm": "quai_reduit_forces_ressorts.comm",
+      "comm_sha256": "21e9a689f7943fb94c4bede37689497796fccb5c086462967f649e93cfea4bad",
+      "status": "completed_ok",
+      "duration_s": 65.2,
+      "model": "quai réduit",
+      "note": "Modèle corrigé (charge par couche, classes communes) : bilan fermé en X, Y, Z"
+    },
+    {
+      "run": "20260924T155826-b6368ff9",
+      "comm": "sonde_blocage_total.comm",
+      "comm_sha256": "0c2754ddbcbccfb0c3f3f30495066dc698ce3de30c22bb858bda4fd6b66a84d3",
+      "status": "completed_ok",
+      "duration_s": 95.6,
+      "model": "quai réduit",
+      "note": "Sonde du modèle corrigé : charge assemblée = profil spécifié (2e-12)"
+    },
+    {
+      "run": "20260924T160321-dca7bfa8",
+      "comm": "quai_combiwall.comm",
+      "comm_sha256": "4859aa5d3ae99af792037d580699e932da16748ebe2c61131fca22ea73d52c96",
+      "status": "completed_ok",
+      "duration_s": 208.3,
+      "model": "complet",
+      "note": "Modèle complet, exécution unique : niveau C, aucune alarme, aucun <F>"
+    }
+  ]
+}

@@ -28,6 +28,10 @@ GROUP_PREFIX = "GEN_"
 
 _INVARIANT_TOL = 1e-9
 
+COMBINED_BAND = "COMMUN"
+"""`band` des classes ajoutées pour les nœuds partagés par deux bandes (lot 34) :
+ce ne sont pas des bandes du sol, aucune somme de bande ne les compte."""
+
 
 class SpringClass(BaseModel):
     """One class of nodes sharing the identical spring stiffness."""
@@ -39,6 +43,9 @@ class SpringClass(BaseModel):
     stiffness_mn_per_m: float
     """Nodal stiffness, in the band's own native unit (MN/m: MN/m3 x m^2)."""
     nodes: tuple[Point3D, ...]
+    parents: tuple[str, ...] = ()
+    """Classes `COMBINED_BAND` seulement : les noms de groupe des deux classes de
+    bande dont ce groupe est l'intersection."""
 
     @property
     def stiffness_n_per_m(self) -> float:
@@ -82,7 +89,71 @@ def build_spring_classes(
                     nodes=points,
                 )
             )
-    return classes
+    return [*classes, *_combined_classes(classes)]
+
+
+def _combined_classes(classes: list[SpringClass]) -> list[SpringClass]:
+    """Une classe `COMBINED_BAND` par paire de classes de deux bandes différentes
+    qui partagent des nœuds (limite de bande) : raideur = somme des deux.
+
+    `CREA_POI1` ne crée qu'**une** maille ponctuelle par nœud (2651 mailles pour
+    2694 couples classe/nœud sur le quai réduit, lot 34) : sur un nœud partagé,
+    la seconde occurrence de `DISCRET` écrase la première (règle de surcharge,
+    U4.42.01/U1.03.00) et la raideur d'une des deux bandes est perdue. Cette
+    classe, écrite après les classes de bande, porte la somme -- ce que deux
+    ressorts en parallèle donnent (point 4)."""
+    combined: list[SpringClass] = []
+    for i, a in enumerate(classes):
+        for b in classes[i + 1 :]:
+            if a.band == b.band:
+                continue
+            shared = sorted(set(a.nodes) & set(b.nodes))
+            if not shared:
+                continue
+            combined.append(
+                SpringClass(
+                    band=COMBINED_BAND,
+                    group_name=f"{GROUP_PREFIX}RESS_COMM_{len(combined) + 1:02d}",
+                    stiffness_mn_per_m=a.stiffness_mn_per_m + b.stiffness_mn_per_m,
+                    nodes=tuple(shared),
+                    parents=(a.group_name, b.group_name),
+                )
+            )
+    return combined
+
+
+def check_spring_coverage(classes: list[SpringClass]) -> None:
+    """Chaque nœud de ressort est porté par exactement une raideur effective : un
+    nœud qui n'est dans qu'une classe de bande garde la sienne ; un nœud dans
+    deux classes de bande doit être dans une classe `COMBINED_BAND` (écrite
+    après) de raideur égale à leur somme, et dans une seule."""
+    band_classes = [c for c in classes if c.band != COMBINED_BAND]
+    combined = [c for c in classes if c.band == COMBINED_BAND]
+    stiffness: dict[Point3D, list[float]] = {}
+    for c in band_classes:
+        for node in c.nodes:
+            stiffness.setdefault(node, []).append(c.stiffness_mn_per_m)
+    seen: dict[Point3D, float] = {}
+    for c in combined:
+        for node in c.nodes:
+            if node in seen:
+                message = f"nœud de ressort dans deux classes communes : {node}"
+                raise GenerationError(message)
+            seen[node] = c.stiffness_mn_per_m
+    for node, values in stiffness.items():
+        if len(values) == 1:
+            if node in seen:
+                message = f"classe commune sur un nœud d'une seule bande : {node}"
+                raise GenerationError(message)
+            continue
+        expected = sum(values)
+        if node not in seen or abs(seen[node] - expected) > _INVARIANT_TOL:
+            message = (
+                f"nœud de ressort partagé par {len(values)} classes sans raideur "
+                f"commune égale à leur somme ({expected} MN/m) : {node} -- la "
+                f"dernière occurrence de DISCRET écraserait les autres"
+            )
+            raise GenerationError(message)
 
 
 def check_spring_sum(
@@ -110,8 +181,10 @@ def check_spring_sum(
 
 
 __all__ = [
+    "COMBINED_BAND",
     "GROUP_PREFIX",
     "SpringClass",
     "build_spring_classes",
+    "check_spring_coverage",
     "check_spring_sum",
 ]

@@ -12,7 +12,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict
 
@@ -20,9 +20,11 @@ from aster_expert.agent.hypotheses import CodeAsterHypothesisEntry, HypothesesSh
 from aster_expert.agent.model_data import load_model_data
 from aster_expert.generation import comm
 from aster_expert.generation.errors import GenerationError
+from aster_expert.generation.profiles import layer_profiles
 from aster_expert.generation.springs import (
     SpringClass,
     build_spring_classes,
+    check_spring_coverage,
     check_spring_sum,
 )
 from aster_expert.generation.values import ModelValues
@@ -95,30 +97,17 @@ def _normal_reference_point(params: dict[str, Any]) -> tuple[float, float, float
     return (central_axis, tube["rayon"], tube["cotes"][-1])
 
 
-def _ascending_component(
-    mv: ModelValues, name: str, component: str
-) -> list[tuple[float, float]]:
-    from aster_expert.generation.profiles import (  # noqa: PLC0415
-        component_profile,
-        doubled_profile,
-    )
-
-    points = mv.profile_si(name)
-    comp = component_profile(points, component)
-    return doubled_profile(list(reversed(comp)))
-
-
 def _sorted_points(
     mv: ModelValues, name: str, component: str
 ) -> list[tuple[float, float]]:
-    """Ascending `(z, p)` pairs of one component, never doubled at an
-    interface -- the raw profile, for `aster_expert.generation.profiles.
-    integrate_profile` (décision 13, lot 33, étape 2), unlike `_ascending_
-    component`'s own doubled form (`formule_block`'s own `DEFI_FONCTION`)."""
-    from aster_expert.generation.profiles import component_profile  # noqa: PLC0415
+    """Ascending `(z, p)` pairs of one component, built layer by layer
+    (`aster_expert.generation.profiles.layered_profile`) -- never a sort of
+    `(z, p)` pairs, which swaps the two points of an interface whose upper
+    layer is the less loaded (lot 34). For `profiles.integrate_profile`
+    (décision 13, lot 33, étape 2)."""
+    from aster_expert.generation.profiles import layered_profile  # noqa: PLC0415
 
-    points = component_profile(mv.profile_si(name), component)
-    return sorted((z, p) for z, p, _, _ in points)
+    return layered_profile(mv.profile_si(name), component)
 
 
 def _tributary_lengths(axes: list[float]) -> list[float]:
@@ -281,6 +270,36 @@ class JunctionCandidate(BaseModel):
     poutre)."""
 
 
+class EquilibriumProbe(BaseModel):
+    """Lot 34, étape 1 : sonde de la charge assemblée par Code_Aster.
+    **Outil de diagnostic uniquement** : `blocage_total` à `True` produit un
+    `.comm` où tous les degrés de liberté de tous les nœuds sont bloqués, sans
+    `LIAISON_SOLIDE`, sans ressort lu ni symétrie ; `REAC_NODA` sommé sur tous
+    les nœuds donne alors la charge assemblée (`comm.assembled_load_block`).
+    Ne représente plus le modèle du quai. Par défaut (`False`), le `.comm`
+    produit est strictement celui de la production -- les tests de régression
+    le vérifient octet pour octet."""
+
+    model_config = ConfigDict(frozen=True)
+
+    blocage_total: bool = False
+
+    pression_sur: Literal["ecran", "tubes", "palplanches", "aucune"] = "ecran"
+    """Étape 1 (localisation d'un écart) : où porte la pression de poussée
+    (`ecran` : `ECRAN_POUSSEE`, production ; `tubes` : `ECRAN_POUSSEE` moins
+    `PALPS` ; `palplanches` : `PALPS` seul ; `aucune` : charge de poutre et
+    poids seuls). Sans effet hors `blocage_total`."""
+
+    extraction_nodale: bool = False
+    """Ajoute la table `REAC_NODA` nœud par nœud (DY, DZ) à chaque cas, pour
+    localiser un écart. Sans effet hors `blocage_total`."""
+
+    forces_ressorts: bool = False
+    """Modèle de production seulement (`blocage_total` faux) : ajoute la force
+    des ressorts telle que Code_Aster la calcule (`FORC_NODA` restreint aux
+    `POI1`, `comm.spring_force_block`) pour la comparer à k * DY."""
+
+
 def generate_comm(
     *,
     fiche_path: Path,
@@ -292,8 +311,12 @@ def generate_comm(
     diagnostic: DiagnosticOmissions | None = None,
     junction: JunctionCandidate | None = None,
     solver: SolverDiagnostics | None = None,
+    probe: EquilibriumProbe | None = None,
 ) -> tuple[str, GenerationReport]:
     omit = diagnostic or DiagnosticOmissions()
+    probe_cfg = probe or EquilibriumProbe()
+    probing = probe_cfg.blocage_total
+    pressure_on = probe_cfg.pression_sur if probing else "ecran"
     junc = junction or JunctionCandidate()
     slv = solver or SolverDiagnostics()
     if not fiche_path.is_file():
@@ -372,6 +395,7 @@ def generate_comm(
         spring_classes: list[SpringClass] = []
     else:
         spring_classes = build_spring_classes(params, k_h)
+        check_spring_coverage(spring_classes)
         for band_name in ("RESS_AV_ARGI", "RESS_AV_MARNE"):
             band = params["bandes"][band_name]
             check_spring_sum(
@@ -383,12 +407,14 @@ def generate_comm(
             )
     spring_group_names = [c.group_name for c in spring_classes]
 
-    g_profile = _ascending_component(
-        mv, "eau_terres.profil_poussee_terres_permanent", "G"
-    )
-    q1_profile = _ascending_component(
-        mv, "eau_terres.profil_poussee_terres_permanent", "Q1"
-    )
+    earth_points = mv.profile_si("eau_terres.profil_poussee_terres_permanent")
+    g_layers = layer_profiles(earth_points, "G")
+    q1_layers = layer_profiles(earth_points, "Q1")
+    if [(x.name, x.z_low, x.z_high) for x in g_layers] != [
+        (x.name, x.z_low, x.z_high) for x in q1_layers
+    ]:
+        message = "les composantes G et Q1 de la poussée n'ont pas les mêmes couches"
+        raise GenerationError(message)
     eau_p_points = mv.profile_si("eau_terres.profil_pression_eau_permanent")
     eau_a_points = mv.profile_si("eau_terres.profil_pression_eau_accidentel")
     eau_p_profile = [(z, p) for z, p, _, _ in sorted(eau_p_points)]
@@ -407,8 +433,13 @@ def generate_comm(
     accostage_fy = accostage_effort / defense_area
 
     poussee_group_ma = (
-        comm.ECRAN_POUSSEE_TUBES_GROUP if omit.sans_palplanches else "ECRAN_POUSSEE"
+        comm.ECRAN_POUSSEE_TUBES_GROUP
+        if omit.sans_palplanches or pressure_on == "tubes"
+        else "PALPS"
+        if pressure_on == "palplanches"
+        else "ECRAN_POUSSEE"
     )
+    pressure_veri_norm = not omit.sans_palplanches and pressure_on == "ecran"
 
     poutre_pressure_charges = (
         {}
@@ -435,11 +466,28 @@ def generate_comm(
     )
     junction_charge = (
         ""
-        if omit.sans_poutre
+        if omit.sans_poutre or probing
         else comm.junction_charge_block(
             junc.method, beam_group_names, ring_points, beam_points
         )
     )
+
+    def _controls(name: str, **kwargs: Any) -> str:
+        if probing:
+            return comm.assembled_load_block(name, nodal=probe_cfg.extraction_nodale)
+        return comm.controls_block(
+            name,
+            spring_group_names,
+            sans_tirants=omit.sans_tirants,
+            spring_force_check=probe_cfg.forces_ressorts,
+            **kwargs,
+        )
+
+    def _press(concept: str) -> list[str]:
+        return [] if pressure_on == "aucune" else [concept]
+
+    def _order(name: str) -> str:
+        return "" if probing else comm.order_of_magnitude_block(name, beam_group_names)
 
     text_parts = [
         comm.header(
@@ -461,7 +509,13 @@ def generate_comm(
             junction_method=junc.method,
             ring_points=ring_points,
         ),
-        comm.ecran_poussee_tubes_group_block() if omit.sans_palplanches else "",
+        comm.six_dof_group_block() if probing else "",
+        (
+            comm.ecran_poussee_tubes_group_block()
+            if omit.sans_palplanches or pressure_on == "tubes"
+            else ""
+        ),
+        comm.pressure_layer_groups_block(g_layers, poussee_group_ma=poussee_group_ma),
         comm.model_and_cara_block(
             mv,
             spring_classes,
@@ -477,43 +531,37 @@ def generate_comm(
             sans_poutre=omit.sans_poutre,
         ),
         junction_charge,
-        comm.symmetry_and_support_block(
-            sans_tirants=omit.sans_tirants,
-            split_ring_rotation=junc.method == "liaison_solide",
+        (
+            comm.full_block_charge_block()
+            if probing
+            else comm.symmetry_and_support_block(
+                sans_tirants=omit.sans_tirants,
+                split_ring_rotation=junc.method == "liaison_solide",
+            )
         ),
-        comm.formule_block("F_G", g_profile),
-        comm.formule_block("F_Q1", q1_profile),
+        comm.layer_pressure_functions_block("G", g_layers),
+        comm.layer_pressure_functions_block("Q1", q1_layers),
         comm.formule_block("F_EAU_P", eau_p_profile),
         comm.formule_block("F_EAU_A", eau_a_profile),
-        comm.pressure_load_block(
-            "CH_G_POUSSEE",
-            "F_G",
-            group_ma=poussee_group_ma,
-            veri_norm=not omit.sans_palplanches,
-        ),
+        comm.layered_pressure_load_block("CH_G_POUSSEE", "G", g_layers),
         comm.pesanteur_block(
             "CH_G_POIDS",
             g_accel,
             sans_tirants=omit.sans_tirants,
             sans_palplanches=omit.sans_palplanches,
         ),
-        comm.pressure_load_block(
-            "CH_Q1",
-            "F_Q1",
-            group_ma=poussee_group_ma,
-            veri_norm=not omit.sans_palplanches,
-        ),
+        comm.layered_pressure_load_block("CH_Q1", "Q1", q1_layers),
         comm.pressure_load_block(
             "CH_EAU_P",
             "F_EAU_P",
             group_ma=poussee_group_ma,
-            veri_norm=not omit.sans_palplanches,
+            veri_norm=pressure_veri_norm,
         ),
         comm.pressure_load_block(
             "CH_EAU_A",
             "F_EAU_A",
             group_ma=poussee_group_ma,
-            veri_norm=not omit.sans_palplanches,
+            veri_norm=pressure_veri_norm,
         ),
         (
             ""
@@ -530,61 +578,45 @@ def generate_comm(
         comm.case_block(
             "G",
             extra_charges=[
-                "CH_G_POUSSEE",
+                *_press("CH_G_POUSSEE"),
                 "CH_G_POIDS",
                 *(["CH_G_POUTRE"] if "G" in poutre_pressure_charges else []),
             ],
-            sans_poutre=omit.sans_poutre,
+            sans_poutre=omit.sans_poutre or probing,
             resi_rela=slv.resi_rela,
         ),
-        comm.controls_block(
-            "G",
-            spring_group_names,
-            sans_tirants=omit.sans_tirants,
-        ),
-        comm.order_of_magnitude_block("G", beam_group_names),
+        _controls("G"),
+        _order("G"),
         comm.case_block(
             "EAU_P",
             extra_charges=[
-                "CH_EAU_P",
+                *_press("CH_EAU_P"),
                 *(["CH_EAU_P_POUTRE"] if "EAU_P" in poutre_pressure_charges else []),
             ],
-            sans_poutre=omit.sans_poutre,
+            sans_poutre=omit.sans_poutre or probing,
             resi_rela=slv.resi_rela,
         ),
-        comm.controls_block(
-            "EAU_P",
-            spring_group_names,
-            sans_tirants=omit.sans_tirants,
-        ),
+        _controls("EAU_P"),
         comm.case_block(
             "EAU_A",
             extra_charges=[
-                "CH_EAU_A",
+                *_press("CH_EAU_A"),
                 *(["CH_EAU_A_POUTRE"] if "EAU_A" in poutre_pressure_charges else []),
             ],
-            sans_poutre=omit.sans_poutre,
+            sans_poutre=omit.sans_poutre or probing,
             resi_rela=slv.resi_rela,
         ),
-        comm.controls_block(
-            "EAU_A",
-            spring_group_names,
-            sans_tirants=omit.sans_tirants,
-        ),
+        _controls("EAU_A"),
         comm.case_block(
             "Q1",
             extra_charges=[
-                "CH_Q1",
+                *_press("CH_Q1"),
                 *(["CH_Q1_POUTRE"] if "Q1" in poutre_pressure_charges else []),
             ],
-            sans_poutre=omit.sans_poutre,
+            sans_poutre=omit.sans_poutre or probing,
             resi_rela=slv.resi_rela,
         ),
-        comm.controls_block(
-            "Q1",
-            spring_group_names,
-            sans_tirants=omit.sans_tirants,
-        ),
+        _controls("Q1"),
         *(
             []
             if omit.sans_poutre
@@ -592,35 +624,30 @@ def generate_comm(
                 comm.case_block(
                     "Q3",
                     extra_charges=["CH_Q3"],
-                    sans_poutre=omit.sans_poutre,
+                    sans_poutre=omit.sans_poutre or probing,
                     resi_rela=slv.resi_rela,
                 ),
-                comm.controls_block(
-                    "Q3",
-                    spring_group_names,
-                    reaction_components=("DY", "DZ"),
-                    sans_tirants=omit.sans_tirants,
-                ),
-                comm.order_of_magnitude_block("Q3", beam_group_names),
+                _controls("Q3"),
+                _order("Q3"),
             ]
         ),
         comm.case_block(
             "A",
             extra_charges=["CH_A"],
-            sans_poutre=omit.sans_poutre,
+            sans_poutre=omit.sans_poutre or probing,
             resi_rela=slv.resi_rela,
         ),
-        comm.controls_block(
-            "A",
-            spring_group_names,
-            sans_tirants=omit.sans_tirants,
-        ),
-        comm.footer(
-            [
-                n
-                for n in ("G", "EAU_P", "EAU_A", "Q1", "Q3", "A")
-                if n != "Q3" or not omit.sans_poutre
-            ]
+        _controls("A"),
+        (
+            "\nFIN()\n"
+            if probing
+            else comm.footer(
+                [
+                    n
+                    for n in ("G", "EAU_P", "EAU_A", "Q1", "Q3", "A")
+                    if n != "Q3" or not omit.sans_poutre
+                ]
+            )
         ),
     ]
     text = "".join(text_parts)
@@ -650,6 +677,7 @@ def generate_comm(
 
 __all__ = [
     "DiagnosticOmissions",
+    "EquilibriumProbe",
     "GenerationReport",
     "JunctionCandidate",
     "SolverDiagnostics",

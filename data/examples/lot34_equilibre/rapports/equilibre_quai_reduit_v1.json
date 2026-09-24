@@ -1,0 +1,301 @@
+{
+  "cases": {
+    "EAU_A": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": -1.1620215900620678e-10,
+          "applied_specified_n": -1.1459633242338896e-10,
+          "balance_n": -1.0005701153248097e-07,
+          "reactions_blocked_n": -9.994080937347476e-08,
+          "reactions_free_components_n": 7.480593922082e-10,
+          "reactions_free_components_relative": 1.7401991118435825e-16,
+          "relative_gap": -2.327610941272503e-14,
+          "relative_gap_vs_specified": -2.327573585174547e-14,
+          "springs_on_structure_n": 0.0
+        },
+        "DY": {
+          "applied_as_evaluated_n": -4298699.999999995,
+          "applied_specified_n": -4298699.999999995,
+          "balance_n": 7795.7482740939595,
+          "reactions_blocked_n": 979091.7006272,
+          "reactions_free_components_n": 530716.3496878024,
+          "reactions_free_components_relative": 0.1234597319393777,
+          "relative_gap": 0.001813512986273517,
+          "relative_gap_vs_specified": 0.001813512986273517,
+          "springs_on_structure_n": 3327404.0476468895
+        },
+        "DZ": {
+          "applied_as_evaluated_n": 3.5978811073230254e-12,
+          "applied_specified_n": 3.5978811073230124e-12,
+          "balance_n": -3.6999663680834485e-06,
+          "reactions_blocked_n": -3.6999699659645557e-06,
+          "reactions_free_components_n": -523753.0933064,
+          "reactions_free_components_relative": -0.12183988026761593,
+          "relative_gap": -8.607175118253083e-13,
+          "relative_gap_vs_specified": -8.607175118253083e-13,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reaction_sum_all_nodes_n": {
+        "DX": -1.564384145222e-09,
+        "DY": 979091.7004831,
+        "DZ": -1.789885573089e-09
+      },
+      "reactions_by_group_n": {
+        "ANCRAGES": {
+          "DX": 5.995207586224e-11,
+          "DY": 979091.7006272,
+          "DZ": -356288.3838959
+        },
+        "PIED_TUBES": {
+          "DX": 7.480593922082e-10,
+          "DY": 2.350919459104e-09,
+          "DZ": 356288.3838922
+        },
+        "SYM_D": {
+          "DX": 168871.7172844,
+          "DY": 265358.1748177,
+          "DZ": -261876.5466525
+        },
+        "SYM_G": {
+          "DX": -168871.7172845,
+          "DY": 265358.1748701,
+          "DZ": -261876.5466539
+        },
+        "TOUS": {
+          "DX": -1.564384145222e-09,
+          "DY": 979091.7004831,
+          "DZ": -1.789885573089e-09
+        }
+      },
+      "springs_k_dy_by_band_n": {
+        "RESS_AV_ARGI": -2856829.4454725278,
+        "RESS_AV_MARNE": -470574.60217436193
+      },
+      "verdict": "\u00c9CHEC"
+    },
+    "EAU_P": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": -3.4923175462608924e-11,
+          "applied_specified_n": -3.488054289846332e-11,
+          "balance_n": 2.5998969170394296e-07,
+          "reactions_blocked_n": 2.6002461487940557e-07,
+          "reactions_free_components_n": -1.179785158456e-09,
+          "reactions_free_components_relative": -6.403871022395764e-16,
+          "relative_gap": 1.411223425630661e-13,
+          "relative_gap_vs_specified": 1.4112236570401174e-13,
+          "springs_on_structure_n": 0.0
+        },
+        "DY": {
+          "applied_as_evaluated_n": -1842300.0000000445,
+          "applied_specified_n": -1842300.0000000445,
+          "balance_n": 3335.1782128587365,
+          "reactions_blocked_n": 417189.5797681,
+          "reactions_free_components_n": 225231.2976412001,
+          "reactions_free_components_relative": 0.12225549456722286,
+          "relative_gap": 0.001810333937392746,
+          "relative_gap_vs_specified": 0.001810333937392746,
+          "springs_on_structure_n": 1428445.5984448032
+        },
+        "DZ": {
+          "applied_as_evaluated_n": 1.1124888663758444e-12,
+          "applied_specified_n": 1.1124888663758444e-12,
+          "balance_n": -2.999992627160787e-06,
+          "reactions_blocked_n": -2.9999937396496534e-06,
+          "reactions_free_components_n": -223173.9072906,
+          "reactions_free_components_relative": -0.12113874357628758,
+          "relative_gap": -1.6283952815289118e-12,
+          "relative_gap_vs_specified": -1.6283952815289118e-12,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reaction_sum_all_nodes_n": {
+        "DX": -1.025880119066e-09,
+        "DY": 417189.579782,
+        "DZ": -2.837623469532e-10
+      },
+      "reactions_by_group_n": {
+        "ANCRAGES": {
+          "DX": 2.554549417503e-11,
+          "DY": 417189.5797681,
+          "DZ": -151813.9731534
+        },
+        "PIED_TUBES": {
+          "DX": -1.179785158456e-09,
+          "DY": 1.152775652713e-10,
+          "DZ": 151813.9731504
+        },
+        "SYM_D": {
+          "DX": 69928.83232647,
+          "DY": 112615.6488162,
+          "DZ": -111586.953645
+        },
+        "SYM_G": {
+          "DX": -69928.83232621,
+          "DY": 112615.648825,
+          "DZ": -111586.9536456
+        },
+        "TOUS": {
+          "DX": -1.025880119066e-09,
+          "DY": 417189.579782,
+          "DZ": -2.837623469532e-10
+        }
+      },
+      "springs_k_dy_by_band_n": {
+        "RESS_AV_ARGI": -1227482.6304939403,
+        "RESS_AV_MARNE": -200962.9679508628
+      },
+      "verdict": "\u00c9CHEC"
+    },
+    "G": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 1.0248868420603685e-10,
+          "applied_specified_n": -5.84179815632524e-10,
+          "balance_n": -1.4998593330394184e-06,
+          "reactions_blocked_n": -1.4999618217236244e-06,
+          "reactions_free_components_n": 5.702077032765e-09,
+          "reactions_free_components_relative": 1.017439843313144e-15,
+          "relative_gap": -2.676246981636094e-13,
+          "relative_gap_vs_specified": -2.677472226203766e-13,
+          "springs_on_structure_n": 0.0
+        },
+        "DY": {
+          "applied_as_evaluated_n": -5604338.251780095,
+          "applied_specified_n": -5610987.999988359,
+          "balance_n": 16171.590974108316,
+          "reactions_blocked_n": 810029.7402516,
+          "reactions_free_components_n": 451988.5485302199,
+          "reactions_free_components_relative": 0.08064976242050624,
+          "relative_gap": 0.002885548703091175,
+          "relative_gap_vs_specified": 0.001699012860763551,
+          "springs_on_structure_n": 4810480.102502603
+        },
+        "DZ": {
+          "applied_as_evaluated_n": -799577.712881403,
+          "applied_specified_n": -799577.712881403,
+          "balance_n": -7.402966730296612e-06,
+          "reactions_blocked_n": 799577.7128740001,
+          "reactions_free_components_n": -192177.70382115,
+          "reactions_free_components_relative": -0.034290882382074096,
+          "relative_gap": -1.3209350324180063e-12,
+          "relative_gap_vs_specified": -1.3209350324180063e-12,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reaction_sum_all_nodes_n": {
+        "DX": -1.750375041462e-09,
+        "DY": 810029.7400846,
+        "DZ": 799577.7128815
+      },
+      "reactions_by_group_n": {
+        "ANCRAGES": {
+          "DX": 4.960001643066e-11,
+          "DY": 810029.7402516,
+          "DZ": -281493.948277
+        },
+        "PIED_TUBES": {
+          "DX": 5.702077032765e-09,
+          "DY": 1.985018505124e-08,
+          "DZ": 1081071.661151
+        },
+        "SYM_D": {
+          "DX": -196077.0504418,
+          "DY": 225994.2742538,
+          "DZ": -96088.85190911
+        },
+        "SYM_G": {
+          "DX": 196077.0504403,
+          "DY": 225994.2742764,
+          "DZ": -96088.85191204
+        },
+        "TOUS": {
+          "DX": -1.750375041462e-09,
+          "DY": 810029.7400846,
+          "DZ": 799577.7128815
+        }
+      },
+      "springs_k_dy_by_band_n": {
+        "RESS_AV_ARGI": -3793063.244313765,
+        "RESS_AV_MARNE": -1017416.8581888386
+      },
+      "verdict": "\u00c9CHEC"
+    },
+    "Q1": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": -2.6541044917394174e-09,
+          "applied_specified_n": -2.5777069367904915e-09,
+          "balance_n": -1.702607623331481e-06,
+          "reactions_blocked_n": -1.6999535188397417e-06,
+          "reactions_free_components_n": -4.168043687969e-10,
+          "reactions_free_components_relative": -2.269202063966279e-16,
+          "relative_gap": -9.269482333260163e-13,
+          "relative_gap_vs_specified": -9.269066403144382e-13,
+          "springs_on_structure_n": 0.0
+        },
+        "DY": {
+          "applied_as_evaluated_n": -1836788.2499999956,
+          "applied_specified_n": -1837215.9999999965,
+          "balance_n": 3394.1802954101004,
+          "reactions_blocked_n": 495195.3257334,
+          "reactions_free_components_n": 312223.47088099975,
+          "reactions_free_components_relative": 0.16998337771433397,
+          "relative_gap": 0.0018478887239234618,
+          "relative_gap_vs_specified": 0.0016150094031847037,
+          "springs_on_structure_n": 1344987.1045620057
+        },
+        "DZ": {
+          "applied_as_evaluated_n": 3.657107506318257e-12,
+          "applied_specified_n": 3.930946509058778e-12,
+          "balance_n": 7.000089872528653e-07,
+          "reactions_blocked_n": 7.00005330145359e-07,
+          "reactions_free_components_n": -265148.7486149,
+          "reactions_free_components_relative": -0.14435455399657562,
+          "relative_gap": 3.8110489178753567e-13,
+          "relative_gap_vs_specified": 3.811050408733123e-13,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reaction_sum_all_nodes_n": {
+        "DX": -4.298485997865e-10,
+        "DY": 495195.3257217,
+        "DZ": 7.348717190325e-10
+      },
+      "reactions_by_group_n": {
+        "ANCRAGES": {
+          "DX": 3.032196853061e-11,
+          "DY": 495195.3257334,
+          "DZ": -180200.0182468
+        },
+        "PIED_TUBES": {
+          "DX": -4.168043687969e-10,
+          "DY": -2.121476327943e-10,
+          "DZ": 180200.0182475
+        },
+        "SYM_D": {
+          "DX": 155567.9253692,
+          "DY": 156111.7354053,
+          "DZ": -132574.3743072
+        },
+        "SYM_G": {
+          "DX": -155567.9253709,
+          "DY": 156111.7354757,
+          "DZ": -132574.3743077
+        },
+        "TOUS": {
+          "DX": -4.298485997865e-10,
+          "DY": 495195.3257217,
+          "DZ": 7.348717190325e-10
+        }
+      },
+      "springs_k_dy_by_band_n": {
+        "RESS_AV_ARGI": -1153653.654702399,
+        "RESS_AV_MARNE": -191333.44985960683
+      },
+      "verdict": "\u00c9CHEC"
+    }
+  },
+  "threshold": 1e-06
+}
