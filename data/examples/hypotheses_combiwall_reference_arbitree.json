@@ -588,6 +588,12 @@
           "reason": "Cause établie à l'étape 1 (constat code_aster enregistré au même point 3) : LIAISON_SOLIDE, dans le cas 3DA (R3.03.02), dualise la rotation DRZ des nœuds d'anneau -- un degré de liberté à raideur fictive délibérément faible sous DKT (COEF_RIGI_DRZ, R3.07.03) -- exactement le cas pathologique décrit par R3.03.01 (« structure retenue par son dernier ddl physique », pivot nul quelle que soit la numérotation). Deux candidats alternatifs testés sur le quai réduit (LIAISON_DDL restreinte aux translations, un seul nœud d'anneau lié) échouent avec la même signature <F> <FACTOR_11>, cette fois sur le nœud de poutre du plan de symétrie plutôt que sur l'anneau : la cause touche plus largement toute relation dualisée combinée à une rotation déjà dualisée par la condition de symétrie, pas seulement LIAISON_SOLIDE. La décision retenue (maillage coïncident, liaison rigide directe par LIAISON_SOLIDE) n'est ni remplacée ni modifiée par ce lot -- aucune décision n'y est prise, conformément à ses instructions.",
           "by": "Claude (lot 31)",
           "at": "2026-09-24T07:45:00-04:00"
+        },
+        {
+          "kind": "lifted",
+          "reason": "Correction apportée à l'étape 1 : dans un ensemble de nœuds liés par LIAISON_SOLIDE, un degré de liberté que la relation détermine (translations ET rotations de l'anneau de tête, dérivées du nœud de poutre) n'est imposé directement que sur le nœud de poutre -- la correction du lot 31 n'excluait que les rotations (DRY, DRZ), insuffisante ; la généralisation aux translations (DX) supprime le pivot nul. Prouvé par exécution réelle sur le quai réduit (data/examples/lot32_cl/quai_reduit_regle_cl.comm, data/examples/lot32_cl/executions.json) : plus aucun <F> <FACTOR_11> sur les six cas de charge, seul un défaut déjà connu et sans rapport (collision de nom de champ MED, lot 31) arrête encore l'exécution. La décision retenue (maillage coïncident, liaison rigide directe par LIAISON_SOLIDE) n'est ni remplacée ni modifiée par cette levée : la cause touchait la construction des conditions aux limites autour de LIAISON_SOLIDE, pas le choix de méthode de jonction lui-même.",
+          "by": "Claude (lot 32)",
+          "at": "2026-09-24T09:00:00-04:00"
         }
       ]
     },

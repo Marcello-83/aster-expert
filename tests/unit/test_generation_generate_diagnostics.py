@@ -9,14 +9,11 @@ un MED synthétique suffit (`generate_comm` ne lit jamais son contenu)."""
 from __future__ import annotations
 
 import hashlib
-import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
 
-from aster_expert.agent.arbitration import lift_revision
-from aster_expert.agent.hypotheses import HypothesesSheet, PracticeHypothesisEntry
 from aster_expert.agent.model_data import load_model_data
 from aster_expert.generation.generate import (
     DiagnosticOmissions,
@@ -28,44 +25,8 @@ from aster_expert.meshing.combiwall import build_params
 from aster_expert.meshing.run import MeshRunReport, record_verified_mesh, sha256_file
 
 _ROOT = Path(__file__).resolve().parents[2]
-_REFERENCE_FICHE = (
-    _ROOT / "data" / "examples" / "hypotheses_combiwall_reference_arbitree.json"
-)
+_FICHE = _ROOT / "data" / "examples" / "hypotheses_combiwall_reference_arbitree.json"
 _DATA = _ROOT / "data" / "examples" / "combiwall_model_data.yaml"
-
-
-def _resolved_fiche_path() -> Path:
-    """The real fiche, with the point-3 junction revision (lot 31) lifted in
-    memory only -- never written back to the versioned file. This module
-    tests `DiagnosticOmissions`, a question independent of whether MM has
-    closed that revision; the versioned fiche itself stays a faithful,
-    blocked record."""
-    sheet = HypothesesSheet.model_validate_json(
-        _REFERENCE_FICHE.read_text(encoding="utf-8")
-    )
-    entries = list(sheet.entries)
-    for i, e in enumerate(entries):
-        if (
-            isinstance(e, PracticeHypothesisEntry)
-            and e.point_label == "3"
-            and e.under_revision
-        ):
-            entries[i] = lift_revision(
-                e,
-                reason="Levée locale, pour les seuls besoins de ce test (mécanique du "
-                "générateur, indépendante de la décision) -- jamais écrite dans la "
-                "fiche versionnée.",
-                lifted_by="tests/unit/test_generation_generate_diagnostics.py",
-                lifted_at=datetime.now(UTC),
-            )
-    resolved = sheet.model_copy(update={"entries": tuple(entries)})
-    directory = Path(tempfile.mkdtemp(prefix="aster-expert-resolved-fiche-"))
-    path = directory / "fiche_resolue.json"
-    path.write_text(resolved.model_dump_json(), encoding="utf-8")
-    return path
-
-
-_FICHE = _resolved_fiche_path()
 
 
 def _params_sha256() -> str:

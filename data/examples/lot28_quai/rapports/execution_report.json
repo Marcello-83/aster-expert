@@ -2,11 +2,11 @@
   "comm_path": "/home/ubuntu/projets/aster-expert/data/examples/lot28_quai/quai_combiwall.comm",
   "aster_version": "17.4.0",
   "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
-  "status": "failed",
-  "diag": "<F>_ERROR",
-  "return_code": 6,
-  "duration_s": 43.896395905999725,
+  "status": "completed_ok",
+  "diag": "OK",
+  "return_code": 0,
+  "duration_s": 147.94995589199243,
   "extracted_by": "run_aster.status",
-  "executed_at": "2026-09-23T12:26:24.268872Z",
-  "note": "Dernière exécution du .comm actuellement versionné (COEF_RIGI_DRZ=1e-3, symétrie scindée anneau/reste, RESI_RELA=1e-4). Répertoire d'exécution non versionné (data/processed/runs, .gitignore) : voir mess_case_g_extrait.txt pour l'extrait pertinent de fort.6."
+  "executed_at": "2026-09-24T08:26:49.624158Z",
+  "note": "Lot 32, étape 3 : première exécution du modèle complet à aboutir jusqu'à FIN (niveau C). Règle de construction des conditions aux limites de l'étape 1 (DX, DRY, DRZ retirés des nœuds d'anneau du plan de coupe, plus seulement DRY/DRZ comme au lot 31) + NOM_RESU_MED explicite par cas (corrige la collision de champ MED du lot 31). Aucune alarme, aucun <F> dans le fort.6. Répertoire d'exécution non versionné (data/processed/runs, .gitignore) : voir mess_case_complet_extrait.txt pour la fin du journal et controles_niveau_d_lot32.json pour les contrôles D extraits (résultantes ressorts/réactions, symétrie anneau 02/08 et ANC_01/09/BOLLARD, ordres de grandeur DY sous G et Q3). L'ancien mess_case_g_extrait.txt reste comme trace de l'échec <F> <FACTOR_11> corrigé par ce lot."
 }

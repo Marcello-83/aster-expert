@@ -62,6 +62,12 @@ always through the project's own write paths -- never by editing the JSON:
     coïncident...", decision 4) declared « en révision »
     (`declare_under_revision`, `lot31_enregistrement.json`) -- the decision
     itself is not touched, per this lot's own instructions.
+12. lot 32: the point-3 revision closed (`lift_revision`,
+    `lot32_enregistrement.json`) once the boundary-condition construction
+    rule (étape 1: no dof a `LIAISON_SOLIDE` relation determines is imposed
+    directly on more than one node of the tied set) removed the null pivot
+    on the reduced quay -- decision 4 itself is not changed, per this lot's
+    own instructions.
 
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
@@ -80,6 +86,7 @@ from aster_expert.agent.arbitration import (
     apply_decision,
     declare_under_revision,
     insert_practice_entry,
+    lift_revision,
     record_practice_decision,
 )
 from aster_expert.agent.drafting import (
@@ -897,6 +904,32 @@ def _lot31(sheet: HypothesesSheet) -> HypothesesSheet:
     return _lot31_revision(_lot31_facts(sheet))
 
 
+def _lot32(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Closes the point-3 revision `_lot31_revision` declared, citing the
+    étape 1 correction (`lot32_enregistrement.json`) -- decision 4 itself is
+    not touched, per this lot's own instructions."""
+    record = json.loads((INPUTS / "lot32_enregistrement.json").read_text("utf-8"))
+    r = record["revision"]
+    matches = [
+        i
+        for i, e in enumerate(sheet.entries)
+        if isinstance(e, PracticeHypothesisEntry)
+        and e.point_label == r["point_label"]
+        and e.topic == r["topic"]
+    ]
+    assert len(matches) == 1, r["topic"]
+    entries = list(sheet.entries)
+    target = entries[matches[0]]
+    assert isinstance(target, PracticeHypothesisEntry)
+    entries[matches[0]] = lift_revision(
+        target,
+        reason=r["reason"],
+        lifted_by=r["lifted_by"],
+        lifted_at=datetime.fromisoformat(r["lifted_at"]),
+    )
+    return sheet.model_copy(update={"entries": tuple(entries)})
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -912,7 +945,8 @@ def build_sheet() -> HypothesesSheet:
     sheet = _lot25(sheet)
     sheet = _lot27(sheet)
     sheet = _lot28(sheet)
-    return _lot31(sheet)
+    sheet = _lot31(sheet)
+    return _lot32(sheet)
 
 
 def dump(sheet: HypothesesSheet) -> str:

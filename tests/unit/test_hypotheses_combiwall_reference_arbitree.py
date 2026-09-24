@@ -336,12 +336,16 @@ def test_arbitree_fiche_has_no_blocker_left_after_decision_2_v5() -> None:
 
     Lot 31: point 3 (junction decision 4) is declared under revision in turn,
     for an unrelated reason (the null-pivot mechanism established there) --
-    the fiche is no longer blocker-free overall, but point 1's own revision
-    stays closed."""
+    the fiche was no longer blocker-free overall for that lot, though point
+    1's own revision stayed closed.
+
+    Lot 32: the point-3 revision is closed in turn (étape 1's boundary-
+    condition rule removed the null pivot on the reduced quay, decision 4
+    itself unchanged) -- no entry is under revision any more."""
     sheet = _load()
 
-    assert [e.point_label for e in sheet.entries_under_revision()] == ["3"]
-    assert sheet.is_ready_for_generation is False
+    assert sheet.entries_under_revision() == ()
+    assert sheet.is_ready_for_generation is True
     (entry,) = [
         e
         for e in sheet.entries
@@ -465,7 +469,11 @@ def test_arbitree_fiche_records_the_lot31_finding_and_revision() -> None:
     code_aster finding (never replacing the two existing point-3 findings,
     which answer a different question), then the point-3 practice entry
     (decision 4, junction method) is declared under revision citing it --
-    the decision itself is untouched."""
+    the decision itself is untouched.
+
+    Lot 32: the revision is closed in turn (`lift_revision`, étape 1's
+    boundary-condition rule) -- decision 4 stays untouched, the fiche is no
+    longer blocked on this point."""
     sheet = _load()
     code_aster_point_3 = [
         e
@@ -488,13 +496,14 @@ def test_arbitree_fiche_records_the_lot31_finding_and_revision() -> None:
         and e.point_label == "3"
         and e.topic.startswith("Choix entre maillage coïncident")
     ]
-    assert decision.under_revision
+    assert not decision.under_revision
     assert decision.option_retained is not None
     assert "Maillage coïncident" in decision.option_retained  # unchanged
-    (event,) = decision.revision_history
-    assert event.kind == "declared"
-    assert event.by == "Claude (lot 31)"
-    assert [e.point_label for e in sheet.entries_under_revision()] == ["3"]
+    assert [(ev.kind, ev.by) for ev in decision.revision_history] == [
+        ("declared", "Claude (lot 31)"),
+        ("lifted", "Claude (lot 32)"),
+    ]
+    assert sheet.entries_under_revision() == ()
 
 
 def test_arbitree_fiche_lot28_facts_are_recorded_and_sourced() -> None:

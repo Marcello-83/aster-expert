@@ -1,0 +1,15 @@
+{
+  "note": "Lot 32, étape 1 : essais réels Code_Aster sur le quai réduit, dans l'ordre. Les répertoires data/processed/runs/<horodatage>/ ne sont pas versionnés (CLAUDE.md).",
+  "runs": [
+    {
+      "label": "etape1_regle_cl",
+      "comm": "data/examples/lot32_cl/quai_reduit_regle_cl.comm",
+      "duration_s": 42.100062290002825,
+      "status": "failed",
+      "diag": "<F>_ERROR",
+      "mechanism": "Plus de <F> <FACTOR_11> (le pivot nul de LIAISON_SOLIDE a disparu -- les six cas de charge G, EAU_P, EAU_A, Q1, Q3, A atteignent tous MECA_STATIQUE + CALC_CHAMP + POST_RELEVE_T sans erreur). Nouvel arrêt, déjà connu (lot 31, non corrigé alors, hors périmètre) : <F> <MED2_4> à IMPR_RESU, collision de nom de champ MED (« RESU_EAUDEPL » présent deux fois pour RESU_EAU_P et RESU_EAU_A).",
+      "mess_extrait": "data/examples/lot32_cl/rapports/mess_etape1_extrait.txt"
+    }
+  ],
+  "duree_cumulee_s": 42.100062290002825
+}

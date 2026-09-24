@@ -780,6 +780,43 @@ CH_SOLIDE = AFFE_CHAR_MECA(
 """
 
 
+def check_symmetry_ddl_impo_no_ring_redundancy(
+    text: str, *, split_ring_rotation: bool
+) -> None:
+    """Lot 32, étape 1 : contrôle du générateur, appelé avant écriture.
+
+    Règle générale (lot 32) : dans un ensemble de nœuds liés par une relation
+    cinématique (ici, `LIAISON_SOLIDE` entre un anneau de tête de tube et son
+    nœud de poutre), un degré de liberté que la relation détermine ne doit
+    être imposé directement que sur un seul nœud de l'ensemble -- le nœud de
+    poutre -- jamais sur les autres. Le nœud de poutre d'un tube de bord et
+    les deux nœuds d'anneau qui touchent le plan de coupe (voir le
+    commentaire de `symmetry_and_support_block`) forment un tel ensemble ; la
+    relation détermine leurs six degrés de liberté, translations et
+    rotations -- pas seulement DRY/DRZ, comme la correction du lot 31 le
+    supposait à tort (insuffisante, lots 29 à 31).
+
+    Contrôle textuel, volontairement étroit : quand `split_ring_rotation` est
+    vrai (jonction LIAISON_SOLIDE), aucune ligne `DDL_IMPO` ne doit porter à
+    la fois `GROUP_NO=("SYM_G",)` ou `GROUP_NO=("SYM_D",)` (le plan brut,
+    anneau compris) et l'un des degrés DX, DRY, DRZ -- seuls les groupes
+    `GEN_SYMG_ROT`/`GEN_SYMD_ROT` (anneau exclu par construction, voir
+    `mesh_prep_block`/`_sym_split`) en ont le droit."""
+    if not split_ring_rotation:
+        return
+    blocked = ("DX=0.0", "DRY=0.0", "DRZ=0.0")
+    for raw_group in ('GROUP_NO=("SYM_G",)', 'GROUP_NO=("SYM_D",)'):
+        for line in text.splitlines():
+            if raw_group in line and any(dof in line for dof in blocked):
+                message = (
+                    "contrôle lot 32 (redondance CL / LIAISON_SOLIDE) : "
+                    f"{raw_group} porte directement un degré de liberté que "
+                    "LIAISON_SOLIDE détermine déjà pour les nœuds d'anneau du "
+                    f"plan de coupe -- ligne : {line.strip()!r}"
+                )
+                raise GenerationError(message)
+
+
 def symmetry_and_support_block(
     *, sans_tirants: bool = False, split_ring_rotation: bool = True
 ) -> str:
@@ -792,43 +829,44 @@ def symmetry_and_support_block(
     An edge tube's head ring (`TETE_TUBE_01`/`TETE_TUBE_09`) sits partly on
     its own symmetry plane (two of its own nodes, at the vertical diameter,
     have X exactly equal to the plane): `LIAISON_SOLIDE` (point 3) already
-    ties every ring node's rotation to the SAME rigid rotation as the tube's
-    beam node, which the symmetry condition pins directly (DRY = DRZ = 0)
-    -- imposing DRY/DRZ = 0 a second time, directly on those two ring nodes,
-    is then the identical equation again, not a new one: an actual
-    execution hit exactly this (`<F> <FACTOR_11>`, a null pivot on the
+    derives every ring node's full rigid-body motion (translations AND
+    rotations) from the SAME beam node's own six dof, which the symmetry
+    condition pins directly (DX = DRY = DRZ = 0) -- imposing any of the three
+    a second time, directly on those two ring nodes, is then the identical
+    equation again, not a new one (lot 32: not only DRY/DRZ, as lot 31 had
+    assumed -- DX is derived exactly the same way, since both the beam node
+    and the ring nodes sit on the plane, so the lever-arm's own X component
+    is zero and the rigid-body relation reduces DX_ring to DX_beam). An
+    actual execution hit exactly this (`<F> <FACTOR_11>`, a null pivot on the
     Lagrange multiplier of the resulting linearly dependent relation), never
-    visible at level A/B. The translation (DX = 0) is not redundant this way
-    (`LIAISON_SOLIDE` does not tie a node's own rotation dof into its
-    translation the same way it derives another node's translation from
-    them) and stays on every symmetry-plane node, ring or not; only the
-    rotation part (DRY, DRZ) is withheld on the ring's own share of the
-    plane (`GEN_SYMG_RING`/`GEN_SYMD_RING`, `mesh_prep_block`).
+    visible at level A/B. All three (DX, DRY, DRZ) are therefore withheld on
+    the ring's own share of the plane (`GEN_SYMG_RING`/`GEN_SYMD_RING`,
+    `mesh_prep_block`) and imposed only on the rest of the plane (beam node
+    included -- `GEN_SYMG_ROT`/`GEN_SYMD_ROT`), checked by
+    `check_symmetry_ddl_impo_no_ring_redundancy` before this function
+    returns.
 
     Lot 31, étape 2 : `split_ring_rotation=False` (junction candidates C1/C4,
-    `generate.JunctionCandidate`) imposes DRY/DRZ on the *entire* symmetry
-    plane, ring included -- neither candidate ties a ring node's own rotation
-    to the beam node's the way `LIAISON_SOLIDE` does, so the split that avoids
-    the redundant pivot above is neither needed nor correct: withholding the
-    ring's own rotation there would instead leave it unconstrained."""
-    sym_g_rot = (
-        f'_F(GROUP_NO=("{SYMG_ROT_GROUP}",), DRY=0.0, DRZ=0.0),'
-        if split_ring_rotation
-        else '_F(GROUP_NO=("SYM_G",), DRY=0.0, DRZ=0.0),'
-    )
-    sym_d_rot = (
-        f'_F(GROUP_NO=("{SYMD_ROT_GROUP}",), DRY=0.0, DRZ=0.0),'
-        if split_ring_rotation
-        else '_F(GROUP_NO=("SYM_D",), DRY=0.0, DRZ=0.0),'
-    )
-    return f"""
+    `generate.JunctionCandidate`) imposes DX/DRY/DRZ on the *entire* symmetry
+    plane, ring included -- neither candidate ties a ring node's own dof to
+    the beam node's the same rigid way `LIAISON_SOLIDE` does, so the split
+    that avoids the redundant pivot above is neither needed nor correct there
+    (untouched by lot 32, whose rule concerns `LIAISON_SOLIDE` only)."""
+    if split_ring_rotation:
+        sym_g = f'_F(GROUP_NO=("{SYMG_ROT_GROUP}",), DX=0.0, DRY=0.0, DRZ=0.0),'
+        sym_d = f'_F(GROUP_NO=("{SYMD_ROT_GROUP}",), DX=0.0, DRY=0.0, DRZ=0.0),'
+    else:
+        sym_g = '_F(GROUP_NO=("SYM_G",), DX=0.0, DRY=0.0, DRZ=0.0),'
+        sym_d = '_F(GROUP_NO=("SYM_D",), DX=0.0, DRY=0.0, DRZ=0.0),'
+    text = f"""
 # Point 7 : symétrie par rapport aux plans X = constante (SYM_G, SYM_D) --
-# translation normale au plan (DX) sur tout le plan, rotations autour des
-# deux axes du plan (DRY, DRZ) sur sa part hors anneau de tête seulement
-# quand la jonction est LIAISON_SOLIDE (voir le commentaire de
-# symmetry_and_support_block : la part de l'anneau tient alors sa rotation de
-# LIAISON_SOLIDE, l'imposer une seconde fois y a produit un pivot nul), sur le
-# plan entier sinon (candidats C1/C4, lot 31) ; DY, DZ, DRX libres (U4.44.01,
+# translation normale au plan (DX) et rotations autour des deux axes du plan
+# (DRY, DRZ) sur sa part hors anneau de tête seulement quand la jonction est
+# LIAISON_SOLIDE (voir le commentaire de symmetry_and_support_block : la part
+# de l'anneau tient alors ses six degrés de liberté de LIAISON_SOLIDE, les
+# imposer une seconde fois y a produit un pivot nul -- lot 32, généralisé aux
+# translations après le lot 31 qui n'excluait que les rotations), sur le plan
+# entier sinon (candidats C1/C4, lot 31) ; DY, DZ, DRX libres (U4.44.01,
 # tableau 5-2 : degrés de liberté dans le repère global ; cas test
 # ssls100b.comm, bords de symétrie).
 # Point 11 (décision 12) : appui vertical seul au pied des tubes.
@@ -838,15 +876,17 @@ def symmetry_and_support_block(
 CH_BLOC = AFFE_CHAR_MECA(
     MODELE=MO,
     DDL_IMPO=(
-        _F(GROUP_NO=("SYM_G",), DX=0.0),
-        {sym_g_rot}
-        _F(GROUP_NO=("SYM_D",), DX=0.0),
-        {sym_d_rot}
+        {sym_g}
+        {sym_d}
         _F(GROUP_NO=("PIED_TUBES",), DZ=0.0),
         {_ancrages_ddl_impo(sans_tirants)}
     ),
 )
 """
+    check_symmetry_ddl_impo_no_ring_redundancy(
+        text, split_ring_rotation=split_ring_rotation
+    )
+    return text
 
 
 def _ancrages_comment(sans_tirants: bool) -> str:
@@ -1158,6 +1198,27 @@ IMPR_TABLE(TABLE=TAB_ORDRE_{name}, UNITE=6)
 """
 
 
+MAX_NOM_RESU_MED_LEN = 8
+"""`IMPR_RESU/RESU/NOM_RESU_MED` (U7.05.21, opérande NOM_RESU_MED) : "chaine
+d'au plus 8 caractères". Sans lui, le nom de champ MED par défaut concatène
+RESULTAT/NOM_CHAM/NUME_ORDRE -- où RESULTAT est le nom Jeveux du concept,
+lui-même tronqué en silence à 8 caractères indépendamment du nom Python
+choisi ici (`RESU_EAU_P`/`RESU_EAU_A`, tous deux tronqués à `RESU_EAU`) :
+exactement le défaut découvert au lot 31 (`<F> <MED2_4>`, "Le champ
+'RESU_EAUDEPL' est déjà présent"), corrigé au lot 32 en fixant explicitement
+un nom court par cas, jamais laissé à cette troncature implicite."""
+
+
+def _nrm(name: str) -> str:
+    if len(name) > MAX_NOM_RESU_MED_LEN:
+        message = (
+            f"NOM_RESU_MED trop long ({len(name)} > {MAX_NOM_RESU_MED_LEN} "
+            f"caractères, U7.05.21) : {name}"
+        )
+        raise GenerationError(message)
+    return name
+
+
 def footer(result_names: list[str]) -> str:
     """Lot 31, étape 3 (défaut latent découvert en vérifiant la correction de
     masse) : `CARA_ELEM=CARA` sur chaque occurrence de `RESU` -- sans lui,
@@ -1167,9 +1228,16 @@ def footer(result_names: list[str]) -> str:
     Préciser le mot-clé CARA_ELEM sous le mot clé facteur RESU", IMPR_RESU/
     RESU/CARA_ELEM, condition FORMAT='MED') : jamais atteint avant ce lot, le
     pivot nul de LIAISON_SOLIDE arrêtant systématiquement l'exécution avant
-    IMPR_RESU."""
+    IMPR_RESU.
+
+    Lot 32, étape 3 : `NOM_RESU_MED=<nom du cas>` (voir `MAX_NOM_RESU_MED_LEN`)
+    sur chaque occurrence -- corrige la collision de champ MED entre
+    `RESU_EAU_P` et `RESU_EAU_A` signalée au lot 31, jamais atteinte avant
+    lui (le pivot nul de LIAISON_SOLIDE arrêtait toujours l'exécution avant
+    IMPR_RESU)."""
     resu = "\n        ".join(
-        f"_F(RESULTAT=RESU_{n}, CARA_ELEM=CARA)," for n in result_names
+        f'_F(RESULTAT=RESU_{n}, CARA_ELEM=CARA, NOM_RESU_MED="{_nrm(n)}"),'
+        for n in result_names
     )
     return f"""
 IMPR_RESU(
@@ -1190,6 +1258,7 @@ __all__ = [
     "JunctionMethod",
     "bollard_force_block",
     "case_block",
+    "check_symmetry_ddl_impo_no_ring_redundancy",
     "defense_force_block",
     "footer",
     "formule_block",

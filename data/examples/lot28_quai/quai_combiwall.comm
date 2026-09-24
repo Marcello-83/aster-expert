@@ -3,7 +3,7 @@
 # maillage vérifié, puis une nouvelle génération.
 #
 # Code_Aster ciblé : 17.4.0
-# Fiche             : sha256:cef5b349403b72a44b9b97995c30981ab1603cbda3b72d737a75f765a2e31610
+# Fiche             : sha256:b78b16387f6ffdb2b92c2e3e7759cf5181311f49f9225ead3080e407cf8a214b
 # Données           : sha256:6a396e0e1257d6f3e629f278adf6909079d5587abe65a73f3ef8599c36061548
 # Maillage vérifié  : sha256:1bd724bd5e00daeca385801554243bba27270e9d9437b29501d15e84e33ad0b8
 
@@ -1636,6 +1636,7 @@ MAIL = DEFI_GROUP(
     ),
 )
 
+
 MAIL = DEFI_GROUP(
     reuse=MAIL,
     MAILLAGE=MAIL,
@@ -1690,6 +1691,7 @@ MAIL = DEFI_GROUP(
         _F(NOM="GEN_RESS_MARNE_23", UNION=("GEN_PART_MARNE_23_001", "GEN_PART_MARNE_23_002", "GEN_PART_MARNE_23_003", "GEN_PART_MARNE_23_004", "GEN_PART_MARNE_23_005", "GEN_PART_MARNE_23_006", "GEN_PART_MARNE_23_007",)),
     ),
 )
+
 
 # Point 4 : une maille POI1 par nœud de ressort, regroupée par classe de
 # raideur (une occurrence de CREA_POI1 par classe, jamais par nœud).
@@ -1781,7 +1783,9 @@ MO = AFFE_MODELE(
 # -- convention du repère local par défaut d'une poutre d'axe X).
 # Point 4 : raideur K_T_D_N (0, ky, 0) par classe, repère global par défaut --
 # ressorts horizontaux seuls, dirigés selon Y (décision 5), convertis de
-# MN/m en N/m (x1e6).
+# MN/m en N/m (x1e6). M_T_D_N = 0 par classe (lot 31, étape 3) : un ressort
+# est un appui, pas de la matière -- masse explicitement nulle sous
+# PESANTEUR, jamais omise (U4.42.01 DISCRET, <F> <DISCRETS_26> sinon).
 # Point 3 : COEF_RIGI_DRZ sur les deux groupes DKT -- voir DRZ_STIFFNESS_COEF.
 CARA = AFFE_CARA_ELEM(
     MODELE=MO,
@@ -1809,53 +1813,101 @@ CARA = AFFE_CARA_ELEM(
     ),
     DISCRET=(
         _F(GROUP_MA=("GEN_RESS_ARGI_01",), CARA="K_T_D_N", VALE=(0.0, 76015.34812908873, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_01",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_02",), CARA="K_T_D_N", VALE=(0.0, 150158.94610676428, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_02",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_03",), CARA="K_T_D_N", VALE=(0.0, 152030.69625817746, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_03",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_04",), CARA="K_T_D_N", VALE=(0.0, 220605.13248231827, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_04",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_05",), CARA="K_T_D_N", VALE=(0.0, 242962.2785156088, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_05",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_06",), CARA="K_T_D_N", VALE=(0.0, 285619.2883497027, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_06",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_07",), CARA="K_T_D_N", VALE=(0.0, 300317.89221352857, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_07",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_08",), CARA="K_T_D_N", VALE=(0.0, 343600.54942184413, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_08",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_09",), CARA="K_T_D_N", VALE=(0.0, 393121.22462237306, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_09",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_10",), CARA="K_T_D_N", VALE=(0.0, 432961.9505781568, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_10",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_11",), CARA="K_T_D_N", VALE=(0.0, 441210.26496463653, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_11",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_12",), CARA="K_T_D_N", VALE=(0.0, 462141.71639237413, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_12",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_13",), CARA="K_T_D_N", VALE=(0.0, 479942.01938859007, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_13",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_14",), CARA="K_T_D_N", VALE=(0.0, 485924.5570312176, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_14",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_15",), CARA="K_T_D_N", VALE=(0.0, 535371.5460131763, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_15",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_16",), CARA="K_T_D_N", VALE=(0.0, 571238.5766994054, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_16",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_17",), CARA="K_T_D_N", VALE=(0.0, 687201.0988436883, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_17",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_18",), CARA="K_T_D_N", VALE=(0.0, 786242.4492447461, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_18",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_19",), CARA="K_T_D_N", VALE=(0.0, 865923.9011563136, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_19",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_20",), CARA="K_T_D_N", VALE=(0.0, 924283.4327847483, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_20",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_21",), CARA="K_T_D_N", VALE=(0.0, 959884.0387771801, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_21",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_22",), CARA="K_T_D_N", VALE=(0.0, 971849.1140624352, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_22",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_23",), CARA="K_T_D_N", VALE=(0.0, 1032499.9999999988, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_23",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_24",), CARA="K_T_D_N", VALE=(0.0, 1070743.0920263526, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_24",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_ARGI_25",), CARA="K_T_D_N", VALE=(0.0, 2064999.9999999977, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_ARGI_25",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_01",), CARA="K_T_D_N", VALE=(0.0, 43706.39088725703, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_01",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_02",), CARA="K_T_D_N", VALE=(0.0, 87412.78177451406, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_02",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_03",), CARA="K_T_D_N", VALE=(0.0, 173749.3671522028, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_03",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_04",), CARA="K_T_D_N", VALE=(0.0, 343220.4482440326, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_04",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_05",), CARA="K_T_D_N", VALE=(0.0, 347498.7343044056, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_05",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_06",), CARA="K_T_D_N", VALE=(0.0, 504240.3028167275, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_06",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_07",), CARA="K_T_D_N", VALE=(0.0, 555342.3508928202, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_07",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_08",), CARA="K_T_D_N", VALE=(0.0, 652844.0876564634, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_08",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_09",), CARA="K_T_D_N", VALE=(0.0, 686440.8964880652, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_09",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_10",), CARA="K_T_D_N", VALE=(0.0, 785372.6843927866, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_10",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_11",), CARA="K_T_D_N", VALE=(0.0, 898562.7991368527, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_11",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_12",), CARA="K_T_D_N", VALE=(0.0, 989627.3156072155, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_12",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_13",), CARA="K_T_D_N", VALE=(0.0, 1008480.605633455, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_13",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_14",), CARA="K_T_D_N", VALE=(0.0, 1056323.9231825694, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_14",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_15",), CARA="K_T_D_N", VALE=(0.0, 1097010.330031063, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_15",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_16",), CARA="K_T_D_N", VALE=(0.0, 1110684.7017856403, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_16",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_17",), CARA="K_T_D_N", VALE=(0.0, 1305688.1753129268, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_17",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_18",), CARA="K_T_D_N", VALE=(0.0, 1570745.3687855732, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_18",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_19",), CARA="K_T_D_N", VALE=(0.0, 1797125.5982737055, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_19",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_20",), CARA="K_T_D_N", VALE=(0.0, 1979254.631214431, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_20",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_21",), CARA="K_T_D_N", VALE=(0.0, 2112647.846365139, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_21",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_22",), CARA="K_T_D_N", VALE=(0.0, 2194020.660062126, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_22",), CARA="M_T_D_N", VALE=(0.0,)),
         _F(GROUP_MA=("GEN_RESS_MARNE_23",), CARA="K_T_D_N", VALE=(0.0, 2221369.4035712807, 0.0)),
+        _F(GROUP_MA=("GEN_RESS_MARNE_23",), CARA="M_T_D_N", VALE=(0.0,)),
     ),
 )
 
@@ -1924,12 +1976,15 @@ CH_SOLIDE = AFFE_CHAR_MECA(
 )
 
 # Point 7 : symétrie par rapport aux plans X = constante (SYM_G, SYM_D) --
-# translation normale au plan (DX) sur tout le plan, rotations autour des
-# deux axes du plan (DRY, DRZ) sur sa part hors anneau de tête seulement
-# (voir le commentaire de symmetry_and_support_block : la part de l'anneau
-# tient sa rotation de LIAISON_SOLIDE, l'imposer une seconde fois y a produit
-# un pivot nul) ; DY, DZ, DRX libres (U4.44.01, tableau 5-2 : degrés de
-# liberté dans le repère global ; cas test ssls100b.comm, bords de symétrie).
+# translation normale au plan (DX) et rotations autour des deux axes du plan
+# (DRY, DRZ) sur sa part hors anneau de tête seulement quand la jonction est
+# LIAISON_SOLIDE (voir le commentaire de symmetry_and_support_block : la part
+# de l'anneau tient alors ses six degrés de liberté de LIAISON_SOLIDE, les
+# imposer une seconde fois y a produit un pivot nul -- lot 32, généralisé aux
+# translations après le lot 31 qui n'excluait que les rotations), sur le plan
+# entier sinon (candidats C1/C4, lot 31) ; DY, DZ, DRX libres (U4.44.01,
+# tableau 5-2 : degrés de liberté dans le repère global ; cas test
+# ssls100b.comm, bords de symétrie).
 # Point 11 (décision 12) : appui vertical seul au pied des tubes.
 # Point 2 : extrémité arrière du tirant bloquée (ANCRAGES) -- donnée du
 # modèle (tirants.longueur_modelisee : "extrémité arrière bloquée"),
@@ -1937,10 +1992,8 @@ CH_SOLIDE = AFFE_CHAR_MECA(
 CH_BLOC = AFFE_CHAR_MECA(
     MODELE=MO,
     DDL_IMPO=(
-        _F(GROUP_NO=("SYM_G",), DX=0.0),
-        _F(GROUP_NO=("GEN_SYMG_ROT",), DRY=0.0, DRZ=0.0),
-        _F(GROUP_NO=("SYM_D",), DX=0.0),
-        _F(GROUP_NO=("GEN_SYMD_ROT",), DRY=0.0, DRZ=0.0),
+        _F(GROUP_NO=("GEN_SYMG_ROT",), DX=0.0, DRY=0.0, DRZ=0.0),
+        _F(GROUP_NO=("GEN_SYMD_ROT",), DX=0.0, DRY=0.0, DRZ=0.0),
         _F(GROUP_NO=("PIED_TUBES",), DZ=0.0),
         _F(GROUP_NO=("ANCRAGES",), DX=0.0, DY=0.0, DZ=0.0),
     ),
@@ -2068,8 +2121,9 @@ TAB_REAC_G = POST_RELEVE_T(
 IMPR_TABLE(TABLE=TAB_REAC_G, UNITE=6)
 
 # Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes de tube 1/9) et le nœud BOLLARD, sur l'axe de
-# symétrie lui-même (attendu DX ~ 0).
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
 TAB_SYM_G = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2138,8 +2192,9 @@ TAB_REAC_EAU_P = POST_RELEVE_T(
 IMPR_TABLE(TABLE=TAB_REAC_EAU_P, UNITE=6)
 
 # Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes de tube 1/9) et le nœud BOLLARD, sur l'axe de
-# symétrie lui-même (attendu DX ~ 0).
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
 TAB_SYM_EAU_P = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2195,8 +2250,9 @@ TAB_REAC_EAU_A = POST_RELEVE_T(
 IMPR_TABLE(TABLE=TAB_REAC_EAU_A, UNITE=6)
 
 # Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes de tube 1/9) et le nœud BOLLARD, sur l'axe de
-# symétrie lui-même (attendu DX ~ 0).
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
 TAB_SYM_EAU_A = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2252,8 +2308,9 @@ TAB_REAC_Q1 = POST_RELEVE_T(
 IMPR_TABLE(TABLE=TAB_REAC_Q1, UNITE=6)
 
 # Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes de tube 1/9) et le nœud BOLLARD, sur l'axe de
-# symétrie lui-même (attendu DX ~ 0).
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
 TAB_SYM_Q1 = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2309,8 +2366,9 @@ TAB_REAC_Q3 = POST_RELEVE_T(
 IMPR_TABLE(TABLE=TAB_REAC_Q3, UNITE=6)
 
 # Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes de tube 1/9) et le nœud BOLLARD, sur l'axe de
-# symétrie lui-même (attendu DX ~ 0).
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
 TAB_SYM_Q3 = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2379,8 +2437,9 @@ TAB_REAC_A = POST_RELEVE_T(
 IMPR_TABLE(TABLE=TAB_REAC_A, UNITE=6)
 
 # Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes de tube 1/9) et le nœud BOLLARD, sur l'axe de
-# symétrie lui-même (attendu DX ~ 0).
+# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
+# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
+# DX ~ 0).
 TAB_SYM_A = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2398,12 +2457,12 @@ IMPR_RESU(
     FORMAT="MED",
     UNITE=80,
     RESU=(
-        _F(RESULTAT=RESU_G),
-        _F(RESULTAT=RESU_EAU_P),
-        _F(RESULTAT=RESU_EAU_A),
-        _F(RESULTAT=RESU_Q1),
-        _F(RESULTAT=RESU_Q3),
-        _F(RESULTAT=RESU_A),
+        _F(RESULTAT=RESU_G, CARA_ELEM=CARA, NOM_RESU_MED="G"),
+        _F(RESULTAT=RESU_EAU_P, CARA_ELEM=CARA, NOM_RESU_MED="EAU_P"),
+        _F(RESULTAT=RESU_EAU_A, CARA_ELEM=CARA, NOM_RESU_MED="EAU_A"),
+        _F(RESULTAT=RESU_Q1, CARA_ELEM=CARA, NOM_RESU_MED="Q1"),
+        _F(RESULTAT=RESU_Q3, CARA_ELEM=CARA, NOM_RESU_MED="Q3"),
+        _F(RESULTAT=RESU_A, CARA_ELEM=CARA, NOM_RESU_MED="A"),
     ),
 )
 

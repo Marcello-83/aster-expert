@@ -1,0 +1,267 @@
+{
+  "G": {
+    "resultante_ressorts_N": {
+      "DY": -5159880.0
+    },
+    "resultante_reactions_N": {
+      "DY": 3099650.0
+    },
+    "anc_01": {
+      "noeud": 2264,
+      "x": -10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "anc_09": {
+      "noeud": 2272,
+      "x": 10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "bollard": {
+      "noeud": 2259,
+      "x": 0.0,
+      "y": 0.34,
+      "z": 3.3,
+      "dx": -8.66228e-17,
+      "dy": -0.0134597,
+      "dz": -0.00166367
+    },
+    "n_paires_anneau_02_08": 37,
+    "max_ecart_dy_anneau": 1.4500000000000624e-05,
+    "max_ecart_dz_anneau": 8.980000000000012e-06,
+    "max_somme_dx_anneau": 0.0,
+    "max_abs_dy_anneau": 0.0150606,
+    "ordre_grandeur_DY": [
+      {
+        "extrema": "MAX",
+        "noeud": 49,
+        "DY": -0.0150319
+      },
+      {
+        "extrema": "MIN",
+        "noeud": 1001,
+        "DY": -0.0151255
+      },
+      {
+        "extrema": "MAXI_ABS",
+        "noeud": 1001,
+        "DY": 0.0151255
+      },
+      {
+        "extrema": "MINI_ABS",
+        "noeud": 49,
+        "DY": 0.0150319
+      }
+    ]
+  },
+  "EAU_P": {
+    "resultante_ressorts_N": {
+      "DY": -1317130.0
+    },
+    "resultante_reactions_N": {
+      "DY": 1655840.0
+    },
+    "anc_01": {
+      "noeud": 2264,
+      "x": -10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "anc_09": {
+      "noeud": 2272,
+      "x": 10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "bollard": {
+      "noeud": 2259,
+      "x": 0.0,
+      "y": 0.34,
+      "z": 3.3,
+      "dx": -1.04582e-17,
+      "dy": -0.00722063,
+      "dz": -0.000482568
+    },
+    "n_paires_anneau_02_08": 37,
+    "max_ecart_dy_anneau": 7.719999999999255e-06,
+    "max_ecart_dz_anneau": 4.543300000000001e-06,
+    "max_somme_dx_anneau": 0.0,
+    "max_abs_dy_anneau": 0.00788579
+  },
+  "EAU_A": {
+    "resultante_ressorts_N": {
+      "DY": -3071420.0
+    },
+    "resultante_reactions_N": {
+      "DY": 3870350.0
+    },
+    "anc_01": {
+      "noeud": 2264,
+      "x": -10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "anc_09": {
+      "noeud": 2272,
+      "x": 10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "bollard": {
+      "noeud": 2259,
+      "x": 0.0,
+      "y": 0.34,
+      "z": 3.3,
+      "dx": -1.40522e-17,
+      "dy": -0.0168977,
+      "dz": -0.00111427
+    },
+    "n_paires_anneau_02_08": 37,
+    "max_ecart_dy_anneau": 1.8000000000000654e-05,
+    "max_ecart_dz_anneau": 1.0619000000000015e-05,
+    "max_somme_dx_anneau": 0.0,
+    "max_abs_dy_anneau": 0.0184249
+  },
+  "Q1": {
+    "resultante_ressorts_N": {
+      "DY": -1355000.0
+    },
+    "resultante_reactions_N": {
+      "DY": 1611190.0
+    },
+    "anc_01": {
+      "noeud": 2264,
+      "x": -10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "anc_09": {
+      "noeud": 2272,
+      "x": 10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "bollard": {
+      "noeud": 2259,
+      "x": 0.0,
+      "y": 0.34,
+      "z": 3.3,
+      "dx": -3.10669e-17,
+      "dy": -0.0071391,
+      "dz": -0.000395554
+    },
+    "n_paires_anneau_02_08": 37,
+    "max_ecart_dy_anneau": 7.510000000000502e-06,
+    "max_ecart_dz_anneau": 4.421000000000004e-06,
+    "max_somme_dx_anneau": 0.0,
+    "max_abs_dy_anneau": 0.00763825
+  },
+  "Q3": {
+    "resultante_ressorts_N": {
+      "DY": -2310.32,
+      "DZ": -119235.0
+    },
+    "resultante_reactions_N": {
+      "DY": 1019700.0,
+      "DZ": -592910.0
+    },
+    "anc_01": {
+      "noeud": 2264,
+      "x": -10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "anc_09": {
+      "noeud": 2272,
+      "x": 10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "bollard": {
+      "noeud": 2259,
+      "x": 0.0,
+      "y": 0.34,
+      "z": 3.3,
+      "dx": -2.94342e-18,
+      "dy": -0.00472102,
+      "dz": 0.000387296
+    },
+    "n_paires_anneau_02_08": 37,
+    "max_ecart_dy_anneau": 4.302999999999946e-05,
+    "max_ecart_dz_anneau": 2.992199999999999e-05,
+    "max_somme_dx_anneau": 0.0,
+    "max_abs_dy_anneau": 0.00407215,
+    "ordre_grandeur_DY": []
+  },
+  "A": {
+    "resultante_ressorts_N": {
+      "DY": 20567.1
+    },
+    "resultante_reactions_N": {
+      "DY": -774152.0
+    },
+    "anc_01": {
+      "noeud": 2264,
+      "x": -10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "anc_09": {
+      "noeud": 2272,
+      "x": 10.4,
+      "y": 25.14,
+      "z": -6.39,
+      "dx": 0.0,
+      "dy": 0.0,
+      "dz": 0.0
+    },
+    "bollard": {
+      "noeud": 2259,
+      "x": 0.0,
+      "y": 0.34,
+      "z": 3.3,
+      "dx": 3.33883e-18,
+      "dy": 0.00342187,
+      "dz": 3.38813e-05
+    },
+    "n_paires_anneau_02_08": 37,
+    "max_ecart_dy_anneau": 3.743000000000019e-05,
+    "max_ecart_dz_anneau": 9.028000000000009e-07,
+    "max_somme_dx_anneau": 0.0,
+    "max_abs_dy_anneau": 0.00308313
+  }
+}

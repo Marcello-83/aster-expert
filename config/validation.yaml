@@ -67,6 +67,11 @@ execution:
     # scripts/generate_lot31_candidat.py (options de diagnostic du
     # générateur, aucune décision modifiée).
     - data/examples/lot31_jonction
+    # Règle de construction des conditions aux limites (lot 32, étape 1),
+    # même maillage que le quai réduit, .comm produits par
+    # scripts/generate_lot32_regle_cl.py (générateur de production, décision
+    # 4 inchangée -- révision levée en mémoire seulement pour la génération).
+    - data/examples/lot32_cl
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

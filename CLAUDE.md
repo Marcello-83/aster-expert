@@ -1,3 +1,10 @@
+TOUTE PRODUCTION DE CE DÉPÔT EST EN FRANÇAIS : RÉPONSES DANS LE TERMINAL, Y
+COMPRIS LE RÉSUMÉ FINAL, COMPTES RENDUS, MESSAGES DE COMMIT, RAPPORTS,
+COMMENTAIRES DE CODE. CETTE RÈGLE A DÉJÀ DÛ ÊTRE RAPPELÉE EN TÊTE DE FICHIER
+DEUX FOIS (LOTS 30 ET 32) PARCE QUE DES RAPPELS PLUS BAS DANS LE DOCUMENT
+N'AVAIENT PAS SUFFI À LA FAIRE RESPECTER (COMPTES RENDUS DES LOTS 29 ET 31
+RÉDIGÉS EN ANGLAIS) : NE PAS LA REDÉPLACER PLUS BAS.
+
 # AsterExpert
 
 ## Langue de travail (lire en premier)
@@ -430,6 +437,34 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   la piste « exclure le nœud de poutre du plan de symétrie de la dualisation de rotation de `CH_BLOC` »
   n'a pas été testée (hors périmètre de ce lot) ; `LIAISON_ELEM`/`OPTION='3D_POU'` (R3.03.03), recommandé
   depuis le lot 28, reste à étudier.
+- Lot 32 (`docs/essais_lot32.md`, `data/examples/lot32_cl/`,
+  `scripts/generate_lot32_regle_cl.py`) : **le pivot nul est levé, niveau C atteint sur le modèle
+  complet pour la première fois.** La correction du lot 31 n'excluait que les rotations (DRY, DRZ) de
+  la redondance CL/`LIAISON_SOLIDE` ; ce lot généralise à la translation (DX) -- le nœud de poutre et
+  les deux nœuds d'anneau du plan de coupe partagent le même bras de levier nul en X, donc `DX` de
+  l'anneau est déjà dérivé de celui de la poutre, l'imposer une seconde fois via `SYM_G`/`SYM_D` bruts
+  produisait la même redondance que DRY/DRZ au lot 31. `symmetry_and_support_block` regroupe désormais
+  DX/DRY/DRZ dans une seule occurrence portée par `GEN_SYMG_ROT`/`GEN_SYMD_ROT` (anneau exclu) ; contrôle
+  ajouté (`check_symmetry_ddl_impo_no_ring_redundancy`, appelé avant écriture, testé) refusant toute
+  ligne `DDL_IMPO` qui porterait encore DX/DRY/DRZ sur `SYM_G`/`SYM_D` bruts. Prouvé sur le quai réduit
+  (`data/examples/lot32_cl/quai_reduit_regle_cl.comm`, niveau B 80/80, exécution 42,1 s) : plus aucun
+  `<F> <FACTOR_11>`, arrêt seulement sur le défaut de collision MED du lot 31, sans rapport. Ce défaut
+  (`NOM_RESU_MED` absent, nom Jeveux du concept `RESULTAT` tronqué en silence à 8 caractères --
+  `RESU_EAU_P`/`RESU_EAU_A` coïncidant, U7.05.21) **corrigé** : `footer()` porte
+  `NOM_RESU_MED="<nom du cas>"` (≤ 8 caractères, contrôlé) par occurrence de `RESU`. La révision du
+  point 3 (décision 4, méthode de jonction), déclarée au lot 31, est **close** (`lift_revision`, motif =
+  correction prouvée) sans que la décision change (maillage coïncident, `LIAISON_SOLIDE` inchangés) --
+  la fiche de référence n'a plus de bloqueur. Modèle complet (9 tubes) généré, validé niveau B (80/80),
+  **exécuté avec succès (`DIAGNOSTIC JOB : OK`, 147,9 s, aucune alarme, aucun `<F>` dans le `.mess`)** --
+  première exécution réelle du modèle complet à aboutir depuis le lot 28. Contrôles D (résultantes
+  ressorts/réactions par cas, symétrie de 37 paires de nœuds d'anneau + ancrages + BOLLARD, ordres de
+  grandeur du déplacement en tête d'écran sous G et Q3) : `data/examples/lot28_quai/rapports/
+  controles_niveau_d_lot32.json`, informatifs, jamais un verdict (CLAUDE.md, principe 6) -- aucun niveau E.
+  `.comm` généré et tableau de résultats déposés dans `/media/sf_partage/echanges/`. 2 exécutions
+  Code_Aster réelles (190,0 s cumulées : quai réduit 42,1 s, modèle complet 147,9 s) ; étape 2
+  (exploration libre) non nécessaire, l'étape 1 a réussi du premier coup. Limites : le mécanisme précis
+  de numérotation interne de Code_Aster reste hors de portée des sept outils MCP (comme aux lots
+  28/30/31) ; aucune décision pratique prise ni complétée par ce lot.
 
 ## Périmètre à ne pas dépasser sans instruction
 

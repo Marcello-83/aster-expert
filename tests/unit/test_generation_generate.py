@@ -7,14 +7,11 @@ from __future__ import annotations
 
 import hashlib
 import json
-import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
 
-from aster_expert.agent.arbitration import lift_revision
-from aster_expert.agent.hypotheses import HypothesesSheet, PracticeHypothesisEntry
 from aster_expert.agent.model_data import load_model_data
 from aster_expert.generation.errors import GenerationError
 from aster_expert.generation.generate import _params_json_bytes, generate_comm
@@ -22,44 +19,8 @@ from aster_expert.meshing.combiwall import build_params
 from aster_expert.meshing.run import MeshRunReport, record_verified_mesh, sha256_file
 
 _ROOT = Path(__file__).resolve().parents[2]
-_REFERENCE_FICHE = (
-    _ROOT / "data" / "examples" / "hypotheses_combiwall_reference_arbitree.json"
-)
+_FICHE = _ROOT / "data" / "examples" / "hypotheses_combiwall_reference_arbitree.json"
 _DATA = _ROOT / "data" / "examples" / "combiwall_model_data.yaml"
-
-
-def _resolved_fiche_path() -> Path:
-    """The real fiche, with the point-3 junction revision (lot 31) lifted in
-    memory only -- never written back to the versioned file. This module
-    tests `generate_comm`'s own mechanics (determinism, spring sums,
-    diagnostics), a question independent of whether MM has closed that
-    revision; the versioned fiche itself stays a faithful, blocked record."""
-    sheet = HypothesesSheet.model_validate_json(
-        _REFERENCE_FICHE.read_text(encoding="utf-8")
-    )
-    entries = list(sheet.entries)
-    for i, e in enumerate(entries):
-        if (
-            isinstance(e, PracticeHypothesisEntry)
-            and e.point_label == "3"
-            and e.under_revision
-        ):
-            entries[i] = lift_revision(
-                e,
-                reason="Levée locale, pour les seuls besoins de ce test (mécanique du "
-                "générateur, indépendante de la décision) -- jamais écrite dans la "
-                "fiche versionnée.",
-                lifted_by="tests/unit/test_generation_generate.py",
-                lifted_at=datetime.now(UTC),
-            )
-    resolved = sheet.model_copy(update={"entries": tuple(entries)})
-    directory = Path(tempfile.mkdtemp(prefix="aster-expert-resolved-fiche-"))
-    path = directory / "fiche_resolue.json"
-    path.write_text(resolved.model_dump_json(), encoding="utf-8")
-    return path
-
-
-_FICHE = _resolved_fiche_path()
 
 
 def _params_sha256() -> str:
@@ -163,7 +124,29 @@ def test_impr_resu_carries_cara_elem_for_every_result(
         aster_version="17.4.0",
     )
     for name in ("RESU_G", "RESU_EAU_P", "RESU_EAU_A", "RESU_Q1", "RESU_Q3", "RESU_A"):
-        assert f"_F(RESULTAT={name}, CARA_ELEM=CARA)," in text
+        assert f'CARA_ELEM=CARA, NOM_RESU_MED="{name.removeprefix("RESU_")}"' in text
+
+
+def test_impr_resu_nom_resu_med_avoids_the_lot31_field_collision(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    """Lot 32, étape 3 : sans NOM_RESU_MED, le nom de champ MED par défaut
+    tronque le nom Jeveux du concept RESULTAT à 8 caractères -- RESU_EAU_P et
+    RESU_EAU_A devenaient tous deux `RESU_EAU`, d'où `<F> <MED2_4>` (lot 31).
+    NOM_RESU_MED="EAU_P"/"EAU_A" (U7.05.21) restent distincts en toutes
+    lettres, jamais tronqués à 8 caractères de façon à coïncider."""
+    text, _ = generate_comm(
+        fiche_path=_FICHE,
+        data_path=_DATA,
+        med_path=verified_mesh,
+        project_root=tmp_path,
+        work_dir_root="mesh_runs",
+        aster_version="17.4.0",
+    )
+    tags = ["EAU_P", "EAU_A"]
+    assert len(set(tags)) == len(tags)
+    for tag in tags:
+        assert f'NOM_RESU_MED="{tag}"' in text
 
 
 def test_springs_carry_an_explicit_zero_mass(
