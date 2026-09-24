@@ -3,7 +3,7 @@
 # maillage vérifié, puis une nouvelle génération.
 #
 # Code_Aster ciblé : 17.4.0
-# Fiche             : sha256:b78b16387f6ffdb2b92c2e3e7759cf5181311f49f9225ead3080e407cf8a214b
+# Fiche             : sha256:a9b1bb54ad6923adbf70bca5c424ebf88c1520be3fd793c88d451dc5ddecd671
 # Données           : sha256:6a396e0e1257d6f3e629f278adf6909079d5587abe65a73f3ef8599c36061548
 # Maillage vérifié  : sha256:1bd724bd5e00daeca385801554243bba27270e9d9437b29501d15e84e33ad0b8
 
@@ -1749,6 +1749,38 @@ MAIL = CREA_MAILLAGE(
     ),
 )
 
+# Lot 33, étape 4 : GEN_TOUS_NOEUDS, en deux passes -- un groupe par nom de
+# maille (comme les classes de ressort, spring_group_plan) puis leur UNION,
+# jamais un seul CREA_GROUP_NO(GROUP_MA=(quatre noms,)) : cette dernière
+# forme fait échouer une commande plus loin (<F> <JEVEUX_10>, "Le nom
+# demandé existe déjà dans la base &&SSCGNO.LITMP2" -- une collision de nom
+# interne à Code_Aster, jamais visible du catalogue ; une exécution réelle,
+# non expliquée par les sept outils MCP, comme la numérotation interne de
+# LIAISON_SOLIDE aux lots 28/30/31).
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_NO=(
+        _F(NOM="GEN_TOUS_TUBES", GROUP_MA=("TUBES",)),
+        _F(NOM="GEN_TOUS_PALPS", GROUP_MA=("PALPS",)),
+        _F(NOM="GEN_TOUS_TIRANTS", GROUP_MA=("TIRANTS",)),
+        _F(NOM="GEN_TOUS_POUTRE", GROUP_MA=("POUTRE_COUR",)),
+    ),
+)
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_NO=_F(
+        NOM="GEN_TOUS_NOEUDS",
+        UNION=(
+            "GEN_TOUS_TUBES",
+            "GEN_TOUS_PALPS",
+            "GEN_TOUS_TIRANTS",
+            "GEN_TOUS_POUTRE",
+        ),
+    ),
+)
+
 # Point 5 : normales de coque cohérentes sur ECRAN_POUSSEE, orientées côté
 # terre (MODI_MAILLAGE/ORIE_NORM_COQUE, U4.23.04 ; cas test sdls118a.comm) --
 # une pression FORCE_COQUE/PRES positive (U4.44.01 : positive "suivant le
@@ -1786,20 +1818,19 @@ MO = AFFE_MODELE(
 # MN/m en N/m (x1e6). M_T_D_N = 0 par classe (lot 31, étape 3) : un ressort
 # est un appui, pas de la matière -- masse explicitement nulle sous
 # PESANTEUR, jamais omise (U4.42.01 DISCRET, <F> <DISCRETS_26> sinon).
-# Point 3 : COEF_RIGI_DRZ sur les deux groupes DKT -- voir DRZ_STIFFNESS_COEF.
+# Point 3 : COEF_RIGI_DRZ omis (lot 33, étape 1 : inutile au défaut
+# catalogue sur le quai réduit, testé isolément -- voir DRZ_STIFFNESS_COEF).
 CARA = AFFE_CARA_ELEM(
     MODELE=MO,
     COQUE=(
         _F(
             GROUP_MA=("TUBES",),
             EPAIS=0.014,
-            COEF_RIGI_DRZ=0.001,
         ),
         _F(
             GROUP_MA=("PALPS",),
             EPAIS=0.01385,
             VECTEUR=(0.0, 0.0, 1.0),
-            COEF_RIGI_DRZ=0.001,
         ),
     ),
     BARRE=_F(
@@ -2039,11 +2070,9 @@ CH_G_POUSSEE = AFFE_CHAR_MECA_F(
     MODELE=MO, FORCE_COQUE=_F(GROUP_MA=("ECRAN_POUSSEE",), PRES=F_G)
 )
 
-# Point 8 : pesanteur (cas G), tous matériaux porteurs de RHO (tube, poutre,
-# tirant, palplanche via ELAS_COQUE/RHO -- lot 22 : RHO exigé sur tout
-# élément ELAS_COQUE du modèle sous PESANTEUR).
 CH_G_POIDS = AFFE_CHAR_MECA(
-    MODELE=MO, PESANTEUR=_F(GRAVITE=9.81, DIRECTION=(0.0, 0.0, -1.0))
+    MODELE=MO,
+    PESANTEUR=_F(GRAVITE=9.81, DIRECTION=(0.0, 0.0, -1.0), GROUP_MA=("TUBES", "PALPS", "TIRANTS",)),
 )
 
 CH_Q1 = AFFE_CHAR_MECA_F(
@@ -2078,6 +2107,82 @@ CH_A = AFFE_CHAR_MECA(
     MODELE=MO, FORCE_COQUE=_F(GROUP_MA=("DEFENSE",), FY=718056.0475032325)
 )
 
+# Point 12 (décision 13) : force et moment linéiques de la décision 13,
+# répartis en forces nodales tributaires-pondérées aux nœuds de poutre
+# (voir poutre_pressure_nodal_block -- jamais FORCE_POUTRE, une exécution
+# réelle l'écarte pour la poutre continue à plusieurs LIAISON_SOLIDE).
+CH_G_POUTRE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_NODALE=(
+        _F(GROUP_NO=("GEN_POUTRE_01",), FY=-7452.899999999999, MX=-1739.0100000000007, FZ=-111588.74999999999),
+        _F(GROUP_NO=("GEN_POUTRE_02",), FY=-14905.800000000001, MX=-3478.020000000002, FZ=-223177.5),
+        _F(GROUP_NO=("GEN_POUTRE_03",), FY=-14905.800000000003, MX=-3478.0200000000027, FZ=-223177.50000000006),
+        _F(GROUP_NO=("GEN_POUTRE_04",), FY=-14905.800000000001, MX=-3478.020000000002, FZ=-223177.5),
+        _F(GROUP_NO=("GEN_POUTRE_05",), FY=-14905.799999999997, MX=-3478.0200000000013, FZ=-223177.49999999997),
+        _F(GROUP_NO=("GEN_POUTRE_06",), FY=-14905.800000000003, MX=-3478.0200000000027, FZ=-223177.50000000006),
+        _F(GROUP_NO=("GEN_POUTRE_07",), FY=-14905.799999999997, MX=-3478.0200000000013, FZ=-223177.49999999997),
+        _F(GROUP_NO=("GEN_POUTRE_08",), FY=-14905.799999999997, MX=-3478.0200000000013, FZ=-223177.49999999997),
+        _F(GROUP_NO=("GEN_POUTRE_09",), FY=-7452.900000000004, MX=-1739.0100000000018, FZ=-111588.75000000006),
+    ),
+)
+
+# Point 12 (décision 13) : force et moment linéiques de la décision 13,
+# répartis en forces nodales tributaires-pondérées aux nœuds de poutre
+# (voir poutre_pressure_nodal_block -- jamais FORCE_POUTRE, une exécution
+# réelle l'écarte pour la poutre continue à plusieurs LIAISON_SOLIDE).
+CH_EAU_P_POUTRE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_NODALE=(
+        _F(GROUP_NO=("GEN_POUTRE_01",), FY=-0.0, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_02",), FY=-0.0, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_03",), FY=-0.0, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_04",), FY=-0.0, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_05",), FY=-0.0, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_06",), FY=-0.0, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_07",), FY=-0.0, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_08",), FY=-0.0, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_09",), FY=-0.0, MX=0.0),
+    ),
+)
+
+# Point 12 (décision 13) : force et moment linéiques de la décision 13,
+# répartis en forces nodales tributaires-pondérées aux nœuds de poutre
+# (voir poutre_pressure_nodal_block -- jamais FORCE_POUTRE, une exécution
+# réelle l'écarte pour la poutre continue à plusieurs LIAISON_SOLIDE).
+CH_EAU_A_POUTRE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_NODALE=(
+        _F(GROUP_NO=("GEN_POUTRE_01",), FY=-1039.9999999999986, MX=-589.3333333333322),
+        _F(GROUP_NO=("GEN_POUTRE_02",), FY=-2079.9999999999977, MX=-1178.6666666666647),
+        _F(GROUP_NO=("GEN_POUTRE_03",), FY=-2079.999999999998, MX=-1178.666666666665),
+        _F(GROUP_NO=("GEN_POUTRE_04",), FY=-2079.9999999999977, MX=-1178.6666666666647),
+        _F(GROUP_NO=("GEN_POUTRE_05",), FY=-2079.9999999999973, MX=-1178.6666666666645),
+        _F(GROUP_NO=("GEN_POUTRE_06",), FY=-2079.999999999998, MX=-1178.666666666665),
+        _F(GROUP_NO=("GEN_POUTRE_07",), FY=-2079.9999999999973, MX=-1178.6666666666645),
+        _F(GROUP_NO=("GEN_POUTRE_08",), FY=-2079.9999999999973, MX=-1178.6666666666645),
+        _F(GROUP_NO=("GEN_POUTRE_09",), FY=-1039.9999999999993, MX=-589.3333333333327),
+    ),
+)
+
+# Point 12 (décision 13) : force et moment linéiques de la décision 13,
+# répartis en forces nodales tributaires-pondérées aux nœuds de poutre
+# (voir poutre_pressure_nodal_block -- jamais FORCE_POUTRE, une exécution
+# réelle l'écarte pour la poutre continue à plusieurs LIAISON_SOLIDE).
+CH_Q1_POUTRE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_NODALE=(
+        _F(GROUP_NO=("GEN_POUTRE_01",), FY=-22385.999999999996, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_02",), FY=-44772.0, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_03",), FY=-44772.00000000001, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_04",), FY=-44772.0, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_05",), FY=-44771.99999999999, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_06",), FY=-44772.00000000001, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_07",), FY=-44771.99999999999, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_08",), FY=-44771.99999999999, MX=0.0),
+        _F(GROUP_NO=("GEN_POUTRE_09",), FY=-22386.00000000001, MX=0.0),
+    ),
+)
+
 RESU_G = MECA_STATIQUE(
     MODELE=MO,
     CHAM_MATER=CHMAT,
@@ -2087,22 +2192,21 @@ RESU_G = MECA_STATIQUE(
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_G_POUSSEE),
         _F(CHARGE=CH_G_POIDS),
+        _F(CHARGE=CH_G_POUTRE),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_G = CALC_CHAMP(
-    reuse=RESU_G, RESULTAT=RESU_G, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_G = CALC_CHAMP(reuse=RESU_G, RESULTAT=RESU_G, FORCE=("REAC_NODA",))
 
 TAB_RESS_G = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_G",
         RESULTAT=RESU_G,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_G, UNITE=6)
@@ -2120,10 +2224,11 @@ TAB_REAC_G = POST_RELEVE_T(
 )
 IMPR_TABLE(TABLE=TAB_REAC_G, UNITE=6)
 
-# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
-# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
-# DX ~ 0).
+# Point 7 : symétrie -- lot 33, étape 4 : TOUT le maillage, jamais deux
+# paires choisies à la main (docs/essais_lot33.md) : le script d'analyse
+# associe chaque nœud à son image miroir (x -> -x, mêmes y, z) par les
+# coordonnées imprimées (COOR_X/Y/Z) et compare DY/DZ (égaux) et DX
+# (opposé), sur chaque paire.
 TAB_SYM_G = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2131,7 +2236,7 @@ TAB_SYM_G = POST_RELEVE_T(
         RESULTAT=RESU_G,
         NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
-        GROUP_NO=("ANC_01", "ANC_09", "TETE_TUBE_02", "TETE_TUBE_08", "BOLLARD"),
+        GROUP_NO=("GEN_TOUS_NOEUDS",),
         NOM_CMP=("DX", "DY", "DZ"),
     )
 )
@@ -2158,22 +2263,21 @@ RESU_EAU_P = MECA_STATIQUE(
         _F(CHARGE=CH_SOLIDE),
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_EAU_P),
+        _F(CHARGE=CH_EAU_P_POUTRE),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_EAU_P = CALC_CHAMP(
-    reuse=RESU_EAU_P, RESULTAT=RESU_EAU_P, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_EAU_P = CALC_CHAMP(reuse=RESU_EAU_P, RESULTAT=RESU_EAU_P, FORCE=("REAC_NODA",))
 
 TAB_RESS_EAU_P = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_EAU_P",
         RESULTAT=RESU_EAU_P,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_EAU_P, UNITE=6)
@@ -2191,10 +2295,11 @@ TAB_REAC_EAU_P = POST_RELEVE_T(
 )
 IMPR_TABLE(TABLE=TAB_REAC_EAU_P, UNITE=6)
 
-# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
-# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
-# DX ~ 0).
+# Point 7 : symétrie -- lot 33, étape 4 : TOUT le maillage, jamais deux
+# paires choisies à la main (docs/essais_lot33.md) : le script d'analyse
+# associe chaque nœud à son image miroir (x -> -x, mêmes y, z) par les
+# coordonnées imprimées (COOR_X/Y/Z) et compare DY/DZ (égaux) et DX
+# (opposé), sur chaque paire.
 TAB_SYM_EAU_P = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2202,7 +2307,7 @@ TAB_SYM_EAU_P = POST_RELEVE_T(
         RESULTAT=RESU_EAU_P,
         NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
-        GROUP_NO=("ANC_01", "ANC_09", "TETE_TUBE_02", "TETE_TUBE_08", "BOLLARD"),
+        GROUP_NO=("GEN_TOUS_NOEUDS",),
         NOM_CMP=("DX", "DY", "DZ"),
     )
 )
@@ -2216,22 +2321,21 @@ RESU_EAU_A = MECA_STATIQUE(
         _F(CHARGE=CH_SOLIDE),
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_EAU_A),
+        _F(CHARGE=CH_EAU_A_POUTRE),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_EAU_A = CALC_CHAMP(
-    reuse=RESU_EAU_A, RESULTAT=RESU_EAU_A, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_EAU_A = CALC_CHAMP(reuse=RESU_EAU_A, RESULTAT=RESU_EAU_A, FORCE=("REAC_NODA",))
 
 TAB_RESS_EAU_A = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_EAU_A",
         RESULTAT=RESU_EAU_A,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_EAU_A, UNITE=6)
@@ -2249,10 +2353,11 @@ TAB_REAC_EAU_A = POST_RELEVE_T(
 )
 IMPR_TABLE(TABLE=TAB_REAC_EAU_A, UNITE=6)
 
-# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
-# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
-# DX ~ 0).
+# Point 7 : symétrie -- lot 33, étape 4 : TOUT le maillage, jamais deux
+# paires choisies à la main (docs/essais_lot33.md) : le script d'analyse
+# associe chaque nœud à son image miroir (x -> -x, mêmes y, z) par les
+# coordonnées imprimées (COOR_X/Y/Z) et compare DY/DZ (égaux) et DX
+# (opposé), sur chaque paire.
 TAB_SYM_EAU_A = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2260,7 +2365,7 @@ TAB_SYM_EAU_A = POST_RELEVE_T(
         RESULTAT=RESU_EAU_A,
         NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
-        GROUP_NO=("ANC_01", "ANC_09", "TETE_TUBE_02", "TETE_TUBE_08", "BOLLARD"),
+        GROUP_NO=("GEN_TOUS_NOEUDS",),
         NOM_CMP=("DX", "DY", "DZ"),
     )
 )
@@ -2274,22 +2379,21 @@ RESU_Q1 = MECA_STATIQUE(
         _F(CHARGE=CH_SOLIDE),
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_Q1),
+        _F(CHARGE=CH_Q1_POUTRE),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_Q1 = CALC_CHAMP(
-    reuse=RESU_Q1, RESULTAT=RESU_Q1, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_Q1 = CALC_CHAMP(reuse=RESU_Q1, RESULTAT=RESU_Q1, FORCE=("REAC_NODA",))
 
 TAB_RESS_Q1 = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_Q1",
         RESULTAT=RESU_Q1,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_Q1, UNITE=6)
@@ -2307,10 +2411,11 @@ TAB_REAC_Q1 = POST_RELEVE_T(
 )
 IMPR_TABLE(TABLE=TAB_REAC_Q1, UNITE=6)
 
-# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
-# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
-# DX ~ 0).
+# Point 7 : symétrie -- lot 33, étape 4 : TOUT le maillage, jamais deux
+# paires choisies à la main (docs/essais_lot33.md) : le script d'analyse
+# associe chaque nœud à son image miroir (x -> -x, mêmes y, z) par les
+# coordonnées imprimées (COOR_X/Y/Z) et compare DY/DZ (égaux) et DX
+# (opposé), sur chaque paire.
 TAB_SYM_Q1 = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2318,7 +2423,7 @@ TAB_SYM_Q1 = POST_RELEVE_T(
         RESULTAT=RESU_Q1,
         NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
-        GROUP_NO=("ANC_01", "ANC_09", "TETE_TUBE_02", "TETE_TUBE_08", "BOLLARD"),
+        GROUP_NO=("GEN_TOUS_NOEUDS",),
         NOM_CMP=("DX", "DY", "DZ"),
     )
 )
@@ -2333,21 +2438,19 @@ RESU_Q3 = MECA_STATIQUE(
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_Q3),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_Q3 = CALC_CHAMP(
-    reuse=RESU_Q3, RESULTAT=RESU_Q3, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_Q3 = CALC_CHAMP(reuse=RESU_Q3, RESULTAT=RESU_Q3, FORCE=("REAC_NODA",))
 
 TAB_RESS_Q3 = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_Q3",
         RESULTAT=RESU_Q3,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY", "DZ"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_Q3, UNITE=6)
@@ -2365,10 +2468,11 @@ TAB_REAC_Q3 = POST_RELEVE_T(
 )
 IMPR_TABLE(TABLE=TAB_REAC_Q3, UNITE=6)
 
-# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
-# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
-# DX ~ 0).
+# Point 7 : symétrie -- lot 33, étape 4 : TOUT le maillage, jamais deux
+# paires choisies à la main (docs/essais_lot33.md) : le script d'analyse
+# associe chaque nœud à son image miroir (x -> -x, mêmes y, z) par les
+# coordonnées imprimées (COOR_X/Y/Z) et compare DY/DZ (égaux) et DX
+# (opposé), sur chaque paire.
 TAB_SYM_Q3 = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2376,7 +2480,7 @@ TAB_SYM_Q3 = POST_RELEVE_T(
         RESULTAT=RESU_Q3,
         NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
-        GROUP_NO=("ANC_01", "ANC_09", "TETE_TUBE_02", "TETE_TUBE_08", "BOLLARD"),
+        GROUP_NO=("GEN_TOUS_NOEUDS",),
         NOM_CMP=("DX", "DY", "DZ"),
     )
 )
@@ -2404,21 +2508,19 @@ RESU_A = MECA_STATIQUE(
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_A),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_A = CALC_CHAMP(
-    reuse=RESU_A, RESULTAT=RESU_A, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_A = CALC_CHAMP(reuse=RESU_A, RESULTAT=RESU_A, FORCE=("REAC_NODA",))
 
 TAB_RESS_A = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_A",
         RESULTAT=RESU_A,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_A, UNITE=6)
@@ -2436,10 +2538,11 @@ TAB_REAC_A = POST_RELEVE_T(
 )
 IMPR_TABLE(TABLE=TAB_REAC_A, UNITE=6)
 
-# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
-# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
-# DX ~ 0).
+# Point 7 : symétrie -- lot 33, étape 4 : TOUT le maillage, jamais deux
+# paires choisies à la main (docs/essais_lot33.md) : le script d'analyse
+# associe chaque nœud à son image miroir (x -> -x, mêmes y, z) par les
+# coordonnées imprimées (COOR_X/Y/Z) et compare DY/DZ (égaux) et DX
+# (opposé), sur chaque paire.
 TAB_SYM_A = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -2447,7 +2550,7 @@ TAB_SYM_A = POST_RELEVE_T(
         RESULTAT=RESU_A,
         NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
-        GROUP_NO=("ANC_01", "ANC_09", "TETE_TUBE_02", "TETE_TUBE_08", "BOLLARD"),
+        GROUP_NO=("GEN_TOUS_NOEUDS",),
         NOM_CMP=("DX", "DY", "DZ"),
     )
 )

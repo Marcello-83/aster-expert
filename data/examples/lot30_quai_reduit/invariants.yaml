@@ -390,6 +390,7 @@ plane_nodes:
   tolerance: 1.0e-09
 symmetry:
   tolerance: 1.0e-09
+  check_connectivity: true
 nodes_at:
 - label: tube 1, génératrice côté bassin, cote -26
   point:

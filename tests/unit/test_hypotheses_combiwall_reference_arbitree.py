@@ -62,7 +62,9 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     # + la décision 12 (point 11, lot 28) et 6 constats code_aster (points 2, 3, 5 x3,
     #   7) dont 2 remplacent sur place des constats minces de la fiche de base (lot 14)
     # + 1 constat code_aster (mécanisme du pivot nul, point 3, lot 31)
-    assert len(sheet.entries) == 46
+    # + la décision 13 (point 12, lot 33) et 1 constat code_aster
+    #   (FORCE_POUTRE, point 12)
+    assert len(sheet.entries) == 48
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -74,9 +76,9 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
         if isinstance(e, PracticeHypothesisEntry) and e.status == "tranche"
     ]
     # 10 up to lot 20, plus MM's decision on the tube shell choice (lot 21) and
-    # the global frame (point 9, lot 25), decision 11 (point 10, lot 27) and
-    # decision 12 (point 11, lot 28)
-    assert len(tranche_practice) == 14
+    # the global frame (point 9, lot 25), decision 11 (point 10, lot 27),
+    # decision 12 (point 11, lot 28) and decision 13 (point 12, lot 33)
+    assert len(tranche_practice) == 15
     assert {e.point_label for e in tranche_practice} == {
         "0",
         "1",
@@ -90,6 +92,7 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
         "9",
         "10",
         "11",
+        "12",
     }
     assert all(e.decided_by == "MM" for e in tranche_practice)
     assert all(e.validity_domain for e in tranche_practice)

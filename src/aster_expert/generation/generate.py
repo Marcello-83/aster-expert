@@ -47,6 +47,8 @@ _REQUIRED_FACT_TOPICS = (
     "Élément de barre : section, matériau, et absence de degré de rotation au "
     "nœud commun avec la coque",
     "Application d'une force et d'un moment nodaux sur un nœud d'élément de poutre",
+    "Charge linéique répartie et moment linéique sur un élément de poutre "
+    "(FORCE_POUTRE)",
 )
 
 
@@ -106,6 +108,103 @@ def _ascending_component(
     return doubled_profile(list(reversed(comp)))
 
 
+def _sorted_points(
+    mv: ModelValues, name: str, component: str
+) -> list[tuple[float, float]]:
+    """Ascending `(z, p)` pairs of one component, never doubled at an
+    interface -- the raw profile, for `aster_expert.generation.profiles.
+    integrate_profile` (décision 13, lot 33, étape 2), unlike `_ascending_
+    component`'s own doubled form (`formule_block`'s own `DEFI_FONCTION`)."""
+    from aster_expert.generation.profiles import component_profile  # noqa: PLC0415
+
+    points = component_profile(mv.profile_si(name), component)
+    return sorted((z, p) for z, p, _, _ in points)
+
+
+def _tributary_lengths(axes: list[float]) -> list[float]:
+    """Tributary length of each beam node along X (half the span to each
+    neighbour; the two end nodes get only their own half-span, summing to
+    the beam's own total length) -- lot 33, étape 3, needed to turn décision
+    13's linear force/moment (N/m) into nodal forces (`poutre_pressure_
+    nodal_block`, never `FORCE_POUTRE` -- see that function's own
+    docstring)."""
+    n = len(axes)
+    lengths = []
+    for i in range(n):
+        left = (axes[i] - axes[i - 1]) / 2 if i > 0 else 0.0
+        right = (axes[i + 1] - axes[i]) / 2 if i < n - 1 else 0.0
+        lengths.append(left + right)
+    return lengths
+
+
+def _poutre_pressure_charges(
+    mv: ModelValues,
+    eau_p_profile: list[tuple[float, float]],
+    eau_a_profile: list[tuple[float, float]],
+    *,
+    g_accel: float,
+    beam_group_names: list[str],
+    axes: list[float],
+) -> dict[str, str]:
+    """Décision 13 (point 12, lot 33, étape 2) : la poussée (G, Q1) et la
+    pression d'eau (EAU_P, EAU_A) sur la hauteur de la poutre de
+    couronnement (+2,60 à +4,00), représentées par une charge linéique
+    (force par mètre) et un moment linéique de transport à l'axe de la
+    poutre (+3,30) -- `aster_expert.generation.profiles.integrate_profile`,
+    jamais une résultante calculée à la main. Les mêmes profils que l'écran
+    (Q3 et A n'en ont pas -- ce sont des efforts ponctuels, hors profil).
+
+    Lot 33, étape 3 : la charge linéique est répartie en forces nodales
+    tributaires-pondérées aux `n_tubes` nœuds `GEN_POUTRE_<n>`
+    (`_tributary_lengths`, `poutre_pressure_nodal_block`) -- jamais
+    `FORCE_POUTRE`, écarté par une exécution réelle (voir le docstring de
+    `poutre_pressure_nodal_block`). Le cas G porte aussi le poids propre de
+    la poutre (`largeur x hauteur x masse_volumique x g`, jamais sous
+    `PESANTEUR` -- voir `aster_expert.generation.comm.pesanteur_block`),
+    réparti de la même façon."""
+    from aster_expert.generation.profiles import integrate_profile  # noqa: PLC0415
+
+    z_low = mv.si("poutre_couronnement.cote_sous_face")
+    z_high = mv.si("poutre_couronnement.cote_arase")
+    axis = mv.si("poutre_couronnement.cote_centre_gravite")
+    tributary = _tributary_lengths(axes)
+    nodes = [f"{comm.BEAM_NODE_PREFIX}{n}" for n in beam_group_names]
+
+    def charge(
+        concept: str,
+        points: list[tuple[float, float]],
+        *,
+        fz_per_length: float | None = None,
+    ) -> str:
+        resultant, first_moment = integrate_profile(points, z_low, z_high)
+        fy_per_length = -resultant
+        mx_per_length = first_moment - axis * resultant
+        node_loads = {
+            node: (
+                fy_per_length * t,
+                mx_per_length * t,
+                fz_per_length * t if fz_per_length is not None else None,
+            )
+            for node, t in zip(nodes, tributary, strict=True)
+        }
+        return comm.poutre_pressure_nodal_block(concept, node_loads)
+
+    g_points = _sorted_points(mv, "eau_terres.profil_poussee_terres_permanent", "G")
+    q1_points = _sorted_points(mv, "eau_terres.profil_poussee_terres_permanent", "Q1")
+
+    largeur = mv.si("poutre_couronnement.largeur")
+    hauteur = mv.si("poutre_couronnement.hauteur")
+    rho = mv.si("poutre_couronnement.masse_volumique")
+    poids_lineique = largeur * hauteur * rho * g_accel
+
+    return {
+        "G": charge("CH_G_POUTRE", g_points, fz_per_length=-poids_lineique),
+        "Q1": charge("CH_Q1_POUTRE", q1_points),
+        "EAU_P": charge("CH_EAU_P_POUTRE", eau_p_profile),
+        "EAU_A": charge("CH_EAU_A_POUTRE", eau_a_profile),
+    }
+
+
 class DiagnosticOmissions(BaseModel):
     """Lot 30, étape 3 : options de retrait d'un seul ingrédient à la fois,
     pour isoler le pivot nul (`<F> <FACTOR_11>`) de `LIAISON_SOLIDE`
@@ -141,6 +240,27 @@ class DiagnosticOmissions(BaseModel):
     `case_block`) ; BOLLARD exclu du contrôle de symétrie."""
 
 
+class SolverDiagnostics(BaseModel):
+    """Lot 33, étape 1 : isole l'effet de deux paramètres hérités des
+    tentatives du lot 28, jamais démontrés nécessaires isolément
+    (`docs/essais_lot28.md`, `docs/essais_lot33.md`) -- `SOLVEUR/RESI_RELA`
+    (`aster_expert.generation.comm.SOLVER_RESI_RELA`, relaxé du défaut
+    catalogue) et `COEF_RIGI_DRZ` (`comm.DRZ_STIFFNESS_COEF`, relevé du
+    défaut catalogue). Testés un à la fois sur le quai réduit, tous deux se
+    sont révélés inutiles à leur valeur de défaut catalogue ; la production
+    ne passe donc plus aucun des deux mots-clés (`None` -> omis du `.comm`).
+    **Outil de diagnostic uniquement** : une valeur non nulle ajoute le
+    mot-clé correspondant, avec cette valeur, et produit un `.comm` qui ne
+    représente plus la production. Par défaut (aucune valeur), le `.comm`
+    produit est strictement celui de la production -- les tests de
+    régression le vérifient octet pour octet."""
+
+    model_config = ConfigDict(frozen=True)
+
+    resi_rela: float | None = None
+    coef_rigi_drz: float | None = None
+
+
 class JunctionCandidate(BaseModel):
     """Lot 31, étape 2 : méthode de jonction tête de tube / poutre de
     couronnement, comparée sur le quai réduit. **Outil de diagnostic
@@ -171,9 +291,11 @@ def generate_comm(
     aster_version: str,
     diagnostic: DiagnosticOmissions | None = None,
     junction: JunctionCandidate | None = None,
+    solver: SolverDiagnostics | None = None,
 ) -> tuple[str, GenerationReport]:
     omit = diagnostic or DiagnosticOmissions()
     junc = junction or JunctionCandidate()
+    slv = solver or SolverDiagnostics()
     if not fiche_path.is_file():
         message = f"fiche introuvable : {fiche_path}"
         raise GenerationError(message)
@@ -237,9 +359,6 @@ def generate_comm(
     beam_points = _tube_beam_points(params)
     beam_group_names = list(beam_points)
     edge_tube_low, edge_tube_high = min(beam_group_names), max(beam_group_names)
-    sorted_tube_names = sorted(beam_group_names)
-    inner_tube_low = sorted_tube_names[min(1, len(sorted_tube_names) - 1)]
-    inner_tube_high = sorted_tube_names[max(-2, -len(sorted_tube_names))]
     beam_group_full_names = {
         f"{comm.BEAM_NODE_PREFIX}{n}": p for n, p in beam_points.items()
     }
@@ -291,6 +410,19 @@ def generate_comm(
         comm.ECRAN_POUSSEE_TUBES_GROUP if omit.sans_palplanches else "ECRAN_POUSSEE"
     )
 
+    poutre_pressure_charges = (
+        {}
+        if omit.sans_poutre
+        else _poutre_pressure_charges(
+            mv,
+            eau_p_profile,
+            eau_a_profile,
+            g_accel=g_accel,
+            beam_group_names=beam_group_names,
+            axes=params["tube"]["axes_x"],
+        )
+    )
+
     # Lot 31, étape 2 : coordonnées analytiques de chaque nœud d'anneau de
     # tête, exigées par les candidats C1/C4 (comm.junction_ring_groups_block,
     # comm.junction_charge_block) -- jamais lues du MED, jamais nécessaires
@@ -336,6 +468,7 @@ def generate_comm(
             sans_tirants=omit.sans_tirants,
             sans_palplanches=omit.sans_palplanches,
             sans_poutre=omit.sans_poutre,
+            coef_rigi_drz=slv.coef_rigi_drz,
         ),
         comm.materials_block(
             mv,
@@ -358,7 +491,12 @@ def generate_comm(
             group_ma=poussee_group_ma,
             veri_norm=not omit.sans_palplanches,
         ),
-        comm.pesanteur_block("CH_G_POIDS", g_accel),
+        comm.pesanteur_block(
+            "CH_G_POIDS",
+            g_accel,
+            sans_tirants=omit.sans_tirants,
+            sans_palplanches=omit.sans_palplanches,
+        ),
         comm.pressure_load_block(
             "CH_Q1",
             "F_Q1",
@@ -385,90 +523,97 @@ def generate_comm(
             )
         ),
         comm.defense_force_block("CH_A", fy=accostage_fy),
+        poutre_pressure_charges.get("G", ""),
+        poutre_pressure_charges.get("EAU_P", ""),
+        poutre_pressure_charges.get("EAU_A", ""),
+        poutre_pressure_charges.get("Q1", ""),
         comm.case_block(
             "G",
-            extra_charges=["CH_G_POUSSEE", "CH_G_POIDS"],
+            extra_charges=[
+                "CH_G_POUSSEE",
+                "CH_G_POIDS",
+                *(["CH_G_POUTRE"] if "G" in poutre_pressure_charges else []),
+            ],
             sans_poutre=omit.sans_poutre,
+            resi_rela=slv.resi_rela,
         ),
         comm.controls_block(
             "G",
             spring_group_names,
-            edge_tube_low=edge_tube_low,
-            edge_tube_high=edge_tube_high,
-            inner_tube_low=inner_tube_low,
-            inner_tube_high=inner_tube_high,
             sans_tirants=omit.sans_tirants,
-            sans_poutre=omit.sans_poutre,
         ),
         comm.order_of_magnitude_block("G", beam_group_names),
         comm.case_block(
-            "EAU_P", extra_charges=["CH_EAU_P"], sans_poutre=omit.sans_poutre
+            "EAU_P",
+            extra_charges=[
+                "CH_EAU_P",
+                *(["CH_EAU_P_POUTRE"] if "EAU_P" in poutre_pressure_charges else []),
+            ],
+            sans_poutre=omit.sans_poutre,
+            resi_rela=slv.resi_rela,
         ),
         comm.controls_block(
             "EAU_P",
             spring_group_names,
-            edge_tube_low=edge_tube_low,
-            edge_tube_high=edge_tube_high,
-            inner_tube_low=inner_tube_low,
-            inner_tube_high=inner_tube_high,
             sans_tirants=omit.sans_tirants,
-            sans_poutre=omit.sans_poutre,
         ),
         comm.case_block(
-            "EAU_A", extra_charges=["CH_EAU_A"], sans_poutre=omit.sans_poutre
+            "EAU_A",
+            extra_charges=[
+                "CH_EAU_A",
+                *(["CH_EAU_A_POUTRE"] if "EAU_A" in poutre_pressure_charges else []),
+            ],
+            sans_poutre=omit.sans_poutre,
+            resi_rela=slv.resi_rela,
         ),
         comm.controls_block(
             "EAU_A",
             spring_group_names,
-            edge_tube_low=edge_tube_low,
-            edge_tube_high=edge_tube_high,
-            inner_tube_low=inner_tube_low,
-            inner_tube_high=inner_tube_high,
             sans_tirants=omit.sans_tirants,
-            sans_poutre=omit.sans_poutre,
         ),
-        comm.case_block("Q1", extra_charges=["CH_Q1"], sans_poutre=omit.sans_poutre),
+        comm.case_block(
+            "Q1",
+            extra_charges=[
+                "CH_Q1",
+                *(["CH_Q1_POUTRE"] if "Q1" in poutre_pressure_charges else []),
+            ],
+            sans_poutre=omit.sans_poutre,
+            resi_rela=slv.resi_rela,
+        ),
         comm.controls_block(
             "Q1",
             spring_group_names,
-            edge_tube_low=edge_tube_low,
-            edge_tube_high=edge_tube_high,
-            inner_tube_low=inner_tube_low,
-            inner_tube_high=inner_tube_high,
             sans_tirants=omit.sans_tirants,
-            sans_poutre=omit.sans_poutre,
         ),
         *(
             []
             if omit.sans_poutre
             else [
                 comm.case_block(
-                    "Q3", extra_charges=["CH_Q3"], sans_poutre=omit.sans_poutre
+                    "Q3",
+                    extra_charges=["CH_Q3"],
+                    sans_poutre=omit.sans_poutre,
+                    resi_rela=slv.resi_rela,
                 ),
                 comm.controls_block(
                     "Q3",
                     spring_group_names,
-                    edge_tube_low=edge_tube_low,
-                    edge_tube_high=edge_tube_high,
-                    inner_tube_low=inner_tube_low,
-                    inner_tube_high=inner_tube_high,
                     reaction_components=("DY", "DZ"),
                     sans_tirants=omit.sans_tirants,
-                    sans_poutre=omit.sans_poutre,
                 ),
                 comm.order_of_magnitude_block("Q3", beam_group_names),
             ]
         ),
-        comm.case_block("A", extra_charges=["CH_A"], sans_poutre=omit.sans_poutre),
+        comm.case_block(
+            "A",
+            extra_charges=["CH_A"],
+            sans_poutre=omit.sans_poutre,
+            resi_rela=slv.resi_rela,
+        ),
         comm.controls_block(
             "A",
             spring_group_names,
-            edge_tube_low=edge_tube_low,
-            edge_tube_high=edge_tube_high,
-            inner_tube_low=inner_tube_low,
-            inner_tube_high=inner_tube_high,
             sans_tirants=omit.sans_tirants,
-            sans_poutre=omit.sans_poutre,
         ),
         comm.footer(
             [
@@ -507,5 +652,6 @@ __all__ = [
     "DiagnosticOmissions",
     "GenerationReport",
     "JunctionCandidate",
+    "SolverDiagnostics",
     "generate_comm",
 ]

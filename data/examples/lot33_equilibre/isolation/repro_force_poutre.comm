@@ -1,0 +1,74 @@
+# Reproducteur minimal, lot 29 -- diagnostic du pivot nul de LIAISON_SOLIDE +
+# ressorts DIS_T (lot 28, `.mess` <F> <FACTOR_11>). Hors de tout projet, hors
+# fiche : ne pas transposer.
+# Parametres : n_springs=0, stiffness_n_per_m=1000000.000000000000,
+# symmetry=False, redundant_bc=False.
+
+DEBUT(CODE="OUI", ERREUR=_F(ALARME="EXCEPTION"), DEBUG=_F(SDVERI="OUI"))
+
+MAIL = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+
+MO = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(GROUP_MA=("COQUE",), PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+        _F(GROUP_MA=("POUTRE",), PHENOMENE="MECANIQUE", MODELISATION="POU_D_E"),
+    ),
+)
+
+CARA = AFFE_CARA_ELEM(
+    MODELE=MO,
+    COQUE=_F(
+        GROUP_MA=("COQUE",), EPAIS=0.014000000000,
+        COEF_RIGI_DRZ=0.001000000000,
+    ),
+    POUTRE=_F(
+        GROUP_MA=("POUTRE",), SECTION="RECTANGLE", CARA=("HY", "HZ"),
+        VALE=(2.500000000000, 1.400000000000),
+    ),
+)
+
+MAT_TUBE = DEFI_MATERIAU(
+    ELAS=_F(E=210000000000.000000000000, NU=0.300000000000, RHO=7850.000000000000)
+)
+MAT_BETON = DEFI_MATERIAU(
+    ELAS=_F(E=34000000000.000000000000, NU=0.200000000000, RHO=2500.000000000000)
+)
+
+CHMAT = AFFE_MATERIAU(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(GROUP_MA=("COQUE",), MATER=MAT_TUBE),
+        _F(GROUP_MA=("POUTRE",), MATER=MAT_BETON),
+    ),
+)
+
+# Point 3 du quai : liaison de corps solide, anneau de tete + noeud de poutre
+# (cas test sdlx03b.comm).
+CH_SOLIDE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    LIAISON_SOLIDE=_F(GROUP_NO=("TETE", "POUTRE_N")),
+)
+
+CH_BLOC = AFFE_CHAR_MECA(
+    MODELE=MO,
+    DDL_IMPO=(
+        _F(GROUP_NO=("PIED",), DX=0.0, DY=0.0, DZ=0.0),
+    ),
+)
+
+CH_CHARGE = AFFE_CHAR_MECA(
+    MODELE=MO, FORCE_POUTRE=_F(GROUP_MA=("POUTRE",), FZ=-1000.0)
+)
+
+RESU = MECA_STATIQUE(
+    MODELE=MO,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(_F(CHARGE=CH_SOLIDE), _F(CHARGE=CH_BLOC), _F(CHARGE=CH_CHARGE)),
+    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.000100000000),
+)
+
+RESU = CALC_CHAMP(reuse=RESU, RESULTAT=RESU, FORCE=("REAC_NODA",))
+
+FIN()

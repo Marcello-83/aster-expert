@@ -779,7 +779,7 @@ def expected_invariants(params: dict[str, Any]) -> dict[str, Any]:
             {"group": "SYM_D", "axis": "x", "value": x_right, "tolerance": TOL},
             {"group": "PIED_TUBES", "axis": "z", "value": z_foot, "tolerance": TOL},
         ],
-        "symmetry": {"tolerance": TOL},
+        "symmetry": {"tolerance": TOL, "check_connectivity": True},
         "nodes_at": nodes_at,
         "shared_nodes": shared,
         "no_orphan_nodes": True,

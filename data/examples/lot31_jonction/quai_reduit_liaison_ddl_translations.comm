@@ -3,7 +3,7 @@
 # maillage vérifié, puis une nouvelle génération.
 #
 # Code_Aster ciblé : 17.4.0
-# Fiche             : sha256:cef5b349403b72a44b9b97995c30981ab1603cbda3b72d737a75f765a2e31610
+# Fiche             : sha256:a9b1bb54ad6923adbf70bca5c424ebf88c1520be3fd793c88d451dc5ddecd671
 # Données           : sha256:a3899575b0117573bd4b99d1f542c9fd0a1392e1d6fa02e2e474880397a8ecee
 # Maillage vérifié  : sha256:507a0942d5c1e0bd07325e443e511f061432e625b0262a53d96b12355812b5b6
 
@@ -758,20 +758,19 @@ MO = AFFE_MODELE(
 # MN/m en N/m (x1e6). M_T_D_N = 0 par classe (lot 31, étape 3) : un ressort
 # est un appui, pas de la matière -- masse explicitement nulle sous
 # PESANTEUR, jamais omise (U4.42.01 DISCRET, <F> <DISCRETS_26> sinon).
-# Point 3 : COEF_RIGI_DRZ sur les deux groupes DKT -- voir DRZ_STIFFNESS_COEF.
+# Point 3 : COEF_RIGI_DRZ omis (lot 33, étape 1 : inutile au défaut
+# catalogue sur le quai réduit, testé isolément -- voir DRZ_STIFFNESS_COEF).
 CARA = AFFE_CARA_ELEM(
     MODELE=MO,
     COQUE=(
         _F(
             GROUP_MA=("TUBES",),
             EPAIS=0.014,
-            COEF_RIGI_DRZ=0.001,
         ),
         _F(
             GROUP_MA=("PALPS",),
             EPAIS=0.01385,
             VECTEUR=(0.0, 0.0, 1.0),
-            COEF_RIGI_DRZ=0.001,
         ),
     ),
     BARRE=_F(
@@ -1189,12 +1188,13 @@ CH_SOLIDE = AFFE_CHAR_MECA(
 )
 
 # Point 7 : symétrie par rapport aux plans X = constante (SYM_G, SYM_D) --
-# translation normale au plan (DX) sur tout le plan, rotations autour des
-# deux axes du plan (DRY, DRZ) sur sa part hors anneau de tête seulement
-# quand la jonction est LIAISON_SOLIDE (voir le commentaire de
-# symmetry_and_support_block : la part de l'anneau tient alors sa rotation de
-# LIAISON_SOLIDE, l'imposer une seconde fois y a produit un pivot nul), sur le
-# plan entier sinon (candidats C1/C4, lot 31) ; DY, DZ, DRX libres (U4.44.01,
+# translation normale au plan (DX) et rotations autour des deux axes du plan
+# (DRY, DRZ) sur sa part hors anneau de tête seulement quand la jonction est
+# LIAISON_SOLIDE (voir le commentaire de symmetry_and_support_block : la part
+# de l'anneau tient alors ses six degrés de liberté de LIAISON_SOLIDE, les
+# imposer une seconde fois y a produit un pivot nul -- lot 32, généralisé aux
+# translations après le lot 31 qui n'excluait que les rotations), sur le plan
+# entier sinon (candidats C1/C4, lot 31) ; DY, DZ, DRX libres (U4.44.01,
 # tableau 5-2 : degrés de liberté dans le repère global ; cas test
 # ssls100b.comm, bords de symétrie).
 # Point 11 (décision 12) : appui vertical seul au pied des tubes.
@@ -1204,10 +1204,8 @@ CH_SOLIDE = AFFE_CHAR_MECA(
 CH_BLOC = AFFE_CHAR_MECA(
     MODELE=MO,
     DDL_IMPO=(
-        _F(GROUP_NO=("SYM_G",), DX=0.0),
-        _F(GROUP_NO=("SYM_G",), DRY=0.0, DRZ=0.0),
-        _F(GROUP_NO=("SYM_D",), DX=0.0),
-        _F(GROUP_NO=("SYM_D",), DRY=0.0, DRZ=0.0),
+        _F(GROUP_NO=("SYM_G",), DX=0.0, DRY=0.0, DRZ=0.0),
+        _F(GROUP_NO=("SYM_D",), DX=0.0, DRY=0.0, DRZ=0.0),
         _F(GROUP_NO=("PIED_TUBES",), DZ=0.0),
         _F(GROUP_NO=("ANCRAGES",), DX=0.0, DY=0.0, DZ=0.0),
     ),
@@ -1253,11 +1251,9 @@ CH_G_POUSSEE = AFFE_CHAR_MECA_F(
     MODELE=MO, FORCE_COQUE=_F(GROUP_MA=("ECRAN_POUSSEE",), PRES=F_G)
 )
 
-# Point 8 : pesanteur (cas G), tous matériaux porteurs de RHO (tube, poutre,
-# tirant, palplanche via ELAS_COQUE/RHO -- lot 22 : RHO exigé sur tout
-# élément ELAS_COQUE du modèle sous PESANTEUR).
 CH_G_POIDS = AFFE_CHAR_MECA(
-    MODELE=MO, PESANTEUR=_F(GRAVITE=9.81, DIRECTION=(0.0, 0.0, -1.0))
+    MODELE=MO,
+    PESANTEUR=_F(GRAVITE=9.81, DIRECTION=(0.0, 0.0, -1.0), GROUP_MA=("TUBES", "PALPS", "TIRANTS",)),
 )
 
 CH_Q1 = AFFE_CHAR_MECA_F(
@@ -1292,6 +1288,42 @@ CH_A = AFFE_CHAR_MECA(
     MODELE=MO, FORCE_COQUE=_F(GROUP_MA=("DEFENSE",), FY=718056.0475032325)
 )
 
+# Point 12 (décision 13) : FY = -intégrale(p dz) (linéique, vers le bassin,
+# comme la poussée sur l'écran), MX = intégrale(p*(z - 3,30) dz) (moment
+# linéique de transport de la résultante à l'axe de la poutre). FZ (cas G
+# seul) : poids propre de la poutre (lot 33, étape 3 -- voir pesanteur_block).
+CH_G_POUTRE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_POUTRE=_F(GROUP_MA=("POUTRE_COUR",), FY=-5733.0, MX=-1337.7000000000007, FZ=-85837.5),
+)
+
+# Point 12 (décision 13) : FY = -intégrale(p dz) (linéique, vers le bassin,
+# comme la poussée sur l'écran), MX = intégrale(p*(z - 3,30) dz) (moment
+# linéique de transport de la résultante à l'axe de la poutre). FZ (cas G
+# seul) : poids propre de la poutre (lot 33, étape 3 -- voir pesanteur_block).
+CH_EAU_P_POUTRE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_POUTRE=_F(GROUP_MA=("POUTRE_COUR",), FY=-0.0, MX=0.0),
+)
+
+# Point 12 (décision 13) : FY = -intégrale(p dz) (linéique, vers le bassin,
+# comme la poussée sur l'écran), MX = intégrale(p*(z - 3,30) dz) (moment
+# linéique de transport de la résultante à l'axe de la poutre). FZ (cas G
+# seul) : poids propre de la poutre (lot 33, étape 3 -- voir pesanteur_block).
+CH_EAU_A_POUTRE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_POUTRE=_F(GROUP_MA=("POUTRE_COUR",), FY=-799.9999999999991, MX=-453.3333333333326),
+)
+
+# Point 12 (décision 13) : FY = -intégrale(p dz) (linéique, vers le bassin,
+# comme la poussée sur l'écran), MX = intégrale(p*(z - 3,30) dz) (moment
+# linéique de transport de la résultante à l'axe de la poutre). FZ (cas G
+# seul) : poids propre de la poutre (lot 33, étape 3 -- voir pesanteur_block).
+CH_Q1_POUTRE = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_POUTRE=_F(GROUP_MA=("POUTRE_COUR",), FY=-17220.0, MX=0.0),
+)
+
 RESU_G = MECA_STATIQUE(
     MODELE=MO,
     CHAM_MATER=CHMAT,
@@ -1301,22 +1333,21 @@ RESU_G = MECA_STATIQUE(
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_G_POUSSEE),
         _F(CHARGE=CH_G_POIDS),
+        _F(CHARGE=CH_G_POUTRE),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_G = CALC_CHAMP(
-    reuse=RESU_G, RESULTAT=RESU_G, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_G = CALC_CHAMP(reuse=RESU_G, RESULTAT=RESU_G, FORCE=("REAC_NODA",))
 
 TAB_RESS_G = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_G",
         RESULTAT=RESU_G,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_G, UNITE=6)
@@ -1372,22 +1403,21 @@ RESU_EAU_P = MECA_STATIQUE(
         _F(CHARGE=CH_SOLIDE),
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_EAU_P),
+        _F(CHARGE=CH_EAU_P_POUTRE),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_EAU_P = CALC_CHAMP(
-    reuse=RESU_EAU_P, RESULTAT=RESU_EAU_P, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_EAU_P = CALC_CHAMP(reuse=RESU_EAU_P, RESULTAT=RESU_EAU_P, FORCE=("REAC_NODA",))
 
 TAB_RESS_EAU_P = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_EAU_P",
         RESULTAT=RESU_EAU_P,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_EAU_P, UNITE=6)
@@ -1430,22 +1460,21 @@ RESU_EAU_A = MECA_STATIQUE(
         _F(CHARGE=CH_SOLIDE),
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_EAU_A),
+        _F(CHARGE=CH_EAU_A_POUTRE),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_EAU_A = CALC_CHAMP(
-    reuse=RESU_EAU_A, RESULTAT=RESU_EAU_A, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_EAU_A = CALC_CHAMP(reuse=RESU_EAU_A, RESULTAT=RESU_EAU_A, FORCE=("REAC_NODA",))
 
 TAB_RESS_EAU_A = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_EAU_A",
         RESULTAT=RESU_EAU_A,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_EAU_A, UNITE=6)
@@ -1488,22 +1517,21 @@ RESU_Q1 = MECA_STATIQUE(
         _F(CHARGE=CH_SOLIDE),
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_Q1),
+        _F(CHARGE=CH_Q1_POUTRE),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_Q1 = CALC_CHAMP(
-    reuse=RESU_Q1, RESULTAT=RESU_Q1, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_Q1 = CALC_CHAMP(reuse=RESU_Q1, RESULTAT=RESU_Q1, FORCE=("REAC_NODA",))
 
 TAB_RESS_Q1 = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_Q1",
         RESULTAT=RESU_Q1,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_Q1, UNITE=6)
@@ -1547,21 +1575,19 @@ RESU_Q3 = MECA_STATIQUE(
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_Q3),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_Q3 = CALC_CHAMP(
-    reuse=RESU_Q3, RESULTAT=RESU_Q3, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_Q3 = CALC_CHAMP(reuse=RESU_Q3, RESULTAT=RESU_Q3, FORCE=("REAC_NODA",))
 
 TAB_RESS_Q3 = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_Q3",
         RESULTAT=RESU_Q3,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY", "DZ"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_Q3, UNITE=6)
@@ -1618,21 +1644,19 @@ RESU_A = MECA_STATIQUE(
         _F(CHARGE=CH_BLOC),
         _F(CHARGE=CH_A),
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),
+    SOLVEUR=_F(METHODE="MUMPS"),
 )
-RESU_A = CALC_CHAMP(
-    reuse=RESU_A, RESULTAT=RESU_A, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_A = CALC_CHAMP(reuse=RESU_A, RESULTAT=RESU_A, FORCE=("REAC_NODA",))
 
 TAB_RESS_A = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_A",
         RESULTAT=RESU_A,
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=("GEN_RESS_ARGI_01", "GEN_RESS_ARGI_02", "GEN_RESS_ARGI_03", "GEN_RESS_ARGI_04", "GEN_RESS_ARGI_05", "GEN_RESS_ARGI_06", "GEN_RESS_ARGI_07", "GEN_RESS_ARGI_08", "GEN_RESS_ARGI_09", "GEN_RESS_ARGI_10", "GEN_RESS_ARGI_11", "GEN_RESS_ARGI_12", "GEN_RESS_ARGI_13", "GEN_RESS_ARGI_14", "GEN_RESS_ARGI_15", "GEN_RESS_ARGI_16", "GEN_RESS_ARGI_17", "GEN_RESS_ARGI_18", "GEN_RESS_ARGI_19", "GEN_RESS_ARGI_20", "GEN_RESS_ARGI_21", "GEN_RESS_ARGI_22", "GEN_RESS_ARGI_23", "GEN_RESS_ARGI_24", "GEN_RESS_ARGI_25", "GEN_RESS_MARNE_01", "GEN_RESS_MARNE_02", "GEN_RESS_MARNE_03", "GEN_RESS_MARNE_04", "GEN_RESS_MARNE_05", "GEN_RESS_MARNE_06", "GEN_RESS_MARNE_07", "GEN_RESS_MARNE_08", "GEN_RESS_MARNE_09", "GEN_RESS_MARNE_10", "GEN_RESS_MARNE_11", "GEN_RESS_MARNE_12", "GEN_RESS_MARNE_13", "GEN_RESS_MARNE_14", "GEN_RESS_MARNE_15", "GEN_RESS_MARNE_16", "GEN_RESS_MARNE_17", "GEN_RESS_MARNE_18", "GEN_RESS_MARNE_19", "GEN_RESS_MARNE_20", "GEN_RESS_MARNE_21", "GEN_RESS_MARNE_22", "GEN_RESS_MARNE_23"),
-        RESULTANTE=("DY"),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_A, UNITE=6)
@@ -1671,12 +1695,12 @@ IMPR_RESU(
     FORMAT="MED",
     UNITE=80,
     RESU=(
-        _F(RESULTAT=RESU_G),
-        _F(RESULTAT=RESU_EAU_P),
-        _F(RESULTAT=RESU_EAU_A),
-        _F(RESULTAT=RESU_Q1),
-        _F(RESULTAT=RESU_Q3),
-        _F(RESULTAT=RESU_A),
+        _F(RESULTAT=RESU_G, CARA_ELEM=CARA, NOM_RESU_MED="G"),
+        _F(RESULTAT=RESU_EAU_P, CARA_ELEM=CARA, NOM_RESU_MED="EAU_P"),
+        _F(RESULTAT=RESU_EAU_A, CARA_ELEM=CARA, NOM_RESU_MED="EAU_A"),
+        _F(RESULTAT=RESU_Q1, CARA_ELEM=CARA, NOM_RESU_MED="Q1"),
+        _F(RESULTAT=RESU_Q3, CARA_ELEM=CARA, NOM_RESU_MED="Q3"),
+        _F(RESULTAT=RESU_A, CARA_ELEM=CARA, NOM_RESU_MED="A"),
     ),
 )
 

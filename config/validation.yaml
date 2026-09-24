@@ -72,6 +72,14 @@ execution:
     # scripts/generate_lot32_regle_cl.py (générateur de production, décision
     # 4 inchangée -- révision levée en mémoire seulement pour la génération).
     - data/examples/lot32_cl
+    # Isolation des paramètres hérités RESI_RELA/COEF_RIGI_DRZ (lot 33,
+    # étape 1), même maillage que le quai réduit, .comm produits par
+    # scripts/generate_lot33_solveur.py (générateur de production, décision
+    # 4 inchangée -- un seul paramètre au défaut catalogue à la fois).
+    - data/examples/lot33_solveur
+    # Vérification de la méthode d'extraction de l'effort dans un ressort
+    # DIS_T (lot 33, étape 3), cas isolé à réponse analytique connue.
+    - data/examples/lot33_equilibre
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

@@ -112,9 +112,17 @@ class PlaneNodesInvariant(_Model):
 
 
 class SymmetryInvariant(_Model):
-    """For every node of coordinate x, a node exists at -x (same y and z)."""
+    """For every node of coordinate x, a node exists at -x (same y and z).
+
+    Lot 33, étape 4 : `check_connectivity`, quand vrai, vérifie en plus que
+    pour chaque maille (2D ou 1D), une maille du même type existe dont les
+    nœuds sont exactement les images miroir (x -> -x) des siens, dans un
+    ordre correspondant -- une symétrie de connectivité, pas seulement de
+    coordonnées (deux triangulations pourraient avoir des ensembles de
+    nœuds en miroir sans que les mailles se correspondent)."""
 
     tolerance: float
+    check_connectivity: bool = False
 
 
 class Invariants(_Model):
@@ -461,25 +469,32 @@ def evaluate(dump: MedDump, invariants: Invariants) -> list[InvariantResult]:
 
     if invariants.symmetry is not None:
         tol = invariants.symmetry.tolerance
-        keyed: dict[tuple[int, int, int], list[Point]] = {}
-        for p in dump.coords:
+        keyed: dict[tuple[int, int, int], list[tuple[int, Point]]] = {}
+        for idx, p in enumerate(dump.coords):
             keyed.setdefault(
                 (round(p[0] / tol), round(p[1] / tol), round(p[2] / tol)), []
-            ).append(p)
+            ).append((idx, p))
         unmatched = 0
         example: Point | None = None
-        for p in dump.coords:
+        node_mirror: dict[int, int] = {}
+        for idx, p in enumerate(dump.coords):
             mirror = (round(-p[0] / tol), round(p[1] / tol), round(p[2] / tol))
-            found = any(
-                math.dist((-p[0], p[1], p[2]), q) <= tol
-                for dx in (-1, 0, 1)
-                for dy in (-1, 0, 1)
-                for dz in (-1, 0, 1)
-                for q in keyed.get((mirror[0] + dx, mirror[1] + dy, mirror[2] + dz), ())
-            )
-            if not found:
+            best_idx: int | None = None
+            best_d = math.inf
+            for dx in (-1, 0, 1):
+                for dy in (-1, 0, 1):
+                    for dz in (-1, 0, 1):
+                        for jdx, q in keyed.get(
+                            (mirror[0] + dx, mirror[1] + dy, mirror[2] + dz), ()
+                        ):
+                            d = math.dist((-p[0], p[1], p[2]), q)
+                            if d <= tol and d < best_d:
+                                best_idx, best_d = jdx, d
+            if best_idx is None:
                 unmatched += 1
                 example = example or p
+            else:
+                node_mirror[idx] = best_idx
         add(
             "symétrie",
             f"nœud en -x pour chaque nœud en x (tol. {tol:g})",
@@ -488,6 +503,35 @@ def evaluate(dump: MedDump, invariants: Invariants) -> list[InvariantResult]:
             + (f", ex. {_fmt_point(example)}" if example else ""),
             unmatched == 0,
         )
+
+        if invariants.symmetry.check_connectivity:
+            cell_bad = 0
+            cell_example: tuple[str, int] | None = None
+            for level_key, level in dump.levels.items():
+                cell_sets: dict[tuple[str, frozenset[int]], int] = {}
+                for i, cell_nodes in enumerate(level.connectivity):
+                    cell_sets[(level.types[i], frozenset(cell_nodes))] = i
+                for i, cell_nodes in enumerate(level.connectivity):
+                    if not all(n in node_mirror for n in cell_nodes):
+                        cell_bad += 1
+                        cell_example = cell_example or (level_key, i)
+                        continue
+                    mirrored_nodes = frozenset(node_mirror[n] for n in cell_nodes)
+                    if (level.types[i], mirrored_nodes) not in cell_sets:
+                        cell_bad += 1
+                        cell_example = cell_example or (level_key, i)
+            add(
+                "symétrie",
+                f"connectivité miroir de chaque maille (tol. {tol:g})",
+                "0 maille sans image miroir",
+                f"{cell_bad} maille(s) sans image miroir"
+                + (
+                    f", ex. niveau {cell_example[0]} maille {cell_example[1]}"
+                    if cell_example
+                    else ""
+                ),
+                cell_bad == 0,
+            )
 
     for at in invariants.nodes_at:
         nearest = min((math.dist(at.point, p) for p in dump.coords), default=math.inf)

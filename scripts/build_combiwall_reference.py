@@ -68,6 +68,11 @@ always through the project's own write paths -- never by editing the JSON:
     directly on more than one node of the tied set) removed the null pivot
     on the reduced quay -- decision 4 itself is not changed, per this lot's
     own instructions.
+13. lot 33: MM's decision 13 (point 12, `decision13_poussee_poutre.md`,
+    copied verbatim), inserted with `insert_practice_entry`; its `decided_at`
+    is the recording time (`lot33_enregistrement.json`). Then the
+    `FORCE_POUTRE` code_aster finding (point 12, `lot33_facts.json`/
+    `lot33_extraits.json`) the decision's own generation relies on.
 
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
@@ -930,6 +935,77 @@ def _lot32(sheet: HypothesesSheet) -> HypothesesSheet:
     return sheet.model_copy(update={"entries": tuple(entries)})
 
 
+def _record_decision_13(
+    sheet: HypothesesSheet, path: Path, decided_at: datetime
+) -> HypothesesSheet:
+    """Insert decision 13 (point 12, poussée/pression d'eau sur la hauteur de
+    la poutre de couronnement) as worded -- same header-list shape as
+    decisions 11/12 (`_record_decision_11`/`_record_decision_12`), no
+    trailing group-naming paragraph to strip."""
+    head, _, rest = path.read_text(encoding="utf-8").partition("**option_retained**")
+    f = _fields("**option_retained**" + rest)
+    point_label = re.search(r"- `point_label` : `\"(.*?)\"`", head)
+    topic = re.search(r"- `topic` : `\"(.*)\"`\s*$", head, flags=re.M)
+    decided_by = re.search(r"- `decided_by` : `\"(.*?)\"`", head)
+    reference = re.search(r"la référence `\"(.*?)\"`", head, flags=re.S)
+    assert point_label and topic and decided_by and reference, path
+    entry = PracticeHypothesisEntry(
+        point_label=point_label[1], topic=topic[1], status="non_tranche"
+    )
+    return insert_practice_entry(
+        sheet,
+        record_practice_decision(
+            entry=entry,
+            option_retained=_unwrap(f["option_retained"]),
+            justification=_unwrap(f["justification"]),
+            validity_domain=_unwrap(f["validity_domain"]),
+            sources=(
+                PracticeSource(
+                    origin="decision_ingenieur",
+                    reference=_collapse(reference[1]),
+                    date=decided_at.date(),
+                ),
+            ),
+            discarded_variants=_variants(f["discarded_variants"]),
+            decided_by=decided_by[1],
+            decided_at=decided_at,
+        ),
+    )
+
+
+def _lot33_facts(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Étape 2's own code_aster finding (point 12, `FORCE_POUTRE`):
+    `lot33_facts.json`/`lot33_extraits.json`, a brand-new entry (this topic
+    has no earlier finding to replace or extend)."""
+    research = json.loads((INPUTS / "lot33_facts.json").read_text("utf-8"))
+    extracts = _load_extracts("lot33_extraits.json")
+    cat = research["catalogue"]
+    for f in research["code_aster_findings"]:
+        entry = record_code_aster_finding(
+            topic=f["topic"],
+            sources=_finding_sources(f, cat, extracts),
+            option_retained=f["option_retained"],
+            justification=f["justification"],
+            point_label=f["point_label"],
+            notes=f["notes"],
+        )
+        sheet = sheet.model_copy(update={"entries": (*sheet.entries, entry)})
+    return sheet
+
+
+def _lot33(sheet: HypothesesSheet) -> HypothesesSheet:
+    """MM's decision 13 (point 12), recorded as worded; `decided_at` is the
+    recording time (`lot33_enregistrement.json`). Then the `FORCE_POUTRE`
+    finding (`_lot33_facts`) that decision's own generation relies on."""
+    record = json.loads((INPUTS / "lot33_enregistrement.json").read_text("utf-8"))
+    sheet = _record_decision_13(
+        sheet,
+        INPUTS / "decision13_poussee_poutre.md",
+        datetime.fromisoformat(record["decision_13"]["decided_at"]),
+    )
+    return _lot33_facts(sheet)
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -946,7 +1022,8 @@ def build_sheet() -> HypothesesSheet:
     sheet = _lot27(sheet)
     sheet = _lot28(sheet)
     sheet = _lot31(sheet)
-    return _lot32(sheet)
+    sheet = _lot32(sheet)
+    return _lot33(sheet)
 
 
 def dump(sheet: HypothesesSheet) -> str:

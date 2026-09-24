@@ -1,0 +1,24 @@
+% Vérification lot 33, étape 3 : effort dans un ressort DIS_T isolé, réponse
+% analytique connue (un seul nœud, un seul ressort K_T_D_N selon Y).
+TITRE
+Ressort seul : verification EFGE_ELNO / SIEF_ELGA sur DIS_T
+FINSF
+
+COOR_3D
+N1 0.000000000000 0.000000000000 0.000000000000
+FINSF
+
+POI1
+MA1 N1
+FINSF
+
+GROUP_MA
+RESSORT
+  MA1
+FINSF
+
+GROUP_NO
+RESSORT N1
+FINSF
+
+FIN

@@ -14,7 +14,12 @@ import pytest
 
 from aster_expert.agent.model_data import load_model_data
 from aster_expert.generation.errors import GenerationError
-from aster_expert.generation.generate import _params_json_bytes, generate_comm
+from aster_expert.generation.generate import (
+    SolverDiagnostics,
+    _params_json_bytes,
+    _tributary_lengths,
+    generate_comm,
+)
 from aster_expert.meshing.combiwall import build_params
 from aster_expert.meshing.run import MeshRunReport, record_verified_mesh, sha256_file
 
@@ -167,6 +172,48 @@ def test_springs_carry_an_explicit_zero_mass(
     assert text.count('CARA="K_T_D_N"') == report.n_spring_classes
 
 
+def test_production_omits_the_lot28_solver_parameters(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    """Lot 33, étape 1 : `SOLVEUR/RESI_RELA` et `COEF_RIGI_DRZ`, hérités des
+    tentatives du lot 28 pour lever le pivot nul de `LIAISON_SOLIDE`, se sont
+    révélés inutiles isolément une fois cette cause corrigée au lot 32
+    (`docs/essais_lot33.md`, exécutions réelles sur le quai réduit) : la
+    production ne passe plus ni l'un ni l'autre, jamais implicitement les
+    deux retirés à la fois sans démonstration séparée."""
+    text, _ = generate_comm(
+        fiche_path=_FICHE,
+        data_path=_DATA,
+        med_path=verified_mesh,
+        project_root=tmp_path,
+        work_dir_root="mesh_runs",
+        aster_version="17.4.0",
+    )
+    assert "RESI_RELA=" not in text
+    assert "COEF_RIGI_DRZ=" not in text
+    assert 'SOLVEUR=_F(METHODE="MUMPS"),' in text
+
+
+def test_solver_diagnostics_can_still_reproduce_the_lot28_values(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    """**Outil de diagnostic uniquement** (jamais la production) : une valeur
+    explicite ajoute le mot-clé correspondant -- exactement ce que
+    `scripts/generate_lot33_solveur.py` a utilisé pour l'isolation de
+    l'étape 1."""
+    text, _ = generate_comm(
+        fiche_path=_FICHE,
+        data_path=_DATA,
+        med_path=verified_mesh,
+        project_root=tmp_path,
+        work_dir_root="mesh_runs",
+        aster_version="17.4.0",
+        solver=SolverDiagnostics(resi_rela=1.0e-4, coef_rigi_drz=1.0e-3),
+    )
+    assert 'SOLVEUR=_F(METHODE="MUMPS", RESI_RELA=0.0001),' in text
+    assert text.count("COEF_RIGI_DRZ=0.001,") == 2
+
+
 def test_refuses_when_mesh_report_fingerprint_does_not_match(
     verified_mesh: Path, tmp_path: Path
 ) -> None:
@@ -250,3 +297,53 @@ def test_refuses_when_the_fiche_is_not_ready(
             work_dir_root="mesh_runs",
             aster_version="17.4.0",
         )
+
+
+def test_tributary_lengths_sum_to_the_total_span() -> None:
+    """Lot 33, étape 3 : la somme des longueurs tributaires vaut exactement
+    la longueur totale (bord à bord) de la poutre, quel que soit l'espacement
+    -- l'invariant que le contrôle d'équilibre global suppose (la résultante
+    nodale totale reproduit exactement la résultante linéique totale)."""
+    axes = [0.0, 2.6, 5.2, 10.4]  # espacement irrégulier volontaire
+    lengths = _tributary_lengths(axes)
+    assert len(lengths) == 4
+    assert sum(lengths) == pytest.approx(axes[-1] - axes[0])
+
+
+def test_tributary_lengths_of_a_uniform_spacing() -> None:
+    """Espacement régulier (le cas réel, entraxe constant) : chaque nœud
+    intérieur porte l'entraxe complet, chaque nœud de bord la moitié."""
+    axes = [0.0, 2.6, 5.2, 7.8]
+    lengths = _tributary_lengths(axes)
+    assert lengths[0] == pytest.approx(1.3)
+    assert lengths[1] == pytest.approx(2.6)
+    assert lengths[2] == pytest.approx(2.6)
+    assert lengths[3] == pytest.approx(1.3)
+
+
+def test_poutre_pressure_charges_use_nodal_forces_not_force_poutre(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    """Lot 33, étape 3 : `FORCE_POUTRE` a été écarté par une exécution réelle
+    (`poutre_pressure_nodal_block`'s own docstring) -- la production ne
+    l'utilise plus jamais pour la décision 13, seulement `FORCE_NODALE` aux
+    nœuds `GEN_POUTRE_<n>`, et la somme des forces nodales de chaque charge
+    reproduit exactement la résultante linéique totale (l'invariant que
+    l'équilibre global de l'étape 3 vérifie)."""
+    text, _ = generate_comm(
+        fiche_path=_FICHE,
+        data_path=_DATA,
+        med_path=verified_mesh,
+        project_root=tmp_path,
+        work_dir_root="mesh_runs",
+        aster_version="17.4.0",
+    )
+    assert "FORCE_POUTRE=" not in text
+    for concept in (
+        "CH_G_POUTRE",
+        "CH_Q1_POUTRE",
+        "CH_EAU_P_POUTRE",
+        "CH_EAU_A_POUTRE",
+    ):
+        assert f"{concept} = AFFE_CHAR_MECA(" in text
+        assert "FORCE_NODALE=(" in text

@@ -268,6 +268,62 @@ def test_the_x_symmetry_is_checked_on_every_node() -> None:
     assert _run(shifted, **spec) == [False]
 
 
+def _mirrored_quads_dump() -> MedDump:
+    """Two QUAD4 mailles, image miroir l'une de l'autre par rapport à
+    X = 0, partageant leur arête commune (x = 0)."""
+    coords = (
+        (0.0, 0.0, 0.0),
+        (1.0, 0.0, 0.0),
+        (1.0, 1.0, 0.0),
+        (0.0, 1.0, 0.0),
+        (-1.0, 0.0, 0.0),
+        (-1.0, 1.0, 0.0),
+    )
+    return MedDump.model_validate(
+        {
+            "mesh_name": "m",
+            "space_dimension": 3,
+            "coords": coords,
+            "levels": {
+                "0": {
+                    "types": ["NORM_QUAD4", "NORM_QUAD4"],
+                    "connectivity": [[0, 1, 2, 3], [0, 4, 5, 3]],
+                }
+            },
+            "groups": [],
+        }
+    )
+
+
+def test_lot33_connectivity_symmetry_holds_for_a_mirrored_pair_of_quads() -> None:
+    """Lot 33, étape 4 : deux mailles QUAD4 en miroir exact -- le nœud ET la
+    connectivité se correspondent."""
+    spec = {"symmetry": {"tolerance": 1e-9, "check_connectivity": True}}
+    assert _run(_mirrored_quads_dump(), **spec) == [True, True]
+
+
+def test_lot33_connectivity_symmetry_fails_when_a_cell_has_no_mirror() -> None:
+    """Les nœuds restent en miroir mais une des deux mailles est un
+    triangle, sans correspondance de type -- la connectivité échoue même si
+    la seule condition sur les nœuds réussit encore."""
+    broken = MedDump.model_validate(
+        {
+            "mesh_name": "m",
+            "space_dimension": 3,
+            "coords": _mirrored_quads_dump().coords,
+            "levels": {
+                "0": {
+                    "types": ["NORM_QUAD4", "NORM_TRI3"],
+                    "connectivity": [[0, 1, 2, 3], [0, 4, 3]],
+                }
+            },
+            "groups": [],
+        }
+    )
+    spec = {"symmetry": {"tolerance": 1e-9, "check_connectivity": True}}
+    assert _run(broken, **spec) == [True, False]
+
+
 def test_the_model_bbox_and_node_group_kinds_of_shared_nodes() -> None:
     dump = _wall_dump()
     assert _run(dump, bbox=[-1, 2, 0, 1, 0, 2]) == [True]

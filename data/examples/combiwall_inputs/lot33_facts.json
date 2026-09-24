@@ -1,0 +1,24 @@
+{
+  "catalogue": {
+    "aster_version": "17.4.0",
+    "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+    "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+    "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+  },
+  "code_aster_findings": [
+    {
+      "point_label": "12",
+      "topic": "Charge linéique répartie et moment linéique sur un élément de poutre (FORCE_POUTRE)",
+      "extraits": ["force_poutre"],
+      "catalogue_refs": [
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["FORCE_POUTRE"]},
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["FORCE_POUTRE", "GROUP_MA"]},
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["FORCE_POUTRE", "FY"]},
+        {"command": "AFFE_CHAR_MECA", "keyword_path": ["FORCE_POUTRE", "MX"]}
+      ],
+      "option_retained": "AFFE_CHAR_MECA, mot-clé facteur FORCE_POUTRE, GROUP_MA=(\"POUTRE_COUR\",), FY = charge linéique (N/m, repère global, vers le bassin -- signe négatif) et MX = moment linéique (N, repère global, autour de l'axe X du quai) : une seule occurrence porte les deux composantes à la fois, exactement le schéma du cas test officiel ssll119a.comm (`AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA=\"POUTRE\", FX=10.0, MX=1000.0))`, une force et un moment linéiques globaux sur la même occurrence). Applicable à POU_D_E (liste des modélisations recevables de FX/FY/FZ/MX/MY/MZ : POU_D_T, POU_D_E, POU_D_TGM, POU_D_TG).",
+      "justification": "U4.44.01 (Mot-clé FORCE_POUTRE, extrait ci-joint) : « Le mot-clé facteur FORCE_POUTRE est utilisable pour appliquer des forces linéiques, sur des éléments de type poutre... Les forces sont définies composante par composante, soit dans le repère global... » et, pour TYPE_CHARGE = 'FORCE' (valeur par défaut) : « FX, FY, FZ, MX, MY, MZ : Valeurs des composantes des forces ou des moments linéiques (dans le repère global) appliquées aux mailles spécifiées... mx, my, mz : moments suivant x, y et z. Ce chargement s'applique aux modélisations suivantes : POU_D_T, POU_D_E, POU_D_TGM et POU_D_TG. » Confirmé au catalogue (get_command_schema, AFFE_CHAR_MECA/FORCE_POUTRE) : FY et MX existent tous deux comme opérandes réelles (value_type='R') sous la condition TYPE_CHARGE='FORCE' (la valeur par défaut du mot-clé), aucune limite au nombre d'opérandes présentes simultanément dans une même occurrence _F(). Le cas test officiel ssll119a.comm combine explicitement FX et MX dans une même occurrence FORCE_POUTRE (`MOCO_MX = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA=\"POUTRE\", FX=10.0, MX=1000.0))`), confirmant que force et moment linéiques globaux se combinent sans mot-clé ni occurrence séparée -- transposable de FX à FY (même liste de composantes, même repère global, même condition TYPE_CHARGE='FORCE').",
+      "notes": "Calcul de FY et MX (lot 33, étape 2, décision 13) : `aster_expert.generation.profiles.integrate_profile(points, z_low, z_high)` donne (R, M) = (intégrale p dz, intégrale p*z dz) sur [z_low=cote_sous_face=+2,60 ; z_high=cote_arase=+4,00], en unités SI (Pa*m = N/m, Pa*m2 = N) ; le générateur applique FY = -R (poussée dirigée vers le bassin, -Y, même convention que FORCE_COQUE/PRES sur l'écran) et MX = M - z_axe*R avec z_axe=cote_centre_gravite=+3,30 (moment de la résultante, appliquée à sa cote réelle, transportée à l'axe de la poutre). Dérivation vérifiée par produit vectoriel (r x F, seule la composante en Z du bras de levier compte pour une force purement en Y) et par les quatre résultantes totales de référence (poussée G/Q1, pression d'eau permanente/accidentelle, largeur totale du quai 20,80 m) : 119,2 kN, 358,2 kN, 0,0 kN et 16,6 kN, retrouvées à mieux que 0,1 % par `tests/unit/test_generation_profiles.py::test_integrate_profile_reproduces_the_lot33_reference_resultants`. Aucun cas test officiel ne combine FORCE_POUTRE et une charge de profil variable avec Z sur cette même géométrie de quai -- la méthode d'intégration elle-même (profil linéaire par morceaux, extension plate hors de son propre domaine, comme `formule_block`) est un fait calculé par ce projet, non un fait catalogue."
+    }
+  ]
+}

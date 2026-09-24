@@ -29,6 +29,21 @@ couronnement. `liaison_solide` est la méthode de production (point 3,
 inchangée) ; les deux autres sont des candidats de diagnostic, comparés sur
 le quai réduit, jamais actifs par défaut (`generate.JunctionCandidate`)."""
 
+ALL_NODES_GROUP = "GEN_TOUS_NOEUDS"
+"""Lot 33, étape 4 : groupe de tous les nœuds structurels du maillage
+(`DEFI_GROUP/CREA_GROUP_NO/GROUP_MA=("TUBES", "PALPS", "TIRANTS",
+"POUTRE_COUR")`, U4.22.01 -- les quatre mailles affectées par `AFFE_MODELE`,
+qui couvrent déjà tout nœud portant un DDL, ressorts compris, puisqu'un
+ressort partage son nœud avec la coque), pour le contrôle de symétrie des
+déplacements sur chaque nœud (`controls_block`'s own `TAB_SYM_<nom>`).
+`POST_RELEVE_T/EXTRACTION` refuse `TOUT="OUI"` seul ("At least one argument
+of ('GROUP_NO', 'NOEUD') must be defined", `checkCommandSyntax`, une règle
+non visible du seul catalogue) ; `CREA_GROUP_NO/TOUT_GROUP_MA="OUI"` refuse
+à son tour `NOM` (il nomme un groupe de nœuds par groupe de mailles
+existant, jamais un seul groupe unifié, constaté par `checkCommandSyntax`)
+-- d'où l'union explicite des quatre groupes de mailles plutôt que l'un ou
+l'autre raccourci."""
+
 REF_NORM_GROUP = "GEN_REF_NORM"
 BEAM_NODE_PREFIX = "GEN_POUTRE_"
 SYMG_ROT_GROUP = "GEN_SYMG_ROT"
@@ -40,24 +55,31 @@ ENV_SPHERE_RADIUS = 1.0e-6
 cm, `mesh check`'s `no_coincident_nodes`), so `ENV_SPHERE` selects exactly
 one node, never zero or several."""
 DRZ_STIFFNESS_COEF = 1.0e-3
-"""`AFFE_CARA_ELEM/COQUE/COEF_RIGI_DRZ` on every DKT group (point 3): a DKT
-shell's own drilling (normal) rotation carries essentially no physical
-stiffness, and `LIAISON_SOLIDE` tying a tube's head ring to its beam node
-pivoted to a null factor on exactly that degree of freedom (`<F>
+"""Historical value of `AFFE_CARA_ELEM/COQUE/COEF_RIGI_DRZ` (point 3, lots
+28-32): a DKT shell's own drilling (normal) rotation carries essentially no
+physical stiffness, and `LIAISON_SOLIDE` tying a tube's head ring to its
+beam node pivoted to a null factor on exactly that degree of freedom (`<F>
 <FACTOR_11>`, an actual execution, never visible at level A/B) when left at
-the catalogue's own default of 1e-5 -- MUMPS' singularity test
-(`SOLVEUR/PCENT_PIVOT`, `NPREC`) is relative, not an exact-zero test
-(U4.42.01: COEF_RIGI_DRZ "empêche la matrice d'être singulière", a
-conditioning device, not a modelling choice), and the model's own ~10 000
-spring `DIS_T` degrees of freedom (point 4) change the factorisation's
-pivot order enough to expose it: a reproduction with the springs omitted
-solved at 1e-5, the full model (springs included) did not, at the identical
-node/component every time. Raised to 1e-3 -- the official test case
-combining DKT and `LIAISON_SOLIDE` (`sdlx03b.comm`) sets an even smaller
-1e-9, but that model carries no comparable competing DOF count. Still five
-to eight orders of magnitude below the shells' and springs' own real
-stiffness terms (steel E ~ 2e11 Pa, springs ~ 1e6-1e8 N/m); applied on both
-`TUBES` and `PALPS` (a lock-line node belongs to both)."""
+the catalogue's own default of 1e-5. That pivot's real cause, established at
+lot 31 (R3.03.02/R3.07.03/R3.03.01: `LIAISON_SOLIDE` dualising a rotation a
+DKT shell gives almost no stiffness) and fixed at lot 32 by removing the
+boundary-condition redundancy that made it exact rather than merely
+ill-conditioned, no longer needs this raise: **lot 33, étape 1** found the
+model solves at the plain catalogue default on the reduced quay (isolated
+test, `docs/essais_lot33.md`), so production no longer passes this value
+(`model_and_cara_block`'s own `coef_rigi_drz` defaults to `None`, omitting
+the keyword). Kept only so
+`aster_expert.generation.generate.SolverDiagnostics` can still reproduce the
+lots 28-32 behaviour on request."""
+
+DRZ_STIFFNESS_COEF_CATALOGUE_DEFAULT = 1.0e-5
+"""`AFFE_CARA_ELEM/COQUE/COEF_RIGI_DRZ`'s own catalogue default (level A,
+`get_command_schema("AFFE_CARA_ELEM", keyword="COQUE.COEF_RIGI_DRZ")`,
+confirmed lot 33, étape 1) -- the value `DRZ_STIFFNESS_COEF` was raised from,
+and the value production now gets implicitly by omitting the keyword
+entirely. Kept only for `aster_expert.generation.generate.SolverDiagnostics`
+to pass explicitly when reproducing that omission is useful (e.g. a
+regression test comparing byte-for-byte to the implicit form)."""
 
 
 def _fmt(x: float) -> str:
@@ -361,6 +383,38 @@ MAIL = DEFI_GROUP(
 
 {union_block}
 {creation_poi1}
+# Lot 33, étape 4 : GEN_TOUS_NOEUDS, en deux passes -- un groupe par nom de
+# maille (comme les classes de ressort, spring_group_plan) puis leur UNION,
+# jamais un seul CREA_GROUP_NO(GROUP_MA=(quatre noms,)) : cette dernière
+# forme fait échouer une commande plus loin (<F> <JEVEUX_10>, "Le nom
+# demandé existe déjà dans la base &&SSCGNO.LITMP2" -- une collision de nom
+# interne à Code_Aster, jamais visible du catalogue ; une exécution réelle,
+# non expliquée par les sept outils MCP, comme la numérotation interne de
+# LIAISON_SOLIDE aux lots 28/30/31).
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_NO=(
+        _F(NOM="GEN_TOUS_TUBES", GROUP_MA=("TUBES",)),
+        _F(NOM="GEN_TOUS_PALPS", GROUP_MA=("PALPS",)),
+        _F(NOM="GEN_TOUS_TIRANTS", GROUP_MA=("TIRANTS",)),
+        _F(NOM="GEN_TOUS_POUTRE", GROUP_MA=("POUTRE_COUR",)),
+    ),
+)
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_NO=_F(
+        NOM="{ALL_NODES_GROUP}",
+        UNION=(
+            "GEN_TOUS_TUBES",
+            "GEN_TOUS_PALPS",
+            "GEN_TOUS_TIRANTS",
+            "GEN_TOUS_POUTRE",
+        ),
+    ),
+)
+
 # Point 5 : normales de coque cohérentes sur ECRAN_POUSSEE, orientées côté
 # terre (MODI_MAILLAGE/ORIE_NORM_COQUE, U4.23.04 ; cas test sdls118a.comm) --
 # une pression FORCE_COQUE/PRES positive (U4.44.01 : positive "suivant le
@@ -378,16 +432,24 @@ MAIL = MODI_MAILLAGE(
 
 
 def _palp_coque_keyword(
-    sans_palplanches: bool, epais_palp: float, vecteur_l: tuple[float, ...]
+    sans_palplanches: bool,
+    epais_palp: float,
+    vecteur_l: tuple[float, ...],
+    *,
+    coef_rigi_drz: float | None,
 ) -> str:
     if sans_palplanches:
         return ""
     vecteur = f"({_fmt(vecteur_l[0])}, {_fmt(vecteur_l[1])}, {_fmt(vecteur_l[2])})"
+    drz = (
+        f"\n            COEF_RIGI_DRZ={_fmt(coef_rigi_drz)},"
+        if coef_rigi_drz is not None
+        else ""
+    )
     return (
         '_F(\n            GROUP_MA=("PALPS",),\n            '
         f"EPAIS={_fmt(epais_palp)},\n            "
-        f"VECTEUR={vecteur},\n            "
-        f"COEF_RIGI_DRZ={_fmt(DRZ_STIFFNESS_COEF)},\n        ),"
+        f"VECTEUR={vecteur},{drz}\n        ),"
     )
 
 
@@ -407,6 +469,7 @@ def model_and_cara_block(
     sans_tirants: bool = False,
     sans_palplanches: bool = False,
     sans_poutre: bool = False,
+    coef_rigi_drz: float | None = None,
 ) -> str:
     """One `AFFE_MODELE` and one `AFFE_CARA_ELEM`, every element type at once
     (points 1, 2, 3, 4): DKT on the shells, BARRE on the tie rods (no
@@ -420,7 +483,16 @@ def model_and_cara_block(
     `AFFE` and its own `COQUE` occurrence -- `TUBES` alone still satisfies
     `AFFE`'s own minimum. `sans_poutre` (retrait 4) omits `POUTRE_COUR`'s
     `POU_D_E` model and its `POUTRE` characteristics -- `CH_SOLIDE` does not
-    exist either in this variant (`liaison_solide_block`, `case_block`)."""
+    exist either in this variant (`liaison_solide_block`, `case_block`).
+
+    Lot 33, étape 1 (diagnostic « paramètres hérités ») : `coef_rigi_drz`
+    lets `aster_expert.generation.generate.SolverDiagnostics` add an explicit
+    `COEF_RIGI_DRZ` on both DKT groups at once (`TUBES`/`PALPS`) -- isolated
+    testing on the reduced quay (`docs/essais_lot33.md`) found the model
+    solves at the bare catalogue default (`DRZ_STIFFNESS_COEF_CATALOGUE_
+    DEFAULT`), so production now leaves `coef_rigi_drz` at its default
+    (`None`), omitting the keyword entirely rather than writing that default
+    value out."""
     epais_tube = mv.si("tube.epaisseur_coque_retenue")
     epais_palp = mv.si("palplanche.epaisseur_coque_EPAIS")
     vecteur_l = mv.si_vector("palplanche.vecteur_axe_L")
@@ -484,6 +556,14 @@ def model_and_cara_block(
         f'_F(GROUP_MA={dkt_group_ma}, PHENOMENE="MECANIQUE", MODELISATION="DKT"),'
         f"{tirant_affe}{poutre_affe}{dis_t_affe}"
     )
+    palp_coque = _palp_coque_keyword(
+        sans_palplanches, epais_palp, vecteur_l, coef_rigi_drz=coef_rigi_drz
+    )
+    tube_drz = (
+        f"\n            COEF_RIGI_DRZ={_fmt(coef_rigi_drz)},"
+        if coef_rigi_drz is not None
+        else ""
+    )
     return f"""
 MO = AFFE_MODELE(
     MAILLAGE=MAIL,
@@ -505,16 +585,16 @@ MO = AFFE_MODELE(
 # MN/m en N/m (x1e6). M_T_D_N = 0 par classe (lot 31, étape 3) : un ressort
 # est un appui, pas de la matière -- masse explicitement nulle sous
 # PESANTEUR, jamais omise (U4.42.01 DISCRET, <F> <DISCRETS_26> sinon).
-# Point 3 : COEF_RIGI_DRZ sur les deux groupes DKT -- voir DRZ_STIFFNESS_COEF.
+# Point 3 : COEF_RIGI_DRZ omis (lot 33, étape 1 : inutile au défaut
+# catalogue sur le quai réduit, testé isolément -- voir DRZ_STIFFNESS_COEF).
 CARA = AFFE_CARA_ELEM(
     MODELE=MO,
     COQUE=(
         _F(
             GROUP_MA=("TUBES",),
-            EPAIS={_fmt(epais_tube)},
-            COEF_RIGI_DRZ={_fmt(DRZ_STIFFNESS_COEF)},
+            EPAIS={_fmt(epais_tube)},{tube_drz}
         ),
-        {_palp_coque_keyword(sans_palplanches, epais_palp, vecteur_l)}
+        {palp_coque}
     ),
     {_barre_keyword(sans_tirants, section_tirant)}
     {_poutre_keyword(sans_poutre, largeur_poutre, hauteur_poutre)}{discret_keyword}
@@ -969,13 +1049,34 @@ def pressure_load_block(
 """
 
 
-def pesanteur_block(concept: str, g: float) -> str:
+def pesanteur_block(
+    concept: str,
+    g: float,
+    *,
+    sans_tirants: bool = False,
+    sans_palplanches: bool = False,
+) -> str:
+    """Point 8 : pesanteur (cas G), tube/tirant/palplanche (RHO -- lot 22 :
+    exigé sur tout élément ELAS_COQUE du modèle sous PESANTEUR).
+
+    Lot 33, étape 3 : `POUTRE_COUR` n'est jamais dans `GROUP_MA` -- son propre
+    poids est porté par une force nodale, au même titre que la charge de la
+    décision 13 (`poutre_pressure_nodal_block`'s own `fz`, par nœud), jamais
+    par `PESANTEUR`. `sans_tirants`/`sans_palplanches` (lot 30, étape 3)
+    dropent `TIRANTS`/`PALPS` de `GROUP_MA` exactement comme `model_and_
+    cara_block`'s own `AFFE_MODELE` drop leur propre affectation -- un
+    `GROUP_MA` désignant un groupe qu'`AFFE_MODELE` n'a jamais affecté est
+    refusé à l'exécution."""
+    groups = [
+        "TUBES",
+        *(() if sans_palplanches else ("PALPS",)),
+        *(() if sans_tirants else ("TIRANTS",)),
+    ]
+    group_ma = _tup(groups)
     return f"""
-# Point 8 : pesanteur (cas G), tous matériaux porteurs de RHO (tube, poutre,
-# tirant, palplanche via ELAS_COQUE/RHO -- lot 22 : RHO exigé sur tout
-# élément ELAS_COQUE du modèle sous PESANTEUR).
 {concept} = AFFE_CHAR_MECA(
-    MODELE=MO, PESANTEUR=_F(GRAVITE={_fmt(g)}, DIRECTION=(0.0, 0.0, -1.0))
+    MODELE=MO,
+    PESANTEUR=_F(GRAVITE={_fmt(g)}, DIRECTION=(0.0, 0.0, -1.0), GROUP_MA={group_ma}),
 )
 """
 
@@ -1012,32 +1113,124 @@ def defense_force_block(concept: str, *, fy: float) -> str:
 """
 
 
+def poutre_pressure_nodal_block(
+    concept: str, node_loads: dict[str, tuple[float, float, float | None]]
+) -> str:
+    """Point 12 (décision 13, lot 33) : poussée et pression d'eau sur la
+    hauteur de la poutre de couronnement (+2,60 à +4,00), représentées par
+    des forces nodales (`FORCE_NODALE`, U4.44.01) aux nœuds `GEN_POUTRE_<n>`
+    (un par tube), pondérées par la longueur tributaire de chaque nœud
+    (`aster_expert.generation.generate._tributary_lengths`) -- jamais
+    `FORCE_POUTRE`.
+
+    **`FORCE_POUTRE` a été essayé en premier et écarté par une exécution
+    réelle**, pas par la documentation : le cas test officiel `ssll119a.comm`
+    combine bien `FORCE_POUTRE` avec plusieurs composantes (`FX`/`MX`) et un
+    `LIAISON_SOLIDE` isolé (`data/examples/lot33_equilibre/isolation/`)
+    fonctionne aussi -- mais la poutre de couronnement réelle, continue et
+    liée par PLUSIEURS occurrences de `LIAISON_SOLIDE` (une par tube, point
+    3), bloque tout `CALC_CHAMP` ultérieur sur son propre résultat dès que
+    `FORCE_POUTRE` s'y ajoute (`<F> <CALCULEL2_92>`, "votre chargement
+    contient plus d'une charge répartie... pas possible pour les modèles de
+    poutre"), quel que soit le nombre de composantes non nulles ou la
+    présence d'un second chargement réparti (`PESANTEUR`) --
+    `data/examples/lot33_equilibre/quai_reduit/`. Mécanisme précis non
+    identifié (comme la numérotation interne de `LIAISON_SOLIDE`, lots
+    28/30/31 : hors de portée des sept outils MCP).
+
+    La résultante et le moment totaux restent exacts (somme des poids
+    tributaires = longueur totale de la poutre) : seule la répartition
+    locale est approchée (concentrée aux `n_tubes` nœuds plutôt que
+    continue), sans effet sur l'équilibre global -- la seule chose que
+    l'étape 3 vérifie."""
+    occurrences = []
+    for node, (fy, mx, fz) in node_loads.items():
+        fz_kw = f", FZ={_fmt(fz)}" if fz is not None else ""
+        occurrences.append(
+            f'_F(GROUP_NO=("{node}",), FY={_fmt(fy)}, MX={_fmt(mx)}{fz_kw}),'
+        )
+    body = "\n        ".join(occurrences)
+    return f"""
+# Point 12 (décision 13) : force et moment linéiques de la décision 13,
+# répartis en forces nodales tributaires-pondérées aux nœuds de poutre
+# (voir poutre_pressure_nodal_block -- jamais FORCE_POUTRE, une exécution
+# réelle l'écarte pour la poutre continue à plusieurs LIAISON_SOLIDE).
+{concept} = AFFE_CHAR_MECA(
+    MODELE=MO,
+    FORCE_NODALE=(
+        {body}
+    ),
+)
+"""
+
+
 SOLVER_RESI_RELA = 1.0e-4
-"""`SOLVEUR/RESI_RELA` (MUMPS, catalogue default 1e-6): relaxed here -- an
-actual execution (`<F> <FACTOR_57>`, "la solution du système linéaire est
-trop imprécise", erreur calculée 2.7e-5) hit the default's tolerance once
-`LIAISON_SOLIDE` (point 3) coexists with `COEF_RIGI_DRZ`'s own deliberately
-tiny (point 3) drilling stiffness: a well-conditioned real gap of orders of
-magnitude between the shells' real stiffness and that fictitious one, not a
-structural redundancy (that was the separate `GEN_SYMG_ROT`/`GEN_SYMD_ROT`
-fix -- see `symmetry_and_support_block`). MUMPS' own message names
-`SOLVEUR/RESI_RELA` as the remedy."""
+"""Historical value of `SOLVEUR/RESI_RELA` (MUMPS, catalogue default 1e-6;
+lots 28-32): relaxed after an actual execution (`<F> <FACTOR_57>`, "la
+solution du système linéaire est trop imprécise", erreur calculée 2.7e-5)
+hit the default's tolerance once `LIAISON_SOLIDE` (point 3) coexisted with
+`COEF_RIGI_DRZ`'s own, then deliberately tiny (point 3), drilling stiffness.
+**Lot 33, étape 1** found the model solves at the plain catalogue default on
+the reduced quay (isolated test, `docs/essais_lot33.md`) once `COEF_RIGI_DRZ`
+itself no longer needs raising either (see `DRZ_STIFFNESS_COEF`'s own
+docstring): production no longer passes this value (`case_block`'s own
+`resi_rela` defaults to `None`, omitting the keyword). Kept only so
+`aster_expert.generation.generate.SolverDiagnostics` can still reproduce the
+lots 28-32 behaviour on request."""
+
+SOLVER_RESI_RELA_CATALOGUE_DEFAULT = 1.0e-6
+"""`SOLVEUR/RESI_RELA`'s own catalogue default under `METHODE="MUMPS"` (level
+A, `get_command_schema("MECA_STATIQUE", keyword="SOLVEUR.RESI_RELA")`,
+confirmed lot 33, étape 1) -- the value `SOLVER_RESI_RELA` was relaxed from,
+and the value production now gets implicitly by omitting the keyword
+entirely. Kept only for `aster_expert.generation.generate.SolverDiagnostics`
+to pass explicitly when reproducing that omission is useful (e.g. a
+regression test comparing byte-for-byte to the implicit form)."""
 
 
 def case_block(
-    name: str, *, extra_charges: list[str], sans_poutre: bool = False
+    name: str,
+    *,
+    extra_charges: list[str],
+    sans_poutre: bool = False,
+    resi_rela: float | None = None,
 ) -> str:
     """One elementary load case (Étape 3, point 4 of the table): its own
-    `MECA_STATIQUE` and `REAC_NODA`/`FORC_NODA` for the equilibrium controls
-    -- never combined with another case (no `COEF_MULT`, no superposition).
+    `MECA_STATIQUE` and `REAC_NODA` (support reactions) for the equilibrium
+    controls -- never combined with another case (no `COEF_MULT`, no
+    superposition). The spring forces are read from `DEPL` in `controls_
+    block` (lot 33, étape 3), not computed here.
+
+    Neither `CONTRAINTE=("EFGE_ELNO",)` nor even a bare `FORCE_POUTRE` on
+    `POUTRE_COUR` survive `CALC_CHAMP` once décision 13 is present: an
+    actual execution (`<F> <CALCULEL2_92>`, "votre chargement contient plus
+    d'une charge répartie... pas possible pour les modèles de poutre") --
+    see `poutre_pressure_nodal_block`'s own docstring for the isolation that
+    narrowed this to the continuous beam tied by several `LIAISON_SOLIDE`
+    occurrences (point 3), never fixed by restricting `CALC_CHAMP`'s own
+    `GROUP_MA`. Décision 13's load is therefore applied as nodal forces
+    (`poutre_pressure_nodal_block`), never `FORCE_POUTRE`, in production.
 
     Lot 30, étape 3 (diagnostic « sans la poutre, donc sans liaison de corps
     solide ») : `sans_poutre` omits `CH_SOLIDE` from `EXCIT` -- the concept
     itself does not exist in this variant
     (`aster_expert.generation.comm.liaison_solide_block` returns an empty
-    string)."""
+    string).
+
+    Lot 33, étape 1 (diagnostic « paramètres hérités ») : `resi_rela` lets
+    `aster_expert.generation.generate.SolverDiagnostics` add an explicit
+    `SOLVEUR/RESI_RELA` -- isolated testing on the reduced quay
+    (`docs/essais_lot33.md`) found the model solves at the bare catalogue
+    default (`SOLVER_RESI_RELA_CATALOGUE_DEFAULT`), so production now leaves
+    `resi_rela` at its default (`None`), omitting the keyword entirely
+    rather than writing that default value out."""
     charges = "\n        ".join(f"_F(CHARGE={c})," for c in extra_charges)
     ch_solide = "" if sans_poutre else "\n        _F(CHARGE=CH_SOLIDE),"
+    solveur = (
+        f'SOLVEUR=_F(METHODE="MUMPS", RESI_RELA={_fmt(resi_rela)}),'
+        if resi_rela is not None
+        else 'SOLVEUR=_F(METHODE="MUMPS"),'
+    )
     return f"""
 RESU_{name} = MECA_STATIQUE(
     MODELE=MO,
@@ -1047,11 +1240,9 @@ RESU_{name} = MECA_STATIQUE(
         _F(CHARGE=CH_BLOC),
         {charges}
     ),
-    SOLVEUR=_F(METHODE="MUMPS", RESI_RELA={_fmt(SOLVER_RESI_RELA)}),
+    {solveur}
 )
-RESU_{name} = CALC_CHAMP(
-    reuse=RESU_{name}, RESULTAT=RESU_{name}, FORCE=("REAC_NODA", "FORC_NODA")
-)
+RESU_{name} = CALC_CHAMP(reuse=RESU_{name}, RESULTAT=RESU_{name}, FORCE=("REAC_NODA",))
 """
 
 
@@ -1068,36 +1259,59 @@ def controls_block(
     name: str,
     spring_group_names: list[str],
     *,
-    edge_tube_low: str,
-    edge_tube_high: str,
-    inner_tube_low: str,
-    inner_tube_high: str,
     reaction_components: tuple[str, ...] = ("DY",),
     sans_tirants: bool = False,
-    sans_poutre: bool = False,
 ) -> str:
-    """Étape 4's D-level controls, per elementary case: the resultant in the
-    springs (`FORC_NODA`, point 4's own established restriction to the POI1
-    group) and in the support reactions (`REAC_NODA`, `_SUPPORT_GROUPS`
-    only -- lot 23), for the equilibrium check; symmetric-pair displacements
-    (`DEPL`) for the symmetry check. `POST_RELEVE_T`/`RESULTANTE`: 158 cas
-    tests officiels (ex. forma40a.comm).
+    """Étape 4's D-level controls, per elementary case: the displacement of
+    every spring node (`DEPL`/`DY`, lot 33 étape 3 -- never `FORC_NODA`'s
+    node-summed field, contaminated by whatever shell shares that node;
+    never `EFGE_ELNO` either, which fails outright once a beam model in the
+    same result carries more than one distributed load, see `controls_block`'s
+    own `ressorts_block` for the actual execution) and the resultant in the
+    support reactions (`REAC_NODA`, `_SUPPORT_GROUPS` only -- lot 23), for
+    the equilibrium check; every node's displacement (`DEPL`) for the
+    symmetry check. `POST_RELEVE_T`/`RESULTANTE`: 158 cas tests officiels
+    (ex. forma40a.comm). A spring's own force is `k * DY` (point 4: a
+    `K_T_D_N` carries stiffness on its second component alone, verified on a
+    one-spring analytic case, `data/examples/lot33_equilibre/ressort_seul
+    .comm`) -- `aster_expert`'s own analysis script multiplies and sums
+    `TAB_RESS_<nom>` itself, once printed, matching each row's own `COOR_X`/
+    `COOR_Y`/`COOR_Z` to the generator's own spring classes (never `k`
+    recomputed by hand, never a node name parsed).
 
-    The symmetry pair used to be the full quay's own tube numbers, typed by
-    hand (`ANC_01`/`ANC_09`, `TETE_TUBE_02`/`TETE_TUBE_08`): wrong for any
-    slice with a different tube count (lot 30, étape 2 -- a quay with three
-    tubes has no ninth). `edge_tube_low`/`edge_tube_high` (as
-    `mesh_prep_block`'s own argument of the same name) and
-    `inner_tube_low`/`inner_tube_high` (the tube adjacent to each edge, from
-    `sorted(beam_group_names)`) are `generate_comm`'s own -- for three
-    tubes, `inner_tube_low == inner_tube_high` (the same, central tube):
-    still a valid pair, on the axis of symmetry, degenerate rather than
-    wrong."""
+    Lot 33, étape 4 : the symmetry table used to be two hand-picked node
+    pairs (`edge_tube_low`/`edge_tube_high`/`inner_tube_low`/`inner_tube_
+    high`, dropped from this signature) -- `TAB_SYM_<nom>` now carries
+    `GROUP_NO=(ALL_NODES_GROUP,)` (every node of the mesh, `mesh_prep_
+    block`'s own `TOUT_GROUP_MA="OUI"` group -- `POST_RELEVE_T/EXTRACTION`
+    refuses `TOUT="OUI"` alone), and `aster_expert`'s own analysis script
+    pairs each node to its mirror by `COOR_X`/`COOR_Y`/`COOR_Z`, never a
+    node name or a hand-picked group."""
     springs = ", ".join(f'"{n}"' for n in spring_group_names)
     components = ", ".join(f'"{c}"' for c in reaction_components)
-    # Lot 30, étape 3 (diagnostic « sans les ressorts ») : `GROUP_NO` a un
+    # Lot 30, étape 3 (diagnostic « sans les ressorts ») : `GROUP_MA` a un
     # minimum d'une occurrence -- sans classe de ressort, ce contrôle n'a
-    # rien à extraire et est omis plutôt que d'écrire un GROUP_NO vide.
+    # rien à extraire et est omis plutôt que d'écrire un GROUP_MA vide.
+    # Lot 33, étape 3 : `EFGE_ELNO` (essayé d'abord) échoue dès que
+    # `FORCE_POUTRE` porte la décision 13 sur la poutre de couronnement,
+    # continue et liée par plusieurs occurrences de `LIAISON_SOLIDE` (point
+    # 3) : `<F> <CALCULEL2_92>` -- voir `poutre_pressure_nodal_block`'s own
+    # docstring pour l'isolation qui écarte `FORCE_POUTRE` de la production
+    # (la décision 13 y est portée par des forces nodales, jamais par une
+    # charge répartie -- ce contrôle n'a donc plus lieu de rencontrer ce
+    # défaut, mais `EFGE_ELNO` reste écarté au profit de `DEPL`/`DY` par
+    # sécurité et parce que ce dernier est de toute façon nécessaire).
+    # `DEPL`/`DY` (jamais restreint de cette façon, un champ nodal ordinaire)
+    # donne le même résultat par construction : un ressort K_T_D_N ne porte
+    # de raideur que sur sa deuxième composante (point 4), donc son effort
+    # vaut exactement k * DY (vérifié sur un cas isolé à réponse analytique
+    # connue, `data/examples/lot33_equilibre/ressort_seul.comm`). `COOR_X`/
+    # `COOR_Y`/`COOR_Z` (ajoutés automatiquement par `POST_RELEVE_T` à une
+    # extraction nodale) identifient, sans ambiguïté et sans explosion par
+    # classe, le nœud -- donc sa classe et sa raideur -- pour le script
+    # d'analyse qui somme cette table (k n'est jamais recalculé dans le
+    # `.comm`, seulement dans ce script, à partir des mêmes classes que le
+    # générateur).
     ressorts_block = (
         f"""
 TAB_RESS_{name} = POST_RELEVE_T(
@@ -1105,10 +1319,10 @@ TAB_RESS_{name} = POST_RELEVE_T(
         OPERATION="EXTRACTION",
         INTITULE="RESSORTS_{name}",
         RESULTAT=RESU_{name},
-        NOM_CHAM="FORC_NODA",
+        NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
         GROUP_NO=({springs}),
-        RESULTANTE=({components}),
+        NOM_CMP=("DY",),
     )
 )
 IMPR_TABLE(TABLE=TAB_RESS_{name}, UNITE=6)
@@ -1116,26 +1330,6 @@ IMPR_TABLE(TABLE=TAB_RESS_{name}, UNITE=6)
         if spring_group_names
         else ""
     )
-    # GROUP_NO n'admet aucune valeur répétée (`checkCommandSyntax` : "All the
-    # values must be different") : pour trois tubes, le voisin immédiat de
-    # chaque bord est le même tube central (`inner_tube_low ==
-    # inner_tube_high`) -- dédoublonné ici plutôt que d'écrire une paire
-    # dégénérée que le catalogue refuse.
-    # Lot 30, étape 3 (diagnostic « sans la poutre ») : BOLLARD est sur
-    # POUTRE_COUR, hors du modèle (aucun DDL) une fois la poutre omise --
-    # exclu du contrôle, comme ANCRAGES l'est pour « sans les tirants ».
-    sym_group_no = list(
-        dict.fromkeys(
-            (
-                f"ANC_{edge_tube_low}",
-                f"ANC_{edge_tube_high}",
-                f"TETE_TUBE_{inner_tube_low}",
-                f"TETE_TUBE_{inner_tube_high}",
-                *(() if sans_poutre else ("BOLLARD",)),
-            )
-        )
-    )
-    sym_groups = ", ".join(f'"{n}"' for n in sym_group_no)
     # Lot 30, étape 3 (diagnostic « sans les tirants ») : ANCRAGES n'a plus
     # aucun élément ni condition limite directe -- ses nœuds sont hors du
     # modèle (aucun DDL), REAC_NODA y échouerait ; exclu du contrôle.
@@ -1158,10 +1352,11 @@ TAB_REAC_{name} = POST_RELEVE_T(
 )
 IMPR_TABLE(TABLE=TAB_REAC_{name}, UNITE=6)
 
-# Point 7 : symétrie -- deux paires de nœuds symétriques par rapport à
-# X = 0 (ancrages et têtes des tubes de bord, puis de leurs voisins
-# immédiats) et le nœud BOLLARD, sur l'axe de symétrie lui-même (attendu
-# DX ~ 0).
+# Point 7 : symétrie -- lot 33, étape 4 : TOUT le maillage, jamais deux
+# paires choisies à la main (docs/essais_lot33.md) : le script d'analyse
+# associe chaque nœud à son image miroir (x -> -x, mêmes y, z) par les
+# coordonnées imprimées (COOR_X/Y/Z) et compare DY/DZ (égaux) et DX
+# (opposé), sur chaque paire.
 TAB_SYM_{name} = POST_RELEVE_T(
     ACTION=_F(
         OPERATION="EXTRACTION",
@@ -1169,7 +1364,7 @@ TAB_SYM_{name} = POST_RELEVE_T(
         RESULTAT=RESU_{name},
         NOM_CHAM="DEPL",
         TOUT_ORDRE="OUI",
-        GROUP_NO=({sym_groups}),
+        GROUP_NO=("{ALL_NODES_GROUP}",),
         NOM_CMP=("DX", "DY", "DZ"),
     )
 )
@@ -1270,6 +1465,7 @@ __all__ = [
     "mesh_prep_block",
     "model_and_cara_block",
     "pesanteur_block",
+    "poutre_pressure_nodal_block",
     "pressure_load_block",
     "symmetry_and_support_block",
 ]

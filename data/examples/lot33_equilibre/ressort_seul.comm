@@ -1,0 +1,57 @@
+# Vérification lot 33, étape 3 : méthode d'extraction de l'effort dans un
+# ressort DIS_T, sur un cas où la réponse est analytiquement connue -- un
+# seul nœud, un seul ressort K_T_D_N = 500 N/m selon Y, DX/DZ bloqués,
+# FORCE_NODALE FY = 1000 N. À l'équilibre : DY = FY / k = 2,00 m, effort
+# dans le ressort = k * DY = 1000 N (exactement FY, un seul élément porte
+# tout l'équilibre). Hors de tout projet, hors fiche : ne pas transposer.
+
+DEBUT(CODE="OUI", ERREUR=_F(ALARME="EXCEPTION"), DEBUG=_F(SDVERI="OUI"))
+
+MAIL = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+
+MO = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=_F(GROUP_MA=("RESSORT",), PHENOMENE="MECANIQUE", MODELISATION="DIS_T"),
+)
+
+CARA = AFFE_CARA_ELEM(
+    MODELE=MO,
+    DISCRET=(
+        _F(GROUP_MA=("RESSORT",), CARA="K_T_D_N", VALE=(0.0, 500.0, 0.0)),
+        _F(GROUP_MA=("RESSORT",), CARA="M_T_D_N", VALE=(0.0,)),
+    ),
+)
+
+# CHAM_MATER est requis à l'exécution malgré son statut catalogue "optional"
+# (KeyError 'CHAM_MATER' dans PhysicalProblem sans lui, fait établi par
+# exécution) : un matériau bidon, sans usage sous DIS_T, suffit.
+MAT_BIDON = DEFI_MATERIAU(ELAS=_F(E=1.0, NU=0.0))
+CHMAT = AFFE_MATERIAU(MAILLAGE=MAIL, AFFE=_F(GROUP_MA=("RESSORT",), MATER=MAT_BIDON))
+
+CH_BLOC = AFFE_CHAR_MECA(
+    MODELE=MO, DDL_IMPO=_F(GROUP_NO=("RESSORT",), DX=0.0, DZ=0.0)
+)
+
+CH_FORCE = AFFE_CHAR_MECA(
+    MODELE=MO, FORCE_NODALE=_F(GROUP_NO=("RESSORT",), FY=1000.0)
+)
+
+RESU = MECA_STATIQUE(
+    MODELE=MO,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(_F(CHARGE=CH_BLOC), _F(CHARGE=CH_FORCE)),
+)
+
+RESU = CALC_CHAMP(reuse=RESU, RESULTAT=RESU, CONTRAINTE=("EFGE_ELNO", "SIEF_ELGA"))
+
+IMPR_RESU(
+    FORMAT="RESULTAT",
+    RESU=(
+        _F(RESULTAT=RESU, NOM_CHAM="DEPL"),
+        _F(RESULTAT=RESU, NOM_CHAM="EFGE_ELNO"),
+        _F(RESULTAT=RESU, NOM_CHAM="SIEF_ELGA"),
+    ),
+)
+
+FIN()

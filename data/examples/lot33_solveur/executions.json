@@ -1,0 +1,35 @@
+{
+  "note": "Lot 33, étape 1 : isolation des deux paramètres hérités des tentatives du lot 28 (SOLVEUR/RESI_RELA, AFFE_CARA_ELEM/COQUE/COEF_RIGI_DRZ), un seul retiré à sa valeur par défaut du catalogue à la fois, l'autre restant à sa valeur de production -- sur le quai réduit (mesh cache data/processed/mesh_runs/20260923T135537-6993814e). Les répertoires data/processed/runs/<horodatage>/ ne sont pas versionnés (CLAUDE.md).",
+  "runs": [
+    {
+      "label": "resi_rela_defaut",
+      "comm": "data/examples/lot33_solveur/quai_reduit_resi_rela_defaut.comm",
+      "resi_rela": 1e-06,
+      "coef_rigi_drz": 0.001,
+      "work_dir": "data/processed/runs/20260924T092706-ee2d582a",
+      "duration_s": 45.304198929006816,
+      "status": "completed_ok",
+      "diag": "OK",
+      "return_code": 0,
+      "alarmes_ou_erreurs": 0,
+      "conclusion": "RESI_RELA au défaut catalogue (1e-6) n'échoue pas sur le quai réduit, COEF_RIGI_DRZ restant à la valeur de production (1e-3). Paramètre non conservé.",
+      "mess_extrait": "data/examples/lot33_solveur/rapports/mess_resi_rela_defaut_extrait.txt"
+    },
+    {
+      "label": "coef_rigi_drz_defaut",
+      "comm": "data/examples/lot33_solveur/quai_reduit_coef_rigi_drz_defaut.comm",
+      "resi_rela": 0.0001,
+      "coef_rigi_drz": 1e-05,
+      "work_dir": "data/processed/runs/20260924T092811-16c21d1d",
+      "duration_s": 44.704335421003634,
+      "status": "completed_ok",
+      "diag": "OK",
+      "return_code": 0,
+      "alarmes_ou_erreurs": 0,
+      "conclusion": "COEF_RIGI_DRZ au défaut catalogue (1e-5) n'échoue pas sur le quai réduit, RESI_RELA restant à la valeur de production (1e-4). Paramètre non conservé.",
+      "mess_extrait": "data/examples/lot33_solveur/rapports/mess_coef_rigi_drz_defaut_extrait.txt"
+    }
+  ],
+  "duree_cumulee_s": 90.00853435101,
+  "limite": "Les deux paramètres n'ont jamais été retirés simultanément (isolation stricte demandée par ce lot) : leur nécessité conjointe (le mécanisme documenté à l'origine de SOLVER_RESI_RELA, <F> <FACTOR_57>, combinait un COEF_RIGI_DRZ minimal du catalogue -- 1e-5 -- avec RESI_RELA au défaut) n'est donc pas testée par ces deux essais pris isolément. Le modèle complet (étape 5) est généré sans aucun des deux, sans second essai combiné."
+}
