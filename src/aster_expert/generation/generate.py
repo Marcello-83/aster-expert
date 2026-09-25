@@ -27,6 +27,7 @@ from aster_expert.generation.springs import (
     check_spring_coverage,
     check_spring_sum,
 )
+from aster_expert.generation.terre import REPOS_TABLE_KPA
 from aster_expert.generation.values import ModelValues
 from aster_expert.meshing.combiwall import (
     band_projected_width,
@@ -300,6 +301,20 @@ class EquilibriumProbe(BaseModel):
     `POI1`, `comm.spring_force_block`) pour la comparer à k * DY."""
 
 
+class InitialPressureDiagnostic(BaseModel):
+    """Lot 36, étape 2, variante V1. **Outil de diagnostic uniquement** : à `True`,
+    `pression_repos_bassin` ajoute au cas G une pression initiale au repos K0·σ'v
+    côté bassin, dirigée vers la terre, sur les faces bassin de la fiche
+    (`comm.initial_pressure_load_block`). Ne modifie pas la décision 5 et ne
+    représente pas le modèle de calcul. Par défaut (`False`), le `.comm` produit est
+    strictement celui de la production -- les tests de régression le vérifient octet
+    pour octet."""
+
+    model_config = ConfigDict(frozen=True)
+
+    pression_repos_bassin: bool = False
+
+
 def generate_comm(
     *,
     fiche_path: Path,
@@ -312,7 +327,9 @@ def generate_comm(
     junction: JunctionCandidate | None = None,
     solver: SolverDiagnostics | None = None,
     probe: EquilibriumProbe | None = None,
+    initial_pressure: InitialPressureDiagnostic | None = None,
 ) -> tuple[str, GenerationReport]:
+    repos = (initial_pressure or InitialPressureDiagnostic()).pression_repos_bassin
     omit = diagnostic or DiagnosticOmissions()
     probe_cfg = probe or EquilibriumProbe()
     probing = probe_cfg.blocage_total
@@ -505,6 +522,7 @@ def generate_comm(
             sans_tirants=omit.sans_tirants,
             sans_palplanches=omit.sans_palplanches,
             sans_poutre=omit.sans_poutre,
+            spring_group_names=spring_group_names,
         )
 
     text_parts = [
@@ -535,6 +553,7 @@ def generate_comm(
             else ""
         ),
         comm.pressure_layer_groups_block(g_layers, poussee_group_ma=poussee_group_ma),
+        comm.initial_pressure_groups_block() if repos else "",
         "" if probing else comm.oriented_mesh_block(),
         comm.model_and_cara_block(
             mv,
@@ -564,6 +583,11 @@ def generate_comm(
         comm.formule_block("F_EAU_P", eau_p_profile),
         comm.formule_block("F_EAU_A", eau_a_profile),
         comm.layered_pressure_load_block("CH_G_POUSSEE", "G", g_layers),
+        (
+            comm.initial_pressure_load_block("CH_G_REPOS", REPOS_TABLE_KPA)
+            if repos
+            else ""
+        ),
         comm.pesanteur_block(
             "CH_G_POIDS",
             g_accel,
@@ -599,6 +623,7 @@ def generate_comm(
             "G",
             extra_charges=[
                 *_press("CH_G_POUSSEE"),
+                *(["CH_G_REPOS"] if repos else []),
                 "CH_G_POIDS",
                 *(["CH_G_POUTRE"] if "G" in poutre_pressure_charges else []),
             ],
@@ -672,7 +697,8 @@ def generate_comm(
                     n
                     for n in ("G", "EAU_P", "EAU_A", "Q1", "Q3", "A")
                     if n != "Q3" or not omit.sans_poutre
-                ]
+                ],
+                springs=bool(spring_group_names),
             )
         ),
     ]
@@ -705,6 +731,7 @@ __all__ = [
     "DiagnosticOmissions",
     "EquilibriumProbe",
     "GenerationReport",
+    "InitialPressureDiagnostic",
     "JunctionCandidate",
     "SolverDiagnostics",
     "generate_comm",

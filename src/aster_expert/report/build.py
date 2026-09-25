@@ -4,9 +4,12 @@ Lit les tables imprimées par le `.comm` généré (`aster_expert.generation.com
 `synthesis_block`, `controls_block`), calcule les grandeurs (`quantities`) et les
 range dans un modèle sérialisable (`Synthesis`), que `render` met en forme.
 
-Le MED de résultats n'est pas relu : le Python du projet n'a aucun module MED, et
-chaque grandeur vient d'une table imprimée du `.mess`, donc traçable à une commande
-du `.comm`. La synthèse le dit (`Provenance.med_read = False`).
+Depuis le lot 36, la source est le MED de résultats (`med_path`), relu par
+`medcoupling` dans le conteneur (`aster_expert.report.med_source`) ; les tables du
+`.mess` ne sont plus qu'une contre-vérification (`Provenance.cross_check_max`). Sans
+`med_path`, chaque grandeur vient d'une table imprimée du `.mess` (lot 35), traçable
+à une commande du `.comm`. La synthèse dit laquelle des deux sources l'a produite
+(`Provenance.source`).
 """
 
 from __future__ import annotations
@@ -24,6 +27,12 @@ from aster_expert.generation import comm
 from aster_expert.generation.values import ModelValues
 from aster_expert.meshing.combiwall import build_params, spring_node_areas
 from aster_expert.report import quantities as q
+from aster_expert.report.med_source import (
+    MedData,
+    cross_check,
+    load_med_data,
+    med_tables,
+)
 from aster_expert.report.tables import Record, read_tables
 
 CASES = ("G", "EAU_P", "EAU_A", "Q1", "Q3", "A")
@@ -46,13 +55,21 @@ class _Model(BaseModel):
 
 
 class Provenance(_Model):
-    mess_path: str
-    mess_sha256: str
+    mess_path: str | None
+    mess_sha256: str | None
     comm_sha256: str | None
     data_path: str
     aster_version: str | None
     med_read: bool
-    """`False` : le MED de résultats n'est pas relu, tout vient du `.mess`."""
+    """`True` : les grandeurs viennent du MED de résultats ; `False` : du `.mess`."""
+    source: str = "mess"
+    """`med` ou `mess` : la source des grandeurs de la synthèse."""
+    med_path: str | None = None
+    med_sha256: str | None = None
+    cross_check_max: float | None = None
+    """Écart relatif maximal, toutes tables, entre le MED et les tables du `.mess`
+    (`med_source.cross_check`), quand les deux sont fournis."""
+    cross_check: dict[str, float] | None = None
 
 
 class TubeProfile(_Model):
@@ -144,12 +161,14 @@ def _beam_orientation_ok(rows: list[Record]) -> bool:
 
 
 def build_synthesis(
-    mess_path: Path,
+    mess_path: Path | None,
     data_path: Path,
     *,
     comm_path: Path | None = None,
     level_d_path: Path | None = None,
     cases: tuple[str, ...] = CASES,
+    med_path: Path | None = None,
+    med_data: MedData | None = None,
 ) -> Synthesis:
     """Lit `mess_path` (le `.mess` d'une exécution du `.comm` généré) et range les
     grandeurs de chaque cas élémentaire. Une table attendue et absente est une
@@ -169,7 +188,24 @@ def build_synthesis(
     nodes = q.spring_nodes(spring_node_areas(params), k_h, _butee_pa(data))
 
     names = _table_names(cases, profile_tubes)
-    tables = read_tables(mess_path, names)
+    mess_tables = (
+        read_tables(mess_path, names)
+        if mess_path is not None and mess_path.is_file()
+        else None
+    )
+    cross: dict[str, float] | None = None
+    if med_path is not None or med_data is not None:
+        loaded = med_data or load_med_data(med_path, cases)  # type: ignore[arg-type]
+        tables = med_tables(loaded, names, profile_tubes=profile_tubes)
+        if mess_tables is not None:
+            cross = cross_check(tables, mess_tables)
+    elif mess_tables is not None:
+        tables = mess_tables
+    else:
+        message = "ni MED de résultats ni listing .mess lisible : aucune source"
+        raise ValueError(message)
+    used_med = med_path is not None or med_data is not None
+    med_file = med_path or (med_data.path if med_data else None)
 
     profiles = [
         TubeProfile(
@@ -234,12 +270,19 @@ def build_synthesis(
     return Synthesis(
         project=data.project,
         provenance=Provenance(
-            mess_path=str(mess_path),
-            mess_sha256=_sha256(mess_path),
+            mess_path=str(mess_path) if mess_path else None,
+            mess_sha256=_sha256(mess_path)
+            if mess_path is not None and mess_path.is_file()
+            else None,
             comm_sha256=_sha256(comm_path) if comm_path else None,
             data_path=str(data_path),
             aster_version=None,
-            med_read=False,
+            med_read=used_med,
+            source="med" if used_med else "mess",
+            med_path=str(med_file) if med_file else None,
+            med_sha256=_sha256(med_file) if med_file else None,
+            cross_check_max=max(cross.values()) if cross else None,
+            cross_check=cross,
         ),
         axes_x=axes,
         radius=radius,

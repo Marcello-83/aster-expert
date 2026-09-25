@@ -1,0 +1,41 @@
+{
+  "axes": [
+    -10.4,
+    -7.800000000000001,
+    -5.2,
+    -2.5999999999999996,
+    0.0,
+    2.5999999999999996,
+    5.200000000000001,
+    7.799999999999999,
+    10.4
+  ],
+  "C2": {
+    "deplacements_max": 4.806411678915678e-13,
+    "autres_tables_max": 4.879912606926876e-13,
+    "n_tables": 72,
+    "pire_table": "EFTUBE_EAU_A"
+  },
+  "C4": {
+    "base": {
+      "n_attendus": 30,
+      "manquants": [],
+      "non_finis": []
+    },
+    "V1": {
+      "n_attendus": 30,
+      "manquants": [],
+      "non_finis": []
+    }
+  },
+  "C6": {
+    "autres_cas_max": 0.0,
+    "n_tables_autres_cas": 60,
+    "cas_G_max": 1.870756938381353
+  },
+  "C5": {
+    "attendu_resultante_N": 7224320.0,
+    "variation_ancrage_plus_ressorts_N": -7224319.999930525,
+    "ecart_relatif": 9.616794580135635e-12
+  }
+}

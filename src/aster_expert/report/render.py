@@ -8,11 +8,15 @@ documentation, pas d'une supposition : sources citées dans `FRAMES`.
 from __future__ import annotations
 
 import importlib.util
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from aster_expert.report import quantities as q
 from aster_expert.report.build import BAND_LAYER, CaseSummary, Synthesis
+
+if TYPE_CHECKING:
+    from aster_expert.report.figures import FigureFile
 
 KN = 1.0e3
 MM = 1.0e3
@@ -393,7 +397,67 @@ def render_controls(synthesis: Synthesis) -> str:
     return "\n".join(lines) + "\n"
 
 
-def render_synthesis(synthesis: Synthesis, figures: list[Path]) -> str:
+def _provenance_lines(synthesis: Synthesis) -> list[str]:
+    prov = synthesis.provenance
+    if not prov.med_read:
+        return [
+            f"- Listing : `{prov.mess_path}` (SHA-256 `{prov.mess_sha256}`)",
+            "- Le MED de résultats **n'est pas relu** : chaque grandeur vient d'une "
+            "table imprimée du listing, traçable à une commande du `.comm`.",
+        ]
+    lines = [
+        f"- **MED de résultats** : `{prov.med_path}` (SHA-256 `{prov.med_sha256}`), "
+        "relu par `medcoupling` dans le conteneur : chaque grandeur de cette synthèse "
+        "vient de ses champs."
+    ]
+    if prov.mess_path and prov.cross_check_max is not None:
+        lines.append(
+            f"- Contre-vérification : listing `{prov.mess_path}` (SHA-256 "
+            f"`{prov.mess_sha256}`) ; écart relatif maximal entre le MED et les tables "
+            f"imprimées, {len(prov.cross_check or {})} tables : "
+            f"{prov.cross_check_max:.2e}."
+        )
+    else:
+        lines.append(
+            "- Aucun listing fourni : pas de contre-vérification par le `.mess`."
+        )
+    return lines
+
+
+def _views_section(views: Sequence[FigureFile], base: Path | None) -> list[str]:
+    """Les vues du lot 36, groupées par cas élémentaire, images insérées."""
+    lines = ["## Vues (PNG, lues dans le MED de résultats)", ""]
+    lines += [
+        "Projections 2D produites par `aster_expert.report.figures` (matplotlib, sans "
+        "interface : ParaVis hors interface est impossible ici, voir "
+        "`docs/essais_lot36.md`). Repère : X le long du quai, Y vers la terre, Z "
+        "ascendant. Aucune vue n'est un verdict : les limites de butée sont des "
+        "constats sur le domaine du modèle linéaire.",
+        "",
+    ]
+    cases = list(dict.fromkeys(v.case for v in views))
+    for case in cases:
+        lines += [f"### Cas {case}", ""]
+        for view in (v for v in views if v.case == case):
+            try:
+                rel = view.path.relative_to(base) if base else view.path
+            except ValueError:
+                rel = Path(view.path.name)
+            lines += [
+                f"**{view.title}**",
+                "",
+                f"![{view.title} — cas {case}]({rel})",
+                "",
+            ]
+    return lines
+
+
+def render_synthesis(
+    synthesis: Synthesis,
+    figures: list[Path],
+    views: Sequence[FigureFile] = (),
+    views_base: Path | None = None,
+) -> str:
     """Le document Markdown de la synthèse."""
     prov = synthesis.provenance
     comm_line = f"SHA-256 `{prov.comm_sha256}`" if prov.comm_sha256 else "non fourni"
@@ -403,7 +467,12 @@ def render_synthesis(synthesis: Synthesis, figures: list[Path]) -> str:
         "## Ce que ce document est, et n'est pas",
         "",
         "- Des **résultats de cas élémentaires** (G, EAU_P, EAU_A, Q1, Q3, A), lus "
-        "dans les tables imprimées par Code_Aster. Aucune combinaison n'est faite, "
+        + (
+            "dans le MED de résultats de Code_Aster"
+            if prov.med_read
+            else "dans les tables imprimées par Code_Aster"
+        )
+        + ". Aucune combinaison n'est faite, "
         "aucun verdict de dimensionnement n'est porté : la fiche ne décide aucune "
         "combinaison.",
         "- Niveau de validation du calcul : C (exécuté jusqu'à `FIN`) avec contrôles D "
@@ -414,11 +483,9 @@ def render_synthesis(synthesis: Synthesis, figures: list[Path]) -> str:
         "",
         "## Provenance",
         "",
-        f"- Listing : `{prov.mess_path}` (SHA-256 `{prov.mess_sha256}`)",
+        *_provenance_lines(synthesis),
         f"- `.comm` : {comm_line}",
         f"- Données : `{prov.data_path}`",
-        "- Le MED de résultats **n'est pas relu** : chaque grandeur vient d'une table "
-        "imprimée du listing, traçable à une commande du `.comm`.",
         "",
         "## Repères, champs et unités",
         "",
@@ -457,11 +524,13 @@ def render_synthesis(synthesis: Synthesis, figures: list[Path]) -> str:
         lines += _case_section(case)
     lines += _spring_control_section(synthesis.cases)
     lines += _profile_section(synthesis)
+    if views:
+        lines += _views_section(views, views_base)
     if figures:
         lines += ["## Figures", ""]
         lines += [f"![{p.stem}]({p.name})" for p in figures]
         lines.append("")
-    else:
+    elif not views:
         lines += [
             "## Figures",
             "",

@@ -1,0 +1,25 @@
+{
+  "med": "data/processed/runs/20260925T075049-b1de2c32/proc.0/fort.81",
+  "RESS_AV_ARGI": {
+    "mailles_bande": 8640,
+    "mailles_bassin": 3840,
+    "hors_tube": 0,
+    "cos_min": 0.9999999999999997,
+    "cos_max": 1.0000000000000002,
+    "vers_exterieur": 3840,
+    "vers_interieur": 0,
+    "y_centre_max": -0.0555342350895,
+    "non_horizontales": 0
+  },
+  "RESS_AV_MARNE": {
+    "mailles_bande": 10240,
+    "mailles_bassin": 5120,
+    "hors_tube": 0,
+    "cos_min": 0.9999999999999997,
+    "cos_max": 1.0000000000000002,
+    "vers_exterieur": 5120,
+    "vers_interieur": 0,
+    "y_centre_max": -0.0555342350895,
+    "non_horizontales": 0
+  }
+}

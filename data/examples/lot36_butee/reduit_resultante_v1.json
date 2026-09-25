@@ -1,0 +1,23 @@
+{
+  "attendu_resultante_V1_N": 1806080.0,
+  "detail": {
+    "RESS_AV_ARGI": {
+      "largeur_projetee_m": 5.2,
+      "force_N": 567840.0
+    },
+    "RESS_AV_MARNE": {
+      "largeur_projetee_m": 2.84,
+      "force_N": 1238240.0
+    }
+  },
+  "base": {
+    "ancrage_dy_N": 810158.5619294,
+    "ressorts_N": 4800829.438313572
+  },
+  "v1": {
+    "ancrage_dy_N": 820130.8038826,
+    "ressorts_N": 2984777.196266062
+  },
+  "variation_ancrage_plus_ressorts_N": -1806080.0000943094,
+  "ecart_relatif_a_l_oppose": -5.221775845802058e-11
+}

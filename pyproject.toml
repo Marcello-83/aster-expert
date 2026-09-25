@@ -47,6 +47,14 @@ index = [
 mcp = [
     "mcp>=2.0,<3",
 ]
+# Lot 36 : figures de `aster-expert report`. ParaVis hors interface est impossible
+# ici (ni Xvfb ni EGL/OSMesa, le ParaView de Salomé-Méca n'a qu'un rendu X) :
+# `matplotlib` rend les vues 2D en PNG sans interface (backend Agg). Installation
+# autorisée par MM. `numpy` vient avec lui et sert aux tableaux de valeurs des vues.
+figures = [
+    "matplotlib>=3.8",
+    "numpy>=1.26",
+]
 dev = [
     "pytest>=8.2",
     "pytest-cov>=5.0",
@@ -90,6 +98,10 @@ ignore = []
 "scripts/analyze_lot24_essais.py" = ["UP", "E501"]
 "scripts/build_lot25_essais.py" = ["UP", "E501"]
 "scripts/analyze_lot25_essais.py" = ["UP", "E501"]
+# Lot 36 : la mise en forme Markdown du rapport de butée porte de la prose et des
+# lignes de tableau, dont les coupures ne sont pas du code.
+"scripts/render_lot36_butee_md.py" = ["E501"]
+"scripts/prepare_lot36_livrables.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"

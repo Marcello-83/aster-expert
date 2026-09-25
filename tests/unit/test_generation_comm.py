@@ -8,6 +8,8 @@ appelé avant écriture) le vérifie."""
 
 from __future__ import annotations
 
+from typing import Any
+
 import pytest
 
 from aster_expert.generation.comm import (
@@ -191,7 +193,7 @@ from aster_expert.generation.comm import (  # noqa: E402
 )
 
 
-def _synthesis(case: str = "EAU_P", **kw: bool) -> str:
+def _synthesis(case: str = "EAU_P", **kw: Any) -> str:
     return synthesis_block(
         case,
         profile_tubes=(5, 1),

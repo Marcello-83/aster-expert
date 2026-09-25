@@ -1803,42 +1803,71 @@ def report(
     sortie: str = typer.Option(
         "", "--sortie", help="Répertoire de sortie (par défaut : celui du résultat)."
     ),
+    med: str = typer.Option(
+        "",
+        "--med",
+        help="MED de résultats (défaut : proc.0/fort.80 de l'exécution).",
+    ),
+    etiquette: str = typer.Option(
+        "", "--etiquette", help="Étiquette portée par le titre des vues (`base`, `V1`)."
+    ),
+    sans_vues: bool = typer.Option(
+        False, "--sans-vues", help="Ne pas produire les vues PNG (lot 36)."
+    ),
 ) -> None:
-    """Synthèse Markdown des résultats d'un calcul du quai (lot 35).
+    """Synthèse Markdown des résultats d'un calcul du quai (lots 35 et 36).
 
     `resultat` : le répertoire d'exécution (`aster-expert run`) ou son listing
-    `.mess`. Écrit `synthese.md`, `controles.md`, `synthese.json` et, si `matplotlib`
-    est disponible, une figure PNG par profil. Cas élémentaires seulement : aucune
-    combinaison, aucun verdict de dimensionnement."""
-    from aster_expert.report.build import build_synthesis
+    `.mess`. Depuis le lot 36, la source est le MED de résultats, relu par
+    `medcoupling` dans le conteneur ; les tables du `.mess` ne sont plus qu'une
+    contre-vérification (écart relatif rapporté). Écrit `synthese.md`, `controles.md`,
+    `synthese.json` et, si `matplotlib` est disponible, les vues PNG de chaque cas
+    élémentaire (`vues/`). Cas élémentaires seulement : aucune combinaison, aucun
+    verdict de dimensionnement."""
+    from aster_expert.report.build import CASES, build_synthesis
+    from aster_expert.report.med_source import load_med_data
     from aster_expert.report.render import (
+        matplotlib_available,
         plot_profiles,
         render_controls,
         render_synthesis,
     )
     from aster_expert.report.tables import TableError
 
+    run_dir = resultat if resultat.is_dir() else resultat.parent
     mess = resultat / "proc.0" / "fort.6" if resultat.is_dir() else resultat
-    if not mess.is_file():
-        typer.echo(f"report ÉCHEC : listing introuvable : {mess}", err=True)
+    med_path = Path(med) if med else run_dir / "proc.0" / "fort.80"
+    has_med = med_path.is_file()
+    if not mess.is_file() and not has_med:
+        typer.echo(
+            f"report ÉCHEC : ni listing ({mess}) ni MED de résultats ({med_path})",
+            err=True,
+        )
         raise typer.Exit(1)
-    out_dir = (
-        Path(sortie) if sortie else (resultat if resultat.is_dir() else resultat.parent)
-    )
+    out_dir = Path(sortie) if sortie else run_dir
     out_dir.mkdir(parents=True, exist_ok=True)
     try:
+        med_data = load_med_data(med_path, CASES) if has_med else None
         synthesis = build_synthesis(
-            mess,
+            mess if mess.is_file() else None,
             Path(donnees),
             comm_path=Path(comm) if comm else None,
             level_d_path=Path(controles_d) if controles_d else None,
+            med_data=med_data,
         )
-    except (TableError, ValueError, OSError) as exc:
+    except (TableError, ValueError, OSError, KeyError) as exc:
         typer.echo(f"report ÉCHEC : {exc}", err=True)
         raise typer.Exit(1) from exc
-    figures = plot_profiles(synthesis, out_dir)
+    views = []
+    if med_data is not None and not sans_vues and matplotlib_available():
+        from aster_expert.report.figures import build_context, make_figures
+
+        views = make_figures(
+            med_data, build_context(Path(donnees), label=etiquette), out_dir / "vues"
+        )
+    figures = plot_profiles(synthesis, out_dir) if not views else []
     (out_dir / "synthese.md").write_text(
-        render_synthesis(synthesis, figures), encoding="utf-8"
+        render_synthesis(synthesis, figures, views, out_dir), encoding="utf-8"
     )
     (out_dir / "controles.md").write_text(render_controls(synthesis), encoding="utf-8")
     (out_dir / "synthese.json").write_text(
@@ -1846,10 +1875,21 @@ def report(
     )
     typer.echo(f"Synthèse : {out_dir / 'synthese.md'}", err=True)
     typer.echo(f"Contrôles : {out_dir / 'controles.md'}", err=True)
-    if not figures:
+    typer.echo(
+        f"Source : {synthesis.provenance.source}"
+        + (
+            f" (écart MED/.mess {synthesis.provenance.cross_check_max:.2e})"
+            if synthesis.provenance.cross_check_max is not None
+            else ""
+        ),
+        err=True,
+    )
+    if views:
+        typer.echo(f"Vues : {len(views)} PNG dans {out_dir / 'vues'}", err=True)
+    elif not figures:
         typer.echo(
-            "Figures : aucune (matplotlib absent de l'environnement du projet) ; "
-            "profils en tableaux seuls.",
+            "Figures : aucune (matplotlib absent de l'environnement du projet, ou "
+            "--sans-vues) ; profils en tableaux seuls.",
             err=True,
         )
 

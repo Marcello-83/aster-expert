@@ -16,6 +16,7 @@ from an earlier one's own keywords.
 
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from typing import Literal
 
 from aster_expert.generation.errors import GenerationError
@@ -1166,6 +1167,68 @@ def layer_pressure_functions_block(prefix: str, layers: list[LayerProfile]) -> s
     )
 
 
+REPOS_ARGI_TUBES = "GEN_REPOS_ARGI_TUBES"
+REPOS_MARNE_TUBES = "GEN_REPOS_MARNE_TUBES"
+REPOS_ARGI_PALPS = "GEN_REPOS_ARGI_PALPS"
+
+
+def initial_pressure_groups_block() -> str:
+    """Lot 36, variante V1 (diagnostic seulement) : les faces bassin des bandes de
+    ressorts. `RESS_AV_*` moins `ECRAN_POUSSEE` donne les facettes de tube côté
+    bassin ; `RESS_AV_ARGI` inter `PALPS` les palplanches de la bande d'argile (les
+    palplanches s'arrêtent à -18,00). Deux commandes : un groupe n'est visible
+    qu'après la commande qui le crée (comme `pressure_layer_groups_block`)."""
+    return f"""
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_MA=(
+        _F(NOM="{REPOS_ARGI_TUBES}", DIFFE=("RESS_AV_ARGI", "ECRAN_POUSSEE")),
+        _F(NOM="{REPOS_MARNE_TUBES}", DIFFE=("RESS_AV_MARNE", "ECRAN_POUSSEE")),
+        _F(NOM="{REPOS_ARGI_PALPS}", INTERSEC=("RESS_AV_ARGI", "PALPS")),
+    ),
+)
+"""
+
+
+def initial_pressure_load_block(
+    concept: str, table_kpa: Mapping[str, Sequence[tuple[float, float]]]
+) -> str:
+    """Lot 36, variante V1 (diagnostic seulement) : pression initiale au repos
+    K0·σ'v côté bassin, dirigée vers la terre (+Y), sur la fiche.
+
+    Orientation, établie par lecture du maillage orienté
+    (`scripts/analyze_lot36_orientation_bassin.py`) : les facettes de tube côté
+    bassin sont toutes tournées radialement vers l'extérieur (cosinus 1, hors
+    `ECRAN_POUSSEE`, donc jamais réorientées) : une pression `PRES` positive, qui
+    pousse « suivant le sens contraire de la normale » (U4.44.01), les pousse vers
+    la terre. Les palplanches, elles, portent la normale +Y de `ORIE_NORM_COQUE`
+    (côté terre) : la même pression y est écrite **négative**.
+
+    `table_kpa` : points (z, kPa) par bande (`RESS_AV_ARGI`, `RESS_AV_MARNE`) ;
+    une fonction par bande, linéaire sur elle (évaluée aux nœuds, lot 34)."""
+    # DEFI_FONCTION : abscisses croissantes
+    argi = tuple(sorted(table_kpa["RESS_AV_ARGI"]))
+    marne = tuple(sorted(table_kpa["RESS_AV_MARNE"]))
+    functions = (
+        formule_block("F_REPOS_ARGI", [(z, p * 1.0e3) for z, p in argi])
+        + formule_block("F_REPOS_MARNE", [(z, p * 1.0e3) for z, p in marne])
+        + formule_block("F_REPOS_PALPS", [(z, 0.0 - p * 1.0e3) for z, p in argi])
+    )
+    return f"""{functions}
+# Lot 36, variante V1 (DIAGNOSTIC, jamais le modèle de calcul) : pression initiale au
+# repos côté bassin K0.sigma'v (données fictives de l'énoncé du lot), vers la terre.
+{concept} = AFFE_CHAR_MECA_F(
+    MODELE=MO, VERI_NORM="NON",
+    FORCE_COQUE=(
+        _F(GROUP_MA=("{REPOS_ARGI_TUBES}",), PRES=F_REPOS_ARGI),
+        _F(GROUP_MA=("{REPOS_MARNE_TUBES}",), PRES=F_REPOS_MARNE),
+        _F(GROUP_MA=("{REPOS_ARGI_PALPS}",), PRES=F_REPOS_PALPS),
+    ),
+)
+"""
+
+
 def layered_pressure_load_block(
     concept: str,
     prefix: str,
@@ -1766,6 +1829,7 @@ def synthesis_block(
     sans_tirants: bool = False,
     sans_palplanches: bool = False,
     sans_poutre: bool = False,
+    spring_group_names: list[str] | None = None,
 ) -> str:
     """Lot 35, étape 3 : les tables que la synthèse pour l'ingénieur lit, pour le
     cas élémentaire `name` (`aster-expert report`). Rien n'est calculé ici, tout
@@ -1785,9 +1849,18 @@ def synthesis_block(
       nœuds de serrure sont communs à une facette de tube et à une palplanche dont le
       plan est à 90°) ; les extrêmes sont ceux des valeurs par élément.
 
-    Les résultats temporaires sont détruits après lecture : le MED de résultats n'en
-    est pas alourdi."""
+    Lot 36, étape 3 : les efforts généralisés sont aussi écrits **dans le MED de
+    résultats** (`IMPR_RESU`, unité `RESULT_MED_UNIT`, avant la destruction des
+    résultats temporaires), sous `<cas>_ET` (`EFGE_ELNO` : tubes, poutre, tirants) et
+    `<cas>_EP` (`EFGE_NOEU` : palplanches) ; la force des ressorts (`FORC_NODA`
+    restreint aux mailles `POI1`, jamais le champ sommé sur tout le modèle) est
+    ajoutée à `RESU_<cas>` lui-même (`CALC_CHAMP`/`reuse`) et écrite par `footer`
+    sous le nom du cas. Le MED devient ainsi la source des vues et de la synthèse
+    (`aster_expert.report.med_read`) ; les tables du `.mess` restent la
+    contre-vérification."""
     parts: list[str] = []
+    if spring_group_names:
+        parts.append(_spring_force_field_block(name, spring_group_names))
     for tube in profile_tubes:
         parts.append(
             _extraction(
@@ -1878,8 +1951,55 @@ EFB_{name} = CALC_CHAMP(
             )
         )
         destroyed.append(f"EFB_{name}")
+    parts.append(_effort_med_block(name, palplanches=not sans_palplanches))
     parts.append("".join(f"\nDETRUIRE(NOM={c})\n" for c in destroyed))
     return "".join(parts)
+
+
+RESULT_MED_UNIT = 80
+"""Unité (`fort.80`) du MED de résultats : `IMPR_RESU` de `footer` et des efforts
+généralisés de `synthesis_block`."""
+
+
+def _spring_force_field_block(name: str, spring_group_names: list[str]) -> str:
+    """Lot 36 : `FORC_NODA` restreint aux mailles `POI1` des classes de ressort,
+    ajouté à `RESU_<cas>` (la force d'un ressort, telle que Code_Aster la calcule),
+    pour que le MED de résultats la porte. Même commande que le diagnostic du lot 34
+    (`spring_force_block`), sans la table."""
+    groups = ", ".join(f'"{n}"' for n in spring_group_names)
+    return f"""
+RESU_{name} = CALC_CHAMP(
+    reuse=RESU_{name},
+    RESULTAT=RESU_{name},
+    GROUP_MA=({groups}),
+    FORCE=("FORC_NODA",),
+)
+"""
+
+
+def _effort_med_block(name: str, *, palplanches: bool) -> str:
+    """Lot 36 : les efforts généralisés temporaires écrits dans le MED de résultats.
+    `NOM_RESU_MED` (8 caractères au plus) : `<cas>_ET` = efforts des tubes, de la
+    poutre et des tirants (`EFGE_ELNO`), `<cas>_EP` = palplanches (`EFGE_NOEU`)."""
+    resu = [
+        f'_F(RESULTAT=EFA_{name}, NOM_CHAM=("EFGE_ELNO",), '
+        f'NOM_RESU_MED="{_nrm(name + "_ET")}"),'
+    ]
+    if palplanches:
+        resu.append(
+            f'_F(RESULTAT=EFB_{name}, NOM_CHAM=("EFGE_NOEU",), '
+            f'NOM_RESU_MED="{_nrm(name + "_EP")}"),'
+        )
+    body = "\n        ".join(resu)
+    return f"""
+IMPR_RESU(
+    FORMAT="MED",
+    UNITE={RESULT_MED_UNIT},
+    RESU=(
+        {body}
+    ),
+)
+"""
 
 
 SIX_DOF_GROUP = "GEN_NOEUDS_6DDL"
@@ -2000,7 +2120,7 @@ def _nrm(name: str) -> str:
     return name
 
 
-def footer(result_names: list[str]) -> str:
+def footer(result_names: list[str], *, springs: bool = False) -> str:
     """Lot 31, étape 3 (défaut latent découvert en vérifiant la correction de
     masse) : `CARA_ELEM=CARA` sur chaque occurrence de `RESU` -- sans lui,
     l'écriture MED de `SIEF_ELGA` (sous-points d'un élément COQUE) échoue en
@@ -2015,15 +2135,26 @@ def footer(result_names: list[str]) -> str:
     sur chaque occurrence -- corrige la collision de champ MED entre
     `RESU_EAU_P` et `RESU_EAU_A` signalée au lot 31, jamais atteinte avant
     lui (le pivot nul de LIAISON_SOLIDE arrêtait toujours l'exécution avant
-    IMPR_RESU)."""
+    IMPR_RESU).
+
+    Lot 36 : `NOM_CHAM` limite le MED de résultats aux champs que les vues et la
+    synthèse lisent -- `DEPL`, `REAC_NODA`, et `FORC_NODA` restreint aux ressorts.
+    `SIEF_ELGA` en est retiré : sous `ELAS_COQUE` il est faux (lots 22 et 23, ne
+    jamais lire de contrainte), ses sous-points de coque ne sont pas lisibles par
+    `medcoupling` (`MEDFileFields`, localisation `SECT_SHELL`) et il portait
+    l'essentiel des 315 Mo du MED du modèle complet (lot 35). Les efforts
+    généralisés sont écrits par `synthesis_block`."""
+    fields = ["DEPL", "REAC_NODA", *(["FORC_NODA"] if springs else [])]
+    nom_cham = ", ".join(f'"{f}"' for f in fields)
     resu = "\n        ".join(
-        f'_F(RESULTAT=RESU_{n}, CARA_ELEM=CARA, NOM_RESU_MED="{_nrm(n)}"),'
+        f"_F(RESULTAT=RESU_{n}, NOM_CHAM=({nom_cham},), CARA_ELEM=CARA, "
+        f'NOM_RESU_MED="{_nrm(n)}"),'
         for n in result_names
     )
     return f"""
 IMPR_RESU(
     FORMAT="MED",
-    UNITE=80,
+    UNITE={RESULT_MED_UNIT},
     RESU=(
         {resu}
     ),

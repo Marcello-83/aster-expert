@@ -479,7 +479,11 @@ def test_the_report_command_writes_the_documents(mess: Path, tmp_path: Path) -> 
     assert (out / "controles.md").is_file()
     data = json.loads((out / "synthese.json").read_text(encoding="utf-8"))
     assert data["provenance"]["med_read"] is False
-    assert not list(out.glob("*.png"))
+    assert data["provenance"]["source"] == "mess"
+    # sans MED de résultats : aucune vue ; les seuls PNG possibles sont les profils du
+    # lot 35, écrits quand `matplotlib` est installé (le test ne dépend pas de lui)
+    assert not (out / "vues").exists()
+    assert all(p.name.startswith("profil_dy_") for p in out.glob("*.png"))
 
 
 def test_the_report_command_refuses_a_missing_listing(tmp_path: Path) -> None:

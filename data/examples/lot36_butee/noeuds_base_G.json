@@ -1,0 +1,99 @@
+{
+  "cas": "G",
+  "compression_taux_bassin_maximal": {
+    "noeud": "983",
+    "x": -1.898741,
+    "y": -0.111068,
+    "z": -12.0,
+    "porteur": "TUBE_04",
+    "bandes": [
+      "RESS_AV_ARGI"
+    ],
+    "groupe_comm": "GEN_RESS_ARGI_01",
+    "aire_A_m2": 0.0021718670894025627,
+    "raideur_k_comm_N_par_m": 76015.34812908873,
+    "raideur_k_analytique_N_par_m": 76015.34812908969,
+    "k_h_couche_MN_m3": {
+      "RESS_AV_ARGI": 35.0
+    },
+    "k_sur_A_MN_m3": 34.99999999999955,
+    "DY_m": -0.01280249913487,
+    "pression_kDY_sur_A_kPa": -448.08746972044435,
+    "butee_bassin_kPa": 47.1,
+    "taux_butee_bassin": 9.513534388969093,
+    "butee_terre_kPa": 497.98661172847704,
+    "taux_butee_terre": null
+  },
+  "traction_taux_terre_maximal": {
+    "noeud": "20947",
+    "x": 0.0,
+    "y": -0.71,
+    "z": -16.75,
+    "porteur": "TUBE_05",
+    "bandes": [
+      "RESS_AV_ARGI"
+    ],
+    "groupe_comm": "GEN_RESS_ARGI_22",
+    "aire_A_m2": 0.027767117544640976,
+    "raideur_k_comm_N_par_m": 971849.1140624352,
+    "raideur_k_analytique_N_par_m": 971849.1140624342,
+    "k_h_couche_MN_m3": {
+      "RESS_AV_ARGI": 35.0
+    },
+    "k_sur_A_MN_m3": 35.000000000000036,
+    "DY_m": 0.0006643964815092,
+    "pression_kDY_sur_A_kPa": 23.253876852822025,
+    "butee_bassin_kPa": 169.9666666666667,
+    "taux_butee_bassin": null,
+    "butee_terre_kPa": 620.8742631776342,
+    "taux_butee_terre": 0.037453439821790474
+  },
+  "traction_DY_maximal": {
+    "noeud": "20947",
+    "x": 0.0,
+    "y": -0.71,
+    "z": -16.75,
+    "porteur": "TUBE_05",
+    "bandes": [
+      "RESS_AV_ARGI"
+    ],
+    "groupe_comm": "GEN_RESS_ARGI_22",
+    "aire_A_m2": 0.027767117544640976,
+    "raideur_k_comm_N_par_m": 971849.1140624352,
+    "raideur_k_analytique_N_par_m": 971849.1140624342,
+    "k_h_couche_MN_m3": {
+      "RESS_AV_ARGI": 35.0
+    },
+    "k_sur_A_MN_m3": 35.000000000000036,
+    "DY_m": 0.0006643964815092,
+    "pression_kDY_sur_A_kPa": 23.253876852822025,
+    "butee_bassin_kPa": 169.9666666666667,
+    "taux_butee_bassin": null,
+    "butee_terre_kPa": 620.8742631776342,
+    "taux_butee_terre": 0.037453439821790474
+  },
+  "compression_DY_minimal": {
+    "noeud": "983",
+    "x": -1.898741,
+    "y": -0.111068,
+    "z": -12.0,
+    "porteur": "TUBE_04",
+    "bandes": [
+      "RESS_AV_ARGI"
+    ],
+    "groupe_comm": "GEN_RESS_ARGI_01",
+    "aire_A_m2": 0.0021718670894025627,
+    "raideur_k_comm_N_par_m": 76015.34812908873,
+    "raideur_k_analytique_N_par_m": 76015.34812908969,
+    "k_h_couche_MN_m3": {
+      "RESS_AV_ARGI": 35.0
+    },
+    "k_sur_A_MN_m3": 34.99999999999955,
+    "DY_m": -0.01280249913487,
+    "pression_kDY_sur_A_kPa": -448.08746972044435,
+    "butee_bassin_kPa": 47.1,
+    "taux_butee_bassin": 9.513534388969093,
+    "butee_terre_kPa": 497.98661172847704,
+    "taux_butee_terre": null
+  }
+}

@@ -44,3 +44,6 @@ fort.*
 .idea/
 *.swp
 .DS_Store
+
+# Lot 36 : MED volumineux du dossier de résultats pour ParaVis (jamais versionnés).
+/résultats_MED_Paravis/*.med

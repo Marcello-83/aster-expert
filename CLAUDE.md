@@ -519,6 +519,28 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   E** ; déplacements identiques bit à bit à ceux du lot 34. Limites : MED de résultats non relu ; pas de
   figures (`matplotlib` absent) ; moments de poutre lus pour `x_l = +X` (déduit de l'ordre des lignes).
 
+- Lot 36 (`docs/essais_lot36.md`, `data/examples/lot36_butee/`, `résultats_MED_Paravis/`,
+  `aster_expert.report.{med_read,med_source,figures,loads}`, `aster_expert.generation.terre`) :
+  **diagnostic de la butée sous G** (2 413 nœuds au-delà de 100 %, taux maximal 951 %) sans
+  révision de la décision 5. Vérification à la main : k/A = k_h de la couche (aire tributaire
+  analytique), le taux maximal est un nœud de coin de 0,00217 m² à −12,00 (butée 47,1 kPa).
+  Variante de diagnostic V1 (`generation.generate.InitialPressureDiagnostic`, jamais active par
+  défaut) : pression initiale K0·σ'v côté bassin, sens établi sur le maillage orienté (faces de
+  tube bassin toutes radialement sortantes, palplanches en normale +Y donc pression négative),
+  résultante vérifiée à 1e-11 ; sous V1 les nœuds au-delà de 100 % passent de 2 413 à 2 141 et
+  aucun nœud en traction ne dépasse la butée côté terre (3,75 % au plus en base, 7,64 % sous V1).
+  V2 : deux lectures possibles, rapportées sans être départagées. **Le MED de résultats est
+  désormais la source de `aster-expert report`** (`medcoupling` en conteneur, `.mess` en
+  contre-vérification, 4,9e-13) : 30 champs nommés (`<cas>` + grandeur), `SIEF_ELGA` retiré (faux
+  sous `ELAS_COQUE`, illisible par `MEDFileFields`), efforts généralisés et `FORC_NODA` des
+  ressorts ajoutés. MEDReader (ParaVis) n'active qu'un `ComSup` par lecteur. ParaVis hors
+  interface impossible (pas de serveur X virtuel) : vues 2D `matplotlib` (48 PNG). MED de
+  résultats (143 Mo) et maillage dans `résultats_MED_Paravis/` (VM, ignoré par Git) ; images,
+  synthèse et `LISEZMOI.md` dans `/media/sf_partage/echanges/lot36/`. 2 exécutions du modèle
+  complet (627,7 s et 819,4 s), niveau C avec contrôles D sur le modèle de base, jamais E.
+  Limites : filtre *Extract Group* et rendu de l'interface ParaVis non essayés ; sonde de charge
+  assemblée du lot 35 réutilisée (même maillage, mêmes charges).
+
 ## Périmètre à ne pas dépasser sans instruction
 
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne
