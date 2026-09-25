@@ -337,3 +337,95 @@ def test_the_model_bbox_and_node_group_kinds_of_shared_nodes() -> None:
     }
     assert _run(dump, shared_nodes=[shared]) == [True]
     assert _run(dump, shared_nodes=[{**shared, "kinds": ["cell", "cell"]}]) == [False]
+
+
+# --- lot 35 : invariant de couche (charge de poussée par couche) -------------
+
+
+def _wall(z_levels: list[float]) -> MedDump:
+    """Un mur vertical de quadrangles empilés (plan Y = 0), un par intervalle."""
+    coords = [(x, 0.0, z) for z in z_levels for x in (0.0, 1.0)]
+    conn = [[2 * k, 2 * k + 1, 2 * k + 3, 2 * k + 2] for k in range(len(z_levels) - 1)]
+    return MedDump.model_validate(
+        {
+            "mesh_name": "wall",
+            "space_dimension": 3,
+            "coords": coords,
+            "levels": {
+                "0": {"types": ["NORM_QUAD4"] * len(conn), "connectivity": conn}
+            },
+            "groups": [{"name": "ECRAN", "level": 0, "ids": list(range(len(conn)))}],
+        }
+    )
+
+
+def _bands(levels: list[float]) -> Invariants:
+    return Invariants.model_validate(
+        {
+            "schema_version": 1,
+            "layer_bands": [{"group": "ECRAN", "levels": levels, "tolerance": 1e-9}],
+        }
+    )
+
+
+def test_lot35_layers_aligned_on_the_rows_hold() -> None:
+    results = evaluate(_wall([0.0, 1.0, 2.0, 3.0, 4.0]), _bands([0.0, 2.0, 4.0]))
+
+    assert all(r.ok for r in results), [r for r in results if not r.ok]
+    kinds = {r.kind for r in results}
+    assert kinds == {"couches"}
+    # deux couches bordées exactement, plus les deux contrôles globaux
+    assert len(results) == 4
+
+
+def test_lot35_a_top_layer_above_the_group_is_bordered_by_the_group_head() -> None:
+    results = evaluate(_wall([0.0, 1.0, 2.0]), _bands([0.0, 1.0, 5.0]))
+
+    assert all(r.ok for r in results), [r for r in results if not r.ok]
+    assert "[1, 1]" not in results[-1].expected
+    assert results[-1].expected == "[1, 2]"
+
+
+def test_lot35_altered_mesh_with_a_cell_straddling_an_interface_is_rejected() -> None:
+    """Altération : une rangée décalée de 0,5 m fait chevaucher l'interface z = 2."""
+    results = evaluate(_wall([0.0, 1.0, 2.5, 3.5, 4.0]), _bands([0.0, 2.0, 4.0]))
+
+    failed = [r for r in results if not r.ok]
+    assert failed
+    assert failed[0].label.startswith("couches de ECRAN : mailles à cheval")
+    assert failed[0].obtained == "1"
+
+
+def test_lot35_a_cell_outside_the_layers_is_rejected() -> None:
+    results = evaluate(_wall([0.0, 1.0, 2.0, 3.0, 4.0]), _bands([0.0, 2.0, 3.0]))
+
+    assert any(not r.ok and "hors de" in r.label for r in results)
+
+
+def test_lot35_a_layer_not_bordered_by_its_levels_is_rejected() -> None:
+    """Une rangée manque (z de 2 à 3) : la couche [2, 4] ne commence qu'à 3."""
+    full = _wall([0.0, 1.0, 2.0, 3.0, 4.0])
+    gap = MedDump.model_validate(
+        {
+            "mesh_name": "wall",
+            "space_dimension": 3,
+            "coords": full.coords,
+            "levels": {
+                "0": {
+                    "types": ["NORM_QUAD4"] * 3,
+                    "connectivity": [
+                        full.levels["0"].connectivity[k] for k in (0, 1, 3)
+                    ],
+                }
+            },
+            "groups": [{"name": "ECRAN", "level": 0, "ids": [0, 1, 2]}],
+        }
+    )
+
+    results = evaluate(gap, _bands([0.0, 2.0, 4.0]))
+
+    failed = [r for r in results if not r.ok]
+    assert len(failed) == 1
+    assert "couche [2, 4]" in failed[0].label
+    assert failed[0].expected == "[2, 4]"
+    assert failed[0].obtained == "[3, 4]"

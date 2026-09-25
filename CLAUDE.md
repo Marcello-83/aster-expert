@@ -496,6 +496,29 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   rangées de mailles (maille sans pression, signalée par l'équilibre seulement) ; cause du comportement de
   `RESULTANTE` multi-groupes non établie.
 
+- Lot 35 (`docs/essais_lot35.md`, `data/examples/lot35_constats/`, `data/examples/lot35_synthese/`,
+  `src/aster_expert/report/`, `aster_expert.meshing.normals`) : consolidation et première synthèse.
+  Les quatre constats `code_aster` du lot 34 sont enregistrés avec sources d'exécution (évaluation aux
+  nœuds de `FORCE_COQUE/PRES`, qui **remplace** « doublement à 1 mm sûr » au point 5 ; `CREA_POI1` une
+  maille par nœud ; poutre continue et `CALCULEL2_92` ; `REAC_NODA` aux nœuds liés). La table combinée
+  `REACTIONS_<cas>` n'est plus écrite. `mesh check` porte l'invariant de couche (`LayerBandsInvariant`,
+  599/599 sur le maillage complet) ; les normales de chaque couche sont vérifiées explicitement sur le
+  maillage relu après `ORIE_NORM_COQUE` (`IMPR_RESU/MAILLAGE`, unité 81). `aster-expert report <exécution>`
+  écrit `synthese.md`, `controles.md`, `synthese.json` (cas élémentaires, aucune combinaison, aucun
+  verdict) à partir des tables du `.mess`, **sans relire le MED**. Faits d'exécution à retenir : sur un
+  champ de structure, `POST_RELEVE_T` s'arrête (`<POSTRELE_70>` aggravée par `DEBUT/ERREUR`,
+  `<POSTRELE_38>` avec `REPERE="LOCAL"`) et `CALC_CHAMP/EFGE_NOEU` sur les tubes aussi
+  (`<UTILITAI_4>`, repères locaux à 92°) : les efforts sont lus par `CREA_TABLE` (valeurs stockées ;
+  `EFGE_ELNO` sans moyenne pour tubes, poutre, tirants ; `EFGE_NOEU` pour les palplanches seulement) ;
+  le `TITRE` d'une table imprimée se pose sur `IMPR_TABLE` (marqueur `##<titre>ASTER`), pas sur
+  `CREA_TABLE` ; `IMPR_TABLE` tronque l'intitulé à 16 caractères (`ORDRE_GRANDEUR_Q3` devient
+  `ORDRE_GRANDEUR_Q`). Les tubes reçoivent `VECTEUR = (0, 0, 1)` (`x_l` vertical) : déplacements
+  identiques bit à bit, avec ou sans. Contrôles de validité de la décision 5 (signe, butée, donnée
+  `donnees_butee_combiwall_v1.md`) : constats sur le modèle linéaire, sans verdict ; sous G, 27 % des
+  ressorts comprimés dépassent la butée fictive. **Niveau C avec contrôles D sur le modèle complet, jamais
+  E** ; déplacements identiques bit à bit à ceux du lot 34. Limites : MED de résultats non relu ; pas de
+  figures (`matplotlib` absent) ; moments de poutre lus pour `x_l = +X` (déduit de l'ordre des lignes).
+
 ## Périmètre à ne pas dépasser sans instruction
 
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne

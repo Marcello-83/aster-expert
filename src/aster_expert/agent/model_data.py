@@ -249,7 +249,12 @@ def _appears(value: float, text: str) -> bool:
 
 
 def _section(text: str, section: str) -> str | None:
-    """Text of a section `§N` of a test-case file (`## N. …` or `## §N …`)."""
+    """Text of a section `§N` of a test-case file (`## N. …` or `## §N …`).
+
+    `document` (lot 35) désigne le fichier entier : une donnée complémentaire
+    sans sections numérotées (`donnees_butee_combiwall_v1.md`)."""
+    if section == "document":
+        return text
     if re.fullmatch(r"[A-Z]\.\d+", section):
         # sub-section `### A.1 …` of a complementary-data file: up to the next heading
         match = re.search(

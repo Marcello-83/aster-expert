@@ -1,0 +1,91 @@
+{
+  "med": "data/processed/runs/20260925T071826-8347fd5c/proc.0/fort.81",
+  "lecture": "/home/ubuntu/projets/aster-expert/data/processed/mesh_checks/20260925T072149-19d26c67",
+  "ok": true,
+  "resultats": [
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_MARNE : 1280 mailles, famille connue",
+      "expected": "0",
+      "obtained": "0",
+      "ok": true
+    },
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_MARNE : normales non horizontales",
+      "expected": "0",
+      "obtained": "0",
+      "ok": true
+    },
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_MARNE : normales tournées vers la terre (cosinus minimal >= 0.9)",
+      "expected": "0",
+      "obtained": "0 mailles à contresens ou hors seuil, cosinus minimal 1",
+      "ok": true
+    },
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_ARGILE : 1800 mailles, famille connue",
+      "expected": "0",
+      "obtained": "0",
+      "ok": true
+    },
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_ARGILE : normales non horizontales",
+      "expected": "0",
+      "obtained": "0",
+      "ok": true
+    },
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_ARGILE : normales tournées vers la terre (cosinus minimal >= 0.9)",
+      "expected": "0",
+      "obtained": "0 mailles à contresens ou hors seuil, cosinus minimal 1",
+      "ok": true
+    },
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_SABLE : 1400 mailles, famille connue",
+      "expected": "0",
+      "obtained": "0",
+      "ok": true
+    },
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_SABLE : normales non horizontales",
+      "expected": "0",
+      "obtained": "0",
+      "ok": true
+    },
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_SABLE : normales tournées vers la terre (cosinus minimal >= 0.9)",
+      "expected": "0",
+      "obtained": "0 mailles à contresens ou hors seuil, cosinus minimal 1",
+      "ok": true
+    },
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_REMBLAI : 950 mailles, famille connue",
+      "expected": "0",
+      "obtained": "0",
+      "ok": true
+    },
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_REMBLAI : normales non horizontales",
+      "expected": "0",
+      "obtained": "0",
+      "ok": true
+    },
+    {
+      "kind": "normales",
+      "label": "normales de GEN_COUCHE_REMBLAI : normales tournées vers la terre (cosinus minimal >= 0.9)",
+      "expected": "0",
+      "obtained": "0 mailles à contresens ou hors seuil, cosinus minimal 1",
+      "ok": true
+    }
+  ]
+}

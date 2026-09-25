@@ -2978,12 +2978,12 @@
     },
     {
       "point_label": "5",
-      "topic": "Représentation d'un profil de pression discontinu par points doublés à Z ± 0,001 m",
+      "topic": "Évaluation aux nœuds de FORCE_COQUE/PRES (fonction) : une marche de pression à une interface de couches déborde d'une demi-maille",
       "options_considered": [],
-      "option_retained": "La proposition (points doublés à Z ± 0,001 m, une valeur par couche) est retenue : aucune interface de couche pertinente pour le modèle (remblai/sable à -2,00, sable/argile à -9,00, argile/marne à -18,00) ne tombe à moins de 1 mm d'un point d'intégration, pour toute famille de quadrature documentée du quadrangle à 4 nœuds (QU4).",
-      "justification": "Fait calculé (module aster_expert.meshing.combiwall / data/examples/combiwall_model_data.yaml, jamais deviné) : les trois interfaces de couche à -2,00, -9,00 et -18,00 tombent exactement sur une cote de nœud du maillage -- -18,00 est une cote imposée (maillage.cotes_imposees) ; -2,00 et -9,00 sont des multiples exacts du pas régulier de 0,25 m de l'intervalle -12,00 -> +1,00 (52 segments, aucun arrondi, lot 27) -- et les rangées de mailles adjacentes à chacune des trois cotes ont une hauteur de 0,25 m. R3.01.01 (Quadrangles : ELREFE QU4, QU8, QU9) donne les trois familles de points d'intégration disponibles pour un quadrangle à 4 nœuds : FPG1 (1 point, au centre), FPG4 (2×2 points de Gauss, coordonnée naturelle a = 1/√3 ≈ 0,5774) et FPG9 (3×3 points, a ≈ 0,7746). Pour la famille la plus dense (FPG9), le point le plus proche d'un bord de l'élément est à une fraction (1 − 0,7746)/2 ≈ 11,3 % de la hauteur de l'élément, soit environ 28 mm pour un élément de 0,25 m -- très supérieur à 1 mm quelle que soit la famille effectivement utilisée par l'option de chargement.",
+      "option_retained": "Code_Aster évalue la fonction de `FORCE_COQUE/PRES` (`AFFE_CHAR_MECA_F`) **aux nœuds** de chaque maille, puis interpole ; il ne l'évalue pas aux points d'intégration. Une marche de pression (deux valeurs à une interface de couches) écrite comme une rampe de 2 mm (points à Z ± 1 mm) est donc lue à mi-rampe par les nœuds de l'interface et déborde d'une demi-maille sur les deux couches : quai réduit, mailles de 0,25 m, cas G, la résultante Y assemblée par Code_Aster vaut 5 604 338,25 N pour 5 610 988,00 N spécifiés (écart relatif −1,185e-3, soit −6 650 N) ; une règle d'évaluation aux nœuds reproduit la valeur de Code_Aster à 1,7e-14. Une marche doit donc être appliquée **par couche** : une occurrence de `FORCE_COQUE` par groupe de mailles de couche (`CREA_GROUP_MA/BANDE`, `CRIT_NOEUD=\"TOUS\"`), chacune avec sa fonction, linéaire sur la couche donc exacte aux nœuds ; la résultante assemblée vaut alors 5 610 988,00 N (écart 2,1e-12). Établi pour DKT (QUAD4 plans), Code_Aster 17.4.0, fonction linéaire par morceaux, une composante de pression.",
+      "justification": "Sonde de blocage total (tous les ddl de tous les nœuds bloqués, sans LIAISON_SOLIDE : REAC_NODA sommé sur tous les nœuds vaut l'opposé de la charge assemblée par Code_Aster), comparée à trois références indépendantes : l'intégrale de Gauss 2×2 du profil spécifié par couche, l'intégrale de la règle d'évaluation aux nœuds, et, après correction, le même profil spécifié. La localisation nœud par nœud (REAC_NODA reproduit la règle nodale à moins de 1 N à chaque nœud de palplanche, exécutions du lot 34) confirme que l'écart naît de l'évaluation aux nœuds et non de l'intégration. U4.44.01 dit seulement « réel ou fonction » : le comportement n'est pas documenté, il est établi par exécution.",
       "discarded_variants": [],
-      "notes": "Déduction, non un fait documenté directement : R3.01.01 donne les familles de points disponibles pour l'élément de référence QU4, mais ne dit pas laquelle l'option de calcul du chargement FORCE_COQUE sélectionne effectivement (R3.07.03 mentionne « la routine INI079 pour la position des points de Hammer et de Gauss » sans en donner le nombre pour ce cas). La marge (>= 11 mm dans le pire cas documenté, pour un critère de 1 mm) est jugée suffisante pour ne pas bloquer la génération, mais reste une déduction, pas un fait catalogue direct -- à vérifier de façon décisive si un doute apparaît à l'exécution (ex. une discontinuité de contrainte visible à l'interface). Aucun cas test officiel ne correspond à cette question (ce n'est pas un usage de commande, mais une propriété géométrique de la discrétisation) : search_test_cases n'est pas pertinent ici.",
+      "notes": "Ce constat REMPLACE celui du point 5 qui tenait le doublement des points d'interface à Z ± 1 mm pour sûr parce qu'aucun point d'intégration d'une QUAD4 de 0,25 m ne se trouve à moins de 1 mm d'une arête : l'argument porte sur les points d'intégration ; l'évaluation se fait aux nœuds, qui sont sur les arêtes. Le doublement lui-même reste valide comme représentation d'une fonction strictement croissante (DEFI_FONCTION/VERIF='CROISSANT') ; il ne représente pas une marche pour FORCE_COQUE. Effets : G 1,19e-3 et Q1 2,33e-4 de la poussée (quai réduit) ; les cas d'eau, fonction continue, ne sont pas concernés. `VERI_NORM=\"NON\"` sur les occurrences par couche (la couche de marne ne porte que les trois tubes, non connexes : `<F> <MESH3_99>` sinon) ; l'orientation des normales de chaque maille de chaque couche est vérifiée explicitement au lot 35 (`aster_expert.meshing.normals`). Limite : la charge par couche suppose que les rangées de mailles s'arrêtent aux cotes d'interface (invariant de couche de `mesh check`, lot 35). Preuves : data/examples/lot35_constats/f1_avant.* et f1_apres.* (`.comm` exécutés et extraits de listing) ; références : data/examples/lot34_equilibre/rapports/sonde_ecran_12chiffres.json et sonde_ecran_couches.json. Historique du constat remplacé (lot 28, niveau A avec essai du lot 28) : sujet : Représentation d'un profil de pression discontinu par points doublés à Z ± 0,001 m ; option retenue : La proposition (points doublés à Z ± 0,001 m, une valeur par couche) est retenue : aucune interface de couche pertinente pour le modèle (remblai/sable à -2,00, sable/argile à -9,00, argile/marne à -18,00) ne tombe à moins de 1 mm d'un point d'intégration, pour toute famille de quadrature documentée du quadrangle à 4 nœuds (QU4). Notes : Déduction, non un fait documenté directement : R3.01.01 donne les familles de points disponibles pour l'élément de référence QU4, mais ne dit pas laquelle l'option de calcul du chargement FORCE_COQUE sélectionne effectivement (R3.07.03 mentionne « la routine INI079 pour la position des points de Hammer et de Gauss » sans en donner le nombre pour ce cas). La marge (>= 11 mm dans le pire cas documenté, pour un critère de 1 mm) est jugée suffisante pour ne pas bloquer la génération, mais reste une déduction, pas un fait catalogue direct -- à vérifier de façon décisive si un doute apparaît à l'exécution (ex. une discontinuité de contrainte visible à l'interface). Aucun cas test officiel ne correspond à cette question (ce n'est pas un usage de commande, mais une propriété géométrique de la discrétisation) : search_test_cases n'est pas pertinent ici.",
       "validity_domain": null,
       "nature": "code_aster",
       "sources": [
@@ -2999,6 +2999,74 @@
           "fragment_id": null,
           "profile": "methode",
           "excerpt": "Quadrangles : ELREFE QU4, QU8, QU9\n----------------------------------\n\n\n.. image:: images/Object_98.svg\n    :width: 229\n    :height: 241\n\n\n.. _RefImage_Object_98.svg:\n\nCoordonnées des nœuds:\n\n.. csv-table::\n\n    \"\", \":math:`\\xi`\", \":math:`\\eta`\"\n    \":math:`\\mathrm{N1}`\", \"-1.0\", \"-1.0\"\n    \":math:`\\mathrm{N2}`\", \"1.0\", \"-1.0\"\n    \":math:`\\mathrm{N3}`\", \"1.0\", \"1.0\"\n    \":math:`\\mathrm{N4}`\", \"-1.0\", \"1.0\"\n    \":math:`\\mathrm{N5}`\", \"0.0\", \"-1.0\"\n    \":math:`\\mathrm{N6}`\", \"1.0\", \"0.0\"\n    \":math:`\\mathrm{N7}`\", \"0.0\", \"1.0\"\n    \":math:`\\mathrm{N8}`\", \"-1.0\", \"0.0\"\n    \":math:`\\mathrm{N9}`\", \"0.0\", \"0.0\"\n\n\n\n.. csv-table::\n\n    \"**Famille**\", \"**Point**\", \":math:`\\xi`\", \":math:`\\eta`\", \"**Poids**\"\n    \"FPG1\", \"1\", \"0\", \"0\", \"4\"\n    \"FPG4\", \"1\", \":math:`-a`\", \":math:`-a`\", \"1.0\"\n    \"\", \"2\", \":math:`a`\", \":math:`-a`\", \"1.0\"\n    \"\", \"3\", \":math:`a`\", \":math:`a`\", \"1.0\"\n    \"\", \"4\", \":math:`-a`\", \":math:`a`\", \"1.0\"\n    \"\", \"\", \":math:`a=1/\\sqrt{3}`\", \"\", \"\"\n    \"FPG9\", \"1\", \":math:`-a`\", \":math:`-a`\", \"25/81\"\n    \"\", \"2\", \":math:`a`\", \":math:`-a`\", \"25/81\"\n    \"\", \"3\", \":math:`a`\", \":math:`a`\", \"25/81\"\n    \"\", \"4\", \":math:`-a`\", \":math:`a`\", \"25/81\"\n    \"\", \"5\", \"0.0\", \":math:`-a`\", \"40/81\"\n    \"\", \"6\", \":math:`a`\", \"0.0\", \"40/81\"\n    \"\", \"7\", \"0.0\", \"a\", \"40/81\"\n    \"\", \"8\", \":math:`-a`\", \"0.0\", \"40/81\"\n    \"\", \"9\", \"0.0\", \"0.0\", \"64/81\"\n    \"\", \"\", \":math:`a=0.774596669241483`\", \"\", \"\""
+        },
+        {
+          "command": "AFFE_CHAR_MECA_F",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "FORCE_COQUE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CHAR_MECA_F",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "FORCE_COQUE",
+            "PRES"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot35_constats/f1_avant.sonde.comm",
+          "case_sha256": "8a7dbf6d8a465c3d1577ce9e38fdb1d5c24afa7e83f7f0db486ebc8bb6602fa1",
+          "mess_path": "data/examples/lot35_constats/f1_avant.mess.txt",
+          "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, sonde de blocage total, quai réduit, fonction de pression à interface doublée à ±1 mm appliquée à l'écran entier",
+          "value_obtained": 5604338.25178,
+          "reference": "intégrale de Gauss 2×2 du profil spécifié par couche, signe de REAC_NODA (sonde_ecran_12chiffres.json, integrated_n)",
+          "reference_value": 5610987.999988359,
+          "relative_deviation": -0.001185129643544704,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot35_constats/f1_avant.sonde.comm",
+          "case_sha256": "8a7dbf6d8a465c3d1577ce9e38fdb1d5c24afa7e83f7f0db486ebc8bb6602fa1",
+          "mess_path": "data/examples/lot35_constats/f1_avant.mess.txt",
+          "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, même exécution, comparée à la règle d'évaluation aux nœuds",
+          "value_obtained": 5604338.25178,
+          "reference": "intégrale de la règle d'évaluation aux nœuds de FORCE_COQUE/PRES (sonde_ecran_12chiffres.json, as_evaluated.integrated_n)",
+          "reference_value": 5604338.251780095,
+          "relative_deviation": -1.6950244318427027e-14,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot35_constats/f1_apres.sonde.comm",
+          "case_sha256": "0c2754ddbcbccfb0c3f3f30495066dc698ce3de30c22bb858bda4fd6b66a84d3",
+          "mess_path": "data/examples/lot35_constats/f1_apres.mess.txt",
+          "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, sonde de blocage total, charge appliquée par couche",
+          "value_obtained": 5610988.0,
+          "reference": "intégrale de Gauss 2×2 du profil spécifié par couche, signe de REAC_NODA (sonde_ecran_couches.json, integrated_n)",
+          "reference_value": 5610987.999988359,
+          "relative_deviation": 2.0746080476634445e-12,
+          "validation_level": "D"
         }
       ],
       "status": "tranche"
@@ -3399,6 +3467,209 @@
           "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
           "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
           "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "4",
+      "topic": "CREA_POI1 : une seule maille ponctuelle par nœud ; un nœud commun à deux classes de raideur doit porter la somme des raideurs",
+      "options_considered": [],
+      "option_retained": "`CREA_MAILLAGE/CREA_POI1` ne crée qu'**une** maille ponctuelle par nœud, même quand le nœud figure dans deux occurrences (deux groupes de nœuds) : quai réduit, 2 651 mailles POI1 pour 2 694 couples classe/nœud. Sur un nœud partagé par deux classes de raideur (limite de bande argile/marne, 43 nœuds du quai réduit, 169 du modèle complet), la seconde occurrence de `DISCRET` écrase la première (règle de surcharge) : le ressort ne porte qu'une des deux raideurs. Exemple exécuté, cas G, nœud 65 à z = −18 m : FORC_NODA/DY = −578,900 N pour DY = −3,3318e-3 m, soit la raideur de la marne seule (173 749 N/m) au lieu de la somme argile + marne (249 765 N/m). Les nœuds communs à deux classes doivent être groupés dans une classe commune dont la raideur est la **somme** des raideurs (deux ressorts en parallèle) et écrite après les classes de bande : le même nœud donne alors −822,951 N pour DY = −3,2949e-3 m, soit exactement 249 765 N/m. Établi pour K_T_D_N sur DIS_T, Code_Aster 17.4.0.",
+      "justification": "`FORC_NODA` restreint aux mailles POI1 (`CALC_CHAMP/GROUP_MA`) contre k × DY de `DEPL` nœud par nœud : 43 nœuds à raideur partielle avant correction, aucun après (exécutions du lot 34). La règle de surcharge de `AFFE_CARA_ELEM/DISCRET` (U4.42.01, U1.03.00) explique que la dernière occurrence l'emporte ; le catalogue ne dit rien du nombre de mailles POI1 par nœud : fait établi par exécution.",
+      "discarded_variants": [],
+      "notes": "Sans ce constat, la raideur totale de la bande d'argile est perdue aux nœuds de limite : −16,2 kN sur la résultante du cas G (quai réduit), 7,8 kN en Y d'écart d'équilibre. Le générateur applique la règle depuis le lot 34 (`aster_expert.generation.springs._combined_classes`, `check_spring_coverage`, qui refuse un nœud partagé sans classe commune de raideur égale à la somme). Preuves : data/examples/lot35_constats/f2_avant.* et f2_apres.*.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "command": "CREA_MAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "CREA_POI1"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "CREA_MAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "CREA_POI1",
+            "GROUP_NO"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "CREA_MAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "CREA_POI1",
+            "NOM_GROUP_MA"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot35_constats/f2_avant.ressorts.comm",
+          "case_sha256": "646598c7855046e5a0335dcbb47f748a509a8532704db29228dfc1a40c927a0a",
+          "mess_path": "data/examples/lot35_constats/f2_avant.mess.txt",
+          "quantity": "FORC_NODA/DY du ressort du nœud 65 (z = −18 m, limite argile/marne), cas G, classes de bande seules",
+          "value_obtained": -578.9003959445,
+          "reference": "(k_argile + k_marne) écrits × DY de DEPL du même nœud, k_argile + k_marne = 249 764,715 N/m",
+          "reference_value": -832.1693191703054,
+          "relative_deviation": -0.30434782608702887,
+          "validation_level": "D"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot35_constats/f2_apres.ressorts.comm",
+          "case_sha256": "97ce90bec429e780dcc2f4e5ce23f7fefb33aeccf2570e08ca0d743dc63d00c8",
+          "mess_path": "data/examples/lot35_constats/f2_apres.mess.txt",
+          "quantity": "FORC_NODA/DY du ressort du nœud 65 (z = −18 m), cas G, classe commune de raideur sommée",
+          "value_obtained": -822.9509207294,
+          "reference": "(k_argile + k_marne) écrits × DY de DEPL du même nœud, k_argile + k_marne = 249 764,715 N/m",
+          "reference_value": -822.9509207295094,
+          "relative_deviation": -1.3303396590025892e-13,
+          "validation_level": "D"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "12",
+      "topic": "Charge répartie sur une poutre continue liée par plusieurs LIAISON_SOLIDE : arrêt au post-traitement (CALCULEL2_92) ; charges appliquées en forces nodales tributaires",
+      "options_considered": [],
+      "option_retained": "Sur une poutre `POU_D_E` **continue** reliée à des coques par **plusieurs** occurrences de `LIAISON_SOLIDE`, une charge répartie (`FORCE_POUTRE`) arrête tout `CALC_CHAMP` ultérieur (`EFGE_ELNO`, `REAC_NODA`…) : `<F> <CALCULEL2_92>`, « votre chargement contient plus d'une charge répartie, le calcul n'est pas possible pour les modèles de poutre » (exécutions du lot 33, listing extrait). Le poids propre et les charges de la poutre (décision 13) sont donc appliqués en **forces nodales tributaires** (`FORCE_NODALE`, longueur tributaire de chaque nœud, résultante et moment exacts par construction) : la résultante assemblée du cas G, pression d'écran retirée, vaut 29 811,6 N, égale à la somme des forces nodales écrites. Établi pour `POU_D_E`, Code_Aster 17.4.0.",
+      "justification": "Isolation du lot 33 : le même chargement `FORCE_POUTRE` passe sur une poutre à une seule `LIAISON_SOLIDE` (14,5 s, niveau C) et s'arrête sur la poutre continue du quai réduit ; l'arrêt survient au `CALC_CHAMP`, jamais retiré en restreignant son `GROUP_MA`. La solution de remplacement est exécutée au niveau D (résultante assemblée = somme des forces nodales, à l'affichage de 6 chiffres du listing). Le mécanisme précis n'est pas établi par la documentation.",
+      "discarded_variants": [],
+      "notes": "L'exécution en échec est de niveau B : ce n'est pas une source d'exécution ; elle est archivée en extrait (data/examples/lot35_constats/f3_echec_calculel2_92.mess.txt, cas data/examples/lot33_equilibre/quai_reduit/diag_no_fz.comm, exécution 20260924T122731-0b829e46). Le constat de FORCE_POUTRE du point 12 (lot 33) reste valide pour sa syntaxe ; il n'est pas applicable ici. Contrepartie : la charge est localement plus grossière qu'une charge répartie (forces concentrées aux nœuds), exacte en résultante et en moment. Preuve du remplacement : data/examples/lot35_constats/f3_nodal.*.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "FORCE_NODALE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "FORCE_POUTRE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "LIAISON_SOLIDE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "CALC_CHAMP",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "CONTRAINTE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot35_constats/f3_nodal.sonde.comm",
+          "case_sha256": "5e9a74d6c11085544f82d503154e5d9f46284071672f954a1833c322e9bdc686",
+          "mess_path": "data/examples/lot35_constats/f3_nodal.mess.txt",
+          "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, poutre de couronnement et poids seuls (forces nodales de la décision 13), quai réduit",
+          "value_obtained": 29811.6,
+          "reference": "somme des FY des FORCE_NODALE de CH_G_POUTRE écrites dans le .comm (initiale_aucune.json, beam_n.DY)",
+          "reference_value": 29811.600000000002,
+          "relative_deviation": -1.220323232262513e-16,
+          "validation_level": "D"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "3",
+      "topic": "REAC_NODA aux nœuds liés par LIAISON_SOLIDE : composantes non bloquées non nulles, qui s'annulent sur l'ensemble des nœuds ; seules les composantes bloquées comptent",
+      "options_considered": [],
+      "option_retained": "Aux nœuds d'un ensemble lié par `LIAISON_SOLIDE` (ici les nœuds de `SYM_G` et `SYM_D`, où seul DX est bloqué), `REAC_NODA` porte des composantes **non bloquées non nulles** : cas EAU_A, quai réduit, `SYM_G` : DY = +2,6536e5 N et DZ = −2,6188e5 N alors que seul DX y est imposé. Ce sont les efforts de liaison de la relation de corps solide (déduction : multiplicateurs de la relation). Ils s'annulent sur l'ensemble du modèle : la résultante de `REAC_NODA` sur **tous** les nœuds vaut celle des seuls ancrages sur la composante bloquée (DY : +9,790917005e5 N contre +9,790917006e5 N, écart relatif −1,5e-10). Un bilan d'équilibre ne doit donc sommer que les composantes **réellement bloquées** de chaque groupe d'appui (`SYM_G`/`SYM_D` : DX ; pied des tubes : DZ ; ancrages : DX, DY, DZ) ; les autres composantes se relèvent à part et ne sont pas des réactions d'appui. Établi pour `LIAISON_SOLIDE` anneau DKT + nœud `POU_D_E`, Code_Aster 17.4.0.",
+      "justification": "Résultante de `REAC_NODA` par groupe d'appui et sur tous les nœuds (`POST_RELEVE_T/RESULTANTE`), quatre cas élémentaires, quai réduit puis modèle complet (lot 34) : la somme sur tous les nœuds égale la réaction des ancrages à 4,4e-4 N au plus. La documentation de `REAC_NODA` (U2.01.05 : forces nodales moins le chargement) ne dit rien des nœuds liés par une relation dualisée : fait établi par exécution.",
+      "discarded_variants": [],
+      "notes": "Corollaire (lot 34) : `POST_RELEVE_T/RESULTANTE` sur plusieurs groupes de nœuds à la fois n'est PAS la somme des résultantes par groupe (quai réduit, G, DY : 7,578e5 N contre 1,262e6 N) ; cause non établie, cette lecture est abandonnée (la table combinée `REACTIONS_<cas>` est retirée du générateur au lot 35). Une seule extraction par groupe, puis la somme dans le script d'analyse. Preuve : data/examples/lot35_constats/f4_reactions.*.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "LIAISON_SOLIDE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "CALC_CHAMP",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "FORCE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot35_constats/f4_reactions.controles.comm",
+          "case_sha256": "9ada8a2dbb739df78c5ec746a19eb4947436ec496526b5a61d26f7cae4108ded",
+          "mess_path": "data/examples/lot35_constats/f4_reactions.mess.txt",
+          "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas EAU_A, quai réduit",
+          "value_obtained": 979091.7004831,
+          "reference": "résultante DY de REAC_NODA du seul groupe ANCRAGES (composante bloquée), même exécution",
+          "reference_value": 979091.7006272,
+          "relative_deviation": -1.471771571579729e-10,
+          "validation_level": "D"
         }
       ],
       "status": "tranche"

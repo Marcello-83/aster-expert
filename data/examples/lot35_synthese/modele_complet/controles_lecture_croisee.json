@@ -1,0 +1,264 @@
+{
+  "criteria": [
+    {
+      "id": "C5",
+      "case": "G",
+      "description": "Σ N cos θ contre réaction d'ancrage selon Y",
+      "threshold": 1e-06,
+      "value": -1.1403510015122376e-13,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "G",
+      "description": "force des ressorts de RESS_AV_ARGI (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": 9.77305418857565e-16,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "G",
+      "description": "force des ressorts de RESS_AV_MARNE (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": 3.737307220799125e-15,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C5",
+      "case": "EAU_P",
+      "description": "Σ N cos θ contre réaction d'ancrage selon Y",
+      "threshold": 1e-06,
+      "value": 2.1063146696429007e-13,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C5",
+      "case": "EAU_P",
+      "description": "Σ N sin θ contre réaction d'ancrage selon Z",
+      "threshold": 1e-06,
+      "value": -3.5813395477173286e-14,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "EAU_P",
+      "description": "force des ressorts de RESS_AV_ARGI (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": 9.413855961247164e-16,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "EAU_P",
+      "description": "force des ressorts de RESS_AV_MARNE (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": 4.081646614309454e-15,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C5",
+      "case": "EAU_A",
+      "description": "Σ N cos θ contre réaction d'ancrage selon Y",
+      "threshold": 1e-06,
+      "value": -5.066811823962965e-14,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C5",
+      "case": "EAU_A",
+      "description": "Σ N sin θ contre réaction d'ancrage selon Z",
+      "threshold": 1e-06,
+      "value": -2.1529034137827243e-13,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "EAU_A",
+      "description": "force des ressorts de RESS_AV_ARGI (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": 9.706896003579157e-16,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "EAU_A",
+      "description": "force des ressorts de RESS_AV_MARNE (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": 4.261195795726472e-15,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C5",
+      "case": "Q1",
+      "description": "Σ N cos θ contre réaction d'ancrage selon Y",
+      "threshold": 1e-06,
+      "value": -6.96773504415301e-14,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C5",
+      "case": "Q1",
+      "description": "Σ N sin θ contre réaction d'ancrage selon Z",
+      "threshold": 1e-06,
+      "value": -2.0387090457363774e-14,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "Q1",
+      "description": "force des ressorts de RESS_AV_ARGI (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": 7.992928896694536e-16,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "Q1",
+      "description": "force des ressorts de RESS_AV_MARNE (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": 3.524633597753206e-15,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C5",
+      "case": "Q3",
+      "description": "Σ N cos θ contre réaction d'ancrage selon Y",
+      "threshold": 1e-06,
+      "value": 1.4667881474182108e-14,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C5",
+      "case": "Q3",
+      "description": "Σ N sin θ contre réaction d'ancrage selon Z",
+      "threshold": 1e-06,
+      "value": 6.203896215710933e-14,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "Q3",
+      "description": "force des ressorts de RESS_AV_ARGI (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": -4.945981991670926e-16,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "Q3",
+      "description": "force des ressorts de RESS_AV_MARNE (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": -3.2347627074077783e-15,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C5",
+      "case": "A",
+      "description": "Σ N cos θ contre réaction d'ancrage selon Y",
+      "threshold": 1e-06,
+      "value": 4.9509505588005947e-14,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C5",
+      "case": "A",
+      "description": "Σ N sin θ contre réaction d'ancrage selon Z",
+      "threshold": 1e-06,
+      "value": 2.0349408278664814e-13,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "A",
+      "description": "force des ressorts de RESS_AV_ARGI (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": -8.331453161088795e-16,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C6",
+      "case": "A",
+      "description": "force des ressorts de RESS_AV_MARNE (synthèse / script lot 34)",
+      "threshold": 1e-09,
+      "value": 3.6581351220850036e-15,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C7",
+      "case": "G",
+      "description": "max |DY| en tête (synthèse / EXTREMA)",
+      "threshold": 0.0001,
+      "value": 2.537330516070625e-06,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C7",
+      "case": "Q3",
+      "description": "max |DY| en tête (synthèse / EXTREMA)",
+      "threshold": 0.0001,
+      "value": -2.0972438203331287e-07,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C9",
+      "case": "G",
+      "description": "taux de butée maximal recalculé par les classes de ressorts",
+      "threshold": 1e-09,
+      "value": 1.867189171523789e-16,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C9",
+      "case": "EAU_P",
+      "description": "taux de butée maximal recalculé par les classes de ressorts",
+      "threshold": 1e-09,
+      "value": 1.20283761553941e-16,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C9",
+      "case": "EAU_A",
+      "description": "taux de butée maximal recalculé par les classes de ressorts",
+      "threshold": 1e-09,
+      "value": 0.0,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C9",
+      "case": "Q1",
+      "description": "taux de butée maximal recalculé par les classes de ressorts",
+      "threshold": 1e-09,
+      "value": 0.0,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C9",
+      "case": "Q3",
+      "description": "taux de butée maximal recalculé par les classes de ressorts",
+      "threshold": 1e-09,
+      "value": -1.5059192156171173e-16,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C9",
+      "case": "A",
+      "description": "taux de butée maximal recalculé par les classes de ressorts",
+      "threshold": 1e-09,
+      "value": 0.0,
+      "verdict": "RÉUSSI"
+    },
+    {
+      "id": "C10",
+      "case": "-",
+      "description": "aucune lecture de contrainte ; palplanches en EFGE_NOEU",
+      "threshold": "aucune lecture SIEF_*/SIGM_*",
+      "value": {
+        "lectures_de_contraintes": [],
+        "champ_palplanches": "EFGE_NOEU"
+      },
+      "verdict": "RÉUSSI"
+    }
+  ],
+  "verdict": "RÉUSSI"
+}

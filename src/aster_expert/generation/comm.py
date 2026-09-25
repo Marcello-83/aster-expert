@@ -456,6 +456,20 @@ MAIL = MODI_MAILLAGE(
 """
 
 
+TUBE_LOCAL_X = "(0.0, 0.0, 1.0)"
+"""Lot 35 : `AFFE_CARA_ELEM/COQUE/VECTEUR` des tubes. Le repère « utilisateur » d'une
+coque est bâti par projection de `VECTEUR` sur le plan de chaque maille : `x_l` en
+est la projection, `z_l` la normale, `y_l = z_l ^ x_l` (U4.42.01, mot clé COQUE,
+opérande ANGL_REP / VECTEUR). Sans `VECTEUR`, c'est l'axe global X qui est projeté :
+sur les facettes verticales d'un tube, `x_l` est alors l'horizontale tangente et
+change de direction de facette en facette, et la moyenne nodale `EFGE_NOEU` mêle des
+composantes de repères différents. Avec `VECTEUR = Z`, `x_l` est la verticale sur
+toutes les facettes (elles sont verticales : la projection de Z est Z, jamais nulle),
+donc `MXX`/`NXX` sont le moment de flexion et l'effort normal **verticaux** de
+chaque facette, dans un repère commun. Le repère n'a aucun effet sur la raideur
+d'un matériau isotrope : les déplacements sont inchangés (vérifié, lot 35)."""
+
+
 def _palp_coque_keyword(
     sans_palplanches: bool,
     epais_palp: float,
@@ -617,7 +631,8 @@ CARA = AFFE_CARA_ELEM(
     COQUE=(
         _F(
             GROUP_MA=("TUBES",),
-            EPAIS={_fmt(epais_tube)},{tube_drz}
+            EPAIS={_fmt(epais_tube)},
+            VECTEUR={TUBE_LOCAL_X},{tube_drz}
         ),
         {palp_coque}
     ),
@@ -1085,6 +1100,12 @@ def layer_key(layer_name: str) -> str:
     return "".join(c if c.isalnum() else "_" for c in layer_name).upper()
 
 
+def layer_group_name(layer: LayerProfile) -> str:
+    """Nom du groupe de mailles de la couche (`GEN_COUCHE_<COUCHE>`), celui de la
+    charge par couche et du contrôle des normales (`aster_expert.meshing.normals`)."""
+    return _gn("GEN_COUCHE_" + layer_key(layer.name))
+
+
 def pressure_layer_groups_block(
     layers: list[LayerProfile], *, poussee_group_ma: str = "ECRAN_POUSSEE"
 ) -> str:
@@ -1113,7 +1134,7 @@ def pressure_layer_groups_block(
         for layer in layers
     )
     inter = "\n        ".join(
-        f'_F(NOM="{_gn("GEN_COUCHE_" + layer_key(layer.name))}", '
+        f'_F(NOM="{layer_group_name(layer)}", '
         f'INTERSEC=("{_gn("GEN_BANDE_" + layer_key(layer.name))}", '
         f'"{poussee_group_ma}")),'
         for layer in layers
@@ -1162,7 +1183,7 @@ def layered_pressure_load_block(
     arrêterait toujours l'exécution."""
     veri = ' VERI_NORM="NON",'
     occurrences = "\n        ".join(
-        f'_F(GROUP_MA=("{_gn("GEN_COUCHE_" + layer_key(layer.name))}",), '
+        f'_F(GROUP_MA=("{layer_group_name(layer)}",), '
         f"PRES=F_{prefix}_{layer_key(layer.name)}),"
         for layer in layers
     )
@@ -1549,6 +1570,10 @@ IMPR_TABLE(TABLE=TAB_RESS_{name}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
         if sans_tirants
         else _SUPPORT_GROUPS
     )
+    # Lot 35 : la table combinée `REACTIONS_<cas>` du lot 33 (RESULTANTE sur les
+    # quatre groupes d'appui en une seule extraction) est retirée : sa valeur
+    # n'égale pas la somme des résultantes par groupe (lot 34, cause non
+    # établie), elle ne doit plus être lue.
     # Lot 34, étape 2 : la résultante des quatre groupes d'appui ne dit pas d'où
     # vient un écart ; chaque groupe a donc sa propre table, et `GEN_TOUS_NOEUDS`
     # (tous les nœuds) donne la somme globale, exacte même sous `ELAS_COQUE`
@@ -1559,18 +1584,6 @@ IMPR_TABLE(TABLE=TAB_RESS_{name}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
     if spring_force_check and spring_group_names:
         ressorts_block += spring_force_block(name, spring_group_names)
     return f"""{ressorts_block}
-TAB_REAC_{name} = POST_RELEVE_T(
-    ACTION=_F(
-        OPERATION="EXTRACTION",
-        INTITULE="REACTIONS_{name}",
-        RESULTAT=RESU_{name},
-        NOM_CHAM="REAC_NODA",
-        TOUT_ORDRE="OUI",
-        GROUP_NO={_tup(list(support_groups))},
-        RESULTANTE=({components}),
-    )
-)
-IMPR_TABLE(TABLE=TAB_REAC_{name}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
 {per_group_reactions}
 # Point 7 : symétrie -- lot 33, étape 4 : TOUT le maillage, jamais deux
 # paires choisies à la main (docs/essais_lot33.md) : le script d'analyse
@@ -1590,6 +1603,283 @@ TAB_SYM_{name} = POST_RELEVE_T(
 )
 IMPR_TABLE(TABLE=TAB_SYM_{name}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
 """
+
+
+ORIENTED_MESH_UNIT = 81
+"""Unité (`fort.81`) du maillage orienté écrit par `oriented_mesh_block`."""
+
+PROFILE_NODE_GROUP_PREFIX = "GEN_NOEUDS_TUBE_"
+
+
+def oriented_mesh_block() -> str:
+    """Lot 35 : le maillage tel que Code_Aster le tient **après**
+    `MODI_MAILLAGE/ORIE_NORM_COQUE` et la création des groupes de couche, écrit en
+    MED (`IMPR_RESU/RESU/MAILLAGE`, unité `ORIENTED_MESH_UNIT`).
+
+    Pourquoi : la charge par couche désactive `VERI_NORM` (groupes de bord non
+    connexes, `<F> <MESH3_99>`, lot 34). L'orientation de chaque maille est alors
+    vérifiée explicitement, hors de Code_Aster, sur ce maillage relu
+    (`aster_expert.meshing.normals`) : la connectivité orientée est celle que
+    `MODI_MAILLAGE` a imposée, jamais celle du MED d'entrée."""
+    return f"""
+# Lot 35 : maillage orienté (après ORIE_NORM_COQUE), relu hors de Code_Aster pour
+# vérifier explicitement l'orientation des normales de chaque couche
+# (aster_expert.meshing.normals) -- VERI_NORM est désactivé sur les charges par
+# couche, voir layered_pressure_load_block.
+IMPR_RESU(FORMAT="MED", UNITE={ORIENTED_MESH_UNIT}, RESU=_F(MAILLAGE=MAIL))
+"""
+
+
+def profile_node_groups_block(tube_numbers: tuple[int, ...]) -> str:
+    """Lot 35 : un groupe de nœuds par tube dont on trace le profil de `DY`
+    (`GEN_NOEUDS_TUBE_<nn>`, tous les nœuds du groupe de mailles `TUBE_<nn>`), avant
+    `AFFE_MODELE`. Une occurrence de `CREA_GROUP_NO` par tube, chacune sur un seul
+    groupe de mailles (la forme à plusieurs `GROUP_MA` a échoué au lot 33,
+    `<F> <JEVEUX_10>`)."""
+    occurrences = "\n        ".join(
+        f'_F(NOM="{PROFILE_NODE_GROUP_PREFIX}{n:02d}", GROUP_MA=("TUBE_{n:02d}",)),'
+        for n in tube_numbers
+    )
+    return f"""
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_NO=(
+        {occurrences}
+    ),
+)
+"""
+
+
+TUBE_EFFORT_COMPONENTS = ("NXX", "NYY", "MXX", "MYY")
+PALP_EFFORT_COMPONENTS = ("NXX", "NYY", "NXY", "MXX", "MYY", "MXY", "QX", "QY")
+BEAM_EFFORT_COMPONENTS = ("N", "VY", "VZ", "MT", "MFY", "MFZ")
+TIE_EFFORT_COMPONENTS = ("N",)
+
+SYNTHESIS_TITLES = {
+    "tete": "TETE",
+    "tubes": "EFTUBE",
+    "palplanches": "EFPALP",
+    "poutre": "EFPOUT",
+    "tirants": "EFTIR",
+}
+"""Début des intitulés des tables de synthèse (`<début>_<cas>`, 16 caractères au
+plus, `TABLE_TITLE_MAX`), distincts de ceux des tables de contrôle (`RESSORTS_`,
+`REAC_`, `SYMETRIE_`)."""
+
+
+def synthesis_title(kind: str, name: str) -> str:
+    title = f"{SYNTHESIS_TITLES[kind]}_{name}"
+    if len(title) > TABLE_TITLE_MAX:
+        message = (
+            f"intitulé de table trop long ({len(title)} > {TABLE_TITLE_MAX}) : {title}"
+        )
+        raise GenerationError(message)
+    return title
+
+
+def profile_title(tube: int, name: str) -> str:
+    title = f"DYT{tube:02d}_{name}"
+    if len(title) > TABLE_TITLE_MAX:
+        message = (
+            f"intitulé de table trop long ({len(title)} > {TABLE_TITLE_MAX}) : {title}"
+        )
+        raise GenerationError(message)
+    return title
+
+
+def _extraction(
+    concept: str,
+    title: str,
+    resultat: str,
+    field: str,
+    groups: list[str],
+    cmps: tuple[str, ...],
+) -> str:
+    """`POST_RELEVE_T/EXTRACTION` d'un champ aux nœuds (déplacements)."""
+    group_no = ", ".join(f'"{g}"' for g in groups)
+    components = ", ".join(f'"{c}"' for c in cmps)
+    return f"""
+{concept} = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="{title}",
+        RESULTAT={resultat},
+        NOM_CHAM="{field}",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=({group_no},),
+        NOM_CMP=({components},),
+    )
+)
+IMPR_TABLE(TABLE={concept}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
+"""
+
+
+def _effort_table(
+    concept: str,
+    title: str,
+    resultat: str,
+    field: str,
+    cmps: tuple[str, ...],
+    *,
+    group_ma: str | None = None,
+    group_no: str | None = None,
+) -> str:
+    """Efforts généralisés d'un champ de structure, par `CREA_TABLE/RESU`, imprimé avec
+    le titre `title` (`IMPR_TABLE/TITRE` : le `.mess` l'écrit dans le marqueur de
+    table, `##<titre>ASTER` ; le `TITRE` de `CREA_TABLE` n'y figure pas).
+
+    Pourquoi pas `POST_RELEVE_T` : sur un champ de structure, celui-ci s'arrête sur son
+    changement de repère (`REPERE="GLOBAL"` par défaut : alarme `<POSTRELE_70>` pour
+    `EFGE_NOEU`, aggravée en erreur par `DEBUT/ERREUR`, sans jamais être neutralisée ;
+    `REPERE="LOCAL"` : `<F> <POSTRELE_38>` « composante non traitée dans un changement
+    de repère » -- exécutions réelles du lot 35). `CREA_TABLE` lit les valeurs telles
+    que Code_Aster les stocke, sans changement de repère : le repère est celui de
+    l'élément (« utilisateur », U2.01.05). Les lignes portent la maille (`EFGE_ELNO`),
+    le nœud et ses coordonnées."""
+    components = ", ".join(f'"{c}"' for c in cmps)
+    where = (
+        f'GROUP_MA=("{group_ma}",), '
+        if group_ma
+        else f'GROUP_NO=("{group_no}",), '
+        if group_no
+        else ""
+    )
+    return f"""
+{concept} = CREA_TABLE(
+    RESU=_F(
+        RESULTAT={resultat},
+        NOM_CHAM="{field}",
+        TOUT_ORDRE="OUI",
+        {where}NOM_CMP=({components},),
+    ),
+)
+IMPR_TABLE(TABLE={concept}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}", TITRE="{title}")
+"""
+
+
+def synthesis_block(
+    name: str,
+    *,
+    profile_tubes: tuple[int, ...],
+    head_groups: list[str],
+    sans_tirants: bool = False,
+    sans_palplanches: bool = False,
+    sans_poutre: bool = False,
+) -> str:
+    """Lot 35, étape 3 : les tables que la synthèse pour l'ingénieur lit, pour le
+    cas élémentaire `name` (`aster-expert report`). Rien n'est calculé ici, tout
+    est lu de Code_Aster.
+
+    - `DYT<nn>_<cas>` : `DEPL/DY` de **tous** les nœuds du tube `nn` (le profil le
+      long du tube est reconstitué par cote à la lecture) ;
+    - `TETE_<cas>` : `DEPL/DY` des nœuds des anneaux de tête (`TETE_TUBE_<nn>`) ;
+    - **palplanches** : `EFGE_NOEU` (décision 2), `CALC_CHAMP` restreint aux `PALPS`
+      sur un résultat temporaire -- un nœud commun à un tube et à une palplanche
+      recevrait sinon la moyenne de deux coques de matériaux et de repères
+      différents ;
+    - **tubes, poutre, tirants** : `EFGE_ELNO` (`CALC_CHAMP` restreint), valeurs
+      **par élément et par nœud, sans moyenne** : `CALC_CHAMP/EFGE_NOEU` sur ces
+      groupes s'arrête sur les repères locaux des facettes de tube
+      (`<F> <UTILITAI_4>`, jusqu'à 92° d'écart, exécution réelle du lot 35 : les
+      nœuds de serrure sont communs à une facette de tube et à une palplanche dont le
+      plan est à 90°) ; les extrêmes sont ceux des valeurs par élément.
+
+    Les résultats temporaires sont détruits après lecture : le MED de résultats n'en
+    est pas alourdi."""
+    parts: list[str] = []
+    for tube in profile_tubes:
+        parts.append(
+            _extraction(
+                f"TAB_DYT{tube:02d}_{name}",
+                profile_title(tube, name),
+                f"RESU_{name}",
+                "DEPL",
+                [f"{PROFILE_NODE_GROUP_PREFIX}{tube:02d}"],
+                ("DY",),
+            )
+        )
+    parts.append(
+        _extraction(
+            f"TAB_TETE_{name}",
+            synthesis_title("tete", name),
+            f"RESU_{name}",
+            "DEPL",
+            head_groups,
+            ("DY",),
+        )
+    )
+    restricted = ["TUBES"]
+    if not sans_poutre:
+        restricted.append("POUTRE_COUR")
+    if not sans_tirants:
+        restricted.append("TIRANTS")
+    ma = ", ".join(f'"{g}"' for g in restricted)
+    parts.append(
+        f"""
+EFA_{name} = CALC_CHAMP(
+    RESULTAT=RESU_{name},
+    GROUP_MA=({ma},),
+    CONTRAINTE=("EFGE_ELNO",),
+)
+"""
+    )
+    parts.append(
+        _effort_table(
+            f"TAB_EFTUBE_{name}",
+            synthesis_title("tubes", name),
+            f"EFA_{name}",
+            "EFGE_ELNO",
+            TUBE_EFFORT_COMPONENTS,
+            group_ma="TUBES",
+        )
+    )
+    if not sans_poutre:
+        parts.append(
+            _effort_table(
+                f"TAB_EFPOUT_{name}",
+                synthesis_title("poutre", name),
+                f"EFA_{name}",
+                "EFGE_ELNO",
+                BEAM_EFFORT_COMPONENTS,
+                group_ma="POUTRE_COUR",
+            )
+        )
+    if not sans_tirants:
+        parts.append(
+            _effort_table(
+                f"TAB_EFTIR_{name}",
+                synthesis_title("tirants", name),
+                f"EFA_{name}",
+                "EFGE_ELNO",
+                TIE_EFFORT_COMPONENTS,
+                group_ma="TIRANTS",
+            )
+        )
+    destroyed = [f"EFA_{name}"]
+    if not sans_palplanches:
+        parts.append(
+            f"""
+EFB_{name} = CALC_CHAMP(
+    RESULTAT=RESU_{name},
+    GROUP_MA=("PALPS",),
+    CONTRAINTE=("EFGE_ELNO", "EFGE_NOEU"),
+)
+"""
+        )
+        parts.append(
+            _effort_table(
+                f"TAB_EFPALP_{name}",
+                synthesis_title("palplanches", name),
+                f"EFB_{name}",
+                "EFGE_NOEU",
+                PALP_EFFORT_COMPONENTS,
+                group_no="GEN_TOUS_PALPS",
+            )
+        )
+        destroyed.append(f"EFB_{name}")
+    parts.append("".join(f"\nDETRUIRE(NOM={c})\n" for c in destroyed))
+    return "".join(parts)
 
 
 SIX_DOF_GROUP = "GEN_NOEUDS_6DDL"

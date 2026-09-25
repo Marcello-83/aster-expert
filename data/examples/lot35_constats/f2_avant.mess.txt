@@ -1,0 +1,9 @@
+# Extrait verbatim du listing (.mess) de l'exécution réelle 20260924T153701-fcac67f2
+# du cas quai_reduit_forces_ressorts.comm (code_aster 17.4.0, image du manifeste).
+# Contenu : DEPL/DY puis FORC_NODA/DY (POI1) du nœud 65, à z = -18 (limite argile/marne), cas G (classes de bande seules)
+# Lignes recopiées telles quelles ; rien n'est retapé ni recalculé.
+#
+INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   INST                 ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DY                  
+RESSORTS_G       65       0000001b DEPL                                1   0.000000000000E+00   0.000000000000E+00  -1.898741278177E+00  -1.110684701790E-01  -1.800000000000E+01  -3.331812975396E-03
+INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   INST                 ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DY                  
+FRESS_G          65       0000001b FORC_NODA                           1   0.000000000000E+00   0.000000000000E+00  -1.898741278177E+00  -1.110684701790E-01  -1.800000000000E+01  -5.789003959445E+02

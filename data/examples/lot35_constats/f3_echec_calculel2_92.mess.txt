@@ -1,0 +1,22 @@
+# Extrait verbatim du listing de l'exécution réelle 20260924T122731-0b829e46, cas
+# data/examples/lot33_equilibre/quai_reduit/diag_no_fz.comm
+# (arrêt fatal au post-traitement ; niveau B : ce n'est pas une
+# source d'exécution, il est cité par les notes du constat).
+#
+Champ stocké <DEPL> à l'instant  0.000000000000e+00 pour le numéro d'ordre 1
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <F> <CALCULEL2_92>                                                                             ║
+ ║                                                                                                ║
+ ║ votre chargement contient plus d'une charge répartie                                           ║
+ ║  le calcul n'est pas possible pour les modèles de poutre.                                      ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║ Cette erreur est fatale. Le code s'arrête.                                                     ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+Traceback returned by GNU libc (last 25 stack frames):
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibc.so(print_trace_+0x1f) [0x7dbcb7f6c35f]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(utmess_core_+0xa48) [0x7dbcb769a078]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(utmess_+0x760) [0x7dbcb7699230]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(ccvepo_+0x854) [0x7dbcb68d7aa4]

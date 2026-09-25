@@ -1,0 +1,46 @@
+# Extrait verbatim du listing (.mess) de l'exécution réelle 20260925T071216-4bf41bd0 (échec ; niveau B :
+# ce n'est pas une source d'exécution). Cas : essai_a.comm (copie octet pour octet du cas exécuté).
+#
+# Commande #0075 de essai_a.comm.changed.py, ligne 1381
+T4 = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
+                             FORMAT_C='MODULE',
+                             GROUP_NO='GEN_TOUS_PALPS',
+                             INTITULE='A_PAL',
+                             MOYE_NOEUD='OUI',
+                             NOM_CHAM='EFGE_NOEU',
+                             NOM_CMP=('NXX', 'NYY', 'NXY', 'MXX', 'MYY', 'MXY', 'QX', 'QY'),
+                             OPERATION='EXTRACTION',
+                             PRECISION=1e-06,
+                             REPERE='GLOBAL',
+                             RESULTAT=EFB_G,
+                             TOUT_ORDRE='OUI'),
+                   INFO=1)
+
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <E> <CATAMESS_3>                                                                               ║
+ ║                                                                                                ║
+ ║ L'alarme POSTRELE_70 est aggravée en erreur.                                                   ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║ Cette erreur sera suivie d'une erreur fatale.                                                  ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <F> <POSTRELE_70>                                                                              ║
+ ║                                                                                                ║
+ ║ Commande POST_RELEVE_T :                                                                       ║
+ ║ Votre modèle contient des éléments de structures et :                                          ║
+ ║     - vous avez demandé le post-traitement du champ EFGE_NOEU, qui n'a de signification que    ║
+ ║ dans                                                                                           ║
+ ║       le repère LOCAL des éléments.                                                            ║
+ ║     - vous avez demandé le post-traitement dans un repère différent de LOCAL.                  ║
+ ║                                                                                                ║
+ ║ Le mot clef REPERE est ignoré.                                                                 ║
+ ║ Le post-traitement sera réalisé dans le repère LOCAL des éléments.                             ║
+ ║                                                                                                ║
+ ║ Conseil :                                                                                      ║
+ ║     Si vous avez précédemment utilisé la commande CALC_CHAMP et que les repères locaux des     ║
+ ║     éléments connectés à un même noeud sont différents, une alarme a été émise.                ║
+ ║     Dans ce cas les résultats obtenus aux noeuds ne sont pas pertinents.                       ║

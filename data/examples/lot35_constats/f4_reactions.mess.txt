@@ -1,0 +1,15 @@
+# Extrait verbatim du listing (.mess) de l'exécution réelle 20260924T153254-726c58d9
+# du cas quai_reduit_controles.comm (code_aster 17.4.0, image du manifeste).
+# Contenu : REAC_NODA résultante par groupe (ANCRAGES, PIED_TUBES, SYM_G, SYM_D) puis sur tous les nœuds, cas EAU_A
+# Lignes recopiées telles quelles ; rien n'est retapé ni recalculé.
+#
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_ANCR_EAU_A  0000007f REAC_NODA                           1   0.000000000000E+00   5.995207586224E-11   9.790917006272E+05  -3.562883838959E+05
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_PIED_EAU_A  0000007f REAC_NODA                           1   0.000000000000E+00   7.480593922082E-10   2.350919459104E-09   3.562883838922E+05
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMG_EAU_A  0000007f REAC_NODA                           1   0.000000000000E+00  -1.688717172845E+05   2.653581748701E+05  -2.618765466539E+05
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_SYMD_EAU_A  0000007f REAC_NODA                           1   0.000000000000E+00   1.688717172844E+05   2.653581748177E+05  -2.618765466525E+05
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+REAC_TOUS_EAU_A  0000007f REAC_NODA                           1   0.000000000000E+00  -1.564384145222E-09   9.790917004831E+05  -1.789885573089E-09

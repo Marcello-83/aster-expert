@@ -408,9 +408,29 @@ def _names(prefix: str, count: int) -> list[str]:
     return [f"{prefix}{k:02d}" for k in range(1, count + 1)]
 
 
-def expected_invariants(params: dict[str, Any]) -> dict[str, Any]:
+def layer_interface_levels(data: ModelData) -> list[float]:
+    """Lot 35 : cotes qui bornent les couches de la poussée des terres (situation
+    permanente), du pied de la première couche à la tête de la dernière -- les
+    deux extrémités du profil et chaque cote où deux couches se rencontrent. C'est
+    le découpage que le générateur applique (`layer_profiles`, une pression par
+    couche) : le maillage doit s'y aligner (`LayerBandsInvariant`)."""
+    profile = _value(data, "eau_terres.profil_poussee_terres_permanent")
+    layers_at: dict[float, set[str]] = {}
+    for point in profile:
+        layers_at.setdefault(float(point.z), set()).add(point.layer or "")
+    levels = sorted(layers_at)
+    return [z for z in levels if z in (levels[0], levels[-1]) or len(layers_at[z]) > 1]
+
+
+def expected_invariants(
+    params: dict[str, Any], layer_levels: list[float] | None = None
+) -> dict[str, Any]:
     """Invariants of the quay MED, computed from the parameters (schema of
-    `aster_expert.meshing.invariants.Invariants`)."""
+    `aster_expert.meshing.invariants.Invariants`).
+
+    `layer_levels` (lot 35, `layer_interface_levels`) ajoute l'invariant de
+    couche de `ECRAN_POUSSEE` : le maillage doit être aligné sur les interfaces
+    de sol de la charge par couche."""
     lay = _Layout(params)
     n_tubes, n_sheets = lay.n_tubes, lay.n_tubes - 1
     z_foot, z_head = lay.levels[0], lay.levels[-1]
@@ -774,6 +794,19 @@ def expected_invariants(params: dict[str, Any]) -> dict[str, Any]:
         ],
         "projected_widths": widths,
         "subsets": subsets,
+        **(
+            {
+                "layer_bands": [
+                    {
+                        "group": "ECRAN_POUSSEE",
+                        "levels": list(layer_levels),
+                        "tolerance": TOL,
+                    }
+                ]
+            }
+            if layer_levels
+            else {}
+        ),
         "plane_nodes": [
             {"group": "SYM_G", "axis": "x", "value": x_left, "tolerance": TOL},
             {"group": "SYM_D", "axis": "x", "value": x_right, "tolerance": TOL},

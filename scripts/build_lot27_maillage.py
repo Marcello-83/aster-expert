@@ -35,6 +35,7 @@ from aster_expert.meshing.combiwall import (
     expected_invariants,
     expected_masses,
     expected_segments,
+    layer_interface_levels,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -137,7 +138,9 @@ def files() -> dict[Path, str]:
     masses = expected_masses(params)
     return {
         OUT / "params.json": _json(params),
-        INVARIANTS_PATH: _yaml_flow(expected_invariants(params)),
+        INVARIANTS_PATH: _yaml_flow(
+            expected_invariants(params, layer_interface_levels(data))
+        ),
         OUT / "segments_attendus.json": _json(expected_segments(params)),
         OUT / "aster" / "lot27_lecture.comm": aster_comm(masses),
         OUT / "aster" / "lot27_lecture.export": aster_export(),

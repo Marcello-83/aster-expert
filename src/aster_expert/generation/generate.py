@@ -42,8 +42,8 @@ _REQUIRED_FACT_TOPICS = (
     "Pression répartie fonction de Z sur des coques DKT",
     "Orientation cohérente des normales de coque pour qu'une pression positive "
     "agisse côté terre",
-    "Représentation d'un profil de pression discontinu par points doublés à "
-    "Z ± 0,001 m",
+    "Évaluation aux nœuds de FORCE_COQUE/PRES (fonction) : une marche de pression "
+    "à une interface de couches déborde d'une demi-maille",
     "Conditions de symétrie par rapport à un plan X = constante pour des coques "
     "DKT et des poutres POU_D_E",
     "Élément de barre : section, matériau, et absence de degré de rotation au "
@@ -489,6 +489,24 @@ def generate_comm(
     def _order(name: str) -> str:
         return "" if probing else comm.order_of_magnitude_block(name, beam_group_names)
 
+    # Lot 35, étape 3 : les tubes dont on trace le profil de DY -- le tube central
+    # (axe X = 0 : TUBE_05 du modèle complet) et le premier (TUBE_01, sur la face de
+    # coupe SYM_G) ; un seul si le modèle n'en a qu'un.
+    profile_tubes = tuple(dict.fromkeys((int(params["tube"]["central"]), 1)))
+    head_groups = [f"TETE_TUBE_{n}" for n in beam_group_names]
+
+    def _synthesis(name: str) -> str:
+        if probing:
+            return ""
+        return comm.synthesis_block(
+            name,
+            profile_tubes=profile_tubes,
+            head_groups=head_groups,
+            sans_tirants=omit.sans_tirants,
+            sans_palplanches=omit.sans_palplanches,
+            sans_poutre=omit.sans_poutre,
+        )
+
     text_parts = [
         comm.header(
             aster_version=aster_version,
@@ -510,12 +528,14 @@ def generate_comm(
             ring_points=ring_points,
         ),
         comm.six_dof_group_block() if probing else "",
+        "" if probing else comm.profile_node_groups_block(profile_tubes),
         (
             comm.ecran_poussee_tubes_group_block()
             if omit.sans_palplanches or pressure_on == "tubes"
             else ""
         ),
         comm.pressure_layer_groups_block(g_layers, poussee_group_ma=poussee_group_ma),
+        "" if probing else comm.oriented_mesh_block(),
         comm.model_and_cara_block(
             mv,
             spring_classes,
@@ -586,6 +606,7 @@ def generate_comm(
             resi_rela=slv.resi_rela,
         ),
         _controls("G"),
+        _synthesis("G"),
         _order("G"),
         comm.case_block(
             "EAU_P",
@@ -597,6 +618,7 @@ def generate_comm(
             resi_rela=slv.resi_rela,
         ),
         _controls("EAU_P"),
+        _synthesis("EAU_P"),
         comm.case_block(
             "EAU_A",
             extra_charges=[
@@ -607,6 +629,7 @@ def generate_comm(
             resi_rela=slv.resi_rela,
         ),
         _controls("EAU_A"),
+        _synthesis("EAU_A"),
         comm.case_block(
             "Q1",
             extra_charges=[
@@ -617,6 +640,7 @@ def generate_comm(
             resi_rela=slv.resi_rela,
         ),
         _controls("Q1"),
+        _synthesis("Q1"),
         *(
             []
             if omit.sans_poutre
@@ -628,6 +652,7 @@ def generate_comm(
                     resi_rela=slv.resi_rela,
                 ),
                 _controls("Q3"),
+                _synthesis("Q3"),
                 _order("Q3"),
             ]
         ),
@@ -638,6 +663,7 @@ def generate_comm(
             resi_rela=slv.resi_rela,
         ),
         _controls("A"),
+        _synthesis("A"),
         (
             "\nFIN()\n"
             if probing

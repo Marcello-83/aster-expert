@@ -325,3 +325,61 @@ def test_the_fiche_and_the_data_file_report_no_blocker() -> None:
     assert sheet.generation_blockers() == ()
     assert sheet.generation_blockers(data) == ()
     assert sheet.is_ready_for_generation
+
+
+# --- lot 35 : profil de butée limite (donnees_butee_combiwall_v1.md) --------------
+
+
+def _butee() -> DataValue:
+    return load_model_data(_YAML).items()["sol.profil_butee_limite"]
+
+
+def test_lot35_the_bearing_profile_is_copied_with_its_source() -> None:
+    item = _butee()
+
+    assert item.status == "fourni"
+    assert item.unit == "kPa"
+    assert item.source is not None
+    assert item.source.document == "donnees_butee_combiwall_v1.md"
+    assert item.profile is not None
+    assert [(p.z, p.p, p.layer) for p in item.profile] == [
+        (-12.0, 47.1, "argile marneuse"),
+        (-18.0, 202.3, "argile marneuse"),
+        (-18.0, 327.6, "marne compacte"),
+        (-26.0, 603.6, "marne compacte"),
+    ]
+
+
+def test_lot35_the_bearing_source_is_the_whole_verbatim_document() -> None:
+    """Le fichier est recopié à l'identique de celui que MM a validé au lancement du
+    lot (aucune section numérotée : `section: "document"`)."""
+    text = (_INPUTS / "donnees_butee_combiwall_v1.md").read_text(encoding="utf-8")
+
+    assert numbers_in("47,1") == [(47.1, 1)]
+    for value in ("47,1", "202,3", "327,6", "603,6", "12,00", "26,00"):
+        assert value in text
+    sheet = HypothesesSheet.model_validate_json(_SHEET.read_text(encoding="utf-8"))
+    assert check_consistency(load_model_data(_YAML), sheet, _INPUTS) == []
+
+
+def test_lot35_a_bearing_value_absent_from_its_source_is_reported() -> None:
+    item = _butee()
+    assert item.profile is not None
+    altered = item.model_copy(
+        update={
+            "profile": (
+                *item.profile[:-1],
+                item.profile[-1].model_copy(update={"p": 999.9}),
+            )
+        }
+    )
+    data = ModelData(
+        project="p",
+        case_reference="c",
+        groups={"sol": {"profil_butee_limite": altered}},
+    )
+    sheet = HypothesesSheet.model_validate_json(_SHEET.read_text(encoding="utf-8"))
+
+    (line,) = check_consistency(data, sheet, _INPUTS)
+
+    assert "999.9" in line.reason

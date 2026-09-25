@@ -1,0 +1,14 @@
+[OK    ] normales de GEN_COUCHE_MARNE : 5120 mailles, famille connue | attendu : 0 | obtenu : 0
+[OK    ] normales de GEN_COUCHE_MARNE : normales non horizontales | attendu : 0 | obtenu : 0
+[OK    ] normales de GEN_COUCHE_MARNE : normales tournées vers la terre (cosinus minimal >= 0.9) | attendu : 0 | obtenu : 0 mailles à contresens ou hors seuil, cosinus minimal 1
+[OK    ] normales de GEN_COUCHE_ARGILE : 7200 mailles, famille connue | attendu : 0 | obtenu : 0
+[OK    ] normales de GEN_COUCHE_ARGILE : normales non horizontales | attendu : 0 | obtenu : 0
+[OK    ] normales de GEN_COUCHE_ARGILE : normales tournées vers la terre (cosinus minimal >= 0.9) | attendu : 0 | obtenu : 0 mailles à contresens ou hors seuil, cosinus minimal 1
+[OK    ] normales de GEN_COUCHE_SABLE : 5600 mailles, famille connue | attendu : 0 | obtenu : 0
+[OK    ] normales de GEN_COUCHE_SABLE : normales non horizontales | attendu : 0 | obtenu : 0
+[OK    ] normales de GEN_COUCHE_SABLE : normales tournées vers la terre (cosinus minimal >= 0.9) | attendu : 0 | obtenu : 0 mailles à contresens ou hors seuil, cosinus minimal 1
+[OK    ] normales de GEN_COUCHE_REMBLAI : 3800 mailles, famille connue | attendu : 0 | obtenu : 0
+[OK    ] normales de GEN_COUCHE_REMBLAI : normales non horizontales | attendu : 0 | obtenu : 0
+[OK    ] normales de GEN_COUCHE_REMBLAI : normales tournées vers la terre (cosinus minimal >= 0.9) | attendu : 0 | obtenu : 0 mailles à contresens ou hors seuil, cosinus minimal 1
+
+Toutes les normales sont conformes.

@@ -1,0 +1,605 @@
+Rapport mesh check : combiwall_mesh.med
+Invariants : 599, tenus : 599, en écart : 0
+
+[OK    ] comptage | nombre de nœuds | attendu : 40114 | obtenu : 40114
+[OK    ] comptage | mailles par type | attendu : {'QUAD4': 40120, 'SEG2': 39583} | obtenu : {'QUAD4': 40120, 'SEG2': 39583}
+[OK    ] boîte | boîte englobante du modèle (tol. 1e-09) | attendu : (-10.4, 10.4, -0.71, 25.14, -26, 3.3) | obtenu : (-10.4, 10.4, -0.71, 25.14, -26, 3.3)
+[OK    ] groupe | groupe TUBE_01 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TUBE_01 : cardinalité | attendu : 2300 | obtenu : 2300
+[OK    ] groupe | groupe TUBE_01 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 2300}
+[OK    ] groupe | groupe TUBE_01 : boîte englobante (tol. 1e-09) | attendu : (-10.4, -9.69, -0.71, 0.71, -26, 2.6) | obtenu : (-10.4, -9.69, -0.71, 0.71, -26, 2.6)
+[OK    ] groupe | groupe TUBE_02 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TUBE_02 : cardinalité | attendu : 4600 | obtenu : 4600
+[OK    ] groupe | groupe TUBE_02 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 4600}
+[OK    ] groupe | groupe TUBE_02 : boîte englobante (tol. 1e-09) | attendu : (-8.51, -7.09, -0.71, 0.71, -26, 2.6) | obtenu : (-8.51, -7.09, -0.71, 0.71, -26, 2.6)
+[OK    ] groupe | groupe TUBE_03 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TUBE_03 : cardinalité | attendu : 4600 | obtenu : 4600
+[OK    ] groupe | groupe TUBE_03 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 4600}
+[OK    ] groupe | groupe TUBE_03 : boîte englobante (tol. 1e-09) | attendu : (-5.91, -4.49, -0.71, 0.71, -26, 2.6) | obtenu : (-5.91, -4.49, -0.71, 0.71, -26, 2.6)
+[OK    ] groupe | groupe TUBE_04 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TUBE_04 : cardinalité | attendu : 4600 | obtenu : 4600
+[OK    ] groupe | groupe TUBE_04 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 4600}
+[OK    ] groupe | groupe TUBE_04 : boîte englobante (tol. 1e-09) | attendu : (-3.31, -1.89, -0.71, 0.71, -26, 2.6) | obtenu : (-3.31, -1.89, -0.71, 0.71, -26, 2.6)
+[OK    ] groupe | groupe TUBE_05 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TUBE_05 : cardinalité | attendu : 4600 | obtenu : 4600
+[OK    ] groupe | groupe TUBE_05 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 4600}
+[OK    ] groupe | groupe TUBE_05 : boîte englobante (tol. 1e-09) | attendu : (-0.71, 0.71, -0.71, 0.71, -26, 2.6) | obtenu : (-0.71, 0.71, -0.71, 0.71, -26, 2.6)
+[OK    ] groupe | groupe TUBE_06 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TUBE_06 : cardinalité | attendu : 4600 | obtenu : 4600
+[OK    ] groupe | groupe TUBE_06 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 4600}
+[OK    ] groupe | groupe TUBE_06 : boîte englobante (tol. 1e-09) | attendu : (1.89, 3.31, -0.71, 0.71, -26, 2.6) | obtenu : (1.89, 3.31, -0.71, 0.71, -26, 2.6)
+[OK    ] groupe | groupe TUBE_07 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TUBE_07 : cardinalité | attendu : 4600 | obtenu : 4600
+[OK    ] groupe | groupe TUBE_07 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 4600}
+[OK    ] groupe | groupe TUBE_07 : boîte englobante (tol. 1e-09) | attendu : (4.49, 5.91, -0.71, 0.71, -26, 2.6) | obtenu : (4.49, 5.91, -0.71, 0.71, -26, 2.6)
+[OK    ] groupe | groupe TUBE_08 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TUBE_08 : cardinalité | attendu : 4600 | obtenu : 4600
+[OK    ] groupe | groupe TUBE_08 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 4600}
+[OK    ] groupe | groupe TUBE_08 : boîte englobante (tol. 1e-09) | attendu : (7.09, 8.51, -0.71, 0.71, -26, 2.6) | obtenu : (7.09, 8.51, -0.71, 0.71, -26, 2.6)
+[OK    ] groupe | groupe TUBE_09 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TUBE_09 : cardinalité | attendu : 2300 | obtenu : 2300
+[OK    ] groupe | groupe TUBE_09 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 2300}
+[OK    ] groupe | groupe TUBE_09 : boîte englobante (tol. 1e-09) | attendu : (9.69, 10.4, -0.71, 0.71, -26, 2.6) | obtenu : (9.69, 10.4, -0.71, 0.71, -26, 2.6)
+[OK    ] groupe | groupe TUBES : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TUBES : cardinalité | attendu : 36800 | obtenu : 36800
+[OK    ] groupe | groupe TUBES : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 36800}
+[OK    ] groupe | groupe TUBES : boîte englobante (tol. 1e-09) | attendu : (-10.4, 10.4, -0.71, 0.71, -26, 2.6) | obtenu : (-10.4, 10.4, -0.71, 0.71, -26, 2.6)
+[OK    ] groupe | groupe PALP_01 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PALP_01 : cardinalité | attendu : 415 | obtenu : 415
+[OK    ] groupe | groupe PALP_01 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 415}
+[OK    ] groupe | groupe PALP_01 : boîte englobante (tol. 1e-09) | attendu : (-9.69, -8.51, 0, 0, -18, 2.6) | obtenu : (-9.69, -8.51, 0, 0, -18, 2.6)
+[OK    ] groupe | groupe PALP_02 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PALP_02 : cardinalité | attendu : 415 | obtenu : 415
+[OK    ] groupe | groupe PALP_02 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 415}
+[OK    ] groupe | groupe PALP_02 : boîte englobante (tol. 1e-09) | attendu : (-7.09, -5.91, 0, 0, -18, 2.6) | obtenu : (-7.09, -5.91, 0, 0, -18, 2.6)
+[OK    ] groupe | groupe PALP_03 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PALP_03 : cardinalité | attendu : 415 | obtenu : 415
+[OK    ] groupe | groupe PALP_03 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 415}
+[OK    ] groupe | groupe PALP_03 : boîte englobante (tol. 1e-09) | attendu : (-4.49, -3.31, 0, 0, -18, 2.6) | obtenu : (-4.49, -3.31, 0, 0, -18, 2.6)
+[OK    ] groupe | groupe PALP_04 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PALP_04 : cardinalité | attendu : 415 | obtenu : 415
+[OK    ] groupe | groupe PALP_04 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 415}
+[OK    ] groupe | groupe PALP_04 : boîte englobante (tol. 1e-09) | attendu : (-1.89, -0.71, 0, 0, -18, 2.6) | obtenu : (-1.89, -0.71, 0, 0, -18, 2.6)
+[OK    ] groupe | groupe PALP_05 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PALP_05 : cardinalité | attendu : 415 | obtenu : 415
+[OK    ] groupe | groupe PALP_05 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 415}
+[OK    ] groupe | groupe PALP_05 : boîte englobante (tol. 1e-09) | attendu : (0.71, 1.89, 0, 0, -18, 2.6) | obtenu : (0.71, 1.89, 0, 0, -18, 2.6)
+[OK    ] groupe | groupe PALP_06 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PALP_06 : cardinalité | attendu : 415 | obtenu : 415
+[OK    ] groupe | groupe PALP_06 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 415}
+[OK    ] groupe | groupe PALP_06 : boîte englobante (tol. 1e-09) | attendu : (3.31, 4.49, 0, 0, -18, 2.6) | obtenu : (3.31, 4.49, 0, 0, -18, 2.6)
+[OK    ] groupe | groupe PALP_07 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PALP_07 : cardinalité | attendu : 415 | obtenu : 415
+[OK    ] groupe | groupe PALP_07 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 415}
+[OK    ] groupe | groupe PALP_07 : boîte englobante (tol. 1e-09) | attendu : (5.91, 7.09, 0, 0, -18, 2.6) | obtenu : (5.91, 7.09, 0, 0, -18, 2.6)
+[OK    ] groupe | groupe PALP_08 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PALP_08 : cardinalité | attendu : 415 | obtenu : 415
+[OK    ] groupe | groupe PALP_08 : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 415}
+[OK    ] groupe | groupe PALP_08 : boîte englobante (tol. 1e-09) | attendu : (8.51, 9.69, 0, 0, -18, 2.6) | obtenu : (8.51, 9.69, 0, 0, -18, 2.6)
+[OK    ] groupe | groupe PALPS : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PALPS : cardinalité | attendu : 3320 | obtenu : 3320
+[OK    ] groupe | groupe PALPS : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 3320}
+[OK    ] groupe | groupe PALPS : boîte englobante (tol. 1e-09) | attendu : (-9.69, 9.69, 0, 0, -18, 2.6) | obtenu : (-9.69, 9.69, 0, 0, -18, 2.6)
+[OK    ] groupe | groupe ECRAN : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ECRAN : cardinalité | attendu : 40120 | obtenu : 40120
+[OK    ] groupe | groupe ECRAN : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 40120}
+[OK    ] groupe | groupe ECRAN : boîte englobante (tol. 1e-09) | attendu : (-10.4, 10.4, -0.71, 0.71, -26, 2.6) | obtenu : (-10.4, 10.4, -0.71, 0.71, -26, 2.6)
+[OK    ] groupe | groupe ECRAN_POUSSEE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ECRAN_POUSSEE : cardinalité | attendu : 21720 | obtenu : 21720
+[OK    ] groupe | groupe ECRAN_POUSSEE : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 21720}
+[OK    ] groupe | groupe ECRAN_POUSSEE : boîte englobante (tol. 1e-09) | attendu : (-10.4, 10.4, 0, 0.71, -26, 2.6) | obtenu : (-10.4, 10.4, 0, 0.71, -26, 2.6)
+[OK    ] groupe | groupe POUTRE_COUR : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe POUTRE_COUR : cardinalité | attendu : 64 | obtenu : 64
+[OK    ] groupe | groupe POUTRE_COUR : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 64}
+[OK    ] groupe | groupe POUTRE_COUR : boîte englobante (tol. 1e-09) | attendu : (-10.4, 10.4, 0.34, 0.34, 3.3, 3.3) | obtenu : (-10.4, 10.4, 0.34, 0.34, 3.3, 3.3)
+[OK    ] groupe | groupe TIRANT_01 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TIRANT_01 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe TIRANT_01 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 1}
+[OK    ] groupe | groupe TIRANT_01 : boîte englobante (tol. 1e-09) | attendu : (-10.4, -10.4, 0.71, 25.14, -6.39, 2.5) | obtenu : (-10.4, -10.4, 0.71, 25.14, -6.39, 2.5)
+[OK    ] groupe | groupe TIRANT_02 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TIRANT_02 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe TIRANT_02 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 1}
+[OK    ] groupe | groupe TIRANT_02 : boîte englobante (tol. 1e-09) | attendu : (-7.8, -7.8, 0.71, 25.14, -6.39, 2.5) | obtenu : (-7.8, -7.8, 0.71, 25.14, -6.39, 2.5)
+[OK    ] groupe | groupe TIRANT_03 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TIRANT_03 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe TIRANT_03 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 1}
+[OK    ] groupe | groupe TIRANT_03 : boîte englobante (tol. 1e-09) | attendu : (-5.2, -5.2, 0.71, 25.14, -6.39, 2.5) | obtenu : (-5.2, -5.2, 0.71, 25.14, -6.39, 2.5)
+[OK    ] groupe | groupe TIRANT_04 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TIRANT_04 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe TIRANT_04 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 1}
+[OK    ] groupe | groupe TIRANT_04 : boîte englobante (tol. 1e-09) | attendu : (-2.6, -2.6, 0.71, 25.14, -6.39, 2.5) | obtenu : (-2.6, -2.6, 0.71, 25.14, -6.39, 2.5)
+[OK    ] groupe | groupe TIRANT_05 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TIRANT_05 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe TIRANT_05 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 1}
+[OK    ] groupe | groupe TIRANT_05 : boîte englobante (tol. 1e-09) | attendu : (0, 0, 0.71, 25.14, -6.39, 2.5) | obtenu : (0, 0, 0.71, 25.14, -6.39, 2.5)
+[OK    ] groupe | groupe TIRANT_06 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TIRANT_06 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe TIRANT_06 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 1}
+[OK    ] groupe | groupe TIRANT_06 : boîte englobante (tol. 1e-09) | attendu : (2.6, 2.6, 0.71, 25.14, -6.39, 2.5) | obtenu : (2.6, 2.6, 0.71, 25.14, -6.39, 2.5)
+[OK    ] groupe | groupe TIRANT_07 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TIRANT_07 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe TIRANT_07 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 1}
+[OK    ] groupe | groupe TIRANT_07 : boîte englobante (tol. 1e-09) | attendu : (5.2, 5.2, 0.71, 25.14, -6.39, 2.5) | obtenu : (5.2, 5.2, 0.71, 25.14, -6.39, 2.5)
+[OK    ] groupe | groupe TIRANT_08 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TIRANT_08 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe TIRANT_08 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 1}
+[OK    ] groupe | groupe TIRANT_08 : boîte englobante (tol. 1e-09) | attendu : (7.8, 7.8, 0.71, 25.14, -6.39, 2.5) | obtenu : (7.8, 7.8, 0.71, 25.14, -6.39, 2.5)
+[OK    ] groupe | groupe TIRANT_09 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TIRANT_09 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe TIRANT_09 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 1}
+[OK    ] groupe | groupe TIRANT_09 : boîte englobante (tol. 1e-09) | attendu : (10.4, 10.4, 0.71, 25.14, -6.39, 2.5) | obtenu : (10.4, 10.4, 0.71, 25.14, -6.39, 2.5)
+[OK    ] groupe | groupe TIRANTS : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TIRANTS : cardinalité | attendu : 9 | obtenu : 9
+[OK    ] groupe | groupe TIRANTS : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 9}
+[OK    ] groupe | groupe TIRANTS : boîte englobante (tol. 1e-09) | attendu : (-10.4, 10.4, 0.71, 25.14, -6.39, 2.5) | obtenu : (-10.4, 10.4, 0.71, 25.14, -6.39, 2.5)
+[OK    ] groupe | groupe RESS_AV_ARGI : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe RESS_AV_ARGI : cardinalité | attendu : 8640 | obtenu : 8640
+[OK    ] groupe | groupe RESS_AV_ARGI : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 8640}
+[OK    ] groupe | groupe RESS_AV_ARGI : boîte englobante (tol. 1e-09) | attendu : (-10.4, 10.4, -0.71, 0.71, -18, -12) | obtenu : (-10.4, 10.4, -0.71, 0.71, -18, -12)
+[OK    ] groupe | groupe RESS_AV_MARNE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe RESS_AV_MARNE : cardinalité | attendu : 10240 | obtenu : 10240
+[OK    ] groupe | groupe RESS_AV_MARNE : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 10240}
+[OK    ] groupe | groupe RESS_AV_MARNE : boîte englobante (tol. 1e-09) | attendu : (-10.4, 10.4, -0.71, 0.71, -26, -18) | obtenu : (-10.4, 10.4, -0.71, 0.71, -26, -18)
+[OK    ] groupe | groupe DEFENSE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe DEFENSE : cardinalité | attendu : 40 | obtenu : 40
+[OK    ] groupe | groupe DEFENSE : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 40}
+[OK    ] groupe | groupe DEFENSE : boîte englobante (tol. 1e-09) | attendu : (-0.502045815, 0.502045815, -0.71, -0.502045815, 1, 2) | obtenu : (-0.502045815, 0.502045815, -0.71, -0.502045815, 1, 2)
+[OK    ] groupe | groupe TETE_TUBE_01 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TETE_TUBE_01 : cardinalité | attendu : 21 | obtenu : 21
+[OK    ] groupe | groupe TETE_TUBE_01 : boîte englobante (tol. 1e-09) | attendu : (-10.4, -9.69, -0.71, 0.71, 2.6, 2.6) | obtenu : (-10.4, -9.69, -0.71, 0.71, 2.6, 2.6)
+[OK    ] groupe | groupe TETE_TUBE_02 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TETE_TUBE_02 : cardinalité | attendu : 40 | obtenu : 40
+[OK    ] groupe | groupe TETE_TUBE_02 : boîte englobante (tol. 1e-09) | attendu : (-8.51, -7.09, -0.71, 0.71, 2.6, 2.6) | obtenu : (-8.51, -7.09, -0.71, 0.71, 2.6, 2.6)
+[OK    ] groupe | groupe TETE_TUBE_03 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TETE_TUBE_03 : cardinalité | attendu : 40 | obtenu : 40
+[OK    ] groupe | groupe TETE_TUBE_03 : boîte englobante (tol. 1e-09) | attendu : (-5.91, -4.49, -0.71, 0.71, 2.6, 2.6) | obtenu : (-5.91, -4.49, -0.71, 0.71, 2.6, 2.6)
+[OK    ] groupe | groupe TETE_TUBE_04 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TETE_TUBE_04 : cardinalité | attendu : 40 | obtenu : 40
+[OK    ] groupe | groupe TETE_TUBE_04 : boîte englobante (tol. 1e-09) | attendu : (-3.31, -1.89, -0.71, 0.71, 2.6, 2.6) | obtenu : (-3.31, -1.89, -0.71, 0.71, 2.6, 2.6)
+[OK    ] groupe | groupe TETE_TUBE_05 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TETE_TUBE_05 : cardinalité | attendu : 40 | obtenu : 40
+[OK    ] groupe | groupe TETE_TUBE_05 : boîte englobante (tol. 1e-09) | attendu : (-0.71, 0.71, -0.71, 0.71, 2.6, 2.6) | obtenu : (-0.71, 0.71, -0.71, 0.71, 2.6, 2.6)
+[OK    ] groupe | groupe TETE_TUBE_06 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TETE_TUBE_06 : cardinalité | attendu : 40 | obtenu : 40
+[OK    ] groupe | groupe TETE_TUBE_06 : boîte englobante (tol. 1e-09) | attendu : (1.89, 3.31, -0.71, 0.71, 2.6, 2.6) | obtenu : (1.89, 3.31, -0.71, 0.71, 2.6, 2.6)
+[OK    ] groupe | groupe TETE_TUBE_07 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TETE_TUBE_07 : cardinalité | attendu : 40 | obtenu : 40
+[OK    ] groupe | groupe TETE_TUBE_07 : boîte englobante (tol. 1e-09) | attendu : (4.49, 5.91, -0.71, 0.71, 2.6, 2.6) | obtenu : (4.49, 5.91, -0.71, 0.71, 2.6, 2.6)
+[OK    ] groupe | groupe TETE_TUBE_08 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TETE_TUBE_08 : cardinalité | attendu : 40 | obtenu : 40
+[OK    ] groupe | groupe TETE_TUBE_08 : boîte englobante (tol. 1e-09) | attendu : (7.09, 8.51, -0.71, 0.71, 2.6, 2.6) | obtenu : (7.09, 8.51, -0.71, 0.71, 2.6, 2.6)
+[OK    ] groupe | groupe TETE_TUBE_09 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TETE_TUBE_09 : cardinalité | attendu : 21 | obtenu : 21
+[OK    ] groupe | groupe TETE_TUBE_09 : boîte englobante (tol. 1e-09) | attendu : (9.69, 10.4, -0.71, 0.71, 2.6, 2.6) | obtenu : (9.69, 10.4, -0.71, 0.71, 2.6, 2.6)
+[OK    ] groupe | groupe ANC_01 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ANC_01 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ANC_01 : boîte englobante (tol. 1e-09) | attendu : (-10.4, -10.4, 25.14, 25.14, -6.39, -6.39) | obtenu : (-10.4, -10.4, 25.14, 25.14, -6.39, -6.39)
+[OK    ] groupe | groupe ANC_02 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ANC_02 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ANC_02 : boîte englobante (tol. 1e-09) | attendu : (-7.8, -7.8, 25.14, 25.14, -6.39, -6.39) | obtenu : (-7.8, -7.8, 25.14, 25.14, -6.39, -6.39)
+[OK    ] groupe | groupe ANC_03 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ANC_03 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ANC_03 : boîte englobante (tol. 1e-09) | attendu : (-5.2, -5.2, 25.14, 25.14, -6.39, -6.39) | obtenu : (-5.2, -5.2, 25.14, 25.14, -6.39, -6.39)
+[OK    ] groupe | groupe ANC_04 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ANC_04 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ANC_04 : boîte englobante (tol. 1e-09) | attendu : (-2.6, -2.6, 25.14, 25.14, -6.39, -6.39) | obtenu : (-2.6, -2.6, 25.14, 25.14, -6.39, -6.39)
+[OK    ] groupe | groupe ANC_05 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ANC_05 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ANC_05 : boîte englobante (tol. 1e-09) | attendu : (0, 0, 25.14, 25.14, -6.39, -6.39) | obtenu : (0, 0, 25.14, 25.14, -6.39, -6.39)
+[OK    ] groupe | groupe ANC_06 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ANC_06 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ANC_06 : boîte englobante (tol. 1e-09) | attendu : (2.6, 2.6, 25.14, 25.14, -6.39, -6.39) | obtenu : (2.6, 2.6, 25.14, 25.14, -6.39, -6.39)
+[OK    ] groupe | groupe ANC_07 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ANC_07 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ANC_07 : boîte englobante (tol. 1e-09) | attendu : (5.2, 5.2, 25.14, 25.14, -6.39, -6.39) | obtenu : (5.2, 5.2, 25.14, 25.14, -6.39, -6.39)
+[OK    ] groupe | groupe ANC_08 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ANC_08 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ANC_08 : boîte englobante (tol. 1e-09) | attendu : (7.8, 7.8, 25.14, 25.14, -6.39, -6.39) | obtenu : (7.8, 7.8, 25.14, 25.14, -6.39, -6.39)
+[OK    ] groupe | groupe ANC_09 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ANC_09 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ANC_09 : boîte englobante (tol. 1e-09) | attendu : (10.4, 10.4, 25.14, 25.14, -6.39, -6.39) | obtenu : (10.4, 10.4, 25.14, 25.14, -6.39, -6.39)
+[OK    ] groupe | groupe ANCRAGES : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ANCRAGES : cardinalité | attendu : 9 | obtenu : 9
+[OK    ] groupe | groupe ANCRAGES : boîte englobante (tol. 1e-09) | attendu : (-10.4, 10.4, 25.14, 25.14, -6.39, -6.39) | obtenu : (-10.4, 10.4, 25.14, 25.14, -6.39, -6.39)
+[OK    ] groupe | groupe BOLLARD : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe BOLLARD : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe BOLLARD : boîte englobante (tol. 1e-09) | attendu : (0, 0, 0.34, 0.34, 3.3, 3.3) | obtenu : (0, 0, 0.34, 0.34, 3.3, 3.3)
+[OK    ] groupe | groupe SYM_G : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe SYM_G : cardinalité | attendu : 234 | obtenu : 234
+[OK    ] groupe | groupe SYM_G : boîte englobante (tol. 1e-09) | attendu : (-10.4, -10.4, -0.71, 25.14, -26, 3.3) | obtenu : (-10.4, -10.4, -0.71, 25.14, -26, 3.3)
+[OK    ] groupe | groupe SYM_D : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe SYM_D : cardinalité | attendu : 234 | obtenu : 234
+[OK    ] groupe | groupe SYM_D : boîte englobante (tol. 1e-09) | attendu : (10.4, 10.4, -0.71, 25.14, -26, 3.3) | obtenu : (10.4, 10.4, -0.71, 25.14, -26, 3.3)
+[OK    ] groupe | groupe PIED_TUBES : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIED_TUBES : cardinalité | attendu : 322 | obtenu : 322
+[OK    ] groupe | groupe PIED_TUBES : boîte englobante (tol. 1e-09) | attendu : (-10.4, 10.4, -0.71, 0.71, -26, -26) | obtenu : (-10.4, 10.4, -0.71, 0.71, -26, -26)
+[OK    ] aire | aire développée de DEFENSE (tol. 1e-09) | attendu : 1.11411916 | obtenu : 1.11411916
+[OK    ] aire | écart de DEFENSE à la référence 1.11526539 (effet de facettisation, tol. 1e-09) | attendu : -0.00114623269 | obtenu : -0.00114623269
+[OK    ] largeur projetée | largeur projetée sur Y = 0 de ECRAN_POUSSEE à z = 1.625 (bande de -18 à +2.6 : tubes côté terre et palplanches) (tol. 1e-09) | attendu : 20.8 | obtenu : 20.8
+[OK    ] largeur projetée | largeur projetée sur Y = 0 de ECRAN_POUSSEE à z = -21.875 (bande de -26 à -18 : tubes seuls) (tol. 1e-09) | attendu : 11.36 | obtenu : 11.36
+[OK    ] inclusion | mailles de TUBES dans ECRAN | attendu : 36800 mailles incluses | obtenu : 36800 sur 36800
+[OK    ] inclusion | mailles de PALPS dans ECRAN | attendu : 3320 mailles incluses | obtenu : 3320 sur 3320
+[OK    ] inclusion | mailles de ECRAN_POUSSEE dans ECRAN | attendu : 21720 mailles incluses | obtenu : 21720 sur 21720
+[OK    ] inclusion | mailles de RESS_AV_ARGI dans ECRAN | attendu : 8640 mailles incluses | obtenu : 8640 sur 8640
+[OK    ] inclusion | mailles de RESS_AV_MARNE dans TUBES | attendu : 10240 mailles incluses | obtenu : 10240 sur 10240
+[OK    ] inclusion | mailles de DEFENSE dans TUBE_05 | attendu : 40 mailles incluses | obtenu : 40 sur 40
+[OK    ] inclusion | mailles de DEFENSE dans TUBES | attendu : 40 mailles incluses | obtenu : 40 sur 40
+[OK    ] inclusion | mailles de TUBE_01 dans TUBES | attendu : 2300 mailles incluses | obtenu : 2300 sur 2300
+[OK    ] inclusion | mailles de TUBE_02 dans TUBES | attendu : 4600 mailles incluses | obtenu : 4600 sur 4600
+[OK    ] inclusion | mailles de TUBE_03 dans TUBES | attendu : 4600 mailles incluses | obtenu : 4600 sur 4600
+[OK    ] inclusion | mailles de TUBE_04 dans TUBES | attendu : 4600 mailles incluses | obtenu : 4600 sur 4600
+[OK    ] inclusion | mailles de TUBE_05 dans TUBES | attendu : 4600 mailles incluses | obtenu : 4600 sur 4600
+[OK    ] inclusion | mailles de TUBE_06 dans TUBES | attendu : 4600 mailles incluses | obtenu : 4600 sur 4600
+[OK    ] inclusion | mailles de TUBE_07 dans TUBES | attendu : 4600 mailles incluses | obtenu : 4600 sur 4600
+[OK    ] inclusion | mailles de TUBE_08 dans TUBES | attendu : 4600 mailles incluses | obtenu : 4600 sur 4600
+[OK    ] inclusion | mailles de TUBE_09 dans TUBES | attendu : 2300 mailles incluses | obtenu : 2300 sur 2300
+[OK    ] inclusion | mailles de PALP_01 dans PALPS | attendu : 415 mailles incluses | obtenu : 415 sur 415
+[OK    ] inclusion | mailles de PALP_02 dans PALPS | attendu : 415 mailles incluses | obtenu : 415 sur 415
+[OK    ] inclusion | mailles de PALP_03 dans PALPS | attendu : 415 mailles incluses | obtenu : 415 sur 415
+[OK    ] inclusion | mailles de PALP_04 dans PALPS | attendu : 415 mailles incluses | obtenu : 415 sur 415
+[OK    ] inclusion | mailles de PALP_05 dans PALPS | attendu : 415 mailles incluses | obtenu : 415 sur 415
+[OK    ] inclusion | mailles de PALP_06 dans PALPS | attendu : 415 mailles incluses | obtenu : 415 sur 415
+[OK    ] inclusion | mailles de PALP_07 dans PALPS | attendu : 415 mailles incluses | obtenu : 415 sur 415
+[OK    ] inclusion | mailles de PALP_08 dans PALPS | attendu : 415 mailles incluses | obtenu : 415 sur 415
+[OK    ] inclusion | mailles de TIRANT_01 dans TIRANTS | attendu : 1 mailles incluses | obtenu : 1 sur 1
+[OK    ] inclusion | mailles de TIRANT_02 dans TIRANTS | attendu : 1 mailles incluses | obtenu : 1 sur 1
+[OK    ] inclusion | mailles de TIRANT_03 dans TIRANTS | attendu : 1 mailles incluses | obtenu : 1 sur 1
+[OK    ] inclusion | mailles de TIRANT_04 dans TIRANTS | attendu : 1 mailles incluses | obtenu : 1 sur 1
+[OK    ] inclusion | mailles de TIRANT_05 dans TIRANTS | attendu : 1 mailles incluses | obtenu : 1 sur 1
+[OK    ] inclusion | mailles de TIRANT_06 dans TIRANTS | attendu : 1 mailles incluses | obtenu : 1 sur 1
+[OK    ] inclusion | mailles de TIRANT_07 dans TIRANTS | attendu : 1 mailles incluses | obtenu : 1 sur 1
+[OK    ] inclusion | mailles de TIRANT_08 dans TIRANTS | attendu : 1 mailles incluses | obtenu : 1 sur 1
+[OK    ] inclusion | mailles de TIRANT_09 dans TIRANTS | attendu : 1 mailles incluses | obtenu : 1 sur 1
+[OK    ] couches | couches de ECRAN_POUSSEE : mailles à cheval sur une interface [-26.0, -18.0, -9.0, -2.0, 4.0] | attendu : 0 | obtenu : 0
+[OK    ] couches | couches de ECRAN_POUSSEE : mailles hors de [-26, 4] | attendu : 0 | obtenu : 0
+[OK    ] couches | couches de ECRAN_POUSSEE : couche [-26, -18], 5120 mailles, bordée par ses cotes | attendu : [-26, -18] | obtenu : [-26, -18]
+[OK    ] couches | couches de ECRAN_POUSSEE : couche [-18, -9], 7200 mailles, bordée par ses cotes | attendu : [-18, -9] | obtenu : [-18, -9]
+[OK    ] couches | couches de ECRAN_POUSSEE : couche [-9, -2], 5600 mailles, bordée par ses cotes | attendu : [-9, -2] | obtenu : [-9, -2]
+[OK    ] couches | couches de ECRAN_POUSSEE : couche [-2, 4], 3800 mailles, bordée par ses cotes | attendu : [-2, 2.6] | obtenu : [-2, 2.6]
+[OK    ] plan | groupe SYM_G = nœuds en X = -10.4 (tol. 1e-09) | attendu : 234 nœuds du plan | obtenu : 234 nœuds du groupe, 234 dans le plan
+[OK    ] plan | groupe SYM_D = nœuds en X = 10.4 (tol. 1e-09) | attendu : 234 nœuds du plan | obtenu : 234 nœuds du groupe, 234 dans le plan
+[OK    ] plan | groupe PIED_TUBES = nœuds en Z = -26 (tol. 1e-09) | attendu : 322 nœuds du plan | obtenu : 322 nœuds du groupe, 322 dans le plan
+[OK    ] symétrie | nœud en -x pour chaque nœud en x (tol. 1e-09) | attendu : 0 nœud sans symétrique | obtenu : 0 nœud(s) sans symétrique
+[OK    ] symétrie | connectivité miroir de chaque maille (tol. 1e-09) | attendu : 0 maille sans image miroir | obtenu : 0 maille(s) sans image miroir
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté bassin, cote -26 (-10.4, -0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté terre, cote -26 (-10.4, 0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté bassin, cote -18 (-10.4, -0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté terre, cote -18 (-10.4, 0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté bassin, cote -12 (-10.4, -0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté terre, cote -12 (-10.4, 0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté bassin, cote 1 (-10.4, -0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté terre, cote 1 (-10.4, 0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté bassin, cote 2 (-10.4, -0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté terre, cote 2 (-10.4, 0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté bassin, cote 2.5 (-10.4, -0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté terre, cote 2.5 (-10.4, 0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté bassin, cote 2.6 (-10.4, -0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 1, génératrice côté terre, cote 2.6 (-10.4, 0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté bassin, cote -26 (-7.8, -0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté terre, cote -26 (-7.8, 0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté bassin, cote -18 (-7.8, -0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté terre, cote -18 (-7.8, 0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté bassin, cote -12 (-7.8, -0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté terre, cote -12 (-7.8, 0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté bassin, cote 1 (-7.8, -0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté terre, cote 1 (-7.8, 0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté bassin, cote 2 (-7.8, -0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté terre, cote 2 (-7.8, 0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté bassin, cote 2.5 (-7.8, -0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté terre, cote 2.5 (-7.8, 0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté bassin, cote 2.6 (-7.8, -0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 2, génératrice côté terre, cote 2.6 (-7.8, 0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté bassin, cote -26 (-5.2, -0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté terre, cote -26 (-5.2, 0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté bassin, cote -18 (-5.2, -0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté terre, cote -18 (-5.2, 0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté bassin, cote -12 (-5.2, -0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté terre, cote -12 (-5.2, 0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté bassin, cote 1 (-5.2, -0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté terre, cote 1 (-5.2, 0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté bassin, cote 2 (-5.2, -0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté terre, cote 2 (-5.2, 0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté bassin, cote 2.5 (-5.2, -0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté terre, cote 2.5 (-5.2, 0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté bassin, cote 2.6 (-5.2, -0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 3, génératrice côté terre, cote 2.6 (-5.2, 0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté bassin, cote -26 (-2.6, -0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté terre, cote -26 (-2.6, 0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté bassin, cote -18 (-2.6, -0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté terre, cote -18 (-2.6, 0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté bassin, cote -12 (-2.6, -0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté terre, cote -12 (-2.6, 0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté bassin, cote 1 (-2.6, -0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté terre, cote 1 (-2.6, 0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté bassin, cote 2 (-2.6, -0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté terre, cote 2 (-2.6, 0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté bassin, cote 2.5 (-2.6, -0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté terre, cote 2.5 (-2.6, 0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté bassin, cote 2.6 (-2.6, -0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 4, génératrice côté terre, cote 2.6 (-2.6, 0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté bassin, cote -26 (0, -0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté terre, cote -26 (0, 0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté bassin, cote -18 (0, -0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté terre, cote -18 (0, 0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté bassin, cote -12 (0, -0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté terre, cote -12 (0, 0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté bassin, cote 1 (0, -0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté terre, cote 1 (0, 0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté bassin, cote 2 (0, -0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté terre, cote 2 (0, 0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté bassin, cote 2.5 (0, -0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté terre, cote 2.5 (0, 0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté bassin, cote 2.6 (0, -0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 5, génératrice côté terre, cote 2.6 (0, 0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté bassin, cote -26 (2.6, -0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté terre, cote -26 (2.6, 0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté bassin, cote -18 (2.6, -0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté terre, cote -18 (2.6, 0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté bassin, cote -12 (2.6, -0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté terre, cote -12 (2.6, 0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté bassin, cote 1 (2.6, -0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté terre, cote 1 (2.6, 0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté bassin, cote 2 (2.6, -0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté terre, cote 2 (2.6, 0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté bassin, cote 2.5 (2.6, -0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté terre, cote 2.5 (2.6, 0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté bassin, cote 2.6 (2.6, -0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 6, génératrice côté terre, cote 2.6 (2.6, 0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 4.44e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté bassin, cote -26 (5.2, -0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté terre, cote -26 (5.2, 0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté bassin, cote -18 (5.2, -0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté terre, cote -18 (5.2, 0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté bassin, cote -12 (5.2, -0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté terre, cote -12 (5.2, 0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté bassin, cote 1 (5.2, -0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté terre, cote 1 (5.2, 0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté bassin, cote 2 (5.2, -0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté terre, cote 2 (5.2, 0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté bassin, cote 2.5 (5.2, -0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté terre, cote 2.5 (5.2, 0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté bassin, cote 2.6 (5.2, -0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 7, génératrice côté terre, cote 2.6 (5.2, 0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté bassin, cote -26 (7.8, -0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté terre, cote -26 (7.8, 0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté bassin, cote -18 (7.8, -0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté terre, cote -18 (7.8, 0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté bassin, cote -12 (7.8, -0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté terre, cote -12 (7.8, 0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté bassin, cote 1 (7.8, -0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté terre, cote 1 (7.8, 0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté bassin, cote 2 (7.8, -0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté terre, cote 2 (7.8, 0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté bassin, cote 2.5 (7.8, -0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté terre, cote 2.5 (7.8, 0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté bassin, cote 2.6 (7.8, -0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 8, génératrice côté terre, cote 2.6 (7.8, 0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté bassin, cote -26 (10.4, -0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté terre, cote -26 (10.4, 0.71, -26) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté bassin, cote -18 (10.4, -0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté terre, cote -18 (10.4, 0.71, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté bassin, cote -12 (10.4, -0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté terre, cote -12 (10.4, 0.71, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté bassin, cote 1 (10.4, -0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté terre, cote 1 (10.4, 0.71, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté bassin, cote 2 (10.4, -0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté terre, cote 2 (10.4, 0.71, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté bassin, cote 2.5 (10.4, -0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté terre, cote 2.5 (10.4, 0.71, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté bassin, cote 2.6 (10.4, -0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tube 9, génératrice côté terre, cote 2.6 (10.4, 0.71, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 1, colonne 2, cote -18 (-9.218, 0, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en palplanche 1, colonne 2, cote -12 (-9.218, 0, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en palplanche 1, colonne 2, cote 1 (-9.218, 0, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en palplanche 1, colonne 2, cote 2 (-9.218, 0, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en palplanche 1, colonne 2, cote 2.5 (-9.218, 0, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en palplanche 1, colonne 2, cote 2.6 (-9.218, 0, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.78e-15
+[OK    ] nœud imposé | nœud en palplanche 2, colonne 2, cote -18 (-6.618, 0, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 2, colonne 2, cote -12 (-6.618, 0, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 2, colonne 2, cote 1 (-6.618, 0, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 2, colonne 2, cote 2 (-6.618, 0, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 2, colonne 2, cote 2.5 (-6.618, 0, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 2, colonne 2, cote 2.6 (-6.618, 0, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 3, colonne 2, cote -18 (-4.018, 0, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 3, colonne 2, cote -12 (-4.018, 0, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en palplanche 3, colonne 2, cote 1 (-4.018, 0, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en palplanche 3, colonne 2, cote 2 (-4.018, 0, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en palplanche 3, colonne 2, cote 2.5 (-4.018, 0, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en palplanche 3, colonne 2, cote 2.6 (-4.018, 0, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en palplanche 4, colonne 2, cote -18 (-1.418, 0, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 2.22e-16
+[OK    ] nœud imposé | nœud en palplanche 4, colonne 2, cote -12 (-1.418, 0, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 2.22e-16
+[OK    ] nœud imposé | nœud en palplanche 4, colonne 2, cote 1 (-1.418, 0, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 2.22e-16
+[OK    ] nœud imposé | nœud en palplanche 4, colonne 2, cote 2 (-1.418, 0, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 2.22e-16
+[OK    ] nœud imposé | nœud en palplanche 4, colonne 2, cote 2.5 (-1.418, 0, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 2.22e-16
+[OK    ] nœud imposé | nœud en palplanche 4, colonne 2, cote 2.6 (-1.418, 0, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 2.22e-16
+[OK    ] nœud imposé | nœud en palplanche 5, colonne 2, cote -18 (1.182, 0, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 5, colonne 2, cote -12 (1.182, 0, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 5, colonne 2, cote 1 (1.182, 0, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 5, colonne 2, cote 2 (1.182, 0, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 5, colonne 2, cote 2.5 (1.182, 0, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 5, colonne 2, cote 2.6 (1.182, 0, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 6, colonne 2, cote -18 (3.782, 0, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 6, colonne 2, cote -12 (3.782, 0, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 6, colonne 2, cote 1 (3.782, 0, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 6, colonne 2, cote 2 (3.782, 0, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 6, colonne 2, cote 2.5 (3.782, 0, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 6, colonne 2, cote 2.6 (3.782, 0, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 7, colonne 2, cote -18 (6.382, 0, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en palplanche 7, colonne 2, cote -12 (6.382, 0, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en palplanche 7, colonne 2, cote 1 (6.382, 0, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en palplanche 7, colonne 2, cote 2 (6.382, 0, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en palplanche 7, colonne 2, cote 2.5 (6.382, 0, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en palplanche 7, colonne 2, cote 2.6 (6.382, 0, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 8.88e-16
+[OK    ] nœud imposé | nœud en palplanche 8, colonne 2, cote -18 (8.982, 0, -18) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 8, colonne 2, cote -12 (8.982, 0, -12) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 8, colonne 2, cote 1 (8.982, 0, 1) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 8, colonne 2, cote 2 (8.982, 0, 2) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 8, colonne 2, cote 2.5 (8.982, 0, 2.5) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en palplanche 8, colonne 2, cote 2.6 (8.982, 0, 2.6) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en poutre au droit du tube 1 (-10.4, 0.34, 3.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en poutre au droit du tube 2 (-7.8, 0.34, 3.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en poutre au droit du tube 3 (-5.2, 0.34, 3.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en poutre au droit du tube 4 (-2.6, 0.34, 3.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en poutre au droit du tube 5 (0, 0.34, 3.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en poutre au droit du tube 6 (2.6, 0.34, 3.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en poutre au droit du tube 7 (5.2, 0.34, 3.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en poutre au droit du tube 8 (7.8, 0.34, 3.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en poutre au droit du tube 9 (10.4, 0.34, 3.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_01 (serrure de la palplanche 1 sur le tube 1) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_01 (serrure de la palplanche 1 sur le tube 1) : nœud partagé en (-9.69, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_01 (serrure de la palplanche 1 sur le tube 1) : nœud partagé en (-9.69, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_01 (serrure de la palplanche 1 sur le tube 1) : nœud partagé en (-9.69, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_01 (serrure de la palplanche 1 sur le tube 1) : nœud partagé en (-9.69, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_01 (serrure de la palplanche 1 sur le tube 1) : nœud partagé en (-9.69, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_01 (serrure de la palplanche 1 sur le tube 1) : nœud partagé en (-9.69, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_02 (serrure de la palplanche 1 sur le tube 2) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_02 (serrure de la palplanche 1 sur le tube 2) : nœud partagé en (-8.51, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_02 (serrure de la palplanche 1 sur le tube 2) : nœud partagé en (-8.51, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_02 (serrure de la palplanche 1 sur le tube 2) : nœud partagé en (-8.51, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_02 (serrure de la palplanche 1 sur le tube 2) : nœud partagé en (-8.51, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_02 (serrure de la palplanche 1 sur le tube 2) : nœud partagé en (-8.51, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_01 / TUBE_02 (serrure de la palplanche 1 sur le tube 2) : nœud partagé en (-8.51, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_02 (serrure de la palplanche 2 sur le tube 2) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_02 (serrure de la palplanche 2 sur le tube 2) : nœud partagé en (-7.09, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_02 (serrure de la palplanche 2 sur le tube 2) : nœud partagé en (-7.09, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_02 (serrure de la palplanche 2 sur le tube 2) : nœud partagé en (-7.09, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_02 (serrure de la palplanche 2 sur le tube 2) : nœud partagé en (-7.09, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_02 (serrure de la palplanche 2 sur le tube 2) : nœud partagé en (-7.09, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_02 (serrure de la palplanche 2 sur le tube 2) : nœud partagé en (-7.09, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_03 (serrure de la palplanche 2 sur le tube 3) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_03 (serrure de la palplanche 2 sur le tube 3) : nœud partagé en (-5.91, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_03 (serrure de la palplanche 2 sur le tube 3) : nœud partagé en (-5.91, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_03 (serrure de la palplanche 2 sur le tube 3) : nœud partagé en (-5.91, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_03 (serrure de la palplanche 2 sur le tube 3) : nœud partagé en (-5.91, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_03 (serrure de la palplanche 2 sur le tube 3) : nœud partagé en (-5.91, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_02 / TUBE_03 (serrure de la palplanche 2 sur le tube 3) : nœud partagé en (-5.91, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_03 (serrure de la palplanche 3 sur le tube 3) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_03 (serrure de la palplanche 3 sur le tube 3) : nœud partagé en (-4.49, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_03 (serrure de la palplanche 3 sur le tube 3) : nœud partagé en (-4.49, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_03 (serrure de la palplanche 3 sur le tube 3) : nœud partagé en (-4.49, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_03 (serrure de la palplanche 3 sur le tube 3) : nœud partagé en (-4.49, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_03 (serrure de la palplanche 3 sur le tube 3) : nœud partagé en (-4.49, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_03 (serrure de la palplanche 3 sur le tube 3) : nœud partagé en (-4.49, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_04 (serrure de la palplanche 3 sur le tube 4) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_04 (serrure de la palplanche 3 sur le tube 4) : nœud partagé en (-3.31, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_04 (serrure de la palplanche 3 sur le tube 4) : nœud partagé en (-3.31, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_04 (serrure de la palplanche 3 sur le tube 4) : nœud partagé en (-3.31, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_04 (serrure de la palplanche 3 sur le tube 4) : nœud partagé en (-3.31, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_04 (serrure de la palplanche 3 sur le tube 4) : nœud partagé en (-3.31, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_03 / TUBE_04 (serrure de la palplanche 3 sur le tube 4) : nœud partagé en (-3.31, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 4.44e-16
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_04 (serrure de la palplanche 4 sur le tube 4) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_04 (serrure de la palplanche 4 sur le tube 4) : nœud partagé en (-1.89, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 4.44e-16
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_04 (serrure de la palplanche 4 sur le tube 4) : nœud partagé en (-1.89, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 6.66e-16
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_04 (serrure de la palplanche 4 sur le tube 4) : nœud partagé en (-1.89, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 6.66e-16
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_04 (serrure de la palplanche 4 sur le tube 4) : nœud partagé en (-1.89, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 6.66e-16
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_04 (serrure de la palplanche 4 sur le tube 4) : nœud partagé en (-1.89, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 6.66e-16
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_04 (serrure de la palplanche 4 sur le tube 4) : nœud partagé en (-1.89, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 2.22e-16
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_05 (serrure de la palplanche 4 sur le tube 5) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_05 (serrure de la palplanche 4 sur le tube 5) : nœud partagé en (-0.71, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_05 (serrure de la palplanche 4 sur le tube 5) : nœud partagé en (-0.71, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_05 (serrure de la palplanche 4 sur le tube 5) : nœud partagé en (-0.71, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_05 (serrure de la palplanche 4 sur le tube 5) : nœud partagé en (-0.71, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_05 (serrure de la palplanche 4 sur le tube 5) : nœud partagé en (-0.71, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_04 / TUBE_05 (serrure de la palplanche 4 sur le tube 5) : nœud partagé en (-0.71, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_05 (serrure de la palplanche 5 sur le tube 5) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_05 (serrure de la palplanche 5 sur le tube 5) : nœud partagé en (0.71, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_05 (serrure de la palplanche 5 sur le tube 5) : nœud partagé en (0.71, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_05 (serrure de la palplanche 5 sur le tube 5) : nœud partagé en (0.71, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_05 (serrure de la palplanche 5 sur le tube 5) : nœud partagé en (0.71, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_05 (serrure de la palplanche 5 sur le tube 5) : nœud partagé en (0.71, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_05 (serrure de la palplanche 5 sur le tube 5) : nœud partagé en (0.71, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_06 (serrure de la palplanche 5 sur le tube 6) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_06 (serrure de la palplanche 5 sur le tube 6) : nœud partagé en (1.89, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 4.44e-16
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_06 (serrure de la palplanche 5 sur le tube 6) : nœud partagé en (1.89, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 6.66e-16
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_06 (serrure de la palplanche 5 sur le tube 6) : nœud partagé en (1.89, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 6.66e-16
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_06 (serrure de la palplanche 5 sur le tube 6) : nœud partagé en (1.89, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 6.66e-16
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_06 (serrure de la palplanche 5 sur le tube 6) : nœud partagé en (1.89, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 6.66e-16
+[OK    ] interface | nœuds partagés PALP_05 / TUBE_06 (serrure de la palplanche 5 sur le tube 6) : nœud partagé en (1.89, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 2.22e-16
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_06 (serrure de la palplanche 6 sur le tube 6) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_06 (serrure de la palplanche 6 sur le tube 6) : nœud partagé en (3.31, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_06 (serrure de la palplanche 6 sur le tube 6) : nœud partagé en (3.31, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_06 (serrure de la palplanche 6 sur le tube 6) : nœud partagé en (3.31, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_06 (serrure de la palplanche 6 sur le tube 6) : nœud partagé en (3.31, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_06 (serrure de la palplanche 6 sur le tube 6) : nœud partagé en (3.31, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_06 (serrure de la palplanche 6 sur le tube 6) : nœud partagé en (3.31, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 4.44e-16
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_07 (serrure de la palplanche 6 sur le tube 7) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_07 (serrure de la palplanche 6 sur le tube 7) : nœud partagé en (4.49, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_07 (serrure de la palplanche 6 sur le tube 7) : nœud partagé en (4.49, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_07 (serrure de la palplanche 6 sur le tube 7) : nœud partagé en (4.49, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_07 (serrure de la palplanche 6 sur le tube 7) : nœud partagé en (4.49, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_07 (serrure de la palplanche 6 sur le tube 7) : nœud partagé en (4.49, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés PALP_06 / TUBE_07 (serrure de la palplanche 6 sur le tube 7) : nœud partagé en (4.49, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_07 (serrure de la palplanche 7 sur le tube 7) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_07 (serrure de la palplanche 7 sur le tube 7) : nœud partagé en (5.91, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_07 (serrure de la palplanche 7 sur le tube 7) : nœud partagé en (5.91, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_07 (serrure de la palplanche 7 sur le tube 7) : nœud partagé en (5.91, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_07 (serrure de la palplanche 7 sur le tube 7) : nœud partagé en (5.91, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_07 (serrure de la palplanche 7 sur le tube 7) : nœud partagé en (5.91, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_07 (serrure de la palplanche 7 sur le tube 7) : nœud partagé en (5.91, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_08 (serrure de la palplanche 7 sur le tube 8) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_08 (serrure de la palplanche 7 sur le tube 8) : nœud partagé en (7.09, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_08 (serrure de la palplanche 7 sur le tube 8) : nœud partagé en (7.09, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_08 (serrure de la palplanche 7 sur le tube 8) : nœud partagé en (7.09, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_08 (serrure de la palplanche 7 sur le tube 8) : nœud partagé en (7.09, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_08 (serrure de la palplanche 7 sur le tube 8) : nœud partagé en (7.09, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_07 / TUBE_08 (serrure de la palplanche 7 sur le tube 8) : nœud partagé en (7.09, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_08 (serrure de la palplanche 8 sur le tube 8) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_08 (serrure de la palplanche 8 sur le tube 8) : nœud partagé en (8.51, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_08 (serrure de la palplanche 8 sur le tube 8) : nœud partagé en (8.51, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 3.55e-15
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_08 (serrure de la palplanche 8 sur le tube 8) : nœud partagé en (8.51, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 3.55e-15
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_08 (serrure de la palplanche 8 sur le tube 8) : nœud partagé en (8.51, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 3.55e-15
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_08 (serrure de la palplanche 8 sur le tube 8) : nœud partagé en (8.51, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 3.55e-15
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_08 (serrure de la palplanche 8 sur le tube 8) : nœud partagé en (8.51, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_09 (serrure de la palplanche 8 sur le tube 9) | attendu : 84 | obtenu : 84
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_09 (serrure de la palplanche 8 sur le tube 9) : nœud partagé en (9.69, 0, -18) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_09 (serrure de la palplanche 8 sur le tube 9) : nœud partagé en (9.69, 0, -12) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_09 (serrure de la palplanche 8 sur le tube 9) : nœud partagé en (9.69, 0, 1) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_09 (serrure de la palplanche 8 sur le tube 9) : nœud partagé en (9.69, 0, 2) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_09 (serrure de la palplanche 8 sur le tube 9) : nœud partagé en (9.69, 0, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés PALP_08 / TUBE_09 (serrure de la palplanche 8 sur le tube 9) : nœud partagé en (9.69, 0, 2.6) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés TIRANT_01 / TUBE_01 (nœud de départ du tirant 1 sur le tube 1) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_01 / TUBE_01 (nœud de départ du tirant 1 sur le tube 1) : nœud partagé en (-10.4, 0.71, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés ANC_01 / ECRAN (extrémité arrière du tirant 1 distincte de l'écran) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés ANC_01 / TIRANT_01 (extrémité arrière du tirant 1 sur son tirant) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_02 / TUBE_02 (nœud de départ du tirant 2 sur le tube 2) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_02 / TUBE_02 (nœud de départ du tirant 2 sur le tube 2) : nœud partagé en (-7.8, 0.71, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 1.78e-15
+[OK    ] interface | nœuds partagés ANC_02 / ECRAN (extrémité arrière du tirant 2 distincte de l'écran) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés ANC_02 / TIRANT_02 (extrémité arrière du tirant 2 sur son tirant) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_03 / TUBE_03 (nœud de départ du tirant 3 sur le tube 3) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_03 / TUBE_03 (nœud de départ du tirant 3 sur le tube 3) : nœud partagé en (-5.2, 0.71, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés ANC_03 / ECRAN (extrémité arrière du tirant 3 distincte de l'écran) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés ANC_03 / TIRANT_03 (extrémité arrière du tirant 3 sur son tirant) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_04 / TUBE_04 (nœud de départ du tirant 4 sur le tube 4) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_04 / TUBE_04 (nœud de départ du tirant 4 sur le tube 4) : nœud partagé en (-2.6, 0.71, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 4.44e-16
+[OK    ] interface | nœuds partagés ANC_04 / ECRAN (extrémité arrière du tirant 4 distincte de l'écran) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés ANC_04 / TIRANT_04 (extrémité arrière du tirant 4 sur son tirant) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_05 / TUBE_05 (nœud de départ du tirant 5 sur le tube 5) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_05 / TUBE_05 (nœud de départ du tirant 5 sur le tube 5) : nœud partagé en (0, 0.71, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés ANC_05 / ECRAN (extrémité arrière du tirant 5 distincte de l'écran) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés ANC_05 / TIRANT_05 (extrémité arrière du tirant 5 sur son tirant) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_06 / TUBE_06 (nœud de départ du tirant 6 sur le tube 6) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_06 / TUBE_06 (nœud de départ du tirant 6 sur le tube 6) : nœud partagé en (2.6, 0.71, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 4.44e-16
+[OK    ] interface | nœuds partagés ANC_06 / ECRAN (extrémité arrière du tirant 6 distincte de l'écran) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés ANC_06 / TIRANT_06 (extrémité arrière du tirant 6 sur son tirant) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_07 / TUBE_07 (nœud de départ du tirant 7 sur le tube 7) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_07 / TUBE_07 (nœud de départ du tirant 7 sur le tube 7) : nœud partagé en (5.2, 0.71, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 8.88e-16
+[OK    ] interface | nœuds partagés ANC_07 / ECRAN (extrémité arrière du tirant 7 distincte de l'écran) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés ANC_07 / TIRANT_07 (extrémité arrière du tirant 7 sur son tirant) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_08 / TUBE_08 (nœud de départ du tirant 8 sur le tube 8) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_08 / TUBE_08 (nœud de départ du tirant 8 sur le tube 8) : nœud partagé en (7.8, 0.71, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés ANC_08 / ECRAN (extrémité arrière du tirant 8 distincte de l'écran) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés ANC_08 / TIRANT_08 (extrémité arrière du tirant 8 sur son tirant) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_09 / TUBE_09 (nœud de départ du tirant 9 sur le tube 9) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés TIRANT_09 / TUBE_09 (nœud de départ du tirant 9 sur le tube 9) : nœud partagé en (10.4, 0.71, 2.5) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés ANC_09 / ECRAN (extrémité arrière du tirant 9 distincte de l'écran) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés ANC_09 / TIRANT_09 (extrémité arrière du tirant 9 sur son tirant) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés BOLLARD / POUTRE_COUR (BOLLARD sur la poutre) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés BOLLARD / POUTRE_COUR (BOLLARD sur la poutre) : nœud partagé en (0, 0.34, 3.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés BOLLARD / ECRAN (BOLLARD hors de l'écran) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés POUTRE_COUR / ECRAN (poutre non reliée à l'écran (liaison rigide au lot 28)) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés TUBE_01 / TUBE_02 (tubes voisins sans nœud commun) | attendu : 0 | obtenu : 0
+[OK    ] interface | nœuds partagés PALP_01 / PALP_02 (palplanches voisines sans nœud commun) | attendu : 0 | obtenu : 0
+[OK    ] nœuds orphelins | nœuds sans maille | attendu : 0 | obtenu : 0
+[OK    ] nœuds confondus | paires de nœuds à moins de 1e-09 | attendu : 0 | obtenu : 0
+
+Tous les invariants sont tenus.
+Rapport : /home/ubuntu/projets/aster-expert/data/processed/mesh_checks/20260925T070242-e7e3978a/rapport_mesh_check.txt

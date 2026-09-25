@@ -1,0 +1,40 @@
+# Extrait verbatim du listing (.mess) de l'exécution réelle 20260925T071043-39e3665b (échec ; niveau B :
+# ce n'est pas une source d'exécution). Cas : echec_utilitai_4.comm (copie octet pour octet du cas exécuté).
+#
+# Commande #0067 de quai_reduit_synthese.comm.changed.py, ligne 1368
+EFA_G = CALC_CHAMP(CONTRAINTE=('EFGE_ELNO', 'EFGE_NOEU'),
+                   CRITERE='RELATIF',
+                   GROUP_MA=('TUBES', 'POUTRE_COUR', 'TIRANTS'),
+                   INFO=1,
+                   PARALLELISME_TEMPS='NON',
+                   PRECISION=1e-06,
+                   RESULTAT=RESU_G)
+
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <E> <CATAMESS_3>                                                                               ║
+ ║                                                                                                ║
+ ║ L'alarme UTILITAI_4 est aggravée en erreur.                                                    ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║ Cette erreur sera suivie d'une erreur fatale.                                                  ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <F> <UTILITAI_4>                                                                               ║
+ ║                                                                                                ║
+ ║ Vous avez demandé le calcul d'un champ aux noeuds sur des éléments                             ║
+ ║  de structure. Mais les repères locaux de certaines mailles entourant                          ║
+ ║  des noeuds sur lesquels vous avez demandés le calcul ne sont pas                              ║
+ ║  compatibles (Au maximum, on a 92.0097 degrés d'écart entre les angles                         ║
+ ║  nautiques définissant ces repères).                                                           ║
+ ║                                                                                                ║
+ ║  Risque & Conseil :                                                                            ║
+ ║    Il se peut que vous obteniez des résultats incohérents.                                     ║
+ ║    Il est donc recommandé de passer en repère global les champs                                ║
+ ║    utiles au calcul du champ aux noeuds.                                                       ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║ Cette erreur est fatale. Le code s'arrête.                                                     ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝

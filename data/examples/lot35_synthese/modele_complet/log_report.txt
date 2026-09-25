@@ -1,0 +1,3 @@
+Synthèse : data/examples/lot35_synthese/modele_complet/synthese.md
+Contrôles : data/examples/lot35_synthese/modele_complet/controles.md
+Figures : aucune (matplotlib absent de l'environnement du projet) ; profils en tableaux seuls.

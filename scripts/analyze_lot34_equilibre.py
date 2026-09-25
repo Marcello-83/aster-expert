@@ -232,12 +232,10 @@ def main(argv: list[str] | None = None) -> int:
             reactions,
             springs,
         )
-        # Table combinée du lot 33 (`REACTIONS_<cas>`, quatre groupes dans un seul
-        # POST_RELEVE_T/RESULTANTE) : conservée dans le `.comm` exécuté, jamais
-        # utilisée ici -- sa valeur n'égale pas la somme des tables par groupe.
-        combined = l33.find_table(mess, f"REACTIONS_{case}")[0]
+        # Lot 35 : la table combinée `REACTIONS_<cas>` du lot 33 n'est plus écrite
+        # dans le `.comm` (retirée du générateur : sa valeur n'égale pas la somme des
+        # tables par groupe) ; elle n'est plus lue ici.
         result["cases"][case] = {
-            "lot33_combined_table_n": {c: float(combined[c]) for c in COMPONENTS},
             "components": terms,
             "reactions_by_group_n": reactions,
             "springs_k_dy_by_band_n": springs,

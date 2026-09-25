@@ -292,8 +292,9 @@ def test_every_execution_source_of_the_fiche_points_to_an_existing_case() -> Non
     sources = _fiche_execution_sources()
 
     assert (
-        len(sources) == 55
+        len(sources) == 62
     )  # 1 + 3 + 6 + 3 + 2 (lot 22) + 5 + 11 + 1 + 3 (lot 23) + 13 (lot 24) + 7 (lot 25)
+    # + 7 (lot 35 : 3 + 2 + 1 + 1, constats du lot 34)
     for _, source in sources:
         check_execution_source(source, repo_root=_ROOT)
         assert source.mess_path is not None
@@ -348,5 +349,12 @@ def test_the_fiche_is_valid_json_with_the_execution_fields() -> None:
         e for e in raw["entries"] if any("case_sha256" in s for s in e["sources"])
     ]
 
-    assert {e["point_label"] for e in with_execution} == {"1", "4", "8"}
+    assert {e["point_label"] for e in with_execution} == {
+        "1",
+        "3",
+        "4",
+        "5",
+        "8",
+        "12",
+    }
     assert all(e["nature"] == "code_aster" for e in with_execution)

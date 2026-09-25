@@ -1,0 +1,6 @@
+integrale rc=0
+equilibre rc=0
+normales rc=0
+normales altere rc=1
+report rc=0
+controles rc=0

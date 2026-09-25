@@ -67,9 +67,8 @@ class MeshCheckReport(BaseModel):
     checked_at: datetime
 
 
-def check_med(
+def dump_med(
     med: Path,
-    invariants_path: Path,
     *,
     project_root: Path,
     config: MeshConfig,
@@ -77,15 +76,16 @@ def check_med(
     image_ref: str,
     runner: ContainerRunner = run_in_container,
     script_path: Path = _DUMP_SCRIPT,
-) -> MeshCheckReport:
+) -> tuple[MedDump, Path]:
+    """Lit `med` avec `medcoupling` dans le conteneur (sans Salomé) : son contenu
+    (nœuds, mailles, groupes) et le répertoire de travail de la lecture. Partagé par
+    `check_med` et par le contrôle des normales (lot 35)."""
     if not med.is_file():
         message = f"MED file not found: {med}"
         raise MeshCheckError(message)
     if not script_path.is_file():
         message = f"dump script not found: {script_path}"
         raise MeshCheckError(message)
-    invariants = load_invariants(invariants_path)
-
     checker = config.checker
     root = project_root / checker.work_dir_root
     root.mkdir(parents=True, exist_ok=True)
@@ -132,6 +132,30 @@ def check_med(
         raise MeshCheckError(message)
 
     dump = MedDump.model_validate_json(dump_path.read_text(encoding="utf-8"))
+    return dump, work_dir
+
+
+def check_med(
+    med: Path,
+    invariants_path: Path,
+    *,
+    project_root: Path,
+    config: MeshConfig,
+    docker_bin: Path,
+    image_ref: str,
+    runner: ContainerRunner = run_in_container,
+    script_path: Path = _DUMP_SCRIPT,
+) -> MeshCheckReport:
+    invariants = load_invariants(invariants_path)
+    dump, work_dir = dump_med(
+        med,
+        project_root=project_root,
+        config=config,
+        docker_bin=docker_bin,
+        image_ref=image_ref,
+        runner=runner,
+        script_path=script_path,
+    )
     results = evaluate(dump, invariants)
     report_text = format_report(med.name, results)
     report_path = work_dir / REPORT_NAME

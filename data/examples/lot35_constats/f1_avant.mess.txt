@@ -1,0 +1,7 @@
+# Extrait verbatim du listing (.mess) de l'exécution réelle 20260924T152937-a4da70cf
+# du cas sonde_blocage_total.comm (code_aster 17.4.0, image du manifeste).
+# Contenu : REAC_NODA résultante, tous nœuds, cas G (sonde de blocage total, fonction à interface doublée)
+# Lignes recopiées telles quelles ; rien n'est retapé ni recalculé.
+#
+INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
+CHARGE_G         0000001a REAC_NODA                           1   0.000000000000E+00  -6.613163350266E-10   5.604338251780E+06   7.995777128815E+05

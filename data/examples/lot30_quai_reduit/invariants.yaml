@@ -375,6 +375,15 @@ subsets:
   of: TIRANTS
 - group: TIRANT_03
   of: TIRANTS
+layer_bands:
+- group: ECRAN_POUSSEE
+  levels:
+  - -26.0
+  - -18.0
+  - -9.0
+  - -2.0
+  - 4.0
+  tolerance: 1.0e-09
 plane_nodes:
 - group: SYM_G
   axis: x

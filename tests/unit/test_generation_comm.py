@@ -175,3 +175,123 @@ def test_a_common_spring_class_is_the_intersection_of_its_two_parent_groups() ->
     assert 'NOM_GROUP_MA="GEN_RESS_COMM_01", GROUP_NO=("GEN_RESS_COMM_01",)' in text
     # créée après les groupes de classe (une commande de plus), avant CREA_POI1
     assert text.index('INTERSEC=("GEN_RESS_ARGI_01"') < text.index("CREA_POI1")
+
+
+# --- lot 35 : tables de synthèse, repère des tubes, maillage orienté ---------------
+
+from aster_expert.generation.comm import (  # noqa: E402
+    ORIENTED_MESH_UNIT,
+    PROFILE_NODE_GROUP_PREFIX,
+    SYNTHESIS_TITLES,
+    oriented_mesh_block,
+    profile_node_groups_block,
+    profile_title,
+    synthesis_block,
+    synthesis_title,
+)
+
+
+def _synthesis(case: str = "EAU_P", **kw: bool) -> str:
+    return synthesis_block(
+        case,
+        profile_tubes=(5, 1),
+        head_groups=["TETE_TUBE_01", "TETE_TUBE_05"],
+        **kw,
+    )
+
+
+def test_the_combined_reaction_table_of_lot33_is_no_longer_written() -> None:
+    text = controls_block("G", ["GEN_RESS_ARGI_01"])
+
+    assert "REACTIONS_" not in text
+    assert "TAB_REAC_G =" not in text
+
+
+def test_every_synthesis_title_fits_the_printed_column_and_is_unique() -> None:
+    titles = [
+        synthesis_title(kind, case) for kind in SYNTHESIS_TITLES for case in _CASES
+    ]
+    titles += [profile_title(t, case) for t in (1, 5, 9) for case in _CASES]
+    titles += [f"RESSORTS_{c}" for c in _CASES]
+    titles += [
+        reaction_table_title(g, c) for g in ("ANCRAGES", "SYM_G") for c in _CASES
+    ]
+
+    assert all(len(t) <= TABLE_TITLE_MAX for t in titles)
+    assert len({t[:TABLE_TITLE_MAX] for t in titles}) == len(titles)
+
+
+def test_a_too_long_synthesis_title_is_refused() -> None:
+    with pytest.raises(GenerationError, match="intitulé de table trop long"):
+        synthesis_title("tubes", "UN_CAS_AU_NOM_BIEN_TROP_LONG")
+
+
+def test_displacements_by_post_releve_t_and_efforts_by_crea_table() -> None:
+    text = _synthesis()
+
+    assert text.count("POST_RELEVE_T(") == 3  # deux profils et la tête
+    assert 'GROUP_NO=("GEN_NOEUDS_TUBE_05",)' in text
+    assert 'GROUP_NO=("GEN_NOEUDS_TUBE_01",)' in text
+    assert 'GROUP_NO=("TETE_TUBE_01", "TETE_TUBE_05",)' in text
+    # jamais POST_RELEVE_T sur un champ de structure (<POSTRELE_70>, <POSTRELE_38>)
+    assert text.count("CREA_TABLE(") == 4
+    for field in ("EFGE_ELNO", "EFGE_NOEU"):
+        assert f'NOM_CHAM="{field}"' in text
+    palp_read = 'NOM_CHAM="EFGE_NOEU",\n        TOUT_ORDRE="OUI",\n        GROUP_NO='
+    assert palp_read + '("GEN_TOUS_PALPS",)' in text
+
+
+def test_the_palplanche_efforts_are_read_in_efge_noeu_only() -> None:
+    text = _synthesis()
+
+    palp = text[text.index("TAB_EFPALP_EAU_P = CREA_TABLE(") :]
+    palp = palp[: palp.index("IMPR_TABLE")]
+    assert 'NOM_CHAM="EFGE_NOEU"' in palp
+    assert "EFGE_ELNO" not in palp
+    assert "EFB_EAU_P = CALC_CHAMP(" in text
+    assert 'GROUP_MA=("PALPS",)' in text
+
+
+def test_a_shell_node_is_never_averaged_between_tube_and_palplanche() -> None:
+    """Les résultats restreints sont distincts : les tubes, la poutre et les tirants
+    d'un côté (`EFGE_ELNO`, sans moyenne), les palplanches de l'autre."""
+    text = _synthesis()
+
+    first = text[text.index("EFA_EAU_P = CALC_CHAMP(") :]
+    first = first[: first.index("IMPR_TABLE")]
+    assert 'GROUP_MA=("TUBES", "POUTRE_COUR", "TIRANTS",)' in first
+    assert '"EFGE_NOEU"' not in first  # CALC_CHAMP/EFGE_NOEU : <F> <UTILITAI_4>
+
+
+def test_the_temporary_results_are_destroyed_one_concept_at_a_time() -> None:
+    text = _synthesis()
+
+    assert "DETRUIRE(NOM=EFA_EAU_P)" in text
+    assert "DETRUIRE(NOM=EFB_EAU_P)" in text
+    assert "NOM=(" not in text
+
+
+def test_the_diagnostic_omissions_drop_their_own_tables() -> None:
+    text = _synthesis(sans_tirants=True, sans_palplanches=True, sans_poutre=True)
+
+    assert "EFTIR" not in text and "EFPALP" not in text and "EFPOUT" not in text
+    assert 'GROUP_MA=("TUBES",)' in text
+    assert "EFB_EAU_P" not in text
+
+
+def test_the_profile_groups_are_one_occurrence_per_tube() -> None:
+    text = profile_node_groups_block((5, 1))
+
+    assert text.count("_F(NOM=") == 2
+    assert f'NOM="{PROFILE_NODE_GROUP_PREFIX}05", GROUP_MA=("TUBE_05",)' in text
+    assert f'NOM="{PROFILE_NODE_GROUP_PREFIX}01", GROUP_MA=("TUBE_01",)' in text
+
+
+def test_the_oriented_mesh_is_written_after_the_orientation() -> None:
+    text = oriented_mesh_block()
+
+    assert (
+        f'IMPR_RESU(FORMAT="MED", UNITE={ORIENTED_MESH_UNIT}, RESU=_F(MAILLAGE=MAIL))'
+        in text
+    )
+    assert ORIENTED_MESH_UNIT == 81  # 80 est le MED de résultats

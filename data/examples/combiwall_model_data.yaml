@@ -192,6 +192,17 @@ groups:
       {status: fourni, value: -12.00, unit: m CM, source: {kind: decision, point_label: "4"}, comment: "Cote de dragage."}
     cote_interface_argile_marne:
       {status: fourni, value: -18.00, unit: m CM, source: {kind: decision, point_label: "4"}}
+    profil_butee_limite:
+      status: fourni
+      unit: "kPa"
+      source: {kind: cas_test, document: donnees_butee_combiwall_v1.md, section: "document"}
+      comment: "Lot 35 : points (Z, p) du tableau de donnees_butee_combiwall_v1.md (kPa, Z en m CM), recopiés ; deux points à −18,00, un par couche (argile marneuse, marne compacte) ; variation linéaire entre les points. Butée limite de Rankine côté bassin (sol immergé sous la cote de dragage), donnée fictive du cas de test validée par MM au lancement du lot 35, non représentative d'un calcul K-Réa. Sert au seul contrôle de validité de la décision 5 (domaine de validité, item 1) : comparée à la pression de réaction k·u / A_tributaire des ressorts, sans pression initiale au repos (non modélisée)."
+      profile: [
+        {z: -12.0, p: 47.1, layer: argile marneuse},
+        {z: -18.0, p: 202.3, layer: argile marneuse},
+        {z: -18.0, p: 327.6, layer: marne compacte},
+        {z: -26.0, p: 603.6, layer: marne compacte}
+      ]
   eau_terres:
     differentiel_permanent:
       {status: fourni, value: 1.50, unit: m, source: {kind: decision, point_label: "5"}}

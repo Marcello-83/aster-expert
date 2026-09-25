@@ -1784,6 +1784,76 @@ def mesh_check(
         raise typer.Exit(1)
 
 
+@app.command("report")
+def report(
+    resultat: Path,
+    donnees: str = typer.Option(
+        "data/examples/combiwall_model_data.yaml",
+        "--donnees",
+        help="Fichier de données du modèle exécuté (aires tributaires, butée).",
+    ),
+    comm: str = typer.Option(
+        "", "--comm", help="`.comm` exécuté (empreinte consignée dans la synthèse)."
+    ),
+    controles_d: str = typer.Option(
+        "",
+        "--controles-d",
+        help="JSON de l'équilibre (scripts/analyze_lot34_equilibre.py) à joindre.",
+    ),
+    sortie: str = typer.Option(
+        "", "--sortie", help="Répertoire de sortie (par défaut : celui du résultat)."
+    ),
+) -> None:
+    """Synthèse Markdown des résultats d'un calcul du quai (lot 35).
+
+    `resultat` : le répertoire d'exécution (`aster-expert run`) ou son listing
+    `.mess`. Écrit `synthese.md`, `controles.md`, `synthese.json` et, si `matplotlib`
+    est disponible, une figure PNG par profil. Cas élémentaires seulement : aucune
+    combinaison, aucun verdict de dimensionnement."""
+    from aster_expert.report.build import build_synthesis
+    from aster_expert.report.render import (
+        plot_profiles,
+        render_controls,
+        render_synthesis,
+    )
+    from aster_expert.report.tables import TableError
+
+    mess = resultat / "proc.0" / "fort.6" if resultat.is_dir() else resultat
+    if not mess.is_file():
+        typer.echo(f"report ÉCHEC : listing introuvable : {mess}", err=True)
+        raise typer.Exit(1)
+    out_dir = (
+        Path(sortie) if sortie else (resultat if resultat.is_dir() else resultat.parent)
+    )
+    out_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        synthesis = build_synthesis(
+            mess,
+            Path(donnees),
+            comm_path=Path(comm) if comm else None,
+            level_d_path=Path(controles_d) if controles_d else None,
+        )
+    except (TableError, ValueError, OSError) as exc:
+        typer.echo(f"report ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    figures = plot_profiles(synthesis, out_dir)
+    (out_dir / "synthese.md").write_text(
+        render_synthesis(synthesis, figures), encoding="utf-8"
+    )
+    (out_dir / "controles.md").write_text(render_controls(synthesis), encoding="utf-8")
+    (out_dir / "synthese.json").write_text(
+        synthesis.model_dump_json(indent=2), encoding="utf-8"
+    )
+    typer.echo(f"Synthèse : {out_dir / 'synthese.md'}", err=True)
+    typer.echo(f"Contrôles : {out_dir / 'controles.md'}", err=True)
+    if not figures:
+        typer.echo(
+            "Figures : aucune (matplotlib absent de l'environnement du projet) ; "
+            "profils en tableaux seuls.",
+            err=True,
+        )
+
+
 @app.command("generate")
 def generate(
     fiche: str,

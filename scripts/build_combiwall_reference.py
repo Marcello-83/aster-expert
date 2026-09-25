@@ -74,6 +74,13 @@ always through the project's own write paths -- never by editing the JSON:
     `FORCE_POUTRE` code_aster finding (point 12, `lot33_facts.json`/
     `lot33_extraits.json`) the decision's own generation relies on.
 
+14. lot 35: the four `code_aster` findings established by execution at lot 34
+    (`lot35_essais.json`): evaluation at the nodes of `FORCE_COQUE/PRES` (point 5,
+    REPLACES the "doubling at Z +/- 1 mm is safe" finding, kept in the notes),
+    `CREA_POI1` one point cell per node (point 4), the continuous beam with several
+    `LIAISON_SOLIDE` (point 12), `REAC_NODA` at tied nodes (point 3). Evidence in
+    `data/examples/lot35_constats/` (`scripts/build_lot35_constats.py`).
+
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
 
@@ -1006,6 +1013,78 @@ def _lot33(sheet: HypothesesSheet) -> HypothesesSheet:
     return _lot33_facts(sheet)
 
 
+def _lot35_facts(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Lot 35, étape 1 : les quatre constats `code_aster` établis par exécution au
+    lot 34 (`lot35_essais.json`), chacun avec ses sources d'exécution (`.comm`
+    archivé octet pour octet et extrait de listing, `data/examples/lot35_constats/`)
+    et ses références de catalogue. Trois entrées nouvelles (points 4, 12, 3) ; le
+    constat du point 5 (évaluation aux nœuds de `FORCE_COQUE/PRES`) **remplace** celui
+    du doublement à Z ± 1 mm, dont l'option et les notes restent dans les `notes` du
+    nouveau (historique), ses sources conservées -- même mécanisme que
+    `_lot28_facts`."""
+    data = json.loads((INPUTS / "lot35_essais.json").read_text("utf-8"))
+    cat = data["catalogue"]
+    for f in data["findings"]:
+        executions = tuple(_execution_source(x, data["contexts"]) for x in f["sources"])
+        catalogue = tuple(
+            CatalogueSource(
+                command=ref["command"],
+                keyword_path=tuple(ref["keyword_path"]),
+                aster_version=cat["aster_version"],
+                catalogue_source=cat["catalogue_source"],
+                catalogue_hash=cat["catalogue_hash"],
+                image_digest=cat["image_digest"],
+            )
+            for ref in f["catalogue_refs"]
+        )
+        if "replaces_topic" not in f:
+            entry = record_execution_finding(
+                topic=f["topic"],
+                sources=(*catalogue, *executions),
+                option_retained=f["option_retained"],
+                justification=f["justification"],
+                point_label=f["point_label"],
+                notes=f["notes"],
+                repo_root=ROOT,
+            )
+            sheet = sheet.model_copy(update={"entries": (*sheet.entries, entry)})
+            continue
+        replaced = [
+            e
+            for e in sheet.entries
+            if e.nature == "code_aster" and e.topic == f["replaces_topic"]
+        ]
+        assert len(replaced) == 1, f["replaces_topic"]
+        old = replaced[0]
+        history = (
+            "Historique du constat remplacé (lot 28, niveau A avec essai du lot 28) : "
+            f"sujet : {old.topic} ; option retenue : {old.option_retained} "
+            f"Notes : {old.notes or '(aucune)'}"
+        )
+        entry = record_execution_finding(
+            topic=f["topic"],
+            sources=(*old.sources, *catalogue, *executions),
+            option_retained=f["option_retained"],
+            justification=f["justification"],
+            point_label=old.point_label,
+            notes=f"{f['notes']} {history}",
+            repo_root=ROOT,
+        )
+        sheet = _replace(
+            sheet,
+            nature="code_aster",
+            point_label=old.point_label or "",
+            topic=f["replaces_topic"],
+            new=entry,
+            status="tranche",
+        )
+    return sheet
+
+
+def _lot35(sheet: HypothesesSheet) -> HypothesesSheet:
+    return _lot35_facts(sheet)
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -1023,7 +1102,8 @@ def build_sheet() -> HypothesesSheet:
     sheet = _lot28(sheet)
     sheet = _lot31(sheet)
     sheet = _lot32(sheet)
-    return _lot33(sheet)
+    sheet = _lot33(sheet)
+    return _lot35(sheet)
 
 
 def dump(sheet: HypothesesSheet) -> str:

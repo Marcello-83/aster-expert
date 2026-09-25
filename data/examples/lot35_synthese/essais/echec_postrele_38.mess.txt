@@ -1,0 +1,37 @@
+# Extrait verbatim du listing (.mess) de l'exécution réelle 20260925T071423-4fe99c43 (échec ; niveau B :
+# ce n'est pas une source d'exécution). Cas : echec_postrele_38.comm (copie octet pour octet du cas exécuté).
+#
+# Commande #0068 de quai_reduit_synthese.comm.changed.py, ligne 1374
+TAB_EFTUBE_G = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
+                                       FORMAT_C='MODULE',
+                                       GROUP_MA='TUBES',
+                                       GROUP_NO='GEN_TOUS_TUBES',
+                                       INTITULE='EFTUBE_G',
+                                       MOYE_NOEUD='OUI',
+                                       NOM_CHAM='EFGE_ELNO',
+                                       NOM_CMP=('NXX', 'NYY', 'NXY', 'MXX', 'MYY', 'MXY', 'QX', 'QY'),
+                                       OPERATION='EXTRACTION',
+                                       PRECISION=1e-06,
+                                       REPERE='LOCAL',
+                                       RESULTAT=EFA_G,
+                                       TOUT_ORDRE='OUI'),
+                             INFO=1)
+
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <F> <POSTRELE_38>                                                                              ║
+ ║                                                                                                ║
+ ║ Post-traitement 1                                                                              ║
+ ║  Composante non traitée dans un changement de repère                                           ║
+ ║  Contactez le support                                                                          ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║ Cette erreur est fatale. Le code s'arrête.                                                     ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+Traceback returned by GNU libc (last 25 stack frames):
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibc.so(print_trace_+0x1f) [0x77a706e4935f]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(utmess_core_+0xa48) [0x77a7063a9078]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(utmess_+0x760) [0x77a7063a8230]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(rvcpnc_+0x222a) [0x77a705f19fda]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(rvpost_+0x4ee) [0x77a705f2bd8e]

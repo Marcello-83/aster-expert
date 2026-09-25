@@ -219,11 +219,14 @@ def test_band_projected_width_matches_the_generator_own_former_constants() -> No
 def test_the_versioned_files_are_those_of_the_module() -> None:
     import json
 
+    from aster_expert.meshing.combiwall import layer_interface_levels
+
     params = _params()
     assert json.loads(_PARAMS.read_text("utf-8")) == json.loads(json.dumps(params))
     text = _INVARIANTS.read_text("utf-8")
+    levels = layer_interface_levels(load_model_data(_YAML))
     assert yaml.safe_load(text) == yaml.safe_load(
-        yaml.safe_dump(expected_invariants(params), sort_keys=False)
+        yaml.safe_dump(expected_invariants(params, levels), sort_keys=False)
     )
 
 
@@ -308,3 +311,33 @@ def test_the_build_script_reproduces_every_versioned_file() -> None:
     spec.loader.exec_module(module)
     for target, content in module.files().items():
         assert target.read_text("utf-8") == content, target.name
+
+
+# --- lot 35 : niveaux de couche de la charge de poussée ----------------------
+
+
+def test_lot35_layer_interface_levels_are_the_ends_and_the_layer_changes() -> None:
+    from aster_expert.meshing.combiwall import layer_interface_levels
+
+    levels = layer_interface_levels(load_model_data(_YAML))
+
+    # remblai/sable en -2, sable/argile en -9, argile/marne en -18 ; le point
+    # intérieur à +2,00 du remblai n'est pas une interface
+    assert levels == [-26.0, -18.0, -9.0, -2.0, 4.0]
+
+
+def test_lot35_the_generated_invariants_carry_the_layer_bands_of_the_data() -> None:
+    from aster_expert.meshing.combiwall import layer_interface_levels
+
+    data = load_model_data(_YAML)
+    inv = expected_invariants(_params(), layer_interface_levels(data))
+
+    assert inv["layer_bands"] == [
+        {
+            "group": "ECRAN_POUSSEE",
+            "levels": [-26.0, -18.0, -9.0, -2.0, 4.0],
+            "tolerance": 1e-9,
+        }
+    ]
+    Invariants.model_validate(inv)
+    assert "layer_bands" not in expected_invariants(_params())

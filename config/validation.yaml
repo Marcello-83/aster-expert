@@ -81,6 +81,7 @@ execution:
     # DIS_T (lot 33, étape 3), cas isolé à réponse analytique connue.
     - data/examples/lot33_equilibre
     - data/examples/lot34_equilibre
+    - data/examples/lot35_synthese
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

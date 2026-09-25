@@ -1,0 +1,5 @@
+C5 : pire écart 2.153e-13 (seuil 1e-06)
+C6 : pire écart 4.261e-15 (seuil 1e-09)
+C7 : pire écart 2.537e-06 (seuil 1e-04)
+C9 : pire écart 1.867e-16 (seuil 1e-09)
+verdict global : RÉUSSI

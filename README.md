@@ -73,6 +73,13 @@ aster-expert validate model.comm
 # Exécution encadrée puis dépouillement
 aster-expert run model.comm --timeout 1800
 aster-expert mess analyze resultats/model.mess
+
+# Synthèse pour l'ingénieur d'un calcul du quai (lot 35) : synthese.md,
+# controles.md, synthese.json (et un PNG par profil si matplotlib est présent) ;
+# cas élémentaires seulement, aucune combinaison, aucun verdict de dimensionnement
+aster-expert report data/processed/runs/<exécution> \
+    --donnees data/examples/combiwall_model_data.yaml \
+    --controles-d <equilibre.json> --sortie <répertoire>
 ```
 
 Les commandes non encore implémentées sont listées dans

@@ -348,3 +348,81 @@ def test_poutre_pressure_charges_use_nodal_forces_not_force_poutre(
     ):
         assert f"{concept} = AFFE_CHAR_MECA(" in text
         assert "FORCE_NODALE=(" in text
+
+
+# --- lot 35 : synthèse, repère des tubes, maillage orienté --------------------
+
+
+def _production(verified_mesh: Path, tmp_path: Path) -> str:
+    text, _ = generate_comm(
+        fiche_path=_FICHE,
+        data_path=_DATA,
+        med_path=verified_mesh,
+        project_root=tmp_path,
+        work_dir_root="mesh_runs",
+        aster_version="17.4.0",
+    )
+    return text
+
+
+def test_lot35_production_writes_the_synthesis_tables_of_every_case(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    text = _production(verified_mesh, tmp_path)
+
+    for case in ("G", "EAU_P", "EAU_A", "Q1", "Q3", "A"):
+        for concept in (
+            f"TAB_DYT05_{case} = POST_RELEVE_T(",
+            f"TAB_DYT01_{case} = POST_RELEVE_T(",
+            f"TAB_TETE_{case} = POST_RELEVE_T(",
+            f"TAB_EFTUBE_{case} = CREA_TABLE(",
+            f"TAB_EFPALP_{case} = CREA_TABLE(",
+            f"TAB_EFPOUT_{case} = CREA_TABLE(",
+            f"TAB_EFTIR_{case} = CREA_TABLE(",
+        ):
+            assert concept in text, concept
+    assert "GEN_NOEUDS_TUBE_05" in text
+
+
+def test_lot35_the_combined_reaction_table_is_gone_from_production(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    text = _production(verified_mesh, tmp_path)
+
+    assert "REACTIONS_" not in text
+    assert "TAB_REAC_G =" not in text
+    assert 'INTITULE="REAC_ANCR_G"' in text  # les tables par groupe restent
+
+
+def test_lot35_the_tubes_carry_a_vertical_user_frame(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    text = _production(verified_mesh, tmp_path)
+
+    tubes = text[text.index('GROUP_MA=("TUBES",),\n            EPAIS=') :]
+    tubes = tubes[: tubes.index("        ),")]
+    assert "VECTEUR=(0.0, 0.0, 1.0)" in tubes
+
+
+def test_lot35_the_oriented_mesh_follows_the_layer_groups(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    text = _production(verified_mesh, tmp_path)
+
+    orient = text.index("ORIE_NORM_COQUE")
+    layers = text.index("GEN_COUCHE_REMBLAI")
+    written = text.index('IMPR_RESU(FORMAT="MED", UNITE=81')
+    assert orient < layers < written < text.index("AFFE_MODELE")
+
+
+def test_lot35_the_layer_loads_still_disable_veri_norm_explicitly(
+    verified_mesh: Path, tmp_path: Path
+) -> None:
+    """`VERI_NORM="NON"` reste sur les occurrences par couche : son remplacement est
+    la vérification explicite de `aster_expert.meshing.normals`, pas un retour du
+    contrôle automatique (`<F> <MESH3_99>` sur un groupe non connexe)."""
+    text = _production(verified_mesh, tmp_path)
+
+    g_load = text[text.index("CH_G_POUSSEE = AFFE_CHAR_MECA_F(") :]
+    g_load = g_load[: g_load.index("FORCE_COQUE=(")]
+    assert 'VERI_NORM="NON"' in g_load

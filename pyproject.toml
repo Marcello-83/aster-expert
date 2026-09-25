@@ -76,6 +76,8 @@ ignore = []
 # Fixtures are verbatim excerpts of official .comm test cases (see the module
 # docstring): their line breaks are not ours to move.
 "tests/unit/test_comm_parser.py" = ["ARG", "E501"]
+# Le listing de synthèse reprend des lignes de tables réelles du .mess (lot 35).
+"tests/unit/test_report_tables.py" = ["E501"]
 # Les scripts destinés au Python de l'installation Code_Aster ne doivent
 # dépendre que de la bibliothèque standard et peuvent cibler un interpréteur
 # plus ancien.
@@ -102,6 +104,12 @@ ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = ["docutils.*"]
+ignore_missing_imports = true
+
+# Lot 35 : tracé optionnel des profils (`aster_expert.report.render.plot_profiles`),
+# importé seulement si la bibliothèque est présente ; ce n'est pas une dépendance.
+[[tool.mypy.overrides]]
+module = ["matplotlib.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

@@ -64,7 +64,10 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     # + 1 constat code_aster (mécanisme du pivot nul, point 3, lot 31)
     # + la décision 13 (point 12, lot 33) et 1 constat code_aster
     #   (FORCE_POUTRE, point 12)
-    assert len(sheet.entries) == 48
+    # + 3 constats d'exécution du lot 35 (CREA_POI1, point 4 ; poutre continue,
+    #   point 12 ; REAC_NODA et LIAISON_SOLIDE, point 3) ; le quatrième (évaluation
+    #   aux nœuds de FORCE_COQUE/PRES, point 5) remplace sur place celui du doublement
+    assert len(sheet.entries) == 51
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -483,7 +486,7 @@ def test_arbitree_fiche_records_the_lot31_finding_and_revision() -> None:
         for e in sheet.entries
         if isinstance(e, CodeAsterHypothesisEntry) and e.point_label == "3"
     ]
-    assert len(code_aster_point_3) == 3
+    assert len(code_aster_point_3) == 4  # 3 + REAC_NODA/LIAISON_SOLIDE (lot 35)
     (finding,) = [
         e
         for e in code_aster_point_3
@@ -542,14 +545,22 @@ def test_arbitree_fiche_lot28_facts_are_recorded_and_sourced() -> None:
     assert orientation.point_label == "5"
     assert "ORIE_NORM_COQUE" in (orientation.option_retained or "")
 
-    profil = findings[
+    # lot 35 : le constat du doublement à Z ± 1 mm est remplacé (historique dans les
+    # notes) par celui de l'évaluation aux nœuds, établi par exécution
+    assert (
         "Représentation d'un profil de pression discontinu par points doublés à "
         "Z ± 0,001 m"
+    ) not in findings
+    profil = findings[
+        "Évaluation aux nœuds de FORCE_COQUE/PRES (fonction) : une marche de pression "
+        "à une interface de couches déborde d'une demi-maille"
     ]
     assert profil.point_label == "5"
-    assert profil.sources and all(
-        isinstance(s, DocumentarySource) for s in profil.sources
-    )
+    assert any(isinstance(s, DocumentarySource) for s in profil.sources)
+    assert any(isinstance(s, ExecutionSource) for s in profil.sources)
+    assert "aux nœuds" in (profil.option_retained or "")
+    assert "Historique du constat remplacé" in (profil.notes or "")
+    assert "à Z ± 1 mm" in (profil.notes or "")
 
     symetrie = findings[
         "Conditions de symétrie par rapport à un plan X = constante pour des coques "
@@ -586,3 +597,100 @@ def test_arbitree_fiche_lot28_facts_supersede_the_thin_base_fiche_notes() -> Non
     assert (
         "Mécanisme catalogue d'application d'une pression fonction de la profondeur"
     ) not in topics
+
+
+# --- lot 35 : constats établis par exécution au lot 34 ----------------------
+
+
+def _code_aster(topic_start: str) -> CodeAsterHypothesisEntry:
+    matches = [
+        e
+        for e in _load().entries
+        if isinstance(e, CodeAsterHypothesisEntry) and e.topic.startswith(topic_start)
+    ]
+    assert len(matches) == 1, topic_start
+    return matches[0]
+
+
+@pytest.mark.parametrize(
+    ("topic_start", "point", "n_execution", "tokens"),
+    [
+        (
+            "Évaluation aux nœuds de FORCE_COQUE/PRES",
+            "5",
+            3,
+            ("aux nœuds", "par couche", "1,185e-3"),
+        ),
+        (
+            "CREA_POI1 : une seule maille ponctuelle par nœud",
+            "4",
+            2,
+            ("une** maille ponctuelle par nœud", "somme", "173 749"),
+        ),
+        (
+            "Charge répartie sur une poutre continue liée par plusieurs LIAISON_SOLIDE",
+            "12",
+            1,
+            ("CALCULEL2_92", "forces nodales", "29 811,6"),
+        ),
+        (
+            "REAC_NODA aux nœuds liés par LIAISON_SOLIDE",
+            "3",
+            1,
+            ("non bloquées", "bloquées", "9,790917005e5"),
+        ),
+    ],
+)
+def test_lot35_the_four_lot34_findings_are_recorded_with_execution_sources(
+    topic_start: str, point: str, n_execution: int, tokens: tuple[str, ...]
+) -> None:
+    entry = _code_aster(topic_start)
+
+    assert entry.status == "tranche"
+    assert entry.point_label == point
+    executions = [s for s in entry.sources if isinstance(s, ExecutionSource)]
+    assert len(executions) == n_execution
+    assert all(s.validation_level == "D" for s in executions)
+    for token in tokens:
+        assert token in (entry.option_retained or ""), token
+    assert any(isinstance(s, CatalogueSource) for s in entry.sources)
+
+
+def test_lot35_the_replaced_finding_keeps_its_own_history() -> None:
+    entry = _code_aster("Évaluation aux nœuds de FORCE_COQUE/PRES")
+
+    assert "Historique du constat remplacé" in (entry.notes or "")
+    assert "REMPLACE" in (entry.notes or "")
+    old_topic = (
+        "Représentation d'un profil de pression discontinu par points doublés à "
+        "Z ± 0,001 m"
+    )
+    assert old_topic in (entry.notes or "")
+
+
+def test_lot35_the_before_and_after_deviations_of_the_nodal_evaluation() -> None:
+    entry = _code_aster("Évaluation aux nœuds de FORCE_COQUE/PRES")
+    executions = [s for s in entry.sources if isinstance(s, ExecutionSource)]
+    before_spec, before_nodal, after = executions
+
+    # avant : 1,185e-3 de moins que le profil spécifié, mais la règle d'évaluation aux
+    # nœuds reproduit la valeur de Code_Aster à 1e-13 près ; après : profil spécifié
+    assert before_spec.case_path.endswith("f1_avant.sonde.comm")
+    assert before_spec.relative_deviation == pytest.approx(-1.185e-3, rel=1e-3)
+    assert before_nodal.case_path == before_spec.case_path
+    assert abs(before_nodal.relative_deviation) < 1e-13
+    assert after.case_path.endswith("f1_apres.sonde.comm")
+    assert abs(after.relative_deviation) < 1e-11
+
+
+def test_lot35_the_lost_spring_stiffness_is_the_argile_share() -> None:
+    entry = _code_aster("CREA_POI1 : une seule maille ponctuelle par nœud")
+    sources = sorted(
+        (s for s in entry.sources if isinstance(s, ExecutionSource)),
+        key=lambda s: s.case_path,
+    )
+
+    after, before = sources  # f2_apres, f2_avant (ordre alphabétique)
+    # avant : la raideur de la marne seule, soit 1 - k_argile/(k_argile + k_marne)
+    assert before.relative_deviation == pytest.approx(-0.30434783, rel=1e-6)
+    assert abs(after.relative_deviation) < 1e-11

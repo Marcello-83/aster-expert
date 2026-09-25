@@ -125,6 +125,27 @@ class SymmetryInvariant(_Model):
     check_connectivity: bool = False
 
 
+class LayerBandsInvariant(_Model):
+    """Lot 35 : les mailles du groupe `group` sont réparties sans chevauchement
+    entre les couches de sol bornées par `levels` (cotes d'interface, strictement
+    croissantes, de la cote basse de la première couche à la cote haute de la
+    dernière).
+
+    La charge de poussée est appliquée par couche (`CREA_GROUP_MA/BANDE` avec
+    `CRIT_NOEUD="TOUS"`, lot 34) : une maille qui chevauche une interface n'est
+    dans aucune bande et ne recevrait aucune pression, sans qu'aucune alarme ne le
+    signale à l'exécution. Évalués : (1) aucune maille ne contient une interface
+    strictement dans son étendue verticale ; (2) aucune maille hors de
+    `[levels[0], levels[-1]]` ; (3) pour chaque couche portant des mailles, ses
+    mailles sont bordées exactement par les cotes de la couche -- l'interface
+    basse (ou le pied du groupe si la couche descend plus bas que lui) et
+    l'interface haute (ou la tête du groupe si la couche monte plus haut)."""
+
+    group: str
+    levels: tuple[float, ...]
+    tolerance: float
+
+
 class Invariants(_Model):
     schema_version: Literal[1]
     counts: CountsInvariant | None = None
@@ -134,6 +155,7 @@ class Invariants(_Model):
     group_areas: tuple[GroupAreaInvariant, ...] = ()
     projected_widths: tuple[ProjectedWidthInvariant, ...] = ()
     subsets: tuple[SubsetInvariant, ...] = ()
+    layer_bands: tuple[LayerBandsInvariant, ...] = ()
     plane_nodes: tuple[PlaneNodesInvariant, ...] = ()
     symmetry: SymmetryInvariant | None = None
     nodes_at: tuple[NodeAtInvariant, ...] = ()
@@ -444,6 +466,65 @@ def evaluate(dump: MedDump, invariants: Invariants) -> list[InvariantResult]:
             f"{len(inner) - len(outside)} sur {len(inner)}",
             bool(inner) and not outside,
         )
+
+    for band in invariants.layer_bands:
+        cells_of = _group_cells(dump, band.group)
+        tol = band.tolerance
+        extents: list[tuple[float, float]] = []
+        for _, lv, i in cells_of:
+            zs = [dump.coords[n][2] for n in dump.levels[str(lv)].connectivity[i]]
+            extents.append((min(zs), max(zs)))
+        label = f"couches de {band.group}"
+        if not cells_of:
+            add("couches", f"{label} : groupe présent", "au moins une maille", 0, False)
+            continue
+        straddling = sum(
+            1
+            for lo, hi in extents
+            for z in band.levels
+            if lo < z - tol and hi > z + tol
+        )
+        add(
+            "couches",
+            f"{label} : mailles à cheval sur une interface {list(band.levels)}",
+            0,
+            straddling,
+            straddling == 0,
+        )
+        beyond = sum(
+            1
+            for lo, hi in extents
+            if lo < band.levels[0] - tol or hi > band.levels[-1] + tol
+        )
+        add(
+            "couches",
+            f"{label} : mailles hors de [{band.levels[0]:g}, {band.levels[-1]:g}]",
+            0,
+            beyond,
+            beyond == 0,
+        )
+        group_low = min(lo for lo, _ in extents)
+        group_high = max(hi for _, hi in extents)
+        for low, high in zip(band.levels[:-1], band.levels[1:], strict=True):
+            inside = [
+                (lo, hi)
+                for lo, hi in extents
+                if low - tol <= (lo + hi) / 2 <= high + tol
+            ]
+            if not inside:
+                continue
+            expect_low = low if low >= group_low - tol else group_low
+            expect_high = high if high <= group_high + tol else group_high
+            got_low = min(lo for lo, _ in inside)
+            got_high = max(hi for _, hi in inside)
+            add(
+                "couches",
+                f"{label} : couche [{low:g}, {high:g}], {len(inside)} mailles, "
+                "bordée par ses cotes",
+                f"[{expect_low:.9g}, {expect_high:.9g}]",
+                f"[{got_low:.9g}, {got_high:.9g}]",
+                abs(got_low - expect_low) <= tol and abs(got_high - expect_high) <= tol,
+            )
 
     for plane in invariants.plane_nodes:
         axis = "xyz".index(plane.axis)

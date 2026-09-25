@@ -1,0 +1,65 @@
+{
+  "n_runs_quai_reduit": 7,
+  "cumulative_reduced_s": 471.3,
+  "n_runs_full_model": 1,
+  "full_model_s": 436.5,
+  "cumulative_total_s": 907.8,
+  "runs": [
+    {
+      "run": "20260925T071043-39e3665b",
+      "comm": "echec_utilitai_4.comm",
+      "status": "échec",
+      "duration_s": 26.9,
+      "note": "quai réduit : CALC_CHAMP EFGE_NOEU sur TUBES/POUTRE_COUR/TIRANTS : <F> <UTILITAI_4> (repères locaux incompatibles, 92°)"
+    },
+    {
+      "run": "20260925T071216-4bf41bd0",
+      "comm": "essai_a.comm",
+      "status": "échec",
+      "duration_s": 51.1,
+      "note": "essai A : extraction EFGE_ELNO (POST_RELEVE_T, GROUP_MA) réussie ; EFGE_NOEU des palplanches par POST_RELEVE_T : <F> <POSTRELE_70> (alarme aggravée)"
+    },
+    {
+      "run": "20260925T071423-4fe99c43",
+      "comm": "echec_postrele_38.comm",
+      "status": "échec",
+      "duration_s": 53.0,
+      "note": "quai réduit : POST_RELEVE_T avec REPERE=LOCAL sur EFGE_ELNO : <F> <POSTRELE_38>"
+    },
+    {
+      "run": "20260925T071706-4c7d9ffb",
+      "comm": "essai_b.comm",
+      "status": "completed_ok",
+      "duration_s": 26.6,
+      "note": "essai B : CREA_TABLE sur EFGE_ELNO et EFGE_NOEU (maille, nœud, coordonnées, composantes)"
+    },
+    {
+      "run": "20260925T071826-8347fd5c",
+      "comm": "(quai_reduit_synthese.comm d'alors, TITRE sur CREA_TABLE)",
+      "status": "completed_ok",
+      "duration_s": 108.5,
+      "note": "quai réduit : tables d'efforts par CREA_TABLE ; TITRE non imprimé (à porter par IMPR_TABLE)"
+    },
+    {
+      "run": "20260925T072325-0b102c19",
+      "comm": "essais/sans_vecteur_tubes.comm",
+      "status": "completed_ok",
+      "duration_s": 120.3,
+      "note": "quai réduit sans VECTEUR sur les tubes : déplacements identiques bit à bit à la précédente"
+    },
+    {
+      "run": "20260925T072820-14e55343",
+      "comm": "quai_reduit_synthese.comm",
+      "status": "completed_ok",
+      "duration_s": 84.9,
+      "note": "quai réduit final : DIAGNOSTIC JOB OK, aucune alarme"
+    },
+    {
+      "run": "20260925T075049-b1de2c32",
+      "comm": "../lot28_quai/quai_combiwall.comm",
+      "status": "completed_ok",
+      "duration_s": 436.5,
+      "note": "modèle complet (unique) : DIAGNOSTIC JOB OK, aucune alarme, aucun <F>"
+    }
+  ]
+}

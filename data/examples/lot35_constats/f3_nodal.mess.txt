@@ -1,0 +1,7 @@
+# Extrait verbatim du listing (.mess) de l'exécution réelle 20260924T151447-7d8347d4
+# du cas sonde_pression_aucune.comm (code_aster 17.4.0, image du manifeste).
+# Contenu : REAC_NODA résultante, tous nœuds, cas G (poutre et poids seuls, forces nodales de la décision 13)
+# Lignes recopiées telles quelles ; rien n'est retapé ni recalculé.
+#
+INTITULE         RESU     NOM_CHAM         NUME_ORDRE   INST         DX           DY           DZ          
+CHARGE_G         0000001a REAC_NODA                   1  0.00000E+00 -2.05104E-29  2.98116E+04  7.99578E+05

@@ -1,0 +1,38 @@
+{
+  "A": {
+    "max_abs_displacement_m": 0.007363317369252,
+    "max_gap_m": 0.0,
+    "n_nodes": 40114,
+    "relative_gap": 0.0
+  },
+  "EAU_A": {
+    "max_abs_displacement_m": 0.04273231433936,
+    "max_gap_m": 0.0,
+    "n_nodes": 40114,
+    "relative_gap": 0.0
+  },
+  "EAU_P": {
+    "max_abs_displacement_m": 0.0184347167161,
+    "max_gap_m": 0.0,
+    "n_nodes": 40114,
+    "relative_gap": 0.0
+  },
+  "G": {
+    "max_abs_displacement_m": 0.03849091922695,
+    "max_gap_m": 0.0,
+    "n_nodes": 40114,
+    "relative_gap": 0.0
+  },
+  "Q1": {
+    "max_abs_displacement_m": 0.01647950589654,
+    "max_gap_m": 0.0,
+    "n_nodes": 40114,
+    "relative_gap": 0.0
+  },
+  "Q3": {
+    "max_abs_displacement_m": 0.004721647384686,
+    "max_gap_m": 0.0,
+    "n_nodes": 40114,
+    "relative_gap": 0.0
+  }
+}
