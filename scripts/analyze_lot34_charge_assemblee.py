@@ -157,6 +157,14 @@ def main(argv: list[str] | None = None) -> int:
 
     g = mv.si("charges.acceleration_pesanteur")
     masses = expected_masses(params)
+    n_tubes = len(params["tube"]["axes_x"])
+
+    def tie_share(k: int) -> float:
+        """Lot 37 : les tirants des tubes de bord, dans les plans de symétrie, ont une
+        demi-section (décision 8, point 7) : leur poids est la moitié de celui d'une
+        section entière."""
+        return 0.5 if k in (1, n_tubes) else 1.0
+
     weight_analytic = (
         masses["TUBES"]["mass"]
         * mv.si("tube.epaisseur_coque_retenue")
@@ -164,7 +172,10 @@ def main(argv: list[str] | None = None) -> int:
         + masses["PALPS"]["mass"]
         * mv.si("palplanche.epaisseur_coque_EPAIS")
         * mv.si("palplanche.masse_volumique")
-        + masses["TIRANTS"]["mass"]
+        + sum(
+            masses[f"TIRANT_{k:02d}"]["mass"] * tie_share(k)
+            for k in range(1, n_tubes + 1)
+        )
         * mv.si("tirants.section_brute")
         * mv.si("tirants.masse_volumique")
     ) * g
@@ -201,7 +212,10 @@ def main(argv: list[str] | None = None) -> int:
         + mesh_size("PALPS", length=False)
         * mv.si("palplanche.epaisseur_coque_EPAIS")
         * mv.si("palplanche.masse_volumique")
-        + mesh_size("TIRANTS", length=True)
+        + sum(
+            mesh_size(f"TIRANT_{k:02d}", length=True) * tie_share(k)
+            for k in range(1, n_tubes + 1)
+        )
         * mv.si("tirants.section_brute")
         * mv.si("tirants.masse_volumique")
     ) * g

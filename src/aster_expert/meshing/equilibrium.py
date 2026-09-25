@@ -106,12 +106,25 @@ def quad_pressure_force(
     The raw cross product's sign (whichever way the 4 corners happen to be
     wound in the source MED) is flipped, per facet, to make its Y component
     non-negative -- see this module's own docstring for why."""
+    return quad_pressure_force_and_z_moment(corners, profile, evaluation)[0]
+
+
+def quad_pressure_force_and_z_moment(
+    corners: tuple[Point, Point, Point, Point],
+    profile: list[tuple[float, float]],
+    evaluation: Evaluation = "gauss",
+) -> tuple[Point, float]:
+    """`quad_pressure_force` and, with it, `-integral p(z) n_y z dA` (lot 37): the
+    Y force weighted by the height `z` of each Gauss point, from which the moment
+    of the load about a horizontal X axis at any height follows (`sum z F_y -
+    z_0 sum F_y`)."""
     centroid_dxi, centroid_deta = _dshape(0.0, 0.0)
     d_dxi = _weighted_sum(centroid_dxi, corners)
     d_deta = _weighted_sum(centroid_deta, corners)
     orientation = 1.0 if _cross(d_dxi, d_deta)[1] >= 0.0 else -1.0
 
     force = (0.0, 0.0, 0.0)
+    z_moment = 0.0
     for xi, wx in _GAUSS2:
         for eta, weta in _GAUSS2:
             n = _shape(xi, eta)
@@ -119,17 +132,17 @@ def quad_pressure_force(
             dx_dxi = _weighted_sum(dxi, corners)
             dx_deta = _weighted_sum(deta, corners)
             normal_da = _scale(_cross(dx_dxi, dx_deta), orientation)
+            z_gauss = sum(n[i] * corners[i][2] for i in range(4))
             if evaluation == "nodes":
                 p = sum(
                     n[i] * profile_value_at(profile, corners[i][2]) for i in range(4)
                 )
             else:
-                p = profile_value_at(
-                    profile, sum(n[i] * corners[i][2] for i in range(4))
-                )
+                p = profile_value_at(profile, z_gauss)
             w = wx * weta * p
             force = _add(force, _scale(normal_da, -w))
-    return force
+            z_moment += -w * normal_da[1] * z_gauss
+    return force, z_moment
 
 
 def group_pressure_resultant(
@@ -169,4 +182,9 @@ def group_pressure_resultant(
     return total
 
 
-__all__ = ["Evaluation", "group_pressure_resultant", "quad_pressure_force"]
+__all__ = [
+    "Evaluation",
+    "group_pressure_resultant",
+    "quad_pressure_force",
+    "quad_pressure_force_and_z_moment",
+]

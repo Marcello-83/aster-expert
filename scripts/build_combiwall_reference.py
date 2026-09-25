@@ -81,6 +81,12 @@ always through the project's own write paths -- never by editing the JSON:
     `LIAISON_SOLIDE` (point 12), `REAC_NODA` at tied nodes (point 3). Evidence in
     `data/examples/lot35_constats/` (`scripts/build_lot35_constats.py`).
 
+15. lot 37: MM's decisions 14 (revision of decision 4, point 3: Timoshenko beam), 15
+    and 16 (additions to the validity domain of decisions 7 and 5), recorded as
+    worded (`arbitrage_combiwall_MM_lot37.md`, `lot37_enregistrement.json`); then the
+    `code_aster` finding that establishes the beam identifier
+    (`lot37_facts.json`/`lot37_extraits.json`).
+
 Usage: python scripts/build_combiwall_reference.py [--output PATH]
 """
 
@@ -1085,6 +1091,99 @@ def _lot35(sheet: HypothesesSheet) -> HypothesesSheet:
     return _lot35_facts(sheet)
 
 
+def _lot37_validity_additions(
+    sheet: HypothesesSheet, path: Path, names: tuple[str, ...], decided_at: datetime
+) -> HypothesesSheet:
+    """Decisions 15 and 16 (lot 37): MM's text is appended, as worded, to the
+    `validity_domain` of the entry already decided at that point; every other field
+    is carried over, the previous decision goes to `decision_history` (the usual
+    re-arbitration of `record_practice_decision`)."""
+    text = path.read_text(encoding="utf-8")
+    common = re.split(r"^## Conventions[^\n]*$", text, maxsplit=1, flags=re.M)[1]
+    common = common.split("\n## ")[0]
+    reference = re.search(r"- `reference` : `\"(.*?)\"`", common, flags=re.S)
+    assert reference, path
+    source = PracticeSource(
+        origin="decision_ingenieur",
+        reference=_collapse(reference[1]),
+        date=decided_at.date(),
+    )
+    for name, body in _decision_sections(text).items():
+        if name not in names:
+            continue
+        point_label = re.search(r"- `point_label` : `\"(.*?)\"`", body)
+        topic = re.search(r"- `topic` : `\"(.*)\"`\s*$", body, flags=re.M)
+        assert point_label and topic, name
+        quoted = [ln[2:] for ln in body.splitlines() if ln.startswith("> ")]
+        assert quoted, name
+        addition = _collapse("\n".join(quoted))
+        matches = [
+            e
+            for e in sheet.entries
+            if isinstance(e, PracticeHypothesisEntry)
+            and e.point_label == point_label[1]
+            and e.topic == topic[1]
+        ]
+        assert len(matches) == 1, name
+        old = matches[0]
+        assert old.option_retained and old.justification and old.validity_domain
+        assert old.decided_by
+        sheet = apply_decision(
+            sheet,
+            record_practice_decision(
+                entry=old,
+                option_retained=old.option_retained,
+                justification=old.justification,
+                validity_domain=f"{old.validity_domain}\n\n{addition}",
+                sources=(*old.sources, source),
+                discarded_variants=old.discarded_variants,
+                decided_by=old.decided_by,
+                decided_at=decided_at,
+            ),
+        )
+    return sheet
+
+
+def _lot37_facts(sheet: HypothesesSheet) -> HypothesesSheet:
+    """The identifier of the Timoshenko beam (point 3), asked for by decision 14, from
+    `lot37_facts.json`/`lot37_extraits.json`: a brand-new `code_aster` finding."""
+    research = json.loads((INPUTS / "lot37_facts.json").read_text("utf-8"))
+    extracts = _load_extracts("lot37_extraits.json")
+    cat = research["catalogue"]
+    for f in research["code_aster_findings"]:
+        entry = record_code_aster_finding(
+            topic=f["topic"],
+            sources=_finding_sources(f, cat, extracts),
+            option_retained=f["option_retained"],
+            justification=f["justification"],
+            point_label=f["point_label"],
+            notes=f["notes"],
+        )
+        sheet = sheet.model_copy(update={"entries": (*sheet.entries, entry)})
+    return sheet
+
+
+def _lot37(sheet: HypothesesSheet) -> HypothesesSheet:
+    """MM's decisions 14 (revision of decision 4, point 3), 15 (validity domain of
+    decision 7, point 6) and 16 (validity domain of decision 5, point 4), recorded
+    as worded (`arbitrage_combiwall_MM_lot37.md`); `decided_at` is the recording time
+    (`lot37_enregistrement.json`). Then the finding that establishes decision 14's
+    beam identifier."""
+    record = json.loads((INPUTS / "lot37_enregistrement.json").read_text("utf-8"))
+    decided_at = datetime.fromisoformat(record["decisions_14_15_16"]["decided_at"])
+    path = INPUTS / "arbitrage_combiwall_MM_lot37.md"
+    sheet = _record_decisions(
+        sheet,
+        path,
+        only=frozenset({"Décision 14"}),
+        decided_at_override=decided_at,
+    )
+    sheet = _lot37_validity_additions(
+        sheet, path, ("Décision 15", "Décision 16"), decided_at
+    )
+    return _lot37_facts(sheet)
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -1103,7 +1202,8 @@ def build_sheet() -> HypothesesSheet:
     sheet = _lot31(sheet)
     sheet = _lot32(sheet)
     sheet = _lot33(sheet)
-    return _lot35(sheet)
+    sheet = _lot35(sheet)
+    return _lot37(sheet)
 
 
 def dump(sheet: HypothesesSheet) -> str:

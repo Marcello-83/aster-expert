@@ -27,12 +27,15 @@ from aster_expert.generation import comm
 from aster_expert.generation.values import ModelValues
 from aster_expert.meshing.combiwall import build_params, spring_node_areas
 from aster_expert.report import quantities as q
+from aster_expert.report import section_statics as ss
 from aster_expert.report.med_source import (
     MedData,
     cross_check,
     load_med_data,
     med_tables,
 )
+from aster_expert.report.section_statics import SectionStatics
+from aster_expert.report.sections import LevelForces
 from aster_expert.report.tables import Record, read_tables
 
 CASES = ("G", "EAU_P", "EAU_A", "Q1", "Q3", "A")
@@ -90,6 +93,16 @@ class CaseSummary(_Model):
     tie_anchor: q.TieAnchorCheck
 
 
+class TubeSectionProfile(_Model):
+    """Efforts d'ensemble d'un tube (vu comme une poutre), à chaque cote, par cas."""
+
+    tube: int
+    label: str
+    half_tube: bool
+    """Tube de bord, dans un plan de symétrie : les efforts sont ceux du demi-tube."""
+    by_case: dict[str, list[LevelForces]]
+
+
 class Synthesis(_Model):
     project: str
     provenance: Provenance
@@ -100,6 +113,12 @@ class Synthesis(_Model):
     profiles: list[TubeProfile]
     cases: list[CaseSummary]
     level_d: dict[str, Any] | None = None
+    tube_sections: list[TubeSectionProfile] | None = None
+    """Lot 37 : `N`, `M`, `T` des tubes de profil (`sections`), lus du MED seulement."""
+    section_statics: list[SectionStatics] | None = None
+    """Lot 37 : contrôle de statique des efforts d'ensemble, à `section_check_z`."""
+    section_check_z: float | None = None
+    dredge_z: float | None = None
 
 
 def _sha256(path: Path) -> str:
@@ -160,6 +179,54 @@ def _beam_orientation_ok(rows: list[Record]) -> bool:
     return all(len(xs) == 2 and xs[0] < xs[1] for xs in by_element.values())
 
 
+UNIFORM_CASES = ("G", "EAU_P", "EAU_A", "Q1")
+"""Cas uniformes le long du quai : la cellule d'un tube intérieur est en équilibre
+(`aster_expert.report.section_statics`)."""
+
+
+def _section_forces(
+    med: MedData,
+    mv: ModelValues,
+    params: dict[str, Any],
+    axes: list[float],
+    spring_nodes: dict[tuple[float, float, float], q.SpringNode],
+    profile_tubes: tuple[int, ...],
+    cases: tuple[str, ...],
+) -> tuple[list[TubeSectionProfile], list[SectionStatics], float, float]:
+    """Efforts d'ensemble des tubes de profil et contrôle de statique (lot 37)."""
+    n_tubes = len(axes)
+    profiles = [
+        TubeSectionProfile(
+            tube=t,
+            label=f"TUBE_{t:02d}",
+            half_tube=t in (1, n_tubes),
+            by_case={case: ss.tube_levels(med, case, t, axes[t - 1]) for case in cases},
+        )
+        for t in profile_tubes
+    ]
+    dredge_z = float(params["bandes"]["RESS_AV_ARGI"]["cote_haut"])
+    central = int(params["tube"]["central"])
+    first_case = profiles[0].by_case[cases[0]]
+    above = [lv.z for lv in first_case if lv.z > dredge_z + ss.Z_TOL]
+    check_z = min(above)
+    checks: list[SectionStatics] = []
+    for case in cases:
+        checks.append(ss.section_statics(med, mv, case, check_z, axes, spring_nodes))
+        if case in UNIFORM_CASES and 1 < central < n_tubes:
+            checks.append(
+                ss.section_statics(
+                    med,
+                    mv,
+                    case,
+                    check_z,
+                    axes,
+                    spring_nodes,
+                    cell_of_tube=central,
+                )
+            )
+    return profiles, checks, check_z, dredge_z
+
+
 def build_synthesis(
     mess_path: Path | None,
     data_path: Path,
@@ -194,8 +261,10 @@ def build_synthesis(
         else None
     )
     cross: dict[str, float] | None = None
+    loaded_med: MedData | None = None
     if med_path is not None or med_data is not None:
         loaded = med_data or load_med_data(med_path, cases)  # type: ignore[arg-type]
+        loaded_med = loaded
         tables = med_tables(loaded, names, profile_tubes=profile_tubes)
         if mess_tables is not None:
             cross = cross_check(tables, mess_tables)
@@ -267,6 +336,14 @@ def build_synthesis(
             )
         )
     vector = mv.si_vector("palplanche.vecteur_axe_L")
+    tube_sections: list[TubeSectionProfile] | None = None
+    section_statics: list[SectionStatics] | None = None
+    check_z: float | None = None
+    dredge_z: float | None = None
+    if loaded_med is not None:
+        tube_sections, section_statics, check_z, dredge_z = _section_forces(
+            loaded_med, mv, params, axes, nodes, profile_tubes, cases
+        )
     return Synthesis(
         project=data.project,
         provenance=Provenance(
@@ -293,4 +370,8 @@ def build_synthesis(
         level_d=json.loads(level_d_path.read_text(encoding="utf-8"))
         if level_d_path
         else None,
+        tube_sections=tube_sections,
+        section_statics=section_statics,
+        section_check_z=check_z,
+        dredge_z=dredge_z,
     )

@@ -146,5 +146,44 @@ def test_every_view_is_named_by_kind_and_case() -> None:
         "arrows",
         "beam_diagrams",
         "tube_profiles",
+        "tube_section_profiles",
         "bearing_profile",
     }
+
+
+def _tube_with_efforts(nxx: float) -> MedData:
+    """`_tube()` avec un `EFGE_ELNO` uniforme (`NXX` constant) sur ses 16 mailles."""
+    base = _tube()
+    n_cells = len(base.conn[0])
+    comps = ["NXX", "NYY", "NXY", "MXX", "MYY", "MXY", "QX", "QY"]
+    values = np.zeros((4 * n_cells, len(comps)))
+    values[:, 0] = nxx
+    field = med_field_name("G_ET", "EFGE_ELNO")
+    return MedData(
+        path=base.path,
+        coords=base.coords,
+        conn=base.conn,
+        node_groups=base.node_groups,
+        cell_groups={0: {**base.cell_groups[0], "TUBE_01": np.arange(n_cells)}},
+        arrays={
+            **base.arrays,
+            f"{field}@0": values,
+            f"{field}@0#cells": np.arange(n_cells),
+        },
+        components={field: comps},
+        cases=base.cases,
+    )
+
+
+def test_tube_section_profiles_writes_a_png_and_integrates_nxx(tmp_path: Path) -> None:
+    from aster_expert.report import section_statics as ss
+
+    data = _tube_with_efforts(2.0e5)
+    levels = ss.tube_levels(data, "G", 1, 0.0)
+    perimeter = 2.0 * 8 * RADIUS * math.sin(math.pi / 8)
+    assert [lv.z for lv in levels] == [-2.0, -1.0, 0.0]
+    for lv in levels:
+        assert lv.mean.n == pytest.approx(2.0e5 * perimeter, rel=1e-12)
+    out = figures.tube_section_profiles(data, _context(), "G", tmp_path)
+    assert out.kind == "efforts_tube" and out.path.name == "efforts_tube_G.png"
+    assert out.path.stat().st_size > 5_000

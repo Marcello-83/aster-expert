@@ -13,7 +13,12 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from aster_expert.report import quantities as q
-from aster_expert.report.build import BAND_LAYER, CaseSummary, Synthesis
+from aster_expert.report.build import (
+    BAND_LAYER,
+    CaseSummary,
+    Synthesis,
+    TubeSectionProfile,
+)
 
 if TYPE_CHECKING:
     from aster_expert.report.figures import FigureFile
@@ -63,7 +68,7 @@ FRAMES: tuple[tuple[str, str, str, str, str, str], ...] = (
         "U4.42.01 COQUE ; U2.01.05 ; fiche, point 1 (décision 2)",
     ),
     (
-        "Efforts d'une poutre de couronnement (POU_D_E)",
+        "Efforts d'une poutre de couronnement (POU_D_T)",
         "EFGE_ELNO (par élément et par nœud, sans moyenne)",
         "N, VY, VZ, MT, MFY, MFZ",
         "local de la poutre : x_l le long de l'élément (du premier au second nœud), "
@@ -305,6 +310,121 @@ def _profile_section(synthesis: Synthesis) -> list[str]:
     return lines
 
 
+KEY_LEVEL_COUNT = 5
+
+
+def _section_forces_section(synthesis: Synthesis) -> list[str]:
+    """Lot 37 : `N`, `M`, `T` de chaque tube de profil, comme une poutre."""
+    if not synthesis.tube_sections:
+        return []
+    lines = [
+        "## Efforts d'ensemble des tubes (le tube vu comme une poutre)",
+        "",
+        "Intégrales, sur la circonférence, des efforts de coque `EFGE_ELNO` à chaque "
+        "cote (`aster_expert.report.sections` ; convention de U2.01.05, lue le jour "
+        "du lot 37) : `N = ∫ NXX ds` (traction positive), `M = ∫ NXX·y ds` (moment "
+        "d'axe X du tube, `y` distance à l'axe ; > 0 : traction côté terre), "
+        "`T = ∫ (NXY·y_l + QX·n)·Y ds` (effort tranchant selon Y, force exercée par "
+        "la partie haute sur la partie basse ; la part de `NXY` et celle de `QX` sont "
+        "données à part). Les efforts de flexion de paroi (`MXX`) ne sont pas dans "
+        "`M`. Valeur d'une cote : moyenne des estimations par le haut et par le bas "
+        "(les efforts par élément aux nœuds ne sont pas continus d'une rangée à "
+        "l'autre). Le tube de bord (`TUBE_01`) est un **demi-tube** dans un plan de "
+        "symétrie : ses efforts sont ceux du demi-tube. Cas élémentaires ; aucun "
+        "verdict.",
+        "",
+    ]
+    cases = [c.case for c in synthesis.cases]
+    for profile in synthesis.tube_sections:
+        half = " (demi-tube, plan de symétrie)" if profile.half_tube else ""
+        lines += [f"### {profile.label}{half}", ""]
+        for case in cases:
+            levels = profile.by_case[case]
+            top = max(levels, key=lambda lv: lv.z)
+            extremes = {
+                "N": max(levels, key=lambda lv: abs(lv.mean.n)),
+                "M": max(levels, key=lambda lv: abs(lv.mean.mx)),
+                "T": max(levels, key=lambda lv: abs(lv.mean.ty)),
+            }
+            lines += [
+                f"**{case}** — extrêmes : "
+                f"N (plus grande valeur absolue) = {_kn(extremes['N'].mean.n)} kN à "
+                f"{extremes['N'].z:g} m ; M = {_kn(extremes['M'].mean.mx)} kN·m à "
+                f"{extremes['M'].z:g} m ; T = {_kn(extremes['T'].mean.ty)} kN à "
+                f"{extremes['T'].z:g} m "
+                f"(tête du tube : {top.z:g} m).",
+                "",
+            ]
+        wanted = _key_levels(profile, synthesis.dredge_z)
+        lines += [
+            "| Cote (m) | Cas | N (kN) | M (kN·m) | T (kN) | dont NXY | dont QX |",
+            "|---:|---|---:|---:|---:|---:|---:|",
+        ]
+        for z in wanted:
+            for case in cases:
+                lv = next(v for v in profile.by_case[case] if v.z == z)
+                m = lv.mean
+                lines.append(
+                    f"| {z:.2f} | {case} | {_kn(m.n)} | {_kn(m.mx)} | {_kn(m.ty)} "
+                    f"| {_kn(m.ty_nxy)} | {_kn(m.ty_qx)} |"
+                )
+        lines.append("")
+    return lines
+
+
+def _key_levels(profile: TubeSectionProfile, dredge_z: float | None) -> list[float]:
+    """Cotes du tableau : tête, 0, la première rangée au-dessus du dragage, le
+    dragage, la limite de la bande de tubes seuls, le pied."""
+    zs = sorted({lv.z for lv in next(iter(profile.by_case.values()))})
+    picks = [zs[-1], 0.0, zs[0]]
+    if dredge_z is not None:
+        above = [z for z in zs if z > dredge_z + 1.0e-6]
+        picks += [min(above), dredge_z, -18.0]
+    return sorted({z for z in picks if z in zs}, reverse=True)
+
+
+def _section_statics_section(synthesis: Synthesis) -> list[str]:
+    """Lot 37 : statique des efforts d'ensemble à la première rangée au-dessus du
+    dragage."""
+    if not synthesis.section_statics:
+        return []
+    z = synthesis.section_check_z
+    lines = [
+        "## Statique des efforts d'ensemble à la cote de dragage",
+        "",
+        f"Cote de la coupure : {z:g} m, première rangée au-dessus du dragage "
+        f"({synthesis.dredge_z:g} m) : la rangée du dragage porte les forces nodales "
+        "des premiers ressorts, ce qui rend la coupure ambiguë "
+        "(`aster_expert.report.section_statics`). Le corps inférieur (sous la coupure) "
+        "est en équilibre sous la poussée, les ressorts, les réactions du pied et le "
+        "poids ; la force que la partie haute exerce sur lui est l'opposée de leur "
+        "somme. *Mesuré* : intégrale des efforts de coque (tubes et palplanches). "
+        "*Attendu* : statique du corps inférieur. Écart = |mesuré − attendu| / "
+        "max(|mesuré|, |attendu|). Grandeur **sensible à la discrétisation** "
+        "(extrapolation des efforts par élément aux nœuds), non exacte : voir "
+        "`docs/essais_lot37.md` pour le critère.",
+        "",
+        "| Cas | Portée | T mesuré (kN) | T attendu (kN) | écart T | M mesuré (kN·m) "
+        "| M attendu (kN·m) | écart M | N mesuré (kN) | N attendu (kN) | écart N |",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+    ]
+
+    for c in synthesis.section_statics:
+
+        def pct(value: float | None) -> str:
+            return "—" if value is None else f"{100.0 * value:.2f} %"
+
+        lines.append(
+            f"| {c.case} | {c.scope} | {_kn(c.t_y.measured)} | {_kn(c.t_y.expected)} "
+            f"| {pct(c.t_y.relative_gap)} | {_kn(c.m_x.measured)} "
+            f"| {_kn(c.m_x.expected)} | {pct(c.m_x.relative_gap)} "
+            f"| {_kn(c.n_z.measured)} | {_kn(c.n_z.expected)} "
+            f"| {pct(c.n_z.relative_gap)} |"
+        )
+    lines.append("")
+    return lines
+
+
 def matplotlib_available() -> bool:
     return importlib.util.find_spec("matplotlib") is not None
 
@@ -392,6 +512,7 @@ def render_controls(synthesis: Synthesis) -> str:
         f"# Contrôles — {synthesis.project}",
         "",
         *_spring_control_section(synthesis.cases),
+        *_section_statics_section(synthesis),
         *_level_d_section(synthesis.level_d),
     ]
     return "\n".join(lines) + "\n"
@@ -524,6 +645,7 @@ def render_synthesis(
         lines += _case_section(case)
     lines += _spring_control_section(synthesis.cases)
     lines += _profile_section(synthesis)
+    lines += _section_forces_section(synthesis)
     if views:
         lines += _views_section(views, views_base)
     if figures:
@@ -539,5 +661,6 @@ def render_synthesis(
             "tableaux ci-dessus.",
             "",
         ]
+    lines += _section_statics_section(synthesis)
     lines += _level_d_section(synthesis.level_d)
     return "\n".join(lines) + "\n"

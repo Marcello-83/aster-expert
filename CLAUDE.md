@@ -541,6 +541,33 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   Limites : filtre *Extract Group* et rendu de l'interface ParaVis non essayés ; sonde de charge
   assemblée du lot 35 réutilisée (même maillage, mêmes charges).
 
+- Lot 37 (`docs/essais_lot37.md`, `data/examples/lot37_efforts/`, `aster_expert.report.{sections,
+  section_statics}`, `scripts/generate_lot37.py`, `analyze_lot37_efforts.py`) : **corrections issues
+  de la relecture du lot 36.** (1) Défaut : les tirants de bord (`TIRANT_01`, `TIRANT_09`, dans les
+  plans de symétrie) portaient la section entière au lieu de la demi-section de la décision 8 ;
+  corrigé (`comm._barre_keyword`), contrôle générique `comm.check_symmetry_plane_sections` (tout
+  groupe linéaire dans un plan de symétrie porte A/2, sinon un motif écrit le dispense ; la poutre de
+  couronnement, perpendiculaire, est dispensée), test qui échoue sur le `.comm` du lot 36. Autres
+  omissions du même type : aucune dans le générateur (charges nodales de poutre aux plans déjà à
+  demi-longueur, ressorts par `band_projected_width`, poids des tirants suit la section) ; une dans
+  l'*outil de contrôle* (`analyze_lot34_charge_assemblee.py` pesait les tirants de bord en section
+  entière, corrigé). (2) Décisions D14 (révision de la décision 4, point 3 : poutre de Timoshenko),
+  D15 (domaine de validité de la décision 7, point 6), D16 (domaine de validité de la décision 5,
+  point 4) enregistrées à l'identique (`arbitrage_combiwall_MM_lot37.md`, `lot37_enregistrement.json`) ;
+  identifiant de la poutre de Timoshenko : **`POU_D_T`** (U3.11.01, catalogue `AFFE_MODELE`), constat
+  `code_aster` du point 3 ; appliqué au générateur. Le texte de la décision 4 révisée ne mentionne plus
+  le maillage coïncident ni `LIAISON_SOLIDE` (dans `decision_history`). (3) `aster-expert report`
+  donne `N(z)`, `M(z)`, `T(z)` des tubes (`∫NXX ds`, `∫NXX·y ds`, `∫(NXY·y_l + QX·n)·Y ds` ; convention
+  U2.01.05 ; `T` porte la part `QX`, qui domine près de la tête) et un contrôle de statique du corps
+  inférieur à **−11,75 m** (première rangée sans ressort au-dessus du dragage : à −12,00 m les forces
+  nodales des ressorts rendent la coupure ambiguë) : T à 0,9 %, M à 1,2-1,6 %, erreur divisée par 2 à
+  4 au raffinement vertical ×2 ; MED seulement. (4) Modèle complet (430,3 s, `DIAGNOSTIC JOB : OK`) :
+  tirant de bord = moitié du courant à 1e-12 sous charge uniforme, tirants 2 à 8 égaux, efforts de
+  poutre nuls sous G (ils venaient du défaut), équilibre ≤ 2,8e-12, symétrie ≤ 5,2e-11 : **niveau C
+  avec contrôles D, jamais E**. Limites : le tableau avant/après mêle deux changements (demi-section,
+  `POU_D_T`) ; raffinement vertical seulement ; conditions de symétrie sourcées pour `POU_D_E` ;
+  sonde de charge assemblée non relancée sur le modèle complet.
+
 ## Périmètre à ne pas dépasser sans instruction
 
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne

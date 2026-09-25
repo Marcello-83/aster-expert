@@ -16,6 +16,8 @@ from an earlier one's own keywords.
 
 from __future__ import annotations
 
+import ast
+import math
 from collections.abc import Mapping, Sequence
 from typing import Literal
 
@@ -493,13 +495,125 @@ def _palp_coque_keyword(
     )
 
 
-def _barre_keyword(sans_tirants: bool, section_tirant: float) -> str:
+def _barre_keyword(
+    sans_tirants: bool,
+    section_tirant: float,
+    tirant_groups: Sequence[str] = ("TIRANTS",),
+    half_section_groups: Sequence[str] = (),
+) -> str:
+    """`BARRE` de `AFFE_CARA_ELEM`. Lot 37 : les tirants situés dans un plan de
+    symétrie (`half_section_groups`, décision 8, point 7) reçoivent la demi-section ;
+    les autres (`tirant_groups` privé des précédents) la section entière. Une seule
+    occurrence sur `TIRANTS` quand aucun tirant n'est dans un plan de symétrie."""
     if sans_tirants:
         return ""
-    return (
-        f'BARRE=_F(\n        GROUP_MA=("TIRANTS",), SECTION="GENERALE", CARA="A", '
-        f"VALE={_fmt(section_tirant)}\n    ),"
-    )
+    half = tuple(g for g in tirant_groups if g in half_section_groups)
+    full = tuple(g for g in tirant_groups if g not in half_section_groups)
+
+    def occurrence(groups: tuple[str, ...], area: float, indent: str) -> str:
+        names = ", ".join(f'"{g}"' for g in groups)
+        return (
+            f'{indent}_F(\n{indent}    GROUP_MA=({names},), SECTION="GENERALE", '
+            f'CARA="A", VALE={_fmt(area)}\n{indent}),'
+        )
+
+    if not half:
+        return "BARRE=" + occurrence(full, section_tirant, "    ").lstrip()
+    pairs = [
+        (groups, area)
+        for groups, area in ((full, section_tirant), (half, section_tirant / 2.0))
+        if groups
+    ]
+    body = "\n".join(occurrence(g, a, "        ") for g, a in pairs)
+    return f"BARRE=(\n{body}\n    ),"
+
+
+def check_symmetry_plane_sections(
+    text: str,
+    *,
+    in_plane: Mapping[str, tuple[str, float]],
+    off_plane: Mapping[str, tuple[str, float]],
+    exempt: Mapping[str, str],
+    umbrella: Mapping[str, str] | None = None,
+) -> None:
+    """Lot 37, étape 1 : contrôle générique du générateur, appelé avant écriture.
+
+    Règle : tout élément de barre ou de poutre situé dans un plan de symétrie porte
+    la moitié de la section entière (décision 8, point 7 : « ont une demi-section »),
+    sauf si un motif écrit l'en dispense (un élément perpendiculaire au plan n'est
+    pas coupé par lui). Le classement est exhaustif : l'appelant y range **tous** les
+    groupes linéaires du modèle, un groupe oublié n'est pas classé ici.
+
+    - `in_plane` : groupe de mailles -> (mot clé `BARRE` ou `POUTRE`, section entière
+      de référence). `VALE` doit valoir la moitié de la référence (1e-12 en
+      relatif) ; pour `POUTRE` (RECTANGLE, `VALE = (HY, HZ)`), c'est l'aire HY x HZ
+      -- l'inertie d'une poutre coupée dépend de la direction de la coupe, elle n'est
+      pas contrôlée ici (limite).
+    - `off_plane` : groupes hors de tout plan de symétrie, qui portent la section
+      entière (une demi-section y serait l'erreur inverse).
+    - `exempt` : groupe -> motif (non vide) ; le groupe est dans un plan mais n'est
+      pas coupé par lui : aucune section n'est exigée.
+    - `umbrella` : groupe -> groupe englobant (`TIRANTS`) dont l'occurrence
+      s'applique à lui quand il n'a pas d'occurrence propre (`.comm` d'avant le lot
+      37, où une seule occurrence couvrait tous les tirants).
+
+    Le texte est lu par `ast` (le `.comm` est du Python valide), jamais par regex."""
+    for group, motif in exempt.items():
+        if not motif.strip():
+            message = f"contrôle lot 37 : la dispense de {group} n'a pas de motif"
+            raise GenerationError(message)
+    sections: dict[str, list[tuple[str, float]]] = {}
+    for node in ast.walk(ast.parse(text)):
+        if not (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id == "AFFE_CARA_ELEM"
+        ):
+            continue
+        for kw in node.keywords:
+            if kw.arg not in ("BARRE", "POUTRE"):
+                continue
+            occurrences = (
+                kw.value.elts if isinstance(kw.value, ast.Tuple) else [kw.value]
+            )
+            for occ in occurrences:
+                if not isinstance(occ, ast.Call):
+                    continue
+                fields = {k.arg: ast.literal_eval(k.value) for k in occ.keywords}
+                vale = fields["VALE"]
+                area = math.prod(vale) if isinstance(vale, tuple) else float(vale)
+                for group in fields["GROUP_MA"]:
+                    sections.setdefault(group, []).append((str(kw.arg), area))
+
+    def carried(group: str, kind: str) -> float:
+        found = sections.get(group)
+        if found is None and umbrella and group in umbrella:
+            found = sections.get(umbrella[group])
+        if found is None or len(found) != 1 or found[0][0] != kind:
+            message = (
+                f"contrôle lot 37 : {group} doit porter exactement une section "
+                f"{kind}, trouvé {found}"
+            )
+            raise GenerationError(message)
+        return found[0][1]
+
+    for group, (kind, full_area) in in_plane.items():
+        area = carried(group, kind)
+        if not math.isclose(area, full_area / 2.0, rel_tol=1e-12):
+            message = (
+                f"contrôle lot 37 (demi-section, décision 8) : {group} dans un plan "
+                f"de symétrie porte {area!r}, la moitié de {full_area!r} "
+                f"({full_area / 2.0!r}) est attendue"
+            )
+            raise GenerationError(message)
+    for group, (kind, full_area) in off_plane.items():
+        area = carried(group, kind)
+        if not math.isclose(area, full_area, rel_tol=1e-12):
+            message = (
+                f"contrôle lot 37 : {group}, hors de tout plan de symétrie, porte "
+                f"{area!r} au lieu de la section entière {full_area!r}"
+            )
+            raise GenerationError(message)
 
 
 def model_and_cara_block(
@@ -510,11 +624,13 @@ def model_and_cara_block(
     sans_palplanches: bool = False,
     sans_poutre: bool = False,
     coef_rigi_drz: float | None = None,
+    tirant_groups: Sequence[str] = ("TIRANTS",),
+    half_section_tirant_groups: Sequence[str] = (),
 ) -> str:
     """One `AFFE_MODELE` and one `AFFE_CARA_ELEM`, every element type at once
     (points 1, 2, 3, 4): DKT on the shells, BARRE on the tie rods (no
-    rotation dof, point 2), POU_D_E on the crown beam, DIS_T on every spring
-    group (point 4).
+    rotation dof, point 2), POU_D_T (Timoshenko, decision 14, lot 37) on the crown
+    beam, DIS_T on every spring group (point 4).
 
     Lot 30, étape 3 (diagnostic « sans les tirants ») : `sans_tirants`
     omits the `BARRE` model and characteristics entirely -- `TIRANTS` has a
@@ -522,7 +638,7 @@ def model_and_cara_block(
     `sans_palplanches` (retrait 3) similarly omits `PALPS` from the DKT
     `AFFE` and its own `COQUE` occurrence -- `TUBES` alone still satisfies
     `AFFE`'s own minimum. `sans_poutre` (retrait 4) omits `POUTRE_COUR`'s
-    `POU_D_E` model and its `POUTRE` characteristics -- `CH_SOLIDE` does not
+    `POU_D_T` model and its `POUTRE` characteristics -- `CH_SOLIDE` does not
     exist either in this variant (`liaison_solide_block`, `case_block`).
 
     Lot 33, étape 1 (diagnostic « paramètres hérités ») : `coef_rigi_drz`
@@ -540,6 +656,9 @@ def model_and_cara_block(
     largeur_poutre = mv.si("poutre_couronnement.largeur")
     hauteur_poutre = mv.si("poutre_couronnement.hauteur")
     spring_names = [c.group_name for c in spring_classes]
+    barre = _barre_keyword(
+        sans_tirants, section_tirant, tirant_groups, half_section_tirant_groups
+    )
     # K_T_D_N gives (kx, ky, kz) in the GLOBAL frame by default (REPERE not
     # given -- U4.42.01, confirmed by the fiche's own point 4 finding): the
     # ressort is horizontal, resisting the poussee's own Y direction, so the
@@ -589,7 +708,7 @@ def model_and_cara_block(
         if sans_poutre
         else (
             '\n        _F(GROUP_MA=("POUTRE_COUR",), PHENOMENE="MECANIQUE", '
-            'MODELISATION="POU_D_E"),'
+            'MODELISATION="POU_D_T"),'
         )
     )
     dkt_affe = (
@@ -637,7 +756,7 @@ CARA = AFFE_CARA_ELEM(
         ),
         {palp_coque}
     ),
-    {_barre_keyword(sans_tirants, section_tirant)}
+    {barre}
     {_poutre_keyword(sans_poutre, largeur_poutre, hauteur_poutre)}{discret_keyword}
 )
 """
@@ -2171,6 +2290,7 @@ __all__ = [
     "bollard_force_block",
     "case_block",
     "check_symmetry_ddl_impo_no_ring_redundancy",
+    "check_symmetry_plane_sections",
     "defense_force_block",
     "footer",
     "formule_block",

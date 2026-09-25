@@ -1,0 +1,36 @@
+{
+ "catalogue": {
+  "aster_version": "17.4.0",
+  "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+  "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+ },
+ "code_aster_findings": [
+  {
+   "point_label": "3",
+   "topic": "Identifiant de la modélisation de poutre de Timoshenko (déformation d'effort tranchant) pour la poutre de couronnement",
+   "extraits": [
+    "u3_11_01_caracteristiques",
+    "u4_42_01_rectangle_cisaillement"
+   ],
+   "catalogue_refs": [
+    {
+     "command": "AFFE_MODELE",
+     "keyword_path": [
+      "AFFE",
+      "MODELISATION"
+     ]
+    },
+    {
+     "command": "AFFE_CARA_ELEM",
+     "keyword_path": [
+      "POUTRE"
+     ]
+    }
+   ],
+   "option_retained": "POU_D_T. Le catalogue d'AFFE_MODELE (AFFE/MODELISATION, PHENOMENE='MECANIQUE') offre POU_D_E, POU_D_T et d'autres modélisations de poutre ; U3.11.01 (Discrétisation, « Principales caractéristiques des modélisations ») : POU_D_E « correspond à l'hypothèse d'Euler-Bernouilli, c'est-à-dire que les sections restent droites et perpendiculaires à la fibre moyenne (hypothèse de grand élancement) » ; POU_D_T (Poutre Droite de Timoshenko) « prend en compte les effets de cisaillement transverse ». Même maille support SEG2, mêmes six degrés de liberté par nœud (DX, DY, DZ, DRX, DRY, DRZ) que POU_D_E : la substitution ne change ni le maillage ni les conditions de liaison. AFFE_CARA_ELEM/POUTRE/SECTION='RECTANGLE' (HY, HZ) s'applique aux deux modélisations et Code_Aster calcule lui-même les coefficients de cisaillement AY et AZ d'une section rectangulaire pleine (U4.42.01), alors qu'ils sont obligatoires en section GENERALE pour POU_D_T.",
+   "justification": "U3.11.01 (§Discrétisation), U4.42.01 (§Mot clé POUTRE, opérande SECTION='RECTANGLE') et catalogue d'AFFE_MODELE de la version 17.4.0. Identifiant établi par la documentation et le catalogue, comme le demandait la décision 14 (lot 37). Lecture : POU_D_T est l'identifiant de la formulation de Timoshenko ; POU_D_TG/POU_D_TGM (gauchissement) et POU_D_T_GD (grands déplacements) sont d'autres modélisations, non pertinentes ici.",
+   "notes": "Niveau A (documentaire) et catalogue : aucune exécution dans ce constat ; l'exécution du modèle complet du lot 37 en est l'épreuve (niveau C). N'est pas une décision : la décision 14 (MM) est enregistrée telle qu'énoncée au même point, l'identifiant est le résultat de la recherche qu'elle demandait."
+  }
+ ]
+}

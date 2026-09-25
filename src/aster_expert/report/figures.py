@@ -747,6 +747,53 @@ def bearing_profile(
     return FigureFile(case, "butee", "Pression de réaction et butée limite", path)
 
 
+def tube_section_profiles(
+    med: MedData, ctx: FigureContext, case: str, out: Path
+) -> FigureFile:
+    """Lot 37 : `N(z)`, `M(z)`, `T(z)` de `TUBE_05` et de `TUBE_01` (demi-tube), tubes
+    vus comme des poutres (`aster_expert.report.sections`)."""
+    from aster_expert.report import section_statics as ss  # noqa: PLC0415
+
+    n_tubes = len(ctx.axes)
+    tubes = [
+        (n_tubes // 2 + 1, BLUE, "TUBE_05"),
+        (1, ORANGE, "TUBE_01 (demi-tube)"),
+    ]
+    fig, axes = plt.subplots(
+        1, 3, figsize=(14, 7), sharey=True, constrained_layout=True
+    )
+    for number, color, label in tubes:
+        levels = ss.tube_levels(med, case, number, ctx.axes[number - 1])
+        z = [lv.z for lv in levels]
+        axes[0].plot([lv.mean.n * 1e-3 for lv in levels], z, color=color, label=label)
+        axes[1].plot([lv.mean.mx * 1e-3 for lv in levels], z, color=color)
+        axes[2].plot([lv.mean.ty * 1e-3 for lv in levels], z, color=color)
+        axes[2].plot(
+            [lv.mean.ty_nxy * 1e-3 for lv in levels],
+            z,
+            color=color,
+            ls=":",
+            lw=1.0,
+        )
+    axes[0].set_title("N = ∫ NXX ds : effort normal (kN, traction > 0)")
+    axes[1].set_title("M = ∫ NXX·y ds : moment d'axe X (kN.m)")
+    axes[2].set_title("T : effort tranchant selon Y (kN) ; pointillé : part NXY")
+    axes[0].set_ylabel("Z (m CM)")
+    for ax in axes:
+        ax.axvline(0.0, color=GREY, lw=0.6)
+    axes[0].legend(frameon=False, loc="best")
+    _suptitle(
+        fig,
+        ctx,
+        case,
+        "efforts d'ensemble des tubes vus comme des poutres (par tube, non par mètre)",
+    )
+    path = _save(fig, out / f"efforts_tube_{case}.png")
+    return FigureFile(
+        case, "efforts_tube", "Efforts d'ensemble N(z), M(z), T(z) des tubes", path
+    )
+
+
 VIEWS = (
     deformed_shape,
     dy_map,
@@ -755,6 +802,7 @@ VIEWS = (
     arrows,
     beam_diagrams,
     tube_profiles,
+    tube_section_profiles,
     bearing_profile,
 )
 

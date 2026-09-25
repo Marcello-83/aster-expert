@@ -38,6 +38,14 @@ from aster_expert.meshing.combiwall import (
 from aster_expert.meshing.run import REPORT_NAME as RUN_REPORT_NAME
 from aster_expert.meshing.run import MeshRunReport, find_verified_mesh, sha256_file
 
+POUTRE_EXEMPT_MOTIF = (
+    "poutre de couronnement d'axe X, perpendiculaire aux plans de symétrie "
+    "X = constante "
+    "qui la terminent : elle n'est pas coupée par eux, section entière"
+)
+"""Lot 37 : motif de dispense de la poutre de couronnement dans le contrôle de
+demi-section (`comm.check_symmetry_plane_sections`)."""
+
 _REQUIRED_FACT_TOPICS = (
     "Liaison de corps solide entre un anneau de nœuds de coque et un nœud de poutre",
     "Pression répartie fonction de Z sur des coques DKT",
@@ -399,6 +407,11 @@ def generate_comm(
     beam_points = _tube_beam_points(params)
     beam_group_names = list(beam_points)
     edge_tube_low, edge_tube_high = min(beam_group_names), max(beam_group_names)
+    # Lot 37 : les tirants des tubes de bord sont dans les plans de symétrie
+    # (décision 8,
+    # point 7) : demi-section.
+    tirant_groups = [f"TIRANT_{n}" for n in beam_group_names]
+    edge_tirant_groups = sorted({f"TIRANT_{edge_tube_low}", f"TIRANT_{edge_tube_high}"})
     beam_group_full_names = {
         f"{comm.BEAM_NODE_PREFIX}{n}": p for n, p in beam_points.items()
     }
@@ -562,6 +575,8 @@ def generate_comm(
             sans_palplanches=omit.sans_palplanches,
             sans_poutre=omit.sans_poutre,
             coef_rigi_drz=slv.coef_rigi_drz,
+            tirant_groups=tirant_groups,
+            half_section_tirant_groups=edge_tirant_groups,
         ),
         comm.materials_block(
             mv,
@@ -703,6 +718,19 @@ def generate_comm(
         ),
     ]
     text = "".join(text_parts)
+    tirant_section = mv.si("tirants.section_brute")
+    tirants = [] if omit.sans_tirants else tirant_groups
+    comm.check_symmetry_plane_sections(
+        text,
+        in_plane={
+            g: ("BARRE", tirant_section) for g in tirants if g in edge_tirant_groups
+        },
+        off_plane={
+            g: ("BARRE", tirant_section) for g in tirants if g not in edge_tirant_groups
+        },
+        exempt={} if omit.sans_poutre else {"POUTRE_COUR": POUTRE_EXEMPT_MOTIF},
+        umbrella=dict.fromkeys(tirants, "TIRANTS"),
+    )
 
     report = GenerationReport(
         comm_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest(),
@@ -734,5 +762,6 @@ __all__ = [
     "InitialPressureDiagnostic",
     "JunctionCandidate",
     "SolverDiagnostics",
+    "POUTRE_EXEMPT_MOTIF",
     "generate_comm",
 ]

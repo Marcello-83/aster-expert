@@ -83,6 +83,9 @@ execution:
     - data/examples/lot34_equilibre
     - data/examples/lot35_synthese
     - data/examples/lot36_butee
+    # Lot 37 : modèles de production (`scripts/generate_lot37.py`), sans option de
+    # diagnostic ; quai réduit à deux maillages pour le critère C10.
+    - data/examples/lot37_efforts
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

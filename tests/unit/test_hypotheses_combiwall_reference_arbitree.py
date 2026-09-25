@@ -67,7 +67,9 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     # + 3 constats d'exécution du lot 35 (CREA_POI1, point 4 ; poutre continue,
     #   point 12 ; REAC_NODA et LIAISON_SOLIDE, point 3) ; le quatrième (évaluation
     #   aux nœuds de FORCE_COQUE/PRES, point 5) remplace sur place celui du doublement
-    assert len(sheet.entries) == 51
+    # + 1 constat code_aster du lot 37 (identifiant POU_D_T, point 3) ; les décisions
+    #   14, 15, 16 révisent des entrées existantes (aucune entrée ajoutée)
+    assert len(sheet.entries) == 52
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -233,13 +235,23 @@ def test_arbitree_fiche_v3_revisions_keep_the_v2_decision_in_history() -> None:
         and e.decision_history
     }
     # Lot 23 : v4 revised points 7 and 8 again (2026-09-22, after v3).
-    assert set(revised) == {"1", "2", "4", "5", "6", "7", "8"}
-    for label in ("1", "2", "4", "5", "6"):
+    assert set(revised) == {"1", "2", "3", "4", "5", "6", "7", "8"}
+    for label in ("1", "2", "5"):
         entry = revised[label]
         assert len(entry.decision_history) == 1
         assert entry.decision_history[0].decided_at.date().isoformat() == "2026-09-18"
         assert entry.decided_at is not None
         assert entry.decided_at.date().isoformat() == "2026-09-21"
+    # Lot 37 : les décisions 16 (point 4) et 15 (point 6) ont ajouté un texte au
+    # domaine de validité de la décision v3 (2026-09-21), qui passe en historique.
+    for label in ("4", "6"):
+        entry = revised[label]
+        assert [h.decided_at.date().isoformat() for h in entry.decision_history] == [
+            "2026-09-18",
+            "2026-09-21",
+        ]
+        assert entry.decided_at is not None
+        assert entry.decided_at.date().isoformat() == "2026-09-25"
     v7, v8 = revised["7"], revised["8"]
     assert [h.decided_at.date().isoformat() for h in v7.decision_history] == [
         "2026-09-18",
@@ -486,7 +498,7 @@ def test_arbitree_fiche_records_the_lot31_finding_and_revision() -> None:
         for e in sheet.entries
         if isinstance(e, CodeAsterHypothesisEntry) and e.point_label == "3"
     ]
-    assert len(code_aster_point_3) == 4  # 3 + REAC_NODA/LIAISON_SOLIDE (lot 35)
+    assert len(code_aster_point_3) == 5  # 3 + REAC_NODA (lot 35) + POU_D_T (lot 37)
     (finding,) = [
         e
         for e in code_aster_point_3
@@ -504,7 +516,9 @@ def test_arbitree_fiche_records_the_lot31_finding_and_revision() -> None:
     ]
     assert not decision.under_revision
     assert decision.option_retained is not None
-    assert "Maillage coïncident" in decision.option_retained  # unchanged
+    # Lot 37 : la décision 14 remplace l'option ; celle du lot 32 est en historique.
+    assert "Maillage coïncident" in decision.decision_history[-1].option_retained
+    assert "élément de poutre sur son axe" in decision.option_retained
     assert [(ev.kind, ev.by) for ev in decision.revision_history] == [
         ("declared", "Claude (lot 31)"),
         ("lifted", "Claude (lot 32)"),

@@ -141,7 +141,7 @@ def test_sans_poutre_omits_liaison_solide_and_q3(
     text, _ = _generate(verified_mesh, tmp_path, DiagnosticOmissions(sans_poutre=True))
     assert "CH_SOLIDE = AFFE_CHAR_MECA" not in text
     assert "LIAISON_SOLIDE=(" not in text
-    assert 'MODELISATION="POU_D_E"' not in text
+    assert 'MODELISATION="POU_D_T"' not in text
     assert "RESU_Q3" not in text
     assert '"BOLLARD"' not in text
     assert 'MODELISATION="BARRE"' in text  # unaffected ingredient stays
