@@ -48,24 +48,27 @@ def _decided(prefix: str) -> PracticeHypothesisEntry:
     return found[0]
 
 
-def test_decision_14_is_recorded_as_worded_and_keeps_the_previous_decision() -> None:
+def test_decision_14_is_recorded_as_worded_and_kept_in_the_history() -> None:
+    """Lot 38: D14 bis replaces D14 (`test_lot38_decisions.py`); D14, as worded at
+    lot 37, is now the last `decision_history` item, the lot 32 decision before it."""
     entry = _decided("Choix entre maillage coïncident")
-    assert entry.option_retained == (
+    assert len(entry.decision_history) == 2
+    d14 = entry.decision_history[-1]
+    assert d14.option_retained == (
         "La poutre de couronnement reste représentée par un élément de poutre sur "
         "son axe, mais avec la formulation qui prend en compte la déformation "
         "d'effort tranchant. L'identifiant de modélisation est à établir par la "
         "documentation et le catalogue."
     )
-    assert entry.validity_domain == (
+    assert d14.validity_domain == (
         "La poutre sur son axe ne représente pas les effets locaux : zone "
         "d'encastrement des tubes, ancrage du bollard, diffusion sous platine. Ces "
         "effets relèvent de vérifications locales séparées."
     )
-    assert [v.description for v in entry.discarded_variants] == [
+    assert [v.description for v in d14.discarded_variants] == [
         "poutre en coques ou en éléments volumiques",
         "élément d'Euler-Bernoulli (état actuel)",
     ]
-    assert len(entry.decision_history) == 1
     assert "Maillage coïncident" in entry.decision_history[0].option_retained
 
 

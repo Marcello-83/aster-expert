@@ -1184,6 +1184,106 @@ def _lot37(sheet: HypothesesSheet) -> HypothesesSheet:
     return _lot37_facts(sheet)
 
 
+def _variants_v6(fields: dict[str, str], dictated: str) -> tuple[DiscardedVariant, ...]:
+    """Variants of a v6 decision: its own field (D14 bis), else those MM dictated."""
+    if "discarded_variants" in fields:
+        return _variants(fields["discarded_variants"])
+    return _variants(dictated)
+
+
+def _record_decisions_v6(
+    sheet: HypothesesSheet, path: Path, decided_at: datetime
+) -> HypothesesSheet:
+    """Record D14 bis, D17 and D18 of `arbitrage_combiwall_MM_v6.md` as worded.
+
+    The file has its own shape (sections `## D<n> ... `, the reference in the header
+    prose, `point_label`/`topic` in the heading or the first lines): D14 bis replaces
+    the entry decided by D14 at the same point (`record_practice_decision` keeps the
+    previous decision in `decision_history`); D17 and D18 open points 13 and 14.
+    """
+    text = path.read_text(encoding="utf-8")
+    reference = re.search(r"la référence `\"(.*?)\"`", text, flags=re.S)
+    assert reference, path
+    source = PracticeSource(
+        origin="decision_ingenieur",
+        reference=_collapse(reference[1]),
+        date=decided_at.date(),
+    )
+    variants_text = (INPUTS / "arbitrage_combiwall_MM_v6_variantes.md").read_text(
+        encoding="utf-8"
+    )
+    parts = re.split(r"^## (D17|D18)\s*$", variants_text, flags=re.M)
+    dictated = dict(zip(parts[1::2], parts[2::2], strict=True))
+    chunks = re.split(r"^## (D14 bis|D17|D18) — (.*)$", text, flags=re.M)
+    for name, title, body in zip(chunks[1::3], chunks[2::3], chunks[3::3], strict=True):
+        body = re.split(r"^---\s*$", body, flags=re.M)[0]
+        head, _, rest = body.partition("**option_retained**")
+        f = _fields("**option_retained**" + rest)
+        decision = {
+            "option_retained": _unwrap(f["option_retained"]),
+            "justification": _unwrap(f["justification"]),
+            "validity_domain": _unwrap(f["validity_domain"]),
+            "sources": (source,),
+            "discarded_variants": _variants_v6(f, dictated.get(name, "")),
+            "decided_by": "MM",
+            "decided_at": decided_at,
+        }
+        if name == "D14 bis":
+            matches = [
+                e
+                for e in sheet.entries
+                if isinstance(e, PracticeHypothesisEntry)
+                and e.point_label == "3"
+                and e.topic.startswith("Choix entre maillage coïncident")
+            ]
+            assert len(matches) == 1, name
+            sheet = apply_decision(
+                sheet, record_practice_decision(entry=matches[0], **decision)
+            )
+            continue
+        point = re.search(r"point neuf `\"(\d+)\"`", title)
+        topic = re.search(r"^`topic` : `\"(.*)\"`\s*$", head, flags=re.M)
+        assert point and topic, name
+        new_point = PracticeHypothesisEntry(
+            point_label=point[1], topic=topic[1], status="non_tranche"
+        )
+        sheet = insert_practice_entry(
+            sheet, record_practice_decision(entry=new_point, **decision)
+        )
+    return sheet
+
+
+def _lot38_facts(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Findings of lot 38 (`lot38_facts.json`/`lot38_extraits.json`): the symmetry
+    conditions of `POU_D_T` (point 7), then the reinforcement commands (point 14)."""
+    research = json.loads((INPUTS / "lot38_facts.json").read_text("utf-8"))
+    extracts = _load_extracts("lot38_extraits.json")
+    cat = research["catalogue"]
+    for f in research["code_aster_findings"]:
+        entry = record_code_aster_finding(
+            topic=f["topic"],
+            sources=_finding_sources(f, cat, extracts),
+            option_retained=f["option_retained"],
+            justification=f["justification"],
+            point_label=f["point_label"],
+            notes=f["notes"],
+        )
+        sheet = sheet.model_copy(update={"entries": (*sheet.entries, entry)})
+    return sheet
+
+
+def _lot38(sheet: HypothesesSheet) -> HypothesesSheet:
+    """MM's D14 bis (complete revision of decision 4, point 3), D17 (point 13) and D18
+    (point 14), recorded as worded (`arbitrage_combiwall_MM_v6.md`); `decided_at` is
+    the recording time (`lot38_enregistrement.json`)."""
+    record = json.loads((INPUTS / "lot38_enregistrement.json").read_text("utf-8"))
+    decided_at = datetime.fromisoformat(record["decisions_14bis_17_18"]["decided_at"])
+    sheet = _record_decisions_v6(
+        sheet, INPUTS / "arbitrage_combiwall_MM_v6.md", decided_at
+    )
+    return _lot38_facts(sheet)
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -1203,7 +1303,8 @@ def build_sheet() -> HypothesesSheet:
     sheet = _lot32(sheet)
     sheet = _lot33(sheet)
     sheet = _lot35(sheet)
-    return _lot37(sheet)
+    sheet = _lot37(sheet)
+    return _lot38(sheet)
 
 
 def dump(sheet: HypothesesSheet) -> str:

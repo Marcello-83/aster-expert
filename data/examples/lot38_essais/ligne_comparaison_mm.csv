@@ -1,0 +1,5 @@
+cas,N_MN,M_MNm,ATOT_code_aster_m2,ATOT_outil_m2,ATOT_MM_m2,ecart_MM
+flexion_simple,0.0,2.183517,2.074218e-03,2.074218e-03,,
+composee_compression,-5.0,2.183517,0.0,infeasible,,
+composee_traction,5.0,2.183517,1.150000e-02,1.150000e-02,,
+els_qp,-1.0,0.5,0.0,infeasible,,

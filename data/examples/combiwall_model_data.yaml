@@ -322,3 +322,39 @@ groups:
       {status: fourni, value: 8, unit: "-", source: {kind: decision, point_label: "10"}, comment: "Un nœud au droit de chaque tube, X = 0 compris (BOLLARD)."}
     nombre_elements_par_tirant:
       {status: fourni, value: 1, unit: "-", source: {kind: decision, point_label: "10"}, comment: "Un élément de barre par tirant."}
+  # Lot 38 : coefficients de la décision D17 (point 13) et données de durabilité de D18
+  # (point 14), recopiés du texte des décisions ; aucun n'est calculé ici.
+  combinaisons:
+    gamma_g_defavorable:
+      {status: fourni, value: 1.35, unit: "-", source: {kind: decision, point_label: "13"}, comment: "Appliqué à G + EAU_P considérés comme un bloc."}
+    gamma_g_favorable:
+      {status: fourni, value: 1.00, unit: "-", source: {kind: decision, point_label: "13"}, comment: "Appliqué à G + EAU_P considérés comme un bloc."}
+    gamma_q:
+      {status: fourni, value: 1.50, unit: "-", source: {kind: decision, point_label: "13"}}
+    q1_psi0:
+      {status: fourni, value: 0.7, unit: "-", source: {kind: decision, point_label: "13"}, comment: "Q1, surcharge de terre-plein."}
+    q1_psi1:
+      {status: fourni, value: 0.5, unit: "-", source: {kind: decision, point_label: "13"}}
+    q1_psi2:
+      {status: fourni, value: 0.3, unit: "-", source: {kind: decision, point_label: "13"}}
+    q3_psi0:
+      {status: fourni, value: 0.7, unit: "-", source: {kind: decision, point_label: "13"}, comment: "Q3, amarrage."}
+    q3_psi1:
+      {status: fourni, value: 0.5, unit: "-", source: {kind: decision, point_label: "13"}}
+    q3_psi2:
+      {status: fourni, value: 0, unit: "-", source: {kind: decision, point_label: "13"}}
+    accidentelle_coefficient_q1:
+      {status: fourni, value: 0.5, unit: "-", source: {kind: decision, point_label: "13"}, comment: "Coefficient de Q1 dans (G + EAU_A) + A + 0,5 Q1 ; le texte de D17 ne le nomme pas (ψ1 de Q1 vaut aussi 0,5)."}
+  durabilite:
+    beton:
+      {status: fourni, value: C35/45, unit: "-", source: {kind: decision, point_label: "14"}}
+    acier_passif:
+      {status: fourni, value: B500B, unit: "-", source: {kind: decision, point_label: "14"}}
+    classe_exposition:
+      {status: fourni, value: XS3, unit: "-", source: {kind: decision, point_label: "14"}}
+    duree_utilisation_projet:
+      {status: fourni, value: 100, unit: ans, source: {kind: decision, point_label: "14"}}
+    enrobage_nominal:
+      {status: fourni, value: 65, unit: mm, source: {kind: decision, point_label: "14"}}
+    ouverture_fissure_limite_wk:
+      {status: fourni, value: 0.2, unit: mm, source: {kind: decision, point_label: "14"}, comment: "Sous combinaison quasi permanente."}

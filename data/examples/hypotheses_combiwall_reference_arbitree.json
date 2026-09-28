@@ -560,31 +560,35 @@
       "point_label": "3",
       "topic": "Choix entre maillage coïncident (liaison rigide directe) et raccord par méthode variationnelle (LIAISON_ELEM/COQ_POU) pour la liaison poutre de couronnement - écran",
       "options_considered": [],
-      "option_retained": "La poutre de couronnement reste représentée par un élément de poutre sur son axe, mais avec la formulation qui prend en compte la déformation d'effort tranchant. L'identifiant de modélisation est à établir par la documentation et le catalogue.",
-      "justification": "En flexion horizontale, la poutre a une hauteur de 2,50 m pour une portée de 2,60 m entre tubes. Ce rapport, de l'ordre de 1, rend la déformation d'effort tranchant non négligeable, et l'élément d'Euler-Bernoulli la néglige. L'élément de poutre reste préféré à une modélisation en coques ou en volume, parce qu'il fournit directement les efforts N, V, M et T nécessaires au ferraillage selon l'EN 1992.",
+      "option_retained": "Maillage coïncident, généré par la chaîne. La poutre de couronnement est représentée par un élément de poutre de Timoshenko sur son axe (Y = +0,34, Z = +3,30), avec une section rectangulaire de 2,50 m × 1,40 m. Elle est reliée à chaque tube par une liaison de corps solide entre l'anneau de tête du tube (+2,60) et le nœud de poutre au droit du tube. Dans chaque ensemble lié, un degré de liberté bloqué par une condition aux limites ne l'est que sur un seul nœud (lot 32).",
+      "justification": "Les maillages de l'écran et de la poutre sont produits par la même chaîne, donc coïncidents par construction. La liaison de corps solide représente l'encastrement des tubes dans la poutre. L'élément de poutre fournit directement N, V, M et T, nécessaires au ferraillage selon l'EN 1992. La formulation de Timoshenko est retenue parce que, en flexion horizontale, la hauteur de la poutre (2,50 m) est du même ordre que la portée entre tubes (2,60 m) : la déformation d'effort tranchant n'y est pas négligeable.",
       "discarded_variants": [
         {
-          "description": "poutre en coques ou en éléments volumiques",
-          "reason": "les efforts de ferraillage devraient être reconstitués par intégration de contraintes, le maillage s'alourdit, et la liaison avec les tubes pose à nouveau un raccord cinématique."
+          "description": "Raccord par méthode variationnelle entre maillages non coïncidents.",
+          "reason": "Sans objet, les maillages étant coïncidents par construction ; le raccord coque-poutre documenté ne s'applique pas à une jonction en T (lot 31)."
         },
         {
-          "description": "élément d'Euler-Bernoulli (état actuel)",
-          "reason": "néglige la déformation d'effort tranchant d'une poutre courte."
+          "description": "Poutre en coques ou en éléments volumiques.",
+          "reason": "Les efforts de ferraillage devraient être reconstitués par intégration de contraintes, et la liaison avec les tubes redeviendrait un raccord cinématique."
+        },
+        {
+          "description": "Élément de poutre d'Euler-Bernoulli.",
+          "reason": "Néglige la déformation d'effort tranchant d'une poutre courte."
         }
       ],
       "notes": "Déduction : si les maillages partagent des nœuds coïncidents en pied de couronnement, une liaison cinématique de type LIAISON_SOLIDE sur nœuds confondus est une alternative catalogue à LIAISON_ELEM(OPTION='COQ_POU') -- mais ce choix n'est pas discuté par R3.03.06/R3.03.03, qui documentent spécifiquement le raccord par méthode variationnelle faible entre maillages non coïncidents. Le catalogue AFFE_CHAR_MECA propose aussi, en mots-clés facteurs indépendants, LIAISON_MAIL, LIAISON_DDL, LIAISON_UNIF, sans qu'aucun document ne les mette en regard du cas coque-poutre spécifique. Recommandation d'ingénieur : le choix dépend du maillage retenu -- non tranché par la documentation indexée.",
-      "validity_domain": "La poutre sur son axe ne représente pas les effets locaux : zone d'encastrement des tubes, ancrage du bollard, diffusion sous platine. Ces effets relèvent de vérifications locales séparées.",
+      "validity_domain": "- La liaison de corps solide est plus raide que l'encastrement réel sur 0,80 m : moments en tête de tube surestimés, déplacements de la poutre sous-estimés.\n- La poutre sur son axe ne représente pas les effets locaux (zone d'encastrement des tubes, ancrage du bollard, diffusion sous platine), qui relèvent de vérifications locales séparées.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "decision_ingenieur",
-          "reference": "MM, cas de test QUAI-CW-TEST-01, décisions 14 à 16 prises à la relecture des résultats du lot 36 (énoncé du lot 37, étape 2)",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, arbitrage v6 en séance de travail",
           "date": "2026-09-25"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-09-25T08:10:24-04:00",
+      "decided_at": "2026-09-25T09:53:49-04:00",
       "decision_history": [
         {
           "option_retained": "Maillage coïncident, généré de façon cohérente par la chaîne elle-même. Poutre de couronnement représentée par une poutre à son centre de gravité, reliée à la tête de chaque tube par une liaison de corps solide sur l'anneau de nœuds supérieur du tube.",
@@ -605,6 +609,30 @@
           ],
           "decided_by": "MM",
           "decided_at": "2026-09-18T18:00:00"
+        },
+        {
+          "option_retained": "La poutre de couronnement reste représentée par un élément de poutre sur son axe, mais avec la formulation qui prend en compte la déformation d'effort tranchant. L'identifiant de modélisation est à établir par la documentation et le catalogue.",
+          "justification": "En flexion horizontale, la poutre a une hauteur de 2,50 m pour une portée de 2,60 m entre tubes. Ce rapport, de l'ordre de 1, rend la déformation d'effort tranchant non négligeable, et l'élément d'Euler-Bernoulli la néglige. L'élément de poutre reste préféré à une modélisation en coques ou en volume, parce qu'il fournit directement les efforts N, V, M et T nécessaires au ferraillage selon l'EN 1992.",
+          "validity_domain": "La poutre sur son axe ne représente pas les effets locaux : zone d'encastrement des tubes, ancrage du bollard, diffusion sous platine. Ces effets relèvent de vérifications locales séparées.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décisions 14 à 16 prises à la relecture des résultats du lot 36 (énoncé du lot 37, étape 2)",
+              "date": "2026-09-25"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "poutre en coques ou en éléments volumiques",
+              "reason": "les efforts de ferraillage devraient être reconstitués par intégration de contraintes, le maillage s'alourdit, et la liaison avec les tubes pose à nouveau un raccord cinématique."
+            },
+            {
+              "description": "élément d'Euler-Bernoulli (état actuel)",
+              "reason": "néglige la déformation d'effort tranchant d'une poutre courte."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-25T08:10:24-04:00"
         }
       ],
       "revision_history": [
@@ -3818,6 +3846,630 @@
           "aster_version": "17.4.0",
           "keyword_path": [
             "POUTRE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "13",
+      "topic": "Combinaisons d'actions ELU et ELS",
+      "options_considered": [],
+      "option_retained": "Combinaisons de l'EN 1990, avec les coefficients usuels.\n\n*Classement des actions.*\n- **Permanentes :**\n- G, poids propre et poussée des terres ;\n- EAU_P, pression d'eau différentielle permanente, traitée comme une action permanente avec G et affectée du même coefficient.\n- **Variables :**\n- Q1, surcharge de terre-plein : ψ0 = 0,7, ψ1 = 0,5, ψ2 = 0,3 ;\n- Q3, amarrage : ψ0 = 0,7, ψ1 = 0,5, ψ2 = 0.\n- **Accidentelle :** A, accostage, qui ne se cumule qu'avec EAU_A (nappe accidentelle) à la place d'EAU_P.\n\n*Coefficients partiels.* γG = 1,35 (défavorable) ou 1,00 (favorable), appliqué à G + EAU_P considérés comme un bloc ; γQ = 1,50.\n\n*Combinaisons*, avec Q1 et Q3 tour à tour en action dominante, et chaque action variable présente ou absente :\n- **ELU fondamentale :** γG (G + EAU_P) + 1,5 Q_dom + 1,5 ψ0 Q_acc ;\n- **ELU accidentelle :** (G + EAU_A) + A + 0,5 Q1, sans Q3 : amarrage et accostage ne sont pas simultanés.\n- **ELS caractéristique :** (G + EAU_P) + Q_dom + ψ0 Q_acc ;\n- **ELS fréquente :** (G + EAU_P) + ψ1 Q_dom + ψ2 Q_acc ;\n- **ELS quasi permanente :** (G + EAU_P) + ψ2 Q1 + ψ2 Q3.\n\nLe résultat est une enveloppe par famille de combinaisons, où chaque extremum d'effort est accompagné des efforts concomitants.",
+      "justification": "Ce sont les combinaisons usuelles de l'EN 1990 pour un ouvrage portuaire, avec les coefficients habituels, sans spécificité propre à ce cas de test. L'amarrage et l'accostage sont traités comme non simultanés, parce qu'un navire n'est pas amarré au poste qu'il est en train d'accoster. La pression d'eau permanente, liée au niveau de nappe, suit les actions permanentes.",
+      "discarded_variants": [
+        {
+          "description": "Amarrage (Q3) et accostage (A) simultanés.",
+          "reason": "Un navire n'est pas amarré au poste qu'il est en train d'accoster ; les deux actions ne sont pas concomitantes."
+        },
+        {
+          "description": "Pression d'eau permanente (EAU_P) traitée comme action variable.",
+          "reason": "Elle résulte du niveau de nappe permanent et suit les actions permanentes ; elle est affectée du même coefficient que G."
+        },
+        {
+          "description": "Accostage traité comme action variable en combinaison fondamentale (γQ = 1,5).",
+          "reason": "L'effort de 800 kN est défini par le cas de test comme une situation accidentelle, associée à la nappe haute (§7, cas A)."
+        },
+        {
+          "description": "Coefficients γG distincts pour G et pour EAU_P.",
+          "reason": "Les deux actions varient ensemble ; les traiter comme un seul bloc limite le nombre de combinaisons sans perte de pertinence pour un cas de test."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "- Les coefficients ψ de Q1 et Q3 sont des valeurs usuelles non justifiées par un référentiel portuaire propre au projet.\n- Conformément à la décision 7 (D15), le modèle n'est représentatif que pour les effets des charges localisées. Les efforts des tubes et des palplanches sous G, EAU et Q1 relèvent du calcul géotechnique amont : leurs combinaisons issues de ce modèle ne sont pas des efforts de dimensionnement des tubes. Pour la poutre de couronnement, les charges de terre et d'eau uniformes ne produisent pas de flexion dans son plan (lot 37), et ses efforts sont dominés par Q3 et A.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, arbitrage v6 en séance de travail",
+          "date": "2026-09-25"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-25T09:53:49-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "14",
+      "topic": "Durabilité, enrobage et maîtrise de la fissuration du béton armé",
+      "options_considered": [],
+      "option_retained": "- Béton C35/45, acier B500B (cas de test, §3).\n- Classe d'exposition XS3 ; durée d'utilisation de projet de 100 ans.\n- Enrobage nominal de 65 mm.\n- Maîtrise de la fissuration sous combinaison quasi permanente, avec une ouverture de fissure limite wk = 0,2 mm.",
+      "justification": "La poutre de couronnement d'un quai est en zone de marnage et d'éclaboussures, d'où la classe XS3. La durée de 100 ans est celle d'un ouvrage portuaire. L'enrobage et l'ouverture de fissure limite sont les valeurs usuelles de MM pour ce type d'ouvrage.",
+      "discarded_variants": [
+        {
+          "description": "Ouverture de fissure limite de 0,3 mm sous combinaison quasi permanente.",
+          "reason": "Valeur recommandée de l'EN 1992-1-1 (tableau 7.1N) pour la classe XS3 ; MM retient 0,2 mm, plus sévère, pour un ouvrage maritime de durée d'utilisation de 100 ans."
+        },
+        {
+          "description": "Enrobage déterminé par le calcul détaillé de cmin,dur selon l'EN 1992-1-1 (§4.4.1).",
+          "reason": "MM retient directement sa valeur usuelle de 65 mm pour ce type d'ouvrage ; le calcul détaillé n'apporte rien à un cas de test."
+        },
+        {
+          "description": "Maîtrise de la fissuration sous combinaison fréquente.",
+          "reason": "MM retient la combinaison quasi permanente, usuelle pour la maîtrise de l'ouverture des fissures en béton armé."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Ces valeurs s'appliquent à la seule poutre de couronnement, seul élément en béton armé du modèle. Les tubes et les palplanches en acier relèvent de l'EN 1993-5, hors de cette décision.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, arbitrage v6 en séance de travail",
+          "date": "2026-09-25"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-25T09:53:49-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "7",
+      "topic": "Conditions de symétrie par rapport à un plan X = constante pour une poutre POU_D_T (degrés de liberté disponibles)",
+      "options_considered": [],
+      "option_retained": "DDL_IMPO(GROUP_NO=(\"SYM_G\",) ou (\"SYM_D\",), DX=0.0, DRY=0.0, DRZ=0.0) : translation normale au plan et rotations autour des deux axes du plan bloquées ; DY, DZ, DRX libres -- identique à la condition de symétrie déjà établie pour POU_D_E (même point). Degrés de liberté de POU_D_T à chaque nœud sommet (U3.11.01, tableau « Élément fini / Degrés de liberté ») : DX, DY, DZ, DRX, DRY, DRZ, exactement ceux de POU_D_E ; ni gauchissement (GRX, propre à POU_D_TG, tableau 5-2 de U4.44.01) ni autre degré de liberté. U4.44.01 (tableau 5-2) : DRX, DRY, DRZ s'appliquent aux « éléments discrets, de poutre, de tuyaux, de coque ou de plaque », dans le repère global (mot-clé DDL_IMPO : « Les degrés de liberté imposés sont définis dans le repère global de définition du maillage »). Catalogue 17.4.0 : AFFE_MODELE/AFFE/MODELISATION offre POU_D_T (établi au lot 37) ; AFFE_CHAR_MECA/DDL_IMPO/DRY existe (réel, optionnel, une valeur). Un cas test officiel applique DDL_IMPO sur des nœuds de poutre POU_D_T : sdll01a.comm (MODELISATION=\"POU_D_T\", `_F(GROUP_NO=\"AB\", DZ=0.0, DRX=0.0, DRY=0.0)`, `_F(GROUP_NO=\"N100\", DX=0.0, DY=0.0)`), ce qui établit que ces composantes sont acceptées sur POU_D_T ; ce n'est pas un cas de symétrie.",
+      "justification": "Comble le constat manquant du lot 37 (le constat existant du point 7 est sourcé pour DKT et POU_D_E, l'extension à POU_D_T n'était pas établie). U3.11.01 (§Degrés de libertés) : POU_D_T et POU_D_E ont la même ligne de degrés de liberté ; U4.44.01 (tableau 5-2 et mot-clé DDL_IMPO) définit ces composantes dans le repère global pour tout élément de poutre ; le catalogue de la version 17.4.0 confirme l'existence des mots-clés. Le choix des trois composantes bloquées est le même que pour POU_D_E parce que l'ensemble des degrés de liberté et leur repère sont identiques.",
+      "discarded_variants": [],
+      "notes": "Déduction, non énoncée par la documentation : la partie « pourquoi DX, DRY, DRZ bloquées et DY, DZ, DRX libres » est le raisonnement de symétrie miroir du plan X = constante déjà noté pour POU_D_E (la rotation, pseudo-vecteur, garde sa composante normale au plan et perd ses composantes dans le plan). Un élément de poutre de Timoshenko ajoute la déformation d'effort tranchant mais aucun degré de liberté : le raisonnement ne change pas. Aucun cas test officiel de symétrie sur POU_D_T n'a été identifié (sdll01a.comm n'est qu'un cas d'appuis) ; la preuve d'exécution est celle du lot 37 (modèle complet avec POU_D_T et cette condition sur les groupes GEN_SYMG_ROT/GEN_SYMD_ROT, `data/examples/lot37_efforts/complet.comm` lignes 1871 et 2124-2125, `DIAGNOSTIC JOB : OK`, symétrie ≤ 5,2e-11 sur les paires de nœuds contrôlées) -- consignée ici comme renvoi, pas comme source d'exécution au sens de ExecutionSource. Niveau A et catalogue (B pour le mot-clé).",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U3.11.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Discr_tisation"
+          ],
+          "source_path": "source/manuals/man_u/u3/u3.11.01/Discr_tisation.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Discrétisation\n==============\n\n\n\nDegrés de libertés\n------------------\n\nPour les trois modélisations de poutre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les six composantes de déplacement (trois translations et trois rotations). Ces nœuds sont supposés décrire un segment de la fibre moyenne de la poutre.\n\nPour la modélisation de barre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les trois composantes de déplacement en translation.\n\n\n+------------------+----------------------------------------------------------------------------+\n| **Élément fini** | **Degrés de liberté (à chaque nœud sommet)**                               |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| POU_D_T          | DX                                           | DY  | DZ  | DRX | DRY | DRZ |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| POU_D_E          | DX                                           | DY  | DZ  | DRX | DRY | DRZ |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| BARRE            | DX                                           | DY  | DZ  |     |     |     |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n\n\n\n\nMaille support des matrices de rigidité\n---------------------------------------\n\nLes mailles support des éléments finis, en formulation déplacement, sont des segments à deux nœuds SEG2:\n\n.. csv-table::\n\n    \"**Modélisation**\", \"**Maille**\", \"**Élément fini**\", \"**Remarques**\"\n    \"POU_D_T\", \"SEG2\", \"MECA_POU_D_T\", \"\"\n    \"POU_D_E\", \"SEG2\", \"MECA_POU_D_E\", \"\"\n    \"BARRE\", \"SEG2\", \"MECA_BARRE\", \"\"\n\n\n\n\n\nMaille support des chargements\n------------------------------\n\nTous les chargements applicables aux éléments de poutre et de barre sont traités par discrétisation directe sur la maille support de l’élément en formulation déplacement.\n\n*Aucune maille support de chargement n’est donc nécessaire pour le bord des éléments de poutre ou de barre.*\n\n\n\n\nPrincipales caractéristiques des modélisations\n----------------------------------------------\n\nLa modélisation POU_D_E (Poutre Droite d’Euler) correspond à l’hypothèse d’Euler‑Bernouilli, c’est‑à‑dire que les sections restent droites et perpendiculaires à la fibre moyenne (hypothèse de grand élancement).\n\nLa modélisation POU_D_T (Poutre Droite de Timoshenko) prend en compte les effets de cisaillement transverse.\n\nLa modélisation BARRE ne traite que les efforts et déformations axiales.\n\nLa poutre avec gauchissement est traitée en [:external:ref:`U3.11.04 <U3.11.04>`].\n"
+        },
+        {
+          "document_id": "U4.44.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Chargements de type Dirichlet",
+            "Degrés de liberté"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Dirichlet_.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Degrés de liberté\n------------------\n\nLes chargements de Dirichlet sont imposés sur les degrés de liberté de la grandeur DEPL_R\n(ou DEPL_C ou DEPL_F ) , représentant les degrés de liberté du problème de mécanique\n(ou de thermo-hydro-mécanique ou d’hydraulique). \n\nLe tableau ci-dessous permet de s'orienter dans le choix du mot-clé facteur selon le besoin.\n\n\n**Tableau 5-1 : Besoins.**\n\n.. csv-table::\n    :header: \"**Relation linéaire entre certains degrés de liberté sur des groupes de nœuds choisis**\", \"**mot-clé facteur**\"\n    :widths: 50, 20\n\n    \"Imposer une ou plusieurs valeurs de degré de liberté\", \"``DDL_IMPO`` § :ref:`u4.44.01-DDL_IMPO`\"\n    \"Imposer à une arête sur des éléments volumiques, une ou plusieurs valeurs de degré de liberté\", \"``ARETE_IMPO`` § :ref:`u4.44.01-ARETE_IMPO`\"\n    \"Imposer à une face sur des éléments surfaciques ou volumiques, une ou plusieurs valeurs de degré de liberté\", \"``FACE_IMPO`` § :ref:`u4.44.01-FACE_IMPO`\"\n    \"Définir une **liaison unique** entre nœuds de deux groupes de nœuds\", \"``LIAISON_DDL`` § :ref:`u4.44.01-LIAISON_DDL`\"\n    \"Appliquer la même valeur définie composante par composante de degré de liberté dans un **repère oblique** quelconque\", \"``LIAISON_OBLIQUE`` § :ref:`u4.44.01-LIAISON_OBLIQUE`\"\n    \"Imposer la **même valeur** (inconnue)\", \"``LIAISON_UNIF`` § :ref:`u4.44.01-LIAISON_UNIF`\"\n    \"Définir une relation linéaire entre tous les degrés de liberté présents dans un concept CHAM_NO\", \"``LIAISON_CHAMNO`` § :ref:`u4.44.01-LIAISON_CHAMNO`\"\n    \"Définir une relation linéaire entre tous les degrés de liberté dont le second membre est issu du contenu d’un CHAM_NO\", \"``CHAMNO_IMPO`` § :ref:`u4.44.01-CHAMNO_IMPO`\"\n    \"Définir une **même liaison par couples de nœuds en « vis-à-vis »** dans deux groupes\", \"``LIAISON_GROUP`` § :ref:`u4.44.01-LIAISON_GROUP`\"\n    \"« Recoller » deux « bords » d’une structure **sans contrainte de compatibilité** sur les maillages de ces « bords ». Un d’entre eux est déclaré « esclave », l’autre « maître »\", \"``LIAISON_MAIL`` § :ref:`u4.44.01-LIAISON_MAIL`\"\n    \"Relier un « bord » d’une structure déclaré « esclave », en vis-à-vis d’un autre « bord » déclaré « maître » dont les maillages sont identiques\", \"``LIAISON_PROJ`` § :ref:`u4.44.01-LIAISON_PROJ`\"\n    \"Imposer des conditions de **répétitivité cyclique** entre deux « bords » avec prise en compte d’un déphasage\", \"``LIAISON_CYCL`` § :ref:`u4.44.01-LIAISON_CYCL`\"\n    \"Modéliser une partie indéformable d’une structure, pour obtenir une **cinématique de corps rigide**\", \"``LIAISON_SOLIDE`` § :ref:`u4.44.01-LIAISON_SOLIDE`\"\n    \"Relier les interfaces entre deux modélisations différentes d’une structure : partie massive ou coque avec une partie poutre, tuyau ou élément discret\", \"``LIAISON_ELEM`` § :ref:`u4.44.01-LIAISON_ELEM`\"\n    \"Relier deux « bords » d’une structure, de manière généraliste, par transmission du torseur résultant, tout en autorisant l’ajout d'une pondération\", \"``LIAISON_RBE3`` § :ref:`u4.44.01-LIAISON_RBE3`\"\n    \"Imposer des degrés de liberté dans un **repère local d’une poutre**\", \"``DDL_POUTRE`` *cf.*  §  :ref:`6.1 <u4.44.01-Chargements_de_type_Dirichlet_pour_les__l_ments_de_structure>`\"\n    \"Relier un « bord » d’une coque au niveau de la peau supérieure ou inférieure de cette dernière en vis-à-vis d’un autre « bord » du feuillet moyen d’une autre coque\", \"``LIAISON_COQUE`` *cf.*  § 6.2  :ref:`3.3 <u4.44.01-Chargements_de_type_Dirichlet_pour_les__l_ments_de_structure>`\"\n\nNous rappelons dans le tableau ci-dessous la signification des\ndifférentes composantes de degrés de liberté :\n\n**Tableau 5-2: Degrés de liberté.**\n\n.. csv-table::\n    :header: \"**Nom**\", \"**Modélisation**\", \"**Description**\"\n    :widths: 20, 30, 50\n\n    \"DX, DY, DZ\", \"Toutes sauf 2D_FLUI_PESA\", \"Composantes de déplacement en **translation** dans le repère global\"\n    \"DH\", \"2D_FLUI_PESA\", \"Déplacement de la surface libre d'un fluide en ballottement\"\n    \"DRX, DRY, DRZ\", \"Éléments discrets, de poutre, de tuyaux, de coque ou de plaque\", \"Composantes de déplacement en **rotation** dans le repère global\"\n    \"DRGX, DRGY, DRGZ\", \"Élément multi-poutres multi-fibres pour les assemblages combustibles\", \"Composantes de déplacement en **rotation** des grilles d’assemblage dans le repère global\"\n    \"GRX\", \"POU_D_TG\", \"Valeur du gauchissement de la poutre\"\n    \"PRES\", \"3D_FLUIDE\", \"Pression acoustique dans le fluide pour les formulations :math:`u-p-\\varphi` et :math:`u-p`\"\n    \"PRES\", \"3D_JOINT_CT\", \"Pression du fluide interstitiel\"\n    \"PRES\", \"Formulation second gradient\", \"Multiplicateur de Lagrange introduit pour la formulation mixte\"\n    \"PHI\", \"3D_FLUIDE, FLUI_STRU, 2D_FLUI_PESA\", \"Potentiel des déplacements du fluide pour la formulation :math:`u-p-\\varphi`\"\n    \"PSI\", \"3D_FLUIDE, FLUI_STRU\", \"Potentiel des vitesses du fluide pour la formulation :math:`u-\\psi`\"\n    \"TEMP\", \"THM, THHM, THH\", \"Température\"\n    \"PRE1\", \"THM, THHM, THH, HM, HHM\", \"Pression capillaire ou pression du liquide ou du gaz\"\n    \"PRE2\", \"THM, THHM, THH\", \"Pression du gaz\"\n    \"UIx\", \"Tuyaux\", \"Gauchissement « in plane » du mode x [1]_\"\n    \"VIx, WIx\", \"Tuyaux\", \"Ovalisations « in plane » du mode x\"\n    \"UOx\", \"Tuyaux\", \"Gauchissement « out of plane » du mode x\"\n    \"VOx, WOx\", \"Tuyaux\", \"Ovalisations « out of plane » du mode x\"\n    \"W0, WI1, WO1\", \"Tuyaux\", \"Degrés de liberté de gonflement et mode 1 sur l’ovalisation\"\n    \"GONF\", \"Formulation incompressible _INCO_UPG, Formulation second gradient\", \"Gonflement\"\n    \"V11, V12, V13, V21, V22, V23, V31, V32, V33\", \"Formulation second gradient\", \"Composantes du tenseur de déformation microscopique\"\n    \"PRES11, PRES12, PRES13, PRES21, PRES22, PRES23, PRES31, PRES32, PRES33\", \"Formulation second gradient\", \"Multiplicateurs de Lagrange introduits pour la formulation mixte\"\n    \"LAGS_C\", \"Contact continu ou XFEM\", \"Pression de contact\"\n    \"LAGS_F1, LAGS_F2\", \"Contact continu ou XFEM\", \"Densité surfacique d'effort de frottement (vectorielle)\"\n    \"H1X, H1Y, H1Z, H2X, H2Y, H2Z, H3X, H3Y, H3Z, H4X, H4Y, H4Z\", \"XFEM\", \"Degrés de liberté enrichis d’Heaviside\"\n    \"H1PRE1, H2PRE1, H3PRE1\", \"HM-XFEM\", \"Degrés de liberté enrichis d’Heaviside pour la pression capillaire ou la pression du liquide ou du gaz.\"\n    \"K1, K2, K3\", \"XFEM\", \"Degrés de liberté enrichis vectoriels crack-tip\"\n    \"LAG2_C, LAG3_C, LAG4_C\", \"XFEM (multi-fissuration)\", \"Pressions de contact\"\n    \"LAG2_F1, LAG2_F2, LAG3_F1, LAG3_F2, LAG4_F1, LAG4_F2\", \"XFEM (multi-fissuration)\", \"Densités surfaciques d'effort de frottement (vectorielles)\"\n    \"PRE_FLU, PR2_FLU, PR3_FLU\", \"HM-XFEM\", \"Pression de fluide dans la fissure\"\n    \"LAG_FLI, LAG_FLS, LA2_FLI, LA2_FLS, LA3_FLI, LA3_FLS\", \"HM-XFEM\", \"Flux\"\n    \"LH1\", \"Éléments joints de type ‘_JHMS’\", \"Multiplicateur de Lagrange hydraulique\"\n    \"GLIS\", \"Éléments CABLE_GAINE\", \"Déplacement relatif suivant la tangente (repère local)\"\n\n\n"
+        },
+        {
+          "document_id": "U4.44.01",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Chargements de type Dirichlet",
+            "Mot-clé DDL_IMPO"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Dirichlet_.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Mot-clé DDL_IMPO\n----------------\n\nLe mot-clé DDL_IMPO est utilisable pour imposer à des nœuds une ou plusieurs valeurs de degré de liberté.\n\nAffectation topologique: TOUT, GROUP_MA, GROUP_NO, SANS_GROUP_MA, SANS_GROUP_NO\n\nLes conditions cinématiques sont imposées sur les nœuds donnés par les mots-clés TOUT,\nGROUP_MA, GROUP_NO tout en excluant éventuellement grâce aux mots-clés SANS_*.\n\nComposantes:\n\n*   Pour AFFE_CHAR_MECA:DX, DY, DZ, DRX, DRY, DRZ, DRGX, DRGY, DRGZ, GRX, PRES, PSI, PHI, TEMP, PRE1, PRE2, UI2, UI3, UI4, UI5, UI6, UO2, UO3, UO4, UO5, UO6, VI2, VI3, VI4, VI5, VI6, VO2, VO3, VO4, VO5, VO6, WI2, WI3, WI4, WI5, WI6, WO2, WO3, WO4, WO5, WO6, WO, WI1, WO1, GONF, H1X, H1Y, H1Z, H1PRE1, H2X, H2Y, H2Z, H2PRE1, H3X, H3Y, H3Z, H3PRE1, H4X, H4Y, H4Z, K1, K2, K3, PRE_FLU, LAG_FLI, LAG_FLS, PR2_FLU, LA2_FLI, LA2_FLS, PR3_FLU, LA3_FLI, LA3_FLS, LAGS_C, LAGS_F1, LAGS_F2, LAG2_C, LAG2_F1, LAG2_F2, LAG3_C, LAG3_F1, LAG3_F2, LAG4_C, LAG4_F1, LAG4_F2, V11, V12, V13, V21, V22, V23, V31, V32, V33, PRES11, PRES12, PRES13, PRES21, PRES22, PRES23, PRES31, PRES32, PRES33, LH1et GLIS.\n\n*   Pour AFFE_CHAR_MECA_C: DX, DY, DZ, DRX, DRY, DRZ, GRX, PRES, PHI et GLIS.\n\n*   Pour AFFE_CHAR_MECA_F: DX, DY, DZ, DRX, DRY, DRZ, GRX, PRES, PHI, TEMP, PRE1, PRE2, GONF, H1X, H1Y, H1Z, H1PRE1, K1, K2, K3, LAGS_Cet GLIS.\n\n\nRemarques\n\n*   Lors d’un calcul avec la méthode X-FEM, il est possible d’imposer le déplacement de nœuds\n    enrichis. (AFFE_CHAR_MECA seulement). Cela se fait de manière habituelle (bien que ces nœuds\n    ne possèdent pas de degré de liberté :math:`{DX}`, :math:`{DY}` ou :math:`{DZ}`). Si le nœud\n    demandé est sur les lèvres, alors on impose la condition de blocage sur les nœuds des lèvres\n    supérieure et inférieure.\n\n*   Le degré de liberté LH1 (multiplicateur de Lagrange hydraulique pour les éléments joints de\n    type ’_JHMS’) permet de neutraliser les degrés de liberté au bord du joint dans le cas où le\n    massif d’appui est purement mécanique.\n\n*   Les degrés de liberté imposés sont définis dans le repère global de définition du maillage\n\nLe mot-clé BLOCAGE permet d’encastrer une ou plusieurs catégories de degré de liberté aux nœuds,\nc’est à dire de forcer à zéro ces degrés de liberté.\n\n*   DEPLACEMENT bloque : DX, DY, DZ\n*   ROTATION bloque : DRX, DRY, DRZ\n*   TUYAU_FOURIER ne peut être utilisé qu’avec les éléments de tuyaux (TUYAU_3M ou TUYAU_6M). Il\n    bloque : les 15 DDL de TUYAU_3M ou les 33 DDL de TUYAU_6M liés aux modes Fourier (voir [:ref:`U2.02.02 <U2.02.02>`]).\n\nOn peut faire toutes les combinaisons des catégories.\n\n\n.. _u4.44.01-ARETE_IMPO:"
+        },
+        {
+          "command": "AFFE_MODELE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "MODELISATION"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "AFFE_CHAR_MECA",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "DDL_IMPO",
+            "DRY"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "14",
+      "topic": "État des lieux des commandes de ferraillage de Code_Aster 17.4 (CALC_FERRAILLAGE, COMBINAISON_FERRAILLAGE, POST_COMBINAISON, VERI_FERRAILLAGE, POST_VERI_FERRAILLAGE)",
+      "options_considered": [],
+      "option_retained": "Trois commandes de calcul de ferraillage EC2/BAEL91 : CALC_FERRAILLAGE (1D et 2D, ELU/ELS/ELS_QP, méthode Capra-Maury en 2D), COMBINAISON_FERRAILLAGE (l'appelle pour plusieurs combinaisons d'un RESULTAT mult_elas, retient la dimensionnante par nœud/maille et par type d'armature), POST_COMBINAISON (combine linéairement des résultats ou des tables pour produire ce mult_elas). VERI_FERRAILLAGE vérifie un ferraillage existant (marge, taux d'utilisation) mais son catalogue fige AFFE/TYPE_STRUCTURE à '2D' (allowed_values=[\"2D\"]) et TYPE_COMB à ['ELU','ELS'] -- ni 1D ni ELS_QP. Réponse au point demandé par MM (étape 3.3) : un élément de poutre POU_D_T n'est pas pris en charge par VERI_FERRAILLAGE (catalogue), mais l'est par CALC_FERRAILLAGE et COMBINAISON_FERRAILLAGE via TYPE_STRUCTURE='1D' -- ces deux commandes ne distinguent aucune modélisation de poutre par son nom, elles consomment EFGE_ELNO (N, VY, VZ, MT, MFY, MFZ) et AFFE_CARA_ELEM/POUTRE, indépendamment de la modélisation qui les a produits ; le cas test officiel ssll13d.comm exécute réellement CALC_FERRAILLAGE sur une poutre POU_D_T et compare à des valeurs ANALYTIQUE. Aucune des commandes ne documente ni ne catalogue un TYPE_STRUCTURE='3D' (éléments volumiques) : R7.04.05 (résumé) n'annonce que les familles 1D et 2D. Synthèse complète, tableaux commande x élément x état limite, entrées/sorties et limites : docs/etat_des_lieux_lot38_ferraillage.md.",
+      "justification": "U4.81.42, U4.81.44, U4.81.45, U4.81.46, U2.03.07 et R7.04.05 (poutres/poteaux, plaques §Capra-Maury, vérification), confrontés au catalogue 17.4.0 (get_command_schema) et à des cas tests officiels (search_test_cases/read_test_case, commit 50ebc13c70ee9df62faf93ddcb746a3757b3042a : ssll13a/b/c/d.comm, ssll18a/b.comm, ssls134*.comm, ssls145a.comm, ssls146a/b.comm, ssls126*.comm, ssls135a.comm, ssls142*.comm, ssls150*.comm, sslx100c.comm).",
+      "discarded_variants": [],
+      "notes": "Essai d'exécution (niveau C/D, docs/essais_lot38.md, data/examples/lot38_essais/) : CALC_FERRAILLAGE sur la section réelle de la poutre de couronnement (2,50 m x 1,40 m, D18), ELU flexion simple et composée, ELS_QP, comparé au module analytique indépendant de ce lot (aster_expert.rebar). Un premier écart de 0,31 % en flexion simple (module au diagramme béton parabole-rectangle) a mené à comparer ce diagramme au bloc rectangulaire simplifié que R7.04.05 documente comme une option pour l'ELU : le bloc simplifié reproduit Code_Aster à 1e-6 m2 sur les cas aux pivots A et B des cas tests officiels (ssll13d.comm), le parabole-rectangle non -- CALC_FERRAILLAGE utilise donc en réalité ce bloc simplifié, devenu le réglage par défaut du module (constat d'exécution consigné en tête de aster_expert.rebar.ultimate). Avec ce réglage, flexion simple et flexion composée tendue accordent à 1e-9 avec Code_Aster sur la section du projet. Le module ne trouve aucune solution en flexion composée fortement comprimée ni en ELS_QP comprimé alors que Code_Aster trouve un ferraillage nul, écart rapporté sans être expliqué (budget de ce lot). Aucun essai 2D (plaque/coque) exécuté dans ce lot, faute de temps : limite explicite, pas une absence documentaire (le tableau commande x élément du point 14 couvre le 2D par la documentation et le catalogue seuls).",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "But"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/But.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "But\n===\n\nCalculer les densités de ferraillage dans des éléments coques et plaques en fonction des sollicitations : les efforts généralisés, préalablement obtenus par l'option EFGE_ELNO.\n\nLa commande enrichit la structure de données de type résultat, fournie sous le mot-clé RESULTAT, d'un champ de grandeur ferraillage, dont les composantes sont décrites dans ce document.\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "RESULTAT, CARA_ELEM, TYPE_COMB, CODIFICATION"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérandes\n=========\n\n\nOpérandes RESULTAT et CARA_ELEM\n-------------------------------\n\n\n.. code-block:: text\n\n    ♦ RESULTAT = resu\n\nNom d’un concept résultat de type résultat. Il est nécessairement réentrant.\n\n\n.. code-block:: text\n\n    ♦ CARA_ELEM = carac\n\nIl est nécessaire de renseigner les caractéristiques élémentaires par le mot-clé CARA_ELEM pour tous les résultats statiques et dynamiques. Ce changement est induit par l’intégration de POST_COMBINAISON(U4.81.45) qui génère un résultat ELAS_MULT sans CARA_ELEM associé.\n\n\nOpérande TYPE_COMB\n------------------\n\n\n.. code-block:: text\n\n    ♦    /    'ELU'\n\nLe ferraillage est dimensionné à l’État Limite Ultime, vis-à-vis du critère de limitation des déformations du béton et de l’acier.\n\n\n.. code-block:: text\n\n     /    'ELS'\n\nLe ferraillage est dimensionné à l’État Limite de Service Caractéristique, vis-à-vis du critère de limitation des contraintes dans le béton et l’acier.\n\n\n.. code-block:: text\n\n     /    'ELS_QP'\n\nLe ferraillage est dimensionné à l’État Limite de Service Quasi Permanent, vis-à-vis du critère de limitation des ouvertures des fissures dans le béton tendu.\n\n**Remarque** 1 **:**\n\nPour les combinaisons d’efforts, les pondérations sont à effectuer avant l’appel au module CALC_FERRAILAGE. Pour ce faire, il faut extraire le champ des efforts généralisés, préalablement obtenus par l’option EFGE_ELNO, en utilisant la fonction CREA_CHAMP (opération EXTR) décrite dans le document [:external:ref:`U4.72.04 <U4.72.04>`].\n\n.. code-block:: text\n\n     MECA1=CALC_CHAMP(reuse =MECA1,\n                      RESULTAT=MECA1,\n                      CONTRAINTE='EFGE_ELNO',);\n\n.. code-block:: text\n\n     EFFORTS1=CREA_CHAMP(TYPE_CHAM='ELNO_SIEF_R',\n                         OPERATION='EXTR',\n                         RESULTAT=MECA1,\n                         NOM_CHAM='EFGE_ELNO',);\n\nPuis, en réutilisant la fonction CREA_CHAMP (opération ASSE), on peut additionner les champs extraits en les pondérant par le coefficient souhaité.\n\n.. code-block:: text\n\n     PONDERE1=CREA_CHAMP(TYPE_CHAM='ELNO_SIEF_R',\n                         OPERATION='ASSE',\n                         MODELE=MODELE,\n                         ASSE=_F(GROUP_MA='BALCON',\n                                 CHAM_GD=EFFORTS1,\n                                 CUMUL='OUI',\n                                 COEF_R=1.35,),);\n\nEnfin, pour pouvoir utiliser le champ d’efforts pondérés créé dans CALC_FERRAILLAGE, il faut le transformer en un concept résultat de type résultat grâce à la fonction CREA_RESU décrite dans le document [:external:ref:`U4.44.12 <U4.44.12>`].\n\n\n.. code-block:: text\n\n     PONDER=CREA_RESU(OPERATION='AFFE',\n                      TYPE_RESU='EVOL_ELAS',\n                      NOM_CHAM='EFGE_ELNO',\n                      AFFE=(_F(CHAM_GD=PONDERE1,\n                               MODELE=MODELE,\n                               CHAM_MATER=MATE,\n                               CARA_ELEM=CARA,\n                               INST=1.0,),),)\n\n**Remarque** 2 **:**\n\nPour le calcul à l’ELS QP (vis-à-vis du critère de limitation des ouvertures des fissures), le dimensionnement proposé repose exclusivement sur la méthode détaillée élaborée dans l’Eurocode 2 (EC2). Ainsi, le calcul au BAEL sera similaire à celui régi par l’EC2.\n\n\nOpérande CODIFICATION\n---------------------\n\n.. code-block:: text\n\n     ◊    CODIFICATION    =    /    'EC2',        [DEFAUT]\n                               /    'BAEL91'\n\nLe mot-clé CODIFICATION permet de choisir la réglementation utilisée pour le calcul de ferraillage. Actuellement les réglementations disponibles sont le BAEL91 et l'Eurocode 2.\n\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "UNITE_CONTRAINTE"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérande UNITE_CONTRAINTE\n-------------------------\n\n.. code-block:: text\n\n     ♦ UNITE_CONTRAINTE = / 'MPa',\n                          / 'Pa'\n\nDéfinit à la fois l'unité de contraintes utilisée et l'unité de longueur.\nLa valeur 'MPa' induit le millimètre comme unité de longueur.\nLa valeur 'Pa' induit le mètre comme unité de longueur.\n\n**Remarque:**\n\nIl est très important de veiller à ce que l‘unité retenue dans ce mot-clé soit la même que l‘unité des contraintes du problème découlant du calcul aux éléments finis.\n\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "AFFE",
+            "Sélection des mailles"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérande AFFE\n-------------\n\n\nSélection des mailles concernées par le calcul\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nLes mots clés TOUT et GROUP_MA permettent à l'utilisateur de choisir les mailles sur lesquelles il souhaite faire ses calculs élémentaires de post-traitement.\n\n\n.. code-block:: text\n\n    /    TOUT = 'OUI'\n\nToutes les mailles (porteuses d'éléments finis) seront traitées. C'est la valeur par défaut.\n\n\n.. code-block:: text\n\n    /    GROUP_MA    =    l_grma\n\nSeules les mailles incluses dans l_grma seront traitées.\n\n**Remarque**  : Si le modèle n'est pas uniquement formé d'éléments de coque (3D, poutres, …), il ne faut pas utiliser le mot clé TOUT='OUI'. Il faut indiquer les éléments de coque à l'aide du mot-clé GROUP_MA.\n\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "AFFE",
+            "EC2",
+            "TYPE_STRUCTURE"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Mot-clé spécifique à l’option CODIFICATION = ’EC2’\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nOpérande TYPE_STRUCTURE\n^^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ♦ TYPE_STRUCTURE= / '1D',\n                       / '2D'\n\nType de la structure à ferrailler : 1D (Poutres/Poteaux) ou 2D (Dalles/Voiles)\n\n\nOpérande FERR_SYME\n^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ FERR_SYME= / 'OUI',\n                  / 'NON' [DEFAUT]\n\nSi la ferraillage symétrique est activée, ce mot-clé permet de déterminer un état d‘équilibre avec des sections de ferraillage supérieure et inférieure similaires, à une constante près à spécifier au niveau du mot clé **SEUIL_SYME** **= s** à suivre (c‘est-à-dire tel que :math:`|{A}_{\\text{s,sup}}-{A}_{\\text{s,inf}}|⩽s` )\n\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "AFFE",
+            "EC2",
+            "C_SUP, C_INF, C_SUP_Y, C_INF_Y, C_SUP_Z, C_INF_Z"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérande C_SUP\n^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ♦ C_SUP = enrobs,            [R]\n\nDistance entre la surface de béton et l'axe des armatures de ferraillage pour la face supérieure de la coque (TYPE_STRUCTURE = ‘2D’)\n\n**Remarque:**\n\nLa valeur de l'enrobage peut être approximée à :math:`0.1h` avec :math:`h` l'épaisseur de la section.\n\n\nOpérande C_INF\n^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ♦ C_INF = enrobi,            [R]\n\nDistance entre la surface de béton et l'axe des armatures de ferraillage pour la face supérieure de la coque (TYPE_STRUCTURE = ‘2D’)\n\n**Remarque:**\n\nLa valeur de l'enrobage peut être approximée à :math:`0.1h` avec :math:`h` l'épaisseur de la section.\n\n\nOpérande C_SUP_Y\n^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ♦ C_SUP = enrobys,            [R]\n\nDistance entre la surface de béton et l'axe des armatures de ferraillage pour la face supérieure suivant l’axe Y de la poutre/poteau (TYPE_STRUCTURE = ‘1D’)\n\n**Remarque:**\n\nLa valeur de l'enrobage peut être approximée à :math:`0.1h` avec :math:`h` la hauteur de la section.\n\n\nOpérande C_INF_Y\n^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ♦ C_INF_Y = enrobyi,            [R]\n\nDistance entre la surface de béton et l'axe des armatures de ferraillage pour la face supérieure suivant l’axe Y de la poutre/poteau (TYPE_STRUCTURE = ‘1D’)\n\n**Remarque:**\n\nLa valeur de l'enrobage peut être approximée à :math:`0.1h` avec :math:`h` la hauteur de la section.\n\n\nOpérande C_SUP_Z\n^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ♦ C_SUP_Z = enrobzs,            [R]\n\nDistance entre la surface de béton et l'axe des armatures de ferraillage pour la face supérieure suivant l’axe Z de la poutre/poteau (TYPE_STRUCTURE = ‘1D’)\n\n**Remarque:**\n\nLa valeur de l'enrobage peut être approximée à :math:`0.1b` avec :math:`b` la largeur de la section.\n\n\nOpérande C_INF_Z\n^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ♦ C_INF_Z = enrobzi,            [R]\n\nDistance entre la surface de béton et l'axe des armatures de ferraillage pour la face supérieure suivant l’axe Z de la poutre/poteau (TYPE_STRUCTURE = ‘1D’)\n\n**Remarque:**\n\nLa valeur de l'enrobage peut être approximée à :math:`0.1b` avec :math:`b` la hauteurde la section.\n\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "AFFE",
+            "EC2",
+            "ALPHA_E … ALPHA_CC"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérande ALPHA_E\n^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ ALPHA_E = cequi,            [R]\n\nCoefficient d'équivalence acier/béton (rapport des modules de Young)\n\nIl est obligatoire de renseigner sa valeur pour le calcul aux États Limites de Service Caractéristique (ELS) et Quasi Permanent(ELS_QP).\n\n**Remarque:**\n\nLa valeur couramment utilisée est :math:`{\\alpha}_{e}=15` .\n\n\nOpérande RHO_ACIER\n^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ RHO_ACIER= rhoacier,        [R]\n\nValeur de la densité volumique des aciers.\n\n\nOpérandes FYK/FCK\n^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ FYK= facier,            [R]\n\nLa limite d'élasticité de l'acier (contrainte)\n\n.. code-block:: text\n\n     ◊ FCK= fbeton,            [R]\n\nLa résistance caractéristique du béton à la compression (contrainte).\n\n\nOpérande EYS\n^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ EYS= eys,            [R]\n\nLa valeur du module de Young de l’acier pour le calcul du ferraillage.\n\n**Remarque:**\n\nLa valeur couramment utilisée est :math:`{E}_{\\mathit{ys}}=210000\\mathit{MPa}` .\n\n\nOpérande TYPE_DIAGRAMME\n^^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ TYPE_DIAGRAMME = / 'B1',\n                        / 'B2',[defaut]\n\nLe choix de la forme du diagramme Contrainte-Déformation [:ref:`B1 – palier plastique incliné et limité (ou) B2 – palier plastique horizontal et illimité <B1 – palier plastique incliné et limité (ou) B2 – palier plastique horizontal et illimité>`] de l‘acier pour le calcul à l‘ELU.\n\n\nOpérandes GAMMA_S / GAMMA_C\n^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ GAMMA_S= gammas,            [R]\n\nCoefficient de sécurité sur la résistance de l’acier à l’ELU.\n\nEn général, :math:`{\\gamma}_{s}=1.5` pour des combinaisons accidentelles sinon :math:`{\\gamma}_{s}=1.15` .\n\n.. code-block:: text\n\n     ◊ GAMMA_C= gammac,            [R]\n\nCoefficient de sécurité sur la résistance du béton à l’ELU.\n\nEn général, :math:`{\\gamma}_{c}=1.2` pour des combinaisons accidentelles sinon :math:`{\\gamma}_{c}=1.5`\n\n\nOpérande ALPHA_CC\n^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ ALPHA_CC= alphacc,            [R]\n\nCoefficient affectant la résistance ultime du béton(à l’ELU). Il vaut 1 par défaut dans l’EC2, et 0,85 par défaut au BAEL\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "AFFE",
+            "EC2",
+            "SIGS_ELS, SIGC_*_ELS"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérande SIGS_ELS\n^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ SIGS_ELS= sigs [R]\n\nContrainte admissible dans l'acier (obligatoire pour le calcul à l'État Limite de Service).\n\n**Remarque:**\n\nIl est recommandé dans l’EC2 d’utiliser :math:`\\text{SIGS\\_ELS}=0.8{f}_{\\mathit{yk}}` , avec :math:`{f}_{\\mathit{yk}}` la limite d'élasticité de l'acier.\n\n\nOpérandesSIGC_INF_ELS / SIGC_SUP_ELS\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ SIGC_INF_ELS= sigci [R]\n\nContrainte admissible de compression dans le béton en face inférieure de la coque(obligatoire pour le calcul des éléments ‘2D’ à l'État Limite de Service).\n\n.. code-block:: text\n\n     ◊ SIGC_SUP_ELS= sigcs [R]\n\nContrainte admissible de compression dans le béton en face supérieure de la coque(obligatoire pour le calcul des éléments ‘2D’ à l'État Limite de Service).\n\n**Remarque:**\n\nIl est recommandé dans l’EC2 d’utiliser :math:`\\text{SIGC\\_ELS\\_INF/SUP}=0.6{f}_{\\mathit{ck}}` avec :math:`{f}_{\\mathit{ck}}` la résistance caractéristique du béton à la compression.\n\n\nOpérandes SIGC_INF_Y_ELS / SIGC_SUP_Y_ELS / SIGC_INF_Z_ELS / SIGC_SUP_Z_ELS\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ SIGC_INF_Y_ELS= sigcyi [R]\n\nContrainte admissible de compression dans le béton en face inférieure de la poutre suivant l’axe d’inertie ‘Y’(obligatoire pour le calcul des éléments ‘1D’ à l'État Limite de Service).\n\n.. code-block:: text\n\n     ◊ SIGC_SUP_Y_ELS= sigcys [R]\n\nContrainte admissible de compression dans le béton en face supérieure de la poutre suivant l’axe d’inertie ‘Y’ (obligatoire pour le calcul des éléments ‘1D’ à l'État Limite de Service).\n\n.. code-block:: text\n\n     ◊ SIGC_INF_Z_ELS= sigczi [R]\n\nContrainte admissible de compression dans le béton en face inférieure de la poutre suivant l’axe d’inertie ‘Z’ (obligatoire pour le calcul des éléments ‘1D’ à l'État Limite de Service).\n\n.. code-block:: text\n\n     ◊ SIGC_SUP_Z_ELS= sigczs [R]\n\nContrainte admissible de compression dans le béton en face supérieure de la poutre suivant l’axe d’inertie ‘Z’ (obligatoire pour le calcul des éléments ‘1D’ à l'État Limite de Service).\n\n**Remarque:**\n\nIl est recommandé dans l’EC2 d’utiliser :math:`\\text{SIGC\\_ELS\\_Y/Z\\_INF/SUP}=0.6{f}_{\\mathit{ck}}` avec :math:`{f}_{\\mathit{ck}}` la résistance caractéristique du béton à la compression.\n\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "AFFE",
+            "EC2",
+            "WMAX_*, SIGC_ELS_QP, KT, PHI_*"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "OpérandesWMAX_INF / WMAX_SUP\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ WMAX_INF= wmaxi [R]\n\nOuverture maximale de fissuration autorisée en face inférieure de la coque(obligatoire pour le calcul des éléments ‘2D’ à l'État Limite de Service Quasi Permanent).\n\n.. code-block:: text\n\n     ◊ WMAX_SUP= wmaxs [R]\n\nOuverture maximale de fissuration autorisée en face supérieure de la coque (obligatoire pour le calcul des éléments ‘2D’ à l'État Limite de Service Quasi Permanent).\n\n**Remarque:**\n\nIl est recommandé dans l’EC2 d’utiliser :math:`\\text{WMAX\\_INF/SUP}=0.3-0.4\\mathit{mm}`\n\n\nOpérandes WMAX_INF_Y / WMAX_SUP_Y / WMAX_INF_Z / WMAX_SUP_Z\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ WMAX_INF_Y= wmaxyi [R]\n\nContrainte admissible de compression dans le béton en face inférieure de la poutre suivant l’axe d’inertie ‘Y’ (obligatoire pour le calcul des éléments ‘1D’ à l'État Limite de Service QP).\n\n.. code-block:: text\n\n     ◊ WMAX_SUP_Y= wmaxys [R]\n\nContrainte admissible de compression dans le béton en face supérieure de la poutre suivant l’axe d’inertie ‘Y’ (obligatoire pour le calcul des éléments ‘1D’ à l'État Limite de Service QP).\n\n.. code-block:: text\n\n     ◊ WMAX_INF_Z= wmaxzi [R]\n\nContrainte admissible de compression dans le béton en face inférieure de la poutre suivant l’axe d’inertie ‘Z’ (obligatoire pour le calcul des éléments ‘1D’ à l'État Limite de Service QP).\n\n.. code-block:: text\n\n     ◊ WMAX_SUP_Z= wmaxzs [R]\n\nContrainte admissible de compression dans le béton en face supérieure de la poutre suivant l’axe d’inertie ‘Z’ (obligatoire pour le calcul des éléments ‘1D’ à l'État Limite de Service QP).\n\n**Remarque:**\n\nIl est recommandé dans l’EC2 d’utiliser :math:`\\text{WMAX\\_INF/SUP\\_Y/Z}=0.3-0.4\\mathit{mm}`\n\n\nOpérande SIGC_ELS_QP\n^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ SIGC_ELS_QP= sigelsqp [R]\n\nContrainte admissible dans le béton pour la maîtrise du fluage non linéaire (obligatoire pour le calcul à l'État Limite de Service QP).\n\n**Remarque:**\n\nIl est recommandé dans l’EC2 d’utiliser :math:`\\text{SIGC\\_ELS\\_QP}=0.45{f}_{\\mathit{ck}}` , avec :math:`{f}_{\\mathit{ck}}` la résistance caractéristique du béton à la compression.\n\n\nOpérande KT\n^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ KT= kt [R]\n\nCoefficient de durée de chargement pour le calcul de l’ouverture des fissures (obligatoire pour le calcul à l’État Limite de Service QP).\n\n**Remarque:**\n\nIl est recommandé dans l’EC2 d’utiliser :math:`\\text{KT}=0.6` pour un chargement de courte durée et :math:`\\text{KT}=0.4` pour un chargement de longue durée.\n\n\nOpérandes PHI_INF_X / PHI_SUP_X / PHI_INF_Y / PHI_SUP_Y / PHI_INF_Z / PHI_SUP_Z\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ PHI_INF_X= phixi,            [R]\n\nDiamètre approximatif des armatures inférieures suivant « x » (obligatoire pour le calcul des éléments ‘2D’ à l'État Limite de Service Quasi Permanent).\n\n.. code-block:: text\n\n     ◊ PHI_SUP_X= phixs,            [R]\n\nDiamètre approximatif des armatures supérieures suivant « x » (obligatoire pour le calcul des éléments ‘2D’ à l'État Limite de Service Quasi Permanent).\n\n.. code-block:: text\n\n     ◊ PHI_INF_Y= phiyi,            [R]\n\nDiamètre approximatif des armatures inférieures suivant « y » (obligatoire pour le calcul des éléments ‘1D’ et ‘2D’ à l'État Limite de Service Quasi Permanent ELS_QP).\n\n.. code-block:: text\n\n     ◊ PHI_SUP_Y= phiys,            [R]\n\nDiamètre approximatif des armatures supérieures suivant « y » (obligatoire pour le calcul des éléments ‘1D’ et ‘2D’ à l'État Limite de Service Quasi Permanent).\n\n.. code-block:: text\n\n     ◊ PHI_INF_Z= phizi,            [R]\n\nDiamètre approximatif des armatures inférieures suivant « z » (obligatoire pour le calcul des éléments ‘1D’ à l'État Limite de Service Quasi Permanent).\n\n.. code-block:: text\n\n     ◊ PHI_SUP_Z= phizs,            [R]\n\nDiamètre approximatif des armatures supérieures suivant « z » (obligatoire pour le calcul des éléments ‘1D’ à l'État Limite de Service Quasi Permanent).\n\n**Remarque:**\n\nIl est recommandé de considérer une valeur de 25 mm dans le cas général.\n\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "AFFE",
+            "EC2",
+            "UTIL_COMPR, CLASSE_ACIER"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérande UTIL_COMPR\n^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ UTIL_COMPR=    / 'NON',        [DEFAUT]\n                      / 'OUI',\n\nPrise en compte de la compression dans le calcul des aciers d'effort tranchant à l'ELS.\n\n\nOpérandes CLASSE_ACIER\n^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ CLASSE_ACIER= classe,            [R]\n\nClasse d'acier. Doit être une des trois valeurs: 'A' à ductilité normale, 'B' à haute ductilité ou 'C' à très haute ductilité. Elle permet de définir la valeur du pivot A :math:`{\\mathit{PIV}}_{A}=2,5\\text{\\%}` ,                    :math:`{\\mathit{PIV}}_{A}=5\\text{\\%}`  ou :math:`{\\mathit{PIV}}_{A}=7,5\\text{\\%}` . La classe d'acier par défaut est la classe B.\n\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Composition_du_champ_produit"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Composition_du_champ_produit.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Composition du champ produit\n============================\n\nLe résultat est enrichi par un nouveau champ (nommé 'FERRAILLAGE' dans la structure de données) dont les composantes sont :\n\nSi **TYPE_STRUCTURE** **= ‘2D’** :\n\n\n*   une densité de ferraillage longitudinal dans le sens :math:`X` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{DNSXI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{DNSXS}` ) ;\n\n\n*   une densité de ferraillage longitudinal dans le sens :math:`Y` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{DNSYI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{DNSYS}` ) ;\n\n\n*   la densité de ferraillage transversal dans le sens :math:`X` de l'élément (:math:`\\mathit{DNSXT}` ) ;\n\n\n*   l’équivalent dans le sens :math:`Y` de l'élément (:math:`\\mathit{DNSYT}` ) ;\n\n\n*   la densité volumique totale d'acier (:math:`\\mathit{DNSVOL}` );\n\n\n*   un indicateur de complexité de mise en œuvre du ferraillage (:math:`\\mathit{CONSTRUC}` ).\n\n\n*   une densité de ferraillage minimale pour la maîtrise de la fissuration dans le sens :math:`X` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{ASMINXI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{ASMINXS}` ) ;\n\n\n*   une densité de ferraillage minimal pour la maîtrise de la fissuration dans le sens :math:`Y` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{ASMINYI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{ASMINYS}` ) ;\n\nSi **TYPE_STRUCTURE** **= ‘1D’** :\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Y` de la section, et selon le sens positif de l’axe (face supérieure suivant la hauteur h) (:math:`\\mathit{AYS}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Y` de la section, et selon le sens négatif de l’axe (face inférieure suivant la hauteur h) (:math:`\\mathit{AYI}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Z` de la section, et selon le sens positif de l’axe (face supérieure suivant la largeur b) (:math:`\\mathit{AZS}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Z` de la section, et selon le sens négatif de l’axe (face inférieure suivant la largeur b)(:math:`\\mathit{AZI}` ) ;\n\n\n*   une densité de ferraillage transversal (:math:`\\mathit{AST}` ) ;\n\n\n*   une densité de ferraillage longitudinal total (:math:`\\mathit{ATOT}` ) ;\n\n\n*   la densité volumique totale d'acier (:math:`\\mathit{DNSVOL}` );\n\n\n*   un indicateur de complexité de mise en œuvre du ferraillage(:math:`\\mathit{CONSTRUC}` ).\n\nActuellement, pour les éléments ‘2D’, les densités de ferraillage sont calculées d'après la méthode de CAPRA et MAURY [:ref:`R7.04.05 <R7.04.05>`]. Ces densités sont exprimées en unité de surface par longueur linéaire de coque. Par exemple, si le maillage est en mètres (avec des données de caractéristiques élémentaires et de matériau en cohérence), les densités seront exprimées en :math:`{m}^{2}/m` pour les aciers de flexion et en :math:`{m}^{2}/m\\mathrm{²}` pour les aciers d'effort tranchant.\n\nPour les éléments ‘1D’, les densités sont exprimées en unité de surface. Par exemple, si le maillage est en mètres (avec des données de caractéristiques élémentaires et de matériau en cohérence), les densités seront exprimées en :math:`{m}^{2}` pour les aciers de flexion et en :math:`{m}^{2}/m` pour les aciers d'effort tranchant.\n\nLe champ de ferraillage est calculé pour tous les instants spécifiés par l'utilisateur (par défaut : tous). Si l'on veut calculer le champ contenant les valeurs «max» au cours du transitoire, on peut exécuter la commande :\n\nFERMAX=CREA_CHAMP( OPERATION='EXTR', TYPE_CHAM='ELEM_FER2_R',\n\nNOM_CHAM='FERRAILLAGE', RESULTAT=Solution,\n\nTYPE_MAXI='MAXI_ABS', TYPE_RESU='VALE',\n\n)"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Erreurs_et_alarmes"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Erreurs_et_alarmes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Erreurs et alarmes\n==================\n\n\n\n\nErreurs causées par une incohérence des paramètres d’entrée\n-----------------------------------------------------------\n\nUne vérification de la cohérence des paramètres d’entrée est réalisée au début de l’exécution de la commande CALC_FERRAILLAGE. Le calcul peut être stoppé par une erreur fatale dans les cas suivants:\n\n\n*   dans le cas BAEL91 à l’ELU: si les mots-clé GAMMA_S,GAMMA_C,FE ou FCJ, ne sont pas renseignés;\n\n\n*   dans le cas BAEL91 à l’ELS: si les mots-clé N, SIGS_ELS ou SIGC_ELS ne sont pas renseignés;\n\n\n*   dans le cas BAEL à l’ELS_QP: si les mots-clé ALPHA_E, FYK, FCK, SIGC_ELS_QP, WMAX_INF/SUP(_Y/Z), KT, PHI_X/Y/Z_INF/SUP ne sont pas renseignés;\n\n\n*   dans le cas EC2 à l’ELU: si les mots-clé GAMMA_S,GAMMA_CFYK ou FCK, ne sont pas renseignés;\n\n\n*   dans le cas EC2 à l’ELS: si les mots-clé ALPHA_E, SIGS_ELS,SIGC_INF/SUP(_Y/Z)_ELSou FCK ne sont pas renseignés;\n\n\n*   dans le cas EC2 à l’ELS_QP: si les mots-clé ALPHA_E, FYK, FCK, SIGC_ELS_QP, WMAX_INF/SUP(_Y/Z), KT, PHI_X/Y/Z_INF/SUP ne sont pas renseignés;\n\n\n*   pour tous les cas: si la valeur de l’enrobage est supérieure à l’épaisseur/hauteur/largeur de l’élément de structure.\n\nAinsi que les cas particuliers suivants:\n\n\n*   si **FERR_MIN = ‘VALE_MIN’**  et que les mots-clés RHO_LONGI_MIN et RHO_TRSNV_MIN ne sont pas renseignés.\n\n\n*   si **FERR_SYME = ‘OUI’**  et que le mot-clé SEUIL_SYME n’est pas renseigné.\n\n\n\n\nAlarmesémises lors du calcul des aciers de flexion\n--------------------------------------------------\n\nLe calcul des aciers de flexion peut émettre une ou plusieurs alarmes dans les cas suivants :\n\n\n*   si l’élément ‘1D’ ou au moins une facette de l’élément ‘2D’ est en pivot B trop comprimé, avec **FERR_COMP = ‘NON’**  : dans ce cas la densité de ferraillage est fixée à -1 pour l’élément (et le calcul sur les autres facettes de l’élément ‘2D’ est ignoré)\n\n\n*   si l’élément ‘1D’ ou au moins une facette de l’élément ‘2D’ est en pivot C trop comprimé avec **FERR_COMP = ‘NON’**  : dans ce cas la densité de ferraillage est fixée à -1 pour l’élément (et le calcul sur les autres facettes de l’élément ‘2D’ est ignoré)\n\n\n*   si **FERR_SYME = ‘OUI’**  et que l’algorithme ne réussit pas à déterminer un ferraillage symétrique pour l’élément ‘1D’ (ou pour au moins une facette de l’élément ‘2D’) qui respecte le seuil de tolérance rensigné au niveau du mot-clé **SEUIL_SYME** : dans ce cas la densité de ferraillage est fixée à -1 pour l’élément\n\n\n*   si l’élément **‘1D’**  est soumis à une flexion déviée, et que l’algorithme itératif de dimensionnement par vérification de l’inéquation de Bresler ne parvient pas à converger: dans ce cas la densité de ferraillage est fixée à -1 pour l’élément\n\n\n*   si **TYPE_COMB = ‘ELS_QP’**  et que l’algorithme itératif de dimensionnement basé sur la vérification de l’inéquation de l’ouverture des fissures ne parvient pas à converger: dans ce cas la densité de ferraillage est fixée à -1 pour l’élément\n\n\n\n\nAlarmesémises lors du calcul des aciers transversaux\n----------------------------------------------------\n\nLe calcul à l’ELU des aciers transversaux peut émettre une ou plusieurs alarmes dans les cas suivants :\n\n\n*   si le béton est trop cisaillé : dans ce cas la densité de ferraillage des aciers transversaux est fixée à -1."
+        },
+        {
+          "document_id": "U4.81.44",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "But"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.44/But.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "But\n===\n\nLe but de cet opérateur est de calculer les densités de ferraillage dans des éléments surfaciques (2D) et linéiques (1D) en fonction des sollicitations pour plusieurs combinaisons de chargement.\n\nEn entrée, cette macro-commande prend un résultat multiple de type mult_elas. Chacun des résultats de mult_elas contient les efforts généralisés, préalablement obtenus par l'option EFGE_ELNO.\n\nLa commande enrichit chaque résultat de mult_elas d'un champ de grandeur ferraillage, en appelant plusieurs fois la commande CALC_FERRAILLAGE.\n\nAussi, la commande ajoute des résultats à la structure de donnéemult_elas.\n"
+        },
+        {
+          "document_id": "U4.81.44",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.44/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérandes\n=========\n\nOpérande RESULTAT et CARA_ELEM\n------------------------------\n\n♦ RESULTAT =    resu\n\n     Nom d’un concept résultat de type mult_elas. Il est nécessairement ré-entrant.\n\n♦ CARA_ELEM = carac\n\nIl est nécessaire de renseigner les caractéristiques élémentaires par le mot-clef CARA_ELEM pour tous les résultats statiques & dynamiques. Ce changement est induit par l’intégration de POST_COMBINAISON(U4.81.45) qui génère un résultat ELAS_MULT sans associé de CARA_ELEM.\n\n\nOpérande CODIFICATION\n---------------------\n\n\n*\n\n♦ CODIFICATION = /‘EC2’,                     [DEFAUT]\n\n.. code-block:: text\n\n    /'BAEL91',\n\nC’est la codification à utiliser pour les vérifications.: Eurocode 2 (EC2) ou BAEL91.\n\n\n.. _RefHeading__979_1696128148:\n\n\nOpérande COMBINAISON\n--------------------\n\n     ♦ COMBINAISON = _F(♦ TYPE = / 'ELS_QUASIPERMANENT',\n\n/'ELS_CARACTERISTIQUE',\n\n/'ELU_FONDAMENTAL',\n\n/'ELU_ACCIDENTEL',\n\n♦ /NOM_CAS = l_nomcas\n\n/NUME_ORDRE = l_numeordre,)\n\nAvec cette opérateur répétable on fournit à la commande la liste des cas (résultats de la mult_elas) sur lesquels réaliser le dimensionnementqui correspondent aux vérifications d’état limite de service (la combinaison caractéristique est la seule disponible pour le moment) et ultimes (fondamentaux, accidentelles).\n\nLe choix entre ELU_FONDAMENTALet ELU_ACCIDENTEL permet de choisir la valeur des coefficients de sécurité GAMMA(voir opérande AFFE, § :ref:`3.4 <RefHeading__977_1696128148>` ).\n\n\nMot-clé TYPE\n~~~~~~~~~~~~\n\n     ♦ TYPE = / 'ELS_QUASIPERMANENT',\n\n/'ELS_CARACTERISTIQUE',\n\n/'ELU_FONDAMENTAL',\n\n/'ELU_ACCIDENTEL',\n\nAvec ce mot-clé, on choisit le type de vérification à associer à la liste de cas. Pour l’instant les options disponibles sont les états limites ultimes fondamentaux ou accidentels et les états limites de service caractéristiques et quasi-permanents tels que définis par les Eurocodes.\n\n\nMot-clés NUME_ORDRE et NOM_CAS\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nIci est fournie la liste des cas associée à la vérification renseignée dans TYPE, soit comme liste desnuméro d’ordre des cas soit comme liste des noms des cas (étiquette associée à chaque résultatde la mult_elas).\n\n**Remarque**\n\nIci le numéro d’ordre n’indique pas un instant de calcul ou une fréquence comme pour le structures de données résultatmais un numéro de cas (un des résultatscontenus par la multi_elas).\n\n\n.. _RefHeading__977_1696128148:\n\n\nOpérande AFFE\n-------------\n\nUne grande partie des mot-clés renseignéesici sont les mêmes que pour la commande CALC_FERRAILLAGE. Une différence avec les mot-clés de CALC_FERRAILLAGE consiste dans le choix des coefficients de sécurité:\n\n◊ GAMMA_S_FOND= gs,                [R]\n\n◊ GAMMA_S_ACCI= gs,                [R]\n\n◊ GAMMA_C_FOND= gc,                [R]\n\n◊ GAMMA_C_ACCI = gc,                [R]\n\nOn choisira les valeurs renseignées sous GAMMA_S_FOND et GAMMA_C_FOND pour alimenter CALC_FERRAILLAGE si l'utilisateur a choisi l'option ELU_FONDAMENTAL de l'opérande COMBINAISON (§ :ref:`3.3 <RefHeading__979_1696128148>` ) pour un certain cas de charge. Pour ELU_ACCIDENTEL, les valeurs de GAMMA_S_ACCI et GAMMA_C_ACCI seront sélectionnées.\n\n\nComposition du champ produit\n----------------------------\n\nLe résultat de chaque cas de nom NOM_CAS est enrichi par un nouveau champ (nommé 'FERRAILLAGE' dans la structure de données) dont les composantes sont:\n\nSi **TYPE_STRUCTURE** **= ‘2D’** :\n\n\n*   une densité de ferraillage longitudinal dans le sens :math:`X` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{DNSXI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{DNSXS}` ) ;\n\n\n*   une densité de ferraillage longitudinal dans le sens :math:`Y` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{DNSYI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{DNSYS}` ) ;\n\n\n*   la densité de ferraillage transversal dans le sens :math:`X` de l'élément (:math:`\\mathit{DNSXT}` ) ;\n\n\n*   l’équivalent dans le sens :math:`Y` de l'élément (:math:`\\mathit{DNSYT}` ) ;\n\n\n*   la densité volumique totale d'acier (:math:`\\mathit{DNSVOL}` );\n\n\n*   un indicateur de complexité de mise en œuvre du ferraillage (:math:`\\mathit{CONSTRUC}` ).\n\nSi **TYPE_STRUCTURE** **= ‘1D’** :\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Y` de la section, et selon le sens positif de l’axe (face supérieure suivant la hauteur h) (:math:`\\mathit{AYS}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Y` de la section, et selon le sens négatif de l’axe (face inférieure suivant la hauteur h) (:math:`\\mathit{AYI}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axede la section, et selon le sens positif de l’axe (face supérieure suivant la largeur b) (:math:`\\mathit{AZS}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Z` de la section, et selon le sens négatif de l’axe (face inférieure suivant la largeur b)(:math:`\\mathit{AZI}` ) ;\n\n\n*   une densité de ferraillage transversal (:math:`\\mathit{AST}` ) ;\n\n\n*   une densité de ferraillage longitudinal total (:math:`\\mathit{ATOT}` ) ;\n\n\n*   la densité volumique totale d'acier (:math:`\\mathit{DNSVOL}` );\n\n\n*   un indicateur de complexité de mise en œuvre du ferraillage(:math:`\\mathit{CONSTRUC}` ).\n\nLe champ de ferraillage est calculé pour le seul instant existant pour chaque cas. Un des buts principaux de la commande COMBINAISON_FERRAILLAGE est de calculer, pour chaque type d’armature (longitudinale, transversale…), la combinaison dimensionnante, c’est à dire celle qui maximise le type d’armature considérée.\n\nAinsi, l’algorithme de la commande COMBINAISON_FERRAILLAGE appelle la commande CALC_FERRAILLAGE pour chaque cas (numéro d’ordre de mult_elas) en choisissant le type de vérification renseignée par TYPE_COMB. Ensuite, les densités d’armature (pour chaque type d’armature) sont comparées entre elles, celle qui donne lieu à l’armature la plus importante est la combinaison dimensionnante. Cette comparaison est faite à chaque appel de la COMBINAISON_FERRAILLAGE, donc sur chaque nœud des groupes de mailles sélectionnés.\n\nIl y aura donc autant de combinaisons dimensionnantes que de types d’armatures.\n\nOn crée dans la structure donnée multi_elas deux nouveaux cas :\n\n\n*   COMB_DIME_ACIER → Sous ce nom de cas sont renseignés les armatures maximales pour chaque élément fini et type d'armature\n\n\n*   COMB_DIME_ORDRE → Sous ce nom de cas sont renseignés les numéro d'ordre des cas qui fournissent les armatures maximales (cas dimensionnants) pour chaque élément fini et type d'armature.\n\n\nErreurs et alarmes\n------------------\n\n\nErreurs causées par une incohérence des paramètres d’entrée\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nUne vérification de la cohérence des paramètres d’entrée est réalisée au début de l’exécution de la commande COMBINAISON_FERRAILLAGE. Le calcul peut être stoppé par une erreur fatale dans les cas suivants:\n\n\n*   si aucune occurrencede l’opérande COMBINAISON ou AFFE n'est renseignée.\n\n\n*   dans le cas BAEL91à l’ELU FONDAMENTAL : si les mots-clé GAMMA_S_FOND,GAMMA_C_FOND,FEou FCJ, ne sont pas renseignés;\n\n\n*   dans le cas BAEL91à l’ELU ACCIDENTEL : si les mots-clé GAMMA_S_ACCI,GAMMA_C_ACCI,FEou FCJ, ne sont pas renseignés;\n\n\n*   dans le cas BAEL91à l’ELS: si les mots-clé N, SIGS_ELSou SIGC_ELSne sont pas renseignés;\n\n\n*   dans le cas BAELà l’ELS_QP: si les mots-clé ALPHA_E, FYK, FCK,SIGC_ELS_QP, WMAX_INF/SUP(_Y/Z),KT, PHI_X/Y/Z_INF/SUP ne sont pas renseignés;\n\n\n*   dans le cas EC2à l’ELUFONDAMENTAL : si les mots-clé GAMMA_S_FOND,GAMMA_C_FOND,FYKou FCK, ne sont pas renseignés;\n\n\n*   dans le cas EC2à l’ELU ACCIDENTEL : si les mots-clé GAMMA_S_ACCI,GAMMA_C_ACCI,FYKou FCK, ne sont pas renseignés;\n\n\n*   dans le cas EC2à l’ELS: si les mots-clé ALPHA_E, SIGS_ELS,SIGC_INF/SUP(_Y/Z)_ELSouFCKne sont pas renseignés;\n\n\n*   dans le cas EC2à l’ELS_QP: si les mots-clé ALPHA_E, FYK, FCK,SIGC_ELS_QP, WMAX_INF/SUP(_Y/Z),KT, PHI_X/Y/Z_INF/SUP ne sont pas renseignés;\n\n\n*   pour tous les cas: si la valeur de l’enrobage est supérieure à l’épaisseur/hauteur/largeur de l’élément de structure.\n\nAinsi que les cas particuliers suivants:\n\n\n*   si **FERR_MIN = ‘VALE_MIN’**  et que les mots-clés RHO_LONGI_MIN et RHO_TRSNV_MIN ne sont pas renseignés.\n\n\n*   si **FERR_SYME = ‘OUI’** et que le mot-clé SEUIL_SYME n’est pas renseigné.\n\n\nAlarmes émises lors du calcul des aciers\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nLe calcul des aciers de flexion peut émettre une ou plusieurs alarmes dans les cas suivants :\n\n\n*   si l’élément ‘1D’ ou au moins une facette de l’élément ‘2D’ est en pivot B trop comprimé, avec **FERR_COMP = ‘NON’**  : dans ce cas la densité de ferraillage est fixée à -1 pour l’élément (et le calcul sur les autres facettes de l’élément ‘2D’ est ignoré)\n\n\n*   si l’élément ‘1D’ ou au moins une facette de l’élément ‘2D’ est en pivot C trop comprimé avec **FERR_COMP = ‘NON’**  : dans ce cas la densité de ferraillage est fixée à -1 pour l’élément (et le calcul sur les autres facettes de l’élément ‘2D’ est ignoré)\n\n\n*   si **FERR_SYME = ‘OUI’**  et que l’algorithme ne réussit pas à déterminer un ferraillage symétrique pour l’élément ‘1D’ (ou pour au moins une facette de l’élément ‘2D’) qui respecte le seuil de tolérance rensigné au niveau du mot-clé **SEUIL_SYME** : dans ce cas la densité de ferraillage est fixée à -1 pour l’élément\n\n\n*   si l’élément **‘1D’** est soumis à une flexion déviée, et que l’algorithme itératif de dimensionnement par vérification de l’inéquation de Bresler ne parvient pas à converger: dans ce cas la densité de ferraillage est fixée à -1 pour l’élément\n\n\n*   si **TYPE_COMB = ‘ELS_QP’** et que l’algorithme itératif de dimensionnement basé sur la vérification de l’inéquation de l’ouverture des fissures ne parvient pas à converger: dans ce cas la densité de ferraillage est fixée à -1 pour l’élément"
+        },
+        {
+          "document_id": "U4.81.45",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "But"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.45/But.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "But\n===\n\nLe but de cette macro-commande est de combiner différentes grandeurs physiques à la suite de calculs aux éléments finis réalisés en amont. Cette commande ne réalisera que des posts-traitements en manipulant des résultats sous forme de champs ou de tables issues de calculs antérieurs.\n\nEn entrée, cette macro-commande prend des résultats de plusieurs types ou des tables de type table_sdaster à combiner, suivis d’une table de type table_sdaster des coefficients à appliquer pour chaque combinaison.\n\nEn sortie, si des résultats sont combinés, la macro-commande retournera une structure résultat de type mult_elas. En revanche, dans le cas de combinaison de tables, une table table_sdaster est retournée. La table finale des combinaisons de type table_sdaster est retournée dans les deux cas."
+        },
+        {
+          "document_id": "U4.81.45",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Syntaxe"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.45/Syntaxe.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Syntaxe\n=======\n\n.. code-block:: text\n\n    POST_COMBINAISON(\n        ◆ TABLE_COEF = table,\n        ◇ TABLE_COEF_RESU = co,\n        ◆ TYPE_COMB = / \"RESULTAT\",\n                      / \"TABLE\",\n        # Si: equal_to('TYPE_COMB', 'RESULTAT')\n            ◇ / TOUT = \"OUI\" (ou non renseigné),\n              / | GROUP_MA = list[grma],\n                | GROUP_NO = list[grno],\n            ◆ MODELE = modele,\n            ◇ NOM_CHAM = list[text],\n            ◆ AFFE = _F(\n                 ◆ NOM_CAS = text,\n                 ◆ RESULTAT = evol_elas / mode_meca / mult_elas,\n              ),\n        # Si: equal_to('TYPE_COMB', 'TABLE')\n            ◇ FILTRE = _F(\n                 ◆ NOM_PARA = text,\n                 ◇ CRIT_COMP = / \"EQ\" (par défaut),\n                               / \"GE\",\n                               / \"GT\",\n                               / \"LE\",\n                               / \"LT\",\n                               / \"MAXI\",\n                               / \"MAXI_ABS\",\n                               / \"MINI\",\n                               / \"MINI_ABS\",\n                               / \"NE\",\n                               / \"NON_VIDE\",\n                               / \"VIDE\",\n                 # Si: (is_in(\"CRIT_COMP\", ('EQ','NE','GT','LT','GE','LE')))\n                     ◆ / VALE = float,\n                       / VALE_I = int,\n                       / VALE_K = list[text],\n                       / VALE_C = complex,\n                     ◇ CRITERE = / \"ABSOLU\",\n                                 / \"RELATIF\" (par défaut),\n                     ◇ PRECISION = float (défaut: 0.001),\n              ),\n            ◆ AFFE = _F(\n                 ◆ NOM_CAS = text,\n                 ◆ TABLE = table,\n              ),\n    )\n\n    ◆ : obligatoire\n    ◇ : optionnel\n    ⟐ : présent par défaut\n    & : ensemble\n    / : un seul parmi\n    | : plusieurs choix possibles"
+        },
+        {
+          "document_id": "U4.81.45",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.45/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérandes\n=========\n\n\nOpérande TABLE_COEF\n-------------------\n\nTable contenant les coefficients des combinaisons pour tous les résultats ou les tables à combiner. Chaque colonne doit contenir les coefficients à appliquer à un résultat ou une table. Le nom en tête de colonne doit être cohérent avec le nom renseigné sous le mot-clé NOM_CAS du résultat ou de la table renseigné dans le mot-clé facteur AFFE. Chaque ligne doit représenter une combinaison. Chaque coefficient sera utilisé pour multiplier le résultat/la table dans la combinaison correspondante.\n\n\nOpérande TABLE_COEF_RESU\n------------------------\n\nNom de la table finale des coefficients. Cette table est issue de la table donnée en entrée sous le mot-clé TABLE_COEF. Celle-ci est étendue selon les numéros d’ordres contenus dans chaque résultat ou table.\nCe mot-clé est facultatif.\n\n\nOpérande TYPE_COMB\n------------------\n\nIndicateur de type texte permettant de spécifier le type de la structure de données à multiplier.\n\n\nDeux choix sont possibles:\n\n\n1.  RESULTAT: Les structures de données à combiner sont de type sd_resultat. Trois types de résultats sont acceptés: mult_elas, evol_elas et mode_meca\n\n\n2.  TABLE: Structure de données de type sd_table.\n\n\nRemarque\n    Seules les tables issues de l’opérateur CALC_COUPURE pour des calculs statiques sont prises en charge. Par exemple, les tables issues de CALC_COUPURE pour des calculs sismiques (opérateur COMB_SISM_MODAL) ne sont pas traitées.\n\n\nOpérandes TOUT/GROUP_MA/GROUP_NO\n--------------------------------\n\nLes mots clés TOUT, GROUP_MA et GROUP_NO permettent à l'utilisateur de choisir les mailles ou les nœuds sur lesquels il souhaite faire ses combinaisons.\n\n\n- TOUT = 'OUI'\n\n  Toutes les mailles (porteuses d'éléments finis) seront traitées.\n\n\n- GROUP_MA = l_grma\n\n  Seules les mailles incluses dans l_grma seront traitées.\n\n\n- GROUP_NO = l_grno\n\n  Seuls les noeuds inclus dans l_grno seront traités.\n\n\nRemarque\n    Les mots clés GROUP_MA et GROUP_NO peuvent être utilisés simultanément\n\n\nOpérande MODELE\n---------------\n\nNom du modèle sur lequel sera affecté le résultat de sortie.\n\n\nOpérande NOM_CHAM\n-----------------\n\nCe mot clé permet de choisir une liste de noms symboliques de champ à combiner (aux nœuds ou par élément) parmi l'ensemble des possibles. Il est facultatif. S’il n’est pas renseigné, tous les champs sont combinés.\n\n\nMot clé facteur AFFE\n--------------------\n\nLe mot clé facteur AFFE permettant de spécifier les résultats à combiner.\nOn fournit soit des résultats, soit des tables.\n\n- NOM_CAS = l_nomcas\n\n  Nom du résultat à combiner. Celui-ci doit être cohérent avec les noms renseignés dans la table des coefficients.\n\n\n- RESULTAT= resu\n\n  Structure de données sd_resultat à combiner.\n\n- TABLE= table\n\n  Structure de données sd_resultat à combiner.\n\n\nOpération FILTRE\n----------------\n\nCe mot-clé facteur est facultatif. Il permet de filtrer les lignes de la table. Pour l’utilisation de ce mot-clé voir la commande IMPR_TABLE [:external:ref:`U4.91.03 <U4.91.03>`].\n\n\nOpérande NOM_PARA\n-----------------\n\nNom des paramètres (colonnes) que l'on veut extraire."
+        },
+        {
+          "document_id": "U4.81.46",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "But"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.46/But.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "But\n===\n\nVérifier un ferraillage existant sous une charge donnée en fournissant une marge mécanique et un taux d’utilisation de la capacité maximale de la structure sous cette charge. \n\nLa méthode employée pour la vérification du ferraillage est présentée en détail dans le document [:external:ref:`r7.04.05 <R7.04.05>`].\n\nLa commande enrichit la structure de données de type résultat, fournie sous le mot-clé RESULTAT, d'un champ de grandeur, dont les composantes sont décrites dans ce document.\n"
+        },
+        {
+          "document_id": "U4.81.46",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.46/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérandes\n=========\n\n\nOpérande RESULTAT\n------------------\n\n\n.. code-block:: text\n\n    ♦ RESULTAT = resu\n\nNom d’un concept résultat de type résultat. Il est nécessairement réentrant.\n\nCe résultat doit inclure les efforts (EFGE_ELNO) dus aux charges étudiées. \nLe concept de RESULTAT (dyna_trans, evol_elas, evol_noli ou mult_elas) peut être obtenu, par exemple, à l'aide des commandes suivantes : ``MECA_STATIQUE``, ``POST_COMBINAISON`` ou  ``CREA_CHAMP`` + ``CREA_RESU``, etc. \n\n**Exemples de création du concept RESULTAT :**\n\n1. A l'aide de ``POST_COMBINAISON``\n\n.. code-block:: python\n     \n     COMBI1    = POST_COMBINAISON(MODELE      = MODEL,\n                              TOUT            = 'OUI',\n                              TABLE_COEF      = tableELU,\n                              TYPE_COMB       = 'RESULTAT',\n                              TABLE_COEF_RESU = CO('COMBI_TB'),\n                              NOM_CHAM        = ('DEPL', 'REAC_NODA',\n                                                  'EFGE_ELNO', ),\n                              AFFE = (\n                                        _F(NOM_CAS  = 'Charge_G',\n                                        RESULTAT = Statique_G),\n                                        _F(NOM_CAS  = 'Charge_Q',\n                                        RESULTAT = Statique_Q),\n                                        ),\n                              )\n\n2. Avec ``CREA_CHAMP`` puis ``CREA_RESU``\n\n.. code-block:: python\n     \n     CHEFF1 = CREA_CHAMP(\n     MAILLAGE=MA,\n     OPERATION=\"AFFE\",\n     TYPE_CHAM=\"CART_SIEF_R\",\n     AFFE=_F(\n          GROUP_MA=\"PLAQUE\",\n          NOM_CMP=(\"NXX\", \"NYY\", \"NXY\", \"MXX\", \"MYY\", \"MXY\", \"QX\", \"QY\"),\n          VALE=(0.0, -1e-06, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),\n     ))\n     RESU1 = CREA_RESU(\n     OPERATION=\"AFFE\",\n     TYPE_RESU=\"EVOL_ELAS\",\n     AFFE=(\n          _F(NOM_CHAM=\"EFGE_ELNO\", CHAM_GD=CHEFF1, INST=1.0, MODELE=MODEL, CARA_ELEM=CARA),\n     ))\n\n\nOpérande CARA_ELEM\n-------------------\n\n.. code-block:: text\n\n    ♦ CARA_ELEM = carac\n\nIl est nécessaire de renseigner les caractéristiques élémentaires par le mot-clef CARA_ELEM pour tous les résultats statiques & dynamiques. \n\nOpérande FERR_ELEM\n-------------------\n\n.. code-block:: text\n     \n     ♦ CHAM_FERR = cham_elem,\n\nChamp de densités de ferraillage constant par élément 'FERR_ELEM' de type 'ELEM_FER2_R'. \nSeules quatre composantes sont nécessaires : [DNSXI, DNSXS, DNSYI, DNSYS]. \nLe calcul ne prend pas en compte l'armature transversale au cisaillement (DNST) hors-plan, même si cette composante est présente dans le champ.\n\nCe champ peut être extrait à partir d'un résultat obtenu avec ``CALC_FERRAILLAGE`` [:external:ref:`U4.81.82 <U4.81.42>`]  en utilisant ``CREA_CHAMP`` [:external:ref:`U4.81.82 <U4.72.04>`], comme illustré ci-dessous :\n\n.. code-block:: python\n\n     RES1 = CALC_FERRAILLAGE(\n     RESULTAT=RES1,\n     reuse=RES1,\n     CARA_ELEM=CARA,\n     CODIFICATION=\"EC2\",\n     TYPE_COMB=\"ELU\",\n     UNITE_CONTRAINTE=\"Pa\",\n     UNITE_DIMENSION=\"m\",\n     PAS_EPAI=0.001,\n     INST=(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0),\n     AFFE=(\n          _F(\n               TOUT=\"OUI\",\n               TYPE_STRUCTURE=\"2D\",\n               C_SUP=0.08,\n               C_INF=0.08,\n               FYK=500.0e6,"
+        },
+        {
+          "document_id": "U2.03.07",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_de_ferraillage"
+          ],
+          "source_path": "source/manuals/man_u/u2/u2.03.07/Calcul_de_ferraillage.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Calcul de ferraillage\n======================\n\nPour les études de dimensionnement, l'outil Civil Master, accessible sous forme de plugin dans salome_meca (en interne EDF) permet d'utiliser\nfacilement toutes les fonctions dédiées dans code_aster du pré-traitement au prétraitement.\nNous nous contentons ici de lister les différents opérateurs existants dans code_aster pour avoir accès aux principales fonctionnalités.\n\nAinsi, il est possible de calculer le ferraillage d'une structure pour un cas de charge à l'aide de l'opérateur\nCALC_FERRAILLAGE [:external:ref:`U4.81.42 <U4.81.42>`]. La méthode utilisée est celle de Capra et Maury [:ref:`R7.04.05 <R7.04.05>`] et elle\nest applicable pour les éléments plaques, coques mais aussi pour les poutres. Il est possible d'utiliser soit les règles du BAEL91, soit\nde l'EUROCODE 2. Pour étudier plusieurs combinaisons de chargement, il est possible d'utiliser la commande COMBINAISON_FERRAILLAGE\n[:ref:`U4.81.44 <U4.81.44>`]. Depuis la version 17, il est également possible de vérifier un ferraillage existant sous une charge donnée\ngrâce à la commande VERI_FERRAILLAGE [:ref:`U4.81.46 <U4.81.46>`].\n\n\n"
+        },
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "index"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/index.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "\n.. _r7.04.05:\n\n**r7.04.05** Calcul et Vérification de ferraillage\n===================================================\n\n**Résumé:**\n\nOn présente l'algorithme de calcul des densités de ferraillage des éléments en béton armé, tel qu'implanté au sein de la commande [:ref:`CALC_FERRAILLAGE <U4.81.42>`].\nOn présentera pour ce fait, en un premier temps, l’algorithme de calcul des éléments linéiques ``1D``, pour ensuite examiner celui des éléments surfaciques ``2D`` de type plaque.\n\nLa détermination des ferraillages d'une section est effectuée, selon l'option choisie à l'Eurocode 2 partie 1-1 [:ref:`bib2 <bib2>`] (``CODIFICATION = 'EC2'``) ou au BAEL91-99 (``CODIFICATION = 'BAEL'``).\n\nCe document présente également, dans la section :ref:`Vérification du férraillage <r7.04.05-veri-ferraillage>`, la méthode de vérification de ferraillage employée dans l'opérateur [:ref:`VERI_FERRAILLAGE <U4.81.46>`].\n\n\n.. toctree::\n    :hidden:\n\n    self\n\n.. toctree::\n    :maxdepth: 2\n    :numbered:\n\n    Calcul_du_ferraillage_des_poutres_et_poteaux\n    Calcul_du_ferraillage_des_plaques\n    Verification_du_ferraillage\n    R_f_rences_bibliographiques"
+        },
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_poutres_et_poteaux",
+            "Notations"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": ".. include:: ../../../../../_cache/math_styles.rst\n\n.. _r7.04.05-calcul-ferraillage-1D:\n\n\nCalcul du ferraillage des poutres et poteaux\n============================================\n\nNotations et principes d’équilibre\n----------------------------------\n\nLes efforts internes des éléments de structure ``1D`` (poutres/poteaux) sont exprimés dans le repère local de l’élément, qui sera défini ici de manière cohérente avec la documentation de [:ref:`CALC_FERRAILLAGE <U4.81.82>`].\n\nAinsi, l'axe :math:`X` coïncide avec l'axe porteur de l’élément, tandis que les axes :math:`Y` et :math:`Z` sont dans le plan de la section droite et parallèles à ses côtés conformément à la figure ci-dessous.\n\n\n.. figure:: images/10000201000002A300000155C041FD4ADD8B28F7.png\n    :name: r7.04.05-fig-1-1\n    :width: 3.5374in\n    :height: 1.8661in\n\n    Définition des axes d’un élément linéique de type poutre/poteau\n\nEn utilisant une poutre de section rectangulaire, on définit dans le fichier de commande les deux côtés du rectangle :math:`{l}_{y}` et :math:`{l}_{z}`, permettant alors de définir les deux axes principaux d’inertie de la section, à savoir les axes :math:`y` et :math:`z`.\n\nLes efforts exprimés dans le repère local de l’élément sont donc:\n\n* :math:`N` pour l'effort normal\n\n* :math:`{V}_{y}` et :math:`{V}_{z}` pour les efforts de cisaillement\n\n* :math:`{M}_{y}` et :math:`{M}_{z}` pour les moments de flexion\n\n* :math:`{M}_{x}` pour le moment de torsion\n\nIl est à noter que les moments sont exprimés par rapport au centre de gravité de la section non armée (centre de la section géométrique). Par ailleurs, on dira que la section est soumise à une:\n\n\n* **flexion simple**  si seul un moment de flexion (:math:`{M}_{y}` ou :math:`{M}_{z}` ) sollicite la section.\n\n* **flexion composée**  si sur la section agissent un moment de flexion (:math:`{M}_{y}`  ou :math:`{M}_{z}` ) et un effort normal :math:`N` .\n\n* **flexion composée déviée** si la section est soumise simultanément aux deux moments de flexion :math:`({M}_{y},{M}_{z})` ainsi qu’à un effort normal :math:`N`.\n\n* **compression** ou **traction pure** si seulement :math:`N` agit sur la section.\n\nLe champ de ferraillage typique d’une poutre/poteau est défini comme suit, au niveau de la section transversale de l’élément:\n\n* Quatre lits de ferraillages longitudinaux: :math:`{A}_{s_y, \\text{sup}}`, :math:`{A}_{s_y, \\text{inf}}`, :math:`{A}_{s_z, \\text{sup}}` et :math:`{A}_{s_z, \\text{inf}}` exprimés usuellement en :math:`{\\text{cm}}^{2}`\n\nCes sections sont portées par les deux axes :math:`Y` et :math:`Z` d’inertie principaux de la section\n\n* une densité/ratio de ferraillage transversal: :math:`\\frac{{A}_{\\text{sv}}}{s}` exprimé usuellement en :math:`{\\text{cm}}^{2}/m`\n\nPour ce fait, le calcul du ferraillage s’effectue en deux temps:\n\n* calcul du ferraillage longitudinal: équilibre en flexion composée et/ou déviée, vis-à-vis des efforts de compression axiale :math:`N`, et des deux moments de flexion suivant les deux axes d’inertie de la poutre, à savoir :math:`{M}_{y}` et :math:`{M}_{z}`.\n\n* calcul du ferraillage transversal: équilibre aux efforts tranchants de cisaillement :math:`{V}_{y}` et :math:`{V}_{z}`, et au moment de torsion :math:{M}_{x}. Il est à noter alors, conformément aux explications qui suivront, que ces efforts pourra dans certains cas induire des efforts de traction supplémentaires suivant l’axe porteur :math:`X` de l’élément, conduisant alors à un surplus de ferraillage longitudinal.\n\nCes calculs d’équilibre reposent pour ce fait sur des critères en lien avec l’état limite de dimensionnement retenu, à savoir:\n\n* ELU: le critère est le non dépassement des déformations ultimes du béton comprimé et de l’acier de renforcement.\n\n* ELS Caractéristique: le critère est le non dépassement de la contrainte de compression limite du béton en compression et de la contrainte limite de l’acier de flexion.\n\n* ELS Quasi Permanent: le critère est le non dépassement de l’ouverture maximale des fissures.\n"
+        },
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_poutres_et_poteaux",
+            "Dimensionnement à l’ELU"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Dimensionnement à l’ELU\n-----------------------\n\nCalcul du ferraillage longitudinal en flexion simple ou composée\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nDéfinition des hypothèses de calcul\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nAux ELU, les principes de vérification de la section et du calcul du ferraillage en flexion composée vis-à-vis des sollicitations :math:`N`, :math:`{M}_{y}` et :math:`{M}_{z}`, reposent sur les trois hypothèses suivantes:\n\n* Les sections transversales droites restent planes après déformation (Euler-Bernoulli). Par conséquent, cela induit que le diagramme de déformations régissant la section à l’équilibre en flexion composée est linéaire suivant\n\n* On impose un seuil limite pour les déformations :\n\n    * déformation de l'acier limitée à :math:`{\\strainCmp}_{\\text{ud}}` (pivot A)\n\n    * déformation du béton comprimé limitée à :math:`{\\strainCmp}_{\\text{cu2}}` (pivot B), dans le cas d’une section partiellement tendue/comprimée\n\n    * déformation du béton comprimé limitée à :math:`{\\strainCmp}_{\\text{c2}}` (pivot C), dans le cas d’une section entièrement comprimée\n\n* Les diagrammes contrainte-déformation de l'acier et du béton sont ceux donnés ci-dessous:\n\nPour le béton comprimé:\n\n.. figure:: images/1000020100000868000006DBCB8F1DBBB8B17483.png\n    :name: r7.04.05-fig-1-2\n    :width: 3.5799in\n    :height: 2.9193in\n\n    Loi de comportement du béton en compression à l’ELU\n\nOn définit pour ce fait les paramètres ci-dessous:\n\n* :math:`{f}_{\\text{ck}}` : valeur caractéristique de résistance à la compression du béton, qui en pratique est définie suivant la classe du béton au niveau de l’Eurocode 2.\n\n* :math:`{f}_{\\text{cd}}` : valeur de la résistance à la compression du béton retenue pour le calcul aux ELU, à savoir :math:`{f}_{\\text{cd}}=\\frac{{\\alpha}_{\\text{cc}}{f}_{\\text{ck}}}{{\\gamma}_{c}}`  , avec :math:`{\\alpha}_{\\text{cc}}=1` pour l’EC2 et :math:`{\\gamma}_{c}` (coefficient de sécurité) qui dépend du type d'ELU considéré (1.5 en situation permanente et 1.2 en accidentelle).\n\n* :math:`{\\strainCmp}_{\\text{c2}}` : déformation atteinte pour la contrainte maximale. Elle vaut:\n\n    * :math:`{\\strainCmp}_{\\text{c2}}=2\\text{‰} ` si :math:`{f}_{\\text{ck}}\\le 50 \\, \\text{MPa}`\n\n    * :math:`{\\strainCmp}_{\\text{c2}}(\\text{‰} )=2+0,085{({f}_{\\text{ck}}-50)}^{0.53}` si :math:`{f}_{\\text{ck}}  \\gt  50 \\, \\text{MPa}`\n\n* :math:`{\\strainCmp}_{\\text{cu2}}` : déformation ultime du béton à la rupture. Elle vaut:\n\n    * :math:`{\\strainCmp}_{\\text{cu2}}=3.5\\text{‰} ` si :math:`{f}_{\\text{ck}}\\le 50 \\, \\text{MPa}`\n\n    * :math:`{\\strainCmp}_{\\text{cu2}}(\\text{‰} )=2.6+35 \\, \\left(90 - \\frac{{f}_{\\text{ck}}}{100}\\right)^{4}` si :math:`{f}_{\\text{ck}} \\gt 50 \\, \\text{MPa}`\n\n* :math:`n` : paramètre pour la définition de la branche parabolique de la loi de comportement, et qui vaut:\n\n    * :math:`n=2` si :math:`{f}_{\\text{ck}}\\le 50 \\, \\text{MPa}`\n\n    * :math:`n=1.4 + 23.4 \\, \\left( 90- \\frac{{f}_{\\text{ck}}}{100} \\right)^{4}` si :math:`{f}_{\\text{ck}} \\gt 50 \\, \\text{MPa}`\n\nAinsi, pour des valeurs de déformations du béton :math:`{\\strainCmp}_{c}\\le {\\strainCmp}_{\\text{c2}}` , la contrainte dans le béton se calcule alors par la formule suivante :\n\n.. math::\n    {\\stressCmp}_{c}\n    =\n    {f}_{\\text{cd}} \\left(\n        1\n        -\n        \\left( 1-  \\frac{{\\strainCmp}_{c}}{{\\strainCmp}_{\\text{c2}}} \\right)^{n}\n    \\right)\n\nIl est aussi possible de réaliser le calcul avec l'hypothèse d’un «diagramme rectangulaire simplifié»: la contrainte du béton est considérée alors constante et égale à :math:`\\eta{f}_{\\text{cd}}` sur une hauteur égale à :math:`\\lambda x` (fraction « :math:`\\lambda` » de la zone comprimée). Cette simplification est suggérée et admise par l'Eurocode 2 ( *tant que l’axe neutre demeure à l’intérieur de la section* ), vu que l'erreur ainsi engendrée sur la résultante :math:`{F}_{c}` des efforts de compression dans le béton reste minime.\n\n.. figure:: images/10000000000002390000010F552AED2BFE76315F.png\n    :name: r7.04.05-fig-1-3\n    :width: 4.5598in\n    :height: 2.1717in\n\n    Diagramme contrainte-déformation rectangulaire simplifié pour le béton.\n\nLes valeurs de :math:`\\lambda=0.8` et :math:`\\eta=1` sont à retenir pour des bétons courants (:math:`{f}_{\\text{ck}} \\le 50\\, \\text{MPa}` ). Pour des valeurs :math:`50 \\, \\text{MPa} \\lt {f}_{\\text{ck}} \\le 90\\, \\text{MPa}` on a :math:`\\lambda =0.8- \\frac{{f}_{\\text{ck}}-50}{400}` et :math:`\\eta =1- \\frac{{f}_{\\text{ck}}-50}{200}`.\n\n*Pour l’acier de ferraillage:*\n\nLe comportement de l'acier préconisé par l’Eurocode 2 en termes de contrainte-déformation est de type bilinéaire. Il est aussi possible d'adopter un comportement plastique parfait (diagramme à palier horizontal dans la figure qui suit) ; la version actuelle de l’opérateur [:ref:`CALC_FERRAILLAGE <U4.81.42>`] permet de choisir entre ces deux types de diagrammes par le biais du mot-clé ``TYPE_DIAGRAMME``.\n"
+        },
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_poutres_et_poteaux",
+            "Différence entre BAEL91 et EC2"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Différence entre BAEL91 et EC2\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nL’algorithme de dimensionnement en flexion composée à l'ELU présenté au paragraphe précédent est identique pour les deux codifications, seules quelques données d’entrée sont différentes. Le tableau ci-après synthétise les différences entre les deux codifications actuellement retenue\n\n\n.. csv-table::\n\n    \"**Paramètre**\", \"**BAEL91**\", \"**EC2**\"\n    \"paramètres du diagramme de béton rectangulaire simplifié\",\":math:`\\lambda =0,8`\",\":math:`\\lambda=\\min \\left( 0.8;0.8-\\frac{{f}_{\\text{ck}}-50}{400} \\right)`\"\n    \"déformation limite de conception des aciers\",\":math:`{\\strainCmp}_{\\text{ud}}=1 \\%`\", \":math:`{\\strainCmp}_{\\text{ud}}=0.9{\\strainCmp}_{\\text{uk}}` où :math:`{\\strainCmp}_{\\text{uk}}` dépend de la classe de ductilité des aciers\"\n    \"déformation de conception en compression du béton\",\":math:`{\\strainCmp}_{\\text{cu2}}=0,35 \\%`\",\":math:`{\\strainCmp}_{\\text{cu2}}(\\%)=\\min \\left( 0,35;0,26+3,5 \\, \\left( \\frac{90-{f}_{\\text{ck}}}{100}\\right)^{4} \\right)`\"\n    \"déformation de conception en compression du béton dans le cadre du pivot C\",\":math:`{\\strainCmp}_{\\text{c2}}=0,2 \\%`\",\":math:`{\\strainCmp}_{\\text{c2}}(\\text{‰}) = \\min \\left( 2,0;2+0,085 \\left( {f}_{\\text{ck}}-50 \\right)^{0,53} \\right)`\"\n    \"contrainte de conception de compression du béton\",\":math:`{f}_{\\text{cd}}=\\frac{{\\alpha}_{\\text{cc}}{f}_{cj}}{{\\gamma}_{c}}` où :math:`{\\alpha}_{\\text{cc}}=0,85`\", \":math:`{f}_{\\text{cd}}=\\frac{{\\alpha}_{\\text{cc}}{f}_{\\text{ck}}}{{\\gamma}_{c}}` où :math:`{\\alpha}_{\\text{cc}}`\"\n    \"contrainte de conception des aciers\",\":math:`{f}_{\\text{yd}}=\\frac{{f}_{e}}{{\\gamma}_{s}}`\",\":math:`{f}_{\\text{yd}}=\\frac{{f}_{\\text{yk}}}{{\\gamma}_{s}}`\"\n\n"
+        },
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_poutres_et_poteaux",
+            "Calcul du ferraillage transversal",
+            "hypothèses"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Par ailleurs, on fera pour le moment les hypothèses ci-dessous:\n\n* les cadres seront supposés droits, ce qui revient à poser :math:`\\alpha=90°` soit :math:`\\sin(\\alpha)=1`.\n\n* les éléments considérés sont de section rectangulaire, et donc :math:`{b}_{w}=b` .\n\nLa section transversale est ainsi soumise à un effort tranchant :math:`{V}_{\\text{Ed}}`, ainsi qu’à un moment de torsion :math:`{T}_{\\text{Ed}}`.\n\nPar défaut, aucun ferraillage transversal n’est requis tant que le couple de sollicitations précédent ne dépasse pas les capacités de résistance du béton seul au cisaillement; cela revient donc à vérifier l’inéquation suivante:\n"
+        },
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_poutres_et_poteaux",
+            "Dimensionnement à l’ELS Caractéristique"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Dimensionnement à l’ELS Caractéristique\n---------------------------------------\n\nCalcul du ferraillage longitudinal en flexion simple ou composée\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nDans le cas du calcul aux ELS, on considère une section homogénéisée acier-béton, de sorte à ce que le diagramme des contraintes soit systématiquement linéaire.\n\nOn définit pour la suite les grandeurs ci-dessous:\n\n* :math:`\\lbrace \\strainCmp_{c}, \\stressCmp_{c} \\rbrace` respectivement la déformation et la contrainte ressenties au niveau de la fibre de béton la plus comprimée. Conformément à ce qui précède (digramme de contraintes linéaires), on a que :math:`{\\stressCmp}_{c}={E}_{c}{\\strainCmp}_{c}` tel que :math:`{\\strainCmp}_{c} \\gt 0` en compression.\n\n* :math:`\\lbrace \\strainCmp_{s}, \\stressCmp_{s} \\rbrace` respectivement la déformation et la contrainte ressenties au droit de l’acier tendu, tel que :math:`{\\stressCmp}_{s}={E}_{s}{\\strainCmp}_{s}` et :math:`{\\strainCmp}_{s} \\lt 0` en traction.\n\nConformément aux notations de la figure qui suit, la résultante des contraintes de compression dans le béton vaut, pour le cas partiellement comprimé :\n\n.. math::\n    {F}_{c}\n    =\n    \\frac{1}{2}{\\stressCmp}_{c} b x\n    =\n    \\frac{1}{2}{E}_{c}{\\strainCmp}_{c} b x\n\nConformément à la linéarité du diagramme des contraintes, et toujours dans le cas d’une section partiellement comprimée, cet effort est appliqué à une distance :math:`\\frac{x}{3}` de la fibre la plus comprimée du béton, soit à une distance :math:`\\left(d-\\frac{x}{3}\\right)` de l’acier principal longitudinal (ou :math:`\\left(d'-\\frac{x}{3}\\right)` si le moment sollicitant est négatif).\n\nPar ailleurs, l’effort ressenti par l’acier de traction vaut :\n\n.. math::\n    {F}_{s}\n    =\n    {A}_{s}{\\stressCmp}_{s}\n    =\n    {A}_{s}{E}_{s}{\\strainCmp}_{s}\n\n\n.. figure:: images/1000020100000390000001A67542F975CDAE83A5.png\n    :name: r7.04.05-fig-1-14\n    :width: 4.8161in\n    :height: 2.1839in\n\n    Contraintes et forces résultantes sur une section en béton armé sollicitée en flexion composée aux ELS\n\nDans la description de l'algorithme qui suit, le moment fléchissant et l'effort normal aux ELS sollicitant la section, à savoir :math:`{M}_{\\text{cara}}` et :math:`{N}_{\\text{cara}}`, seront notés :math:`M` et math:`N` afin de simplifier l'écriture.\n\nDe façon similaire au dimensionnement aux ELU, on cherche à exprimer le moment sollicitant au centre de gravité des armatures tendues, tel que:"
+        },
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_poutres_et_poteaux",
+            "Dimensionnement à l'ELS Quasi Permanent"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Dimensionnement à l'ELS Quasi Permanent\n---------------------------------------\n\nCalcul du ferraillage longitudinal en flexion simple ou composée\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nLe calcul du dimensionnement du ferraillage à l’ELS QP (Etat Limite de Service Quasi Permanent) se base sur une reprise de l’algorithme précédent du calcul du ferraillage à l’ELS (Caractéristique), mais en faisant varier les deux pivots de contraintes limites de sorte à saturer l’un des deux critères ci-dessous:\n\n* Limitation de la contrainte de compression dans le béton à :math:`{\\stressCmp}_{c,\\text{lim},\\text{FL}}`, afin d’éviter le fluage non-linéaire du béton\n\n* Limitation de l’ouverture des fissures (:math:`{w}_{k, \\text{sup}}\\le {w}_{\\text{max}, \\text{sup}}` et :math:`{w}_{k, \\text{inf}}\\le {w}_{\\text{max}, \\text{inf}}` )\n\nConcrètement, il s’agit de procéder par itération en reprenant répétitivement le calcul explicité dans la section précédente, en considérant:\n\n* :math:`{\\stressCmp}_{{c, \\text{lim}}} = {\\stressCmp}_{c, \\text{lim}, \\text{FL}}`\n\n* :math:`{\\stressCmp}_{{s, \\text{lim}}} = {k}_{\\text{var}} \\times {f}_{\\text{yk}}`\n\n* :math:`M={M}_{\\text{qp}}` et :math:`N={N}_{\\text{qp}}`\n\noù :math:`{\\stressCmp}_{c,\\text{lim},\\text{FL}}` est définie par l’utilisateur (l’EC2 préconise de considérer :math:`{\\stressCmp}_{c,\\text{lim},\\text{FL}}={k}_{2}\\times {f}_{\\text{ck}}` avec une valeur usuelle de :math:`{k}_{2}=0,45` ).\n\nPour le pivot au droit de l’acier tendu, l’algorithme cherchera à itérer sur la valeur du coefficient :math:`{k}_{\\text{var}}` en commençant par considérer une valeur initiale :math:`{k}_{\\text{var}}={k}_{\\text{var}}^{A}=1,0` .\n\nL’algorithme déterministe de dimensionnement à l’ELS Caractéristique donnera alors:\n\n* Le diagramme de contraintes élastiques régissant la section à l’équilibre (incluant comme information la profondeur de l’axe neutre ``xAN`` )\n\n* Les sections d’acier supérieure :math:`{A}_{s, \\text{sup}}` et inférieure :math:`{A}_{s, \\text{inf}}` dimensionnant la section\n\nDe là, le calcul de l’ouverture des fissures repose sur la méthode détaillée au niveau du §7.3.4 de l’EC2; en particulier, le calcul par rapport au BAEL reposera également sur la même théorie (l’opérateur [:ref:`CALC_FERRAILLAGE <U4.81.42>`] renverra un message d’alarme):\n\n* En fibre supérieure:\n\n.. math::\n    {w}_{k, \\text{sup}}\n    =\n    {s}_{\\text{rmax}}\n    \\times\n    \\left(\n        {\\strainCmp}_{\\text{sm}}\n        -\n        {\\strainCmp}_{\\text{cm}}\n    \\right)\n\ntels que:\n\n.. math::\n    {\\strainCmp}_{\\text{sm}}\n    -\n    {\\strainCmp}_{\\text{cm}}\n    =\n    \\frac{{\\stressCmp}_{s}-{k}_{t}\n           \\times\n           \\frac{{f}_{\\text{ctm}}}{{\\rho}_{\\text{peff}}}\n           \\times\n           \\left( 1+{\\alpha}_{e}\\times {\\rho}_{\\text{peff}} \\right)\n         }\n         {{E}_{s}}\n\net\n\n.. math::\n    {s}_{\\text{rmax}}\n    =\n    \\min \\left \\lbrace\n        {k}_{3} \\times c^{\\prime}\n        +\n        {k}_{1}{k}_{2}{k}_{4} \\times \\left(\n            \\frac{{\\varphi}_{\\text{sup}}}{{\\rho}_{\\text{peff}}}\n        \\right) ; 1,3\\times h\n    \\right \\rbrace\n\noù:\n\n* :math:`{\\stressCmp}_{s}` représente la contrainte ressentie au droit de l’acier supérieur\n\n* :math:`{k}_{t}` représente un coefficient tenant compte de la durée du chargement appliqué. Concrètement, l’EC2 préconise de considérer :math:`{k}_{t} = 0,4` pour un chargement de longue durée et :math:`{k}_{t} = 0,6` pour un chargement de courte à durée. Il s’agit donc d’une donnée d’entrée définie par l’utilisateur\n\n* :math:`{f}_{\\text{ctm}}` représente la résistance moyenne du béton à la traction. Conformément aux indications de l’EC2, cette résistance se déduit de la résistance caractéristique du béton à la compression comme suit:\n\n.. math::\n    {f}_{\\text{ctm}}\n    =\n    \\left \\lbrace \\begin{array}{l}\n        0,30\\times {f}_{\\text{ck}}^{\\frac{2}{3}} \\text{ si } {f}_{\\text{ck}} \\le 50\\, \\text{MPa}\\\\\n        2,12\\times \\ln \\left( 1+ \\frac{{f}_{\\text{ck}}+8}{10} \\right) \\text{ si } {f}_{\\text{ck}} \\gt 50\\, \\text{MPa}\n    \\end{array} \\right .\n\n* :math:`{\\rho}_{\\text{peff}}` représente le ratio de la section d’acier :math:`A_{s,s}` par rapport à l’aire du béton tendu :math:`A_{s, \\text{eff}}`:\n\navec\n\n.. math::\n    {\\rho}_{\\text{peff}}\n    =\n    \\frac{{A}_{s, \\text{sup}}}{{A}_{\\text{ceff}}}\n\net\n\n.. math::\n    {A}_{\\text{ceff}}\n    =\n    b \\times {h}_{\\text{ceff}}\n    =\n    {1}^{m} \\times \\min \\left\\lbrace 2,5c^{\\prime}; 0,5 h; \\frac{h-{x}_{\\text{AN}}}{3} \\right \\rbrace\n\nRemarque\n    La spécification pour le calcul des dalles par la méthode de Capra Maury est présentée dans :ref:`r7.04.05-CapraMaury`\n\nConcrètement, pour la facette :math:`{\\theta}_{k}` considérée, on a:\n\n.. math::\n    {\\varphi}_{\\text{sup}}\n    =\n    {\\varphi}_{x, \\text{sup}} \\times {\\cos}^{2}({\\theta}_{k})\n    +\n    {\\varphi}_{y, \\text{sup}} \\times {\\sin}^{2}({\\theta}_{k})\n\n:math:`{\\varphi}_{\\text{sup}}` représente le diamètre estimatif des armatures constituant le ferraillage supérieur.\n\navec :math:`{\\varphi}_{x, \\text{sup}}` et :math:`{\\varphi}_{y, \\text{sup}}` qui représentent, respectivement, le diamètre estimatif des armatures supérieures suivant l’axe :math:`x` et suivant l’axe :math:`y` de la plaque. Il s’agit donc de données d’entrées définies par l’utilisateur.\n\nLes paramètres :math:`{k}_{1}`, :math:`{k}_{2}`, :math:`{k}_{3}` et :math:`{k}_{4}` qui sont définies par l’EC2 comme suit:\n\n.. math::\n    {k}_{1}\n    =\n    \\left \\lbrace \\begin{array}{l}\n        0,8 \\text{ pour les barres à haute adhérence} \\\\\n        1,6 \\text{ pour les barres ayant une surface lisse}\n    \\end{array} \\right .\n\nOn retiendra :math:`{k}_{1} = 0,8`. Pour :math:`{k}_{2}`:\n\n.. math::\n    {k}_{2}\n    =\n    \\frac{{\\strainCmp}_{1}+{\\strainCmp}_{2}}{2{\\strainCmp}_{1}}\n\nTels que :math:`{\\strainCmp}_{1}` et :math:`{\\strainCmp}_{2}` représentent respectivement le plus grand et le plus petit allongement relatif en fibres extrêmes.\n\n.. math::\n    {k}_{3}\n    =\n    3,4 \\left( \\frac{25}{c^{\\prime}} \\right)^{\\frac{2}{3}}\n    \\text{ avec } c^{\\prime} \\text{ exprimé en mm}\n\n.. math::\n    {k}_{4}\n    =\n    0,425\n\nAinsi, si :math:`{w}_{k, \\text{sup}} \\le {w}_{\\text{max}, \\text{sup}}` , alors :math:`{\\mathit{COND}}_{\\text{sup}}=\\mathit{VRAI}` . Sinon, :math:`{\\mathit{COND}}_{\\text{sup}}=\\mathit{FAUX}` ; où :math:`{w}_{\\text{max}, \\text{sup}}` est l’ouverture maximale des fissures autorisée en fibre supérieure de la plaque. Il s’agit donc d’une donnée d’entrée définie par l’utilisateur.\n\n* En fibre inférieure, idem :\n\n.. math::\n    {w}_{k, \\text{inf}}\n    =\n    {s}_{\\text{rmax}} \\times ({\\strainCmp}_{\\text{sm}}-{\\strainCmp}_{\\text{cm}})\n\ntels que:\n\n.. math::\n    {\\strainCmp}_{\\text{sm}}\n    -\n    {\\strainCmp}_{\\text{cm}}\n    =\n    \\frac{\n        {\\stressCmp}_{s}\n        -\n        {k}_{t} \\times \\frac{{f}_{\\text{ctm}}}{{\\rho}_{\\text{peff}}}\n        \\times \\left( 1+{\\alpha}_{e} \\times {\\rho}_{\\text{peff}} \\right)\n        }\n    {{E}_{s}}\n\n.. math::\n    {s}_{\\text{rmax}}\n    =\n    \\min \\left \\lbrace\n        {k}_{3} c  +  {k}_{1}{k}_{2}{k}_{4} \\left( \\frac{{\\varphi}_{\\text{inf}}}{{\\rho}_{\\text{peff}}} \\right)\n        ;\n        1,3 \\times h\n    \\right \\rbrace\n\noù:\n\n* :math:`{\\stressCmp}_{s}` représente la contrainte ressentie au droit de l’acier inférieur\n\n* :math:`{k}_{t}`  et :math:`{f}_{\\text{ctm}}` sont identiques au cas de la fibre supérieure\n\n* :math:`{\\rho}_{\\text{peff}}` représente le ratio de la section d’acier :math:`A_{s,i}` par rapport à l’aire du béton tendu :math:`A_{s, \\text{eff}}`:\n\n.. math::\n    {\\rho}_{\\text{peff}}\n    =\n    \\frac{{A}_{s, \\text{inf}}}{{A}_{\\text{ceff}}}\n\n.. math::\n    {A}_{\\text{ceff}}\n    =\n    b\\times {h}_{\\text{ceff}}\n    =\n    {1}^{m}\\times \\min \\left\\lbrace 2,5c;0,5h;\\frac{h-{x}_{\\text{AN}}}{3} \\right\\rbrace\n\n:math:`{\\varphi}_{\\text{inf}}` représente le diamètre estimatif des armatures constituant le ferraillage inférieur.\n\nRemarque\n    On rappelle que la spécification pour le calcul des dalles par la méthode de Capra Maury est présentée dans :ref:`r7.04.05-CapraMaury`\n\n\nConcrètement, pour la facette :math:`{\\theta}_{k}` considérée, on a:\n\n.. math::\n    {\\varphi}_{\\text{inf}}\n    =\n    {\\varphi}_{x, \\text{inf}} \\times {\\cos}^{2}({\\theta}_{k})\n    +\n    {\\varphi}_{y, \\text{inf}} \\times {\\sin}^{2}({\\theta}_{k})\n\navec :math:`{\\varphi}_{x, \\text{inf}}` et :math:`{\\varphi}_{y, \\text{inf}}` qui représentent, respectivement, le diamètre estimatif des armatures inférieures suivant l’axe :math:`x` et suivant l’axe :math:`y` de la plaque. Il s’agit donc de données d’entrées définies par l’utilisateur.\n\nLes paramètres :math:`{k}_{1}`, :math:`{k}_{2}`, :math:`{k}_{3}` et :math:`{k}_{4}` qui sont définies par l’EC2 comme suit. :math:`{k}_{1}`, :math:`{k}_{2}` et :math:`{k}_{4}` sont les mêmes que pour la fibre supérieure. Et pour :math:`{k}_{3}`:\n\n.. math::\n    {k}_{3}\n    =\n    3,4 \\, \\left( \\frac{25}{c} \\right)^{\\frac{2}{3}}\n    \\text{ avec } c \\text{ exprimé en mm}\n\nAinsi, si :math:`{w}_{k, \\text{inf}} \\le {w}_{\\text{max}, \\text{inf}}` , alors :math:`{\\mathit{COND}}_{\\text{inf}}=\\mathit{VRAI}` . Sinon, :math:`{\\mathit{COND}}_{\\text{inf}}=\\mathit{FAUX}` ; où :math:`{w}_{\\text{max}, \\text{inf}}` est l’ouverture maximale des fissures autorisée en fibre inférieurede la plaque. Il s’agit donc d’une donnée d’entrée définie par l’utilisateur.\n\nAinsi, si :math:`{\\mathit{COND}}_{\\text{sup}}=\\mathit{VRAI}` et :math:`{\\mathit{COND}}_{\\text{inf}}=\\mathit{VRAI}`, alors :math:`{\\mathit{COND}}_{\\text{fiss}}({k}_{\\text{var}}^{A})=\\mathit{VRAI}` ; sinon :math:`{\\mathit{COND}}_{\\text{fiss}}({k}_{\\text{var}}^{A})=\\mathit{FAUX}` .\n\nDans le cas où :math:`{\\mathit{COND}}_{\\text{fiss}}({k}_{\\text{var}}^{A})=\\mathit{VRAI}`, alors l’algorithme s’arrête; sinon (c’est-à-dire qu’au moins une des ouvertures des fissures en fibres extrêmes dépasse le seuil maximal autorisé)on relance le calcul avec :math:`{k}_{\\text{var}}={k}_{\\text{var}}^{B}=0,5`. Tant que :math:`{\\mathit{COND}}_{\\text{fiss}}({k}_{\\text{var}}^{B})=\\mathit{FAUX}` , on relance le calcul avec :math:`{k}_{\\text{var}}^{B}={k}_{\\text{var}}^{B}/2` jusqu’à ce que l’on obtienne :math:`{\\mathit{COND}}_{\\text{fiss}}({k}_{\\text{var}}^{B})=\\mathit{VRAI}` . De là, on recherche par dichotomie (en faisant varier :math:`{k}_{\\text{var}}` entre les bornes :math:`{k}_{\\text{var}}^{A}` et :math:`{k}_{\\text{var}}^{B}` ) la valeur du coefficient :math:`{k}_{\\text{var}}^{F}` faisant saturer l’un des deux critères de limitation de fissuration; il s’agira de la solution dimensionnante à l’ELS QP.\n\n"
+        },
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_plaques",
+            "Méthode de Capra et Maury"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_plaques.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": ".. include:: ../../../../../_cache/math_styles.rst\n\n.. _r7.04.05-calcul-ferraillage-2D:\n\nCalcul du ferraillage des plaques\n=================================\n\nLe calcul du ferraillage des plaques peut se faire suivant deux méthodes distinctes: la méthode de Capra-Maury (qui est une généralisation du calcul ``1D`` à un nombre fini :math:`N` de facettes fictives) ou la méthode Sandwich (conformément à l’Annexe LL de l’EN-1992-2).\n\n\n.. _r7.04.05-CapraMaury:\n\nMéthode de Capra et Maury\n-------------------------\n\n.. _r7.04.05-calcul-ferraillage-longitudinal:\n\nCalcul du ferraillage longitudinal\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nLe principe de la méthode de Capra-Maury consiste à assimiler l’étude d’une plaque à un problème équivalent de ferraillage de poutres, et ce en considérant par le biais de coupures, l’équilibre successif des différentes facettes obtenues – chaque facette étant sollicitée par un torseur d’efforts réduits ``1D`` et ferraillé par conséquent suivant la théorie des poutres.\n\nEn ce sens, chaque facette est définie par son vecteur normal :math:`\\vector{n}( \\theta)` faisant un angle :math:`\\theta` avec l’axe local :math:`x` de la plaque, et elle est soumise aux efforts obtenus en écrivant l’équilibre du prisme conséquent et illustré dans la figure ci-dessous.\n\n.. figure:: images/100000000000028600000268DF356FF97A6EE59C.png\n    :name: r7.04.05-2-1\n    :width: 3.8492in\n    :height: 3.3972in\n\n    Équilibre de coin et passage des efforts ``2D`` aux efforts ``1D``\n\nOn trouve:\n\n.. math::\n    :label: proj_N\n\n    N \\left( \\theta \\right)\n    =\n    {N}_{xx}  \\cos^{2} \\theta\n    +\n    2 {N}_{xy} \\cos \\theta \\, \\sin \\theta\n    +\n    {N}_{yy}  \\sin^{2} \\theta\n\n.. math::"
+        },
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Verification_du_ferraillage"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Verification_du_ferraillage.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": ".. include:: ../../../../../_cache/math_styles.rst\n\n.. _r7.04.05-veri-ferraillage:\n\nVérification du ferraillage\n===========================\n\nCette section présente la méthode utilisée pour la vérification d'un ferraillage existant employée dans l'opérateur [:ref:`VERI_FERRAILLAGE <U4.81.46>`] et la macro-commande [:ref:`POST_VERI_FERRAILLAGE <U4.81.47>`].\nL'objectif est de vérifier si la structure avec un ferraillage existant (issu d'un plan de ferraillage ou d'un calcul de ferraillage) supporte une charge donnée en fournissant une marge mécanique et/ou un taux d'utilisation de la capacité maximale de la structure sous cette charge.\nLa méthode utilisée est inspirée de celle employée dans l’outil RunAéro [bib3]_.\n\nVérification de ferraillages des plaques\n----------------------------------------\n\nComme pour le calcul de ferraillage des plaques, la vérification est aussi basée sur l’algorithme de Capra-Maury. Les différentes étapes de la méthode employée sont les suivantes :\n\nBouclage sur les facettes\n~~~~~~~~~~~~~~~~~~~~~~~~~\n\nOn considère :math:`n` facettes pivotant autour de l’axe normal à chaque élément fini (comme présenté dans la partie :ref:`r7.04.05-calcul-ferraillage-longitudinal`).\nChacune des facettes est définie par son vecteur normal :math:`\\vector{n}(\\theta)` faisant un angle :math:`\\theta` avec l’axe local :math:`x` de la plaque.\nCela permet d'assimiler l'étude d'une plaque à un problème équivalent des poutres (``1D``).\n\nProjection du ferraillage\n~~~~~~~~~~~~~~~~~~~~~~~~~\n\nLe ferraillage supérieur et inférieur suivant :math:`x` et :math:`y` de la plaque sera projeté sur la facette comme suit,\npermettant d'obtenir le ferraillage de la poutre fictive (:math:`{A}_{s, \\text{sup}}(\\theta)` et :math:`{A}_{s, \\text{inf}}(\\theta)`) :\n\n.. math::"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "TYPE_COMB"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "CODIFICATION"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "TYPE_STRUCTURE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "COMBINAISON_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "COMBINAISON",
+            "TYPE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "VERI_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "TYPE_STRUCTURE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "VERI_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "TYPE_COMB"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "POST_COMBINAISON",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "TYPE_COMB"
           ],
           "variant_id": null,
           "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",

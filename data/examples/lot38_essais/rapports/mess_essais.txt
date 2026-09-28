@@ -1,0 +1,539 @@
+setting '--memory' value to 7372.80 MB (keyword RESERVE_MEMOIRE)
+copying '/work/essais.mail' to 'fort.20'...
+checking MPI initialization...
+using COMM_WORLD.
+MPI is initialized.
+Ouverture en écriture du fichier ./vola.1
+
+<INFO> Démarrage de l'exécution.
+
+                        -- CODE_ASTER -- VERSION : EXPLOITATION (stable) --                         
+                               Version 17.4.0 modifiée le 02/01/2026                                
+                              révision spack-local - branche 'v17.4.0'                              
+                                   Copyright EDF R&D 1991 - 2026                                    
+                                                                                                    
+                              Exécution du : Mon Sep 28 08:32:12 2026                               
+                                  Nom de la machine : 9e785e9ba9e6                                  
+                                        Architecture : 64bit                                        
+                                    Type de processeur : x86_64                                     
+               Système d'exploitation : Linux-7.0.0-34-generic-x86_64-with-glibc2.36                
+                                  Langue des messages : en (UTF-8)                                  
+                                    Version de Python : 3.11.14                                     
+                                     Version de NumPy : 1.26.4                                      
+                                      Parallélisme MPI : actif                                      
+                                   Rang du processeur courant : 0                                   
+                               Nombre de processeurs MPI utilisés : 1                               
+                                    Parallélisme OpenMP : actif                                     
+                              Nombre de processus OpenMP utilisés : 1                               
+                               Version de la librairie HDF5 : 1.10.7                                
+                                Version de la librairie MED : 4.2.0                                 
+                               Version de la librairie MFront : 5.0.0                               
+                               Version de la librairie MUMPS : 5.6.2                                
+                              Version de la librairie PETSc : 3.24.0p0                              
+                              Version de la librairie SCOTCH : 7.0.10                               
+
+starting the execution...
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <I> <SUPERVIS_22>                                                                              ║
+ ║                                                                                                ║
+ ║ Les mots-clés CODE et DEBUG dans DEBUT/POURSUITE sont réservés aux cas-tests.                  ║
+ ║ De même pour l'option, "--test" de CA.init().                                                  ║
+ ║ Il ne faut pas les utiliser dans les études car ils modifient certaines valeurs par            ║
+ ║ défaut des commandes DEBUT/POURSUITE qui ont des conséquences sur le comportement              ║
+ ║ en cas d'erreur ou sur les performances.                                                       ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+Valeur initiale du temps CPU maximum =   1800 secondes
+  Valeur du temps CPU maximum passé aux commandes =   1790 secondes
+  Réserve CPU prévue = 10 secondes
+
+Ouverture en écriture du fichier ./glob.1
+
+Ouverture en écriture du fichier ./vola.1
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Créée avec la version                   :  17.04.00
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre total d'accès en lecture         :  64
+     Volume des accès en lecture             :         50.00 Mo.
+     Nombre total d'accès en écriture        :  0
+     Volume des accès en écriture            :          0.00 Mo.
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Relecture des catalogues des éléments faite.
+
+Fin de lecture (durée  1.037734  s.) 
+
+                      Mémoire limite pour l'allocation dynamique : 7939.62 Mo                       
+                         ajouté à l'initialisation du processus : 648.47 Mo                         
+                               Limite cible du processus : 8588.09 Mo                               
+                         Taille limite des fichiers d'échange : 2048.00 Go                          
+# Mémoire (Mo) :   648.47 /   640.35 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0001   user+syst:        0.04s (syst:        3.30s, elaps:        4.07s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt20
+# ----------------------------------------------------------------------------------------------
+# Commande #0002 de essais.comm.changed.py, ligne 20
+MA = LIRE_MAILLAGE(FORMAT='ASTER',
+                   INFO=1,
+                   UNITE=20,
+                   VERI_MAIL=_F(APLAT=0.001,
+                                VERIF='OUI'))
+
+Vérification du maillage.
+
+
+------------ MAILLAGE 00000001 - IMPRESSIONS NIVEAU  1 ------------
+
+essais_lot38                                                                    
+
+NOMBRE DE NOEUDS                           2
+
+NOMBRE DE MAILLES                          1
+                              SEG2                    1
+
+NOMBRE DE GROUPES DE MAILLES               1
+
+--------------------------------------------------------------------------------
+
+# Résultat commande #0002 (LIRE_MAILLAGE): MA ('<00000001>') de type <Mesh>
+# Mémoire (Mo) :   648.47 /   640.99 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0002   user+syst:        0.01s (syst:        0.01s, elaps:        0.11s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt22
+# ----------------------------------------------------------------------------------------------
+# Commande #0003 de essais.comm.changed.py, ligne 22
+MODEL = AFFE_MODELE(AFFE=_F(GROUP_MA='PoutreAB',
+                            MODELISATION='POU_D_E',
+                            PHENOMENE='MECANIQUE'),
+                    DISTRIBUTION=_F(METHODE='SOUS_DOMAINE',
+                                    PARTITIONNEUR='METIS'),
+                    INFO=1,
+                    MAILLAGE=MA,
+                    VERI_FORMULATION_IFS='OUI',
+                    VERI_JACOBIEN='OUI',
+                    VERI_NORM_IFS='OUI',
+                    VERI_PLAN='OUI')
+
+Sur les 1 mailles du maillage 00000001, on a demandé l'affectation de 1, on a pu en affecter 1.
+Modélisation     Formulation      Type maille  Élément fini     Nombre
+POU_D_E          _                SEG2         MECA_POU_D_E     1
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0003 (AFFE_MODELE): MODEL ('<00000002>') de type <Model>
+# Mémoire (Mo) :   769.80 /   769.80 /   207.61 /   196.65 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0003   user+syst:        0.02s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt26
+# ----------------------------------------------------------------------------------------------
+# Commande #0004 de essais.comm.changed.py, ligne 26
+CARA = AFFE_CARA_ELEM(INFO=1,
+                      MODELE=MODEL,
+                      POUTRE=_F(CARA=('HY', 'HZ'),
+                                GROUP_MA='PoutreAB',
+                                SECTION='RECTANGLE',
+                                VALE=(2.5, 1.4),
+                                VARI_SECT='CONSTANT'))
+
+
+     LE MODELE 00000002 CONTIENT : 
+                                        1 ELEMENT(S) POUTRE          
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0004 (AFFE_CARA_ELEM): CARA ('<00000003>') de type <ElementaryCharacteristics>
+# Dépend de :
+# - MODEL ('<00000002>') de type <Model>
+# Mémoire (Mo) :   769.80 /   769.80 /   207.61 /   196.65 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0004   user+syst:        0.03s (syst:        0.00s, elaps:        0.04s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt32
+# ----------------------------------------------------------------------------------------------
+# Commande #0005 de essais.comm.changed.py, ligne 32
+CHEFF1 = CREA_CHAMP(AFFE=_F(GROUP_MA='PoutreAB',
+                            NOM_CMP=('N', 'VY', 'VZ', 'MT', 'MFY', 'MFZ'),
+                            VALE=(0.0, 0.0, 0.0, 0.0, 0.0, 2183517.0)),
+                    INFO=1,
+                    MAILLAGE=MA,
+                    OPERATION='AFFE',
+                    TYPE_CHAM='CART_SIEF_R')
+
+# Résultat commande #0005 (CREA_CHAMP): CHEFF1 ('<00000004>') de type <ConstantFieldOnCellsReal>
+# Mémoire (Mo) :   769.80 /   769.80 /   207.61 /   196.65 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0005   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt44
+# ----------------------------------------------------------------------------------------------
+# Commande #0006 de essais.comm.changed.py, ligne 44
+CHEFF2 = CREA_CHAMP(AFFE=_F(GROUP_MA='PoutreAB',
+                            NOM_CMP=('N', 'VY', 'VZ', 'MT', 'MFY', 'MFZ'),
+                            VALE=(-5000000.0, 0.0, 0.0, 0.0, 0.0, 2183517.0)),
+                    INFO=1,
+                    MAILLAGE=MA,
+                    OPERATION='AFFE',
+                    TYPE_CHAM='CART_SIEF_R')
+
+# Résultat commande #0006 (CREA_CHAMP): CHEFF2 ('<00000005>') de type <ConstantFieldOnCellsReal>
+# Mémoire (Mo) :   769.80 /   769.80 /   207.61 /   196.65 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0006   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt56
+# ----------------------------------------------------------------------------------------------
+# Commande #0007 de essais.comm.changed.py, ligne 56
+CHEFF3 = CREA_CHAMP(AFFE=_F(GROUP_MA='PoutreAB',
+                            NOM_CMP=('N', 'VY', 'VZ', 'MT', 'MFY', 'MFZ'),
+                            VALE=(5000000.0, 0.0, 0.0, 0.0, 0.0, 2183517.0)),
+                    INFO=1,
+                    MAILLAGE=MA,
+                    OPERATION='AFFE',
+                    TYPE_CHAM='CART_SIEF_R')
+
+# Résultat commande #0007 (CREA_CHAMP): CHEFF3 ('<00000006>') de type <ConstantFieldOnCellsReal>
+# Mémoire (Mo) :   769.80 /   769.80 /   207.61 /   196.65 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0007   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt68
+# ----------------------------------------------------------------------------------------------
+# Commande #0008 de essais.comm.changed.py, ligne 68
+CHEFF4 = CREA_CHAMP(AFFE=_F(GROUP_MA='PoutreAB',
+                            NOM_CMP=('N', 'VY', 'VZ', 'MT', 'MFY', 'MFZ'),
+                            VALE=(-1000000.0, 0.0, 0.0, 0.0, 0.0, 500000.0)),
+                    INFO=1,
+                    MAILLAGE=MA,
+                    OPERATION='AFFE',
+                    TYPE_CHAM='CART_SIEF_R')
+
+# Résultat commande #0008 (CREA_CHAMP): CHEFF4 ('<00000007>') de type <ConstantFieldOnCellsReal>
+# Mémoire (Mo) :   769.80 /   769.80 /   207.61 /   196.65 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0008   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt79
+# ----------------------------------------------------------------------------------------------
+# Commande #0009 de essais.comm.changed.py, ligne 79
+RESU = CREA_RESU(AFFE=(_F(CARA_ELEM=CARA,
+                          CHAM_GD=CHEFF1,
+                          CRITERE='RELATIF',
+                          INST=1.0,
+                          MODELE=MODEL,
+                          NOM_CHAM='EFGE_ELNO',
+                          PRECISION=0.0),
+                       _F(CARA_ELEM=CARA,
+                          CHAM_GD=CHEFF2,
+                          CRITERE='RELATIF',
+                          INST=2.0,
+                          MODELE=MODEL,
+                          NOM_CHAM='EFGE_ELNO',
+                          PRECISION=0.0),
+                       _F(CARA_ELEM=CARA,
+                          CHAM_GD=CHEFF3,
+                          CRITERE='RELATIF',
+                          INST=3.0,
+                          MODELE=MODEL,
+                          NOM_CHAM='EFGE_ELNO',
+                          PRECISION=0.0),
+                       _F(CARA_ELEM=CARA,
+                          CHAM_GD=CHEFF4,
+                          CRITERE='RELATIF',
+                          INST=4.0,
+                          MODELE=MODEL,
+                          NOM_CHAM='EFGE_ELNO',
+                          PRECISION=0.0)),
+                 OPERATION='AFFE',
+                 TYPE_RESU='EVOL_ELAS')
+
+# Résultat commande #0009 (CREA_RESU): RESU ('<00000008>') de type <ElasticResult>
+# Dépend de :
+# - MODEL ('<00000002>') de type <Model>
+# - CARA ('<00000003>') de type <ElementaryCharacteristics>
+# Mémoire (Mo) :   769.80 /   769.80 /   207.61 /   196.65 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0009   user+syst:        0.03s (syst:        0.00s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt90
+# ----------------------------------------------------------------------------------------------
+# Commande #0010 de essais.comm.changed.py, ligne 90
+RESU = CALC_FERRAILLAGE(AFFE=_F(ALPHA_CC=1.0,
+                                CLASSE_ACIER='B',
+                                C_INF_Y=0.065,
+                                C_INF_Z=0.065,
+                                C_SUP_Y=0.065,
+                                C_SUP_Z=0.065,
+                                EPURE_CISA='NON',
+                                EYS=210000000000.0,
+                                FCK=35000000.0,
+                                FERR_COMP='NON',
+                                FERR_SYME='NON',
+                                FYK=500000000.0,
+                                GAMMA_C=1.5,
+                                GAMMA_S=1.15,
+                                RHO_ACIER=-1,
+                                TOUT='OUI',
+                                TYPE_DIAGRAMME='B2',
+                                TYPE_STRUCTURE='1D',
+                                UTIL_COMPR='NON'),
+                        CARA_ELEM=CARA,
+                        CODIFICATION='EC2',
+                        COND_109='OUI',
+                        CRITERE='RELATIF',
+                        INFO=1,
+                        INST=(1.0, 2.0, 3.0),
+                        METHODE_2D='CAPRA-MAURY',
+                        PAS_EPAI=0.01,
+                        PAS_SIGM=0.1,
+                        PAS_THETA=5,
+                        PRECISION=1e-06,
+                        RESULTAT=RESU,
+                        TYPE_COMB='ELU',
+                        UNITE_CONTRAINTE='Pa',
+                        reuse=RESU)
+
+Commande CALC_FERRAILLAGE : ATTENTION la masse volumique des aciers n'est pas renseignée ou est
+négative !
+   Conséquence : Le calcul de la densité volumique d'armature ne sera pas réalisé.
+   Renseignez le mot-clé RHO_ACIER pour que le calcul de la densité volumique d'armature soit
+réalisé.
+
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.01
+# Résultat commande #0010 (CALC_FERRAILLAGE): RESU ('<00000008>') de type <ElasticResult>
+# Dépend de :
+# - MODEL ('<00000002>') de type <Model>
+# - CARA ('<00000003>') de type <ElementaryCharacteristics>
+# Mémoire (Mo) :   769.80 /   769.80 /   207.61 /   196.82 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0010   user+syst:        0.04s (syst:        0.00s, elaps:        0.05s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt117
+# ----------------------------------------------------------------------------------------------
+# Commande #0011 de essais.comm.changed.py, ligne 117
+RESU = CALC_FERRAILLAGE(AFFE=_F(ALPHA_CC=0.85,
+                                ALPHA_E=15.0,
+                                CLASSE_ACIER='B',
+                                C_INF_Y=0.065,
+                                C_INF_Z=0.065,
+                                C_SUP_Y=0.065,
+                                C_SUP_Z=0.065,
+                                EPURE_CISA='NON',
+                                EYS=210000000000.0,
+                                FCK=35000000.0,
+                                FERR_COMP='NON',
+                                FERR_SYME='NON',
+                                FYK=500000000.0,
+                                KT=0.4,
+                                PHI_INF_Y=0.025,
+                                PHI_INF_Z=0.025,
+                                PHI_SUP_Y=0.025,
+                                PHI_SUP_Z=0.025,
+                                RHO_ACIER=-1,
+                                SIGC_ELS_QP=15750000.0,
+                                SIGC_INF_Y_ELS=21000000.0,
+                                SIGC_INF_Z_ELS=21000000.0,
+                                SIGC_SUP_Y_ELS=21000000.0,
+                                SIGC_SUP_Z_ELS=21000000.0,
+                                SIGS_ELS=400000000.0,
+                                TOUT='OUI',
+                                TYPE_DIAGRAMME='B2',
+                                TYPE_STRUCTURE='1D',
+                                UTIL_COMPR='NON',
+                                WMAX_INF_Y=0.0002,
+                                WMAX_INF_Z=0.0002,
+                                WMAX_SUP_Y=0.0002,
+                                WMAX_SUP_Z=0.0002),
+                        CARA_ELEM=CARA,
+                        CODIFICATION='EC2',
+                        COND_109='OUI',
+                        CRITERE='RELATIF',
+                        INFO=1,
+                        INST=4.0,
+                        METHODE_2D='CAPRA-MAURY',
+                        PAS_EPAI=0.01,
+                        PAS_SIGM=0.1,
+                        PAS_THETA=5,
+                        PRECISION=1e-06,
+                        RESULTAT=RESU,
+                        TYPE_COMB='ELS_QP',
+                        UNITE_CONTRAINTE='Pa',
+                        reuse=RESU)
+
+Commande CALC_FERRAILLAGE : ATTENTION la masse volumique des aciers n'est pas renseignée ou est
+négative !
+   Conséquence : Le calcul de la densité volumique d'armature ne sera pas réalisé.
+   Renseignez le mot-clé RHO_ACIER pour que le calcul de la densité volumique d'armature soit
+réalisé.
+
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0011 (CALC_FERRAILLAGE): RESU ('<00000008>') de type <ElasticResult>
+# Dépend de :
+# - MODEL ('<00000002>') de type <Model>
+# - CARA ('<00000003>') de type <ElementaryCharacteristics>
+# Mémoire (Mo) :   769.80 /   769.80 /   207.61 /   196.82 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0011   user+syst:        0.06s (syst:        0.00s, elaps:        0.06s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt159
+# ----------------------------------------------------------------------------------------------
+# Commande #0012 de essais.comm.changed.py, ligne 159
+T_FERR = CREA_TABLE(RESU=_F(CRITERE='RELATIF',
+                            GROUP_MA='PoutreAB',
+                            INTITULE='RESU',
+                            NOM_CHAM='FERR_ELEM',
+                            NOM_CMP=('AYS', 'AYI', 'AZS', 'AZI', 'AST', 'ATOT', 'DNSVOL', 'CONSTRUC'),
+                            PRECISION=1e-06,
+                            RESULTAT=RESU,
+                            TOUT_ORDRE='OUI'),
+                    TYPE_TABLE='TABLE')
+
+# Résultat commande #0012 (CREA_TABLE): T_FERR ('<00000009>') de type <Table>
+# Mémoire (Mo) :   769.80 /   769.80 /   207.61 /   196.82 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0012   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt162
+# ----------------------------------------------------------------------------------------------
+# Commande #0013 de essais.comm.changed.py, ligne 162
+IMPR_TABLE(COMMENTAIRE='#',
+           COMM_PARA='',
+           DEBUT_LIGNE='',
+           FIN_LIGNE='\n',
+           FIN_TABLE='',
+           FORMAT='TABLEAU',
+           FORMAT_R='E20.12',
+           IMPR_FONCTION='NON',
+           INFO=1,
+           SEPARATEUR=' ',
+           TABLE=T_FERR,
+           TITRE='FERR_LOT38',
+           UNITE=6)
+
+#
+#--------------------------------------------------------------------------------
+##FERR_LOT38ASTER 17.04.00 CONCEPT 00000009 CALCULE LE 28/09/2026 A 08:32:17 DE TYPE        
+RESULTAT         NOM_CHAM         INST                         NUME_ORDRE   MAILLE           SOUS_POINT   AYS                  AYI                  AZS                  AZI                  AST                  ATOT                 DNSVOL               CONSTRUC            
+RESU             FERR_ELEM          1.000000000000E+00                    1 1                           1   2.074217960424E-03   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   2.074217960424E-03  -1.000000000000E+00  -1.000000000000E+00
+RESU             FERR_ELEM          2.000000000000E+00                    2 1                           1   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -1.000000000000E+00  -1.000000000000E+00
+RESU             FERR_ELEM          3.000000000000E+00                    3 1                           1   7.869024936709E-03   3.630975063291E-03   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   1.150000000000E-02  -1.000000000000E+00  -1.000000000000E+00
+RESU             FERR_ELEM          4.000000000000E+00                    4 1                           1   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00   0.000000000000E+00  -1.000000000000E+00  -1.000000000000E+00
+
+# Mémoire (Mo) :   769.80 /   769.80 /   207.61 /   196.82 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0013   user+syst:        0.11s (syst:        0.00s, elaps:        0.11s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt76
+# ----------------------------------------------------------------------------------------------
+# Commande #0014 de /opt/spack/opt/spack/linux-zen2/code-aster-17.4
+0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/CodeCommands/fin.py, ligne 76
+FIN(INFO_RESU='NON',
+    RETASSAGE='NON')
+
+No database in results, objects not saved on processor #0
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <I> <CATAMESS_89>                                                                              ║
+ ║                                                                                                ║
+ ║ Liste des alarmes émises lors de l'exécution du calcul.                                        ║
+ ║                                                                                                ║
+ ║     Les alarmes que vous avez choisies d'ignorer sont précédées de (*).                        ║
+ ║     Nombre d'occurrences pour chacune des alarmes :                                            ║
+ ║            aucune alarme                                                                       ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+<I> <FIN> ARRET NORMAL DANS "FIN" PAR APPEL A "JEFINI".
+  
+ <I> <FIN> MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :                     196.82 Mo
+ <I> <FIN> MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :                     207.61 Mo
+ <I> <FIN> MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS LORS DE L'EXECUTION :     778.50 Mo
+  
+ <I>       FERMETURE DES BASES EFFECTUEE
+  
+   STATISTIQUES CONCERNANT L'ALLOCATION DYNAMIQUE :
+     TAILLE CUMULEE MAXIMUM            :                  208  Mo.
+     TAILLE CUMULEE LIBEREE            :                    2  Mo.
+     NOMBRE TOTAL D'ALLOCATIONS        :                 9443
+     NOMBRE TOTAL DE LIBERATIONS       :                 8993
+     APPELS AU MECANISME DE LIBERATION :                    0
+     TAILLE MEMOIRE CUMULEE RECUPEREE  :                    0  Mo.
+     VOLUME DES LECTURES               :                    0  Mo.
+     VOLUME DES ECRITURES              :                    0  Mo.
+  
+   MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :     196.82 Mo
+     - IMPOSE DE NOMBREUX ACCES DISQUE
+     - RALENTIT LA VITESSE D'EXECUTION
+   MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :     207.61 Mo
+     - LIMITE LES ACCES DISQUE
+     - AMELIORE LA VITESSE D'EXECUTION
+   MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS     :     778.50 Mo
+     - COMPREND LA MEMOIRE CONSOMMEE PAR  JEVEUX, 
+       LE SUPERVISEUR PYTHON, LES LIBRAIRIES EXTERNES
+  
+ <I>       FIN D'EXECUTION LE : LU-28-SEPT-2026 08:32:17
+INFO './glob.1' deleted
+Deleting './glob.2': No such file or directory
+INFO './vola.1' deleted
+Deleting './vola.2': No such file or directory
+
+ ********************************************************************************
+ * COMMAND                  :       USER :     SYSTEM :   USER+SYS :    ELAPSED *
+ ********************************************************************************
+ * DEBUT                    :       0.04 :       3.30 :       3.34 :       4.07 *
+ * LIRE_MAILLAGE            :       0.01 :       0.01 :       0.02 :       0.11 *
+ * AFFE_MODELE              :       0.02 :       0.01 :       0.03 :       0.02 *
+ * AFFE_CARA_ELEM           :       0.03 :       0.00 :       0.03 :       0.04 *
+ * CREA_CHAMP               :       0.01 :       0.00 :       0.01 :       0.02 *
+ * CREA_CHAMP               :       0.01 :       0.00 :       0.01 :       0.01 *
+ * CREA_CHAMP               :       0.01 :       0.00 :       0.01 :       0.02 *
+ * CREA_CHAMP               :       0.02 :       0.00 :       0.02 :       0.02 *
+ * CREA_RESU                :       0.03 :       0.00 :       0.03 :       0.03 *
+ * CALC_FERRAILLAGE         :       0.04 :       0.00 :       0.04 :       0.05 *
+ * CALC_FERRAILLAGE         :       0.06 :       0.00 :       0.06 :       0.06 *
+ * CREA_TABLE               :       0.01 :       0.00 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.11 :       0.00 :       0.11 :       0.11 *
+ * FIN                      :       0.28 :       0.11 :       0.39 :       0.44 *
+ *  . check syntax          :       0.09 :       0.00 :       0.09 :       0.08 *
+ *  . fortran               :       0.36 :       3.42 :       3.78 :       4.53 *
+ *  . cleanup               :       0.09 :       0.00 :       0.09 :       0.10 *
+ ********************************************************************************
+ * TOTAL_JOB                :       0.83 :       3.44 :       4.27 :       5.15 *
+ ********************************************************************************
+
+# Mémoire (Mo) :   778.50 /   778.50 /   207.61 /   196.82 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0014   user+syst:        0.28s (syst:        0.11s, elaps:        0.44s)
+# ----------------------------------------------------------------------------------------------
+End of the Code_Aster execution
+Code_Aster MPI exits normally
+Exited
+
+EXECUTION_CODE_ASTER_EXIT_1=0
+
+
+
+------------------------------------------------------------
+--- DIAGNOSTIC JOB : OK
+------------------------------------------------------------
+

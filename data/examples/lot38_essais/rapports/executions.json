@@ -1,0 +1,11 @@
+{
+  "essais": {
+    "aster_version": "17.4.0",
+    "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+    "comm_path": "data/examples/lot38_essais/essais.comm",
+    "diagnostic": "OK",
+    "duration_s": 15.797724132999974,
+    "executed_at": "2026-09-28T08:32:19.329611Z",
+    "work_dir": "data/processed/runs/20260928T083203-e746f3ad"
+  }
+}

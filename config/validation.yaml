@@ -86,6 +86,10 @@ execution:
     # Lot 37 : modèles de production (`scripts/generate_lot37.py`), sans option de
     # diagnostic ; quai réduit à deux maillages pour le critère C10.
     - data/examples/lot37_efforts
+    # Lot 38, étape 4 : essais de ferraillage sur la section réelle de la poutre
+    # de couronnement (CALC_FERRAILLAGE), entièrement produits par
+    # scripts/build_lot38_essais.py.
+    - data/examples/lot38_essais
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

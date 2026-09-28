@@ -1,0 +1,85 @@
+{
+ "catalogue": {
+  "aster_version": "17.4.0",
+  "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+  "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+ },
+ "code_aster_findings": [
+  {
+   "point_label": "7",
+   "topic": "Conditions de symétrie par rapport à un plan X = constante pour une poutre POU_D_T (degrés de liberté disponibles)",
+   "extraits": [
+    "u3_11_01_pou_dofs",
+    "u4_44_01_ddl_tableau_5_2",
+    "u4_44_01_ddl_impo_mot_cle"
+   ],
+   "catalogue_refs": [
+    {
+     "command": "AFFE_MODELE",
+     "keyword_path": [
+      "AFFE",
+      "MODELISATION"
+     ]
+    },
+    {
+     "command": "AFFE_CHAR_MECA",
+     "keyword_path": [
+      "DDL_IMPO",
+      "DRY"
+     ]
+    }
+   ],
+   "option_retained": "DDL_IMPO(GROUP_NO=(\"SYM_G\",) ou (\"SYM_D\",), DX=0.0, DRY=0.0, DRZ=0.0) : translation normale au plan et rotations autour des deux axes du plan bloquées ; DY, DZ, DRX libres -- identique à la condition de symétrie déjà établie pour POU_D_E (même point). Degrés de liberté de POU_D_T à chaque nœud sommet (U3.11.01, tableau « Élément fini / Degrés de liberté ») : DX, DY, DZ, DRX, DRY, DRZ, exactement ceux de POU_D_E ; ni gauchissement (GRX, propre à POU_D_TG, tableau 5-2 de U4.44.01) ni autre degré de liberté. U4.44.01 (tableau 5-2) : DRX, DRY, DRZ s'appliquent aux « éléments discrets, de poutre, de tuyaux, de coque ou de plaque », dans le repère global (mot-clé DDL_IMPO : « Les degrés de liberté imposés sont définis dans le repère global de définition du maillage »). Catalogue 17.4.0 : AFFE_MODELE/AFFE/MODELISATION offre POU_D_T (établi au lot 37) ; AFFE_CHAR_MECA/DDL_IMPO/DRY existe (réel, optionnel, une valeur). Un cas test officiel applique DDL_IMPO sur des nœuds de poutre POU_D_T : sdll01a.comm (MODELISATION=\"POU_D_T\", `_F(GROUP_NO=\"AB\", DZ=0.0, DRX=0.0, DRY=0.0)`, `_F(GROUP_NO=\"N100\", DX=0.0, DY=0.0)`), ce qui établit que ces composantes sont acceptées sur POU_D_T ; ce n'est pas un cas de symétrie.",
+   "justification": "Comble le constat manquant du lot 37 (le constat existant du point 7 est sourcé pour DKT et POU_D_E, l'extension à POU_D_T n'était pas établie). U3.11.01 (§Degrés de libertés) : POU_D_T et POU_D_E ont la même ligne de degrés de liberté ; U4.44.01 (tableau 5-2 et mot-clé DDL_IMPO) définit ces composantes dans le repère global pour tout élément de poutre ; le catalogue de la version 17.4.0 confirme l'existence des mots-clés. Le choix des trois composantes bloquées est le même que pour POU_D_E parce que l'ensemble des degrés de liberté et leur repère sont identiques.",
+   "notes": "Déduction, non énoncée par la documentation : la partie « pourquoi DX, DRY, DRZ bloquées et DY, DZ, DRX libres » est le raisonnement de symétrie miroir du plan X = constante déjà noté pour POU_D_E (la rotation, pseudo-vecteur, garde sa composante normale au plan et perd ses composantes dans le plan). Un élément de poutre de Timoshenko ajoute la déformation d'effort tranchant mais aucun degré de liberté : le raisonnement ne change pas. Aucun cas test officiel de symétrie sur POU_D_T n'a été identifié (sdll01a.comm n'est qu'un cas d'appuis) ; la preuve d'exécution est celle du lot 37 (modèle complet avec POU_D_T et cette condition sur les groupes GEN_SYMG_ROT/GEN_SYMD_ROT, `data/examples/lot37_efforts/complet.comm` lignes 1871 et 2124-2125, `DIAGNOSTIC JOB : OK`, symétrie ≤ 5,2e-11 sur les paires de nœuds contrôlées) -- consignée ici comme renvoi, pas comme source d'exécution au sens de ExecutionSource. Niveau A et catalogue (B pour le mot-clé)."
+  },
+  {
+   "point_label": "14",
+   "topic": "État des lieux des commandes de ferraillage de Code_Aster 17.4 (CALC_FERRAILLAGE, COMBINAISON_FERRAILLAGE, POST_COMBINAISON, VERI_FERRAILLAGE, POST_VERI_FERRAILLAGE)",
+   "extraits": [
+    "u4_81_42_but",
+    "u4_81_42_type_comb",
+    "u4_81_42_unite",
+    "u4_81_42_selection",
+    "u4_81_42_ec2_type_structure",
+    "u4_81_42_ec2_enrobage",
+    "u4_81_42_ec2_materiaux",
+    "u4_81_42_ec2_els",
+    "u4_81_42_ec2_wmax",
+    "u4_81_42_ec2_classe",
+    "u4_81_42_composition",
+    "u4_81_42_erreurs",
+    "u4_81_44_but",
+    "u4_81_44_operandes",
+    "u4_81_45_but",
+    "u4_81_45_syntaxe",
+    "u4_81_45_operandes",
+    "u4_81_46_but",
+    "u4_81_46_operandes",
+    "u2_03_07_ferraillage",
+    "r7_04_05_resume",
+    "r7_04_05_1d_notations",
+    "r7_04_05_1d_elu",
+    "r7_04_05_1d_ec2_bael",
+    "r7_04_05_1d_transversal",
+    "r7_04_05_1d_els",
+    "r7_04_05_1d_els_qp",
+    "r7_04_05_2d_capra_maury",
+    "r7_04_05_veri"
+   ],
+   "catalogue_refs": [
+    {"command": "CALC_FERRAILLAGE", "keyword_path": ["TYPE_COMB"]},
+    {"command": "CALC_FERRAILLAGE", "keyword_path": ["CODIFICATION"]},
+    {"command": "CALC_FERRAILLAGE", "keyword_path": ["AFFE", "TYPE_STRUCTURE"]},
+    {"command": "COMBINAISON_FERRAILLAGE", "keyword_path": ["COMBINAISON", "TYPE"]},
+    {"command": "VERI_FERRAILLAGE", "keyword_path": ["AFFE", "TYPE_STRUCTURE"]},
+    {"command": "VERI_FERRAILLAGE", "keyword_path": ["TYPE_COMB"]},
+    {"command": "POST_COMBINAISON", "keyword_path": ["TYPE_COMB"]}
+   ],
+   "option_retained": "Trois commandes de calcul de ferraillage EC2/BAEL91 : CALC_FERRAILLAGE (1D et 2D, ELU/ELS/ELS_QP, méthode Capra-Maury en 2D), COMBINAISON_FERRAILLAGE (l'appelle pour plusieurs combinaisons d'un RESULTAT mult_elas, retient la dimensionnante par nœud/maille et par type d'armature), POST_COMBINAISON (combine linéairement des résultats ou des tables pour produire ce mult_elas). VERI_FERRAILLAGE vérifie un ferraillage existant (marge, taux d'utilisation) mais son catalogue fige AFFE/TYPE_STRUCTURE à '2D' (allowed_values=[\"2D\"]) et TYPE_COMB à ['ELU','ELS'] -- ni 1D ni ELS_QP. Réponse au point demandé par MM (étape 3.3) : un élément de poutre POU_D_T n'est pas pris en charge par VERI_FERRAILLAGE (catalogue), mais l'est par CALC_FERRAILLAGE et COMBINAISON_FERRAILLAGE via TYPE_STRUCTURE='1D' -- ces deux commandes ne distinguent aucune modélisation de poutre par son nom, elles consomment EFGE_ELNO (N, VY, VZ, MT, MFY, MFZ) et AFFE_CARA_ELEM/POUTRE, indépendamment de la modélisation qui les a produits ; le cas test officiel ssll13d.comm exécute réellement CALC_FERRAILLAGE sur une poutre POU_D_T et compare à des valeurs ANALYTIQUE. Aucune des commandes ne documente ni ne catalogue un TYPE_STRUCTURE='3D' (éléments volumiques) : R7.04.05 (résumé) n'annonce que les familles 1D et 2D. Synthèse complète, tableaux commande x élément x état limite, entrées/sorties et limites : docs/etat_des_lieux_lot38_ferraillage.md.",
+   "justification": "U4.81.42, U4.81.44, U4.81.45, U4.81.46, U2.03.07 et R7.04.05 (poutres/poteaux, plaques §Capra-Maury, vérification), confrontés au catalogue 17.4.0 (get_command_schema) et à des cas tests officiels (search_test_cases/read_test_case, commit 50ebc13c70ee9df62faf93ddcb746a3757b3042a : ssll13a/b/c/d.comm, ssll18a/b.comm, ssls134*.comm, ssls145a.comm, ssls146a/b.comm, ssls126*.comm, ssls135a.comm, ssls142*.comm, ssls150*.comm, sslx100c.comm).",
+   "notes": "Essai d'exécution (niveau C/D, docs/essais_lot38.md, data/examples/lot38_essais/) : CALC_FERRAILLAGE sur la section réelle de la poutre de couronnement (2,50 m x 1,40 m, D18), ELU flexion simple et composée, ELS_QP, comparé au module analytique indépendant de ce lot (aster_expert.rebar). Un premier écart de 0,31 % en flexion simple (module au diagramme béton parabole-rectangle) a mené à comparer ce diagramme au bloc rectangulaire simplifié que R7.04.05 documente comme une option pour l'ELU : le bloc simplifié reproduit Code_Aster à 1e-6 m2 sur les cas aux pivots A et B des cas tests officiels (ssll13d.comm), le parabole-rectangle non -- CALC_FERRAILLAGE utilise donc en réalité ce bloc simplifié, devenu le réglage par défaut du module (constat d'exécution consigné en tête de aster_expert.rebar.ultimate). Avec ce réglage, flexion simple et flexion composée tendue accordent à 1e-9 avec Code_Aster sur la section du projet. Le module ne trouve aucune solution en flexion composée fortement comprimée ni en ELS_QP comprimé alors que Code_Aster trouve un ferraillage nul, écart rapporté sans être expliqué (budget de ce lot). Aucun essai 2D (plaque/coque) exécuté dans ce lot, faute de temps : limite explicite, pas une absence documentaire (le tableau commande x élément du point 14 couvre le 2D par la documentation et le catalogue seuls)."
+  }
+ ]
+}

@@ -1,0 +1,6 @@
+{
+  "decisions_14bis_17_18": {
+    "decided_at": "2026-09-25T09:53:49-04:00",
+    "origin": "Heure de l'enregistrement par la session du lot 38 (fuseau EDT, UTC-4), relevée par la commande date. Le fichier arbitrage_combiwall_MM_v6.md ne porte aucune heure de décision : le lancement du lot vaut validation par MM. La ligne 5 de ce fichier (mention « [QUESTION MM] ») est résiduelle, confirmé par MM en séance : le point tranché par MM porte sur le coefficient de sécurité, sans changement de texte du fichier."
+  }
+}

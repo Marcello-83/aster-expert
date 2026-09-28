@@ -69,7 +69,10 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     #   aux nœuds de FORCE_COQUE/PRES, point 5) remplace sur place celui du doublement
     # + 1 constat code_aster du lot 37 (identifiant POU_D_T, point 3) ; les décisions
     #   14, 15, 16 révisent des entrées existantes (aucune entrée ajoutée)
-    assert len(sheet.entries) == 52
+    # + lot 38 : D17 (point 13) et D18 (point 14) ajoutent deux entrées, D14 bis en
+    #   révise une (historique conservé) ; 2 constats code_aster (symétrie de POU_D_T,
+    #   point 7 ; état des lieux du ferraillage, point 14)
+    assert len(sheet.entries) == 56
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -82,8 +85,9 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
     ]
     # 10 up to lot 20, plus MM's decision on the tube shell choice (lot 21) and
     # the global frame (point 9, lot 25), decision 11 (point 10, lot 27),
-    # decision 12 (point 11, lot 28) and decision 13 (point 12, lot 33)
-    assert len(tranche_practice) == 15
+    # decision 12 (point 11, lot 28), decision 13 (point 12, lot 33) and, lot 38,
+    # D17 (point 13) and D18 (point 14)
+    assert len(tranche_practice) == 17
     assert {e.point_label for e in tranche_practice} == {
         "0",
         "1",
@@ -98,6 +102,8 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
         "10",
         "11",
         "12",
+        "13",
+        "14",
     }
     assert all(e.decided_by == "MM" for e in tranche_practice)
     assert all(e.validity_domain for e in tranche_practice)
@@ -516,9 +522,10 @@ def test_arbitree_fiche_records_the_lot31_finding_and_revision() -> None:
     ]
     assert not decision.under_revision
     assert decision.option_retained is not None
-    # Lot 37 : la décision 14 remplace l'option ; celle du lot 32 est en historique.
-    assert "Maillage coïncident" in decision.decision_history[-1].option_retained
-    assert "élément de poutre sur son axe" in decision.option_retained
+    # Lot 37 : la décision 14 remplace l'option ; celle du lot 32 est en historique
+    # (lot 38 : D14 bis remplace D14, qui passe en dernier de l'historique).
+    assert "Maillage coïncident" in decision.decision_history[0].option_retained
+    assert "élément de poutre de Timoshenko sur son axe" in decision.option_retained
     assert [(ev.kind, ev.by) for ev in decision.revision_history] == [
         ("declared", "Claude (lot 31)"),
         ("lifted", "Claude (lot 32)"),
