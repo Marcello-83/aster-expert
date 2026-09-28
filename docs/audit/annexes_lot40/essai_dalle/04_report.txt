@@ -1,0 +1,3 @@
+$ aster-expert report data/processed/runs/20260921T093141-fdefd4f7 (cas officiel ssls502a, coque) --donnees dalle_donnees.yaml --sans-vues
+report ÉCHEC : valeur absente ou à fournir : tube.rayon
+[code 1]

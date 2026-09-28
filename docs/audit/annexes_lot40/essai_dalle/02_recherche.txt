@@ -1,0 +1,40 @@
+$ aster-expert search "Dalle rectangulaire en béton armé de 6 m par 4 m et 0,30 m d'épaisseur. Elle est simplement appuyée sur ses quatre côtés. Elle porte une charge uniforme de 10 kPa." --profile methode --k 5
+Profil : methode ('U2', 'U4', 'R', 'U3') (mode soft)
+22.351  U3.12.01  [Liste_des_cas_tests_disponibles]  source/manuals/man_u/u3/u3.12.01/Liste_des_cas_tests_disponibles.rst@9c8c179f57ef
+    Liste des cas tests disponibles =============================== **DKT** Statique linéaire FORMA02C [:external:ref:`V7.15.100 <V7.15.100>`] : Analyse d'une tuyauterie comportant un coude soumis à une force ponctuelle et à une pression interne. SSLS100A [:external:ref:`V3.03.10
+21.710  R3.07.09  [Validation_de_la_mod_lisation_Q4GG]  source/manuals/man_r/r3/r3.07.09/Validation_de_la_mod_lisation_Q4GG.rst@9c8c179f57ef
+    Validation de la modélisation Q4GG ================================== SDLS123 – Poutre droite avec amortissement de Rayleigh (V2.03.123) ------------------------------------------------------------------ Ce test représente le calcul dynamique élastique avec amortissement de
+17.047  R7.01.31  [Bibliographie]  source/manuals/man_r/r7/r7.01.31/Bibliographie.rst@9c8c179f57ef
+    Bibliographie ============= * P. KOECHLIN, «Modèle de comportement membrane-flexion et critère de perforation pour l’analyse de structures minces en béton armé sous choc mou », Thèse de doctorat Paris VI, 2007, http://www.lamsid.cnrs-bellevue.fr/productions/theses.htm. *
+14.209  R7.01.31  [V_rification]  source/manuals/man_r/r7/r7.01.31/V_rification.rst@9c8c179f57ef
+    Vérification ============ La loi de comportement GLRC_DAMAGE est vérifiée par les cas tests suivants: .. csv-table:: "statique linéaire", "SSLS126", "Flexion d'une dalle en béton armé (modèle GLRC_DAMAGE) appuyée sur deux cotés: régime de poutre élastique", "[:external:re
+12.796  U2.06.10  [Cas_tests_et__tudes_existants]  source/manuals/man_u/u2/u2.06.10/Cas_tests_et__tudes_existants.rst@9c8c179f57ef
+    Cas tests et études existants ============================= Cas-tests Code_Aster -------------------- Schémas temporels ~~~~~~~~~~~~~~~~~ *Schéma d’accélération moyenne (§* :ref:`2.2 <Ref181537443>` *)* * SDND102B et SDND102C - Réponse sismique d'un système masse-re
+[code 0]
+$ aster-expert search "plaque DKT appuyée sur ses bords pression uniforme" --profile methode --k 5
+[code 0]
+$ aster-expert search "modélisation d'une dalle en coque DKT choix élément plaque" --profile methode --k 5
+[code 0]
+$ aster-expert search "CALC_FERRAILLAGE plaque" --profile methode --k 5
+[code 0]
+$ aster-expert search "plaque DKT appuyée sur ses bords pression uniforme" --profile methode --k 5
+13.719  U3.12.01  [Liste_des_cas_tests_disponibles]  source/manuals/man_u/u3/u3.12.01/Liste_des_cas_tests_disponibles.rst@9c8c179f57ef
+6.295  R3.07.09  [Validation_de_la_mod_lisation_Q4GG]  source/manuals/man_r/r3/r3.07.09/Validation_de_la_mod_lisation_Q4GG.rst@9c8c179f57ef
+6.141  U3.12.01  [Discr_tisation]  source/manuals/man_u/u3/u3.12.01/Discr_tisation.rst@9c8c179f57ef
+5.840  U2.02.01  [M_canique]  source/manuals/man_u/u2/u2.02.01/M_canique.rst@9c8c179f57ef
+5.656  R7.01.31  [V_rification]  source/manuals/man_r/r7/r7.01.31/V_rification.rst@9c8c179f57ef
+[code 0]
+$ aster-expert search "modélisation d'une dalle en coque DKT choix élément plaque" --profile methode --k 5
+8.223  U2.02.01  [M_canique]  source/manuals/man_u/u2/u2.02.01/M_canique.rst@9c8c179f57ef
+7.998  R3.07.09  [Bibliographie]  source/manuals/man_r/r3/r3.07.09/Bibliographie.rst@9c8c179f57ef
+7.884  R3.07.09  [index]  source/manuals/man_r/r3/r3.07.09/index.rst@9c8c179f57ef
+7.876  U4.42.01  [Definition_du_domaine_d_affectation]  source/manuals/man_u/u4/u4.42.01/Definition_du_domaine_d_affectation.rst@9c8c179f57ef
+7.835  U3.12.01  [Discr_tisation]  source/manuals/man_u/u3/u3.12.01/Discr_tisation.rst@9c8c179f57ef
+[code 0]
+$ aster-expert search "CALC_FERRAILLAGE plaque" --profile methode --k 5
+5.042  R7.04.05  [index]  source/manuals/man_r/r7/r7.04.05/index.rst@9c8c179f57ef
+4.608  U4.01.13  [Objets]  source/manuals/man_u/u4/u4.01.13/Objets.rst@9c8c179f57ef
+4.305  U4.81.42  [index]  source/manuals/man_u/u4/u4.81.42/index.rst@9c8c179f57ef
+3.908  U4.81.44  [But]  source/manuals/man_u/u4/u4.81.44/But.rst@9c8c179f57ef
+3.398  U2.03.07  [Calcul_de_ferraillage]  source/manuals/man_u/u2/u2.03.07/Calcul_de_ferraillage.rst@9c8c179f57ef
+[code 0]

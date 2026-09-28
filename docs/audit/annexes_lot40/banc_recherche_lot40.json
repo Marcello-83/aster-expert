@@ -1,0 +1,90 @@
+{
+ "banc": "data/evaluations/questions.jsonl (65 questions, 63 résolues)",
+ "by_file_sans_profil": {
+  "5": 0.4603174603174603,
+  "10": 0.6190476190476191,
+  "20": 0.7619047619047619
+ },
+ "by_subsection_sans_profil": {
+  "5": 0.5238095238095238,
+  "10": 0.6031746031746031,
+  "20": 0.7777777777777778
+ },
+ "plancher_profil_syntaxe": {
+  "5": 0.7142857142857143,
+  "10": 0.8095238095238095,
+  "20": 0.873015873015873
+ },
+ "realiste_profil_annote": {
+  "5": 0.7301587301587301,
+  "10": 0.8253968253968254,
+  "20": 0.9047619047619048
+ },
+ "realiste_explicite": {
+  "5": 0.7627118644067796,
+  "10": 0.864406779661017,
+  "20": 0.9152542372881356
+ },
+ "realiste_par_profil": {
+  "5": {
+   "theorie": {
+    "n_questions": 9,
+    "hit_rate": 0.4444444444444444,
+    "mean_recall": 0.38095238095238093,
+    "mean_reciprocal_rank": 0.3748854666887454
+   },
+   "syntaxe": {
+    "n_questions": 45,
+    "hit_rate": 0.8444444444444444,
+    "mean_recall": 0.6722222222222223,
+    "mean_reciprocal_rank": 0.6237145969498911
+   },
+   "methode": {
+    "n_questions": 9,
+    "hit_rate": 0.4444444444444444,
+    "mean_recall": 0.3055555555555556,
+    "mean_reciprocal_rank": 0.2736220999120896
+   }
+  },
+  "10": {
+   "theorie": {
+    "n_questions": 9,
+    "hit_rate": 0.6666666666666666,
+    "mean_recall": 0.5634920634920635,
+    "mean_reciprocal_rank": 0.3748854666887454
+   },
+   "syntaxe": {
+    "n_questions": 45,
+    "hit_rate": 0.9111111111111111,
+    "mean_recall": 0.7574074074074074,
+    "mean_reciprocal_rank": 0.6237145969498911
+   },
+   "methode": {
+    "n_questions": 9,
+    "hit_rate": 0.5555555555555556,
+    "mean_recall": 0.3611111111111111,
+    "mean_reciprocal_rank": 0.2736220999120896
+   }
+  },
+  "20": {
+   "theorie": {
+    "n_questions": 9,
+    "hit_rate": 0.7777777777777778,
+    "mean_recall": 0.6534391534391535,
+    "mean_reciprocal_rank": 0.3748854666887454
+   },
+   "syntaxe": {
+    "n_questions": 45,
+    "hit_rate": 0.9555555555555556,
+    "mean_recall": 0.8259259259259258,
+    "mean_reciprocal_rank": 0.6237145969498911
+   },
+   "methode": {
+    "n_questions": 9,
+    "hit_rate": 0.7777777777777778,
+    "mean_recall": 0.6666666666666666,
+    "mean_reciprocal_rank": 0.2736220999120896
+   }
+  }
+ }
+}

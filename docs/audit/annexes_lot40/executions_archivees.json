@@ -1,0 +1,2472 @@
+[
+ {
+  "execution": "20260921T093141-fdefd4f7",
+  "comm": [
+   "ssls502a.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   3.9,
+   7.47,
+   11.37,
+   13.43
+  ]
+ },
+ {
+  "execution": "20260921T093450-a49d007b",
+  "comm": [
+   "demi_cylindre.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T093530-95f41b8a",
+  "comm": [
+   "demi_cylindre.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.91,
+   0.6,
+   1.51,
+   1.54
+  ]
+ },
+ {
+  "execution": "20260921T093900-2a80f342",
+  "comm": [
+   "demi_cylindre.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.23,
+   0.67,
+   1.9,
+   1.93
+  ]
+ },
+ {
+  "execution": "20260921T100453-a31e069c",
+  "comm": [
+   "a1.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T100502-9e0e4ac2",
+  "comm": [
+   "a2.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T100512-162bd0b6",
+  "comm": [
+   "a3.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T100522-f5d8b88c",
+  "comm": [
+   "b1.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T100531-49f49b34",
+  "comm": [
+   "b2.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.34,
+   0.26,
+   1.6,
+   1.77
+  ]
+ },
+ {
+  "execution": "20260921T100541-4e145566",
+  "comm": [
+   "c.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.3,
+   0.22,
+   1.52,
+   1.55
+  ]
+ },
+ {
+  "execution": "20260921T100632-3fb16562",
+  "comm": [
+   "a1.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.76,
+   1.14,
+   1.9,
+   2.09
+  ]
+ },
+ {
+  "execution": "20260921T100646-3e72d65c",
+  "comm": [
+   "a2.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.16,
+   0.24,
+   1.4,
+   1.48
+  ]
+ },
+ {
+  "execution": "20260921T100700-58baf568",
+  "comm": [
+   "a3.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.38,
+   0.39,
+   1.77,
+   1.8
+  ]
+ },
+ {
+  "execution": "20260921T100715-c6354836",
+  "comm": [
+   "b1.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T100730-29606c1e",
+  "comm": [
+   "b2.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   2.56,
+   0.77,
+   3.33,
+   3.78
+  ]
+ },
+ {
+  "execution": "20260921T100750-f776499d",
+  "comm": [
+   "c.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.8,
+   0.9,
+   1.7,
+   1.8
+  ]
+ },
+ {
+  "execution": "20260921T100909-2992391e",
+  "comm": [
+   "diag.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.31,
+   0.7,
+   2.01,
+   2.28
+  ]
+ },
+ {
+  "execution": "20260921T101032-256ff878",
+  "comm": [
+   "diag2.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.99,
+   0.43,
+   1.42,
+   1.46
+  ]
+ },
+ {
+  "execution": "20260921T101043-e55bc84c",
+  "comm": [
+   "diag3.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.94,
+   0.43,
+   1.37,
+   1.58
+  ]
+ },
+ {
+  "execution": "20260921T101124-18f52e1d",
+  "comm": [
+   "diag4.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.26,
+   0.32,
+   1.58,
+   1.65
+  ]
+ },
+ {
+  "execution": "20260921T101153-55500085",
+  "comm": [
+   "diag5.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.94,
+   0.38,
+   1.32,
+   1.37
+  ]
+ },
+ {
+  "execution": "20260921T101203-2985e244",
+  "comm": [
+   "diag6.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.97,
+   0.4,
+   1.37,
+   1.42
+  ]
+ },
+ {
+  "execution": "20260921T101332-5cbd3bf8",
+  "comm": [
+   "a1.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.98,
+   0.7,
+   1.68,
+   1.72
+  ]
+ },
+ {
+  "execution": "20260921T101346-08a0a444",
+  "comm": [
+   "a2.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.98,
+   0.32,
+   1.3,
+   1.47
+  ]
+ },
+ {
+  "execution": "20260921T101401-68f181f1",
+  "comm": [
+   "a3.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.21,
+   0.42,
+   1.63,
+   1.69
+  ]
+ },
+ {
+  "execution": "20260921T101415-cd77fd19",
+  "comm": [
+   "a4.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.04,
+   0.33,
+   1.37,
+   1.38
+  ]
+ },
+ {
+  "execution": "20260921T101430-9f270254",
+  "comm": [
+   "a5.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.33,
+   0.45,
+   1.78,
+   1.89
+  ]
+ },
+ {
+  "execution": "20260921T101444-e388f467",
+  "comm": [
+   "a6.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.08,
+   0.36,
+   1.44,
+   1.5
+  ]
+ },
+ {
+  "execution": "20260921T101458-b4fb032c",
+  "comm": [
+   "a7.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.96,
+   0.55,
+   1.51,
+   1.72
+  ]
+ },
+ {
+  "execution": "20260921T101513-8ba3e3bc",
+  "comm": [
+   "b1.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T101528-e0098ee2",
+  "comm": [
+   "b2.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.09,
+   0.25,
+   1.34,
+   1.45
+  ]
+ },
+ {
+  "execution": "20260921T101544-f864ce4e",
+  "comm": [
+   "b3.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.23,
+   0.41,
+   1.64,
+   1.74
+  ]
+ },
+ {
+  "execution": "20260921T101559-c20db58f",
+  "comm": [
+   "c.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.15,
+   0.13,
+   1.28,
+   1.37
+  ]
+ },
+ {
+  "execution": "20260921T101704-c98db170",
+  "comm": [
+   "b4.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T102152-e6e884c2",
+  "comm": [
+   "a1.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.93,
+   1.83,
+   2.76,
+   2.78
+  ]
+ },
+ {
+  "execution": "20260921T102207-4ae82c81",
+  "comm": [
+   "a2.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.26,
+   0.52,
+   1.78,
+   1.92
+  ]
+ },
+ {
+  "execution": "20260921T102222-22982641",
+  "comm": [
+   "a3.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.19,
+   0.35,
+   1.54,
+   1.6
+  ]
+ },
+ {
+  "execution": "20260921T102235-afd2002a",
+  "comm": [
+   "a4.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.07,
+   0.34,
+   1.41,
+   1.45
+  ]
+ },
+ {
+  "execution": "20260921T102248-f489c728",
+  "comm": [
+   "a5.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.1,
+   0.27,
+   1.37,
+   1.4
+  ]
+ },
+ {
+  "execution": "20260921T102302-c933833c",
+  "comm": [
+   "a6.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.95,
+   0.38,
+   1.33,
+   1.52
+  ]
+ },
+ {
+  "execution": "20260921T102319-7180fe6f",
+  "comm": [
+   "a7.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.98,
+   0.82,
+   1.8,
+   2.05
+  ]
+ },
+ {
+  "execution": "20260921T102335-8f038ba8",
+  "comm": [
+   "b1.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T102350-e6b6df81",
+  "comm": [
+   "b2.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.11,
+   0.36,
+   1.47,
+   1.5
+  ]
+ },
+ {
+  "execution": "20260921T102404-48f58498",
+  "comm": [
+   "b3.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.93,
+   0.51,
+   1.44,
+   1.51
+  ]
+ },
+ {
+  "execution": "20260921T102418-283bbc03",
+  "comm": [
+   "b4.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T102432-74dc1af3",
+  "comm": [
+   "c.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.05,
+   0.29,
+   1.34,
+   1.47
+  ]
+ },
+ {
+  "execution": "20260921T112543-42b74df1",
+  "comm": [
+   "d1.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T112554-018aaded",
+  "comm": [
+   "d2a.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T112604-a486e4bb",
+  "comm": [
+   "d2b.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T112614-77987b22",
+  "comm": [
+   "d3.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T112624-272d3329",
+  "comm": [
+   "d4.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.2,
+   0.47,
+   1.67,
+   1.8
+  ]
+ },
+ {
+  "execution": "20260921T112635-b6570a85",
+  "comm": [
+   "d5a.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T112646-b1c3cda4",
+  "comm": [
+   "d5b.comm"
+  ],
+  "etat_run_aster": "Except",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T112744-fbba6f85",
+  "comm": [
+   "d1.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.46,
+   0.52,
+   1.98,
+   2.08
+  ]
+ },
+ {
+  "execution": "20260921T112759-6c0e6c17",
+  "comm": [
+   "d5a.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.19,
+   0.41,
+   1.6,
+   1.64
+  ]
+ },
+ {
+  "execution": "20260921T112813-509355cd",
+  "comm": [
+   "d5b.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.14,
+   0.51,
+   1.65,
+   1.73
+  ]
+ },
+ {
+  "execution": "20260921T112837-4656db44",
+  "comm": [
+   "d2a.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.43,
+   0.44,
+   1.87,
+   1.95
+  ]
+ },
+ {
+  "execution": "20260921T112856-b72eaea7",
+  "comm": [
+   "d2b.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.52,
+   0.49,
+   2.01,
+   2.19
+  ]
+ },
+ {
+  "execution": "20260921T112910-6818e833",
+  "comm": [
+   "d3.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.5,
+   0.76,
+   2.26,
+   2.45
+  ]
+ },
+ {
+  "execution": "20260921T113203-c471fdcb",
+  "comm": [
+   "d5b.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.97,
+   0.33,
+   2.3,
+   2.45
+  ]
+ },
+ {
+  "execution": "20260921T121934-9e269460",
+  "comm": [
+   "d6a.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.63,
+   0.62,
+   2.25,
+   2.29
+  ]
+ },
+ {
+  "execution": "20260921T121945-e77daf7f",
+  "comm": [
+   "d6b.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.68,
+   0.31,
+   1.99,
+   2.12
+  ]
+ },
+ {
+  "execution": "20260921T121956-bcb5e1f8",
+  "comm": [
+   "d6c.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.52,
+   0.48,
+   2.0,
+   2.06
+  ]
+ },
+ {
+  "execution": "20260921T122204-0a5c4918",
+  "comm": [
+   "d6b16.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.96,
+   0.52,
+   2.48,
+   2.52
+  ]
+ },
+ {
+  "execution": "20260921T122226-516e3a22",
+  "comm": [
+   "d6b.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.29,
+   0.55,
+   1.84,
+   1.94
+  ]
+ },
+ {
+  "execution": "20260921T140406-1e1d8898",
+  "comm": [
+   "d7a.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.81,
+   1.74,
+   2.55,
+   2.68
+  ]
+ },
+ {
+  "execution": "20260921T140419-e3e904b1",
+  "comm": [
+   "d7a16.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.28,
+   0.34,
+   1.62,
+   1.66
+  ]
+ },
+ {
+  "execution": "20260921T140428-dfedb463",
+  "comm": [
+   "d7b.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.08,
+   0.34,
+   1.42,
+   1.44
+  ]
+ },
+ {
+  "execution": "20260921T140437-acdc5f4a",
+  "comm": [
+   "d7b16.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.95,
+   0.34,
+   1.29,
+   1.31
+  ]
+ },
+ {
+  "execution": "20260921T140447-e837c0cf",
+  "comm": [
+   "d7c.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.28,
+   0.22,
+   1.5,
+   1.52
+  ]
+ },
+ {
+  "execution": "20260921T153032-1bed2597",
+  "comm": [
+   "lot26_g1.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.9,
+   0.72,
+   1.62,
+   1.7
+  ]
+ },
+ {
+  "execution": "20260921T153045-aa1e1211",
+  "comm": [
+   "lot26_g2.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.37,
+   1.47,
+   1.84,
+   1.85
+  ]
+ },
+ {
+  "execution": "20260921T153059-d4e93b1b",
+  "comm": [
+   "lot26_g3.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.74,
+   0.43,
+   1.17,
+   1.29
+  ]
+ },
+ {
+  "execution": "20260921T170137-2b50e2fd",
+  "comm": [
+   "lot27_lecture.comm"
+  ],
+  "etat_run_aster": "Abort",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260921T170158-ce591df6",
+  "comm": [
+   "lot27_lecture.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   15.85,
+   2.37,
+   18.22,
+   25.47
+  ]
+ },
+ {
+  "execution": "20260923T092118-f4ab1161",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T093142-691355f1",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T093604-686ef117",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T094632-acdaedb1",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T095618-860b7b25",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T095952-d4d3243f",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T100121-ee300c92",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T100205-67dd6271",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T100443-5af602f7",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T121451-2f41fcdd",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T121558-6f3c1e73",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T121702-5db23489",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   15.57,
+   4.98,
+   20.55,
+   21.72
+  ]
+ },
+ {
+  "execution": "20260923T121903-173d0a23",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T122119-9cd288b8",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   14.42,
+   5.83,
+   20.25,
+   21.98
+  ]
+ },
+ {
+  "execution": "20260923T122236-2d459686",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   11.29,
+   1.88,
+   13.17,
+   13.51
+  ]
+ },
+ {
+  "execution": "20260923T122331-8fc9d996",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   9.73,
+   1.43,
+   11.16,
+   15.99
+  ]
+ },
+ {
+  "execution": "20260923T122540-813125e2",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T123108-60ed1fb2",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T130503-d423a6b9",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T130531-10c70848",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.69,
+   0.16,
+   1.85,
+   1.88
+  ]
+ },
+ {
+  "execution": "20260923T130619-4198fad7",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T130628-b8d24968",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T130728-173e9a7e",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.46,
+   0.42,
+   1.88,
+   1.91
+  ]
+ },
+ {
+  "execution": "20260923T130739-57ea01cb",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T130748-6e7c6cd7",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T130850-7a5dc597",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.56,
+   0.41,
+   1.97,
+   2.07
+  ]
+ },
+ {
+  "execution": "20260923T130902-3cb174f7",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T130912-75b310ca",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T130924-6b430fdc",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T131330-808db161",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.53,
+   0.72,
+   2.25,
+   2.34
+  ]
+ },
+ {
+  "execution": "20260923T131342-ced1d55b",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.47,
+   0.56,
+   2.03,
+   2.08
+  ]
+ },
+ {
+  "execution": "20260923T131352-6d6ffd02",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.9,
+   0.62,
+   2.52,
+   2.53
+  ]
+ },
+ {
+  "execution": "20260923T131404-c6323a07",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   4.98,
+   3.42,
+   8.4,
+   8.46
+  ]
+ },
+ {
+  "execution": "20260923T131446-d68cfba5",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   5.07,
+   0.74,
+   5.81,
+   5.85
+  ]
+ },
+ {
+  "execution": "20260923T131501-3f7de9dd",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   4.99,
+   0.63,
+   5.62,
+   5.65
+  ]
+ },
+ {
+  "execution": "20260923T131514-681fbd57",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.32,
+   0.41,
+   1.73,
+   1.76
+  ]
+ },
+ {
+  "execution": "20260923T131524-3b12f8eb",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   4.57,
+   0.52,
+   5.09,
+   5.13
+  ]
+ },
+ {
+  "execution": "20260923T131537-3ba24073",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T131916-585a22eb",
+  "comm": [
+   "repro.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   6.35,
+   3.48,
+   9.83,
+   9.96
+  ]
+ },
+ {
+  "execution": "20260923T140055-163894f7",
+  "comm": [
+   "quai_reduit.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T141049-0f80be92",
+  "comm": [
+   "quai_reduit_sans_ressorts.comm"
+  ],
+  "etat_run_aster": "Abort",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T171214-6bc1f4c8",
+  "comm": [
+   "quai_reduit_sans_ressorts.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T171704-c70aaccf",
+  "comm": [
+   "quai_reduit_sans_tirants.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T172128-71b3a102",
+  "comm": [
+   "quai_reduit_sans_palplanches.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T172405-7a9edc2e",
+  "comm": [
+   "quai_reduit_sans_palplanches.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T172818-a733f4f9",
+  "comm": [
+   "quai_reduit_sans_poutre.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260923T173024-00363e2e",
+  "comm": [
+   "quai_reduit_sans_poutre.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T073315-ef945d2f",
+  "comm": [
+   "quai_reduit_liaison_solide.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T073353-8ef20964",
+  "comm": [
+   "quai_reduit_liaison_ddl_translations.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T073732-e148a3de",
+  "comm": [
+   "quai_reduit_noeud_unique.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T073906-857c7055",
+  "comm": [
+   "quai_reduit_sans_poutre_masse_corrigee.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T074135-83e8c50b",
+  "comm": [
+   "quai_reduit_sans_poutre_masse_corrigee.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T081527-4aa4bf7d",
+  "comm": [
+   "quai_reduit_regle_cl.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T082421-4ed9a9c6",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   108.8,
+   25.54,
+   134.34,
+   136.8
+  ]
+ },
+ {
+  "execution": "20260924T092624-be572f9f",
+  "comm": [
+   "quai_reduit_resi_rela_defaut.comm"
+  ],
+  "etat_run_aster": "Abort",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T092706-ee2d582a",
+  "comm": [
+   "quai_reduit_resi_rela_defaut.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   32.64,
+   3.1,
+   35.74,
+   35.99
+  ]
+ },
+ {
+  "execution": "20260924T092811-16c21d1d",
+  "comm": [
+   "quai_reduit_coef_rigi_drz_defaut.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   31.79,
+   2.79,
+   34.58,
+   35.52
+  ]
+ },
+ {
+  "execution": "20260924T095750-e41e8395",
+  "comm": [
+   "ressort_seul.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T095848-d6e6c49e",
+  "comm": [
+   "ressort_seul.comm"
+  ],
+  "etat_run_aster": "Abort",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T100121-aca600a5",
+  "comm": [
+   "ressort_seul.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   1.08,
+   0.45,
+   1.53,
+   1.56
+  ]
+ },
+ {
+  "execution": "20260924T121058-05b0b9dc",
+  "comm": [
+   "quai_reduit_efge.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T121456-6fdd1df9",
+  "comm": [
+   "quai_reduit_efge.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T121946-8106bb81",
+  "comm": [
+   "quai_reduit_efge.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T122515-01be6bd1",
+  "comm": [
+   "quai_reduit_efge.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T122731-0b829e46",
+  "comm": [
+   "diag_no_fz.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T122946-91647b17",
+  "comm": [
+   "quai_reduit_liaison_ddl_translations.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T123123-d6a9a947",
+  "comm": [
+   "repro_force_poutre.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   2.21,
+   0.88,
+   3.09,
+   3.12
+  ]
+ },
+ {
+  "execution": "20260924T123903-a3a12606",
+  "comm": [
+   "quai_reduit_efge.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   33.72,
+   7.1,
+   40.82,
+   41.35
+  ]
+ },
+ {
+  "execution": "20260924T130146-8aa8d8c0",
+  "comm": [
+   "quai_reduit_efge.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T130411-24ad2142",
+  "comm": [
+   "quai_reduit_efge.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T130758-094ef769",
+  "comm": [
+   "quai_reduit_efge.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   77.31,
+   21.06,
+   98.37,
+   104.2
+  ]
+ },
+ {
+  "execution": "20260924T131247-32c8ce39",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   298.97,
+   67.98,
+   366.95,
+   409.8
+  ]
+ },
+ {
+  "execution": "20260924T150718-bcf3d1a5",
+  "comm": [
+   "sonde_blocage_total.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   66.26,
+   8.39,
+   74.65,
+   83.99
+  ]
+ },
+ {
+  "execution": "20260924T151118-48cf559a",
+  "comm": [
+   "sonde_pression_tubes.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   70.46,
+   9.6,
+   80.06,
+   95.18
+  ]
+ },
+ {
+  "execution": "20260924T151306-8364f73d",
+  "comm": [
+   "sonde_pression_palplanches.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   70.75,
+   7.87,
+   78.62,
+   90.81
+  ]
+ },
+ {
+  "execution": "20260924T151447-7d8347d4",
+  "comm": [
+   "sonde_pression_aucune.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   65.84,
+   6.91,
+   72.75,
+   82.61
+  ]
+ },
+ {
+  "execution": "20260924T151629-51d45446",
+  "comm": [
+   "sonde_pression_tubes_nodal.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   71.48,
+   8.14,
+   79.62,
+   88.66
+  ]
+ },
+ {
+  "execution": "20260924T152209-9e61e72a",
+  "comm": [
+   "sonde_pression_palplanches_nodal.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   79.35,
+   8.38,
+   87.73,
+   98.24
+  ]
+ },
+ {
+  "execution": "20260924T152835-7443735d",
+  "comm": [
+   "quai_reduit_controles.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   36.79,
+   4.46,
+   41.25,
+   47.1
+  ]
+ },
+ {
+  "execution": "20260924T152937-a4da70cf",
+  "comm": [
+   "sonde_blocage_total.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   72.66,
+   10.96,
+   83.62,
+   94.53
+  ]
+ },
+ {
+  "execution": "20260924T153254-726c58d9",
+  "comm": [
+   "quai_reduit_controles.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   37.9,
+   4.11,
+   42.01,
+   44.02
+  ]
+ },
+ {
+  "execution": "20260924T153701-fcac67f2",
+  "comm": [
+   "quai_reduit_forces_ressorts.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   38.79,
+   4.45,
+   43.24,
+   45.93
+  ]
+ },
+ {
+  "execution": "20260924T154200-f7ec9180",
+  "comm": [
+   "quai_reduit_forces_ressorts.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   38.64,
+   6.54,
+   45.18,
+   47.64
+  ]
+ },
+ {
+  "execution": "20260924T155517-5d41bb8c",
+  "comm": [
+   "quai_reduit_forces_ressorts.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T155538-bc2079e8",
+  "comm": [
+   "sonde_blocage_total.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260924T155720-2ddc3a8c",
+  "comm": [
+   "quai_reduit_forces_ressorts.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   40.5,
+   12.38,
+   52.88,
+   56.19
+  ]
+ },
+ {
+  "execution": "20260924T155826-b6368ff9",
+  "comm": [
+   "sonde_blocage_total.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   69.51,
+   14.43,
+   83.94,
+   87.79
+  ]
+ },
+ {
+  "execution": "20260924T160321-dca7bfa8",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   146.12,
+   33.36,
+   179.48,
+   192.47
+  ]
+ },
+ {
+  "execution": "20260925T071043-39e3665b",
+  "comm": [
+   "quai_reduit_synthese.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260925T071216-4bf41bd0",
+  "comm": [
+   "essai_a.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260925T071423-4fe99c43",
+  "comm": [
+   "quai_reduit_synthese.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260925T071706-4c7d9ffb",
+  "comm": [
+   "essai_b.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   15.03,
+   1.95,
+   16.98,
+   17.44
+  ]
+ },
+ {
+  "execution": "20260925T071826-8347fd5c",
+  "comm": [
+   "quai_reduit_synthese.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   75.63,
+   12.52,
+   88.15,
+   97.37
+  ]
+ },
+ {
+  "execution": "20260925T072325-0b102c19",
+  "comm": [
+   "sans_vecteur_tubes.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   78.06,
+   10.52,
+   88.58,
+   99.87
+  ]
+ },
+ {
+  "execution": "20260925T072820-14e55343",
+  "comm": [
+   "quai_reduit_synthese.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   58.66,
+   9.37,
+   68.03,
+   73.48
+  ]
+ },
+ {
+  "execution": "20260925T075049-b1de2c32",
+  "comm": [
+   "quai_combiwall.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   256.47,
+   85.22,
+   341.69,
+   404.55
+  ]
+ },
+ {
+  "execution": "20260925T083610-eafc07ec",
+  "comm": [
+   "reduit_base.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   91.76,
+   11.98,
+   103.74,
+   115.59
+  ]
+ },
+ {
+  "execution": "20260925T083839-052c7dbc",
+  "comm": [
+   "reduit_v1.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   91.7,
+   9.52,
+   101.22,
+   109.34
+  ]
+ },
+ {
+  "execution": "20260925T085120-049b5c27",
+  "comm": [
+   "reduit_base.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   93.32,
+   19.3,
+   112.62,
+   123.95
+  ]
+ },
+ {
+  "execution": "20260925T085343-c563f6a9",
+  "comm": [
+   "reduit_v1.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   89.49,
+   13.42,
+   102.91,
+   113.68
+  ]
+ },
+ {
+  "execution": "20260925T090253-1f383214",
+  "comm": [
+   "complet_base.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   363.75,
+   114.74,
+   478.49,
+   581.11
+  ]
+ },
+ {
+  "execution": "20260925T091324-defef551",
+  "comm": [
+   "complet_v1.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   319.24,
+   51.8,
+   371.04,
+   778.92
+  ]
+ },
+ {
+  "execution": "20260925T124252-5122d9f4",
+  "comm": [
+   "reduit.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   113.54,
+   20.08,
+   133.62,
+   146.56
+  ]
+ },
+ {
+  "execution": "20260925T124551-83f1dfda",
+  "comm": [
+   "reduit_fin.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   205.22,
+   36.79,
+   242.01,
+   286.65
+  ]
+ },
+ {
+  "execution": "20260925T125131-c67e28a1",
+  "comm": [
+   "complet.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   244.45,
+   56.98,
+   301.43,
+   394.45
+  ]
+ },
+ {
+  "execution": "20260928T083040-fc18b62a",
+  "comm": [
+   "essais.comm"
+  ],
+  "etat_run_aster": "Abort",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260928T083113-a4a49af7",
+  "comm": [
+   "essais.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260928T083203-e746f3ad",
+  "comm": [
+   "essais.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.83,
+   3.44,
+   4.27,
+   5.15
+  ]
+ },
+ {
+  "execution": "20260928T095358-e9475e88",
+  "comm": [
+   "d19.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.92,
+   0.65,
+   1.57,
+   2.01
+  ]
+ },
+ {
+  "execution": "20260928T095412-2b7d81be",
+  "comm": [
+   "limites.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.73,
+   0.62,
+   1.35,
+   1.43
+  ]
+ },
+ {
+  "execution": "20260928T095423-69cfd1c4",
+  "comm": [
+   "fermin.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.39,
+   0.54,
+   0.93,
+   0.97
+  ]
+ },
+ {
+  "execution": "20260928T095433-ba976fa9",
+  "comm": [
+   "fiss.comm"
+  ],
+  "etat_run_aster": "Fatal",
+  "temps_run_aster_s": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "execution": "20260928T095741-ba84496c",
+  "comm": [
+   "fermin_mpa.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.42,
+   1.2,
+   1.62,
+   1.76
+  ]
+ },
+ {
+  "execution": "20260928T100157-30609502",
+  "comm": [
+   "poutre.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   2.83,
+   0.38,
+   3.21,
+   3.34
+  ]
+ },
+ {
+  "execution": "20260928T100918-aa126904",
+  "comm": [
+   "plaque.comm"
+  ],
+  "etat_run_aster": "Ok",
+  "temps_run_aster_s": [
+   0.66,
+   0.43,
+   1.09,
+   1.15
+  ]
+ }
+]

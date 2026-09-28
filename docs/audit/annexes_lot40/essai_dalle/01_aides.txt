@@ -1,0 +1,178 @@
+$ aster-expert --help
+                                                                                
+ Usage: aster-expert [OPTIONS] COMMAND [ARGS]...                                
+                                                                                
+ Agent expert Code_Aster : corpus, catalogue, validation, exécution.            
+                                                                                
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --version          Afficher la version du projet.                            │
+│ --help             Show this message and exit.                               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────────╮
+│ search     Interroger le corpus documentaire (lot 7, D4 ; lot 7c, G1 :       │
+│            --profile).                                                       │
+│ section    Texte d'un fragment/section, par défaut intégral (lot 8c K1 ; lot │
+│            14 L1).                                                           │
+│ validate   Valider un fichier de commandes contre le catalogue (niveau B).   │
+│ mcp-check  Démarrer un serveur MCP neuf (comme `.mcp.json`) et appeler       │
+│            chaque outil.                                                     │
+│ run        Exécuter un fichier de commandes sous contrôle, dans le conteneur │
+│            (niveau C).                                                       │
+│ report     Synthèse Markdown des résultats d'un calcul du quai (lots 35 et   │
+│            36).                                                              │
+│ generate   Générer le .comm du quai (lot 28) à partir de la fiche, des       │
+│            données et                                                        │
+│            du maillage vérifié (aster_expert.generation.generate_comm).      │
+│ env        Environnement Code_Aster.                                         │
+│ sources    Dépôts sources.                                                   │
+│ catalogue  Catalogue des commandes.                                          │
+│ comm       Fichiers de commandes .comm.                                      │
+│ eval       Jeu d'évaluation de la recherche (lot 5).                         │
+│ fragments  Découpage du corpus en fragments (lot 7).                         │
+│ index      Index lexical (lot 7).                                            │
+│ mesh       Maillage : scripts Salomé et vérificateur MED (lot 26).           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[code 0]
+$ aster-expert generate --help
+                                                                                
+ Usage: aster-expert generate [OPTIONS] {fiche} {donnees} {maillage}            
+                                                                                
+ Générer le .comm du quai (lot 28) à partir de la fiche, des données et du      
+ maillage vérifié (aster_expert.generation.generate_comm).                      
+                                                                                
+╭─ Arguments ──────────────────────────────────────────────────────────────────╮
+│ *    fiche         <str>  [required]                                         │
+│ *    donnees       <str>  [required]                                         │
+│ *    maillage      <str>  [required]                                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --help          Show this message and exit.                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[code 0]
+$ aster-expert mesh run --help
+                                                                                
+ Usage: aster-expert mesh run [OPTIONS] {script}                                
+                                                                                
+ Exécuter un script Salomé sans interface (config/validation.yaml, mesh).       
+                                                                                
+╭─ Arguments ──────────────────────────────────────────────────────────────────╮
+│ *    script      <path>  [required]                                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --params        <str>  Fichier de paramètres JSON passé au script (empreinte │
+│                        vérifiée).                                            │
+│ --help                 Show this message and exit.                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[code 0]
+$ aster-expert mesh check --help
+                                                                                
+ Usage: aster-expert mesh check [OPTIONS] {med} {invariants}                    
+                                                                                
+ Vérifier un MED contre un fichier d'invariants (medcoupling, sans Salomé).     
+                                                                                
+╭─ Arguments ──────────────────────────────────────────────────────────────────╮
+│ *    med             <path>  [required]                                      │
+│ *    invariants      <path>  [required]                                      │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --version        <str>  Version cible (ex. 17.4.0) de l'image lisant le MED. │
+│ --help                  Show this message and exit.                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[code 0]
+$ aster-expert report --help
+                                                                                
+ Usage: aster-expert report [OPTIONS] {resultat}                                
+                                                                                
+ Synthèse Markdown des résultats d'un calcul du quai (lots 35 et 36).           
+                                                                                
+ `resultat` : le répertoire d'exécution (`aster-expert run`) ou son listing     
+ `.mess`. Depuis le lot 36, la source est le MED de résultats, relu par         
+ `medcoupling` dans le conteneur ; les tables du `.mess` ne sont plus qu'une    
+ contre-vérification (écart relatif rapporté). Écrit `synthese.md`,             
+ `controles.md`,                                                                
+ `synthese.json` et, si `matplotlib` est disponible, les vues PNG de chaque cas 
+ élémentaire (`vues/`). Cas élémentaires seulement : aucune combinaison, aucun  
+ verdict de dimensionnement.                                                    
+                                                                                
+╭─ Arguments ──────────────────────────────────────────────────────────────────╮
+│ *    resultat      <path>  [required]                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --donnees            <str>  Fichier de données du modèle exécuté (aires      │
+│                             tributaires, butée).                             │
+│                             [default:                                        │
+│                             data/examples/combiwall_model_data.yaml]         │
+│ --comm               <str>  `.comm` exécuté (empreinte consignée dans la     │
+│                             synthèse).                                       │
+│ --controles-d        <str>  JSON de l'équilibre                              │
+│                             (scripts/analyze_lot34_equilibre.py) à joindre.  │
+│ --sortie             <str>  Répertoire de sortie (par défaut : celui du      │
+│                             résultat).                                       │
+│ --med                <str>  MED de résultats (défaut : proc.0/fort.80 de     │
+│                             l'exécution).                                    │
+│ --etiquette          <str>  Étiquette portée par le titre des vues (`base`,  │
+│                             `V1`).                                           │
+│ --sans-vues                 Ne pas produire les vues PNG (lot 36).           │
+│ --help                      Show this message and exit.                      │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[code 0]
+$ aster-expert run --help
+                                                                                
+ Usage: aster-expert run [OPTIONS] {comm_path}                                  
+                                                                                
+ Exécuter un fichier de commandes sous contrôle, dans le conteneur (niveau C).  
+                                                                                
+╭─ Arguments ──────────────────────────────────────────────────────────────────╮
+│ *    comm_path      <str>  [required]                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --version          <str>  Version cible (ex. 17.4.0). À défaut, la dernière  │
+│                           détection dans config/versions.yaml est utilisée.  │
+│ --timeout          <int>  Délai maximal en secondes (config/validation.yaml, │
+│                           execution.timeout_seconds par défaut).             │
+│                           [default: 0]                                       │
+│ --memory-mb        <int>  Limite mémoire en Mio (config/validation.yaml,     │
+│                           execution.memory_mb par défaut).                   │
+│                           [default: 0]                                       │
+│ --help                    Show this message and exit.                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[code 0]
+$ aster-expert search --help
+                                                                                
+ Usage: aster-expert search [OPTIONS] {query}                                   
+                                                                                
+ Interroger le corpus documentaire (lot 7, D4 ; lot 7c, G1 : --profile).        
+                                                                                
+╭─ Arguments ──────────────────────────────────────────────────────────────────╮
+│ *    query      <str>  [required]                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --granularity          <str>  by_file ou by_subsection (lot 7, D2).          │
+│                               [default: by_file]                             │
+│ --version              <str>  Filtre sur aster_version.                      │
+│ --family               <str>  Filtre sur la famille documentaire.            │
+│ --document             <str>  Filtre sur l'identifiant de document.          │
+│ --command              <str>  Filtre sur une commande liée.                  │
+│ --section              <str>  Sous-chaîne du chemin de section.              │
+│ --k                    <int>  Nombre de résultats. [default: 10]             │
+│ --profile              <str>  Profil de priorité des sources                 │
+│                               (config/retrieval.yaml,                        │
+│                               defaults.source_priority) : syntaxe, theorie   │
+│                               ou methode. Toujours un paramètre explicite de │
+│                               l'appelant, jamais détecté depuis le texte de  │
+│                               la requête (ADR-007).                          │
+│                               [default: syntaxe]                             │
+│ --priority-mode        <str>  soft (défaut, domine au banc du lot 7b/7c) ou  │
+│                               hard : mode d'application du profil de         │
+│                               priorité des sources.                          │
+│                               [default: soft]                                │
+│ --help                        Show this message and exit.                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[code 0]

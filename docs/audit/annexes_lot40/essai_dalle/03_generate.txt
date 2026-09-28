@@ -1,0 +1,38 @@
+$ aster-expert generate <fiche combi-wall> dalle_donnees.yaml dalle_vide.med
+│ /home/ubuntu/projets/aster-expert/src/aster_expert/meshing/combiwall.py:84   │
+│ in length                                                                    │
+│                                                                              │
+│     81 │   """                                                               │
+│     82 │                                                                     │
+│     83 │   def length(name: str) -> float:                                   │
+│ ❱   84 │   │   return float(_value(data, name, unit=_LENGTH_UNITS))          │
+│     85 │                                                                     │
+│     86 │   radius = length("tube.rayon")                                     │
+│     87 │   if abs(radius - length("repere.x_serrure_par_rapport_axe_tube"))  │
+│        > TOL:                                                                │
+│                                                                              │
+│ /home/ubuntu/projets/aster-expert/src/aster_expert/meshing/combiwall.py:67   │
+│ in _value                                                                    │
+│                                                                              │
+│     64 │   item = data.items().get(name)                                     │
+│     65 │   if item is None or item.status != "fourni":                       │
+│     66 │   │   message = f"valeur absente ou à fournir : {name}"             │
+│ ❱   67 │   │   raise CombiwallMeshError(message)                             │
+│     68 │   if unit is not None and item.unit not in unit:                    │
+│     69 │   │   message = f"{name} : unité {item.unit!r} au lieu de           │
+│        {sorted(unit)}"                                                       │
+│     70 │   │   raise CombiwallMeshError(message)                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+CombiwallMeshError: valeur absente ou à fournir : tube.rayon
+[code 1]
+
+$ aster-expert generate <trame par défaut> dalle_donnees.yaml dalle_vide.med
+structure_description
+  Field required [type=missing, input_value={'name': "Trame par défa... 
+'profile_hint': None}]}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+created_at
+  Field required [type=missing, input_value={'name': "Trame par défa... 
+'profile_hint': None}]}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+[code 1]

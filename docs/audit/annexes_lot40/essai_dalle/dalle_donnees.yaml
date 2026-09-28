@@ -1,0 +1,11 @@
+# Données de la dalle de l'essai minimal du lot 40 (audit). Description : « dalle
+# de 6 x 4 m, 0,30 m, appuyée sur ses quatre côtés, charge uniforme de 10 kPa ».
+project: DALLE-AUDIT-40
+case_reference: "Description en trois phrases, audit lot 40"
+groups:
+  geometrie:
+    longueur: {status: fourni, value: 6.0, unit: m, source: {kind: cas_test, document: description_dalle.md, section: "§1"}}
+    largeur: {status: fourni, value: 4.0, unit: m, source: {kind: cas_test, document: description_dalle.md, section: "§1"}}
+    epaisseur: {status: fourni, value: 0.30, unit: m, source: {kind: cas_test, document: description_dalle.md, section: "§1"}}
+  charges:
+    pression_uniforme: {status: fourni, value: 10.0, unit: kPa, source: {kind: cas_test, document: description_dalle.md, section: "§1"}}

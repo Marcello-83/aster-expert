@@ -1,0 +1,27 @@
+import pickle, sys, json, re
+from pathlib import Path
+class Stub:
+    def __init__(self,*a,**k): self.args=a
+    def __setstate__(self,s): self.__dict__.update(s if isinstance(s,dict) else {"s":s})
+    def __reduce__(self): return (Stub,())
+class U(pickle.Unpickler):
+    def find_class(self, mod, name):
+        if name=="StateOptions":
+            return lambda v: ("State", v)
+        return Stub
+rows=[]
+for d in sorted(Path("data/processed/runs").iterdir()):
+    st=d/"__status__"
+    comm=[p.name for p in d.glob("*.comm")]
+    mess=list(d.glob("**/*.mess"))
+    diag=None
+    rec={"run":d.name,"comm":comm}
+    if st.is_file():
+        try:
+            o=U(open(st,"rb")).load()
+            rec["state"]=o.__dict__.get("_state"); rec["exit"]=o.__dict__.get("_exitcode"); rec["times"]=o.__dict__.get("_times")
+        except Exception as e: rec["err"]=repr(e)
+    else: rec["state"]=None
+    rows.append(rec)
+json.dump(rows,open(sys.argv[1],"w"),default=str,indent=0)
+print(len(rows))
