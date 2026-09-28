@@ -1,0 +1,62 @@
+{
+ "d19": {
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "comm_path": "data/examples/lot39_essais/d19/d19.comm",
+  "comm_sha256": "316b4509703d312654c00731e04dccc9838ed034b8240b10d85fe5182aa6bc61",
+  "diagnostic": "OK",
+  "duration_s": 13.7,
+  "executed_at": "2026-09-28T09:53:58Z",
+  "work_dir": "data/processed/runs/20260928T095358-e9475e88"
+ },
+ "limites": {
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "comm_path": "data/examples/lot39_essais/limites/limites.comm",
+  "comm_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+  "diagnostic": "OK",
+  "duration_s": 10.0,
+  "executed_at": "2026-09-28T09:54:12Z",
+  "work_dir": "data/processed/runs/20260928T095412-2b7d81be"
+ },
+ "fermin": {
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "comm_path": "data/examples/lot39_essais/fermin/fermin.comm",
+  "comm_sha256": "9bd65dbcbbb56302ddc9ffc922fd502403138e16cac1a08d115d1fe7fdd858c1",
+  "diagnostic": "OK",
+  "duration_s": 9.6,
+  "executed_at": "2026-09-28T09:54:23Z",
+  "work_dir": "data/processed/runs/20260928T095423-69cfd1c4"
+ },
+ "fiss": {
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "comm_path": "data/examples/lot39_essais/fiss/fiss.comm",
+  "comm_sha256": "ae8272273de3e0b2d44209cdb15a5f73b58212b9b736f8a2d01daeeda9be4576",
+  "diagnostic": "<F>_ERROR",
+  "duration_s": 8.0,
+  "executed_at": "2026-09-28T09:54:33Z",
+  "work_dir": "data/processed/runs/20260928T095433-ba976fa9"
+ },
+ "fermin_mpa": {
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "comm_path": "data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm",
+  "comm_sha256": "ce4bdd70b323de7c66acd4362ad1c72fc1308dc77edf7853a059e8804b25b6f4",
+  "diagnostic": "OK",
+  "duration_s": 10.1,
+  "executed_at": "2026-09-28T09:57:41Z",
+  "work_dir": "data/processed/runs/20260928T095741-ba84496c"
+ },
+ "plaque": {
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "comm_path": "data/examples/lot39_essais/plaque/plaque.comm",
+  "comm_sha256": "04e924d1b8b285ca592bd7fbe919ce5737e0ef1586d5d700309251e5347821de",
+  "diagnostic": "OK",
+  "duration_s": 8.4,
+  "executed_at": "2026-09-28T10:09:18Z",
+  "work_dir": "data/processed/runs/20260928T100918-aa126904"
+ }
+}

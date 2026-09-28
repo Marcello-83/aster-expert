@@ -1,0 +1,11 @@
+ ║ <F> <CALCULEL7_40>                                                                             ║
+ ║                                                                                                ║
+ ║ Commande CALC_FERRAILLAGE :                                                                    ║
+ ║    POUTRE : Le calcul de ferraillage minimal pour la maîtrise de la fissuration n'est pas      ║
+ ║ encore possible pour les éléments POUTRE.                                                      ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║ Cette erreur est fatale. Le code s'arrête.                                                     ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+--- DIAGNOSTIC JOB : <F>_ERROR

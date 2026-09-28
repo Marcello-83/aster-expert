@@ -8,10 +8,11 @@ parameterised by the neutral-axis depth `x` (m, from the top face), over two
 pivot families: the tension-steel pivot (`sigma_s = -sigma_s_lim`, swept from a
 fully tensioned section up to the balanced depth `x_bal`) and the concrete pivot
 (`sigma_c = sigma_c_lim`, swept from `x_bal` up to a fully compressed section, `x
--> h`). A fully compressed section beyond that sweep is outside this scope and
-reported as infeasible with a note -- `docs/essais_lot38.md` records a case where
-Code_Aster finds a feasible (zero) reinforcement that this module does not, in a
-strongly compressed regime; check `feasible`, never assume it.
+-> h`). A couple the plain concrete balances without tension within `sigma_c_lim`
+needs no reinforcement (lot 39, `concrete_alone_max_stress`; the lot 38 version
+reported it infeasible while Code_Aster returns zero, `docs/essais_lot38.md`). A
+fully compressed section needing steel remains outside the sweep and is reported
+infeasible with a note; check `feasible`, never assume it.
 
 `design_els` covers the ELS caractéristique criterion (limitation of stresses,
 `sigma_c_lim`/`sigma_s_lim` given by the caller). `design_els_qp` wraps it for the
@@ -40,13 +41,17 @@ def _concrete_force_moment(
     mid-depth of the concrete alone."""
     h, b = section.depth, section.width
     gradient = eps_bot - eps_top
-    y0 = -eps_top / gradient if gradient != 0.0 else (h if eps_top > 0.0 else 0.0)
-    top = max(0.0, min(h, y0)) if eps_top <= 0.0 else 0.0
+    # Depth (m, from the top fibre) where the strain crosses zero. Lot 39: the
+    # lot 38 version took the fraction `-eps_top / gradient` for a length. For
+    # h < 1 m the integration span was too long and only integrated clipped zeros
+    # (quadrature error, 0,2 % on ssll13b CHEFF4); for h > 1 m (crown beam, 2,50 m)
+    # it cut the compressed zone short. It is not the cause of the remaining 2,7 %
+    # gap on CHEFF4, which stays unexplained (docs/essais_lot39.md).
+    y0 = h * (-eps_top / gradient) if gradient != 0.0 else (h if eps_top > 0.0 else 0.0)
     # compressed span: from `start` to `end` (y measured from the top fibre)
     if eps_top > 0.0 and eps_bot > 0.0:
         start, end = 0.0, h
     elif eps_top > 0.0:
-        start, end = 0.0, top if gradient < 0 else max(0.0, min(h, y0))
         start, end = 0.0, max(0.0, min(h, y0))
     elif eps_bot > 0.0:
         start, end = max(0.0, min(h, y0)), h
@@ -150,6 +155,45 @@ def _search(
     return best
 
 
+def concrete_alone_max_stress(
+    section: Rectangle, n_comp: float, m: float
+) -> float | None:
+    """Largest compressive stress (MPa) of the plain concrete section, linear
+    elastic **without tension** (the ELS model of `R7.04.05`), balancing the
+    compression `n_comp` (MN, > 0) and the moment `m` (MN.m, about mid-depth).
+
+    Eccentricity `e = |m| / n_comp`: within the kernel (`e <= h/6`) the section is
+    fully compressed, `sigma = n/(bh) (1 + 6e/h)`; for `h/6 < e < h/2` the
+    compressed depth is `3 (h/2 - e)` and `sigma = 2n / (b * 3 (h/2 - e))`.
+    `None` when the plain concrete cannot balance the couple (`n_comp <= 0` or
+    `e >= h/2`).
+    """
+    if n_comp <= 0.0:
+        return None
+    h, b = section.depth, section.width
+    e = abs(m) / n_comp
+    if e <= h / 6.0:
+        return n_comp / (b * h) * (1.0 + 6.0 * e / h)
+    if e < h / 2.0:
+        return 2.0 * n_comp / (b * 3.0 * (h / 2.0 - e))
+    return None
+
+
+def gross_section_stresses(
+    section: Rectangle, n_tension: float, m: float
+) -> tuple[float, float]:
+    """Stresses (MPa, **tension positive**) on the positive and negative faces of the
+    uncracked plain concrete section: `n/A + m/W` and `n/A - m/W` (`W = b h^2 / 6`).
+
+    Information only (EN 1992-1-1, 7.1(2): a section whose tensile stress does not
+    exceed `fct,eff` may be taken as uncracked); it is not the criterion of
+    `CALC_FERRAILLAGE`, whose ELS model has no concrete in tension.
+    """
+    area = section.width * section.depth
+    modulus = section.width * section.depth**2 / 6.0
+    return n_tension / area + m / modulus, n_tension / area - m / modulus
+
+
 def design_els(
     section: Rectangle,
     concrete: Concrete,
@@ -166,7 +210,21 @@ def design_els(
     stress limitation (`sigma_c_lim`, `sigma_s_lim`, MPa). Restricted to a partially
     tensioned section reached from the tension-steel or the concrete pivot (see
     module docstring); a fully tensioned or fully compressed section is reported
-    `feasible=False`."""
+    `feasible=False`.
+
+    Lot 39: when the plain concrete, without tension, balances `(n_tension, m)`
+    with a stress at most `sigma_c_lim` (`concrete_alone_max_stress`), no
+    reinforcement is needed and zero is returned, `feasible=True`."""
+    sigma_plain = concrete_alone_max_stress(section, -n_tension, m)
+    if sigma_plain is not None and sigma_plain <= sigma_c_lim:
+        return Design(
+            as_pos=0.0,
+            as_neg=0.0,
+            note=(
+                "béton seul (sans traction) : contrainte maximale "
+                f"{sigma_plain:.6g} MPa <= {sigma_c_lim:.6g} MPa"
+            ),
+        )
     if m < 0.0:
         mirrored = Rectangle(
             width=section.width,
@@ -274,8 +332,12 @@ def design_els_qp(
             alpha_e=alpha_e,
             grid=grid,
         )
-        if not design.feasible or design.total <= 0.0:
+        if not design.feasible:
             return design, float("inf")
+        if design.total <= 0.0:
+            # Plain concrete balances the couple (lot 39): no steel, no crack
+            # width to limit.
+            return design, 0.0
         as_tension = design.as_pos if m >= 0.0 else design.as_neg
         if as_tension <= 0.0:
             return design, 0.0

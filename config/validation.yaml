@@ -90,6 +90,10 @@ execution:
     # de couronnement (CALC_FERRAILLAGE), entièrement produits par
     # scripts/build_lot38_essais.py.
     - data/examples/lot38_essais
+    # Essais CALC_FERRAILLAGE du lot 39 (D19, limites 1D, FERR_MIN, 2D, poutre
+    # sous les combinaisons), produits par scripts/build_lot39_*.py.
+    - data/examples/lot39_essais
+    - data/examples/lot39_poutre
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

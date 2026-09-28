@@ -102,6 +102,16 @@ ignore = []
 # lignes de tableau, dont les coupures ne sont pas du code.
 "scripts/render_lot36_butee_md.py" = ["E501"]
 "scripts/prepare_lot36_livrables.py" = ["E501"]
+# Lot 39 : le texte des constats de la fiche est de la prose (une chaîne par champ),
+# recopiée telle quelle dans la fiche ; ses coupures ne sont pas du code.
+"scripts/build_lot39_constats.py" = ["E501"]
+# Gabarits de .comm (lignes du cas versionné) et mise en forme Markdown de la
+# synthèse et de la ligne de comparaison (prose, lignes de tableau).
+"scripts/build_lot39_essais.py" = ["UP", "E501"]
+"scripts/build_lot39_poutre.py" = ["UP", "E501"]
+"scripts/build_lot39_plaque.py" = ["UP", "E501"]
+"scripts/analyze_lot39_poutre.py" = ["UP", "E501"]
+"scripts/build_lot39_comparaison.py" = ["UP", "E501"]
 
 [tool.mypy]
 python_version = "3.12"

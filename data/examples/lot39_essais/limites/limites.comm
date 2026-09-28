@@ -1,0 +1,371 @@
+# Lot 39 : étape 2, comportement de la commande en 1D
+# Section de la poutre de couronnement 2,50 m x 1,40 m, C35/45, B500B (D18),
+# distance parement-axe des armatures 0,10 m sur toutes les faces (D19).
+# Produit par scripts/build_lot39_essais.py ; critères : docs/essais_lot39.md.
+
+DEBUT(CODE="OUI")
+
+MA = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+
+MODEL = AFFE_MODELE(
+    MAILLAGE=MA,
+    AFFE=_F(GROUP_MA="PoutreAB", PHENOMENE="MECANIQUE", MODELISATION="POU_D_E"),
+)
+
+CARA = AFFE_CARA_ELEM(
+    MODELE=MODEL,
+    POUTRE=_F(
+        CARA=("HY", "HZ"),
+        GROUP_MA=("PoutreAB",),
+        SECTION="RECTANGLE",
+        VALE=(2.5, 1.4),
+    ),
+)
+
+# instant 1 : mfz_1
+CHEFF1 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0),
+    ),
+)
+# instant 2 : mfz_m1
+CHEFF2 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 0.0, -1000000.0),
+    ),
+)
+# instant 3 : mfy_1
+CHEFF3 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0),
+    ),
+)
+# instant 4 : mfy_m1
+CHEFF4 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, -1000000.0, 0.0),
+    ),
+)
+# instant 5 : devie_1
+CHEFF5 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 1000000.0, 1000000.0),
+    ),
+)
+# instant 6 : mfz_3
+CHEFF6 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 0.0, 3000000.0),
+    ),
+)
+# instant 7 : mfy_3
+CHEFF7 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 3000000.0, 0.0),
+    ),
+)
+# instant 8 : devie_3
+CHEFF8 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 3000000.0, 3000000.0),
+    ),
+)
+# instant 9 : vy_2
+CHEFF9 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 2000000.0, 0.0, 0.0, 0.0, 0.0),
+    ),
+)
+# instant 10 : vy_4
+CHEFF10 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 4000000.0, 0.0, 0.0, 0.0, 0.0),
+    ),
+)
+# instant 11 : vz_4
+CHEFF11 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 4000000.0, 0.0, 0.0, 0.0),
+    ),
+)
+# instant 12 : mt_2
+CHEFF12 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 2000000.0, 0.0, 0.0),
+    ),
+)
+# instant 13 : mt_4
+CHEFF13 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 4000000.0, 0.0, 0.0),
+    ),
+)
+# instant 14 : vy_4_mt_4
+CHEFF14 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 4000000.0, 0.0, 4000000.0, 0.0, 0.0),
+    ),
+)
+# instant 15 : vy_4_vz_4
+CHEFF15 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 4000000.0, 4000000.0, 0.0, 0.0, 0.0),
+    ),
+)
+# instant 16 : els_mfz_2
+CHEFF16 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 0.0, 2000000.0),
+    ),
+)
+# instant 17 : els_mfy_1
+CHEFF17 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0),
+    ),
+)
+# instant 18 : els_n_m3_mfz_4
+CHEFF18 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(-3000000.0, 0.0, 0.0, 0.0, 0.0, 4000000.0),
+    ),
+)
+# instant 19 : qp_mfz_1
+CHEFF19 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0),
+    ),
+)
+
+RESU = CREA_RESU(
+    OPERATION="AFFE",
+    TYPE_RESU="EVOL_ELAS",
+    AFFE=(
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF1, INST=1.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF2, INST=2.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF3, INST=3.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF4, INST=4.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF5, INST=5.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF6, INST=6.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF7, INST=7.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF8, INST=8.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF9, INST=9.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF10, INST=10.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF11, INST=11.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF12, INST=12.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF13, INST=13.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF14, INST=14.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF15, INST=15.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF16, INST=16.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF17, INST=17.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF18, INST=18.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF19, INST=19.0, MODELE=MODEL, CARA_ELEM=CARA),
+    ),
+)
+
+RESU = CALC_FERRAILLAGE(
+    RESULTAT=RESU,
+    CARA_ELEM=CARA,
+    reuse=RESU,
+    CODIFICATION="EC2",
+    TYPE_COMB="ELU",
+    UNITE_CONTRAINTE="Pa",
+    INST=(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0,),
+    AFFE=(
+        _F(
+            TOUT="OUI",
+            TYPE_STRUCTURE="1D",
+            C_SUP_Y=0.1,
+            C_INF_Y=0.1,
+            C_SUP_Z=0.1,
+            C_INF_Z=0.1,
+            FYK=500000000.0,
+            FCK=35000000.0,
+            EYS=210000000000.0,
+            TYPE_DIAGRAMME="B2",
+            ALPHA_CC=1.0,
+            GAMMA_S=1.15,
+            GAMMA_C=1.5,
+        ),
+    ),
+)
+RESU = CALC_FERRAILLAGE(
+    RESULTAT=RESU,
+    CARA_ELEM=CARA,
+    reuse=RESU,
+    CODIFICATION="EC2",
+    TYPE_COMB="ELS",
+    UNITE_CONTRAINTE="Pa",
+    INST=(16.0, 17.0, 18.0,),
+    AFFE=(
+        _F(
+            TOUT="OUI",
+            TYPE_STRUCTURE="1D",
+            C_SUP_Y=0.1,
+            C_INF_Y=0.1,
+            C_SUP_Z=0.1,
+            C_INF_Z=0.1,
+            FYK=500000000.0,
+            FCK=35000000.0,
+            EYS=210000000000.0,
+            TYPE_DIAGRAMME="B2",
+            ALPHA_CC=1.0,
+            ALPHA_E=15.0,
+            SIGS_ELS=400000000.0,
+            SIGC_INF_Y_ELS=21000000.0,
+            SIGC_SUP_Y_ELS=21000000.0,
+            SIGC_INF_Z_ELS=21000000.0,
+            SIGC_SUP_Z_ELS=21000000.0,
+        ),
+    ),
+)
+RESU = CALC_FERRAILLAGE(
+    RESULTAT=RESU,
+    CARA_ELEM=CARA,
+    reuse=RESU,
+    CODIFICATION="EC2",
+    TYPE_COMB="ELS_QP",
+    UNITE_CONTRAINTE="Pa",
+    INST=(19.0,),
+    AFFE=(
+        _F(
+            TOUT="OUI",
+            TYPE_STRUCTURE="1D",
+            C_SUP_Y=0.1,
+            C_INF_Y=0.1,
+            C_SUP_Z=0.1,
+            C_INF_Z=0.1,
+            FYK=500000000.0,
+            FCK=35000000.0,
+            EYS=210000000000.0,
+            TYPE_DIAGRAMME="B2",
+            ALPHA_CC=1.0,
+            ALPHA_E=15.0,
+            SIGS_ELS=400000000.0,
+            SIGC_INF_Y_ELS=21000000.0,
+            SIGC_SUP_Y_ELS=21000000.0,
+            SIGC_INF_Z_ELS=21000000.0,
+            SIGC_SUP_Z_ELS=21000000.0,
+            SIGC_ELS_QP=15750000.0,
+            KT=0.4,
+            WMAX_INF_Y=0.0002,
+            WMAX_SUP_Y=0.0002,
+            WMAX_INF_Z=0.0002,
+            WMAX_SUP_Z=0.0002,
+            PHI_INF_Y=0.04,
+            PHI_SUP_Y=0.04,
+            PHI_INF_Z=0.04,
+            PHI_SUP_Z=0.04,
+        ),
+    ),
+)
+
+COMP = ("AYS", "AYI", "AZS", "AZI", "AST", "ATOT", "DNSVOL", "CONSTRUC")
+
+T_FERR = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RESU,
+        NOM_CHAM="FERR_ELEM",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=COMP,
+        GROUP_MA="PoutreAB",
+    )
+)
+IMPR_TABLE(TABLE=T_FERR, UNITE=6, FORMAT_R="E20.12", TITRE="FERR_LOT39")
+
+FIN()

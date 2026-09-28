@@ -3,8 +3,10 @@
 `SIGS_ELS=400 MPa`, `SIGC_*_ELS=0,6*35=21 MPa`, `ALPHA_E=15`). The heavily
 tensioned case (CHEFF8) matches to the cas test's own tolerance; a moderately
 reinforced pure-moment case (CHEFF4) does not (docs/essais_lot38.md, lot 38,
-§Limites) -- both are asserted here, the second loosely, to keep the gap visible
-to `pytest` rather than silently regressing further."""
+§Limites; lot 39: 2,7 % after the correction of the neutral-axis depth, the module
+agreeing with the steel-pivot formula of R7.04.05 worked by hand,
+docs/essais_lot39.md) -- both are asserted here, the second loosely, to keep the
+gap visible to `pytest` rather than silently regressing further."""
 
 from __future__ import annotations
 
@@ -43,9 +45,10 @@ def test_design_els_matches_ssll13b_in_the_heavily_tensioned_case() -> None:
 
 
 def test_design_els_pure_moment_is_of_the_right_order_but_not_exact() -> None:
-    # CHEFF4: N=0, MFZ=+1e5 -- documented gap (docs/essais_lot38.md): the module
-    # gives a larger area than Code_Aster (conservative here, not proven so in
-    # general), within about 10 % rather than the cas test's own tolerance.
+    # CHEFF4: N=0, MFZ=+1e5 -- documented gap (docs/essais_lot38.md,
+    # docs/essais_lot39.md): the module gives 6,0447e-4, the value of R7.04.05's
+    # steel-pivot formula worked by hand, larger than Code_Aster by 2,7 %
+    # (conservative here, not proven so in general); cause not established.
     result = design_els(
         _section(0.5, 0.3),
         _CONCRETE,
@@ -58,7 +61,8 @@ def test_design_els_pure_moment_is_of_the_right_order_but_not_exact() -> None:
     )
     assert result.feasible
     reference = 5.88764731062629e-04
-    assert result.as_pos == pytest.approx(reference, rel=0.1)
+    assert result.as_pos == pytest.approx(reference, rel=0.03)
+    assert result.as_pos == pytest.approx(6.0447e-04, rel=1e-4)
     assert result.as_neg == pytest.approx(0.0, abs=1e-6)
 
 
@@ -77,10 +81,11 @@ def test_design_els_qp_runs_and_respects_the_crack_limit_when_feasible() -> None
     assert result.as_neg >= 0.0
 
 
-def test_design_els_qp_reports_infeasible_rather_than_a_wrong_area() -> None:
+def test_design_els_qp_strongly_compressed_case_is_plain_concrete() -> None:
     # Strongly compressed case (docs/essais_lot38.md): Code_Aster finds a zero
-    # reinforcement; this module's covered pivot families find none -- it must
-    # say so, never silently return zero as if it had solved the equilibrium.
+    # reinforcement. Lot 38 reported it infeasible; since lot 39 the plain
+    # concrete, without tension, balances the couple within the limit and the
+    # module returns zero too -- with a note saying why, never a silent zero.
     result = design_els_qp(
         _section(2.50, 1.40),
         _CONCRETE,
@@ -91,5 +96,6 @@ def test_design_els_qp_reports_infeasible_rather_than_a_wrong_area() -> None:
         phi=0.025,
         kt=0.4,
     )
-    assert not result.feasible
-    assert result.note
+    assert result.feasible
+    assert result.total == 0.0
+    assert "béton seul" in result.note

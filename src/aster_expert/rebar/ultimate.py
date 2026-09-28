@@ -19,6 +19,11 @@ actual ULS behaviour is the simplified block, not merely an offered alternative 
 an execution finding of this lot, kept as the default here. Steel follows the
 horizontal-plateau diagram.
 
+Lot 39: a couple `(N, M)` inside the domain of the plain concrete section is not the
+equilibrium of any ultimate plane with non-negative areas; `design_ultimate` now
+returns zero reinforcement for it (`concrete_alone_moment_capacity`), as
+`CALC_FERRAILLAGE` does, instead of reporting it infeasible.
+
 Conventions: see `aster_expert.rebar.model`.
 """
 
@@ -184,6 +189,51 @@ def _bisect(
     return 0.5 * (lo + hi)
 
 
+def concrete_alone_moment_capacity(
+    section: Rectangle,
+    concrete: Concrete,
+    steel: Steel,
+    n_comp: float,
+    *,
+    model: ConcreteModel = "rectangle",
+) -> float | None:
+    """Moment (MN.m, about mid-depth) the plain concrete section carries at its
+    ultimate boundary under the compression `n_comp` (MN, > 0), with the same
+    concrete diagram and the same strain-plane family as `design_ultimate` (lot 39).
+
+    `None` when `n_comp` is not a compression the plain concrete can balance
+    (`n_comp <= 0` or beyond the pure-compression resistance). The concrete force
+    is monotonic along the family pivot A -> B -> C, so the plane whose force equals
+    `n_comp` is found by bisection on each segment's parameter.
+    """
+    if n_comp <= 0.0:
+        return None
+    y_bot = section.depth - section.cover_pos
+
+    def concrete_of(plane: _Plane) -> tuple[float, float]:
+        if model == "rectangle" and plane.pivot != "C":
+            return concrete_rectangle(
+                plane.x if plane.x is not None else 0.0, section, concrete
+            )
+        return concrete_parabola_rectangle(plane.eps0, plane.eps1, section, concrete)
+
+    for _name, grid, build in _families(section, concrete, steel, y_bot):
+        lo, hi = float(grid[0]), float(grid[-1])
+        f_lo = concrete_of(build(lo))[0] - n_comp
+        f_hi = concrete_of(build(hi))[0] - n_comp
+        if f_lo == 0.0:
+            return concrete_of(build(lo))[1]
+        if f_lo * f_hi > 0.0:
+            continue
+
+        def residual(t: float, build: Callable[[float], _Plane] = build) -> float:
+            return concrete_of(build(t))[0] - n_comp
+
+        root = _bisect(residual, lo, hi, 200)
+        return concrete_of(build(root))[1]
+    return None
+
+
 def design_ultimate(
     section: Rectangle,
     concrete: Concrete,
@@ -193,7 +243,27 @@ def design_ultimate(
     *,
     model: ConcreteModel = "rectangle",
 ) -> Design:
-    """Smallest reinforcement `(as_pos, as_neg)` balancing `(n_tension, m)`."""
+    """Smallest reinforcement `(as_pos, as_neg)` balancing `(n_tension, m)`.
+
+    A couple inside the domain of the plain concrete section (compression, and
+    `|m|` at most the concrete-alone capacity under that compression) needs no
+    reinforcement: zero on both faces, `feasible=True` (lot 39 -- the lot 38
+    version reported such interior points as infeasible, while `CALC_FERRAILLAGE`
+    returns zero; `R7.04.05` keeps the minimum total area "tout en veillant à ce
+    que les deux sections soient positives").
+    """
+    capacity = concrete_alone_moment_capacity(
+        section, concrete, steel, -n_tension, model=model
+    )
+    if capacity is not None and abs(m) <= capacity:
+        return Design(
+            as_pos=0.0,
+            as_neg=0.0,
+            note=(
+                "point intérieur du domaine du béton seul : "
+                f"|M| = {abs(m):.6g} <= M_c(N) = {capacity:.6g} MN.m"
+            ),
+        )
     if m < 0.0:
         mirrored = Rectangle(
             width=section.width,

@@ -568,6 +568,30 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   `POU_D_T`) ; raffinement vertical seulement ; conditions de symétrie sourcées pour `POU_D_E` ;
   sonde de charge assemblée non relancée sur le modèle complet.
 
+- Lot 39 (`docs/essais_lot39.md`, `data/examples/lot39_essais/`, `data/examples/lot39_poutre/`,
+  `aster_expert.rebar.{minimum,shear,biaxial}`, `scripts/build_lot39_*.py`, `analyze_lot39_poutre.py`,
+  `collect_lot39_essais.py`) : **ferraillage de la poutre de couronnement et limites de
+  `CALC_FERRAILLAGE`.** Module `rebar` corrigé : un couple intérieur au domaine du béton seul donne
+  zéro (ELU : `concrete_alone_moment_capacity` ; ELS : béton sans traction sous σc,lim), plus un
+  défaut de profondeur d'axe neutre ELS (fraction de h prise pour une longueur). D19 (point 14 :
+  axe des armatures à 0,10 m sur toutes les faces, φ équivalent 40 mm) enregistrée telle quelle ;
+  6 constats d'exécution au point 14 (`lot39_essais.json`, produit par `build_lot39_constats.py`).
+  Faits établis par exécution : MFZ > 0 tend AYS (+y), MFY > 0 tend AZS (+z) ; en 2D, MXX > 0 tend
+  la face supérieure (DNSXS) ; flexion déviée = direction par direction puis +10 % par itération de
+  Bresler (×1,1⁸ sous deux moments égaux, reproduit par `rebar.biaxial` à 1e-13) ; `AST` 1D =
+  [V + T/A_k (h − t_k)]/(0,9 d fyd cot θ), **θ = 21,8°**, maximum des deux directions, pas d'acier
+  longitudinal de torsion ni de critère de bielle en sortie ; **`FERR_MIN='EC2'` n'est juste qu'en
+  `UNITE_CONTRAINTE='MPa'`** (en Pa : 0,0013 b d et minimum transversal ×1/1000), posé sur les
+  quatre faces même sans effort ; **`FERR_MIN_FISS` refusé pour les poutres** (`<F>
+  <CALCULEL7_40>`) ; ELS caractéristique 1D : écarts de −16 % à +0,25 % au pivot acier de R7.04.05
+  refait à la main, cause non établie (même famille que `ssll13b` CHEFF4, 2,7 %). Poutre : 128
+  sections (extrémités d'élément, non moyennées) × 14 combinaisons, schéma `ssll13*` ; 61/63
+  comparaisons ELU au module à ≤ 6,5e-13, 2 échecs au bollard (moments ~1e-5 N·m, seuil absolu
+  1e-12 m² écrit avant) ; le minimum 7.3.2 gouverne partout (tableau 7.2N transcrit par la session,
+  à vérifier par MM ; faces AZ bornées à σs = 160 MPa). `ligne_comparaison_mm.csv` (lot 38) : une
+  ligne par plan de flexion, colonnes de MM vides. ELU accidentelle : γc = 1,2, γs = 1,0
+  (EN 1992-1-1, tableau 2.1N, non décidés par MM). 7 exécutions réelles (71,3 s).
+
 ## Périmètre à ne pas dépasser sans instruction
 
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne

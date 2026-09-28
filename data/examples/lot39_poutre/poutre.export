@@ -1,0 +1,7 @@
+P time_limit 600
+P memory_limit 2048
+P ncpus 1
+P mpi_nbcpu 1
+P mpi_nbnoeud 1
+F comm poutre.comm D 1
+F mail poutre.mail D 20

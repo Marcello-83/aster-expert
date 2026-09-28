@@ -4478,6 +4478,727 @@
         }
       ],
       "status": "tranche"
+    },
+    {
+      "point_label": "14",
+      "topic": "Position de l'axe des armatures longitudinales dans les calculs de section (poutre de couronnement)",
+      "options_considered": [],
+      "option_retained": "Dans les calculs de section, la distance entre le parement et l'axe des armatures longitudinales est de 0,10 m sur toutes les faces. Ce sont les valeurs `C_SUP_*` et `C_INF_*` de `CALC_FERRAILLAGE`, ou ds et di du logiciel de MM. Le diamètre équivalent des armatures longitudinales est de 40 mm.",
+      "justification": "L'enrobage nominal de 65 mm de D18 se mesure au nu de l'armature la plus proche du parement, c'est-à-dire l'étrier. L'axe des armatures longitudinales se trouve donc à environ 65 + diamètre de l'étrier + la moitié du diamètre longitudinal, soit environ 0,10 m. Le lot 38 avait pris 0,065 m comme distance à l'axe, ce qui surestime le bras de levier.",
+      "discarded_variants": [
+        {
+          "description": "distance à l'axe égale à l'enrobage nominal, 0,065 m (lot 38).",
+          "reason": "confond l'enrobage, mesuré au nu de l'étrier, avec la position de l'axe des barres longitudinales."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "La valeur est forfaitaire ; elle sera à ajuster au ferraillage réellement retenu.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décision D19 (énoncé du lot 39, étape 1 bis)",
+          "date": "2026-09-28"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-28T05:45:12-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "14",
+      "topic": "CALC_FERRAILLAGE en 1D à l'ELU : faces, signes, points intérieurs et reproduction par le module indépendant (section de la poutre de couronnement, D19)",
+      "options_considered": [],
+      "option_retained": "En TYPE_STRUCTURE='1D', MFZ > 0 tend la face AYS (+y, côté terre pour la poutre de couronnement, x_l = X) et MFZ < 0 la face AYI ; MFY > 0 tend AZS (+z, face supérieure) et MFY < 0 AZI. h est la dimension selon y (HY) pour MFZ, selon z (HZ) pour MFY. À l'ELU, le calcul suit le diagramme béton rectangulaire simplifié (lot 38) et un couple (N, M) intérieur au domaine du béton seul donne une aire nulle sur les quatre faces. Le module aster_expert.rebar corrigé au lot 39 reproduit ces aires à 1e-12 relatif sur la section réelle avec la distance parement-axe de D19 (0,10 m).",
+      "justification": "Essais d19 et limites du lot 39 (exécutions réelles, DIAGNOSTIC JOB : OK) : les faces et les signes sont lus sur des moments d'une seule composante et d'un seul signe ; les valeurs sont confrontées au module indépendant. U4.81.42 (composition du champ) définit AYS/AYI/AZS/AZI comme faces +y/-y « suivant la hauteur h » et +z/-z « suivant la largeur b » ; R7.04.05 : minimisation de As,s + As,i « tout en veillant à ce que les deux sections soient positives ».",
+      "discarded_variants": [],
+      "notes": "Déduction : le zéro de Code_Aster aux points intérieurs (flexion composée comprimée N = 5 MN, M = 2,183517 MN·m ; ELS QP N = 1 MN, M = 0,5 MN·m) vient de ce qu'aucun plan ultime à aciers positifs n'y réalise l'équilibre ; le module du lot 38 déclarait ces cas « infeasible » (défaut corrigé au lot 39, docs/essais_lot39.md, étape 1). Les quatre essais du lot 38 refaits avec 0,10 m (essai d19) : flexion simple AYS = 2,104822e-03 m², traction AYS = 7,933517e-03 et AYI = 3,566483e-03 m², compression et ELS QP nuls.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_poutres_et_poteaux",
+            "Dimensionnement à l’ELU",
+            "Principe d’équilibre et calcul des sections d’acier"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Pour les cas où COND_ITER = VRAI, il s’agit alors de balayer les cinq domaines d’équilibre, c’est-à-dire en faisant itérer :math:`\\alpha` de :math:`-\\infty` à :math:`+\\infty` (et en parcourant de la sorte les trois Pivots A, B et C). En se basant sur les deux équations d’équilibre (moments et forces), on détermine pour chaque valeur de alpha le couple :math:`(A_{s_s},A_{s_i})` associé. L’algorithme retiendra au final la configuration aboutissant à une minimisation de la somme :math:`A_{s_s}+A_{s_i}`, tout en veillant à ce que les deux sections soient positives."
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Composition_du_champ_produit"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Composition_du_champ_produit.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Composition du champ produit\n============================\n\nLe résultat est enrichi par un nouveau champ (nommé 'FERRAILLAGE' dans la structure de données) dont les composantes sont :\n\nSi **TYPE_STRUCTURE** **= ‘2D’** :\n\n\n*   une densité de ferraillage longitudinal dans le sens :math:`X` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{DNSXI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{DNSXS}` ) ;\n\n\n*   une densité de ferraillage longitudinal dans le sens :math:`Y` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{DNSYI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{DNSYS}` ) ;\n\n\n*   la densité de ferraillage transversal dans le sens :math:`X` de l'élément (:math:`\\mathit{DNSXT}` ) ;\n\n\n*   l’équivalent dans le sens :math:`Y` de l'élément (:math:`\\mathit{DNSYT}` ) ;\n\n\n*   la densité volumique totale d'acier (:math:`\\mathit{DNSVOL}` );\n\n\n*   un indicateur de complexité de mise en œuvre du ferraillage (:math:`\\mathit{CONSTRUC}` ).\n\n\n*   une densité de ferraillage minimale pour la maîtrise de la fissuration dans le sens :math:`X` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{ASMINXI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{ASMINXS}` ) ;\n\n\n*   une densité de ferraillage minimal pour la maîtrise de la fissuration dans le sens :math:`Y` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{ASMINYI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{ASMINYS}` ) ;\n\nSi **TYPE_STRUCTURE** **= ‘1D’** :\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Y` de la section, et selon le sens positif de l’axe (face supérieure suivant la hauteur h) (:math:`\\mathit{AYS}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Y` de la section, et selon le sens négatif de l’axe (face inférieure suivant la hauteur h) (:math:`\\mathit{AYI}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Z` de la section, et selon le sens positif de l’axe (face supérieure suivant la largeur b) (:math:`\\mathit{AZS}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Z` de la section, et selon le sens négatif de l’axe (face inférieure suivant la largeur b)(:math:`\\mathit{AZI}` ) ;\n\n\n*   une densité de ferraillage transversal (:math:`\\mathit{AST}` ) ;\n\n\n*   une densité de ferraillage longitudinal total (:math:`\\mathit{ATOT}` ) ;\n\n\n*   la densité volumique totale d'acier (:math:`\\mathit{DNSVOL}` );\n\n\n*   un indicateur de complexité de mise en œuvre du ferraillage(:math:`\\mathit{CONSTRUC}` ).\n\nActuellement, pour les éléments ‘2D’, les densités de ferraillage sont calculées d'après la méthode de CAPRA et MAURY [:ref:`R7.04.05 <R7.04.05>`]. Ces densités sont exprimées en unité de surface par longueur linéaire de coque. Par exemple, si le maillage est en mètres (avec des données de caractéristiques élémentaires et de matériau en cohérence), les densités seront exprimées en :math:`{m}^{2}/m` pour les aciers de flexion et en :math:`{m}^{2}/m\\mathrm{²}` pour les aciers d'effort tranchant.\n\nPour les éléments ‘1D’, les densités sont exprimées en unité de surface. Par exemple, si le maillage est en mètres (avec des données de caractéristiques élémentaires et de matériau en cohérence), les densités seront exprimées en :math:`{m}^{2}` pour les aciers de flexion et en :math:`{m}^{2}/m` pour les aciers d'effort tranchant.\n\nLe champ de ferraillage est calculé pour tous les instants spécifiés par l'utilisateur (par défaut : tous). Si l'on veut calculer le champ contenant les valeurs «max» au cours du transitoire, on peut exécuter la commande :\n\nFERMAX=CREA_CHAMP( OPERATION='EXTR', TYPE_CHAM='ELEM_FER2_R',\n\nNOM_CHAM='FERRAILLAGE', RESULTAT=Solution,\n\nTYPE_MAXI='MAXI_ABS', TYPE_RESU='VALE',\n\n)"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "TYPE_STRUCTURE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "TYPE_COMB"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/d19/d19.comm",
+          "case_sha256": "316b4509703d312654c00731e04dccc9838ed034b8240b10d85fe5182aa6bc61",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_d19_extrait.txt",
+          "quantity": "AYS (m²), flexion simple MFZ = 2,183517 MN·m, ELU, c = 0,10 m",
+          "value_obtained": 0.002104821602536,
+          "reference": "aster_expert.rebar.ultimate.design_ultimate, bloc rectangulaire, h = 2,50, b = 1,40",
+          "reference_value": 0.002104821602535774,
+          "relative_deviation": 1.073476880291278e-13,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/d19/d19.comm",
+          "case_sha256": "316b4509703d312654c00731e04dccc9838ed034b8240b10d85fe5182aa6bc61",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_d19_extrait.txt",
+          "quantity": "AYI (m²), flexion composée N = +5 MN (traction), MFZ = 2,183517 MN·m, ELU",
+          "value_obtained": 0.003566483,
+          "reference": "aster_expert.rebar.ultimate.design_ultimate (face comprimée par M)",
+          "reference_value": 0.003566483,
+          "relative_deviation": 0.0,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AYI (m²), MFZ = -1 MN·m seul, ELU",
+          "value_obtained": 0.0009608935496537,
+          "reference": "design_ultimate, h = 2,50, b = 1,40 (face -y tendue)",
+          "reference_value": 0.0009608935496536695,
+          "relative_deviation": 3.181882246489328e-14,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AZS (m²), MFY = +1 MN·m seul, ELU",
+          "value_obtained": 0.001778296237482,
+          "reference": "design_ultimate, h = 1,40, b = 2,50 (face +z tendue)",
+          "reference_value": 0.0017782962374818217,
+          "relative_deviation": 1.0023236477687198e-13,
+          "validation_level": "C"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "14",
+      "topic": "Ferraillage minimal de CALC_FERRAILLAGE en 1D (FERR_MIN, FERR_MIN_FISS) : ce qui est appliqué, sur quelles faces, et dépendance aux unités",
+      "options_considered": [],
+      "option_retained": "FERR_MIN='EC2' (catalogue 17.4.0 : 'VALE_MIN' ou 'EC2' ; la documentation U4.81.42 écrit 'BAEL91' dans la section EC2) applique en 1D le minimum de l'EN 1992-1-1 9.2.1.1 (0,26 fctm/fyk b d, au moins 0,0013 b d) sur les QUATRE faces, tendues ou non, même sans effort, et un minimum transversal rho_w,min = 0,08 √fck/fyk multiplié par HY quelle que soit la direction de l'effort tranchant. Ces valeurs ne sont justes qu'avec UNITE_CONTRAINTE='MPa' (longueurs en mm) : avec 'Pa' (longueurs en m), la même commande donne 0,0013 b d et un minimum transversal 1000 fois trop faible. FERR_MIN_FISS='EC2' (maîtrise de la fissuration, EN 1992-1-1 7.3.2) est refusé pour les poutres : <F> <CALCULEL7_40> « Le calcul de ferraillage minimal pour la maîtrise de la fissuration n'est pas encore possible pour les éléments POUTRE ». À traiter hors de Code_Aster : le minimum de maîtrise de la fissuration (7.3.2) en 1D, et le minimum 9.2.1.1 dès que le calcul est conduit en Pa ; la restriction du minimum aux seules faces tendues (9.2.1.1 vise l'armature tendue).",
+      "justification": "Essais fermin (Pa), fermin_mpa (MPa, mm) et fiss du lot 39, exécutions réelles ; valeurs de référence calculées par aster_expert.rebar.minimum (EN 1992-1-1 9.2.1.1, expression 9.1N ; 9.2.2(5), expression 9.5N).",
+      "discarded_variants": [],
+      "notes": "Déduction (non confirmée par la lecture des sources de Code_Aster, hors de portée des sept outils) : en Pa, fctm est calculé à partir de fck exprimé en Pa avec une formule en MPa (0,3 fck^(2/3) cent fois trop faible, d'où 0,0013 b d) et √fck/fyk est mille fois trop faible. L'exécution fiss s'arrête sur l'erreur fatale (niveau B pour cette exécution : consignée ici, pas comme source) ; listing data/examples/lot39_essais/rapports/mess_fiss_extrait.txt.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "AFFE",
+            "EC2",
+            "FERR_MIN, RHO_LONGI_MIN, RHO_TRNSV_MIN"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérande FERR_MIN\n^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ FERR_MIN = / 'VALE_MIN',\n                  / 'BAEL91'\n\nPrise en compte d'un ferraillage minimal.\n\nL’attribut peut prendre comme valeur :\n\n\n- ‘VALE_MIN’ : un ratio minimal de ferraillage sera pris en compte et dont la valeur est à renseigner par l’utilisateur\n\n- 'BAEL91' : un ratio minimal de ferraillage sera pris en compte et dont la valeur sera calculée implicitement par le logiciel, conformément au BAEL91.\n\n\nOpérande RHO_LONGI_MIN\n^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ RHO_LONGI_MIN= rholmin, [R]\n\nRatio de ferraillage minimal en %, vis-à-vis du ferraillage longitudinal de flexion (à renseigner dans le cas où FERR_MIN= ‘VALE_MIN’).\n\n**Remarque :**\n\nDans le cas où **FERR_MIN** **= ‘BAEL91’**, le calcul de RHO_LONGI_MIN se fait implicitement par le code comme suit :\n\n:math:`{\\rho}_{\\text{l,min}}=0,26\\times {f}_{\\mathit{ctm}}/{f}_{\\mathit{yk}}\\text{}⩾\\text{}0,0013`\n\n\nOpérande RHO_TRNSV_MIN\n^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ RHO_TRNSV_MIN= rhotmin, [R]\n\nRatio de ferraillage minimal en %, vis-à-vis du ferraillage transversal de cisaillement (à renseigner dans le cas où FERR_MIN= ‘VALE_MIN’).\n\n**Remarque :**\n\nDans le cas où **FERR_MIN** **= ‘BAEL91’**, le calcul de RHO_TRNSV_MIN se fait implicitement par le code comme suit :\n\n:math:`{\\rho}_{\\text{t,min}}=0,08\\times \\sqrt{{f}_{\\mathit{ck}}}/{f}_{\\mathit{yk}}` , si TYPE_STRUCTURE= ‘1D’\n\n:math:`{\\rho}_{\\text{t,min}}=0` , si TYPE_STRUCTURE= ‘2D’\n\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "AFFE",
+            "FERR_MIN_FISS"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérande FERR_MIN_FISS\n^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ FERR_MIN_FISS= / 'EC2',\n                      / 'RCC-CW'\n\n\nPrise en compte du ferraillage minimal pour la maîtrise de la fissuration.\n\nL’attribut peut prendre comme valeur :\n\n\n- ‘EC2’ : le ferraillage minimal pour la maîtrise de la fissuration est pris en compte lors du calcul de ferraillage à l'ELS-QP conformément aux spécifications du §7.3.2 de l’EC2, équation 7.1.\n- ‘RCC-CW’ : le ferraillage minimal pour la maîtrise de la fissuration est pris en compte lors du calcul de ferraillage à l'ELS-QP conformément aux spécifications du §DCONC 4110 de l’EC2, équation DCONC 4110-1.\n"
+        },
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_poutres_et_poteaux",
+            "Prise en compte du ferraillage minimum"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Prise en compte du ferraillage minimum\n--------------------------------------\n\nFerraillage longitudinal\n~~~~~~~~~~~~~~~~~~~~~~~~\n\nIl convient que la section d’armatures longitudinales tendues ne soit pas inférieure à :math:`{A}_{s,\\text{min}}`, conformément aux spécifications de l’EC2 au niveau du §9.2.1.1:\n\n.. math::\n    {A}_{s,\\text{min}}\n    =\n    0,26\\frac{{f}_{\\text{ctm}}}{{f}_{\\text{yk}}}{b}_{t} d\n    \\ge\n    0,0013 {b}_{t} d\n\noù :math:`{b}_{t}` désigne la largeur moyenne de la zone tendue et :math:`{f}_{\\text{ctm}}` la résistance moyenne du béton de classe ``fck`` à la traction\n\n\nFerraillage transversal\n~~~~~~~~~~~~~~~~~~~~~~~\n\nLe taux d’armatures d’effort tranchant est rappelé par l’expression suivante:\n\n.. math::\n    {\\rho}_{w}\n    =\n    \\frac{{A}_{\\text{sw}}}{s \\, {b}_{w} \\, \\sin\\alpha}\n\navec :math:`{\\rho}_{w}` le taux d’armatures d’effort tranchant, :math:`{A}_{\\text{sw}}` l’aire de la section des armatures d’effort tranchant régnant sur la longueur :math:`s`. :math:`s` est l'espacement des armatures d’effort tranchant, mesuré le long de l'axe longitudinal de l’élément. :math:`{b}_{w}` est la largeur de l’âme de l’élément et :math:`\\alpha` est l’angle entre les armatures d’effort tranchant et l'axe longitudinal\n\nIl convient ainsi de vérifier, dans le cas des poutres, le taux de ferraillage transversal minimal ci-dessous:\n\n.. math::\n    {\\rho}_{w,\\text{min}}\n    =\n    0,08 \\frac{\\sqrt{{f}_{\\text{ck}}}}{{f}_{\\text{yk}}}\n"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "FERR_MIN"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "FERR_MIN_FISS"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "UNITE_CONTRAINTE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/fermin/fermin.comm",
+          "case_sha256": "9bd65dbcbbb56302ddc9ffc922fd502403138e16cac1a08d115d1fe7fdd858c1",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_extrait.txt",
+          "quantity": "AYS (m²) avec FERR_MIN='EC2', MFZ = 1 MN·m, UNITE_CONTRAINTE='Pa'",
+          "value_obtained": 0.004368,
+          "reference": "EN 1992-1-1 9.2.1.1 (9.1N), 0,26 fctm/fyk b d, b = 1,40, d = 2,40 (aster_expert.rebar.minimum.as_min_flexure)",
+          "reference_value": 0.005608446378129919,
+          "relative_deviation": -0.22117468805033552,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm",
+          "case_sha256": "ce4bdd70b323de7c66acd4362ad1c72fc1308dc77edf7853a059e8804b25b6f4",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_mpa_extrait.txt",
+          "quantity": "AYS (mm²) avec FERR_MIN='EC2', MFZ = 1e9 N·mm, UNITE_CONTRAINTE='MPa'",
+          "value_obtained": 5608.44637813,
+          "reference": "EN 1992-1-1 9.2.1.1 (9.1N), 0,26 fctm/fyk b d en mm² (b = 1400, d = 2400)",
+          "reference_value": 5608.44637812992,
+          "relative_deviation": 1.4270535610024807e-14,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm",
+          "case_sha256": "ce4bdd70b323de7c66acd4362ad1c72fc1308dc77edf7853a059e8804b25b6f4",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_mpa_extrait.txt",
+          "quantity": "AZI (mm²) avec FERR_MIN='EC2', aucun effort, UNITE_CONTRAINTE='MPa'",
+          "value_obtained": 5424.836526465,
+          "reference": "EN 1992-1-1 9.2.1.1 (9.1N), b = 2500, d = 1300",
+          "reference_value": 5424.836526464953,
+          "relative_deviation": 8.717999936306064e-15,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm",
+          "case_sha256": "ce4bdd70b323de7c66acd4362ad1c72fc1308dc77edf7853a059e8804b25b6f4",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_mpa_extrait.txt",
+          "quantity": "AST (mm²/mm) avec FERR_MIN='EC2', aucun effort, UNITE_CONTRAINTE='MPa'",
+          "value_obtained": 2.36643191324,
+          "reference": "EN 1992-1-1 9.2.2(5) (9.5N), rho_w,min x HY = 2500 mm",
+          "reference_value": 2.3664319132398464,
+          "relative_deviation": 6.493103213679835e-14,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/fermin/fermin.comm",
+          "case_sha256": "9bd65dbcbbb56302ddc9ffc922fd502403138e16cac1a08d115d1fe7fdd858c1",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_extrait.txt",
+          "quantity": "AST (m²/m) avec FERR_MIN='EC2', aucun effort, UNITE_CONTRAINTE='Pa'",
+          "value_obtained": 2.36643191324e-06,
+          "reference": "EN 1992-1-1 9.2.2(5) (9.5N), rho_w,min x HY = 2,50 m",
+          "reference_value": 0.0023664319132398466,
+          "relative_deviation": -0.9989999999999999,
+          "validation_level": "C"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "14",
+      "topic": "Flexion déviée en 1D dans CALC_FERRAILLAGE (MFY et MFZ simultanés) : procédure itérative de Bresler",
+      "options_considered": [],
+      "option_retained": "Sous MFY et MFZ simultanés, les aires ne résultent pas d'une vraie flexion déviée : chaque direction est dimensionnée seule sous N, puis les quatre aires sont augmentées de 10 % de l'aire totale par itération (facteur 1,1 par itération) jusqu'à vérifier l'inéquation de Bresler (EN 1992-1-1 5.8.9(4)). Sous MFY = MFZ = 1 ou 3 MN·m (N = 0), huit itérations : aires direction par direction multipliées par 1,1^8 = 2,1436. Le module aster_expert.rebar.biaxial reproduit la procédure à 1e-13. À traiter hors de Code_Aster si l'on veut une vraie flexion déviée (diagramme d'interaction 3D).",
+      "justification": "Essai limites du lot 39 (instants mfz_1, mfy_1, devie_1, mfz_3, mfy_3, devie_3) ; R7.04.05, § Calcul du ferraillage longitudinal en flexion déviée.",
+      "discarded_variants": [],
+      "notes": "Déduction : la procédure est conservatrice (aire totale 2,14 fois l'aire direction par direction sous deux moments égaux) et discontinue — un moment secondaire infime déclenche au moins une itération de 10 % dès que la direction principale est dimensionnée exactement. Sur la poutre de couronnement (étape 3), 5 à 9 itérations selon les sections contrôlées.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_poutres_et_poteaux",
+            "Dimensionnement à l’ELU",
+            "Calcul du ferraillage longitudinal en flexion déviée"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Calcul du ferraillage longitudinal en flexion déviée\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nDans cette partie, la section est soumise à la fois à un moment fléchissant suivant l’axe :math:`Y` et à un autre suivant l’axe :math:`Z`, ainsi qu’à un effort normal (positif en compression).\n\nLe cas de la flexion déviée ou composée-déviée est plus complexe à résoudre. En effet, le diagramme d’interaction (surface limite de résistance) est dans ce cas tridimensionnel, conformément à la figure ci-dessous :\n\n.. figure:: images/10000201000005400000043EA4D93982975DD34E.png\n    :name: r7.04.05-fig-1-10\n    :width: 4.1193in\n    :height: 3.4102in\n\n    Diagramme d’interaction 3D suivant les axes :math:`N`, :math:`M_y`, :math:`M_z` dans le cas d’une section composée déviée\n\nUn processus de dimensionnement exact et rigoureux (similaire aux calculs précédents) serait, par rapport à la nature tridimensionnelle des sollicitations, complexe à développer. On opte donc pour une procédure simplifiée de *vérification* .\n\nIl s’agira en effet, d’une méthode de dimensionnement *itérative* (et donc non directe), basée sur le principe de vérification de l’inéquation de Bresler développée par Bresler, telle que présentée au niveau du §5.8.9 de l’Eurocode 2. Cette méthode permettra ainsi d’étudier séparément, et de façon parfaitement découplée, les deux flexions composées sollicitant la section, la première :math:`(N,M_y)` suivant l’axe principal d’inertie :math:`Y` et la seconde :math:`(N,M_z)` suivant le second axe principal d’inertie, :math:`Z`. Une fois les ferraillages obtenus à l’issu des calculs de dimensionnement vis-à-vis de ces deux flexions composées (à savoir le quadruplet :math:`\\left(A_{s_y,\\text{sup}}, A_{s_y,\\text{inf}}, A_{s_z,\\text{sup}}, A_{s_z,\\text{inf}}\\right)`), la méthode de dimensionnement en flexion déviée consiste alors à vérifier l’inéquation suivante\n\n.. math::\n    {(\\frac{{M}_{y}}{{M}_{R_y}})}^{a}\n    +\n    {(\\frac{{M}_{z}}{{M}_{R_z}})}^{a}\n    \\le\n    1\n\nOù les moments :math:`{M}_{R_y}` et :math:`{M}_{R_z}` sont les moments résistants en flexion composée, sous l’effort normal agissant :math:`N`, de la section ferrailléz respectivement suivant l’axe :math:`Y` (c’est-à-dire avec le couple :math:`\\left(A_{s_y,\\text{sup}}, A_{s_y,\\text{inf}}\\right)`) et suivant l’axe :math:`Z` (c’est-à-dire avec le couple :math:`\\left(A_{s_z,\\text{sup}}, A_{s_z,\\text{inf}}\\right)`). Ces moments résistants se déduisent des diagrammes d’interaction ``2D`` suivant :math:`Y` et :math:`Z` respectivement.\n\nL'exposant :math:`a` se calcule en fonction du rapport entre l'effort normal :math:`N` sollicitant la section, et l’effort normal résistant maximal, à savoir :math:`{N}_{R}={A}_{c} {f}_{\\text{cd}}+{A}_{s} {f}_{\\text{yd}}`. En pratique, :math:`a` sera calculée par interpolation entre les valeurs données au tableau de la figure ci-dessous (tel qu’extrait du §5.8.9 de l’Eurocode 2) ; en particulier, pour :math:`\\frac{N}{{N}_{R}} \\lt 0.1`, on prendra :math:`a=1` .\n\n\n.. figure:: images/10000201000006840000031AE545D13242384B32.png\n    :name: r7.04.05-fig-1-11\n\n    Calcul du coefficient :math:`a` pour la méthode de Bresler de l'EC2.\n\n.. csv-table::\n\n    \":math:`\\frac{N}{{N}_{R}}`\", \"0.1\", \"0.7\", \"1\"\n    \":math:`a`\", \"1\", \"1.5\", \"2\"\n\n\nAinsi, tant que l’inéquation de Bresler n’est pas vérifiée (c’est-à-dire si la somme du membre de gauche est supérieure à 1), l’algorithme actuellement proposé reprendra le calcul des moments résistants en augmentant proportionnellement les quatre sections de ferraillage comme suit:\n\n.. math::\n    {A}_{s_y, \\text{sup}}[i+1]\n    =\n    {A}_{s_y, \\text{sup}}[i]\n    +\n    {\\rho}_{s_y, \\text{sup}}[i] {A}_{s, \\text{iter}}[i]\n\n.. math::\n    {A}_{s_y, \\text{inf}}[i+1]\n    =\n    {A}_{s_y, \\text{inf}}[i]\n    +\n    {\\rho}_{s_y, \\text{inf}}[i]  {A}_{s, \\text{iter}}[i]\n\n.. math::\n    {A}_{s_z, \\text{sup}}[i+1]\n    =\n    {A}_{s_z, \\text{sup}}[i]\n    +\n    {\\rho}_{s_z, \\text{sup}}[i]  {A}_{s, \\text{iter}}[i]\n\n.. math::\n    {A}_{s_z, \\text{inf}}[i+1]\n    =\n    {A}_{s_z, \\text{inf}}[i]\n    +\n    {\\rho}_{s_z, \\text{inf}}[i]  {A}_{s, \\text{iter}}[i]\n\ntels que:\n\n.. math::\n    {\\rho}_{s_y, \\text{sup}}[i]\n    =\n    \\frac{{A}_{s_y, \\text{sup}}[i]}{{A}_{s, \\text{TOT}}[i]}\n\n.. math::\n    {\\rho}_{s_y, \\text{inf}}[i]\n    =\n    \\frac{{A}_{s_y, \\text{inf}}[i]}{{A}_{s, \\text{TOT}}[i]}\n\n.. math::\n    {\\rho}_{s_z, \\text{sup}}[i]\n    =\n    \\frac{{A}_{s_z, \\text{sup}}[i]}{{A}_{s, \\text{TOT}}[i]}\n\n.. math::\n    {\\rho}_{s_z, \\text{inf}}[i]\n    =\n    \\frac{{A}_{s_z, \\text{inf}}[i]}{{A}_{s, \\text{TOT}}[i]}\n\nAvec :math:`{A}_{s, \\text{TOT}}[i]={A}_{s_y, \\text{sup}}[i]+{A}_{s_y, \\text{inf}}[i]+{A}_{s_z, \\text{sup}}[i]+{A}_{s_z, \\text{inf}}[i]`  et :math:`{A}_{s, \\text{iter}}[i]` désigne une section d’itération (actuellement prise par défaut égale à 10% de :math:`{A}_{s, \\text{TOT}}[i]`).\n"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "TYPE_STRUCTURE"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AYS (m²), MFY = MFZ = 1 MN·m, ELU",
+          "value_obtained": 0.002059760660639,
+          "reference": "procédure de Bresler de R7.04.05 (aster_expert.rebar.biaxial.design_biaxial)",
+          "reference_value": 0.0020597606606387853,
+          "relative_deviation": 1.0422183230043558e-13,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AZS (m²), MFY = MFZ = 3 MN·m, ELU",
+          "value_obtained": 0.01155610237267,
+          "reference": "procédure de Bresler de R7.04.05 (aster_expert.rebar.biaxial.design_biaxial)",
+          "reference_value": 0.01155610237266868,
+          "relative_deviation": 1.14236143177528e-13,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AYS (m²), MFY = MFZ = 1 MN·m, comparé au calcul direction par direction sans interaction",
+          "value_obtained": 0.002059760660639,
+          "reference": "design_ultimate de la seule direction MFZ (sans Bresler)",
+          "reference_value": 0.0009608935496536695,
+          "relative_deviation": 1.1435888100002236,
+          "validation_level": "C"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "14",
+      "topic": "Effort tranchant et torsion en 1D dans CALC_FERRAILLAGE : ce que représente AST",
+      "options_considered": [],
+      "option_retained": "En 1D, AST (m²/m) est une seule densité de cadres droits : Asw/s = [V + T/A_k (h - t_k)] / (z fyd cot θ), z = 0,9 d, t_k = max(A/u ; 2c), A_k = (b - t_k)(h - t_k), θ = 21,8° (cot θ = 2,50018, et non 2,5 exactement) quand les bielles le permettent ; VY et VZ sont traités chacun dans son plan et AST est le maximum des deux directions (VY = VZ = 4 MN donne la valeur de VZ seul). La torsion est convertie en effort tranchant équivalent et ajoutée à V (interaction de R7.04.05, pas les expressions 6.26 à 6.28 de l'EN 1992-1-1 par paroi) ; aucune armature longitudinale de torsion n'est produite séparément (seul EPURE_CISA='OUI' ajoute un effort de traction aux aires longitudinales) ; le critère d'écrasement des bielles (6.29) n'est pas une sortie. Aucun ferraillage sous T = 2 MN·m seul (T_Rd,c = 2,62 MN·m). À traiter hors de Code_Aster : armatures longitudinales de torsion (6.28), cadres de torsion par paroi (6.26-6.27), valeur du critère de bielle (6.29).",
+      "justification": "Essai limites du lot 39 (vy_2, vy_4, vz_4, mt_2, mt_4, vy_4_mt_4, vy_4_vz_4) : les cinq valeurs non nulles sont reproduites à 1e-13 par la formule ci-dessus ; R7.04.05, § Calcul du ferraillage transversal.",
+      "discarded_variants": [],
+      "notes": "vy_2 (V = 2 MN) produit des cadres : V_Rd,c < 2 MN, ce qui exclut la lecture littérale « v_min = 0,053 γc k^1,5 fck^0,5 » de R7.04.05 (qui donnerait V_Rd,c = 2,31 MN) ; déduction : v_min = 0,053/γc k^1,5 fck^0,5 ou 0,035 k^1,5 fck^0,5 (valeurs voisines, non départagées). Le module aster_expert.rebar.shear (EN 1992-1-1 6.2 et 6.3, cot θ = 2,5) diffère de 7,1e-5 relatif sur l'effort tranchant seul (angle), et suit la méthode par paroi de l'EN pour la torsion (cadres 1,885876e-03 m²/m pour deux brins sous T = 4 MN·m contre 1,790828e-03 pour Code_Aster).",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_poutres_et_poteaux",
+            "Dimensionnement à l’ELU",
+            "Calcul du ferraillage transversal"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Calcul du ferraillage transversal\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nOn commence par définir le taux d’armatures transversales conformément à l’expression suivante :\n\n.. math::\n    {\\rho}_{w}\n    =\n    \\frac{{A}_{\\text{sw}}}{s{b}_{w}\\sin(\\alpha)}\n\nOù:\n\n* :math:`{A}_{\\text{sw}}` désigne l’aire de la section totale (par plan de ferraillage) des armatures transversales.\n\n* :math:`s` désigne l'espacement longitudinal entre les cadres d’armatures transversales.\n\n* :math:`{b}_{w}` désigne la plus petite largeur de la zone tendue de la section transversale de l’élément.\n\n* :math:`\\alpha` désigne l’angle d’inclinaison des cadres d’armatures transversales par rapport à l’axe longitudinal de l’élément.\n\n.. figure:: images/100002010000078000000438DE50B44F8B46E188.png\n    :name: r7.04.05-fig-1-12\n    :width: 4.9571in\n    :height: 2.5965in\n\n    Ferraillage transversal d’un élément ``1D`` (poutre ou poteau)\n\nPar ailleurs, on fera pour le moment les hypothèses ci-dessous:\n\n* les cadres seront supposés droits, ce qui revient à poser :math:`\\alpha=90°` soit :math:`\\sin(\\alpha)=1`.\n\n* les éléments considérés sont de section rectangulaire, et donc :math:`{b}_{w}=b` .\n\nLa section transversale est ainsi soumise à un effort tranchant :math:`{V}_{\\text{Ed}}`, ainsi qu’à un moment de torsion :math:`{T}_{\\text{Ed}}`.\n\nPar défaut, aucun ferraillage transversal n’est requis tant que le couple de sollicitations précédent ne dépasse pas les capacités de résistance du béton seul au cisaillement; cela revient donc à vérifier l’inéquation suivante:\n\n.. math::\n    \\frac{{V}_{\\text{Ed}}}{{V}_{\\text{Rd},c}}\n    +\n    \\frac{{T}_{\\text{Ed}}}{{T}_{\\text{Rd},c}}\n    \\le\n    1\n\ntels que:\n\n* :math:`{V}_{\\text{Rd},c}=\\left \\lbrace \\max \\left({C}_{\\text{Rd},c}k{(100{\\rho}_{l}{f}_{\\text{ck}})}^{1/3};{v}_{min} \\right)+{k}_{1}{\\stressCmp}_{\\text{cp}} \\right \\rbrace\\times {b}_{w} d`\n\n* :math:`{T}_{\\text{Rd},c}=2{f}_{\\text{ctd}}{t}_{k}{A}_{k}`\n\noù:\n\n* :math:`{f}_{\\text{ck}}` est en MPa\n\n* :math:`{C}_{\\text{Rd},c}= \\frac{0,18}{{\\gamma}_{c}}`\n\n* :math:`k=1+\\sqrt{\\frac{200}{d}} \\le 2,0`, avec :math:`d` en mm\n\n* :math:`{\\rho}_{l}=\\frac{{A}_{\\text{sl}}}{{b}_{w}d} \\le 0,02` , où :math:`{A}_{\\text{sl}}` représente la section des armatures tendues (résultant du calcul en flexion composée)\n\n* :math:`{v}_{\\text{min}}=0,053 \\, {{\\gamma}_{c}} {k}^{1,5}{f}_{\\text{ck}}^{0,5}` dans le cas des poutres\n\n* :math:`{k}_{1}=0,15`\n\n* :math:`{\\stressCmp}_{\\text{cp}}=\\frac{{N}_{\\text{Ed}}}{{b}_{w}h} \\ge 0` , où :math:`{N}_{\\text{Ed}}` représente l’effort normal (positif en compression)\n\n* :math:`{f}_{\\text{ctd}}= \\frac{{f}_{\\text{ctk}}}{{\\gamma}_{c}}` , où :math:`{f}_{\\text{ctk}}` représente la résistance du béton à la traction, tel que :math:`{f}_{\\text{ctk}}= \\left \\lbrace \\begin{array}{l}0,7\\times 0,3\\times {f}_{\\text{ck}}^{\\frac{2}{3}}\\text{ si }{f}_{\\text{ck}} \\le 50\\, \\text{MPa}\\\\ 0,7\\times 2,12\\times \\log(1+0,1\\times ({f}_{\\text{ck}}+8)) \\text{ si }{f}_{\\text{ck}} \\ge 50\\, \\text{MPa}\\end{array} \\right .`\n\n* :math:`{t}_{k}=\\max \\left \\lbrace {b}_{w} \\frac{h}{2({b}_{w}+h)};2{c}_{\\text{sup}};2{c}_{\\text{inf}} \\right \\rbrace`\n\n* :math:`{A}_{k}=({b}_{w}-{t}_{k}) (h-{t}_{k})`\n\nDans le cas contraire, c’est-à-dire dans le cas où le membre gauche de l’inéquation précédente est supérieur à 1, le dimensionnement du ferraillage transversal au cisaillement est basé sur un modèle en treillis de Ritter-Mörsh formé par un couplage entre bielles de compressions – qui représentent la part du béton résistant au cisaillement – et les cadres du ferraillage transversal. Ce treillis est schématisé au niveau de la figure qui suit, dont on explicite les notations à la suite.\n\n.. figure:: images/10000000000003C80000026D8F2591692D9D098A.png\n    :name: r7.04.05-fig-1-13\n    :width: 5.6146in\n    :height: 3.602in\n\n    Structure bielle-tirants pour poutres sollicitées en cisaillement\n\n* :math:`\\alpha` est l’angle entre les armatures d'effort tranchant et la fibre moyenne de l’élément (pour rappel, on considérera dans l’algorithme que :math:`\\alpha =90°` ).\n\n* :math:`\\theta` est l’angle entre la bielle de compression et la fibre moyenne de l’élément. Conformément aux réglementations de l’Eurocode 2, la valeur de :math:`\\theta` devra respecter le domaine :math:`1\\le \\cot{\\theta }\\le 2,5` .\n\n* :math:`{F}_{\\text{td}}` est la valeur de calcul de l’effort de traction repris par les armatures longitudinales tendues inférieures.\n\n* :math:`{F}_{\\text{cd}}` est la valeur de calcul de l’effort de compression repris par la hauteur de béton comprimé (en fonction de la profondeur de l’axe neutre, tel que déterminé à l’issu du calcul en flexion composée), ainsi que l’éventuel ferraillage de compression supérieur.\n\n* :math:`{b}_{w}` est la plus petite largeur de la section comprise entre la membrure tendue et la membrure comprimée. Dans l’algorithme de calcul, on prendra donc :math:`{b}_{w}=b` .\n\n:math:`z` est le bras de levier des forces internes, pour un élément de hauteur constante, correspondant au moment fléchissant dans l'élément considéré. Pour les calculs à l'effort tranchant d'une section de béton armé partiellement comprimée (axe neutre au sein de la section), l’algorithme de calcul considérera comme valeur\n\n.. math::\n    z=\\frac{{F}_{s, \\text{sup}}{z}_{1}+{F}_{\\text{cc}}{z}_{1}}\n           {{F}_{s, \\text{sup}}+{F}_{\\text{cc}}}\n\nTels que :math:`{z}_{1}=h-{c}_{\\text{inf}}-{c}_{\\text{sup}}` représente le bras de levier des armatures comprimées supérieures par rapport au centre de gravité des armatures tendues inférieures et :math:`{z}_{2}=(1-0,5\\lambda \\alpha)  d` représente le bras de levier du centre de gravité de la hauteur de béton comprimée par rapport au centre de gravité des armatures tendues inférieures. :math:`{F}_{s, \\text{sup}}={A}_{s, \\text{sup}}{\\stressCmp}_{s, \\text{sup}}` représente l’effort repris par les armatures comprimées et :math:`{F}_{\\text{cc}}=\\eta \\lambda \\alpha b d{f}_{\\text{cd}}` représente l’effort repris par la hauteur de béton comprimé.\n\nPour les autres cas, on peut adopter la valeur approchée :math:`z=0,9d`\n\nLe treillis ainsi modélisé résistera à l’effort tranchant sollicitant, diagonale par diagonale, comme suit:\n\n* d’une part, la bielle de compression (diagonale comprimée), dont la résistance est donnée vis-à-vis de l’effort tranchant par:\n\n.. math::\n    {V}_{\\text{Rd},\\text{max}}\n    =\n    {\\alpha}_{\\text{cw}}{b}_{w}z{\\nu}_{1}{f}_{\\text{cd}}\\frac{(\\cot\\theta +\\cot\\alpha )}{1+{\\cot}^{2}\\theta }\n\n\net vis-à-vis du moment de torsion\n\n.. math::\n    {T}_{\\text{Rd},\\text{max}}\n    =\n    2{\\alpha}_{\\text{cw}}{\\nu}_{1}{f}_{\\text{cd}}{A}_{k}{t}_{k}\\sin\\theta \\cos\\theta\n\nIl faudra donc vérifier, pour l’inclinaison de bielle considérée, l’inéquation ci-dessous:\n\n.. math::\n    \\frac{{V}_{\\text{Ed}}}{{V}_{\\text{Rd},\\text{max}}}\n    +\n    \\frac{{T}_{\\text{Ed}}}{{T}_{\\text{Rd},\\text{max}}}\n    \\le\n    1\n\n* d’autre part, le cadre (diagonale tendu / tirant), dont la résistance est donnée par:\n\n.. math::\n    {V}_{\\text{Rd},s}\n    =\n    \\frac{{A}_{\\text{sw}}}{s}z{f}_{\\text{ywd}}(\\cot\\theta +\\cot\\alpha )\\sin\\alpha\n\noù:\n\n* :math:`{f}_{\\text{ywd}}` est la limite d'élasticité de calcul des armatures d'effort tranchant (prise égale à :math:`{f}_{\\text{yd}}` )\n\n* :math:`{\\nu}_{1}=\\nu =0,6(1-\\frac{{f}_{\\text{ck}}}{250})` , avec :math:`{f}_{\\text{ck}}` en :math:`\\text{MPa}`, est un coefficient de réduction de la résistance du béton fissuré à l'effort tranchant\n\n* :math:`{\\alpha}_{\\text{cw}}` est un coefficient tenant compte de l'état de contrainte dans la membrure comprimée, et dont la valeur varie en fonction de la contrainte de compression moyenne :math:`{\\stressCmp}_{\\text{cp}}` reprise par le béton comprimé, tel que:\n\n.. math::\n    {\\alpha}_{\\text{cw}}\n    =\n    1\n\npour les structures non précontraintes et non soumises à un effort de compression\n\n.. math::\n    {\\alpha}_{\\text{cw}}\n    =\n    1+\\frac{{\\stressCmp}_{\\text{cp}}}{{f}_{\\text{cd}}}\n\npour :math:`0 \\lt {\\stressCmp}_{\\text{cp}}\\le 0.25{f}_{\\text{cd}}`\n\nOn a donc\n\n.. math::\n    {\\alpha}_{\\text{cw}}\n    =\n    1.25\n\npour :math:`0.25{f}_{\\text{cd}} \\lt {\\stressCmp}_{\\text{cp}}\\le 0.5{f}_{\\text{cd}}`\n\net\n\n.. math::\n    {\\alpha}_{\\text{cw}}\n    =\n    2.5(1-\\frac{{\\stressCmp}_{\\text{cp}}}{{f}_{\\text{cd}}})\n\npour :math:`0.5{f}_{\\text{cd}} \\lt {\\stressCmp}_{\\text{cp}}\\le {f}_{\\text{cd}}`\n\nLe principe de dimensionnement du ferraillage transversal consiste alors à égaliser le terme :math:`{V}_{\\text{Rd},s}` à l’effort de cisaillement sollicitant la section, donné comme suit:\n\n.. math::\n    {V}_{\\text{Rd},s}\n    =\n    {V}_{\\text{Ed}}\n    +\n    \\frac{{T}_{\\text{Ed}}}{{A}_{k}} \\, (h-{t}_{k})\n\nIl s’agira alors de choisir la valeur de :math:`\\theta` permettant de minimiser la densité :math:`\\frac{{A}_{\\text{sw}}}{s}` tout en vérifiant l’inéquation de non-écrasement des bielles.\n\nImpact des efforts de cisaillement sur le ferraillage longitudinal\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nConformément aux spécifications de l’Eurocode 2, et dans le cas où un ferraillage transversal est requis à la suite du calcul effectué dans le paragraphe précédent, l'effort de traction supplémentaire :math:`\\Delta F_{\\text{td}}` induit dans les armatures longitudinales et dû à l'effort tranchant :math:`V_{\\text{ed}}` et au moment de torsion :math:`T_{\\text{ed}}`, s’écrit comme suit:\n\n.. math::\n    \\Delta {F}_{\\text{td}}\n    =\n    {V}_{\\text{Ed}}\n    \\cot \\left( \\theta \\right)\n    +\n    {T}_{\\text{Ed}}\n    \\cot \\left( \\theta \\right) \\,  \\frac{{u}_{k}}{2{A}_{k}}\n\nOu :math:`\\theta` désigne l’angle d’inclinaison des bielles du treillis, tel que retenu dans le dimensionnement précédent. L’opérateur [:ref:`CALC_FERRAILLAGE <U4.81.42>`] offre la possibilité de prendre en compte cet effort de traction supplémentaire; pour ce fait, il suffit de prendre ``EPURE_CISA = 'OUI'``.\n\n.. _r7.04.05-dimensionnement-ELS:\n"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Op_randes",
+            "AFFE",
+            "EC2",
+            "EPURE_CISA"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Opérande EPURE_CISA\n^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ EPURE_CISA= / 'OUI',\n                   / 'NON' [DEFAUT]\n\nPrise en compte de l’effort de traction supplémentaire induit par l’effort tranchant et le moment de torsion, dans le cadre de la modélisation en treillis de Ritter-Mörsh.\n\n**Remarque :**\n\nDans le cas où **EPURE_CISA** **= ‘OUI’** , le calcul de la section supplémentaire d’acier tendu est effectué conformément à l’équation ci-dessous:\n\n:math:`{A}_{\\text{sl}}=({V}_{\\mathit{Ed}}+{T}_{\\mathit{Ed}}\\times {u}_{k}/2{a}_{k})\\times \\mathrm{cot}({\\theta}_{b})/{\\sigma}_{s}`\n\nTels que VEd et TEd représentent respectivement l’effort tranchant et le moment de torsion de calcul; dans le cadre des éléments ‘2D’, il s’agit des efforts déduits de l’équilibre de coin par facette conformément à la méthode de Capra Maury, actuellement retenue.\n\nD’autre part, θb représente l’angle d’inclinaison des bielles de compression de béton, tel que déduit du calcul de dimensionnement du ferraillage transversal, et ak et uk représentent respectivement l’aire intérieure au feuillet moyen des parois de la section et le périmètre du feuillet, tels que définis au niveau du §6.3.2 de l’EC2 (et applicable également au BAEL91).\n\n"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "EPURE_CISA"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AST (m²/m), VY = 4 MN seul, ELU",
+          "value_obtained": 0.0017035821618,
+          "reference": "V/(0,9 d fyd cot 21,8°), d = 2,40",
+          "reference_value": 0.0017035821617999573,
+          "relative_deviation": 2.507514257533355e-14,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AST (m²/m), VZ = 4 MN seul, ELU",
+          "value_obtained": 0.003145074760246,
+          "reference": "V/(0,9 d fyd cot 21,8°), d = 1,30",
+          "reference_value": 0.0031450747602460747,
+          "relative_deviation": -2.37174360399517e-14,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AST (m²/m), MT = 4 MN·m seul, ELU",
+          "value_obtained": 0.001790827609439,
+          "reference": "[T/A_k (h - t_k)]/(0,9 d fyd cot 21,8°), h = 2,50, d = 2,40",
+          "reference_value": 0.0017908276094393085,
+          "relative_deviation": -1.7230242412109285e-13,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AST (m²/m), VY = 4 MN et MT = 4 MN·m, ELU",
+          "value_obtained": 0.003494409771239,
+          "reference": "[V + T/A_k (h - t_k)]/(0,9 d fyd cot 21,8°)",
+          "reference_value": 0.003494409771239266,
+          "relative_deviation": -7.607761828091651e-14,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AST (m²/m), VY = VZ = 4 MN, ELU",
+          "value_obtained": 0.003145074760246,
+          "reference": "maximum des deux directions : valeur de VZ seul",
+          "reference_value": 0.0031450747602460747,
+          "relative_deviation": -2.37174360399517e-14,
+          "validation_level": "C"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "14",
+      "topic": "ELS caractéristique et ELS quasi permanent en 1D dans CALC_FERRAILLAGE : limitation des contraintes et écart au calcul de R7.04.05",
+      "options_considered": [],
+      "option_retained": "À l'ELS caractéristique, CALC_FERRAILLAGE limite la contrainte de l'acier à SIGS_ELS (0,8 fyk = 400 MPa, EN 1992-1-1 7.2(5)) et celle du béton à SIGC_*_ELS (0,6 fck = 21 MPa, XS3, 7.2(2)), une valeur par face et par axe, section fissurée sans béton tendu, αe = ALPHA_E. Les aires obtenues diffèrent de 0,25 % à 16 % du calcul par pivot acier de R7.04.05 refait à la main et par le module (aster_expert.rebar.serviceability) : cause non établie. La commande ne vérifie pas un ferraillage donné (VERI_FERRAILLAGE n'accepte pas le 1D, lot 38) : la vérification des contraintes d'un ferraillage retenu est à traiter hors de Code_Aster.",
+      "justification": "Essai limites du lot 39 (els_mfz_2, els_mfy_1, els_n_m3_mfz_4, qp_mfz_1) confronté au module indépendant et au calcul à la main (docs/essais_lot39.md, étape 1, pour ssll13b CHEFF4 : 6,0447e-04 à la main et par le module contre 5,8876e-04 pour la référence ANALYTIQUE du cas test).",
+      "discarded_variants": [],
+      "notes": "Écarts relevés : els_mfz_2 -4,4 % (Code_Aster plus faible), els_mfy_1 +0,25 %, els_n_m3_mfz_4 -16 %. Aucun des paramètres essayés (σs, αe, bras de levier, largeur) ne reproduit les valeurs de Code_Aster avec une valeur ronde. ELS quasi permanent (qp_mfz_1, MFZ = 1 MN·m) : Code_Aster 3,859047e-03 m² contre 8,572637e-04 pour le module, qui n'a pas été calibré sur un cas test : écart rapporté, cause non établie, module ELS QP à ne pas utiliser comme référence.",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_poutres_et_poteaux",
+            "Dimensionnement à l’ELS Caractéristique",
+            "COND_ITER"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Pour les cas où COND_ITER = VRAI, il s’agit alors de balayer les différents domaines d’équilibre, c’est-à-dire en faisant itérer :math:`\\xi` de :math:`-\\infty` à :math:`+\\infty`. En se basant sur les deux équations d’équilibres (moments et forces), on détermine pour chaque valeur de :math:`\\xi` le couple :math:`(A_{s_s},A_{s_i})` associé. L’algorithme retiendra au final la configuration aboutissant à une minimisation de la somme :math:`A_{s_s}+A_{s_i}`, tout en veillant à ce que les deux sections soient positives."
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "SIGS_ELS"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "SIGC_INF_Y_ELS"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AYS (m²), MFZ = 2 MN·m, ELS caractéristique",
+          "value_obtained": 0.002081469593138,
+          "reference": "pivot acier de R7.04.05 (aster_expert.rebar.serviceability.design_els), h = 2,50, b = 1,40, d = 2,40",
+          "reference_value": 0.002177744901909289,
+          "relative_deviation": -0.044208717323540495,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+          "quantity": "AZS (m²), MFY = 1 MN·m, ELS caractéristique",
+          "value_obtained": 0.002013326243362,
+          "reference": "pivot acier de R7.04.05 (design_els), h = 1,40, b = 2,50",
+          "reference_value": 0.0020082248085311213,
+          "relative_deviation": 0.002540270794986392,
+          "validation_level": "C"
+        }
+      ],
+      "status": "tranche"
+    },
+    {
+      "point_label": "14",
+      "topic": "CALC_FERRAILLAGE en 2D sur une plaque DKT (méthode de Capra et Maury) : faces, flexion simple et effet de MXY",
+      "options_considered": [],
+      "option_retained": "En TYPE_STRUCTURE='2D' (DKT, METHODE_2D='CAPRA-MAURY' par défaut), MXX > 0 tend la face supérieure (DNSXS), MXX < 0 la face inférieure (DNSXI) ; sous NXX et MXX seuls, les densités par mètre sont celles de la flexion composée d'une bande de 1 m (bloc rectangulaire), à 1e-12 : la traction pure se répartit à parts égales sur les deux nappes X et un point intérieur donne zéro. Avec MXY, les densités résultent de l'équilibre par facettes et diffèrent de l'approximation de Wood-Armer (MXY seul : 4,709510e-04 en X et 5,623236e-04 en Y par nappe, contre 5,166373e-04 partout pour Wood-Armer). Dans le cas dégénéré NXX = 1 MN/m, MXX = 0,2 MN·m/m (e = h/2 - c exactement), Code_Aster ajoute 5,687521e-05 m²/m sur DNSXI et DNSYI, que le calcul en bande ne donne pas.",
+      "justification": "Essai plaque du lot 39 (un QUAD4 DKT, 1 m x 1 m, épaisseur 0,50 m, c = 0,05 m, efforts imposés, exécution réelle) confronté au module aster_expert.rebar ; R7.04.05, méthode de Capra et Maury.",
+      "discarded_variants": [],
+      "notes": "Établit le fonctionnement de la commande, pas un dimensionnement. Déduction : la face « supérieure » d'une coque est celle du côté de la normale (repère local) ; pour un radier ou un voile, l'orientation des normales (ORIE_NORM_COQUE) fixe donc quelle nappe est « sup ».",
+      "validity_domain": null,
+      "nature": "code_aster",
+      "sources": [
+        {
+          "document_id": "R7.04.05",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Calcul_du_ferraillage_des_plaques",
+            "Méthode de Capra et Maury"
+          ],
+          "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_plaques.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": ".. include:: ../../../../../_cache/math_styles.rst\n\n.. _r7.04.05-calcul-ferraillage-2D:\n\nCalcul du ferraillage des plaques\n=================================\n\nLe calcul du ferraillage des plaques peut se faire suivant deux méthodes distinctes: la méthode de Capra-Maury (qui est une généralisation du calcul ``1D`` à un nombre fini :math:`N` de facettes fictives) ou la méthode Sandwich (conformément à l’Annexe LL de l’EN-1992-2).\n\n\n.. _r7.04.05-CapraMaury:\n\nMéthode de Capra et Maury\n-------------------------\n\n.. _r7.04.05-calcul-ferraillage-longitudinal:\n\nCalcul du ferraillage longitudinal\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nLe principe de la méthode de Capra-Maury consiste à assimiler l’étude d’une plaque à un problème équivalent de ferraillage de poutres, et ce en considérant par le biais de coupures, l’équilibre successif des différentes facettes obtenues – chaque facette étant sollicitée par un torseur d’efforts réduits ``1D`` et ferraillé par conséquent suivant la théorie des poutres.\n\nEn ce sens, chaque facette est définie par son vecteur normal :math:`\\vector{n}( \\theta)` faisant un angle :math:`\\theta` avec l’axe local :math:`x` de la plaque, et elle est soumise aux efforts obtenus en écrivant l’équilibre du prisme conséquent et illustré dans la figure ci-dessous.\n\n.. figure:: images/100000000000028600000268DF356FF97A6EE59C.png\n    :name: r7.04.05-2-1\n    :width: 3.8492in\n    :height: 3.3972in\n\n    Équilibre de coin et passage des efforts ``2D`` aux efforts ``1D``\n\nOn trouve:\n\n.. math::\n    :label: proj_N\n\n    N \\left( \\theta \\right)\n    =\n    {N}_{xx}  \\cos^{2} \\theta\n    +\n    2 {N}_{xy} \\cos \\theta \\, \\sin \\theta\n    +\n    {N}_{yy}  \\sin^{2} \\theta\n\n.. math::"
+        },
+        {
+          "document_id": "U4.81.42",
+          "aster_version": "17.4.0",
+          "section_path": [
+            "Composition_du_champ_produit"
+          ],
+          "source_path": "source/manuals/man_u/u4/u4.81.42/Composition_du_champ_produit.rst",
+          "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+          "fragment_id": null,
+          "profile": "methode",
+          "excerpt": "Composition du champ produit\n============================\n\nLe résultat est enrichi par un nouveau champ (nommé 'FERRAILLAGE' dans la structure de données) dont les composantes sont :\n\nSi **TYPE_STRUCTURE** **= ‘2D’** :\n\n\n*   une densité de ferraillage longitudinal dans le sens :math:`X` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{DNSXI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{DNSXS}` ) ;\n\n\n*   une densité de ferraillage longitudinal dans le sens :math:`Y` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{DNSYI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{DNSYS}` ) ;\n\n\n*   la densité de ferraillage transversal dans le sens :math:`X` de l'élément (:math:`\\mathit{DNSXT}` ) ;\n\n\n*   l’équivalent dans le sens :math:`Y` de l'élément (:math:`\\mathit{DNSYT}` ) ;\n\n\n*   la densité volumique totale d'acier (:math:`\\mathit{DNSVOL}` );\n\n\n*   un indicateur de complexité de mise en œuvre du ferraillage (:math:`\\mathit{CONSTRUC}` ).\n\n\n*   une densité de ferraillage minimale pour la maîtrise de la fissuration dans le sens :math:`X` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{ASMINXI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{ASMINXS}` ) ;\n\n\n*   une densité de ferraillage minimal pour la maîtrise de la fissuration dans le sens :math:`Y` de l'élément pour la face inférieure de l'élément (:math:`\\mathrm{ASMINYI}` ) ;\n\n\n*   l'équivalent pour la face supérieure (:math:`\\mathrm{ASMINYS}` ) ;\n\nSi **TYPE_STRUCTURE** **= ‘1D’** :\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Y` de la section, et selon le sens positif de l’axe (face supérieure suivant la hauteur h) (:math:`\\mathit{AYS}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Y` de la section, et selon le sens négatif de l’axe (face inférieure suivant la hauteur h) (:math:`\\mathit{AYI}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Z` de la section, et selon le sens positif de l’axe (face supérieure suivant la largeur b) (:math:`\\mathit{AZS}` ) ;\n\n\n*   une densité de ferraillage longitudinal suivant l’axe :math:`Z` de la section, et selon le sens négatif de l’axe (face inférieure suivant la largeur b)(:math:`\\mathit{AZI}` ) ;\n\n\n*   une densité de ferraillage transversal (:math:`\\mathit{AST}` ) ;\n\n\n*   une densité de ferraillage longitudinal total (:math:`\\mathit{ATOT}` ) ;\n\n\n*   la densité volumique totale d'acier (:math:`\\mathit{DNSVOL}` );\n\n\n*   un indicateur de complexité de mise en œuvre du ferraillage(:math:`\\mathit{CONSTRUC}` ).\n\nActuellement, pour les éléments ‘2D’, les densités de ferraillage sont calculées d'après la méthode de CAPRA et MAURY [:ref:`R7.04.05 <R7.04.05>`]. Ces densités sont exprimées en unité de surface par longueur linéaire de coque. Par exemple, si le maillage est en mètres (avec des données de caractéristiques élémentaires et de matériau en cohérence), les densités seront exprimées en :math:`{m}^{2}/m` pour les aciers de flexion et en :math:`{m}^{2}/m\\mathrm{²}` pour les aciers d'effort tranchant.\n\nPour les éléments ‘1D’, les densités sont exprimées en unité de surface. Par exemple, si le maillage est en mètres (avec des données de caractéristiques élémentaires et de matériau en cohérence), les densités seront exprimées en :math:`{m}^{2}` pour les aciers de flexion et en :math:`{m}^{2}/m` pour les aciers d'effort tranchant.\n\nLe champ de ferraillage est calculé pour tous les instants spécifiés par l'utilisateur (par défaut : tous). Si l'on veut calculer le champ contenant les valeurs «max» au cours du transitoire, on peut exécuter la commande :\n\nFERMAX=CREA_CHAMP( OPERATION='EXTR', TYPE_CHAM='ELEM_FER2_R',\n\nNOM_CHAM='FERRAILLAGE', RESULTAT=Solution,\n\nTYPE_MAXI='MAXI_ABS', TYPE_RESU='VALE',\n\n)"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "METHODE_2D"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "command": "CALC_FERRAILLAGE",
+          "aster_version": "17.4.0",
+          "keyword_path": [
+            "AFFE",
+            "C_SUP"
+          ],
+          "variant_id": null,
+          "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+          "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/plaque/plaque.comm",
+          "case_sha256": "04e924d1b8b285ca592bd7fbe919ce5737e0ef1586d5d700309251e5347821de",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_plaque_extrait.txt",
+          "quantity": "DNSXS (m²/m), MXX = +0,2 MN·m/m seul, plaque DKT, ELU",
+          "value_obtained": 0.001044823812257,
+          "reference": "design_ultimate, bande b = 1 m, h = 0,50, c = 0,05",
+          "reference_value": 0.0010448238122565561,
+          "relative_deviation": 4.2482987486369887e-13,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/plaque/plaque.comm",
+          "case_sha256": "04e924d1b8b285ca592bd7fbe919ce5737e0ef1586d5d700309251e5347821de",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_plaque_extrait.txt",
+          "quantity": "DNSXI (m²/m), NXX = +1 MN/m seul (traction), plaque DKT, ELU",
+          "value_obtained": 0.00115,
+          "reference": "N/(2 fyd) par nappe",
+          "reference_value": 0.00115,
+          "relative_deviation": 0.0,
+          "validation_level": "C"
+        },
+        {
+          "aster_version": "17.4.0",
+          "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+          "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+          "working_tree_modified": true,
+          "case_path": "data/examples/lot39_essais/plaque/plaque.comm",
+          "case_sha256": "04e924d1b8b285ca592bd7fbe919ce5737e0ef1586d5d700309251e5347821de",
+          "mess_path": "data/examples/lot39_essais/rapports/mess_plaque_extrait.txt",
+          "quantity": "DNSXS (m²/m), MXY = 0,1 MN·m/m seul, comparé à Wood-Armer",
+          "value_obtained": 0.0004709509988553,
+          "reference": "Wood-Armer : bande de 1 m sous abs(MXY) = 0,1 MN·m/m (design_ultimate)",
+          "reference_value": 0.0005166372825758601,
+          "relative_deviation": -0.08843009450029726,
+          "validation_level": "C"
+        }
+      ],
+      "status": "tranche"
     }
   ],
   "group_naming": [

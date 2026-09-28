@@ -1,0 +1,143 @@
+# Lot 39, étape 6 : CALC_FERRAILLAGE en 2D sur une plaque DKT d'un élément.
+# Produit par scripts/build_lot39_plaque.py ; critères : docs/essais_lot39.md.
+
+DEBUT(CODE="OUI")
+
+MA = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+
+MODEL = AFFE_MODELE(
+    MAILLAGE=MA,
+    AFFE=_F(GROUP_MA="PLAQUE", PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+)
+
+CARA = AFFE_CARA_ELEM(MODELE=MODEL, COQUE=_F(GROUP_MA="PLAQUE", EPAIS=0.5))
+
+# instant 1 : mxx_p
+CHEFF1 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PLAQUE",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY", "QX", "QY"),
+        VALE=(0.0, 0.0, 0.0, 200000.0, 0.0, 0.0, 0.0, 0.0),
+    ),
+)
+# instant 2 : mxx_m
+CHEFF2 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PLAQUE",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY", "QX", "QY"),
+        VALE=(0.0, 0.0, 0.0, -200000.0, 0.0, 0.0, 0.0, 0.0),
+    ),
+)
+# instant 3 : nxx_t_mxx
+CHEFF3 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PLAQUE",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY", "QX", "QY"),
+        VALE=(1000000.0, 0.0, 0.0, 200000.0, 0.0, 0.0, 0.0, 0.0),
+    ),
+)
+# instant 4 : nxx_c_mxx
+CHEFF4 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PLAQUE",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY", "QX", "QY"),
+        VALE=(-2000000.0, 0.0, 0.0, 200000.0, 0.0, 0.0, 0.0, 0.0),
+    ),
+)
+# instant 5 : mxx_mxy
+CHEFF5 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PLAQUE",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY", "QX", "QY"),
+        VALE=(0.0, 0.0, 0.0, 200000.0, 0.0, 100000.0, 0.0, 0.0),
+    ),
+)
+# instant 6 : mxy
+CHEFF6 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PLAQUE",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY", "QX", "QY"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 0.0, 100000.0, 0.0, 0.0),
+    ),
+)
+# instant 7 : nxx_t
+CHEFF7 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PLAQUE",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY", "QX", "QY"),
+        VALE=(1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+    ),
+)
+
+RESU = CREA_RESU(
+    OPERATION="AFFE",
+    TYPE_RESU="EVOL_ELAS",
+    AFFE=(
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF1, INST=1.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF2, INST=2.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF3, INST=3.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF4, INST=4.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF5, INST=5.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF6, INST=6.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF7, INST=7.0, MODELE=MODEL, CARA_ELEM=CARA),
+    ),
+)
+
+RESU = CALC_FERRAILLAGE(
+    RESULTAT=RESU,
+    CARA_ELEM=CARA,
+    reuse=RESU,
+    CODIFICATION="EC2",
+    TYPE_COMB="ELU",
+    UNITE_CONTRAINTE="Pa",
+    INST=(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0),
+    AFFE=(
+        _F(
+            TOUT="OUI",
+            TYPE_STRUCTURE="2D",
+            C_INF=0.05,
+            C_SUP=0.05,
+            FYK=500000000.0,
+            FCK=35000000.0,
+            EYS=210000000000.0,
+            TYPE_DIAGRAMME="B2",
+            ALPHA_CC=1.0,
+            GAMMA_S=1.15,
+            GAMMA_C=1.5,
+        ),
+    ),
+)
+
+T_FERR = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RESU,
+        NOM_CHAM="FERR_ELEM",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("DNSXI", "DNSXS", "DNSYI", "DNSYS", "DNSXT", "DNSYT"),
+        GROUP_MA="PLAQUE",
+    )
+)
+IMPR_TABLE(TABLE=T_FERR, UNITE=6, FORMAT_R="E20.12", TITRE="FERR_LOT39_2D")
+
+FIN()

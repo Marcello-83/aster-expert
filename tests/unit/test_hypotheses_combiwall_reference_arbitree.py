@@ -72,7 +72,9 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     # + lot 38 : D17 (point 13) et D18 (point 14) ajoutent deux entrées, D14 bis en
     #   révise une (historique conservé) ; 2 constats code_aster (symétrie de POU_D_T,
     #   point 7 ; état des lieux du ferraillage, point 14)
-    assert len(sheet.entries) == 56
+    # + lot 39 : D19 (point 14) ajoute une entrée ; 6 constats d'exécution sur
+    #   CALC_FERRAILLAGE (point 14)
+    assert len(sheet.entries) == 63
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -86,8 +88,8 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
     # 10 up to lot 20, plus MM's decision on the tube shell choice (lot 21) and
     # the global frame (point 9, lot 25), decision 11 (point 10, lot 27),
     # decision 12 (point 11, lot 28), decision 13 (point 12, lot 33) and, lot 38,
-    # D17 (point 13) and D18 (point 14)
-    assert len(tranche_practice) == 17
+    # D17 (point 13) and D18 (point 14), lot 39: D19 (point 14)
+    assert len(tranche_practice) == 18
     assert {e.point_label for e in tranche_practice} == {
         "0",
         "1",
@@ -348,6 +350,10 @@ def test_arbitree_fiche_group_naming_gaps_are_closed() -> None:
     assert sheet.group_naming_gaps() == (
         "groupe cité par la décision du point 1 absent de la convention : EPAIS",
         "groupe cité par la décision du point 1 absent de la convention : EFGE_NOEU",
+        # Lot 39: D19 (point 14) names the command `CALC_FERRAILLAGE`, read as a
+        # group without the vocabulary -- same by-design report as the two above.
+        "groupe cité par la décision du point 14 absent de la convention : "
+        "CALC_FERRAILLAGE",
     )
     assert sheet.group_naming_gaps(_catalogue_vocabulary()) == ()
 

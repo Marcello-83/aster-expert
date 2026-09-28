@@ -358,3 +358,8 @@ groups:
       {status: fourni, value: 65, unit: mm, source: {kind: decision, point_label: "14"}}
     ouverture_fissure_limite_wk:
       {status: fourni, value: 0.2, unit: mm, source: {kind: decision, point_label: "14"}, comment: "Sous combinaison quasi permanente."}
+    # Lot 39 : décision D19 (point 14), recopiée du texte de la décision.
+    distance_parement_axe_armatures_longitudinales:
+      {status: fourni, value: 0.10, unit: m, source: {kind: decision, point_label: "14"}, comment: "Toutes les faces ; C_SUP_* et C_INF_* de CALC_FERRAILLAGE, ds et di du logiciel de MM. Valeur forfaitaire (D19)."}
+    diametre_equivalent_armatures_longitudinales:
+      {status: fourni, value: 40, unit: mm, source: {kind: decision, point_label: "14"}}

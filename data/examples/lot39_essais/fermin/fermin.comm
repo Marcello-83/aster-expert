@@ -1,0 +1,148 @@
+# Lot 39 : étape 2.1, FERR_MIN='EC2'
+# Section de la poutre de couronnement 2,50 m x 1,40 m, C35/45, B500B (D18),
+# distance parement-axe des armatures 0,10 m sur toutes les faces (D19).
+# Produit par scripts/build_lot39_essais.py ; critères : docs/essais_lot39.md.
+
+DEBUT(CODE="OUI")
+
+MA = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+
+MODEL = AFFE_MODELE(
+    MAILLAGE=MA,
+    AFFE=_F(GROUP_MA="PoutreAB", PHENOMENE="MECANIQUE", MODELISATION="POU_D_E"),
+)
+
+CARA = AFFE_CARA_ELEM(
+    MODELE=MODEL,
+    POUTRE=_F(
+        CARA=("HY", "HZ"),
+        GROUP_MA=("PoutreAB",),
+        SECTION="RECTANGLE",
+        VALE=(2.5, 1.4),
+    ),
+)
+
+# instant 1 : mfz_1_sans_min
+CHEFF1 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0),
+    ),
+)
+# instant 2 : mfz_1_min
+CHEFF2 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0),
+    ),
+)
+# instant 3 : nul_min
+CHEFF3 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+    ),
+)
+# instant 4 : vy_4_min
+CHEFF4 = CREA_CHAMP(
+    MAILLAGE=MA,
+    OPERATION="AFFE",
+    TYPE_CHAM="CART_SIEF_R",
+    AFFE=_F(
+        GROUP_MA="PoutreAB",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        VALE=(0.0, 4000000.0, 0.0, 0.0, 0.0, 0.0),
+    ),
+)
+
+RESU = CREA_RESU(
+    OPERATION="AFFE",
+    TYPE_RESU="EVOL_ELAS",
+    AFFE=(
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF1, INST=1.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF2, INST=2.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF3, INST=3.0, MODELE=MODEL, CARA_ELEM=CARA),
+        _F(NOM_CHAM="EFGE_ELNO", CHAM_GD=CHEFF4, INST=4.0, MODELE=MODEL, CARA_ELEM=CARA),
+    ),
+)
+
+RESU = CALC_FERRAILLAGE(
+    RESULTAT=RESU,
+    CARA_ELEM=CARA,
+    reuse=RESU,
+    CODIFICATION="EC2",
+    TYPE_COMB="ELU",
+    UNITE_CONTRAINTE="Pa",
+    INST=(1.0,),
+    AFFE=(
+        _F(
+            TOUT="OUI",
+            TYPE_STRUCTURE="1D",
+            C_SUP_Y=0.1,
+            C_INF_Y=0.1,
+            C_SUP_Z=0.1,
+            C_INF_Z=0.1,
+            FYK=500000000.0,
+            FCK=35000000.0,
+            EYS=210000000000.0,
+            TYPE_DIAGRAMME="B2",
+            ALPHA_CC=1.0,
+            GAMMA_S=1.15,
+            GAMMA_C=1.5,
+        ),
+    ),
+)
+RESU = CALC_FERRAILLAGE(
+    RESULTAT=RESU,
+    CARA_ELEM=CARA,
+    reuse=RESU,
+    CODIFICATION="EC2",
+    TYPE_COMB="ELU",
+    UNITE_CONTRAINTE="Pa",
+    INST=(2.0, 3.0, 4.0,),
+    AFFE=(
+        _F(
+            TOUT="OUI",
+            TYPE_STRUCTURE="1D",
+            C_SUP_Y=0.1,
+            C_INF_Y=0.1,
+            C_SUP_Z=0.1,
+            C_INF_Z=0.1,
+            FYK=500000000.0,
+            FCK=35000000.0,
+            EYS=210000000000.0,
+            TYPE_DIAGRAMME="B2",
+            ALPHA_CC=1.0,
+            GAMMA_S=1.15,
+            GAMMA_C=1.5,
+            FERR_MIN="EC2",
+        ),
+    ),
+)
+
+COMP = ("AYS", "AYI", "AZS", "AZI", "AST", "ATOT", "DNSVOL", "CONSTRUC")
+
+T_FERR = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RESU,
+        NOM_CHAM="FERR_ELEM",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=COMP,
+        GROUP_MA="PoutreAB",
+    )
+)
+IMPR_TABLE(TABLE=T_FERR, UNITE=6, FORMAT_R="E20.12", TITRE="FERR_LOT39")
+
+FIN()
