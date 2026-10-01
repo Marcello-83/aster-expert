@@ -5,6 +5,7 @@ factice : aucun Docker)."""
 from __future__ import annotations
 
 import json
+import shutil
 from collections import Counter
 from datetime import UTC, datetime
 from pathlib import Path
@@ -305,10 +306,18 @@ def test_a_value_no_longer_printed_is_flagged(tmp_path: Path) -> None:
 
 
 def test_cases_without_their_mesh_are_reported_not_replayable(tmp_path: Path) -> None:
+    # Lot 41 bis: the repository now versions CA-034's mesh and `.export`; the
+    # rule is checked on a copy holding the cases alone, as before that lot.
+    root = tmp_path / "depot"
+    shutil.copytree(base_dir(_ROOT), base_dir(root))
+    cases = root / "data" / "examples" / "lot35_constats"
+    cases.mkdir(parents=True)
+    for comm in sorted((_ROOT / "data/examples/lot35_constats").glob("f2_*.comm")):
+        shutil.copy2(comm, cases / comm.name)
     run, calls = _fake_runner(tmp_path, "")
 
     result = replay_base(
-        _ROOT,
+        root,
         only=("CA-034",),
         output_dir=tmp_path / "rejeu",
         runner=(run, "17.4.0", "sha256:" + "0" * 64),
@@ -319,6 +328,23 @@ def test_cases_without_their_mesh_are_reported_not_replayable(tmp_path: Path) ->
     assert result.constats[0].verdict == "non rejouable"
     assert result.to_review == []
     assert not calls
+
+
+def test_lot41bis_cases_are_replayed_with_their_versioned_mesh(tmp_path: Path) -> None:
+    run, calls = _fake_runner(tmp_path, "")
+
+    result = replay_base(
+        _ROOT,
+        only=("CA-029", "CA-034", "CA-035", "CA-036"),
+        output_dir=tmp_path / "rejeu",
+        runner=(run, "17.4.0", "sha256:" + "0" * 64),
+    )
+
+    assert {c.outcome for r in result.constats for c in r.cases} == {"rejoué"}
+    assert len(calls) == 6
+    for comm in calls:
+        assert comm.with_suffix(".export").is_file()
+        assert comm.with_suffix(".mmed").is_file()
 
 
 def test_unknown_constats_are_refused(tmp_path: Path) -> None:

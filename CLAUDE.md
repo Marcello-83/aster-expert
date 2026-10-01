@@ -45,6 +45,33 @@ pas suffi à la faire respecter : ne pas la redéplacer plus bas.
 - Premier projet : `projets/quai_cw_test_01/` (quai combi-wall). Les répertoires
   `data/examples/lotNN_*` restent les archives des essais des lots.
 
+## Environnement : Python du projet (lot 41 bis) — lire en troisième
+
+**Ne jamais dépendre du Python du système ; tout passe par le `.venv` du projet.**
+Le passage d'Ubuntu 24.04 à 26.04 a retiré `python3.12` et cassé le `.venv`
+(`docs/environnement.md`, § 4). Depuis le lot 41 bis :
+
+- la version de Python est fixée par `.python-version` (3.12) et installée par
+  `uv` dans l'espace utilisateur (`~/.local/share/uv/python/`), jamais par `apt`
+  ni `sudo` ; `[tool.uv] python-preference = "only-managed"` interdit à `uv` de
+  choisir un Python du système ;
+- les dépendances sont verrouillées dans `uv.lock` (versionné) : reconstruire
+  par `uv sync --locked --all-extras`, jamais par `pip install` ; mettre à jour
+  une dépendance est un changement délibéré, commité avec sa justification ;
+- toute commande passe par `.venv/bin/…` (`aster-expert`, `pytest`, `ruff`,
+  `mypy`), jamais par `python3` du système ;
+- **`aster-expert env-check` est la première commande de chaque lot**, avant
+  `mcp-check` : Python du `.venv` contre `.python-version`, dépendances contre
+  `uv.lock`, Docker, `cave`, digest de l'image, Singularity et image Salomé,
+  dossier partagé, exécutable du serveur MCP ; arrêt au premier écart. Si
+  `aster-expert` lui-même ne démarre pas (`.venv` cassé), lancer
+  `uv sync --locked --all-extras` puis `env-check` ;
+- un écart de Docker, de Singularity ou du montage du partage ne se corrige
+  jamais par la session (`sudo` exclu) : la session s'arrête et décrit à MM ce
+  qu'il faut faire ;
+- le passage à une autre version de Python (3.14 évaluée au lot 41 bis) est un
+  lot à part, délibéré et testé.
+
 ## Mission
 
 Construire un agent expert Code_Aster versionné, traçable, capable de valider
@@ -60,7 +87,8 @@ Le système ne doit jamais confondre :
 
 ## Environnement d'exécution
 
-Le dépôt vit dans une machine virtuelle Ubuntu 24.04 (Oracle VirtualBox).
+Le dépôt vit dans une machine virtuelle Ubuntu 26.04 (Oracle VirtualBox ;
+24.04 jusqu'au 2026-09-30, voir `docs/environnement.md`).
 Code_Aster n'y est pas installé nativement : il s'exécute dans un conteneur
 Docker (image `simvia/code_aster`), géré par l'outil tiers `cave`. Le
 développement et l'indexation ont lieu dans la VM ; l'introspection du
@@ -70,7 +98,8 @@ l'édition (VSCode en Remote-SSH) et ne dispose ni de Docker ni de Code_Aster.
 
 Deux interpréteurs Python coexistent et ne doivent jamais être confondus :
 
-- le Python du projet (`.venv`), dans la VM, qui exécute `aster_expert` ;
+- le Python du projet (`.venv`, Python 3.12 géré par `uv`, jamais celui du
+  système), dans la VM, qui exécute `aster_expert` ;
 - le Python de l'installation Code_Aster, à l'intérieur du conteneur, seul
   capable d'importer `code_aster` et son catalogue.
 
@@ -169,7 +198,8 @@ Le forum et les sources communautaires sont des sources secondaires et doivent
 
 ## Règles de développement
 
-- Python 3.12 minimum pour le projet (version déclarée dans `pyproject.toml`).
+- Python du projet : 3.12, fixé par `.python-version`, installé par `uv`
+  (`requires-python = ">=3.12"` dans `pyproject.toml`, dépendances dans `uv.lock`).
 - `pathlib` pour tous les chemins, jamais de concaténation de chaînes.
 - Annotations de types sur toute fonction publique.
 - Modèles de données validés (`pydantic`) pour tout objet sérialisé.
@@ -199,6 +229,7 @@ le signale.
 
 ## Validation obligatoire après modification
 
+0. `aster-expert env-check` (lot 41 bis), puis `aster-expert mcp-check`.
 1. Formatage (`ruff format`).
 2. Analyse statique (`ruff check`, `mypy` : `src`, `tests` et `projets`, scripts de
    projet compris, en mode strict ; les scripts Salomé d'un projet en sont exclus).
@@ -251,7 +282,8 @@ de la machine.
   sans fusion : ne pas en recréer. Voir `README.md` pour la commande exacte.
 - Une session garde le processus serveur lancé à son démarrage : du code ajouté
   ensuite n'y est pas visible.
-- Chaque lot commence par `aster-expert mcp-check` (serveur neuf, outils comparés
+- Chaque lot commence par `aster-expert env-check` (lot 41 bis), puis
+  `aster-expert mcp-check` (serveur neuf, outils comparés
   au code, chaque outil appelé sur une requête minimale, arrêt au premier écart).
   Depuis le lot 25, `mcp-check` lit `.mcp.json`, applique `${VAR}` et `${VAR:-défaut}`
   à partir de l'environnement du shell **seul** (Claude Code ne définit
@@ -630,7 +662,7 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   ligne par plan de flexion, colonnes de MM vides. ELU accidentelle : γc = 1,2, γs = 1,0
   (EN 1992-1-1, tableau 2.1N, non décidés par MM). 7 exécutions réelles (71,3 s).
 
-## Lots 33 à 41 (résumé)
+## Lots 33 à 41 bis (résumé)
 
 Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de leur
 époque : depuis le lot 41, le code, les données et les scripts du quai sont dans
@@ -683,6 +715,17 @@ Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de
   18 fichiers identiques à l'octet, 6 différents par des chemins/empreintes
   énumérés, 2 par des chemins non énumérés par le critère (échec formel rapporté).
   Couverture de `cli.py` : 88 %.
+- **Lot 41 bis** (`docs/essais_lot41bis.md`, `docs/environnement.md`) : mise en
+  conformité avec Ubuntu 26.04, qui avait retiré `python3.12` et cassé le `.venv`
+  (passé à 3.14 sans paquets) et le serveur MCP. Python 3.12.14 géré par `uv`
+  (`.python-version`, `python-preference = "only-managed"`), `uv.lock` aux versions
+  exactes de l'ancien `.venv` ; 3.14 évalué à part (789/789 tests unitaires), non
+  adopté. `aster-expert env-check` (`aster_expert.environnement`, 8 vérifications,
+  première commande de chaque lot). Chaîne du quai rejouée (modèle complet 169,6 s,
+  même `.comm`) : 18 identiques, 6 admis, 2 échecs formels du lot 41 inchangés et
+  identiques à l'octet à leurs nouvelles références (`references/lot41bis/`) : 28/28.
+  Maillages des cas de CA-029/034/035/036 versionnés : rejeu 18/18 constats, 47/47 cas.
+  Trace de panne ENV-001 (`docs/environnement.md`, § 4) pour le lot 42.
 
 ## Périmètre à ne pas dépasser sans instruction
 

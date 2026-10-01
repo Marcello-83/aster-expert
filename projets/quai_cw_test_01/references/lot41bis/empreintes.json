@@ -1,0 +1,11 @@
+{
+ "objet": "Nouvelles références du lot 41 bis pour les 2 fichiers en échec formel au lot 41 (chemins du producteur non énumérés par le critère du lot 41). Ce sont les sorties du lot 41 (commit 1d38cc9, chaîne rejouée le 2026-09-29 sous Python 3.12 du système, Ubuntu 24.04), figées le 2026-10-01 avant toute exécution du lot 41 bis. Le critère du lot 41 n'est pas modifié : les références de references/ restent celles du lot 41.",
+ "source": {
+  "maillage/combiwall_mesh_invariants.yaml": "projets/quai_cw_test_01/maillage/combiwall_mesh_invariants.yaml (versionné, commit 1d38cc9)",
+  "ferraillage/poutre.comm": "projets/quai_cw_test_01/resultats/ferraillage/poutre.comm (étape ferraillage du lot 41, 2026-09-29T07:42-04:00)"
+ },
+ "empreintes": {
+  "ferraillage/poutre.comm": "c0596fedba19bc20688724ec414f75bef44c10b9bdf3c153bdb0dc573f319ab9",
+  "maillage/combiwall_mesh_invariants.yaml": "abf803261358ed3ed0da0564d01d7975a8fa90abbb80f51afab91b520e57a3d6"
+ }
+}

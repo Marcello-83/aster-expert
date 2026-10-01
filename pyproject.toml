@@ -7,6 +7,10 @@ name = "aster-expert"
 version = "0.1.0"
 description = "Agent expert Code_Aster : corpus versionné, catalogue, validation et exécution"
 readme = "README.md"
+# Lot 41 bis : 3.12 est la borne basse ; la version exacte de l'environnement
+# est fixée par `.python-version` (3.12) et installée par `uv` dans l'espace
+# utilisateur, jamais prise au système. Aucune borne haute : elle interdirait
+# l'évaluation séparée d'une version plus récente (3.14), qui reste un lot à part.
 requires-python = ">=3.12"
 # Licence à choisir avant toute diffusion : décommenter après avoir ajouté
 # le fichier LICENSE correspondant.
@@ -69,6 +73,11 @@ aster-expert-mcp = "aster_expert.mcp.server:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/aster_expert"]
+
+[tool.uv]
+# Lot 41 bis : le projet ne dépend jamais du Python du système (Ubuntu 26 a
+# retiré 3.12 et cassé le `.venv`). `uv` n'emploie que ses propres interpréteurs.
+python-preference = "only-managed"
 
 [tool.ruff]
 line-length = 88

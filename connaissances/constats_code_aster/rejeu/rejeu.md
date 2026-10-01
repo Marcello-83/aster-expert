@@ -1,6 +1,6 @@
 # Rejeu des constats établis par exécution
 
-Code_Aster 17.4.0 (`sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5`), 2026-09-29T11:43:28.647934+00:00.
+Code_Aster 17.4.0 (`sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5`), 2026-10-01T07:25:46.705992+00:00.
 
 Critère : chaque valeur obtenue enregistrée dans une source d'exécution est de nouveau imprimée dans le listing du cas rejoué, à 1e-9 près en relatif.
 
@@ -45,16 +45,16 @@ Critère : chaque valeur obtenue enregistrée dans une source d'exécution est d
   - data/examples/lot25_essais/essai_d7b/d7b.comm : rejoué (2/2 valeurs retrouvées)
   - data/examples/lot25_essais/essai_d7b/d7b16.comm : rejoué (1/1 valeurs retrouvées)
   - data/examples/lot25_essais/essai_d7c/d7c.comm : rejoué (1/1 valeurs retrouvées)
-- CA-029 : non rejouable
-  - data/examples/lot35_constats/f1_avant.sonde.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
-  - data/examples/lot35_constats/f1_apres.sonde.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
-- CA-034 : non rejouable
-  - data/examples/lot35_constats/f2_avant.ressorts.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
-  - data/examples/lot35_constats/f2_apres.ressorts.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
-- CA-035 : non rejouable
-  - data/examples/lot35_constats/f3_nodal.sonde.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
-- CA-036 : non rejouable
-  - data/examples/lot35_constats/f4_reactions.controles.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
+- CA-029 : tient
+  - data/examples/lot35_constats/f1_avant.sonde.comm : rejoué (2/2 valeurs retrouvées)
+  - data/examples/lot35_constats/f1_apres.sonde.comm : rejoué (1/1 valeurs retrouvées)
+- CA-034 : tient
+  - data/examples/lot35_constats/f2_avant.ressorts.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot35_constats/f2_apres.ressorts.comm : rejoué (1/1 valeurs retrouvées)
+- CA-035 : tient
+  - data/examples/lot35_constats/f3_nodal.sonde.comm : rejoué (1/1 valeurs retrouvées)
+- CA-036 : tient
+  - data/examples/lot35_constats/f4_reactions.controles.comm : rejoué (1/1 valeurs retrouvées)
 - CA-040 : tient
   - data/examples/lot39_essais/d19/d19.comm : rejoué (2/2 valeurs retrouvées)
   - data/examples/lot39_essais/limites/limites.comm : rejoué (2/2 valeurs retrouvées)
@@ -69,4 +69,4 @@ Critère : chaque valeur obtenue enregistrée dans une source d'exécution est d
   - data/examples/lot39_essais/limites/limites.comm : rejoué (2/2 valeurs retrouvées)
 - CA-045 : tient
   - data/examples/lot39_essais/plaque/plaque.comm : rejoué (3/3 valeurs retrouvées)
-- 14/18 constat(s) établi(s) par exécution tiennent sous Code_Aster 17.4.0 ; 4 non rejouable(s) en l'état ; à réexaminer : aucun.
+- 18/18 constat(s) établi(s) par exécution tiennent sous Code_Aster 17.4.0 ; 0 non rejouable(s) en l'état ; à réexaminer : aucun.

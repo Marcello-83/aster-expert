@@ -82,6 +82,10 @@ execution:
     - data/examples/lot33_equilibre
     - data/examples/lot34_equilibre
     - data/examples/lot35_synthese
+    # Lot 41 bis : cas des constats CA-029, CA-034, CA-035, CA-036, rendus
+    # rejouables (maillage et .export versionnés à côté de chaque cas par
+    # projets/quai_cw_test_01/scripts/versionner_maillages_lot41bis.py).
+    - data/examples/lot35_constats
     - data/examples/lot36_butee
     # Lot 37 : modèles de production (`scripts/generate_lot37.py`), sans option de
     # diagnostic ; quai réduit à deux maillages pour le critère C10.
@@ -162,3 +166,8 @@ mesh:
     timeout_seconds: 300
     memory_mb: 2048
     cpus_limit: "1"
+
+environnement:
+  # Lot 41 bis : vérifié par `aster-expert env-check` (monté et accessible en
+  # écriture). Dossier d'échange avec l'hôte Windows (partage VirtualBox).
+  partage: /media/sf_partage/echanges

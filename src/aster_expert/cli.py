@@ -1599,6 +1599,34 @@ def validate(
         raise typer.Exit(1)
 
 
+@app.command("env-check")
+def env_check() -> None:
+    """Vérifier l'environnement : .venv, Docker, cave, Salomé, partage, MCP."""
+    from aster_expert.environnement.verification import (
+        CHECK_NAMES,
+        CheckResult,
+        EnvCheckError,
+        from_machine,
+        run_checks,
+    )
+
+    passed: list[CheckResult] = []
+
+    def show(result: CheckResult) -> None:
+        passed.append(result)
+        typer.echo(f"  OK {result.name} : {result.detail}")
+
+    try:
+        run_checks(from_machine(_project_root()), on_result=show)
+    except EnvCheckError as exc:
+        typer.echo(f"env-check ÉCHEC : {exc}", err=True)
+        remaining = CHECK_NAMES[len(passed) + 1 :]
+        if remaining:
+            typer.echo(f"Non évalués : {', '.join(remaining)}", err=True)
+        raise typer.Exit(1) from exc
+    typer.echo(f"env-check OK : {len(passed)} vérifications.")
+
+
 @app.command("mcp-check")
 def mcp_check() -> None:
     """Démarrer un serveur MCP neuf (comme `.mcp.json`) et appeler chaque outil."""

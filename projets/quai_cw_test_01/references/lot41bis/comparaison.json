@@ -1,0 +1,210 @@
+{
+ "critere": "docs/essais_lot41bis.md, écrit avant l'exécution",
+ "lignes": [
+  {
+   "reference": "comm/complet.comm",
+   "regle": "admis au lot 41 : doit l'être encore",
+   "statut_lot41": "différent",
+   "statut_lot41bis": "différent",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "maillage/rapport_mesh_check.txt",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "maillage/combiwall_mesh_invariants.yaml",
+   "regle": "échec formel au lot 41 : mêmes lignes non énumérées, rien d'autre",
+   "statut_lot41": "différent",
+   "statut_lot41bis": "différent",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "controles_d/equilibre.json",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "controles_d/integrale.json",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "synthese/synthese.json",
+   "regle": "admis au lot 41 : doit l'être encore",
+   "statut_lot41": "différent",
+   "statut_lot41bis": "différent",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "synthese/synthese.md",
+   "regle": "admis au lot 41 : doit l'être encore",
+   "statut_lot41": "différent",
+   "statut_lot41bis": "différent",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "synthese/controles.md",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "combinaisons/combinaisons.csv",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "combinaisons/controle_manuel.json",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "combinaisons/extrema.csv",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "combinaisons/poutre_couronnement.md",
+   "regle": "admis au lot 41 : doit l'être encore",
+   "statut_lot41": "différent",
+   "statut_lot41bis": "différent",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/controle_main.json",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/efforts.csv",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/enveloppes.csv",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/ferraillage.csv",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/figures/as_x.png",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/poutre.comm",
+   "regle": "échec formel au lot 41 : mêmes lignes non énumérées, rien d'autre",
+   "statut_lot41": "différent",
+   "statut_lot41bis": "différent",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/poutre.export",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/poutre.mail",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/rapports/executions.json",
+   "regle": "admis au lot 41 : doit l'être encore",
+   "statut_lot41": "différent",
+   "statut_lot41bis": "différent",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/rapports/mess_ferr_extrait.txt",
+   "regle": "admis au lot 41 : doit l'être encore",
+   "statut_lot41": "différent",
+   "statut_lot41bis": "différent",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/resume.json",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/sections.csv",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/synthese.csv",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/synthese.md",
+   "regle": "identique au lot 41 : doit le rester",
+   "statut_lot41": "identique",
+   "statut_lot41bis": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "lot41bis/maillage/combiwall_mesh_invariants.yaml",
+   "regle": "identique à l'octet à la nouvelle référence",
+   "sha256_reference": "abf803261358ed3ed0da0564d01d7975a8fa90abbb80f51afab91b520e57a3d6",
+   "sha256_sortie": "abf803261358ed3ed0da0564d01d7975a8fa90abbb80f51afab91b520e57a3d6",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "lot41bis/ferraillage/poutre.comm",
+   "regle": "identique à l'octet à la nouvelle référence",
+   "sha256_reference": "c0596fedba19bc20688724ec414f75bef44c10b9bdf3c153bdb0dc573f319ab9",
+   "sha256_sortie": "c0596fedba19bc20688724ec414f75bef44c10b9bdf3c153bdb0dc573f319ab9",
+   "verdict": "réussi"
+  }
+ ],
+ "identiques_lot41bis": 18,
+ "differents_admis_lot41bis": 6,
+ "echecs_formels_critere_lot41": [
+  "maillage/combiwall_mesh_invariants.yaml",
+  "ferraillage/poutre.comm"
+ ],
+ "vues_informatives_identiques": "54/54",
+ "echecs": [],
+ "verdict": "réussi"
+}

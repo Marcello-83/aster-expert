@@ -1,7 +1,7 @@
 {
   "aster_version": "17.4.0",
   "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
-  "replayed_at": "2026-09-29T11:43:28.647934Z",
+  "replayed_at": "2026-10-01T07:25:46.705992Z",
   "constats": [
     {
       "constat_id": "CA-020",
@@ -12,8 +12,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114036-62fb0a58",
-          "duration_s": 5.967111993000799,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072004-ea2b7745",
+          "duration_s": 4.473045453996747,
           "checks": [
             {
               "quantity": "déplacement DZ des 25 nœuds de la plaque (valeur absolue, identique aux 25 nœuds)",
@@ -39,8 +39,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114042-3979b05d",
-          "duration_s": 4.609578124000109,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072009-f1ec353c",
+          "duration_s": 4.301721065996389,
           "checks": [
             {
               "quantity": "résultante DX des réactions REAC_NODA (valeur absolue), intensité unitaire FX = 1",
@@ -61,8 +61,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114047-5dd0f0d3",
-          "duration_s": 6.117806658000518,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072013-968e0b83",
+          "duration_s": 4.1394577480023145,
           "checks": [
             {
               "quantity": "flèche en bout (DZ, valeur absolue), L le long de la console (ANGL_REP = (0, 0))",
@@ -76,8 +76,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114053-752d9630",
-          "duration_s": 4.1748985410004025,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072017-501745e7",
+          "duration_s": 4.246359852004389,
           "checks": [
             {
               "quantity": "flèche en bout (DZ, valeur absolue), T le long de la console (VECTEUR = (0, 1, 0))",
@@ -91,8 +91,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114057-8e8a9ccd",
-          "duration_s": 4.442792106000525,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072022-3f6930ad",
+          "duration_s": 4.4393200389968115,
           "checks": [
             {
               "quantity": "flèche en bout (DZ, valeur absolue), T le long de la console (ANGL_REP = (90, 0))",
@@ -113,8 +113,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114102-8e587b35",
-          "duration_s": 4.93763160799972,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072026-993d7655",
+          "duration_s": 4.13071627500176,
           "checks": [
             {
               "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a1 (MEMB × EPAIS²/12 = 83,33 ; FLEX_L = 1000)",
@@ -128,8 +128,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114106-bcdd75e9",
-          "duration_s": 4.402799566000795,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072030-e3a985da",
+          "duration_s": 3.602918080003292,
           "checks": [
             {
               "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a2 (T le long de la console, FLEX_T = 4000)",
@@ -143,8 +143,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114111-748d6ac9",
-          "duration_s": 3.909797279000486,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072034-2b9c6d22",
+          "duration_s": 4.3244162400005735,
           "checks": [
             {
               "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a6 (membrane de a1, flexion isotrope 1000)",
@@ -158,8 +158,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114115-5036d3c2",
-          "duration_s": 4.591219346999424,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072038-76865444",
+          "duration_s": 3.7512636019964702,
           "checks": [
             {
               "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a4 (témoin ELAS isotrope)",
@@ -173,8 +173,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114119-c1cf2eec",
-          "duration_s": 3.9347081509995405,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072042-4f18fea9",
+          "duration_s": 3.8239888759999303,
           "checks": [
             {
               "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a5 (ELAS_COQUE isotrope cohérent)",
@@ -188,8 +188,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114123-d263b7c4",
-          "duration_s": 4.732239307000782,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072046-d5ee8afe",
+          "duration_s": 4.2970144799983245,
           "checks": [
             {
               "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a7 (membrane isotrope, FLEX_L = 1000 ≠ FLEX_T = 4000)",
@@ -203,8 +203,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114128-9f421c29",
-          "duration_s": 4.4496438790001775,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072050-54fc5dc4",
+          "duration_s": 4.178357368000434,
           "checks": [
             {
               "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D1 (EPAIS = 0,01 ; MEMB_L × EPAIS²/12 = 83,33 ; FLEX_L = 1000)",
@@ -223,8 +223,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114133-c3546259",
-          "duration_s": 4.360760088000461,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072054-1f6a74f5",
+          "duration_s": 4.15928162199998,
           "checks": [
             {
               "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D2 (EPAIS × 2)",
@@ -238,8 +238,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114137-5bdbafd6",
-          "duration_s": 4.2034313690001,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072058-68601cb4",
+          "duration_s": 4.297246928996174,
           "checks": [
             {
               "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D2 (EPAIS × 0,5)",
@@ -253,8 +253,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114141-a3e4ec1f",
-          "duration_s": 4.008908585999961,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072103-b25247af",
+          "duration_s": 4.308552811002301,
           "checks": [
             {
               "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D3 (CISA_L et CISA_T × 1000)",
@@ -275,8 +275,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114145-9935c76e",
-          "duration_s": 4.096102870999857,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072107-cde08fdc",
+          "duration_s": 4.204899597003532,
           "checks": [
             {
               "quantity": "résultante verticale des réactions de la plaque 1 (ELAS, RHO = 7850, EPAIS = 0,01) sous PESANTEUR",
@@ -295,8 +295,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114149-9309ff3f",
-          "duration_s": 3.9259616400004234,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072111-8be5ca16",
+          "duration_s": 3.9201502750001964,
           "checks": [
             {
               "quantity": "flèche en bout d'une console ELAS_COQUE (RHO = 1, EPAIS = 0,01) sous PESANTEUR (valeur absolue)",
@@ -310,8 +310,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114153-f57f2bdd",
-          "duration_s": 4.383206926999264,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072115-15b21783",
+          "duration_s": 4.044232191001356,
           "checks": [
             {
               "quantity": "résultante verticale des réactions de la plaque 1 (ELAS, RHO = 7850, EPAIS = 0,01) sous PESANTEUR, D4 (plaque 2 : ELAS_COQUE avec RHO = 0)",
@@ -332,8 +332,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114158-c7f57d5e",
-          "duration_s": 4.064552499999991,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072119-4e5eb253",
+          "duration_s": 4.49903944000107,
           "checks": [
             {
               "quantity": "MXX moyen des points EFGE_ELNO en x = 0 (encastrement), D1 (EPAIS = 0,01)",
@@ -367,8 +367,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114202-0dc935df",
-          "duration_s": 3.83770304600057,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072124-53c16f65",
+          "duration_s": 3.816554265002196,
           "checks": [
             {
               "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D2 (EPAIS × 2 = 0,02, coefficients inchangés)",
@@ -387,8 +387,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114205-655444a7",
-          "duration_s": 4.091963518000739,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072128-b6a214d6",
+          "duration_s": 4.192115511003067,
           "checks": [
             {
               "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D2 (EPAIS × 0,5 = 0,005, coefficients inchangés)",
@@ -407,8 +407,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114210-79784cce",
-          "duration_s": 3.9289154340003734,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072132-ebcdeab6",
+          "duration_s": 4.329418519999308,
           "checks": [
             {
               "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D3 (CISA_L et CISA_T × 1000)",
@@ -427,8 +427,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114214-7e8d442d",
-          "duration_s": 4.021510923999813,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072136-16f2217e",
+          "duration_s": 3.9972412349961814,
           "checks": [
             {
               "quantity": "allongement DX du bord chargé (x = a), valeur moyenne, D6a (traction de membrane selon T, q = 100 N/m)",
@@ -452,8 +452,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114218-43aca118",
-          "duration_s": 4.428329735000261,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072140-5ad96306",
+          "duration_s": 4.120484848004708,
           "checks": [
             {
               "quantity": "flèche DZ à mi-portée (valeur absolue), valeur moyenne, D6b (maillage 8 × 8)",
@@ -492,8 +492,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114222-f6f83416",
-          "duration_s": 5.007334834000176,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072144-09181b55",
+          "duration_s": 3.866147982997063,
           "checks": [
             {
               "quantity": "flèche DZ à mi-portée (valeur absolue), valeur moyenne, D6b16 (maillage 16 × 16)",
@@ -512,8 +512,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114227-dfca6d6e",
-          "duration_s": 4.112537518999488,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072148-3dd27edd",
+          "duration_s": 3.9581756189945736,
           "checks": [
             {
               "quantity": "déplacement DX du bord supérieur (y = a), valeur moyenne, D6c (cisaillement de membrane pur, τ = 1e5 N/m)",
@@ -539,8 +539,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114231-0fa33655",
-          "duration_s": 4.267652798999734,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072152-755dce6d",
+          "duration_s": 3.7840075269996305,
           "checks": [
             {
               "quantity": "résultante DZ des forces nodales des ressorts DIS_TR en x = 2 (valeur absolue), FORC_NODA restreint aux mailles POI1",
@@ -554,8 +554,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114235-1d9c2bda",
-          "duration_s": 4.308582923000358,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072156-1c32050d",
+          "duration_s": 4.188627228999394,
           "checks": [
             {
               "quantity": "résultante DZ de REAC_NODA aux nœuds d'appui en x = 2, sans élément ELAS_COQUE (valeur absolue)",
@@ -581,8 +581,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114240-834de643",
-          "duration_s": 3.8715989359998275,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072200-c610160a",
+          "duration_s": 3.610624622000614,
           "checks": [
             {
               "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7a (VECTEUR = (0, 0, 1)), maillage 8 × 8",
@@ -601,8 +601,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114244-18ed1a3f",
-          "duration_s": 4.000087875000645,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072204-e46b8f68",
+          "duration_s": 3.3585824510009843,
           "checks": [
             {
               "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7a (VECTEUR = (0, 0, 1)), maillage 16 × 16",
@@ -616,8 +616,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114248-a18a3109",
-          "duration_s": 3.9580096030003915,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072207-17eda7c4",
+          "duration_s": 4.165099313002429,
           "checks": [
             {
               "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7b (VECTEUR = (1, 0, 0)), maillage 8 × 8",
@@ -636,8 +636,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114252-f177c71d",
-          "duration_s": 4.3589619060003315,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072211-58f66dd5",
+          "duration_s": 3.996917004995339,
           "checks": [
             {
               "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7b (VECTEUR = (1, 0, 0)), maillage 16 × 16",
@@ -651,8 +651,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114256-38053f1f",
-          "duration_s": 3.9121557569997094,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072215-4a5d8995",
+          "duration_s": 3.88829877399985,
           "checks": [
             {
               "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7c (ANGL_REP = (0, −90)), maillage 8 × 8",
@@ -670,24 +670,41 @@
       "cases": [
         {
           "case_path": "data/examples/lot35_constats/f1_avant.sonde.comm",
-          "outcome": "non rejouable",
-          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
-          "status": null,
-          "work_dir": null,
-          "duration_s": null,
-          "checks": []
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072219-c3a6fbb7",
+          "duration_s": 34.03518443200301,
+          "checks": [
+            {
+              "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, sonde de blocage total, quai réduit, fonction de pression à interface doublée à ±1 mm appliquée à l'écran entier",
+              "value_obtained": 5604338.25178,
+              "found": true
+            },
+            {
+              "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, même exécution, comparée à la règle d'évaluation aux nœuds",
+              "value_obtained": 5604338.25178,
+              "found": true
+            }
+          ]
         },
         {
           "case_path": "data/examples/lot35_constats/f1_apres.sonde.comm",
-          "outcome": "non rejouable",
-          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
-          "status": null,
-          "work_dir": null,
-          "duration_s": null,
-          "checks": []
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072253-1856d805",
+          "duration_s": 31.686047485003655,
+          "checks": [
+            {
+              "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, sonde de blocage total, charge appliquée par couche",
+              "value_obtained": 5610988.0,
+              "found": true
+            }
+          ]
         }
       ],
-      "verdict": "non rejouable"
+      "verdict": "tient"
     },
     {
       "constat_id": "CA-034",
@@ -695,24 +712,36 @@
       "cases": [
         {
           "case_path": "data/examples/lot35_constats/f2_avant.ressorts.comm",
-          "outcome": "non rejouable",
-          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
-          "status": null,
-          "work_dir": null,
-          "duration_s": null,
-          "checks": []
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072325-f27ff00f",
+          "duration_s": 25.12653415800014,
+          "checks": [
+            {
+              "quantity": "FORC_NODA/DY du ressort du nœud 65 (z = −18 m, limite argile/marne), cas G, classes de bande seules",
+              "value_obtained": -578.9003959445,
+              "found": true
+            }
+          ]
         },
         {
           "case_path": "data/examples/lot35_constats/f2_apres.ressorts.comm",
-          "outcome": "non rejouable",
-          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
-          "status": null,
-          "work_dir": null,
-          "duration_s": null,
-          "checks": []
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072351-7b06f382",
+          "duration_s": 23.84028499299893,
+          "checks": [
+            {
+              "quantity": "FORC_NODA/DY du ressort du nœud 65 (z = −18 m), cas G, classe commune de raideur sommée",
+              "value_obtained": -822.9509207294,
+              "found": true
+            }
+          ]
         }
       ],
-      "verdict": "non rejouable"
+      "verdict": "tient"
     },
     {
       "constat_id": "CA-035",
@@ -720,15 +749,21 @@
       "cases": [
         {
           "case_path": "data/examples/lot35_constats/f3_nodal.sonde.comm",
-          "outcome": "non rejouable",
-          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
-          "status": null,
-          "work_dir": null,
-          "duration_s": null,
-          "checks": []
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072415-7e718d78",
+          "duration_s": 38.15169823200267,
+          "checks": [
+            {
+              "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, poutre de couronnement et poids seuls (forces nodales de la décision 13), quai réduit",
+              "value_obtained": 29811.6,
+              "found": true
+            }
+          ]
         }
       ],
-      "verdict": "non rejouable"
+      "verdict": "tient"
     },
     {
       "constat_id": "CA-036",
@@ -736,15 +771,21 @@
       "cases": [
         {
           "case_path": "data/examples/lot35_constats/f4_reactions.controles.comm",
-          "outcome": "non rejouable",
-          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
-          "status": null,
-          "work_dir": null,
-          "duration_s": null,
-          "checks": []
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072453-602b6db8",
+          "duration_s": 21.773922929998662,
+          "checks": [
+            {
+              "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas EAU_A, quai réduit",
+              "value_obtained": 979091.7004831,
+              "found": true
+            }
+          ]
         }
       ],
-      "verdict": "non rejouable"
+      "verdict": "tient"
     },
     {
       "constat_id": "CA-040",
@@ -755,8 +796,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114300-f7ea3432",
-          "duration_s": 3.524009441999624,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072515-8b32a0a2",
+          "duration_s": 4.548595068998111,
           "checks": [
             {
               "quantity": "AYS (m²), flexion simple MFZ = 2,183517 MN·m, ELU, c = 0,10 m",
@@ -775,8 +816,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114303-1a0d7c63",
-          "duration_s": 3.294520268999804,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072520-b1f17f24",
+          "duration_s": 4.011649034000584,
           "checks": [
             {
               "quantity": "AYI (m²), MFZ = -1 MN·m seul, ELU",
@@ -802,8 +843,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114307-70ef1c14",
-          "duration_s": 3.4863847139995414,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072524-077bb9f8",
+          "duration_s": 3.3677482240018435,
           "checks": [
             {
               "quantity": "AYS (m²) avec FERR_MIN='EC2', MFZ = 1 MN·m, UNITE_CONTRAINTE='Pa'",
@@ -822,8 +863,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114310-2fc400ca",
-          "duration_s": 3.86429795299955,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072527-4f1c96ac",
+          "duration_s": 3.814950352003507,
           "checks": [
             {
               "quantity": "AYS (mm²) avec FERR_MIN='EC2', MFZ = 1e9 N·mm, UNITE_CONTRAINTE='MPa'",
@@ -854,8 +895,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114314-616c26a9",
-          "duration_s": 3.5026246500001434,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072531-7dab200e",
+          "duration_s": 3.760931680997601,
           "checks": [
             {
               "quantity": "AYS (m²), MFY = MFZ = 1 MN·m, ELU",
@@ -886,8 +927,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114318-dc003489",
-          "duration_s": 3.2378458840003077,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072535-acc8838e",
+          "duration_s": 3.58719484500034,
           "checks": [
             {
               "quantity": "AST (m²/m), VY = 4 MN seul, ELU",
@@ -928,8 +969,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114321-6cfb8772",
-          "duration_s": 3.8188204699999915,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072538-21cd4e35",
+          "duration_s": 4.028934914000274,
           "checks": [
             {
               "quantity": "AYS (m²), MFZ = 2 MN·m, ELS caractéristique",
@@ -955,8 +996,8 @@
           "outcome": "rejoué",
           "reason": null,
           "status": "completed_ok",
-          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114325-84ce7967",
-          "duration_s": 3.4587646360005238,
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T072542-9f4faac9",
+          "duration_s": 3.7372407799994107,
           "checks": [
             {
               "quantity": "DNSXS (m²/m), MXX = +0,2 MN·m/m seul, plaque DKT, ELU",

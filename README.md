@@ -10,9 +10,13 @@ rattachées à une version de Code_Aster identifiée et à une source citable.
 
 ## Prérequis
 
-- Machine virtuelle Ubuntu 24.04 avec une installation Code_Aster fonctionnelle.
-- `run_aster` accessible dans le `PATH` de l'environnement Aster.
-- Python 3.12 ou supérieur pour le projet (distinct du Python d'Aster).
+- Machine virtuelle Ubuntu (26.04 depuis le lot 41 bis) avec Docker, `cave` et
+  l'image Code_Aster ; Singularity et l'image Salomé-Méca pour le maillage.
+- `uv` dans l'espace utilisateur (installateur officiel,
+  `curl -LsSf https://astral.sh/uv/install.sh | UV_NO_MODIFY_PATH=1 sh`). **Le
+  projet ne dépend jamais du Python du système** : la version est fixée par
+  `.python-version` (3.12) et installée par `uv` (lot 41 bis,
+  `docs/environnement.md`).
 - Git, et un accès réseau à `gitlab.com` pour la synchronisation du corpus.
 
 ## Installation
@@ -20,11 +24,18 @@ rattachées à une version de Code_Aster identifiée et à une source citable.
 ```bash
 git clone <url-du-depot> aster-expert
 cd aster-expert
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
+uv python install            # Python de `.python-version`, géré par uv
+uv sync --locked --all-extras  # .venv aux versions exactes de uv.lock (paquet éditable)
 cp .env.example .env
+.venv/bin/aster-expert env-check
 ```
+
+`uv.lock` (versionné) fixe la version exacte de chaque dépendance ; `--locked`
+refuse de l'actualiser silencieusement. Mettre à jour une dépendance est un
+changement délibéré (`uv lock --upgrade-package <nom>`), commité avec sa
+justification. `aster-expert env-check` vérifie l'environnement entier (Python du
+`.venv`, dépendances contre `uv.lock`, Docker, `cave`, digest de l'image, Salomé,
+dossier partagé, exécutable du serveur MCP) et sort en erreur au premier écart.
 
 Renseigner ensuite `.env`, en particulier le chemin de l'environnement
 Code_Aster.
@@ -158,7 +169,7 @@ Installer les dépendances du serveur (installation éditable : le serveur lance
 toujours le code source du dépôt) :
 
 ```bash
-pip install -e ".[mcp]"
+uv sync --locked --all-extras
 ```
 
 Le serveur est déclaré au niveau du projet, dans `.mcp.json` (versionné) :
