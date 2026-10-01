@@ -27,9 +27,10 @@ baseline:
 lots:
 - lot: '42'
   supervisor_interventions:
-    value: null
-    nature: non renseigné
-    note: à renseigner par MM dans le compte rendu (consigne du lot 42, étape 4)
+    value: 0
+    nature: mesure
+    note: 'Déclaré par MM : aucune intervention de fond au lot 42. Les seuls échanges ont
+      été la validation du tri des questions candidates et la fusion.'
   avoided_errors:
     value: null
     nature: non renseigné
