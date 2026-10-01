@@ -21,6 +21,31 @@ import yaml
 
 _ROOT = Path(__file__).resolve().parents[1]
 
+# Lot 41 ter : un test réel dont la ressource manque est ignoré avec son motif,
+# jamais en échec (Salomé n'existe pas dans le Cloud). Motif calculé une fois.
+_UNAVAILABLE: dict[str, str | None] = {}
+
+
+def _unavailable(marker: str) -> str | None:
+    if marker not in _UNAVAILABLE:
+        from aster_expert.environnement.ressources import (
+            aster_unavailable,
+            salome_unavailable,
+        )
+
+        check = aster_unavailable if marker == "lent_aster" else salome_unavailable
+        _UNAVAILABLE[marker] = check(_ROOT)
+    return _UNAVAILABLE[marker]
+
+
+def pytest_runtest_setup(item: pytest.Item) -> None:
+    for marker in ("lent_aster", "lent_salome"):
+        if item.get_closest_marker(marker) is not None:
+            reason = _unavailable(marker)
+            if reason is not None:
+                pytest.skip(f"{marker} ignoré : {reason}")
+
+
 _EXTENSIONS = '''
 """Extensions du projet factice des tests du tronc commun."""
 

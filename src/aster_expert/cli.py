@@ -1601,30 +1601,47 @@ def validate(
 
 @app.command("env-check")
 def env_check() -> None:
-    """Vérifier l'environnement : .venv, Docker, cave, Salomé, partage, MCP."""
+    """Vérifier l'environnement : .venv, Docker, cave, Salomé, partage, MCP.
+
+    Le profil (`vm` ou `cloud`, lot 41 ter) est annoncé en tête ; en profil
+    `cloud`, l'absence de `cave`, de Salomé et du dossier partagé est attendue.
+    """
     from aster_expert.environnement.verification import (
         CHECK_NAMES,
         CheckResult,
         EnvCheckError,
+        detect_profile,
         from_machine,
         run_checks,
     )
 
+    try:
+        profile, reason = detect_profile()
+        ctx = from_machine(_project_root())
+    except EnvCheckError as exc:
+        typer.echo(f"env-check ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    typer.echo(f"Profil : {profile} ({reason})")
     passed: list[CheckResult] = []
 
     def show(result: CheckResult) -> None:
         passed.append(result)
-        typer.echo(f"  OK {result.name} : {result.detail}")
+        mark = "--" if result.expected_absent else "OK"
+        typer.echo(f"  {mark} {result.name} : {result.detail}")
 
     try:
-        run_checks(from_machine(_project_root()), on_result=show)
+        run_checks(ctx, on_result=show)
     except EnvCheckError as exc:
         typer.echo(f"env-check ÉCHEC : {exc}", err=True)
         remaining = CHECK_NAMES[len(passed) + 1 :]
         if remaining:
             typer.echo(f"Non évalués : {', '.join(remaining)}", err=True)
         raise typer.Exit(1) from exc
-    typer.echo(f"env-check OK : {len(passed)} vérifications.")
+    absent = sum(1 for result in passed if result.expected_absent)
+    suffix = f", dont {absent} absences attendues" if absent else ""
+    typer.echo(
+        f"env-check OK (profil {profile}) : {len(passed)} vérifications{suffix}."
+    )
 
 
 @app.command("mcp-check")

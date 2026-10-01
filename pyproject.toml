@@ -173,10 +173,15 @@ testpaths = ["tests", "projets"]
 # paquet (`quai_cw_test_01`) depuis le répertoire `projets`.
 pythonpath = ["projets"]
 # Lot 41 : les tests « lent » lancent réellement Code_Aster et Salomé ; hors de la
-# série par défaut, ils se lancent par `pytest -m lent`.
-addopts = "-ra --strict-markers -m 'not lent'"
+# série par défaut. Lot 41 ter : scindés en `lent_aster` (Docker et image
+# Code_Aster, possible dans le Cloud) et `lent_salome` (image Salomé, VM seule),
+# chacun ignoré avec un motif lisible quand sa ressource manque (tests/conftest.py).
+# `pytest -m lent` lance encore les deux.
+addopts = "-ra --strict-markers -m 'not lent and not lent_aster and not lent_salome'"
 markers = [
-    "lent: lance réellement Code_Aster ou Salomé (pytest -m lent)",
+    "lent: test réel, Code_Aster ou Salomé (pytest -m lent : les deux familles)",
+    "lent_aster: lance réellement Code_Aster dans Docker (pytest -m lent_aster)",
+    "lent_salome: lance réellement Salomé, image Singularity (pytest -m lent_salome)",
     "requires_aster: nécessite une installation Code_Aster fonctionnelle",
     "requires_corpus: nécessite les dépôts synchronisés sous external/",
 ]

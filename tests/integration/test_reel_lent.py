@@ -2,8 +2,11 @@
 de bon, hors de la série par défaut.
 
 Lancer : `pytest -m lent` (environ deux minutes : conteneur Code_Aster, image
-Singularity de Salomé-Méca). La série par défaut les écarte (`-m "not lent"` dans
-`pyproject.toml`) : aucun test unitaire n'exige Docker ni Salomé.
+Singularity de Salomé-Méca). La série par défaut les écarte (`-m` dans
+`pyproject.toml`) : aucun test unitaire n'exige Docker ni Salomé. Lot 41 ter :
+`pytest -m lent_aster` (Code_Aster seul, possible dans le Cloud) et
+`pytest -m lent_salome` (Salomé, VM seule) ; une ressource absente fait ignorer le
+test avec son motif (`aster_expert.environnement.ressources`, `tests/conftest.py`).
 
 Cas utilisés : des cas d'essai déjà versionnés et qualifiés, jamais écrits pour ce
 test -- `data/examples/lot22_essais/essai_c/c.comm` (plaque sur ressorts nodaux,
@@ -70,6 +73,7 @@ def _run(comm: Path, allowed: Path, tmp_path: Path):  # type: ignore[no-untyped-
     )
 
 
+@pytest.mark.lent_aster
 def test_code_aster_runs_a_versioned_case_and_writes_its_report(
     tmp_path: Path,
 ) -> None:
@@ -94,6 +98,7 @@ def test_code_aster_runs_a_versioned_case_and_writes_its_report(
     assert value_printed(mess, 0.001)
 
 
+@pytest.mark.lent_aster
 def test_a_fatal_error_is_reported_with_its_identifier(tmp_path: Path) -> None:
     report = _run(_LOT39 / "fiss" / "fiss.comm", _LOT39, tmp_path)
 
@@ -106,12 +111,11 @@ def test_a_fatal_error_is_reported_with_its_identifier(tmp_path: Path) -> None:
     assert "CALCULEL7_40" in markdown
 
 
+@pytest.mark.lent_salome
 def test_salome_meshes_a_minimal_geometry_and_mesh_check_holds(
     tmp_path: Path,
 ) -> None:
     config = load_mesh_config(_ROOT / "config" / "validation.yaml")
-    if shutil.which(config.salome.runtime) is None:
-        pytest.skip(f"{config.salome.runtime} absent")
     params = tmp_path / "params.json"
     shutil.copyfile(_LOT26 / "params.json", params)
     # Racine de travail propre au test : jamais le cache de maillage du dépôt.

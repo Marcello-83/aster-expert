@@ -420,6 +420,48 @@ def test_mcp_server_command_must_exist(tmp_path: Path) -> None:
         v.check_mcp_server(_ctx(root), lambda a, t: _completed(a))
 
 
+def _uv_project(tmp_path: Path) -> tuple[Path, Path]:
+    root = _project(tmp_path)
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    uv = bin_dir / "uv"
+    uv.write_text("#!/bin/sh\n", encoding="utf-8")
+    uv.chmod(0o755)
+    args = ["run", "--project", ".", "--locked", "aster-expert-mcp"]
+    (root / ".mcp.json").write_text(
+        json.dumps(
+            {"mcpServers": {"aster-expert": {"command": str(uv), "args": args}}}
+        ),
+        encoding="utf-8",
+    )
+    return root, uv
+
+
+def test_mcp_server_through_uv_run_imports_with_the_venv(tmp_path: Path) -> None:
+    root, uv = _uv_project(tmp_path)
+    seen: list[list[str]] = []
+
+    def runner(argv: list[str], timeout: int) -> subprocess.CompletedProcess[str]:
+        seen.append(argv)
+        return _completed(argv, stdout=f"{root / '.venv'}\n")
+
+    ok = v.check_mcp_server(_ctx(root), runner)
+    assert ok.detail.endswith("module serveur importable")
+    assert seen[0][:5] == [str(uv), "run", "--project", str(root.resolve()), "--locked"]
+    assert seen[0][5:7] == ["python", "-c"]
+    assert "aster_expert.mcp.server" in seen[0][7]
+
+
+def test_mcp_server_through_uv_run_must_use_the_project_venv(tmp_path: Path) -> None:
+    root, _ = _uv_project(tmp_path)
+    ctx = _ctx(root)
+    with pytest.raises(EnvCheckError, match="uv run.*pas avec le Python du .venv"):
+        v.check_mcp_server(ctx, lambda a, t: _completed(a, stdout="/usr\n"))
+    failing = _completed([], 1, stderr="error: lock out of date")
+    with pytest.raises(EnvCheckError, match="lock out of date"):
+        v.check_mcp_server(ctx, lambda a, t: failing)
+
+
 # --- Sequence and command ------------------------------------------------------------
 
 
@@ -487,11 +529,124 @@ def test_cli_env_check_ok(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> No
         for name in CHECK_NAMES:
             on_result(CheckResult(name=name, detail="ok"))
 
+    monkeypatch.delenv(v.PROFILE_ENV, raising=False)
+    monkeypatch.delenv(v.CLOUD_MARKER_ENV, raising=False)
     monkeypatch.setattr(v, "from_machine", lambda root: _ctx(_project(tmp_path)))
     monkeypatch.setattr(v, "run_checks", fake_run)
     result = CliRunner().invoke(cli.app, ["env-check"])
     assert result.exit_code == 0
-    assert "env-check OK : 8 vérifications." in result.output
+    assert result.output.startswith("Profil : vm (CLAUDE_CODE_REMOTE non défini)")
+    assert "env-check OK (profil vm) : 8 vérifications." in result.output
+
+
+def test_cli_env_check_cloud_marks_expected_absences(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    def fake_run(ctx: EnvContext, *, on_result: Callable[[CheckResult], None]) -> None:
+        for name in CHECK_NAMES:
+            absent = name in v.EXPECTED_ABSENT_IN_CLOUD
+            on_result(CheckResult(name=name, detail="d", expected_absent=absent))
+
+    monkeypatch.delenv(v.PROFILE_ENV, raising=False)
+    monkeypatch.setenv(v.CLOUD_MARKER_ENV, "true")
+    monkeypatch.setattr(v, "from_machine", lambda root: _ctx(_project(tmp_path)))
+    monkeypatch.setattr(v, "run_checks", fake_run)
+    result = CliRunner().invoke(cli.app, ["env-check"])
+    assert result.exit_code == 0
+    assert result.output.startswith("Profil : cloud (CLAUDE_CODE_REMOTE=true)")
+    assert "  -- salome : d" in result.output
+    assert "  OK docker : d" in result.output
+    assert "(profil cloud) : 8 vérifications, dont 3 absences attendues." in (
+        result.output
+    )
+
+
+def test_cli_env_check_refuses_an_unknown_forced_profile(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv(v.PROFILE_ENV, "portable")
+    result = CliRunner().invoke(cli.app, ["env-check"])
+    assert result.exit_code == 1
+    assert "valeurs admises 'vm' ou 'cloud'" in result.output
+
+
+# --- Profile (lot 41 ter) -------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("environ", "expected"),
+    [
+        ({}, ("vm", "CLAUDE_CODE_REMOTE non défini")),
+        ({"CLAUDE_CODE_REMOTE": "false"}, ("vm", "CLAUDE_CODE_REMOTE non défini")),
+        ({"CLAUDE_CODE_REMOTE": "true"}, ("cloud", "CLAUDE_CODE_REMOTE=true")),
+        (
+            {"CLAUDE_CODE_REMOTE": "true", "ASTER_EXPERT_PROFIL": "vm"},
+            ("vm", "ASTER_EXPERT_PROFIL=vm"),
+        ),
+        ({"ASTER_EXPERT_PROFIL": "cloud"}, ("cloud", "ASTER_EXPERT_PROFIL=cloud")),
+    ],
+)
+def test_detect_profile(environ: dict[str, str], expected: tuple[str, str]) -> None:
+    assert v.detect_profile(environ) == expected
+
+
+def test_detect_profile_refuses_an_unknown_value() -> None:
+    with pytest.raises(EnvCheckError, match="ASTER_EXPERT_PROFIL='autre'"):
+        v.detect_profile({"ASTER_EXPERT_PROFIL": "autre"})
+
+
+def _all_pass_but(monkeypatch: pytest.MonkeyPatch, failing: set[str]) -> list[str]:
+    called: list[str] = []
+    functions = {
+        "python": "check_python",
+        "dependances": "check_dependencies",
+        "docker": "check_docker",
+        "cave": "check_cave",
+        "image": "check_image",
+        "salome": "check_salome",
+        "partage": "check_shared_folder",
+        "mcp": "check_mcp_server",
+    }
+    for name, function in functions.items():
+
+        def check(*args: object, _name: str = name, **kwargs: object) -> CheckResult:
+            called.append(_name)
+            if _name in failing:
+                raise EnvCheckError(f"{_name} introuvable")
+            return CheckResult(name=_name, detail="ok")
+
+        monkeypatch.setattr(v, function, check)
+    return called
+
+
+def test_cloud_profile_reports_cave_salome_and_share_as_expected_absences(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    called = _all_pass_but(monkeypatch, {"cave", "salome", "partage"})
+    results = v.run_checks(_ctx(_project(tmp_path), profile="cloud"))
+    assert called == list(CHECK_NAMES)
+    absent = {r.name: r.detail for r in results if r.expected_absent}
+    assert absent == {
+        "cave": "absent, attendu en profil cloud (cave introuvable)",
+        "salome": "absent, attendu en profil cloud (salome introuvable)",
+        "partage": "absent, attendu en profil cloud (partage introuvable)",
+    }
+
+
+def test_cloud_profile_still_fails_on_docker_or_the_image(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _all_pass_but(monkeypatch, {"image"})
+    with pytest.raises(EnvCheckError, match=r"^image : image introuvable$"):
+        v.run_checks(_ctx(_project(tmp_path), profile="cloud"))
+
+
+def test_vm_profile_fails_on_a_missing_salome(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _all_pass_but(monkeypatch, {"salome"})
+    with pytest.raises(EnvCheckError, match=r"^salome : salome introuvable$"):
+        v.run_checks(_ctx(_project(tmp_path)))
 
 
 # --- The repository's own pins --------------------------------------------------------

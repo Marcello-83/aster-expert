@@ -8,18 +8,21 @@ from __future__ import annotations
 
 import asyncio
 import json
+import shutil
 import sys
 from pathlib import Path
 
 import pytest
 
 from aster_expert.mcp.check import (
+    SERVER_ENTRY_POINT,
     McpCheckError,
     ServerSpec,
     declared_tools,
     ensure_command_executable,
     load_server_spec,
     run_check,
+    uv_project_args,
 )
 from aster_expert.mcp.server import app
 
@@ -139,15 +142,63 @@ def test_default_value_applies_when_variable_is_unset(
     assert spec.env == {"A": ""}
 
 
-def test_repository_mcp_json_resolves_to_an_executable(
+def test_repository_mcp_json_is_portable_through_uv_run(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    """Lot 41 ter : aucun chemin de la VM dans `.mcp.json` ; `uv run` dans le
+    répertoire du projet (celui où Claude Code lance un serveur de projet)."""
     root = Path(__file__).resolve().parents[2]
     monkeypatch.delenv("CLAUDE_PROJECT_DIR", raising=False)
+    raw = (root / ".mcp.json").read_text(encoding="utf-8")
+    assert "/home/" not in raw
     spec = load_server_spec(root)
-    assert Path(spec.command) == root / ".venv" / "bin" / "aster-expert-mcp"
-    assert spec.env["ASTER_EXPERT_ROOT"] == str(root)
-    ensure_command_executable(spec)
+    assert spec.command == "uv"
+    assert spec.args[0] == "run"
+    assert spec.args[-1] == SERVER_ENTRY_POINT
+    assert {"--locked", "--all-extras"} <= set(spec.args)
+    assert spec.env["ASTER_EXPERT_ROOT"] == "."
+    assert spec.env["ASTER_CONTAINER_WORKROOT"] == "./data/processed/workroot"
+    assert uv_project_args(spec, root)[2] == str(root.resolve())
+    if shutil.which("uv") is not None:
+        assert ensure_command_executable(spec, root).name == "uv"
+
+
+def test_uv_project_args_requires_run_project_and_the_entry_point(
+    tmp_path: Path,
+) -> None:
+    good = ServerSpec(
+        command="uv", args=["run", "--project", ".", SERVER_ENTRY_POINT], env={}
+    )
+    assert uv_project_args(good, tmp_path) == ["run", "--project", str(tmp_path)]
+    absolute = good.model_copy(
+        update={"args": ["run", "--project", "/x", "aster-expert-mcp"]}
+    )
+    assert uv_project_args(absolute, tmp_path) == ["run", "--project", "/x"]
+    for args, match in (
+        (["tool", "run", SERVER_ENTRY_POINT], "uv run"),
+        (["run", "autre"], "uv run"),
+        (["run", SERVER_ENTRY_POINT], "sans `--project`"),
+        (["run", "--locked", "--project", SERVER_ENTRY_POINT], "sans valeur"),
+    ):
+        with pytest.raises(McpCheckError, match=match):
+            uv_project_args(ServerSpec(command="uv", args=args, env={}), tmp_path)
+
+
+def test_ensure_command_executable_resolves_path_and_relative_commands(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    tool = bin_dir / "outil"
+    tool.write_text("#!/bin/sh\n", encoding="utf-8")
+    tool.chmod(0o755)
+    monkeypatch.setenv("PATH", str(bin_dir))
+    bare = ServerSpec(command="outil", args=[], env={})
+    assert ensure_command_executable(bare) == tool
+    with pytest.raises(McpCheckError, match="absente du PATH"):
+        ensure_command_executable(ServerSpec(command="inconnu", args=[], env={}))
+    relative = ServerSpec(command="bin/outil", args=[], env={})
+    assert ensure_command_executable(relative, tmp_path) == tmp_path / "bin" / "outil"
 
 
 def test_ensure_command_executable_rejects_absent_and_non_executable(

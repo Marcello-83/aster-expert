@@ -18,6 +18,7 @@ import ast
 import json
 import os
 import re
+import shutil
 import tempfile
 from collections.abc import Awaitable, Callable
 from pathlib import Path
@@ -100,15 +101,66 @@ def load_server_spec(project_root: Path) -> ServerSpec:
     )
 
 
-def ensure_command_executable(spec: ServerSpec) -> None:
-    """Fail unless the expanded command is an existing executable file."""
-    command = Path(spec.command)
+def ensure_command_executable(
+    spec: ServerSpec, project_root: Path | None = None
+) -> Path:
+    """Resolve the expanded command to an existing executable file, else fail.
+
+    A bare name (`uv`) is looked up in `PATH`, as Claude Code does; a relative
+    path is taken from `project_root`, the directory Claude Code starts a
+    project-scoped stdio server in (documentation « MCP », lot 41 ter).
+    """
+    if "/" not in spec.command:
+        found = shutil.which(spec.command)
+        if found is None:
+            message = (
+                f"commande du serveur introuvable après expansion : {spec.command} "
+                "(absente du PATH)"
+            )
+            raise McpCheckError(message)
+        command = Path(found)
+    else:
+        command = Path(spec.command)
+        if not command.is_absolute() and project_root is not None:
+            command = project_root / command
     if not command.is_file():
         message = f"commande du serveur introuvable après expansion : {spec.command}"
         raise McpCheckError(message)
     if not os.access(command, os.X_OK):
         message = f"commande du serveur non exécutable : {spec.command}"
         raise McpCheckError(message)
+    return command
+
+
+SERVER_ENTRY_POINT = "aster-expert-mcp"
+
+
+def uv_project_args(spec: ServerSpec, project_root: Path) -> list[str]:
+    """Arguments of a `uv run ... aster-expert-mcp` launch, server name removed.
+
+    The value of `--project` is made absolute from `project_root`, so that the
+    arguments mean the same whatever the caller's working directory.
+    """
+    args = list(spec.args)
+    if not args or args[0] != "run" or args[-1] != SERVER_ENTRY_POINT:
+        message = (
+            f"lancement par uv attendu sous la forme `uv run ... {SERVER_ENTRY_POINT}`"
+            f", trouvé : uv {' '.join(args)}"
+        )
+        raise McpCheckError(message)
+    args = args[:-1]
+    if "--project" not in args:
+        message = "lancement par uv sans `--project` : le .venv utilisé serait ambigu"
+        raise McpCheckError(message)
+    index = args.index("--project") + 1
+    if index >= len(args):
+        message = "`--project` sans valeur dans .mcp.json"
+        raise McpCheckError(message)
+    directory = Path(args[index])
+    if not directory.is_absolute():
+        directory = project_root / directory
+    args[index] = str(directory.resolve())
+    return args
 
 
 def declared_tools(server_source: Path = _SERVER_SOURCE) -> list[str]:
@@ -303,8 +355,9 @@ async def run_check(
     spec_from_config = spec is None
     spec = spec if spec is not None else load_server_spec(project_root)
     expected = expected if expected is not None else declared_tools()
+    command = spec.command
     if spec_from_config:
-        ensure_command_executable(spec)
+        command = str(ensure_command_executable(spec, project_root))
     unprobed = sorted(
         tool for tool in expected if tool not in _PROBES and tool not in _COVERED_BY
     )
@@ -313,7 +366,7 @@ async def run_check(
         raise McpCheckError(message)
 
     parameters = StdioServerParameters(
-        command=spec.command,
+        command=command,
         args=spec.args,
         env={**spec.env, CALL_ORIGIN_ENV: CHECK_ORIGIN},
         cwd=project_root,
@@ -357,4 +410,5 @@ __all__: list[str] = [
     "ensure_command_executable",
     "load_server_spec",
     "run_check",
+    "uv_project_args",
 ]

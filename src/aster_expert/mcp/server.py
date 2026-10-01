@@ -37,12 +37,14 @@ from aster_expert.validation.models import ValidationReport
 
 
 def _project_root() -> Path:
-    return Path(os.environ.get("ASTER_EXPERT_ROOT") or Path.cwd())
+    # `.mcp.json` may give a relative path (`${CLAUDE_PROJECT_DIR:-.}`, lot 41
+    # ter): Claude Code starts the server in the project directory.
+    return Path(os.environ.get("ASTER_EXPERT_ROOT") or Path.cwd()).resolve()
 
 
 def _workroot() -> Path | None:
     raw = (os.environ.get("ASTER_CONTAINER_WORKROOT") or "").strip()
-    return Path(raw) if raw else None
+    return Path(raw).resolve() if raw else None
 
 
 app = MCPServer(

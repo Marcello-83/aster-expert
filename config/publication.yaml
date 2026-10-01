@@ -1,0 +1,54 @@
+# Ce qui ne doit jamais entrer dans le dépôt (lot 41 ter, docs/publication_github.md).
+#
+# Lu par `aster_expert.publication`, appelé par le crochet Git
+# `scripts/git-hooks/pre-commit` (fichiers indexés) et par
+# `tests/unit/test_publication.py` (arbre versionné entier). Chaque motif porte son
+# motif de refus, affiché tel quel.
+
+schema_version: 1
+
+# GitHub refuse les fichiers de plus de 100 Mo ; la règle du projet s'arrête à 50 Mo
+# (MED de résultats, archives d'exécution, corpus, sources Code_Aster, images).
+max_file_bytes: 52428800
+
+# Expressions régulières (Python, insensibles à la casse) appliquées au chemin
+# relatif du fichier.
+forbidden_paths:
+  - pattern: 'calcul_3d'
+    reason: "fichier de MM (calcul_3d_v3/v5/v5_sismique) : jamais versé au dépôt"
+  - pattern: '(^|[^a-z0-9])pang([^a-z0-9]|$)'
+    reason: "donnée PANG de MM : jamais versée au dépôt"
+  - pattern: '94[-_ ]?282'
+    reason: "texte de la NF P 94-282 (licence AFNOR) : citer l'article, ne pas verser le texte"
+  - pattern: 'afnor'
+    reason: "document AFNOR : citer l'article, ne pas verser le texte"
+  - pattern: '\.sif$'
+    reason: "image Singularity (Salomé) : fichier local de plusieurs Go"
+  - pattern: '(^|/)\.env$'
+    reason: "fichier d'environnement local (.env) : peut contenir des secrets"
+  - pattern: '(^|/)id_(rsa|dsa|ecdsa|ed25519)$|\.(pem|p12|pfx|key)$'
+    reason: "clé privée ou certificat"
+  - pattern: '(^|/)\.claude/settings\.local\.json$'
+    reason: "réglages locaux de Claude Code (permissions propres à la machine)"
+
+# Expressions régulières (Python, sensibles à la casse) appliquées au contenu des
+# fichiers texte.
+forbidden_contents:
+  - pattern: 'gh[pousr]_[A-Za-z0-9]{36,}'
+    reason: "jeton GitHub"
+  - pattern: 'github_pat_[A-Za-z0-9_]{40,}'
+    reason: "jeton GitHub (fine-grained)"
+  - pattern: 'glpat-[A-Za-z0-9_-]{20,}'
+    reason: "jeton GitLab"
+  - pattern: 'sk-ant-[A-Za-z0-9_-]{20,}'
+    reason: "clé d'API Anthropic"
+  - pattern: 'AKIA[0-9A-Z]{16}'
+    reason: "clé d'accès AWS"
+  - pattern: 'AIza[0-9A-Za-z_-]{35}'
+    reason: "clé d'API Google"
+  - pattern: 'xox[abpr]-[0-9A-Za-z-]{10,}'
+    reason: "jeton Slack"
+  - pattern: '-----BEGIN [A-Z ]*PRIVATE KEY-----'
+    reason: "clé privée"
+  - pattern: 'https?://[^/\s:@]+:[^/\s@]+@'
+    reason: "identifiants dans une URL"

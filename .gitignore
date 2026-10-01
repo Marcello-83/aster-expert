@@ -51,3 +51,8 @@ fort.*
 # Lot 41 : sorties des étapes d'un projet (`aster-expert projet <nom> <étape>`),
 # reproductibles ; les résultats de référence vivent dans projets/<nom>/references/.
 /projets/*/resultats/
+
+# Lot 41 ter : réglages locaux de Claude Code (jusqu'ici ignorés par le seul
+# fichier d'exclusion global de la VM).
+.claude/settings.local.json
+.claude/scheduled_tasks.lock

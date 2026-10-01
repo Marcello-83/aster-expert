@@ -17,6 +17,11 @@ outside its own code, and stops at the first discrepancy:
 8. the MCP server command of `.mcp.json` exists and its interpreter imports the
    server module.
 
+Lot 41 ter: the checks run under a profile, `vm` or `cloud` (`detect_profile`).
+In the cloud (a Claude Code cloud session, `CLAUDE_CODE_REMOTE=true`), `cave`,
+Salome and the shared folder do not exist by design: their absence is reported
+as expected, never as a failure. Every other check is the same in both profiles.
+
 Every external call goes through an injectable runner, so that the checks are
 tested without Docker, Singularity or the shared folder.
 """
@@ -32,8 +37,9 @@ import subprocess
 import sys
 import tempfile
 import tomllib
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterable, Mapping
 from pathlib import Path
+from typing import Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict
@@ -51,17 +57,52 @@ _NORMALIZE = re.compile(r"[-_.]+")
 _REQUIREMENT_NAME = re.compile(r"^\s*([A-Za-z0-9][A-Za-z0-9._-]*)")
 
 
+Profile = Literal["vm", "cloud"]
+PROFILE_ENV = "ASTER_EXPERT_PROFIL"
+CLOUD_MARKER_ENV = "CLAUDE_CODE_REMOTE"
+# Checks whose resource is absent from a cloud session by design (lot 41 ter):
+# no `cave` (the image is pulled by digest), no Salome image (a local file of
+# several GB, on no registry), no VirtualBox shared folder.
+EXPECTED_ABSENT_IN_CLOUD: frozenset[str] = frozenset({"cave", "salome", "partage"})
+
+
 class EnvCheckError(Exception):
     """One environment check failed; the message is meant for the user."""
 
 
 class CheckResult(BaseModel):
-    """Outcome of one passed check."""
+    """Outcome of one passed check.
+
+    `expected_absent` marks a resource the profile does not provide (lot 41 ter):
+    the check is passed, and `detail` says why the resource is missing.
+    """
 
     model_config = ConfigDict(frozen=True)
 
     name: str
     detail: str
+    expected_absent: bool = False
+
+
+def detect_profile(
+    environ: Mapping[str, str] | None = None,
+) -> tuple[Profile, str]:
+    """(profile, reason): `ASTER_EXPERT_PROFIL` wins, else `CLAUDE_CODE_REMOTE`.
+
+    Claude Code sets `CLAUDE_CODE_REMOTE=true` in a cloud session and never
+    locally (documentation « Configure cloud environments »).
+    """
+    env = os.environ if environ is None else environ
+    forced = (env.get(PROFILE_ENV) or "").strip()
+    if forced:
+        if forced not in ("vm", "cloud"):
+            message = f"{PROFILE_ENV}={forced!r} : valeurs admises 'vm' ou 'cloud'"
+            raise EnvCheckError(message)
+        profile: Profile = "cloud" if forced == "cloud" else "vm"
+        return profile, f"{PROFILE_ENV}={forced}"
+    if (env.get(CLOUD_MARKER_ENV) or "").strip().lower() == "true":
+        return "cloud", f"{CLOUD_MARKER_ENV}=true"
+    return "vm", f"{CLOUD_MARKER_ENV} non défini"
 
 
 class InterpreterInfo(BaseModel):
@@ -94,6 +135,7 @@ class EnvContext(BaseModel):
     installed: dict[str, str]
     direct_requirements: tuple[str, ...]
     image_ref_env: str | None = None
+    profile: Profile = "vm"
 
 
 def normalize_name(name: str) -> str:
@@ -122,7 +164,7 @@ def direct_requirement_names(requirements: Iterable[str]) -> tuple[str, ...]:
 
 
 def from_machine(project_root: Path) -> EnvContext:
-    """Context of the running interpreter and its venv."""
+    """Context of the running interpreter, its venv and the detected profile."""
     try:
         requires = importlib.metadata.requires(PROJECT_DISTRIBUTION) or []
     except importlib.metadata.PackageNotFoundError:
@@ -134,6 +176,7 @@ def from_machine(project_root: Path) -> EnvContext:
         installed=installed_distributions(),
         direct_requirements=direct_requirement_names(requires),
         image_ref_env=os.environ.get("ASTER_IMAGE_REF"),
+        profile=detect_profile()[0],
     )
 
 
@@ -466,19 +509,63 @@ def check_shared_folder(ctx: EnvContext) -> CheckResult:
 # --- 8. MCP server -------------------------------------------------------------
 
 
+_SERVER_IMPORT = "import sys, aster_expert.mcp.server; print(sys.prefix)"
+
+
+def _check_venv_prefix(ctx: EnvContext, prefix: str, how: str) -> None:
+    venv = (ctx.project_root / ".venv").resolve()
+    if Path(prefix).resolve() != venv:
+        message = (
+            f"le serveur MCP s'exécute ({how}) avec le Python de {prefix}, pas avec "
+            f"le Python du .venv ({venv})"
+        )
+        raise EnvCheckError(message)
+
+
+def _import_failure(result: subprocess.CompletedProcess[str]) -> EnvCheckError:
+    lines = result.stderr.strip().splitlines()
+    message = (
+        f"l'interpréteur du serveur MCP n'importe pas aster_expert.mcp.server : "
+        f"{lines[-1] if lines else result.returncode}"
+    )
+    return EnvCheckError(message)
+
+
 def check_mcp_server(ctx: EnvContext, runner: Runner) -> CheckResult:
+    """The command of `.mcp.json` runs the server with the project's `.venv`.
+
+    Two launch forms (lot 41 ter): `uv run --project <dir> ... aster-expert-mcp`,
+    portable between the VM and the cloud, checked by running the same `uv run`
+    on `python -c "import aster_expert.mcp.server"`; or an executable script whose
+    `#!` line names the interpreter (form used up to lot 41 bis).
+    """
     from aster_expert.mcp.check import (
         McpCheckError,
         ensure_command_executable,
         load_server_spec,
+        uv_project_args,
     )
 
     try:
         spec = load_server_spec(ctx.project_root)
-        ensure_command_executable(spec)
+        command = ensure_command_executable(spec, ctx.project_root)
     except McpCheckError as exc:
         raise EnvCheckError(str(exc)) from exc
-    command = Path(spec.command)
+    if command.name == "uv":
+        try:
+            prefix_args = uv_project_args(spec, ctx.project_root)
+        except McpCheckError as exc:
+            raise EnvCheckError(str(exc)) from exc
+        argv = [str(command), *prefix_args, "python", "-c", _SERVER_IMPORT]
+        result = _run(runner, argv, 300)
+        if result.returncode != 0:
+            raise _import_failure(result)
+        prefix = result.stdout.strip().splitlines()[-1] if result.stdout.strip() else ""
+        _check_venv_prefix(ctx, prefix, "uv run")
+        return CheckResult(
+            name="mcp",
+            detail=f"{command} {' '.join(spec.args)}, module serveur importable",
+        )
     with command.open("rb") as handle:
         first = handle.readline().decode("utf-8", errors="replace").strip()
     if not first.startswith("#!"):
@@ -499,12 +586,7 @@ def check_mcp_server(ctx: EnvContext, runner: Runner) -> CheckResult:
         runner, [str(interpreter), "-c", "import aster_expert.mcp.server"], 120
     )
     if result.returncode != 0:
-        lines = result.stderr.strip().splitlines()
-        message = (
-            f"l'interpréteur du serveur MCP n'importe pas aster_expert.mcp.server : "
-            f"{lines[-1] if lines else result.returncode}"
-        )
-        raise EnvCheckError(message)
+        raise _import_failure(result)
     return CheckResult(name="mcp", detail=f"{command}, module serveur importable")
 
 
@@ -533,7 +615,9 @@ def run_checks(
 ) -> list[CheckResult]:
     """Run every check in order; raise `EnvCheckError` naming the first failure.
 
-    The raised error's message starts with the failing check's name.
+    The raised error's message starts with the failing check's name. In the
+    `cloud` profile, a failure of a check of `EXPECTED_ABSENT_IN_CLOUD` is an
+    expected absence (`CheckResult.expected_absent`), not a failure.
     """
     steps: dict[str, Callable[[], CheckResult]] = {
         "python": lambda: check_python(ctx),
@@ -552,6 +636,16 @@ def run_checks(
         try:
             result = steps[name]()
         except EnvCheckError as exc:
+            if ctx.profile == "cloud" and name in EXPECTED_ABSENT_IN_CLOUD:
+                result = CheckResult(
+                    name=name,
+                    detail=f"absent, attendu en profil cloud ({exc})",
+                    expected_absent=True,
+                )
+                results.append(result)
+                if on_result is not None:
+                    on_result(result)
+                continue
             raise EnvCheckError(f"{name} : {exc}") from exc
         except Exception as exc:  # no Python traceback for the user
             message = f"{name} : erreur inattendue {type(exc).__name__}: {exc}"

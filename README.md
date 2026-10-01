@@ -172,17 +172,24 @@ toujours le code source du dépôt) :
 uv sync --locked --all-extras
 ```
 
-Le serveur est déclaré au niveau du projet, dans `.mcp.json` (versionné) :
+Le serveur est déclaré au niveau du projet, dans `.mcp.json` (versionné), sans
+aucun chemin propre à une machine (lot 41 ter : le même fichier sert dans la VM et
+dans le Cloud, `docs/cloud.md`) :
 
-```bash
-claude mcp add aster-expert -s project \
-  -e 'ASTER_EXPERT_ROOT=${CLAUDE_PROJECT_DIR}' \
-  -e 'ASTER_CONTAINER_WORKROOT=${CLAUDE_PROJECT_DIR}/data/processed/workroot' \
-  -- '${CLAUDE_PROJECT_DIR}/.venv/bin/aster-expert-mcp'
+```json
+"command": "uv",
+"args": ["run", "--project", "${CLAUDE_PROJECT_DIR:-.}", "--locked",
+         "--all-extras", "--quiet", "aster-expert-mcp"],
+"env": {"ASTER_EXPERT_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
+        "ASTER_CONTAINER_WORKROOT": "${CLAUDE_PROJECT_DIR:-.}/data/processed/workroot"}
 ```
 
-`${CLAUDE_PROJECT_DIR}` est développé par Claude Code (documentation MCP :
-`${VAR}` et `${VAR:-défaut}` dans `command`, `args` et `env`). Une entrée du même
+`${VAR}` et `${VAR:-défaut}` sont développés par Claude Code dans `command`, `args`
+et `env` ; `CLAUDE_PROJECT_DIR` n'étant défini que dans l'environnement du serveur
+lancé, c'est la valeur par défaut `.` qui s'applique, et Claude Code lance un
+serveur de projet dans le répertoire du projet (documentation MCP).
+`uv run --locked --all-extras` met le `.venv` en conformité avec `uv.lock` avant de
+lancer le serveur. Une entrée du même
 nom en portée `local` ou `user` primerait sur `.mcp.json` sans fusion : la
 retirer (`claude mcp remove aster-expert -s local`). Le répertoire de travail
 est créé au démarrage du serveur.
@@ -253,6 +260,8 @@ phrase). Une fiche de projet référence un constat (`{"nature": "constat",
 pytest               # série par défaut : aucun Docker, aucun Salomé
 pytest -m lent       # tests réels : Code_Aster (cas du lot 22, arrêt <F> du lot 39)
                      # et Salomé (géométrie 1 du lot 26) puis mesh check ; ~2 min
+pytest -m lent_aster   # Code_Aster seul (VM et Cloud)
+pytest -m lent_salome  # Salomé seul (VM) ; ressource absente : test ignoré, motif affiché
 ```
 
 ## Niveaux de validation

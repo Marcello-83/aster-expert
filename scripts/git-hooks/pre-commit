@@ -1,0 +1,12 @@
+#!/bin/sh
+# Crochet Git du dépôt (lot 41 ter) : refuse tout fichier indexé de plus de 50 Mo
+# ou portant un motif interdit (fichiers de MM, normes sous licence, secrets),
+# selon config/publication.yaml. Installation, une fois par clone :
+#   git config core.hooksPath scripts/git-hooks
+racine=$(git rev-parse --show-toplevel) || exit 1
+python="$racine/.venv/bin/python"
+if [ ! -x "$python" ]; then
+    echo "pre-commit : $python absent ; lancer \`uv sync --locked --all-extras\`." >&2
+    exit 1
+fi
+exec "$python" -m aster_expert.publication --index

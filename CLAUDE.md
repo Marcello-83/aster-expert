@@ -72,6 +72,34 @@ Le passage d'Ubuntu 24.04 à 26.04 a retiré `python3.12` et cassé le `.venv`
 - le passage à une autre version de Python (3.14 évaluée au lot 41 bis) est un
   lot à part, délibéré et testé.
 
+## GitHub, branches et Cloud (lot 41 ter) — lire en quatrième
+
+Le dépôt est hébergé sur un dépôt GitHub **privé** (`aster-expert`,
+`docs/publication_github.md`) ; une session peut tourner dans la VM ou dans le
+Cloud de Claude Code (`docs/cloud.md`).
+
+- **Un lot, une branche** `lot-NN` (`lot-41ter`, `lot-42`…), poussée sur GitHub
+  avec le commit du lot. **MM fusionne dans `main`** après relecture du compte
+  rendu ; une session ne fusionne pas et ne pousse jamais directement sur `main`
+  (dans le Cloud, le proxy GitHub n'autorise de toute façon que la branche de
+  travail de la session).
+- **En tête de lot, la session annonce son profil** (`vm` ou `cloud`), lu sur la
+  première ligne de `aster-expert env-check`. Un lot qui exige Salomé (maillage,
+  `pytest -m lent_salome`) ou le dossier partagé ne se lance que dans la VM ; dans
+  le Cloud, leur absence est attendue et `env-check` la signale comme telle.
+- **Rien de ce qu'interdit `docs/publication_github.md` n'est jamais ajouté** :
+  secrets, fichiers de MM (`calcul_3d_*`, données PANG), texte d'une norme AFNOR
+  (citer l'article, ne pas verser le texte), fichiers de plus de 50 Mo. Garde-fous :
+  `config/publication.yaml`, crochet `scripts/git-hooks/pre-commit` (à activer une
+  fois par clone : `git config core.hooksPath scripts/git-hooks` ; le script Cloud
+  le fait) et `tests/unit/test_publication.py`. Ne jamais contourner le crochet
+  (`--no-verify`).
+- `/media/sf_partage` reste la zone d'échange avec MM pour les livrables lourds
+  (VM seulement). Les consignes et comptes rendus de lot peuvent vivre dans
+  `docs/lots/`.
+- `.mcp.json` lance le serveur par `uv run --project ${CLAUDE_PROJECT_DIR:-.}
+  --locked --all-extras` : aucun chemin propre à une machine.
+
 ## Mission
 
 Construire un agent expert Code_Aster versionné, traçable, capable de valider
@@ -229,7 +257,8 @@ le signale.
 
 ## Validation obligatoire après modification
 
-0. `aster-expert env-check` (lot 41 bis), puis `aster-expert mcp-check`.
+0. `aster-expert env-check` (lot 41 bis ; profil annoncé, lot 41 ter), puis
+   `aster-expert mcp-check`.
 1. Formatage (`ruff format`).
 2. Analyse statique (`ruff check`, `mypy` : `src`, `tests` et `projets`, scripts de
    projet compris, en mode strict ; les scripts Salomé d'un projet en sont exclus).
@@ -239,6 +268,9 @@ le signale.
    `pytest -m lent` lance réellement Code_Aster (cas versionné du lot 22, arrêt
    `<F> <CALCULEL7_40>` du lot 39, avec leur compte rendu) et Salomé (géométrie 1
    du lot 26) puis `mesh check` ; environ deux minutes, hors de la série par défaut.
+   Depuis le lot 41 ter : `pytest -m lent_aster` (Code_Aster, VM et Cloud) et
+   `pytest -m lent_salome` (Salomé, VM seule) ; une ressource absente fait ignorer
+   le test avec son motif, jamais échouer.
 5. Compte rendu précis : commandes lancées, sorties réelles, échecs éventuels.
 
 Ne jamais annoncer qu'un test a réussi sans l'avoir exécuté et sans en donner
@@ -266,19 +298,17 @@ le compte rendu complet :
 3. la liste des tests exécutés et leurs résultats exacts ;
 4. les limites connues et les points non couverts.
 
-Les branches par lot sont facultatives et ne sont jamais un livrable en
-elles-mêmes : la règle réelle du dépôt est un commit distinct par lot sur la
-branche où l'on travaille, jamais une bulle de fusion cosmétique. Ni une
-branche par lot ni un commit de fusion ne sont exigés — plusieurs lots
-antérieurs sont des commits directs, et c'est le commit lui-même, avec son
-message complet, qui a permis de retrouver le travail après un arrêt brutal
-de la machine.
+Depuis le lot 41 ter, ce commit est fait sur la branche `lot-NN` du lot, poussée
+sur GitHub ; MM la fusionne dans `main` après relecture (section « GitHub,
+branches et Cloud »). C'est toujours le commit lui-même, avec son message
+complet, qui fait foi (il a permis de retrouver le travail après un arrêt brutal
+de la machine) ; jamais de commit de fusion cosmétique fait par la session.
 
 ## Accès MCP (lot 24)
 
 - Le serveur MCP est déclaré en portée projet dans `.mcp.json` (versionné) : il
-  lance `.venv/bin/aster-expert-mcp` (installation éditable, code source du
-  dépôt). Une entrée du même nom en portée `local` ou `user` primerait sur elle,
+  lance `aster-expert-mcp` par `uv run --project ${CLAUDE_PROJECT_DIR:-.} --locked
+  --all-extras` (lot 41 ter ; installation éditable, code source du dépôt). Une entrée du même nom en portée `local` ou `user` primerait sur elle,
   sans fusion : ne pas en recréer. Voir `README.md` pour la commande exacte.
 - Une session garde le processus serveur lancé à son démarrage : du code ajouté
   ensuite n'y est pas visible.
@@ -662,7 +692,7 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   ligne par plan de flexion, colonnes de MM vides. ELU accidentelle : γc = 1,2, γs = 1,0
   (EN 1992-1-1, tableau 2.1N, non décidés par MM). 7 exécutions réelles (71,3 s).
 
-## Lots 33 à 41 bis (résumé)
+## Lots 33 à 41 ter (résumé)
 
 Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de leur
 époque : depuis le lot 41, le code, les données et les scripts du quai sont dans
@@ -726,6 +756,16 @@ Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de
   identiques à l'octet à leurs nouvelles références (`references/lot41bis/`) : 28/28.
   Maillages des cas de CA-029/034/035/036 versionnés : rejeu 18/18 constats, 47/47 cas.
   Trace de panne ENV-001 (`docs/environnement.md`, § 4) pour le lot 42.
+- **Lot 41 ter** (`docs/publication_github.md`, `docs/cloud.md`, `docs/lots/`) :
+  inventaire de publication (arbre et 65 révisions : aucun secret, aucun fichier de
+  MM, normes citées par article seulement, plus gros blob 12,5 Mo ; tableau 7.2N de
+  l'EN 1992-1-1 classé citation par MM), dépôt GitHub privé, branche `lot-41ter`.
+  Profils `vm`/`cloud` dans `env-check` (`CLAUDE_CODE_REMOTE`), marqueurs
+  `lent_aster`/`lent_salome` (`aster_expert.environnement.ressources`), `.mcp.json`
+  portable par `uv run`, `scripts/cloud_setup.sh` (installation Cloud : 242 s à froid
+  dans la VM sans le tirage de l'image ; crochet `SessionStart --session`),
+  `aster_expert.publication` + crochet `pre-commit`. Cloud : `releases.astral.sh` à
+  autoriser (Python de `uv`).
 
 ## Périmètre à ne pas dépasser sans instruction
 
