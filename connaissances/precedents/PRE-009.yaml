@@ -1,0 +1,47 @@
+id: PRE-009
+title: 'Point 0 : Objet et périmètre du calcul'
+summary: 'Décision de MM au point 0 de la fiche du quai (2026-09-18) : Objet et périmètre
+  du calcul.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '0'
+  decided_by: MM
+  decided_at: '2026-09-18T18:00:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '0'
+topic: Objet et périmètre du calcul
+option_retained: 'Le modèle Code_Aster est un calcul de structure tridimensionnel. Il ne dimensionne
+  pas géotechniquement l''écran : cette part relève d''un logiciel dédié aux écrans de soutènement,
+  qui fournit en amont les profils de poussée et les raideurs de réaction du sol. Ce modèle
+  traite la diffusion d''un effort d''amarrage ponctuel dans l''écran, la répartition des
+  efforts entre tubes et palplanches intercalaires, le travail de la poutre de couronnement
+  en flexion horizontale et en torsion, et les effets tridimensionnels qu''un calcul en tranche
+  bidimensionnelle ne capte pas. Il ne traite pas la stabilité d''ensemble, la vérification
+  de la fiche, l''équilibre des poussées et butées, ni le dimensionnement géotechnique des
+  tirants.'
+justification: La vérification géotechnique d'un écran — équilibre poussée-butée, fiche, stabilité
+  — est couverte en agence par un logiciel dédié (K-Réa), qui porte la démarche propre à ce
+  type d'ouvrage. Ce que ce logiciel ne fournit pas, c'est la réponse tridimensionnelle de
+  la structure sous charges localisées. C'est ce besoin, et lui seul, qui justifie un modèle
+  Code_Aster ; lui donner un périmètre plus large reviendrait à dupliquer un calcul existant
+  avec un outil moins adapté.
+validity_domain: La validité de ce calcul dépend entièrement de la qualité des données fournies
+  en amont — profils de poussée et raideurs de sol — qu'il ne vérifie pas. Il ne peut servir
+  ni à justifier la fiche, ni à justifier la stabilité de l'écran.
+discarded_variants:
+- 'Calcul géotechnique complet sous Code_Aster. — écartée : Un logiciel dédié le fait mieux
+  et c''est sa place ; reproduire sa démarche ici n''apporterait rien et demanderait de mailler
+  le sol.'
+decided_by: MM
+decided_at: '2026-09-18T18:00:00'
+superseded_decisions: 0
+application: proposition seulement

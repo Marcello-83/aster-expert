@@ -1,0 +1,68 @@
+id: PAT-007
+title: Plaque orthotrope ELAS_COQUE et lecture des efforts généralisés
+summary: Une plaque orthotrope homogénéisée s'écrit en ELAS_COQUE sur DKT, axe L fixé par
+  VECTEUR, et ses résultats se lisent en EFGE_ELNO/EFGE_NOEU, jamais en REAC_NODA, FORC_NODA
+  ou SIEF_ELGA.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot23_essais/essai_d1/d1.comm
+  case_sha256: f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01
+  outcome: réussite
+  level: D
+  note: MXX, QX et flèche exacts
+- kind: execution
+  run: null
+  case_path: data/examples/lot25_essais/essai_d7a/d7a.comm
+  case_sha256: 203fb4f64d7aedcab5fb4d5da26e031c39395db95a034f79ac15be5981c9b67c
+  outcome: réussite
+  level: D
+  note: plan XZ, VECTEUR = (0, 0, 1)
+- kind: constat
+  constat_id: CA-023
+- kind: constat
+  constat_id: CA-025
+commands:
+- AFFE_CARA_ELEM
+- CALC_CHAMP
+- DEFI_MATERIAU
+keywords:
+- DKT
+- EFGE_ELNO
+- EFGE_NOEU
+- ELAS_COQUE
+- FLEX_L
+- FLEX_T
+- REAC_NODA
+- VECTEUR
+reuses: []
+status_history: []
+problem: Représenter une palplanche (rigidités par unité de largeur différentes selon L et
+  T) en coque.
+solution: DEFI_MATERIAU/ELAS_COQUE (groupe MEMB_* … CISA_* complet, RHO masse volumique),
+  AFFE_CARA_ELEM/COQUE avec EPAIS et VECTEUR ; efforts par EFGE_NOEU ; équilibre par les ressorts
+  ou des appuis sans ELAS_COQUE.
+fragment: "MAT_PALP = DEFI_MATERIAU(\n    ELAS_COQUE=_F(\n        MEMB_L=2908000000.0, MEMB_T=81000.0,\
+  \ MEMB_G_LT=526000000.0, MEMB_LT=0.0,\n        FLEX_L=89000000.0, FLEX_T=11300.0, FLEX_G_LT=8400.0,\
+  \ FLEX_LT=0.0,\n        CISA_L=526000000.0, CISA_T=526000000.0, RHO=7850.0,\n    )\n)\n\
+  COQUE=_F(GROUP_MA=(\"PALPS\",), EPAIS=0.01385, VECTEUR=(0.0, 0.0, 1.0)),"
+fragment_language: comm
+conditions: DKT QUAD4 ; torsion (FLEX_G_LT, MXY), couplages, COQUE_3D et DST non testés ;
+  RHO × EPAIS fait le poids (CA-024).
+controls: []
+constats:
+- CA-022
+- CA-023
+- CA-024
+- CA-025
+- CA-026
+- CA-027
+implementation:
+- kind: code
+  path: projets/quai_cw_test_01/generation/comm.py
+  symbol: _palp_coque_keyword
+  note: null

@@ -109,6 +109,9 @@ def test_a_fatal_error_is_reported_with_its_identifier(tmp_path: Path) -> None:
     assert "POUTRE" in fatal[0].text
     markdown = (Path(report.work_dir) / REPORT_MD).read_text(encoding="utf-8")
     assert "CALCULEL7_40" in markdown
+    # Lot 42 : la signature est retrouvée dans la base de connaissances.
+    assert [d.diagnostic_id for d in record.diagnostics] == ["DIAG-014"]
+    assert "DIAG-014" in markdown
 
 
 @pytest.mark.lent_salome

@@ -67,6 +67,8 @@ from aster_expert.mcp.models import (
     CommandSchemaResult,
     ConstatHitResult,
     DocumentSectionResult,
+    KnowledgeHitResult,
+    SearchConnaissancesResult,
     SearchConstatsResult,
     SearchDocsResult,
 )
@@ -607,5 +609,93 @@ def search_constats(
             "indiquée. Lire le fichier du constat pour ses sources avant de "
             "s'appuyer dessus ; un constat de niveau A ou B n'a pas été éprouvé par "
             "exécution."
+        ),
+    )
+
+
+def search_connaissances(
+    *,
+    project_root: Path,
+    text: str | None = None,
+    command: str | None = None,
+    keyword: str | None = None,
+    layers: list[str] | None = None,
+    status: str | None = None,
+    limit: int = 20,
+    log_path: Path | None = None,
+) -> SearchConnaissancesResult:
+    """Entries of the six knowledge layers concerning a text, a command or a
+    keyword (lot 42), level A, each with its status and its own level."""
+    from aster_expert.connaissances.base import (  # noqa: PLC0415
+        entry_as_dict,
+        load_knowledge,
+    )
+    from aster_expert.connaissances.recherche import (  # noqa: PLC0415
+        search_knowledge,
+    )
+
+    started = time.monotonic()
+    base = load_knowledge(project_root)
+    hits = search_knowledge(
+        base,
+        text=text,
+        command=command,
+        keyword=keyword,
+        layers=tuple(layers or ()),
+        status=status,
+        limit=limit,
+    )
+    results = []
+    for h in hits:
+        entry = base.get(h.entry_id)
+        assert entry is not None
+        d = entry_as_dict(entry, base)
+        results.append(
+            KnowledgeHitResult(
+                id=d["id"],
+                layer=d["layer"],
+                title=d["title"],
+                summary=d["summary"],
+                status=d["status"],
+                entry_validation_level=d["validation_level"],
+                origin_project=d["origin_project"],
+                commands=tuple(d["commands"]),
+                keywords=tuple(d["keywords"]),
+                file=d["file"],
+                score=h.score,
+            )
+        )
+    duration = time.monotonic() - started
+    append_query_log(
+        log_path if log_path is not None else default_query_log_path(project_root),
+        tool="search_connaissances",
+        query=text,
+        filters={
+            "command": command,
+            "keyword": keyword,
+            "layers": ",".join(layers or ()) or None,
+            "status": status,
+            "limit": str(limit),
+        },
+        returned=[ReturnedItem(identifier=r.id, score=float(r.score)) for r in results],
+        duration_s=duration,
+    )
+    return SearchConnaissancesResult(
+        text=text,
+        command=command,
+        keyword=keyword,
+        layers=list(layers or ()),
+        status=status,
+        total_by_layer={
+            layer: sum(row.values()) for layer, row in base.counts().items()
+        },
+        results=results,
+        guidance=(
+            "Lire le fichier (`file`) d'une entrée avant de s'appuyer dessus : il "
+            "porte ses preuves. Statut : observé (vu dans un projet), établi (preuve "
+            "rejouable), promu (réutilisé dans deux projets ou niveau E). Un "
+            "diagnostic se lit avant toute autre hypothèse sur une erreur ; un "
+            "précédent n'est jamais appliqué : il se propose dans une fiche "
+            "(origine precedent_projet) et reste soumis à l'arbitrage de MM."
         ),
     )

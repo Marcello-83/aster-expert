@@ -1,0 +1,53 @@
+id: PRE-012
+title: 'Point 9 : Repère global et origine du modèle'
+summary: 'Décision de MM au point 9 de la fiche du quai (2026-09-21) : Repère global et origine
+  du modèle.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '9'
+  decided_by: MM
+  decided_at: '2026-09-21T09:59:39-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '9'
+topic: Repère global et origine du modèle
+option_retained: 'Repère global orthonormé direct :
+
+
+  - X horizontal, le long du quai, de la face `SYM_G` vers la face `SYM_D` ;
+
+  - Y horizontal, perpendiculaire au quai, positif vers la terre ;
+
+  - Z vertical ascendant.
+
+
+  Origine : X = 0 dans l''axe de `TUBE_05`, Y = 0 dans le plan des axes des tubes, Z = 0 à
+  la cote 0,00 CM. Les cotes du cas de test sont donc directement les valeurs de Z. Les faces
+  de coupe sont à X = −10,40 et X = +10,40. La palplanche intercalaire est dans le plan Y
+  = 0 et rejoint chaque tube sur ses génératrices situées en Y = 0, à X = ±0,71 m de l''axe
+  du tube. Unités du modèle : mètre, newton, pascal, kilogramme.'
+justification: 'Un repère unique, déclaré dans la fiche, est la condition pour que le maillage
+  et le fichier de commandes soient générés de façon cohérente et relus sans ambiguïté. Placer
+  l''origine sur l''axe de symétrie et à la cote 0 CM rend les coordonnées directement lisibles
+  : les cotes deviennent Z, et la symétrie se contrôle par le signe de X. Placer la palplanche
+  dans le plan des axes fait coïncider les lignes de serrure avec des génératrices du tube,
+  donc avec des nœuds de sa facettisation.'
+validity_domain: 'Le plan des serrures dans l''axe des tubes est une idéalisation : la position
+  réelle des serrures dépend du type de connecteur. Les unités SI imposent des charges en
+  N et des raideurs en N/m ou N·m, et non les MN utilisés dans les décisions ; la conversion
+  est à la charge du générateur et doit être contrôlée.'
+discarded_variants:
+- 'Origine au pied de l''écran, sur la face `SYM_G`. — écartée : Rend les cotes illisibles
+  et masque la symétrie.'
+decided_by: MM
+decided_at: '2026-09-21T09:59:39-04:00'
+superseded_decisions: 0
+application: proposition seulement

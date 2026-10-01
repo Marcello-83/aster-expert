@@ -1,0 +1,33 @@
+id: ENV-001
+title: .venv cassé par la mise à niveau d'Ubuntu
+summary: La mise à niveau d'Ubuntu 24.04 vers 26.04 a retiré python3.12 et fait changer d'interpréteur
+  un .venv créé avec le Python du système, sans qu'aucun fichier du dépôt ne change.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: document
+  path: docs/environnement.md
+  section: 4. Trace de panne
+  note: null
+- kind: code
+  path: src/aster_expert/environnement/verification.py
+  symbol: check_python
+  note: null
+commands: []
+keywords: []
+reuses: []
+status_history: []
+category: environnement
+signature:
+  kind: environnement
+  identifiers: []
+  pattern: 'ModuleNotFoundError: No module named ''(_pytest|aster_expert)'''
+cause: 'Les liens .venv/bin/python3 suivaient /usr/bin/python3, passé à 3.14 : un interpréteur
+  3.14 ne lit pas lib/python3.12/site-packages.'
+cause_established: true
+correction: uv dans l'espace utilisateur, uv python install 3.12, uv sync --locked --all-extras,
+  puis env-check et mcp-check ; aucun sudo.
+prevention: Python géré par le projet (.python-version, python-preference = "only-managed"),
+  uv.lock, env-check en tête de chaque lot.

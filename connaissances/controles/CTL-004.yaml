@@ -1,0 +1,32 @@
+id: CTL-004
+title: Somme des raideurs par bande
+summary: La somme des raideurs écrites dans une bande égale k_h × largeur projetée × hauteur
+  de bande, à 1e-9 près.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_springs.py
+  function: test_a_broken_invariant_is_refused
+  note: null
+commands: []
+keywords:
+- K_T_D_N
+reuses: []
+status_history: []
+detects: Une erreur d'aire tributaire ou de conversion d'unités des ressorts.
+parameters: k_h par couche, largeur projetée (band_projected_width), hauteur de bande.
+implementation:
+  kind: code
+  path: projets/quai_cw_test_01/generation/springs.py
+  symbol: check_spring_sum
+  note: null
+scope: projet
+caught_error:
+  mode: aucune consignée
+  description: Aucune erreur réelle consignée ; au lot 30 c'est le contrôle lui-même (largeurs
+    en dur) qui a dû être généralisé.
+  evidence: null
+default_harness: false

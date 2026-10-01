@@ -1,0 +1,34 @@
+id: CTL-010
+title: Intitulés des tables imprimées
+summary: Chaque intitulé de table de contrôle tient en 16 caractères et est unique.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_comm.py
+  function: test_a_too_long_reaction_table_title_is_refused
+  note: null
+commands:
+- IMPR_TABLE
+keywords: []
+reuses: []
+status_history: []
+detects: Deux tables rendues indiscernables par la troncature d'IMPR_TABLE.
+parameters: Longueur 16, unicité.
+implementation:
+  kind: code
+  path: projets/quai_cw_test_01/generation/comm.py
+  symbol: reaction_table_title
+  note: null
+scope: projet
+caught_error:
+  mode: a posteriori
+  description: 'Lot 34 : intitulés tronqués à 16 caractères, tables indiscernables.'
+  evidence:
+    kind: test
+    path: projets/quai_cw_test_01/tests/test_generation_comm.py
+    function: test_every_reaction_table_title_fits_the_printed_column_and_is_unique
+    note: null
+default_harness: false

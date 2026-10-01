@@ -1,0 +1,74 @@
+id: PAT-001
+title: Ressorts de sol nodaux par classe de raideur
+summary: Les raideurs de sol nodales s'écrivent par classe de raideur (une occurrence de CREA_POI1
+  et de DISCRET par classe, jamais par nœud), avec une classe commune de raideur sommée pour
+  chaque nœud partagé par deux bandes.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot22_essais/essai_c/c.comm
+  case_sha256: 4e88be797c3dd43c4a1071518ffdca916b7c4366caf7c3f1253df8487a7d8497
+  outcome: réussite
+  level: D
+  note: 'plaque sur ressorts nodaux : DZ et résultante exacts'
+- kind: execution
+  run: null
+  case_path: data/examples/lot35_constats/f2_apres.ressorts.comm
+  case_sha256: 97ce90bec429e780dcc2f4e5ce23f7fefb33aeccf2570e08ca0d743dc63d00c8
+  outcome: réussite
+  level: D
+  note: 'classe commune : force du nœud partagé exacte'
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_springs.py
+  function: test_a_node_shared_by_two_bands_gets_one_common_class_of_summed_stiffness
+  note: null
+- kind: document
+  path: docs/essais_lot34.md
+  section: null
+  note: 'cause (3) : CREA_POI1 une maille par nœud'
+commands:
+- AFFE_CARA_ELEM
+- AFFE_MODELE
+- CREA_MAILLAGE
+keywords:
+- CREA_POI1
+- DISCRET
+- DIS_T
+- K_T_D_N
+- M_T_D_N
+- POI1
+reuses: []
+status_history: []
+problem: Représenter un sol par des ressorts nodaux de raideur k_h × aire tributaire, variable
+  par couche, sur des milliers de nœuds, sans perdre la raideur aux nœuds communs à deux couches.
+solution: Grouper les nœuds de même raideur (mêmes VALE) en classes ; une occurrence CREA_POI1
+  par classe, DIS_T sur les POI1, DISCRET K_T_D_N et M_T_D_N = 0 par classe ; un nœud partagé
+  reçoit une classe commune de raideur sommée, écrite après les autres (CREA_POI1 ne crée
+  qu'une maille par nœud).
+fragment: "MAIL = CREA_MAILLAGE(\n    MAILLAGE=MAIL,\n    CREA_POI1=(\n        _F(NOM_GROUP_MA=\"\
+  GEN_RESS_ARGI_01\", GROUP_NO=(\"GEN_RESS_ARGI_01\",)),\n    ),\n)\nCARA = AFFE_CARA_ELEM(\n\
+  \    MODELE=MO,\n    DISCRET=(\n        _F(GROUP_MA=(\"GEN_RESS_ARGI_01\",), CARA=\"K_T_D_N\"\
+  , VALE=(0.0, 76015.34812908873, 0.0)),\n        _F(GROUP_MA=(\"GEN_RESS_ARGI_01\",), CARA=\"\
+  M_T_D_N\", VALE=(0.0,)),\n    ),\n)"
+fragment_language: comm
+conditions: Élasticité linéaire (ressorts bilatéraux) ; la tolérance de comparaison de deux
+  raideurs sur maillage irrégulier n'est pas établie ; ressorts appuis, sans masse (DIAG-004).
+controls:
+- CTL-003
+- CTL-004
+constats:
+- CA-020
+- CA-034
+implementation:
+- kind: code
+  path: projets/quai_cw_test_01/generation/springs.py
+  symbol: build_spring_classes
+  note: null
+- kind: code
+  path: projets/quai_cw_test_01/generation/springs.py
+  symbol: _combined_classes
+  note: null

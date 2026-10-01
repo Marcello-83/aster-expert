@@ -1,0 +1,51 @@
+id: DIAG-009
+title: 'Plusieurs charges réparties sur une poutre liée : post-traitement impossible'
+summary: Une charge FORCE_POUTRE sur une poutre continue liée par plusieurs LIAISON_SOLIDE
+  arrête tout CALC_CHAMP ultérieur (CALCULEL2_92).
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: 20260924T121058-05b0b9dc
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 33, quai réduit
+- kind: execution
+  run: 20260924T122731-0b829e46
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 33, diagnostic sans FZ
+- kind: constat
+  constat_id: CA-035
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_generate.py
+  function: test_poutre_pressure_charges_use_nodal_forces_not_force_poutre
+  note: null
+commands:
+- AFFE_CHAR_MECA
+- CALC_CHAMP
+keywords:
+- CALCULEL2_92
+- FORCE_NODALE
+- FORCE_POUTRE
+- LIAISON_SOLIDE
+reuses: []
+status_history: []
+category: limite de Code_Aster
+signature:
+  kind: <F>
+  identifiers:
+  - CALCULEL2_92
+  pattern: null
+cause: 'Voir CA-035 : le chargement réparti de poutre n''est pas accepté par le post-traitement
+  dans cette configuration.'
+cause_established: true
+correction: Charges de poutre en forces nodales tributaires (FORCE_NODALE), résultante et
+  moment exacts.
+prevention: null

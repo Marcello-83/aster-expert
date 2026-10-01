@@ -1,0 +1,41 @@
+id: DIAG-024
+title: MECA_STATIQUE sans CHAM_MATER
+summary: MECA_STATIQUE sur un modèle de discrets seuls s'arrête (KeyError 'CHAM_MATER') sans
+  champ de matériau, bien que le catalogue le dise facultatif.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: C
+status: établi
+sources:
+- kind: execution
+  run: 20260924T095848-d6e6c49e
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 33, ressort seul
+- kind: execution
+  run: null
+  case_path: data/examples/lot33_equilibre/ressort_seul.comm
+  case_sha256: 69a71f00189e5783eb4df343fd959d56e1c54eef3c566e9ffcee36d651437aae
+  outcome: réussite
+  level: C
+  note: cas corrigé (matériau sans usage sous DIS_T)
+commands:
+- AFFE_MATERIAU
+- MECA_STATIQUE
+keywords:
+- CHAM_MATER
+- DIS_T
+reuses: []
+status_history: []
+category: limite de Code_Aster
+signature:
+  kind: arrêt anormal
+  identifiers: []
+  pattern: 'KeyError: ''CHAM_MATER'''
+cause: PhysicalProblem exige un champ de matériau à l'exécution ; le catalogue le déclare
+  optionnel.
+cause_established: true
+correction: Affecter un matériau quelconque (DEFI_MATERIAU/ELAS) aux mailles des discrets.
+prevention: null

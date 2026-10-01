@@ -1,0 +1,45 @@
+id: PRE-006
+title: 'Point 5 : Calcul du profil de pression (coefficient de poussée des terres Ko/actif/passif,
+  combinaison avec le niveau d''eau) pour un écran de soutènement'
+summary: 'Décision de MM au point 5 de la fiche du quai (2026-09-21) : Calcul du profil de
+  pression (coefficient de poussée des terres Ko/actif/passif, combinaison avec le niveau
+  d''eau) pour un écran de soutènement.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '5'
+  decided_by: MM
+  decided_at: '2026-09-21T18:00:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '5'
+topic: Calcul du profil de pression (coefficient de poussée des terres Ko/actif/passif, combinaison
+  avec le niveau d'eau) pour un écran de soutènement
+option_retained: 'Poussée des terres et pression d''eau appliquées en pression imposée, variable
+  avec la profondeur, par la variante fonction de la commande de chargement mécanique. Profils
+  calculés hors Code_Aster. Différentiel de nappe de 1,50 m en situation permanente, 3,50
+  m en situation accidentelle. La surcharge d''exploitation du terre-plein (Q1) n''est pas
+  appliquée comme charge de surface dans le modèle : elle n''intervient que par l''incrément
+  de poussée qu''elle produit, inclus dans le profil calculé en amont.'
+justification: Le sol n'étant pas maillé, son action motrice ne peut être introduite qu'en
+  chargement. Les profils de poussée et de pression d'eau, y compris l'effet de la surcharge
+  de terre-plein, sont des résultats du calcul géotechnique amont ; les appliquer tels quels
+  garantit la cohérence entre les deux calculs.
+validity_domain: Le profil de poussée est une donnée d'entrée que le modèle ne vérifie pas.
+  Sa justification appartient à la note géotechnique.
+discarded_variants:
+- 'Couplage hydromécanique avec pression interstitielle imposée. — écartée : Suppose un sol
+  maillé en modélisation poromécanique, exclu par la décision du point 4.'
+- 'Surcharge Q1 appliquée comme pression sur un terre-plein modélisé. — écartée : Le terre-plein
+  n''est pas modélisé ; la diffusion de la surcharge vers l''écran est un résultat géotechnique.'
+decided_by: MM
+decided_at: '2026-09-21T18:00:00'
+superseded_decisions: 1
+application: proposition seulement

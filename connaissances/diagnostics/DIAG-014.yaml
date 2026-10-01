@@ -1,0 +1,47 @@
+id: DIAG-014
+title: FERR_MIN_FISS refusé pour les poutres
+summary: 'CALC_FERRAILLAGE refuse le ferraillage minimal de fissuration (FERR_MIN_FISS) pour
+  les éléments de poutre (CALCULEL7_40) : limite de la version 17.4.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: C
+status: établi
+sources:
+- kind: execution
+  run: 20260928T095433-ba976fa9
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 39, essai fiss
+- kind: execution
+  run: null
+  case_path: data/examples/lot39_essais/fiss/fiss.comm
+  case_sha256: ae8272273de3e0b2d44209cdb15a5f73b58212b9b736f8a2d01daeeda9be4576
+  outcome: échec
+  level: null
+  note: cas versionné qui reproduit l'arrêt
+- kind: constat
+  constat_id: CA-041
+- kind: test
+  path: tests/integration/test_reel_lent.py
+  function: test_a_fatal_error_is_reported_with_its_identifier
+  note: null
+commands:
+- CALC_FERRAILLAGE
+keywords:
+- CALCULEL7_40
+- FERR_MIN_FISS
+reuses: []
+status_history: []
+category: limite de Code_Aster
+signature:
+  kind: <F>
+  identifiers:
+  - CALCULEL7_40
+  pattern: null
+cause: Fonction non disponible pour les éléments POUTRE en 17.4 (message explicite).
+cause_established: true
+correction: Calculer la maîtrise de la fissuration hors de Code_Aster (module aster_expert.rebar)
+  ou en 2D.
+prevention: null

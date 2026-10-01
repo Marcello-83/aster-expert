@@ -122,7 +122,7 @@ Les commandes non encore implémentées sont listées dans
 ## Serveur MCP (lot 8)
 
 Un serveur MCP (`aster-expert-mcp`, module `aster_expert.mcp.server`) expose
-huit outils, chacun un simple emballage d'une capacité déjà existante :
+neuf outils, chacun un simple emballage d'une capacité déjà existante :
 
 | Outil | Capacité encapsulée | Niveau de la réponse |
 |-------|----------------------|-----------------------|
@@ -134,6 +134,7 @@ huit outils, chacun un simple emballage d'une capacité déjà existante :
 | `search_test_cases` | `aster_expert.parsing.comm_parser` sur `astest` (lot 22) | A |
 | `read_test_case` | lecture bornée d'un fichier de commandes de `astest` (lot 22) | A |
 | `search_constats` | `aster_expert.constats` : base partagée des constats Code_Aster (lot 41) | A (chaque constat porte son propre niveau, A à D) |
+| `search_connaissances` | `aster_expert.connaissances` : les six couches de `connaissances/` (lot 42) | A (chaque entrée porte son statut et son niveau, A à E) |
 
 `get_document_section` (lot 8c) renvoie le texte intégral, jamais tronqué,
 d'un fragment ou d'une section — `search_codeaster_docs` ne renvoie qu'un
@@ -253,6 +254,16 @@ phrase). Une fiche de projet référence un constat (`{"nature": "constat",
 "constat_id": ...}`) au lieu de le recopier. Recherche : `search_constats` (MCP),
 `aster-expert constats chercher` ; rejeu à chaque changement de version :
 `aster-expert constats rejouer`.
+
+**Base de connaissances** (lot 42, `connaissances/LISEZMOI.md`) : six couches
+(constats, diagnostics, patrons, contrôles, références de validation, précédents),
+statuts `observé`/`établi`/`promu`. Recherche : `search_connaissances` (MCP),
+`aster-expert connaissances chercher` ; contrôle : `aster-expert connaissances
+verifier` ; promotion explicite : `aster-expert connaissances promouvoir <id>` ;
+précédent proposé (jamais appliqué) : `aster-expert connaissances
+proposer-precedent` ; rejeu des références : `aster-expert connaissances
+rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
+<projet>` (échecs à classer, métriques, `connaissances/metriques/tableau_de_bord.md`).
 
 ## Tests
 

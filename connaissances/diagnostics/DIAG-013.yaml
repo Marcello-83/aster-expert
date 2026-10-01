@@ -1,0 +1,44 @@
+id: DIAG-013
+title: Changement de repère local refusé par POST_RELEVE_T
+summary: POST_RELEVE_T avec REPERE="LOCAL" sur EFGE_ELNO s'arrête (POSTRELE_38, composante
+  non traitée dans un changement de repère).
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: execution
+  run: 20260925T071423-4fe99c43
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 35, quai réduit
+- kind: document
+  path: docs/essais_lot35.md
+  section: null
+  note: null
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_comm.py
+  function: test_displacements_by_post_releve_t_and_efforts_by_crea_table
+  note: null
+commands:
+- POST_RELEVE_T
+keywords:
+- EFGE_ELNO
+- POSTRELE_38
+- REPERE
+reuses: []
+status_history: []
+category: limite de Code_Aster
+signature:
+  kind: <F>
+  identifiers:
+  - POSTRELE_38
+  pattern: null
+cause: Les composantes d'efforts généralisés ne sont pas traitées par le changement de repère
+  de POST_RELEVE_T.
+cause_established: true
+correction: Lire les efforts dans leur repère d'élément (CREA_TABLE) et les projeter hors
+  de Code_Aster.
+prevention: null

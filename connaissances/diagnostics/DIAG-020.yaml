@@ -1,0 +1,38 @@
+id: DIAG-020
+title: Maille POI1 écrite au même nœud qu'une autre maille
+summary: Une maille POI1 écrite directement dans un maillage natif au nœud d'un QUAD4 est
+  refusée (MODELISA8_14, aggravée) ; CREA_POI1 la crée correctement.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: execution
+  run: 20260923T130739-57ea01cb
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 29, reproducteur
+- kind: document
+  path: docs/essais_lot29.md
+  section: null
+  note: null
+commands:
+- CREA_MAILLAGE
+keywords:
+- CREA_POI1
+- MODELISA8_14
+- POI1
+reuses: []
+status_history: []
+category: préparation
+signature:
+  kind: <F>
+  identifiers:
+  - MODELISA8_14
+  pattern: null
+cause: Alarme « maille incluse dans une autre » aggravée en erreur par DEBUT/ERREUR.
+cause_established: true
+correction: Créer les POI1 par CREA_MAILLAGE/CREA_POI1 depuis un GROUP_NO.
+prevention: null

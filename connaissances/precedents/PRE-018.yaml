@@ -1,0 +1,40 @@
+id: PRE-018
+title: 'Point 14 : Position de l''axe des armatures longitudinales dans les calculs de section
+  (poutre de couronnement)'
+summary: 'Décision de MM au point 14 de la fiche du quai (2026-09-28) : Position de l''axe
+  des armatures longitudinales dans les calculs de section (poutre de couronnement).'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '14'
+  decided_by: MM
+  decided_at: '2026-09-28T05:45:12-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '14'
+topic: Position de l'axe des armatures longitudinales dans les calculs de section (poutre
+  de couronnement)
+option_retained: Dans les calculs de section, la distance entre le parement et l'axe des armatures
+  longitudinales est de 0,10 m sur toutes les faces. Ce sont les valeurs `C_SUP_*` et `C_INF_*`
+  de `CALC_FERRAILLAGE`, ou ds et di du logiciel de MM. Le diamètre équivalent des armatures
+  longitudinales est de 40 mm.
+justification: L'enrobage nominal de 65 mm de D18 se mesure au nu de l'armature la plus proche
+  du parement, c'est-à-dire l'étrier. L'axe des armatures longitudinales se trouve donc à
+  environ 65 + diamètre de l'étrier + la moitié du diamètre longitudinal, soit environ 0,10
+  m. Le lot 38 avait pris 0,065 m comme distance à l'axe, ce qui surestime le bras de levier.
+validity_domain: La valeur est forfaitaire ; elle sera à ajuster au ferraillage réellement
+  retenu.
+discarded_variants:
+- 'distance à l''axe égale à l''enrobage nominal, 0,065 m (lot 38). — écartée : confond l''enrobage,
+  mesuré au nu de l''étrier, avec la position de l''axe des barres longitudinales.'
+decided_by: MM
+decided_at: '2026-09-28T05:45:12-04:00'
+superseded_decisions: 0
+application: proposition seulement

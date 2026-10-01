@@ -1,0 +1,46 @@
+id: DIAG-010
+title: Collision de nom interne à DEFI_GROUP (JEVEUX_10)
+summary: Un CREA_GROUP_NO portant plusieurs GROUP_MA dans une seule occurrence a fait échouer
+  une commande ultérieure (JEVEUX_10, &&SSCGNO.LITMP2) ; un groupe par nom de maille puis
+  leur UNION l'évite.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: execution
+  run: 20260924T130146-8aa8d8c0
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 33, quai réduit
+- kind: execution
+  run: 20260924T130411-24ad2142
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 33, même erreur
+- kind: code
+  path: projets/quai_cw_test_01/generation/comm.py
+  symbol: profile_node_groups_block
+  note: une occurrence par groupe de mailles
+commands:
+- DEFI_GROUP
+keywords:
+- CREA_GROUP_NO
+- JEVEUX_10
+- UNION
+reuses: []
+status_history: []
+category: limite de Code_Aster
+signature:
+  kind: <F>
+  identifiers:
+  - JEVEUX_10
+  pattern: SSCGNO
+cause: 'Collision d''un nom d''objet temporaire interne à Code_Aster : mécanisme non établi.'
+cause_established: false
+correction: 'CREA_GROUP_NO : une occurrence par groupe de mailles, puis UNION.'
+prevention: null

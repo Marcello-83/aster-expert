@@ -1,0 +1,56 @@
+id: DIAG-007
+title: Vérification d'orientation sur un groupe de bord non connexe
+summary: FORCE_COQUE avec VERI_NORM par défaut refuse un groupe de mailles non connexe (MESH3_99)
+  ; VERI_NORM="NON" n'est admissible qu'après une vérification explicite des normales.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: execution
+  run: 20260923T172128-71b3a102
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 30, retrait des palplanches
+- kind: execution
+  run: 20260924T155517-5d41bb8c
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 34, charge par couche
+- kind: document
+  path: docs/essais_lot34.md
+  section: null
+  note: null
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_generate.py
+  function: test_lot35_the_layer_loads_still_disable_veri_norm_explicitly
+  note: null
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_meshing_normals.py
+  function: test_altered_mesh_with_a_flipped_cell_is_rejected
+  note: null
+commands:
+- AFFE_CHAR_MECA_F
+- MODI_MAILLAGE
+keywords:
+- FORCE_COQUE
+- MESH3_99
+- ORIE_NORM_COQUE
+- VERI_NORM
+reuses: []
+status_history: []
+category: modélisation
+signature:
+  kind: <F>
+  identifiers:
+  - MESH3_99
+  pattern: null
+cause: La vérification automatique d'orientation exige un ensemble connexe de mailles de bord.
+cause_established: true
+correction: Orienter par MODI_MAILLAGE/ORIE_NORM_COQUE, vérifier les normales sur le maillage
+  relu (contrôle CTL-007), puis VERI_NORM="NON" sur la charge.
+prevention: null

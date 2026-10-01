@@ -1,0 +1,38 @@
+id: DIAG-008
+title: Force imposée sur une composante absente des nœuds
+summary: AFFE_CHAR_MECA refuse (CHARGES2_46) une force sur des nœuds qui ne portent pas la
+  composante, par exemple un groupe sorti du modèle.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: execution
+  run: 20260923T172818-a733f4f9
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 30 : BOLLARD hors modèle sans la poutre'
+- kind: document
+  path: docs/essais_lot30.md
+  section: null
+  note: null
+commands:
+- AFFE_CHAR_MECA
+keywords:
+- CHARGES2_46
+- FORCE_NODALE
+reuses: []
+status_history: []
+category: préparation
+signature:
+  kind: <F>
+  identifiers:
+  - CHARGES2_46
+  pattern: null
+cause: Les nœuds chargés n'appartiennent à aucun élément du modèle qui porte la composante
+  (ici FY).
+cause_established: true
+correction: Retirer la charge du cas, ou rendre au modèle les éléments qui portent ces nœuds.
+prevention: null

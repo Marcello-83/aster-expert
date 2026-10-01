@@ -1,0 +1,44 @@
+id: PRE-011
+title: 'Point 1 : Choix de la modélisation de coque du tube entre les modélisations recevables
+  (DKT ou COQUE_3D)'
+summary: 'Décision de MM au point 1 de la fiche du quai (2026-09-21) : Choix de la modélisation
+  de coque du tube entre les modélisations recevables (DKT ou COQUE_3D).'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '1'
+  decided_by: MM
+  decided_at: '2026-09-21T18:00:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '1'
+topic: Choix de la modélisation de coque du tube entre les modélisations recevables (DKT ou
+  COQUE_3D)
+option_retained: Le tube est modélisé en DKT, sur une surface facettisée représentant sa géométrie
+  cylindrique. La discrétisation angulaire est fixée par la branche maillage, et figure dans
+  les invariants de maillage déclarés par la fiche.
+justification: 'DKT et COQUE_3D sont tous deux recevables pour ce tube selon le constat Code_Aster
+  du point 1 (U2.02.01, structure mince, h/R ≈ 1/44). DKT est retenu pour l''homogénéité avec
+  la palplanche intercalaire, qui partage ses nœuds avec le tube sur les lignes de serrure
+  : la représentation orthotrope envisagée pour la palplanche n''est admise qu''en DKT, DST
+  ou Q4G, et DKT reste recevable si la géométrie réelle du profil est retenue à la place.
+  La documentation officielle modélise elle-même un cylindre mince en facettes DKT (cas test
+  SSLS502).'
+validity_domain: La facettisation remplace la courbure par des facettes planes. Aucun critère
+  chiffré de discrétisation angulaire n'a été trouvé dans la documentation ; l'écart géométrique
+  et son effet sur la raideur du tube dépendent du nombre de facettes retenu par la branche
+  maillage.
+discarded_variants:
+- 'Tube en COQUE_3D. — écartée : N''apporte rien pour un tube mince. Et la compatibilité d''un
+  maillage coïncident entre COQUE_3D et une palplanche en DKT n''est pas établie.'
+decided_by: MM
+decided_at: '2026-09-21T18:00:00'
+superseded_decisions: 0
+application: proposition seulement

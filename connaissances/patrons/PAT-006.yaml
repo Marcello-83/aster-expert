@@ -1,0 +1,51 @@
+id: PAT-006
+title: Poids et charges d'une poutre liée en forces nodales tributaires
+summary: Le poids et les charges d'une poutre continue liée par plusieurs LIAISON_SOLIDE s'appliquent
+  en FORCE_NODALE sur longueurs tributaires, résultante et moment exacts par construction.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot35_constats/f3_nodal.sonde.comm
+  case_sha256: 5e9a74d6c11085544f82d503154e5d9f46284071672f954a1833c322e9bdc686
+  outcome: réussite
+  level: D
+  note: résultante assemblée égale à la somme écrite
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_generate.py
+  function: test_poutre_pressure_charges_use_nodal_forces_not_force_poutre
+  note: null
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_generate.py
+  function: test_tributary_lengths_sum_to_the_total_span
+  note: null
+commands:
+- AFFE_CHAR_MECA
+keywords:
+- FORCE_NODALE
+- FORCE_POUTRE
+- LIAISON_SOLIDE
+reuses: []
+status_history: []
+problem: Charger une poutre de couronnement sans FORCE_POUTRE ni PESANTEUR répartie (CALCULEL2_92).
+solution: 'FORCE_NODALE par nœud de poutre : q × longueur tributaire, demi-longueur aux plans
+  de symétrie.'
+fragment: "CH_G_POUTRE = AFFE_CHAR_MECA(\n    MODELE=MO,\n    FORCE_NODALE=(\n        _F(GROUP_NO=(\"\
+  GEN_POUTRE_01\",), FY=-7452.899999999999, MX=-1739.0100000000007, FZ=-111588.74999999999),\n\
+  \    ),\n)"
+fragment_language: comm
+conditions: Poutre POU_D_E/POU_D_T liée par plusieurs LIAISON_SOLIDE ; la répartition le long
+  des éléments n'est pas représentée (efforts aux nœuds).
+controls:
+- CTL-005
+constats:
+- CA-019
+- CA-035
+implementation:
+- kind: code
+  path: projets/quai_cw_test_01/generation/comm.py
+  symbol: poutre_pressure_nodal_block
+  note: null

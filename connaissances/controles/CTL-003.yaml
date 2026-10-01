@@ -1,0 +1,38 @@
+id: CTL-003
+title: Couverture des ressorts nodaux
+summary: Chaque nœud à ressort appartient à une seule classe, et chaque nœud partagé par deux
+  bandes à une classe commune de raideur sommée.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_springs.py
+  function: test_coverage_refuses_a_common_class_of_the_wrong_stiffness
+  note: null
+commands: []
+keywords:
+- CREA_POI1
+- DISCRET
+reuses: []
+status_history: []
+detects: Un nœud dont la raideur serait écrasée par une seconde DISCRET (CREA_POI1 une maille
+  par nœud).
+parameters: Classes de raideur, bandes de couche.
+implementation:
+  kind: code
+  path: projets/quai_cw_test_01/generation/springs.py
+  symbol: check_spring_coverage
+  note: null
+scope: projet
+caught_error:
+  mode: a posteriori
+  description: Raideur de l'argile perdue sur 43 nœuds du quai réduit et 169 du modèle complet
+    (lot 34).
+  evidence:
+    kind: test
+    path: projets/quai_cw_test_01/tests/test_generation_springs.py
+    function: test_coverage_refuses_a_shared_node_without_its_common_class
+    note: null
+default_harness: false

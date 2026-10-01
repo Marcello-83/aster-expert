@@ -1,0 +1,45 @@
+id: PRE-001
+title: 'Point 1 : Choix de la famille d''éléments (coque, poutre ou massif) pour le tube métallique
+  + palplanche intercalaire'
+summary: 'Décision de MM au point 1 de la fiche du quai (2026-09-21) : Choix de la famille
+  d''éléments (coque, poutre ou massif) pour le tube métallique + palplanche intercalaire.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '1'
+  decided_by: MM
+  decided_at: '2026-09-21T18:00:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '1'
+topic: Choix de la famille d'éléments (coque, poutre ou massif) pour le tube métallique +
+  palplanche intercalaire
+option_retained: Modélisation tridimensionnelle par éléments de coque, sur une tranche représentative
+  d'ouvrage et non sur les 120 m réels. Le choix de la modélisation de coque précise relève
+  de la moitié Code_Aster de la fiche ; la présente décision porte sur la stratégie, pas sur
+  l'identifiant.
+justification: Les charges qui motivent ce calcul — amarrage et accostage — sont localisées
+  et se répètent le long du quai. Seul un modèle tridimensionnel représente leur diffusion
+  dans l'écran et dans la poutre de couronnement. Le comportement en tranche courante est
+  couvert par le calcul géotechnique amont. L'écran étant un élément mince devant sa hauteur
+  et sa longueur, une représentation surfacique en rend compte sans surcoût de maillage.
+validity_domain: Les efforts sont obtenus en efforts généralisés de coque et demandent un
+  post-traitement pour être exploités en dimensionnement, là où une modélisation poutre les
+  fournirait directement.
+discarded_variants:
+- 'Poutre par mètre linéaire, calcul en tranche bidimensionnelle. — écartée : Ne sait pas
+  traiter les charges localisées d''amarrage et d''accostage, qui sont précisément l''objet
+  du calcul.'
+- 'Massif continu tridimensionnel. — écartée : Disproportionné pour un écran mince ; contredit
+  le critère d''élancement.'
+decided_by: MM
+decided_at: '2026-09-21T18:00:00'
+superseded_decisions: 1
+application: proposition seulement

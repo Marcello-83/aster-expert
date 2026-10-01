@@ -1,0 +1,35 @@
+id: CTL-006
+title: Symétrie des déplacements
+summary: Les déplacements de paires de nœuds symétriques sont égaux (composantes paires) ou
+  opposés (composantes impaires), au seuil déclaré.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: tests/unit/test_controles_equilibre.py
+  function: test_symmetry_about_an_offset_plane
+  note: null
+commands: []
+keywords: []
+reuses: []
+status_history: []
+detects: Une condition de symétrie ou un chargement dissymétrique par erreur.
+parameters: Plan de symétrie, paires de nœuds, seuil.
+implementation:
+  kind: code
+  path: src/aster_expert/controles/equilibre.py
+  symbol: symmetry_check
+  note: null
+scope: tronc commun
+caught_error:
+  mode: attrapée
+  description: 'Écart de 6,07e-7 au lot 33 : l''impression E12.5 limitait le critère ; tables
+    passées en E20.12 (lot 34).'
+  evidence:
+    kind: document
+    path: docs/essais_lot34.md
+    section: null
+    note: null
+default_harness: false

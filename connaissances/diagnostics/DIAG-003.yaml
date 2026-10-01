@@ -1,0 +1,45 @@
+id: DIAG-003
+title: Solution MUMPS trop imprécise
+summary: MUMPS arrête le calcul (FACTOR_57) quand l'erreur de la solution dépasse RESI_RELA
+  ; sur le reproducteur du lot 28 le relâchement à 1e-4 l'a levé, sans cause établie.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: execution
+  run: 20260923T121558-6f3c1e73
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 28, reproduction isolée : erreur calculée 2,74e-5'
+- kind: document
+  path: docs/essais_lot28.md
+  section: null
+  note: relâchement de RESI_RELA à 1e-4
+- kind: document
+  path: docs/essais_lot33.md
+  section: null
+  note: 'RESI_RELA par défaut sans échec sur le quai réduit : paramètre retiré'
+commands:
+- MECA_STATIQUE
+keywords:
+- FACTOR_57
+- MUMPS
+- RESI_RELA
+- SOLVEUR
+reuses: []
+status_history: []
+category: modélisation
+signature:
+  kind: <F>
+  identifiers:
+  - FACTOR_57
+  pattern: null
+cause: 'Conditionnement de la matrice du reproducteur (tube isolé avec LIAISON_SOLIDE) : non
+  établi. Sur le quai réduit, le défaut de 1e-6 n''échoue pas (lot 33).'
+cause_established: false
+correction: Chercher d'abord une redondance ou un mécanisme (DIAG-001) ; ne relâcher SOLVEUR/RESI_RELA
+  qu'en le justifiant et en contrôlant l'équilibre (niveau D).
+prevention: null

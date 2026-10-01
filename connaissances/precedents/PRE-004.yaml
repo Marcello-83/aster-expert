@@ -1,0 +1,54 @@
+id: PRE-004
+title: 'Point 3 : Choix entre maillage coïncident (liaison rigide directe) et raccord par
+  méthode variationnelle (LIAISON_ELEM/COQ_POU) pour la liaison poutre de couronnement - écran'
+summary: 'Décision de MM au point 3 de la fiche du quai (2026-09-25) : Choix entre maillage
+  coïncident (liaison rigide directe) et raccord par méthode variationnelle (LIAISON_ELEM/COQ_POU)
+  pour la liaison poutre de couronnement - écran.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '3'
+  decided_by: MM
+  decided_at: '2026-09-25T09:53:49-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '3'
+topic: Choix entre maillage coïncident (liaison rigide directe) et raccord par méthode variationnelle
+  (LIAISON_ELEM/COQ_POU) pour la liaison poutre de couronnement - écran
+option_retained: Maillage coïncident, généré par la chaîne. La poutre de couronnement est
+  représentée par un élément de poutre de Timoshenko sur son axe (Y = +0,34, Z = +3,30), avec
+  une section rectangulaire de 2,50 m × 1,40 m. Elle est reliée à chaque tube par une liaison
+  de corps solide entre l'anneau de tête du tube (+2,60) et le nœud de poutre au droit du
+  tube. Dans chaque ensemble lié, un degré de liberté bloqué par une condition aux limites
+  ne l'est que sur un seul nœud (lot 32).
+justification: 'Les maillages de l''écran et de la poutre sont produits par la même chaîne,
+  donc coïncidents par construction. La liaison de corps solide représente l''encastrement
+  des tubes dans la poutre. L''élément de poutre fournit directement N, V, M et T, nécessaires
+  au ferraillage selon l''EN 1992. La formulation de Timoshenko est retenue parce que, en
+  flexion horizontale, la hauteur de la poutre (2,50 m) est du même ordre que la portée entre
+  tubes (2,60 m) : la déformation d''effort tranchant n''y est pas négligeable.'
+validity_domain: '- La liaison de corps solide est plus raide que l''encastrement réel sur
+  0,80 m : moments en tête de tube surestimés, déplacements de la poutre sous-estimés.
+
+  - La poutre sur son axe ne représente pas les effets locaux (zone d''encastrement des tubes,
+  ancrage du bollard, diffusion sous platine), qui relèvent de vérifications locales séparées.'
+discarded_variants:
+- 'Raccord par méthode variationnelle entre maillages non coïncidents. — écartée : Sans objet,
+  les maillages étant coïncidents par construction ; le raccord coque-poutre documenté ne
+  s''applique pas à une jonction en T (lot 31).'
+- 'Poutre en coques ou en éléments volumiques. — écartée : Les efforts de ferraillage devraient
+  être reconstitués par intégration de contraintes, et la liaison avec les tubes redeviendrait
+  un raccord cinématique.'
+- 'Élément de poutre d''Euler-Bernoulli. — écartée : Néglige la déformation d''effort tranchant
+  d''une poutre courte.'
+decided_by: MM
+decided_at: '2026-09-25T09:53:49-04:00'
+superseded_decisions: 2
+application: proposition seulement

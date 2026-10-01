@@ -77,6 +77,14 @@ changer la trame elle-même.
      d'ingénierie qui relie un fait catalogue à la situation du projet,
      sans qu'un document ne le formule, va dans `deduction` — jamais
      présentée comme une décision.
+   - Point de pratique (lot 42) : avant d'en proposer une option, chercher
+     les précédents d'autres projets (`search_connaissances(text=...,
+     layers=["precedents"])`, consultation obligatoire du skill
+     `code-aster-expert`, § 6 quater). Un précédent n'est jamais appliqué :
+     il se cite dans la trace du point non fondé et se propose par
+     `aster-expert connaissances proposer-precedent <PRE-nnn> --point <p>`
+     (entrée non tranchée, source `precedent_projet` prête pour MM), avec
+     son domaine de validité à confronter à l'ouvrage. MM arbitre.
 
 Jamais de troisième voie : pas d'entrée créée à la main en dehors de ces
 deux fonctions pour ce skill, précisément pour que le chemin d'écriture

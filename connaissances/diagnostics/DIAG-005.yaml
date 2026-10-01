@@ -1,0 +1,49 @@
+id: DIAG-005
+title: IMPR_RESU d'un champ à sous-points sans CARA_ELEM
+summary: IMPR_RESU au format MED d'un champ à sous-points d'élément de structure (SIEF_ELGA
+  de coque) exige CARA_ELEM, sinon MED2_14.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: execution
+  run: 20260923T130503-d423a6b9
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 29, reproducteur
+- kind: execution
+  run: 20260924T073906-857c7055
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 31, quai réduit
+- kind: document
+  path: docs/essais_lot31.md
+  section: null
+  note: null
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_generate.py
+  function: test_impr_resu_carries_cara_elem_for_every_result
+  note: null
+commands:
+- IMPR_RESU
+keywords:
+- CARA_ELEM
+- MED2_14
+- SIEF_ELGA
+reuses: []
+status_history: []
+category: modélisation
+signature:
+  kind: <F>
+  identifiers:
+  - MED2_14
+  pattern: null
+cause: Le nombre de sous-points du champ n'est connu que par les caractéristiques élémentaires.
+cause_established: true
+correction: CARA_ELEM=<concept AFFE_CARA_ELEM> sur chaque occurrence RESU d'IMPR_RESU.
+prevention: null

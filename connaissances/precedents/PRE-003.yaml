@@ -1,0 +1,65 @@
+id: PRE-003
+title: 'Point 2 : Représentation d''un tirant d''ancrage géotechnique scellé dans le sol (choix
+  d''élément, représentation du bulbe de scellement)'
+summary: 'Décision de MM au point 2 de la fiche du quai (2026-09-21) : Représentation d''un
+  tirant d''ancrage géotechnique scellé dans le sol (choix d''élément, représentation du bulbe
+  de scellement).'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '2'
+  decided_by: MM
+  decided_at: '2026-09-21T18:00:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '2'
+topic: Représentation d'un tirant d'ancrage géotechnique scellé dans le sol (choix d'élément,
+  représentation du bulbe de scellement)
+option_retained: 'Éléments de barre travaillant en effort normal, un tirant par tube, section
+  brute de 75 mm de diamètre, inclinaison de 20° descendant vers l''arrière, tête à la cote
+  +2,50 sur le tube. La barre est modélisée sur la longueur de calcul lf + lb/2 = 22,00 +
+  8,00/2 = 26,00 m le long de son axe, et son extrémité arrière, placée au milieu du scellement,
+  est bloquée. La raideur axiale du tirant est ainsi égale à la raideur d''ancrage de la NF
+  P 94-282, F.4.2 : KMA = Et·A / (lf + lb/2) ≈ 35,7 MN/m par tirant, avec Et = 210 000 MPa
+  et A = 44,2 cm². Aucune précontrainte n''est appliquée : les tirants sont passifs.'
+justification: 'Un tirant d''ancrage travaille en traction axiale ; un élément de barre en
+  rend compte avec sa géométrie réelle et conserve la composante verticale de l''effort d''ancrage
+  transmise à l''écran. La norme donne pour un tirant scellé une raideur qui compte la longueur
+  libre et la moitié de la longueur scellée : modéliser la barre sur cette longueur, extrémité
+  bloquée, reproduit exactement cette raideur sans introduire de ressort discret. La précontrainte
+  est supprimée parce qu''elle n''a de sens qu''au sein d''un phasage — mise en tension à
+  un stade d''excavation donné — que la décision du point 6 exclut : appliquée dans un état
+  unique, elle se superposerait aux autres chargements sans séquence et l''effort final dans
+  le tirant ne correspondrait à aucun état réel. Un tirant passif est cohérent avec un calcul
+  en état unique.'
+validity_domain: 'La raideur F.4.2 est une raideur conventionnelle : elle ignore l''interaction
+  entre le scellement et le terrain et la déformabilité du massif d''ancrage. La section est
+  prise brute ; la section utile nette de corrosion (F.4.2, NOTE 4) n''est pas appliquée dans
+  ce cas de test. Sans précontrainte ni phasage, l''effort dans le tirant ne résulte que des
+  chargements appliqués au modèle ; il ne se compare pas à l''effort d''un calcul géotechnique
+  phasé.'
+discarded_variants:
+- 'Barre sur la seule longueur libre de 22,00 m, extrémité bloquée (décision v2). — écartée
+  : Raideur EA/lf ≈ 42,2 MN/m, supérieure de 18 % à la raideur d''ancrage de la norme ; surestime
+  la raideur de l''appui en tête.'
+- 'Barre de 22,00 m prolongée par un ressort discret de raideur EA/(lb/2) ≈ 232 MN/m. — écartée
+  : Raideur équivalente en série à la variante retenue, mais ajoute un type d''élément et
+  une caractéristique discrète sans information supplémentaire.'
+- 'Précontrainte de 250 kN appliquée comme chargement dans un état unique. — écartée : Sans
+  phasage, l''état de mise en tension et l''état final ne sont pas séquencés ; l''effort obtenu
+  dans le tirant n''a pas de signification physique.'
+- 'Ressort ponctuel équivalent en tête d''écran. — écartée : Perd l''inclinaison du tirant
+  et la composante verticale de l''effort d''ancrage.'
+- 'Modélisation explicite du bulbe de scellement. — écartée : Exigerait de mailler le sol
+  autour du bulbe, ce que la décision du point 4 exclut.'
+decided_by: MM
+decided_at: '2026-09-21T18:00:00'
+superseded_decisions: 1
+application: proposition seulement

@@ -1,0 +1,136 @@
+# Métriques du projet (aster-expert rex, lot 42) : « fonction de perte » de l'outil.
+# Fichier produit : ne pas éditer à la main.
+project: quai_cw_test_01
+baseline:
+  source: docs/audit/audit_lot40.md, § 3.4 ; consigne du lot 42, étape 5.7
+  lots: 40
+  executions: 190
+  failures: 73
+  compute_hours: 1.54
+  supervisor_interventions:
+    value: 25.0
+    nature: estimation
+    note: 'Estimation de Claude (consigne du lot 42) : environ 25 lots sur les lots 19 à 41
+      ont exigé une intervention de fond de MM (correction de diagnostic, de critère ou de
+      décision : lots 21, 23, 28 à 34, 36, 37, 39, entre autres). Ce n''est pas une mesure
+      ; les interventions sont comptées à partir du lot 43.'
+knowledge:
+  created: 121
+  promoted: 0
+  by_layer:
+    constats_code_aster:
+      observé: 27
+      établi: 18
+      promu: 0
+    diagnostics:
+      observé: 8
+      établi: 17
+      promu: 0
+    patrons:
+      observé: 0
+      établi: 9
+      promu: 0
+    controles:
+      observé: 0
+      établi: 11
+      promu: 0
+    references_validation:
+      observé: 0
+      établi: 13
+      promu: 0
+    precedents:
+      observé: 18
+      établi: 0
+      promu: 0
+consultations:
+  calls:
+    search_connaissances: 0
+    search_constats: 1
+  note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
+    ne porte pas le projet'
+  avoided_errors:
+    value: null
+    nature: non renseigné
+    note: déclaré lot par lot dans le compte rendu (registre, `lots`)
+lots:
+- lot: '42'
+  supervisor_interventions:
+    value: null
+    nature: non renseigné
+    note: à renseigner par MM dans le compte rendu (consigne du lot 42, étape 4)
+  avoided_errors:
+    value: null
+    nature: non renseigné
+    note: 'lot de construction de la base : aucune consultation n''a pu éviter d''erreur'
+declared_interventions_since_baseline: null
+measured:
+  runs: 373
+  failures: 73
+  failure_rate: 0.1957
+  compute_s:
+    aster_legacy: 5545.3
+    wall_since_lot41: 1315.3
+    unknown_runs: 0
+    note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
+      versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
+      deux grandeurs distinctes, jamais additionnées'
+  first_run: 20260921T093141-fdefd4f7
+  last_run: 20261001T122432-e51f90d6
+  failures_by_signature:
+    <EXCEPTION> <CALCULEL_6>: 1
+    <EXCEPTION> <CALCUL_37>: 4
+    <EXCEPTION> <MODELISA6_96>: 2
+    <EXCEPTION> <MODELISA7_10>: 3
+    <EXCEPTION> <MODELISA9_77>: 6
+    <F> <CALCULEL2_92>: 5
+    <F> <CALCULEL7_40>: 1
+    <F> <CHARGES2_46>: 1
+    <F> <DISCRETS_26>: 4
+    <F> <FACTOR_11>: 19
+    <F> <FACTOR_57>: 1
+    <F> <JEVEUX_10>: 2
+    <F> <MED2_14>: 2
+    <F> <MED2_4>: 2
+    <F> <MESH3_99>: 3
+    <F> <MODELISA5_3>: 1
+    <F> <MODELISA7_75>: 1
+    <F> <MODELISA7_77>: 3
+    <F> <MODELISA8_14>: 2
+    <F> <POSTRELE_38>: 1
+    <F> <POSTRELE_70>: 1
+    <F> <SOUSTRUC_37>: 2
+    <F> <UTILITAI_4>: 1
+    'arrêt anormal (FileNotFoundError: [Errno 2] No such file or directory: ''/work/lot27_maillage.mmed'')': 1
+    'arrêt anormal (KeyError: ''CHAM_MATER'')': 1
+    arrêt anormal (Segmentation fault): 3
+  failures_by_cause:
+    DIAG-001: 19
+    DIAG-002: 2
+    DIAG-003: 1
+    DIAG-004: 4
+    DIAG-005: 2
+    DIAG-006: 2
+    DIAG-007: 3
+    DIAG-008: 1
+    DIAG-009: 5
+    DIAG-010: 2
+    DIAG-011: 1
+    DIAG-012: 1
+    DIAG-013: 1
+    DIAG-014: 1
+    DIAG-015: 6
+    DIAG-016: 4
+    DIAG-017: 2
+    DIAG-018: 3
+    DIAG-019: 1
+    DIAG-020: 2
+    DIAG-021: 1
+    DIAG-022: 3
+    DIAG-023: 1
+    DIAG-024: 1
+    écarté: 4
+  automatic_diagnosis:
+    attached_failures: 69
+    single_match_equal_to_classification: 69
+    note: échecs rattachés à un diagnostic pour lesquels la recherche automatique de la base
+      (signature) propose ce diagnostic et lui seul

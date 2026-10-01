@@ -9,6 +9,7 @@ import json
 import os
 from collections import Counter
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import typer
 import yaml
@@ -104,6 +105,9 @@ from aster_expert.validation.validate import (
     resolve_digest_for_version,
     validate_comm_file,
 )
+
+if TYPE_CHECKING:
+    from aster_expert.connaissances.base import KnowledgeBase
 
 app = typer.Typer(
     add_completion=False,
@@ -734,6 +738,40 @@ def eval_summary(
     typer.echo(f"Résolues    : {summary.resolved}", err=True)
     typer.echo(f"Non résolues: {summary.unresolved}", err=True)
     typer.echo(f"Hors corpus : {len(summary.outside_corpus_ids)}", err=True)
+
+
+@eval_app.command("candidats")
+def eval_candidats(
+    sortie: str = typer.Option(
+        "data/evaluations/questions_candidates.jsonl",
+        "--sortie",
+        help="Fichier JSONL des questions candidates (relatif à la racine).",
+    ),
+) -> None:
+    """Questions candidates du banc (lot 42) : requêtes documentaires du journal
+    qui n'ont pas trouvé de réponse utile (suivies d'une autre requête ou de la
+    lecture d'un autre document), à valider par MM."""
+    from aster_expert.mcp.logging import default_query_log_path
+    from aster_expert.retrieval.candidates import (
+        candidate_questions,
+        known_questions,
+        read_journal,
+        write_candidates,
+    )
+
+    root = _project_root()
+    entries, bad = read_journal(default_query_log_path(root))
+    candidates = candidate_questions(
+        entries, known=known_questions(_default_questions_path(root))
+    )
+    path = write_candidates(root / sortie, candidates)
+    by_motive = Counter(c.motive for c in candidates)
+    typer.echo(
+        f"{len(entries)} appels lus ({bad} ligne(s) illisible(s) écartée(s)) ; "
+        f"{len(candidates)} question(s) candidate(s) à valider par MM : "
+        + ", ".join(f"{k} {v}" for k, v in sorted(by_motive.items()))
+        + f" -> {path.relative_to(root) if path.is_relative_to(root) else path}"
+    )
 
 
 @eval_app.command("score")
@@ -1746,7 +1784,32 @@ def run(
         typer.echo(f"Durée          : {report.duration_s:.1f} s", err=True)
 
     if report.status not in ("completed_ok", "completed_with_alarms"):
+        _show_diagnostics(Path(report.work_dir))
         raise typer.Exit(1)
+
+
+def _show_diagnostics(work_dir: Path) -> None:
+    """Lot 42 : diagnostics of the knowledge base matching a failed run, read
+    from its compte rendu (written only when the work directory is kept)."""
+    from aster_expert.execution.compte_rendu import REPORT_JSON, load_record
+
+    if not (work_dir / REPORT_JSON).is_file():
+        return
+    record = load_record(work_dir)
+    if record.diagnostics_error:
+        typer.echo(f"Diagnostics     : {record.diagnostics_error}", err=True)
+    elif not record.diagnostics:
+        typer.echo(
+            "Diagnostics     : aucun diagnostic connu ne correspond (échec à classer "
+            "au retour d'expérience, aster-expert rex).",
+            err=True,
+        )
+    for d in record.diagnostics:
+        typer.echo(
+            f"Diagnostic connu : {d.diagnostic_id} [{d.status}] {d.title} -- "
+            f"correction : {d.correction} ({d.file})",
+            err=True,
+        )
 
 
 @mesh_app.command("run")
@@ -2093,6 +2156,211 @@ def constats_rejouer(
     for line in result.lines():
         typer.echo(line)
     if result.to_review:
+        raise typer.Exit(1)
+
+
+connaissances_app = typer.Typer(
+    no_args_is_help=True,
+    help="Base de connaissances : six couches sous connaissances/ (lot 42).",
+)
+app.add_typer(connaissances_app, name="connaissances")
+
+
+def _load_knowledge_or_exit() -> KnowledgeBase:
+    from aster_expert.connaissances.base import KnowledgeBaseError, load_knowledge
+
+    try:
+        return load_knowledge(_project_root())
+    except KnowledgeBaseError as exc:
+        typer.echo(f"connaissances ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+
+@connaissances_app.command("chercher")
+def connaissances_chercher(
+    texte: str = typer.Argument("", help="Texte libre (tous les mots)."),
+    commande: str = typer.Option("", "--commande", help="Commande du catalogue."),
+    mot_cle: str = typer.Option("", "--mot-cle", help="Mot-clé ou valeur."),
+    couche: list[str] | None = typer.Option(  # noqa: B008
+        None, "--couche", help="Couche(s) : constats_code_aster, diagnostics, …"
+    ),
+    statut: str = typer.Option("", "--statut", help="observé, établi ou promu."),
+    limite: int = typer.Option(20, "--limite"),
+) -> None:
+    """Chercher dans les six couches par texte, commande, mot-clé, couche, statut."""
+    from aster_expert.connaissances.recherche import search_knowledge
+
+    base = _load_knowledge_or_exit()
+    try:
+        hits = search_knowledge(
+            base,
+            text=texte or None,
+            command=commande or None,
+            keyword=mot_cle or None,
+            layers=tuple(couche or ()),
+            status=statut or None,
+            limit=limite,
+        )
+    except ValueError as exc:
+        typer.echo(f"connaissances chercher ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    for hit in hits:
+        e = base.get(hit.entry_id)
+        assert e is not None
+        typer.echo(
+            f"{e.id} [{hit.layer}, {e.status}, niveau {e.validation_level}] {e.summary}"
+        )
+    typer.echo(f"{len(hits)} entrée(s).", err=True)
+
+
+@connaissances_app.command("verifier")
+def connaissances_verifier() -> None:
+    """Charger la base (schémas, références croisées, niveaux) et confronter ses
+    preuves au dépôt (cas et empreintes, tests, code, documents, exécutions)."""
+    from aster_expert.connaissances.base import verify_against_repository
+
+    base = _load_knowledge_or_exit()
+    for layer, row in base.counts().items():
+        total = sum(row.values())
+        detail = ", ".join(f"{k} {v}" for k, v in row.items())
+        typer.echo(f"{layer} : {total} ({detail})")
+    check = verify_against_repository(base)
+    typer.echo(f"Preuves confrontées au dépôt : {check.checked}.")
+    if check.unverifiable:
+        typer.echo(
+            f"Exécutions archivées non vérifiables (archives absentes) : "
+            f"{len(check.unverifiable)}."
+        )
+    for problem in check.problems:
+        typer.echo(f"  ÉCART {problem}")
+    if check.problems:
+        typer.echo(f"connaissances verifier ÉCHEC : {len(check.problems)} écart(s).")
+        raise typer.Exit(1)
+    typer.echo("connaissances verifier OK.")
+
+
+@connaissances_app.command("promouvoir")
+def connaissances_promouvoir(
+    identifiant: str,
+    motif: str = typer.Option(..., "--motif", help="Motif de la promotion."),
+    par: str = typer.Option("MM", "--par", help="Auteur de la promotion."),
+) -> None:
+    """Promouvoir une entrée établie au statut promu, si elle a été réutilisée
+    avec succès dans au moins deux projets ou validée au niveau E. Échoue sinon."""
+    from aster_expert.connaissances.base import KnowledgeBaseError
+    from aster_expert.connaissances.promotion import PromotionRefusedError, promote
+
+    try:
+        typer.echo(promote(_project_root(), identifiant, by=par, reason=motif))
+    except (PromotionRefusedError, KnowledgeBaseError) as exc:
+        typer.echo(f"promotion refusée : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+
+@connaissances_app.command("proposer-precedent")
+def connaissances_proposer_precedent(
+    identifiant: str,
+    point: str = typer.Option(..., "--point", help="Point de la nouvelle fiche."),
+) -> None:
+    """Écrire (sortie standard, JSON) la proposition d'un précédent pour une
+    nouvelle fiche : une entrée pratique NON TRANCHÉE et la source
+    `precedent_projet` que MM pourra citer s'il le retient. Rien n'est appliqué."""
+    from aster_expert.connaissances.modeles import Precedent
+    from aster_expert.connaissances.precedents import propose_precedent
+
+    base = _load_knowledge_or_exit()
+    entry = base.entries.get(identifiant)
+    if not isinstance(entry, Precedent):
+        typer.echo(f"{identifiant} n'est pas un précédent de la base", err=True)
+        raise typer.Exit(1)
+    proposal, source = propose_precedent(entry, point_label=point)
+    typer.echo(
+        json.dumps(
+            {
+                "entree_proposee": json.loads(proposal.model_dump_json()),
+                "source_si_retenu": json.loads(source.model_dump_json()),
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+    )
+    typer.echo(
+        "Proposition seulement : l'entrée reste non tranchée (bloqueur de "
+        "génération) jusqu'à l'arbitrage de MM.",
+        err=True,
+    )
+
+
+@connaissances_app.command("rejouer-references")
+def connaissances_rejouer_references(
+    reference: list[str] | None = typer.Option(  # noqa: B008
+        None, "--reference", help="Identifiant(s) REF-nnn ; défaut : toutes."
+    ),
+    sortie: str = typer.Option("", "--sortie", help="Répertoire du rapport."),
+) -> None:
+    """Rejouer, dans le conteneur, les cas des références de validation et
+    vérifier que chaque valeur enregistrée est de nouveau imprimée."""
+    from aster_expert.connaissances.references import replay_references
+    from aster_expert.constats.rejeu import ReplayError
+
+    try:
+        result = replay_references(
+            _project_root(),
+            only=tuple(reference or ()),
+            output_dir=Path(sortie) if sortie else None,
+        )
+    except ReplayError as exc:
+        typer.echo(f"rejeu des références ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    for line in result.lines():
+        typer.echo(line)
+    if any(r.verdict == "à réexaminer" for r in result.references):
+        raise typer.Exit(1)
+
+
+@app.command("rex")
+def rex(
+    projet: str,
+    enregistrer: bool = typer.Option(
+        False, "--enregistrer", help="Inscrire la revue dans le registre du projet."
+    ),
+    lot: str = typer.Option("", "--lot", help="Lot de la revue (avec --enregistrer)."),
+) -> None:
+    """Retour d'expérience d'un projet (lot 42) : échecs à classer, constats à
+    verser, candidats patrons, métriques et tableau de bord. Code 1 si un échec
+    n'est pas classé (la clôture du lot est bloquée). Sans archives d'exécution
+    (profil cloud), le dit et n'échoue pas."""
+    from aster_expert.connaissances.base import KnowledgeBaseError
+    from aster_expert.connaissances.rex import (
+        record_review,
+        render_report,
+        review_project,
+        write_dashboard,
+        write_metrics,
+    )
+
+    root = _project_root()
+    if enregistrer and not lot:
+        typer.echo("rex : --enregistrer exige --lot", err=True)
+        raise typer.Exit(2)
+    try:
+        report = review_project(root, projet)
+    except (FileNotFoundError, ValueError, KnowledgeBaseError) as exc:
+        typer.echo(f"rex ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    for line in render_report(report):
+        typer.echo(line)
+    if report.archives_present:
+        path = write_metrics(root, report.metrics)
+        typer.echo(f"Métriques : {path.relative_to(root)}")
+        dashboard = write_dashboard(root)
+        typer.echo(f"Tableau de bord : {dashboard.relative_to(root)}")
+        if enregistrer:
+            registry = record_review(root, report, lot=lot)
+            typer.echo(f"Revue inscrite : {registry.relative_to(root)}")
+    elif enregistrer:
+        typer.echo("Revue non inscrite : archives d'exécution absentes.")
+    if report.blocking:
         raise typer.Exit(1)
 
 

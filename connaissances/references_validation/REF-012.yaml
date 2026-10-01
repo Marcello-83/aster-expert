@@ -1,0 +1,57 @@
+id: REF-012
+title: Ferraillage ELS caractéristique 1D (lot 39)
+summary: 'Aires ELS caractéristiques 1D de CALC_FERRAILLAGE comparées au pivot acier de R7.04.05
+  refait par aster_expert.rebar : écarts de −4,4 % et +0,25 %, cause non établie.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: C
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot39_essais/limites/limites.comm
+  case_sha256: acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e
+  outcome: réussite
+  level: C
+  note: cas versionné de la référence
+- kind: document
+  path: docs/essais_lot39.md
+  section: null
+  note: null
+commands:
+- CALC_FERRAILLAGE
+keywords:
+- AYS
+- AZS
+reuses: []
+status_history: []
+problem: Section rectangulaire, MFZ puis MFY seuls, ELS caractéristique.
+reference_solution: 'Pivot acier de R7.04.05 (aster_expert.rebar.service). Critère du dépôt
+  (CLAUDE.md, « Critère de réussite des essais », à partir du lot 25) : grandeur exacte à
+  1e-6 relatif, grandeur sensible à la discrétisation dont l''erreur décroît au raffinement
+  ×2. Les essais antérieurs au lot 25 n''avaient pas écrit de critère : celui-ci leur est
+  appliqué tel quel, sans adaptation.'
+cases:
+- case_path: data/examples/lot39_essais/limites/limites.comm
+  case_sha256: acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e
+  quantities:
+  - name: AYS (m²), MFZ = 2 MN·m, ELS caractéristique
+    value_obtained: 0.002081469593138
+    reference_value: 0.002177744901909289
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'CA-044 ; référence : pivot acier de R7.04.05 (aster_expert.rebar.serviceability.design_els),
+      h = 2,50, b = 1,40, d = 2,40'
+  - name: AZS (m²), MFY = 1 MN·m, ELS caractéristique
+    value_obtained: 0.002013326243362
+    reference_value: 0.0020082248085311213
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'CA-044 ; référence : pivot acier de R7.04.05 (design_els), h = 1,40, b = 2,50'
+result: échec

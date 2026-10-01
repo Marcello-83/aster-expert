@@ -1,0 +1,40 @@
+id: PRE-015
+title: 'Point 12 : Poussée et pression d''eau sur la hauteur de la poutre de couronnement'
+summary: 'Décision de MM au point 12 de la fiche du quai (2026-09-24) : Poussée et pression
+  d''eau sur la hauteur de la poutre de couronnement.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '12'
+  decided_by: MM
+  decided_at: '2026-09-24T05:48:08-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '12'
+topic: Poussée et pression d'eau sur la hauteur de la poutre de couronnement
+option_retained: Entre +2,60 et +4,00, les profils de poussée G et Q1 et les profils de pression
+  d'eau sont intégrés sur la hauteur de la poutre de couronnement. Leur résultante, par mètre
+  de quai, est appliquée comme une charge linéique répartie sur l'élément de poutre `POUTRE_COUR`,
+  dirigée vers le bassin (−Y), sur toute la longueur de la tranche. Le moment de cette résultante
+  par rapport à l'axe de la poutre (+3,30) est appliqué comme un moment linéique d'axe X.
+justification: L'écran n'est maillé que jusqu'à +2,60 (décision 11). Le terrain pousse pourtant
+  sur toute la hauteur jusqu'à l'arase (+4,00). Sans cette charge, la poussée sur la hauteur
+  de la poutre est perdue, soit environ 119 kN pour G et 358 kN pour Q1 sur la tranche. La
+  poutre étant représentée par son axe, une charge linéique équivalente, avec son moment de
+  transport, est la représentation cohérente avec la décision du point 3.
+validity_domain: 'La poutre étant un élément de poutre, la répartition de la poussée sur sa
+  hauteur n''est pas représentée : seule sa résultante et son moment le sont.'
+discarded_variants:
+- 'Ignorer la poussée au-dessus de +2,60. — écartée : Charge perdue, et équilibre faussé d''environ
+  0,5 % pour G et 5 % pour Q1.'
+decided_by: MM
+decided_at: '2026-09-24T05:48:08-04:00'
+superseded_decisions: 0
+application: proposition seulement

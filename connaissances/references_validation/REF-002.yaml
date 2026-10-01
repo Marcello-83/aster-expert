@@ -1,0 +1,61 @@
+id: REF-002
+title: Poids propre ELAS et ELAS_COQUE (essai B, lot 22)
+summary: Résultante verticale des réactions de deux plaques sous PESANTEUR, comparée à RHO
+  × EPAIS × g × aire.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot22_essais/essai_b/b2.comm
+  case_sha256: 2f129eaae6a5fcc86eaee018054fbf6a61f5c9ea12bb3834d73ec658a84d5c67
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: document
+  path: docs/essais_lot22.md
+  section: null
+  note: null
+commands:
+- AFFE_CHAR_MECA
+- DEFI_MATERIAU
+keywords:
+- ELAS_COQUE
+- PESANTEUR
+- RHO
+reuses: []
+status_history: []
+problem: Deux plaques (ELAS, ELAS_COQUE) sous PESANTEUR ; la console b3, sensible à la discrétisation
+  et sans cas raffiné, n'est pas une référence.
+reference_solution: 'Équilibre : RHO × EPAIS × g × aire. Critère du dépôt (CLAUDE.md, « Critère
+  de réussite des essais », à partir du lot 25) : grandeur exacte à 1e-6 relatif, grandeur
+  sensible à la discrétisation dont l''erreur décroît au raffinement ×2. Les essais antérieurs
+  au lot 25 n''avaient pas écrit de critère : celui-ci leur est appliqué tel quel, sans adaptation.'
+cases:
+- case_path: data/examples/lot22_essais/essai_b/b2.comm
+  case_sha256: 2f129eaae6a5fcc86eaee018054fbf6a61f5c9ea12bb3834d73ec658a84d5c67
+  quantities:
+  - name: résultante verticale des réactions de la plaque 1 (ELAS, RHO = 7850, EPAIS = 0,01)
+      sous PESANTEUR
+    value_obtained: 770.085
+    reference_value: 770.085
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-024 ; référence : RHO × EPAIS × g × aire = 7850 × 0,01 × 9,81 × 1 m²'
+  - name: résultante verticale des réactions de la plaque 2 (ELAS_COQUE, RHO = 100, EPAIS
+      = 0,02) sous PESANTEUR
+    value_obtained: 19.62
+    reference_value: 19.62
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-024 ; référence : RHO × EPAIS × g × aire = 100 × 0,02 × 9,81 × 1 m² (hypothèse
+      masse volumique ; l''hypothèse masse surfacique donnerait 981 N)'
+result: réussi

@@ -28,6 +28,7 @@ from aster_expert.mcp.models import (
     CommAnalysisResult,
     CommandSchemaResult,
     DocumentSectionResult,
+    SearchConnaissancesResult,
     SearchConstatsResult,
     SearchDocsResult,
 )
@@ -74,8 +75,12 @@ app = MCPServer(
         "fichiers de commandes des cas tests officiels se cherchent par "
         "commande (search_test_cases) et se lisent par read_test_case : "
         "jamais par lecture directe du dépôt. Avant d'écrire une commande, "
-        "chercher par search_constats les constats de la base partagée qui la "
-        "concernent (pièges établis, souvent par exécution)."
+        "chercher par search_connaissances (ou search_constats, constats seuls) "
+        "les constats et patrons qui la concernent ; dès qu'une erreur ou une "
+        "alarme apparaît dans un .mess, chercher les diagnostics avant toute "
+        "autre hypothèse ; avant de proposer une décision pratique, les "
+        "précédents (jamais appliqués, seulement proposés) ; avant d'écrire un "
+        "contrôle, les contrôles existants."
     ),
 )
 
@@ -329,6 +334,46 @@ def search_constats(
         text=text,
         command=command,
         keyword=keyword,
+        limit=limit,
+    )
+
+
+_SEARCH_CONNAISSANCES_DESCRIPTION = (
+    "Cherche dans la base de connaissances de l'outil (connaissances/, six "
+    "couches versionnées, lot 42) : constats_code_aster (faits établis sur "
+    "Code_Aster), diagnostics (signature d'erreur <F>/<A>, cause, correction), "
+    "patrons (recettes de modélisation), controles (contrôles de vérification), "
+    "references_validation (cas à solution connue, critère et résultat), "
+    "precedents (décisions pratiques de MM, jamais appliquées automatiquement). "
+    "Critères, au moins un, combinés : `text` libre (tous les mots, accents et "
+    "casse ignorés), `command` du catalogue, `keyword` (mot-clé, valeur ou "
+    "identifiant de message comme 'FACTOR_11'), `layers` (liste de couches), "
+    "`status` ('observé', 'établi', 'promu'). Chaque résultat porte son statut, "
+    "le niveau atteint par l'entrée elle-même (A à E) et le fichier qui porte "
+    "ses preuves. Niveau de la réponse : A (lecture de la base, rien n'est "
+    "exécuté). Consultation obligatoire : avant d'écrire une commande "
+    "(constats, patrons), dès qu'une erreur apparaît dans un .mess "
+    "(diagnostics, avant toute autre hypothèse), avant de proposer une décision "
+    "pratique (precedents), avant d'écrire un contrôle (controles)."
+)
+
+
+@app.tool(description=_SEARCH_CONNAISSANCES_DESCRIPTION)
+def search_connaissances(
+    text: str | None = None,
+    command: str | None = None,
+    keyword: str | None = None,
+    layers: list[str] | None = None,
+    status: str | None = None,
+    limit: int = 20,
+) -> SearchConnaissancesResult:
+    return tools.search_connaissances(
+        project_root=_project_root(),
+        text=text,
+        command=command,
+        keyword=keyword,
+        layers=layers,
+        status=status,
         limit=limit,
     )
 

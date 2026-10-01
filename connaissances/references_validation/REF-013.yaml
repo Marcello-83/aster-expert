@@ -1,0 +1,66 @@
+id: REF-013
+title: Ferraillage minimal EC2 en MPa (lot 39)
+summary: Aires minimales FERR_MIN='EC2' en UNITE_CONTRAINTE='MPa', comparées aux formules
+  9.1N et 9.5N de l'EN 1992-1-1.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: C
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm
+  case_sha256: ce4bdd70b323de7c66acd4362ad1c72fc1308dc77edf7853a059e8804b25b6f4
+  outcome: réussite
+  level: C
+  note: cas versionné de la référence
+- kind: document
+  path: docs/essais_lot39.md
+  section: null
+  note: null
+commands:
+- CALC_FERRAILLAGE
+keywords:
+- FERR_MIN
+- UNITE_CONTRAINTE
+reuses: []
+status_history: []
+problem: Section rectangulaire, avec et sans effort, unités MPa et mm.
+reference_solution: 'EN 1992-1-1, 9.2.1.1 (9.1N) et 9.2.2(5) (9.5N), citées par article. Critère
+  du dépôt (CLAUDE.md, « Critère de réussite des essais », à partir du lot 25) : grandeur
+  exacte à 1e-6 relatif, grandeur sensible à la discrétisation dont l''erreur décroît au raffinement
+  ×2. Les essais antérieurs au lot 25 n''avaient pas écrit de critère : celui-ci leur est
+  appliqué tel quel, sans adaptation.'
+cases:
+- case_path: data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm
+  case_sha256: ce4bdd70b323de7c66acd4362ad1c72fc1308dc77edf7853a059e8804b25b6f4
+  quantities:
+  - name: AYS (mm²) avec FERR_MIN='EC2', MFZ = 1e9 N·mm, UNITE_CONTRAINTE='MPa'
+    value_obtained: 5608.44637813
+    reference_value: 5608.44637812992
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-041 ; référence : EN 1992-1-1 9.2.1.1 (9.1N), 0,26 fctm/fyk b d en mm² (b =
+      1400, d = 2400)'
+  - name: AZI (mm²) avec FERR_MIN='EC2', aucun effort, UNITE_CONTRAINTE='MPa'
+    value_obtained: 5424.836526465
+    reference_value: 5424.836526464953
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-041 ; référence : EN 1992-1-1 9.2.1.1 (9.1N), b = 2500, d = 1300'
+  - name: AST (mm²/mm) avec FERR_MIN='EC2', aucun effort, UNITE_CONTRAINTE='MPa'
+    value_obtained: 2.36643191324
+    reference_value: 2.3664319132398464
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-041 ; référence : EN 1992-1-1 9.2.2(5) (9.5N), rho_w,min x HY = 2500 mm'
+result: réussi

@@ -1,0 +1,68 @@
+id: PRE-010
+title: 'Point 8 : Application des charges localisées d''amarrage et d''accostage'
+summary: 'Décision de MM au point 8 de la fiche du quai (2026-09-22) : Application des charges
+  localisées d''amarrage et d''accostage.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '8'
+  decided_by: MM
+  decided_at: '2026-09-22T18:00:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '8'
+topic: Application des charges localisées d'amarrage et d'accostage
+option_retained: 'Les seules charges localisées du modèle sont l''amarrage (Q3) et l''accostage
+  (A). Aucune charge de grue : la voie de grue est un ouvrage distinct, fondé sur pieux, sans
+  interaction avec l''écran.
+
+
+  *Amarrage.* Effort de 1 000 kN incliné de 30° au-dessus de l''horizontale, dans le plan
+  perpendiculaire au quai, dirigé vers le bassin. Appliqué comme force nodale au nœud `BOLLARD`,
+  sur l''axe de la poutre de couronnement (cote +3,30) au droit de `TUBE_05`, avec le moment
+  de transport dû au décalage vertical de 0,70 m : M = 866 kN × 0,70 m ≈ 606 kN·m, d''axe
+  parallèle au quai. Le bollard est supposé sur l''axe de la poutre en plan.
+
+
+  *Accostage.* Effort horizontal de 800 kN, perpendiculaire au quai, dirigé vers la terre.
+  La défense n''est pas modélisée. Sa réaction est répartie uniformément sur l''empreinte
+  `DEFENSE`, formée des facettes de `TUBE_05` comprises entre +1,00 et +2,00 et à ±45° de
+  la génératrice tournée vers le bassin. Cela correspond à une platine de fixation d''environ
+  1,00 m de large. La charge est une force surfacique de direction fixe dans le repère global.
+  Son intensité est calculée par le générateur à partir de la surface développée réelle des
+  mailles de l''empreinte : q = 800 kN / Σ A_mailles. La valeur est d''environ 717 kN/m² pour
+  une empreinte cylindrique idéale de 1,115 m².'
+justification: La réaction de la défense est une donnée établie en amont par le choix de la
+  défense ; seule compte, pour la structure, la façon dont elle entre dans l'écran. L'essai
+  d'exécution du lot 21 établit que l'intensité d'une force surfacique sur coque se rapporte
+  à la surface développée des mailles, avec un écart de 0,0001 % sur la résultante. Calculer
+  l'intensité sur la surface développée des mailles effectivement générées garantit donc une
+  résultante exacte de 800 kN, quel que soit le nombre de facettes. L'empreinte angulaire
+  représente une platine plane sur un tube courbe, plutôt que la demi-circonférence entière.
+  Pour l'amarrage, le moment de transport restitue l'excentricité du point d'application par
+  rapport à l'axe de la poutre.
+validity_domain: Les dimensions de l'empreinte sont inventées. Les contraintes locales du
+  tube sous l'empreinte y sont sensibles et demandent un maillage raffiné dans cette zone.
+  La répartition uniforme ne représente pas la distribution réelle de contact d'une platine.
+  Le moment de transport suppose la section de la poutre indéformable. L'excentricité en plan
+  du bollard n'est pas représentée.
+discarded_variants:
+- 'Intensité rapportée à la surface projetée, 800 / (1,00 × 1,42) ≈ 563 kN/m² (décision v3).
+  — écartée : L''essai du lot 21 montre que la force surfacique sur coque se rapporte à la
+  surface développée ; la résultante aurait été fausse.'
+- 'Empreinte sur toute la demi-circonférence tournée vers le bassin. — écartée : Ne correspond
+  à aucune platine réelle et étale la charge sur toute la largeur du tube.'
+- 'Défense modélisée en éléments de coque. — écartée : Le comportement d''une défense en élastomère
+  n''est pas celui d''une coque élastique, et sa réaction est déjà une donnée.'
+- 'Force ponctuelle nodale pour l''accostage. — écartée : Singularité locale dans les coques.'
+decided_by: MM
+decided_at: '2026-09-22T18:00:00'
+superseded_decisions: 1
+application: proposition seulement

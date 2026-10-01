@@ -1,0 +1,98 @@
+id: REF-006
+title: 'Plaque orthotrope : membrane et cisaillement (essais D6a, D6c, lot 24)'
+summary: Allongement, effort normal et glissement d'une plaque ELAS_COQUE en membrane et en
+  cisaillement, comparés aux solutions exactes.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot24_essais/essai_d6a/d6a.comm
+  case_sha256: 43a3a5131c82ac7821fc8ade99aa96c114f85c3d7671a935476e4ef715451c26
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot24_essais/essai_d6c/d6c.comm
+  case_sha256: 7f6d7f321ce06a8549e2ea60be5164ee059700c77366552f3a2503eb6148e4a9
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: document
+  path: docs/essais_lot24.md
+  section: null
+  note: null
+commands:
+- DEFI_MATERIAU
+keywords:
+- EFGE_NOEU
+- ELAS_COQUE
+- MEMB_G_LT
+- MEMB_T
+reuses: []
+status_history: []
+problem: Plaque carrée DKT, coefficients de la décision 2, traction selon T et cisaillement
+  pur.
+reference_solution: 'q·a/MEMB_T, NYY = q, γ·a = τ·a/MEMB_G_LT, NXY = τ. Critère du dépôt (CLAUDE.md,
+  « Critère de réussite des essais », à partir du lot 25) : grandeur exacte à 1e-6 relatif,
+  grandeur sensible à la discrétisation dont l''erreur décroît au raffinement ×2. Les essais
+  antérieurs au lot 25 n''avaient pas écrit de critère : celui-ci leur est appliqué tel quel,
+  sans adaptation.'
+cases:
+- case_path: data/examples/lot24_essais/essai_d6a/d6a.comm
+  case_sha256: 43a3a5131c82ac7821fc8ade99aa96c114f85c3d7671a935476e4ef715451c26
+  quantities:
+  - name: allongement DX du bord chargé (x = a), valeur moyenne, D6a (traction de membrane
+      selon T, q = 100 N/m)
+    value_obtained: 0.0012345679012407778
+    reference_value: 0.0012345679012345679
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : q·a/MEMB_T = 100 N/m × 1 m / 81 000 N/m'
+  - name: effort normal NYY (selon T) moyen des nœuds EFGE_NOEU, D6a
+    value_obtained: 100.00000000049383
+    reference_value: 100.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : NYY = q = 100 N/m'
+  - name: résultante REAC_NODA en X du bord x = 0 (valeur absolue), D6a
+    value_obtained: 100.0000000008
+    reference_value: 100.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : équilibre : q·a = 100 N/m × 1 m = 100 N'
+- case_path: data/examples/lot24_essais/essai_d6c/d6c.comm
+  case_sha256: 7f6d7f321ce06a8549e2ea60be5164ee059700c77366552f3a2503eb6148e4a9
+  quantities:
+  - name: déplacement DX du bord supérieur (y = a), valeur moyenne, D6c (cisaillement de membrane
+      pur, τ = 1e5 N/m)
+    value_obtained: 0.00019011406844114445
+    reference_value: 0.00019011406844106463
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : γ·a = τ·a/MEMB_G_LT = 1e5 × 1 / 5,26e8'
+  - name: effort de cisaillement NXY (valeur absolue) moyen des nœuds EFGE_NOEU, D6c
+    value_obtained: 100000.0
+    reference_value: 100000.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : NXY = τ = 1e5 N/m'
+result: réussi

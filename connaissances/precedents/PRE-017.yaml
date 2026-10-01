@@ -1,0 +1,48 @@
+id: PRE-017
+title: 'Point 14 : Durabilité, enrobage et maîtrise de la fissuration du béton armé'
+summary: 'Décision de MM au point 14 de la fiche du quai (2026-09-25) : Durabilité, enrobage
+  et maîtrise de la fissuration du béton armé.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '14'
+  decided_by: MM
+  decided_at: '2026-09-25T09:53:49-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '14'
+topic: Durabilité, enrobage et maîtrise de la fissuration du béton armé
+option_retained: '- Béton C35/45, acier B500B (cas de test, §3).
+
+  - Classe d''exposition XS3 ; durée d''utilisation de projet de 100 ans.
+
+  - Enrobage nominal de 65 mm.
+
+  - Maîtrise de la fissuration sous combinaison quasi permanente, avec une ouverture de fissure
+  limite wk = 0,2 mm.'
+justification: La poutre de couronnement d'un quai est en zone de marnage et d'éclaboussures,
+  d'où la classe XS3. La durée de 100 ans est celle d'un ouvrage portuaire. L'enrobage et
+  l'ouverture de fissure limite sont les valeurs usuelles de MM pour ce type d'ouvrage.
+validity_domain: Ces valeurs s'appliquent à la seule poutre de couronnement, seul élément
+  en béton armé du modèle. Les tubes et les palplanches en acier relèvent de l'EN 1993-5,
+  hors de cette décision.
+discarded_variants:
+- 'Ouverture de fissure limite de 0,3 mm sous combinaison quasi permanente. — écartée : Valeur
+  recommandée de l''EN 1992-1-1 (tableau 7.1N) pour la classe XS3 ; MM retient 0,2 mm, plus
+  sévère, pour un ouvrage maritime de durée d''utilisation de 100 ans.'
+- 'Enrobage déterminé par le calcul détaillé de cmin,dur selon l''EN 1992-1-1 (§4.4.1). —
+  écartée : MM retient directement sa valeur usuelle de 65 mm pour ce type d''ouvrage ; le
+  calcul détaillé n''apporte rien à un cas de test.'
+- 'Maîtrise de la fissuration sous combinaison fréquente. — écartée : MM retient la combinaison
+  quasi permanente, usuelle pour la maîtrise de l''ouverture des fissures en béton armé.'
+decided_by: MM
+decided_at: '2026-09-25T09:53:49-04:00'
+superseded_decisions: 0
+application: proposition seulement

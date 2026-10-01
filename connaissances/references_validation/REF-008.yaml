@@ -1,0 +1,127 @@
+id: REF-008
+title: 'Coque dans le plan XZ : orientation par VECTEUR et ANGL_REP (essai D7, lot 25)'
+summary: Flèche en tête et moment d'encastrement d'une console verticale ELAS_COQUE selon
+  trois orientations ; la flèche, classée sensible à la discrétisation par le critère écrit
+  du lot 25, échoue à ce critère.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot25_essais/essai_d7a/d7a.comm
+  case_sha256: 203fb4f64d7aedcab5fb4d5da26e031c39395db95a034f79ac15be5981c9b67c
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot25_essais/essai_d7b/d7b.comm
+  case_sha256: 5ad59f9019ded95843bd9df16bcb9209da500b14f300d5aee349d3de89ef8f9e
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot25_essais/essai_d7c/d7c.comm
+  case_sha256: 44a67f69135fc01850555a7ba9f9f231e729226f4cb04211fffcf330ef53adc7
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot25_essais/essai_d7a/d7a16.comm
+  case_sha256: 54a476db8e3fe8240c4f0a9660ace85fadedcf1fc476b79c4790d2b617c6704b
+  outcome: réussite
+  level: D
+  note: cas raffiné ×2
+- kind: execution
+  run: null
+  case_path: data/examples/lot25_essais/essai_d7b/d7b16.comm
+  case_sha256: 206b7c6b4088302c7a5dba07873cac7e7cedead0c03741e05b3610df65c4e066
+  outcome: réussite
+  level: D
+  note: cas raffiné ×2
+- kind: document
+  path: docs/essais_lot25.md
+  section: null
+  note: null
+commands:
+- AFFE_CARA_ELEM
+keywords:
+- ANGL_REP
+- EFGE_NOEU
+- ELAS_COQUE
+- VECTEUR
+reuses: []
+status_history: []
+problem: Console DKT dans le plan XZ, charge linéique en tête, VECTEUR = (0, 0, 1), (1, 0,
+  0) et ANGL_REP = (0, −90).
+reference_solution: 'q·H³/(3·FLEX), q·H ; le lot 25 avait classé la flèche « sensible à la
+  discrétisation » avant l''exécution, alors qu''elle est reproduite à la précision du solveur
+  : échec rapporté tel quel (critère 2 du lot 25). Critère du dépôt (CLAUDE.md, « Critère
+  de réussite des essais », à partir du lot 25) : grandeur exacte à 1e-6 relatif, grandeur
+  sensible à la discrétisation dont l''erreur décroît au raffinement ×2. Les essais antérieurs
+  au lot 25 n''avaient pas écrit de critère : celui-ci leur est appliqué tel quel, sans adaptation.'
+cases:
+- case_path: data/examples/lot25_essais/essai_d7a/d7a.comm
+  case_sha256: 203fb4f64d7aedcab5fb4d5da26e031c39395db95a034f79ac15be5981c9b67c
+  quantities:
+  - name: flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7a (VECTEUR = (0, 0,
+      1)), maillage 8 × 8
+    value_obtained: 3.745318352061111e-07
+    reference_value: 3.7453183520599253e-07
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: data/examples/lot25_essais/essai_d7a/d7a16.comm
+    refined_value: 3.7453183520647057e-07
+    result: échec
+    note: 'CA-027 ; référence : q·H³/(3·FLEX_L) = 100 N/m × 1 m³ / (3 × 89e6 N·m²/m)'
+  - name: moment fléchissant |MXX| de EFGE_NOEU à l'encastrement (Z = 0, moyenne des nœuds),
+      D7a, maillage 8 × 8
+    value_obtained: 100.00000000003
+    reference_value: 100.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-027 ; référence : q·H = 100 N/m × 1 m'
+- case_path: data/examples/lot25_essais/essai_d7b/d7b.comm
+  case_sha256: 5ad59f9019ded95843bd9df16bcb9209da500b14f300d5aee349d3de89ef8f9e
+  quantities:
+  - name: flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7b (VECTEUR = (1, 0,
+      0)), maillage 8 × 8
+    value_obtained: 0.0029498525088463333
+    reference_value: 0.0029498525073746312
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: data/examples/lot25_essais/essai_d7b/d7b16.comm
+    refined_value: 0.002949852638257706
+    result: échec
+    note: 'CA-027 ; référence : q·H³/(3·FLEX_T) = 100 N/m × 1 m³ / (3 × 11 300 N·m²/m)'
+  - name: moment fléchissant |MYY| de EFGE_NOEU à l'encastrement (Z = 0, moyenne des nœuds),
+      D7b, maillage 8 × 8
+    value_obtained: 100.00000010257777
+    reference_value: 100.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-027 ; référence : q·H = 100 N/m × 1 m'
+- case_path: data/examples/lot25_essais/essai_d7c/d7c.comm
+  case_sha256: 44a67f69135fc01850555a7ba9f9f231e729226f4cb04211fffcf330ef53adc7
+  quantities:
+  - name: flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7c (ANGL_REP = (0, −90)),
+      maillage 8 × 8
+    value_obtained: 3.745318352061111e-07
+    reference_value: 3.7453183520599253e-07
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-027 ; référence : q·H³/(3·FLEX_L) = 100 N/m × 1 m³ / (3 × 89e6 N·m²/m)'
+result: échec

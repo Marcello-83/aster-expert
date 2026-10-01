@@ -1,0 +1,35 @@
+id: CTL-008
+title: Invariants de maillage (mesh check)
+summary: 'Le MED produit est relu sans Salomé et confronté à des invariants calculés analytiquement
+  avant l''exécution : comptages, groupes, nœuds imposés, partagés, orphelins et confondus.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: tests/unit/test_meshing_invariants.py
+  function: test_missing_group_and_wrong_type_and_bbox_are_reported
+  note: null
+commands: []
+keywords: []
+reuses: []
+status_history: []
+detects: Une géométrie ou un groupe perdu, des nœuds non partagés aux interfaces.
+parameters: Fichier d'invariants généré à partir des paramètres.
+implementation:
+  kind: code
+  path: src/aster_expert/meshing/check.py
+  symbol: check_med
+  note: null
+scope: tronc commun
+caught_error:
+  mode: attrapée
+  description: 'Lot 26 : RemoveWebs passé en 6e position de MakePartition, arêtes isolées
+    supprimées (15 nœuds au lieu de 19).'
+  evidence:
+    kind: document
+    path: docs/essais_lot26.md
+    section: null
+    note: null
+default_harness: false

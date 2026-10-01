@@ -6,6 +6,11 @@ directory, `compte_rendu.json` and `compte_rendu.md`: the command, the
 fingerprints of the files given to Code_Aster, the duration, the status and
 diagnostic of `run_aster.status`, the alarms and `<F>` errors with their
 identifier and message (`run_aster.error_messages`), and the files produced.
+
+Lot 42 (étape 3.3) : when the run fails, the diagnostics of the knowledge base
+whose signature matches its messages (`connaissances/diagnostics/`) are written
+in the compte rendu and shown by `aster-expert run`, before any other
+hypothesis is made. An unreadable base is reported, never fatal to the run.
 """
 
 from __future__ import annotations
@@ -19,6 +24,12 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict
 
+from aster_expert.connaissances.signatures import (
+    DiagnosticMatch,
+    RunMessage,
+    listing_messages,
+    match_diagnostics,
+)
 from aster_expert.execution.models import (
     ExecutionMessage,
     ExecutionReport,
@@ -78,10 +89,48 @@ class RunRecord(BaseModel):
     alarms_by_identifier: dict[str, int]
     errors: tuple[ExecutionMessage, ...]
     """`<F>`, `<E>`, `<S>` messages and Python errors, in the order of the listing."""
+    diagnostics: tuple[DiagnosticMatch, ...] = ()
+    """Diagnostics of the knowledge base matching a failed run (lot 42)."""
+    diagnostics_error: str | None = None
+    """Why the knowledge base could not be searched, if it could not."""
+
+
+FAILED_STATUSES_OK = ("completed_ok", "completed_with_alarms")
+
+
+def find_diagnostics(
+    report: ExecutionReport, knowledge_root: Path
+) -> tuple[tuple[DiagnosticMatch, ...], str | None]:
+    """Diagnostics matching a failed run: messages of the compte rendu, completed
+    by those of the listing (an abnormal stop has none of the former)."""
+    from aster_expert.connaissances.base import (  # noqa: PLC0415
+        KnowledgeBaseError,
+        load_knowledge,
+    )
+
+    try:
+        base = load_knowledge(knowledge_root)
+    except (KnowledgeBaseError, OSError) as exc:
+        return (), f"base de connaissances illisible : {exc}"
+    listing = ""
+    if report.mess_path and Path(report.mess_path).is_file():
+        listing = Path(report.mess_path).read_text(encoding="utf-8", errors="replace")
+    messages = [
+        RunMessage(kind=m.kind, identifier=m.identifier, text=m.text)
+        for m in report.messages
+    ] + listing_messages(listing)
+    return tuple(
+        match_diagnostics(base, messages, diag=report.diag, listing=listing)
+    ), None
 
 
 def build_record(
-    report: ExecutionReport, *, command: str, image: str, inputs_sha256: dict[str, str]
+    report: ExecutionReport,
+    *,
+    command: str,
+    image: str,
+    inputs_sha256: dict[str, str],
+    knowledge_root: Path | None = None,
 ) -> RunRecord:
     work_dir = Path(report.work_dir)
     outputs = {
@@ -93,6 +142,10 @@ def build_record(
         m.identifier or "(sans identifiant)" for m in report.messages if m.kind == "<A>"
     )
     errors = tuple(m for m in report.messages if m.kind != "<A>")
+    diagnostics: tuple[DiagnosticMatch, ...] = ()
+    diagnostics_error = None
+    if knowledge_root is not None and report.status not in FAILED_STATUSES_OK:
+        diagnostics, diagnostics_error = find_diagnostics(report, knowledge_root)
     return RunRecord(
         report=report,
         command=command,
@@ -101,6 +154,8 @@ def build_record(
         outputs=outputs,
         alarms_by_identifier=dict(sorted(alarms.items())),
         errors=errors,
+        diagnostics=diagnostics,
+        diagnostics_error=diagnostics_error,
     )
 
 
@@ -168,6 +223,28 @@ def render_markdown(record: RunRecord) -> str:
                 lines.append(
                     f"| {m.kind} | {m.identifier or '—'} | {m.line} | {text[:400]} |"
                 )
+    if r.status not in FAILED_STATUSES_OK:
+        lines += ["", "## Diagnostics de la base de connaissances", ""]
+        if record.diagnostics_error:
+            lines.append(record.diagnostics_error)
+        elif not record.diagnostics:
+            lines.append(
+                "Aucun diagnostic de `connaissances/diagnostics/` ne correspond : "
+                "échec à classer au retour d'expérience (`aster-expert rex`)."
+            )
+        else:
+            lines += [
+                "Lire ces diagnostics avant toute autre hypothèse.",
+                "",
+                "| Diagnostic | Statut | Signature | Correction |",
+                "| --- | --- | --- | --- |",
+            ]
+            for d in record.diagnostics:
+                correction = d.correction.replace("|", "\\|")
+                lines.append(
+                    f"| `{d.diagnostic_id}` {d.title} | {d.status} | {d.signature} | "
+                    f"{correction[:300]} |"
+                )
     lines += [
         "",
         "## Fichiers produits",
@@ -203,6 +280,7 @@ __all__ = [
     "REPORT_MD",
     "RunRecord",
     "build_record",
+    "find_diagnostics",
     "load_record",
     "parse_message",
     "parse_messages",

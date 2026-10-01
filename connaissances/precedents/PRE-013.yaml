@@ -1,0 +1,82 @@
+id: PRE-013
+title: 'Point 10 : Détails de représentation géométrique et discrétisation'
+summary: 'Décision de MM au point 10 de la fiche du quai (2026-09-21) : Détails de représentation
+  géométrique et discrétisation.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '10'
+  decided_by: MM
+  decided_at: '2026-09-21T11:51:43-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '10'
+topic: Détails de représentation géométrique et discrétisation
+option_retained: '| Sujet | Retenu |
+
+  |---|---|
+
+  | Tête des tubes | Tubes maillés jusqu''à la sous-face de la poutre (+2,60). Anneau `TETE_TUBE_xx`
+  à +2,60, relié par liaison de corps solide au nœud de l''axe de la poutre de même X. |
+
+  | Tête des palplanches | Palplanches maillées jusqu''à +2,60, bord supérieur libre. |
+
+  | Épaisseur de coque des tubes | 14 mm sur toute la circonférence, soit 16 mm moins 2 mm
+  de corrosion. |
+
+  | Accrochage des tirants | Nœud du tube sur la génératrice côté terre (Y = +0,71), à +2,50.
+  Direction du tirant : dans le plan YZ, vers +Y, descendante de 20°. Extrémité `ANC_xx` à
+  Y = +25,14, Z = −6,39. |
+
+  | Surface de poussée | `ECRAN_POUSSEE` regroupe les facettes des tubes situées côté terre
+  (Y ≥ 0) et les palplanches. Au-dessous de −18,00, seuls les tubes la reçoivent. |
+
+  | Facettisation des tubes | 40 facettes sur la circonférence (9°). Des génératrices tombent
+  donc exactement en Y = 0 (serrures) et à ±45° de la génératrice côté bassin (empreinte `DEFENSE`).
+  |
+
+  | Taille verticale des mailles | 0,25 m visé. Des nœuds sont imposés aux cotes −26,00 ;
+  −18,00 ; −12,00 ; +1,00 ; +2,00 ; +2,50 ; +2,60. |
+
+  | Palplanches, sens horizontal | 5 mailles par intervalle de 1,18 m. |
+
+  | Poutre de couronnement | Éléments de poutre, 8 par entraxe, avec un nœud au droit de chaque
+  tube (X = 0 compris, pour `BOLLARD`). |
+
+  | Tirants | Un élément de barre par tirant. |'
+justification: 'Le tube encastré dans le béton n''a pas de comportement de coque propre. Couper
+  sa représentation à la sous-face de la poutre, et reporter l''encastrement par la liaison
+  de corps solide de la décision du point 3, évite de mailler une coque fictive noyée dans
+  la poutre. Une épaisseur uniforme de 14 mm applique la corrosion donnée par le cas de test
+  sans découper le tube en deux demi-coques. Le nombre de facettes est choisi pour que les
+  lignes géométriques imposées par les décisions — serrures et empreinte de défense — tombent
+  sur des génératrices : les groupes sont alors exacts sans projection. Les cotes imposées
+  portent les interfaces de strates, les limites de ressorts et les points d''application
+  de charge.'
+validity_domain: '- L''épaisseur uniforme de 14 mm sous-estime la raideur côté terre, où il
+  n''y a pas de corrosion.
+
+  - Le bord libre des palplanches en tête ignore leur encastrement réel dans la poutre.
+
+  - L''accrochage du tirant en un seul nœud crée une singularité locale de contrainte : les
+  contraintes du tube autour de ce nœud ne sont pas exploitables.
+
+  - La taille de maille (0,25 m, 40 facettes) n''a fait l''objet d''aucune étude de convergence.'
+discarded_variants:
+- 'Tube maillé jusqu''à son sommet réel (+3,40) dans le volume de la poutre. — écartée : Coque
+  fictive noyée dans le béton, sans comportement propre.'
+- '16 mm côté terre et 14 mm côté bassin. — écartée : Découpe le tube en deux groupes de coques
+  pour un effet sans objet dans ce test.'
+- '36 facettes (10°). — écartée : Ne place pas de génératrice à ±45°, limite de l''empreinte
+  de défense.'
+decided_by: MM
+decided_at: '2026-09-21T11:51:43-04:00'
+superseded_decisions: 0
+application: proposition seulement

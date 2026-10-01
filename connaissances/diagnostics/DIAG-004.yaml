@@ -1,0 +1,55 @@
+id: DIAG-004
+title: Ressort DIS_T sans masse sous PESANTEUR
+summary: 'Sous PESANTEUR, un élément DIS_T qui ne porte que K_T_D_N arrête le calcul (DISCRETS_26/30/31)
+  : une masse M_T_D_N, même nulle, doit être affectée.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: execution
+  run: 20260923T130902-3cb174f7
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 29, reproducteur
+- kind: execution
+  run: 20260923T173024-00363e2e
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 30, retrait de la poutre
+- kind: document
+  path: docs/essais_lot31.md
+  section: null
+  note: correction vérifiée par exécution
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_generate.py
+  function: test_springs_carry_an_explicit_zero_mass
+  note: null
+commands:
+- AFFE_CARA_ELEM
+- AFFE_CHAR_MECA
+keywords:
+- DISCRET
+- DIS_T
+- K_T_D_N
+- M_T_D_N
+- PESANTEUR
+reuses: []
+status_history: []
+category: modélisation
+signature:
+  kind: <F>
+  identifiers:
+  - DISCRETS_26
+  - DISCRETS_30
+  - DISCRETS_31
+  pattern: null
+cause: PESANTEUR passe par la matrice de masse ; un discret sans caractéristique de masse
+  produit l'alarme, aggravée en erreur par DEBUT(ERREUR=_F(ALARME="EXCEPTION")) (CATAMESS_3).
+cause_established: true
+correction: AFFE_CARA_ELEM/DISCRET, CARA="M_T_D_N", VALE=(0.0,) par classe de ressort.
+prevention: null

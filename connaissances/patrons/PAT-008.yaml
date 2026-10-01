@@ -1,0 +1,46 @@
+id: PAT-008
+title: Script Salomé en partition unique, groupes sur la géométrie
+summary: Un maillage d'ouvrage se produit par un script Salomé qui assemble toute la géométrie
+  en une seule partition, crée les groupes sur la géométrie et impose un nombre entier de
+  segments par arête, puis se vérifie par mesh check.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: tests/integration/test_reel_lent.py
+  function: test_salome_meshes_a_minimal_geometry_and_mesh_check_holds
+  note: null
+- kind: document
+  path: docs/essais_lot26.md
+  section: null
+  note: null
+- kind: document
+  path: docs/essais_lot27.md
+  section: null
+  note: null
+commands: []
+keywords:
+- SEG2
+- QUAD4
+reuses: []
+status_history: []
+problem: Garantir le partage des nœuds aux interfaces coque/poutre/barre et des groupes reproductibles.
+solution: 'MakePartition en arguments nommés (KeepNonlimitShapes=1, 8e argument) entre # ASSEMBLY
+  begin/end ; CreateGroup/UnionIDs puis GroupOnGeom ; segment_count par arête ; empreinte
+  des paramètres dans <sortie>.meta.json.'
+fragment: "PARTITION = geompy.MakePartition(\n    ListShapes=faces + edges,\n    ListTools=[],\n\
+  \    ListKeepInside=[],\n    ListRemoveInside=[],\n    Limit=geompy.ShapeType[\"FACE\"],\n\
+  \    RemoveWebs=0,\n    ListMaterials=[],\n    KeepNonlimitShapes=1,\n)"
+fragment_language: salome
+conditions: Salomé-Méca V2024.1.0 (conteneur Singularity) ; signatures GEOM/SMESH relevées
+  par introspection, jamais de mémoire.
+controls:
+- CTL-008
+constats: []
+implementation:
+- kind: code
+  path: projets/quai_cw_test_01/maillage/combiwall_mesh.py
+  symbol: segment_count
+  note: null

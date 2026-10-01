@@ -326,6 +326,25 @@ async def _probe_constats(session: ClientSession, work_dir: Path) -> list[ToolCh
     ]
 
 
+async def _probe_connaissances(
+    session: ClientSession, work_dir: Path
+) -> list[ToolCheck]:
+    del work_dir
+    request: dict[str, Any] = {"keyword": "FORCE_COQUE", "limit": 1}
+    found = await _call(session, "search_connaissances", request)
+    hit = _first(found, "results", "search_connaissances")
+    return [
+        ToolCheck(
+            tool="search_connaissances",
+            request=request,
+            summary=(
+                f"{hit['id']} ({hit['layer']}, {hit['status']}), level "
+                f"{found.get('validation_level')}"
+            ),
+        )
+    ]
+
+
 # One probe per group of tools. A declared tool covered by no probe fails the
 # check: whoever adds a tool must also give it a minimal request here.
 _PROBES: dict[str, Probe] = {
@@ -334,6 +353,7 @@ _PROBES: dict[str, Probe] = {
     "analyze_comm": _probe_comm,
     "search_test_cases": _probe_test_cases,
     "search_constats": _probe_constats,
+    "search_connaissances": _probe_connaissances,
 }
 _COVERED_BY: dict[str, str] = {
     "get_document_section": "search_codeaster_docs",

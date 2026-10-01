@@ -100,6 +100,35 @@ Cloud de Claude Code (`docs/cloud.md`).
 - `.mcp.json` lance le serveur par `uv run --project ${CLAUDE_PROJECT_DIR:-.}
   --locked --all-extras` : aucun chemin propre à une machine.
 
+## Base de connaissances et retour d'expérience (lot 42) — lire en cinquième
+
+**Chaque projet rend l'outil meilleur** : ce qu'il apprend est écrit dans
+`connaissances/` (six couches, `connaissances/LISEZMOI.md`), consulté avant d'agir
+et protégé par des tests.
+
+- Couches : `constats_code_aster/` (CA-nnn), `diagnostics/` (DIAG-nnn, ENV-nnn :
+  signature d'erreur, cause, correction), `patrons/` (PAT-nnn), `controles/`
+  (CTL-nnn), `references_validation/` (REF-nnn), `precedents/` (PRE-nnn). Schémas :
+  `aster_expert.connaissances.modeles` ; aucune entrée sans preuve ; contrôle par
+  `aster-expert connaissances verifier`.
+- Statuts : `observé`, `établi` (preuve rejouable : cas versionné ou test),
+  `promu` (deux projets ou niveau E), seulement par `aster-expert connaissances
+  promouvoir <id>`, qui vérifie les conditions. Aucune promotion automatique.
+- **Consultation obligatoire** (`search_connaissances`, skill `code-aster-expert`
+  § 6 quater) : avant d'écrire une commande (constats, patrons) ; dès qu'une erreur
+  ou une alarme apparaît dans un `.mess` (diagnostics, avant toute autre
+  hypothèse ; `aster-expert run` les affiche pour un échec) ; avant de proposer une
+  décision pratique (précédents) ; avant d'écrire un contrôle (contrôles).
+- **Un précédent n'est jamais appliqué** : il se propose (`aster-expert
+  connaissances proposer-precedent`, entrée non tranchée, origine
+  `precedent_projet`) et MM arbitre.
+- **Tout lot se termine par `aster-expert rex <projet>`, et le compte rendu inclut
+  sa sortie.** Un échec d'exécution non classé (registre
+  `connaissances/rex/<projet>.yaml` : rattaché à un diagnostic, nouveau
+  diagnostic, ou écarté avec un motif) bloque la clôture du lot. Le compte rendu
+  déclare les interventions de MM et les connaissances qui ont évité une erreur
+  (champ `lots` du registre), à partir du lot 43.
+
 ## Mission
 
 Construire un agent expert Code_Aster versionné, traçable, capable de valider
@@ -298,6 +327,10 @@ le compte rendu complet :
 3. la liste des tests exécutés et leurs résultats exacts ;
 4. les limites connues et les points non couverts.
 
+Depuis le lot 42, avant ce commit : `aster-expert rex <projet>` (et, une fois les
+échecs classés, `aster-expert rex <projet> --enregistrer --lot NN`) ; sa sortie est
+reproduite dans le compte rendu, et un échec non classé interdit la clôture.
+
 Depuis le lot 41 ter, ce commit est fait sur la branche `lot-NN` du lot, poussée
 sur GitHub ; MM la fusionne dans `main` après relecture (section « GitHub,
 branches et Cloud »). C'est toujours le commit lui-même, avec son message
@@ -334,6 +367,9 @@ de la machine) ; jamais de commit de fusion cosmétique fait par la session.
 - Huit outils depuis le lot 41 : `search_constats` cherche dans la base partagée des
   constats (commande, mot-clé, texte) ; le skill `code-aster-expert` impose de la
   consulter avant d'écrire une commande.
+- Neuf outils depuis le lot 42 : `search_connaissances` interroge les six couches de
+  `connaissances/` (texte, commande, mot-clé, couche, statut) et englobe
+  `search_constats`, conservé.
 - `search_codeaster_docs` n'indexe pas les cas tests (familles présentes : V, R, U4,
   D, U2, U3, U7, U1, SV, SU, U0) : les chercher par `search_test_cases`. Une `family`
   absente de l'index est refusée avec la liste des familles présentes.
@@ -692,7 +728,7 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   ligne par plan de flexion, colonnes de MM vides. ELU accidentelle : γc = 1,2, γs = 1,0
   (EN 1992-1-1, tableau 2.1N, non décidés par MM). 7 exécutions réelles (71,3 s).
 
-## Lots 33 à 41 ter (résumé)
+## Lots 33 à 42 (résumé)
 
 Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de leur
 époque : depuis le lot 41, le code, les données et les scripts du quai sont dans
@@ -766,6 +802,19 @@ Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de
   dans la VM sans le tirage de l'image ; crochet `SessionStart --session`),
   `aster_expert.publication` + crochet `pre-commit`. Cloud : `releases.astral.sh` à
   autoriser (Python de `uv`).
+- **Lot 42** (`connaissances/LISEZMOI.md`, `docs/lots/lot42_consigne.md`) :
+  capitalisation. Paquet `aster_expert.connaissances` (schémas des cinq couches
+  YAML, base et confrontation des preuves au dépôt, recherche, signatures d'erreur,
+  promotion, précédents proposés, rejeu des références, `rex` et métriques) ; outil
+  MCP `search_connaissances` ; diagnostics dans le compte rendu de `run` ; `aster-expert
+  eval candidats` (39 questions candidates du journal, à valider par MM,
+  `data/evaluations/questions_candidates_lot42.jsonl`). Amorçage par le quai
+  (`quai_cw_test_01.capitalisation`) : 25 diagnostics (dont ENV-001), 9 patrons, 11
+  contrôles, 13 références (3 en échec rapporté tel quel), 18 précédents ; aucune
+  entrée promue. Les 73 échecs archivés : 69 rattachés à 24 diagnostics (le
+  diagnostic proposé automatiquement est le bon pour les 69), 4 écartés (fautes de
+  frappe sur un nom de groupe). Le journal `query_log.jsonl` contient une ligne
+  abîmée (octets nuls) : lue en tolérance, jamais réparée.
 
 ## Périmètre à ne pas dépasser sans instruction
 

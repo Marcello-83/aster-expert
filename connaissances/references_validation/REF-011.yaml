@@ -1,0 +1,57 @@
+id: REF-011
+title: Ferraillage ELU 2D d'une plaque DKT (lot 39)
+summary: Densités d'acier ELU de CALC_FERRAILLAGE sur une plaque DKT sous MXX seul et NXX
+  seul, comparées au module rebar et à N/(2 fyd).
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: C
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot39_essais/plaque/plaque.comm
+  case_sha256: 04e924d1b8b285ca592bd7fbe919ce5737e0ef1586d5d700309251e5347821de
+  outcome: réussite
+  level: C
+  note: cas versionné de la référence
+- kind: document
+  path: docs/essais_lot39.md
+  section: null
+  note: null
+commands:
+- CALC_FERRAILLAGE
+keywords:
+- DNSXI
+- DNSXS
+reuses: []
+status_history: []
+problem: Plaque DKT, efforts imposés ; le cas MXY, comparé à Wood-Armer (autre méthode), n'est
+  pas une référence.
+reference_solution: 'aster_expert.rebar (bande de 1 m), N/(2 fyd) par nappe. Critère du dépôt
+  (CLAUDE.md, « Critère de réussite des essais », à partir du lot 25) : grandeur exacte à
+  1e-6 relatif, grandeur sensible à la discrétisation dont l''erreur décroît au raffinement
+  ×2. Les essais antérieurs au lot 25 n''avaient pas écrit de critère : celui-ci leur est
+  appliqué tel quel, sans adaptation.'
+cases:
+- case_path: data/examples/lot39_essais/plaque/plaque.comm
+  case_sha256: 04e924d1b8b285ca592bd7fbe919ce5737e0ef1586d5d700309251e5347821de
+  quantities:
+  - name: DNSXS (m²/m), MXX = +0,2 MN·m/m seul, plaque DKT, ELU
+    value_obtained: 0.001044823812257
+    reference_value: 0.0010448238122565561
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-045 ; référence : design_ultimate, bande b = 1 m, h = 0,50, c = 0,05'
+  - name: DNSXI (m²/m), NXX = +1 MN/m seul (traction), plaque DKT, ELU
+    value_obtained: 0.00115
+    reference_value: 0.00115
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-045 ; référence : N/(2 fyd) par nappe'
+result: réussi

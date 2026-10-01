@@ -239,6 +239,47 @@ Termine par un compte rendu en français : ce qui fonctionne, ce qui ne fonction
 pas, sans rien corriger.
 ```
 
+## 9 bis. Deuxième tâche d'essai Cloud : base de connaissances (lot 42, à lancer par MM)
+
+Le premier essai n'avait pas appelé d'outil MCP depuis la session elle-même : celui-ci
+appelle **directement** `search_connaissances`, et vérifie que `aster-expert rex` se
+comporte correctement sans les archives d'exécution, qui n'existent que dans la VM.
+
+Sur claude.ai/code, environnement `aster-expert`, dépôt `aster-expert`, branche
+`lot-42`, coller :
+
+```text
+Lot 42 — essai Cloud de la base de connaissances. Tout en français. Ne modifie
+aucun fichier, ne commite rien, ne pousse rien : tu rapportes seulement.
+
+1. Annonce ton profil, lu sur la première ligne de `.venv/bin/aster-expert
+   env-check` (recopie la sortie complète).
+2. Dis si l'outil MCP `search_connaissances` du serveur `aster-expert` est visible
+   dans ta session. S'il l'est, appelle-le TOI-MÊME, directement (pas par un
+   script ni par la ligne de commande), trois fois, et recopie pour chaque appel
+   les champs `id`, `layer`, `status`, `entry_validation_level` et `summary` des
+   résultats, ainsi que `total_by_layer` :
+   a. `keyword="FACTOR_11"`, `layers=["diagnostics"]` ;
+   b. `text="surface développée"` ;
+   c. `layers=["precedents"]`, `limit=3`.
+   S'il n'est pas visible, dis-le et passe à l'étape 3 sans le remplacer par autre
+   chose.
+3. Lance `.venv/bin/aster-expert rex quai_cw_test_01` et recopie sa sortie et son
+   code de sortie (`echo $?`). Attendu en profil cloud : la commande dit que les
+   archives d'exécution sont absentes et sort en 0, sans échouer. Puis lance
+   `git status --short` et dis si un fichier a été modifié.
+4. Lance `.venv/bin/aster-expert connaissances verifier` et recopie sa sortie
+   (les exécutions archivées y sont déclarées non vérifiables, pas en écart).
+5. Lance `.venv/bin/pytest tests/unit/test_connaissances.py
+   projets/quai_cw_test_01/tests/test_capitalisation_lot42.py -q -rs -p
+   no:cacheprovider` et recopie la sortie (un test est ignoré faute d'archives, avec
+   son motif).
+
+Si une commande échoue, recopie l'erreur telle quelle et passe à la suivante.
+Termine par un compte rendu en français : ce qui fonctionne, ce qui ne fonctionne
+pas, sans rien corriger.
+```
+
 ## 10. Annexe : script d'installation (texte à coller)
 
 Contenu exact de `scripts/cloud_setup.sh` (un test vérifie que ce bloc lui est

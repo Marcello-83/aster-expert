@@ -1,0 +1,176 @@
+id: REF-004
+title: Efforts généralisés d'une console ELAS_COQUE (essais D1 à D3, lot 23)
+summary: MXX, QX et flèche d'une console DKT ELAS_COQUE, indépendants de EPAIS et de CISA,
+  comparés à la statique et à P·L³/(3·FLEX·b).
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot23_essais/essai_d1/d1.comm
+  case_sha256: f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot23_essais/essai_d2/d2a.comm
+  case_sha256: 465034b18e37206283e8dac84ffefc02626468a7c6d28c69d52c4f204c758372
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot23_essais/essai_d2/d2b.comm
+  case_sha256: b4bc51d0dab52eb963278b3d1dc7f78018e08f39878de9407a80f28d9e098ec8
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot23_essais/essai_d3/d3.comm
+  case_sha256: 0c47cf4c7893db5e44ec06355b986aeb35d7cdfd72607a39a354a074ff5a4573
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: document
+  path: docs/essais_lot23.md
+  section: null
+  note: null
+commands:
+- CALC_CHAMP
+- DEFI_MATERIAU
+keywords:
+- CISA_L
+- CISA_T
+- EFGE_ELNO
+- EFGE_NOEU
+- ELAS_COQUE
+- EPAIS
+reuses: []
+status_history: []
+problem: Console DKT ELAS_COQUE, EPAIS et CISA variés.
+reference_solution: 'Statique de console et flèche de poutre. Critère du dépôt (CLAUDE.md,
+  « Critère de réussite des essais », à partir du lot 25) : grandeur exacte à 1e-6 relatif,
+  grandeur sensible à la discrétisation dont l''erreur décroît au raffinement ×2. Les essais
+  antérieurs au lot 25 n''avaient pas écrit de critère : celui-ci leur est appliqué tel quel,
+  sans adaptation.'
+cases:
+- case_path: data/examples/lot23_essais/essai_d1/d1.comm
+  case_sha256: f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01
+  quantities:
+  - name: MXX moyen des points EFGE_ELNO en x = 0 (encastrement), D1 (EPAIS = 0,01)
+    value_obtained: 19.999999999830003
+    reference_value: 20.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur'
+  - name: MXX moyen des points EFGE_ELNO en x = L/2, D1 (EPAIS = 0,01)
+    value_obtained: 9.99999999976775
+    reference_value: 10.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : M(L/2) = P·(L − L/2)/b = 10 N·m par mètre de largeur'
+  - name: '|QX| moyen des points EFGE_ELNO en x = L/2 (valeur absolue), D1'
+    value_obtained: 9.99999999988715
+    reference_value: 10.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : P/b = 5 N / 0,5 m = 10 N par mètre de largeur'
+  - name: MXX moyen des points EFGE_NOEU en x = 0 (encastrement), D1
+    value_obtained: 19.99999999983
+    reference_value: 20.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur'
+  - name: flèche en bout (DZ, valeur absolue), D1 (EPAIS = 0,01)
+    value_obtained: 0.026666666666261666
+    reference_value: 0.02666666666666667
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000
+      N·m : 0.02666666666666667'
+- case_path: data/examples/lot23_essais/essai_d2/d2a.comm
+  case_sha256: 465034b18e37206283e8dac84ffefc02626468a7c6d28c69d52c4f204c758372
+  quantities:
+  - name: MXX moyen des points EFGE_ELNO en x = 0, D2 (EPAIS × 2 = 0,02, coefficients inchangés)
+    value_obtained: 19.999999999830003
+    reference_value: 20.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur'
+  - name: flèche en bout (DZ, valeur absolue), D2 (EPAIS × 2)
+    value_obtained: 0.026666666666261666
+    reference_value: 0.02666666666666667
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000
+      N·m : 0.02666666666666667'
+- case_path: data/examples/lot23_essais/essai_d2/d2b.comm
+  case_sha256: b4bc51d0dab52eb963278b3d1dc7f78018e08f39878de9407a80f28d9e098ec8
+  quantities:
+  - name: MXX moyen des points EFGE_ELNO en x = 0, D2 (EPAIS × 0,5 = 0,005, coefficients inchangés)
+    value_obtained: 19.999999999830003
+    reference_value: 20.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur'
+  - name: flèche en bout (DZ, valeur absolue), D2 (EPAIS × 0,5)
+    value_obtained: 0.026666666666261666
+    reference_value: 0.02666666666666667
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000
+      N·m : 0.02666666666666667'
+- case_path: data/examples/lot23_essais/essai_d3/d3.comm
+  case_sha256: 0c47cf4c7893db5e44ec06355b986aeb35d7cdfd72607a39a354a074ff5a4573
+  quantities:
+  - name: MXX moyen des points EFGE_ELNO en x = 0, D3 (CISA_L et CISA_T × 1000)
+    value_obtained: 19.999999999830003
+    reference_value: 20.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : M(0) = P·L/b = 5 N × 2 m / 0,5 m = 20 N·m par mètre de largeur'
+  - name: flèche en bout (DZ, valeur absolue), D3 (CISA_L et CISA_T × 1000)
+    value_obtained: 0.026666666666261666
+    reference_value: 0.02666666666666667
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000
+      N·m : 0.02666666666666667'
+result: réussi

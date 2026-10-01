@@ -1,0 +1,48 @@
+id: PRE-014
+title: 'Point 11 : Appui vertical de l''écran'
+summary: 'Décision de MM au point 11 de la fiche du quai (2026-09-22) : Appui vertical de
+  l''écran.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '11'
+  decided_by: MM
+  decided_at: '2026-09-22T03:04:42-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '11'
+topic: Appui vertical de l'écran
+option_retained: 'Le déplacement vertical est bloqué aux nœuds du pied des tubes, à la cote
+  −26,00, qui forment le groupe de nœuds `PIED_TUBES`. Seul le déplacement vertical est bloqué
+  : les déplacements horizontaux et les rotations du pied restent libres. Le pied des palplanches
+  (−18,00) n''a pas d''appui vertical.'
+justification: Les ressorts de sol de la décision 5 sont horizontaux. Sans autre appui, le
+  poids de l'écran et de la poutre, la composante verticale des tirants et celle de l'effort
+  d'amarrage ne seraient repris que par la composante verticale des tirants inclinés. Ce mécanisme
+  est artificiel, et proche d'un mode rigide. La reprise verticale réelle se fait par la pointe
+  et le frottement latéral des tubes ; la représenter par un appui en pointe est la forme
+  la plus simple qui place la réaction verticale au bon endroit.
+validity_domain: '- Le frottement latéral n''est pas représenté : tout l''effort vertical
+  descend jusqu''à la pointe, donc l''effort normal dans les tubes est surestimé en partie
+  basse.
+
+  - L''appui est rigide : le tassement de la pointe n''est pas représenté.
+
+  - Les palplanches ne portent pas verticalement ; leur poids transite par les serrures vers
+  les tubes.'
+discarded_variants:
+- 'Aucun appui vertical. — écartée : Reprise verticale par les seuls tirants ; mécanisme artificiel,
+  voisin d''un mode rigide.'
+- 'Ressorts verticaux de frottement répartis le long de la fiche. — écartée : Exige des raideurs
+  de frottement absentes des données du cas.'
+decided_by: MM
+decided_at: '2026-09-22T03:04:42-04:00'
+superseded_decisions: 0
+application: proposition seulement

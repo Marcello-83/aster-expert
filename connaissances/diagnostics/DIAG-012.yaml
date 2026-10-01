@@ -1,0 +1,44 @@
+id: DIAG-012
+title: POST_RELEVE_T sur un champ d'éléments de structure
+summary: POST_RELEVE_T s'arrête (POSTRELE_70 aggravée en erreur) sur un champ d'efforts de
+  structure ; CREA_TABLE lit les valeurs stockées.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: execution
+  run: 20260925T071216-4bf41bd0
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 35, essai A
+- kind: document
+  path: docs/essais_lot35.md
+  section: null
+  note: null
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_comm.py
+  function: test_displacements_by_post_releve_t_and_efforts_by_crea_table
+  note: null
+commands:
+- CREA_TABLE
+- POST_RELEVE_T
+keywords:
+- CATAMESS_3
+- EFGE_NOEU
+- POSTRELE_70
+reuses: []
+status_history: []
+category: limite de Code_Aster
+signature:
+  kind: <F>
+  identifiers:
+  - POSTRELE_70
+  pattern: null
+cause: Alarme POSTRELE_70 aggravée en erreur par DEBUT/ERREUR (CATAMESS_3) sur un champ de
+  structure.
+cause_established: true
+correction: Extraire les efforts par CREA_TABLE/RESU, POST_RELEVE_T gardé pour les déplacements.
+prevention: null

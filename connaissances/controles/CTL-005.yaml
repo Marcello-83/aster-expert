@@ -1,0 +1,39 @@
+id: CTL-005
+title: Équilibre par cas de charge
+summary: Pour chaque cas, la somme des réactions des composantes réellement bloquées et des
+  forces des ressorts équilibre la charge appliquée, au seuil déclaré.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: tests/unit/test_controles_equilibre.py
+  function: test_an_unbalanced_case_fails
+  note: null
+commands:
+- POST_RELEVE_T
+keywords:
+- REAC_NODA
+- RESULTANTE
+reuses: []
+status_history: []
+detects: Une charge mal assemblée, une raideur perdue, une lecture de réaction fausse.
+parameters: Groupes d'appui et composantes bloquées, groupes de ressorts, résultantes attendues
+  (projet.yaml).
+implementation:
+  kind: code
+  path: src/aster_expert/controles/equilibre.py
+  symbol: level_d_controls
+  note: null
+scope: tronc commun
+caught_error:
+  mode: attrapée
+  description: Écart d'équilibre du lot 33, expliqué au lot 34 par quatre causes (tri des
+    profils, évaluation aux nœuds, CREA_POI1, composantes libres).
+  evidence:
+    kind: document
+    path: docs/essais_lot34.md
+    section: null
+    note: null
+default_harness: false

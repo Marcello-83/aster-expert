@@ -1,0 +1,85 @@
+id: REF-007
+title: 'Plaque orthotrope : flexion cylindrique (essai D6b, lot 24)'
+summary: Flèche, moment et effort tranchant d'une plaque ELAS_COQUE en flexion cylindrique
+  selon T, flèche et tranchant d'appui jugés au raffinement ×2.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot24_essais/essai_d6b/d6b.comm
+  case_sha256: daead04b27ff918e12fc3d6bf9936b4c500fc7bfc1d04965aa02597ccd4d6d22
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot24_essais/essai_d6b/d6b16.comm
+  case_sha256: 198c257322eac130bf8744759c570efa32817bdd6e45330bbcad69639104ff85
+  outcome: réussite
+  level: D
+  note: cas raffiné ×2
+- kind: document
+  path: docs/essais_lot24.md
+  section: null
+  note: null
+commands:
+- DEFI_MATERIAU
+keywords:
+- EFGE_NOEU
+- ELAS_COQUE
+- FLEX_T
+reuses: []
+status_history: []
+problem: Plaque carrée DKT 8 × 8 puis 16 × 16, pression uniforme, appuis simples ; REAC_NODA
+  d'appui, faux sous ELAS_COQUE (CA-023), n'est pas une grandeur de référence.
+reference_solution: '5·p·a⁴/(384·FLEX_T), p·a²/8, p·(a − 2x)/2. Critère du dépôt (CLAUDE.md,
+  « Critère de réussite des essais », à partir du lot 25) : grandeur exacte à 1e-6 relatif,
+  grandeur sensible à la discrétisation dont l''erreur décroît au raffinement ×2. Les essais
+  antérieurs au lot 25 n''avaient pas écrit de critère : celui-ci leur est appliqué tel quel,
+  sans adaptation.'
+cases:
+- case_path: data/examples/lot24_essais/essai_d6b/d6b.comm
+  case_sha256: daead04b27ff918e12fc3d6bf9936b4c500fc7bfc1d04965aa02597ccd4d6d22
+  quantities:
+  - name: flèche DZ à mi-portée (valeur absolue), valeur moyenne, D6b (maillage 8 × 8)
+    value_obtained: 0.00011378825595336666
+    reference_value: 0.00011522861356932153
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: data/examples/lot24_essais/essai_d6b/d6b16.comm
+    refined_value: 0.00011486852428059412
+    result: réussi
+    note: 'CA-025 ; référence : 5·p·a⁴/(384·FLEX_T) = 5 × 100 × 1 / (384 × 11 300)'
+  - name: moment MYY (valeur absolue) moyen des nœuds EFGE_NOEU en x = a/2, D6b
+    value_obtained: 12.500000006371112
+    reference_value: 12.5
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : p·a²/8 = 100 × 1 / 8 = 12,5 N·m par mètre de largeur'
+  - name: effort tranchant QY (valeur absolue) moyen des nœuds EFGE_NOEU en x = a/4, D6b
+    value_obtained: 25.00000001356111
+    reference_value: 25.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-025 ; référence : p·(a − 2x)/2 en x = a/4 : 100 × 0,5 / 2 = 25 N par mètre de
+      largeur'
+  - name: effort tranchant QY (valeur absolue) moyen des nœuds EFGE_NOEU d'appui x = 0, D6b
+      (maillage 8 × 8)
+    value_obtained: 43.75000002313
+    reference_value: 50.0
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: data/examples/lot24_essais/essai_d6b/d6b16.comm
+    refined_value: 46.87500006827353
+    result: réussi
+    note: 'CA-025 ; référence : p·a/2 = 50 N par mètre de largeur'
+result: réussi

@@ -1,0 +1,37 @@
+id: DIAG-021
+title: Maillage sans maille
+summary: LIRE_MAILLAGE d'un maillage ASTER sans aucune maille s'arrête sur « Il manque les
+  mailles » (MODELISA5_3), présenté comme une erreur développeur.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: execution
+  run: 20260924T095750-e41e8395
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 33, ressort seul : un nœud, aucune maille'
+- kind: document
+  path: docs/essais_lot33.md
+  section: null
+  note: null
+commands:
+- LIRE_MAILLAGE
+keywords:
+- MODELISA5_3
+- POI1
+reuses: []
+status_history: []
+category: préparation
+signature:
+  kind: <F>
+  identifiers:
+  - MODELISA5_3
+  pattern: null
+cause: Le fichier ne déclarait qu'un nœud et un GROUP_NO, aucune maille.
+cause_established: true
+correction: Déclarer au moins une maille (ici la POI1 du ressort) dans le maillage.
+prevention: null

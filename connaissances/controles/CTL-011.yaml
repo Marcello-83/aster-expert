@@ -1,0 +1,29 @@
+id: CTL-011
+title: Génération refusée sur un maillage non vérifié
+summary: Le générateur refuse un maillage qui ne correspond pas au dernier mesh check réussi.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_generate.py
+  function: test_refuses_when_the_mesh_was_never_confirmed_verified
+  note: null
+commands: []
+keywords: []
+reuses: []
+status_history: []
+detects: Un .comm bâti sur un maillage modifié ou jamais contrôlé.
+parameters: Empreintes du script, des paramètres et du MED.
+implementation:
+  kind: code
+  path: src/aster_expert/meshing/run.py
+  symbol: find_verified_mesh
+  note: null
+scope: tronc commun
+caught_error:
+  mode: aucune consignée
+  description: 'Aucune erreur réelle consignée : garde préventive (lot 28).'
+  evidence: null
+default_harness: false

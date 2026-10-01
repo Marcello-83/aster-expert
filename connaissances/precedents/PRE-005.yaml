@@ -1,0 +1,93 @@
+id: PRE-005
+title: 'Point 4 : Choix entre contact surfacique, ressorts discrets et éléments de joint pour
+  représenter l''interaction sol-écran'
+summary: 'Décision de MM au point 4 de la fiche du quai (2026-09-25) : Choix entre contact
+  surfacique, ressorts discrets et éléments de joint pour représenter l''interaction sol-écran.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '4'
+  decided_by: MM
+  decided_at: '2026-09-25T08:10:24-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '4'
+topic: Choix entre contact surfacique, ressorts discrets et éléments de joint pour représenter
+  l'interaction sol-écran
+option_retained: 'Le sol n''est pas maillé. La réaction du terrain de la fiche est représentée
+  par des ressorts horizontaux linéaires, perpendiculaires au quai, **côté bassin uniquement**,
+  de la cote de dragage −12,00 jusqu''au pied de chaque profil : −26,00 pour les tubes, −18,00
+  pour les palplanches intercalaires. Deux strates sont concernées : l''argile marneuse raide
+  de −12,00 à −18,00, k_h = 35 MN/m³ ; la marne compacte de −18,00 à −26,00, k_h = 80 MN/m³.
+  La raideur est rapportée à la surface projetée sur le plan de l''écran, et non à la surface
+  développée des tubes. Au-dessus de la cote de dragage, aucun ressort : côté terre, l''action
+  du terrain est introduite en totalité par le profil de poussée de la décision du point 5.'
+justification: 'La méthode aux coefficients de réaction de la NF P 94-282, Annexe F, représente
+  l''écran comme une poutre sur appuis élastiques. Sa loi de réaction (F.1, Figure F.1.1)
+  est bornée par la poussée et la butée limites ; seule sa branche élastique, de pente k_h,
+  est retenue ici. Côté terre, le terrain est supposé à l''état de poussée sous l''effet des
+  charges permanentes et cette action est appliquée en chargement : y ajouter des ressorts
+  la compterait deux fois. Côté bassin, le terrain de la fiche est l''appui de l''écran et
+  ses ressorts portent la butée mobilisée. L''ordre de grandeur des k_h du cas a été confronté
+  à la formule F.3.1 avec l''inertie des tubes seule ramenée au mètre linéaire (Estr·Istr/B0
+  ≈ 1 405 MN·m²/m, palplanches négligées) : 24 à 42 MN/m³ pour l''argile selon α = 1 ou 2/3,
+  ce qui encadre la valeur 35 ; 106 à 266 MN/m³ pour la marne selon α = 1 ou 1/2, au-dessus
+  de la valeur 80 du cas, qui est donc plus souple. Les valeurs du cas sont conservées comme
+  données de test : α n''est pas déterminable depuis les données du cas, le Tableau F.3.1
+  l''indexant sur le rapport EM/pl et la pression limite n''étant pas fournie. La fiche de
+  14 m dépasse 1,5·l0 (environ 5,3 m avec k_h = 35 MN/m³), la correction F.3.3 est sans objet
+  ; la correction F.3.4 vise une fouille étroite entre deux écrans et ne concerne pas un quai.'
+validity_domain: '1. Les ressorts sont linéaires et ne plafonnent pas à la butée limite (Figure
+  F.1.1) : le modèle peut mobiliser une réaction supérieure à ce que le terrain peut fournir.
+  Contrôle de niveau D requis : à chaque cote de la fiche, la pression de réaction k_h·y reste
+  inférieure à la butée limite fournie par le calcul géotechnique amont.
+
+  2. Les ressorts travaillent dans les deux sens. Un déplacement de la fiche vers la terre
+  produirait une traction sans signification physique. Contrôle de niveau D requis : réactions
+  de même signe, en compression, sur toute la fiche, pour chaque combinaison ; l''accostage
+  est le cas à surveiller.
+
+  3. La pression initiale au repos côté bassin (K0·σ''v, F.2) n''est pas appliquée : la réaction
+  part de zéro.
+
+  4. Côté terre, aucun ressort : sous une charge qui pousse l''écran vers la terre au-dessus
+  du dragage, la réaction du remblai n''est pas mobilisée ; le modèle est localement trop
+  souple sous accostage.
+
+  5. k_h dépend de la raideur de l''écran (F.3.1) ; les valeurs du cas ne sont pas recalées
+  sur la raideur de l''écran modélisé.
+
+  6. Sous −18,00, l''écran est discontinu : les tubes seuls, de diamètre projeté 1,42 m à
+  l''entraxe de 2,60 m, reçoivent la réaction. L''Annexe F ne traite pas ce cas ; l''effet
+  tridimensionnel du terrain entre tubes n''est pas représenté.
+
+  7. L''équilibre poussée-butée et la fiche ne sont pas vérifiés par ce modèle ; ils relèvent
+  du calcul géotechnique amont.
+
+
+  La poussée est appliquée sur la seule moitié terre des tubes, et les ressorts sur la seule
+  moitié bassin. La section du tube s''ovalise donc artificiellement, jusqu''à 3,5 mm d''écart
+  entre génératrices en pied sous G. Les efforts circonférentiels (NYY, MYY) des tubes ne
+  sont pas exploitables pour le dimensionnement. Seuls les efforts de flexion d''ensemble
+  du tube, obtenus par intégration de NXX sur la section, le sont.'
+discarded_variants:
+- 'Ressorts sur les quatre strates, le long de toute la hauteur en contact avec le terrain
+  (décision v2). — écartée : Côté terre, double compte avec le profil de poussée appliqué
+  en chargement.'
+- 'Ressorts non linéaires bornés par la poussée et la butée limites, des deux côtés de l''écran,
+  conformément à la Figure F.1.1. — écartée : Reproduit le calcul aux coefficients de réaction
+  du logiciel géotechnique ; n''a de sens qu''avec le phasage (F.1, NOTE 4), exclu au point
+  6.'
+- 'Contact-frottement surfacique. — écartée : Exige un massif de sol maillé.'
+- 'Éléments de joint. — écartée : Même exigence de maillage du sol.'
+decided_by: MM
+decided_at: '2026-09-25T08:10:24-04:00'
+superseded_decisions: 2
+application: proposition seulement

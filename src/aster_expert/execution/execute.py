@@ -262,6 +262,7 @@ def execute_comm_file(
                     command=invocation.strip(),
                     image=image_ref,
                     inputs_sha256=inputs_sha256,
+                    knowledge_root=project_root,
                 )
             )
         else:
@@ -344,6 +345,7 @@ def execute_comm_file(
                 command=invocation.strip(),
                 image=image_ref,
                 inputs_sha256=inputs_sha256,
+                knowledge_root=project_root,
             )
         )
     else:

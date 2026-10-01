@@ -6,18 +6,20 @@ description: >-
   `.comm` file, or before generating a Code_Aster command — whenever the answer
   would rely on the `aster-expert` MCP server (search_codeaster_docs,
   get_document_section, get_command_schema, analyze_comm, validate_comm,
-  search_test_cases, read_test_case, search_constats). Not a source of
-  Code_Aster knowledge itself: describes the procedure for using those eight
-  tools correctly.
+  search_test_cases, read_test_case, search_constats, search_connaissances),
+  or when a Code_Aster run fails, before proposing a practice decision or
+  writing a verification control. Not a source of Code_Aster knowledge itself:
+  describes the procedure for using those nine tools correctly, including the
+  mandatory consultations of the knowledge base.
 ---
 
 # Expert Code_Aster — procédure d'usage des outils
 
 Ce skill ne contient aucune connaissance Code_Aster de première main. Il
-décrit comment utiliser les huit outils du serveur MCP `aster-expert` —
+décrit comment utiliser les neuf outils du serveur MCP `aster-expert` —
 `search_codeaster_docs`, `get_document_section`, `get_command_schema`,
 `analyze_comm`, `validate_comm`, `search_test_cases`, `read_test_case`,
-`search_constats` — de façon à ne jamais confondre pertinence
+`search_constats`, `search_connaissances` — de façon à ne jamais confondre pertinence
 documentaire, validité syntaxique et exécution (CLAUDE.md). Toute
 connaissance Code_Aster affirmée dans une réponse doit venir de la sortie
 d'un de ces outils, jamais de la mémoire du modèle.
@@ -153,18 +155,59 @@ Une fiche de projet ne recopie jamais un constat : elle le référence
 constat nouveau s'ajoute à la base, pas à une fiche. La réponse de
 `search_constats` est de niveau A (lecture de la base, rien n'est exécuté).
 
+## 6 quater. Consultation obligatoire de la base de connaissances (lot 42)
+
+Ce que l'outil a appris sur les projets précédents est écrit dans
+`connaissances/` (six couches : `constats_code_aster`, `diagnostics`,
+`patrons`, `controles`, `references_validation`, `precedents`) et se consulte
+par `search_connaissances(text=, command=, keyword=, layers=[...], status=)`.
+Chaque résultat porte son `status` (`observé` : vu dans un projet ; `établi` :
+preuve rejouable ; `promu` : réutilisé dans deux projets ou niveau E), le
+niveau atteint par l'entrée (`entry_validation_level`) et le fichier qui porte
+ses preuves (`file`), à lire avant de s'appuyer dessus. La consultation est
+**obligatoire** dans quatre situations, et la réponse cite les entrées lues (ou
+dit qu'aucune ne correspond) :
+
+1. **Avant d'écrire une commande Code_Aster** : constats et patrons —
+   `search_connaissances(command=<commande>, layers=["constats_code_aster",
+   "patrons"])` (et `keyword=` pour un mot-clé en jeu). Un patron est une recette
+   d'un projet antérieur, avec ses conditions d'emploi : vérifier qu'elles
+   tiennent pour l'ouvrage présent avant de la reprendre.
+2. **Dès qu'une erreur ou une alarme apparaît dans un `.mess`** : diagnostics,
+   **avant toute autre hypothèse** — `search_connaissances(keyword=<identifiant>,
+   layers=["diagnostics"])` avec l'identifiant du message (`FACTOR_11`,
+   `MED2_4`…), ou `text=` pour un arrêt anormal (« Segmentation fault »).
+   `aster-expert run` le fait déjà pour un échec et affiche les diagnostics
+   trouvés ; les lire. Un diagnostic dont `cause_established` est faux donne une
+   correction connue, pas une cause.
+3. **Avant de proposer une décision pratique** : précédents —
+   `search_connaissances(text=..., layers=["precedents"])`. Un précédent n'est
+   **jamais appliqué** : il se propose (`aster-expert connaissances
+   proposer-precedent <PRE-nnn> --point <p>`, entrée non tranchée et source
+   d'origine `precedent_projet`) avec son domaine de validité, et MM arbitre.
+4. **Avant d'écrire un contrôle** : contrôles existants —
+   `search_connaissances(text=..., layers=["controles"])` ; reprendre un contrôle
+   du tronc commun plutôt qu'en écrire un second.
+
+En fin de lot, `aster-expert rex <projet>` prépare le retour d'expérience :
+chaque échec d'exécution est classé (rattaché à un diagnostic, nouveau
+diagnostic, ou écarté avec un motif) ; un échec non classé bloque la clôture du
+lot. Une entrée nouvelle s'écrit dans sa couche avec sa preuve ; aucune n'est
+promue sans `aster-expert connaissances promouvoir`, qui vérifie les conditions.
+
 ## 7. Annoncer le niveau de validation atteint, jamais un niveau supérieur
 
 `search_codeaster_docs`, `get_document_section`, `get_command_schema`,
-`analyze_comm`, `search_test_cases`, `read_test_case`, `search_constats` sont
-niveau A (documentaire, non exécuté, non confronté à
+`analyze_comm`, `search_test_cases`, `read_test_case`, `search_constats`,
+`search_connaissances` sont niveau A (documentaire, non exécuté, non confronté à
 un fichier réel — y compris `get_command_schema`, qui lit le catalogue
 mais ne confronte rien, et `get_document_section`, qui renvoie un texte
 intégral mais toujours non exécuté). `validate_comm` est niveau B (syntaxe
 confrontée au catalogue). Les niveaux C/D/E (exécution, validité physique,
 comparaison à une référence) sont hors du périmètre de ce serveur : ne
-jamais les annoncer à partir de ces huit outils (le niveau C ou D d'un constat
-est celui de son cas d'essai, pas celui de la réponse). Les mots « validé »,
+jamais les annoncer à partir de ces neuf outils (le niveau C ou D d'un constat
+ou d'une entrée de la base est celui de son cas d'essai, pas celui de la
+réponse). Les mots « validé »,
 « correct », « sans erreur » sont toujours qualifiés par leur niveau.
 
 ## 8. Distinguer faits, déductions, recommandations

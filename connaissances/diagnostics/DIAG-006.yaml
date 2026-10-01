@@ -1,0 +1,49 @@
+id: DIAG-006
+title: Collision de nom de champ MED entre deux résultats
+summary: 'Deux concepts résultats dont les huit premiers caractères coïncident écrivent le
+  même nom de champ MED (MED2_4) : NOM_RESU_MED doit être donné.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: execution
+  run: 20260924T074135-83e8c50b
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 31 : RESU_EAUDEPL présent deux fois'
+- kind: execution
+  run: 20260924T081527-4aa4bf7d
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 32, quai réduit
+- kind: document
+  path: docs/essais_lot32.md
+  section: null
+  note: U7.05.21
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_generate.py
+  function: test_impr_resu_nom_resu_med_avoids_the_lot31_field_collision
+  note: null
+commands:
+- IMPR_RESU
+keywords:
+- MED2_4
+- NOM_RESU_MED
+reuses: []
+status_history: []
+category: préparation
+signature:
+  kind: <F>
+  identifiers:
+  - MED2_4
+  pattern: null
+cause: Le nom de champ MED part du nom Jeveux du concept, tronqué à 8 caractères (RESU_EAU_P
+  et RESU_EAU_A).
+cause_established: true
+correction: NOM_RESU_MED="<nom du cas>" (8 caractères au plus) par occurrence RESU.
+prevention: null

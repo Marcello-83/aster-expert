@@ -1,0 +1,41 @@
+id: DIAG-017
+title: Charge affectée à des mailles hors du modèle
+summary: AFFE_CHAR_MECA refuse (MODELISA6_96) une charge (FORCE_ARETE) sur des mailles qui
+  n'appartiennent pas au modèle.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: 20260921T112635-b6570a85
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 23, essai d5a : segments de bord hors AFFE_MODELE'
+- kind: execution
+  run: null
+  case_path: data/examples/lot23_essais/essai_d5/d5a.comm
+  case_sha256: b3843152e41eb2288915ab09f8ae736d87b4ff6547d9d1fc79006604cfeea80b
+  outcome: réussite
+  level: D
+  note: cas corrigé (modèle sur TOUT)
+commands:
+- AFFE_CHAR_MECA
+- AFFE_MODELE
+keywords:
+- FORCE_ARETE
+- MODELISA6_96
+reuses: []
+status_history: []
+category: préparation
+signature:
+  kind: <EXCEPTION>
+  identifiers:
+  - MODELISA6_96
+  pattern: null
+cause: Les mailles chargées (SEG2 de bord) n'avaient reçu aucune modélisation.
+cause_established: true
+correction: Inclure dans AFFE_MODELE les mailles qui portent la charge.
+prevention: null

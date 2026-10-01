@@ -1,0 +1,38 @@
+id: CTL-001
+title: Demi-section dans un plan de symétrie
+summary: Tout groupe linéaire situé dans un plan de symétrie doit porter la moitié de sa section,
+  sauf dispense motivée par écrit.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_lot37.py
+  function: test_check_refuses_full_section_on_an_edge_tie_rod_and_half_inside
+  note: null
+commands:
+- AFFE_CARA_ELEM
+keywords:
+- BARRE
+reuses: []
+status_history: []
+detects: Une section entière (ou une demi-section hors du plan) sur un élément BARRE/POUTRE
+  d'un plan de symétrie.
+parameters: Plans de symétrie (X = constante), groupes linéaires, dispenses avec motif.
+implementation:
+  kind: code
+  path: projets/quai_cw_test_01/generation/comm.py
+  symbol: check_symmetry_plane_sections
+  note: null
+scope: projet
+caught_error:
+  mode: a posteriori
+  description: Tirants de bord du lot 36 en section entière, relevés par MM à la relecture
+    ; le contrôle refuse ce .comm.
+  evidence:
+    kind: test
+    path: projets/quai_cw_test_01/tests/test_generation_lot37.py
+    function: test_check_fails_on_the_lot36_comm
+    note: null
+default_harness: false

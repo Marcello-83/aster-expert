@@ -1,0 +1,47 @@
+id: PAT-004
+title: Demi-section d'un élément linéaire dans un plan de symétrie
+summary: Un élément linéaire situé dans un plan de symétrie porte la moitié de sa section
+  (A/2), un élément perpendiculaire au plan en étant dispensé par un motif écrit.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_lot37.py
+  function: test_generated_comm_gives_half_section_to_the_edge_tie_rods_only
+  note: null
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_lot37.py
+  function: test_check_fails_on_the_lot36_comm
+  note: null
+- kind: document
+  path: docs/essais_lot37.md
+  section: null
+  note: null
+commands:
+- AFFE_CARA_ELEM
+keywords:
+- BARRE
+- SECTION
+reuses: []
+status_history: []
+problem: Modéliser une tranche symétrique dont les plans de coupe passent par des tirants
+  ou des poutres.
+solution: 'AFFE_CARA_ELEM/BARRE : une occurrence pour les éléments courants (A), une pour
+  ceux du plan (A/2) ; contrôle check_symmetry_plane_sections avant écriture.'
+fragment: "BARRE=(\n    _F(GROUP_MA=(\"TIRANT_02\",), SECTION=\"GENERALE\", CARA=\"A\", VALE=0.00442),\n\
+  \    _F(GROUP_MA=(\"TIRANT_01\", \"TIRANT_09\",), SECTION=\"GENERALE\", CARA=\"A\", VALE=0.00221),\n\
+  ),"
+fragment_language: comm
+conditions: Symétrie géométrique et de chargement ; le poids de l'élément suit la section.
+controls:
+- CTL-001
+constats:
+- CA-030
+- CA-031
+implementation:
+- kind: code
+  path: projets/quai_cw_test_01/generation/comm.py
+  symbol: _barre_keyword
+  note: null

@@ -1,0 +1,55 @@
+id: DIAG-002
+title: Nom de groupe tronqué en silence puis doublon
+summary: Un nom de groupe de plus de 24 caractères est tronqué sans message par Code_Aster
+  et n'est signalé qu'au premier doublon résultant (SOUSTRUC_37).
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: execution
+  run: 20260923T092118-f4ab1161
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 28 : GEN_BNDPART_RESS_AV_ARGI existe déjà'
+- kind: execution
+  run: 20260923T093142-691355f1
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 28 : même doublon'
+- kind: document
+  path: docs/essais_lot28.md
+  section: null
+  note: null
+- kind: code
+  path: projets/quai_cw_test_01/generation/comm.py
+  symbol: _gn
+  note: null
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_lot36.py
+  function: test_v1_group_names_respect_the_group_name_limit
+  note: null
+commands:
+- DEFI_GROUP
+- CREA_MAILLAGE
+keywords:
+- CREA_POI1
+- SOUSTRUC_37
+reuses: []
+status_history: []
+category: préparation
+signature:
+  kind: <F>
+  identifiers:
+  - SOUSTRUC_37
+  pattern: existe déjà
+cause: Code_Aster tronque à 24 caractères le nom d'un groupe créé (DEFI_GROUP, CREA_POI1)
+  ; deux noms qui ne diffèrent qu'au-delà deviennent identiques. Le catalogue ne le dit pas
+  (NOM est un TXM sans longueur).
+cause_established: true
+correction: Limiter à 24 caractères tout nom de groupe créé, refusé à la génération (_gn).
+prevention: null

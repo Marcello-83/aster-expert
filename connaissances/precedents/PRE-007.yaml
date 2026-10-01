@@ -1,0 +1,50 @@
+id: PRE-007
+title: 'Point 6 : Phasage construction/excavation/mise en tension des tirants pour un ouvrage
+  de quai'
+summary: 'Décision de MM au point 6 de la fiche du quai (2026-09-25) : Phasage construction/excavation/mise
+  en tension des tirants pour un ouvrage de quai.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '6'
+  decided_by: MM
+  decided_at: '2026-09-25T08:10:24-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '6'
+topic: Phasage construction/excavation/mise en tension des tirants pour un ouvrage de quai
+option_retained: Aucun phasage. Tous les chargements sont appliqués sur la géométrie finale,
+  en un seul état. Les tirants sont passifs (décision du point 2).
+justification: L'objet du cas est d'exercer la chaîne de bout en bout. Un état final unique
+  suffit à produire les grandeurs à contrôler — équilibre global, réactions, déplacements
+  — et c'est la configuration où un écart de résultat est le plus facile à attribuer à sa
+  cause. La suppression de la précontrainte retire la seule donnée du cas qui imposait un
+  phasage.
+validity_domain: 'Le phasage réel — excavation par étapes, pose des tirants à un stade intermédiaire
+  — détermine les moments dans l''écran et l''effort dans les tirants sous charges permanentes.
+  Ce modèle ne les représente pas : sous charges permanentes, ses résultats ne se comparent
+  pas à ceux du calcul géotechnique phasé. Son usage légitime en projet est la détermination
+  des effets des charges localisées, à superposer à l''état de base donné par le calcul géotechnique.
+  Acceptable pour un test, pas pour justifier l''écran sous charges permanentes.
+
+
+  Les contrôles du lot 35 montrent que, sous les cas G, EAU_P, EAU_A et Q1, la pression de
+  réaction des ressorts dépasse la butée limite sur une large part de la fiche. Sous Q3 et
+  A, elle reste inférieure à 10 % de la butée limite. Le modèle linéaire est donc représentatif
+  pour les effets des charges localisées (Q3, A), qui sont son objet (décision 0). Les efforts
+  sous charges de terre et d''eau sont à prendre dans le calcul géotechnique amont.'
+discarded_variants:
+- 'Phasage sous Code_Aster représentant excavation par étapes et mise en tension des tirants.
+  — écartée : Faisable, mais demande un calcul plus complexe hors de l''objet de ce cas de
+  test ; réservé à un cas ultérieur dédié.'
+decided_by: MM
+decided_at: '2026-09-25T08:10:24-04:00'
+superseded_decisions: 2
+application: proposition seulement

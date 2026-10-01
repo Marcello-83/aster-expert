@@ -123,3 +123,40 @@ class SearchConstatsResult(BaseModel):
     total_in_base: int
     results: list[ConstatHitResult]
     guidance: str
+
+
+class KnowledgeHitResult(BaseModel):
+    """One entry of the knowledge base (lot 42), as `search_connaissances`
+    returns it. `entry_validation_level` is the level the entry itself reached
+    (A to E), `status` its status (`observé`, `établi`, `promu`); the level of
+    the answer stays A (a reading of the base, nothing executed)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    id: str
+    layer: str
+    title: str
+    summary: str
+    status: Literal["observé", "établi", "promu"]
+    entry_validation_level: Literal["A", "B", "C", "D", "E"]
+    origin_project: str
+    commands: tuple[str, ...]
+    keywords: tuple[str, ...]
+    file: str
+    score: int
+
+
+class SearchConnaissancesResult(BaseModel):
+    """`search_connaissances` (lot 42, étape 3.1)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    validation_level: Literal["A"] = "A"
+    text: str | None
+    command: str | None
+    keyword: str | None
+    layers: list[str]
+    status: str | None
+    total_by_layer: dict[str, int]
+    results: list[KnowledgeHitResult]
+    guidance: str

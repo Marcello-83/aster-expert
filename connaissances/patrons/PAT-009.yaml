@@ -1,0 +1,52 @@
+id: PAT-009
+title: Efforts lus par CREA_TABLE, déplacements par POST_RELEVE_T
+summary: Les efforts d'éléments de structure se lisent par CREA_TABLE sur EFGE_ELNO (ou EFGE_NOEU
+  sur des groupes plans), imprimés en E20.12 avec un intitulé de 16 caractères au plus ; POST_RELEVE_T
+  reste réservé aux déplacements et réactions.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_comm.py
+  function: test_displacements_by_post_releve_t_and_efforts_by_crea_table
+  note: null
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_comm.py
+  function: test_control_tables_print_twelve_significant_digits
+  note: null
+- kind: document
+  path: docs/essais_lot35.md
+  section: null
+  note: null
+commands:
+- CALC_CHAMP
+- CREA_TABLE
+- IMPR_TABLE
+- POST_RELEVE_T
+keywords:
+- EFGE_ELNO
+- EFGE_NOEU
+- FORMAT_R
+- TITRE
+reuses: []
+status_history: []
+problem: Extraire des efforts de coques facettées et de poutres sans les arrêts POSTRELE_70,
+  POSTRELE_38, UTILITAI_4.
+solution: CREA_TABLE/RESU (valeurs stockées), IMPR_TABLE FORMAT_R="E20.12", TITRE posé sur
+  IMPR_TABLE.
+fragment: "TAB_EFTUBE_G = CREA_TABLE(\n    RESU=_F(\n        RESULTAT=EFA_G,\n        NOM_CHAM=\"\
+  EFGE_ELNO\",\n        TOUT_ORDRE=\"OUI\",\n        GROUP_MA=(\"TUBES\",), NOM_CMP=(\"NXX\"\
+  , \"NYY\", \"MXX\", \"MYY\",),\n    ),\n)\nIMPR_TABLE(TABLE=TAB_EFTUBE_G, UNITE=6, FORMAT_R=\"\
+  E20.12\", TITRE=\"EFTUBE_G\")"
+fragment_language: comm
+conditions: Code_Aster 17.4.0 ; IMPR_TABLE tronque l'intitulé à 16 caractères.
+controls:
+- CTL-010
+constats: []
+implementation:
+- kind: code
+  path: projets/quai_cw_test_01/generation/comm.py
+  symbol: synthesis_block
+  note: null

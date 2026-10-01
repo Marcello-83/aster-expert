@@ -1,0 +1,29 @@
+id: DIAG-023
+title: Fichier déclaré dans l'.export absent
+summary: run_aster s'arrête (FileNotFoundError dans copy_datafiles) quand un fichier déclaré
+  dans l'.export n'est pas à côté du .comm.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: execution
+  run: 20260921T170137-2b50e2fd
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 27 : lot27_maillage.mmed absent'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+category: préparation
+signature:
+  kind: arrêt anormal
+  identifiers: []
+  pattern: FileNotFoundError
+cause: L'.export nommait un maillage qui n'avait pas été copié dans le répertoire de travail.
+cause_established: true
+correction: Placer chaque fichier de l'.export à côté du .comm, sous le même nom de base.
+prevention: null

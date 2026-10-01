@@ -1,0 +1,80 @@
+id: REF-005
+title: Modèle mixte ELAS_COQUE / ELAS (essai D5, lot 23)
+summary: Résultantes d'appui et flèche d'une console ELAS_COQUE prolongée par des appuis sans
+  ELAS_COQUE, comparées à la charge et à la flèche de poutre.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot23_essais/essai_d5/d5a.comm
+  case_sha256: b3843152e41eb2288915ab09f8ae736d87b4ff6547d9d1fc79006604cfeea80b
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot23_essais/essai_d5/d5b.comm
+  case_sha256: 99e24f60dbbde89f86ace5d806c4de0a903e1a405a7aac48d6339e573d305089
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: document
+  path: docs/essais_lot23.md
+  section: null
+  note: null
+commands:
+- CALC_CHAMP
+keywords:
+- DIS_TR
+- ELAS_COQUE
+- FORC_NODA
+- REAC_NODA
+reuses: []
+status_history: []
+problem: Console ELAS_COQUE avec appuis par ressorts DIS_TR ou par éléments ELAS.
+reference_solution: 'Équilibre P = 5 N et P·L³/(3·FLEX·b). Critère du dépôt (CLAUDE.md, «
+  Critère de réussite des essais », à partir du lot 25) : grandeur exacte à 1e-6 relatif,
+  grandeur sensible à la discrétisation dont l''erreur décroît au raffinement ×2. Les essais
+  antérieurs au lot 25 n''avaient pas écrit de critère : celui-ci leur est appliqué tel quel,
+  sans adaptation.'
+cases:
+- case_path: data/examples/lot23_essais/essai_d5/d5a.comm
+  case_sha256: b3843152e41eb2288915ab09f8ae736d87b4ff6547d9d1fc79006604cfeea80b
+  quantities:
+  - name: résultante DZ des forces nodales des ressorts DIS_TR en x = 2 (valeur absolue),
+      FORC_NODA restreint aux mailles POI1
+    value_obtained: 5.000000000557
+    reference_value: 5.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-026 ; référence : P = 5 N (charge appliquée)'
+- case_path: data/examples/lot23_essais/essai_d5/d5b.comm
+  case_sha256: 99e24f60dbbde89f86ace5d806c4de0a903e1a405a7aac48d6339e573d305089
+  quantities:
+  - name: résultante DZ de REAC_NODA aux nœuds d'appui en x = 2, sans élément ELAS_COQUE (valeur
+      absolue)
+    value_obtained: 5.000000000551
+    reference_value: 5.0
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-026 ; référence : P = 5 N (charge appliquée)'
+  - name: flèche en bout chargé, modèle mixte ELAS_COQUE / ELAS (DZ, valeur absolue)
+    value_obtained: 0.02666666666841
+    reference_value: 0.02666666666666667
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-026 ; référence : P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000
+      N·m : 0.02666666666666667'
+result: réussi

@@ -1,0 +1,46 @@
+id: DIAG-019
+title: Liste de noms trop longue sur une ligne d'un maillage ASTER
+summary: Un GROUP_MA écrit sur une seule ligne de 360 noms est mal lu par le format ASTER
+  (alarmes MODELISA5_8, CALCULEL_58, puis CALCULEL_6).
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: 20260921T093450-a49d007b
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: lot 21, demi-cylindre
+- kind: document
+  path: docs/essai_lot21_force_coque.md
+  section: null
+  note: null
+- kind: execution
+  run: null
+  case_path: data/examples/fcoque_essai/demi_cylindre.comm
+  case_sha256: f2f1db503772d91d6be77f25c7729fae468aab08f67c5654ed1e43df92f2858f
+  outcome: réussite
+  level: D
+  note: cas corrigé (8 noms par ligne)
+commands:
+- LIRE_MAILLAGE
+keywords:
+- CALCULEL_58
+- CALCULEL_6
+- MODELISA5_8
+reuses: []
+status_history: []
+category: préparation
+signature:
+  kind: <EXCEPTION>
+  identifiers:
+  - CALCULEL_6
+  pattern: null
+cause: 'Le format ASTER lit des enregistrements de largeur fixe : une ligne trop longue est
+  coupée.'
+cause_established: true
+correction: Répartir les listes de noms sur des lignes de 8 noms.
+prevention: null

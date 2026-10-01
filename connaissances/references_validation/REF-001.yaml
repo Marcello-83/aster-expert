@@ -1,0 +1,93 @@
+id: REF-001
+title: 'Console ELAS_COQUE : orientation de L et T (essai A, lot 22)'
+summary: Flèche en bout d'une console DKT ELAS_COQUE chargée en bout, axe L le long ou en
+  travers de la console, comparée à P·L³/(3·FLEX·b).
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot22_essais/essai_a/a1.comm
+  case_sha256: 3c8d137b801547f394b9c55b94ae7e3f3b9df2b6b25ffc00ef79e0f0e9f1ea68
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot22_essais/essai_a/a2.comm
+  case_sha256: fb6c4d1ebe7974d31ac25f486984597f6ec3cc699249caa39c7a6e7277961565
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot22_essais/essai_a/a3.comm
+  case_sha256: 26a141219f730c263ab3af90c97b3f2a6293ee3d7e8350be9f2ae672765f8bd3
+  outcome: réussite
+  level: D
+  note: cas versionné de la référence
+- kind: document
+  path: docs/essais_lot22.md
+  section: null
+  note: null
+commands:
+- AFFE_CARA_ELEM
+- DEFI_MATERIAU
+keywords:
+- ANGL_REP
+- DKT
+- ELAS_COQUE
+- FLEX_L
+- FLEX_T
+- VECTEUR
+reuses: []
+status_history: []
+problem: Console DKT encastrée, charge linéique en bout, trois orientations du repère utilisateur.
+reference_solution: 'Solution analytique de poutre : P·L³/(3·FLEX·b). Critère du dépôt (CLAUDE.md,
+  « Critère de réussite des essais », à partir du lot 25) : grandeur exacte à 1e-6 relatif,
+  grandeur sensible à la discrétisation dont l''erreur décroît au raffinement ×2. Les essais
+  antérieurs au lot 25 n''avaient pas écrit de critère : celui-ci leur est appliqué tel quel,
+  sans adaptation.'
+cases:
+- case_path: data/examples/lot22_essais/essai_a/a1.comm
+  case_sha256: 3c8d137b801547f394b9c55b94ae7e3f3b9df2b6b25ffc00ef79e0f0e9f1ea68
+  quantities:
+  - name: flèche en bout (DZ, valeur absolue), L le long de la console (ANGL_REP = (0, 0))
+    value_obtained: 0.02666666666627
+    reference_value: 0.02666666666666667
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-022 ; référence : P·L³/(3·FLEX·b) avec P = 10 N/m × 0,5 m = 5 N, L = 2 m, b
+      = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667'
+- case_path: data/examples/lot22_essais/essai_a/a2.comm
+  case_sha256: fb6c4d1ebe7974d31ac25f486984597f6ec3cc699249caa39c7a6e7277961565
+  quantities:
+  - name: flèche en bout (DZ, valeur absolue), T le long de la console (VECTEUR = (0, 1, 0))
+    value_obtained: 0.00666666666669
+    reference_value: 0.006666666666666667
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-022 ; référence : P·L³/(3·FLEX·b) avec P = 10 N/m × 0,5 m = 5 N, L = 2 m, b
+      = 0,5 m, FLEX = 4000 N·m : 0.006666666666666667'
+- case_path: data/examples/lot22_essais/essai_a/a3.comm
+  case_sha256: 26a141219f730c263ab3af90c97b3f2a6293ee3d7e8350be9f2ae672765f8bd3
+  quantities:
+  - name: flèche en bout (DZ, valeur absolue), T le long de la console (ANGL_REP = (90, 0))
+    value_obtained: 0.00666666666669
+    reference_value: 0.006666666666666667
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-022 ; référence : P·L³/(3·FLEX·b) avec P = 10 N/m × 0,5 m = 5 N, L = 2 m, b
+      = 0,5 m, FLEX = 4000 N·m : 0.006666666666666667'
+result: réussi

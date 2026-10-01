@@ -1,0 +1,151 @@
+id: REF-010
+title: Ferraillage ELU 1D de CALC_FERRAILLAGE contre le module rebar (lot 39)
+summary: Aires d'acier ELU de CALC_FERRAILLAGE en flexion simple, composée, déviée et en cisaillement-torsion,
+  comparées au calcul indépendant aster_expert.rebar.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: C
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: data/examples/lot39_essais/d19/d19.comm
+  case_sha256: 316b4509703d312654c00731e04dccc9838ed034b8240b10d85fe5182aa6bc61
+  outcome: réussite
+  level: C
+  note: cas versionné de la référence
+- kind: execution
+  run: null
+  case_path: data/examples/lot39_essais/limites/limites.comm
+  case_sha256: acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e
+  outcome: réussite
+  level: C
+  note: cas versionné de la référence
+- kind: document
+  path: docs/essais_lot39.md
+  section: null
+  note: null
+commands:
+- CALC_FERRAILLAGE
+keywords:
+- AST
+- AYI
+- AYS
+- AZS
+reuses: []
+status_history: []
+problem: Section rectangulaire de poutre, efforts imposés un à un.
+reference_solution: 'Module aster_expert.rebar (EN 1992-1-1, procédure de Bresler de R7.04.05,
+  θ = 21,8°). Critère du dépôt (CLAUDE.md, « Critère de réussite des essais », à partir du
+  lot 25) : grandeur exacte à 1e-6 relatif, grandeur sensible à la discrétisation dont l''erreur
+  décroît au raffinement ×2. Les essais antérieurs au lot 25 n''avaient pas écrit de critère
+  : celui-ci leur est appliqué tel quel, sans adaptation.'
+cases:
+- case_path: data/examples/lot39_essais/d19/d19.comm
+  case_sha256: 316b4509703d312654c00731e04dccc9838ed034b8240b10d85fe5182aa6bc61
+  quantities:
+  - name: AYS (m²), flexion simple MFZ = 2,183517 MN·m, ELU, c = 0,10 m
+    value_obtained: 0.002104821602536
+    reference_value: 0.002104821602535774
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-040 ; référence : aster_expert.rebar.ultimate.design_ultimate, bloc rectangulaire,
+      h = 2,50, b = 1,40'
+  - name: AYI (m²), flexion composée N = +5 MN (traction), MFZ = 2,183517 MN·m, ELU
+    value_obtained: 0.003566483
+    reference_value: 0.003566483
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-040 ; référence : aster_expert.rebar.ultimate.design_ultimate (face comprimée
+      par M)'
+- case_path: data/examples/lot39_essais/limites/limites.comm
+  case_sha256: acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e
+  quantities:
+  - name: AYI (m²), MFZ = -1 MN·m seul, ELU
+    value_obtained: 0.0009608935496537
+    reference_value: 0.0009608935496536695
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-040 ; référence : design_ultimate, h = 2,50, b = 1,40 (face -y tendue)'
+  - name: AZS (m²), MFY = +1 MN·m seul, ELU
+    value_obtained: 0.001778296237482
+    reference_value: 0.0017782962374818217
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-040 ; référence : design_ultimate, h = 1,40, b = 2,50 (face +z tendue)'
+  - name: AYS (m²), MFY = MFZ = 1 MN·m, ELU
+    value_obtained: 0.002059760660639
+    reference_value: 0.0020597606606387853
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-042 ; référence : procédure de Bresler de R7.04.05 (aster_expert.rebar.biaxial.design_biaxial)'
+  - name: AZS (m²), MFY = MFZ = 3 MN·m, ELU
+    value_obtained: 0.01155610237267
+    reference_value: 0.01155610237266868
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-042 ; référence : procédure de Bresler de R7.04.05 (aster_expert.rebar.biaxial.design_biaxial)'
+  - name: AST (m²/m), VY = 4 MN seul, ELU
+    value_obtained: 0.0017035821618
+    reference_value: 0.0017035821617999573
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-043 ; référence : V/(0,9 d fyd cot 21,8°), d = 2,40'
+  - name: AST (m²/m), VZ = 4 MN seul, ELU
+    value_obtained: 0.003145074760246
+    reference_value: 0.0031450747602460747
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-043 ; référence : V/(0,9 d fyd cot 21,8°), d = 1,30'
+  - name: AST (m²/m), MT = 4 MN·m seul, ELU
+    value_obtained: 0.001790827609439
+    reference_value: 0.0017908276094393085
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-043 ; référence : [T/A_k (h - t_k)]/(0,9 d fyd cot 21,8°), h = 2,50, d = 2,40'
+  - name: AST (m²/m), VY = 4 MN et MT = 4 MN·m, ELU
+    value_obtained: 0.003494409771239
+    reference_value: 0.003494409771239266
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-043 ; référence : [V + T/A_k (h - t_k)]/(0,9 d fyd cot 21,8°)'
+  - name: AST (m²/m), VY = VZ = 4 MN, ELU
+    value_obtained: 0.003145074760246
+    reference_value: 0.0031450747602460747
+    criterion: exact
+    tolerance: 1.0e-06
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'CA-043 ; référence : maximum des deux directions : valeur de VZ seul'
+result: réussi

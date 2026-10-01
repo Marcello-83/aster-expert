@@ -1,0 +1,59 @@
+id: DIAG-022
+title: Arrêt anormal à la lecture du maillage
+summary: Un arrêt anormal par Segmentation fault dès LIRE_MAILLAGE signale un fichier de maillage
+  absent de l'unité (pas de .export du même nom que le .comm) ou lu dans un autre format que
+  le sien.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: execution
+  run: 20260923T141049-0f80be92
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 30 : .export d''un autre nom, fort.20 absent'
+- kind: execution
+  run: 20260924T092624-be572f9f
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 33 : aucun .export copié'
+- kind: execution
+  run: 20260928T083040-fc18b62a
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 39 : FORMAT="MED" sur un maillage ASTER'
+- kind: execution
+  run: 20260928T083113-a4a49af7
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 39 : même cas en FORMAT="ASTER", lecture passée'
+- kind: document
+  path: docs/essais_lot30.md
+  section: null
+  note: null
+commands:
+- LIRE_MAILLAGE
+keywords:
+- FORMAT
+- UNITE
+reuses: []
+status_history: []
+category: préparation
+signature:
+  kind: arrêt anormal
+  identifiers: []
+  pattern: Segmentation fault
+cause: LIRE_MAILLAGE lit une unité vide ou d'un autre format sans message d'erreur.
+cause_established: true
+correction: Nommer le .export et le maillage comme le .comm (aster-expert run copie les fichiers
+  <nom>.* voisins) et accorder FORMAT au fichier.
+prevention: null

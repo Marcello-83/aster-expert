@@ -1,0 +1,57 @@
+id: PRE-008
+title: 'Point 7 : Position et blocages des limites latérales/inférieures d''un modèle de sol
+  stratifié semi-infini'
+summary: 'Décision de MM au point 7 de la fiche du quai (2026-09-22) : Position et blocages
+  des limites latérales/inférieures d''un modèle de sol stratifié semi-infini.'
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '7'
+  decided_by: MM
+  decided_at: '2026-09-22T18:00:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '7'
+topic: Position et blocages des limites latérales/inférieures d'un modèle de sol stratifié
+  semi-infini
+option_retained: 'Le point tel que formulé devient sans objet du fait de la décision du point
+  4 : le sol n''étant pas maillé, il n''existe ni bord latéral ni fond de modèle. La décision
+  porte sur l''étendue de la tranche et ses faces de coupe.
+
+
+  La tranche représentative fait 20,80 m, soit huit entraxes de tube. Ses deux faces de coupe
+  sont des plans de symétrie passant par l''axe des tubes 1 et 9. Les tubes 1 et 9 sont donc
+  des demi-tubes. Leurs tirants, situés dans les plans de symétrie, ont une demi-section,
+  et leurs ressorts de sol ne comptent que la largeur projetée située dans la tranche. La
+  tranche comporte ainsi sept tubes entiers, deux demi-tubes et huit palplanches intercalaires.
+  Le bollard d''amarrage et la défense d''accostage sont au droit du tube central, `TUBE_05`.
+  Les conditions de symétrie s''appliquent aux deux faces de coupe. La composante hors plan
+  de 15° de l''effort d''amarrage est supprimée pour ce cas de test.'
+justification: Bollards et défenses se répètent tous les huit tubes. La cellule répétitive
+  de l'ouvrage va donc de l'axe d'un tube à l'axe du huitième suivant. Des tubes entiers aux
+  deux faces compteraient deux fois le tube partagé avec la tranche voisine. Le demi-tube,
+  la demi-section de tirant et la demi-largeur de ressort aux faces sont la traduction exacte
+  de la symétrie.
+validity_domain: La symétrie impose un chargement symétrique. Tout cas de charge dissymétrique
+  — amarrage oblique réel, accostage hors de l'axe du tube central — sort du domaine de validité
+  et demanderait une tranche allongée. La symétrie des résultats par rapport à l'axe de `TUBE_05`
+  est un contrôle de niveau D.
+discarded_variants:
+- 'Neuf tubes entiers entre les faces de coupe. — écartée : Compte deux fois les tubes des
+  faces ; la raideur et les charges de la tranche sont surestimées d''un tube.'
+- 'Demi-tranche de 10,40 m, avec symétrie supplémentaire dans l''axe de `TUBE_05`. — écartée
+  : Divise le modèle par deux, mais demande de répartir sur demi-tube les charges de bollard
+  et de défense, et supprime le contrôle de symétrie des résultats.'
+- 'Tranche de 41,60 m, composante hors plan conservée. — écartée : Plus fidèle, mais quadruple
+  le modèle pour un cas de test.'
+decided_by: MM
+decided_at: '2026-09-22T18:00:00'
+superseded_decisions: 2
+application: proposition seulement

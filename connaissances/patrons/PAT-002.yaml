@@ -1,0 +1,70 @@
+id: PAT-002
+title: Liaison tête de pieu tubulaire-poutre sans redondance
+summary: Une tête de tube en coque se lie à la poutre de couronnement par une occurrence de
+  LIAISON_SOLIDE par tube (anneau DKT + nœud de poutre), les blocages de symétrie excluant
+  les ddl que la liaison détermine déjà.
+origin_project: quai_cw_test_01
+date: '2026-10-01'
+validation_level: C
+status: établi
+sources:
+- kind: execution
+  run: 20260924T082421-4ed9a9c6
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: 'lot 32, modèle complet : DIAGNOSTIC JOB OK'
+- kind: test
+  path: projets/quai_cw_test_01/tests/test_generation_comm.py
+  function: test_symmetry_block_excludes_the_ring_from_every_determined_dof
+  note: null
+- kind: document
+  path: docs/essais_lot32.md
+  section: null
+  note: null
+- kind: constat
+  constat_id: CA-008
+- kind: constat
+  constat_id: CA-032
+commands:
+- AFFE_CHAR_MECA
+- DEFI_GROUP
+keywords:
+- DDL_IMPO
+- DIFFE
+- DKT
+- LIAISON_SOLIDE
+- POU_D_T
+reuses: []
+status_history: []
+problem: Relier une coque (tube facetté) à une poutre transversale en T, à plusieurs appuis,
+  dans un modèle à plans de symétrie.
+solution: LIAISON_SOLIDE par tube ; au plan de symétrie, DDL_IMPO DX/DRY/DRZ sur le groupe
+  du plan privé des nœuds d'anneau (DEFI_GROUP/DIFFE) ; lire les réactions sur les seules
+  composantes bloquées (CA-036).
+fragment: "CH_SOLIDE = AFFE_CHAR_MECA(\n    MODELE=MO,\n    LIAISON_SOLIDE=(\n        _F(GROUP_NO=(\"\
+  TETE_TUBE_01\", \"GEN_POUTRE_01\")),\n    ),\n)\nCH_BLOC = AFFE_CHAR_MECA(\n    MODELE=MO,\n\
+  \    DDL_IMPO=(\n        _F(GROUP_NO=(\"GEN_SYMG_ROT\",), DX=0.0, DRY=0.0, DRZ=0.0),\n \
+  \   ),\n)"
+fragment_language: comm
+conditions: 'Coques DKT, poutre POU_D_E ou POU_D_T, statique linéaire ; la numérotation interne
+  de Code_Aster n''est pas éclairée (lots 28 à 32) : un autre ouvrage reprend le contrôle
+  CTL-002.'
+controls:
+- CTL-002
+constats:
+- CA-008
+- CA-030
+- CA-032
+- CA-036
+- CA-038
+implementation:
+- kind: code
+  path: projets/quai_cw_test_01/generation/comm.py
+  symbol: liaison_solide_block
+  note: null
+- kind: code
+  path: projets/quai_cw_test_01/generation/comm.py
+  symbol: symmetry_and_support_block
+  note: null
