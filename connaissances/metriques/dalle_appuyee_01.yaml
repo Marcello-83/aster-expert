@@ -1,0 +1,64 @@
+# Métriques du projet (aster-expert rex, lot 42) : « fonction de perte » de l'outil.
+# Fichier produit : ne pas éditer à la main.
+project: dalle_appuyee_01
+baseline: null
+knowledge:
+  created: 0
+  promoted: 0
+  by_layer:
+    constats_code_aster:
+      observé: 0
+      établi: 0
+      promu: 0
+    diagnostics:
+      observé: 0
+      établi: 0
+      promu: 0
+    patrons:
+      observé: 0
+      établi: 0
+      promu: 0
+    controles:
+      observé: 0
+      établi: 0
+      promu: 0
+    references_validation:
+      observé: 0
+      établi: 0
+      promu: 0
+    precedents:
+      observé: 0
+      établi: 0
+      promu: 0
+consultations:
+  calls:
+    search_connaissances: 6
+    search_constats: 1
+  note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
+    ne porte pas le projet'
+  avoided_errors:
+    value: null
+    nature: non renseigné
+    note: déclaré lot par lot dans le compte rendu (registre, `lots`)
+lots: []
+declared_interventions_since_baseline: null
+measured:
+  runs: 0
+  failures: 0
+  failure_rate: null
+  compute_s:
+    aster_legacy: 0
+    wall_since_lot41: 0
+    unknown_runs: 0
+    note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
+      versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
+      deux grandeurs distinctes, jamais additionnées'
+  first_run: null
+  last_run: null
+  failures_by_signature: {}
+  failures_by_cause: {}
+  automatic_diagnosis:
+    attached_failures: 0
+    single_match_equal_to_classification: 0
+    note: échecs rattachés à un diagnostic pour lesquels la recherche automatique de la base
+      (signature) propose ce diagnostic et lui seul

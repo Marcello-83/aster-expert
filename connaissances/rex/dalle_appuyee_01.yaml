@@ -1,0 +1,6 @@
+# Registre de retour d'expérience (aster-expert rex, lot 42) du projet
+# dalle_appuyee_01 (lot 43). Les classements d'échec et les chiffres déclarés sont
+# écrits par la session ; `reviews` par `aster-expert rex --enregistrer`.
+project: dalle_appuyee_01
+case_roots:
+- projets/dalle_appuyee_01

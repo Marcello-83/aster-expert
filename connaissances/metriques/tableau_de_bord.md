@@ -6,4 +6,5 @@ Les métriques sont la « fonction de perte » de l'outil : d'un projet à l'aut
 
 | Projet | Lots (base) | Exécutions (base / mesuré) | Taux d'échec (base / mesuré) | Calcul (h, base) | Interventions du superviseur | Connaissances créées | Promues |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| `dalle_appuyee_01` | non renseigné | non renseigné / 0 | — / — | non renseigné | non renseigné | 0 | 0 |
 | `quai_cw_test_01` | 40 | 190 / 373 | 38,4 % / 19,6 % | 1,54 | 25 (estimation) | 121 | 0 |

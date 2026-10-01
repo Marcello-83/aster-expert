@@ -1,0 +1,59 @@
+# Données chiffrées du modèle DALLE-APPUYEE-01 (lot 43).
+#
+# Schéma : aster_expert.agent.model_data (Pydantic). Chaque valeur porte sa valeur,
+# son unité et sa source, recopiée dans l'unité de la source (m, mm, kPa) : aucune
+# conversion ni déduction ici. La seule source avant arbitrage est la description
+# de MM (sources/description_MM_lot43.md). Toute valeur qu'elle ne donne pas reste
+# `a_fournir`, avec le point de la fiche qui la demande : elle bloque la génération
+# (HypothesesSheet.generation_blockers). Aucune valeur « usuelle » n'est complétée
+# par la session (lot 43 : aucune décision pratique à la place de MM).
+project: DALLE-APPUYEE-01
+case_reference: "Description de MM, consigne du lot 43 (sources/description_MM_lot43.md) ; fiche fiche/hypotheses_dalle_projet.json"
+groups:
+  geometrie:
+    longueur:
+      {status: fourni, value: 6.00, unit: m, source: {kind: cas_test, document: description_MM_lot43.md, section: document}, comment: "Grand côté (6,00 m × 4,00 m) ; son orientation dans le repère est le point 9."}
+    largeur:
+      {status: fourni, value: 4.00, unit: m, source: {kind: cas_test, document: description_MM_lot43.md, section: document}, comment: "Petit côté."}
+    epaisseur:
+      {status: fourni, value: 0.30, unit: m, source: {kind: cas_test, document: description_MM_lot43.md, section: document}}
+  beton:
+    classe:
+      {status: fourni, value: C30/37, unit: "-", source: {kind: cas_test, document: description_MM_lot43.md, section: document}}
+    module_young:
+      {status: a_fournir, unit: MPa, required_by: "5", comment: "La description donne la classe C30/37, pas le module : module sécant Ecm de l'EN 1992-1-1 (tableau 3.1), module à long terme ou autre valeur, à décider par MM."}
+    coefficient_poisson:
+      {status: a_fournir, unit: "-", required_by: "5", comment: "Non donné. L'EN 1992-1-1 (3.1.3) distingue béton non fissuré et fissuré ; les moments de la dalle en dépendent."}
+    poids_volumique:
+      {status: a_fournir, unit: kN/m3, required_by: "4", comment: "« poids propre » sans valeur : poids volumique du béton armé à fixer (EN 1991-1-1, annexe A, ou valeur propre à MM)."}
+  acier:
+    nuance:
+      {status: a_fournir, unit: "-", required_by: "14", comment: "La description ne donne pas l'acier des armatures (fyk, classe de ductilité)."}
+    diametre_barres:
+      {status: a_fournir, unit: mm, required_by: "14", comment: "Nécessaire pour passer de l'enrobage (30 mm) à la distance parement–axe des armatures, et pour le calcul d'ouverture de fissure."}
+  charges:
+    exploitation_uniforme:
+      {status: fourni, value: 10, unit: kPa, source: {kind: cas_test, document: description_MM_lot43.md, section: document}}
+    categorie_exploitation:
+      {status: a_fournir, unit: "-", required_by: "13", comment: "La catégorie d'usage (EN 1991-1-1, tableau 6.1) fixe ψ0, ψ1, ψ2 (EN 1990, tableau A1.1) : non donnée."}
+    acceleration_pesanteur:
+      {status: a_fournir, unit: m/s2, required_by: "4", comment: "Valeur de g à retenir avec le poids volumique (voir point 4)."}
+  durabilite:
+    classe_exposition:
+      {status: fourni, value: XC1, unit: "-", source: {kind: cas_test, document: description_MM_lot43.md, section: document}}
+    enrobage:
+      {status: fourni, value: 30, unit: mm, source: {kind: cas_test, document: description_MM_lot43.md, section: document}, comment: "Enrobage (nominal ou minimal : non précisé) ; ce n'est pas la distance parement–axe des armatures (précédent PRE-018)."}
+    ouverture_fissure_limite:
+      {status: a_fournir, unit: mm, required_by: "14", comment: "« ELS en XC1 » sans valeur de wk ni combinaison associée (EN 1992-1-1, 7.3.1, tableau 7.1N)."}
+    distance_parement_axe_armatures:
+      {status: a_fournir, unit: m, required_by: "14", comment: "C_INF/C_SUP de CALC_FERRAILLAGE (une seule valeur par face en 2D pour les deux directions) : à déduire de l'enrobage et des diamètres, décision de MM."}
+  combinaisons:
+    gamma_g_defavorable:
+      {status: a_fournir, unit: "-", required_by: "13", comment: "Non donné."}
+    gamma_g_favorable:
+      {status: a_fournir, unit: "-", required_by: "13", comment: "Non donné."}
+    gamma_q:
+      {status: a_fournir, unit: "-", required_by: "13", comment: "Non donné."}
+  maillage:
+    taille_elements:
+      {status: a_fournir, unit: m, required_by: "10", comment: "Taille de maille du calcul de référence, et suite de maillages de l'étude de convergence."}

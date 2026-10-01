@@ -369,6 +369,14 @@ def render_decision_sheet(sheet: HypothesesSheet) -> str:
         else:
             lines.append("- Rien de directement établi par le corpus pour ce point.")
         lines += ["", "### Cherché et non trouvé", entry.notes or "Non tracé."]
+        # Lot 43: the candidates the question opposes, among them the text of a
+        # precedent proposed by `propose_precedent` -- without this section the
+        # engineer saw the precedent's identifier in the notes, never its content.
+        lines += ["", "### Options soumises à l'arbitrage"]
+        if entry.options_considered:
+            lines.extend(f"- {option}" for option in entry.options_considered)
+        else:
+            lines.append("- Aucune option énoncée pour ce point.")
         lines += ["", "### Options disponibles au catalogue"]
         options = tuple(s for s in established if s.option_retained)
         if options:

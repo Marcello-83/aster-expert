@@ -473,6 +473,32 @@ def test_render_decision_sheet_carries_no_recommendation() -> None:
     assert "il faut" not in lowered
 
 
+def test_render_decision_sheet_shows_the_options_of_the_entry() -> None:
+    """Lot 43: a precedent proposed by `propose_precedent` lives in the entry's
+    `options_considered`; the engineer must read its text, not only its id."""
+    proposed = PracticeHypothesisEntry(
+        point_label="9",
+        topic="Repère global",
+        options_considered=(
+            "Précédent PRE-012 (quai_cw_test_01) : origine dans l'axe de TUBE_05",
+            "Origine au coin de la dalle",
+        ),
+        notes="Précédent proposé, non appliqué : PRE-012.",
+        status="non_tranche",
+    )
+    document = render_decision_sheet(_sheet((proposed,)))
+
+    assert "### Options soumises à l'arbitrage" in document
+    assert "origine dans l'axe de TUBE_05" in document
+    assert "- Origine au coin de la dalle" in document
+
+
+def test_render_decision_sheet_says_when_no_option_is_stated() -> None:
+    document = render_decision_sheet(_sheet((_ESTABLISHED_SIBLING, _UNRESOLVED_ENTRY)))
+
+    assert "Aucune option énoncée pour ce point." in document
+
+
 def test_render_decision_sheet_ignores_resolved_practice_entries() -> None:
     decided = record_practice_decision(
         entry=_UNRESOLVED_ENTRY,
