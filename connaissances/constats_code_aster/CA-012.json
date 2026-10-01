@@ -1,0 +1,148 @@
+{
+  "constat_id": "CA-012",
+  "summary": "Une pression fonction de Z sur des coques DKT s'écrit par AFFE_CHAR_MECA_F/FORCE_COQUE/PRES avec une FORMULE, jamais par PRES_REP, qui ne cite pas DKT et refuse les fonctions sur COQUE_3D.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_CHAR_MECA",
+    "AFFE_CHAR_MECA_F",
+    "DEFI_CONSTANTE",
+    "FORMULE"
+  ],
+  "keywords": [
+    "AXIS",
+    "CISA_2D",
+    "COQUE_3D",
+    "COQUE_SOLIDE",
+    "C_PLAN",
+    "DKT",
+    "DST",
+    "D_PLAN",
+    "FORCE_COQUE",
+    "FORCE_COQUE_FO",
+    "GROUP_MA",
+    "MODELE",
+    "NOM_PARA",
+    "OUI",
+    "PAS",
+    "PRES",
+    "PRES_REP",
+    "Q4G",
+    "TOUT",
+    "VALE"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "5"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Pression répartie fonction de Z sur des coques DKT",
+    "options_considered": [],
+    "option_retained": "AFFE_CHAR_MECA_F, mot-clé facteur FORCE_COQUE, opérande PRES = une FORMULE(NOM_PARA='Z', ...) (pression normale, positive suivant le sens contraire de la normale à l'élément), GROUP_MA = le groupe de mailles concerné. PRES_REP n'est PAS utilisé : sa liste de modélisations applicables (U4.44.01) ne cite pas DKT, et la documentation avertit explicitement que « les pressions de type «fonction», ne sont pour l'instant pas compatibles avec la modélisation COQUE_3D et COQUE_SOLIDE » -- PRES_REP n'est donc, au mieux, utilisable qu'à valeur constante sur COQUE_3D, jamais fonction de Z sur DKT.",
+    "justification": "U4.44.01 (Mot-clé FORCE_COQUE) : « Le mot-clé facteur FORCE_COQUE est utilisable pour appliquer des efforts surfaciques sur des éléments de type coque (DKT, DST, Q4G, COQUE_3D…) [...] La composante PRES impose une pression normale à la surface [...] Valeur de la pression imposée (réel ou fonction), normale à la coque. » Confirmé au catalogue : sous AFFE_CHAR_MECA_F, FORCE_COQUE.PRES accepte fonction_sdaster, nappe_sdaster ou formule. Un cas test officiel, ssls118a.comm (modélisation DKT), applique exactement ce mécanisme : `P = FORMULE(VALE=\"PO*sin(pi*X)*sin(pi*Y)\", NOM_PARA=[\"X\",\"Y\"])` puis `AFFE_CHAR_MECA_F(MODELE=MO, FORCE_COQUE=_F(PRES=P, GROUP_MA=\"MAIL1\"))` -- une pression fonction de position sur DKT, avec NOM_PARA différent (X, Y) mais le même mécanisme de commande + mot-clé ; ssls100b.comm confirme la variante à fonction constante (DEFI_CONSTANTE) sur TOUT='OUI'. La liste des modélisations de PRES_REP (U4.44.01, Mot-clé PRES_REP) ne mentionne que « AXIS, D_PLAN, C_PLAN, ..., 3D et COQUE_3D » -- DKT en est absent -- et la même section précise que la pression «fonction» n'est pas compatible avec COQUE_3D.",
+    "discarded_variants": [],
+    "notes": "Signe : d'après U4.44.01, une valeur PRES positive pousse dans le sens opposé à la normale de l'élément ; combinée à l'orientation retenue au point 5 suivant (normale vers la terre), une valeur positive de la poussée des terres pousse bien vers le bassin. Existe aussi FORCE_COQUE_FO (U4.44.01), « en quelque sorte équivalent à AFFE_CHAR_MECA_F/FORCE_COQUE » pour une fonction indépendante du temps évaluée une seule fois : non retenu ici, aucun cas test officiel ne l'utilise (search_test_cases, 0 résultat), alors que AFFE_CHAR_MECA_F/FORCE_COQUE l'est. Le paramètre Z d'une FORMULE se réfère à la géométrie initiale (U4.44.01 : « la dépendance à la géométrie peut être faite par rapport à la géométrie initiale avec les paramètres X, Y et Z »), cohérent avec un calcul en petits déplacements. Historique du constat remplacé (fiche de base, lot 14, niveau A, sans excerpt ni cas test) : option retenue : AFFE_CHAR_MECA_F, mot-clé PRES_REP, opérande PRES de type fonction_sdaster/nappe_sdaster/formule -- contre AFFE_CHAR_MECA où PRES_REP n'accepte qu'un réel constant (plus CISA_2D) Notes : (aucune)",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "AFFE_CHAR_MECA_F",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "PRES_REP"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "PRES_REP"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      },
+      {
+        "document_id": "U4.44.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements de type Neumann pour les éléments de structure",
+          "Mot-clé FORCE_COQUE"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_pour_les__l_ments_de_structure_.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Mot-clé FORCE_COQUE\n-------------------\n\n.. code-block:: text\n\n          | FORCE_COQUE = _F(\n               ◆ / TOUT = \"OUI\" (ou non renseigné),\n                 / GROUP_MA = grma,\n               ◆ | FX = float,\n                 | FY = float,\n                 | FZ = float,\n                 | MX = float,\n                 | MY = float,\n                 | MZ = float,\n                 | PRES = float,\n                 | F1 = float,\n                 | F2 = float,\n                 | F3 = float,\n                 | MF1 = float,\n                 | MF2 = float,\n               ◇ PLAN = / \"SUP\",\n                        / \"INF\",\n                        / \"MOY\",\n                        / \"MAIL\" (par défaut),\n            ),\n\n\nLe mot-clé facteur FORCE_COQUE est utilisable pour appliquer des efforts **surfaciques**  sur des éléments de type coque (DKT, DST, Q4G, COQUE_3D…). Les opérandes de FORCE_COQUE peuvent être définis:\n\n\n*   Dans le repère **global**  avec les mot-clefs FX, FY, FZ, MX, MY et MZ si l'on veut imposer un torseur des efforts surfaciques par composante.\n\n\n*   La composante PRES impose une pression **normale**  à la surface;\n\n\n*   Dans un repère **de référence défini sur chaque maille** avec les mot-clefs F1, F2, F3, MF1 et MF2 si l'on veut imposer un torseur des efforts **surfaciques**  par composante; le repère est construit autour de la normale à l’élément de coque :math:`({z}_{\\mathit{ref}})` et d’une direction fixe :math:`({x}_{\\mathit{ref}})` (pour le groupe de maille) définie par le mot-clé ANGL_REP en même temps que l’épaisseur de la coque (voir mot-clé facteur COQUE de l’opérateur AFFE_CARA_ELEM [:external:ref:`U4.42.01 <U4.42.01>`]).\n\nS’il est appliqué sur des éléments COQUE_3D, ce chargement peut-être de type suiveur mais uniquement s’il s’agit d’une pression (opérande PRES).\n\n\n.. image:: images/10000C8A00001A2600000C18F7C8329E10CC3DC1.svg\n    :width: 337\n    :height: 156\n\n\n.. _RefImage_10000C8A00001A2600000C18F7C8329E10CC3DC1.svg:\n\nIl est aussi possible de définir un torseur d’efforts **surfaciques**  sur le plan moyen, inférieur, supérieur ou du maillage. Si on note :math:`d` l’excentrement, :math:`h` l’épaisseur de la coque, :math:`(\\mathit{F2X},\\mathit{F2Y},\\mathit{F2Z},\\mathit{M2X},\\mathit{M2Y},\\mathit{M2Z})` le torseur des efforts sur le plan défini par l’utilisateur (soit excentré) et :math:`(\\mathit{F1X},\\mathit{F1Y},\\mathit{F1Z},\\mathit{M1X},\\mathit{M1Y},\\mathit{M1Z})` le torseur des efforts dans le plan du maillage.\n\nLes formules de passage sont les suivantes:\n\n\n*   Si le plan de calcul est le plan du maillage:\n\n:math:`\\mathit{F2}=\\mathit{F1}`\n\n:math:`\\mathit{M2}=\\mathit{M1}`\n\n\n*   Si le plan de calcul est le feuillet moyen excentré:\n\n:math:`\\mathit{F2}=\\mathit{F1}`\n\n:math:`\\mathit{M2X}=\\mathit{M1X}–\\mathit{dx}\\mathit{F1Y}`\n\n:math:`\\mathit{M2Y}=\\mathit{M1Y}+\\mathit{dx}\\mathit{F1X}`\n\n\n*   Si le plan de calcul est le feuillet supérieur excentré:\n\n:math:`\\mathit{F2}=\\mathit{F1}`\n\n:math:`\\mathit{M2X}=\\mathit{M1X}–d+\\frac{h}{2}.\\mathit{F1Y}`\n\n:math:`\\mathit{M2Y}=\\mathit{M1Y}+d+\\frac{h}{2}.\\mathit{F1X}`\n\n\n*   Si le plan de calcul est le feuillet inférieur excentré:\n\n:math:`\\mathit{F2}=\\mathit{F1}`\n\n:math:`\\mathit{M2X}=\\mathit{M1X}–d-\\frac{h}{2}.\\mathit{F1Y}`\n\n:math:`\\mathit{M2Y}=\\mathit{M1Y}+d-\\frac{h}{2}.\\mathit{F1X}`\n\nNotons que l’on doit rester homogène dans chaque occurrence du mot-clé facteur FORCE_COQUE: soit tout en composante d’effort dans le repère global soit tout en composante d’effort dans le repère de définition de la coque.\n\nLa pression appliquée est positive suivant le sens contraire de la normale à l’élément (définie par l’orientation de chaque maille (cf. [§ :ref:`3.9.1 <RefNumPara__18240_53696255>` ]).\n\nLe chargement est affecté sur ces mailles qui sont nécessairement des triangles ou des quadrangles.\n\n.. code-block:: text\n\n    ◆ PRES\n\nValeur de la pression imposée (réel ou fonction), normale à la coque.\n\nComposantes:\n\n.. code-block:: text\n\n  ◆ FX, FY, FZ, MX, MY, MZ\n\nValeur des efforts et des moments dans le repère global.\n\nComposantes:\n\n.. code-block:: text\n\n  ◆ F1, F2\n\nEfforts de membrane suivant :math:`{x}_{\\mathit{ref}}` et :math:`{y}_{\\mathit{ref}}` .\n\nComposantes:\n\n.. code-block:: text\n\n  ◆  F3\n\nEffort normal suivant :math:`{z}_{\\mathit{ref}}` .\n\nComposantes:\n\n.. code-block:: text\n\n  ◆ MF1, MF2\n\nMoments fléchissants d’axe :math:`X` et :math:`Y`\n\nDéfinition du PLAN pour écrire le torseur d’efforts:\n\n*   ’MOY’: on applique le torseur d’efforts sur le feuillet moyen excentré;\n\n*   ’INF’: on applique le torseur d’efforts sur la peau inférieure;\n\n*   ’SUP’: on applique le torseur d’efforts sur la peau supérieure;\n\n*   ’MAIL’: on applique le torseur d’efforts au niveau du plan du maillage.\n"
+      },
+      {
+        "document_id": "U4.44.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements de type Neumann",
+          "Mot-clé PRES_REP"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Mot-clé PRES_REP\n----------------\n\n.. code-block:: text\n\n    PRES_REP = _F(\n               ◆ | TOUT = \"OUI\" (ou non renseigné),\n                 | GROUP_MA = grma,\n                 | FISSURE = fiss_xfem,\n               ◆ | PRES = float ou fonction,\n                 | CISA_2D = float ou fonction,\n    )\n\nLe mot-clé facteur PRES_REP est utilisable pour appliquer:\n\n*   une **pression**  à un domaine de milieu continu 2D, 3D ou éléments d'interface fluide/structure ( \\*_FLUI_STRU);\n\n*   une **pression**  sur une coque de type COQUE_3D;\n\n*   un **cisaillement**  à un domaine de milieu continu 2D;\n\n*   une **pression** sur les lèvres d'une fissure XFEM.\n\n\nAffectation topologique:\n\n.. code-block:: text\n\n    ◆ |TOUT, GROUP_MA\n\nLe chargement est affecté sur les mailles qui sont nécessairement des segmentsen 2D et des trianglesou quadranglesen 3D.\n\n.. code-block:: text\n\n    ◆ | FISSURE\n\nL’imposition d’une pression sur les lèvres d’une fissure X-FEMse fait par le mot-clé spécifique FISSURE, puisque aucun groupe de maille ne correspond aux lèvres. On renseigne alors le ou les noms des fissures (provenant de la commande DEFI_FISS_XFEM[U4.82.08])sur lesquelles on souhaite appliquer la pression. Attention, il n’est pas possible d’appliquer un chargement de pression sur les lèvres d’un modèle XFEM de type cohésif.\n\n\n.. code-block:: text\n\n    ◆ | PRES\n\nValeur de la pression imposée.\n\nPour les éléments isoparamétriques (2D ou 3D), la pression est positive suivant le sens contraire de la normale à l’élément. Soit :math:`\\sigma` le tenseur des contraintes, le chargement imposé est: :math:`{\\sigma}_{ij}{n}_{i}{n}_{j}=-p{n}_{i}{n}_{j}` . Ce chargement s’applique aux modélisations suivantes: AXIS, D_PLAN, C_PLAN, AXIS_FOURIER, D_PLAN_HHM, D_PLAN_HM, D_PLAN_THHM, D_PLAN_THM, AXIS_HHM, AXIS_HM, AXIS_THHM, AXIS_THM, TUYAU_3M, TUYAU_6M, 3D_HHM, 3D_HM, 3D_THHM, 3D_THM, 3D et COQUE_3D.\n\nPour les éléments d'interface fluide-structure, ce chargement s'applique à FLUI_STRU, 2D_FLUI_STRU et AXIS_FLUI_STRU.\n\nDans le cas d’une pression «fonction», la dépendance à la géométrie peut être faite par rapport à la géométrie initiale avec les paramètres X, Y, et Z ou par rapport à la géométrie réactualisée (uniquement si TYPE_CHAR = ’SUIV’) avec les paramètres XF, YF, et ZF.\n\nRemarques:\n\n\n*   Les pressions de type «fonction», ne sont pour l’instant pas compatibles avec la modélisation COQUE_3D et COQUE_SOLIDE\n\n\n*   Pour les éléments de type COQUE_SOLIDE, une contribution **volumique**  de pincement est ajoutée aux chargements affectés sur les éléments de peau. Le processus est automatique lors de l’affectation du chargement\n\n\n.. code-block:: text\n\n    ◆ | CISA_2D\n\nValeur du cisaillement imposé. Le cisaillement est positif suivant la tangente à l’élément. Ce chargement s’applique aux modélisations suivantes: AXIS, D_PLAN, C_PLAN et AXIS_FOURIER.\n\n\n.. image:: images/10001836000069BB00002CF56467ACEC5629749D.svg\n    :width: 390\n    :height: 165\n\n\n.. _RefImage_10001836000069BB00002CF56467ACEC5629749D.svg:\n\n\n.. _RefNumPara__15038_1588186163:\n\n\n\n"
+      },
+      {
+        "command": "AFFE_CHAR_MECA_F",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_COQUE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA_F",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_COQUE",
+          "PRES"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA_F",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "PRES_REP"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA_F",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "PRES_REP",
+          "PRES"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      }
+    ],
+    "status": "tranche"
+  }
+}

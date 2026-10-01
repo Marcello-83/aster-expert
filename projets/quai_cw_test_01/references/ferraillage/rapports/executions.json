@@ -1,0 +1,12 @@
+{
+ "poutre": {
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "comm_path": "data/examples/lot39_poutre/poutre.comm",
+  "comm_sha256": "e1c96959d68aa49d280f0074dc5132daa427648736d1eef11798d735e7e2eeeb",
+  "diagnostic": "OK",
+  "duration_s": 11.5,
+  "executed_at": "2026-09-28T10:01:57Z",
+  "work_dir": "data/processed/runs/20260928T100157-30609502"
+ }
+}

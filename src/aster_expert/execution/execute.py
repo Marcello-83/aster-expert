@@ -45,6 +45,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from aster_expert.execution.compte_rendu import (
+    build_record,
+    parse_messages,
+    sha256_file,
+    write_record,
+)
 from aster_expert.execution.config import ExecutionConfig
 from aster_expert.execution.container_env import (
     MOUNT_TARGET,
@@ -197,6 +203,10 @@ def execute_comm_file(
     work_dir.mkdir(parents=True)
 
     entry_name = _stage_inputs(resolved_comm, work_dir)
+    inputs_sha256 = {
+        name: sha256_file(work_dir / name)
+        for name in sorted(_staged_relative_files(work_dir))
+    }
     shutil.copy2(script_path, work_dir / _SCRIPT_NAME)
     staged_before = _staged_relative_files(work_dir)
 
@@ -231,9 +241,7 @@ def execute_comm_file(
     except subprocess.TimeoutExpired:
         kill_container(docker_bin, container_name)
         duration_s = time.monotonic() - started
-        if not config.keep_work_dir:
-            shutil.rmtree(work_dir, ignore_errors=True)
-        return ExecutionReport(
+        timed_out = ExecutionReport(
             comm_path=str(resolved_comm),
             aster_version=aster_version,
             image_digest=image_digest,
@@ -247,6 +255,18 @@ def execute_comm_file(
             extracted_by="run_aster.status",
             executed_at=datetime.now(UTC),
         )
+        if config.keep_work_dir:
+            write_record(
+                build_record(
+                    timed_out,
+                    command=invocation.strip(),
+                    image=image_ref,
+                    inputs_sha256=inputs_sha256,
+                )
+            )
+        else:
+            shutil.rmtree(work_dir, ignore_errors=True)
+        return timed_out
     except EnvironmentDetectionError as exc:
         if not config.keep_work_dir:
             shutil.rmtree(work_dir, ignore_errors=True)
@@ -284,6 +304,8 @@ def execute_comm_file(
             duration_s=duration_s,
             extracted_by="run_aster.status",
             executed_at=datetime.now(UTC),
+            messages=parse_messages(payload.get("messages") or []),
+            messages_error=payload.get("crash"),
         )
     else:
         diag = payload.get("diag")
@@ -308,9 +330,23 @@ def execute_comm_file(
             duration_s=duration_s,
             extracted_by="run_aster.status",
             executed_at=datetime.now(UTC),
+            messages=parse_messages(payload.get("messages") or []),
+            messages_source=payload.get("messages_source"),
+            messages_truncated=int(payload.get("messages_truncated") or 0),
+            messages_error=payload.get("messages_error"),
         )
 
-    if not config.keep_work_dir:
+    if config.keep_work_dir:
+        # Lot 41 : compte rendu lisible à côté de l'exécution (JSON et Markdown).
+        write_record(
+            build_record(
+                report,
+                command=invocation.strip(),
+                image=image_ref,
+                inputs_sha256=inputs_sha256,
+            )
+        )
+    else:
         shutil.rmtree(work_dir, ignore_errors=True)
 
     return report

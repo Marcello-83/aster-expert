@@ -1,0 +1,102 @@
+{
+  "commit_de_reference": "a88472c (lot 40, code identique au lot 39 8382425)",
+  "execution_source_controles": "data/processed/runs/20260925T125131-c67e28a1",
+  "execution_source_ferraillage": "data/processed/runs/20260928T100157-30609502",
+  "maillage": "data/processed/mesh_runs/20260922T071600-8d931d77/combiwall_mesh.med",
+  "sorties": {
+    "comm": {
+      "comm/complet.comm": "cd41d4c81ba33b92f118cdb1f6c68fdf3ae10b9641861098ea3399a2eac721aa"
+    },
+    "mesh_check": {
+      "maillage/combiwall_mesh_invariants.yaml": "2cf202f63c631b2e1198fe7bd67ef0c1bb919ba5979b2e5ef2e45142e196d13f",
+      "maillage/rapport_mesh_check.txt": "91a6f0e37ebccdcde2c7793c2b72696f5db972e8d54c1f0e8549d0446cb1fe7b"
+    },
+    "controles_d": {
+      "controles_d/equilibre.json": "5c269c0ae2054cc27c2cef5ac84e6851a78124402f0b7a63ce90891ee6308b4d",
+      "controles_d/integrale.json": "17fc2f594facbe1f0f54d7fb4a01d27dbe3466834753bcd8b8eabf8b646b4c95"
+    },
+    "synthese": {
+      "synthese/controles.md": "852a3d817f04e0e83d981632f7a76eb6e2f2c8bf6b62eb3aef126b8ce234f83c",
+      "synthese/synthese.json": "3e48716287ee7e6855c5c3cc687167b4fb650f250a62aa3f3fd3fdabbe999947",
+      "synthese/synthese.md": "ca1dbf56060da673af905d8646057c574fc6f05cc36365031a1cadb06555d612"
+    },
+    "combinaisons": {
+      "combinaisons/combinaisons.csv": "4afac85c80e1bd02328d3704289b34f2e226be51d8a87e3d61080ec4eac578db",
+      "combinaisons/controle_manuel.json": "414cf5c081c64f4ca39655cc08c1d92f98f99bebe87aa6f760536ddc397ec97e",
+      "combinaisons/extrema.csv": "b005b0962bc7bed8f27641079022a44fde995dd991b57f54d4f87d7d611b5638",
+      "combinaisons/poutre_couronnement.md": "3f48b008fa6876f70a4b9d01f4e3ad2d2be04b74e0e7c3dcaaa843905f13fa0e"
+    },
+    "ferraillage": {
+      "ferraillage/controle_main.json": "46b6b012b6ed987a4f9680eb8b1854009e6f2b17d5575354f0a87960f2089f12",
+      "ferraillage/efforts.csv": "8fe67bfe13a5863817885198d621c28c51ec4ddc21802833567c2d8103b65f3a",
+      "ferraillage/enveloppes.csv": "838f5bf66ddbee003d5c280bcbc5d534b907243bfd604b20a6f0207913a4a1a9",
+      "ferraillage/ferraillage.csv": "c7ea1573339b13ad1a6777b5eb2a85ead46ca758710209cbe91292b2cff6f26f",
+      "ferraillage/figures/as_x.png": "8dfcd65a13f2241a2588de0ebc503ca55b6244ca868fe839e28e1b32b70827f1",
+      "ferraillage/poutre.comm": "e1c96959d68aa49d280f0074dc5132daa427648736d1eef11798d735e7e2eeeb",
+      "ferraillage/poutre.export": "f5e11f4107df9d8e3a3a35e14a39675928a351525f8d53eee363c76ddbff52a8",
+      "ferraillage/poutre.mail": "7a5325a57fb37392e6874a1836414b8d009f788ecec9d9680cf9d8fba54c4e94",
+      "ferraillage/rapports/executions.json": "893cf815dbaeaa8d086c4c18685fe7d8c830f05552c16f1c03ca7da8b158637f",
+      "ferraillage/rapports/mess_ferr_extrait.txt": "81d8ade37a36149c41fde42e9b830849ef27834bfe66a3568264a35b69be7a08",
+      "ferraillage/resume.json": "98042e2e6402e89cb5f308feaee7e8c6fd2c04c5baf7fc3b2639250e7b341573",
+      "ferraillage/sections.csv": "7d9318ed3ae0d3b714b1c1a2ba94da49e7b78537551ede2645680e0394d99c86",
+      "ferraillage/synthese.csv": "55b635227648040238ac8262236797143edf159086edbcefe94de92d482b7655",
+      "ferraillage/synthese.md": "f7d037c04b57346e9d9693f60089d4791c8e27122c8e2f26df19071672d48b72"
+    }
+  },
+  "vues_informatives_hors_critere": {
+    "butee_A.png": "433045ed35fe396d61187b37ef59a010a034cff42795bdcc328390af352cf13d",
+    "butee_EAU_A.png": "4addf703548c150a5b5e3370ac050d415e59ae7f655b97fa7ee0092f902406fa",
+    "butee_EAU_P.png": "4bb7d544087b624ab35af80c348f640fea1757d933eb17de304c8afa6be23cce",
+    "butee_G.png": "c71d2a4adcde62dc0965c19234a9ef62ec648b47ecbeee6fc963b0faa53b4267",
+    "butee_Q1.png": "cd354a6802e6a64a9094d41e17874d9216da57d0e76bce7cc109e0b46219a7b3",
+    "butee_Q3.png": "bdf6a16d662a0255acec72a4974d942e70031cee74fd1ccc3eb82437af135c5b",
+    "deformee_A.png": "3f2773ad41ca62894514526505d678ac5612650502c800c24b5537a41c31ec81",
+    "deformee_EAU_A.png": "e33eb92f6b230e821ff516b0156f50610e8b7688dbe7760907e9a550b2969e63",
+    "deformee_EAU_P.png": "c910a90e43cf00edaf7c411d65cd98820046b9cd0a877f27fbb0b149f9d51424",
+    "deformee_G.png": "a547f51df2a91c5a8be857bc6525ca13b8e4938fdca2e2afbf2f56664ad46f13",
+    "deformee_Q1.png": "fb3569778e3a7892bf7c82c66ae53f15acedeef04ceb018e39718a7064327fd1",
+    "deformee_Q3.png": "da6170f14d964ce37bdd778a0ef34447150508fdb36470dedea6a04e3d8c88fd",
+    "dy_ecran_A.png": "7eba1f8e11d5818df684d0a3bfbeee338f43e6b74fdd14ee85153f046fc0378e",
+    "dy_ecran_EAU_A.png": "e1edf255b464aeb86c26c625347e889d293dc2924285dc1cb4a10a3e8f103e59",
+    "dy_ecran_EAU_P.png": "bbc7d3f6dfc984eef694a1f2bf9b44b34c4ced84ef4a432edd0ecc1bf1c5f204",
+    "dy_ecran_G.png": "4d3e0672473fc3bac0fe9975fc72c6c8bc1eb888baf3c90f8dbd376c287776e7",
+    "dy_ecran_Q1.png": "8278f6231770d4e2622348462bcfacb69b6dc425a96576ed1d6644c271134363",
+    "dy_ecran_Q3.png": "c6d673880f9980a98fbb027389174c2d56ac3fc2db3bf9646e8f79b2444d1a23",
+    "efforts_palplanches_A.png": "faca9359fa6cd4dfd09d330d70d12d37f4c4c583d784dce88d1ebaa02db3f60f",
+    "efforts_palplanches_EAU_A.png": "16a28e8c8c70adb200e1872f851e1fc5e8224dec9cf90a6ff0f0a11434cac378",
+    "efforts_palplanches_EAU_P.png": "53e1c6882845db41e5f9f2d2195b5a919311b2d25f98e37999d98e976e090846",
+    "efforts_palplanches_G.png": "2bf3d1bf3ae92438ebb427f04ce9051f6de88b2d18365c9995fef391e4770a5c",
+    "efforts_palplanches_Q1.png": "34143cfe31958a830157456643b5a31bf4c12e448608ab404f2a3896ae5863a3",
+    "efforts_palplanches_Q3.png": "19dcb7c12a929812cdd3a212ae2456d920999050a4de8166eb2cc76ae793a5ba",
+    "efforts_tube_A.png": "88dbdb25b4033a0945d6277cae4af4f4a237dc7b351aa9642a4281d1d3e70a73",
+    "efforts_tube_EAU_A.png": "6c1e7ed4c148d056b423f15b1b2bc03f755252e7a5fd01bf509b3329a75c0c0b",
+    "efforts_tube_EAU_P.png": "871b3387b959f363a01ad11d192fc75d008db46914b4cc204e0cfda2c5eb9304",
+    "efforts_tube_G.png": "294540b7b739f47e7d72c4b63401fa5252135aaefcc4e6228df69c7f769966ab",
+    "efforts_tube_Q1.png": "0c7188de148aba206f243faaa3908a214494e8916fc7ca678848bfa38a98fa97",
+    "efforts_tube_Q3.png": "9ece0ae728b0cef1e5cfabdc9c9e4327533d48ec42aa14f4d110e670ea757bb9",
+    "efforts_tubes_A.png": "70c787ac0d421125378bca7aa3502fddc0a0325340f6f47e496734f3ee72dc6a",
+    "efforts_tubes_EAU_A.png": "4241b27c18c64d74144a2910644af40f017d248a056ad8ccd9366ee68e497310",
+    "efforts_tubes_EAU_P.png": "0ee9a2254e0430eb5076783fe65e7a66bff96b388bb0f6f9af2d26c7238875ec",
+    "efforts_tubes_G.png": "b58971c572059ccef446861dcfb594a2130a2c1eca38460a103d7a5d73d54f7b",
+    "efforts_tubes_Q1.png": "115d3293a0ea310311cde70195c4299990e086e8fd5fe5dfa3bac3592b4373b4",
+    "efforts_tubes_Q3.png": "aacfe4182dd37a7c30a404bbeb0b80e17077a36353c263dd9f1ad0de1348edbc",
+    "fleches_A.png": "c1511d2c0dab578c6205bc55f66e51972a7beef50a581eb79a50dc00cacf272f",
+    "fleches_EAU_A.png": "192dbcee213292ebf0c1c4779ea2e65cc04608f8fe3f7e1a302f2aacfd15011f",
+    "fleches_EAU_P.png": "30308739e71c2cc0d9edde9ae40d8060ffe9207188afdc761670f5405affbaaa",
+    "fleches_G.png": "77ad55f58f054459ee4e79b872c27aaca90f2fc04bf83f0f8f6b0670cf4f7e71",
+    "fleches_Q1.png": "98e127691d7653480398266b175c7a68fb5c9cbfb303410ef437ff09f6f15240",
+    "fleches_Q3.png": "eab1b3a5824b5c1ff56d4b7da9cbc3d39a310d33c8f8a44df1687b830b920e78",
+    "poutre_A.png": "f95e050a77b45502690fc24e9760157e309570445feebc7421dae22043aad596",
+    "poutre_EAU_A.png": "75696894562527821018e7b99e562dfba57bf12c56e8881aa8c6662df8b689f3",
+    "poutre_EAU_P.png": "1f083e2fac3521a4d48bcd1c01b1670f8adfe83f1828d04a680f6450c88a661b",
+    "poutre_G.png": "4974c16bd21eab679a96f71a73b975f7336d50882646a15a0a4a5bf40bbde23d",
+    "poutre_Q1.png": "8c1bbf47299724b8f5181e085a302147869e1743f336e9ebef5dcb57b0a1d577",
+    "poutre_Q3.png": "8d02f00db2fc2a210011295068332240be9c79dc23c566ae6ba8fb705f64251c",
+    "profils_A.png": "5159c81ecd17dda36e4103de3f96aac595a387fad443a38c5048bf7be99a278e",
+    "profils_EAU_A.png": "665a1248ed51a7171c4b121d4818a41e72afefdf4ee2b8e5a404b75d6d963849",
+    "profils_EAU_P.png": "4e1d64b679f51f61bfa48c35c16b306b9e176ac66980e2114fb416b577c921da",
+    "profils_G.png": "9429858763ffa6f554df6ea14d07687473869ce51f8bd6ac8a17b0cc7b40486c",
+    "profils_Q1.png": "9ab9f8a1ede616c1ed6733283a81ec40b7c7ade47f9be6a6ee9608c3b61748ad",
+    "profils_Q3.png": "6e353ba3981d1d3ccfbf3e01a14bbddd3a45835b59ac8e7bc779f1aa0513ee9d"
+  }
+}

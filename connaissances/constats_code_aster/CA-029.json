@@ -1,0 +1,139 @@
+{
+  "constat_id": "CA-029",
+  "summary": "Piège : Code_Aster évalue la fonction de FORCE_COQUE/PRES aux nœuds, si bien qu'une marche de pression écrite en rampe déborde d'une demi-maille et doit être appliquée couche par couche.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "AFFE_CHAR_MECA_F",
+    "DEFI_FONCTION"
+  ],
+  "keywords": [
+    "BANDE",
+    "CREA_GROUP_MA",
+    "CRIT_NOEUD",
+    "CROISSANT",
+    "DKT",
+    "FORCE_COQUE",
+    "LIAISON_SOLIDE",
+    "NON",
+    "PRES",
+    "Q1",
+    "QUAD4",
+    "REAC_NODA",
+    "TOUS",
+    "VERIF",
+    "VERI_NORM"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "data/examples/lot35_constats/f1_avant.sonde.comm",
+      "case_sha256": "8a7dbf6d8a465c3d1577ce9e38fdb1d5c24afa7e83f7f0db486ebc8bb6602fa1",
+      "mess_path": "data/examples/lot35_constats/f1_avant.mess.txt"
+    },
+    {
+      "case_path": "data/examples/lot35_constats/f1_apres.sonde.comm",
+      "case_sha256": "0c2754ddbcbccfb0c3f3f30495066dc698ce3de30c22bb858bda4fd6b66a84d3",
+      "mess_path": "data/examples/lot35_constats/f1_apres.mess.txt"
+    }
+  ],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "5"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Évaluation aux nœuds de FORCE_COQUE/PRES (fonction) : une marche de pression à une interface de couches déborde d'une demi-maille",
+    "options_considered": [],
+    "option_retained": "Code_Aster évalue la fonction de `FORCE_COQUE/PRES` (`AFFE_CHAR_MECA_F`) **aux nœuds** de chaque maille, puis interpole ; il ne l'évalue pas aux points d'intégration. Une marche de pression (deux valeurs à une interface de couches) écrite comme une rampe de 2 mm (points à Z ± 1 mm) est donc lue à mi-rampe par les nœuds de l'interface et déborde d'une demi-maille sur les deux couches : quai réduit, mailles de 0,25 m, cas G, la résultante Y assemblée par Code_Aster vaut 5 604 338,25 N pour 5 610 988,00 N spécifiés (écart relatif −1,185e-3, soit −6 650 N) ; une règle d'évaluation aux nœuds reproduit la valeur de Code_Aster à 1,7e-14. Une marche doit donc être appliquée **par couche** : une occurrence de `FORCE_COQUE` par groupe de mailles de couche (`CREA_GROUP_MA/BANDE`, `CRIT_NOEUD=\"TOUS\"`), chacune avec sa fonction, linéaire sur la couche donc exacte aux nœuds ; la résultante assemblée vaut alors 5 610 988,00 N (écart 2,1e-12). Établi pour DKT (QUAD4 plans), Code_Aster 17.4.0, fonction linéaire par morceaux, une composante de pression.",
+    "justification": "Sonde de blocage total (tous les ddl de tous les nœuds bloqués, sans LIAISON_SOLIDE : REAC_NODA sommé sur tous les nœuds vaut l'opposé de la charge assemblée par Code_Aster), comparée à trois références indépendantes : l'intégrale de Gauss 2×2 du profil spécifié par couche, l'intégrale de la règle d'évaluation aux nœuds, et, après correction, le même profil spécifié. La localisation nœud par nœud (REAC_NODA reproduit la règle nodale à moins de 1 N à chaque nœud de palplanche, exécutions du lot 34) confirme que l'écart naît de l'évaluation aux nœuds et non de l'intégration. U4.44.01 dit seulement « réel ou fonction » : le comportement n'est pas documenté, il est établi par exécution.",
+    "discarded_variants": [],
+    "notes": "Ce constat REMPLACE celui du point 5 qui tenait le doublement des points d'interface à Z ± 1 mm pour sûr parce qu'aucun point d'intégration d'une QUAD4 de 0,25 m ne se trouve à moins de 1 mm d'une arête : l'argument porte sur les points d'intégration ; l'évaluation se fait aux nœuds, qui sont sur les arêtes. Le doublement lui-même reste valide comme représentation d'une fonction strictement croissante (DEFI_FONCTION/VERIF='CROISSANT') ; il ne représente pas une marche pour FORCE_COQUE. Effets : G 1,19e-3 et Q1 2,33e-4 de la poussée (quai réduit) ; les cas d'eau, fonction continue, ne sont pas concernés. `VERI_NORM=\"NON\"` sur les occurrences par couche (la couche de marne ne porte que les trois tubes, non connexes : `<F> <MESH3_99>` sinon) ; l'orientation des normales de chaque maille de chaque couche est vérifiée explicitement au lot 35 (`aster_expert.meshing.normals`). Limite : la charge par couche suppose que les rangées de mailles s'arrêtent aux cotes d'interface (invariant de couche de `mesh check`, lot 35). Preuves : data/examples/lot35_constats/f1_avant.* et f1_apres.* (`.comm` exécutés et extraits de listing) ; références : data/examples/lot34_equilibre/rapports/sonde_ecran_12chiffres.json et sonde_ecran_couches.json. Historique du constat remplacé (lot 28, niveau A avec essai du lot 28) : sujet : Représentation d'un profil de pression discontinu par points doublés à Z ± 0,001 m ; option retenue : La proposition (points doublés à Z ± 0,001 m, une valeur par couche) est retenue : aucune interface de couche pertinente pour le modèle (remblai/sable à -2,00, sable/argile à -9,00, argile/marne à -18,00) ne tombe à moins de 1 mm d'un point d'intégration, pour toute famille de quadrature documentée du quadrangle à 4 nœuds (QU4). Notes : Déduction, non un fait documenté directement : R3.01.01 donne les familles de points disponibles pour l'élément de référence QU4, mais ne dit pas laquelle l'option de calcul du chargement FORCE_COQUE sélectionne effectivement (R3.07.03 mentionne « la routine INI079 pour la position des points de Hammer et de Gauss » sans en donner le nombre pour ce cas). La marge (>= 11 mm dans le pire cas documenté, pour un critère de 1 mm) est jugée suffisante pour ne pas bloquer la génération, mais reste une déduction, pas un fait catalogue direct -- à vérifier de façon décisive si un doute apparaît à l'exécution (ex. une discontinuité de contrainte visible à l'interface). Aucun cas test officiel ne correspond à cette question (ce n'est pas un usage de commande, mais une propriété géométrique de la discrétisation) : search_test_cases n'est pas pertinent ici.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "R3.01.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Les éléments surfaciques",
+          "Quadrangles : ELREFE QU4, QU8, QU9"
+        ],
+        "source_path": "source/manuals/man_r/r3/r3.01.01/Les__l_ments_surfaciques.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Quadrangles : ELREFE QU4, QU8, QU9\n----------------------------------\n\n\n.. image:: images/Object_98.svg\n    :width: 229\n    :height: 241\n\n\n.. _RefImage_Object_98.svg:\n\nCoordonnées des nœuds:\n\n.. csv-table::\n\n    \"\", \":math:`\\xi`\", \":math:`\\eta`\"\n    \":math:`\\mathrm{N1}`\", \"-1.0\", \"-1.0\"\n    \":math:`\\mathrm{N2}`\", \"1.0\", \"-1.0\"\n    \":math:`\\mathrm{N3}`\", \"1.0\", \"1.0\"\n    \":math:`\\mathrm{N4}`\", \"-1.0\", \"1.0\"\n    \":math:`\\mathrm{N5}`\", \"0.0\", \"-1.0\"\n    \":math:`\\mathrm{N6}`\", \"1.0\", \"0.0\"\n    \":math:`\\mathrm{N7}`\", \"0.0\", \"1.0\"\n    \":math:`\\mathrm{N8}`\", \"-1.0\", \"0.0\"\n    \":math:`\\mathrm{N9}`\", \"0.0\", \"0.0\"\n\n\n\n.. csv-table::\n\n    \"**Famille**\", \"**Point**\", \":math:`\\xi`\", \":math:`\\eta`\", \"**Poids**\"\n    \"FPG1\", \"1\", \"0\", \"0\", \"4\"\n    \"FPG4\", \"1\", \":math:`-a`\", \":math:`-a`\", \"1.0\"\n    \"\", \"2\", \":math:`a`\", \":math:`-a`\", \"1.0\"\n    \"\", \"3\", \":math:`a`\", \":math:`a`\", \"1.0\"\n    \"\", \"4\", \":math:`-a`\", \":math:`a`\", \"1.0\"\n    \"\", \"\", \":math:`a=1/\\sqrt{3}`\", \"\", \"\"\n    \"FPG9\", \"1\", \":math:`-a`\", \":math:`-a`\", \"25/81\"\n    \"\", \"2\", \":math:`a`\", \":math:`-a`\", \"25/81\"\n    \"\", \"3\", \":math:`a`\", \":math:`a`\", \"25/81\"\n    \"\", \"4\", \":math:`-a`\", \":math:`a`\", \"25/81\"\n    \"\", \"5\", \"0.0\", \":math:`-a`\", \"40/81\"\n    \"\", \"6\", \":math:`a`\", \"0.0\", \"40/81\"\n    \"\", \"7\", \"0.0\", \"a\", \"40/81\"\n    \"\", \"8\", \":math:`-a`\", \"0.0\", \"40/81\"\n    \"\", \"9\", \"0.0\", \"0.0\", \"64/81\"\n    \"\", \"\", \":math:`a=0.774596669241483`\", \"\", \"\""
+      },
+      {
+        "command": "AFFE_CHAR_MECA_F",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_COQUE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA_F",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_COQUE",
+          "PRES"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot35_constats/f1_avant.sonde.comm",
+        "case_sha256": "8a7dbf6d8a465c3d1577ce9e38fdb1d5c24afa7e83f7f0db486ebc8bb6602fa1",
+        "mess_path": "data/examples/lot35_constats/f1_avant.mess.txt",
+        "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, sonde de blocage total, quai réduit, fonction de pression à interface doublée à ±1 mm appliquée à l'écran entier",
+        "value_obtained": 5604338.25178,
+        "reference": "intégrale de Gauss 2×2 du profil spécifié par couche, signe de REAC_NODA (sonde_ecran_12chiffres.json, integrated_n)",
+        "reference_value": 5610987.999988359,
+        "relative_deviation": -0.001185129643544704,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot35_constats/f1_avant.sonde.comm",
+        "case_sha256": "8a7dbf6d8a465c3d1577ce9e38fdb1d5c24afa7e83f7f0db486ebc8bb6602fa1",
+        "mess_path": "data/examples/lot35_constats/f1_avant.mess.txt",
+        "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, même exécution, comparée à la règle d'évaluation aux nœuds",
+        "value_obtained": 5604338.25178,
+        "reference": "intégrale de la règle d'évaluation aux nœuds de FORCE_COQUE/PRES (sonde_ecran_12chiffres.json, as_evaluated.integrated_n)",
+        "reference_value": 5604338.251780095,
+        "relative_deviation": -1.6950244318427027e-14,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot35_constats/f1_apres.sonde.comm",
+        "case_sha256": "0c2754ddbcbccfb0c3f3f30495066dc698ce3de30c22bb858bda4fd6b66a84d3",
+        "mess_path": "data/examples/lot35_constats/f1_apres.mess.txt",
+        "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, sonde de blocage total, charge appliquée par couche",
+        "value_obtained": 5610988.0,
+        "reference": "intégrale de Gauss 2×2 du profil spécifié par couche, signe de REAC_NODA (sonde_ecran_couches.json, integrated_n)",
+        "reference_value": 5610987.999988359,
+        "relative_deviation": 2.0746080476634445e-12,
+        "validation_level": "D"
+      }
+    ],
+    "status": "tranche"
+  }
+}

@@ -3,19 +3,21 @@ name: code-aster-expert
 description: >-
   Use when answering a question about Code_Aster syntax, keywords,
   modelisations, comportements, or command usage, or when checking a
-  `.comm` file — whenever the answer would rely on the `aster-expert` MCP
-  server (search_codeaster_docs, get_document_section, get_command_schema,
-  analyze_comm, validate_comm, search_test_cases, read_test_case). Not a
-  source of Code_Aster knowledge itself: describes the procedure for using
-  those seven tools correctly.
+  `.comm` file, or before generating a Code_Aster command — whenever the answer
+  would rely on the `aster-expert` MCP server (search_codeaster_docs,
+  get_document_section, get_command_schema, analyze_comm, validate_comm,
+  search_test_cases, read_test_case, search_constats). Not a source of
+  Code_Aster knowledge itself: describes the procedure for using those eight
+  tools correctly.
 ---
 
 # Expert Code_Aster — procédure d'usage des outils
 
 Ce skill ne contient aucune connaissance Code_Aster de première main. Il
-décrit comment utiliser les sept outils du serveur MCP `aster-expert` —
+décrit comment utiliser les huit outils du serveur MCP `aster-expert` —
 `search_codeaster_docs`, `get_document_section`, `get_command_schema`,
-`analyze_comm`, `validate_comm`, `search_test_cases`, `read_test_case` — de façon à ne jamais confondre pertinence
+`analyze_comm`, `validate_comm`, `search_test_cases`, `read_test_case`,
+`search_constats` — de façon à ne jamais confondre pertinence
 documentaire, validité syntaxique et exécution (CLAUDE.md). Toute
 connaissance Code_Aster affirmée dans une réponse doit venir de la sortie
 d'un de ces outils, jamais de la mémoire du modèle.
@@ -127,16 +129,42 @@ modèle transposable (CLAUDE.md, principe 5) : le citer par son `path` et
 conditions aux limites, type d'analyse et version avant toute réutilisation.
 Niveau A : lire un cas test ne prouve rien sur un autre fichier.
 
+## 6 ter. Avant de générer une commande : consulter les constats qui la concernent (lot 41)
+
+La base partagée `connaissances/constats_code_aster/` garde, un fichier par
+constat, les faits établis sur Code_Aster au fil des projets — souvent des
+pièges trouvés par exécution d'un cas d'essai versionné (une charge de pression
+évaluée aux nœuds, `CREA_POI1` qui ne crée qu'une maille par nœud, `FERR_MIN`
+faux en `Pa`...). Avant d'écrire ou de générer une commande dans un `.comm`,
+appeler `search_constats(command=<commande>)` (et, si un mot-clé est en jeu,
+`keyword=<mot-clé>`, ou `text=` pour une recherche libre) et lire chaque constat
+renvoyé avant d'écrire la commande :
+
+- le `summary` dit le piège en une phrase ; le fichier (`file`) donne l'entrée
+  complète et ses sources — le lire avant de s'appuyer dessus ;
+- `constat_validation_level` est le niveau atteint par le constat lui-même
+  (A documentaire, B catalogue, C/D exécution d'un cas d'essai versionné) :
+  un constat A ou B n'a pas été éprouvé par exécution ;
+- `aster_version` : un constat vaut pour cette version ; sur une autre, le dire
+  (et le rejeu `aster-expert constats rejouer` dit s'il tient encore).
+
+Une fiche de projet ne recopie jamais un constat : elle le référence
+(`{"nature": "constat", "constat_id": "CA-nnn", "point_label": ...}`). Un
+constat nouveau s'ajoute à la base, pas à une fiche. La réponse de
+`search_constats` est de niveau A (lecture de la base, rien n'est exécuté).
+
 ## 7. Annoncer le niveau de validation atteint, jamais un niveau supérieur
 
 `search_codeaster_docs`, `get_document_section`, `get_command_schema`,
-`analyze_comm`, `search_test_cases`, `read_test_case` sont niveau A (documentaire, non exécuté, non confronté à
+`analyze_comm`, `search_test_cases`, `read_test_case`, `search_constats` sont
+niveau A (documentaire, non exécuté, non confronté à
 un fichier réel — y compris `get_command_schema`, qui lit le catalogue
 mais ne confronte rien, et `get_document_section`, qui renvoie un texte
 intégral mais toujours non exécuté). `validate_comm` est niveau B (syntaxe
 confrontée au catalogue). Les niveaux C/D/E (exécution, validité physique,
 comparaison à une référence) sont hors du périmètre de ce serveur : ne
-jamais les annoncer à partir de ces sept outils. Les mots « validé »,
+jamais les annoncer à partir de ces huit outils (le niveau C ou D d'un constat
+est celui de son cas d'essai, pas celui de la réponse). Les mots « validé »,
 « correct », « sans erreur » sont toujours qualifiés par leur niveau.
 
 ## 8. Distinguer faits, déductions, recommandations

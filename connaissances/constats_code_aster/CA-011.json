@@ -1,0 +1,64 @@
+{
+  "constat_id": "CA-011",
+  "summary": "À la place d'un contact surfacique, une interface sol-écran peut être représentée par des ressorts discrets (DIS_CHOC, DIS_CONTACT) ou par des éléments de joint (3D_JOINT, PLAN_JOINT).",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "STAT_NON_LINE"
+  ],
+  "keywords": [
+    "COMPORTEMENT",
+    "DIS_CHOC",
+    "DIS_CONTACT",
+    "ENDO",
+    "JOINT_MECA_ENDO",
+    "JOINT_MECA_FROT",
+    "JOINT_MECA_RUPT",
+    "PLAN_JOINT",
+    "RELATION"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "4"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Alternatives catalogue à un contact surfacique pour une interaction sol-écran (ressorts discrets, éléments de joint)",
+    "options_considered": [],
+    "option_retained": "Ressorts : lois DIS_CHOC/DIS_CONTACT sur éléments discrets (U2.02.03) ; joints : modélisations 3D_JOINT/PLAN_JOINT et lois JOINT_MECA_FROT/JOINT_MECA_RUPT/JOINT_MECA_ENDO",
+    "justification": "get_command_schema (STAT_NON_LINE/COMPORTEMENT.RELATION) liste ces lois ; R7.01.25 documente les éléments de joint pour les joints de barrage.",
+    "discarded_variants": [],
+    "notes": "Déduction : le corpus établit trois familles catalogue distinctes pour cette interaction (contact-frottement surfacique, ressorts discrets, éléments de joint), sans qu'aucun document ne les compare entre elles pour le cas spécifique d'un écran de soutènement -- rapprochement, pas une recommandation méthodologique dédiée. R7.01.25 (lu intégralement au lot 14b via get_document_section) décrit des lois surfaciques de rupture/frottement dédiées aux joints de barrages (béton/rocher ou entre plots) -- ni écrite ni exclue explicitement pour une interface sol-écran.",
+    "validity_domain": "R7.01.25 documente les lois JOINT_MECA_FROT/RUPT/ENDO pour les joints de barrages (interfaces béton/rocher ou entre plots) ; leur applicabilité à une interface sol-écran n'est ni confirmée ni exclue par ce document.",
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "STAT_NON_LINE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "COMPORTEMENT",
+          "RELATION"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      },
+      {
+        "document_id": "R7.01.25",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "index"
+        ],
+        "source_path": "source/manuals/man_r/r7/r7.01.25/index.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": "R7.01.25#index",
+        "profile": "methode",
+        "excerpt": "Ce document décrit des lois surfaciques permettant de modéliser la rupture et le frottement entre les lèvres d'une fissure ou d'un joint."
+      }
+    ],
+    "status": "tranche"
+  }
+}

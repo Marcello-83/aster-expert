@@ -1,0 +1,62 @@
+{
+  "constat_id": "CA-004",
+  "summary": "Selon le tableau de U2.02.01, seules DKT et DST/Q4G acceptent un matériau orthotrope en statique linéaire, et seule COQUE_3D traite le non-linéaire géométrique.",
+  "aster_version": "17.4.0",
+  "validation_level": "A",
+  "commands": [],
+  "keywords": [
+    "COQUE_3D",
+    "COQUE_AXIS",
+    "DKT",
+    "DKTG",
+    "DST",
+    "ELAS_ISTR",
+    "ELAS_ORTH",
+    "Q4G",
+    "Q4GG"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "1"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Contenu détaillé du tableau comparatif DKT/DST/Q4G/DKTG/Q4GG (domaines d'application par modélisation)",
+    "options_considered": [],
+    "option_retained": "Tableau récapitulatif de U2.02.01 § Conclusion et conseils d'utilisation : statique linéaire isotrope et analyse dynamique, toutes les modélisations du tableau ; matériau orthotrope ou composite en statique linéaire, DKT et DST/Q4G seulement ; non-linéaire matériau, DKT, DKTG/Q4GG, COQUE_3D, COQUE_AXIS et GRILLE_* ; non-linéaire géométrique, COQUE_3D seulement ; flambement d'Euler, DKT, COQUE_3D et GRILLE_*.",
+    "justification": "Section lue en entier par get_document_section (lignes 1-65, v17.4.0) ; le tableau est recopié dans l'extrait.",
+    "discarded_variants": [],
+    "notes": "Divergence documentaire constatée dans U2.02.01 : ce tableau ne coche pas COQUE_3D pour « Matériau orthotrope, composite », alors que le tableau des matériaux de la section M_canique (lignes 551-556) coche ELAS_ORTH/ELAS_ISTR pour COQUE_3D. Les deux tableaux ne sont pas conciliés ici.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U2.02.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Conclusion_et_conseils_d_utilisation"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/Conclusion_et_conseils_d_utilisation.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "    \"**Modélisation**\", \"**DKT**\", \"**DST, Q4G**\", \"**DKTG,Q4GG**\", \"**COQUE_3D**\", \"**COQUE_AXIS**\", \"**GRILLE_***\"\n    \"Domaine d'application\", \"\", \"\", \"\", \"\", \"\", \"\"\n    \"Statique linéaire:\n    Matériau isotrope\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\"\n    \"Matériau orthotrope, composite\", \"**X**\", \"**X**\", \"\", \"\", \"\", \"\"\n    \"Statique non-linéaire matériau\", \"**X**\", \"\", \"**X**\", \"**X**\", \"**X**\", \"**X**\"\n    \"Statique non-linéaire géométrique\", \"\", \"\", \"\", \"**X**\", \"\", \"\"\n    \"Analyse dynamique\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\", \"**X**\"\n    \"Flambement d'Euler\", \"**X**\", \"\", \"\", \"**X**\", \"\", \"**X**\""
+      },
+      {
+        "document_id": "U2.02.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "M_canique"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/M_canique.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "    \"**DEFI_MATERIAU**\", \"**COQUE_3D**\", \"**DKT, DST, Q4G**\", \"**DKTG,**\n    **Q4GG**\", \"**COQUE_AXIS**\", \"**GRILLE_EXCENTRE, GRILLE_MEMBRANE**\", \"**MEMBRANE**\"\n    \"ELASTICITE . LINEAIRE\", \"\", \"\", \"\", \"\", \"\", \"\"\n    \"ELAS\", \"•\", \"•\", \"•\", \"•\", \"•\", \"•\"\n    \"ELAS_ORTH ELAS_ISTR\", \"•\", \"•\", \"\", \"\", \"\", \"\"\n    \"ELAS_COQUE\", \"\", \"•\", \"\", \"\", \"\", \"\""
+      }
+    ],
+    "status": "tranche"
+  }
+}

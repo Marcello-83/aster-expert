@@ -28,6 +28,7 @@ from aster_expert.agent.hypotheses import (
     HypothesesSheet,
     PracticeHypothesisEntry,
 )
+from aster_expert.constats.base import base_dir, load_base, load_resolved_sheet
 
 _ROOT = Path(__file__).resolve().parents[2]
 _DIGEST = "sha256:" + "ab" * 32
@@ -267,21 +268,29 @@ def test_an_execution_source_survives_a_json_round_trip(tmp_path: Path) -> None:
     reloaded = HypothesesSheet.model_validate_json(sheet.model_dump_json())
 
     assert reloaded == sheet
+    assert isinstance(reloaded.entries[0], CodeAsterHypothesisEntry)
     assert isinstance(reloaded.entries[0].sources[0], ExecutionSource)
 
 
-# --- the versioned fiche ---------------------------------------------------
+# --- the shared base of findings (lot 41: the fiche's findings live there) -----
 
-_FICHE = _ROOT / "data" / "examples" / "hypotheses_combiwall_reference_arbitree.json"
+_FICHE = (
+    _ROOT
+    / "projets"
+    / "quai_cw_test_01"
+    / "fiche"
+    / "hypotheses_combiwall_reference_arbitree.json"
+)
 
 
 def _fiche_execution_sources() -> list[tuple[str, ExecutionSource]]:
-    sheet = HypothesesSheet.model_validate_json(_FICHE.read_text("utf-8"))
+    """Every execution source of the shared base (`connaissances/
+    constats_code_aster/`), where the 45 findings of the quay's fiche went."""
+    base = load_base(base_dir(_ROOT))
     return [
-        (e.topic, s)
-        for e in sheet.entries
-        if isinstance(e, CodeAsterHypothesisEntry)
-        for s in e.sources
+        (c.entry.topic, s)
+        for c in base.values()
+        for s in c.entry.sources
         if isinstance(s, ExecutionSource)
     ]
 
@@ -345,7 +354,8 @@ def test_the_fiche_reports_each_trial_at_its_recorded_deviation() -> None:
 
 
 def test_the_fiche_is_valid_json_with_the_execution_fields() -> None:
-    raw = json.loads(_FICHE.read_text("utf-8"))
+    sheet = load_resolved_sheet(_FICHE)
+    raw = json.loads(sheet.model_dump_json())
     with_execution = [
         e for e in raw["entries"] if any("case_sha256" in s for s in e["sources"])
     ]

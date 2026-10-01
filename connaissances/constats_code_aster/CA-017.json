@@ -1,0 +1,157 @@
+{
+  "constat_id": "CA-017",
+  "summary": "Pour une coque courbe, U2.02.01 admet DKT sur facettes comme COQUE_3D sans les départager, et DKQ n'est pas une valeur de MODELISATION.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_MODELE"
+  ],
+  "keywords": [
+    "AFFE",
+    "COQUE_3D",
+    "DKT",
+    "MODELISATION",
+    "QUAD4",
+    "V3"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "1"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Modélisations de coque recevables pour le tube (surface courbe) selon la documentation U2.02.01",
+    "options_considered": [],
+    "option_retained": "Recevables : DKT (plaque plane, géométrie approchée par facettes) et COQUE_3D (coque courbe). La documentation ne les départage pas pour une surface courbe. DKQ n'est pas une modélisation distincte : c'est l'élément quadrangle de la modélisation DKT sur mailles QUAD4 ; DKQ ne figure pas parmi les valeurs de AFFE_MODELE/AFFE/MODELISATION du catalogue.",
+    "justification": "U2.02.01 conseille, pour une structure mince (h/L < 1/20), DKT-DKQ ou COQUE_3D, avec une préférence générale pour DKT et DKQ, et avertit dans la même section que les éléments plans ne prennent pas en compte la courbure et exigent un maillage raffiné si la courbure est importante, sans seuil chiffré. Recherche élargie, lexicale (facett, courbure, rayon, arête) dans toutes les sections de U2.02.01, dans R3.07.03, R3.07.04, U3.12.01, U3.12.03, U4.42.01, U4.44.01, puis lecture ciblée de V3.03.020 et V3.03.502 : aucun critère documenté de facettisation (discrétisation angulaire, rapport rayon / taille de maille). V3.03.020 (cylindre mince pincé) : DKT « Solution convenable pour un maillage fin », COQUE_3D quadrangle « très bonne solution obtenue avec un maillage relativement grossier ».",
+    "discarded_variants": [],
+    "notes": "Déduction, non extraite d'un document : le tube (diamètre 1420 mm, épaisseur 16 mm) a un rapport épaisseur / rayon moyen voisin de 1/44, inférieur à 1/20. Limite : le choix entre DKT et COQUE_3D pour le tube relève de la pratique ; il est renvoyé à l'entrée pratique non tranchée du même point.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U2.02.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Conclusion_et_conseils_d_utilisation"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/Conclusion_et_conseils_d_utilisation.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "* *Structures minces* **:** pour ces structures, dont le rapport h/L est inférieur à 1/20, les effets de cisaillement transverse peuvent être négligés et la théorie de Kirchhoff s’applique. On conseille d’utiliser pour ce type de structure des éléments plaques DKT-DKQ ou des éléments de coque courbe (COQUE_3D, _AXIS). **Il est conseillé d’utiliser de préférence les éléments** **DKT et DKQ**  qui donnent de très bons résultats sur les déplacements et plus approximatifs sur les contraintes (à recommander pour les analyses vibratoires). Même si on doit utiliser un grand nombre de ces éléments, les temps d’exécution restent raisonnables comparés à ceux des éléments courbes. On conseille de ne pas dépasser un rapport h/L=1/500 afin d'éviter des problèmes liés au verrouillages numériques."
+      },
+      {
+        "document_id": "U2.02.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Conclusion_et_conseils_d_utilisation"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/Conclusion_et_conseils_d_utilisation.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Les éléments DKT, DKQ, DST, DSQ et Q4G sont des éléments plans, ils ne prennent pas en compte la courbure des structures, il est donc nécessaire de raffiner le maillage dans le cas où la courbure est importante si on veut éviter les flexions parasites."
+      },
+      {
+        "document_id": "U2.02.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Introduction"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/Introduction.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "*   Les éléments de **plaques** , qui sont plans. La courbure de la structure à représenter n’est pas prise en compte et il est donc nécessaire d’utiliser un grand nombre d’éléments de façon à approcher correctement la géométrie de la structure (aspect facettes)."
+      },
+      {
+        "document_id": "U2.02.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Introduction"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/Introduction.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "*   DKT: maille TRIA3élément DKT, maille QUAD4éléments DKQ(linéaire géométrique);"
+      },
+      {
+        "document_id": "U2.02.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "M_canique"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/M_canique.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Lorsque l’on souhaite modéliser un solide de forme quelconque (non plan), on peut utiliser des éléments de coques pour rendre compte de la courbure, ou bien des éléments de plaques. Dans ce dernier cas, la géométrie est approximée par un réseau de facettes."
+      },
+      {
+        "document_id": "R3.07.03",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Implantation_des__l_ments_de_plaque_dans_Code_Aster"
+        ],
+        "source_path": "source/manuals/man_r/r3/r3.07.03/Implantation_des__l_ments_de_plaque_dans_Code_Aster.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": ""
+      },
+      {
+        "document_id": "U3.12.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "index"
+        ],
+        "source_path": "source/manuals/man_u/u3/u3.12.01/index.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Elles sont utilisables pour des problèmes de plaque en tridimensionnel [:external:ref:`R3.07.03 <R3.07.03>`] en analyse mécanique linéaire pour toutes les modélisations et en non linéaire matériau pour les modélisations DKT, DKTGet Q4GG uniquement. Leur utilisation pour des problèmes de coque est couramment admise en considérant que le plan de l'élément est assimilable à une facette tangente au feuillet moyen de la coque (attention, seules les facettes planes sont permises)."
+      },
+      {
+        "document_id": "V3.03.020",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Synth_se_des_r_sultats"
+        ],
+        "source_path": "source/manuals/man_v/v3/v3.03.020/Synth_se_des_r_sultats.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "*   Solution convenable pour un maillage fin."
+      },
+      {
+        "document_id": "V3.03.020",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Synth_se_des_r_sultats"
+        ],
+        "source_path": "source/manuals/man_v/v3/v3.03.020/Synth_se_des_r_sultats.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "*   COQUE_3D sur des quadrangles: très bonne solution obtenue avec un maillage relativement grossier."
+      },
+      {
+        "command": "AFFE_MODELE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "MODELISATION"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      }
+    ],
+    "status": "tranche"
+  }
+}

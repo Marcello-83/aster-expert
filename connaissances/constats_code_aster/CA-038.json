@@ -1,0 +1,110 @@
+{
+  "constat_id": "CA-038",
+  "summary": "POU_D_T a exactement les six degrés de liberté de POU_D_E, donc la même condition de symétrie DX = DRY = DRZ = 0 s'applique.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_CHAR_MECA",
+    "AFFE_MODELE"
+  ],
+  "keywords": [
+    "AB",
+    "AFFE",
+    "DDL_IMPO",
+    "DKT",
+    "DRX",
+    "DRY",
+    "DRZ",
+    "DX",
+    "DY",
+    "DZ",
+    "GROUP_NO",
+    "GRX",
+    "MODELISATION",
+    "POU_D_E",
+    "POU_D_T",
+    "POU_D_TG"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "7"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Conditions de symétrie par rapport à un plan X = constante pour une poutre POU_D_T (degrés de liberté disponibles)",
+    "options_considered": [],
+    "option_retained": "DDL_IMPO(GROUP_NO=(\"SYM_G\",) ou (\"SYM_D\",), DX=0.0, DRY=0.0, DRZ=0.0) : translation normale au plan et rotations autour des deux axes du plan bloquées ; DY, DZ, DRX libres -- identique à la condition de symétrie déjà établie pour POU_D_E (même point). Degrés de liberté de POU_D_T à chaque nœud sommet (U3.11.01, tableau « Élément fini / Degrés de liberté ») : DX, DY, DZ, DRX, DRY, DRZ, exactement ceux de POU_D_E ; ni gauchissement (GRX, propre à POU_D_TG, tableau 5-2 de U4.44.01) ni autre degré de liberté. U4.44.01 (tableau 5-2) : DRX, DRY, DRZ s'appliquent aux « éléments discrets, de poutre, de tuyaux, de coque ou de plaque », dans le repère global (mot-clé DDL_IMPO : « Les degrés de liberté imposés sont définis dans le repère global de définition du maillage »). Catalogue 17.4.0 : AFFE_MODELE/AFFE/MODELISATION offre POU_D_T (établi au lot 37) ; AFFE_CHAR_MECA/DDL_IMPO/DRY existe (réel, optionnel, une valeur). Un cas test officiel applique DDL_IMPO sur des nœuds de poutre POU_D_T : sdll01a.comm (MODELISATION=\"POU_D_T\", `_F(GROUP_NO=\"AB\", DZ=0.0, DRX=0.0, DRY=0.0)`, `_F(GROUP_NO=\"N100\", DX=0.0, DY=0.0)`), ce qui établit que ces composantes sont acceptées sur POU_D_T ; ce n'est pas un cas de symétrie.",
+    "justification": "Comble le constat manquant du lot 37 (le constat existant du point 7 est sourcé pour DKT et POU_D_E, l'extension à POU_D_T n'était pas établie). U3.11.01 (§Degrés de libertés) : POU_D_T et POU_D_E ont la même ligne de degrés de liberté ; U4.44.01 (tableau 5-2 et mot-clé DDL_IMPO) définit ces composantes dans le repère global pour tout élément de poutre ; le catalogue de la version 17.4.0 confirme l'existence des mots-clés. Le choix des trois composantes bloquées est le même que pour POU_D_E parce que l'ensemble des degrés de liberté et leur repère sont identiques.",
+    "discarded_variants": [],
+    "notes": "Déduction, non énoncée par la documentation : la partie « pourquoi DX, DRY, DRZ bloquées et DY, DZ, DRX libres » est le raisonnement de symétrie miroir du plan X = constante déjà noté pour POU_D_E (la rotation, pseudo-vecteur, garde sa composante normale au plan et perd ses composantes dans le plan). Un élément de poutre de Timoshenko ajoute la déformation d'effort tranchant mais aucun degré de liberté : le raisonnement ne change pas. Aucun cas test officiel de symétrie sur POU_D_T n'a été identifié (sdll01a.comm n'est qu'un cas d'appuis) ; la preuve d'exécution est celle du lot 37 (modèle complet avec POU_D_T et cette condition sur les groupes GEN_SYMG_ROT/GEN_SYMD_ROT, `data/examples/lot37_efforts/complet.comm` lignes 1871 et 2124-2125, `DIAGNOSTIC JOB : OK`, symétrie ≤ 5,2e-11 sur les paires de nœuds contrôlées) -- consignée ici comme renvoi, pas comme source d'exécution au sens de ExecutionSource. Niveau A et catalogue (B pour le mot-clé).",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U3.11.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Discr_tisation"
+        ],
+        "source_path": "source/manuals/man_u/u3/u3.11.01/Discr_tisation.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Discrétisation\n==============\n\n\n\nDegrés de libertés\n------------------\n\nPour les trois modélisations de poutre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les six composantes de déplacement (trois translations et trois rotations). Ces nœuds sont supposés décrire un segment de la fibre moyenne de la poutre.\n\nPour la modélisation de barre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les trois composantes de déplacement en translation.\n\n\n+------------------+----------------------------------------------------------------------------+\n| **Élément fini** | **Degrés de liberté (à chaque nœud sommet)**                               |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| POU_D_T          | DX                                           | DY  | DZ  | DRX | DRY | DRZ |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| POU_D_E          | DX                                           | DY  | DZ  | DRX | DRY | DRZ |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| BARRE            | DX                                           | DY  | DZ  |     |     |     |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n\n\n\n\nMaille support des matrices de rigidité\n---------------------------------------\n\nLes mailles support des éléments finis, en formulation déplacement, sont des segments à deux nœuds SEG2:\n\n.. csv-table::\n\n    \"**Modélisation**\", \"**Maille**\", \"**Élément fini**\", \"**Remarques**\"\n    \"POU_D_T\", \"SEG2\", \"MECA_POU_D_T\", \"\"\n    \"POU_D_E\", \"SEG2\", \"MECA_POU_D_E\", \"\"\n    \"BARRE\", \"SEG2\", \"MECA_BARRE\", \"\"\n\n\n\n\n\nMaille support des chargements\n------------------------------\n\nTous les chargements applicables aux éléments de poutre et de barre sont traités par discrétisation directe sur la maille support de l’élément en formulation déplacement.\n\n*Aucune maille support de chargement n’est donc nécessaire pour le bord des éléments de poutre ou de barre.*\n\n\n\n\nPrincipales caractéristiques des modélisations\n----------------------------------------------\n\nLa modélisation POU_D_E (Poutre Droite d’Euler) correspond à l’hypothèse d’Euler‑Bernouilli, c’est‑à‑dire que les sections restent droites et perpendiculaires à la fibre moyenne (hypothèse de grand élancement).\n\nLa modélisation POU_D_T (Poutre Droite de Timoshenko) prend en compte les effets de cisaillement transverse.\n\nLa modélisation BARRE ne traite que les efforts et déformations axiales.\n\nLa poutre avec gauchissement est traitée en [:external:ref:`U3.11.04 <U3.11.04>`].\n"
+      },
+      {
+        "document_id": "U4.44.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements de type Dirichlet",
+          "Degrés de liberté"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Dirichlet_.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Degrés de liberté\n------------------\n\nLes chargements de Dirichlet sont imposés sur les degrés de liberté de la grandeur DEPL_R\n(ou DEPL_C ou DEPL_F ) , représentant les degrés de liberté du problème de mécanique\n(ou de thermo-hydro-mécanique ou d’hydraulique). \n\nLe tableau ci-dessous permet de s'orienter dans le choix du mot-clé facteur selon le besoin.\n\n\n**Tableau 5-1 : Besoins.**\n\n.. csv-table::\n    :header: \"**Relation linéaire entre certains degrés de liberté sur des groupes de nœuds choisis**\", \"**mot-clé facteur**\"\n    :widths: 50, 20\n\n    \"Imposer une ou plusieurs valeurs de degré de liberté\", \"``DDL_IMPO`` § :ref:`u4.44.01-DDL_IMPO`\"\n    \"Imposer à une arête sur des éléments volumiques, une ou plusieurs valeurs de degré de liberté\", \"``ARETE_IMPO`` § :ref:`u4.44.01-ARETE_IMPO`\"\n    \"Imposer à une face sur des éléments surfaciques ou volumiques, une ou plusieurs valeurs de degré de liberté\", \"``FACE_IMPO`` § :ref:`u4.44.01-FACE_IMPO`\"\n    \"Définir une **liaison unique** entre nœuds de deux groupes de nœuds\", \"``LIAISON_DDL`` § :ref:`u4.44.01-LIAISON_DDL`\"\n    \"Appliquer la même valeur définie composante par composante de degré de liberté dans un **repère oblique** quelconque\", \"``LIAISON_OBLIQUE`` § :ref:`u4.44.01-LIAISON_OBLIQUE`\"\n    \"Imposer la **même valeur** (inconnue)\", \"``LIAISON_UNIF`` § :ref:`u4.44.01-LIAISON_UNIF`\"\n    \"Définir une relation linéaire entre tous les degrés de liberté présents dans un concept CHAM_NO\", \"``LIAISON_CHAMNO`` § :ref:`u4.44.01-LIAISON_CHAMNO`\"\n    \"Définir une relation linéaire entre tous les degrés de liberté dont le second membre est issu du contenu d’un CHAM_NO\", \"``CHAMNO_IMPO`` § :ref:`u4.44.01-CHAMNO_IMPO`\"\n    \"Définir une **même liaison par couples de nœuds en « vis-à-vis »** dans deux groupes\", \"``LIAISON_GROUP`` § :ref:`u4.44.01-LIAISON_GROUP`\"\n    \"« Recoller » deux « bords » d’une structure **sans contrainte de compatibilité** sur les maillages de ces « bords ». Un d’entre eux est déclaré « esclave », l’autre « maître »\", \"``LIAISON_MAIL`` § :ref:`u4.44.01-LIAISON_MAIL`\"\n    \"Relier un « bord » d’une structure déclaré « esclave », en vis-à-vis d’un autre « bord » déclaré « maître » dont les maillages sont identiques\", \"``LIAISON_PROJ`` § :ref:`u4.44.01-LIAISON_PROJ`\"\n    \"Imposer des conditions de **répétitivité cyclique** entre deux « bords » avec prise en compte d’un déphasage\", \"``LIAISON_CYCL`` § :ref:`u4.44.01-LIAISON_CYCL`\"\n    \"Modéliser une partie indéformable d’une structure, pour obtenir une **cinématique de corps rigide**\", \"``LIAISON_SOLIDE`` § :ref:`u4.44.01-LIAISON_SOLIDE`\"\n    \"Relier les interfaces entre deux modélisations différentes d’une structure : partie massive ou coque avec une partie poutre, tuyau ou élément discret\", \"``LIAISON_ELEM`` § :ref:`u4.44.01-LIAISON_ELEM`\"\n    \"Relier deux « bords » d’une structure, de manière généraliste, par transmission du torseur résultant, tout en autorisant l’ajout d'une pondération\", \"``LIAISON_RBE3`` § :ref:`u4.44.01-LIAISON_RBE3`\"\n    \"Imposer des degrés de liberté dans un **repère local d’une poutre**\", \"``DDL_POUTRE`` *cf.*  §  :ref:`6.1 <u4.44.01-Chargements_de_type_Dirichlet_pour_les__l_ments_de_structure>`\"\n    \"Relier un « bord » d’une coque au niveau de la peau supérieure ou inférieure de cette dernière en vis-à-vis d’un autre « bord » du feuillet moyen d’une autre coque\", \"``LIAISON_COQUE`` *cf.*  § 6.2  :ref:`3.3 <u4.44.01-Chargements_de_type_Dirichlet_pour_les__l_ments_de_structure>`\"\n\nNous rappelons dans le tableau ci-dessous la signification des\ndifférentes composantes de degrés de liberté :\n\n**Tableau 5-2: Degrés de liberté.**\n\n.. csv-table::\n    :header: \"**Nom**\", \"**Modélisation**\", \"**Description**\"\n    :widths: 20, 30, 50\n\n    \"DX, DY, DZ\", \"Toutes sauf 2D_FLUI_PESA\", \"Composantes de déplacement en **translation** dans le repère global\"\n    \"DH\", \"2D_FLUI_PESA\", \"Déplacement de la surface libre d'un fluide en ballottement\"\n    \"DRX, DRY, DRZ\", \"Éléments discrets, de poutre, de tuyaux, de coque ou de plaque\", \"Composantes de déplacement en **rotation** dans le repère global\"\n    \"DRGX, DRGY, DRGZ\", \"Élément multi-poutres multi-fibres pour les assemblages combustibles\", \"Composantes de déplacement en **rotation** des grilles d’assemblage dans le repère global\"\n    \"GRX\", \"POU_D_TG\", \"Valeur du gauchissement de la poutre\"\n    \"PRES\", \"3D_FLUIDE\", \"Pression acoustique dans le fluide pour les formulations :math:`u-p-\\varphi` et :math:`u-p`\"\n    \"PRES\", \"3D_JOINT_CT\", \"Pression du fluide interstitiel\"\n    \"PRES\", \"Formulation second gradient\", \"Multiplicateur de Lagrange introduit pour la formulation mixte\"\n    \"PHI\", \"3D_FLUIDE, FLUI_STRU, 2D_FLUI_PESA\", \"Potentiel des déplacements du fluide pour la formulation :math:`u-p-\\varphi`\"\n    \"PSI\", \"3D_FLUIDE, FLUI_STRU\", \"Potentiel des vitesses du fluide pour la formulation :math:`u-\\psi`\"\n    \"TEMP\", \"THM, THHM, THH\", \"Température\"\n    \"PRE1\", \"THM, THHM, THH, HM, HHM\", \"Pression capillaire ou pression du liquide ou du gaz\"\n    \"PRE2\", \"THM, THHM, THH\", \"Pression du gaz\"\n    \"UIx\", \"Tuyaux\", \"Gauchissement « in plane » du mode x [1]_\"\n    \"VIx, WIx\", \"Tuyaux\", \"Ovalisations « in plane » du mode x\"\n    \"UOx\", \"Tuyaux\", \"Gauchissement « out of plane » du mode x\"\n    \"VOx, WOx\", \"Tuyaux\", \"Ovalisations « out of plane » du mode x\"\n    \"W0, WI1, WO1\", \"Tuyaux\", \"Degrés de liberté de gonflement et mode 1 sur l’ovalisation\"\n    \"GONF\", \"Formulation incompressible _INCO_UPG, Formulation second gradient\", \"Gonflement\"\n    \"V11, V12, V13, V21, V22, V23, V31, V32, V33\", \"Formulation second gradient\", \"Composantes du tenseur de déformation microscopique\"\n    \"PRES11, PRES12, PRES13, PRES21, PRES22, PRES23, PRES31, PRES32, PRES33\", \"Formulation second gradient\", \"Multiplicateurs de Lagrange introduits pour la formulation mixte\"\n    \"LAGS_C\", \"Contact continu ou XFEM\", \"Pression de contact\"\n    \"LAGS_F1, LAGS_F2\", \"Contact continu ou XFEM\", \"Densité surfacique d'effort de frottement (vectorielle)\"\n    \"H1X, H1Y, H1Z, H2X, H2Y, H2Z, H3X, H3Y, H3Z, H4X, H4Y, H4Z\", \"XFEM\", \"Degrés de liberté enrichis d’Heaviside\"\n    \"H1PRE1, H2PRE1, H3PRE1\", \"HM-XFEM\", \"Degrés de liberté enrichis d’Heaviside pour la pression capillaire ou la pression du liquide ou du gaz.\"\n    \"K1, K2, K3\", \"XFEM\", \"Degrés de liberté enrichis vectoriels crack-tip\"\n    \"LAG2_C, LAG3_C, LAG4_C\", \"XFEM (multi-fissuration)\", \"Pressions de contact\"\n    \"LAG2_F1, LAG2_F2, LAG3_F1, LAG3_F2, LAG4_F1, LAG4_F2\", \"XFEM (multi-fissuration)\", \"Densités surfaciques d'effort de frottement (vectorielles)\"\n    \"PRE_FLU, PR2_FLU, PR3_FLU\", \"HM-XFEM\", \"Pression de fluide dans la fissure\"\n    \"LAG_FLI, LAG_FLS, LA2_FLI, LA2_FLS, LA3_FLI, LA3_FLS\", \"HM-XFEM\", \"Flux\"\n    \"LH1\", \"Éléments joints de type ‘_JHMS’\", \"Multiplicateur de Lagrange hydraulique\"\n    \"GLIS\", \"Éléments CABLE_GAINE\", \"Déplacement relatif suivant la tangente (repère local)\"\n\n\n"
+      },
+      {
+        "document_id": "U4.44.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements de type Dirichlet",
+          "Mot-clé DDL_IMPO"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Dirichlet_.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Mot-clé DDL_IMPO\n----------------\n\nLe mot-clé DDL_IMPO est utilisable pour imposer à des nœuds une ou plusieurs valeurs de degré de liberté.\n\nAffectation topologique: TOUT, GROUP_MA, GROUP_NO, SANS_GROUP_MA, SANS_GROUP_NO\n\nLes conditions cinématiques sont imposées sur les nœuds donnés par les mots-clés TOUT,\nGROUP_MA, GROUP_NO tout en excluant éventuellement grâce aux mots-clés SANS_*.\n\nComposantes:\n\n*   Pour AFFE_CHAR_MECA:DX, DY, DZ, DRX, DRY, DRZ, DRGX, DRGY, DRGZ, GRX, PRES, PSI, PHI, TEMP, PRE1, PRE2, UI2, UI3, UI4, UI5, UI6, UO2, UO3, UO4, UO5, UO6, VI2, VI3, VI4, VI5, VI6, VO2, VO3, VO4, VO5, VO6, WI2, WI3, WI4, WI5, WI6, WO2, WO3, WO4, WO5, WO6, WO, WI1, WO1, GONF, H1X, H1Y, H1Z, H1PRE1, H2X, H2Y, H2Z, H2PRE1, H3X, H3Y, H3Z, H3PRE1, H4X, H4Y, H4Z, K1, K2, K3, PRE_FLU, LAG_FLI, LAG_FLS, PR2_FLU, LA2_FLI, LA2_FLS, PR3_FLU, LA3_FLI, LA3_FLS, LAGS_C, LAGS_F1, LAGS_F2, LAG2_C, LAG2_F1, LAG2_F2, LAG3_C, LAG3_F1, LAG3_F2, LAG4_C, LAG4_F1, LAG4_F2, V11, V12, V13, V21, V22, V23, V31, V32, V33, PRES11, PRES12, PRES13, PRES21, PRES22, PRES23, PRES31, PRES32, PRES33, LH1et GLIS.\n\n*   Pour AFFE_CHAR_MECA_C: DX, DY, DZ, DRX, DRY, DRZ, GRX, PRES, PHI et GLIS.\n\n*   Pour AFFE_CHAR_MECA_F: DX, DY, DZ, DRX, DRY, DRZ, GRX, PRES, PHI, TEMP, PRE1, PRE2, GONF, H1X, H1Y, H1Z, H1PRE1, K1, K2, K3, LAGS_Cet GLIS.\n\n\nRemarques\n\n*   Lors d’un calcul avec la méthode X-FEM, il est possible d’imposer le déplacement de nœuds\n    enrichis. (AFFE_CHAR_MECA seulement). Cela se fait de manière habituelle (bien que ces nœuds\n    ne possèdent pas de degré de liberté :math:`{DX}`, :math:`{DY}` ou :math:`{DZ}`). Si le nœud\n    demandé est sur les lèvres, alors on impose la condition de blocage sur les nœuds des lèvres\n    supérieure et inférieure.\n\n*   Le degré de liberté LH1 (multiplicateur de Lagrange hydraulique pour les éléments joints de\n    type ’_JHMS’) permet de neutraliser les degrés de liberté au bord du joint dans le cas où le\n    massif d’appui est purement mécanique.\n\n*   Les degrés de liberté imposés sont définis dans le repère global de définition du maillage\n\nLe mot-clé BLOCAGE permet d’encastrer une ou plusieurs catégories de degré de liberté aux nœuds,\nc’est à dire de forcer à zéro ces degrés de liberté.\n\n*   DEPLACEMENT bloque : DX, DY, DZ\n*   ROTATION bloque : DRX, DRY, DRZ\n*   TUYAU_FOURIER ne peut être utilisé qu’avec les éléments de tuyaux (TUYAU_3M ou TUYAU_6M). Il\n    bloque : les 15 DDL de TUYAU_3M ou les 33 DDL de TUYAU_6M liés aux modes Fourier (voir [:ref:`U2.02.02 <U2.02.02>`]).\n\nOn peut faire toutes les combinaisons des catégories.\n\n\n.. _u4.44.01-ARETE_IMPO:"
+      },
+      {
+        "command": "AFFE_MODELE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "MODELISATION"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "DDL_IMPO",
+          "DRY"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      }
+    ],
+    "status": "tranche"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "constat_id": "CA-016",
+  "summary": "Le blocage par degré de liberté se fait par AFFE_CHAR_MECA/DDL_IMPO sur DX à DRZ, les nœuds étant désignés par GROUP_NO, GROUP_MA ou TOUT.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_CHAR_MECA"
+  ],
+  "keywords": [
+    "BLOCAGE",
+    "DDL_IMPO",
+    "DEPLACEMENT",
+    "DRX",
+    "DRY",
+    "DRZ",
+    "DX",
+    "DY",
+    "DZ",
+    "GROUP_MA",
+    "GROUP_NO",
+    "ROTATION",
+    "TOUT",
+    "TUYAU_FOURIER"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "7"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Mots-clés catalogue de blocage par degré de liberté",
+    "options_considered": [],
+    "option_retained": "AFFE_CHAR_MECA, mot-clé facteur DDL_IMPO : DX, DY, DZ, DRX, DRY, DRZ, sélection par GROUP_NO/GROUP_MA/TOUT, opérande BLOCAGE (DEPLACEMENT/ROTATION/TUYAU_FOURIER)",
+    "justification": "get_command_schema ; U2.04.02 rappelle l'importance générale des chargements/CL, non spécifique à un modèle géotechnique.",
+    "discarded_variants": [],
+    "notes": null,
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "DDL_IMPO"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      },
+      {
+        "document_id": "U2.04.02",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements__conditions_aux_limites__conditions_initiales"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.04.02/Chargements__conditions_aux_limites__conditions_initiales.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Les chargements et conditions aux limites sont importants pour une bonne modélisation. Leur influence sur les résultats est [...]"
+      }
+    ],
+    "status": "tranche"
+  }
+}

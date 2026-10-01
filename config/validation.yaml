@@ -94,6 +94,10 @@ execution:
     # sous les combinaisons), produits par scripts/build_lot39_*.py.
     - data/examples/lot39_essais
     - data/examples/lot39_poutre
+    # Lot 41 : résultats des projets (`aster-expert projet <nom> ...`) : .comm
+    # produits par le générateur du projet et cas CALC_FERRAILLAGE du tronc
+    # commun, écrits sous projets/<nom>/resultats/.
+    - projets/quai_cw_test_01/resultats
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

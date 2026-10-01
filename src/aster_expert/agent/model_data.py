@@ -41,7 +41,8 @@ class ValueSource(BaseModel):
 
     kind: Literal["cas_test", "decision", "constat"]
     document: str | None = None
-    """`cas_test`: versioned file name in `combiwall_inputs/`."""
+    """`cas_test`: versioned file name in the project's sources directory
+    (`data_sources` of its declaration, lot 41)."""
     section: str | None = None
     """`cas_test`: section of that file, e.g. `§2`."""
     point_label: str | None = None
@@ -252,7 +253,7 @@ def _section(text: str, section: str) -> str | None:
     """Text of a section `§N` of a test-case file (`## N. …` or `## §N …`).
 
     `document` (lot 35) désigne le fichier entier : une donnée complémentaire
-    sans sections numérotées (`donnees_butee_combiwall_v1.md`)."""
+    sans sections numérotées (une note de données du projet)."""
     if section == "document":
         return text
     if re.fullmatch(r"[A-Z]\.\d+", section):

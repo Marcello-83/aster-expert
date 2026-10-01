@@ -28,6 +28,7 @@ from aster_expert.mcp.models import (
     CommAnalysisResult,
     CommandSchemaResult,
     DocumentSectionResult,
+    SearchConstatsResult,
     SearchDocsResult,
 )
 from aster_expert.mcp.testcases import SearchTestcasesResult, TestcaseFileResult
@@ -70,7 +71,9 @@ app = MCPServer(
         "conclure sur une lecture partielle sans l'avoir annoncée. Les "
         "fichiers de commandes des cas tests officiels se cherchent par "
         "commande (search_test_cases) et se lisent par read_test_case : "
-        "jamais par lecture directe du dépôt."
+        "jamais par lecture directe du dépôt. Avant d'écrire une commande, "
+        "chercher par search_constats les constats de la base partagée qui la "
+        "concernent (pièges établis, souvent par exécution)."
     ),
 )
 
@@ -295,6 +298,36 @@ def read_test_case(
         path=path,
         line_start=line_start,
         line_end=line_end,
+    )
+
+
+_SEARCH_CONSTATS_DESCRIPTION = (
+    "Cherche dans la base partagée des constats Code_Aster "
+    "(connaissances/constats_code_aster/, un fichier par constat, versionnée) "
+    "ceux qui concernent une `command` du catalogue, un `keyword` (mot-clé ou "
+    "valeur, ex. 'LIAISON_SOLIDE', 'DKT', 'FERR_MIN') et/ou un `text` libre (tous "
+    "les mots, accents et casse ignorés). Au moins un critère. Chaque résultat "
+    "porte le résumé du piège en une phrase, la version de Code_Aster, le niveau "
+    "atteint par le constat lui-même (A documentaire, B catalogue, C/D exécution "
+    "d'un cas d'essai versionné) et le fichier à lire pour ses sources. Niveau "
+    "de la réponse : A (lecture de la base, rien n'est exécuté). À consulter "
+    "avant de générer une commande."
+)
+
+
+@app.tool(description=_SEARCH_CONSTATS_DESCRIPTION)
+def search_constats(
+    text: str | None = None,
+    command: str | None = None,
+    keyword: str | None = None,
+    limit: int = 20,
+) -> SearchConstatsResult:
+    return tools.search_constats(
+        project_root=_project_root(),
+        text=text,
+        command=command,
+        keyword=keyword,
+        limit=limit,
     )
 
 

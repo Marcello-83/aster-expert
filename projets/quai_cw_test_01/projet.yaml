@@ -1,0 +1,222 @@
+# Déclaration du projet QUAI-CW-TEST-01 : quai combi-wall (lot 41).
+#
+# Interface entre ce projet et le tronc commun `aster_expert` (schéma :
+# aster_expert.projet.declaration.ProjectDeclaration). Elle déclare, sans rien
+# calculer : la fiche et les données, le maillage et ses invariants, le générateur
+# du `.comm`, les groupes d'appui et de ressorts de l'équilibre, les cas de charge
+# et leurs résultantes attendues, le plan de symétrie, les combinaisons et la
+# poutre à ferrailler. Le code propre au quai est dans ce paquet
+# (`quai_cw_test_01.*`), nommé par « module:fonction ».
+#
+# Chemins relatifs au répertoire du projet. Clés anglaises (comme les autres
+# fichiers structurés du dépôt), commentaires français.
+schema_version: 1
+name: quai_cw_test_01
+structure: QUAI-CW-TEST-01
+# Variantes de diagnostic du même ouvrage, produites par le même générateur : quai
+# réduit (lot 30) et quai réduit à maillage raffiné (lot 37).
+variants: [QUAI-CW-TEST-01-LOT30-REDUIT, QUAI-CW-TEST-01-LOT37-REDUIT-FIN]
+fiche_project_name: "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré"
+description: >-
+  Quai en combi-wall ancré (cas de test fictif QUAI-CW-TEST-01, v3) : tranche de
+  huit entraxes, tubes DKT facettisés, palplanches ELAS_COQUE, poutre de
+  couronnement POU_D_T, tirants BARRE, ressorts de sol DIS_T ; six cas
+  élémentaires en élasticité linéaire.
+fiche: fiche/hypotheses_combiwall_reference_arbitree.json
+data: donnees/combiwall_model_data.yaml
+data_sources: donnees/combiwall_inputs
+results: resultats
+
+mesh:
+  script: maillage/combiwall_mesh.py
+  parameters: quai_cw_test_01.extensions:mesh_parameters
+  invariants: maillage/combiwall_mesh_invariants.yaml
+
+comm:
+  generator: quai_cw_test_01.extensions:generate
+  output: resultats/complet.comm
+  export:
+    time_limit: 1800
+    memory_limit: 8192
+    mesh_unit: 20
+    mesh_format: mmed
+  # Valeurs lues par le générateur (generation/, meshing/combiwall.py) : chacune
+  # doit être présente et fournie dans le fichier de données, sinon la génération
+  # est refusée avant d'appeler le générateur (lot 40, § 5.3). Liste contrôlée
+  # contre le code du générateur par tests/test_projet_declaration.py.
+  required_data:
+    - charges.acceleration_pesanteur
+    - charges.accostage_cote_bas_empreinte
+    - charges.accostage_cote_haut_empreinte
+    - charges.accostage_demi_angle_empreinte
+    - charges.accostage_effort
+    - charges.amarrage_composante_horizontale
+    - charges.amarrage_effort
+    - charges.amarrage_inclinaison
+    - charges.amarrage_moment_transport
+    - eau_terres.profil_poussee_terres_permanent
+    - eau_terres.profil_pression_eau_accidentel
+    - eau_terres.profil_pression_eau_permanent
+    - geometrie.cote_dragage
+    - geometrie.cote_pied_palplanches
+    - geometrie.cote_pied_tubes
+    - geometrie.cote_tete_palplanches
+    - geometrie.cote_tete_tubes
+    - geometrie.entraxe_tubes
+    - geometrie.nombre_demi_tubes
+    - geometrie.nombre_entraxes_tranche
+    - geometrie.nombre_palplanches_intercalaires
+    - geometrie.nombre_tubes_entiers
+    - maillage.cotes_imposees
+    - maillage.nombre_elements_largeur_palplanche
+    - maillage.nombre_elements_par_entraxe_poutre
+    - maillage.nombre_elements_par_tirant
+    - maillage.nombre_facettes_par_tube
+    - maillage.taille_verticale_visee
+    - palplanche.CISA_L
+    - palplanche.CISA_T
+    - palplanche.epaisseur_coque_EPAIS
+    - palplanche.FLEX_G_LT
+    - palplanche.FLEX_L
+    - palplanche.FLEX_LT
+    - palplanche.FLEX_T
+    - palplanche.masse_volumique
+    - palplanche.MEMB_G_LT
+    - palplanche.MEMB_L
+    - palplanche.MEMB_LT
+    - palplanche.MEMB_T
+    - palplanche.vecteur_axe_L
+    - poutre_couronnement.coefficient_poisson
+    - poutre_couronnement.cote_arase
+    - poutre_couronnement.cote_centre_gravite
+    - poutre_couronnement.cote_sous_face
+    - poutre_couronnement.hauteur
+    - poutre_couronnement.largeur
+    - poutre_couronnement.masse_volumique
+    - poutre_couronnement.module_young
+    - poutre_couronnement.position_axe_y
+    - repere.x_face_coupe_droite
+    - repere.x_face_coupe_gauche
+    - repere.x_serrure_par_rapport_axe_tube
+    - sol.cote_haut_ressorts
+    - sol.cote_interface_argile_marne
+    - sol.k_h_argile_marneuse_raide
+    - sol.k_h_marne_compacte
+    - tirants.ancrage_y
+    - tirants.ancrage_z
+    - tirants.cote_tete
+    - tirants.inclinaison
+    - tirants.longueur_modelisee
+    - tirants.masse_volumique
+    - tirants.module_young
+    - tirants.position_tete_sur_tube
+    - tirants.section_brute
+    - tube.coefficient_poisson
+    - tube.epaisseur_coque_retenue
+    - tube.masse_volumique
+    - tube.module_young
+    - tube.rayon
+
+controls:
+  threshold: 1.0e-6
+  vertical: DZ
+  output: equilibre.json
+  # Tables de réactions par groupe écrites par le générateur
+  # (generation/comm.py, reaction_table_title) : l'intitulé est limité à
+  # 16 caractères par IMPR_TABLE (lot 34), d'où les étiquettes courtes.
+  total_reactions: {label: TOUS, table: "REAC_TOUS_{case}"}
+  # Ordre des groupes = ordre de sommation (lot 34) ; seules les composantes
+  # réellement bloquées entrent dans l'équilibre (constat CA-036).
+  supports:
+    - {group: SYM_G, blocked: [DX], table: "REAC_SYMG_{case}"}
+    - {group: SYM_D, blocked: [DX], table: "REAC_SYMD_{case}"}
+    - {group: PIED_TUBES, blocked: [DZ], table: "REAC_PIED_{case}"}
+    - {group: ANCRAGES, blocked: [DX, DY, DZ], table: "REAC_ANCR_{case}"}
+  springs:
+    groups: [RESS_AV_ARGI, RESS_AV_MARNE]
+    direction: DY
+    forces: quai_cw_test_01.extensions:spring_forces
+    stiffness_check: quai_cw_test_01.extensions:spring_stiffness
+  cases:
+    - {name: G, gravity: true, expected_resultant: "quai_cw_test_01.extensions:integrated_resultant"}
+    - {name: Q1, expected_resultant: "quai_cw_test_01.extensions:integrated_resultant"}
+    - {name: EAU_P, expected_resultant: "quai_cw_test_01.extensions:integrated_resultant"}
+    - {name: EAU_A, expected_resultant: "quai_cw_test_01.extensions:integrated_resultant"}
+    # Charges ponctuelles : bilan informatif, sans verdict (lot 33).
+    - {name: Q3, informative: true, expected_resultant: "quai_cw_test_01.extensions:comm_resultant"}
+    - {name: A, informative: true, expected_resultant: "quai_cw_test_01.extensions:comm_resultant"}
+  symmetry_planes:
+    - normal: X
+      position: 0.0
+      table: "SYMETRIE_{case}"
+      cases: [G, Q1, EAU_P, EAU_A, Q3, A]
+
+# Combinaisons de la décision D17 (point 13) : γ et ψ lus du fichier de données,
+# qui fait foi (les coefficients étaient aussi écrits dans le code jusqu'au lot 40).
+combinations:
+  permanent: [G, EAU_P]
+  gamma_g_unfavourable: {data: combinaisons.gamma_g_defavorable}
+  gamma_g_favourable: {data: combinaisons.gamma_g_favorable}
+  gamma_q: {data: combinaisons.gamma_q}
+  variables:
+    - {name: Q1, psi0: {data: combinaisons.q1_psi0}, psi1: {data: combinaisons.q1_psi1}, psi2: {data: combinaisons.q1_psi2}}
+    - {name: Q3, psi0: {data: combinaisons.q3_psi0}, psi1: {data: combinaisons.q3_psi1}, psi2: {data: combinaisons.q3_psi2}}
+  # D17 : l'action d'accompagnement porte ψ0 dans les trois familles d'ELS
+  # (texte de la décision, repris au lot 38).
+  frequent_accompanying: psi0
+  accidental:
+    - name: ELU_ACCIDENTELLE
+      family: ELU accidentelle
+      coefficients: {G: 1.0, EAU_A: 1.0, A: 1.0, Q1: {data: combinaisons.accidentelle_coefficient_q1}}
+  forces:
+    table: "EFPOUT_{case}"
+    components: [N, VY, VZ, MT, MFY, MFZ]
+    cases: [G, EAU_P, EAU_A, Q1, Q3, A]
+    reference_case: G
+  # Contrôle manuel : ELU fondamentale, Q3 dominante, sans Q1, γG défavorable, au
+  # nœud du bollard (X = 0, axe de TUBE_05).
+  manual_check: {combination: ELU_FOND_Q3_DOM_G_defav, node_nearest_x: 0.0}
+  output: combinaisons
+  report: quai_cw_test_01.rapports:combinations_report
+
+# Ferraillage de la poutre de couronnement (lot 39) : CALC_FERRAILLAGE en 1D sur
+# les efforts combinés, schéma des cas tests officiels ssll13*.
+rebar:
+  members:
+    - group: POUTRE_COUR
+      label: poutre de couronnement
+      hy: {data: poutre_couronnement.largeur}
+      hz: {data: poutre_couronnement.hauteur}
+      cover: {data: durabilite.distance_parement_axe_armatures_longitudinales}
+      phi_mm: {data: durabilite.diametre_equivalent_armatures_longitudinales}
+      wk_mm: {data: durabilite.ouverture_fissure_limite_wk}
+      # C35/45 et B500B (durabilite.beton, durabilite.acier_passif, D18) : classes
+      # écrites en texte dans les données, résistances caractéristiques ici.
+      fck_mpa: 35.0
+      fyk_mpa: 500.0
+      # Module de l'acier retenu au lot 39 (build_lot39_poutre.py).
+      eys_pa: 2.1e+11
+      alpha_cc: 1.0
+      families:
+        - {family: ELU fondamentale, type_comb: ELU, gamma_c: 1.5, gamma_s: 1.15}
+        # EN 1992-1-1, tableau 2.1N, valeurs recommandées : non décidées par MM.
+        - {family: ELU accidentelle, type_comb: ELU, gamma_c: 1.2, gamma_s: 1.0}
+        - {family: ELS caractéristique, type_comb: ELS}
+        - {family: ELS quasi permanente, type_comb: ELS_QP}
+      check_sections:
+        "bollard (X = 0)": 0.0
+        "mi-travée entre tubes (X = -1,30)": -1.3
+        "mi-travée entre tubes (X = +1,30)": 1.3
+        "plan de symétrie SYM_G (X = -10,40)": -10.4
+      mesh_title: lot39_poutre
+      comm_header:
+        - "Lot 39, étape 3.1 : ferraillage de la poutre de couronnement sous les"
+        - "combinaisons de D17 (CALC_FERRAILLAGE, TYPE_STRUCTURE='1D')."
+        - "Une maille SEG2 par extrémité d'élément de POUTRE_COUR (128 sections,"
+        - "sections.csv) ; efforts combinés (efforts.csv) imposés par CART_SIEF_R."
+      output: ferraillage
+      report: quai_cw_test_01.rapports:rebar_report
+
+# Synthèse d'un calcul du quai (lots 35 à 37) : profils, efforts, vues, butée.
+synthesis:
+  extension: quai_cw_test_01.extensions:synthesis

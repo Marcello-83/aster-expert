@@ -6,6 +6,16 @@ schéma de `aster_expert.agent.hypotheses` le même rôle que
 `data/evaluations/` joue pour le banc de recherche — des données sources du
 projet, écrites une fois à la main, pas régénérées.
 
+**Lot 41 : le quai est devenu un projet.** Les fiches (`hypotheses_combiwall_*.json`),
+les données (`combiwall_model_data.yaml`), leurs sources (`combiwall_inputs/`) et les
+invariants du maillage (`combiwall_mesh_invariants.yaml`) décrits ci-dessous sont
+désormais dans `projets/quai_cw_test_01/` (`fiche/`, `donnees/`, `maillage/`), les
+scripts qui les produisent dans `projets/quai_cw_test_01/scripts/`, et les 45
+constats `code_aster` de la fiche arbitrée dans la base partagée
+`connaissances/constats_code_aster/` (la fiche les référence). Les répertoires
+`lotNN_*` restent ici : ce sont les archives des essais des lots, citées par les
+rapports `docs/essais_lotNN.md` et par les sources d'exécution des constats.
+
 ## `hypotheses_combiwall_reference.json`
 
 Transcription intégrale, lot 14 (M5), du spécimen de fiche d'hypothèses

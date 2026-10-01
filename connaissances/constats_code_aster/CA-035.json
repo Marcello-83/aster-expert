@@ -1,0 +1,105 @@
+{
+  "constat_id": "CA-035",
+  "summary": "Piège : une charge répartie FORCE_POUTRE sur une poutre continue liée par plusieurs LIAISON_SOLIDE arrête tout CALC_CHAMP ultérieur (<F> <CALCULEL2_92>) ; il faut des forces nodales tributaires.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "AFFE_CHAR_MECA",
+    "CALC_CHAMP"
+  ],
+  "keywords": [
+    "CONTRAINTE",
+    "EFGE_ELNO",
+    "FORCE_NODALE",
+    "FORCE_POUTRE",
+    "GROUP_MA",
+    "LIAISON_SOLIDE",
+    "POU_D_E",
+    "REAC_NODA"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "data/examples/lot35_constats/f3_nodal.sonde.comm",
+      "case_sha256": "5e9a74d6c11085544f82d503154e5d9f46284071672f954a1833c322e9bdc686",
+      "mess_path": "data/examples/lot35_constats/f3_nodal.mess.txt"
+    }
+  ],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "12"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Charge répartie sur une poutre continue liée par plusieurs LIAISON_SOLIDE : arrêt au post-traitement (CALCULEL2_92) ; charges appliquées en forces nodales tributaires",
+    "options_considered": [],
+    "option_retained": "Sur une poutre `POU_D_E` **continue** reliée à des coques par **plusieurs** occurrences de `LIAISON_SOLIDE`, une charge répartie (`FORCE_POUTRE`) arrête tout `CALC_CHAMP` ultérieur (`EFGE_ELNO`, `REAC_NODA`…) : `<F> <CALCULEL2_92>`, « votre chargement contient plus d'une charge répartie, le calcul n'est pas possible pour les modèles de poutre » (exécutions du lot 33, listing extrait). Le poids propre et les charges de la poutre (décision 13) sont donc appliqués en **forces nodales tributaires** (`FORCE_NODALE`, longueur tributaire de chaque nœud, résultante et moment exacts par construction) : la résultante assemblée du cas G, pression d'écran retirée, vaut 29 811,6 N, égale à la somme des forces nodales écrites. Établi pour `POU_D_E`, Code_Aster 17.4.0.",
+    "justification": "Isolation du lot 33 : le même chargement `FORCE_POUTRE` passe sur une poutre à une seule `LIAISON_SOLIDE` (14,5 s, niveau C) et s'arrête sur la poutre continue du quai réduit ; l'arrêt survient au `CALC_CHAMP`, jamais retiré en restreignant son `GROUP_MA`. La solution de remplacement est exécutée au niveau D (résultante assemblée = somme des forces nodales, à l'affichage de 6 chiffres du listing). Le mécanisme précis n'est pas établi par la documentation.",
+    "discarded_variants": [],
+    "notes": "L'exécution en échec est de niveau B : ce n'est pas une source d'exécution ; elle est archivée en extrait (data/examples/lot35_constats/f3_echec_calculel2_92.mess.txt, cas data/examples/lot33_equilibre/quai_reduit/diag_no_fz.comm, exécution 20260924T122731-0b829e46). Le constat de FORCE_POUTRE du point 12 (lot 33) reste valide pour sa syntaxe ; il n'est pas applicable ici. Contrepartie : la charge est localement plus grossière qu'une charge répartie (forces concentrées aux nœuds), exacte en résultante et en moment. Preuve du remplacement : data/examples/lot35_constats/f3_nodal.*.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_NODALE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_POUTRE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "LIAISON_SOLIDE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "CALC_CHAMP",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "CONTRAINTE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot35_constats/f3_nodal.sonde.comm",
+        "case_sha256": "5e9a74d6c11085544f82d503154e5d9f46284071672f954a1833c322e9bdc686",
+        "mess_path": "data/examples/lot35_constats/f3_nodal.mess.txt",
+        "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas G, poutre de couronnement et poids seuls (forces nodales de la décision 13), quai réduit",
+        "value_obtained": 29811.6,
+        "reference": "somme des FY des FORCE_NODALE de CH_G_POUTRE écrites dans le .comm (initiale_aucune.json, beam_n.DY)",
+        "reference_value": 29811.600000000002,
+        "relative_deviation": -1.220323232262513e-16,
+        "validation_level": "D"
+      }
+    ],
+    "status": "tranche"
+  }
+}

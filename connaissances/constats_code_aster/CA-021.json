@@ -1,0 +1,59 @@
+{
+  "constat_id": "CA-021",
+  "summary": "Piège : l'intensité de FORCE_COQUE se rapporte à la surface développée des mailles et non à leur surface projetée.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "FIN"
+  ],
+  "keywords": [
+    "COQUE_3D",
+    "DKT",
+    "DY",
+    "DZ",
+    "FORCE_COQUE",
+    "QUAD4",
+    "TRIA3"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "data/examples/fcoque_essai/demi_cylindre.comm",
+      "case_sha256": "f2f1db503772d91d6be77f25c7729fae468aab08f67c5654ed1e43df92f2858f",
+      "mess_path": "data/examples/fcoque_essai/mess_execution_lot21.txt"
+    }
+  ],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "8"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Surface de référence de l'intensité de FORCE_COQUE (surface développée ou surface projetée des mailles)",
+    "options_considered": [],
+    "option_retained": "L'intensité de FORCE_COQUE se rapporte à la surface développée des mailles, non à leur surface projetée : pour une intensité unitaire, la résultante des réactions vaut 2,22982 N, soit la surface des facettes (2,229823 m²) et non la surface projetée (1,42 m²). Établi pour la modélisation DKT (QUAD4 plans), Code_Aster 17.4.0, une composante globale constante. Une intensité exprimée par surface projetée doit être ramenée à la surface développée de chaque maille.",
+    "justification": "Essai d'exécution du lot 21 (demi-cylindre facetté de 360 QUAD4, rayon 0,71 m, hauteur 1,00 m) exécuté jusqu'à FIN sans alarme (niveau C). Résultante comparée à deux hypothèses : surface développée des facettes, écart de -1,4×10⁻⁶ à la précision d'impression de 5 chiffres ; surface projetée, la résultante la dépasse de 57 %. Les composantes DY et DZ de la résultante valent environ 10⁻¹⁰ (équilibre) : niveau D pour cette question seulement.",
+    "discarded_variants": [],
+    "notes": "Fait d'exécution, non documentaire : U4.44.01 ne tranche pas (recherche du lot 20). Non testé : TRIA3, COQUE_3D, une autre direction de charge, une intensité non uniforme. Rapport : docs/essai_lot21_force_coque.md. Le facteur entre surface développée et surface projetée varie avec l'inclinaison de chaque facette.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "28b1fe87ac70a54c116f3927e3f0fc20b7af3ae1",
+        "working_tree_modified": true,
+        "case_path": "data/examples/fcoque_essai/demi_cylindre.comm",
+        "case_sha256": "f2f1db503772d91d6be77f25c7729fae468aab08f67c5654ed1e43df92f2858f",
+        "mess_path": "data/examples/fcoque_essai/mess_execution_lot21.txt",
+        "quantity": "résultante DX des réactions REAC_NODA (valeur absolue), intensité unitaire FX = 1",
+        "value_obtained": 2.22982,
+        "reference": "surface développée exacte des 36 × 10 facettes planes (36 cordes, R = 0,71 m, H = 1,00 m) = 2,229823082115976 m²",
+        "reference_value": 2.229823082115976,
+        "relative_deviation": -1.382224446635189e-06,
+        "validation_level": "D"
+      }
+    ],
+    "status": "tranche"
+  }
+}

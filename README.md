@@ -58,8 +58,8 @@ aster-expert sources sync
 # Extraire les schémas de commandes du catalogue installé
 aster-expert catalogue extract
 
-# Interroger le corpus
-aster-expert search "ressort non linéaire unilatéral" --version 18
+# Interroger le corpus (profil explicite : syntaxe, theorie ou methode)
+aster-expert search "ressort non linéaire unilatéral" --profile methode
 
 # Texte intégral d'une section trouvée par 'search' (jamais tronqué)
 aster-expert section --document U2.02.01 --section-path Conclusion_et_conseils_d_utilisation
@@ -67,20 +67,43 @@ aster-expert section --document U2.02.01 --section-path Conclusion_et_conseils_d
 # Schéma exact d'une commande
 aster-expert catalogue show STAT_NON_LINE --keyword COMPORTEMENT
 
-# Validation statique d'un fichier de commandes
+# Validation statique d'un fichier de commandes (niveau B)
 aster-expert validate model.comm
 
-# Exécution encadrée puis dépouillement
+# Exécution encadrée (niveau C) : le compte rendu lisible (compte_rendu.json et
+# compte_rendu.md : commande, empreintes, durée, statut, alarmes et erreurs <F>
+# extraites par run_aster.error_messages, fichiers produits) est écrit dans le
+# répertoire de l'exécution
 aster-expert run model.comm --timeout 1800
-aster-expert mess analyze resultats/model.mess
 
-# Synthèse pour l'ingénieur d'un calcul du quai (lot 35) : synthese.md,
-# controles.md, synthese.json (et un PNG par profil si matplotlib est présent) ;
-# cas élémentaires seulement, aucune combinaison, aucun verdict de dimensionnement
-aster-expert report data/processed/runs/<exécution> \
-    --donnees data/examples/combiwall_model_data.yaml \
-    --controles-d <equilibre.json> --sortie <répertoire>
+# Constats Code_Aster de la base partagée, avant d'écrire une commande
+aster-expert constats chercher --commande CREA_MAILLAGE
+aster-expert constats chercher "pression évaluée aux noeuds"
+# Rejouer les cas d'essai des constats établis par exécution (changement de version)
+aster-expert constats rejouer
+
+# Un projet (ouvrage) : vérifier sa déclaration, puis enchaîner les étapes
+aster-expert projet quai_cw_test_01 verifier
+aster-expert projet quai_cw_test_01 maillage      # mesh run (cache) + mesh check
+aster-expert projet quai_cw_test_01 generer       # .comm par le générateur du projet
+aster-expert projet quai_cw_test_01 valider       # niveau B
+aster-expert projet quai_cw_test_01 executer      # niveau C
+aster-expert projet quai_cw_test_01 controles     # niveau D : équilibre, pesanteur, symétrie
+aster-expert projet quai_cw_test_01 synthese
+aster-expert projet quai_cw_test_01 combinaisons
+aster-expert projet quai_cw_test_01 ferraillage
+aster-expert projet quai_cw_test_01 tout          # toutes les étapes, dans l'ordre
+
+# Commandes unitaires équivalentes, sur un projet
+aster-expert generate quai_cw_test_01 [--donnees D] [--maillage M]
+aster-expert report <exécution> --projet quai_cw_test_01 [--sans-vues]
+aster-expert mesh check --projet quai_cw_test_01
 ```
+
+Il n'existe pas de commande de dépouillement d'un `.mess` séparée : l'analyse des
+messages est faite par `aster-expert run` (compte rendu ci-dessus), les tables de
+résultats par les étapes `controles`, `synthese`, `combinaisons` et `ferraillage`
+d'un projet.
 
 Les commandes non encore implémentées sont listées dans
 `docs/development-plan.md` avec leur lot d'appartenance.
@@ -88,7 +111,7 @@ Les commandes non encore implémentées sont listées dans
 ## Serveur MCP (lot 8)
 
 Un serveur MCP (`aster-expert-mcp`, module `aster_expert.mcp.server`) expose
-sept outils, chacun un simple emballage d'une capacité déjà existante :
+huit outils, chacun un simple emballage d'une capacité déjà existante :
 
 | Outil | Capacité encapsulée | Niveau de la réponse |
 |-------|----------------------|-----------------------|
@@ -99,6 +122,7 @@ sept outils, chacun un simple emballage d'une capacité déjà existante :
 | `validate_comm` | `aster_expert.validation.validate` (lot 10/10b/10c) | B |
 | `search_test_cases` | `aster_expert.parsing.comm_parser` sur `astest` (lot 22) | A |
 | `read_test_case` | lecture bornée d'un fichier de commandes de `astest` (lot 22) | A |
+| `search_constats` | `aster_expert.constats` : base partagée des constats Code_Aster (lot 41) | A (chaque constat porte son propre niveau, A à D) |
 
 `get_document_section` (lot 8c) renvoie le texte intégral, jamais tronqué,
 d'un fragment ou d'une section — `search_codeaster_docs` ne renvoie qu'un
@@ -164,16 +188,60 @@ La commande compare les outils du serveur à ceux que déclare `server.py`, appe
 chacun sur une requête minimale (dont `validate_comm`, qui lance le conteneur) et
 sort en erreur au premier écart.
 
-## Structure
+## Organisation : un tronc commun, des projets, une base de constats (lot 41)
 
 ```
-config/      paramètres de sources, versions, recherche et validation
-data/        corpus brut, corpus transformé, index, jeux d'évaluation
-external/    clones des dépôts Code_Aster (non versionnés)
-docs/        architecture, corpus, métadonnées, plan de développement
-src/         code du projet
-scripts/     scripts autonomes, dont ceux exécutés par le Python d'Aster
-tests/       tests unitaires, d'intégration et d'évaluation
+src/aster_expert/   tronc commun : ce qui vaut pour tout ouvrage
+projets/<nom>/      un ouvrage = un projet (code, données, déclaration, références)
+connaissances/      base partagée des constats Code_Aster, un fichier par constat
+config/             paramètres de sources, versions, recherche et validation
+data/               corpus brut, corpus transformé, index, jeux d'évaluation,
+                    archives des essais des lots (data/examples/lotNN_*)
+external/           clones des dépôts Code_Aster (non versionnés)
+docs/               architecture, corpus, métadonnées, rapports d'essais des lots
+scripts/            scripts autonomes (dont ceux exécutés par le Python d'Aster)
+                    et essais génériques des lots
+tests/              tests unitaires, d'intégration (dont `pytest -m lent`)
+```
+
+**Tronc commun** (`src/aster_expert/`) : catalogue et validation B ; recherche
+documentaire et cas tests ; exécution et compte rendu ; schéma de fiche,
+arbitrage et historique ; données structurées ; exécution Salomé et vérificateur
+de maillage à invariants déclaratifs ; contrôles D paramétrés par la déclaration
+(`controles`) ; lecture MED ; combinaisons à partir de la déclaration et des
+données (`combinaisons`) ; ferraillage 1D par `CALC_FERRAILLAGE` et module EN 1992
+(`ferraillage`, `rebar`) ; base de constats (`constats`) ; déclaration et
+enchaînement des projets (`projet`). Aucune référence à un ouvrage : un test
+l'interdit (`tests/unit/test_tronc_commun_sans_ouvrage.py`).
+
+**Projet** (`projets/<nom>/`) : un paquet Python importé depuis `projets/`, avec
+sa déclaration `projet.yaml` (schéma `aster_expert.projet.declaration`), sa fiche,
+ses données et leurs sources, son script Salomé et ses invariants, son générateur
+de `.comm` (ou un `.comm` écrit), ses extensions (charges intégrées, forces de
+ressorts, prose de ses rapports), ses scripts et ses tests, ses résultats de
+référence. La déclaration contient : le maillage et ses invariants, le `.comm` ou
+son générateur et les données qu'il exige, les groupes d'appui et de ressorts de
+l'équilibre, les cas de charge et leurs résultantes attendues, les plans de
+symétrie, les combinaisons, les éléments à ferrailler. Le tronc commun ne lit que
+cette déclaration et les résultats ; une déclaration incomplète ou incohérente est
+refusée avec la liste des motifs (donnée manquante, groupe absent du maillage, cas
+sans résultante attendue, données d'un autre ouvrage). Premier projet :
+`projets/quai_cw_test_01/` (quai combi-wall QUAI-CW-TEST-01).
+
+**Base de constats** (`connaissances/constats_code_aster/CA-nnn.json`) : un fait
+établi sur Code_Aster par fichier (version, niveau A à D, sources dont les cas
+d'essai versionnés, commandes et mots-clés concernés, résumé du piège en une
+phrase). Une fiche de projet référence un constat (`{"nature": "constat",
+"constat_id": ...}`) au lieu de le recopier. Recherche : `search_constats` (MCP),
+`aster-expert constats chercher` ; rejeu à chaque changement de version :
+`aster-expert constats rejouer`.
+
+## Tests
+
+```bash
+pytest               # série par défaut : aucun Docker, aucun Salomé
+pytest -m lent       # tests réels : Code_Aster (cas du lot 22, arrêt <F> du lot 39)
+                     # et Salomé (géométrie 1 du lot 26) puis mesh check ; ~2 min
 ```
 
 ## Niveaux de validation

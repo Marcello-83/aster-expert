@@ -1,0 +1,158 @@
+{
+  "constat_id": "CA-043",
+  "summary": "En 1D, AST est une seule densité de cadres (θ = 21,8°, maximum des deux directions) qui intègre la torsion, sans armature longitudinale de torsion ni critère de bielle en sortie.",
+  "aster_version": "17.4.0",
+  "validation_level": "C",
+  "commands": [
+    "CALC_FERRAILLAGE"
+  ],
+  "keywords": [
+    "AFFE",
+    "EPURE_CISA",
+    "OUI",
+    "VY",
+    "VZ"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "data/examples/lot39_essais/limites/limites.comm",
+      "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+      "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt"
+    }
+  ],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "14"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Effort tranchant et torsion en 1D dans CALC_FERRAILLAGE : ce que représente AST",
+    "options_considered": [],
+    "option_retained": "En 1D, AST (m²/m) est une seule densité de cadres droits : Asw/s = [V + T/A_k (h - t_k)] / (z fyd cot θ), z = 0,9 d, t_k = max(A/u ; 2c), A_k = (b - t_k)(h - t_k), θ = 21,8° (cot θ = 2,50018, et non 2,5 exactement) quand les bielles le permettent ; VY et VZ sont traités chacun dans son plan et AST est le maximum des deux directions (VY = VZ = 4 MN donne la valeur de VZ seul). La torsion est convertie en effort tranchant équivalent et ajoutée à V (interaction de R7.04.05, pas les expressions 6.26 à 6.28 de l'EN 1992-1-1 par paroi) ; aucune armature longitudinale de torsion n'est produite séparément (seul EPURE_CISA='OUI' ajoute un effort de traction aux aires longitudinales) ; le critère d'écrasement des bielles (6.29) n'est pas une sortie. Aucun ferraillage sous T = 2 MN·m seul (T_Rd,c = 2,62 MN·m). À traiter hors de Code_Aster : armatures longitudinales de torsion (6.28), cadres de torsion par paroi (6.26-6.27), valeur du critère de bielle (6.29).",
+    "justification": "Essai limites du lot 39 (vy_2, vy_4, vz_4, mt_2, mt_4, vy_4_mt_4, vy_4_vz_4) : les cinq valeurs non nulles sont reproduites à 1e-13 par la formule ci-dessus ; R7.04.05, § Calcul du ferraillage transversal.",
+    "discarded_variants": [],
+    "notes": "vy_2 (V = 2 MN) produit des cadres : V_Rd,c < 2 MN, ce qui exclut la lecture littérale « v_min = 0,053 γc k^1,5 fck^0,5 » de R7.04.05 (qui donnerait V_Rd,c = 2,31 MN) ; déduction : v_min = 0,053/γc k^1,5 fck^0,5 ou 0,035 k^1,5 fck^0,5 (valeurs voisines, non départagées). Le module aster_expert.rebar.shear (EN 1992-1-1 6.2 et 6.3, cot θ = 2,5) diffère de 7,1e-5 relatif sur l'effort tranchant seul (angle), et suit la méthode par paroi de l'EN pour la torsion (cadres 1,885876e-03 m²/m pour deux brins sous T = 4 MN·m contre 1,790828e-03 pour Code_Aster).",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "R7.04.05",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Calcul_du_ferraillage_des_poutres_et_poteaux",
+          "Dimensionnement à l’ELU",
+          "Calcul du ferraillage transversal"
+        ],
+        "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Calcul du ferraillage transversal\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nOn commence par définir le taux d’armatures transversales conformément à l’expression suivante :\n\n.. math::\n    {\\rho}_{w}\n    =\n    \\frac{{A}_{\\text{sw}}}{s{b}_{w}\\sin(\\alpha)}\n\nOù:\n\n* :math:`{A}_{\\text{sw}}` désigne l’aire de la section totale (par plan de ferraillage) des armatures transversales.\n\n* :math:`s` désigne l'espacement longitudinal entre les cadres d’armatures transversales.\n\n* :math:`{b}_{w}` désigne la plus petite largeur de la zone tendue de la section transversale de l’élément.\n\n* :math:`\\alpha` désigne l’angle d’inclinaison des cadres d’armatures transversales par rapport à l’axe longitudinal de l’élément.\n\n.. figure:: images/100002010000078000000438DE50B44F8B46E188.png\n    :name: r7.04.05-fig-1-12\n    :width: 4.9571in\n    :height: 2.5965in\n\n    Ferraillage transversal d’un élément ``1D`` (poutre ou poteau)\n\nPar ailleurs, on fera pour le moment les hypothèses ci-dessous:\n\n* les cadres seront supposés droits, ce qui revient à poser :math:`\\alpha=90°` soit :math:`\\sin(\\alpha)=1`.\n\n* les éléments considérés sont de section rectangulaire, et donc :math:`{b}_{w}=b` .\n\nLa section transversale est ainsi soumise à un effort tranchant :math:`{V}_{\\text{Ed}}`, ainsi qu’à un moment de torsion :math:`{T}_{\\text{Ed}}`.\n\nPar défaut, aucun ferraillage transversal n’est requis tant que le couple de sollicitations précédent ne dépasse pas les capacités de résistance du béton seul au cisaillement; cela revient donc à vérifier l’inéquation suivante:\n\n.. math::\n    \\frac{{V}_{\\text{Ed}}}{{V}_{\\text{Rd},c}}\n    +\n    \\frac{{T}_{\\text{Ed}}}{{T}_{\\text{Rd},c}}\n    \\le\n    1\n\ntels que:\n\n* :math:`{V}_{\\text{Rd},c}=\\left \\lbrace \\max \\left({C}_{\\text{Rd},c}k{(100{\\rho}_{l}{f}_{\\text{ck}})}^{1/3};{v}_{min} \\right)+{k}_{1}{\\stressCmp}_{\\text{cp}} \\right \\rbrace\\times {b}_{w} d`\n\n* :math:`{T}_{\\text{Rd},c}=2{f}_{\\text{ctd}}{t}_{k}{A}_{k}`\n\noù:\n\n* :math:`{f}_{\\text{ck}}` est en MPa\n\n* :math:`{C}_{\\text{Rd},c}= \\frac{0,18}{{\\gamma}_{c}}`\n\n* :math:`k=1+\\sqrt{\\frac{200}{d}} \\le 2,0`, avec :math:`d` en mm\n\n* :math:`{\\rho}_{l}=\\frac{{A}_{\\text{sl}}}{{b}_{w}d} \\le 0,02` , où :math:`{A}_{\\text{sl}}` représente la section des armatures tendues (résultant du calcul en flexion composée)\n\n* :math:`{v}_{\\text{min}}=0,053 \\, {{\\gamma}_{c}} {k}^{1,5}{f}_{\\text{ck}}^{0,5}` dans le cas des poutres\n\n* :math:`{k}_{1}=0,15`\n\n* :math:`{\\stressCmp}_{\\text{cp}}=\\frac{{N}_{\\text{Ed}}}{{b}_{w}h} \\ge 0` , où :math:`{N}_{\\text{Ed}}` représente l’effort normal (positif en compression)\n\n* :math:`{f}_{\\text{ctd}}= \\frac{{f}_{\\text{ctk}}}{{\\gamma}_{c}}` , où :math:`{f}_{\\text{ctk}}` représente la résistance du béton à la traction, tel que :math:`{f}_{\\text{ctk}}= \\left \\lbrace \\begin{array}{l}0,7\\times 0,3\\times {f}_{\\text{ck}}^{\\frac{2}{3}}\\text{ si }{f}_{\\text{ck}} \\le 50\\, \\text{MPa}\\\\ 0,7\\times 2,12\\times \\log(1+0,1\\times ({f}_{\\text{ck}}+8)) \\text{ si }{f}_{\\text{ck}} \\ge 50\\, \\text{MPa}\\end{array} \\right .`\n\n* :math:`{t}_{k}=\\max \\left \\lbrace {b}_{w} \\frac{h}{2({b}_{w}+h)};2{c}_{\\text{sup}};2{c}_{\\text{inf}} \\right \\rbrace`\n\n* :math:`{A}_{k}=({b}_{w}-{t}_{k}) (h-{t}_{k})`\n\nDans le cas contraire, c’est-à-dire dans le cas où le membre gauche de l’inéquation précédente est supérieur à 1, le dimensionnement du ferraillage transversal au cisaillement est basé sur un modèle en treillis de Ritter-Mörsh formé par un couplage entre bielles de compressions – qui représentent la part du béton résistant au cisaillement – et les cadres du ferraillage transversal. Ce treillis est schématisé au niveau de la figure qui suit, dont on explicite les notations à la suite.\n\n.. figure:: images/10000000000003C80000026D8F2591692D9D098A.png\n    :name: r7.04.05-fig-1-13\n    :width: 5.6146in\n    :height: 3.602in\n\n    Structure bielle-tirants pour poutres sollicitées en cisaillement\n\n* :math:`\\alpha` est l’angle entre les armatures d'effort tranchant et la fibre moyenne de l’élément (pour rappel, on considérera dans l’algorithme que :math:`\\alpha =90°` ).\n\n* :math:`\\theta` est l’angle entre la bielle de compression et la fibre moyenne de l’élément. Conformément aux réglementations de l’Eurocode 2, la valeur de :math:`\\theta` devra respecter le domaine :math:`1\\le \\cot{\\theta }\\le 2,5` .\n\n* :math:`{F}_{\\text{td}}` est la valeur de calcul de l’effort de traction repris par les armatures longitudinales tendues inférieures.\n\n* :math:`{F}_{\\text{cd}}` est la valeur de calcul de l’effort de compression repris par la hauteur de béton comprimé (en fonction de la profondeur de l’axe neutre, tel que déterminé à l’issu du calcul en flexion composée), ainsi que l’éventuel ferraillage de compression supérieur.\n\n* :math:`{b}_{w}` est la plus petite largeur de la section comprise entre la membrure tendue et la membrure comprimée. Dans l’algorithme de calcul, on prendra donc :math:`{b}_{w}=b` .\n\n:math:`z` est le bras de levier des forces internes, pour un élément de hauteur constante, correspondant au moment fléchissant dans l'élément considéré. Pour les calculs à l'effort tranchant d'une section de béton armé partiellement comprimée (axe neutre au sein de la section), l’algorithme de calcul considérera comme valeur\n\n.. math::\n    z=\\frac{{F}_{s, \\text{sup}}{z}_{1}+{F}_{\\text{cc}}{z}_{1}}\n           {{F}_{s, \\text{sup}}+{F}_{\\text{cc}}}\n\nTels que :math:`{z}_{1}=h-{c}_{\\text{inf}}-{c}_{\\text{sup}}` représente le bras de levier des armatures comprimées supérieures par rapport au centre de gravité des armatures tendues inférieures et :math:`{z}_{2}=(1-0,5\\lambda \\alpha)  d` représente le bras de levier du centre de gravité de la hauteur de béton comprimée par rapport au centre de gravité des armatures tendues inférieures. :math:`{F}_{s, \\text{sup}}={A}_{s, \\text{sup}}{\\stressCmp}_{s, \\text{sup}}` représente l’effort repris par les armatures comprimées et :math:`{F}_{\\text{cc}}=\\eta \\lambda \\alpha b d{f}_{\\text{cd}}` représente l’effort repris par la hauteur de béton comprimé.\n\nPour les autres cas, on peut adopter la valeur approchée :math:`z=0,9d`\n\nLe treillis ainsi modélisé résistera à l’effort tranchant sollicitant, diagonale par diagonale, comme suit:\n\n* d’une part, la bielle de compression (diagonale comprimée), dont la résistance est donnée vis-à-vis de l’effort tranchant par:\n\n.. math::\n    {V}_{\\text{Rd},\\text{max}}\n    =\n    {\\alpha}_{\\text{cw}}{b}_{w}z{\\nu}_{1}{f}_{\\text{cd}}\\frac{(\\cot\\theta +\\cot\\alpha )}{1+{\\cot}^{2}\\theta }\n\n\net vis-à-vis du moment de torsion\n\n.. math::\n    {T}_{\\text{Rd},\\text{max}}\n    =\n    2{\\alpha}_{\\text{cw}}{\\nu}_{1}{f}_{\\text{cd}}{A}_{k}{t}_{k}\\sin\\theta \\cos\\theta\n\nIl faudra donc vérifier, pour l’inclinaison de bielle considérée, l’inéquation ci-dessous:\n\n.. math::\n    \\frac{{V}_{\\text{Ed}}}{{V}_{\\text{Rd},\\text{max}}}\n    +\n    \\frac{{T}_{\\text{Ed}}}{{T}_{\\text{Rd},\\text{max}}}\n    \\le\n    1\n\n* d’autre part, le cadre (diagonale tendu / tirant), dont la résistance est donnée par:\n\n.. math::\n    {V}_{\\text{Rd},s}\n    =\n    \\frac{{A}_{\\text{sw}}}{s}z{f}_{\\text{ywd}}(\\cot\\theta +\\cot\\alpha )\\sin\\alpha\n\noù:\n\n* :math:`{f}_{\\text{ywd}}` est la limite d'élasticité de calcul des armatures d'effort tranchant (prise égale à :math:`{f}_{\\text{yd}}` )\n\n* :math:`{\\nu}_{1}=\\nu =0,6(1-\\frac{{f}_{\\text{ck}}}{250})` , avec :math:`{f}_{\\text{ck}}` en :math:`\\text{MPa}`, est un coefficient de réduction de la résistance du béton fissuré à l'effort tranchant\n\n* :math:`{\\alpha}_{\\text{cw}}` est un coefficient tenant compte de l'état de contrainte dans la membrure comprimée, et dont la valeur varie en fonction de la contrainte de compression moyenne :math:`{\\stressCmp}_{\\text{cp}}` reprise par le béton comprimé, tel que:\n\n.. math::\n    {\\alpha}_{\\text{cw}}\n    =\n    1\n\npour les structures non précontraintes et non soumises à un effort de compression\n\n.. math::\n    {\\alpha}_{\\text{cw}}\n    =\n    1+\\frac{{\\stressCmp}_{\\text{cp}}}{{f}_{\\text{cd}}}\n\npour :math:`0 \\lt {\\stressCmp}_{\\text{cp}}\\le 0.25{f}_{\\text{cd}}`\n\nOn a donc\n\n.. math::\n    {\\alpha}_{\\text{cw}}\n    =\n    1.25\n\npour :math:`0.25{f}_{\\text{cd}} \\lt {\\stressCmp}_{\\text{cp}}\\le 0.5{f}_{\\text{cd}}`\n\net\n\n.. math::\n    {\\alpha}_{\\text{cw}}\n    =\n    2.5(1-\\frac{{\\stressCmp}_{\\text{cp}}}{{f}_{\\text{cd}}})\n\npour :math:`0.5{f}_{\\text{cd}} \\lt {\\stressCmp}_{\\text{cp}}\\le {f}_{\\text{cd}}`\n\nLe principe de dimensionnement du ferraillage transversal consiste alors à égaliser le terme :math:`{V}_{\\text{Rd},s}` à l’effort de cisaillement sollicitant la section, donné comme suit:\n\n.. math::\n    {V}_{\\text{Rd},s}\n    =\n    {V}_{\\text{Ed}}\n    +\n    \\frac{{T}_{\\text{Ed}}}{{A}_{k}} \\, (h-{t}_{k})\n\nIl s’agira alors de choisir la valeur de :math:`\\theta` permettant de minimiser la densité :math:`\\frac{{A}_{\\text{sw}}}{s}` tout en vérifiant l’inéquation de non-écrasement des bielles.\n\nImpact des efforts de cisaillement sur le ferraillage longitudinal\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nConformément aux spécifications de l’Eurocode 2, et dans le cas où un ferraillage transversal est requis à la suite du calcul effectué dans le paragraphe précédent, l'effort de traction supplémentaire :math:`\\Delta F_{\\text{td}}` induit dans les armatures longitudinales et dû à l'effort tranchant :math:`V_{\\text{ed}}` et au moment de torsion :math:`T_{\\text{ed}}`, s’écrit comme suit:\n\n.. math::\n    \\Delta {F}_{\\text{td}}\n    =\n    {V}_{\\text{Ed}}\n    \\cot \\left( \\theta \\right)\n    +\n    {T}_{\\text{Ed}}\n    \\cot \\left( \\theta \\right) \\,  \\frac{{u}_{k}}{2{A}_{k}}\n\nOu :math:`\\theta` désigne l’angle d’inclinaison des bielles du treillis, tel que retenu dans le dimensionnement précédent. L’opérateur [:ref:`CALC_FERRAILLAGE <U4.81.42>`] offre la possibilité de prendre en compte cet effort de traction supplémentaire; pour ce fait, il suffit de prendre ``EPURE_CISA = 'OUI'``.\n\n.. _r7.04.05-dimensionnement-ELS:\n"
+      },
+      {
+        "document_id": "U4.81.42",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Op_randes",
+          "AFFE",
+          "EC2",
+          "EPURE_CISA"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Opérande EPURE_CISA\n^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ EPURE_CISA= / 'OUI',\n                   / 'NON' [DEFAUT]\n\nPrise en compte de l’effort de traction supplémentaire induit par l’effort tranchant et le moment de torsion, dans le cadre de la modélisation en treillis de Ritter-Mörsh.\n\n**Remarque :**\n\nDans le cas où **EPURE_CISA** **= ‘OUI’** , le calcul de la section supplémentaire d’acier tendu est effectué conformément à l’équation ci-dessous:\n\n:math:`{A}_{\\text{sl}}=({V}_{\\mathit{Ed}}+{T}_{\\mathit{Ed}}\\times {u}_{k}/2{a}_{k})\\times \\mathrm{cot}({\\theta}_{b})/{\\sigma}_{s}`\n\nTels que VEd et TEd représentent respectivement l’effort tranchant et le moment de torsion de calcul; dans le cadre des éléments ‘2D’, il s’agit des efforts déduits de l’équilibre de coin par facette conformément à la méthode de Capra Maury, actuellement retenue.\n\nD’autre part, θb représente l’angle d’inclinaison des bielles de compression de béton, tel que déduit du calcul de dimensionnement du ferraillage transversal, et ak et uk représentent respectivement l’aire intérieure au feuillet moyen des parois de la section et le périmètre du feuillet, tels que définis au niveau du §6.3.2 de l’EC2 (et applicable également au BAEL91).\n\n"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "EPURE_CISA"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/limites/limites.comm",
+        "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+        "quantity": "AST (m²/m), VY = 4 MN seul, ELU",
+        "value_obtained": 0.0017035821618,
+        "reference": "V/(0,9 d fyd cot 21,8°), d = 2,40",
+        "reference_value": 0.0017035821617999573,
+        "relative_deviation": 2.507514257533355e-14,
+        "validation_level": "C"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/limites/limites.comm",
+        "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+        "quantity": "AST (m²/m), VZ = 4 MN seul, ELU",
+        "value_obtained": 0.003145074760246,
+        "reference": "V/(0,9 d fyd cot 21,8°), d = 1,30",
+        "reference_value": 0.0031450747602460747,
+        "relative_deviation": -2.37174360399517e-14,
+        "validation_level": "C"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/limites/limites.comm",
+        "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+        "quantity": "AST (m²/m), MT = 4 MN·m seul, ELU",
+        "value_obtained": 0.001790827609439,
+        "reference": "[T/A_k (h - t_k)]/(0,9 d fyd cot 21,8°), h = 2,50, d = 2,40",
+        "reference_value": 0.0017908276094393085,
+        "relative_deviation": -1.7230242412109285e-13,
+        "validation_level": "C"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/limites/limites.comm",
+        "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+        "quantity": "AST (m²/m), VY = 4 MN et MT = 4 MN·m, ELU",
+        "value_obtained": 0.003494409771239,
+        "reference": "[V + T/A_k (h - t_k)]/(0,9 d fyd cot 21,8°)",
+        "reference_value": 0.003494409771239266,
+        "relative_deviation": -7.607761828091651e-14,
+        "validation_level": "C"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/limites/limites.comm",
+        "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+        "quantity": "AST (m²/m), VY = VZ = 4 MN, ELU",
+        "value_obtained": 0.003145074760246,
+        "reference": "maximum des deux directions : valeur de VZ seul",
+        "reference_value": 0.0031450747602460747,
+        "relative_deviation": -2.37174360399517e-14,
+        "validation_level": "C"
+      }
+    ],
+    "status": "tranche"
+  }
+}

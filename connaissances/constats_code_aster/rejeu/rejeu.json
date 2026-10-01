@@ -1,0 +1,983 @@
+{
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "replayed_at": "2026-09-29T11:43:28.647934Z",
+  "constats": [
+    {
+      "constat_id": "CA-020",
+      "summary": "Des raideurs nodales propres à chaque nœud s'affectent par la chaîne CREA_POI1, DIS_T et DISCRET/K_T_D_N, en regroupant les nœuds de même raideur par classe plutôt qu'une occurrence par nœud.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot22_essais/essai_c/c.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114036-62fb0a58",
+          "duration_s": 5.967111993000799,
+          "checks": [
+            {
+              "quantity": "déplacement DZ des 25 nœuds de la plaque (valeur absolue, identique aux 25 nœuds)",
+              "value_obtained": 0.001,
+              "found": true
+            },
+            {
+              "quantity": "résultante DZ des forces nodales des ressorts (FORC_NODA sur les mailles POI1, valeur absolue)",
+              "value_obtained": 1000.0,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-021",
+      "summary": "Piège : l'intensité de FORCE_COQUE se rapporte à la surface développée des mailles et non à leur surface projetée.",
+      "cases": [
+        {
+          "case_path": "data/examples/fcoque_essai/demi_cylindre.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114042-3979b05d",
+          "duration_s": 4.609578124000109,
+          "checks": [
+            {
+              "quantity": "résultante DX des réactions REAC_NODA (valeur absolue), intensité unitaire FX = 1",
+              "value_obtained": 2.22982,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-022",
+      "summary": "FLEX_L et FLEX_T d'ELAS_COQUE sont des rigidités par unité de largeur, et L est l'axe x_l du repère utilisateur fixé par ANGL_REP ou VECTEUR.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot22_essais/essai_a/a1.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114047-5dd0f0d3",
+          "duration_s": 6.117806658000518,
+          "checks": [
+            {
+              "quantity": "flèche en bout (DZ, valeur absolue), L le long de la console (ANGL_REP = (0, 0))",
+              "value_obtained": 0.02666666666627,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot22_essais/essai_a/a2.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114053-752d9630",
+          "duration_s": 4.1748985410004025,
+          "checks": [
+            {
+              "quantity": "flèche en bout (DZ, valeur absolue), T le long de la console (VECTEUR = (0, 1, 0))",
+              "value_obtained": 0.00666666666669,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot22_essais/essai_a/a3.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114057-8e8a9ccd",
+          "duration_s": 4.442792106000525,
+          "checks": [
+            {
+              "quantity": "flèche en bout (DZ, valeur absolue), T le long de la console (ANGL_REP = (90, 0))",
+              "value_obtained": 0.00666666666669,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-023",
+      "summary": "Piège : sous ELAS_COQUE, REAC_NODA, FORC_NODA et SIEF_ELGA sont calculés avec une rigidité de flexion MEMB × EPAIS²/12 et sont faux dès que FLEX_L ou FLEX_T en diffère.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot22_essais/essai_a/a1.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114102-8e587b35",
+          "duration_s": 4.93763160799972,
+          "checks": [
+            {
+              "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a1 (MEMB × EPAIS²/12 = 83,33 ; FLEX_L = 1000)",
+              "value_obtained": 0.416666666672,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot22_essais/essai_a/a2.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114106-bcdd75e9",
+          "duration_s": 4.402799566000795,
+          "checks": [
+            {
+              "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a2 (T le long de la console, FLEX_T = 4000)",
+              "value_obtained": 0.1041666666671,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot22_essais/essai_a/a6.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114111-748d6ac9",
+          "duration_s": 3.909797279000486,
+          "checks": [
+            {
+              "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a6 (membrane de a1, flexion isotrope 1000)",
+              "value_obtained": 0.4166666666576,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot22_essais/essai_a/a4.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114115-5036d3c2",
+          "duration_s": 4.591219346999424,
+          "checks": [
+            {
+              "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a4 (témoin ELAS isotrope)",
+              "value_obtained": 4.999999999892,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot22_essais/essai_a/a5.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114119-c1cf2eec",
+          "duration_s": 3.9347081509995405,
+          "checks": [
+            {
+              "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a5 (ELAS_COQUE isotrope cohérent)",
+              "value_obtained": 4.999999999892,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot22_essais/essai_a/a7.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114123-d263b7c4",
+          "duration_s": 4.732239307000782,
+          "checks": [
+            {
+              "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a7 (membrane isotrope, FLEX_L = 1000 ≠ FLEX_T = 4000)",
+              "value_obtained": 5.000000000062,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114128-9f421c29",
+          "duration_s": 4.4496438790001775,
+          "checks": [
+            {
+              "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D1 (EPAIS = 0,01 ; MEMB_L × EPAIS²/12 = 83,33 ; FLEX_L = 1000)",
+              "value_obtained": 0.416666666672,
+              "found": true
+            },
+            {
+              "quantity": "résultante DZ de FORC_NODA aux nœuds de l'encastrement, D1",
+              "value_obtained": 0.416666666672,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot23_essais/essai_d2/d2a.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114133-c3546259",
+          "duration_s": 4.360760088000461,
+          "checks": [
+            {
+              "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D2 (EPAIS × 2)",
+              "value_obtained": 1.666666666688,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot23_essais/essai_d2/d2b.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114137-5bdbafd6",
+          "duration_s": 4.2034313690001,
+          "checks": [
+            {
+              "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D2 (EPAIS × 0,5)",
+              "value_obtained": 0.104166666668,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot23_essais/essai_d3/d3.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114141-a3e4ec1f",
+          "duration_s": 4.008908585999961,
+          "checks": [
+            {
+              "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D3 (CISA_L et CISA_T × 1000)",
+              "value_obtained": 0.416666666672,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-024",
+      "summary": "Piège : sous PESANTEUR, RHO d'ELAS_COQUE agit comme une masse volumique multipliée par EPAIS, et RHO = 0 annule le poids de ces éléments sans alarme.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot22_essais/essai_b/b2.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114145-9935c76e",
+          "duration_s": 4.096102870999857,
+          "checks": [
+            {
+              "quantity": "résultante verticale des réactions de la plaque 1 (ELAS, RHO = 7850, EPAIS = 0,01) sous PESANTEUR",
+              "value_obtained": 770.085,
+              "found": true
+            },
+            {
+              "quantity": "résultante verticale des réactions de la plaque 2 (ELAS_COQUE, RHO = 100, EPAIS = 0,02) sous PESANTEUR",
+              "value_obtained": 19.62,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot22_essais/essai_b/b3.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114149-9309ff3f",
+          "duration_s": 3.9259616400004234,
+          "checks": [
+            {
+              "quantity": "flèche en bout d'une console ELAS_COQUE (RHO = 1, EPAIS = 0,01) sous PESANTEUR (valeur absolue)",
+              "value_obtained": 0.0001963634999974,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot23_essais/essai_d4/d4.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114153-f57f2bdd",
+          "duration_s": 4.383206926999264,
+          "checks": [
+            {
+              "quantity": "résultante verticale des réactions de la plaque 1 (ELAS, RHO = 7850, EPAIS = 0,01) sous PESANTEUR, D4 (plaque 2 : ELAS_COQUE avec RHO = 0)",
+              "value_obtained": 770.085,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-025",
+      "summary": "Sous ELAS_COQUE (DKT), les efforts généralisés EFGE_ELNO et EFGE_NOEU sont exacts et indépendants de EPAIS et de CISA_L/CISA_T : ce sont eux qu'il faut lire.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114158-c7f57d5e",
+          "duration_s": 4.064552499999991,
+          "checks": [
+            {
+              "quantity": "MXX moyen des points EFGE_ELNO en x = 0 (encastrement), D1 (EPAIS = 0,01)",
+              "value_obtained": 19.999999999830003,
+              "found": true
+            },
+            {
+              "quantity": "MXX moyen des points EFGE_ELNO en x = L/2, D1 (EPAIS = 0,01)",
+              "value_obtained": 9.99999999976775,
+              "found": true
+            },
+            {
+              "quantity": "|QX| moyen des points EFGE_ELNO en x = L/2 (valeur absolue), D1",
+              "value_obtained": 9.99999999988715,
+              "found": true
+            },
+            {
+              "quantity": "MXX moyen des points EFGE_NOEU en x = 0 (encastrement), D1",
+              "value_obtained": 19.99999999983,
+              "found": true
+            },
+            {
+              "quantity": "flèche en bout (DZ, valeur absolue), D1 (EPAIS = 0,01)",
+              "value_obtained": 0.026666666666261666,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot23_essais/essai_d2/d2a.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114202-0dc935df",
+          "duration_s": 3.83770304600057,
+          "checks": [
+            {
+              "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D2 (EPAIS × 2 = 0,02, coefficients inchangés)",
+              "value_obtained": 19.999999999830003,
+              "found": true
+            },
+            {
+              "quantity": "flèche en bout (DZ, valeur absolue), D2 (EPAIS × 2)",
+              "value_obtained": 0.026666666666261666,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot23_essais/essai_d2/d2b.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114205-655444a7",
+          "duration_s": 4.091963518000739,
+          "checks": [
+            {
+              "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D2 (EPAIS × 0,5 = 0,005, coefficients inchangés)",
+              "value_obtained": 19.999999999830003,
+              "found": true
+            },
+            {
+              "quantity": "flèche en bout (DZ, valeur absolue), D2 (EPAIS × 0,5)",
+              "value_obtained": 0.026666666666261666,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot23_essais/essai_d3/d3.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114210-79784cce",
+          "duration_s": 3.9289154340003734,
+          "checks": [
+            {
+              "quantity": "MXX moyen des points EFGE_ELNO en x = 0, D3 (CISA_L et CISA_T × 1000)",
+              "value_obtained": 19.999999999830003,
+              "found": true
+            },
+            {
+              "quantity": "flèche en bout (DZ, valeur absolue), D3 (CISA_L et CISA_T × 1000)",
+              "value_obtained": 0.026666666666261666,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot24_essais/essai_d6a/d6a.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114214-7e8d442d",
+          "duration_s": 4.021510923999813,
+          "checks": [
+            {
+              "quantity": "allongement DX du bord chargé (x = a), valeur moyenne, D6a (traction de membrane selon T, q = 100 N/m)",
+              "value_obtained": 0.0012345679012407778,
+              "found": true
+            },
+            {
+              "quantity": "effort normal NYY (selon T) moyen des nœuds EFGE_NOEU, D6a",
+              "value_obtained": 100.00000000049383,
+              "found": true
+            },
+            {
+              "quantity": "résultante REAC_NODA en X du bord x = 0 (valeur absolue), D6a",
+              "value_obtained": 100.0000000008,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114218-43aca118",
+          "duration_s": 4.428329735000261,
+          "checks": [
+            {
+              "quantity": "flèche DZ à mi-portée (valeur absolue), valeur moyenne, D6b (maillage 8 × 8)",
+              "value_obtained": 0.00011378825595336666,
+              "found": true
+            },
+            {
+              "quantity": "moment MYY (valeur absolue) moyen des nœuds EFGE_NOEU en x = a/2, D6b",
+              "value_obtained": 12.500000006371112,
+              "found": true
+            },
+            {
+              "quantity": "effort tranchant QY (valeur absolue) moyen des nœuds EFGE_NOEU en x = a/4, D6b",
+              "value_obtained": 25.00000001356111,
+              "found": true
+            },
+            {
+              "quantity": "effort tranchant QY (valeur absolue) moyen des nœuds EFGE_NOEU d'appui x = 0, D6b (maillage 8 × 8)",
+              "value_obtained": 43.75000002313,
+              "found": true
+            },
+            {
+              "quantity": "résultante REAC_NODA en Z du bord d'appui x = 0, D6b (maillage 8 × 8)",
+              "value_obtained": 6.255013060359,
+              "found": true
+            },
+            {
+              "quantity": "somme des résultantes REAC_NODA en Z sur tous les nœuds, D6b",
+              "value_obtained": 100.0,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot24_essais/essai_d6b/d6b16.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114222-f6f83416",
+          "duration_s": 5.007334834000176,
+          "checks": [
+            {
+              "quantity": "flèche DZ à mi-portée (valeur absolue), valeur moyenne, D6b16 (maillage 16 × 16)",
+              "value_obtained": 0.00011486852428059412,
+              "found": true
+            },
+            {
+              "quantity": "effort tranchant QY (valeur absolue) moyen des nœuds EFGE_NOEU d'appui x = 0, D6b16 (maillage 16 × 16)",
+              "value_obtained": 46.87500006827353,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot24_essais/essai_d6c/d6c.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114227-dfca6d6e",
+          "duration_s": 4.112537518999488,
+          "checks": [
+            {
+              "quantity": "déplacement DX du bord supérieur (y = a), valeur moyenne, D6c (cisaillement de membrane pur, τ = 1e5 N/m)",
+              "value_obtained": 0.00019011406844114445,
+              "found": true
+            },
+            {
+              "quantity": "effort de cisaillement NXY (valeur absolue) moyen des nœuds EFGE_NOEU, D6c",
+              "value_obtained": 100000.0,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-026",
+      "summary": "Piège : l'équilibre d'un modèle ELAS_COQUE se contrôle par les forces des ressorts ou par REAC_NODA aux seuls appuis sans élément ELAS_COQUE, la somme de REAC_NODA sur tous les nœuds étant juste sans rien discriminer.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot23_essais/essai_d5/d5a.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114231-0fa33655",
+          "duration_s": 4.267652798999734,
+          "checks": [
+            {
+              "quantity": "résultante DZ des forces nodales des ressorts DIS_TR en x = 2 (valeur absolue), FORC_NODA restreint aux mailles POI1",
+              "value_obtained": 5.000000000557,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot23_essais/essai_d5/d5b.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114235-1d9c2bda",
+          "duration_s": 4.308582923000358,
+          "checks": [
+            {
+              "quantity": "résultante DZ de REAC_NODA aux nœuds d'appui en x = 2, sans élément ELAS_COQUE (valeur absolue)",
+              "value_obtained": 5.000000000551,
+              "found": true
+            },
+            {
+              "quantity": "flèche en bout chargé, modèle mixte ELAS_COQUE / ELAS (DZ, valeur absolue)",
+              "value_obtained": 0.02666666666841,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-027",
+      "summary": "Pour une coque dans le plan vertical XZ, VECTEUR = (0, 0, 1) place l'axe L d'ELAS_COQUE selon Z, et ANGL_REP = (0, −90) lui est équivalent.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot25_essais/essai_d7a/d7a.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114240-834de643",
+          "duration_s": 3.8715989359998275,
+          "checks": [
+            {
+              "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7a (VECTEUR = (0, 0, 1)), maillage 8 × 8",
+              "value_obtained": 3.745318352061111e-07,
+              "found": true
+            },
+            {
+              "quantity": "moment fléchissant |MXX| de EFGE_NOEU à l'encastrement (Z = 0, moyenne des nœuds), D7a, maillage 8 × 8",
+              "value_obtained": 100.00000000003,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot25_essais/essai_d7a/d7a16.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114244-18ed1a3f",
+          "duration_s": 4.000087875000645,
+          "checks": [
+            {
+              "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7a (VECTEUR = (0, 0, 1)), maillage 16 × 16",
+              "value_obtained": 3.7453183520647057e-07,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot25_essais/essai_d7b/d7b.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114248-a18a3109",
+          "duration_s": 3.9580096030003915,
+          "checks": [
+            {
+              "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7b (VECTEUR = (1, 0, 0)), maillage 8 × 8",
+              "value_obtained": 0.0029498525088463333,
+              "found": true
+            },
+            {
+              "quantity": "moment fléchissant |MYY| de EFGE_NOEU à l'encastrement (Z = 0, moyenne des nœuds), D7b, maillage 8 × 8",
+              "value_obtained": 100.00000010257777,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot25_essais/essai_d7b/d7b16.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114252-f177c71d",
+          "duration_s": 4.3589619060003315,
+          "checks": [
+            {
+              "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7b (VECTEUR = (1, 0, 0)), maillage 16 × 16",
+              "value_obtained": 0.002949852638257706,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot25_essais/essai_d7c/d7c.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114256-38053f1f",
+          "duration_s": 3.9121557569997094,
+          "checks": [
+            {
+              "quantity": "flèche en tête |DY| (moyenne des nœuds de l'arête Z = H), D7c (ANGL_REP = (0, −90)), maillage 8 × 8",
+              "value_obtained": 3.745318352061111e-07,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-029",
+      "summary": "Piège : Code_Aster évalue la fonction de FORCE_COQUE/PRES aux nœuds, si bien qu'une marche de pression écrite en rampe déborde d'une demi-maille et doit être appliquée couche par couche.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot35_constats/f1_avant.sonde.comm",
+          "outcome": "non rejouable",
+          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
+          "status": null,
+          "work_dir": null,
+          "duration_s": null,
+          "checks": []
+        },
+        {
+          "case_path": "data/examples/lot35_constats/f1_apres.sonde.comm",
+          "outcome": "non rejouable",
+          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
+          "status": null,
+          "work_dir": null,
+          "duration_s": null,
+          "checks": []
+        }
+      ],
+      "verdict": "non rejouable"
+    },
+    {
+      "constat_id": "CA-034",
+      "summary": "Piège : CREA_POI1 ne crée qu'une maille par nœud, si bien qu'un nœud commun à deux classes de raideur ne garde que la dernière DISCRET écrite ; il faut une classe commune de raideur sommée.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot35_constats/f2_avant.ressorts.comm",
+          "outcome": "non rejouable",
+          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
+          "status": null,
+          "work_dir": null,
+          "duration_s": null,
+          "checks": []
+        },
+        {
+          "case_path": "data/examples/lot35_constats/f2_apres.ressorts.comm",
+          "outcome": "non rejouable",
+          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
+          "status": null,
+          "work_dir": null,
+          "duration_s": null,
+          "checks": []
+        }
+      ],
+      "verdict": "non rejouable"
+    },
+    {
+      "constat_id": "CA-035",
+      "summary": "Piège : une charge répartie FORCE_POUTRE sur une poutre continue liée par plusieurs LIAISON_SOLIDE arrête tout CALC_CHAMP ultérieur (<F> <CALCULEL2_92>) ; il faut des forces nodales tributaires.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot35_constats/f3_nodal.sonde.comm",
+          "outcome": "non rejouable",
+          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
+          "status": null,
+          "work_dir": null,
+          "duration_s": null,
+          "checks": []
+        }
+      ],
+      "verdict": "non rejouable"
+    },
+    {
+      "constat_id": "CA-036",
+      "summary": "Piège : aux nœuds liés par LIAISON_SOLIDE, REAC_NODA porte des composantes non bloquées non nulles, si bien qu'un bilan d'équilibre ne doit sommer que les composantes réellement bloquées.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot35_constats/f4_reactions.controles.comm",
+          "outcome": "non rejouable",
+          "reason": "maillage lu sans .export à côté du cas (maillage non versionné avec lui)",
+          "status": null,
+          "work_dir": null,
+          "duration_s": null,
+          "checks": []
+        }
+      ],
+      "verdict": "non rejouable"
+    },
+    {
+      "constat_id": "CA-040",
+      "summary": "En 1D, MFZ > 0 tend la face AYS et MFY > 0 la face AZS de CALC_FERRAILLAGE, et un couple intérieur au domaine du béton seul donne une aire nulle.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot39_essais/d19/d19.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114300-f7ea3432",
+          "duration_s": 3.524009441999624,
+          "checks": [
+            {
+              "quantity": "AYS (m²), flexion simple MFZ = 2,183517 MN·m, ELU, c = 0,10 m",
+              "value_obtained": 0.002104821602536,
+              "found": true
+            },
+            {
+              "quantity": "AYI (m²), flexion composée N = +5 MN (traction), MFZ = 2,183517 MN·m, ELU",
+              "value_obtained": 0.003566483,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114303-1a0d7c63",
+          "duration_s": 3.294520268999804,
+          "checks": [
+            {
+              "quantity": "AYI (m²), MFZ = -1 MN·m seul, ELU",
+              "value_obtained": 0.0009608935496537,
+              "found": true
+            },
+            {
+              "quantity": "AZS (m²), MFY = +1 MN·m seul, ELU",
+              "value_obtained": 0.001778296237482,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-041",
+      "summary": "Piège : FERR_MIN='EC2' n'est juste qu'en UNITE_CONTRAINTE='MPa', s'applique aux quatre faces même sans effort, et FERR_MIN_FISS est refusé pour les poutres.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot39_essais/fermin/fermin.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114307-70ef1c14",
+          "duration_s": 3.4863847139995414,
+          "checks": [
+            {
+              "quantity": "AYS (m²) avec FERR_MIN='EC2', MFZ = 1 MN·m, UNITE_CONTRAINTE='Pa'",
+              "value_obtained": 0.004368,
+              "found": true
+            },
+            {
+              "quantity": "AST (m²/m) avec FERR_MIN='EC2', aucun effort, UNITE_CONTRAINTE='Pa'",
+              "value_obtained": 2.36643191324e-06,
+              "found": true
+            }
+          ]
+        },
+        {
+          "case_path": "data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114310-2fc400ca",
+          "duration_s": 3.86429795299955,
+          "checks": [
+            {
+              "quantity": "AYS (mm²) avec FERR_MIN='EC2', MFZ = 1e9 N·mm, UNITE_CONTRAINTE='MPa'",
+              "value_obtained": 5608.44637813,
+              "found": true
+            },
+            {
+              "quantity": "AZI (mm²) avec FERR_MIN='EC2', aucun effort, UNITE_CONTRAINTE='MPa'",
+              "value_obtained": 5424.836526465,
+              "found": true
+            },
+            {
+              "quantity": "AST (mm²/mm) avec FERR_MIN='EC2', aucun effort, UNITE_CONTRAINTE='MPa'",
+              "value_obtained": 2.36643191324,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-042",
+      "summary": "Piège : sous MFY et MFZ simultanés, CALC_FERRAILLAGE ne fait pas une vraie flexion déviée mais majore les aires de 10 % par itération jusqu'à vérifier l'inéquation de Bresler.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114314-616c26a9",
+          "duration_s": 3.5026246500001434,
+          "checks": [
+            {
+              "quantity": "AYS (m²), MFY = MFZ = 1 MN·m, ELU",
+              "value_obtained": 0.002059760660639,
+              "found": true
+            },
+            {
+              "quantity": "AZS (m²), MFY = MFZ = 3 MN·m, ELU",
+              "value_obtained": 0.01155610237267,
+              "found": true
+            },
+            {
+              "quantity": "AYS (m²), MFY = MFZ = 1 MN·m, comparé au calcul direction par direction sans interaction",
+              "value_obtained": 0.002059760660639,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-043",
+      "summary": "En 1D, AST est une seule densité de cadres (θ = 21,8°, maximum des deux directions) qui intègre la torsion, sans armature longitudinale de torsion ni critère de bielle en sortie.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114318-dc003489",
+          "duration_s": 3.2378458840003077,
+          "checks": [
+            {
+              "quantity": "AST (m²/m), VY = 4 MN seul, ELU",
+              "value_obtained": 0.0017035821618,
+              "found": true
+            },
+            {
+              "quantity": "AST (m²/m), VZ = 4 MN seul, ELU",
+              "value_obtained": 0.003145074760246,
+              "found": true
+            },
+            {
+              "quantity": "AST (m²/m), MT = 4 MN·m seul, ELU",
+              "value_obtained": 0.001790827609439,
+              "found": true
+            },
+            {
+              "quantity": "AST (m²/m), VY = 4 MN et MT = 4 MN·m, ELU",
+              "value_obtained": 0.003494409771239,
+              "found": true
+            },
+            {
+              "quantity": "AST (m²/m), VY = VZ = 4 MN, ELU",
+              "value_obtained": 0.003145074760246,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-044",
+      "summary": "Piège : à l'ELS, les aires 1D de CALC_FERRAILLAGE s'écartent de 0,25 % à 16 % du calcul par pivot acier de R7.04.05, pour une cause non établie.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot39_essais/limites/limites.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114321-6cfb8772",
+          "duration_s": 3.8188204699999915,
+          "checks": [
+            {
+              "quantity": "AYS (m²), MFZ = 2 MN·m, ELS caractéristique",
+              "value_obtained": 0.002081469593138,
+              "found": true
+            },
+            {
+              "quantity": "AZS (m²), MFY = 1 MN·m, ELS caractéristique",
+              "value_obtained": 0.002013326243362,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    },
+    {
+      "constat_id": "CA-045",
+      "summary": "En 2D (Capra-Maury), MXX > 0 tend la face supérieure, et avec MXY les densités diffèrent de l'approximation de Wood-Armer, avec un ajout non expliqué dans un cas dégénéré.",
+      "cases": [
+        {
+          "case_path": "data/examples/lot39_essais/plaque/plaque.comm",
+          "outcome": "rejoué",
+          "reason": null,
+          "status": "completed_ok",
+          "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20260929T114325-84ce7967",
+          "duration_s": 3.4587646360005238,
+          "checks": [
+            {
+              "quantity": "DNSXS (m²/m), MXX = +0,2 MN·m/m seul, plaque DKT, ELU",
+              "value_obtained": 0.001044823812257,
+              "found": true
+            },
+            {
+              "quantity": "DNSXI (m²/m), NXX = +1 MN/m seul (traction), plaque DKT, ELU",
+              "value_obtained": 0.00115,
+              "found": true
+            },
+            {
+              "quantity": "DNSXS (m²/m), MXY = 0,1 MN·m/m seul, comparé à Wood-Armer",
+              "value_obtained": 0.0004709509988553,
+              "found": true
+            }
+          ]
+        }
+      ],
+      "verdict": "tient"
+    }
+  ],
+  "a_reexaminer": []
+}

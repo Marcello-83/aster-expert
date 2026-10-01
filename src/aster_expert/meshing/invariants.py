@@ -192,14 +192,34 @@ class InvariantResult(_Model):
 
 
 def load_invariants(path: Path) -> Invariants:
+    """Read and validate an invariants file; a defect is a readable refusal
+    (lot 41, étape 3), one line per problem, never a raw pydantic dump."""
     if not path.is_file():
-        message = f"invariants file not found: {path}"
+        message = f"fichier d'invariants introuvable : {path}"
         raise MeshCheckError(message)
     try:
         data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except yaml.YAMLError as exc:
+        message = f"fichier d'invariants illisible (YAML) : {path} : {exc}"
+        raise MeshCheckError(message) from exc
+    if not isinstance(data, dict):
+        message = f"fichier d'invariants vide ou qui n'est pas une table YAML : {path}"
+        raise MeshCheckError(message)
+    try:
         return Invariants.model_validate(data)
-    except (yaml.YAMLError, ValidationError) as exc:
-        message = f"invalid invariants file {path}: {exc}"
+    except ValidationError as exc:
+        problems = []
+        for err in exc.errors():
+            where = ".".join(str(p) for p in err["loc"]) or "(racine)"
+            if err["type"] == "missing":
+                problems.append(f"champ manquant : {where}")
+            elif err["type"] == "extra_forbidden":
+                problems.append(f"champ inconnu : {where}")
+            else:
+                problems.append(f"{where} : {err['msg']}")
+        message = f"fichier d'invariants incohérent : {path}\n" + "\n".join(
+            f"- {p}" for p in problems
+        )
         raise MeshCheckError(message) from exc
 
 

@@ -1,0 +1,111 @@
+{
+  "constat_id": "CA-033",
+  "summary": "Une charge et un moment linéiques sur une poutre s'écrivent dans une seule occurrence de FORCE_POUTRE (FY et MX en repère global), comme dans le cas test ssll119a.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_CHAR_MECA"
+  ],
+  "keywords": [
+    "FORCE",
+    "FORCE_COQUE",
+    "FORCE_POUTRE",
+    "FX",
+    "FY",
+    "FZ",
+    "GROUP_MA",
+    "MODELE",
+    "MX",
+    "MY",
+    "MZ",
+    "POUTRE",
+    "POU_D_E",
+    "POU_D_T",
+    "POU_D_TG",
+    "POU_D_TGM",
+    "PRES",
+    "Q1",
+    "TYPE_CHARGE"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "12"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Charge linéique répartie et moment linéique sur un élément de poutre (FORCE_POUTRE)",
+    "options_considered": [],
+    "option_retained": "AFFE_CHAR_MECA, mot-clé facteur FORCE_POUTRE, GROUP_MA=(\"POUTRE_COUR\",), FY = charge linéique (N/m, repère global, vers le bassin -- signe négatif) et MX = moment linéique (N, repère global, autour de l'axe X du quai) : une seule occurrence porte les deux composantes à la fois, exactement le schéma du cas test officiel ssll119a.comm (`AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA=\"POUTRE\", FX=10.0, MX=1000.0))`, une force et un moment linéiques globaux sur la même occurrence). Applicable à POU_D_E (liste des modélisations recevables de FX/FY/FZ/MX/MY/MZ : POU_D_T, POU_D_E, POU_D_TGM, POU_D_TG).",
+    "justification": "U4.44.01 (Mot-clé FORCE_POUTRE, extrait ci-joint) : « Le mot-clé facteur FORCE_POUTRE est utilisable pour appliquer des forces linéiques, sur des éléments de type poutre... Les forces sont définies composante par composante, soit dans le repère global... » et, pour TYPE_CHARGE = 'FORCE' (valeur par défaut) : « FX, FY, FZ, MX, MY, MZ : Valeurs des composantes des forces ou des moments linéiques (dans le repère global) appliquées aux mailles spécifiées... mx, my, mz : moments suivant x, y et z. Ce chargement s'applique aux modélisations suivantes : POU_D_T, POU_D_E, POU_D_TGM et POU_D_TG. » Confirmé au catalogue (get_command_schema, AFFE_CHAR_MECA/FORCE_POUTRE) : FY et MX existent tous deux comme opérandes réelles (value_type='R') sous la condition TYPE_CHARGE='FORCE' (la valeur par défaut du mot-clé), aucune limite au nombre d'opérandes présentes simultanément dans une même occurrence _F(). Le cas test officiel ssll119a.comm combine explicitement FX et MX dans une même occurrence FORCE_POUTRE (`MOCO_MX = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA=\"POUTRE\", FX=10.0, MX=1000.0))`), confirmant que force et moment linéiques globaux se combinent sans mot-clé ni occurrence séparée -- transposable de FX à FY (même liste de composantes, même repère global, même condition TYPE_CHARGE='FORCE').",
+    "discarded_variants": [],
+    "notes": "Calcul de FY et MX (lot 33, étape 2, décision 13) : `aster_expert.generation.profiles.integrate_profile(points, z_low, z_high)` donne (R, M) = (intégrale p dz, intégrale p*z dz) sur [z_low=cote_sous_face=+2,60 ; z_high=cote_arase=+4,00], en unités SI (Pa*m = N/m, Pa*m2 = N) ; le générateur applique FY = -R (poussée dirigée vers le bassin, -Y, même convention que FORCE_COQUE/PRES sur l'écran) et MX = M - z_axe*R avec z_axe=cote_centre_gravite=+3,30 (moment de la résultante, appliquée à sa cote réelle, transportée à l'axe de la poutre). Dérivation vérifiée par produit vectoriel (r x F, seule la composante en Z du bras de levier compte pour une force purement en Y) et par les quatre résultantes totales de référence (poussée G/Q1, pression d'eau permanente/accidentelle, largeur totale du quai 20,80 m) : 119,2 kN, 358,2 kN, 0,0 kN et 16,6 kN, retrouvées à mieux que 0,1 % par `tests/unit/test_generation_profiles.py::test_integrate_profile_reproduces_the_lot33_reference_resultants`. Aucun cas test officiel ne combine FORCE_POUTRE et une charge de profil variable avec Z sur cette même géométrie de quai -- la méthode d'intégration elle-même (profil linéaire par morceaux, extension plate hors de son propre domaine, comme `formule_block`) est un fait calculé par ce projet, non un fait catalogue.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U4.44.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements_de_type_Neumann_pour_les__l_ments_de_structure_",
+          "Chargements de type Neumann pour les éléments de structure",
+          "Mot-clé FORCE_POUTRE"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_pour_les__l_ments_de_structure_.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Mot-clé FORCE_POUTRE\n--------------------\n\n.. code-block:: text\n\n    FORCE_POUTRE = _F(\n               ◆ / TOUT = \"OUI\" (ou non renseigné),\n                 / GROUP_MA = grma,\n               ◇ TYPE_CHARGE = / \"VENT\",\n                               / \"FORCE\" (par défaut),\n               # Si: equal_to(\"TYPE_CHARGE\", 'FORCE')\n                   ◆ | FX = float,\n                     | FY = float,\n                     | FZ = float,\n                     | MX = float,\n                     | MY = float,\n                     | MZ = float,\n                     | N = float,\n                     | VY = float,\n                     | VZ = float,\n                     | MT = float,\n                     | MFY = float,\n                     | MFZ = float,\n                     | MGX = float,\n                     | MGY = float,\n                     | MGZ = float,\n               # Si: equal_to(\"TYPE_CHARGE\", 'VENT')\n                   ◆ | FX = formule / nappe / fonction,\n                     | FY = formule / nappe / fonction,\n                     | FZ = formule / nappe / fonction,\n                     | N = formule / nappe / fonction,\n                     | VY = formule / nappe / fonction,\n                     | VZ = formule / nappe / fonction,\n    )\n\nLe mot-clé facteur FORCE_POUTRE est utilisable pour appliquer des forces **linéiques** , sur des éléments de type poutre définis sur tout le maillage ou sur une ou plusieurs mailles. Les forces sont définies composante par composante, soit dans le repère **global** , soit dans le repère **local**  de l’élément défini par l’opérateur AFFE_CARA_ELEM [:external:ref:`U4.42.01 <U4.42.01>`].\n\nOn définit ainsi la force de type VENT . Si :math:`p` est la pression exercée par le vent sur une surface plane normale à sa direction :math:`\\nu =({\\nu}_{x},{\\nu}_{y},{\\nu}_{z})` le vecteur unitaire ayant la direction et le sens de la vitesse du vent, et :math:`d` le diamètre du câble sur lequel s’exerce le vent, alors:\n\n\n.. math::\n    :label: eq-19\n\n    \\mathit{Fx}=pd{\\nu}_{x}\n\n    \\mathit{Fy}=pd{\\nu}_{y}\n\n    \\mathit{Fz}=pd{\\nu}_{z}\n\n\nNotons que l’on doit rester homogène dans chaque occurrence du mot-clé facteur FORCE_POUTRE: soit toutes les composantes sont définies dans le repère **global**  soit toutes les composantes sont définies dans le repère **local**  de définition de la poutre.\n\nAffectation topologique:\n.. code-block:: text\n\n  ◆ TOUT, GROUP_MA\n\nLe chargement est affecté sur ces mailles qui sont nécessairement des segments.\n\n.. code-block:: text\n\n  ◆ TYPE_CHARGE = ’FORCE’/’VENT’\n\nPrécise le type de charge.\n\n-   Pour TYPE_CHARGE = ’FORCE’\n\nComposantes:\n\n.. code-block:: text\n\n  ◆ FX, FY, FZ, MX, MY, MZ\n\nValeurs des composantes des forces ou des momentslinéiques (dans le repère **global** )appliquées aux mailles spécifiées avec:\n\n*   :math:`\\mathit{fx}` , :math:`\\mathit{fy}` , :math:`\\mathit{fz}` : forces suivant :math:`x` , :math:`y` et :math:`z`\n\n*   :math:`\\mathit{mx}` , :math:`\\mathit{my}` , :math:`\\mathit{mz}` : moments suivant :math:`x` , :math:`y` et :math:`z`\n\nCe chargement s’applique aux modélisations suivantes: POU_D_T, POU_D_E, POU_D_TGMet POU_D_TG. Les moments répartis ne peuvent être appliqués que sur les poutres droites à section constante.\n\n.. code-block:: text\n\n  ◆ N, VY, VZ, MT, MFY, MFZ, MGX, MGY, MGZ\n\nValeurs des composantes des efforts généralisés (dans le repère **local** de la poutre)linéiques appliquées aux mailles spécifiées avec:\n\n*   :math:`n` : effort de traction/compression\n\n*   :math:`\\mathit{vy}` : effort tranchant suivant :math:`y`\n\n*   :math:`\\mathit{vz}` : effort tranchant suivant :math:`z`\n\n*   :math:`\\mathit{mt}` : moment de torsion\n\n*   :math:`\\mathit{mfy}` : moment de flexion suivant :math:`y`\n\n*   :math:`\\mathit{mfz}` : moment de flexion suivant :math:`z`\n\n*   :math:`\\mathit{mgx}` : moment de la grille d’assemblage suivant :math:`x`\n\n*   :math:`\\mathit{mgy}` : moment de la grille d’assemblage suivant :math:`y`\n\n*   :math:`\\mathit{mgz}` : moment de la grille d’assemblage suivant :math:`z`\n\nCe chargement s’applique aux modélisations suivantes: POU_D_T, POU_D_E, POU_D_TGM, POU_D_TG et POU_D_EM. Les moments répartis ne peuvent être appliqués que sur les poutres droites à section constante.\n\nDans le cas où la force est donnée par une fonction, donc par AFFE_CHAR_MECA_F, les paramètres de la fonction peuvent être:\n\n'INST': le temps\n\n'X', 'Y', 'Z': la position du nœud où est calculé l’effort\n\n'DX', 'DY', 'DZ': le vecteur directeur de l’élément de structure\n\n'VITE_X', 'VITE_Y', 'VITE_Z': la vitesse structure du nœud\n\n'ACCE_X’, ’ACCE_Y’, ’ACCE_Z’: l'accélération structure du nœud\n\n\n- Pour TYPE_CHARGE = ’VENT’\n\nComposantes:\n\n.. code-block:: text\n\n  ◆ FX, FY, FZ\n\nValeurs des composantes des forces ou des moments linéiques (dans le repère **global** )appliquées aux mailles- spécifiées avec:\n\n*   :math:`\\mathit{fx}` , :math:`\\mathit{fy}` , :math:`\\mathit{fz}` : forces suivant :math:`x` , :math:`y` et :math:`z`\n\nCe chargement s’applique aux modélisations suivantes: POU_D_T, POU_D_E, POU_D_TGMet POU_D_TG.\n\n.. code-block:: text\n\n  ◆ N, VY, VZ\n\nValeurs des composantes des efforts généralisés (dans le repère **local** de la poutre)linéiquesappliquées aux maillesspécifiées avec:\n\n*   :math:`n` : effort de traction/compression\n\n\n*   :math:`\\mathit{vy}` : effort tranchant suivant :math:`y`\n\n\n*   :math:`\\mathit{vz}` : effort tranchant suivant :math:`z`\n\nCe chargement s’applique aux modélisations suivantes: POU_D_T, POU_D_E , POU_D_TGM et POU_D_TG.\n\n\n\n"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_POUTRE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_POUTRE",
+          "GROUP_MA"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_POUTRE",
+          "FY"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_POUTRE",
+          "MX"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      }
+    ],
+    "status": "tranche"
+  }
+}

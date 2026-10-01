@@ -1,0 +1,57 @@
+{
+  "constat_id": "CA-002",
+  "summary": "Les modélisations de plaque DKT, DST, DKTG et Q4G supposent une épaisseur inférieure à environ un dixième de la longueur caractéristique.",
+  "aster_version": "17.4.0",
+  "validation_level": "A",
+  "commands": [],
+  "keywords": [
+    "DKT",
+    "DKTG",
+    "DST",
+    "Q4G"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "1"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Critère d'élancement (épaisseur/longueur caractéristique) pour une modélisation de coque/plaque",
+    "options_considered": [],
+    "option_retained": "rapport épaisseur/longueur caractéristique inférieur à environ 1/10 pour DKT/DST/DKTG/Q4G",
+    "justification": "U2.02.01 § Introduction et R3.07.03 § Introduction énoncent ce critère.",
+    "discarded_variants": [],
+    "notes": null,
+    "validity_domain": "Modélisation coque/plaque mince valable pour un rapport épaisseur/longueur caractéristique inférieur à environ 1/10 (U2.02.01 § Introduction, R3.07.03 § Introduction) -- au-delà de ce rapport, ce critère n'est plus établi par ces documents.",
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U2.02.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Introduction"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/Introduction.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "rapports entre les dimensions (épaisseur/longueur caractéristique) sont très inférieurs à 1/10 (coques minces) ou de l'ordre de [1/10]"
+      },
+      {
+        "document_id": "R3.07.03",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Introduction"
+        ],
+        "source_path": "source/manuals/man_r/r3/r3.07.03/Introduction.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "rapports au plus de 1/10"
+      }
+    ],
+    "status": "tranche"
+  }
+}

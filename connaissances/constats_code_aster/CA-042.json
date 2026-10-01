@@ -1,0 +1,112 @@
+{
+  "constat_id": "CA-042",
+  "summary": "Piège : sous MFY et MFZ simultanés, CALC_FERRAILLAGE ne fait pas une vraie flexion déviée mais majore les aires de 10 % par itération jusqu'à vérifier l'inéquation de Bresler.",
+  "aster_version": "17.4.0",
+  "validation_level": "C",
+  "commands": [
+    "CALC_FERRAILLAGE"
+  ],
+  "keywords": [
+    "AFFE",
+    "MFY",
+    "MFZ",
+    "TYPE_STRUCTURE"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "data/examples/lot39_essais/limites/limites.comm",
+      "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+      "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt"
+    }
+  ],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "14"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Flexion déviée en 1D dans CALC_FERRAILLAGE (MFY et MFZ simultanés) : procédure itérative de Bresler",
+    "options_considered": [],
+    "option_retained": "Sous MFY et MFZ simultanés, les aires ne résultent pas d'une vraie flexion déviée : chaque direction est dimensionnée seule sous N, puis les quatre aires sont augmentées de 10 % de l'aire totale par itération (facteur 1,1 par itération) jusqu'à vérifier l'inéquation de Bresler (EN 1992-1-1 5.8.9(4)). Sous MFY = MFZ = 1 ou 3 MN·m (N = 0), huit itérations : aires direction par direction multipliées par 1,1^8 = 2,1436. Le module aster_expert.rebar.biaxial reproduit la procédure à 1e-13. À traiter hors de Code_Aster si l'on veut une vraie flexion déviée (diagramme d'interaction 3D).",
+    "justification": "Essai limites du lot 39 (instants mfz_1, mfy_1, devie_1, mfz_3, mfy_3, devie_3) ; R7.04.05, § Calcul du ferraillage longitudinal en flexion déviée.",
+    "discarded_variants": [],
+    "notes": "Déduction : la procédure est conservatrice (aire totale 2,14 fois l'aire direction par direction sous deux moments égaux) et discontinue — un moment secondaire infime déclenche au moins une itération de 10 % dès que la direction principale est dimensionnée exactement. Sur la poutre de couronnement (étape 3), 5 à 9 itérations selon les sections contrôlées.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "R7.04.05",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Calcul_du_ferraillage_des_poutres_et_poteaux",
+          "Dimensionnement à l’ELU",
+          "Calcul du ferraillage longitudinal en flexion déviée"
+        ],
+        "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Calcul du ferraillage longitudinal en flexion déviée\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nDans cette partie, la section est soumise à la fois à un moment fléchissant suivant l’axe :math:`Y` et à un autre suivant l’axe :math:`Z`, ainsi qu’à un effort normal (positif en compression).\n\nLe cas de la flexion déviée ou composée-déviée est plus complexe à résoudre. En effet, le diagramme d’interaction (surface limite de résistance) est dans ce cas tridimensionnel, conformément à la figure ci-dessous :\n\n.. figure:: images/10000201000005400000043EA4D93982975DD34E.png\n    :name: r7.04.05-fig-1-10\n    :width: 4.1193in\n    :height: 3.4102in\n\n    Diagramme d’interaction 3D suivant les axes :math:`N`, :math:`M_y`, :math:`M_z` dans le cas d’une section composée déviée\n\nUn processus de dimensionnement exact et rigoureux (similaire aux calculs précédents) serait, par rapport à la nature tridimensionnelle des sollicitations, complexe à développer. On opte donc pour une procédure simplifiée de *vérification* .\n\nIl s’agira en effet, d’une méthode de dimensionnement *itérative* (et donc non directe), basée sur le principe de vérification de l’inéquation de Bresler développée par Bresler, telle que présentée au niveau du §5.8.9 de l’Eurocode 2. Cette méthode permettra ainsi d’étudier séparément, et de façon parfaitement découplée, les deux flexions composées sollicitant la section, la première :math:`(N,M_y)` suivant l’axe principal d’inertie :math:`Y` et la seconde :math:`(N,M_z)` suivant le second axe principal d’inertie, :math:`Z`. Une fois les ferraillages obtenus à l’issu des calculs de dimensionnement vis-à-vis de ces deux flexions composées (à savoir le quadruplet :math:`\\left(A_{s_y,\\text{sup}}, A_{s_y,\\text{inf}}, A_{s_z,\\text{sup}}, A_{s_z,\\text{inf}}\\right)`), la méthode de dimensionnement en flexion déviée consiste alors à vérifier l’inéquation suivante\n\n.. math::\n    {(\\frac{{M}_{y}}{{M}_{R_y}})}^{a}\n    +\n    {(\\frac{{M}_{z}}{{M}_{R_z}})}^{a}\n    \\le\n    1\n\nOù les moments :math:`{M}_{R_y}` et :math:`{M}_{R_z}` sont les moments résistants en flexion composée, sous l’effort normal agissant :math:`N`, de la section ferrailléz respectivement suivant l’axe :math:`Y` (c’est-à-dire avec le couple :math:`\\left(A_{s_y,\\text{sup}}, A_{s_y,\\text{inf}}\\right)`) et suivant l’axe :math:`Z` (c’est-à-dire avec le couple :math:`\\left(A_{s_z,\\text{sup}}, A_{s_z,\\text{inf}}\\right)`). Ces moments résistants se déduisent des diagrammes d’interaction ``2D`` suivant :math:`Y` et :math:`Z` respectivement.\n\nL'exposant :math:`a` se calcule en fonction du rapport entre l'effort normal :math:`N` sollicitant la section, et l’effort normal résistant maximal, à savoir :math:`{N}_{R}={A}_{c} {f}_{\\text{cd}}+{A}_{s} {f}_{\\text{yd}}`. En pratique, :math:`a` sera calculée par interpolation entre les valeurs données au tableau de la figure ci-dessous (tel qu’extrait du §5.8.9 de l’Eurocode 2) ; en particulier, pour :math:`\\frac{N}{{N}_{R}} \\lt 0.1`, on prendra :math:`a=1` .\n\n\n.. figure:: images/10000201000006840000031AE545D13242384B32.png\n    :name: r7.04.05-fig-1-11\n\n    Calcul du coefficient :math:`a` pour la méthode de Bresler de l'EC2.\n\n.. csv-table::\n\n    \":math:`\\frac{N}{{N}_{R}}`\", \"0.1\", \"0.7\", \"1\"\n    \":math:`a`\", \"1\", \"1.5\", \"2\"\n\n\nAinsi, tant que l’inéquation de Bresler n’est pas vérifiée (c’est-à-dire si la somme du membre de gauche est supérieure à 1), l’algorithme actuellement proposé reprendra le calcul des moments résistants en augmentant proportionnellement les quatre sections de ferraillage comme suit:\n\n.. math::\n    {A}_{s_y, \\text{sup}}[i+1]\n    =\n    {A}_{s_y, \\text{sup}}[i]\n    +\n    {\\rho}_{s_y, \\text{sup}}[i] {A}_{s, \\text{iter}}[i]\n\n.. math::\n    {A}_{s_y, \\text{inf}}[i+1]\n    =\n    {A}_{s_y, \\text{inf}}[i]\n    +\n    {\\rho}_{s_y, \\text{inf}}[i]  {A}_{s, \\text{iter}}[i]\n\n.. math::\n    {A}_{s_z, \\text{sup}}[i+1]\n    =\n    {A}_{s_z, \\text{sup}}[i]\n    +\n    {\\rho}_{s_z, \\text{sup}}[i]  {A}_{s, \\text{iter}}[i]\n\n.. math::\n    {A}_{s_z, \\text{inf}}[i+1]\n    =\n    {A}_{s_z, \\text{inf}}[i]\n    +\n    {\\rho}_{s_z, \\text{inf}}[i]  {A}_{s, \\text{iter}}[i]\n\ntels que:\n\n.. math::\n    {\\rho}_{s_y, \\text{sup}}[i]\n    =\n    \\frac{{A}_{s_y, \\text{sup}}[i]}{{A}_{s, \\text{TOT}}[i]}\n\n.. math::\n    {\\rho}_{s_y, \\text{inf}}[i]\n    =\n    \\frac{{A}_{s_y, \\text{inf}}[i]}{{A}_{s, \\text{TOT}}[i]}\n\n.. math::\n    {\\rho}_{s_z, \\text{sup}}[i]\n    =\n    \\frac{{A}_{s_z, \\text{sup}}[i]}{{A}_{s, \\text{TOT}}[i]}\n\n.. math::\n    {\\rho}_{s_z, \\text{inf}}[i]\n    =\n    \\frac{{A}_{s_z, \\text{inf}}[i]}{{A}_{s, \\text{TOT}}[i]}\n\nAvec :math:`{A}_{s, \\text{TOT}}[i]={A}_{s_y, \\text{sup}}[i]+{A}_{s_y, \\text{inf}}[i]+{A}_{s_z, \\text{sup}}[i]+{A}_{s_z, \\text{inf}}[i]`  et :math:`{A}_{s, \\text{iter}}[i]` désigne une section d’itération (actuellement prise par défaut égale à 10% de :math:`{A}_{s, \\text{TOT}}[i]`).\n"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "TYPE_STRUCTURE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/limites/limites.comm",
+        "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+        "quantity": "AYS (m²), MFY = MFZ = 1 MN·m, ELU",
+        "value_obtained": 0.002059760660639,
+        "reference": "procédure de Bresler de R7.04.05 (aster_expert.rebar.biaxial.design_biaxial)",
+        "reference_value": 0.0020597606606387853,
+        "relative_deviation": 1.0422183230043558e-13,
+        "validation_level": "C"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/limites/limites.comm",
+        "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+        "quantity": "AZS (m²), MFY = MFZ = 3 MN·m, ELU",
+        "value_obtained": 0.01155610237267,
+        "reference": "procédure de Bresler de R7.04.05 (aster_expert.rebar.biaxial.design_biaxial)",
+        "reference_value": 0.01155610237266868,
+        "relative_deviation": 1.14236143177528e-13,
+        "validation_level": "C"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/limites/limites.comm",
+        "case_sha256": "acf72aca5b9b7381586d751283d5b077218df9ffb6ddd95231014320f065705e",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+        "quantity": "AYS (m²), MFY = MFZ = 1 MN·m, comparé au calcul direction par direction sans interaction",
+        "value_obtained": 0.002059760660639,
+        "reference": "design_ultimate de la seule direction MFZ (sans Bresler)",
+        "reference_value": 0.0009608935496536695,
+        "relative_deviation": 1.1435888100002236,
+        "validation_level": "C"
+      }
+    ],
+    "status": "tranche"
+  }
+}

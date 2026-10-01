@@ -160,3 +160,35 @@ def catalogue_vocabulary(catalogue_root: Path, digest: str) -> frozenset[str]:
         words.add(schema.command)
         walk(schema.keywords)
     return frozenset(words)
+
+
+def catalogue_identifiers(
+    catalogue_root: Path, digest: str
+) -> tuple[frozenset[str], frozenset[str]]:
+    """`(commands, keywords)` of the extracted catalogue for one digest (lot 41):
+    command names on one side; keyword names (every element of every keyword
+    path) and the string values keywords allow on the other. The split of
+    `catalogue_vocabulary`, for the shared base of findings
+    (`aster_expert.constats`), which files a finding under the commands and the
+    keywords it concerns."""
+    digest_dir = catalogue_root / digest
+    if not digest_dir.is_dir():
+        message = f"no extracted catalogue at {digest_dir}"
+        raise CatalogueExtractionError(message)
+    commands: set[str] = set()
+    words: set[str] = set()
+
+    def walk(entries: list[KeywordSchema]) -> None:
+        for entry in entries:
+            words.update(entry.path)
+            if entry.kind == "simple":
+                if entry.allowed_values:
+                    words.update(v for v in entry.allowed_values if isinstance(v, str))
+            else:
+                walk(entry.children)
+
+    for path in sorted(digest_dir.glob("*.json")):
+        schema = CommandSchema.model_validate_json(path.read_text(encoding="utf-8"))
+        commands.add(schema.command)
+        walk(schema.keywords)
+    return frozenset(commands), frozenset(words - commands)

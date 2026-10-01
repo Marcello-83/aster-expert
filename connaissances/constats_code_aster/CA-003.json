@@ -1,0 +1,57 @@
+{
+  "constat_id": "CA-003",
+  "summary": "COQUE_3D suit une cinématique générale de coque de type Naghdi-Reissner, tandis que POU_D_T, POU_D_E et BARRE ont chacune leurs propres degrés de liberté documentés.",
+  "aster_version": "17.4.0",
+  "validation_level": "A",
+  "commands": [],
+  "keywords": [
+    "BARRE",
+    "COQUE_3D",
+    "POU_D_E",
+    "POU_D_T"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "1"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Formulation de COQUE_3D et degrés de liberté des modélisations poutre POU_D_T/POU_D_E/BARRE",
+    "options_considered": [],
+    "option_retained": "COQUE_3D : cinématique générale de coques et plaques, type Naghdi-Reissner. POU_D_T/POU_D_E/BARRE : modélisations poutre documentées avec leurs degrés de liberté propres.",
+    "justification": "U3.12.03 § index et U3.11.01 § Discrétisation documentent respectivement COQUE_3D et les modélisations poutre.",
+    "discarded_variants": [],
+    "notes": null,
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U3.12.03",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "index"
+        ],
+        "source_path": "source/manuals/man_u/u3/u3.12.03/index.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "formulation de cinématique générale de coques et plaques, de type Naghdi-Reissner"
+      },
+      {
+        "document_id": "U3.11.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Discr_tisation"
+        ],
+        "source_path": "source/manuals/man_u/u3/u3.11.01/Discr_tisation.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": null
+      }
+    ],
+    "status": "tranche"
+  }
+}

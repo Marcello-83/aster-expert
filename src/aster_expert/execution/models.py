@@ -143,17 +143,31 @@ DIAG_TO_STATUS: dict[str, ExecutionStatus] = {
 }
 
 
+MessageKind = Literal["<A>", "<F>", "<E>", "<S>", "erreur Python"]
+
+
+class ExecutionMessage(BaseModel):
+    """One message of the listing, as `run_aster.error_messages.search_msg` cut
+    it out (lot 41): its kind, its identifier (`<FACTOR_11>` -> `FACTOR_11`) when
+    the message has one, the line of the listing and the text without its frame.
+    The kind and the identifier are the first two words of that text: nothing
+    else is interpreted."""
+
+    model_config = ConfigDict(frozen=True)
+
+    kind: MessageKind
+    identifier: str | None
+    line: int
+    text: str
+
+
 class ExecutionReport(BaseModel):
     """Level-C execution report (docs/metadata.md, section 5, amended lot 11).
 
-    Deliberately narrower than the full schema section 5 originally sketched
-    (`alarms`/`errors` as structured, per-alarm entries via
-    `run_aster.error_messages`): O1 of this lot forbids writing a project
-    output analyzer, and `run_aster.error_messages` is left to the
-    dépouillement-fin lot. `diag` is the one and only detail level this
-    report offers beyond `status` -- exactly what `run_aster.status` itself
-    hands back, verbatim, never post-processed beyond the `DIAG_TO_STATUS`
-    labelling above.
+    Lot 41: `messages` are the alarms and errors of the listing, extracted
+    inside the container by `run_aster.error_messages.search_msg` (encapsulated,
+    never rewritten: `scripts/run_comm.py`), over the whole file; `diag` stays
+    what `run_aster.status` hands back, verbatim, labelled by `DIAG_TO_STATUS`.
     """
 
     model_config = ConfigDict(frozen=True)
@@ -170,3 +184,9 @@ class ExecutionReport(BaseModel):
     duration_s: float | None
     extracted_by: Literal["run_aster.status"]
     executed_at: datetime
+    messages: tuple[ExecutionMessage, ...] = ()
+    messages_source: Literal["run_aster.error_messages"] | None = None
+    messages_truncated: int = 0
+    """Messages omitted beyond the cap of `scripts/run_comm.py`."""
+    messages_error: str | None = None
+    """Why the messages could not be extracted, when they could not."""

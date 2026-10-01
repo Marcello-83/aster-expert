@@ -1,7 +1,7 @@
 """Assisted drafting of a `HypothesesSheet` (lot 14b).
 
 Lot 14 built the schema by transcribing, by hand, a fiche produced during a
-real usage trial (`data/examples/hypotheses_combiwall_reference.json`) and
+real usage trial (the reference fiche of the first project, lot 14) and
 left the transcription script itself out of the repository -- "un script
 de transcription, non versionné". This module makes the *procedure* that
 trial actually followed reproducible: search under the right profile, read

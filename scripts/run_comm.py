@@ -104,8 +104,51 @@ def main(argv: list[str] | None = None) -> int:
         "results_saved": status.results_saved(),
         "times": status.times,
     }
+    payload.update(_messages(args.wrkdir))
     print(json.dumps(payload))
     return 0
+
+
+# Lot 41 : messages <A>/<F>/<E>/<S> du listing, extraits par
+# `run_aster.error_messages.search_msg` (jamais par un parseur du projet), sur tout
+# le fichier (`maxlines` = nombre de lignes : sinon seules les 100 000 dernières
+# lignes seraient lues). Les messages d'information (<I>, <INFO>) et le marqueur de
+# fin sont écartés ; au-delà de MAX_MESSAGES, le nombre omis est rendu.
+MAX_MESSAGES = 500
+_KEPT = ("<A>", "<F>", "<E>", "<S>")
+
+
+def _messages(wrkdir):
+    from pathlib import Path
+
+    root = Path(wrkdir)
+    candidates = [root / "fort.6", *sorted(root.glob("proc.*/fort.6"))]
+    mess = next((p for p in candidates if p.is_file()), None)
+    if mess is None:
+        return {"messages": [], "messages_truncated": 0, "messages_source": None}
+    try:
+        from run_aster.error_messages import search_msg
+
+        text = mess.read_text(encoding="utf-8", errors="replace")
+        found = search_msg(text, maxlines=len(text.splitlines()) + 1)
+    except Exception as exc:  # noqa: BLE001 - reported, never swallowed
+        return {
+            "messages": [],
+            "messages_truncated": 0,
+            "messages_source": None,
+            "messages_error": f"{type(exc).__name__}: {exc}",
+        }
+    kept = []
+    for entries in found.values():
+        for line, cleaned in entries:
+            first = cleaned.split(None, 1)[0] if cleaned.strip() else ""
+            if first in _KEPT or "Traceback" in cleaned or "Error:" in first:
+                kept.append({"line": line, "text": cleaned})
+    return {
+        "messages": kept[:MAX_MESSAGES],
+        "messages_truncated": max(0, len(kept) - MAX_MESSAGES),
+        "messages_source": "run_aster.error_messages",
+    }
 
 
 if __name__ == "__main__":

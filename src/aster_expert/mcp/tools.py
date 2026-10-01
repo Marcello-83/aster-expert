@@ -65,7 +65,9 @@ from aster_expert.mcp.logging import (
 from aster_expert.mcp.models import (
     CommAnalysisResult,
     CommandSchemaResult,
+    ConstatHitResult,
     DocumentSectionResult,
+    SearchConstatsResult,
     SearchDocsResult,
 )
 from aster_expert.mcp.testcases import (
@@ -540,3 +542,70 @@ __all__: list[str] = [
     "search_test_cases",
     "validate_comm",
 ]
+
+
+def search_constats(
+    *,
+    project_root: Path,
+    text: str | None = None,
+    command: str | None = None,
+    keyword: str | None = None,
+    limit: int = 20,
+    log_path: Path | None = None,
+) -> SearchConstatsResult:
+    """Findings of the shared base concerning a command, a keyword or a text
+    (lot 41), level A: a reading of `connaissances/constats_code_aster/`, each hit
+    with the level the finding itself reached."""
+    from aster_expert.constats.base import (  # noqa: PLC0415
+        BASE_RELATIVE,
+        base_dir,
+        constat_path,
+        load_base,
+    )
+    from aster_expert.constats.search import search_constats as _search  # noqa: PLC0415
+
+    started = time.monotonic()
+    base = load_base(base_dir(project_root))
+    hits = _search(base, text=text, command=command, keyword=keyword, limit=limit)
+    results = [
+        ConstatHitResult(
+            constat_id=h.constat.constat_id,
+            summary=h.constat.summary,
+            topic=h.constat.entry.topic,
+            option_retained=h.constat.entry.option_retained,
+            constat_validation_level=h.constat.validation_level,
+            aster_version=h.constat.aster_version,
+            commands=h.constat.commands,
+            keywords=h.constat.keywords,
+            trial_cases=tuple(c.case_path for c in h.constat.trial_cases),
+            origin_project=h.constat.origin.project,
+            file=constat_path(BASE_RELATIVE, h.constat.constat_id).as_posix(),
+            score=h.score,
+        )
+        for h in hits
+    ]
+    duration = time.monotonic() - started
+    append_query_log(
+        log_path if log_path is not None else default_query_log_path(project_root),
+        tool="search_constats",
+        query=text,
+        filters={"command": command, "keyword": keyword, "limit": str(limit)},
+        returned=[
+            ReturnedItem(identifier=r.constat_id, score=float(r.score)) for r in results
+        ],
+        duration_s=duration,
+    )
+    return SearchConstatsResult(
+        text=text,
+        command=command,
+        keyword=keyword,
+        total_in_base=len(base),
+        results=results,
+        guidance=(
+            "Un constat est un fait établi sur Code_Aster (catalogue, documentation "
+            "ou exécution d'un cas d'essai versionné), valable pour la version "
+            "indiquée. Lire le fichier du constat pour ses sources avant de "
+            "s'appuyer dessus ; un constat de niveau A ou B n'a pas été éprouvé par "
+            "exécution."
+        ),
+    )

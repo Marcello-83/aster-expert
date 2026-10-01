@@ -1,0 +1,1641 @@
+{
+  "project_name": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+  "structure_description": "Quai en combi-wall ancré (tube métallique + palplanche intercalaire), poutre de couronnement, tirants d'ancrage géotechniques, sol stratifié",
+  "aster_version": "17.4.0",
+  "created_at": "2026-09-18T00:00:00",
+  "entries": [
+    {
+      "nature": "constat",
+      "constat_id": "CA-001",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-002",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-003",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-004",
+      "point_label": "1"
+    },
+    {
+      "point_label": "1",
+      "topic": "Choix de la famille d'éléments (coque, poutre ou massif) pour le tube métallique + palplanche intercalaire",
+      "options_considered": [],
+      "option_retained": "Modélisation tridimensionnelle par éléments de coque, sur une tranche représentative d'ouvrage et non sur les 120 m réels. Le choix de la modélisation de coque précise relève de la moitié Code_Aster de la fiche ; la présente décision porte sur la stratégie, pas sur l'identifiant.",
+      "justification": "Les charges qui motivent ce calcul — amarrage et accostage — sont localisées et se répètent le long du quai. Seul un modèle tridimensionnel représente leur diffusion dans l'écran et dans la poutre de couronnement. Le comportement en tranche courante est couvert par le calcul géotechnique amont. L'écran étant un élément mince devant sa hauteur et sa longueur, une représentation surfacique en rend compte sans surcoût de maillage.",
+      "discarded_variants": [
+        {
+          "description": "Poutre par mètre linéaire, calcul en tranche bidimensionnelle.",
+          "reason": "Ne sait pas traiter les charges localisées d'amarrage et d'accostage, qui sont précisément l'objet du calcul."
+        },
+        {
+          "description": "Massif continu tridimensionnel.",
+          "reason": "Disproportionné pour un écran mince ; contredit le critère d'élancement."
+        }
+      ],
+      "notes": "Déduction (aucun document ne le formule pour un écran de soutènement précisément) : un tube métallique + palplanche intercalaire, de faible épaisseur devant sa hauteur et sa longueur, relève a priori du critère d'élancement énoncé par U2.02.01/R3.07.03 pour les coques -- ce qui orienterait vers COQUE_3D/DKT/DST plutôt que vers un massif continu 3D. Une représentation en poutre (répartition par mètre linéaire) est également possible en catalogue (POU_D_T etc.) mais aucun document retourné n'établit de critère de choix coque/poutre spécifique à un écran de soutènement.",
+      "validity_domain": "Les efforts sont obtenus en efforts généralisés de coque et demandent un post-traitement pour être exploités en dimensionnement, là où une modélisation poutre les fournirait directement.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-21"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-21T18:00:00",
+      "decision_history": [
+        {
+          "option_retained": "Modélisation tridimensionnelle par éléments de coque, sur une tranche représentative d'ouvrage et non sur les 120 m réels. Le choix de la modélisation de coque précise relève de la moitié Code_Aster de la fiche ; la présente décision porte sur la stratégie, pas sur l'identifiant.",
+          "justification": "Les charges qui motivent ce calcul — amarrage, accostage, galets de grue — sont ponctuelles et espacées le long du quai. Seul un modèle tridimensionnel représente leur diffusion dans l'écran et dans la poutre de couronnement. Le comportement en tranche courante, lui, est déjà couvert par le calcul géotechnique amont. L'écran étant un élément mince devant sa hauteur et sa longueur, une représentation surfacique en rend compte sans surcoût de maillage.",
+          "validity_domain": "Les efforts sont obtenus en efforts généralisés de coque et demandent un post-traitement pour être exploités en dimensionnement, là où une modélisation poutre les fournirait directement.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décision de test prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-18"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Poutre par mètre linéaire, calcul en tranche bidimensionnelle.",
+              "reason": "Ne sait pas traiter les charges ponctuelles d'amarrage, d'accostage et de grue, qui sont précisément l'objet du calcul."
+            },
+            {
+              "description": "Massif continu tridimensionnel.",
+              "reason": "Disproportionné pour un écran mince ; contredit le critère d'élancement."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-18T18:00:00"
+        }
+      ],
+      "revision_history": []
+    },
+    {
+      "point_label": "1",
+      "topic": "Homogénéisation ou représentation distincte du tube métallique et de la palplanche intercalaire",
+      "options_considered": [],
+      "option_retained": "Tube et palplanche intercalaire représentés distinctement. Le tube est en coque DKT à sa géométrie réelle (décision du point 1). La palplanche intercalaire est une coque plane DKT placée dans le plan des serrures, qui partage ses nœuds avec les tubes sur les lignes de serrure. Son comportement est une plaque élastique orthotrope dont les rigidités par mètre de largeur de la surface plane sont données directement. Axe L vertical, axe T horizontal dans le plan de l'écran.\n\nGéométrie de profil (cas de test v3) : ondulation trapézoïdale de période 1,18 m, hauteur 0,45 m, semelles de 0,35 m, épaisseur 9,5 mm, acier E = 210 000 MPa, ν = 0,3, G = 80 770 MPa. Longueur développée par période : s = 1,720 m, soit s/b = 1,458.\n\n| Rigidité | Formule | Valeur |\n|---|---|---|\n| Membrane verticale | E·t·(s/b) | 2 908 MN/m |\n| Membrane horizontale | D/h², avec D = E·t³/[12(1−ν²)] | 0,081 MN/m |\n| Cisaillement de membrane | G·t·(b/s) | 526 MN/m |\n| Flexion verticale | E·I du profil par mètre | 89,0 MN·m²/m |\n| Flexion horizontale | D·(b/s) | 0,0113 MN·m²/m |\n| Torsion de plaque | G·t³/12·(s/b) | 0,0084 MN·m²/m |\n| Couplages de Poisson, membrane-flexion | — | nuls |\n| Cisaillement transverse | G·t·(b/s), sans effet en DKT | 526 MN/m |\n\n*Poids propre.* Il est porté par le matériau : masse volumique ρ = 7 850 kg/m³ et épaisseur de coque déclarée `EPAIS` = t·(s/b) = 13,85 mm, soit ρ·EPAIS ≈ 108,7 kg/m², la masse surfacique du profil rapportée au plan de l'écran. Aucune force surfacique de poids propre n'est ajoutée.\n\n*Règles d'exploitation.*\n\n- Les efforts dans la palplanche sont lus **uniquement** dans les efforts généralisés aux nœuds (`EFGE_NOEU`) ou aux éléments.\n- Les contraintes dans le profil sont calculées hors Code_Aster, à partir de ces efforts et des caractéristiques du profil réel.\n- Les contraintes, forces nodales et réactions calculées par Code_Aster sur les éléments de palplanche ne sont pas utilisées.\n- Les contrôles d'équilibre utilisent les efforts dans les ressorts discrets et les réactions aux nœuds qui ne portent aucun élément de palplanche.",
+      "justification": "Un profil en Z est raide en flexion verticale et presque sans raideur en flexion horizontale : il se déforme en accordéon, avec un rapport de plus de 7 000 entre les deux. Ce rapport gouverne le report de la poussée vers les tubes, donc la répartition des efforts que ce calcul doit fournir. Une coque isotrope ne peut pas le reproduire. Une plaque DKT accepte des rigidités données séparément dans les deux directions (lot 20). Leur convention, rigidité par unité de largeur dans le repère utilisateur, est établie par essai (lot 22, niveau D).\n\nLes essais du lot 23 établissent que les déplacements et les efforts généralisés sont exacts, indépendants de l'épaisseur déclarée et des coefficients de cisaillement transverse. En revanche, les contraintes, les forces nodales et les réactions sont calculées avec une rigidité de flexion reconstruite à partir de la membrane et de l'épaisseur. Elles sont donc fausses pour une plaque dont la flexion n'est pas celle d'une plaque pleine homogène, ce qui est le cas de ce profil. D'où les règles d'exploitation. L'épaisseur déclarée n'ayant pas d'effet sur la raideur, elle est choisie pour que le poids propre soit exact : la pesanteur exige une masse volumique sur tous ces éléments et la multiplie par l'épaisseur (lot 22).",
+      "discarded_variants": [
+        {
+          "description": "Coque isotrope d'épaisseur équivalente calée sur le module de flexion (décision v2).",
+          "reason": "Ne reproduit ni l'inertie verticale ni l'orthotropie ; la raideur horizontale est fausse d'environ trois ordres de grandeur."
+        },
+        {
+          "description": "Géométrie réelle du Z maillée en coques minces de 9,5 mm, en acier isotrope.",
+          "reason": "Fidèle, sans restriction de post-traitement, mais alourdit sensiblement la branche maillage. C'est la variante de repli si l'essai du lot 24 ou l'étude de sensibilité invalident la représentation orthotrope."
+        },
+        {
+          "description": "Loi orthotrope par modules et épaisseur communs.",
+          "reason": "Ne permet pas d'imposer séparément les deux flexions (lot 20)."
+        },
+        {
+          "description": "Poids propre appliqué par force surfacique explicite, sans masse volumique (rédaction v4).",
+          "reason": "Non exécutable : la pesanteur exige une masse volumique sur ces éléments. Une masse volumique nulle est acceptée en silence (lot 23), mais le poids disparaîtrait alors sans signal si la force explicite était omise."
+        },
+        {
+          "description": "Homogénéisation en une plaque unique pour tubes et palplanches.",
+          "reason": "Perd la répartition des efforts entre les deux profils."
+        }
+      ],
+      "notes": "Recommandation d'ingénieur (non tranchée par la documentation) : le choix entre représentation homogénéisée (une seule loi de plaque équivalente) et représentation distincte des deux profils est une décision de modélisation propre au projet -- aucun des documents retournés ne traite l'homogénéisation d'un combi-wall hétérogène.",
+      "validity_domain": "1. La membrane horizontale est un ordre de grandeur, issu de la flexion des plis, dont le coefficient de forme n'est pas établi. Une étude de sensibilité à ×10 et ÷10 est requise. Si la répartition tube/palplanche en dépend sensiblement, la décision doit être revue vers la géométrie réelle.\n2. Le cisaillement de membrane néglige le gauchissement du profil ; il est donc surestimé.\n3. La palplanche est représentée dans le plan des serrures : l'excentricité réelle du profil par rapport à ce plan n'est pas représentée.\n4. L'exactitude des efforts généralisés est établie en flexion uniaxiale sur quadrangles. Les autres composantes utilisées — membrane, flexion horizontale, torsion — relèvent de l'essai du lot 24.\n5. Le partage de nœuds surestime la continuité de flexion des serrures.\n6. Les réactions des nœuds de serrure et de la palplanche ne sont pas exploitables (lot 23).",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v5 de la décision 2 prise en séance de travail",
+          "date": "2026-09-21"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-21T08:27:13-04:00",
+      "decision_history": [
+        {
+          "option_retained": "Représentation distincte des deux profils. Tubes en coque cylindrique au diamètre réel, palplanches intercalaires en coque plane d'épaisseur équivalente calée sur le module de flexion. Serrures représentées par partage de nœuds entre les deux.",
+          "justification": "Le combi-wall associe deux profils de raideurs très différentes : les tubes reprennent l'essentiel de la flexion verticale, les palplanches assurent la continuité de l'écran et transmettent la poussée aux tubes. La répartition des efforts entre ces deux profils sous une charge localisée est l'une des informations que ce calcul doit fournir ; les représenter distinctement est la condition pour l'obtenir.",
+          "validity_domain": "Le partage de nœuds surestime la continuité de flexion d'une serrure réelle, qui transmet essentiellement du cisaillement. Les moments transmis de la palplanche au tube au droit des serrures sont donc surestimés.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décision de test prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-18"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Homogénéisation en une plaque équivalente unique.",
+              "reason": "Reviendrait à payer un modèle tridimensionnel pour en perdre le bénéfice, et interdirait de sortir les contraintes réelles dans chaque profil."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-18T18:00:00"
+        }
+      ],
+      "revision_history": [
+        {
+          "kind": "declared",
+          "reason": "Décision 2 en cours de révision, pour deux raisons établies par exécution. (1) Poids propre : sous PESANTEUR en statique, RHO d'ELAS_COQUE est exigé sur tous les éléments ELAS_COQUE du modèle et agit comme masse volumique comptée dans EPAIS (poids = RHO × EPAIS × g) ; la rédaction v4 de la décision 2, sans RHO et avec une force surfacique explicite, n'est pas exécutable en l'état. (2) Anomalie de post-traitement : sous ELAS_COQUE, SIEF_ELGA, FORC_NODA et REAC_NODA sont calculés avec une rigidité de flexion MEMB × EPAIS²/12 (fausses quand FLEX ≠ MEMB × EPAIS²/12, proportionnelles à EPAIS²), tandis que les efforts généralisés EFGE_ELNO/EFGE_NOEU sont exacts (lot 23). La décision v3 enregistrée reste inchangée ; la décision 2 sera réécrite après le lot 23 et n'est pas enregistrée.",
+          "by": "Claude (lot 22 ; motif mis à jour au lot 23)",
+          "at": "2026-09-21T06:25:33-04:00"
+        },
+        {
+          "kind": "lifted",
+          "reason": "révision tranchée par une nouvelle décision",
+          "by": "MM",
+          "at": "2026-09-21T08:27:13-04:00"
+        }
+      ]
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-005",
+      "point_label": "2"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-006",
+      "point_label": "2"
+    },
+    {
+      "point_label": "2",
+      "topic": "Représentation d'un tirant d'ancrage géotechnique scellé dans le sol (choix d'élément, représentation du bulbe de scellement)",
+      "options_considered": [],
+      "option_retained": "Éléments de barre travaillant en effort normal, un tirant par tube, section brute de 75 mm de diamètre, inclinaison de 20° descendant vers l'arrière, tête à la cote +2,50 sur le tube. La barre est modélisée sur la longueur de calcul lf + lb/2 = 22,00 + 8,00/2 = 26,00 m le long de son axe, et son extrémité arrière, placée au milieu du scellement, est bloquée. La raideur axiale du tirant est ainsi égale à la raideur d'ancrage de la NF P 94-282, F.4.2 : KMA = Et·A / (lf + lb/2) ≈ 35,7 MN/m par tirant, avec Et = 210 000 MPa et A = 44,2 cm². Aucune précontrainte n'est appliquée : les tirants sont passifs.",
+      "justification": "Un tirant d'ancrage travaille en traction axiale ; un élément de barre en rend compte avec sa géométrie réelle et conserve la composante verticale de l'effort d'ancrage transmise à l'écran. La norme donne pour un tirant scellé une raideur qui compte la longueur libre et la moitié de la longueur scellée : modéliser la barre sur cette longueur, extrémité bloquée, reproduit exactement cette raideur sans introduire de ressort discret. La précontrainte est supprimée parce qu'elle n'a de sens qu'au sein d'un phasage — mise en tension à un stade d'excavation donné — que la décision du point 6 exclut : appliquée dans un état unique, elle se superposerait aux autres chargements sans séquence et l'effort final dans le tirant ne correspondrait à aucun état réel. Un tirant passif est cohérent avec un calcul en état unique.",
+      "discarded_variants": [
+        {
+          "description": "Barre sur la seule longueur libre de 22,00 m, extrémité bloquée (décision v2).",
+          "reason": "Raideur EA/lf ≈ 42,2 MN/m, supérieure de 18 % à la raideur d'ancrage de la norme ; surestime la raideur de l'appui en tête."
+        },
+        {
+          "description": "Barre de 22,00 m prolongée par un ressort discret de raideur EA/(lb/2) ≈ 232 MN/m.",
+          "reason": "Raideur équivalente en série à la variante retenue, mais ajoute un type d'élément et une caractéristique discrète sans information supplémentaire."
+        },
+        {
+          "description": "Précontrainte de 250 kN appliquée comme chargement dans un état unique.",
+          "reason": "Sans phasage, l'état de mise en tension et l'état final ne sont pas séquencés ; l'effort obtenu dans le tirant n'a pas de signification physique."
+        },
+        {
+          "description": "Ressort ponctuel équivalent en tête d'écran.",
+          "reason": "Perd l'inclinaison du tirant et la composante verticale de l'effort d'ancrage."
+        },
+        {
+          "description": "Modélisation explicite du bulbe de scellement.",
+          "reason": "Exigerait de mailler le sol autour du bulbe, ce que la décision du point 4 exclut."
+        }
+      ],
+      "notes": "Ce que la documentation ne tranche pas : les documents câbles trouvés dans le corpus (R7.01.02 « Modélisation des câbles de précontrainte », U2.03.06, DEFI_CABLE_BP, CALC_PRECONT) concernent la précontrainte de béton armé (câbles noyés, mise en tension BPEL/ETCC), pas un tirant d'ancrage géotechnique. Aucun document retourné (profils methode et syntaxe, requêtes « tirant d'ancrage géotechnique, scellement, bulbe », « tirant ancrage rideau de palplanches écran de soutènement butonnage étaiement ») ne traite spécifiquement ce cas. Recommandation d'ingénieur : le choix entre BARRE (traction seule), DIS_T (raideur axiale ponctuelle simplifiée) ou une modélisation câble, ainsi que la représentation ou non du bulbe de scellement, reste à documenter par l'ingénieur.",
+      "validity_domain": "La raideur F.4.2 est une raideur conventionnelle : elle ignore l'interaction entre le scellement et le terrain et la déformabilité du massif d'ancrage. La section est prise brute ; la section utile nette de corrosion (F.4.2, NOTE 4) n'est pas appliquée dans ce cas de test. Sans précontrainte ni phasage, l'effort dans le tirant ne résulte que des chargements appliqués au modèle ; il ne se compare pas à l'effort d'un calcul géotechnique phasé.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-21"
+        },
+        {
+          "origin": "norme",
+          "reference": "NF P 94-282 (mars 2009), Annexe F (informative), F.4.2 — raideur d'un tirant scellé KMA = Et·A/(lf + lb/2), et NOTE 4 (section utile)",
+          "date": null
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-21T18:00:00",
+      "decision_history": [
+        {
+          "option_retained": "Éléments de barre travaillant en effort normal, section réelle de 75 mm de diamètre, inclinaison de 20°, un tirant par tube. Extrémité arrière bloquée en un point fixe représentant le scellement. Précontrainte de 250 kN par tirant introduite comme chargement.",
+          "justification": "Un tirant d'ancrage travaille en traction axiale. Un élément de barre en rend compte avec sa section et sa géométrie réelles, ce qui conserve la composante verticale de l'effort d'ancrage transmise à l'écran et à la poutre de couronnement. C'est la représentation la plus simple qui reste fidèle à la géométrie réelle du tirant, ce qui correspond à l'objet de ce cas de test.",
+          "validity_domain": "Un point d'ancrage parfaitement fixe surestime la raideur de l'ancrage. Le raffinement naturel serait un ressort à l'extrémité arrière, calé sur la raideur du scellement.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décision de test prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-18"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Ressort ponctuel équivalent en tête d'écran.",
+              "reason": "Perd l'inclinaison et la longueur libre du tirant, qui participent au comportement d'ensemble."
+            },
+            {
+              "description": "Modélisation de type câble.",
+              "reason": "Les documents correspondants du corpus traitent la précontrainte de béton armé, pas un tirant géotechnique scellé."
+            },
+            {
+              "description": "Modélisation explicite du bulbe de scellement.",
+              "reason": "Exigerait de mailler le sol autour du bulbe, ce que la décision du point 5 exclut."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-18T18:00:00"
+        }
+      ],
+      "revision_history": []
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-007",
+      "point_label": "3"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-008",
+      "point_label": "3"
+    },
+    {
+      "point_label": "3",
+      "topic": "Choix entre maillage coïncident (liaison rigide directe) et raccord par méthode variationnelle (LIAISON_ELEM/COQ_POU) pour la liaison poutre de couronnement - écran",
+      "options_considered": [],
+      "option_retained": "Maillage coïncident, généré par la chaîne. La poutre de couronnement est représentée par un élément de poutre de Timoshenko sur son axe (Y = +0,34, Z = +3,30), avec une section rectangulaire de 2,50 m × 1,40 m. Elle est reliée à chaque tube par une liaison de corps solide entre l'anneau de tête du tube (+2,60) et le nœud de poutre au droit du tube. Dans chaque ensemble lié, un degré de liberté bloqué par une condition aux limites ne l'est que sur un seul nœud (lot 32).",
+      "justification": "Les maillages de l'écran et de la poutre sont produits par la même chaîne, donc coïncidents par construction. La liaison de corps solide représente l'encastrement des tubes dans la poutre. L'élément de poutre fournit directement N, V, M et T, nécessaires au ferraillage selon l'EN 1992. La formulation de Timoshenko est retenue parce que, en flexion horizontale, la hauteur de la poutre (2,50 m) est du même ordre que la portée entre tubes (2,60 m) : la déformation d'effort tranchant n'y est pas négligeable.",
+      "discarded_variants": [
+        {
+          "description": "Raccord par méthode variationnelle entre maillages non coïncidents.",
+          "reason": "Sans objet, les maillages étant coïncidents par construction ; le raccord coque-poutre documenté ne s'applique pas à une jonction en T (lot 31)."
+        },
+        {
+          "description": "Poutre en coques ou en éléments volumiques.",
+          "reason": "Les efforts de ferraillage devraient être reconstitués par intégration de contraintes, et la liaison avec les tubes redeviendrait un raccord cinématique."
+        },
+        {
+          "description": "Élément de poutre d'Euler-Bernoulli.",
+          "reason": "Néglige la déformation d'effort tranchant d'une poutre courte."
+        }
+      ],
+      "notes": "Déduction : si les maillages partagent des nœuds coïncidents en pied de couronnement, une liaison cinématique de type LIAISON_SOLIDE sur nœuds confondus est une alternative catalogue à LIAISON_ELEM(OPTION='COQ_POU') -- mais ce choix n'est pas discuté par R3.03.06/R3.03.03, qui documentent spécifiquement le raccord par méthode variationnelle faible entre maillages non coïncidents. Le catalogue AFFE_CHAR_MECA propose aussi, en mots-clés facteurs indépendants, LIAISON_MAIL, LIAISON_DDL, LIAISON_UNIF, sans qu'aucun document ne les mette en regard du cas coque-poutre spécifique. Recommandation d'ingénieur : le choix dépend du maillage retenu -- non tranché par la documentation indexée.",
+      "validity_domain": "- La liaison de corps solide est plus raide que l'encastrement réel sur 0,80 m : moments en tête de tube surestimés, déplacements de la poutre sous-estimés.\n- La poutre sur son axe ne représente pas les effets locaux (zone d'encastrement des tubes, ancrage du bollard, diffusion sous platine), qui relèvent de vérifications locales séparées.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, arbitrage v6 en séance de travail",
+          "date": "2026-09-25"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-25T09:53:49-04:00",
+      "decision_history": [
+        {
+          "option_retained": "Maillage coïncident, généré de façon cohérente par la chaîne elle-même. Poutre de couronnement représentée par une poutre à son centre de gravité, reliée à la tête de chaque tube par une liaison de corps solide sur l'anneau de nœuds supérieur du tube.",
+          "justification": "Le maillage de l'écran et celui de la poutre de couronnement sont produits par la même chaîne, à partir de la même fiche. Leur coïncidence peut donc être imposée à la génération au lieu d'être subie. Une liaison cinématique directe sur les nœuds de tête de tube est alors le moyen le plus simple et le plus lisible de représenter l'encastrement des tubes dans la poutre.",
+          "validity_domain": "La liaison de corps solide encastre parfaitement la tête de tube dans la poutre, ce qui est plus rigide que l'encastrement réel sur 0,80 m. Les moments en tête de tube sont donc surestimés et les déplacements de la poutre sous-estimés.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décision de test prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-18"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Raccord par méthode variationnelle entre maillages non coïncidents.",
+              "reason": "Sans objet dès lors que la chaîne génère les deux maillages depuis la même fiche ; la coïncidence est acquise par construction plutôt que subie."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-18T18:00:00"
+        },
+        {
+          "option_retained": "La poutre de couronnement reste représentée par un élément de poutre sur son axe, mais avec la formulation qui prend en compte la déformation d'effort tranchant. L'identifiant de modélisation est à établir par la documentation et le catalogue.",
+          "justification": "En flexion horizontale, la poutre a une hauteur de 2,50 m pour une portée de 2,60 m entre tubes. Ce rapport, de l'ordre de 1, rend la déformation d'effort tranchant non négligeable, et l'élément d'Euler-Bernoulli la néglige. L'élément de poutre reste préféré à une modélisation en coques ou en volume, parce qu'il fournit directement les efforts N, V, M et T nécessaires au ferraillage selon l'EN 1992.",
+          "validity_domain": "La poutre sur son axe ne représente pas les effets locaux : zone d'encastrement des tubes, ancrage du bollard, diffusion sous platine. Ces effets relèvent de vérifications locales séparées.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décisions 14 à 16 prises à la relecture des résultats du lot 36 (énoncé du lot 37, étape 2)",
+              "date": "2026-09-25"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "poutre en coques ou en éléments volumiques",
+              "reason": "les efforts de ferraillage devraient être reconstitués par intégration de contraintes, le maillage s'alourdit, et la liaison avec les tubes pose à nouveau un raccord cinématique."
+            },
+            {
+              "description": "élément d'Euler-Bernoulli (état actuel)",
+              "reason": "néglige la déformation d'effort tranchant d'une poutre courte."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-25T08:10:24-04:00"
+        }
+      ],
+      "revision_history": [
+        {
+          "kind": "declared",
+          "reason": "Cause établie à l'étape 1 (constat code_aster enregistré au même point 3) : LIAISON_SOLIDE, dans le cas 3DA (R3.03.02), dualise la rotation DRZ des nœuds d'anneau -- un degré de liberté à raideur fictive délibérément faible sous DKT (COEF_RIGI_DRZ, R3.07.03) -- exactement le cas pathologique décrit par R3.03.01 (« structure retenue par son dernier ddl physique », pivot nul quelle que soit la numérotation). Deux candidats alternatifs testés sur le quai réduit (LIAISON_DDL restreinte aux translations, un seul nœud d'anneau lié) échouent avec la même signature <F> <FACTOR_11>, cette fois sur le nœud de poutre du plan de symétrie plutôt que sur l'anneau : la cause touche plus largement toute relation dualisée combinée à une rotation déjà dualisée par la condition de symétrie, pas seulement LIAISON_SOLIDE. La décision retenue (maillage coïncident, liaison rigide directe par LIAISON_SOLIDE) n'est ni remplacée ni modifiée par ce lot -- aucune décision n'y est prise, conformément à ses instructions.",
+          "by": "Claude (lot 31)",
+          "at": "2026-09-24T07:45:00-04:00"
+        },
+        {
+          "kind": "lifted",
+          "reason": "Correction apportée à l'étape 1 : dans un ensemble de nœuds liés par LIAISON_SOLIDE, un degré de liberté que la relation détermine (translations ET rotations de l'anneau de tête, dérivées du nœud de poutre) n'est imposé directement que sur le nœud de poutre -- la correction du lot 31 n'excluait que les rotations (DRY, DRZ), insuffisante ; la généralisation aux translations (DX) supprime le pivot nul. Prouvé par exécution réelle sur le quai réduit (data/examples/lot32_cl/quai_reduit_regle_cl.comm, data/examples/lot32_cl/executions.json) : plus aucun <F> <FACTOR_11> sur les six cas de charge, seul un défaut déjà connu et sans rapport (collision de nom de champ MED, lot 31) arrête encore l'exécution. La décision retenue (maillage coïncident, liaison rigide directe par LIAISON_SOLIDE) n'est ni remplacée ni modifiée par cette levée : la cause touchait la construction des conditions aux limites autour de LIAISON_SOLIDE, pas le choix de méthode de jonction lui-même.",
+          "by": "Claude (lot 32)",
+          "at": "2026-09-24T09:00:00-04:00"
+        }
+      ]
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-009",
+      "point_label": "4"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-010",
+      "point_label": "4"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-011",
+      "point_label": "4"
+    },
+    {
+      "point_label": "4",
+      "topic": "Choix entre contact surfacique, ressorts discrets et éléments de joint pour représenter l'interaction sol-écran",
+      "options_considered": [],
+      "option_retained": "Le sol n'est pas maillé. La réaction du terrain de la fiche est représentée par des ressorts horizontaux linéaires, perpendiculaires au quai, **côté bassin uniquement**, de la cote de dragage −12,00 jusqu'au pied de chaque profil : −26,00 pour les tubes, −18,00 pour les palplanches intercalaires. Deux strates sont concernées : l'argile marneuse raide de −12,00 à −18,00, k_h = 35 MN/m³ ; la marne compacte de −18,00 à −26,00, k_h = 80 MN/m³. La raideur est rapportée à la surface projetée sur le plan de l'écran, et non à la surface développée des tubes. Au-dessus de la cote de dragage, aucun ressort : côté terre, l'action du terrain est introduite en totalité par le profil de poussée de la décision du point 5.",
+      "justification": "La méthode aux coefficients de réaction de la NF P 94-282, Annexe F, représente l'écran comme une poutre sur appuis élastiques. Sa loi de réaction (F.1, Figure F.1.1) est bornée par la poussée et la butée limites ; seule sa branche élastique, de pente k_h, est retenue ici. Côté terre, le terrain est supposé à l'état de poussée sous l'effet des charges permanentes et cette action est appliquée en chargement : y ajouter des ressorts la compterait deux fois. Côté bassin, le terrain de la fiche est l'appui de l'écran et ses ressorts portent la butée mobilisée. L'ordre de grandeur des k_h du cas a été confronté à la formule F.3.1 avec l'inertie des tubes seule ramenée au mètre linéaire (Estr·Istr/B0 ≈ 1 405 MN·m²/m, palplanches négligées) : 24 à 42 MN/m³ pour l'argile selon α = 1 ou 2/3, ce qui encadre la valeur 35 ; 106 à 266 MN/m³ pour la marne selon α = 1 ou 1/2, au-dessus de la valeur 80 du cas, qui est donc plus souple. Les valeurs du cas sont conservées comme données de test : α n'est pas déterminable depuis les données du cas, le Tableau F.3.1 l'indexant sur le rapport EM/pl et la pression limite n'étant pas fournie. La fiche de 14 m dépasse 1,5·l0 (environ 5,3 m avec k_h = 35 MN/m³), la correction F.3.3 est sans objet ; la correction F.3.4 vise une fouille étroite entre deux écrans et ne concerne pas un quai.",
+      "discarded_variants": [
+        {
+          "description": "Ressorts sur les quatre strates, le long de toute la hauteur en contact avec le terrain (décision v2).",
+          "reason": "Côté terre, double compte avec le profil de poussée appliqué en chargement."
+        },
+        {
+          "description": "Ressorts non linéaires bornés par la poussée et la butée limites, des deux côtés de l'écran, conformément à la Figure F.1.1.",
+          "reason": "Reproduit le calcul aux coefficients de réaction du logiciel géotechnique ; n'a de sens qu'avec le phasage (F.1, NOTE 4), exclu au point 6."
+        },
+        {
+          "description": "Contact-frottement surfacique.",
+          "reason": "Exige un massif de sol maillé."
+        },
+        {
+          "description": "Éléments de joint.",
+          "reason": "Même exigence de maillage du sol."
+        }
+      ],
+      "notes": "Aucune comparaison documentée entre ces trois familles catalogue pour une interface sol-écran spécifiquement. Cherché sous methode (« butée des terres, contact frottement, interface sol-écran »). Recommandation d'ingénieur : le choix reste à motiver et documenter séparément.",
+      "validity_domain": "1. Les ressorts sont linéaires et ne plafonnent pas à la butée limite (Figure F.1.1) : le modèle peut mobiliser une réaction supérieure à ce que le terrain peut fournir. Contrôle de niveau D requis : à chaque cote de la fiche, la pression de réaction k_h·y reste inférieure à la butée limite fournie par le calcul géotechnique amont.\n2. Les ressorts travaillent dans les deux sens. Un déplacement de la fiche vers la terre produirait une traction sans signification physique. Contrôle de niveau D requis : réactions de même signe, en compression, sur toute la fiche, pour chaque combinaison ; l'accostage est le cas à surveiller.\n3. La pression initiale au repos côté bassin (K0·σ'v, F.2) n'est pas appliquée : la réaction part de zéro.\n4. Côté terre, aucun ressort : sous une charge qui pousse l'écran vers la terre au-dessus du dragage, la réaction du remblai n'est pas mobilisée ; le modèle est localement trop souple sous accostage.\n5. k_h dépend de la raideur de l'écran (F.3.1) ; les valeurs du cas ne sont pas recalées sur la raideur de l'écran modélisé.\n6. Sous −18,00, l'écran est discontinu : les tubes seuls, de diamètre projeté 1,42 m à l'entraxe de 2,60 m, reçoivent la réaction. L'Annexe F ne traite pas ce cas ; l'effet tridimensionnel du terrain entre tubes n'est pas représenté.\n7. L'équilibre poussée-butée et la fiche ne sont pas vérifiés par ce modèle ; ils relèvent du calcul géotechnique amont.\n\nLa poussée est appliquée sur la seule moitié terre des tubes, et les ressorts sur la seule moitié bassin. La section du tube s'ovalise donc artificiellement, jusqu'à 3,5 mm d'écart entre génératrices en pied sous G. Les efforts circonférentiels (NYY, MYY) des tubes ne sont pas exploitables pour le dimensionnement. Seuls les efforts de flexion d'ensemble du tube, obtenus par intégration de NXX sur la section, le sont.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-21"
+        },
+        {
+          "origin": "norme",
+          "reference": "NF P 94-282 (mars 2009), Annexe F (informative), méthode aux coefficients de réaction : F.1 et Figure F.1.1 (loi de réaction), F.2 (K0 et valeurs limites), F.3 formule F.3.1 et Tableaux F.3.1 et F.3.2 (k_h), F.3 (2) et (3) formules F.3.3 et F.3.4",
+          "date": null
+        },
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décisions 14 à 16 prises à la relecture des résultats du lot 36 (énoncé du lot 37, étape 2)",
+          "date": "2026-09-25"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-25T08:10:24-04:00",
+      "decision_history": [
+        {
+          "option_retained": "Le sol n'est pas maillé. Son action est représentée par des ressorts horizontaux répartis le long de la partie fichée de l'écran, de raideur définie par couche selon les modules de réaction du cas de test : 6, 20, 35 et 80 MN/m³ respectivement pour le remblai, le sable, l'argile marneuse et la marne compacte. Affectation par groupe de mailles correspondant à chaque strate. Seule la poussée est appliquée en chargement ; la butée est produite par la réaction des ressorts.",
+          "justification": "La représentation de la réaction du sol le long d'un écran par des ressorts de raideur fonction du module de réaction de chaque couche est la pratique courante du calcul des écrans ; l'ingénieur la rattache à la méthode aux coefficients de réaction de la NF P 94-282, référence non vérifiée article par article dans ce cas de test. Elle est cohérente avec l'objet du calcul : le sol n'y est pas étudié pour lui-même, il fournit l'appui élastique de l'écran.",
+          "validity_domain": "Deux limites, importantes. Des ressorts linéaires ne plafonnent pas à la butée limite : le modèle peut mobiliser une réaction supérieure à ce que le sol peut fournir. Et l'équilibre poussée-butée n'étant pas vérifié par ce modèle, il doit l'être par le calcul géotechnique amont.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décision de test prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-18"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Contact-frottement surfacique.",
+              "reason": "Exige un massif de sol maillé, donc un modèle hors de proportion avec l'objet du calcul, et déplace le sujet vers la convergence."
+            },
+            {
+              "description": "Éléments de joint.",
+              "reason": "Même exigence de maillage du sol."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-18T18:00:00"
+        },
+        {
+          "option_retained": "Le sol n'est pas maillé. La réaction du terrain de la fiche est représentée par des ressorts horizontaux linéaires, perpendiculaires au quai, **côté bassin uniquement**, de la cote de dragage −12,00 jusqu'au pied de chaque profil : −26,00 pour les tubes, −18,00 pour les palplanches intercalaires. Deux strates sont concernées : l'argile marneuse raide de −12,00 à −18,00, k_h = 35 MN/m³ ; la marne compacte de −18,00 à −26,00, k_h = 80 MN/m³. La raideur est rapportée à la surface projetée sur le plan de l'écran, et non à la surface développée des tubes. Au-dessus de la cote de dragage, aucun ressort : côté terre, l'action du terrain est introduite en totalité par le profil de poussée de la décision du point 5.",
+          "justification": "La méthode aux coefficients de réaction de la NF P 94-282, Annexe F, représente l'écran comme une poutre sur appuis élastiques. Sa loi de réaction (F.1, Figure F.1.1) est bornée par la poussée et la butée limites ; seule sa branche élastique, de pente k_h, est retenue ici. Côté terre, le terrain est supposé à l'état de poussée sous l'effet des charges permanentes et cette action est appliquée en chargement : y ajouter des ressorts la compterait deux fois. Côté bassin, le terrain de la fiche est l'appui de l'écran et ses ressorts portent la butée mobilisée. L'ordre de grandeur des k_h du cas a été confronté à la formule F.3.1 avec l'inertie des tubes seule ramenée au mètre linéaire (Estr·Istr/B0 ≈ 1 405 MN·m²/m, palplanches négligées) : 24 à 42 MN/m³ pour l'argile selon α = 1 ou 2/3, ce qui encadre la valeur 35 ; 106 à 266 MN/m³ pour la marne selon α = 1 ou 1/2, au-dessus de la valeur 80 du cas, qui est donc plus souple. Les valeurs du cas sont conservées comme données de test : α n'est pas déterminable depuis les données du cas, le Tableau F.3.1 l'indexant sur le rapport EM/pl et la pression limite n'étant pas fournie. La fiche de 14 m dépasse 1,5·l0 (environ 5,3 m avec k_h = 35 MN/m³), la correction F.3.3 est sans objet ; la correction F.3.4 vise une fouille étroite entre deux écrans et ne concerne pas un quai.",
+          "validity_domain": "1. Les ressorts sont linéaires et ne plafonnent pas à la butée limite (Figure F.1.1) : le modèle peut mobiliser une réaction supérieure à ce que le terrain peut fournir. Contrôle de niveau D requis : à chaque cote de la fiche, la pression de réaction k_h·y reste inférieure à la butée limite fournie par le calcul géotechnique amont.\n2. Les ressorts travaillent dans les deux sens. Un déplacement de la fiche vers la terre produirait une traction sans signification physique. Contrôle de niveau D requis : réactions de même signe, en compression, sur toute la fiche, pour chaque combinaison ; l'accostage est le cas à surveiller.\n3. La pression initiale au repos côté bassin (K0·σ'v, F.2) n'est pas appliquée : la réaction part de zéro.\n4. Côté terre, aucun ressort : sous une charge qui pousse l'écran vers la terre au-dessus du dragage, la réaction du remblai n'est pas mobilisée ; le modèle est localement trop souple sous accostage.\n5. k_h dépend de la raideur de l'écran (F.3.1) ; les valeurs du cas ne sont pas recalées sur la raideur de l'écran modélisé.\n6. Sous −18,00, l'écran est discontinu : les tubes seuls, de diamètre projeté 1,42 m à l'entraxe de 2,60 m, reçoivent la réaction. L'Annexe F ne traite pas ce cas ; l'effet tridimensionnel du terrain entre tubes n'est pas représenté.\n7. L'équilibre poussée-butée et la fiche ne sont pas vérifiés par ce modèle ; ils relèvent du calcul géotechnique amont.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-21"
+            },
+            {
+              "origin": "norme",
+              "reference": "NF P 94-282 (mars 2009), Annexe F (informative), méthode aux coefficients de réaction : F.1 et Figure F.1.1 (loi de réaction), F.2 (K0 et valeurs limites), F.3 formule F.3.1 et Tableaux F.3.1 et F.3.2 (k_h), F.3 (2) et (3) formules F.3.3 et F.3.4",
+              "date": null
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Ressorts sur les quatre strates, le long de toute la hauteur en contact avec le terrain (décision v2).",
+              "reason": "Côté terre, double compte avec le profil de poussée appliqué en chargement."
+            },
+            {
+              "description": "Ressorts non linéaires bornés par la poussée et la butée limites, des deux côtés de l'écran, conformément à la Figure F.1.1.",
+              "reason": "Reproduit le calcul aux coefficients de réaction du logiciel géotechnique ; n'a de sens qu'avec le phasage (F.1, NOTE 4), exclu au point 6."
+            },
+            {
+              "description": "Contact-frottement surfacique.",
+              "reason": "Exige un massif de sol maillé."
+            },
+            {
+              "description": "Éléments de joint.",
+              "reason": "Même exigence de maillage du sol."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-21T18:00:00"
+        }
+      ],
+      "revision_history": []
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-012",
+      "point_label": "5"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-013",
+      "point_label": "5"
+    },
+    {
+      "point_label": "5",
+      "topic": "Calcul du profil de pression (coefficient de poussée des terres Ko/actif/passif, combinaison avec le niveau d'eau) pour un écran de soutènement",
+      "options_considered": [],
+      "option_retained": "Poussée des terres et pression d'eau appliquées en pression imposée, variable avec la profondeur, par la variante fonction de la commande de chargement mécanique. Profils calculés hors Code_Aster. Différentiel de nappe de 1,50 m en situation permanente, 3,50 m en situation accidentelle. La surcharge d'exploitation du terre-plein (Q1) n'est pas appliquée comme charge de surface dans le modèle : elle n'intervient que par l'incrément de poussée qu'elle produit, inclus dans le profil calculé en amont.",
+      "justification": "Le sol n'étant pas maillé, son action motrice ne peut être introduite qu'en chargement. Les profils de poussée et de pression d'eau, y compris l'effet de la surcharge de terre-plein, sont des résultats du calcul géotechnique amont ; les appliquer tels quels garantit la cohérence entre les deux calculs.",
+      "discarded_variants": [
+        {
+          "description": "Couplage hydromécanique avec pression interstitielle imposée.",
+          "reason": "Suppose un sol maillé en modélisation poromécanique, exclu par la décision du point 4."
+        },
+        {
+          "description": "Surcharge Q1 appliquée comme pression sur un terre-plein modélisé.",
+          "reason": "Le terre-plein n'est pas modélisé ; la diffusion de la surcharge vers l'écran est un résultat géotechnique."
+        }
+      ],
+      "notes": "Aucun document retourné (profils syntaxe et methode, requêtes « poussée des terres », « pression au repos K0 », « niveau d'eau », « pression hydrostatique répartie ») n'établit de commande ou de méthode Code_Aster dédiée à ce calcul -- donnée d'entrée à établir hors Code_Aster. Déduction : le mot-clé DDL_IMPO de AFFE_CHAR_MECA comporte un opérande PRES (parmi PRE1, PRE2), suggérant une voie d'imposition de pression interstitielle en modélisation poromécanique (*_HM), distincte de PRES_REP -- non confirmée par un document méthodologique pour ce cas. Recommandation d'ingénieur : distinguer explicitement le chargement mécanique de poussée (PRES_REP, fonction de Z) du couplage hydromécanique éventuel (DDL_IMPO/PRES sur *_HM) ; ce choix engage le type d'analyse (point 6) et n'est pas arbitré par la documentation trouvée.",
+      "validity_domain": "Le profil de poussée est une donnée d'entrée que le modèle ne vérifie pas. Sa justification appartient à la note géotechnique.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-21"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-21T18:00:00",
+      "decision_history": [
+        {
+          "option_retained": "Poussée des terres et pression d'eau appliquées en pression imposée, variable avec la profondeur, par la variante fonction de la commande de chargement mécanique. Profils calculés hors Code_Aster. Différentiel de nappe de 1,50 m en situation permanente, 3,50 m en situation accidentelle.",
+          "justification": "Le sol n'étant pas maillé, son action motrice ne peut être introduite qu'en chargement. Les profils de poussée et de pression d'eau sont des résultats du calcul géotechnique amont ; les appliquer tels quels garantit la cohérence entre les deux calculs, au lieu d'en recalculer une version concurrente.",
+          "validity_domain": "Le profil de poussée est une donnée d'entrée que le modèle ne vérifie pas. Sa justification appartient à la note géotechnique.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décision de test prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-18"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Couplage hydromécanique avec pression interstitielle imposée.",
+              "reason": "Suppose un sol maillé en modélisation poromécanique, exclu par la décision du point 5."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-18T18:00:00"
+        }
+      ],
+      "revision_history": []
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-014",
+      "point_label": "6"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-015",
+      "point_label": "6"
+    },
+    {
+      "point_label": "6",
+      "topic": "Phasage construction/excavation/mise en tension des tirants pour un ouvrage de quai",
+      "options_considered": [],
+      "option_retained": "Aucun phasage. Tous les chargements sont appliqués sur la géométrie finale, en un seul état. Les tirants sont passifs (décision du point 2).",
+      "justification": "L'objet du cas est d'exercer la chaîne de bout en bout. Un état final unique suffit à produire les grandeurs à contrôler — équilibre global, réactions, déplacements — et c'est la configuration où un écart de résultat est le plus facile à attribuer à sa cause. La suppression de la précontrainte retire la seule donnée du cas qui imposait un phasage.",
+      "discarded_variants": [
+        {
+          "description": "Phasage sous Code_Aster représentant excavation par étapes et mise en tension des tirants.",
+          "reason": "Faisable, mais demande un calcul plus complexe hors de l'objet de ce cas de test ; réservé à un cas ultérieur dédié."
+        }
+      ],
+      "notes": "Aucun document du corpus retourné ne traite spécifiquement ce phasage pour un ouvrage de quai (U2.04.06, trouvé sous ce thème, concerne le creusement de tunnel, non transposable tel quel). Le rattachement de ce phasage à STAT_NON_LINE (incréments de temps représentant les étapes) est une déduction d'ingénierie standard, non une lecture documentaire directe pour ce cas.",
+      "validity_domain": "Le phasage réel — excavation par étapes, pose des tirants à un stade intermédiaire — détermine les moments dans l'écran et l'effort dans les tirants sous charges permanentes. Ce modèle ne les représente pas : sous charges permanentes, ses résultats ne se comparent pas à ceux du calcul géotechnique phasé. Son usage légitime en projet est la détermination des effets des charges localisées, à superposer à l'état de base donné par le calcul géotechnique. Acceptable pour un test, pas pour justifier l'écran sous charges permanentes.\n\nLes contrôles du lot 35 montrent que, sous les cas G, EAU_P, EAU_A et Q1, la pression de réaction des ressorts dépasse la butée limite sur une large part de la fiche. Sous Q3 et A, elle reste inférieure à 10 % de la butée limite. Le modèle linéaire est donc représentatif pour les effets des charges localisées (Q3, A), qui sont son objet (décision 0). Les efforts sous charges de terre et d'eau sont à prendre dans le calcul géotechnique amont.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-21"
+        },
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décisions 14 à 16 prises à la relecture des résultats du lot 36 (énoncé du lot 37, étape 2)",
+          "date": "2026-09-25"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-25T08:10:24-04:00",
+      "decision_history": [
+        {
+          "option_retained": "Aucun phasage. Tous les chargements sont appliqués sur la géométrie finale, en un seul état.",
+          "justification": "L'objet du cas est d'exercer la chaîne de bout en bout. Un état final unique suffit à produire toutes les grandeurs à contrôler — équilibre global, réactions, déplacements — et c'est la configuration où un écart de résultat est le plus facile à attribuer à sa cause.",
+          "validity_domain": "Le phasage réel modifie sensiblement la répartition des efforts entre tirants et encastrement en pied. Cette simplification est acceptable pour un test, pas pour un calcul de projet.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décision de test prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-18"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Phasage par incréments représentant excavation puis mise en tension.",
+              "reason": "Hors périmètre d'un cas de test ; alourdit la chaîne sans éclairer ce qu'on cherche à vérifier."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-18T18:00:00"
+        },
+        {
+          "option_retained": "Aucun phasage. Tous les chargements sont appliqués sur la géométrie finale, en un seul état. Les tirants sont passifs (décision du point 2).",
+          "justification": "L'objet du cas est d'exercer la chaîne de bout en bout. Un état final unique suffit à produire les grandeurs à contrôler — équilibre global, réactions, déplacements — et c'est la configuration où un écart de résultat est le plus facile à attribuer à sa cause. La suppression de la précontrainte retire la seule donnée du cas qui imposait un phasage.",
+          "validity_domain": "Le phasage réel — excavation par étapes, pose des tirants à un stade intermédiaire — détermine les moments dans l'écran et l'effort dans les tirants sous charges permanentes. Ce modèle ne les représente pas : sous charges permanentes, ses résultats ne se comparent pas à ceux du calcul géotechnique phasé. Son usage légitime en projet est la détermination des effets des charges localisées, à superposer à l'état de base donné par le calcul géotechnique. Acceptable pour un test, pas pour justifier l'écran sous charges permanentes.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-21"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Phasage sous Code_Aster représentant excavation par étapes et mise en tension des tirants.",
+              "reason": "Faisable, mais demande un calcul plus complexe hors de l'objet de ce cas de test ; réservé à un cas ultérieur dédié."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-21T18:00:00"
+        }
+      ],
+      "revision_history": []
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-016",
+      "point_label": "7"
+    },
+    {
+      "point_label": "7",
+      "topic": "Position et blocages des limites latérales/inférieures d'un modèle de sol stratifié semi-infini",
+      "options_considered": [],
+      "option_retained": "Le point tel que formulé devient sans objet du fait de la décision du point 4 : le sol n'étant pas maillé, il n'existe ni bord latéral ni fond de modèle. La décision porte sur l'étendue de la tranche et ses faces de coupe.\n\nLa tranche représentative fait 20,80 m, soit huit entraxes de tube. Ses deux faces de coupe sont des plans de symétrie passant par l'axe des tubes 1 et 9. Les tubes 1 et 9 sont donc des demi-tubes. Leurs tirants, situés dans les plans de symétrie, ont une demi-section, et leurs ressorts de sol ne comptent que la largeur projetée située dans la tranche. La tranche comporte ainsi sept tubes entiers, deux demi-tubes et huit palplanches intercalaires. Le bollard d'amarrage et la défense d'accostage sont au droit du tube central, `TUBE_05`. Les conditions de symétrie s'appliquent aux deux faces de coupe. La composante hors plan de 15° de l'effort d'amarrage est supprimée pour ce cas de test.",
+      "justification": "Bollards et défenses se répètent tous les huit tubes. La cellule répétitive de l'ouvrage va donc de l'axe d'un tube à l'axe du huitième suivant. Des tubes entiers aux deux faces compteraient deux fois le tube partagé avec la tranche voisine. Le demi-tube, la demi-section de tirant et la demi-largeur de ressort aux faces sont la traduction exacte de la symétrie.",
+      "discarded_variants": [
+        {
+          "description": "Neuf tubes entiers entre les faces de coupe.",
+          "reason": "Compte deux fois les tubes des faces ; la raideur et les charges de la tranche sont surestimées d'un tube."
+        },
+        {
+          "description": "Demi-tranche de 10,40 m, avec symétrie supplémentaire dans l'axe de `TUBE_05`.",
+          "reason": "Divise le modèle par deux, mais demande de répartir sur demi-tube les charges de bollard et de défense, et supprime le contrôle de symétrie des résultats."
+        },
+        {
+          "description": "Tranche de 41,60 m, composante hors plan conservée.",
+          "reason": "Plus fidèle, mais quadruple le modèle pour un cas de test."
+        }
+      ],
+      "notes": "Aucun document retourné (profils methode puis syntaxe, requêtes « bords latéraux », « symétrie », « fond de fouille », « distance des limites du modèle ») n'établit de critère Code_Aster pour dimensionner ces limites. U2.04.06 § Avant_de_s_attaquer_au_ficher_de_commande_Code_Aster_ existe mais son objet (creusement de tunnel) diffère du cas présent et son contenu détaillé n'a pas été extrait dans cette session -- non utilisable comme fondement ici. Recommandation d'ingénieur : reste un choix d'ingénieur à motiver et documenter séparément.",
+      "validity_domain": "La symétrie impose un chargement symétrique. Tout cas de charge dissymétrique — amarrage oblique réel, accostage hors de l'axe du tube central — sort du domaine de validité et demanderait une tranche allongée. La symétrie des résultats par rapport à l'axe de `TUBE_05` est un contrôle de niveau D.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v4 prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-22"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-22T18:00:00",
+      "decision_history": [
+        {
+          "option_retained": "Le point tel que formulé devient sans objet du fait de la décision du point 5 : le sol n'étant pas maillé, il n'existe ni bord latéral ni fond de modèle. La décision porte sur l'étendue de la tranche et ses faces de coupe. Tranche représentative de 20,80 m, soit exactement huit entraxes de tube, comportant neuf tubes et huit palplanches intercalaires ; un bollard d'amarrage sur le tube central ; conditions de symétrie aux deux faces de coupe. En conséquence, la composante hors plan de 15° de l'effort d'amarrage est supprimée pour ce cas de test, et l'espacement des bollards du cas fictif est porté de 20,00 m à 20,80 m pour le rendre compatible avec l'entraxe des tubes.",
+          "justification": "L'ouvrage est régulier le long du quai et les bollards s'y répètent tous les huit tubes : une tranche de huit entraxes centrée sur un bollard est l'unité répétitive de l'ouvrage. Les conditions de symétrie aux faces de coupe représentent la continuité avec les tranches voisines, ce qui suppose un chargement lui-même symétrique — d'où la suppression de la composante hors plan.",
+          "validity_domain": "La symétrie impose un chargement symétrique. Tout cas de charge dissymétrique — amarrage oblique réel, grue en position excentrée, accostage hors axe — sort du domaine de validité de ce modèle et demanderait une tranche allongée.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décision de test prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-18"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Tranche de 41,60 m avec faces de coupe éloignées et composante hors plan conservée.",
+              "reason": "Plus fidèle, mais quadruple le modèle pour un cas de test dont l'objet est d'exercer la chaîne."
+            },
+            {
+              "description": "Modélisation des 120 m réels.",
+              "reason": "Sans objet, l'ouvrage étant régulier et décomposable en tranches."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-18T18:00:00"
+        },
+        {
+          "option_retained": "Le point tel que formulé devient sans objet du fait de la décision du point 4 : le sol n'étant pas maillé, il n'existe ni bord latéral ni fond de modèle. La décision porte sur l'étendue de la tranche et ses faces de coupe. Tranche représentative de 20,80 m, soit exactement huit entraxes de tube, comportant neuf tubes et huit palplanches intercalaires ; un bollard d'amarrage et une défense d'accostage au droit du tube central ; conditions de symétrie aux deux faces de coupe. En conséquence, la composante hors plan de 15° de l'effort d'amarrage est supprimée pour ce cas de test.",
+          "justification": "L'ouvrage est régulier le long du quai et les bollards et défenses s'y répètent tous les huit tubes : une tranche de huit entraxes centrée sur ces équipements est l'unité répétitive de l'ouvrage. Les conditions de symétrie aux faces de coupe représentent la continuité avec les tranches voisines, ce qui suppose un chargement lui-même symétrique — d'où la suppression de la composante hors plan.",
+          "validity_domain": "La symétrie impose un chargement symétrique. Tout cas de charge dissymétrique — amarrage oblique réel, accostage hors axe du tube central — sort du domaine de validité de ce modèle et demanderait une tranche allongée.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-21"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Tranche de 41,60 m avec faces de coupe éloignées et composante hors plan conservée.",
+              "reason": "Plus fidèle, mais quadruple le modèle pour un cas de test dont l'objet est d'exercer la chaîne."
+            },
+            {
+              "description": "Modélisation des 120 m réels.",
+              "reason": "Sans objet, l'ouvrage étant régulier et décomposable en tranches."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-21T18:00:00"
+        }
+      ],
+      "revision_history": []
+    },
+    {
+      "point_label": "0",
+      "topic": "Objet et périmètre du calcul",
+      "options_considered": [],
+      "option_retained": "Le modèle Code_Aster est un calcul de structure tridimensionnel. Il ne dimensionne pas géotechniquement l'écran : cette part relève d'un logiciel dédié aux écrans de soutènement, qui fournit en amont les profils de poussée et les raideurs de réaction du sol. Ce modèle traite la diffusion d'un effort d'amarrage ponctuel dans l'écran, la répartition des efforts entre tubes et palplanches intercalaires, le travail de la poutre de couronnement en flexion horizontale et en torsion, et les effets tridimensionnels qu'un calcul en tranche bidimensionnelle ne capte pas. Il ne traite pas la stabilité d'ensemble, la vérification de la fiche, l'équilibre des poussées et butées, ni le dimensionnement géotechnique des tirants.",
+      "justification": "La vérification géotechnique d'un écran — équilibre poussée-butée, fiche, stabilité — est couverte en agence par un logiciel dédié (K-Réa), qui porte la démarche propre à ce type d'ouvrage. Ce que ce logiciel ne fournit pas, c'est la réponse tridimensionnelle de la structure sous charges localisées. C'est ce besoin, et lui seul, qui justifie un modèle Code_Aster ; lui donner un périmètre plus large reviendrait à dupliquer un calcul existant avec un outil moins adapté.",
+      "discarded_variants": [
+        {
+          "description": "Calcul géotechnique complet sous Code_Aster.",
+          "reason": "Un logiciel dédié le fait mieux et c'est sa place ; reproduire sa démarche ici n'apporterait rien et demanderait de mailler le sol."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "La validité de ce calcul dépend entièrement de la qualité des données fournies en amont — profils de poussée et raideurs de sol — qu'il ne vérifie pas. Il ne peut servir ni à justifier la fiche, ni à justifier la stabilité de l'écran.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décision de test prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-18"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-18T18:00:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "8",
+      "topic": "Application des charges localisées d'amarrage et d'accostage",
+      "options_considered": [],
+      "option_retained": "Les seules charges localisées du modèle sont l'amarrage (Q3) et l'accostage (A). Aucune charge de grue : la voie de grue est un ouvrage distinct, fondé sur pieux, sans interaction avec l'écran.\n\n*Amarrage.* Effort de 1 000 kN incliné de 30° au-dessus de l'horizontale, dans le plan perpendiculaire au quai, dirigé vers le bassin. Appliqué comme force nodale au nœud `BOLLARD`, sur l'axe de la poutre de couronnement (cote +3,30) au droit de `TUBE_05`, avec le moment de transport dû au décalage vertical de 0,70 m : M = 866 kN × 0,70 m ≈ 606 kN·m, d'axe parallèle au quai. Le bollard est supposé sur l'axe de la poutre en plan.\n\n*Accostage.* Effort horizontal de 800 kN, perpendiculaire au quai, dirigé vers la terre. La défense n'est pas modélisée. Sa réaction est répartie uniformément sur l'empreinte `DEFENSE`, formée des facettes de `TUBE_05` comprises entre +1,00 et +2,00 et à ±45° de la génératrice tournée vers le bassin. Cela correspond à une platine de fixation d'environ 1,00 m de large. La charge est une force surfacique de direction fixe dans le repère global. Son intensité est calculée par le générateur à partir de la surface développée réelle des mailles de l'empreinte : q = 800 kN / Σ A_mailles. La valeur est d'environ 717 kN/m² pour une empreinte cylindrique idéale de 1,115 m².",
+      "justification": "La réaction de la défense est une donnée établie en amont par le choix de la défense ; seule compte, pour la structure, la façon dont elle entre dans l'écran. L'essai d'exécution du lot 21 établit que l'intensité d'une force surfacique sur coque se rapporte à la surface développée des mailles, avec un écart de 0,0001 % sur la résultante. Calculer l'intensité sur la surface développée des mailles effectivement générées garantit donc une résultante exacte de 800 kN, quel que soit le nombre de facettes. L'empreinte angulaire représente une platine plane sur un tube courbe, plutôt que la demi-circonférence entière. Pour l'amarrage, le moment de transport restitue l'excentricité du point d'application par rapport à l'axe de la poutre.",
+      "discarded_variants": [
+        {
+          "description": "Intensité rapportée à la surface projetée, 800 / (1,00 × 1,42) ≈ 563 kN/m² (décision v3).",
+          "reason": "L'essai du lot 21 montre que la force surfacique sur coque se rapporte à la surface développée ; la résultante aurait été fausse."
+        },
+        {
+          "description": "Empreinte sur toute la demi-circonférence tournée vers le bassin.",
+          "reason": "Ne correspond à aucune platine réelle et étale la charge sur toute la largeur du tube."
+        },
+        {
+          "description": "Défense modélisée en éléments de coque.",
+          "reason": "Le comportement d'une défense en élastomère n'est pas celui d'une coque élastique, et sa réaction est déjà une donnée."
+        },
+        {
+          "description": "Force ponctuelle nodale pour l'accostage.",
+          "reason": "Singularité locale dans les coques."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Les dimensions de l'empreinte sont inventées. Les contraintes locales du tube sous l'empreinte y sont sensibles et demandent un maillage raffiné dans cette zone. La répartition uniforme ne représente pas la distribution réelle de contact d'une platine. Le moment de transport suppose la section de la poutre indéformable. L'excentricité en plan du bollard n'est pas représentée.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, révision v4 prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-22"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-22T18:00:00",
+      "decision_history": [
+        {
+          "option_retained": "Les seules charges localisées du modèle sont l'amarrage (Q3) et l'accostage (A). Aucune charge de grue : la voie de grue est un ouvrage distinct, fondé sur pieux, sans interaction avec l'écran.\n\n*Amarrage.* Effort de 1 000 kN incliné de 30° au-dessus de l'horizontale, dans le plan perpendiculaire au quai, dirigé vers le bassin. Appliqué comme force nodale au nœud `BOLLARD`, situé sur l'axe de la poutre de couronnement (cote +3,30) au droit du tube central, accompagné du moment de transport dû au décalage vertical de 0,70 m entre le point d'application réel (+4,00) et l'axe de la poutre : M = 866 kN × 0,70 m ≈ 606 kN·m, d'axe parallèle au quai. Le bollard est supposé sur l'axe de la poutre en plan.\n\n*Accostage.* Effort horizontal de 800 kN, perpendiculaire au quai, dirigé vers la terre. La défense elle-même n'est pas modélisée. Sa réaction est répartie uniformément sur une empreinte, le groupe de mailles `DEFENSE` : face bassin du tube central, de +1,00 à +2,00, soit une hauteur d'empreinte de 1,00 m. L'intensité est une force par unité de surface projetée, de direction fixe dans le repère global : 800 / (1,00 × 1,42) ≈ 563 kN/m². Ce n'est pas une pression normale à la paroi.",
+          "justification": "La réaction de la défense est un résultat du choix de la défense — courbe énergie-réaction — établi en amont ; pour la structure, seule compte la façon dont cette réaction entre dans l'écran. Une force ponctuelle sur des coques crée une singularité locale sans signification ; une répartition sur l'empreinte de fixation donne des contraintes locales exploitables. La direction fixe correspond à la réaction d'un panneau plan ; une pression normale à la paroi courbe du tube produirait des composantes radiales sans contrepartie physique. Pour l'amarrage, la poutre de couronnement étant représentée par son axe, le moment de transport restitue l'effet de l'excentricité du point d'application.",
+          "validity_domain": "Les dimensions de l'empreinte sont inventées ; les contraintes locales dans le tube sous l'empreinte y sont sensibles et demandent un maillage raffiné dans cette zone. Le moment de transport suppose la section de la poutre indéformable, cohérent avec sa représentation par un élément de poutre. L'excentricité en plan du bollard n'est pas représentée.",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, révision v3 prise en séance de travail ; heure de decided_at conventionnelle",
+              "date": "2026-09-21"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Défense modélisée en éléments de coque, force surfacique appliquée sur la défense.",
+              "reason": "Le comportement d'une défense — élastomère, fortement non linéaire — n'est pas celui d'une coque élastique, et sa réaction est déjà une donnée ; modéliser son panneau ajouterait des éléments sans information pour l'écran."
+            },
+            {
+              "description": "Force ponctuelle nodale pour l'accostage.",
+              "reason": "Singularité locale dans les coques ; contraintes inexploitables au point d'application."
+            },
+            {
+              "description": "Force d'amarrage appliquée à l'axe de la poutre sans moment de transport.",
+              "reason": "Omet un moment de l'ordre de 600 kN·m sur la poutre de couronnement."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-09-21T18:00:00"
+        }
+      ],
+      "revision_history": [
+        {
+          "kind": "declared",
+          "reason": "Décision 9 en cours de révision : la révision v4 (intensité rapportée à la surface développée, empreinte angulaire définie) n'est pas enregistrée, arbitrage_combiwall_MM_v4.md portant encore une mention [À CONFIRMER MM] (largeur de la platine de fixation d'environ 1,00 m). La décision v3 enregistrée reste inchangée en attendant.",
+          "by": "Claude (lot 22)",
+          "at": "2026-09-21T06:25:33-04:00"
+        },
+        {
+          "kind": "lifted",
+          "reason": "révision tranchée par une nouvelle décision",
+          "by": "MM",
+          "at": "2026-09-22T18:00:00"
+        }
+      ]
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-017",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-018",
+      "point_label": "8"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-019",
+      "point_label": "8"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-020",
+      "point_label": "4"
+    },
+    {
+      "point_label": "1",
+      "topic": "Choix de la modélisation de coque du tube entre les modélisations recevables (DKT ou COQUE_3D)",
+      "options_considered": [
+        "DKT",
+        "COQUE_3D"
+      ],
+      "option_retained": "Le tube est modélisé en DKT, sur une surface facettisée représentant sa géométrie cylindrique. La discrétisation angulaire est fixée par la branche maillage, et figure dans les invariants de maillage déclarés par la fiche.",
+      "justification": "DKT et COQUE_3D sont tous deux recevables pour ce tube selon le constat Code_Aster du point 1 (U2.02.01, structure mince, h/R ≈ 1/44). DKT est retenu pour l'homogénéité avec la palplanche intercalaire, qui partage ses nœuds avec le tube sur les lignes de serrure : la représentation orthotrope envisagée pour la palplanche n'est admise qu'en DKT, DST ou Q4G, et DKT reste recevable si la géométrie réelle du profil est retenue à la place. La documentation officielle modélise elle-même un cylindre mince en facettes DKT (cas test SSLS502).",
+      "discarded_variants": [
+        {
+          "description": "Tube en COQUE_3D.",
+          "reason": "N'apporte rien pour un tube mince. Et la compatibilité d'un maillage coïncident entre COQUE_3D et une palplanche en DKT n'est pas établie."
+        }
+      ],
+      "notes": "Cherché sous methode (\"critère de facettisation d'une surface courbe par des plaques planes (discrétisation angulaire, rayon sur taille de maille), recherche lexicale dans U2.02.01 (toutes sections), R3.07.03, R3.07.04, U3.12.01, U3.12.03, U4.42.01, U4.44.01 ; lecture ciblée de V3.03.020, V3.03.502\") : aucun critère chiffré trouvé ; seules mentions qualitatives : « aspect facettes », « raffiner le maillage dans le cas où la courbure est importante ». Déduction : Le catalogue de la version cible et U2.02.01 admettent DKT et COQUE_3D pour le tube et ne les départagent pas (entrée code_aster « Modélisations de coque recevables pour le tube » du même point) ; le choix est renvoyé à l'ingénieur.",
+      "validity_domain": "La facettisation remplace la courbure par des facettes planes. Aucun critère chiffré de discrétisation angulaire n'a été trouvé dans la documentation ; l'écart géométrique et son effet sur la raideur du tube dépendent du nombre de facettes retenu par la branche maillage.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décision prise en séance de travail ; heure de decided_at conventionnelle",
+          "date": "2026-09-21"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-21T18:00:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-021",
+      "point_label": "8"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-022",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-023",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-024",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-025",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-026",
+      "point_label": "8"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-027",
+      "point_label": "1"
+    },
+    {
+      "point_label": "9",
+      "topic": "Repère global et origine du modèle",
+      "options_considered": [],
+      "option_retained": "Repère global orthonormé direct :\n\n- X horizontal, le long du quai, de la face `SYM_G` vers la face `SYM_D` ;\n- Y horizontal, perpendiculaire au quai, positif vers la terre ;\n- Z vertical ascendant.\n\nOrigine : X = 0 dans l'axe de `TUBE_05`, Y = 0 dans le plan des axes des tubes, Z = 0 à la cote 0,00 CM. Les cotes du cas de test sont donc directement les valeurs de Z. Les faces de coupe sont à X = −10,40 et X = +10,40. La palplanche intercalaire est dans le plan Y = 0 et rejoint chaque tube sur ses génératrices situées en Y = 0, à X = ±0,71 m de l'axe du tube. Unités du modèle : mètre, newton, pascal, kilogramme.",
+      "justification": "Un repère unique, déclaré dans la fiche, est la condition pour que le maillage et le fichier de commandes soient générés de façon cohérente et relus sans ambiguïté. Placer l'origine sur l'axe de symétrie et à la cote 0 CM rend les coordonnées directement lisibles : les cotes deviennent Z, et la symétrie se contrôle par le signe de X. Placer la palplanche dans le plan des axes fait coïncider les lignes de serrure avec des génératrices du tube, donc avec des nœuds de sa facettisation.",
+      "discarded_variants": [
+        {
+          "description": "Origine au pied de l'écran, sur la face `SYM_G`.",
+          "reason": "Rend les cotes illisibles et masque la symétrie."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Le plan des serrures dans l'axe des tubes est une idéalisation : la position réelle des serrures dépend du type de connecteur. Les unités SI imposent des charges en N et des raideurs en N/m ou N·m, et non les MN utilisés dans les décisions ; la conversion est à la charge du générateur et doit être contrôlée.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, convention de repère prise en séance de travail",
+          "date": "2026-09-21"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-21T09:59:39-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "10",
+      "topic": "Détails de représentation géométrique et discrétisation",
+      "options_considered": [],
+      "option_retained": "| Sujet | Retenu |\n|---|---|\n| Tête des tubes | Tubes maillés jusqu'à la sous-face de la poutre (+2,60). Anneau `TETE_TUBE_xx` à +2,60, relié par liaison de corps solide au nœud de l'axe de la poutre de même X. |\n| Tête des palplanches | Palplanches maillées jusqu'à +2,60, bord supérieur libre. |\n| Épaisseur de coque des tubes | 14 mm sur toute la circonférence, soit 16 mm moins 2 mm de corrosion. |\n| Accrochage des tirants | Nœud du tube sur la génératrice côté terre (Y = +0,71), à +2,50. Direction du tirant : dans le plan YZ, vers +Y, descendante de 20°. Extrémité `ANC_xx` à Y = +25,14, Z = −6,39. |\n| Surface de poussée | `ECRAN_POUSSEE` regroupe les facettes des tubes situées côté terre (Y ≥ 0) et les palplanches. Au-dessous de −18,00, seuls les tubes la reçoivent. |\n| Facettisation des tubes | 40 facettes sur la circonférence (9°). Des génératrices tombent donc exactement en Y = 0 (serrures) et à ±45° de la génératrice côté bassin (empreinte `DEFENSE`). |\n| Taille verticale des mailles | 0,25 m visé. Des nœuds sont imposés aux cotes −26,00 ; −18,00 ; −12,00 ; +1,00 ; +2,00 ; +2,50 ; +2,60. |\n| Palplanches, sens horizontal | 5 mailles par intervalle de 1,18 m. |\n| Poutre de couronnement | Éléments de poutre, 8 par entraxe, avec un nœud au droit de chaque tube (X = 0 compris, pour `BOLLARD`). |\n| Tirants | Un élément de barre par tirant. |",
+      "justification": "Le tube encastré dans le béton n'a pas de comportement de coque propre. Couper sa représentation à la sous-face de la poutre, et reporter l'encastrement par la liaison de corps solide de la décision du point 3, évite de mailler une coque fictive noyée dans la poutre. Une épaisseur uniforme de 14 mm applique la corrosion donnée par le cas de test sans découper le tube en deux demi-coques. Le nombre de facettes est choisi pour que les lignes géométriques imposées par les décisions — serrures et empreinte de défense — tombent sur des génératrices : les groupes sont alors exacts sans projection. Les cotes imposées portent les interfaces de strates, les limites de ressorts et les points d'application de charge.",
+      "discarded_variants": [
+        {
+          "description": "Tube maillé jusqu'à son sommet réel (+3,40) dans le volume de la poutre.",
+          "reason": "Coque fictive noyée dans le béton, sans comportement propre."
+        },
+        {
+          "description": "16 mm côté terre et 14 mm côté bassin.",
+          "reason": "Découpe le tube en deux groupes de coques pour un effet sans objet dans ce test."
+        },
+        {
+          "description": "36 facettes (10°).",
+          "reason": "Ne place pas de génératrice à ±45°, limite de l'empreinte de défense."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "- L'épaisseur uniforme de 14 mm sous-estime la raideur côté terre, où il n'y a pas de corrosion.\n- Le bord libre des palplanches en tête ignore leur encastrement réel dans la poutre.\n- L'accrochage du tirant en un seul nœud crée une singularité locale de contrainte : les contraintes du tube autour de ce nœud ne sont pas exploitables.\n- La taille de maille (0,25 m, 40 facettes) n'a fait l'objet d'aucune étude de convergence.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, données complémentaires prises en séance de travail",
+          "date": "2026-09-21"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-21T11:51:43-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "11",
+      "topic": "Appui vertical de l'écran",
+      "options_considered": [],
+      "option_retained": "Le déplacement vertical est bloqué aux nœuds du pied des tubes, à la cote −26,00, qui forment le groupe de nœuds `PIED_TUBES`. Seul le déplacement vertical est bloqué : les déplacements horizontaux et les rotations du pied restent libres. Le pied des palplanches (−18,00) n'a pas d'appui vertical.",
+      "justification": "Les ressorts de sol de la décision 5 sont horizontaux. Sans autre appui, le poids de l'écran et de la poutre, la composante verticale des tirants et celle de l'effort d'amarrage ne seraient repris que par la composante verticale des tirants inclinés. Ce mécanisme est artificiel, et proche d'un mode rigide. La reprise verticale réelle se fait par la pointe et le frottement latéral des tubes ; la représenter par un appui en pointe est la forme la plus simple qui place la réaction verticale au bon endroit.",
+      "discarded_variants": [
+        {
+          "description": "Aucun appui vertical.",
+          "reason": "Reprise verticale par les seuls tirants ; mécanisme artificiel, voisin d'un mode rigide."
+        },
+        {
+          "description": "Ressorts verticaux de frottement répartis le long de la fiche.",
+          "reason": "Exige des raideurs de frottement absentes des données du cas."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "- Le frottement latéral n'est pas représenté : tout l'effort vertical descend jusqu'à la pointe, donc l'effort normal dans les tubes est surestimé en partie basse.\n- L'appui est rigide : le tassement de la pointe n'est pas représenté.\n- Les palplanches ne portent pas verticalement ; leur poids transite par les serrures vers les tubes.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, appui vertical décidé en séance de travail",
+          "date": "2026-09-22"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-22T03:04:42-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-028",
+      "point_label": "5"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-029",
+      "point_label": "5"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-030",
+      "point_label": "7"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-031",
+      "point_label": "2"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-032",
+      "point_label": "3"
+    },
+    {
+      "point_label": "12",
+      "topic": "Poussée et pression d'eau sur la hauteur de la poutre de couronnement",
+      "options_considered": [],
+      "option_retained": "Entre +2,60 et +4,00, les profils de poussée G et Q1 et les profils de pression d'eau sont intégrés sur la hauteur de la poutre de couronnement. Leur résultante, par mètre de quai, est appliquée comme une charge linéique répartie sur l'élément de poutre `POUTRE_COUR`, dirigée vers le bassin (−Y), sur toute la longueur de la tranche. Le moment de cette résultante par rapport à l'axe de la poutre (+3,30) est appliqué comme un moment linéique d'axe X.",
+      "justification": "L'écran n'est maillé que jusqu'à +2,60 (décision 11). Le terrain pousse pourtant sur toute la hauteur jusqu'à l'arase (+4,00). Sans cette charge, la poussée sur la hauteur de la poutre est perdue, soit environ 119 kN pour G et 358 kN pour Q1 sur la tranche. La poutre étant représentée par son axe, une charge linéique équivalente, avec son moment de transport, est la représentation cohérente avec la décision du point 3.",
+      "discarded_variants": [
+        {
+          "description": "Ignorer la poussée au-dessus de +2,60.",
+          "reason": "Charge perdue, et équilibre faussé d'environ 0,5 % pour G et 5 % pour Q1."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "La poutre étant un élément de poutre, la répartition de la poussée sur sa hauteur n'est pas représentée : seule sa résultante et son moment le sont.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, lacune relevée à la relecture du lot 32",
+          "date": "2026-09-24"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-24T05:48:08-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-033",
+      "point_label": "12"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-034",
+      "point_label": "4"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-035",
+      "point_label": "12"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-036",
+      "point_label": "3"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-037",
+      "point_label": "3"
+    },
+    {
+      "point_label": "13",
+      "topic": "Combinaisons d'actions ELU et ELS",
+      "options_considered": [],
+      "option_retained": "Combinaisons de l'EN 1990, avec les coefficients usuels.\n\n*Classement des actions.*\n- **Permanentes :**\n- G, poids propre et poussée des terres ;\n- EAU_P, pression d'eau différentielle permanente, traitée comme une action permanente avec G et affectée du même coefficient.\n- **Variables :**\n- Q1, surcharge de terre-plein : ψ0 = 0,7, ψ1 = 0,5, ψ2 = 0,3 ;\n- Q3, amarrage : ψ0 = 0,7, ψ1 = 0,5, ψ2 = 0.\n- **Accidentelle :** A, accostage, qui ne se cumule qu'avec EAU_A (nappe accidentelle) à la place d'EAU_P.\n\n*Coefficients partiels.* γG = 1,35 (défavorable) ou 1,00 (favorable), appliqué à G + EAU_P considérés comme un bloc ; γQ = 1,50.\n\n*Combinaisons*, avec Q1 et Q3 tour à tour en action dominante, et chaque action variable présente ou absente :\n- **ELU fondamentale :** γG (G + EAU_P) + 1,5 Q_dom + 1,5 ψ0 Q_acc ;\n- **ELU accidentelle :** (G + EAU_A) + A + 0,5 Q1, sans Q3 : amarrage et accostage ne sont pas simultanés.\n- **ELS caractéristique :** (G + EAU_P) + Q_dom + ψ0 Q_acc ;\n- **ELS fréquente :** (G + EAU_P) + ψ1 Q_dom + ψ2 Q_acc ;\n- **ELS quasi permanente :** (G + EAU_P) + ψ2 Q1 + ψ2 Q3.\n\nLe résultat est une enveloppe par famille de combinaisons, où chaque extremum d'effort est accompagné des efforts concomitants.",
+      "justification": "Ce sont les combinaisons usuelles de l'EN 1990 pour un ouvrage portuaire, avec les coefficients habituels, sans spécificité propre à ce cas de test. L'amarrage et l'accostage sont traités comme non simultanés, parce qu'un navire n'est pas amarré au poste qu'il est en train d'accoster. La pression d'eau permanente, liée au niveau de nappe, suit les actions permanentes.",
+      "discarded_variants": [
+        {
+          "description": "Amarrage (Q3) et accostage (A) simultanés.",
+          "reason": "Un navire n'est pas amarré au poste qu'il est en train d'accoster ; les deux actions ne sont pas concomitantes."
+        },
+        {
+          "description": "Pression d'eau permanente (EAU_P) traitée comme action variable.",
+          "reason": "Elle résulte du niveau de nappe permanent et suit les actions permanentes ; elle est affectée du même coefficient que G."
+        },
+        {
+          "description": "Accostage traité comme action variable en combinaison fondamentale (γQ = 1,5).",
+          "reason": "L'effort de 800 kN est défini par le cas de test comme une situation accidentelle, associée à la nappe haute (§7, cas A)."
+        },
+        {
+          "description": "Coefficients γG distincts pour G et pour EAU_P.",
+          "reason": "Les deux actions varient ensemble ; les traiter comme un seul bloc limite le nombre de combinaisons sans perte de pertinence pour un cas de test."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "- Les coefficients ψ de Q1 et Q3 sont des valeurs usuelles non justifiées par un référentiel portuaire propre au projet.\n- Conformément à la décision 7 (D15), le modèle n'est représentatif que pour les effets des charges localisées. Les efforts des tubes et des palplanches sous G, EAU et Q1 relèvent du calcul géotechnique amont : leurs combinaisons issues de ce modèle ne sont pas des efforts de dimensionnement des tubes. Pour la poutre de couronnement, les charges de terre et d'eau uniformes ne produisent pas de flexion dans son plan (lot 37), et ses efforts sont dominés par Q3 et A.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, arbitrage v6 en séance de travail",
+          "date": "2026-09-25"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-25T09:53:49-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "14",
+      "topic": "Durabilité, enrobage et maîtrise de la fissuration du béton armé",
+      "options_considered": [],
+      "option_retained": "- Béton C35/45, acier B500B (cas de test, §3).\n- Classe d'exposition XS3 ; durée d'utilisation de projet de 100 ans.\n- Enrobage nominal de 65 mm.\n- Maîtrise de la fissuration sous combinaison quasi permanente, avec une ouverture de fissure limite wk = 0,2 mm.",
+      "justification": "La poutre de couronnement d'un quai est en zone de marnage et d'éclaboussures, d'où la classe XS3. La durée de 100 ans est celle d'un ouvrage portuaire. L'enrobage et l'ouverture de fissure limite sont les valeurs usuelles de MM pour ce type d'ouvrage.",
+      "discarded_variants": [
+        {
+          "description": "Ouverture de fissure limite de 0,3 mm sous combinaison quasi permanente.",
+          "reason": "Valeur recommandée de l'EN 1992-1-1 (tableau 7.1N) pour la classe XS3 ; MM retient 0,2 mm, plus sévère, pour un ouvrage maritime de durée d'utilisation de 100 ans."
+        },
+        {
+          "description": "Enrobage déterminé par le calcul détaillé de cmin,dur selon l'EN 1992-1-1 (§4.4.1).",
+          "reason": "MM retient directement sa valeur usuelle de 65 mm pour ce type d'ouvrage ; le calcul détaillé n'apporte rien à un cas de test."
+        },
+        {
+          "description": "Maîtrise de la fissuration sous combinaison fréquente.",
+          "reason": "MM retient la combinaison quasi permanente, usuelle pour la maîtrise de l'ouverture des fissures en béton armé."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Ces valeurs s'appliquent à la seule poutre de couronnement, seul élément en béton armé du modèle. Les tubes et les palplanches en acier relèvent de l'EN 1993-5, hors de cette décision.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, arbitrage v6 en séance de travail",
+          "date": "2026-09-25"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-25T09:53:49-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-038",
+      "point_label": "7"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-039",
+      "point_label": "14"
+    },
+    {
+      "point_label": "14",
+      "topic": "Position de l'axe des armatures longitudinales dans les calculs de section (poutre de couronnement)",
+      "options_considered": [],
+      "option_retained": "Dans les calculs de section, la distance entre le parement et l'axe des armatures longitudinales est de 0,10 m sur toutes les faces. Ce sont les valeurs `C_SUP_*` et `C_INF_*` de `CALC_FERRAILLAGE`, ou ds et di du logiciel de MM. Le diamètre équivalent des armatures longitudinales est de 40 mm.",
+      "justification": "L'enrobage nominal de 65 mm de D18 se mesure au nu de l'armature la plus proche du parement, c'est-à-dire l'étrier. L'axe des armatures longitudinales se trouve donc à environ 65 + diamètre de l'étrier + la moitié du diamètre longitudinal, soit environ 0,10 m. Le lot 38 avait pris 0,065 m comme distance à l'axe, ce qui surestime le bras de levier.",
+      "discarded_variants": [
+        {
+          "description": "distance à l'axe égale à l'enrobage nominal, 0,065 m (lot 38).",
+          "reason": "confond l'enrobage, mesuré au nu de l'étrier, avec la position de l'axe des barres longitudinales."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "La valeur est forfaitaire ; elle sera à ajuster au ferraillage réellement retenu.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décision D19 (énoncé du lot 39, étape 1 bis)",
+          "date": "2026-09-28"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-09-28T05:45:12-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-040",
+      "point_label": "14"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-041",
+      "point_label": "14"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-042",
+      "point_label": "14"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-043",
+      "point_label": "14"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-044",
+      "point_label": "14"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-045",
+      "point_label": "14"
+    }
+  ],
+  "group_naming": [
+    {
+      "group_name": "TUBE_01",
+      "kind": "maille",
+      "description": "coques de chaque tube, numérotées dans le sens du quai",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "TUBE_02",
+      "kind": "maille",
+      "description": "coques de chaque tube, numérotées dans le sens du quai",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "TUBE_03",
+      "kind": "maille",
+      "description": "coques de chaque tube, numérotées dans le sens du quai",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "TUBE_04",
+      "kind": "maille",
+      "description": "coques de chaque tube, numérotées dans le sens du quai",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "TUBE_05",
+      "kind": "maille",
+      "description": "coques de chaque tube, numérotées dans le sens du quai",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "TUBE_06",
+      "kind": "maille",
+      "description": "coques de chaque tube, numérotées dans le sens du quai",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "TUBE_07",
+      "kind": "maille",
+      "description": "coques de chaque tube, numérotées dans le sens du quai",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "TUBE_08",
+      "kind": "maille",
+      "description": "coques de chaque tube, numérotées dans le sens du quai",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "TUBE_09",
+      "kind": "maille",
+      "description": "coques de chaque tube, numérotées dans le sens du quai",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "TUBES",
+      "kind": "maille",
+      "description": "réunion des neuf tubes",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "PALP_01",
+      "kind": "maille",
+      "description": "coques de chaque palplanche intercalaire",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "PALP_02",
+      "kind": "maille",
+      "description": "coques de chaque palplanche intercalaire",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "PALP_03",
+      "kind": "maille",
+      "description": "coques de chaque palplanche intercalaire",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "PALP_04",
+      "kind": "maille",
+      "description": "coques de chaque palplanche intercalaire",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "PALP_05",
+      "kind": "maille",
+      "description": "coques de chaque palplanche intercalaire",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "PALP_06",
+      "kind": "maille",
+      "description": "coques de chaque palplanche intercalaire",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "PALP_07",
+      "kind": "maille",
+      "description": "coques de chaque palplanche intercalaire",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "PALP_08",
+      "kind": "maille",
+      "description": "coques de chaque palplanche intercalaire",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "PALPS",
+      "kind": "maille",
+      "description": "réunion des huit palplanches",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "ECRAN",
+      "kind": "maille",
+      "description": "`TUBES` ∪ `PALPS`",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "ECRAN_POUSSEE",
+      "kind": "maille",
+      "description": "mailles de l'écran recevant le profil de poussée et de pression d'eau",
+      "status": "tranche",
+      "point_label": "10"
+    },
+    {
+      "group_name": "POUTRE_COUR",
+      "kind": "maille",
+      "description": "poutre de couronnement, sur son axe à +3,30",
+      "status": "tranche",
+      "point_label": "3"
+    },
+    {
+      "group_name": "TIRANT_01",
+      "kind": "maille",
+      "description": "barre d'ancrage de chaque tube",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "TIRANT_02",
+      "kind": "maille",
+      "description": "barre d'ancrage de chaque tube",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "TIRANT_03",
+      "kind": "maille",
+      "description": "barre d'ancrage de chaque tube",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "TIRANT_04",
+      "kind": "maille",
+      "description": "barre d'ancrage de chaque tube",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "TIRANT_05",
+      "kind": "maille",
+      "description": "barre d'ancrage de chaque tube",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "TIRANT_06",
+      "kind": "maille",
+      "description": "barre d'ancrage de chaque tube",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "TIRANT_07",
+      "kind": "maille",
+      "description": "barre d'ancrage de chaque tube",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "TIRANT_08",
+      "kind": "maille",
+      "description": "barre d'ancrage de chaque tube",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "TIRANT_09",
+      "kind": "maille",
+      "description": "barre d'ancrage de chaque tube",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "TIRANTS",
+      "kind": "maille",
+      "description": "réunion des neuf tirants",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "RESS_AV_ARGI",
+      "kind": "maille",
+      "description": "mailles de l'écran de −12,00 à −18,00 (tubes et palplanches)",
+      "status": "tranche",
+      "point_label": "4"
+    },
+    {
+      "group_name": "RESS_AV_MARNE",
+      "kind": "maille",
+      "description": "mailles des tubes de −18,00 à −26,00",
+      "status": "tranche",
+      "point_label": "4"
+    },
+    {
+      "group_name": "DEFENSE",
+      "kind": "maille",
+      "description": "empreinte d'accostage, face bassin de `TUBE_05`, de +1,00 à +2,00",
+      "status": "tranche",
+      "point_label": "8"
+    },
+    {
+      "group_name": "TETE_TUBE_01",
+      "kind": "noeud",
+      "description": "anneau de nœuds supérieur de chaque tube",
+      "status": "tranche",
+      "point_label": "3"
+    },
+    {
+      "group_name": "TETE_TUBE_02",
+      "kind": "noeud",
+      "description": "anneau de nœuds supérieur de chaque tube",
+      "status": "tranche",
+      "point_label": "3"
+    },
+    {
+      "group_name": "TETE_TUBE_03",
+      "kind": "noeud",
+      "description": "anneau de nœuds supérieur de chaque tube",
+      "status": "tranche",
+      "point_label": "3"
+    },
+    {
+      "group_name": "TETE_TUBE_04",
+      "kind": "noeud",
+      "description": "anneau de nœuds supérieur de chaque tube",
+      "status": "tranche",
+      "point_label": "3"
+    },
+    {
+      "group_name": "TETE_TUBE_05",
+      "kind": "noeud",
+      "description": "anneau de nœuds supérieur de chaque tube",
+      "status": "tranche",
+      "point_label": "3"
+    },
+    {
+      "group_name": "TETE_TUBE_06",
+      "kind": "noeud",
+      "description": "anneau de nœuds supérieur de chaque tube",
+      "status": "tranche",
+      "point_label": "3"
+    },
+    {
+      "group_name": "TETE_TUBE_07",
+      "kind": "noeud",
+      "description": "anneau de nœuds supérieur de chaque tube",
+      "status": "tranche",
+      "point_label": "3"
+    },
+    {
+      "group_name": "TETE_TUBE_08",
+      "kind": "noeud",
+      "description": "anneau de nœuds supérieur de chaque tube",
+      "status": "tranche",
+      "point_label": "3"
+    },
+    {
+      "group_name": "TETE_TUBE_09",
+      "kind": "noeud",
+      "description": "anneau de nœuds supérieur de chaque tube",
+      "status": "tranche",
+      "point_label": "3"
+    },
+    {
+      "group_name": "ANC_01",
+      "kind": "noeud",
+      "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "ANC_02",
+      "kind": "noeud",
+      "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "ANC_03",
+      "kind": "noeud",
+      "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "ANC_04",
+      "kind": "noeud",
+      "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "ANC_05",
+      "kind": "noeud",
+      "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "ANC_06",
+      "kind": "noeud",
+      "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "ANC_07",
+      "kind": "noeud",
+      "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "ANC_08",
+      "kind": "noeud",
+      "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "ANC_09",
+      "kind": "noeud",
+      "description": "extrémité arrière bloquée de chaque tirant, à 26,00 m de la tête le long de l'axe",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "ANCRAGES",
+      "kind": "noeud",
+      "description": "réunion des `ANC_xx`",
+      "status": "tranche",
+      "point_label": "2"
+    },
+    {
+      "group_name": "BOLLARD",
+      "kind": "noeud",
+      "description": "nœud de l'axe de `POUTRE_COUR` au droit de `TUBE_05`",
+      "status": "tranche",
+      "point_label": "8"
+    },
+    {
+      "group_name": "SYM_G",
+      "kind": "noeud",
+      "description": "nœuds des deux faces de coupe",
+      "status": "tranche",
+      "point_label": "7"
+    },
+    {
+      "group_name": "SYM_D",
+      "kind": "noeud",
+      "description": "nœuds des deux faces de coupe",
+      "status": "tranche",
+      "point_label": "7"
+    },
+    {
+      "group_name": "PIED_TUBES",
+      "kind": "noeud",
+      "description": "Nœuds des tubes à Z = -26,00 (pied).",
+      "status": "tranche",
+      "point_label": "11"
+    }
+  ]
+}

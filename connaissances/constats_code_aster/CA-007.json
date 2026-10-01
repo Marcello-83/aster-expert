@@ -1,0 +1,50 @@
+{
+  "constat_id": "CA-007",
+  "summary": "Les modélisations de poutre offertes par AFFE_MODELE sont POU_D_T, POU_D_E, POU_D_EM, POU_D_TG et POU_D_TGM.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_MODELE"
+  ],
+  "keywords": [
+    "AFFE",
+    "MODELISATION",
+    "POU_D_E",
+    "POU_D_EM",
+    "POU_D_T",
+    "POU_D_TG",
+    "POU_D_TGM"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "3"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Modélisations poutre disponibles pour la poutre de couronnement",
+    "options_considered": [],
+    "option_retained": "Mêmes modélisations poutre qu'au point 1 : POU_D_T, POU_D_E, POU_D_EM, POU_D_TG, POU_D_TGM",
+    "justification": "Catalogue introspecté, AFFE_MODELE.",
+    "discarded_variants": [],
+    "notes": null,
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "AFFE_MODELE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "MODELISATION"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      }
+    ],
+    "status": "tranche"
+  }
+}

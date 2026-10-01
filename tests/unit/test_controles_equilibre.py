@@ -1,0 +1,190 @@
+"""Contrôles de niveau D du tronc commun (lot 41) : équilibre, pesanteur, symétrie,
+sur un listing synthétique et le projet factice (`tests/conftest.py`). Aucun
+Docker : les tables sont écrites comme `IMPR_TABLE` les imprime."""
+
+from __future__ import annotations
+
+import json
+import math
+from collections.abc import Callable, Sequence
+from pathlib import Path
+from typing import Any
+
+import pytest
+
+from aster_expert.controles.equilibre import (
+    balance_terms,
+    level_d_controls,
+    symmetry_check,
+)
+from aster_expert.controles.tables import TableIndex, find_table
+from aster_expert.projet.context import load_project
+from aster_expert.projet.declaration import ControlsSection, SymmetryPlane
+from aster_expert.projet.errors import ProjectError
+
+Factory = Callable[..., Any]
+
+
+def _num(v: float) -> str:
+    return f"{v:.12E}"
+
+
+def _reaction(title: str, dx: float, dy: float, dz: float) -> str:
+    return (
+        "##ASTER 17.04.00 CONCEPT TAB CALCULE LE 29/09/2026\n"
+        "INTITULE RESULTAT NOM_CHAM DX DY DZ\n"
+        f"{title} RESU REAC_NODA {_num(dx)} {_num(dy)} {_num(dz)}\n\n"
+    )
+
+
+def _symmetry(case: str, rows: Sequence[tuple[float, ...]]) -> str:
+    body = "".join(
+        f"SYMETRIE_{case} N{i} " + " ".join(_num(v) for v in r) + "\n"
+        for i, r in enumerate(rows, start=1)
+    )
+    return (
+        "##ASTER 17.04.00 CONCEPT TAB\n"
+        "INTITULE NOEUD COOR_X COOR_Y COOR_Z DX DY DZ\n" + body + "\n"
+    )
+
+
+def _mess(dz_g: float = 100.0) -> str:
+    rows = [
+        # (x, y, z, dx, dy, dz) : paires symétriques par rapport au plan X = 1
+        (0.0, 0.0, 0.0, 1.0e-3, 2.0e-3, -1.0e-3),
+        (2.0, 0.0, 0.0, -1.0e-3, 2.0e-3, -1.0e-3),
+        (1.0, 0.0, 0.0, 0.0, 5.0e-3, -2.0e-3),
+    ]
+    return (
+        _reaction("REAC_APPUI_G", 0.0, 0.0, dz_g)
+        + _reaction("REAC_TOUS_G", 0.0, 0.0, dz_g)
+        + _reaction("REAC_APPUI_Q", 0.0, 0.0, 50.0)
+        + _reaction("REAC_TOUS_Q", 0.0, 0.0, 50.0)
+        + _symmetry("G", rows)
+        + _symmetry("Q", rows)
+        + "  --- DIAGNOSTIC JOB : OK\n"
+    )
+
+
+def _run(project: Any, mess: str, tmp_path: Path) -> tuple[dict[str, Any], Path]:
+    ctx = load_project(project.name, project.repo_root)
+    mess_path = tmp_path / "fort.6"
+    mess_path.write_text(mess, encoding="utf-8")
+    comm = tmp_path / "barre.comm"
+    comm.write_text("DEBUT()\nFIN()\n", encoding="utf-8")
+    out = tmp_path / "controles"
+    result = level_d_controls(
+        ctx,
+        mess_path=mess_path,
+        comm_path=comm,
+        mesh_path=project.directory / "maillage.med",
+        out_dir=out,
+    )
+    return result, out
+
+
+def test_a_balanced_model_passes_equilibrium_gravity_and_symmetry(
+    fake_project: Factory, tmp_path: Path
+) -> None:
+    result, out = _run(fake_project(), _mess(), tmp_path)
+
+    assert result["cases"]["G"]["verdict"] == "RÉUSSI"
+    assert result["cases"]["Q"]["verdict"] == "RÉUSSI"
+    assert result["cases"]["G"]["reaction_sum_all_nodes_n"]["DZ"] == 100.0
+    assert result["spring_stiffness"] == {"n_nodes": 0}
+    assert result["symmetry"]["G"]["n_pairs_checked"] == 1
+    # le nœud du plan est sa propre image (même règle qu'au lot 33)
+    assert result["symmetry"]["G"]["n_unmatched"] == 0
+    summary = json.loads((out / "controles_d.json").read_text(encoding="utf-8"))
+    assert summary["verdict"] == "RÉUSSI"
+    assert summary["level"] == "D"
+    assert summary["gravity"]["G"]["component"] == "DZ"
+    assert summary["gravity"]["G"]["applied_n"] == -100.0
+    text = (out / "controles_d.md").read_text(encoding="utf-8")
+    assert "jamais une validation par comparaison à une référence" in text
+    assert (out / "equilibre.json").read_text(encoding="utf-8").endswith("}\n")
+
+
+def test_an_unbalanced_case_fails(fake_project: Factory, tmp_path: Path) -> None:
+    result, out = _run(fake_project(), _mess(dz_g=90.0), tmp_path)
+
+    assert result["cases"]["G"]["verdict"] == "ÉCHEC"
+    assert result["cases"]["G"]["components"]["DZ"]["relative_gap"] == pytest.approx(
+        -0.1
+    )
+    summary = json.loads((out / "controles_d.json").read_text(encoding="utf-8"))
+    assert summary["verdict"] == "ÉCHEC"
+    assert summary["gravity"]["G"]["verdict"] == "ÉCHEC"
+
+
+def test_a_missing_reaction_table_is_named(
+    fake_project: Factory, tmp_path: Path
+) -> None:
+    mess = _mess().replace("REAC_APPUI_Q", "AUTRE_TITRE")
+    with pytest.raises(ProjectError, match="table de réactions REAC_APPUI_Q absente"):
+        _run(fake_project(), mess, tmp_path)
+
+
+def test_a_project_without_controls_is_refused(
+    fake_project: Factory, tmp_path: Path
+) -> None:
+    project = fake_project()
+    data = project.declaration()
+    del data["controls"]
+    data.pop("combinations")
+    project.write_declaration(data)
+    with pytest.raises(ProjectError, match="ne déclare aucun contrôle D"):
+        _run(project, _mess(), tmp_path)
+
+
+def test_only_blocked_components_enter_the_balance() -> None:
+    controls = ControlsSection.model_validate(
+        {
+            "supports": [
+                {"group": "A", "blocked": ["DX"], "table": "RA_{case}"},
+                {"group": "B", "blocked": ["DZ"], "table": "RB_{case}"},
+            ],
+            "cases": [{"name": "G", "expected_resultant": {"DX": 0, "DY": 0, "DZ": 0}}],
+        }
+    )
+    reactions = {
+        "A": {"DX": 1.0, "DY": 7.0, "DZ": 3.0},
+        "B": {"DX": 2.0, "DY": 0.0, "DZ": 5.0},
+    }
+    applied = {"DX": -1.0, "DY": 0.0, "DZ": -5.0}
+
+    terms = balance_terms(controls, applied, applied, reactions, {})
+
+    assert terms["DX"]["reactions_blocked_n"] == 1.0
+    assert terms["DX"]["reactions_free_components_n"] == 2.0
+    assert terms["DZ"]["balance_n"] == 0.0
+    assert terms["DY"]["reactions_free_components_n"] == 7.0
+    zero = balance_terms(
+        controls,
+        dict.fromkeys(applied, 0.0),
+        dict.fromkeys(applied, 0.0),
+        reactions,
+        {},
+    )
+    assert math.isnan(zero["DX"]["relative_gap"])
+
+
+def test_symmetry_about_an_offset_plane() -> None:
+    plane = SymmetryPlane(normal="X", position=1.0, cases=("G",))
+    tables = TableIndex(
+        _symmetry(
+            "G", [(0.5, 1.0, 0.0, 1e-3, 0.0, 0.0), (1.5, 1.0, 0.0, -1e-3, 1e-9, 0.0)]
+        )
+    )
+
+    check = symmetry_check(tables, plane, "G")
+
+    assert check["n_pairs_checked"] == 1
+    assert check["worst_gap_m"] == pytest.approx(1e-9)
+    assert check["worst_detail"]["dy_gap"] == pytest.approx(1e-9)
+
+
+def test_find_table_reports_an_absent_title() -> None:
+    with pytest.raises(KeyError, match="table introuvable : ABSENTE"):
+        find_table(_mess(), "ABSENTE")
+    assert find_table(_mess(), "REAC_APPUI_G")[0]["DZ"] == 100.0

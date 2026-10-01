@@ -1,0 +1,88 @@
+{
+  "constat_id": "CA-019",
+  "summary": "Une force et un moment nodaux sur un nœud de poutre s'appliquent par FORCE_NODALE avec FX à MZ, en repère global par défaut.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_CHAR_MECA"
+  ],
+  "keywords": [
+    "FORCE_NODALE",
+    "FX",
+    "FY",
+    "FZ",
+    "GROUP_NO",
+    "MX",
+    "MY",
+    "MZ",
+    "POU_D_E",
+    "POU_D_T"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "8"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Application d'une force et d'un moment nodaux sur un nœud d'élément de poutre",
+    "options_considered": [],
+    "option_retained": "Mot-clé facteur FORCE_NODALE de AFFE_CHAR_MECA, affecté par GROUP_NO, composantes FX, FY, FZ (forces) et MX, MY, MZ (moments), définies dans le repère global par défaut.",
+    "justification": "U4.44.01 documente FORCE_NODALE (forces et moments nodaux, repère global) ; U3.11.01 donne, pour POU_D_T et POU_D_E, six degrés de liberté par nœud dont trois rotations. Confirmé au catalogue : FORCE_NODALE, GROUP_NO, FX, FY, FZ, MX, MY, MZ existent sous AFFE_CHAR_MECA.",
+    "discarded_variants": [],
+    "notes": "Déduction : la documentation de FORCE_NODALE ne nomme pas les éléments de poutre ; l'applicabilité des moments à un nœud de poutre vient des degrés de liberté de rotation de U3.11.01. La même documentation avertit que le chargement nodal est physiquement incorrect et préfère les chargements répartis.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U4.44.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements_de_type_Neumann_"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Le mot-clé facteur FORCE_NODALE est utilisable pour appliquer, à des nœuds ou des groupes de nœuds, des forces nodales, définies composante par composante dans le repère **global**  ou dans un repère **oblique**  défini par trois angles nautiques. En toute rigueur, l’application d’un chargement nodal est physiquement incorrect et peut provoquer des concentrations de contraintes. Il est préférable d’utiliser des chargements répartis."
+      },
+      {
+        "document_id": "U4.44.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements_de_type_Neumann_"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Valeurs des composantes des forces nodales des moments nodaux appliqués aux nœuds spécifiés. Ces forces nodales viendront se superposer aux forces nodales issues, éventuellement, d’autres chargements. En axisymétrique, les valeurs correspondent à un secteur d’un radian (diviser le chargement réel par :math:`2\\pi` )."
+      },
+      {
+        "document_id": "U3.11.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Discr_tisation"
+        ],
+        "source_path": "source/manuals/man_u/u3/u3.11.01/Discr_tisation.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Pour les trois modélisations de poutre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les six composantes de déplacement (trois translations et trois rotations). Ces nœuds sont supposés décrire un segment de la fibre moyenne de la poutre."
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_NODALE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      }
+    ],
+    "status": "tranche"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "constat_id": "CA-008",
+  "summary": "LIAISON_SOLIDE accepte dans une même occurrence plusieurs groupes de nœuds (anneau de coque et nœud de poutre), qui forment alors un seul corps rigide, une occurrence par jonction.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_CHAR_MECA"
+  ],
+  "keywords": [
+    "AXE_POUTRE",
+    "CARA_ELEM",
+    "COQ_POU",
+    "DIST_MIN",
+    "DKT",
+    "GROUP_MA_1",
+    "GROUP_NO",
+    "GROUP_NO_2",
+    "LIAISON_ELEM",
+    "LIAISON_SOLIDE",
+    "OPTION",
+    "POU_D_E"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "3"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Liaison de corps solide entre un anneau de nœuds de coque et un nœud de poutre",
+    "options_considered": [],
+    "option_retained": "Mot-clé facteur LIAISON_SOLIDE de AFFE_CHAR_MECA, GROUP_NO = (nom du groupe de nœuds de l'anneau de tête du tube, nom du groupe de nœuds du nœud de poutre au droit de ce tube), une occurrence par tube : les nœuds cités deviennent un unique corps rigide, sans relation superflue avec les autres tubes. GROUP_NO accepte un tuple de plusieurs groupes de nœuds dans une même occurrence, chacun désignant un ensemble distinct de nœuds réunis dans le même corps solide (confirmé par le cas test officiel sdlx03b.comm : `LIAISON_SOLIDE=(_F(GROUP_NO=(\"N241\", \"N44\")), ...)`, jonction de plaques DKT perpendiculaires, GROUP_NO à deux éléments par occurrence).",
+    "justification": "U4.44.01 (Mot-clé LIAISON_SOLIDE) : « Le mot-clé LIAISON_SOLIDE permet de modéliser une partie indéformable d'une structure. On impose des relations linéaires entre les degrés de liberté des nœuds de cette partie indéformable... Ces nœuds sont définis par les groupes de mailles et les groupes de nœuds auxquels ils appartiennent. » Confirmé au catalogue : le mot-clé facteur LIAISON_SOLIDE de AFFE_CHAR_MECA existe, avec l'opérande GROUP_NO (type grno, sans limite de nombre de valeurs -- max_values null). Le mécanisme ne distingue pas le type d'élément porté par chaque nœud (coque DKT ou poutre POU_D_E) : la remarque du même paragraphe (« Si un élément a tous ses nœuds dans une zone «solidifiée»... ses efforts généralisés sont nuls ») s'applique aux deux également. Un cas test officiel, sdlx03b.comm (assemblage de plaques DKT entretoisées), utilise exactement cette syntaxe -- GROUP_NO à plusieurs éléments par occurrence -- pour unir des nœuds de deux parties distinctes de la structure ; il ne combine pas coque et poutre, mais le mécanisme cité (relations linéaires entre degrés de liberté de nœuds appartenant aux groupes donnés) ne dépend pas de la modélisation portée par chaque nœud.",
+    "discarded_variants": [],
+    "notes": "Alternative recevable, non retenue : LIAISON_ELEM (option COQ_POU, U4.44.01), un raccord coque/poutre dédié qui laisse respirer l'interface au lieu d'un corps rigide -- écarté car le point demande explicitement une « liaison de corps solide », terminologie qui nomme LIAISON_SOLIDE, et parce que le cas de test (encastrement du tube dans la poutre sur 0,80 m, cas_test_quai_combiwall_v2.md §3) est mieux représenté par un raccord rigide que par un raccord souple conçu pour ne pas transmettre de contrainte parasite. Non établi par la documentation seule : DIST_MIN (distance de confusion des points, par défaut 0,001 × plus petite arête du maillage) n'a pas été vérifié compatible avec la géométrie du modèle (l'anneau de tête a un rayon 0,71 m et 40 ou 21 nœuds : la plus petite arête du maillage entier, hors anneau, doit être identifiée avant génération pour écarter un DIST_MIN trop grand qui engloberait des nœuds voisins non voulus). Historique du constat remplacé (fiche de base, lot 14, niveau A, sans excerpt ni cas test) : option retenue : AFFE_CHAR_MECA, mot-clé LIAISON_ELEM, OPTION='COQ_POU' (mots-clés enfants GROUP_MA_1, GROUP_NO_2, CARA_ELEM, AXE_POUTRE) Notes : (aucune)",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "R3.03.06",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Hypoth_ses_et_applications_"
+        ],
+        "source_path": "source/manuals/man_r/r3/r3.03.06/Hypoth_ses_et_applications_.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "On décrit ici la liaison coque-poutre, qui sert à raccorder deux maillages, l'un comportant des éléments de coques (ou de plaques), l'autre comportant des éléments de poutres"
+      },
+      {
+        "document_id": "R3.03.03",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Pr_sentation"
+        ],
+        "source_path": "source/manuals/man_r/r3/r3.03.03/Pr_sentation.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "La commande employée pour traiter les raccords entre éléments de poutre et éléments 2D ou 3D est AFFE_CHAR_MECA [U4.44.01], via le mot-clé LIAISON_ELEM avec l'option OPTION='3D_POU' ou '2D_POU'"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "LIAISON_ELEM"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      },
+      {
+        "document_id": "U4.44.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements de type Dirichlet",
+          "Mot-clé LIAISON_SOLIDE"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Dirichlet_.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Mot-clé LIAISON_SOLIDE\n----------------------\n\n.. code-block:: text\n\n    LIAISON_SOLIDE = _F(\n               ◆ / GROUP_NO = grno,\n                 / GROUP_MA = grma,\n               ◇ SANS_GROUP_MA = grma,\n               ◇ SANS_GROUP_NO = grno,\n               ◇ DIST_MIN = float,\n    )\n\nLe mot-clé LIAISON_SOLIDE permet de modéliser une partie indéformable d’une structure. On impose des relations linéaires entre les degrés de liberté des nœuds de cette partie indéformable de telle sorte que les déplacements relatifs entre ces nœuds soient nuls et on impose éventuellement les déplacements aux valeurs résultant de la translation et/ou de la rotation. Ces nœuds sont définis par les groupes de mailles et les groupes de nœuds auxquels ils appartiennent. Pour les restrictions d’usage, voir le § :ref:`3.2.1 <RefNumPara__16466_348240213>` .\n\nEn petites perturbations, on impose en 2D :math:`({{nb}}_{{ddl}}{\\times}{{nb}}_{{noeud}}–3)` relations et en 3D :math:`({{nb}}_{{ddl}}{\\times}{{nb}}_{{noeud}}–6)` relations, où :math:`{{nb}}_{{ddl}}` est le nombre de degrés de liberté par nœud et :math:`{{nb}}_{{noeud}}` est le nombre de nœuds de la liste donnée après LIAISON_SOLIDE. Un solide est déterminé par la position d’un de ses points et d’un repère en ce point. Des relations sont écrites en prenant la formule vectorielle traduisant un mouvement de corps rigide en petites rotations:\n\n.. math::\n    :label: eq-6\n\n    \\overrightarrow{u}(M)=\\overrightarrow{u}(A)+\\overrightarrow{\\Omega}(A)\\wedge \\overrightarrow{{AM}}\n\n\noù :math:`A` est un nœud arbitraire du solide. Pour plus de détails, voir la doc [:external:ref:`R3.03.02 <R3.03.02>`].\n\nIl est possible d’utiliser LIAISON_SOLIDE en grandes transformations dans STAT_NON_LINE (puisque le problème devient non-linéaire) uniquement en imposant que le chargement soit suiveur (TYPE_CHARGE=’SUIV’, voir [:external:ref:`U4.51.03 <U4.51.03>`]).\n\nAffectation topologique:\n\n.. code-block:: text\n\n    ◆ GROUP_MA, SANS_GROUP_MA, SANS_GROUP_NO\n\nLes conditions cinématiques de corps rigide sont imposées sur les nœuds appartenant aux mailles données par les mots-clés TOUT, GROUP_MA tout en excluant éventuellement grâce aux mots-clés SANS_*.\n\n.. code-block:: text\n\n    ◇ DIST_MIN\n\nCe mot-clé sert à définir une distance (dans les unités du maillage) en dessous de laquelle on considère que les points du maillage sont confondus. Cette distance sert aussi à déterminer si des points sont alignés, c’est-à-dire s’ils se trouvent dans un cylindre de diamètre inférieur à :math:`{dmin}` . Par défaut, :math:`{dmin}{=}0.001{\\times}{armin}` , où :math:`{armin}` est la plus petite arête du maillage.\n\n**Remarques:**\n\n*Si un élément a tous ses nœuds dans une zone «solidifiée» par* LIAISON_SOLIDE *, sa déformation est nulle. L’état de contrainte est alors également nul ainsi que les efforts généralisés s’il s’agit d’un élément de structure.*\n\n*Si la liste des nœuds à lier ne comporte que des nœuds alignés ne portant aucun degré de liberté de rotation, alors, si le système doit être soumis à une rotation, il faut rajouter un nœud fictif non aligné dans la liste. L'autre solution est de se placer dans l'hypothèse des grandes rotations et grands déplacements(TYPE_CHARGE='SUIV'), on impose en effet explicitement à la liaison solide de vérifier que les distances sont constantes.*\n\n\n\n.. _u4.44.01-LIAISON_ELEM:\n"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "LIAISON_SOLIDE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "LIAISON_SOLIDE",
+          "GROUP_NO"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      }
+    ],
+    "status": "tranche"
+  }
+}

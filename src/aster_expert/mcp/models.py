@@ -86,3 +86,40 @@ class DocumentSectionResult(BaseModel):
 
     validation_level: Literal["A"] = "A"
     section: DocumentSection
+
+
+class ConstatHitResult(BaseModel):
+    """One finding of the shared base (lot 41), as `search_constats` returns it.
+
+    `constat_validation_level` is the level the finding itself reached (A
+    documentary, B catalogue introspection, C/D execution), distinct from the
+    level of the answer (always A: a reading of the base, nothing executed)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    constat_id: str
+    summary: str
+    topic: str
+    option_retained: str | None
+    constat_validation_level: Literal["A", "B", "C", "D"]
+    aster_version: str
+    commands: tuple[str, ...]
+    keywords: tuple[str, ...]
+    trial_cases: tuple[str, ...]
+    origin_project: str
+    file: str
+    score: int
+
+
+class SearchConstatsResult(BaseModel):
+    """`search_constats` (lot 41, étape 4.3)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    validation_level: Literal["A"] = "A"
+    text: str | None
+    command: str | None
+    keyword: str | None
+    total_in_base: int
+    results: list[ConstatHitResult]
+    guidance: str

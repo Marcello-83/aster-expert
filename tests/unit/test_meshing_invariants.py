@@ -159,11 +159,11 @@ def test_report_lists_every_invariant_and_names_the_first_failure() -> None:
 
 
 def test_invalid_or_missing_invariants_files_are_refused(tmp_path: Path) -> None:
-    with pytest.raises(MeshCheckError, match="not found"):
+    with pytest.raises(MeshCheckError, match="introuvable"):
         load_invariants(tmp_path / "absent.yaml")
     bad = tmp_path / "bad.yaml"
     bad.write_text("schema_version: 1\nunknown_key: 3\n", encoding="utf-8")
-    with pytest.raises(MeshCheckError, match="invalid"):
+    with pytest.raises(MeshCheckError, match="incohérent|illisible|vide"):
         load_invariants(bad)
 
 

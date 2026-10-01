@@ -1,0 +1,134 @@
+{
+  "constat_id": "CA-015",
+  "summary": "Le catalogue offre plusieurs lois de sol, de roche et de joint (MOHR_COULOMB, DRUCK_PRAGER, CAM_CLAY, MCC, HOEK_BROWN, HUJEUX et d'autres), chacune documentée par sa notice R.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "STAT_NON_LINE"
+  ],
+  "keywords": [
+    "CAM_CLAY",
+    "CJS",
+    "COMPORTEMENT",
+    "DIS_CHOC",
+    "DIS_CONTACT",
+    "DRUCK_PRAGER",
+    "DRUCK_PRAG_N_A",
+    "ELAS",
+    "ENDO",
+    "FONDATION",
+    "HOEK_BROWN",
+    "HUJEUX",
+    "JOINT_MECA_FROT",
+    "KIT_HHM",
+    "KIT_HM",
+    "KIT_THM",
+    "LAIGLE",
+    "LETK",
+    "MCC",
+    "MOHR_COULOMB",
+    "RELATION"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "6"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Lois de comportement de sol/roche/joint disponibles au catalogue et leur domaine (notices R associées)",
+    "options_considered": [],
+    "option_retained": "MOHR_COULOMB (isotrope, R7.01.28) ; DRUCK_PRAGER (élasto-plastique béton/sol, R7.01.16) ; CAM_CLAY (matériaux argileux, R7.01.14) ; MCC (Cam-Clay modifié, sols granulaires monotones drainés, R7.01.48) ; HOEK_BROWN (roches, alternative à DRUCK_PRAGER/LAIGLE, R7.01.18) ; HUJEUX (loi cyclique pour les sols, R7.01.23) ; ainsi que DRUCK_PRAG_N_A, LAIGLE, CJS, LETK, FONDATION, JOINT_MECA_FROT/RUPT/ENDO, DIS_CHOC, DIS_CONTACT, ELAS et des kits couplés KIT_HM/KIT_HHM/KIT_THM",
+    "justification": "get_command_schema (STAT_NON_LINE/COMPORTEMENT.RELATION) liste ces lois ; chaque notice R confirme le domaine des lois principales de sol/roche.",
+    "discarded_variants": [],
+    "notes": "R7.01.23 (loi cyclique HUJEUX) : existence confirmée par recherche, ni section ni chemin capturés, contenu du domaine de validité non extrait dans cette session. R7.01.28/R7.01.14/R7.01.18 : document et section connus, chemin source non capturé. Déduction : la présence, dans la même liste RELATION, de lois de sol (Mohr-Coulomb, Drucker-Prager, Cam-Clay/MCC, Hujeux) et de lois de roche (Hoek-Brown, Laigle) permet de distinguer, pour un sol stratifié hétérogène, un choix de loi par couche plutôt qu'une loi unique -- mais aucun document retourné ne formule cette recommandation de stratification explicitement pour un cas de quai.",
+    "validity_domain": "R7.01.28 : la formulation de Mohr-Coulomb en contraintes principales n'est valable que sous l'hypothèse d'une isotropie du matériau. R7.01.48 : le modèle Cam-Clay modifié (MCC) représente la phénoménologie de sols granulaires sous chargements monotones et drainés -- domaine de validité des autres lois de cette entrée (Drucker-Prager, Hoek-Brown, Hujeux) non précisé par les extraits lus dans cette session.",
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "STAT_NON_LINE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "COMPORTEMENT",
+          "RELATION"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      },
+      {
+        "document_id": "R7.01.28",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Formulation_en_termes_de_contraintes_principales"
+        ],
+        "source_path": null,
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "theorie",
+        "excerpt": "Cette formulation n'est valable que sous l'hypothèse d'une isotropie du matériau"
+      },
+      {
+        "document_id": "R7.01.16",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Introduction"
+        ],
+        "source_path": "source/manuals/man_r/r7/r7.01.16/Introduction.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "theorie",
+        "excerpt": "La loi de Drucker-Prager permet de modéliser de façon élémentaire le comportement élasto-plastique du béton ou de certains sols"
+      },
+      {
+        "document_id": "R7.01.14",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "index"
+        ],
+        "source_path": null,
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "theorie",
+        "excerpt": "spécialement adapté aux mat[ériaux argileux]"
+      },
+      {
+        "document_id": "R7.01.48",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Introduction"
+        ],
+        "source_path": "source/manuals/man_r/r7/r7.01.48/Introduction.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "theorie",
+        "excerpt": "modèle de comportement Cam-Clay modifié [qui] représente la phénoménologie essentielle des sols granulaires sous chargements monotones et drainés"
+      },
+      {
+        "document_id": "R7.01.18",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Introduction"
+        ],
+        "source_path": null,
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "theorie",
+        "excerpt": null
+      },
+      {
+        "document_id": "R7.01.23",
+        "aster_version": "17.4.0",
+        "section_path": [],
+        "source_path": null,
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "theorie",
+        "excerpt": null
+      }
+    ],
+    "status": "tranche"
+  }
+}

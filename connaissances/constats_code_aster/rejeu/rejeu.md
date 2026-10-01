@@ -1,0 +1,72 @@
+# Rejeu des constats établis par exécution
+
+Code_Aster 17.4.0 (`sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5`), 2026-09-29T11:43:28.647934+00:00.
+
+Critère : chaque valeur obtenue enregistrée dans une source d'exécution est de nouveau imprimée dans le listing du cas rejoué, à 1e-9 près en relatif.
+
+- CA-020 : tient
+  - data/examples/lot22_essais/essai_c/c.comm : rejoué (2/2 valeurs retrouvées)
+- CA-021 : tient
+  - data/examples/fcoque_essai/demi_cylindre.comm : rejoué (1/1 valeurs retrouvées)
+- CA-022 : tient
+  - data/examples/lot22_essais/essai_a/a1.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot22_essais/essai_a/a2.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot22_essais/essai_a/a3.comm : rejoué (1/1 valeurs retrouvées)
+- CA-023 : tient
+  - data/examples/lot22_essais/essai_a/a1.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot22_essais/essai_a/a2.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot22_essais/essai_a/a6.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot22_essais/essai_a/a4.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot22_essais/essai_a/a5.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot22_essais/essai_a/a7.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot23_essais/essai_d1/d1.comm : rejoué (2/2 valeurs retrouvées)
+  - data/examples/lot23_essais/essai_d2/d2a.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot23_essais/essai_d2/d2b.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot23_essais/essai_d3/d3.comm : rejoué (1/1 valeurs retrouvées)
+- CA-024 : tient
+  - data/examples/lot22_essais/essai_b/b2.comm : rejoué (2/2 valeurs retrouvées)
+  - data/examples/lot22_essais/essai_b/b3.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot23_essais/essai_d4/d4.comm : rejoué (1/1 valeurs retrouvées)
+- CA-025 : tient
+  - data/examples/lot23_essais/essai_d1/d1.comm : rejoué (5/5 valeurs retrouvées)
+  - data/examples/lot23_essais/essai_d2/d2a.comm : rejoué (2/2 valeurs retrouvées)
+  - data/examples/lot23_essais/essai_d2/d2b.comm : rejoué (2/2 valeurs retrouvées)
+  - data/examples/lot23_essais/essai_d3/d3.comm : rejoué (2/2 valeurs retrouvées)
+  - data/examples/lot24_essais/essai_d6a/d6a.comm : rejoué (3/3 valeurs retrouvées)
+  - data/examples/lot24_essais/essai_d6b/d6b.comm : rejoué (6/6 valeurs retrouvées)
+  - data/examples/lot24_essais/essai_d6b/d6b16.comm : rejoué (2/2 valeurs retrouvées)
+  - data/examples/lot24_essais/essai_d6c/d6c.comm : rejoué (2/2 valeurs retrouvées)
+- CA-026 : tient
+  - data/examples/lot23_essais/essai_d5/d5a.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot23_essais/essai_d5/d5b.comm : rejoué (2/2 valeurs retrouvées)
+- CA-027 : tient
+  - data/examples/lot25_essais/essai_d7a/d7a.comm : rejoué (2/2 valeurs retrouvées)
+  - data/examples/lot25_essais/essai_d7a/d7a16.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot25_essais/essai_d7b/d7b.comm : rejoué (2/2 valeurs retrouvées)
+  - data/examples/lot25_essais/essai_d7b/d7b16.comm : rejoué (1/1 valeurs retrouvées)
+  - data/examples/lot25_essais/essai_d7c/d7c.comm : rejoué (1/1 valeurs retrouvées)
+- CA-029 : non rejouable
+  - data/examples/lot35_constats/f1_avant.sonde.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
+  - data/examples/lot35_constats/f1_apres.sonde.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
+- CA-034 : non rejouable
+  - data/examples/lot35_constats/f2_avant.ressorts.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
+  - data/examples/lot35_constats/f2_apres.ressorts.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
+- CA-035 : non rejouable
+  - data/examples/lot35_constats/f3_nodal.sonde.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
+- CA-036 : non rejouable
+  - data/examples/lot35_constats/f4_reactions.controles.comm : non rejouable (maillage lu sans .export à côté du cas (maillage non versionné avec lui))
+- CA-040 : tient
+  - data/examples/lot39_essais/d19/d19.comm : rejoué (2/2 valeurs retrouvées)
+  - data/examples/lot39_essais/limites/limites.comm : rejoué (2/2 valeurs retrouvées)
+- CA-041 : tient
+  - data/examples/lot39_essais/fermin/fermin.comm : rejoué (2/2 valeurs retrouvées)
+  - data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm : rejoué (3/3 valeurs retrouvées)
+- CA-042 : tient
+  - data/examples/lot39_essais/limites/limites.comm : rejoué (3/3 valeurs retrouvées)
+- CA-043 : tient
+  - data/examples/lot39_essais/limites/limites.comm : rejoué (5/5 valeurs retrouvées)
+- CA-044 : tient
+  - data/examples/lot39_essais/limites/limites.comm : rejoué (2/2 valeurs retrouvées)
+- CA-045 : tient
+  - data/examples/lot39_essais/plaque/plaque.comm : rejoué (3/3 valeurs retrouvées)
+- 14/18 constat(s) établi(s) par exécution tiennent sous Code_Aster 17.4.0 ; 4 non rejouable(s) en l'état ; à réexaminer : aucun.

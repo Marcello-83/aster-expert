@@ -1,0 +1,284 @@
+{
+  "constat_id": "CA-023",
+  "summary": "Piège : sous ELAS_COQUE, REAC_NODA, FORC_NODA et SIEF_ELGA sont calculés avec une rigidité de flexion MEMB × EPAIS²/12 et sont faux dès que FLEX_L ou FLEX_T en diffère.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "FIN"
+  ],
+  "keywords": [
+    "CISA_L",
+    "CISA_T",
+    "COQUE_3D",
+    "D1",
+    "D2",
+    "DKT",
+    "DST",
+    "DZ",
+    "EFGE_ELNO",
+    "EFGE_NOEU",
+    "ELAS",
+    "ELAS_COQUE",
+    "EPAIS",
+    "FLEX_L",
+    "FLEX_T",
+    "FORC_NODA",
+    "MEMB_L",
+    "MEMB_T",
+    "NXX",
+    "QUAD4",
+    "REAC_NODA",
+    "SIEF_ELGA",
+    "SIGM_ELNO",
+    "SIXX",
+    "TRIA3"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "data/examples/lot22_essais/essai_a/a1.comm",
+      "case_sha256": "3c8d137b801547f394b9c55b94ae7e3f3b9df2b6b25ffc00ef79e0f0e9f1ea68",
+      "mess_path": "data/examples/lot22_essais/mess/mess_a1.txt"
+    },
+    {
+      "case_path": "data/examples/lot22_essais/essai_a/a2.comm",
+      "case_sha256": "fb6c4d1ebe7974d31ac25f486984597f6ec3cc699249caa39c7a6e7277961565",
+      "mess_path": "data/examples/lot22_essais/mess/mess_a2.txt"
+    },
+    {
+      "case_path": "data/examples/lot22_essais/essai_a/a6.comm",
+      "case_sha256": "0b8c22dbecc2c4f7ed4dfed8a20ebaf27153ff5f622856dc35ca3775df675919",
+      "mess_path": "data/examples/lot22_essais/mess/mess_a6.txt"
+    },
+    {
+      "case_path": "data/examples/lot22_essais/essai_a/a4.comm",
+      "case_sha256": "c05f0a1438bcf43dd09179419be41c4cbd25b9bbb265f08f87143df2901955b4",
+      "mess_path": "data/examples/lot22_essais/mess/mess_a4.txt"
+    },
+    {
+      "case_path": "data/examples/lot22_essais/essai_a/a5.comm",
+      "case_sha256": "c7c911fbae3c6c99475fa4be3de4baba62207673ce0a3567ae9e666ea1a91c5e",
+      "mess_path": "data/examples/lot22_essais/mess/mess_a5.txt"
+    },
+    {
+      "case_path": "data/examples/lot22_essais/essai_a/a7.comm",
+      "case_sha256": "c00cb29345efd3c3e545568e337d687d383918a36a5fea3889750b044b53208a",
+      "mess_path": "data/examples/lot22_essais/mess/mess_a7.txt"
+    },
+    {
+      "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+      "case_sha256": "f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01",
+      "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt"
+    },
+    {
+      "case_path": "data/examples/lot23_essais/essai_d2/d2a.comm",
+      "case_sha256": "465034b18e37206283e8dac84ffefc02626468a7c6d28c69d52c4f204c758372",
+      "mess_path": "data/examples/lot23_essais/mess/mess_d2a.txt"
+    },
+    {
+      "case_path": "data/examples/lot23_essais/essai_d2/d2b.comm",
+      "case_sha256": "b4bc51d0dab52eb963278b3d1dc7f78018e08f39878de9407a80f28d9e098ec8",
+      "mess_path": "data/examples/lot23_essais/mess/mess_d2b.txt"
+    },
+    {
+      "case_path": "data/examples/lot23_essais/essai_d3/d3.comm",
+      "case_sha256": "0c47cf4c7893db5e44ec06355b986aeb35d7cdfd72607a39a354a074ff5a4573",
+      "mess_path": "data/examples/lot23_essais/mess/mess_d3.txt"
+    }
+  ],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "1"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Résultante des réactions nodales (REAC_NODA) sous ELAS_COQUE lorsque la rigidité de flexion n'est pas MEMB × EPAIS² / 12",
+    "options_considered": [],
+    "option_retained": "Sous ELAS_COQUE (DKT), les contraintes SIEF_ELGA (dans la sortie 17.4.0, champ à trois sous-points SIXX… et non des efforts généralisés) et, par suite, FORC_NODA et REAC_NODA, sont calculées avec une rigidité de flexion égale à MEMB × EPAIS²/12 et non avec les coefficients FLEX_* : elles ne sont exactes que si FLEX = MEMB × EPAIS²/12 dans la direction sollicitée. Console de l'essai A (MEMB_L × EPAIS²/12 = 83,33 N·m, FLEX_L = 1000 N·m), charge 5 N : résultante DZ de REAC_NODA et de FORC_NODA à l'encastrement 0,416667 N (D1) ; ×4 pour EPAIS × 2 (1,666667 N), ÷4 pour EPAIS × 0,5 (0,104167 N) : elles varient comme EPAIS². Le moment de réaction suit le même facteur (0,8333 N·m pour 10 N·m). Le rapport du moment équivalent tiré de SIEF_ELGA au moment analytique vaut MEMB_L × EPAIS²/(12 × FLEX_L) : 1/12 (D1), 1/3 (D2, EPAIS × 2), 1/48 (D2, EPAIS × 0,5), à 10⁻¹⁴ près. La contrainte SIXX du premier point de Gauss (98 943,37567 Pa, peau supérieure) est identique pour les trois épaisseurs. CISA_L et CISA_T × 1000 ne changent rien (D3). Les déplacements et les efforts généralisés EFGE_* ne sont pas affectés (constat « efforts généralisés » du même point).",
+    "justification": "Six exécutions jusqu'à FIN sans alarme (niveau C) ; résultante comparée à l'équilibre (charge appliquée de 5 N), niveau D. Écarts relatifs : -91,7 % (a1, a6), -97,9 % (a2), de l'ordre de 10⁻¹¹ (a4, a5, a7). Les flèches en bout de a1, a4, a5, a6 et a7, où la rigidité portée par la console vaut 1000 N·m, coïncident à 2×10⁻¹¹ près en relatif. Lot 23 : cinq exécutions (D1, D2 ×2, D3) jusqu'à FIN sans alarme (niveau C), résultantes comparées à l'équilibre et rapports comparés à la solution analytique (niveau D). L'hypothèse du lot 22 (rigidité MEMB × EPAIS²/12) est confirmée quantitativement et la dépendance en EPAIS² est établie ; U4.81.04 recommande d'ailleurs, pour les comportements homogénéisés de type ELAS_COQUE, de regarder EFGE_NOEU.",
+    "discarded_variants": [],
+    "notes": "La somme de FORC_NODA sur tous les nœuds vaut 0 à 10⁻¹⁵ près dans les trois cas : un contrôle global ne détecte pas l'anomalie, les erreurs des forces nodales internes s'annulant entre elles. Sur le modèle mixte D5b, la « réaction » REAC_NODA de l'extrémité chargée (nœuds portés par ELAS_COQUE seuls, valeur attendue nulle) vaut 4,5833 N, et la somme sur tous les nœuds vaut 5,0 exactement. Le mécanisme interne (contrainte reconstruite à partir de MEMB/EPAIS) est une déduction compatible avec les valeurs, non une lecture du code. R3.07.03 décrit SIEF_ELGA comme des efforts généralisés (NXX…) : la sortie observée est un champ de contraintes à trois sous-points. Non testés : SIGM_ELNO (probablement affecté, déduction), COQUE_3D, DST, TRIA3, direction T, charge répartie. Les cas tests officiels lus par les outils MCP (12 fichiers appelant ELAS_COQUE) ne contiennent aucune occurrence de FORC_NODA ni de REAC_NODA ; ssls502a-d ont FLEX = MEMB × EPAIS²/12 exactement (57,96338 = 18 692 840 × 0,0061²/12) et n'exercent donc pas l'anomalie. Historique du constat remplacé (lot 22, déduction) : option retenue : Avec ELAS_COQUE, la résultante REAC_NODA n'égale la charge appliquée que si la rigidité de flexion portée par la charge vaut MEMB × EPAIS²/12. Essais a1, a2 et a6 (MEMB_L = MEMB_T = 10⁷ N/m, EPAIS = 0,01 m, donc MEMB × EPAIS²/12 = 83,33 N·m, pour FLEX = 1000 ou 4000) : résultante égale à 1/12 (a1, a6) ou 1/48 (a2) de la charge de 5 N, alors que les déplacements sont exacts. Résultante exacte (5 N) sous ELAS (a4), avec des valeurs isotropes cohérentes (a5) et avec une membrane isotrope et FLEX_L ≠ FLEX_T lorsque la console est portée par L (a7, FLEX_L = MEMB_L × EPAIS²/12). Ne pas exploiter REAC_NODA avec ELAS_COQUE sans contrôle d'équilibre. Notes : Déduction, non établie par la documentation : D_eff = MEMB × EPAIS²/12 = 83,33 N·m reproduit exactement le coefficient 3·D_eff·b/L³ = 15,625 qui lie la résultante à la flèche dans a1, a2 et a6 ; le mécanisme (recalcul des efforts généralisés avec une rigidité de flexion déduite de la membrane et de l'épaisseur) n'a pas été isolé. Le cas isotrope cohérent de l'essai B (b2, plaque ELAS_COQUE, FLEX = MEMB × EPAIS²/12) donne une résultante exacte, ce qui va dans le même sens. Portée : DKT, QUAD4, une charge de bord ; FORC_NODA, les efforts généralisés (EFGE_ELNO) et COQUE_3D ne sont pas testés. Pour une palplanche dont les rigidités sont données directement et indépendamment, rien n'assure la relation : réactions et efforts nodaux à ne pas lire sans contrôle (déduction). Le poids propre, l'orientation et l'unité de ELAS_COQUE, eux, ne sont pas affectés.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "b7ce267408c2cfa7a2b1719e2aeff93d13fb05b6",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot22_essais/essai_a/a1.comm",
+        "case_sha256": "3c8d137b801547f394b9c55b94ae7e3f3b9df2b6b25ffc00ef79e0f0e9f1ea68",
+        "mess_path": "data/examples/lot22_essais/mess/mess_a1.txt",
+        "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a1 (MEMB × EPAIS²/12 = 83,33 ; FLEX_L = 1000)",
+        "value_obtained": 0.416666666672,
+        "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+        "reference_value": 5.0,
+        "relative_deviation": -0.9166666666656,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "b7ce267408c2cfa7a2b1719e2aeff93d13fb05b6",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot22_essais/essai_a/a2.comm",
+        "case_sha256": "fb6c4d1ebe7974d31ac25f486984597f6ec3cc699249caa39c7a6e7277961565",
+        "mess_path": "data/examples/lot22_essais/mess/mess_a2.txt",
+        "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a2 (T le long de la console, FLEX_T = 4000)",
+        "value_obtained": 0.1041666666671,
+        "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+        "reference_value": 5.0,
+        "relative_deviation": -0.9791666666665799,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "b7ce267408c2cfa7a2b1719e2aeff93d13fb05b6",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot22_essais/essai_a/a6.comm",
+        "case_sha256": "0b8c22dbecc2c4f7ed4dfed8a20ebaf27153ff5f622856dc35ca3775df675919",
+        "mess_path": "data/examples/lot22_essais/mess/mess_a6.txt",
+        "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a6 (membrane de a1, flexion isotrope 1000)",
+        "value_obtained": 0.4166666666576,
+        "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+        "reference_value": 5.0,
+        "relative_deviation": -0.9166666666684801,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "b7ce267408c2cfa7a2b1719e2aeff93d13fb05b6",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot22_essais/essai_a/a4.comm",
+        "case_sha256": "c05f0a1438bcf43dd09179419be41c4cbd25b9bbb265f08f87143df2901955b4",
+        "mess_path": "data/examples/lot22_essais/mess/mess_a4.txt",
+        "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a4 (témoin ELAS isotrope)",
+        "value_obtained": 4.999999999892,
+        "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+        "reference_value": 5.0,
+        "relative_deviation": -2.1599966260055227e-11,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "b7ce267408c2cfa7a2b1719e2aeff93d13fb05b6",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot22_essais/essai_a/a5.comm",
+        "case_sha256": "c7c911fbae3c6c99475fa4be3de4baba62207673ce0a3567ae9e666ea1a91c5e",
+        "mess_path": "data/examples/lot22_essais/mess/mess_a5.txt",
+        "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a5 (ELAS_COQUE isotrope cohérent)",
+        "value_obtained": 4.999999999892,
+        "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+        "reference_value": 5.0,
+        "relative_deviation": -2.1599966260055227e-11,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "b7ce267408c2cfa7a2b1719e2aeff93d13fb05b6",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot22_essais/essai_a/a7.comm",
+        "case_sha256": "c00cb29345efd3c3e545568e337d687d383918a36a5fea3889750b044b53208a",
+        "mess_path": "data/examples/lot22_essais/mess/mess_a7.txt",
+        "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, variante a7 (membrane isotrope, FLEX_L = 1000 ≠ FLEX_T = 4000)",
+        "value_obtained": 5.000000000062,
+        "reference": "équilibre : charge appliquée 10 N/m × 0,5 m = 5 N",
+        "reference_value": 5.0,
+        "relative_deviation": 1.2400036553117389e-11,
+        "validation_level": "D"
+      },
+      {
+        "document_id": "U4.81.04",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Operandes_forces_reactions"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.81.04/Operandes_forces_reactions.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Dans le cas des coques, les composantes DX, DY et DZ donnent les FORC_NODA (de dimension d'une force) dans le repère global du maillage. Ces composantes sont construites avec les efforts normaux et tranchants dans la coque. Les composantes DRX, DRY et DRZ donnent les FORC_NODA (de dimension d'un moment) dans le repère global du maillage, construites avec les moments fléchissants dans la coque. Dans le cas de comportements homogénéisés de coque type ELAS_COQUE, il est préférable de regarder EFGE_NOEU."
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+        "case_sha256": "f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01",
+        "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+        "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D1 (EPAIS = 0,01 ; MEMB_L × EPAIS²/12 = 83,33 ; FLEX_L = 1000)",
+        "value_obtained": 0.416666666672,
+        "reference": "P = 5 N (charge appliquée)",
+        "reference_value": 5.0,
+        "relative_deviation": -0.9166666666656,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot23_essais/essai_d1/d1.comm",
+        "case_sha256": "f499adc6b1c9056a6b7bf291a5fd82adb7c9b150312024075325169723f04c01",
+        "mess_path": "data/examples/lot23_essais/mess/mess_d1.txt",
+        "quantity": "résultante DZ de FORC_NODA aux nœuds de l'encastrement, D1",
+        "value_obtained": 0.416666666672,
+        "reference": "P = 5 N (charge appliquée)",
+        "reference_value": 5.0,
+        "relative_deviation": -0.9166666666656,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot23_essais/essai_d2/d2a.comm",
+        "case_sha256": "465034b18e37206283e8dac84ffefc02626468a7c6d28c69d52c4f204c758372",
+        "mess_path": "data/examples/lot23_essais/mess/mess_d2a.txt",
+        "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D2 (EPAIS × 2)",
+        "value_obtained": 1.666666666688,
+        "reference": "P = 5 N (charge appliquée)",
+        "reference_value": 5.0,
+        "relative_deviation": -0.6666666666623999,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot23_essais/essai_d2/d2b.comm",
+        "case_sha256": "b4bc51d0dab52eb963278b3d1dc7f78018e08f39878de9407a80f28d9e098ec8",
+        "mess_path": "data/examples/lot23_essais/mess/mess_d2b.txt",
+        "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D2 (EPAIS × 0,5)",
+        "value_obtained": 0.104166666668,
+        "reference": "P = 5 N (charge appliquée)",
+        "reference_value": 5.0,
+        "relative_deviation": -0.9791666666664,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot23_essais/essai_d3/d3.comm",
+        "case_sha256": "0c47cf4c7893db5e44ec06355b986aeb35d7cdfd72607a39a354a074ff5a4573",
+        "mess_path": "data/examples/lot23_essais/mess/mess_d3.txt",
+        "quantity": "résultante DZ des réactions REAC_NODA à l'encastrement, D3 (CISA_L et CISA_T × 1000)",
+        "value_obtained": 0.416666666672,
+        "reference": "P = 5 N (charge appliquée)",
+        "reference_value": 5.0,
+        "relative_deviation": -0.9166666666656,
+        "validation_level": "D"
+      }
+    ],
+    "status": "tranche"
+  }
+}

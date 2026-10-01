@@ -1,0 +1,61 @@
+{
+  "constat_id": "CA-009",
+  "summary": "Un sol stratifié se modélise en massif continu 3D, D_PLAN ou AXIS en mécanique pure, ou par les variantes HM et THM en couplage hydromécanique.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_MODELE"
+  ],
+  "keywords": [
+    "AFFE",
+    "AXIS",
+    "D_PLAN",
+    "D_PLAN_HM",
+    "D_PLAN_THM",
+    "MODELISATION"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "4"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Modélisations disponibles pour un sol stratifié (massif continu, mécanique pure ou couplage hydromécanique)",
+    "options_considered": [],
+    "option_retained": "3D, D_PLAN, AXIS (mécanique pure) ; D_PLAN_HM, 3D_HM, D_PLAN_THM etc. (couplage hydromécanique)",
+    "justification": "Catalogue AFFE_MODELE ; U2.03.09 confirme que le choix du modèle de sol dépend du type d'analyse à mener.",
+    "discarded_variants": [],
+    "notes": "Le contenu détaillé de U2.03.09 au-delà de cette phrase d'ouverture n'a pas été extrait dans cette session.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "AFFE_MODELE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "MODELISATION"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      },
+      {
+        "document_id": "U2.03.09",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "La_mod_lisation_du_comportement_en_fonction_du_type_d_analyse___mener"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.03.09/La_mod_lisation_du_comportement_en_fonction_du_type_d_analyse___mener.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Les sols sont d'abord des milieux poreux : leur réponse mécanique résulte du comportement du squelette solide combiné à celui de la phase li[quide]"
+      }
+    ],
+    "status": "tranche"
+  }
+}

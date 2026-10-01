@@ -321,8 +321,10 @@ def test_apply_decision_replaces_matching_entry() -> None:
     updated = apply_decision(sheet, decided)
 
     assert len(updated.entries) == 2
+    assert isinstance(updated.entries[1], PracticeHypothesisEntry)
     assert updated.entries[1].status == "tranche"
     assert updated.entries[0] == _ESTABLISHED_SIBLING
+    assert isinstance(sheet.entries[1], PracticeHypothesisEntry)
     assert sheet.entries[1].status == "non_tranche"
 
 

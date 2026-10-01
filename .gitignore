@@ -47,3 +47,7 @@ fort.*
 
 # Lot 36 : MED volumineux du dossier de résultats pour ParaVis (jamais versionnés).
 /résultats_MED_Paravis/*.med
+
+# Lot 41 : sorties des étapes d'un projet (`aster-expert projet <nom> <étape>`),
+# reproductibles ; les résultats de référence vivent dans projets/<nom>/references/.
+/projets/*/resultats/

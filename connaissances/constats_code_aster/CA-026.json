@@ -1,0 +1,114 @@
+{
+  "constat_id": "CA-026",
+  "summary": "Piège : l'équilibre d'un modèle ELAS_COQUE se contrôle par les forces des ressorts ou par REAC_NODA aux seuls appuis sans élément ELAS_COQUE, la somme de REAC_NODA sur tous les nœuds étant juste sans rien discriminer.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "CALC_CHAMP",
+    "FIN",
+    "POST_RELEVE_T"
+  ],
+  "keywords": [
+    "DIS_TR",
+    "DKT",
+    "DZ",
+    "ELAS",
+    "ELAS_COQUE",
+    "FORCE",
+    "FORC_NODA",
+    "K_TR_D_N",
+    "MX",
+    "MY",
+    "POI1",
+    "POINT",
+    "REAC_NODA"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "data/examples/lot23_essais/essai_d5/d5a.comm",
+      "case_sha256": "b3843152e41eb2288915ab09f8ae736d87b4ff6547d9d1fc79006604cfeea80b",
+      "mess_path": "data/examples/lot23_essais/mess/mess_d5a.txt"
+    },
+    {
+      "case_path": "data/examples/lot23_essais/essai_d5/d5b.comm",
+      "case_sha256": "99e24f60dbbde89f86ace5d806c4de0a903e1a405a7aac48d6339e573d305089",
+      "mess_path": "data/examples/lot23_essais/mess/mess_d5b.txt"
+    }
+  ],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "8"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Contrôle d'équilibre global d'un modèle contenant des éléments ELAS_COQUE : source des réactions",
+    "options_considered": [],
+    "option_retained": "Sur un modèle mixte (bande DKT dont la moitié x < 1 est en ELAS_COQUE de l'essai A et la moitié x > 1 en ELAS de même rigidité de flexion, charge de 5 N en x = 0, appui en x = 2), deux sources de réactions donnent l'équilibre à 1,1×10⁻¹⁰ près en relatif : (a) les forces nodales des ressorts discrets (DIS_TR, K_TR_D_N), CALC_CHAMP/FORCE = FORC_NODA restreint au groupe de mailles POI1, résultante DZ -5,000000001 N ; (b) REAC_NODA lu sur les nœuds d'appui qui ne portent aucun élément ELAS_COQUE, résultante DZ 5,000000001 N. Moments pris autour du point d'application de la charge : MX = ±1,25 N·m (5 N × 0,25 m) dans les deux cas, MY ≈ 3×10⁻¹⁰ N·m (nul attendu). REAC_NODA lu sur les nœuds portés par ELAS_COQUE est faux : l'extrémité chargée, portée par des éléments ELAS_COQUE seuls, donne 4,5833 N au lieu de 0. La somme de REAC_NODA sur tous les nœuds vaut 5,0 exactement et ne discrimine pas : les erreurs locales s'annulent. Un contrôle d'équilibre doit donc porter sur les ressorts ou sur des nœuds d'appui hors ELAS_COQUE, jamais sur la somme de REAC_NODA de tout le modèle.",
+    "justification": "Deux exécutions (D5a, D5b) jusqu'à FIN sans alarme (niveau C), résultantes comparées à la charge appliquée (niveau D). La flèche du modèle mixte D5b coïncide avec la référence analytique à 6×10⁻¹¹ près en relatif (niveau D) : le modèle mixte est bien porté par ELAS_COQUE et ELAS, et le déplacement n'est pas affecté. Suite du constat sur REAC_NODA du point 1.",
+    "discarded_variants": [],
+    "notes": "D5a : la flèche en bout (0,026703513 m) est supérieure à celle du modèle encastré (0,026666667 m) de la souplesse des ressorts (k = 10⁶ N/m et 10⁵ N·m/rad par nœud) ; aucune référence analytique n'est établie pour ce cas, seules les résultantes le sont. Non testé : ressorts liés à des nœuds portés par ELAS_COQUE (déduction : la force d'un ressort discret est k × déplacement du nœud, indépendante du comportement de la coque voisine), appuis sur un nœud commun à ELAS et ELAS_COQUE, ressorts de sol répartis. Le point de réduction des moments est celui de POST_RELEVE_T (POINT = origine). Rapport : docs/essais_lot23.md.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U4.81.04",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Operandes_forces_reactions"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.81.04/Operandes_forces_reactions.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Dans le cas des coques, les composantes DX, DY et DZ donnent les FORC_NODA (de dimension d'une force) dans le repère global du maillage. Ces composantes sont construites avec les efforts normaux et tranchants dans la coque. Les composantes DRX, DRY et DRZ donnent les FORC_NODA (de dimension d'un moment) dans le repère global du maillage, construites avec les moments fléchissants dans la coque. Dans le cas de comportements homogénéisés de coque type ELAS_COQUE, il est préférable de regarder EFGE_NOEU."
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot23_essais/essai_d5/d5a.comm",
+        "case_sha256": "b3843152e41eb2288915ab09f8ae736d87b4ff6547d9d1fc79006604cfeea80b",
+        "mess_path": "data/examples/lot23_essais/mess/mess_d5a.txt",
+        "quantity": "résultante DZ des forces nodales des ressorts DIS_TR en x = 2 (valeur absolue), FORC_NODA restreint aux mailles POI1",
+        "value_obtained": 5.000000000557,
+        "reference": "P = 5 N (charge appliquée)",
+        "reference_value": 5.0,
+        "relative_deviation": 1.1139995592657214e-10,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot23_essais/essai_d5/d5b.comm",
+        "case_sha256": "99e24f60dbbde89f86ace5d806c4de0a903e1a405a7aac48d6339e573d305089",
+        "mess_path": "data/examples/lot23_essais/mess/mess_d5b.txt",
+        "quantity": "résultante DZ de REAC_NODA aux nœuds d'appui en x = 2, sans élément ELAS_COQUE (valeur absolue)",
+        "value_obtained": 5.000000000551,
+        "reference": "P = 5 N (charge appliquée)",
+        "reference_value": 5.0,
+        "relative_deviation": 1.1020002688155728e-10,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot23_essais/essai_d5/d5b.comm",
+        "case_sha256": "99e24f60dbbde89f86ace5d806c4de0a903e1a405a7aac48d6339e573d305089",
+        "mess_path": "data/examples/lot23_essais/mess/mess_d5b.txt",
+        "quantity": "flèche en bout chargé, modèle mixte ELAS_COQUE / ELAS (DZ, valeur absolue)",
+        "value_obtained": 0.02666666666841,
+        "reference": "P·L³/(3·FLEX·b) avec P = 5 N, L = 2 m, b = 0,5 m, FLEX = 1000 N·m : 0.02666666666666667",
+        "reference_value": 0.02666666666666667,
+        "relative_deviation": 6.537491901992265e-11,
+        "validation_level": "D"
+      }
+    ],
+    "status": "tranche"
+  }
+}

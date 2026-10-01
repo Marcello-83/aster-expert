@@ -1,0 +1,44 @@
+{
+  "constat_id": "CA-013",
+  "summary": "Piège : DEFI_CHAR_SOL produit une charge sismique pour la dynamique et n'est pas un outil de poussée statique des terres.",
+  "aster_version": "17.4.0",
+  "validation_level": "A",
+  "commands": [
+    "DEFI_CHAR_SOL",
+    "DYNA_NON_LINE",
+    "DYNA_VIBRA"
+  ],
+  "keywords": [],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "5"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Fonction de DEFI_CHAR_SOL (mise en garde de confusion possible avec une poussée statique)",
+    "options_considered": [],
+    "option_retained": "DEFI_CHAR_SOL produit une charge sismique aux frontières d'un domaine de sol pour DYNA_VIBRA/DYNA_NON_LINE -- ce n'est pas un outil de poussée statique des terres/niveaux d'eau",
+    "justification": "U4.84.32 § But le formule explicitement.",
+    "discarded_variants": [],
+    "notes": null,
+    "validity_domain": "Valide uniquement pour produire une charge sismique en entrée de DYNA_VIBRA/DYNA_NON_LINE aux frontières d'un domaine de sol 2D/3D (U4.84.32 § But) ; hors de ce domaine -- notamment pour une poussée statique des terres ou du niveau d'eau -- cette commande n'est pas l'outil approprié.",
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U4.84.32",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "But"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.84.32/But.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "syntaxe",
+        "excerpt": "Produire une charge utilisable dans les opérateurs de résolution dynamique DYNA_VIBRA et DYNA_NON_LINE pour pouvoir prendre en compte des charges sismiques aux frontières de domaines de sol 2D ou 3D"
+      }
+    ],
+    "status": "tranche"
+  }
+}

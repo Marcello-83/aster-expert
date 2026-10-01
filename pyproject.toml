@@ -73,7 +73,7 @@ packages = ["src/aster_expert"]
 [tool.ruff]
 line-length = 88
 target-version = "py312"
-src = ["src", "tests"]
+src = ["src", "tests", "projets"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "A", "C4", "PTH", "RET", "SIM", "ARG"]
@@ -90,6 +90,13 @@ ignore = []
 # dépendre que de la bibliothèque standard et peuvent cibler un interpréteur
 # plus ancien.
 "scripts/*" = ["UP"]
+# Lot 41 : les scripts d'un projet ajoutent `projets/` au chemin d'import avant
+# d'importer le paquet du projet (E402), comme les scripts ajoutaient `src/`.
+"projets/*/scripts/*" = ["UP", "E402", "E501"]
+"projets/*/tests/*" = ["ARG"]
+# Scripts Salomé d'un projet : Python 3.9 de Salomé-Méca, octets figés par le cache
+# de maillage (empreinte du script).
+"projets/*/maillage/*.py" = ["UP", "E501"]
 # Les gabarits de fichiers .comm générés portent des lignes longues qui sont
 # le contenu même du cas versionné, non du code Python.
 "scripts/build_lot23_essais.py" = ["UP", "E501"]
@@ -100,28 +107,45 @@ ignore = []
 "scripts/analyze_lot25_essais.py" = ["UP", "E501"]
 # Lot 36 : la mise en forme Markdown du rapport de butée porte de la prose et des
 # lignes de tableau, dont les coupures ne sont pas du code.
-"scripts/render_lot36_butee_md.py" = ["E501"]
-"scripts/prepare_lot36_livrables.py" = ["E501"]
+"projets/quai_cw_test_01/scripts/render_lot36_butee_md.py" = ["E501"]
+"projets/quai_cw_test_01/scripts/prepare_lot36_livrables.py" = ["E501"]
 # Lot 39 : le texte des constats de la fiche est de la prose (une chaîne par champ),
 # recopiée telle quelle dans la fiche ; ses coupures ne sont pas du code.
-"scripts/build_lot39_constats.py" = ["E501"]
+"projets/quai_cw_test_01/scripts/build_lot39_constats.py" = ["E501"]
 # Gabarits de .comm (lignes du cas versionné) et mise en forme Markdown de la
 # synthèse et de la ligne de comparaison (prose, lignes de tableau).
 "scripts/build_lot39_essais.py" = ["UP", "E501"]
-"scripts/build_lot39_poutre.py" = ["UP", "E501"]
+"projets/quai_cw_test_01/scripts/build_lot39_poutre.py" = ["UP", "E501"]
 "scripts/build_lot39_plaque.py" = ["UP", "E501"]
-"scripts/analyze_lot39_poutre.py" = ["UP", "E501"]
-"scripts/build_lot39_comparaison.py" = ["UP", "E501"]
+"projets/quai_cw_test_01/scripts/analyze_lot39_poutre.py" = ["UP", "E501"]
+"projets/quai_cw_test_01/scripts/build_lot39_comparaison.py" = ["UP", "E501"]
+# Lot 41 : prose des rapports du quai (lignes de tableau, titres de figure), reprise
+# telle quelle des scripts des lots 38 et 39.
+"projets/quai_cw_test_01/rapports.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"
-files = ["src", "tests"]
+# Lot 41 : les projets (`projets/<nom>/`, paquet importé depuis `projets/`) sont
+# vérifiés comme le tronc commun ; leurs scripts de lot portent en tête un réglage
+# `# mypy:` relâchant les seules annotations manquantes. Les scripts Salomé
+# (Python 3.9 de Salomé-Méca, modules `salome`/`GEOM`/`SMESH` absents de ce
+# Python) en sont exclus.
+files = ["src", "tests", "projets"]
+mypy_path = ["src", "projets", "projets/quai_cw_test_01/scripts"]
+explicit_package_bases = true
+exclude = ['^projets/[^/]+/maillage/.*\.py$']
 strict = true
 warn_unreachable = true
 disallow_untyped_defs = true
 
 [[tool.mypy.overrides]]
 module = ["bm25s.*"]
+ignore_missing_imports = true
+
+# Lot 41 : scripts génériques d'essais (`scripts/`, hors du périmètre de mypy)
+# importés par un script de projet.
+[[tool.mypy.overrides]]
+module = ["analyze_lot26_essais"]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
@@ -135,9 +159,15 @@ module = ["matplotlib.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
-addopts = "-ra --strict-markers"
+testpaths = ["tests", "projets"]
+# Lot 41 : le code propre à un ouvrage vit dans projets/<nom>/, importable comme un
+# paquet (`quai_cw_test_01`) depuis le répertoire `projets`.
+pythonpath = ["projets"]
+# Lot 41 : les tests « lent » lancent réellement Code_Aster et Salomé ; hors de la
+# série par défaut, ils se lancent par `pytest -m lent`.
+addopts = "-ra --strict-markers -m 'not lent'"
 markers = [
+    "lent: lance réellement Code_Aster ou Salomé (pytest -m lent)",
     "requires_aster: nécessite une installation Code_Aster fonctionnelle",
     "requires_corpus: nécessite les dépôts synchronisés sous external/",
 ]

@@ -17,6 +17,34 @@ fait que détailler cette règle. Cette règle a déjà dû être rappelée en t
 fichier une fois (lot 30) parce qu'un rappel plus bas dans le document n'avait
 pas suffi à la faire respecter : ne pas la redéplacer plus bas.
 
+## Organisation du dépôt (lot 41) — lire en second
+
+**Tout code propre à un ouvrage va dans `projets/<nom>/`, jamais dans `src/`.**
+
+- `src/aster_expert/` est le **tronc commun** : ce qui vaut pour tout ouvrage
+  (catalogue et validation B, recherche documentaire et cas tests, exécution et
+  compte rendu, schéma de fiche et arbitrage, données structurées, exécution
+  Salomé et vérificateur de maillage, contrôles D paramétrés, lecture MED,
+  combinaisons, ferraillage 1D et module EN 1992, base de constats, déclaration
+  et enchaînement des projets). Un test (`tests/unit/test_tronc_commun_sans_ouvrage.py`)
+  échoue si `src/` nomme un groupe, un cas, une donnée ou le nom d'un ouvrage.
+- Un ouvrage est un **projet** : `projets/<nom>/`, paquet Python importé depuis
+  `projets/` (fiche, données et sources, script Salomé et invariants, générateur ou
+  `.comm`, extensions, scripts de lot, tests, résultats de référence) et sa
+  **déclaration** `projet.yaml` (schéma `aster_expert.projet.declaration`), seule
+  interface avec le tronc commun. Le code propre à un projet peut être écrit par
+  une session d'agent pour ce projet ; le tronc commun garantit la vérification
+  (validation B, invariants de maillage, contrôles D, niveau atteint).
+- Un fait établi sur Code_Aster va dans la **base de constats**
+  `connaissances/constats_code_aster/CA-nnn.json` (un fichier par constat), jamais
+  recopié dans une fiche : la fiche le référence
+  (`{"nature": "constat", "constat_id": "CA-nnn", "point_label": ...}`).
+- Enchaînement : `aster-expert projet <nom> <étape>` (verifier, maillage, generer,
+  valider, executer, controles, synthese, combinaisons, ferraillage, tout). Les
+  sorties vont dans `projets/<nom>/resultats/` (non versionné, `etat.json`).
+- Premier projet : `projets/quai_cw_test_01/` (quai combi-wall). Les répertoires
+  `data/examples/lotNN_*` restent les archives des essais des lots.
+
 ## Mission
 
 Construire un agent expert Code_Aster versionné, traçable, capable de valider
@@ -151,6 +179,8 @@ Le forum et les sources communautaires sont des sources secondaires et doivent
   dans le commit qui l'introduit.
 - Aucun accès réseau dans les tests unitaires. Les dépôts Git de test sont
   créés localement dans des répertoires temporaires.
+- Tout code propre à un ouvrage va dans `projets/<nom>/`, jamais dans `src/`
+  (lot 41). Ses tests vont dans `projets/<nom>/tests/`.
 
 ## Gestion des dépôts externes
 
@@ -170,9 +200,14 @@ le signale.
 ## Validation obligatoire après modification
 
 1. Formatage (`ruff format`).
-2. Analyse statique (`ruff check`, `mypy`).
-3. Tests unitaires concernés (`pytest`).
-4. Tests d'intégration concernés, si applicable.
+2. Analyse statique (`ruff check`, `mypy` : `src`, `tests` et `projets`, scripts de
+   projet compris, en mode strict ; les scripts Salomé d'un projet en sont exclus).
+3. Tests unitaires concernés (`pytest` : `tests/` et `projets/*/tests/`, sans
+   Docker ni Salomé).
+4. Tests d'intégration concernés, si applicable. **Tests réels** (lot 41) :
+   `pytest -m lent` lance réellement Code_Aster (cas versionné du lot 22, arrêt
+   `<F> <CALCULEL7_40>` du lot 39, avec leur compte rendu) et Salomé (géométrie 1
+   du lot 26) puis `mesh check` ; environ deux minutes, hors de la série par défaut.
 5. Compte rendu précis : commandes lancées, sorties réelles, échecs éventuels.
 
 Ne jamais annoncer qu'un test a réussi sans l'avoir exécuté et sans en donner
@@ -234,6 +269,9 @@ de la machine.
 - Un lot qui ajoute ou modifie un outil MCP se termine par une consigne explicite à
   MM : redémarrer la session avant le lot suivant.
 - Une session par lot.
+- Huit outils depuis le lot 41 : `search_constats` cherche dans la base partagée des
+  constats (commande, mot-clé, texte) ; le skill `code-aster-expert` impose de la
+  consulter avant d'écrire une commande.
 - `search_codeaster_docs` n'indexe pas les cas tests (familles présentes : V, R, U4,
   D, U2, U3, U7, U1, SV, SU, U0) : les chercher par `search_test_cases`. Une `family`
   absente de l'index est refusée avec la liste des familles présentes.
@@ -591,6 +629,60 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   à vérifier par MM ; faces AZ bornées à σs = 160 MPa). `ligne_comparaison_mm.csv` (lot 38) : une
   ligne par plan de flexion, colonnes de MM vides. ELU accidentelle : γc = 1,2, γs = 1,0
   (EN 1992-1-1, tableau 2.1N, non décidés par MM). 7 exécutions réelles (71,3 s).
+
+## Lots 33 à 41 (résumé)
+
+Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de leur
+époque : depuis le lot 41, le code, les données et les scripts du quai sont dans
+`projets/quai_cw_test_01/` (`generation/`, `meshing/`, `report/`, `donnees/`,
+`fiche/`, `maillage/`, `scripts/`), ses constats dans
+`connaissances/constats_code_aster/`.
+
+- **Lot 33** (`docs/essais_lot33.md`) : contrôle d'équilibre honnête sur le quai ;
+  paramètres hérités (`RESI_RELA`, `COEF_RIGI_DRZ`) retirés après isolation ;
+  décision 13 (poussée sur la poutre) en forces nodales tributaires ; symétrie tenue,
+  équilibre en échec rapporté tel quel (expliqué au lot 34).
+- **Lot 34** : l'écart d'équilibre expliqué et fermé (quatre causes : tri des
+  profils, évaluation de `FORCE_COQUE/PRES` aux nœuds, `CREA_POI1` une maille par
+  nœud, composantes libres des nœuds liés) ; modèle complet à 1e-10 (détail
+  ci-dessus).
+- **Lot 35** : consolidation, `aster-expert report`, contrôles de validité de la
+  décision 5 (détail ci-dessus).
+- **Lot 36** : diagnostic de la butée sous G, MED de résultats lu par l'outil, vues
+  2D (détail ci-dessus).
+- **Lot 37** : tirants de bord à demi-section, D14 à D16, efforts d'ensemble des
+  tubes (détail ci-dessus).
+- **Lot 38** (`docs/essais_lot38.md`, `docs/etat_des_lieux_lot38_ferraillage.md`) :
+  D14 bis, D17 (18 combinaisons : 8 ELU fondamentale, 1 accidentelle, 4 ELS
+  caractéristique, 4 fréquente, 1 quasi permanente) et D18 (durabilité) enregistrées ;
+  combinaisons faites dans l'outil sur les tables `EFPOUT_<cas>` (contrôle manuel à
+  8,5e-22) ; état des lieux des commandes de ferraillage ; module indépendant
+  `aster_expert.rebar` (ELU, ELS) calibré sur `ssll13b`/`ssll13d`.
+- **Lot 39** : ferraillage de la poutre de couronnement et limites de
+  `CALC_FERRAILLAGE` (détail ci-dessus).
+- **Lot 40** (`docs/audit/audit_lot40.md`, lecture seule) : audit de l'outil ; la
+  chaîne ne sait traiter que le quai (≈ 8 700 lignes de `src/` propres au quai,
+  tout l'aval), essai dalle arrêté à la recherche documentaire ; dix
+  recommandations (R1 : séparer le quai du moteur).
+- **Lot 41** (`docs/essais_lot41.md`) : restructuration en tronc commun + projets
+  (R1, R3, R4, R5, R7, R8 de l'audit). Déplacés vers `projets/quai_cw_test_01/` :
+  `generation/` (générateur), `meshing/combiwall|normals|equilibrium`, `report/`
+  (synthèse, vues ; `combinations.py` supprimé : γ/ψ lus du fichier de données),
+  données, fiche, script Salomé, invariants, 41 scripts de lot et 32 fichiers de
+  tests. Nouveaux modules du tronc commun : `projet` (déclaration, contrôles de
+  cohérence, enchaînement `aster-expert projet`), `controles` (équilibre,
+  pesanteur, symétrie), `combinaisons` (règles EN 1990 lues de la déclaration),
+  `ferraillage` (1D, schéma `ssll13*`), `constats` (base, références, recherche,
+  rejeu), `execution.compte_rendu` (compte rendu JSON/Markdown de chaque exécution,
+  messages de `run_aster.error_messages`). Refus lisibles de `generate`, `report`,
+  `mesh check`, `projet` (dont les données de dalle de l'audit). 45 constats extraits
+  (`CA-001` à `CA-045`), fiche à références ; outil MCP `search_constats` ; rejeu :
+  14/18 constats établis par exécution tiennent, 4 non rejouables en l'état (cas du
+  lot 34 sur le quai réduit, maillage non versionné à côté du cas). Chaîne du quai
+  rejouée (une exécution du modèle complet, 160 s) : toutes les valeurs identiques ;
+  18 fichiers identiques à l'octet, 6 différents par des chemins/empreintes
+  énumérés, 2 par des chemins non énumérés par le critère (échec formel rapporté).
+  Couverture de `cli.py` : 88 %.
 
 ## Périmètre à ne pas dépasser sans instruction
 

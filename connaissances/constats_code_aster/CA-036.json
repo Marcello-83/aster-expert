@@ -1,0 +1,86 @@
+{
+  "constat_id": "CA-036",
+  "summary": "Piège : aux nœuds liés par LIAISON_SOLIDE, REAC_NODA porte des composantes non bloquées non nulles, si bien qu'un bilan d'équilibre ne doit sommer que les composantes réellement bloquées.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "AFFE_CHAR_MECA",
+    "CALC_CHAMP",
+    "POST_RELEVE_T"
+  ],
+  "keywords": [
+    "DKT",
+    "DX",
+    "DY",
+    "DZ",
+    "FORCE",
+    "LIAISON_SOLIDE",
+    "PAS",
+    "POU_D_E",
+    "REAC_NODA",
+    "RESULTANTE"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "data/examples/lot35_constats/f4_reactions.controles.comm",
+      "case_sha256": "9ada8a2dbb739df78c5ec746a19eb4947436ec496526b5a61d26f7cae4108ded",
+      "mess_path": "data/examples/lot35_constats/f4_reactions.mess.txt"
+    }
+  ],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "3"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "REAC_NODA aux nœuds liés par LIAISON_SOLIDE : composantes non bloquées non nulles, qui s'annulent sur l'ensemble des nœuds ; seules les composantes bloquées comptent",
+    "options_considered": [],
+    "option_retained": "Aux nœuds d'un ensemble lié par `LIAISON_SOLIDE` (ici les nœuds de `SYM_G` et `SYM_D`, où seul DX est bloqué), `REAC_NODA` porte des composantes **non bloquées non nulles** : cas EAU_A, quai réduit, `SYM_G` : DY = +2,6536e5 N et DZ = −2,6188e5 N alors que seul DX y est imposé. Ce sont les efforts de liaison de la relation de corps solide (déduction : multiplicateurs de la relation). Ils s'annulent sur l'ensemble du modèle : la résultante de `REAC_NODA` sur **tous** les nœuds vaut celle des seuls ancrages sur la composante bloquée (DY : +9,790917005e5 N contre +9,790917006e5 N, écart relatif −1,5e-10). Un bilan d'équilibre ne doit donc sommer que les composantes **réellement bloquées** de chaque groupe d'appui (`SYM_G`/`SYM_D` : DX ; pied des tubes : DZ ; ancrages : DX, DY, DZ) ; les autres composantes se relèvent à part et ne sont pas des réactions d'appui. Établi pour `LIAISON_SOLIDE` anneau DKT + nœud `POU_D_E`, Code_Aster 17.4.0.",
+    "justification": "Résultante de `REAC_NODA` par groupe d'appui et sur tous les nœuds (`POST_RELEVE_T/RESULTANTE`), quatre cas élémentaires, quai réduit puis modèle complet (lot 34) : la somme sur tous les nœuds égale la réaction des ancrages à 4,4e-4 N au plus. La documentation de `REAC_NODA` (U2.01.05 : forces nodales moins le chargement) ne dit rien des nœuds liés par une relation dualisée : fait établi par exécution.",
+    "discarded_variants": [],
+    "notes": "Corollaire (lot 34) : `POST_RELEVE_T/RESULTANTE` sur plusieurs groupes de nœuds à la fois n'est PAS la somme des résultantes par groupe (quai réduit, G, DY : 7,578e5 N contre 1,262e6 N) ; cause non établie, cette lecture est abandonnée (la table combinée `REACTIONS_<cas>` est retirée du générateur au lot 35). Une seule extraction par groupe, puis la somme dans le script d'analyse. Preuve : data/examples/lot35_constats/f4_reactions.*.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "LIAISON_SOLIDE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "CALC_CHAMP",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "236eb635947301819917131a18092aa0c5d18743",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot35_constats/f4_reactions.controles.comm",
+        "case_sha256": "9ada8a2dbb739df78c5ec746a19eb4947436ec496526b5a61d26f7cae4108ded",
+        "mess_path": "data/examples/lot35_constats/f4_reactions.mess.txt",
+        "quantity": "résultante DY de REAC_NODA sur tous les nœuds, cas EAU_A, quai réduit",
+        "value_obtained": 979091.7004831,
+        "reference": "résultante DY de REAC_NODA du seul groupe ANCRAGES (composante bloquée), même exécution",
+        "reference_value": 979091.7006272,
+        "relative_deviation": -1.471771571579729e-10,
+        "validation_level": "D"
+      }
+    ],
+    "status": "tranche"
+  }
+}

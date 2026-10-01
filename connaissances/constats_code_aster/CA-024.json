@@ -1,0 +1,144 @@
+{
+  "constat_id": "CA-024",
+  "summary": "Piège : sous PESANTEUR, RHO d'ELAS_COQUE agit comme une masse volumique multipliée par EPAIS, et RHO = 0 annule le poids de ces éléments sans alarme.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "AFFE_CARA_ELEM",
+    "FIN"
+  ],
+  "keywords": [
+    "D2",
+    "DKT",
+    "ELAS",
+    "ELAS_COQUE",
+    "EPAIS",
+    "EXCEPTION",
+    "FORC_NODA",
+    "GROUP_MA",
+    "PESANTEUR",
+    "REAC_NODA",
+    "RHO",
+    "SIEF_ELGA"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "data/examples/lot22_essais/essai_b/b2.comm",
+      "case_sha256": "2f129eaae6a5fcc86eaee018054fbf6a61f5c9ea12bb3834d73ec658a84d5c67",
+      "mess_path": "data/examples/lot22_essais/mess/mess_b2.txt"
+    },
+    {
+      "case_path": "data/examples/lot22_essais/essai_b/b3.comm",
+      "case_sha256": "50251553a74e5467d6f048c21675dadc49932de0ecf47cb38f20588ceb38cf60",
+      "mess_path": "data/examples/lot22_essais/mess/mess_b3.txt"
+    },
+    {
+      "case_path": "data/examples/lot23_essais/essai_d4/d4.comm",
+      "case_sha256": "2a26ade8d7e6d3a0d970f664998fa4e233d3574aae2066cea8a4992e54f7032c",
+      "mess_path": "data/examples/lot23_essais/mess/mess_d4.txt"
+    }
+  ],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "1"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Poids propre des éléments ELAS_COQUE sous PESANTEUR en statique : sens de RHO",
+    "options_considered": [],
+    "option_retained": "Sous PESANTEUR en statique, l'élément ELAS_COQUE (DKT) reçoit le poids RHO × EPAIS × g par unité de surface, EPAIS étant l'épaisseur de AFFE_CARA_ELEM : RHO agit comme une masse volumique, non comme la « masse par unité de surface » de U4.43.01. Plaque ELAS_COQUE avec RHO = 100 et EPAIS = 0,02 m : résultante verticale 19,62 N pour 1 m², soit 100 × 0,02 × 9,81 et non 981 N. Console ELAS_COQUE avec RHO = 1 et EPAIS = 0,01 m : flèche en bout 1,9636×10⁻⁴ m, conforme à p·L⁴/(8·FLEX) avec p = RHO × EPAIS × g. Témoin ELAS, RHO = 7850 kg/m³, EPAIS = 0,01 m : 770,085 N. RHO = 0 sur les éléments ELAS_COQUE est accepté sans alarme : le poids propre de ces éléments est alors nul, en silence, alors que les éléments ELAS voisins gardent le leur (770,085 N pour la plaque témoin, 0 N pour la plaque ELAS_COQUE, D4).",
+    "justification": "Deux dispositifs indépendants concordent : résultante des réactions du modèle mixte à deux plaques (b2) et flèche d'une console mesurée par déplacement, sans réaction (b3). Exécutions jusqu'à FIN sans alarme (niveau C) ; écarts relatifs de 0 (témoin ELAS), 0 (plaque ELAS_COQUE) et +0,083 % (console, erreur de discrétisation DKT) contre l'hypothèse RHO × EPAIS × g ; contre l'hypothèse « masse surfacique » RHO × g, la plaque serait à -98,0 % et la console à -99 % (niveau D). Lot 23 : D4 (exécution jusqu'à FIN, aucune alarme, niveau C) : plaque ELAS témoin exacte (770,085 N, écart nul, niveau D) et résultante nulle de la plaque ELAS_COQUE avec RHO = 0 (valeur de référence nulle, non exprimable en écart relatif : rapportée ici, non en source). R3.07.03 écrit que l'épaisseur de AFFE_CARA_ELEM « est seulement utilisée avec la masse volumique définie par RHO » : cette formulation est cohérente avec le sens de RHO observé au lot 22 et contredit U4.43.01 ; elle est en revanche contredite par D2 pour le reste du comportement (EPAIS intervient aussi dans SIEF_ELGA, FORC_NODA et REAC_NODA, constat de ce point).",
+    "discarded_variants": [],
+    "notes": "Libellés exacts : U4.43.01 : « une masse par unité de surface rho » (section ELAS_COQUE) ; R3.07.03 : « L'épaisseur donnée dans AFFE_CARA_ELEM est seulement utilisée avec la masse volumique définie par RHO ». Les deux documents se contredisent ; l'exécution tranche pour la seconde lecture. Exécutions en échec du lot 22, niveau B seulement, donc non sources : b1 et b4 (plaque ELAS_COQUE sans RHO) s'arrêtent sur <EXCEPTION> MODELISA9_77 « Le paramètre 'RHO' doit être fourni » (option CHAR_MECA_PESA_R, type d'élément MEDKQU4) puis MODELISA6_4 : le modèle mixte n'accepte PESANTEUR que si tous ses éléments ELAS_COQUE portent RHO, même quand PESANTEUR est restreinte à un autre groupe. Déduction : avec RHO renseigné, PESANTEUR prend déjà le poids en compte ; une force surfacique explicite pour ce même poids serait comptée deux fois ; avec RHO = 0, la force explicite serait la seule voie de charger ce poids sans dupliquer, mais elle n'est pas testée. Le choix reste à faire par l'ingénieur. Historique du constat remplacé (lot 22) : option retenue : Sous PESANTEUR en statique, l'élément ELAS_COQUE (DKT) reçoit le poids RHO × EPAIS × g par unité de surface, EPAIS étant l'épaisseur de AFFE_CARA_ELEM : RHO agit comme une masse volumique, non comme la « masse par unité de surface » de U4.43.01. Plaque ELAS_COQUE avec RHO = 100 et EPAIS = 0,02 m : résultante verticale 19,62 N pour 1 m², soit 100 × 0,02 × 9,81 et non 981 N. Console ELAS_COQUE avec RHO = 1 et EPAIS = 0,01 m : flèche en bout 1,9636×10⁻⁴ m, conforme à p·L⁴/(8·FLEX) avec p = RHO × EPAIS × g. Témoin ELAS, RHO = 7850 kg/m³, EPAIS = 0,01 m : 770,085 N. Notes : Écart avec la documentation : U4.43.01 définit RHO comme « une masse par unité de surface » ; l'essai dit que PESANTEUR le multiplie par l'épaisseur. Exécutions en échec, niveau B seulement, donc non sources : b1 (plaque ELAS_COQUE sans RHO, PESANTEUR sur tout le modèle) et b4 (plaque ELAS_COQUE sans RHO, PESANTEUR restreinte par GROUP_MA au groupe de la plaque ELAS) s'arrêtent sur <EXCEPTION> MODELISA9_77 « Le paramètre 'RHO' doit être fourni » (option CHAR_MECA_PESA_R, type d'élément MEDKQU4, maille 17 du groupe de la plaque ELAS_COQUE) puis MODELISA6_4 : le modèle mixte n'accepte PESANTEUR que si tous ses éléments ELAS_COQUE portent RHO, même quand PESANTEUR est restreinte à un autre groupe. Non testé : RHO nul. Déduction : avec RHO renseigné, PESANTEUR prend déjà le poids en compte ; une force surfacique explicite pour ce même poids serait comptée deux fois. Sans RHO, PESANTEUR est impossible dans ce modèle et la force explicite serait la seule voie ; cette dernière hypothèse n'est pas testée. Le choix reste à faire par l'ingénieur.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "b7ce267408c2cfa7a2b1719e2aeff93d13fb05b6",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot22_essais/essai_b/b2.comm",
+        "case_sha256": "2f129eaae6a5fcc86eaee018054fbf6a61f5c9ea12bb3834d73ec658a84d5c67",
+        "mess_path": "data/examples/lot22_essais/mess/mess_b2.txt",
+        "quantity": "résultante verticale des réactions de la plaque 1 (ELAS, RHO = 7850, EPAIS = 0,01) sous PESANTEUR",
+        "value_obtained": 770.085,
+        "reference": "RHO × EPAIS × g × aire = 7850 × 0,01 × 9,81 × 1 m²",
+        "reference_value": 770.085,
+        "relative_deviation": 0.0,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "b7ce267408c2cfa7a2b1719e2aeff93d13fb05b6",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot22_essais/essai_b/b2.comm",
+        "case_sha256": "2f129eaae6a5fcc86eaee018054fbf6a61f5c9ea12bb3834d73ec658a84d5c67",
+        "mess_path": "data/examples/lot22_essais/mess/mess_b2.txt",
+        "quantity": "résultante verticale des réactions de la plaque 2 (ELAS_COQUE, RHO = 100, EPAIS = 0,02) sous PESANTEUR",
+        "value_obtained": 19.62,
+        "reference": "RHO × EPAIS × g × aire = 100 × 0,02 × 9,81 × 1 m² (hypothèse masse volumique ; l'hypothèse masse surfacique donnerait 981 N)",
+        "reference_value": 19.62,
+        "relative_deviation": 0.0,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "b7ce267408c2cfa7a2b1719e2aeff93d13fb05b6",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot22_essais/essai_b/b3.comm",
+        "case_sha256": "50251553a74e5467d6f048c21675dadc49932de0ecf47cb38f20588ceb38cf60",
+        "mess_path": "data/examples/lot22_essais/mess/mess_b3.txt",
+        "quantity": "flèche en bout d'une console ELAS_COQUE (RHO = 1, EPAIS = 0,01) sous PESANTEUR (valeur absolue)",
+        "value_obtained": 0.0001963634999974,
+        "reference": "p·L⁴/(8·FLEX_L) avec p = RHO × EPAIS × g = 0,0981 N/m², L = 2 m, FLEX_L = 1000 N·m (hypothèse masse surfacique : 1,962×10⁻² m)",
+        "reference_value": 0.00019620000000000003,
+        "relative_deviation": 0.0008333333200814175,
+        "validation_level": "D"
+      },
+      {
+        "document_id": "U4.43.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Caract_ristiques__lastiques_g_n_rales"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.43.01/Caract_ristiques__lastiques_g_n_rales.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "L’utilisateur peut également indiquer un coefficient de dilatation thermique isotrope alpha et une masse par unité de surfacerho."
+      },
+      {
+        "document_id": "R3.07.03",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Implantation_des__l_ments_de_plaque_dans_Code_Aster"
+        ],
+        "source_path": "source/manuals/man_r/r3/r3.07.03/Implantation_des__l_ments_de_plaque_dans_Code_Aster.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Ce comportement a été ajouté dans DEFI_MATERIAU pour prendre en compte des matrices de rigidité non proportionnelles en membrane et en flexion, obtenues par homogénéisation d’un matériau multicouche. Les coefficients des matrices de rigidité sont alors introduits à la main par l’utilisateur dans le repère utilisateur défini par le mot-clé ANGL_REP. L’épaisseur donnée dans AFFE_CARA_ELEM est seulement utilisée avec la masse volumique définie par RHO. alpha est la dilatation thermique. Si on souhaite utiliser ELAS_COQUE avec du cisaillement transverse, il faut nécessairement employer la modélisation DST. Si on utilise la modélisation DKT, le cisaillement transverse n’est pas pris en compte."
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "16c91ffdfd56856093031daaf81bb58e245bb47c",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot23_essais/essai_d4/d4.comm",
+        "case_sha256": "2a26ade8d7e6d3a0d970f664998fa4e233d3574aae2066cea8a4992e54f7032c",
+        "mess_path": "data/examples/lot23_essais/mess/mess_d4.txt",
+        "quantity": "résultante verticale des réactions de la plaque 1 (ELAS, RHO = 7850, EPAIS = 0,01) sous PESANTEUR, D4 (plaque 2 : ELAS_COQUE avec RHO = 0)",
+        "value_obtained": 770.085,
+        "reference": "RHO × EPAIS × g × aire = 7850 × 0,01 × 9,81 × 1 m² = 770,085 N",
+        "reference_value": 770.085,
+        "relative_deviation": 0.0,
+        "validation_level": "D"
+      }
+    ],
+    "status": "tranche"
+  }
+}

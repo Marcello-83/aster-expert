@@ -1,0 +1,114 @@
+{
+  "constat_id": "CA-031",
+  "summary": "Un tirant BARRE ne porte que DX, DY et DZ au nœud commun avec la coque et n'y transmet aucune rotation.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_CARA_ELEM",
+    "AFFE_MATERIAU",
+    "AFFE_MODELE",
+    "DEFI_MATERIAU"
+  ],
+  "keywords": [
+    "AFFE",
+    "BARRE",
+    "CARA",
+    "CERCLE",
+    "DDL",
+    "DRX",
+    "DRY",
+    "DRZ",
+    "DX",
+    "DY",
+    "DZ",
+    "ELAS",
+    "GENERALE",
+    "GROUP_MA",
+    "MODELE",
+    "MODELISATION",
+    "NU",
+    "POU_D_E",
+    "RHO",
+    "SECTION",
+    "VALE"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "2"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Élément de barre : section, matériau, et absence de degré de rotation au nœud commun avec la coque",
+    "options_considered": [],
+    "option_retained": "AFFE_MODELE(..., MODELISATION=\"BARRE\") sur GROUP_MA=(\"TIRANTS\",) ; AFFE_CARA_ELEM(BARRE=_F(GROUP_MA=\"TIRANTS\", SECTION=\"GENERALE\", CARA=\"A\", VALE=<aire de la section brute, en m²>)) ; DEFI_MATERIAU(ELAS=_F(E=..., NU=..., RHO=...)) affecté par AFFE_MATERIAU. Le nœud commun avec l'anneau de tête du tube (via la liaison de corps solide du point 3, ou directement si le tirant part d'un nœud de l'anneau) ne porte, côté barre, que DX, DY, DZ : aucun degré de rotation n'est imposé ni transmis par l'élément de barre lui-même à ce nœud.",
+    "justification": "U3.11.01 (Discrétisation, Degrés de libertés) : tableau des degrés de liberté par modélisation -- « BARRE : DX, DY, DZ » (cases DRX, DRY, DRZ vides), contre « POU_D_E : DX, DY, DZ, DRX, DRY, DRZ ». Texte : « Pour la modélisation de barre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les trois composantes de déplacement en translation. » Confirmé au catalogue : AFFE_MODELE/AFFE/MODELISATION accepte la valeur \"BARRE\" ; AFFE_CARA_ELEM/BARRE/SECTION accepte \"GENERALE\" avec CARA=\"A\". Cas test officiel : comp009a.comm, `AFFE_CARA_ELEM(MODELE=MOMECA, BARRE=_F(GROUP_MA=\"M1\", SECTION=\"GENERALE\", CARA=\"A\", VALE=1.0))` sur un modèle AFFE_MODELE(MODELISATION=\"BARRE\") -- exactement la combinaison retenue. forma41a.comm illustre BARRE avec SECTION=\"CERCLE\" (variante non retenue ici, la section du tirant est donnée par son aire brute, non un rayon).",
+    "discarded_variants": [],
+    "notes": "« Absence de degré de rotation » est un fait de la modélisation BARRE elle-même (la maille n'a pas de DDL de rotation), pas une conséquence de la liaison du point 3 : au nœud partagé, seule la coque (ou la liaison de corps solide) porte des rotations. Non vérifié par exécution dans ce lot : la valeur de l'aire de section brute (44,2 cm², donnée du modèle) est utilisée telle quelle par le générateur, sans recalcul ici.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U3.11.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Discrétisation",
+          "Degrés de libertés"
+        ],
+        "source_path": "source/manuals/man_u/u3/u3.11.01/Discr_tisation.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Discrétisation\n==============\n\n\n\nDegrés de libertés\n------------------\n\nPour les trois modélisations de poutre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les six composantes de déplacement (trois translations et trois rotations). Ces nœuds sont supposés décrire un segment de la fibre moyenne de la poutre.\n\nPour la modélisation de barre en tridimensionnel les degrés de liberté de discrétisation sont, en chaque nœud de la maille support, les trois composantes de déplacement en translation.\n\n\n+------------------+----------------------------------------------------------------------------+\n| **Élément fini** | **Degrés de liberté (à chaque nœud sommet)**                               |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| POU_D_T          | DX                                           | DY  | DZ  | DRX | DRY | DRZ |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| POU_D_E          | DX                                           | DY  | DZ  | DRX | DRY | DRZ |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n| BARRE            | DX                                           | DY  | DZ  |     |     |     |\n+------------------+----------------------------------------------+-----+-----+-----+-----+-----+\n\n\n\n\nMaille support des matrices de rigidité\n---------------------------------------\n\nLes mailles support des éléments finis, en formulation déplacement, sont des segments à deux nœuds SEG2:\n\n.. csv-table::\n\n    \"**Modélisation**\", \"**Maille**\", \"**Élément fini**\", \"**Remarques**\"\n    \"POU_D_T\", \"SEG2\", \"MECA_POU_D_T\", \"\"\n    \"POU_D_E\", \"SEG2\", \"MECA_POU_D_E\", \"\"\n    \"BARRE\", \"SEG2\", \"MECA_BARRE\", \"\"\n\n\n\n\n\nMaille support des chargements\n------------------------------\n\nTous les chargements applicables aux éléments de poutre et de barre sont traités par discrétisation directe sur la maille support de l’élément en formulation déplacement.\n\n*Aucune maille support de chargement n’est donc nécessaire pour le bord des éléments de poutre ou de barre.*\n\n\n\n\nPrincipales caractéristiques des modélisations\n----------------------------------------------\n\nLa modélisation POU_D_E (Poutre Droite d’Euler) correspond à l’hypothèse d’Euler‑Bernouilli, c’est‑à‑dire que les sections restent droites et perpendiculaires à la fibre moyenne (hypothèse de grand élancement).\n\nLa modélisation POU_D_T (Poutre Droite de Timoshenko) prend en compte les effets de cisaillement transverse.\n\nLa modélisation BARRE ne traite que les efforts et déformations axiales.\n\nLa poutre avec gauchissement est traitée en [:external:ref:`U3.11.04 <U3.11.04>`].\n"
+      },
+      {
+        "command": "AFFE_MODELE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "MODELISATION"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CARA_ELEM",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "BARRE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CARA_ELEM",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "BARRE",
+          "SECTION"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "DEFI_MATERIAU",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "ELAS"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      }
+    ],
+    "status": "tranche"
+  }
+}

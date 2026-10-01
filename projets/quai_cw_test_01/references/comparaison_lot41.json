@@ -1,0 +1,361 @@
+{
+ "fichiers": [
+  {
+   "reference": "comm/complet.comm",
+   "sortie": "projets/quai_cw_test_01/resultats/complet.comm",
+   "sha256_reference": "cd41d4c81ba33b92f118cdb1f6c68fdf3ae10b9641861098ea3399a2eac721aa",
+   "sha256_sortie": "683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733",
+   "statut": "différent",
+   "differences": [
+    {
+     "ligne": 6,
+     "reference": "# Fiche             : sha256:b123c40293de72bebdd26b5db45680bb9eea75b46a62de62f7fb566bfbfb932a",
+     "sortie": "# Fiche             : sha256:38b1eea7430d3b5906e0bc15b6922bc7afdaddea1799f215bf9e5fa74b290f7f",
+     "classe": "admis"
+    }
+   ],
+   "verdict": "réussi (chemins et empreintes énumérés)"
+  },
+  {
+   "reference": "maillage/rapport_mesh_check.txt",
+   "sortie": "projets/quai_cw_test_01/resultats/maillage/rapport_mesh_check.txt",
+   "sha256_reference": "91a6f0e37ebccdcde2c7793c2b72696f5db972e8d54c1f0e8549d0446cb1fe7b",
+   "sha256_sortie": "91a6f0e37ebccdcde2c7793c2b72696f5db972e8d54c1f0e8549d0446cb1fe7b",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "maillage/combiwall_mesh_invariants.yaml",
+   "sortie": "projets/quai_cw_test_01/maillage/combiwall_mesh_invariants.yaml",
+   "sha256_reference": "2cf202f63c631b2e1198fe7bd67ef0c1bb919ba5979b2e5ef2e45142e196d13f",
+   "sha256_sortie": "abf803261358ed3ed0da0564d01d7975a8fa90abbb80f51afab91b520e57a3d6",
+   "statut": "différent",
+   "differences": [
+    {
+     "ligne": 3,
+     "reference": "# Produit par scripts/build_lot27_maillage.py, à partir de",
+     "sortie": "# Produit par projets/quai_cw_test_01/scripts/build_lot27_maillage.py, à partir de",
+     "classe": "non énuméré"
+    },
+    {
+     "ligne": 4,
+     "reference": "# data/examples/combiwall_model_data.yaml et du module analytique",
+     "sortie": "# projets/quai_cw_test_01/donnees/combiwall_model_data.yaml et du module analytique",
+     "classe": "non énuméré"
+    }
+   ],
+   "verdict": "échec (différence non énumérée)"
+  },
+  {
+   "reference": "controles_d/equilibre.json",
+   "sortie": "projets/quai_cw_test_01/resultats/controles/equilibre.json",
+   "sha256_reference": "5c269c0ae2054cc27c2cef5ac84e6851a78124402f0b7a63ce90891ee6308b4d",
+   "sha256_sortie": "5c269c0ae2054cc27c2cef5ac84e6851a78124402f0b7a63ce90891ee6308b4d",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "controles_d/integrale.json",
+   "sortie": "projets/quai_cw_test_01/resultats/controles/integrale.json",
+   "sha256_reference": "17fc2f594facbe1f0f54d7fb4a01d27dbe3466834753bcd8b8eabf8b646b4c95",
+   "sha256_sortie": "17fc2f594facbe1f0f54d7fb4a01d27dbe3466834753bcd8b8eabf8b646b4c95",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "synthese/synthese.json",
+   "sortie": "projets/quai_cw_test_01/resultats/synthese/synthese.json",
+   "sha256_reference": "3e48716287ee7e6855c5c3cc687167b4fb650f250a62aa3f3fd3fdabbe999947",
+   "sha256_sortie": "939547b3f31521dc674af778a7a155fd7015fd196eea6f8682985f6897cee0c9",
+   "statut": "différent",
+   "differences": [
+    {
+     "ligne": 4,
+     "reference": "    \"mess_path\": \"data/processed/runs/20260925T125131-c67e28a1/proc.0/fort.6\",",
+     "sortie": "    \"mess_path\": \"data/processed/runs/20260929T111324-78b3ade0/proc.0/fort.6\",",
+     "classe": "admis"
+    },
+    {
+     "ligne": 5,
+     "reference": "    \"mess_sha256\": \"b5477f72733efa16142a8827da4909e415996f4b843f3fef25cf6cba0f4eb731\",",
+     "sortie": "    \"mess_sha256\": \"b81199dd3755519d27cb60b089bf46a9499132d135226e43a37bdcd99a02586c\",",
+     "classe": "admis"
+    },
+    {
+     "ligne": 6,
+     "reference": "    \"comm_sha256\": \"093bb1ac1f186c9f8a64944c7854cb5355827088e69550f6832a6c5f0cd7a93d\",",
+     "sortie": "    \"comm_sha256\": \"683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733\",",
+     "classe": "admis"
+    },
+    {
+     "ligne": 7,
+     "reference": "    \"data_path\": \"data/examples/combiwall_model_data.yaml\",",
+     "sortie": "    \"data_path\": \"projets/quai_cw_test_01/donnees/combiwall_model_data.yaml\",",
+     "classe": "admis"
+    },
+    {
+     "ligne": 11,
+     "reference": "    \"med_path\": \"data/processed/runs/20260925T125131-c67e28a1/proc.0/fort.80\",",
+     "sortie": "    \"med_path\": \"data/processed/runs/20260929T111324-78b3ade0/proc.0/fort.80\",",
+     "classe": "admis"
+    },
+    {
+     "ligne": 12,
+     "reference": "    \"med_sha256\": \"f96877c38399ae23559083497f769249c96a4564ec1ca756556d3defc62a334e\",",
+     "sortie": "    \"med_sha256\": \"a68390d7971aa1c2c6dc7a6ba31ad9af22ba2ac4c865132cf39eb63d0d7d06d6\",",
+     "classe": "admis"
+    }
+   ],
+   "verdict": "réussi (chemins et empreintes énumérés)"
+  },
+  {
+   "reference": "synthese/synthese.md",
+   "sortie": "projets/quai_cw_test_01/resultats/synthese/synthese.md",
+   "sha256_reference": "ca1dbf56060da673af905d8646057c574fc6f05cc36365031a1cadb06555d612",
+   "sha256_sortie": "cb7e39fe4bb897e55830a9e0bce3775524d917cba335c362806746e1dd7f7bff",
+   "statut": "différent",
+   "differences": [
+    {
+     "ligne": 11,
+     "reference": "- **MED de résultats** : `data/processed/runs/20260925T125131-c67e28a1/proc.0/fort.80` (SHA-256 `f96877c38399ae23559083497f769249c96a4564ec1ca756556d3defc62a334e`), relu par `medcoupling` dans le conteneur : chaque grandeur de cette synthèse vient de ses champs.",
+     "sortie": "- **MED de résultats** : `data/processed/runs/20260929T111324-78b3ade0/proc.0/fort.80` (SHA-256 `a68390d7971aa1c2c6dc7a6ba31ad9af22ba2ac4c865132cf39eb63d0d7d06d6`), relu par `medcoupling` dans le conteneur : chaque grandeur de cette synthèse vient de ses champs.",
+     "classe": "admis"
+    },
+    {
+     "ligne": 12,
+     "reference": "- Contre-vérification : listing `data/processed/runs/20260925T125131-c67e28a1/proc.0/fort.6` (SHA-256 `b5477f72733efa16142a8827da4909e415996f4b843f3fef25cf6cba0f4eb731`) ; écart relatif maximal entre le MED et les tables imprimées, 72 tables : 4.81e-13.",
+     "sortie": "- Contre-vérification : listing `data/processed/runs/20260929T111324-78b3ade0/proc.0/fort.6` (SHA-256 `b81199dd3755519d27cb60b089bf46a9499132d135226e43a37bdcd99a02586c`) ; écart relatif maximal entre le MED et les tables imprimées, 72 tables : 4.81e-13.",
+     "classe": "admis"
+    },
+    {
+     "ligne": 13,
+     "reference": "- `.comm` : SHA-256 `093bb1ac1f186c9f8a64944c7854cb5355827088e69550f6832a6c5f0cd7a93d`",
+     "sortie": "- `.comm` : SHA-256 `683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733`",
+     "classe": "admis"
+    },
+    {
+     "ligne": 14,
+     "reference": "- Données : `data/examples/combiwall_model_data.yaml`",
+     "sortie": "- Données : `projets/quai_cw_test_01/donnees/combiwall_model_data.yaml`",
+     "classe": "admis"
+    }
+   ],
+   "verdict": "réussi (chemins et empreintes énumérés)"
+  },
+  {
+   "reference": "synthese/controles.md",
+   "sortie": "projets/quai_cw_test_01/resultats/synthese/controles.md",
+   "sha256_reference": "852a3d817f04e0e83d981632f7a76eb6e2f2c8bf6b62eb3aef126b8ce234f83c",
+   "sha256_sortie": "852a3d817f04e0e83d981632f7a76eb6e2f2c8bf6b62eb3aef126b8ce234f83c",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "combinaisons/combinaisons.csv",
+   "sortie": "projets/quai_cw_test_01/resultats/combinaisons/combinaisons.csv",
+   "sha256_reference": "4afac85c80e1bd02328d3704289b34f2e226be51d8a87e3d61080ec4eac578db",
+   "sha256_sortie": "4afac85c80e1bd02328d3704289b34f2e226be51d8a87e3d61080ec4eac578db",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "combinaisons/controle_manuel.json",
+   "sortie": "projets/quai_cw_test_01/resultats/combinaisons/controle_manuel.json",
+   "sha256_reference": "414cf5c081c64f4ca39655cc08c1d92f98f99bebe87aa6f760536ddc397ec97e",
+   "sha256_sortie": "414cf5c081c64f4ca39655cc08c1d92f98f99bebe87aa6f760536ddc397ec97e",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "combinaisons/extrema.csv",
+   "sortie": "projets/quai_cw_test_01/resultats/combinaisons/extrema.csv",
+   "sha256_reference": "b005b0962bc7bed8f27641079022a44fde995dd991b57f54d4f87d7d611b5638",
+   "sha256_sortie": "b005b0962bc7bed8f27641079022a44fde995dd991b57f54d4f87d7d611b5638",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "combinaisons/poutre_couronnement.md",
+   "sortie": "projets/quai_cw_test_01/resultats/combinaisons/poutre_couronnement.md",
+   "sha256_reference": "3f48b008fa6876f70a4b9d01f4e3ad2d2be04b74e0e7c3dcaaa843905f13fa0e",
+   "sha256_sortie": "20acaf3fe0b793750f4d326ed0a21b3426f69140d74bd24bdad0c8e32d07eead",
+   "statut": "différent",
+   "differences": [
+    {
+     "ligne": 3,
+     "reference": "Source : `data/processed/runs/20260925T125131-c67e28a1/proc.0/fort.6` -- --- DIAGNOSTIC JOB : OK. `.comm` exécuté identique (sha256) à `data/examples/lot37_efforts/complet.comm`, inchangé par le lot 38 : aucune nouvelle exécution.",
+     "sortie": "Source : `data/processed/runs/20260929T111324-78b3ade0/proc.0/fort.6` -- --- DIAGNOSTIC JOB : OK. `.comm` exécuté identique (sha256) à `projets/quai_cw_test_01/resultats/complet.comm`, inchangé par le lot 38 : aucune nouvelle exécution.",
+     "classe": "admis"
+    }
+   ],
+   "verdict": "réussi (chemins et empreintes énumérés)"
+  },
+  {
+   "reference": "ferraillage/controle_main.json",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/controle_main.json",
+   "sha256_reference": "46b6b012b6ed987a4f9680eb8b1854009e6f2b17d5575354f0a87960f2089f12",
+   "sha256_sortie": "46b6b012b6ed987a4f9680eb8b1854009e6f2b17d5575354f0a87960f2089f12",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/efforts.csv",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/efforts.csv",
+   "sha256_reference": "8fe67bfe13a5863817885198d621c28c51ec4ddc21802833567c2d8103b65f3a",
+   "sha256_sortie": "8fe67bfe13a5863817885198d621c28c51ec4ddc21802833567c2d8103b65f3a",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/enveloppes.csv",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/enveloppes.csv",
+   "sha256_reference": "838f5bf66ddbee003d5c280bcbc5d534b907243bfd604b20a6f0207913a4a1a9",
+   "sha256_sortie": "838f5bf66ddbee003d5c280bcbc5d534b907243bfd604b20a6f0207913a4a1a9",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/ferraillage.csv",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/ferraillage.csv",
+   "sha256_reference": "c7ea1573339b13ad1a6777b5eb2a85ead46ca758710209cbe91292b2cff6f26f",
+   "sha256_sortie": "c7ea1573339b13ad1a6777b5eb2a85ead46ca758710209cbe91292b2cff6f26f",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/figures/as_x.png",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/figures/as_x.png",
+   "sha256_reference": "8dfcd65a13f2241a2588de0ebc503ca55b6244ca868fe839e28e1b32b70827f1",
+   "sha256_sortie": "8dfcd65a13f2241a2588de0ebc503ca55b6244ca868fe839e28e1b32b70827f1",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/poutre.comm",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/poutre.comm",
+   "sha256_reference": "e1c96959d68aa49d280f0074dc5132daa427648736d1eef11798d735e7e2eeeb",
+   "sha256_sortie": "c0596fedba19bc20688724ec414f75bef44c10b9bdf3c153bdb0dc573f319ab9",
+   "statut": "différent",
+   "differences": [
+    {
+     "ligne": 5,
+     "reference": "# Produit par scripts/build_lot39_poutre.py -- ne pas éditer.",
+     "sortie": "# Produit par src/aster_expert/ferraillage/poutre.py -- ne pas éditer.",
+     "classe": "non énuméré"
+    }
+   ],
+   "verdict": "échec (différence non énumérée)"
+  },
+  {
+   "reference": "ferraillage/poutre.export",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/poutre.export",
+   "sha256_reference": "f5e11f4107df9d8e3a3a35e14a39675928a351525f8d53eee363c76ddbff52a8",
+   "sha256_sortie": "f5e11f4107df9d8e3a3a35e14a39675928a351525f8d53eee363c76ddbff52a8",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/poutre.mail",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/poutre.mail",
+   "sha256_reference": "7a5325a57fb37392e6874a1836414b8d009f788ecec9d9680cf9d8fba54c4e94",
+   "sha256_sortie": "7a5325a57fb37392e6874a1836414b8d009f788ecec9d9680cf9d8fba54c4e94",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/rapports/executions.json",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/rapports/executions.json",
+   "sha256_reference": "893cf815dbaeaa8d086c4c18685fe7d8c830f05552c16f1c03ca7da8b158637f",
+   "sha256_sortie": "2288e74220495e0ed012569fcb1014dd1099bfa3663908f1e3b36ebed77f8ba6",
+   "statut": "différent",
+   "differences": [
+    {
+     "ligne": 5,
+     "reference": "  \"comm_path\": \"data/examples/lot39_poutre/poutre.comm\",",
+     "sortie": "  \"comm_path\": \"projets/quai_cw_test_01/resultats/ferraillage/poutre.comm\",",
+     "classe": "admis"
+    },
+    {
+     "ligne": 6,
+     "reference": "  \"comm_sha256\": \"e1c96959d68aa49d280f0074dc5132daa427648736d1eef11798d735e7e2eeeb\",",
+     "sortie": "  \"comm_sha256\": \"c0596fedba19bc20688724ec414f75bef44c10b9bdf3c153bdb0dc573f319ab9\",",
+     "classe": "admis"
+    },
+    {
+     "ligne": 8,
+     "reference": "  \"duration_s\": 11.5,",
+     "sortie": "  \"duration_s\": 5.7,",
+     "classe": "admis"
+    },
+    {
+     "ligne": 9,
+     "reference": "  \"executed_at\": \"2026-09-28T10:01:57Z\",",
+     "sortie": "  \"executed_at\": \"2026-09-29T11:42:26Z\",",
+     "classe": "admis"
+    },
+    {
+     "ligne": 10,
+     "reference": "  \"work_dir\": \"data/processed/runs/20260928T100157-30609502\"",
+     "sortie": "  \"work_dir\": \"data/processed/runs/20260929T114220-2cb52dad\"",
+     "classe": "admis"
+    }
+   ],
+   "verdict": "réussi (chemins et empreintes énumérés)"
+  },
+  {
+   "reference": "ferraillage/rapports/mess_ferr_extrait.txt",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/rapports/mess_ferr_extrait.txt",
+   "sha256_reference": "81d8ade37a36149c41fde42e9b830849ef27834bfe66a3568264a35b69be7a08",
+   "sha256_sortie": "2344ccfa5c01d9d82bfd4507b2359ad2c609afdce690696b0ab50ec7af56e6ac",
+   "statut": "différent",
+   "differences": [
+    {
+     "ligne": 1,
+     "reference": "##FERR_POUTREASTER 17.04.00 CONCEPT 00000013 CALCULE LE 28/09/2026 A 10:02:07 DE TYPE        ",
+     "sortie": "##FERR_POUTREASTER 17.04.00 CONCEPT 00000013 CALCULE LE 29/09/2026 A 11:42:25 DE TYPE        ",
+     "classe": "admis"
+    }
+   ],
+   "verdict": "réussi (chemins et empreintes énumérés)"
+  },
+  {
+   "reference": "ferraillage/resume.json",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/resume.json",
+   "sha256_reference": "98042e2e6402e89cb5f308feaee7e8c6fd2c04c5baf7fc3b2639250e7b341573",
+   "sha256_sortie": "98042e2e6402e89cb5f308feaee7e8c6fd2c04c5baf7fc3b2639250e7b341573",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/sections.csv",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/sections.csv",
+   "sha256_reference": "7d9318ed3ae0d3b714b1c1a2ba94da49e7b78537551ede2645680e0394d99c86",
+   "sha256_sortie": "7d9318ed3ae0d3b714b1c1a2ba94da49e7b78537551ede2645680e0394d99c86",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/synthese.csv",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/synthese.csv",
+   "sha256_reference": "55b635227648040238ac8262236797143edf159086edbcefe94de92d482b7655",
+   "sha256_sortie": "55b635227648040238ac8262236797143edf159086edbcefe94de92d482b7655",
+   "statut": "identique",
+   "verdict": "réussi"
+  },
+  {
+   "reference": "ferraillage/synthese.md",
+   "sortie": "projets/quai_cw_test_01/resultats/ferraillage/synthese.md",
+   "sha256_reference": "f7d037c04b57346e9d9693f60089d4791c8e27122c8e2f26df19071672d48b72",
+   "sha256_sortie": "f7d037c04b57346e9d9693f60089d4791c8e27122c8e2f26df19071672d48b72",
+   "statut": "identique",
+   "verdict": "réussi"
+  }
+ ],
+ "identiques": 18,
+ "differents_admis": 6,
+ "echecs": [
+  "maillage/combiwall_mesh_invariants.yaml",
+  "ferraillage/poutre.comm"
+ ],
+ "vues_informatives_identiques": "54/54"
+}

@@ -40,7 +40,7 @@ carry one is never present on that branch of the union.
 
 **M5, corrected against a real specimen.** A first draft of this schema
 (before M5) modelled a single, mandatory, fully-populated `source` per
-entry. Transcribing the real combi-wall fiche (lot 14, M5) broke that draft
+entry. Transcribing the real reference fiche (lot 14, M5) broke that draft
 in three ways, each fixed here:
 
 1. A single engineering point is routinely founded by *several* citations
@@ -84,12 +84,12 @@ carries exactly this, unconstrained by `status`.
 
 **N1 (lot 14b), the gap M5 left open on purpose.** M5's own "Limites
 connues" named it: nothing stopped a `tranche` entry from citing a document
-by id/section alone, never actually read -- exactly what the combi-wall
+by id/section alone, never actually read -- exactly what the reference
 specimen itself did for R7.01.25 (cited for "documente les éléments de
 joint", excerpt never captured). `_require_a_verbatim_excerpt_when_documentary`
 makes that structural rather than a matter of skill discipline: a `tranche`
 entry that cites any `DocumentarySource` must have a real, non-empty
-`excerpt` on at least one of them. The combi-wall specimen's R7.01.25
+`excerpt` on at least one of them. The reference specimen's R7.01.25
 citation was itself corrected against this rule -- by reading the document
 for real (`get_document_section`), not by inventing a passage to satisfy
 the validator.
@@ -99,7 +99,7 @@ an LLM drafting session exactly two write paths, neither able to produce a
 decided `pratique` entry (`aster_expert.agent.drafting`). That barrier also
 meant no path existed for a *human* decision either: `PracticeSource` has
 existed since M1, yet nothing before this lot ever built a
-`PracticeHypothesisEntry(status="tranche", ...)`, so the combi-wall
+`PracticeHypothesisEntry(status="tranche", ...)`, so the reference
 specimen's eight `pratique`/`non_tranche` entries were structurally unable
 to leave that state. `PracticeHypothesisEntry` now requires, when
 `status="tranche"`: at least one `discarded_variants` entry (an arbitration
@@ -117,7 +117,7 @@ including a hand-built one.
 **R1 (lot 17), the gap lot 16 hit trying to arbitrate for real.** Lot 15's
 own "Limites connues" already predicted this: nothing on `_HypothesisEntryBase`
 carried a decision's *known limits* -- so when a real arbitration file
-(`arbitrage_combiwall_MM.md`) gave every decision a distinct "Limites
+(the engineer's arbitration file of lot 16) gave every decision a distinct "Limites
 connues" member alongside "Retenu"/"Écarté", `record_practice_decision`
 could not record a single one of its nine decisions without either
 inventing a `justification` the engineer never wrote or dropping the
@@ -209,7 +209,7 @@ class DocumentarySource(BaseModel):
     `section_path` defaults to empty (M5, correction 3): a real fiche can
     correctly name a document while explicitly not having read its content
     yet (the U2.02.01 comparison-table case, lot 14's own worked example of
-    the lot 8c/K1 problem this project already fixed), and the combi-wall
+    the lot 8c/K1 problem this project already fixed), and the reference
     specimen itself cites several documents (e.g. R7.01.28, R7.01.14,
     R7.01.18, R7.01.25) by document id and section alone, without a
     `source_path`, and one (R7.01.23) by document id alone, with no section
@@ -496,7 +496,7 @@ def _require_a_verbatim_excerpt_when_documentary(
     by `CatalogueSource`s is therefore exempt; an entry that also cites a
     document must have actually read at least one of those documents (M5's
     own R7.01.25 gap: cited by id and section, never read -- fixed in the
-    combi-wall specimen alongside this validator, not by inventing a passage
+    reference specimen alongside this validator, not by inventing a passage
     for it, but by calling `get_document_section` for real).
     """
     documentary = [s for s in sources if isinstance(s, DocumentarySource)]
@@ -723,8 +723,31 @@ class PracticeHypothesisEntry(_HypothesisEntryBase):
         return self
 
 
+class FindingReference(BaseModel):
+    """A `code_aster` finding kept in the shared base of findings, cited by this
+    fiche instead of being copied into it (lot 41, étape 4).
+
+    A finding about Code_Aster (a keyword's behaviour, a trap established by a
+    trial run) is not a fact of one structure: it belongs to the shared base
+    `connaissances/constats_code_aster/` (`aster_expert.constats`), one file per
+    finding, and every fiche that relies on it names it by `constat_id`.
+    `point_label` stays here, on the reference: it places the finding among
+    *this* fiche's points, which the shared base knows nothing about.
+    `aster_expert.constats.base.resolve_sheet` replaces each reference by the
+    full `CodeAsterHypothesisEntry` of the base (with this `point_label`); an
+    unresolved reference is a generation blocker.
+    """
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    nature: Literal["constat"] = "constat"
+    constat_id: str
+    point_label: str | None = None
+
+
 HypothesisEntry = Annotated[
-    CodeAsterHypothesisEntry | PracticeHypothesisEntry, Field(discriminator="nature")
+    CodeAsterHypothesisEntry | PracticeHypothesisEntry | FindingReference,
+    Field(discriminator="nature"),
 ]
 
 
@@ -739,7 +762,7 @@ class MeshGroupNaming(BaseModel):
     on `group_name` is not checked here -- not verified against a real
     catalogue or mesh format as of this lot, to be added on evidence rather
     than guessed (CLAUDE.md, "ne jamais deviner"). Not exercised by the M5
-    real-case confrontation: the combi-wall specimen predates this section
+    real-case confrontation: the reference specimen predates this section
     and never discusses mesh group names -- validated by unit test only.
     """
 
@@ -796,8 +819,18 @@ class HypothesesSheet(BaseModel):
             raise ValueError(message)
         return self
 
-    def unresolved_entries(self) -> tuple[HypothesisEntry, ...]:
-        return tuple(e for e in self.entries if e.status == "non_tranche")
+    def unresolved_entries(
+        self,
+    ) -> tuple[CodeAsterHypothesisEntry | PracticeHypothesisEntry, ...]:
+        return tuple(
+            e
+            for e in self.entries
+            if not isinstance(e, FindingReference) and e.status == "non_tranche"
+        )
+
+    def finding_references(self) -> tuple[FindingReference, ...]:
+        """References to the shared base still unresolved in this sheet (lot 41)."""
+        return tuple(e for e in self.entries if isinstance(e, FindingReference))
 
     def entries_under_revision(self) -> tuple[PracticeHypothesisEntry, ...]:
         return tuple(
@@ -851,6 +884,11 @@ class HypothesesSheet(BaseModel):
             f"nom de groupe non tranché : {g.group_name} ({g.kind})"
             for g in self.unresolved_group_names()
         )
+        blockers.extend(
+            f"constat référencé non résolu contre la base partagée : "
+            f"{r.constat_id} (point {r.point_label or '?'})"
+            for r in self.finding_references()
+        )
         if model_data is not None:
             blockers.extend(model_data.missing_values())
         return tuple(blockers)
@@ -881,7 +919,9 @@ class HypothesesSheet(BaseModel):
             return ()
         names = {g.group_name for g in self.group_naming}
         known = frozenset(catalogue_identifiers)
-        practice = tuple(e for e in self.entries if e.nature == "pratique")
+        practice = tuple(
+            e for e in self.entries if isinstance(e, PracticeHypothesisEntry)
+        )
         gaps: list[str] = []
         for e in practice:
             if e.status != "tranche":
@@ -922,6 +962,7 @@ __all__: list[str] = [
     "DiscardedVariant",
     "DocumentarySource",
     "ExecutionLevel",
+    "FindingReference",
     "ExecutionSource",
     "HypothesesSheet",
     "HypothesisEntry",

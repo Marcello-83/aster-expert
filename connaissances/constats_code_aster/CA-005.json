@@ -1,0 +1,50 @@
+{
+  "constat_id": "CA-005",
+  "summary": "Un tirant à deux nœuds peut être représenté au catalogue par BARRE, CABLE, CABLE_GAINE, DIS_T ou DIS_TR.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_MODELE"
+  ],
+  "keywords": [
+    "AFFE",
+    "BARRE",
+    "CABLE",
+    "CABLE_GAINE",
+    "DIS_T",
+    "DIS_TR",
+    "MODELISATION"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "2"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Familles d'éléments 1D à deux nœuds disponibles au catalogue pour un tirant",
+    "options_considered": [],
+    "option_retained": "BARRE, CABLE, CABLE_GAINE, DIS_T, DIS_TR",
+    "justification": "Catalogue introspecté, AFFE_MODELE/AFFE/MODELISATION.",
+    "discarded_variants": [],
+    "notes": null,
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "AFFE_MODELE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "MODELISATION"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      }
+    ],
+    "status": "tranche"
+  }
+}

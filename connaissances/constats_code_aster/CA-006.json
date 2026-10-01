@@ -1,0 +1,87 @@
+{
+  "constat_id": "CA-006",
+  "summary": "BARRE ne transmet que l'effort normal, et DIS_T/DIS_TR sont des raideurs ponctuelles portées par des mailles POI1 ou SEG2.",
+  "aster_version": "17.4.0",
+  "validation_level": "A",
+  "commands": [
+    "AFFE_MODELE"
+  ],
+  "keywords": [
+    "AFFE",
+    "BARRE",
+    "CABLE",
+    "DIS_T",
+    "DIS_TR",
+    "MODELISATION",
+    "POI1",
+    "SEG2"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "2"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Documentation générique des éléments BARRE, CABLE, DIS_T/DIS_TR et de la commande d'affectation d'un câble",
+    "options_considered": [],
+    "option_retained": "BARRE = effort normal seul (U3.11.01) ; CABLE documenté par U3.11.03 ; correspondance commande/mot-clé câble via AFFE_MODELE/AFFE/MODELISATION (R3.08.02) ; DIS_T/DIS_TR = raideurs ponctuelles sur mailles support POI1 ou SEG2 (U2.02.03).",
+    "justification": "Notices génériques U3.11.01, U3.11.03, R3.08.02, U2.02.03.",
+    "discarded_variants": [],
+    "notes": null,
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U3.11.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Discr_tisation"
+        ],
+        "source_path": "source/manuals/man_u/u3/u3.11.01/Discr_tisation.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "l'élément BARRE (effort normal seul)"
+      },
+      {
+        "document_id": "U3.11.03",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Discr_tisation"
+        ],
+        "source_path": "source/manuals/man_u/u3/u3.11.03/Discr_tisation.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": null
+      },
+      {
+        "document_id": "R3.08.02",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Utilisation_dans_Code_Aster"
+        ],
+        "source_path": "source/manuals/man_r/r3/r3.08.02/Utilisation_dans_Code_Aster.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": null
+      },
+      {
+        "document_id": "U2.02.03",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Affectation_des_proprietes_des_discrets"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.02.03/Affectation_des_proprietes_des_discrets.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": null
+      }
+    ],
+    "status": "tranche"
+  }
+}

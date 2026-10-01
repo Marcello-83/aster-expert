@@ -1,0 +1,203 @@
+{
+  "constat_id": "CA-041",
+  "summary": "Piège : FERR_MIN='EC2' n'est juste qu'en UNITE_CONTRAINTE='MPa', s'applique aux quatre faces même sans effort, et FERR_MIN_FISS est refusé pour les poutres.",
+  "aster_version": "17.4.0",
+  "validation_level": "C",
+  "commands": [
+    "CALC_FERRAILLAGE"
+  ],
+  "keywords": [
+    "AFFE",
+    "BAEL91",
+    "EC2",
+    "FERR_MIN",
+    "FERR_MIN_FISS",
+    "HY",
+    "POUTRE",
+    "UNITE_CONTRAINTE",
+    "VALE_MIN"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "data/examples/lot39_essais/fermin/fermin.comm",
+      "case_sha256": "9bd65dbcbbb56302ddc9ffc922fd502403138e16cac1a08d115d1fe7fdd858c1",
+      "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_extrait.txt"
+    },
+    {
+      "case_path": "data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm",
+      "case_sha256": "ce4bdd70b323de7c66acd4362ad1c72fc1308dc77edf7853a059e8804b25b6f4",
+      "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_mpa_extrait.txt"
+    }
+  ],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "14"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Ferraillage minimal de CALC_FERRAILLAGE en 1D (FERR_MIN, FERR_MIN_FISS) : ce qui est appliqué, sur quelles faces, et dépendance aux unités",
+    "options_considered": [],
+    "option_retained": "FERR_MIN='EC2' (catalogue 17.4.0 : 'VALE_MIN' ou 'EC2' ; la documentation U4.81.42 écrit 'BAEL91' dans la section EC2) applique en 1D le minimum de l'EN 1992-1-1 9.2.1.1 (0,26 fctm/fyk b d, au moins 0,0013 b d) sur les QUATRE faces, tendues ou non, même sans effort, et un minimum transversal rho_w,min = 0,08 √fck/fyk multiplié par HY quelle que soit la direction de l'effort tranchant. Ces valeurs ne sont justes qu'avec UNITE_CONTRAINTE='MPa' (longueurs en mm) : avec 'Pa' (longueurs en m), la même commande donne 0,0013 b d et un minimum transversal 1000 fois trop faible. FERR_MIN_FISS='EC2' (maîtrise de la fissuration, EN 1992-1-1 7.3.2) est refusé pour les poutres : <F> <CALCULEL7_40> « Le calcul de ferraillage minimal pour la maîtrise de la fissuration n'est pas encore possible pour les éléments POUTRE ». À traiter hors de Code_Aster : le minimum de maîtrise de la fissuration (7.3.2) en 1D, et le minimum 9.2.1.1 dès que le calcul est conduit en Pa ; la restriction du minimum aux seules faces tendues (9.2.1.1 vise l'armature tendue).",
+    "justification": "Essais fermin (Pa), fermin_mpa (MPa, mm) et fiss du lot 39, exécutions réelles ; valeurs de référence calculées par aster_expert.rebar.minimum (EN 1992-1-1 9.2.1.1, expression 9.1N ; 9.2.2(5), expression 9.5N).",
+    "discarded_variants": [],
+    "notes": "Déduction (non confirmée par la lecture des sources de Code_Aster, hors de portée des sept outils) : en Pa, fctm est calculé à partir de fck exprimé en Pa avec une formule en MPa (0,3 fck^(2/3) cent fois trop faible, d'où 0,0013 b d) et √fck/fyk est mille fois trop faible. L'exécution fiss s'arrête sur l'erreur fatale (niveau B pour cette exécution : consignée ici, pas comme source) ; listing data/examples/lot39_essais/rapports/mess_fiss_extrait.txt.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U4.81.42",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Op_randes",
+          "AFFE",
+          "EC2",
+          "FERR_MIN, RHO_LONGI_MIN, RHO_TRNSV_MIN"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Opérande FERR_MIN\n^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ FERR_MIN = / 'VALE_MIN',\n                  / 'BAEL91'\n\nPrise en compte d'un ferraillage minimal.\n\nL’attribut peut prendre comme valeur :\n\n\n- ‘VALE_MIN’ : un ratio minimal de ferraillage sera pris en compte et dont la valeur est à renseigner par l’utilisateur\n\n- 'BAEL91' : un ratio minimal de ferraillage sera pris en compte et dont la valeur sera calculée implicitement par le logiciel, conformément au BAEL91.\n\n\nOpérande RHO_LONGI_MIN\n^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ RHO_LONGI_MIN= rholmin, [R]\n\nRatio de ferraillage minimal en %, vis-à-vis du ferraillage longitudinal de flexion (à renseigner dans le cas où FERR_MIN= ‘VALE_MIN’).\n\n**Remarque :**\n\nDans le cas où **FERR_MIN** **= ‘BAEL91’**, le calcul de RHO_LONGI_MIN se fait implicitement par le code comme suit :\n\n:math:`{\\rho}_{\\text{l,min}}=0,26\\times {f}_{\\mathit{ctm}}/{f}_{\\mathit{yk}}\\text{}⩾\\text{}0,0013`\n\n\nOpérande RHO_TRNSV_MIN\n^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ RHO_TRNSV_MIN= rhotmin, [R]\n\nRatio de ferraillage minimal en %, vis-à-vis du ferraillage transversal de cisaillement (à renseigner dans le cas où FERR_MIN= ‘VALE_MIN’).\n\n**Remarque :**\n\nDans le cas où **FERR_MIN** **= ‘BAEL91’**, le calcul de RHO_TRNSV_MIN se fait implicitement par le code comme suit :\n\n:math:`{\\rho}_{\\text{t,min}}=0,08\\times \\sqrt{{f}_{\\mathit{ck}}}/{f}_{\\mathit{yk}}` , si TYPE_STRUCTURE= ‘1D’\n\n:math:`{\\rho}_{\\text{t,min}}=0` , si TYPE_STRUCTURE= ‘2D’\n\n"
+      },
+      {
+        "document_id": "U4.81.42",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Op_randes",
+          "AFFE",
+          "FERR_MIN_FISS"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Opérande FERR_MIN_FISS\n^^^^^^^^^^^^^^^^^^^^^^\n\n.. code-block:: text\n\n     ◊ FERR_MIN_FISS= / 'EC2',\n                      / 'RCC-CW'\n\n\nPrise en compte du ferraillage minimal pour la maîtrise de la fissuration.\n\nL’attribut peut prendre comme valeur :\n\n\n- ‘EC2’ : le ferraillage minimal pour la maîtrise de la fissuration est pris en compte lors du calcul de ferraillage à l'ELS-QP conformément aux spécifications du §7.3.2 de l’EC2, équation 7.1.\n- ‘RCC-CW’ : le ferraillage minimal pour la maîtrise de la fissuration est pris en compte lors du calcul de ferraillage à l'ELS-QP conformément aux spécifications du §DCONC 4110 de l’EC2, équation DCONC 4110-1.\n"
+      },
+      {
+        "document_id": "R7.04.05",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Calcul_du_ferraillage_des_poutres_et_poteaux",
+          "Prise en compte du ferraillage minimum"
+        ],
+        "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "Prise en compte du ferraillage minimum\n--------------------------------------\n\nFerraillage longitudinal\n~~~~~~~~~~~~~~~~~~~~~~~~\n\nIl convient que la section d’armatures longitudinales tendues ne soit pas inférieure à :math:`{A}_{s,\\text{min}}`, conformément aux spécifications de l’EC2 au niveau du §9.2.1.1:\n\n.. math::\n    {A}_{s,\\text{min}}\n    =\n    0,26\\frac{{f}_{\\text{ctm}}}{{f}_{\\text{yk}}}{b}_{t} d\n    \\ge\n    0,0013 {b}_{t} d\n\noù :math:`{b}_{t}` désigne la largeur moyenne de la zone tendue et :math:`{f}_{\\text{ctm}}` la résistance moyenne du béton de classe ``fck`` à la traction\n\n\nFerraillage transversal\n~~~~~~~~~~~~~~~~~~~~~~~\n\nLe taux d’armatures d’effort tranchant est rappelé par l’expression suivante:\n\n.. math::\n    {\\rho}_{w}\n    =\n    \\frac{{A}_{\\text{sw}}}{s \\, {b}_{w} \\, \\sin\\alpha}\n\navec :math:`{\\rho}_{w}` le taux d’armatures d’effort tranchant, :math:`{A}_{\\text{sw}}` l’aire de la section des armatures d’effort tranchant régnant sur la longueur :math:`s`. :math:`s` est l'espacement des armatures d’effort tranchant, mesuré le long de l'axe longitudinal de l’élément. :math:`{b}_{w}` est la largeur de l’âme de l’élément et :math:`\\alpha` est l’angle entre les armatures d’effort tranchant et l'axe longitudinal\n\nIl convient ainsi de vérifier, dans le cas des poutres, le taux de ferraillage transversal minimal ci-dessous:\n\n.. math::\n    {\\rho}_{w,\\text{min}}\n    =\n    0,08 \\frac{\\sqrt{{f}_{\\text{ck}}}}{{f}_{\\text{yk}}}\n"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "FERR_MIN"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "FERR_MIN_FISS"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "UNITE_CONTRAINTE"
+        ],
+        "variant_id": null,
+        "catalogue_source": "/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster",
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/fermin/fermin.comm",
+        "case_sha256": "9bd65dbcbbb56302ddc9ffc922fd502403138e16cac1a08d115d1fe7fdd858c1",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_extrait.txt",
+        "quantity": "AYS (m²) avec FERR_MIN='EC2', MFZ = 1 MN·m, UNITE_CONTRAINTE='Pa'",
+        "value_obtained": 0.004368,
+        "reference": "EN 1992-1-1 9.2.1.1 (9.1N), 0,26 fctm/fyk b d, b = 1,40, d = 2,40 (aster_expert.rebar.minimum.as_min_flexure)",
+        "reference_value": 0.005608446378129919,
+        "relative_deviation": -0.22117468805033552,
+        "validation_level": "C"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm",
+        "case_sha256": "ce4bdd70b323de7c66acd4362ad1c72fc1308dc77edf7853a059e8804b25b6f4",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_mpa_extrait.txt",
+        "quantity": "AYS (mm²) avec FERR_MIN='EC2', MFZ = 1e9 N·mm, UNITE_CONTRAINTE='MPa'",
+        "value_obtained": 5608.44637813,
+        "reference": "EN 1992-1-1 9.2.1.1 (9.1N), 0,26 fctm/fyk b d en mm² (b = 1400, d = 2400)",
+        "reference_value": 5608.44637812992,
+        "relative_deviation": 1.4270535610024807e-14,
+        "validation_level": "C"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm",
+        "case_sha256": "ce4bdd70b323de7c66acd4362ad1c72fc1308dc77edf7853a059e8804b25b6f4",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_mpa_extrait.txt",
+        "quantity": "AZI (mm²) avec FERR_MIN='EC2', aucun effort, UNITE_CONTRAINTE='MPa'",
+        "value_obtained": 5424.836526465,
+        "reference": "EN 1992-1-1 9.2.1.1 (9.1N), b = 2500, d = 1300",
+        "reference_value": 5424.836526464953,
+        "relative_deviation": 8.717999936306064e-15,
+        "validation_level": "C"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/fermin_mpa/fermin_mpa.comm",
+        "case_sha256": "ce4bdd70b323de7c66acd4362ad1c72fc1308dc77edf7853a059e8804b25b6f4",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_mpa_extrait.txt",
+        "quantity": "AST (mm²/mm) avec FERR_MIN='EC2', aucun effort, UNITE_CONTRAINTE='MPa'",
+        "value_obtained": 2.36643191324,
+        "reference": "EN 1992-1-1 9.2.2(5) (9.5N), rho_w,min x HY = 2500 mm",
+        "reference_value": 2.3664319132398464,
+        "relative_deviation": 6.493103213679835e-14,
+        "validation_level": "C"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "069a8889574c502ff2cfc8ddecf2f81492eb24cd",
+        "working_tree_modified": true,
+        "case_path": "data/examples/lot39_essais/fermin/fermin.comm",
+        "case_sha256": "9bd65dbcbbb56302ddc9ffc922fd502403138e16cac1a08d115d1fe7fdd858c1",
+        "mess_path": "data/examples/lot39_essais/rapports/mess_fermin_extrait.txt",
+        "quantity": "AST (m²/m) avec FERR_MIN='EC2', aucun effort, UNITE_CONTRAINTE='Pa'",
+        "value_obtained": 2.36643191324e-06,
+        "reference": "EN 1992-1-1 9.2.2(5) (9.5N), rho_w,min x HY = 2,50 m",
+        "reference_value": 0.0023664319132398466,
+        "relative_deviation": -0.9989999999999999,
+        "validation_level": "C"
+      }
+    ],
+    "status": "tranche"
+  }
+}

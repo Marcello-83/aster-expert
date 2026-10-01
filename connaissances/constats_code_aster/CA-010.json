@@ -1,0 +1,40 @@
+{
+  "constat_id": "CA-010",
+  "summary": "Le contact-frottement de Code_Aster ne détecte aucune interface : les surfaces de contact sont définies à la main par l'utilisateur.",
+  "aster_version": "17.4.0",
+  "validation_level": "A",
+  "commands": [],
+  "keywords": [],
+  "trial_cases": [],
+  "origin": {
+    "project": "Exemple de référence (lot 14, M5) -- quai en combi-wall ancré",
+    "fiche": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+    "point_label": "4"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Mécanisme catalogue de contact-frottement pour une interface sol-écran",
+    "options_considered": [],
+    "option_retained": "Contact-frottement défini manuellement par l'utilisateur (aucune détection automatique d'interface) ; formulations discrètes documentées en R5.03.50/R5.03.52",
+    "justification": "U2.04.04 § Appariement l'indique explicitement.",
+    "discarded_variants": [],
+    "notes": "U2.04.04 renvoie en bibliographie (§ Bibliographie) à R5.03.50 (formulation discrète du contact-frottement) et R5.03.52 (éléments de contact dérivés d'une formulation hybride continue) ; ces deux documents n'ont pas été lus directement dans cette session.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U2.04.04",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Appariement"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.04.04/Appariement.rst",
+        "source_commit": null,
+        "fragment_id": null,
+        "profile": "methode",
+        "excerpt": "C'est toujours à l'utilisateur de définir les surfaces potentielles de contact : il n'existe pas dans Code_Aster de mécanisme automatique de détection des inter[faces]"
+      }
+    ],
+    "status": "tranche"
+  }
+}

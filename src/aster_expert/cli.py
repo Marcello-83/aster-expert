@@ -76,6 +76,7 @@ from aster_expert.parsing.doc_fragments import (
     default_fragments_path,
 )
 from aster_expert.parsing.errors import CommParseError
+from aster_expert.projet.context import ProjectContext
 from aster_expert.retrieval.bench import (
     run_granularity_bench,
     run_lot7b_decomposition,
@@ -1744,8 +1745,16 @@ def mesh_run(
 
 @mesh_app.command("check")
 def mesh_check(
-    med: Path,
-    invariants: Path,
+    med: str = typer.Argument("", help="MED à vérifier."),
+    invariants: str = typer.Argument("", help="Fichier d'invariants (YAML)."),
+    projet: str = typer.Option(
+        "",
+        "--projet",
+        help=(
+            "Projet : ses invariants, et le MED de son étape `maillage` à défaut de "
+            "MED donné."
+        ),
+    ),
     version: str = typer.Option(
         "",
         "--version",
@@ -1758,6 +1767,23 @@ def mesh_check(
     from aster_expert.meshing.errors import MeshError
 
     project_root = _project_root()
+    med_path = Path(med) if med else None
+    invariants_path = Path(invariants) if invariants else None
+    if projet:
+        from aster_expert.projet.pipeline import load_state
+
+        ctx = _load_project_or_exit("mesh check", projet)
+        invariants_path = invariants_path or ctx.path(ctx.declaration.mesh.invariants)
+        if med_path is None:
+            known = load_state(ctx).mesh_med
+            med_path = Path(known) if known else None
+    if med_path is None or invariants_path is None:
+        typer.echo(
+            "mesh check ÉCHEC : donner le MED et le fichier d'invariants, ou "
+            "--projet <nom> (après son étape `maillage`)",
+            err=True,
+        )
+        raise typer.Exit(1)
     try:
         config = load_mesh_config(project_root / "config" / "validation.yaml")
         digest, _aster_version = resolve_digest_for_version(
@@ -1768,8 +1794,8 @@ def mesh_check(
         docker_bin = find_docker_binary(os.environ.get("ASTER_DOCKER_BIN") or None)
         repository = os.environ.get("ASTER_IMAGE_REPOSITORY", "simvia/code_aster")
         report = check_med(
-            med,
-            invariants,
+            med_path,
+            invariants_path,
             project_root=project_root,
             config=config,
             docker_bin=docker_bin,
@@ -1784,13 +1810,41 @@ def mesh_check(
         raise typer.Exit(1)
 
 
+def _load_project_or_exit(
+    command: str,
+    projet: str,
+    *,
+    fiche: str = "",
+    donnees: str = "",
+) -> ProjectContext:
+    """The project context, or a readable refusal (`<commande> ÉCHEC : ...`)."""
+    from aster_expert.projet.context import load_project
+    from aster_expert.projet.errors import ProjectError
+
+    try:
+        return load_project(
+            projet,
+            _project_root(),
+            fiche=Path(fiche) if fiche else None,
+            data=Path(donnees) if donnees else None,
+        )
+    except ProjectError as exc:
+        typer.echo(f"{command} ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+
+
 @app.command("report")
 def report(
     resultat: Path,
+    projet: str = typer.Option(
+        ...,
+        "--projet",
+        help="Projet (projets/<nom>/projet.yaml) dont le calcul est synthétisé.",
+    ),
     donnees: str = typer.Option(
-        "data/examples/combiwall_model_data.yaml",
+        "",
         "--donnees",
-        help="Fichier de données du modèle exécuté (aires tributaires, butée).",
+        help="Fichier de données du modèle exécuté (défaut : celui du projet).",
     ),
     comm: str = typer.Option(
         "", "--comm", help="`.comm` exécuté (empreinte consignée dans la synthèse)."
@@ -1798,7 +1852,9 @@ def report(
     controles_d: str = typer.Option(
         "",
         "--controles-d",
-        help="JSON de l'équilibre (scripts/analyze_lot34_equilibre.py) à joindre.",
+        help=(
+            "JSON d'équilibre des contrôles D (`aster-expert projet <nom> controles`)."
+        ),
     ),
     sortie: str = typer.Option(
         "", "--sortie", help="Répertoire de sortie (par défaut : celui du résultat)."
@@ -1812,127 +1868,187 @@ def report(
         "", "--etiquette", help="Étiquette portée par le titre des vues (`base`, `V1`)."
     ),
     sans_vues: bool = typer.Option(
-        False, "--sans-vues", help="Ne pas produire les vues PNG (lot 36)."
+        False, "--sans-vues", help="Ne pas produire les vues PNG."
     ),
 ) -> None:
-    """Synthèse Markdown des résultats d'un calcul du quai (lots 35 et 36).
+    """Synthèse d'un calcul, par l'extension de synthèse déclarée par le projet.
 
     `resultat` : le répertoire d'exécution (`aster-expert run`) ou son listing
-    `.mess`. Depuis le lot 36, la source est le MED de résultats, relu par
-    `medcoupling` dans le conteneur ; les tables du `.mess` ne sont plus qu'une
-    contre-vérification (écart relatif rapporté). Écrit `synthese.md`, `controles.md`,
-    `synthese.json` et, si `matplotlib` est disponible, les vues PNG de chaque cas
-    élémentaire (`vues/`). Cas élémentaires seulement : aucune combinaison, aucun
-    verdict de dimensionnement."""
-    from aster_expert.report.build import CASES, build_synthesis
-    from aster_expert.report.med_source import load_med_data
-    from aster_expert.report.render import (
-        matplotlib_available,
-        plot_profiles,
-        render_controls,
-        render_synthesis,
-    )
-    from aster_expert.report.tables import TableError
+    `.mess`. Le tronc commun ne sait rien de l'ouvrage : il vérifie la déclaration
+    (données du même ouvrage, extension présente) puis appelle l'extension du
+    projet, qui écrit ses propres fichiers (par exemple `synthese.md`, `controles.md`,
+    `synthese.json`, vues PNG)."""
+    from aster_expert.projet.check import FOR_REPORT, require_valid_project
+    from aster_expert.projet.errors import ProjectError
 
-    run_dir = resultat if resultat.is_dir() else resultat.parent
-    mess = resultat / "proc.0" / "fort.6" if resultat.is_dir() else resultat
-    med_path = Path(med) if med else run_dir / "proc.0" / "fort.80"
-    has_med = med_path.is_file()
-    if not mess.is_file() and not has_med:
-        typer.echo(
-            f"report ÉCHEC : ni listing ({mess}) ni MED de résultats ({med_path})",
-            err=True,
-        )
-        raise typer.Exit(1)
-    out_dir = Path(sortie) if sortie else run_dir
-    out_dir.mkdir(parents=True, exist_ok=True)
+    ctx = _load_project_or_exit("report", projet, donnees=donnees)
     try:
-        med_data = load_med_data(med_path, CASES) if has_med else None
-        synthesis = build_synthesis(
-            mess if mess.is_file() else None,
-            Path(donnees),
+        require_valid_project(ctx, FOR_REPORT)
+        if ctx.declaration.synthesis is None:
+            message = f"le projet {ctx.declaration.name} ne déclare pas de synthèse"
+            raise ProjectError(message)
+        run_dir = resultat if resultat.is_dir() else resultat.parent
+        lines = ctx.extension(ctx.declaration.synthesis.extension)(
+            ctx,
+            result=resultat,
+            out_dir=Path(sortie) if sortie else run_dir,
+            data_path=Path(donnees) if donnees else ctx.data_path,
             comm_path=Path(comm) if comm else None,
             level_d_path=Path(controles_d) if controles_d else None,
-            med_data=med_data,
+            med_path=Path(med) if med else None,
+            label=etiquette,
+            views=not sans_vues,
         )
-    except (TableError, ValueError, OSError, KeyError) as exc:
+    except (ProjectError, ValueError, OSError, KeyError) as exc:
         typer.echo(f"report ÉCHEC : {exc}", err=True)
         raise typer.Exit(1) from exc
-    views = []
-    if med_data is not None and not sans_vues and matplotlib_available():
-        from aster_expert.report.figures import build_context, make_figures
-
-        views = make_figures(
-            med_data, build_context(Path(donnees), label=etiquette), out_dir / "vues"
-        )
-    figures = plot_profiles(synthesis, out_dir) if not views else []
-    (out_dir / "synthese.md").write_text(
-        render_synthesis(synthesis, figures, views, out_dir), encoding="utf-8"
-    )
-    (out_dir / "controles.md").write_text(render_controls(synthesis), encoding="utf-8")
-    (out_dir / "synthese.json").write_text(
-        synthesis.model_dump_json(indent=2), encoding="utf-8"
-    )
-    typer.echo(f"Synthèse : {out_dir / 'synthese.md'}", err=True)
-    typer.echo(f"Contrôles : {out_dir / 'controles.md'}", err=True)
-    typer.echo(
-        f"Source : {synthesis.provenance.source}"
-        + (
-            f" (écart MED/.mess {synthesis.provenance.cross_check_max:.2e})"
-            if synthesis.provenance.cross_check_max is not None
-            else ""
-        ),
-        err=True,
-    )
-    if views:
-        typer.echo(f"Vues : {len(views)} PNG dans {out_dir / 'vues'}", err=True)
-    elif not figures:
-        typer.echo(
-            "Figures : aucune (matplotlib absent de l'environnement du projet, ou "
-            "--sans-vues) ; profils en tableaux seuls.",
-            err=True,
-        )
+    for line in lines:
+        typer.echo(line, err=True)
 
 
 @app.command("generate")
 def generate(
-    fiche: str,
-    donnees: str,
-    maillage: str,
+    projet: str,
+    fiche: str = typer.Option("", "--fiche", help="Fiche (défaut : celle du projet)."),
+    donnees: str = typer.Option(
+        "", "--donnees", help="Fichier de données (défaut : celui du projet)."
+    ),
+    maillage: str = typer.Option(
+        "",
+        "--maillage",
+        help="MED vérifié (défaut : celui de l'étape `maillage` du projet).",
+    ),
+    sortie: str = typer.Option(
+        "", "--sortie", help="Fichier .comm écrit (défaut : `comm.output` du projet)."
+    ),
 ) -> None:
-    """Générer le .comm du quai (lot 28) à partir de la fiche, des données et
-    du maillage vérifié (aster_expert.generation.generate_comm)."""
-    from aster_expert.generation.errors import GenerationError
-    from aster_expert.generation.generate import generate_comm
+    """Générer le .comm d'un projet par le générateur qu'il déclare.
 
-    project_root = _project_root()
-    versions_path = project_root / "config" / "versions.yaml"
-    aster_version = _resolve_aster_version_tag(versions_path)
+    Refusé, avec la liste des motifs, si la déclaration ne correspond pas à ses
+    fichiers (données d'un autre ouvrage, donnée exigée par le générateur absente,
+    groupe absent du maillage, cas sans résultante attendue) ou si la fiche porte
+    un bloqueur de génération."""
+    from aster_expert.projet.errors import ProjectError
+    from aster_expert.projet.pipeline import Runtime
+    from aster_expert.projet.pipeline import generate as generate_project
 
+    ctx = _load_project_or_exit("generate", projet, fiche=fiche, donnees=donnees)
     try:
-        text, report = generate_comm(
-            fiche_path=Path(fiche),
-            data_path=Path(donnees),
-            med_path=Path(maillage),
-            project_root=project_root,
-            work_dir_root="data/processed/mesh_runs",
-            aster_version=aster_version,
+        target, report_data = generate_project(
+            ctx,
+            Runtime(_project_root()),
+            med=Path(maillage) if maillage else None,
+            output=Path(sortie) if sortie else None,
         )
-    except GenerationError as exc:
+    except ProjectError as exc:
         typer.echo(f"generate ÉCHEC : {exc}", err=True)
         raise typer.Exit(1) from exc
+    typer.echo(json.dumps(report_data, indent=2, ensure_ascii=False))
+    typer.echo(f".comm écrit dans {target}", err=True)
 
-    output_path = (
-        project_root / "data" / "examples" / "lot28_quai" / "quai_combiwall.comm"
-    )
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(text, encoding="utf-8")
 
-    typer.echo(
-        json.dumps(json.loads(report.model_dump_json()), indent=2, ensure_ascii=False)
-    )
-    typer.echo(f".comm écrit dans {output_path}", err=True)
-    typer.echo(f"Classes de ressorts : {report.n_spring_classes}", err=True)
+@app.command("projet")
+def projet(
+    nom: str,
+    etape: str = typer.Argument(
+        "verifier",
+        help=(
+            "verifier, maillage, generer, valider, executer, controles, synthese, "
+            "combinaisons, ferraillage, ou tout (toutes, dans l'ordre)."
+        ),
+    ),
+    sans_vues: bool = typer.Option(
+        False, "--sans-vues", help="Synthèse sans les vues PNG."
+    ),
+) -> None:
+    """Enchaîner les commandes existantes sur un projet (`projets/<nom>/`).
+
+    Chaque étape écrit sous le répertoire de résultats du projet et consigne dans
+    `etat.json` ce qu'elle a produit ; une étape seule reprend ce que les
+    précédentes ont laissé. Aucune étape ne s'exécute sur une déclaration
+    refusée."""
+    from aster_expert.projet.errors import ProjectError
+    from aster_expert.projet.pipeline import Runtime, run_step
+
+    ctx = _load_project_or_exit("projet", nom)
+    try:
+        lines = run_step(ctx, Runtime(_project_root()), etape, views=not sans_vues)
+    except ProjectError as exc:
+        typer.echo(f"projet {nom} {etape} ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    for line in lines:
+        typer.echo(line)
+
+
+constats_app = typer.Typer(
+    no_args_is_help=True,
+    help="Base partagée des constats Code_Aster (connaissances/constats_code_aster).",
+)
+app.add_typer(constats_app, name="constats")
+
+
+@constats_app.command("chercher")
+def constats_chercher(
+    texte: str = typer.Argument("", help="Texte libre (tous les mots)."),
+    commande: str = typer.Option("", "--commande", help="Commande du catalogue."),
+    mot_cle: str = typer.Option(
+        "", "--mot-cle", help="Mot-clé ou valeur du catalogue."
+    ),
+    limite: int = typer.Option(20, "--limite"),
+) -> None:
+    """Chercher des constats par commande, mot-clé ou texte."""
+    from aster_expert.constats.base import ConstatBaseError, base_dir, load_base
+    from aster_expert.constats.search import search_constats
+
+    try:
+        base = load_base(base_dir(_project_root()))
+        hits = search_constats(
+            base,
+            text=texte or None,
+            command=commande or None,
+            keyword=mot_cle or None,
+            limit=limite,
+        )
+    except (ConstatBaseError, ValueError) as exc:
+        typer.echo(f"constats chercher ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    for hit in hits:
+        c = hit.constat
+        typer.echo(f"{c.constat_id} [niveau {c.validation_level}] {c.summary}")
+    typer.echo(f"{len(hits)} constat(s) sur {len(base)}.", err=True)
+
+
+@constats_app.command("rejouer")
+def constats_rejouer(
+    constat: list[str] | None = typer.Option(  # noqa: B008
+        None, "--constat", help="Identifiant(s) CA-nnn ; défaut : tous."
+    ),
+    sortie: str = typer.Option(
+        "", "--sortie", help="Rapport JSON (défaut : data/processed/rejeu_constats)."
+    ),
+) -> None:
+    """Rejouer, dans le conteneur, les cas d'essai des constats établis par
+    exécution, et vérifier que chaque valeur obtenue est encore imprimée.
+
+    Code de sortie 1 si un constat est à réexaminer (valeur absente, exécution en
+    échec, cas modifié) ; un cas non rejouable tel que versionné est signalé sans
+    rien conclure."""
+    from aster_expert.constats.rejeu import ReplayError, replay_base
+
+    root = _project_root()
+    try:
+        result = replay_base(
+            root,
+            only=tuple(constat or ()),
+            output_dir=Path(sortie) if sortie else None,
+        )
+    except ReplayError as exc:
+        typer.echo(f"constats rejouer ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    for line in result.lines():
+        typer.echo(line)
+    if result.to_review:
+        raise typer.Exit(1)
 
 
 if __name__ == "__main__":

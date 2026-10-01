@@ -7,8 +7,8 @@ entry -- by design, since deciding engineering practice is never that
 session's call. That barrier also left no path at all for a *human*
 decision: `PracticeSource` has existed since lot 14 (M1), yet nothing
 before this lot ever built a `PracticeHypothesisEntry(status="tranche",
-...)`. The combi-wall reference fiche's eight `pratique`/`non_tranche`
-entries (`data/examples/hypotheses_combiwall_reference.json`) were
+...)`. The reference fiche's eight `pratique`/`non_tranche`
+entries (the reference fiche of the first project, lot 14) were
 consequently, and permanently, unable to leave that state --
 `is_ready_for_generation` could never become true for that fiche, not
 because the questions were unanswerable, but because no function in this
@@ -39,7 +39,7 @@ document carries no recommendation at all).
 
 No arbitration in this module is ever invented by this project itself:
 this lot ships the channel, never an answer travelling through it. The
-combi-wall fiche stays `is_ready_for_generation=False` at the end of this
+reference fiche stays `is_ready_for_generation=False` at the end of this
 lot (see `docs/development-plan.md`, clôture lot 15) -- lot 16's real
 attempt to use this channel diagnosed the two gaps closed here (R1's
 `validity_domain`, R2's `insert_practice_entry`) but still recorded no
