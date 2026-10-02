@@ -20,10 +20,25 @@ lots:
     nature: mesure
     note: 'Décompte des lignes « ÉVITÉ » du journal d''autonomie (docs/lots/lot43_journal_autonomie.md,
       n° 3 à 6, 16, 17, 23 à 25, 27, 29) : PRE-018, CA-045, CA-041, CA-023/026, SSLS127, ALPHA_CC,
-      PAT-009/DIAG-012/CTL-010, DIAG-001/CA-036, CA-041 en Pa, PAT-008, signes de CA-045 dans le
-      critère E0.'
-  note: 'Second projet ; 5 exécutions Code_Aster réussies (chaîne projet, 3 maillages de
-    convergence, rejeu de CA-052), aucun échec.'
+      PAT-009/DIAG-012/CTL-010, DIAG-001/CA-036, CA-041 en Pa, PAT-008, signes de CA-045 dans
+      le critère E0.'
+  note: Second projet ; 5 exécutions Code_Aster réussies (chaîne projet, 3 maillages de convergence,
+    rejeu de CA-052), aucun échec.
+- lot: '44'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune intervention de fond de MM pendant le lot 44 : les décisions D20, D21 et
+      Es étaient dans la consigne (« validées par le lancement du lot ») ; une interruption
+      accidentelle d''un appel d''outil, suivie de « Reprends », n''est pas une intervention.'
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune erreur de calcul évitée par la base au lot 44 : aucune commande d''ouvrage
+      écrite, aucun contrôle nouveau.'
+  note: 'Lot de consolidation : décision de MM Es = 200 GPa enregistrée (PRE-031 corrigé)
+    ; une exécution de la chaîne (recalcul du ferraillage, ELS QP seul changé, ferraillage
+    retenu inchangé).'
 reviews:
 - date: '2026-10-02'
   lot: '43'
@@ -31,4 +46,10 @@ reviews:
   failures: 0
   unclassified: 0
   last_run: 20261002T090553-731530e0
+- date: '2026-10-02'
+  lot: '44'
+  runs: 6
+  failures: 0
+  unclassified: 0
+  last_run: 20261002T130616-537395b0
 classifications: []

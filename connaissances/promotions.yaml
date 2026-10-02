@@ -1,0 +1,42 @@
+promotions:
+- id: CTL-005
+  date: '2026-10-02'
+  by: session du lot 44 (promotion autorisée par la consigne de MM)
+  reason: 'Règle corrigée (lot 44) : éprouvé dans deux projets — quai (test tests/unit/test_controles_equilibre.py::test_an_unbalanced_case_fails,
+    origine) et dalle (exécution réussie, niveau D, cas projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+    : équilibre G et Q à 8,3e-12).'
+  projects:
+  - dalle_appuyee_01
+  - quai_cw_test_01
+- id: CTL-006
+  date: '2026-10-02'
+  by: session du lot 44 (promotion autorisée par la consigne de MM)
+  reason: 'Règle corrigée (lot 44) : éprouvé dans deux projets — quai (test tests/unit/test_controles_equilibre.py::test_symmetry_about_an_offset_plane,
+    origine) et dalle (exécution réussie, niveau D, cas dalle_h0p125.comm : symétrie
+    selon deux plans, 5,2e-13).'
+  projects:
+  - dalle_appuyee_01
+  - quai_cw_test_01
+- id: CTL-012
+  date: '2026-10-02'
+  by: session du lot 44 (promotion autorisée par la consigne de MM)
+  reason: 'Règle corrigée (lot 44) : niveau E — suite de convergence de la dalle contre
+    Navier (cas dalle_h0p125.comm, exécution réussie de niveau E, critères E1 et E2
+    de docs/essais_lot43.md).'
+  projects:
+  - dalle_appuyee_01
+- id: PAT-011
+  date: '2026-10-02'
+  by: session du lot 44 (promotion autorisée par la consigne de MM)
+  reason: 'Règle corrigée (lot 44) : niveau E — cas de référence de la dalle (dalle_h0p125.comm,
+    exécution réussie de niveau E, REF-014).'
+  projects:
+  - dalle_appuyee_01
+- id: REF-014
+  date: '2026-10-02'
+  by: session du lot 44 (promotion autorisée par la consigne de MM)
+  reason: 'Règle corrigée (lot 44) : niveau E — trois maillages de la suite de convergence
+    (h0p500, h0p250, h0p125) comparés à Navier, critère écrit avant exécution (commit
+    4093f12), test test_navier_deflection_matches_levy.'
+  projects:
+  - dalle_appuyee_01

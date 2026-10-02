@@ -43,9 +43,14 @@ Règles vérifiées au chargement (`aster-expert connaissances verifier`) :
 2. **`établi`** : preuve rejouable — cas d'essai versionné (chemin et empreinte)
    ou test versionné. Pour un constat, dérivé : établi par exécution d'un cas
    versionné (niveau C ou D).
-3. **`promu`** : réutilisé avec succès dans au moins **deux projets** (`reuses`,
-   chacun avec sa preuve ; pour un constat, les fiches des projets qui le citent),
-   ou validé au niveau E. Un patron promu peut devenir une fonction du tronc
+3. **`promu`** : **éprouvé** dans au moins **deux projets**, ou validé au niveau E.
+   Depuis le lot 44, une réutilisation (`reuses`) ne compte que si sa preuve est une
+   épreuve : une exécution réussie dont le résultat vérifie l'entrée, ou un test
+   versionné qui l'applique et passe. Une citation dans une fiche, une décision, un
+   document ou du code ne compte pas (au lot 43, CA-025 et CA-041 étaient éligibles
+   par simple citation). Les épreuves d'un constat sont dans
+   `epreuves_constats.yaml` ; `aster-expert connaissances eligibilite` rejoue la règle
+   sur toute la base. Un patron promu peut devenir une fonction du tronc
    commun, avec ses tests ; un contrôle promu entre dans le harnais par défaut
    (`default_harness`, refusé à un contrôle non promu).
 
@@ -71,6 +76,14 @@ une règle qui s'y substitue.
   cas des références de validation et vérifie que chaque valeur est encore
   imprimée.
 
+## Anomalies ouvertes (lot 44)
+
+`anomalies_ouvertes.yaml` relie, sous un identifiant ANO-nnn, plusieurs entrées qui
+portent peut-être une même cause inexpliquée, avec la signature de chacune, sans
+rien conclure (ANO-001 : CA-052 et REF-012, `CALC_FERRAILLAGE` à l'ELS contre le
+pivot acier de R7.04.05). Chaque entrée citée doit exister (contrôlé au chargement) ;
+`search_connaissances` signale l'anomalie sur les entrées concernées.
+
 ## Retour d'expérience et métriques
 
 `aster-expert rex <projet>` (registre `rex/<projet>.yaml`) liste les exécutions
@@ -82,6 +95,14 @@ encore copiés, signale les fonctions du projet proches d'un patron, et écrit
 perte » de l'outil : taux d'échec, interventions du superviseur, lots par
 ouvrage). Les chiffres déclarés portent leur nature (`mesure`, `estimation`,
 `non renseigné`). **Tout lot se termine par `aster-expert rex`** (CLAUDE.md).
+
+Depuis le lot 44, les exécutions se séparent en **développement** et
+**vérification** (commande de rejeu, marquée par `ASTER_EXPERT_RUN_ORIGIN` dans le
+compte rendu, ou rejeu d'un `.comm` déjà réussi, même empreinte) : le taux d'échec
+porte sur le développement seul, les deux nombres sont affichés. Les candidats
+patrons ne sont listés qu'à partir d'une similarité de 0,40
+(`PATTERN_SIMILARITY_THRESHOLD`, calibrée sur les implémentations citées par la
+base).
 
 ## Amorçage (lot 42)
 

@@ -1,0 +1,393 @@
+# 22 questions du tri de MM (lot 42), document attendu établi au lot 44 en lisant la
+# documentation. Lu par scripts/build_lot44_banc.py, qui les verse au banc.
+questions:
+- id: eval-066
+  source_question: cand-001
+  question: 'Comment choisir une loi de comportement pour un sol : Mohr-Coulomb, Drucker-Prager
+    ou Cam-Clay'
+  domain: lois_comportement
+  profile: methode
+  required_documents:
+  - U2.03.09
+  supporting_documents:
+  - R7.01.28
+  - R7.01.16
+  - R7.01.14
+  expected_commands: []
+  answerability: explicit
+  gold_confidence: high
+  verified_by: 'U2.03.09 § index (résumé : « permettre de choisir plus facilement les options
+    de modélisation ») et § Introduction, Objectifs (analyse comparative des modèles : matériaux
+    visés, phénoménologie, paramètres, cas tests), lus en entier ; tableau par loi dans «
+    La modélisation du comportement en fonction du type d''analyse à mener » (lignes 115-160
+    lues : MOHR_COULOMB).'
+  note: null
+- id: eval-067
+  source_question: cand-002
+  question: 'Comment modéliser un écran de soutènement ou une paroi moulée : éléments de coque,
+    de plaque ou de poutre'
+  domain: modelisation_coque
+  profile: methode
+  required_documents: []
+  supporting_documents: []
+  expected_commands: []
+  answerability: absent
+  gold_confidence: provisional
+  verified_by: null
+  note: 'Non documentée. Cherché (lot 44, profil methode) : R3.03.06 (liaison coque-poutre),
+    R3.07.04, U2.06.10 (bâtiments, poutres/poteaux/voiles), U2.04.06 (tunnel), U2.03.07 :
+    aucun ne traite du choix de modélisation d''un écran de soutènement. Même constat que
+    eval-007 (paroi moulée, lot 5) : recoupement assumé, cette formulation-ci vient du journal
+    réel du lot 42.'
+- id: eval-068
+  source_question: cand-003
+  question: 'Comment représenter l''interface entre le sol et un écran : contact frottant,
+    glissement et décollement'
+  domain: interaction_sol_structure
+  profile: methode
+  required_documents:
+  - U2.03.09
+  - U2.04.04
+  supporting_documents:
+  - R5.03.50
+  expected_commands:
+  - DEFI_CONTACT
+  answerability: partial
+  gold_confidence: medium
+  verified_by: 'U2.03.09 § Introduction (lu en entier) : « Les interfaces des milieux constitués
+    de géomatériaux ... On définit donc un modèle de joint » ; U2.04.04 (notice du contact,
+    § Introduction) pour le contact frottant. Aucun document ne traite l''écran de soutènement
+    lui-même : réponse partielle.'
+  note: null
+- id: eval-069
+  source_question: cand-004
+  question: Comment choisir la modélisation éléments finis d'un poteau, d'une poutre ou d'un
+    voile en béton armé
+  domain: modelisation_generale
+  profile: methode
+  required_documents:
+  - U2.06.10
+  supporting_documents:
+  - U2.03.07
+  expected_commands: []
+  answerability: explicit
+  gold_confidence: high
+  verified_by: 'U2.06.10 § « Choix de la modélisation éléments finis » (lignes 1-60 lues)
+    : poutres et poteaux, radiers, planchers et voiles ; représentations locale, semi-globale
+    (coques multicouches, poutres multifibres) et globale.'
+  note: Document écrit pour l'étude sismique de bâtiments ; le choix qu'il expose vaut pour
+    le béton armé en général.
+- id: eval-070
+  source_question: cand-005
+  question: 'Où trouver la notice d''utilisation des éléments discrets : ressorts, amortisseurs,
+    DIS_T, DIS_CHOC'
+  domain: elements_discrets
+  profile: methode
+  required_documents:
+  - U2.02.03
+  supporting_documents:
+  - R5.03.17
+  - U3.11.02
+  expected_commands:
+  - AFFE_CARA_ELEM
+  answerability: explicit
+  gold_confidence: high
+  verified_by: 'U2.02.03 § Introduction : « Les éléments discrets sont utilisés pour modéliser
+    très simplement des masses, des ressorts ou encore des amortisseurs » ; § Calculs supplémentaires
+    et post-traitements lu en entier.'
+  note: null
+- id: eval-071
+  source_question: cand-006
+  question: Quelles conditions aux limites appliquer sur les bords latéraux et le fond d'un
+    modèle de massif de sol
+  domain: conditions_limites
+  profile: methode
+  required_documents:
+  - U2.04.06
+  supporting_documents: []
+  expected_commands: []
+  answerability: partial
+  gold_confidence: medium
+  verified_by: 'U2.04.06 § « Avant de s''attaquer au fichier de commande » (lignes 1-80 lues)
+    : « le rapport entre le rayon excavé R et la dimension caractéristique du maillage L est
+    suffisant pour considérer que les conditions aux limites ne perturbent pas le comportement
+    de l''excavation (L ≥ 10 R) » ; mailler jusqu''au substratum rigide sous poids propre.
+    Écrit pour un tunnel : réponse partielle.'
+  note: null
+- id: eval-072
+  source_question: cand-008
+  question: Quel est le domaine de validité du modèle de Mohr-Coulomb pour un sol pulvérulent
+    ou cohérent
+  domain: lois_comportement
+  profile: theorie
+  required_documents:
+  - U2.03.09
+  supporting_documents:
+  - R7.01.28
+  expected_commands:
+  - DEFI_MATERIAU
+  answerability: partial
+  gold_confidence: high
+  verified_by: 'U2.03.09, tableau MOHR_COULOMB (lignes 115-160 lues) : matériau représentatif
+    « sol pulvérulent », « comportement à la rupture d''un sol sous chargement monotone »,
+    écoulement plastique parfait ; avis général « modèle simple, robuste, de première analyse
+    en chargement monotone ». R7.01.28 § Formulation : valable sous l''hypothèse d''isotropie.'
+  note: 'Le sol cohérent n''est pas traité explicitement pour cette loi : partielle.'
+- id: eval-073
+  source_question: cand-010
+  question: Comment choisir entre DKT, DST et COQUE_3D selon l'élancement de la structure
+  domain: modelisation_coque
+  profile: methode
+  required_documents:
+  - U2.02.01
+  supporting_documents:
+  - R3.07.03
+  expected_commands:
+  - AFFE_MODELE
+  answerability: explicit
+  gold_confidence: high
+  verified_by: 'U2.02.01 § Conclusion et conseils d''utilisation (lu aux lots 20 et 43) :
+    « h/L inférieur à 1/20 ... la théorie de Kirchhoff s''applique » ; DST, DSQ et Q4G pour
+    les structures épaisses. Confirmé au lot 44 par recherche.'
+  note: null
+- id: eval-074
+  source_question: cand-011
+  question: Comment modéliser une frontière absorbante avec un amortissement paraxial des
+    ondes
+  domain: dynamique
+  profile: methode
+  required_documents:
+  - R4.02.05
+  supporting_documents: []
+  expected_commands:
+  - AFFE_MODELE
+  answerability: explicit
+  gold_confidence: medium
+  verified_by: 'R4.02.05 § index (résumé) : « implantation dans code_aster des éléments de
+    frontière absorbante. Ces éléments de type paraxiaux ».'
+  note: Document de théorie ; la notice d'emploi (modélisation à affecter) n'a pas été établie
+    au lot 44.
+- id: eval-075
+  source_question: cand-013
+  question: Comment appliquer une force surfacique de direction globale fixe sur des éléments
+    de coque
+  domain: chargements
+  profile: syntaxe
+  required_documents:
+  - U4.44.01
+  supporting_documents: []
+  expected_commands:
+  - AFFE_CHAR_MECA
+  answerability: explicit
+  gold_confidence: high
+  verified_by: 'U4.44.01 § Mot-clé FORCE_COQUE (lu en entier au lot 43) : « Dans le repère
+    global avec les mot-clefs FX, FY, FZ, MX, MY et MZ ».'
+  note: null
+- id: eval-076
+  source_question: cand-014
+  question: Comment définir une coque orthotrope en donnant directement ses rigidités de membrane
+    et de flexion
+  domain: modelisation_coque
+  profile: methode
+  required_documents:
+  - U4.43.01
+  supporting_documents:
+  - R3.07.03
+  expected_commands:
+  - DEFI_MATERIAU
+  answerability: explicit
+  gold_confidence: high
+  verified_by: U4.43.01, mot-clé ELAS_COQUE (MEMB_L ... CISA_T), lu aux lots 21 et 22 (docs/etude_lot21_elas_coque.md)
+    ; R3.07.03 pour la loi de comportement.
+  note: Regroupe cand-015, cand-018 et cand-019 (tri de MM).
+- id: eval-077
+  source_question: cand-016
+  question: Comment raccorder deux plaques planes qui se rejoignent sous un angle, avec la
+    rotation autour de la normale
+  domain: raccords
+  profile: methode
+  required_documents: []
+  supporting_documents: []
+  expected_commands: []
+  answerability: absent
+  gold_confidence: provisional
+  verified_by: null
+  note: 'Non documentée. Cherché (lots 20 et 44) : U2.02.01 § Mécanique, U4.42.01 § COQUE
+    (COEF_RIGI_DRZ), R3.07.05 (rigidité autour de la normale, coques volumiques en non linéaire
+    géométrique), U2.03.10, U2.03.11 : aucun ne traite la jonction de deux plaques planes
+    en arête vive.'
+- id: eval-078
+  source_question: cand-017
+  question: Comment représenter un appui élastique de type Winkler, avec un module de réaction
+    en N/m3, sous des éléments de coque
+  domain: interaction_sol_structure
+  profile: methode
+  required_documents:
+  - U4.42.01
+  supporting_documents:
+  - U2.02.03
+  expected_commands:
+  - AFFE_CARA_ELEM
+  answerability: inferable
+  gold_confidence: medium
+  verified_by: 'U4.42.01 § Mot clé RIGI_PARASOL : raideurs de discrets réparties sur des mailles
+    POI1 à partir d''une raideur globale et d''une surface (GROUP_MA) ; le module de réaction
+    de Winkler n''y est pas nommé : réponse déduite.'
+  note: Regroupe cand-012.
+- id: eval-079
+  source_question: cand-024
+  question: Comment créer des ressorts nodaux au sol sur des mailles POI1 avec DIS_T et K_T_D_N
+  domain: elements_discrets
+  profile: methode
+  required_documents:
+  - U2.02.03
+  - U4.42.01
+  supporting_documents:
+  - U4.23.02
+  - U3.11.02
+  expected_commands:
+  - AFFE_CARA_ELEM
+  - CREA_MAILLAGE
+  answerability: explicit
+  gold_confidence: high
+  verified_by: 'U2.02.03 § Affectation des propriétés des discrets : « Les mailles supports
+    des éléments discrets sont des POI1 ... ou SEG2 » ; U4.42.01 (DISCRET, K_T_D_N) ; chaîne
+    CREA_POI1 → DIS_T → DISCRET établie au lot 21.'
+  note: Regroupe cand-023.
+- id: eval-080
+  source_question: cand-028
+  question: Quelles sont la définition et la convention de repère des efforts généralisés
+    des coques
+  domain: post_traitement
+  profile: methode
+  required_documents:
+  - U2.01.05
+  supporting_documents: []
+  expected_commands:
+  - CALC_CHAMP
+  answerability: explicit
+  gold_confidence: high
+  verified_by: U2.01.05 § Statique (efforts généralisés), convention retenue au lot 37 pour
+    N(z), M(z), T(z) des tubes ; retrouvé au lot 44 par recherche.
+  note: null
+- id: eval-081
+  source_question: cand-030
+  question: Quels degrés de liberté bloquer pour une condition de symétrie sur des éléments
+    de plaque ou de coque
+  domain: conditions_limites
+  profile: methode
+  required_documents: []
+  supporting_documents: []
+  expected_commands:
+  - AFFE_CHAR_MECA
+  answerability: absent
+  gold_confidence: provisional
+  verified_by: null
+  note: 'Non documentée. Cherché (lot 44) : U4.44.01 § Chargements de type Dirichlet, U3.12.01
+    § Discrétisation (six ddl), R3.03.03 : aucun document ne dit quels ddl bloquer dans un
+    plan de symétrie de coque. Seuls le cas test ssls127d.comm (DY, DRX / DX, DRY) et le constat
+    CA-030 de la base (DX, DRY, DRZ en DKT) le montrent, ce qui relève de search_test_cases
+    et de search_connaissances. Regroupe cand-031 et cand-032.'
+- id: eval-082
+  source_question: cand-033
+  question: Pourquoi une redondance entre une relation cinématique dualisée et une condition
+    aux limites donne-t-elle un pivot nul
+  domain: conditions_limites
+  profile: theorie
+  required_documents:
+  - R3.03.01
+  supporting_documents:
+  - R3.03.02
+  expected_commands:
+  - AFFE_CHAR_MECA
+  answerability: inferable
+  gold_confidence: medium
+  verified_by: 'R3.03.01 § Inconvénients de cette dualisation (lignes 1-60 lues) : perte de
+    positivité de K, factorisation LDLT non garantie ; cas pathologique d''une structure retenue
+    par son dernier ddl physique (lot 31). La redondance n''est pas énoncée telle quelle :
+    déduite.'
+  note: null
+- id: eval-083
+  source_question: cand-034
+  question: Comment écrire une relation linéaire entre plusieurs degrés de liberté avec LIAISON_DDL
+  domain: conditions_limites
+  profile: syntaxe
+  required_documents:
+  - U4.44.01
+  supporting_documents: []
+  expected_commands:
+  - AFFE_CHAR_MECA
+  answerability: explicit
+  gold_confidence: high
+  verified_by: U4.44.01 § Chargements de type Dirichlet (mot-clé LIAISON_DDL), retrouvé au
+    lot 44 ; employé au lot 31 (candidat C1).
+  note: null
+- id: eval-084
+  source_question: cand-035
+  question: Comment obtenir l'effort dans un élément discret de type ressort
+  domain: elements_discrets
+  profile: methode
+  required_documents:
+  - U2.02.03
+  supporting_documents: []
+  expected_commands:
+  - CALC_CHAMP
+  answerability: explicit
+  gold_confidence: high
+  verified_by: 'U2.02.03 § Calculs supplémentaires et post-traitements (lu en entier) : SIEF_ELGA,
+    SIEF_ELNO, EFGE_ELGA, EFGE_ELNO « donnent le calcul des efforts généralisés par élément
+    ... dans le repère local de l''élément ».'
+  note: null
+- id: eval-085
+  source_question: cand-036
+  question: Quand faut-il utiliser une poutre de Timoshenko POU_D_T plutôt qu'une poutre d'Euler
+    POU_D_E
+  domain: modelisation_poutre
+  profile: methode
+  required_documents:
+  - U3.11.01
+  supporting_documents:
+  - R3.08.01
+  expected_commands:
+  - AFFE_MODELE
+  answerability: explicit
+  gold_confidence: high
+  verified_by: U3.11.01 (modélisations POU_D_T, POU_D_E, BARRE), identifiant POU_D_T établi
+    au lot 37 ; retrouvé au lot 44 par recherche.
+  note: null
+- id: eval-086
+  source_question: cand-037
+  question: Comment combiner linéairement des résultats de cas de charge et produire une enveloppe
+    avec les efforts concomitants
+  domain: post_traitement
+  profile: methode
+  required_documents:
+  - U4.81.45
+  - U4.90.31
+  supporting_documents: []
+  expected_commands:
+  - POST_COMBINAISON
+  - COMBINAISON_CHARGE
+  answerability: partial
+  gold_confidence: medium
+  verified_by: 'U4.81.45 § But (lu) : « combiner différentes grandeurs physiques à la suite
+    de calculs ... résultats ou tables » ; U4.90.31 § Principe (lu) : « superposant linéairement
+    les résultats des chargements individuels ». L''enveloppe avec valeurs concomitantes n''y
+    est pas décrite : partielle.'
+  note: Regroupe cand-038 et cand-039.
+- id: eval-087
+  source_question: cand-029
+  question: Comment lier un ensemble de nœuds en corps rigide avec LIAISON_SOLIDE
+  domain: conditions_limites
+  profile: syntaxe
+  required_documents:
+  - U4.44.01
+  supporting_documents:
+  - R3.03.02
+  expected_commands:
+  - AFFE_CHAR_MECA
+  answerability: explicit
+  gold_confidence: high
+  verified_by: U4.44.01 § Chargements de type Dirichlet (mot-clé LIAISON_SOLIDE), lu aux lots
+    28 et 31 ; R3.03.02 pour le principe.
+  note: null

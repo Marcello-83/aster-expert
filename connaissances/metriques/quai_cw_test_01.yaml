@@ -15,8 +15,8 @@ baseline:
       décision : lots 21, 23, 28 à 34, 36, 37, 39, entre autres). Ce n''est pas une mesure
       ; les interventions sont comptées à partir du lot 43.'
 knowledge:
-  created: 121
-  promoted: 0
+  created: 123
+  promoted: 2
   by_layer:
     constats_code_aster:
       observé: 27
@@ -32,25 +32,25 @@ knowledge:
       promu: 0
     controles:
       observé: 0
-      établi: 11
-      promu: 0
+      établi: 9
+      promu: 2
     references_validation:
       observé: 0
       établi: 13
       promu: 0
     precedents:
-      observé: 18
+      observé: 20
       établi: 0
       promu: 0
 consultations:
   calls:
-    search_connaissances: 0
+    search_connaissances: 12
     search_constats: 1
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
   avoided_errors:
-    value: null
-    nature: non renseigné
+    value: 0.0
+    nature: mesure
     note: déclaré lot par lot dans le compte rendu (registre, `lots`)
 lots:
 - lot: '42'
@@ -63,11 +63,35 @@ lots:
     value: null
     nature: non renseigné
     note: 'lot de construction de la base : aucune consultation n''a pu éviter d''erreur'
+- lot: '44'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune intervention de fond de MM pendant le lot 44 : les décisions D20, D21 et
+      Es étaient dans la consigne (« validées par le lancement du lot ») ; une interruption
+      accidentelle d''un appel d''outil, suivie de « Reprends », n''est pas une intervention.'
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune erreur de calcul évitée par la base au lot 44 : aucune commande d''ouvrage
+      écrite, aucun contrôle nouveau.'
 declared_interventions_since_baseline: 0.0
 measured:
   runs: 373
   failures: 73
-  failure_rate: 0.1957
+  development:
+    runs: 177
+    failures: 73
+  verification:
+    runs: 196
+    failures: 0
+    by_reason:
+      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 196
+  failure_rate: 0.4124
+  failure_rate_note: 'lot 44 : taux sur les exécutions de développement seulement ; une exécution
+    de vérification (commande de rejeu, ou .comm déjà réussi rejoué sans modification) n''y
+    entre pas'
+  failure_rate_all_runs: 0.1957
   compute_s:
     aster_legacy: 5545.3
     wall_since_lot41: 1315.3

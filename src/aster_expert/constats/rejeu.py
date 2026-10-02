@@ -134,7 +134,9 @@ class ReplayResult(BaseModel):
 Runner = Callable[[Path], ExecutionReport]
 
 
-def _default_runner(repo_root: Path) -> tuple[Runner, str, str]:
+def _default_runner(
+    repo_root: Path, origin: str = "rejeu_constats"
+) -> tuple[Runner, str, str]:
     import os  # noqa: PLC0415
 
     from aster_expert.execution.config import load_execution_config  # noqa: PLC0415
@@ -162,19 +164,23 @@ def _default_runner(repo_root: Path) -> tuple[Runner, str, str]:
     except (EnvironmentDetectionError, ValidationRunError, OSError, ValueError) as exc:
         raise ReplayError(str(exc)) from exc
 
+    from aster_expert.execution.compte_rendu import run_origin  # noqa: PLC0415
+
     def run(comm: Path) -> ExecutionReport:
         try:
-            return execute_comm_file(
-                comm,
-                project_root=repo_root,
-                config=config,
-                docker_bin=docker_bin,
-                image_repository=os.environ.get(
-                    "ASTER_IMAGE_REPOSITORY", "simvia/code_aster"
-                ),
-                image_digest=digest,
-                aster_version=version,
-            )
+            # Lot 44 : une exécution de rejeu est une vérification (rex).
+            with run_origin(origin):
+                return execute_comm_file(
+                    comm,
+                    project_root=repo_root,
+                    config=config,
+                    docker_bin=docker_bin,
+                    image_repository=os.environ.get(
+                        "ASTER_IMAGE_REPOSITORY", "simvia/code_aster"
+                    ),
+                    image_digest=digest,
+                    aster_version=version,
+                )
         except ExecutionRunError as exc:
             raise ReplayError(str(exc)) from exc
 

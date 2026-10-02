@@ -12,7 +12,9 @@ normative fournie par MM, non indexée » (consigne du document) : jamais prése
 comme vérifiés par l'outil.
 
 Entrée : la fiche proposée de la phase 1 (`build_fiche_lot43.build_sheet`, inchangée).
-Sorties : `fiche/hypotheses_dalle_arbitree.json` et `fiche/fiche_arbitree.md`.
+Sorties : `fiche/historique/hypotheses_dalle_arbitree_lot43.json` et
+`fiche/historique/fiche_arbitree_lot43.md` (lot 44 : la fiche courante est produite
+par `decisions_lot44.py` à partir de celle-ci).
 Déterministe : `DECIDED_AT` est l'heure de l'enregistrement (MM n'a écrit ni date ni
 heure ; règle du quai, lot 24).
 
@@ -55,8 +57,11 @@ from aster_expert.constats.base import (
 )
 
 PROJECT = ROOT / "projets" / "dalle_appuyee_01"
-FICHE = PROJECT / "fiche" / "hypotheses_dalle_arbitree.json"
-DOCUMENT = PROJECT / "fiche" / "fiche_arbitree.md"
+# Lot 44 : la fiche arbitrée du lot 43 est conservée telle quelle comme historique ;
+# la fiche courante (`fiche/hypotheses_dalle_arbitree.json`) est celle du lot 44
+# (`decisions_lot44.py`, correction de Es par MM).
+FICHE = PROJECT / "fiche" / "historique" / "hypotheses_dalle_arbitree_lot43.json"
+DOCUMENT = PROJECT / "fiche" / "historique" / "fiche_arbitree_lot43.md"
 DATA = PROJECT / "donnees" / "dalle_model_data.yaml"
 SOURCES = PROJECT / "donnees" / "sources"
 

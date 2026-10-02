@@ -8,7 +8,8 @@ status:
 - `observé`: seen in a project, with its proof;
 - `établi`: the proof can be replayed -- a versioned trial case (path and
   SHA-256) or a versioned test;
-- `promu`: reused successfully in at least two projects, or validated at
+- `promu`: proved in at least two projects (lot 44: a reuse counts only with
+  a successful execution or a passing test, `is_proof`), or validated at
   level E. Only `aster_expert.connaissances.promotion` sets it, and the model
   refuses it without those conditions.
 
@@ -236,6 +237,20 @@ def evidence_level(source: Evidence, constat_levels: dict[str, Level]) -> Level:
     return source.evidence_level()
 
 
+def is_proof(source: Evidence) -> bool:
+    """Whether a reuse's evidence *proves* the entry in that project (lot 44).
+
+    Only a successful execution whose result verifies the entry, or a versioned
+    test that applies it and passes, is a proof. A citation in a fiche, a decision
+    (`DecisionEvidence`), a document, a piece of code or a finding is not: at lot
+    43 the citation of CA-025 and CA-041 by the slab's fiche made them formally
+    eligible without the slab ever exercising them.
+    """
+    if isinstance(source, ExecutionEvidence):
+        return source.outcome == "réussite"
+    return isinstance(source, TestEvidence)
+
+
 def is_replayable(source: Evidence) -> bool:
     if isinstance(source, ExecutionEvidence):
         return source.replayable
@@ -248,12 +263,17 @@ def is_replayable(source: Evidence) -> bool:
 
 
 class Reuse(_Model):
-    """A successful reuse of the entry in another project, with its proof."""
+    """A reuse of the entry in another project, with its evidence. It counts
+    for promotion only when `proven` (lot 44, `is_proof`)."""
 
     project: str
     date: dt.date
     evidence: Evidence
     note: str
+
+    @property
+    def proven(self) -> bool:
+        return is_proof(self.evidence)
 
 
 class StatusEvent(_Model):
@@ -327,8 +347,8 @@ class KnowledgeEntry(_Model):
         if self.status == "promu":
             if len(self.projects()) < 2 and self.validation_level != "E":
                 message = (
-                    f"{self.id} : statut promu sans réutilisation dans un second "
-                    "projet ni validation de niveau E"
+                    f"{self.id} : statut promu sans réutilisation éprouvée dans un "
+                    "second projet ni validation de niveau E"
                 )
                 raise ValueError(message)
             if not self.status_history or self.status_history[-1].status != "promu":
@@ -353,7 +373,14 @@ class KnowledgeEntry(_Model):
         return self
 
     def projects(self) -> set[str]:
-        return {self.origin_project, *(r.project for r in self.reuses)}
+        """Origin and projects that *proved* the entry (lot 44): the projects
+        that count for promotion."""
+        return {self.origin_project, *(r.project for r in self.reuses if r.proven)}
+
+    def cited_projects(self) -> set[str]:
+        """Projects whose reuse is recorded without a proof (citation, decision,
+        code, document): reported, never counted."""
+        return {r.project for r in self.reuses if not r.proven} - self.projects()
 
     def evidence_level(self, constat_levels: dict[str, Level]) -> Level:
         levels = [evidence_level(s, constat_levels) for s in self.sources]
@@ -776,6 +803,7 @@ __all__ = [
     "TestEvidence",
     "ValidationReference",
     "evidence_level",
+    "is_proof",
     "is_replayable",
     "max_level",
 ]

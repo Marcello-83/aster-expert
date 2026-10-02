@@ -55,6 +55,10 @@ class CommandSchemaResult(BaseModel):
     distinct from an empty list: a path that matches nothing raises rather
     than being reported as zero variants
     (`aster_expert.catalogue.query.find_keyword_variants`).
+
+    Before lot 44 a filtered call also returned the whole schema (721 000
+    characters for `DEFI_MATERIAU`/`ELAS`, lot 43): the filter lightened
+    nothing.
     """
 
     model_config = ConfigDict(frozen=True)
@@ -62,6 +66,11 @@ class CommandSchemaResult(BaseModel):
     validation_level: Literal["A"] = "A"
     command_schema: CommandSchema
     keyword_variants: list[KeywordSchema] | None = None
+    keywords_omitted: int = 0
+    """Lot 44: with a `keyword` filter, `command_schema` keeps the command's
+    metadata only (`keywords` emptied) and the requested subtree is in
+    `keyword_variants`; this counts the top-level keywords left out, so the
+    omission is stated, never silent. 0 without a filter."""
 
 
 class CommAnalysisResult(BaseModel):

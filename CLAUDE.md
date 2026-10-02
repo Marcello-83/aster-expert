@@ -129,6 +129,46 @@ et protégé par des tests.
   déclare les interventions de MM et les connaissances qui ont évité une erreur
   (champ `lots` du registre), à partir du lot 43.
 
+## Fiche : les choix de l'agent, la promotion, la naissance d'un projet (lot 44) — lire en sixième
+
+**Règle de partage.** Une fiche a trois catégories d'entrées : les faits Code_Aster
+(`code_aster`, sourcés), les décisions de MM (`pratique`, origine `arbitrage_mm`,
+`decision_ingenieur`…) et, depuis le lot 44, les **choix de l'agent** (origine
+`choix_agent`, `aster_expert.agent.arbitration.record_agent_choice`).
+
+- **Relève de `choix_agent`** (et seulement cela, `AgentChoiceDomain`) : noms de
+  groupes ; repère, origine et unités ; type et taille des mailles ; suite de
+  convergence ; lecture des champs (`NOEU`/`ELNO`) ; blocage isostatique des
+  mouvements de corps rigide ; étendue du modèle quand la symétrie est contrôlée.
+- **Reste à MM** ce qui engage l'ouvrage : matériaux, actions, combinaisons,
+  durabilité, conditions d'appui physiques, paramètres de ferraillage, choix d'une
+  modélisation qui change la physique représentée.
+- Un `choix_agent` nomme ses vérificateurs (`verified_by` : `CTL-nnn`, `REF-nnn` ou
+  `projet:<nom>`) ; sans eux, ou hors des domaines ci-dessus, le schéma le refuse. Il
+  est tranché (ne bloque pas la génération) et figure dans une section séparée du
+  document d'arbitrage, où MM peut le remplacer (`record_practice_decision`, le choix
+  de l'agent passe dans `decision_history`). Une question qui mêle les deux catégories
+  se scinde. Détail : skill `hypotheses-drafting`, § 2 bis.
+- **Paramètres obligatoires** : la fiche déclare les commandes qu'elle prévoit
+  (`planned_commands`) ; `aster-expert fiche obligatoires` lit les mots-clés
+  obligatoires de la combinaison d'options (catalogue **et**
+  `data/config/obligations_execution.yaml` : le catalogue 17.4 déclare `optional` des
+  mots-clés que `CALC_FERRAILLAGE` exige à l'exécution, CA-053) et ajoute une question
+  par mot-clé non couvert.
+- **Promotion** : une réutilisation ne compte que si le projet a **éprouvé** l'entrée
+  (exécution réussie ou test versionné, `connaissances.modeles.is_proof`) ; une citation
+  dans une fiche, une décision, un document ou du code n'est pas une épreuve. Épreuves
+  d'un constat : `connaissances/epreuves_constats.yaml`. Rejeu :
+  `aster-expert connaissances eligibilite`.
+- **Naissance d'un projet** : `aster-expert projet creer <nom>` (arborescence,
+  `projet.yaml` minimal, racines d'exécution, registre `rex`).
+- **Métriques** : `rex` sépare les exécutions de **développement** et de
+  **vérification** (lancée par une commande de rejeu -- `ASTER_EXPERT_RUN_ORIGIN` dans
+  le compte rendu -- ou rejeu d'un `.comm` déjà réussi, même empreinte) ; le taux
+  d'échec porte sur le développement seul.
+- **Anomalies ouvertes** : `connaissances/anomalies_ouvertes.yaml` (ANO-nnn) relie des
+  entrées qui portent peut-être une même cause, sans rien conclure.
+
 ## Mission
 
 Construire un agent expert Code_Aster versionné, traçable, capable de valider
@@ -370,6 +410,9 @@ de la machine) ; jamais de commit de fusion cosmétique fait par la session.
 - Neuf outils depuis le lot 42 : `search_connaissances` interroge les six couches de
   `connaissances/` (texte, commande, mot-clé, couche, statut) et englobe
   `search_constats`, conservé.
+- Lot 44 : `get_command_schema` filtré par `keyword` ne renvoie que le sous-arbre
+  demandé (`keyword_variants`), `command_schema` réduit à ses métadonnées et
+  `keywords_omitted` qui compte ce qui est laissé de côté.
 - `search_codeaster_docs` n'indexe pas les cas tests (familles présentes : V, R, U4,
   D, U2, U3, U7, U1, SV, SU, U0) : les chercher par `search_test_cases`. Une `family`
   absente de l'index est refusée avec la liste des familles présentes.
@@ -728,7 +771,7 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   ligne par plan de flexion, colonnes de MM vides. ELU accidentelle : γc = 1,2, γs = 1,0
   (EN 1992-1-1, tableau 2.1N, non décidés par MM). 7 exécutions réelles (71,3 s).
 
-## Lots 33 à 43 (résumé)
+## Lots 33 à 44 (résumé)
 
 Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de leur
 époque : depuis le lot 41, le code, les données et les scripts du quai sont dans
@@ -830,6 +873,18 @@ Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de
   PRE-031 (PRE-021 laissé libre, cité par MM) ; réutilisations de PAT-008, PAT-009,
   CTL-005, CTL-006, CTL-008, CTL-010, PRE-016, PRE-018 ; aucune promotion.
   Interventions de MM : 2.
+- **Lot 44** (`docs/lots/lot44_consigne.md`) : consolidation après le second ouvrage,
+  aucun nouveau calcul d'ouvrage. Catégorie `choix_agent` (rejeu sur la fiche de la
+  phase 1 de la dalle : 31 bloqueurs → 19) ; détection des paramètres obligatoires
+  (`aster_expert.agent.obligatoires`, les quatre paramètres ELS du lot 43 retrouvés ;
+  CA-053) ; `projet creer` ; `get_command_schema` filtré (`DEFI_MATERIAU`/`ELAS` : 719 340
+  → 3 686 caractères) ; règle de promotion corrigée (CTL-005, CTL-006, CTL-012, PAT-011,
+  REF-014 promus ; CA-025, CA-041 et 7 autres deviennent inéligibles) ; métriques
+  développement/vérification (quai : 41,2 % sur 177 exécutions de développement, contre
+  38,4 % de référence ; seuil des candidats patrons 0,40) ; D20, D21 (PRE-019, PRE-020),
+  Es = 200 GPa pour la dalle (ELS QP +6,6 % au plus, ferraillage retenu inchangé),
+  ANO-001 (CA-052 + REF-012) ; banc : 22 questions versées (87 au total), aiguillage et
+  reformulation dans le skill `code-aster-expert`.
 
 ## Périmètre à ne pas dépasser sans instruction
 

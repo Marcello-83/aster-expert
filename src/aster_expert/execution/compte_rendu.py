@@ -17,8 +17,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 from collections import Counter
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -93,6 +96,34 @@ class RunRecord(BaseModel):
     """Diagnostics of the knowledge base matching a failed run (lot 42)."""
     diagnostics_error: str | None = None
     """Why the knowledge base could not be searched, if it could not."""
+    origin: str | None = None
+    """Lot 44: what launched the run when it is a verification command
+    (`rejeu_constats`, `rejeu_references`, `test_lent`), read from
+    `ASTER_EXPERT_RUN_ORIGIN`; `None` for an ordinary run. `rex` counts such runs
+    as verification, never as development."""
+
+
+RUN_ORIGIN_ENV = "ASTER_EXPERT_RUN_ORIGIN"
+RUN_ORIGINS = ("rejeu_constats", "rejeu_references", "test_lent")
+
+
+@contextmanager
+def run_origin(origin: str) -> Iterator[None]:
+    """Mark every run launched inside the block with `origin` (lot 44)."""
+    if origin not in RUN_ORIGINS:
+        known = ", ".join(RUN_ORIGINS)
+        known = ", ".join(RUN_ORIGINS)
+        message = f"origine d'exécution inconnue : {origin!r} ({known})"
+        raise ValueError(message)
+    previous = os.environ.get(RUN_ORIGIN_ENV)
+    os.environ[RUN_ORIGIN_ENV] = origin
+    try:
+        yield
+    finally:
+        if previous is None:
+            os.environ.pop(RUN_ORIGIN_ENV, None)
+        else:
+            os.environ[RUN_ORIGIN_ENV] = previous
 
 
 FAILED_STATUSES_OK = ("completed_ok", "completed_with_alarms")
@@ -156,6 +187,7 @@ def build_record(
         errors=errors,
         diagnostics=diagnostics,
         diagnostics_error=diagnostics_error,
+        origin=os.environ.get(RUN_ORIGIN_ENV) or None,
     )
 
 

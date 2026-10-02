@@ -86,23 +86,85 @@ changer la trame elle-même.
      (entrée non tranchée, source `precedent_projet` prête pour MM), avec
      son domaine de validité à confronter à l'ouvrage. MM arbitre.
 
-Jamais de troisième voie : pas d'entrée créée à la main en dehors de ces
-deux fonctions pour ce skill, précisément pour que le chemin d'écriture
-reste couvert par la même barrière que le schéma (`docs/development-plan.md`,
-lot 14b, N3).
+   - Choix de modélisation vérifié par contrôle (lot 44) : voir § 2 bis ;
+     chemin d'écriture `aster_expert.agent.arbitration.record_agent_choice`.
+
+Aucune autre voie : pas d'entrée créée à la main en dehors de ces fonctions
+pour ce skill, précisément pour que le chemin d'écriture reste couvert par la
+même barrière que le schéma (`docs/development-plan.md`, lot 14b, N3).
+
+## 2 bis. Règle de partage : ce que l'agent tranche, ce qui reste à MM (lot 44)
+
+Au lot 43, 15 des 31 bloqueurs de la première fiche de la dalle étaient des
+choix techniques qu'un contrôle ou le niveau E vérifie : MM n'avait pas à les
+trancher. La fiche a une troisième catégorie, l'origine `choix_agent`.
+
+**Relève de `choix_agent`** (et seulement cela, `AgentChoiceDomain`) : noms de
+groupes ; repère, origine et unités ; type et taille des mailles ; suite de
+convergence ; lecture des champs (`NOEU`/`ELNO`) ; blocage isostatique des
+mouvements de corps rigide ; étendue du modèle quand la symétrie est contrôlée.
+
+**Reste à MM** : ce qui engage l'ouvrage — matériaux, actions, combinaisons,
+durabilité, conditions d'appui physiques, paramètres de ferraillage, et tout choix
+de modélisation qui change la physique représentée (DKT ou DST, périmètre du
+calcul, appui bilatéral ou unilatéral…).
+
+Règles :
+
+1. Un `choix_agent` **nomme ses vérificateurs** (`verified_by`) : un contrôle
+   `CTL-nnn` ou une référence `REF-nnn` de `connaissances/`, ou un contrôle déclaré
+   par le projet (`projet:<nom>`). Sans vérificateur, ou hors des domaines
+   ci-dessus, le schéma le refuse. Chercher le contrôle existant
+   (`search_connaissances(layers=["controles", "references_validation"])`) avant
+   d'en inventer un.
+2. Il s'écrit par `record_agent_choice(entry=<question>, domain=…, verified_by=…,
+   option_retained=…, justification=…, validity_domain=…, discarded_variants=…,
+   reference=…, decided_at=…)` : entrée `tranche`, `decided_by` « agent
+   (choix_agent) ». Un point qui couvre plusieurs domaines (mailles, convergence,
+   lecture) passe un tuple de domaines.
+3. Une question qui mêle les deux catégories **se scinde** : la moitié qui engage
+   l'ouvrage reste une question (`record_unfounded_point`), l'autre devient un
+   `choix_agent` (rejeu du lot 44 : point 6 de la dalle, appui physique d'un côté,
+   blocage isostatique et dalle entière de l'autre).
+4. Il ne bloque pas la génération et figure dans une section séparée du document
+   d'arbitrage (`render_decision_sheet`) : MM peut le remplacer par
+   `record_practice_decision`, le choix de l'agent passe alors dans
+   `decision_history`.
+5. Une valeur de données qui découle d'un `choix_agent` (taille de maille) est
+   `fourni` avec la source `decision` du point.
+
+## 2 ter. Paramètres obligatoires des commandes prévues (lot 44)
+
+Dès que la fiche prévoit une commande et ses options (`CALC_FERRAILLAGE` en 2D à
+l'ELS, par exemple), la déclarer dans la fiche (`HypothesesSheet.planned_commands`,
+`PlannedCommand(command, point_label, options, covered_by)` ; `covered_by` relie un
+mot-clé à une donnée `data:<groupe.clé>`, même « à fournir », ou à une question
+`point:<p>`), puis lancer `aster-expert fiche obligatoires <fiche.json> --donnees
+<données.yaml> --sortie <fiche.json>` (`aster_expert.agent.obligatoires`). L'outil lit
+les mots-clés **obligatoires** de la combinaison d'options dans le catalogue de la
+version cible **et** dans la table des obligations d'exécution
+(`data/config/obligations_execution.yaml`) : en 17.4, `ALPHA_E`, `SIGC_*_ELS`,
+`SIGC_ELS_QP`, `KT`, `EYS` de `CALC_FERRAILLAGE` sont `optional` au catalogue mais
+refusés à l'exécution s'ils manquent (constat CA-053). Chaque mot-clé non couvert
+devient une question non tranchée, dans sa catégorie (paramètre de ferraillage : MM ;
+unité : choix de l'agent possible). Au lot 43, l'oubli de σc, αe, KT et Es a coûté
+une intervention de MM. Une nouvelle obligation d'exécution découverte (arrêt `<F>`
+pour mot-clé absent) s'ajoute à la table, avec ses sources.
 
 ## 3. Nommage des groupes (rubrique 7)
 
 Un `MeshGroupNaming` par groupe `GROUP_MA`/`GROUP_NO` nécessaire — jamais
-sourcé (ni `CodeAsterSource` ni `PracticeSource`, c'est un choix arbitraire
-de l'ingénieur). `status="non_tranche"` par défaut tant que l'ingénieur ne
-l'a pas fixé explicitement.
+sourcé (ni `CodeAsterSource` ni `PracticeSource`). Depuis le lot 44, un nom de
+groupe est un `choix_agent` (`status="choix_agent"`, `verified_by` : au moins
+`CTL-008` invariants de maillage et `CTL-009` longueur des noms) ;
+`status="non_tranche"` seulement si le nom dépend d'une question encore ouverte.
 
 ## 4. Rendre compte
 
 Le compte rendu qui accompagne une fiche produite par ce skill donne, sans
 exception : le nombre d'entrées `code_aster`/`tranche` (avec extrait
 réel), le nombre d'entrées `pratique`/`non_tranche` (avec la trace des
-recherches menées), et `sheet.is_ready_for_generation` — jamais un de ces
-trois chiffres sans les deux autres, et jamais présenté comme une
-validation d'ingénieur.
+recherches menées), le nombre de `choix_agent` (entrées et noms de groupes,
+avec leurs vérificateurs), et `sheet.is_ready_for_generation` — jamais un de
+ces chiffres sans les autres, et jamais présenté comme une validation
+d'ingénieur.

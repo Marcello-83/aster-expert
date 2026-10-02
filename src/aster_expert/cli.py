@@ -2068,16 +2068,26 @@ def projet(
     sans_vues: bool = typer.Option(
         False, "--sans-vues", help="Synthèse sans les vues PNG."
     ),
+    description: str = typer.Option(
+        "Ouvrage à décrire.", "--description", help="projet creer : description."
+    ),
 ) -> None:
     """Enchaîner les commandes existantes sur un projet (`projets/<nom>/`).
 
     Chaque étape écrit sous le répertoire de résultats du projet et consigne dans
     `etat.json` ce qu'elle a produit ; une étape seule reprend ce que les
     précédentes ont laissé. Aucune étape ne s'exécute sur une déclaration
-    refusée."""
+    refusée.
+
+    `aster-expert projet creer <nom>` (lot 44) crée un projet : arborescence,
+    `projet.yaml` minimal, racines d'exécution dans config/validation.yaml et
+    registre rex."""
     from aster_expert.projet.errors import ProjectError
     from aster_expert.projet.pipeline import Runtime, run_step
 
+    if nom == "creer":
+        _create_project(etape, description)
+        return
     ctx = _load_project_or_exit("projet", nom)
     try:
         lines = run_step(ctx, Runtime(_project_root()), etape, views=not sans_vues)
@@ -2086,6 +2096,25 @@ def projet(
         raise typer.Exit(1) from exc
     for line in lines:
         typer.echo(line)
+
+
+def _create_project(name: str, description: str) -> None:
+    from aster_expert.projet.creation import create_project
+    from aster_expert.projet.errors import ProjectError
+
+    root = _project_root()
+    try:
+        created = create_project(root, name, description=description)
+    except ProjectError as exc:
+        typer.echo(f"projet creer ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    typer.echo(f"Projet créé : {created.project_dir.relative_to(root)}")
+    for path in created.files:
+        typer.echo(f"  {path.relative_to(root)}")
+    for r in created.roots_added:
+        typer.echo(f"Racine d'exécution ajoutée (config/validation.yaml) : {r}")
+    typer.echo(f"Registre rex : {created.registry.relative_to(root)}")
+    typer.echo(f"Suite : aster-expert projet {name} verifier (liste ce qui manque).")
 
 
 constats_app = typer.Typer(
@@ -2224,6 +2253,9 @@ def connaissances_verifier() -> None:
         total = sum(row.values())
         detail = ", ".join(f"{k} {v}" for k, v in row.items())
         typer.echo(f"{layer} : {total} ({detail})")
+    for a in base.anomalies:
+        signatures = ", ".join(sig.entry for sig in a.signatures)
+        typer.echo(f"Anomalie {a.status} {a.id} ({signatures}) : {a.title}")
     check = verify_against_repository(base)
     typer.echo(f"Preuves confrontées au dépôt : {check.checked}.")
     if check.unverifiable:
@@ -2255,6 +2287,35 @@ def connaissances_promouvoir(
     except (PromotionRefusedError, KnowledgeBaseError) as exc:
         typer.echo(f"promotion refusée : {exc}", err=True)
         raise typer.Exit(1) from exc
+
+
+@connaissances_app.command("eligibilite")
+def connaissances_eligibilite(
+    toutes: bool = typer.Option(
+        False, "--toutes", help="Lister aussi les entrées sans aucune réutilisation."
+    ),
+) -> None:
+    """Rejouer la règle de promotion (lot 44) sur toutes les entrées : une
+    réutilisation ne compte que si le projet l'a éprouvée (exécution réussie ou test
+    versionné) ; une citation dans une fiche ne compte pas. Rien n'est écrit."""
+    from aster_expert.connaissances.promotion import eligibility
+
+    rows = eligibility(_project_root())
+    shown = [
+        r for r in rows if toutes or r.eligible or r.cited_by or len(r.proved_in) > 1
+    ]
+    for r in shown:
+        mark = "ÉLIGIBLE" if r.eligible else "non"
+        cited = f" ; cité sans épreuve : {', '.join(r.cited_by)}" if r.cited_by else ""
+        typer.echo(
+            f"{r.id} [{r.status}, niveau {r.validation_level}] {mark} -- éprouvé : "
+            f"{', '.join(r.proved_in) or '-'}{cited} -- {r.reason}"
+        )
+    eligible = [r.id for r in rows if r.eligible]
+    typer.echo(
+        f"{len(rows)} entrées ; éligibles : {len(eligible)} "
+        f"({', '.join(eligible) or 'aucune'})."
+    )
 
 
 @connaissances_app.command("proposer-precedent")
@@ -2316,6 +2377,82 @@ def connaissances_rejouer_references(
         typer.echo(line)
     if any(r.verdict == "à réexaminer" for r in result.references):
         raise typer.Exit(1)
+
+
+fiche_app = typer.Typer(
+    no_args_is_help=True,
+    help="Fiche d'hypothèses : contrôles à la rédaction (lot 44).",
+)
+app.add_typer(fiche_app, name="fiche")
+
+
+@fiche_app.command("obligatoires")
+def fiche_obligatoires(
+    fiche: Path,
+    donnees: str = typer.Option(
+        "", "--donnees", help="Fichier de données du modèle (YAML)."
+    ),
+    sortie: str = typer.Option(
+        "", "--sortie", help="Écrire la fiche complétée des questions (JSON)."
+    ),
+    version: str = typer.Option("", "--version", help="Version Code_Aster."),
+) -> None:
+    """Lister les mots-clés obligatoires des commandes prévues par la fiche
+    (`planned_commands`) que ni une donnée ni une question ne couvrent : catalogue
+    de la version cible, puis table des obligations d'exécution
+    (data/config/obligations_execution.yaml). Avec --sortie, chaque mot-clé manquant
+    devient une question non tranchée de la fiche, dans sa catégorie (MM ou choix
+    de l'agent). Code 1 s'il en manque."""
+    from aster_expert.agent.hypotheses import HypothesesSheet
+    from aster_expert.agent.model_data import load_model_data
+    from aster_expert.agent.obligatoires import (
+        add_missing_parameters,
+        default_rules_path,
+        load_execution_rules,
+        missing_parameters,
+    )
+
+    root = _project_root()
+    catalogue_root = root / "data" / "processed" / "catalogue"
+    try:
+        sheet = HypothesesSheet.model_validate_json(fiche.read_text(encoding="utf-8"))
+        data = load_model_data(Path(donnees)) if donnees else None
+        rules = load_execution_rules(default_rules_path(root))
+        digest, aster_version = resolve_digest_for_version(
+            catalogue_root, version or None, root / "config" / "versions.yaml"
+        )
+        if aster_version != rules.aster_version:
+            message = (
+                f"table des obligations d'exécution écrite pour {rules.aster_version}, "
+                f"catalogue {aster_version} : versions mêlées refusées"
+            )
+            raise ValueError(message)
+        schemas = {
+            p.command: load_command_schema(catalogue_root, digest, p.command)
+            for p in sheet.planned_commands
+        }
+        missing = missing_parameters(sheet, data, schemas, rules)
+    except (OSError, ValueError, ValidationRunError, CatalogueExtractionError) as exc:
+        typer.echo(f"fiche obligatoires ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    planned = len(sheet.planned_commands)
+    typer.echo(f"Commandes prévues : {planned} ; catalogue {aster_version}.")
+    for parameter in missing:
+        typer.echo(f"  MANQUE {parameter.label()}")
+    if sortie:
+        augmented = add_missing_parameters(sheet, missing)
+        Path(sortie).write_text(
+            json.dumps(augmented.model_dump(mode="json"), ensure_ascii=False, indent=2)
+            + "\n",
+            encoding="utf-8",
+        )
+        typer.echo(
+            f"Fiche complétée : {sortie} "
+            f"({len(augmented.entries) - len(sheet.entries)} question(s) ajoutée(s))."
+        )
+    if missing:
+        raise typer.Exit(1)
+    typer.echo("Aucun paramètre obligatoire sans donnée ni question.")
 
 
 @app.command("rex")

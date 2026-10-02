@@ -1335,6 +1335,20 @@ def _lot39_facts(sheet: HypothesesSheet) -> HypothesesSheet:
     return sheet
 
 
+def _lot44(sheet: HypothesesSheet) -> HypothesesSheet:
+    """MM's decisions D20 (point 14, partial factors of the accidental situation) and
+    D21 (point 14, crack control of the capping beam), recorded as worded
+    (`arbitrage_combiwall_MM_lot44_D20_D21.md`); `decided_at` is the recording time
+    (`lot44_enregistrement.json`)."""
+    record = json.loads((INPUTS / "lot44_enregistrement.json").read_text("utf-8"))
+    decided_at = datetime.fromisoformat(record["decisions_20_21"]["decided_at"])
+    return _record_decisions(
+        sheet,
+        INPUTS / "arbitrage_combiwall_MM_lot44_D20_D21.md",
+        decided_at_override=decided_at,
+    )
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -1356,7 +1370,8 @@ def build_sheet() -> HypothesesSheet:
     sheet = _lot35(sheet)
     sheet = _lot37(sheet)
     sheet = _lot38(sheet)
-    return _lot39(sheet)
+    sheet = _lot39(sheet)
+    return _lot44(sheet)
 
 
 def build(*, externalize: bool = True) -> HypothesesSheet:

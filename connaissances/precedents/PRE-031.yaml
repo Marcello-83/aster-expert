@@ -1,8 +1,9 @@
 id: PRE-031
 title: 'Point 14 : Paramètres ELS obligatoires de CALC_FERRAILLAGE en 2D (ALPHA_E, SIGC_*_ELS,
-  SIGC_ELS_QP, KT, EYS)'
+  SIGC_ELS_QP, KT, EYS) (Es corrigé au lot 44)'
 summary: 'Décision de MM au point 14 de la fiche de la dalle (2026-10-02) : Paramètres ELS
-  obligatoires de CALC_FERRAILLAGE en 2D (ALPHA_E, SIGC_*_ELS, SIGC_ELS_QP, KT, EYS).'
+  obligatoires de CALC_FERRAILLAGE en 2D (ALPHA_E, SIGC_*_ELS, SIGC_ELS_QP, KT, EYS) ; Es
+  corrigé au lot 44 par décision de MM (200 GPa au lieu de 210 GPa, αe = 15 maintenu).'
 origin_project: dalle_appuyee_01
 date: '2026-10-02'
 validation_level: A
@@ -12,7 +13,7 @@ sources:
   fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
   point_label: '14'
   decided_by: MM
-  decided_at: '2026-10-02T04:37:34-04:00'
+  decided_at: '2026-10-02T09:03:49-04:00'
 commands: []
 keywords: []
 reuses: []
@@ -24,19 +25,25 @@ topic: Paramètres ELS obligatoires de CALC_FERRAILLAGE en 2D (ALPHA_E, SIGC_*_E
 option_retained: ALPHA_E = 15. SIGC_INF_ELS = SIGC_SUP_ELS = 0,6 fck = 18 MPa, avec un second
   calcul à valeur non contraignante pour montrer que la limite n'est pas active (rapportée
   si elle l'est). SIGC_ELS_QP = 0,45 fck = 13,5 MPa. KT = 0,4 (chargement de longue durée).
-  EYS = 210 000 MPa (Es = 210 GPa, comme au quai).
+  EYS = 200 000 MPa (Es = 200 GPa, EN 1992-1-1, 3.2.7(4) ; décision de MM au lot 44, au lieu
+  des 210 GPa du lot 43).
 justification: 'Réponses de MM aux questions de la session (complément d''arbitrage, donnees/sources/arbitrage_dalle_appuyee_01_complement_els.md)
   : ces paramètres sont obligatoires en 2D selon U4.81.42 et l''arbitrage v1 dit « pas de
-  limite sur σc en XC1 ».'
+  limite sur σc en XC1 ». Lot 44, décision de MM : « La valeur de 210 GPa est celle des aciers
+  de construction (EN 1993). La réglementation du béton armé retient 200 GPa pour les armatures.
+  »'
 validity_domain: 'La limite σc = 18 MPa est un artifice de saisie exigé par la commande, sans
-  exigence de l''EC2 en XC1 : son inactivité est vérifiée par la sensibilité.'
+  exigence de l''EC2 en XC1 : son inactivité est vérifiée par la sensibilité. αe = 15 est
+  maintenu : c''est un coefficient d''équivalence de long terme, choisi délibérément, indépendant
+  de Es (lot 44).'
 discarded_variants:
-- 'ALPHA_E = Es/Ecm (≈ 6,4). — écartée : MM retient 15.'
+- 'ALPHA_E = Es/Ecm (≈ 6,1). — écartée : MM retient 15.'
 - 'SIGC_*_ELS non contraignant sans sensibilité. — écartée : MM retient 0,6 fck et demande
   la sensibilité.'
 - 'KT = 0,6 (courte durée). — écartée : Longue durée.'
-- 'EYS = 200 000 MPa. — écartée : MM retient 210 GPa, comme au quai.'
+- 'EYS = 210 000 MPa (décision du lot 43). — écartée : valeur des aciers de construction (EN
+  1993) ; le béton armé retient 200 GPa pour les armatures (lot 44).'
 decided_by: MM
-decided_at: '2026-10-02T04:37:34-04:00'
-superseded_decisions: 0
+decided_at: '2026-10-02T09:03:49-04:00'
+superseded_decisions: 1
 application: proposition seulement

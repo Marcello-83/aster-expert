@@ -30,7 +30,7 @@ ROOT = Path(__file__).resolve().parents[3]
 
 def test_every_seeded_entry_is_rebuilt_byte_for_byte() -> None:
     entries = build_entries(ROOT)
-    assert len(entries) == 76
+    assert len(entries) == 78  # lot 44 : D20 et D21 (PRE-019, PRE-020)
     for entry in entries:
         path = entry_path(ROOT, entry)
         # Lot 43 : un projet suivant n'ajoute que des réutilisations (`reuses`) ;
@@ -39,6 +39,16 @@ def test_every_seeded_entry_is_rebuilt_byte_for_byte() -> None:
         assert versioned.reuses == () or all(
             r.project != PROJECT for r in versioned.reuses
         ), path
+        # Lot 44 : une promotion (statut et historique, par la commande) n'est pas
+        # de l'amorçage non plus.
+        if versioned.status == "promu":
+            assert versioned.status_history[-1].status == "promu", path
+            versioned = versioned.model_copy(
+                update={
+                    "status": entry.status,
+                    "status_history": versioned.status_history[:-1],
+                }
+            )
         assert dump_entry(versioned.model_copy(update={"reuses": ()})) == dump_entry(
             entry
         ), path
@@ -46,7 +56,9 @@ def test_every_seeded_entry_is_rebuilt_byte_for_byte() -> None:
 
 def test_no_seeded_entry_is_promoted_and_precedents_cover_every_decision() -> None:
     base = load_knowledge(ROOT)
-    assert all(e.status != "promu" for e in base.all_entries())
+    # Lot 44 : les seules promotions sont celles de la règle corrigée.
+    promoted = {e.id for e in base.all_entries() if e.status == "promu"}
+    assert promoted == {"CTL-005", "CTL-006", "CTL-012", "PAT-011", "REF-014"}
     fiche = yaml.safe_load(
         (
             ROOT

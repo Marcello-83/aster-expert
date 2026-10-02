@@ -25,7 +25,12 @@ from pathlib import Path
 import pytest
 
 from aster_expert.constats.rejeu import value_printed
-from aster_expert.execution.compte_rendu import REPORT_JSON, REPORT_MD, load_record
+from aster_expert.execution.compte_rendu import (
+    REPORT_JSON,
+    REPORT_MD,
+    load_record,
+    run_origin,
+)
 from aster_expert.execution.config import load_execution_config
 from aster_expert.execution.docker_client import find_docker_binary
 from aster_expert.execution.execute import execute_comm_file
@@ -60,17 +65,21 @@ def _run(comm: Path, allowed: Path, tmp_path: Path):  # type: ignore[no-untyped-
         }
     )
     digest, version = _aster()
-    return execute_comm_file(
-        comm,
-        project_root=_ROOT,
-        config=config,
-        docker_bin=find_docker_binary(os.environ.get("ASTER_DOCKER_BIN") or None),
-        image_repository=os.environ.get("ASTER_IMAGE_REPOSITORY", "simvia/code_aster"),
-        image_digest=digest,
-        aster_version=version,
-        timeout_seconds=300,
-        memory_mb=2048,
-    )
+    # Lot 44 : une exécution de test lent est une vérification (rex).
+    with run_origin("test_lent"):
+        return execute_comm_file(
+            comm,
+            project_root=_ROOT,
+            config=config,
+            docker_bin=find_docker_binary(os.environ.get("ASTER_DOCKER_BIN") or None),
+            image_repository=os.environ.get(
+                "ASTER_IMAGE_REPOSITORY", "simvia/code_aster"
+            ),
+            image_digest=digest,
+            aster_version=version,
+            timeout_seconds=300,
+            memory_mb=2048,
+        )
 
 
 @pytest.mark.lent_aster
@@ -92,6 +101,7 @@ def test_code_aster_runs_a_versioned_case_and_writes_its_report(
     record = load_record(work_dir)
     assert set(record.inputs_sha256) == {"c.comm", "c.export", "c.mail"}
     assert record.report.duration_s is not None
+    assert record.origin == "test_lent"
     assert report.mess_path is not None
     mess = Path(report.mess_path).read_text(encoding="utf-8", errors="replace")
     # la valeur de la source d'exécution du lot 22 (DZ = 1e-3 m), critère du rejeu

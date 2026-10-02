@@ -5,9 +5,15 @@ fails otherwise, never silently:
 
 - the entry exists and is `établi` (an `observé` entry is first made
   replayable);
-- it was reused successfully in at least two projects (origin and the
-  `reuses` of the entry, each with its proof; for a finding, the projects whose
-  fiche cites it), or it reached level E.
+- it was **proved** in at least two projects -- its origin and the projects of
+  its `reuses` whose evidence is a successful execution or a passing test
+  (`modeles.is_proof`); for a finding, its épreuves of
+  `connaissances/epreuves_constats.yaml` -- or it reached level E.
+
+Lot 44: a citation in a fiche, a decision, a document or a piece of code is not a
+proof. Until lot 43 a finding counted every project whose fiche cites it: CA-025
+and CA-041 were eligible through the slab without the slab exercising them.
+`eligibility` replays the rule over every entry of the base.
 
 A YAML entry is rewritten with `status: promu` and a status event; every
 promotion, of a finding included, is appended to `connaissances/promotions.yaml`.
@@ -21,6 +27,7 @@ import datetime as dt
 from pathlib import Path
 
 import yaml
+from pydantic import BaseModel, ConfigDict
 
 from aster_expert.connaissances.base import (
     PROMOTIONS_FILE,
@@ -54,16 +61,62 @@ def promotion_conditions(repo_root: Path, entry_id: str) -> tuple[bool, str, lis
     projects = sorted(
         entry.projects if isinstance(entry, ConstatView) else entry.projects()
     )
+    cited = sorted(
+        entry.cited_by if isinstance(entry, ConstatView) else entry.cited_projects()
+    )
     if len(projects) >= 2:
-        return True, f"réutilisée dans {len(projects)} projets", projects
+        return True, f"éprouvée dans {len(projects)} projets", projects
     if entry.validation_level == "E":
         return True, "validée au niveau E", projects
+    unproved = (
+        f" ; cité sans épreuve par {', '.join(cited)}, ce qui ne compte pas"
+        if cited
+        else ""
+    )
     return (
         False,
         f"{entry_id} : un seul projet ({', '.join(projects)}) et niveau "
-        f"{entry.validation_level} : la promotion exige deux projets ou le niveau E",
+        f"{entry.validation_level} : la promotion exige deux projets qui l'ont "
+        f"éprouvée ou le niveau E{unproved}",
         projects,
     )
+
+
+class Eligibility(BaseModel):
+    """One line of the eligibility replay (lot 44)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    id: str
+    status: str
+    validation_level: str
+    proved_in: tuple[str, ...]
+    cited_by: tuple[str, ...]
+    eligible: bool
+    reason: str
+
+
+def eligibility(repo_root: Path) -> list[Eligibility]:
+    """The corrected rule replayed over every entry of the base."""
+    base = load_knowledge(repo_root)
+    out = []
+    for entry in sorted(base.all_entries(), key=lambda e: e.id):
+        allowed, reason, projects = promotion_conditions(repo_root, entry.id)
+        cited = (
+            entry.cited_by if isinstance(entry, ConstatView) else entry.cited_projects()
+        )
+        out.append(
+            Eligibility(
+                id=entry.id,
+                status=entry.status,
+                validation_level=entry.validation_level,
+                proved_in=tuple(projects),
+                cited_by=tuple(sorted(cited)),
+                eligible=allowed,
+                reason=reason,
+            )
+        )
+    return out
 
 
 def promote(
@@ -113,4 +166,10 @@ def promote(
     return f"{entry_id} promu ({why})."
 
 
-__all__ = ["PromotionRefusedError", "promote", "promotion_conditions"]
+__all__ = [
+    "Eligibility",
+    "PromotionRefusedError",
+    "eligibility",
+    "promote",
+    "promotion_conditions",
+]

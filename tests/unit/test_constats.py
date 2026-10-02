@@ -73,7 +73,8 @@ def test_the_slab_adds_seven_findings_of_its_own() -> None:
     (CA-046 à CA-051) et un constat d'exécution (CA-052, niveau D)."""
     base = {k: c for k, c in _base().items() if int(k[3:]) > 45}
 
-    assert list(base) == [f"CA-{n:03d}" for n in range(46, 53)]
+    # Lot 44 : CA-053 (paramètres obligatoires à l'exécution), même origine.
+    assert list(base) == [f"CA-{n:03d}" for n in range(46, 54)]
     assert all(c.origin.project == "DALLE-APPUYEE-01" for c in base.values())
     assert base["CA-052"].validation_level == "D"
     assert "CALC_FERRAILLAGE" in base["CA-052"].commands
@@ -232,7 +233,7 @@ def test_the_mcp_tool_is_logged_and_level_a(tmp_path: Path) -> None:
     )
 
     assert result.validation_level == "A"
-    assert result.total_in_base == 52
+    assert result.total_in_base == 53
     assert len(result.results) == 3
     hit = result.results[0]
     assert hit.file.startswith("connaissances/constats_code_aster/CA-")

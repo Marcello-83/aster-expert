@@ -6,7 +6,7 @@ summary: Sur une suite de maillages de rapport 2, l'erreur de chaque grandeur se
 origin_project: dalle_appuyee_01
 date: '2026-10-02'
 validation_level: E
-status: établi
+status: promu
 sources:
 - kind: execution
   run: null
@@ -22,7 +22,12 @@ sources:
 commands: []
 keywords: []
 reuses: []
-status_history: []
+status_history:
+- status: promu
+  date: '2026-10-02'
+  by: session du lot 44 (promotion autorisée par la consigne de MM)
+  reason: 'Règle corrigée (lot 44) : niveau E — suite de convergence de la dalle contre Navier
+    (cas dalle_h0p125.comm, exécution réussie de niveau E, critères E1 et E2 de docs/essais_lot43.md).'
 detects: Une erreur de modèle (conditions aux limites, signe, unités) qui ne disparaît pas
   au raffinement, ou un maillage trop grossier.
 parameters: Tailles de la suite (données du projet), seuil sur le maillage fin (1 % au lot

@@ -1,0 +1,193 @@
+{
+  "cas": [
+    {
+      "id": "cand-019",
+      "expected": "U4.43.01",
+      "journal_lot42": "family='testcase', k=8 : 0 résultat (query_log.jsonl, 2026-09-21T09:26:24Z)",
+      "original": {
+        "query": "ELAS_COQUE MEMB_L FLEX_L coefficients rigidité membrane flexion repère local orthotrope",
+        "documents": [
+          "U4.43.07",
+          "U4.42.01",
+          "U4.43.01",
+          "U4.81.04"
+        ],
+        "rank_expected": 3
+      },
+      "reformulated": {
+        "query": "Comment définir le matériau ELAS_COQUE d'une coque orthotrope en donnant ses rigidités de membrane et de flexion",
+        "documents": [
+          "U4.43.07",
+          "U4.43.01",
+          "U4.42.01",
+          "U4.42.06",
+          "U4.90.31",
+          "U4.81.23"
+        ],
+        "rank_expected": 2
+      }
+    },
+    {
+      "id": "cand-021",
+      "expected": "V3.03.502",
+      "journal_lot42": "family='testcase', k=5 : 0 résultat (query_log.jsonl, 2026-09-21T09:27:05Z)",
+      "original": {
+        "query": "ssls502a DEFI_MATERIAU ELAS_COQUE",
+        "documents": [
+          "U4.42.01",
+          "U4.42.06",
+          "U4.43.01",
+          "U4.42.07",
+          "U4.92.06",
+          "U4.43.02",
+          "U4.56.01",
+          "U4.35.02",
+          "U4.51.01",
+          "U4.01.13"
+        ],
+        "rank_expected": null
+      },
+      "reformulated": {
+        "query": "Quel cas test officiel valide une plaque définie avec le matériau ELAS_COQUE de DEFI_MATERIAU",
+        "documents": [
+          "U4.56.01",
+          "U4.43.01",
+          "U4.43.02",
+          "U4.83.11",
+          "U4.51.11",
+          "U4.42.07",
+          "U4.42.01",
+          "U4.84.03",
+          "U4.84.46"
+        ],
+        "rank_expected": null
+      },
+      "aiguillage_search_test_cases": {
+        "appel": "search_test_cases(command='DEFI_MATERIAU', keyword='ELAS_COQUE')",
+        "fichiers": 12,
+        "ssls502a_trouve": true
+      }
+    }
+  ],
+  "banc_lot44": {
+    "questions": 19,
+    "hit10_original": 14,
+    "hit10_reformulated": 16,
+    "detail": [
+      {
+        "id": "eval-066",
+        "source": "cand-001",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-068",
+        "source": "cand-003",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-069",
+        "source": "cand-004",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-070",
+        "source": "cand-005",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-071",
+        "source": "cand-006",
+        "original": false,
+        "reformulated": true
+      },
+      {
+        "id": "eval-072",
+        "source": "cand-008",
+        "original": false,
+        "reformulated": false
+      },
+      {
+        "id": "eval-073",
+        "source": "cand-010",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-074",
+        "source": "cand-011",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-075",
+        "source": "cand-013",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-076",
+        "source": "cand-014",
+        "original": false,
+        "reformulated": false
+      },
+      {
+        "id": "eval-078",
+        "source": "cand-017",
+        "original": true,
+        "reformulated": false
+      },
+      {
+        "id": "eval-079",
+        "source": "cand-024",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-080",
+        "source": "cand-028",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-082",
+        "source": "cand-033",
+        "original": false,
+        "reformulated": true
+      },
+      {
+        "id": "eval-083",
+        "source": "cand-034",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-084",
+        "source": "cand-035",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-085",
+        "source": "cand-036",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-086",
+        "source": "cand-037",
+        "original": true,
+        "reformulated": true
+      },
+      {
+        "id": "eval-087",
+        "source": "cand-029",
+        "original": false,
+        "reformulated": true
+      }
+    ]
+  }
+}

@@ -196,7 +196,7 @@ def replay_references(
     if unknown:
         message = f"références inconnues : {unknown}"
         raise ReplayError(message)
-    run, version, digest = runner or _default_runner(repo_root)
+    run, version, digest = runner or _default_runner(repo_root, "rejeu_references")
     replays = [
         ReferenceReplay(
             reference_id=ref.id,

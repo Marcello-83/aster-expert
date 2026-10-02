@@ -5,7 +5,7 @@ summary: Pour chaque cas, la somme des réactions des composantes réellement bl
 origin_project: quai_cw_test_01
 date: '2026-10-01'
 validation_level: B
-status: établi
+status: promu
 sources:
 - kind: test
   path: tests/unit/test_controles_equilibre.py
@@ -29,7 +29,13 @@ reuses:
     note: contrôles D de la dalle (48×32)
   note: Équilibre G et Q de la dalle à 8,3e-12 (contrôle du tronc commun, composantes bloquées
     seules).
-status_history: []
+status_history:
+- status: promu
+  date: '2026-10-02'
+  by: session du lot 44 (promotion autorisée par la consigne de MM)
+  reason: 'Règle corrigée (lot 44) : éprouvé dans deux projets — quai (test tests/unit/test_controles_equilibre.py::test_an_unbalanced_case_fails,
+    origine) et dalle (exécution réussie, niveau D, cas projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+    : équilibre G et Q à 8,3e-12).'
 detects: Une charge mal assemblée, une raideur perdue, une lecture de réaction fausse.
 parameters: Groupes d'appui et composantes bloquées, groupes de ressorts, résultantes attendues
   (projet.yaml).

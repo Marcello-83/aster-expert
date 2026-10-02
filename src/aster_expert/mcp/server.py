@@ -193,7 +193,12 @@ _GET_SCHEMA_DESCRIPTION = (
     "Donner `keyword` (chemin pointé, ex. 'COMPORTEMENT.RELATION') pour "
     "obtenir toutes les variantes de ce mot-clé quand un même chemin en a "
     "plusieurs (docs/metadata.md §2) : jamais une seule variante choisie "
-    "silencieusement.\n\n"
+    "silencieusement. Avec `keyword`, seul le sous-arbre demandé est renvoyé "
+    "(`keyword_variants`) : `command_schema` ne garde que les métadonnées de la "
+    "commande et `keywords_omitted` compte les mots-clés de premier niveau "
+    "laissés de côté (lot 44). Attention : le catalogue déclare `optional` des "
+    "mots-clés que la commande exige à l'exécution (data/config/"
+    "obligations_execution.yaml, constat CA-053).\n\n"
     "Sans `version`, la dernière installation détectée est utilisée."
 )
 

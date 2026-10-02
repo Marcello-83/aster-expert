@@ -24,13 +24,14 @@ the archives are present (VM profile; absent in the Cloud, said as such).
 from __future__ import annotations
 
 import ast
+import datetime as dt
 import hashlib
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import yaml
-from pydantic import BaseModel, ConfigDict, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
 
 from aster_expert.connaissances.modeles import (
     ENTRY_TYPES,
@@ -47,6 +48,7 @@ from aster_expert.connaissances.modeles import (
     LayerName,
     Level,
     Pattern,
+    Reuse,
     Status,
     TestEvidence,
     ValidationReference,
@@ -63,6 +65,82 @@ class KnowledgeBaseError(ValueError):
     """The base is unreadable or incoherent; the message lists every problem."""
 
 
+EPREUVES_FILE = "epreuves_constats.yaml"
+
+
+class ConstatProof(BaseModel):
+    """A finding proved in a project other than its origin (lot 44): the
+    finding's JSON schema (lot 41) has no `reuses`, so its épreuves live in
+    `connaissances/epreuves_constats.yaml`, one per (finding, project)."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    constat_id: str
+    reuse: Reuse
+
+    @model_validator(mode="after")
+    def _is_a_proof(self) -> ConstatProof:
+        if not self.reuse.proven:
+            message = (
+                f"{self.constat_id} : une épreuve est une exécution réussie ou un test "
+                "versionné, jamais une citation (lot 44)"
+            )
+            raise ValueError(message)
+        return self
+
+
+ANOMALIES_FILE = "anomalies_ouvertes.yaml"
+
+
+class AnomalySignature(BaseModel):
+    """How one manifestation of an open anomaly shows (lot 44): the entry of the
+    base that records it, the situation and the deviation observed."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    entry: str
+    """Identifier in the base (`CA-nnn`, `REF-nnn`...)."""
+    command: str
+    situation: str
+    deviation: str
+    """The observed deviation, as recorded by the entry (text, with its sign)."""
+
+
+class OpenAnomaly(BaseModel):
+    """Several entries that may share one unexplained cause, linked as a single
+    open anomaly (lot 44: CA-052 and REF-012). Nothing is concluded: `hypothesis`
+    says why they are linked, `investigation` what was (not) done."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    id: str
+    title: str
+    status: Literal["ouverte", "close"]
+    opened: dt.date
+    lot: str
+    signatures: tuple[AnomalySignature, ...] = Field(min_length=2)
+    related: tuple[str, ...] = ()
+    """Other entries of the same family, not signatures of the anomaly."""
+    hypothesis: str
+    investigation: str
+
+    @model_validator(mode="after")
+    def _coherent(self) -> OpenAnomaly:
+        if not re.match(r"^ANO-\d{3}$", self.id):
+            message = f"identifiant d'anomalie {self.id!r} : forme ANO-nnn"
+            raise ValueError(message)
+        return self
+
+
+def load_anomalies(repo_root: Path) -> list[OpenAnomaly]:
+    """The open anomalies of `connaissances/anomalies_ouvertes.yaml` (lot 44)."""
+    path = knowledge_dir(repo_root) / ANOMALIES_FILE
+    if not path.is_file():
+        return []
+    raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return [OpenAnomaly.model_validate(a) for a in raw.get("anomalies") or []]
+
+
 class ConstatView(BaseModel):
     """A finding of lot 41 seen as a knowledge entry."""
 
@@ -71,7 +149,13 @@ class ConstatView(BaseModel):
     constat: Constat
     status: Status
     projects: tuple[str, ...]
-    """Projects whose fiche cites the finding (plus its origin)."""
+    """Origin and projects that *proved* the finding (lot 44: an épreuve of
+    `connaissances/epreuves_constats.yaml`, successful execution or passing test).
+    Until lot 43 the projects whose fiche merely cites it counted too."""
+    cited_by: tuple[str, ...] = ()
+    """Projects whose fiche cites the finding without having proved it:
+    reported, never counted for promotion."""
+    proofs: tuple[ConstatProof, ...] = ()
 
     @property
     def id(self) -> str:
@@ -129,6 +213,15 @@ class KnowledgeBase(BaseModel):
     constats: dict[str, ConstatView]
     files: dict[str, Path]
     """Path of each entry's file, relative to the repository root."""
+    anomalies: tuple[OpenAnomaly, ...] = ()
+    """Open anomalies linking several entries (lot 44)."""
+
+    def anomalies_of(self, entry_id: str) -> tuple[OpenAnomaly, ...]:
+        return tuple(
+            a
+            for a in self.anomalies
+            if entry_id in {s.entry for s in a.signatures} or entry_id in a.related
+        )
 
     def get(self, entry_id: str) -> AnyEntry | None:
         return self.entries.get(entry_id) or self.constats.get(entry_id)
@@ -234,6 +327,15 @@ def project_aliases(repo_root: Path) -> dict[str, str]:
     return out
 
 
+def load_constat_proofs(repo_root: Path) -> list[ConstatProof]:
+    """The épreuves of `connaissances/epreuves_constats.yaml` (lot 44)."""
+    path = knowledge_dir(repo_root) / EPREUVES_FILE
+    if not path.is_file():
+        return []
+    raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return [ConstatProof.model_validate(e) for e in raw.get("epreuves") or []]
+
+
 def citing_projects(repo_root: Path) -> dict[str, set[str]]:
     """For each finding, the projects whose fiche cites it by reference
     (`projets/<nom>/projet.yaml`, key `fiche`)."""
@@ -300,16 +402,39 @@ def load_knowledge(repo_root: Path) -> KnowledgeBase:
     promoted = {p.id for p in promotions}
     citing = citing_projects(repo_root)
     aliases = project_aliases(repo_root)
+    try:
+        epreuves = load_constat_proofs(repo_root)
+    except (ValidationError, yaml.YAMLError) as exc:
+        problems.append(f"{EPREUVES_FILE} : {exc}")
+        epreuves = []
     constats: dict[str, ConstatView] = {}
     for cid, constat in raw_constats.items():
         origin = aliases.get(constat.origin.project, constat.origin.project)
-        projects = tuple(sorted({origin, *citing.get(cid, set())}))
+        proofs = tuple(e for e in epreuves if e.constat_id == cid)
+        projects = tuple(sorted({origin, *(e.reuse.project for e in proofs)}))
         constats[cid] = ConstatView(
             constat=constat,
             status=_constat_status(constat, promoted),
             projects=projects,
+            cited_by=tuple(sorted(citing.get(cid, set()) - set(projects))),
+            proofs=proofs,
         )
         files[cid] = BASE_RELATIVE / f"{cid}.json"
+    for e in epreuves:
+        if e.constat_id not in raw_constats:
+            problems.append(f"{EPREUVES_FILE} : {e.constat_id} absent de la base")
+    try:
+        anomalies = load_anomalies(repo_root)
+    except (ValidationError, yaml.YAMLError) as exc:
+        problems.append(f"{ANOMALIES_FILE} : {exc}")
+        anomalies = []
+    known = set(entries) | set(constats)
+    for a in anomalies:
+        for ref in (*(sig.entry for sig in a.signatures), *a.related):
+            if ref not in known:
+                problems.append(
+                    f"{ANOMALIES_FILE} : {a.id} cite {ref}, absent de la base"
+                )
     for p in promotions:
         if p.id not in entries and p.id not in constats:
             problems.append(f"promotions.yaml : {p.id} absent de la base")
@@ -323,7 +448,11 @@ def load_knowledge(repo_root: Path) -> KnowledgeBase:
             "base de connaissances incohérente :\n- " + "\n- ".join(problems)
         )
     return KnowledgeBase(
-        root=repo_root, entries=entries, constats=constats, files=files
+        root=repo_root,
+        entries=entries,
+        constats=constats,
+        files=files,
+        anomalies=tuple(anomalies),
     )
 
 
@@ -430,6 +559,12 @@ def verify_against_repository(base: KnowledgeBase) -> RepositoryCheck:
             problems += _check_source(
                 entry.id, source, root, runs, runs_present, unverifiable
             )
+    for view in base.constats.values():
+        for proof in view.proofs:
+            checked += 1
+            problems += _check_source(
+                view.id, proof.reuse.evidence, root, runs, runs_present, unverifiable
+            )
     return RepositoryCheck(
         problems=tuple(problems), unverifiable=tuple(unverifiable), checked=checked
     )
@@ -487,20 +622,28 @@ def entry_as_dict(entry: AnyEntry, base: KnowledgeBase) -> dict[str, Any]:
         "commands": list(entry.commands),
         "keywords": list(entry.keywords),
         "file": base.files[entry.id].as_posix(),
+        "open_anomalies": [a.id for a in base.anomalies_of(entry.id)],
     }
 
 
 __all__ = [
+    "ANOMALIES_FILE",
+    "EPREUVES_FILE",
     "KNOWLEDGE_RELATIVE",
     "PROMOTIONS_FILE",
     "RUNS_RELATIVE",
     "AnyEntry",
+    "AnomalySignature",
+    "ConstatProof",
     "ConstatView",
     "KnowledgeBase",
     "KnowledgeBaseError",
     "PromotionEvent",
     "RepositoryCheck",
     "citing_projects",
+    "OpenAnomaly",
+    "load_anomalies",
+    "load_constat_proofs",
     "project_aliases",
     "dump_entry",
     "entry_as_dict",

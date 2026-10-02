@@ -182,6 +182,20 @@ to an append-only history (never edited), lifted by another event carrying
 its own reason (`aster_expert.agent.arbitration.declare_under_revision`,
 `lift_revision`, or automatically by a new `record_practice_decision`). An
 entry under revision is a generation blocker.
+
+**A1 (lot 44), the third category: the agent's own choices.** At lot 43, 15 of
+the 31 blockers of the first fiche of the slab were technical choices that the
+controls or the level E verify (group names, frame, mesh, convergence, reading
+of fields): MM did not have to settle them. A `pratique` entry may now be
+decided by the agent itself -- origin `choix_agent` -- under two structural
+conditions: its `domain` is one of `AgentChoiceDomain` (the partition rule;
+whatever commits the structure has no domain there and stays with MM), and it
+names its verifiers (`verified_by`: `CTL-nnn`, `REF-nnn` or `projet:<nom>`,
+never empty). Such an entry is `tranche`, so it does not block generation; it is
+listed in a separate section of the arbitration document, where MM can replace
+it by an ordinary decision (the agent's choice then goes to `decision_history`).
+A group name can be a `choix_agent` too (`MeshGroupNaming.status`), with its
+own verifiers.
 """
 
 from __future__ import annotations
@@ -193,14 +207,74 @@ from datetime import date as date_type
 from datetime import datetime
 from typing import Annotated, Literal, Protocol
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    SerializerFunctionWrapHandler,
+    model_serializer,
+    model_validator,
+)
 
 PracticeOrigin = Literal[
-    "norme", "precedent_projet", "decision_ingenieur", "arbitrage_mm"
+    "norme", "precedent_projet", "decision_ingenieur", "arbitrage_mm", "choix_agent"
 ]
 """`arbitrage_mm` (lot 43): a decision written in an arbitration document of MM,
 the engineer who supervises every project, reported in a fiche with that
-document as `reference`. Dated, like `decision_ingenieur`."""
+document as `reference`. Dated, like `decision_ingenieur`.
+
+`choix_agent` (lot 44): a modelling choice proposed by the agent itself, in one
+of the `AgentChoiceDomain` domains only, and verified by controls or validation
+references named in `verified_by`. Dated. It does not block generation and MM
+can replace it (`aster_expert.agent.arbitration.record_practice_decision`)."""
+
+AgentChoiceDomain = Literal[
+    "noms_groupes",
+    "repere",
+    "maillage",
+    "convergence",
+    "lecture_champs",
+    "blocage_isostatique",
+    "etendue_modele",
+]
+"""The partition rule of lot 44, made structural: the only domains in which the
+agent may decide by itself, because the controls or the level E check them.
+Everything else that commits the structure (materials, actions, combinations,
+durability, physical support conditions, rebar parameters, a modelling choice
+that changes the physics represented) stays with MM: there is no domain for it
+here, so a `choix_agent` there is refused by the schema."""
+
+AGENT_CHOICE_DOMAINS: dict[str, str] = {
+    "noms_groupes": "noms de groupes",
+    "repere": "repère global, origine et unités",
+    "maillage": "type et taille des mailles",
+    "convergence": "suite de convergence",
+    "lecture_champs": "lecture des champs (NOEU/ELNO)",
+    "blocage_isostatique": "blocage isostatique des mouvements de corps rigide",
+    "etendue_modele": "étendue du modèle quand la symétrie est contrôlée",
+}
+"""French label of each `AgentChoiceDomain`, for the arbitration document."""
+
+_VERIFIER = re.compile(r"^(CTL-\d{3}|REF-\d{3}|projet:[a-z0-9_]+)$")
+"""A named verifier: a control (`CTL-nnn`) or a validation reference (`REF-nnn`)
+of `connaissances/`, or a control declared by the project (`projet:<nom>`)."""
+
+
+def check_verifiers(verified_by: tuple[str, ...]) -> None:
+    """Refuse an empty or malformed list of named verifiers (lot 44)."""
+    if not verified_by:
+        message = (
+            "un choix de l'agent (choix_agent) exige au moins un contrôle ou une "
+            "référence de validation désignés nommément (verified_by)"
+        )
+        raise ValueError(message)
+    bad = [v for v in verified_by if not _VERIFIER.match(v)]
+    if bad:
+        message = (
+            f"vérificateurs mal nommés : {bad} -- attendu CTL-nnn, REF-nnn ou "
+            "projet:<nom_du_controle>"
+        )
+        raise ValueError(message)
 
 
 class DocumentarySource(BaseModel):
@@ -383,13 +457,48 @@ class PracticeSource(BaseModel):
     origin: PracticeOrigin
     reference: str
     date: date_type | None = None
+    domain: AgentChoiceDomain | None = None
+    """`choix_agent` only (lot 44): the domain of the partition rule it falls in."""
+    verified_by: tuple[str, ...] = ()
+    """`choix_agent` only (lot 44): the controls or validation references, named,
+    that verify the choice (`CTL-nnn`, `REF-nnn`, `projet:<nom>`)."""
 
     @model_validator(mode="after")
     def _decision_requires_a_date(self) -> PracticeSource:
-        if self.origin in ("decision_ingenieur", "arbitrage_mm") and self.date is None:
+        if (
+            self.origin in ("decision_ingenieur", "arbitrage_mm", "choix_agent")
+            and self.date is None
+        ):
             message = "une décision explicite de l'ingénieur exige une date"
             raise ValueError(message)
+        if self.origin == "choix_agent":
+            if self.domain is None:
+                message = (
+                    "un choix de l'agent exige son domaine (domain) parmi ceux que "
+                    "les contrôles vérifient : "
+                    + ", ".join(sorted(AGENT_CHOICE_DOMAINS))
+                )
+                raise ValueError(message)
+            check_verifiers(self.verified_by)
+        elif self.domain is not None or self.verified_by:
+            message = (
+                "`domain` et `verified_by` ne s'emploient que pour une source "
+                "choix_agent"
+            )
+            raise ValueError(message)
         return self
+
+    @model_serializer(mode="wrap")
+    def _omit_empty_agent_fields(
+        self, handler: SerializerFunctionWrapHandler
+    ) -> dict[str, object]:
+        # Lot 44: the fiches written before `choix_agent` keep their exact bytes.
+        data: dict[str, object] = handler(self)
+        if self.domain is None:
+            data.pop("domain", None)
+        if not self.verified_by:
+            data.pop("verified_by", None)
+        return data
 
 
 class DiscardedVariant(BaseModel):
@@ -638,6 +747,29 @@ class PracticeHypothesisEntry(_HypothesisEntryBase):
     def revision_reason(self) -> str | None:
         return self.revision_history[-1].reason if self.under_revision else None
 
+    @property
+    def is_agent_choice(self) -> bool:
+        """True when the current decision is a choice of the agent (lot 44)."""
+        return any(s.origin == "choix_agent" for s in self.sources)
+
+    @model_validator(mode="after")
+    def _agent_choice_is_coherent(self) -> PracticeHypothesisEntry:
+        """A `choix_agent` decision (lot 44) is decided (`tranche`), founded only
+        on `choix_agent` sources, each naming its verifiers (`PracticeSource`)."""
+        if not self.is_agent_choice:
+            return self
+        if self.status != "tranche":
+            message = "un choix de l'agent est une entrée tranchée (status='tranche')"
+            raise ValueError(message)
+        if any(s.origin != "choix_agent" for s in self.sources):
+            message = (
+                "un choix de l'agent ne mêle pas d'autre origine à ses sources : "
+                "une décision de MM le remplace (record_practice_decision), elle ne "
+                "s'y ajoute pas"
+            )
+            raise ValueError(message)
+        return self
+
     @model_validator(mode="after")
     def _revision_log_is_coherent(self) -> PracticeHypothesisEntry:
         expected = "declared"
@@ -778,10 +910,65 @@ class MeshGroupNaming(BaseModel):
     group_name: str
     kind: Literal["maille", "noeud"]
     description: str
-    status: Literal["tranche", "non_tranche"] = "non_tranche"
+    status: Literal["tranche", "non_tranche", "choix_agent"] = "non_tranche"
+    """`choix_agent` (lot 44): a name chosen by the agent, verified by the named
+    controls of `verified_by` (mesh invariants, name length); it does not block
+    generation and MM can replace it."""
     point_label: str | None = None
     """`point_label` of the fiche point that grounds this group (lot 20),
     checked by `HypothesesSheet.group_naming_gaps`."""
+    verified_by: tuple[str, ...] = ()
+    """`choix_agent` only (lot 44): named verifiers, see `check_verifiers`."""
+
+    @model_validator(mode="after")
+    def _agent_choice_names_its_verifiers(self) -> MeshGroupNaming:
+        if self.status == "choix_agent":
+            check_verifiers(self.verified_by)
+        elif self.verified_by:
+            message = "`verified_by` ne s'emploie que pour un nom choix_agent"
+            raise ValueError(message)
+        return self
+
+    @model_serializer(mode="wrap")
+    def _omit_empty_verifiers(
+        self, handler: SerializerFunctionWrapHandler
+    ) -> dict[str, object]:
+        data: dict[str, object] = handler(self)
+        if not self.verified_by:
+            data.pop("verified_by", None)
+        return data
+
+
+class PlannedCommand(BaseModel):
+    """A command the fiche plans to write, with its options (lot 44, step 2).
+
+    `options` are the keyword values that select the command's variant (bare
+    keyword names, as the catalogue conditions name them: `TYPE_COMB`,
+    `TYPE_STRUCTURE`). `covered_by` maps a keyword path (`AFFE.KT`) to what
+    already answers it: `data:<group.key>` (a value of the data file, provided or
+    still « à fournir ») or `point:<label>` (an open or decided question of this
+    fiche at that point). `aster_expert.agent.obligatoires` lists the mandatory
+    keywords of the combination and adds a question for each uncovered one.
+    """
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    command: str
+    point_label: str
+    options: dict[str, str] = Field(default_factory=dict)
+    covered_by: dict[str, str] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def _coverage_is_well_formed(self) -> PlannedCommand:
+        bad = [
+            v
+            for v in self.covered_by.values()
+            if not re.match(r"^(data:[A-Za-z0-9_]+\.[A-Za-z0-9_]+|point:\S+)$", v)
+        ]
+        if bad:
+            message = f"couverture mal formée : {bad} (data:<groupe.clé> ou point:<p>)"
+            raise ValueError(message)
+        return self
 
 
 class MissingValues(Protocol):
@@ -812,6 +999,18 @@ class HypothesesSheet(BaseModel):
     created_at: datetime
     entries: tuple[HypothesisEntry, ...] = ()
     group_naming: tuple[MeshGroupNaming, ...] = ()
+    planned_commands: tuple[PlannedCommand, ...] = ()
+    """Commands the fiche plans, with their options (lot 44)."""
+
+    @model_serializer(mode="wrap")
+    def _omit_empty_planned_commands(
+        self, handler: SerializerFunctionWrapHandler
+    ) -> dict[str, object]:
+        # Fiches written before lot 44 keep their exact bytes.
+        data: dict[str, object] = handler(self)
+        if not self.planned_commands:
+            data.pop("planned_commands", None)
+        return data
 
     @model_validator(mode="after")
     def _group_names_are_unique(self) -> HypothesesSheet:
@@ -848,6 +1047,18 @@ class HypothesesSheet(BaseModel):
 
     def unresolved_group_names(self) -> tuple[MeshGroupNaming, ...]:
         return tuple(g for g in self.group_naming if g.status == "non_tranche")
+
+    def agent_choices(self) -> tuple[PracticeHypothesisEntry, ...]:
+        """Decided entries whose decision is a choice of the agent (lot 44)."""
+        return tuple(
+            e
+            for e in self.entries
+            if isinstance(e, PracticeHypothesisEntry) and e.is_agent_choice
+        )
+
+    def agent_group_names(self) -> tuple[MeshGroupNaming, ...]:
+        """Group names chosen by the agent (lot 44)."""
+        return tuple(g for g in self.group_naming if g.status == "choix_agent")
 
     def generation_blockers(
         self, model_data: MissingValues | None = None
@@ -963,6 +1174,8 @@ class HypothesesSheet(BaseModel):
 
 
 __all__: list[str] = [
+    "AGENT_CHOICE_DOMAINS",
+    "AgentChoiceDomain",
     "CatalogueSource",
     "CodeAsterHypothesisEntry",
     "CodeAsterSource",
@@ -975,9 +1188,11 @@ __all__: list[str] = [
     "HypothesisEntry",
     "MeshGroupNaming",
     "MissingValues",
+    "PlannedCommand",
     "PracticeHypothesisEntry",
     "PracticeOrigin",
     "PracticeSource",
     "PriorDecision",
     "RevisionEvent",
+    "check_verifiers",
 ]

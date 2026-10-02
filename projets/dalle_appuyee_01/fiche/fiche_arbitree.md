@@ -134,19 +134,19 @@ Décisions de MM reportées de `arbitrage_dalle_appuyee_01_v1` (copie : `donnees
 
 ## Point 14 — Paramètres ELS obligatoires de CALC_FERRAILLAGE en 2D (ALPHA_E, SIGC_*_ELS, SIGC_ELS_QP, KT, EYS)
 
-**Retenu** (MM) : ALPHA_E = 15. SIGC_INF_ELS = SIGC_SUP_ELS = 0,6 fck = 18 MPa, avec un second calcul à valeur non contraignante pour montrer que la limite n'est pas active (rapportée si elle l'est). SIGC_ELS_QP = 0,45 fck = 13,5 MPa. KT = 0,4 (chargement de longue durée). EYS = 210 000 MPa (Es = 210 GPa, comme au quai).
+**Retenu** (MM) : ALPHA_E = 15. SIGC_INF_ELS = SIGC_SUP_ELS = 0,6 fck = 18 MPa, avec un second calcul à valeur non contraignante pour montrer que la limite n'est pas active (rapportée si elle l'est). SIGC_ELS_QP = 0,45 fck = 13,5 MPa. KT = 0,4 (chargement de longue durée). EYS = 200 000 MPa (Es = 200 GPa, EN 1992-1-1, 3.2.7(4) ; décision de MM au lot 44, au lieu des 210 GPa du lot 43).
 
-*Justification* : Réponses de MM aux questions de la session (complément d'arbitrage, donnees/sources/arbitrage_dalle_appuyee_01_complement_els.md) : ces paramètres sont obligatoires en 2D selon U4.81.42 et l'arbitrage v1 dit « pas de limite sur σc en XC1 ».
+*Justification* : Réponses de MM aux questions de la session (complément d'arbitrage, donnees/sources/arbitrage_dalle_appuyee_01_complement_els.md) : ces paramètres sont obligatoires en 2D selon U4.81.42 et l'arbitrage v1 dit « pas de limite sur σc en XC1 ». Lot 44, décision de MM : « La valeur de 210 GPa est celle des aciers de construction (EN 1993). La réglementation du béton armé retient 200 GPa pour les armatures. »
 
-*Domaine de validité* : La limite σc = 18 MPa est un artifice de saisie exigé par la commande, sans exigence de l'EC2 en XC1 : son inactivité est vérifiée par la sensibilité.
+*Domaine de validité* : La limite σc = 18 MPa est un artifice de saisie exigé par la commande, sans exigence de l'EC2 en XC1 : son inactivité est vérifiée par la sensibilité. αe = 15 est maintenu : c'est un coefficient d'équivalence de long terme, choisi délibérément, indépendant de Es (lot 44).
 
 *Variantes écartées* :
-- ALPHA_E = Es/Ecm (≈ 6,4). — MM retient 15.
+- ALPHA_E = Es/Ecm (≈ 6,1). — MM retient 15.
 - SIGC_*_ELS non contraignant sans sensibilité. — MM retient 0,6 fck et demande la sensibilité.
 - KT = 0,6 (courte durée). — Longue durée.
-- EYS = 200 000 MPa. — MM retient 210 GPa, comme au quai.
+- EYS = 210 000 MPa (décision du lot 43). — valeur des aciers de construction (EN 1993) ; le béton armé retient 200 GPa pour les armatures (lot 44).
 
-*Sources* : arbitrage_mm : arbitrage_dalle_appuyee_01_complement_els (réponses de MM en séance, lot 43, phase 2)
+*Sources* : arbitrage_mm : arbitrage_dalle_appuyee_01_complement_els (réponses de MM en séance, lot 43, phase 2) ; arbitrage_mm : consigne du lot 44 (docs/lots/lot44_consigne.md), module de l'acier Es = 200 GPa ; référence normative fournie par MM, non indexée
 
 ## Points établis par la documentation
 

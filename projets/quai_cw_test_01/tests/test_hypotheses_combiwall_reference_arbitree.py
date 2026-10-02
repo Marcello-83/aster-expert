@@ -75,7 +75,8 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     #   point 7 ; état des lieux du ferraillage, point 14)
     # + lot 39 : D19 (point 14) ajoute une entrée ; 6 constats d'exécution sur
     #   CALC_FERRAILLAGE (point 14)
-    assert len(sheet.entries) == 63
+    # + lot 44 : D20 et D21 (point 14) ajoutent deux entrées
+    assert len(sheet.entries) == 65
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -89,8 +90,9 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
     # 10 up to lot 20, plus MM's decision on the tube shell choice (lot 21) and
     # the global frame (point 9, lot 25), decision 11 (point 10, lot 27),
     # decision 12 (point 11, lot 28), decision 13 (point 12, lot 33) and, lot 38,
-    # D17 (point 13) and D18 (point 14), lot 39: D19 (point 14)
-    assert len(tranche_practice) == 18
+    # D17 (point 13) and D18 (point 14), lot 39: D19 (point 14), lot 44: D20 and
+    # D21 (point 14)
+    assert len(tranche_practice) == 20
     assert {e.point_label for e in tranche_practice} == {
         "0",
         "1",

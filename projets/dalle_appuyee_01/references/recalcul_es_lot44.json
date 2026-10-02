@@ -1,0 +1,22 @@
+{
+  "objet": "Recalcul du ferraillage de la dalle avec Es = 200 GPa (décision de MM, lot 44), comparé au lot 43 (Es = 210 GPa)",
+  "commande": "aster-expert projet dalle_appuyee_01 tout",
+  "execution_lot44": "20261002T130616-537395b0",
+  "execution_lot43": "20261002T085726-378a7180",
+  "comm_sha256_lot44": "70ae851c380a4dad612adad6962b2611feea61485fe096aeb533e39d75e09848",
+  "difference_des_comm": "EYS seul (4 occurrences de CALC_FERRAILLAGE) : 2.1e11 -> 2.0e11 Pa",
+  "niveau": "C avec contrôles D (équilibre G et Q 8,33e-12, pesanteur, symétrie : RÉUSSI)",
+  "densites_max_m2_par_m": {
+    "ELU_FOND_Q_DOM_G_defav": "identiques à l'octet",
+    "ELS_CARA_Q_DOM": "identiques à l'octet",
+    "ELS_QUASI_PERMANENTE": {
+      "DNSXI": {"lot43": 0.0001457111249063, "lot44": 0.0001553361813826, "ecart": "+6,61 %"},
+      "DNSXS": {"lot43": 0.0001220875199357, "lot44": 0.0001301296404089, "ecart": "+6,59 %"},
+      "DNSYI": {"lot43": 0.0002055619079727, "lot44": 0.000215258096168, "ecart": "+4,72 %"},
+      "DNSYS": {"lot43": 0.0001543586201882, "lot44": 0.000151165042483, "ecart": "-2,07 %"}
+    }
+  },
+  "enveloppe_besoins_elu_els_qp": "inchangée (l'ELU gouverne : 1,774 / 1,627 / 2,906 / 1,942 cm²/m)",
+  "ferraillage_retenu": "inchangé : minimum EN 1992 (9.2.1.1) 3,80 cm²/m sur les quatre nappes",
+  "conclusion": "L'ELS ne gouverne pas : aucun changement du ferraillage retenu, comme attendu par la consigne. Le cas versionné projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm (Es = 210 GPa) reste celui des preuves du lot 43 (REF-014, CA-052) et n'est pas modifié."
+}

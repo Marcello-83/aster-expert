@@ -341,7 +341,15 @@ def get_command_schema(
         raise McpToolError(str(exc)) from exc
     duration = time.monotonic() - started
 
-    result = CommandSchemaResult(command_schema=schema, keyword_variants=variants)
+    if variants is None:
+        result = CommandSchemaResult(command_schema=schema)
+    else:
+        # Lot 44: only the requested subtree, the rest is counted, not sent.
+        result = CommandSchemaResult(
+            command_schema=schema.model_copy(update={"keywords": []}),
+            keyword_variants=variants,
+            keywords_omitted=len(schema.keywords),
+        )
 
     returned = (
         [

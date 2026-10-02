@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import ast
 import datetime as dt
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -207,6 +208,44 @@ class RunSummary(_Model):
     """`mur`: wall time of `aster-expert run` (compte rendu, container start
     included); `aster`: elapsed time measured by `run_aster` (legacy annex)."""
     matches: tuple[DiagnosticMatch, ...] = ()
+    comm_sha256: str | None = None
+    """SHA-256 of the `.comm` given to Code_Aster (compte rendu since lot 41, the
+    copy in the run directory before)."""
+    origin: str | None = None
+    """Launcher recorded in the compte rendu (lot 44): `rejeu_constats`,
+    `rejeu_references`, `test_lent`; `None` for an ordinary run."""
+    kind: Literal["développement", "vérification"] = "développement"
+    verification_reason: str | None = None
+
+
+def classify_runs(runs: list[RunSummary]) -> list[RunSummary]:
+    """Development or verification, in chronological order (lot 44).
+
+    A verification run is launched by a replay command (`origin`: findings,
+    references, slow tests), or re-runs a `.comm` whose exact bytes (same SHA-256)
+    already succeeded earlier. Everything else is development: the failure rate is
+    computed on development runs only, a verification measuring the stability of
+    what is already established, not the difficulty of establishing it.
+    """
+    succeeded: set[str] = set()
+    out = []
+    for r in runs:
+        reason = None
+        if r.origin is not None:
+            reason = f"lancée par une commande de vérification ({r.origin})"
+        elif r.comm_sha256 is not None and r.comm_sha256 in succeeded:
+            reason = "rejeu d'un .comm déjà réussi, sans modification (même empreinte)"
+        out.append(
+            r.model_copy(
+                update={
+                    "kind": "vérification" if reason else "développement",
+                    "verification_reason": reason,
+                }
+            )
+        )
+        if not r.failed and r.comm_sha256 is not None:
+            succeeded.add(r.comm_sha256)
+    return out
 
 
 def run_started(run_id: str) -> dt.datetime | None:
@@ -269,12 +308,18 @@ def project_runs(
             continue
         record = run_dir / "compte_rendu.json"
         mess_path = None
+        comm_sha: str | None = None
+        origin: str | None = None
         if record.is_file():
             data = json.loads(record.read_text(encoding="utf-8"))
             report = data["report"]
             comm = _relative_to_root(str(report["comm_path"]), repo_root)
             if comm is None or not comm.startswith(roots):
                 continue
+            comm_sha = (data.get("inputs_sha256") or {}).get(
+                Path(str(report["comm_path"])).name
+            )
+            origin = data.get("origin")
             failed = report["status"] not in ("completed_ok", "completed_with_alarms")
             job = report.get("diag")
             duration = report.get("duration_s")
@@ -294,6 +339,8 @@ def project_runs(
                 continue
             comms = sorted(p.name for p in run_dir.glob("*.comm"))
             comm = comms[0] if comms else "(aucun .comm)"
+            if comms:
+                comm_sha = hashlib.sha256((run_dir / comms[0]).read_bytes()).hexdigest()
             errors = []
             job = None
             failed = False
@@ -323,9 +370,11 @@ def project_runs(
                 duration_s=duration,
                 duration_kind=kind,
                 matches=matches,
+                comm_sha256=comm_sha,
+                origin=origin,
             )
         )
-    return out
+    return classify_runs(out)
 
 
 # --------------------------------------------------------------------------
@@ -372,12 +421,27 @@ def constat_proposals(repo_root: Path, project: str) -> list[ConstatProposal]:
     ]
 
 
+PATTERN_SIMILARITY_THRESHOLD = 0.40
+"""Lot 44: a project function is listed as a pattern candidate only from this
+Jaccard similarity to its closest pattern. Calibrated on the 14 functions the
+base cites as the code of a pattern (the first two projects): from 0.40 the closest
+pattern is the right one for 5 of 5; below, 4 of 9 are attributed to another
+pattern or carry no identifier at all, so a lower similarity says nothing about
+which pattern the function resembles. At lot 43 the former listing (top 15, from
+0.20) was noise: 15 candidates between 0.20 and 0.43."""
+
+
 def pattern_candidates(
-    repo_root: Path, project: str, base: KnowledgeBase, *, limit: int = 15
+    repo_root: Path,
+    project: str,
+    base: KnowledgeBase,
+    *,
+    limit: int = 15,
+    threshold: float = PATTERN_SIMILARITY_THRESHOLD,
 ) -> list[PatternCandidate]:
     """Functions of the project naming Code_Aster identifiers of the base, not
-    yet cited as the code of a pattern or a control, ranked by their Jaccard
-    similarity to the closest pattern."""
+    yet cited as the code of a pattern or a control, whose Jaccard similarity to
+    the closest pattern reaches `threshold`, ranked by that similarity."""
     vocabulary: set[str] = set()
     for entry in base.all_entries():
         vocabulary.update(entry.commands)
@@ -435,6 +499,7 @@ def pattern_candidates(
                     else "nouveau patron possible",
                 )
             )
+    out = [c for c in out if c.similarity >= threshold]
     out.sort(key=lambda c: (-c.similarity, -len(c.identifiers), c.path, c.function))
     return out[:limit]
 
@@ -465,6 +530,8 @@ class RexReport(_Model):
     unknown_classified_runs: tuple[str, ...] = ()
     constat_proposals: tuple[ConstatProposal, ...] = ()
     pattern_candidates: tuple[PatternCandidate, ...] = ()
+    pattern_candidates_below: int = 0
+    """Functions under `PATTERN_SIMILARITY_THRESHOLD`: counted, not listed."""
     metrics: dict[str, Any] = Field(default_factory=dict)
 
     @property
@@ -477,12 +544,16 @@ def review_project(repo_root: Path, project: str) -> RexReport:
     base = load_knowledge(repo_root)
     proposals = tuple(constat_proposals(repo_root, project))
     candidates = tuple(pattern_candidates(repo_root, project, base))
+    below = len(
+        pattern_candidates(repo_root, project, base, limit=10_000, threshold=0.0)
+    ) - len(candidates)
     if not (repo_root / RUNS_RELATIVE).is_dir():
         return RexReport(
             project=project,
             archives_present=False,
             constat_proposals=proposals,
             pattern_candidates=candidates,
+            pattern_candidates_below=below,
             metrics=compute_metrics(repo_root, registry, base, None),
         )
     runs = project_runs(repo_root, registry, base)
@@ -530,6 +601,7 @@ def review_project(repo_root: Path, project: str) -> RexReport:
         unknown_classified_runs=unknown,
         constat_proposals=proposals,
         pattern_candidates=candidates,
+        pattern_candidates_below=below,
         metrics=compute_metrics(repo_root, registry, base, runs),
     )
 
@@ -668,10 +740,35 @@ def compute_metrics(
     )
     wall = sum(r.duration_s or 0.0 for r in runs if r.duration_kind == "mur")
     aster = sum(r.duration_s or 0.0 for r in runs if r.duration_kind == "aster")
+    development = [r for r in runs if r.kind == "développement"]
+    verification = [r for r in runs if r.kind == "vérification"]
+    dev_failed = [r for r in development if r.failed]
+    ver_failed = [r for r in verification if r.failed]
+    reasons: dict[str, int] = {}
+    for r in verification:
+        key = r.verification_reason or "?"
+        reasons[key] = reasons.get(key, 0) + 1
     metrics["measured"] = {
         "runs": len(runs),
         "failures": len(failed),
-        "failure_rate": round(len(failed) / len(runs), 4) if runs else None,
+        "development": {
+            "runs": len(development),
+            "failures": len(dev_failed),
+        },
+        "verification": {
+            "runs": len(verification),
+            "failures": len(ver_failed),
+            "by_reason": dict(sorted(reasons.items())),
+        },
+        "failure_rate": round(len(dev_failed) / len(development), 4)
+        if development
+        else None,
+        "failure_rate_note": (
+            "lot 44 : taux sur les exécutions de développement seulement ; une "
+            "exécution de vérification (commande de rejeu, ou .comm déjà réussi rejoué "
+            "sans modification) n'y entre pas"
+        ),
+        "failure_rate_all_runs": round(len(failed) / len(runs), 4) if runs else None,
         "compute_s": {
             "aster_legacy": round(aster, 1),
             "wall_since_lot41": round(wall, 1),
@@ -721,6 +818,10 @@ def _fmt(value: Any, nature: str | None = None) -> str:
     return text
 
 
+def _percent(value: float | None) -> str:
+    return "—" if value is None else f"{100 * value:.1f} %".replace(".", ",")
+
+
 def render_dashboard(repo_root: Path) -> str:
     """Markdown table comparing the projects (one row per metrics file)."""
     directory = repo_root / METRICS_RELATIVE
@@ -729,17 +830,17 @@ def render_dashboard(repo_root: Path) -> str:
         m = yaml.safe_load(path.read_text(encoding="utf-8"))
         b = m.get("baseline") or {}
         meas = m.get("measured") or {}
+        dev = meas.get("development") or {}
+        ver = meas.get("verification") or {}
         interventions = b.get("supervisor_interventions") or {}
         k = m.get("knowledge") or {}
         rate_b = (
-            f"{100 * b['failures'] / b['executions']:.1f} %".replace(".", ",")
-            if b.get("executions")
-            else "—"
+            _percent(b["failures"] / b["executions"]) if b.get("executions") else "—"
         )
-        rate_m = (
-            f"{100 * meas['failure_rate']:.1f} %".replace(".", ",")
-            if meas.get("failure_rate") is not None
-            else "—"
+        declared = m.get("declared_interventions_since_baseline")
+        lots = ", ".join(
+            f"lot {lot['lot']} : {_fmt(lot['supervisor_interventions'].get('value'))}"
+            for lot in m.get("lots") or []
         )
         rows.append(
             "| "
@@ -747,10 +848,13 @@ def render_dashboard(repo_root: Path) -> str:
                 [
                     f"`{m['project']}`",
                     _fmt(b.get("lots")),
-                    f"{_fmt(b.get('executions'))} / {_fmt(meas.get('runs'))}",
-                    f"{rate_b} / {rate_m}",
+                    _fmt(b.get("executions")),
+                    f"{_fmt(dev.get('runs'))} + {_fmt(ver.get('runs'))}",
+                    f"{rate_b} / {_percent(meas.get('failure_rate'))}",
+                    _fmt(ver.get("failures")),
                     _fmt(b.get("compute_hours")),
                     _fmt(interventions.get("value"), interventions.get("nature")),
+                    f"{_fmt(declared)} ({lots})" if lots else _fmt(declared),
                     _fmt(k.get("created")),
                     _fmt(k.get("promoted")),
                 ]
@@ -764,12 +868,19 @@ def render_dashboard(repo_root: Path) -> str:
         "Les métriques sont la « fonction de perte » de l'outil : d'un projet à "
         "l'autre, le taux d'échec, les interventions du superviseur et le nombre de "
         "lots par ouvrage doivent baisser. « Base » : chiffres déclarés (audit du "
-        "lot 40) ; « mesuré » : recompté par `rex` sur les archives d'exécution "
-        "(toutes les exécutions attribuées au projet, y compris après l'audit).\n\n"
-        "| Projet | Lots (base) | Exécutions (base / mesuré) | Taux d'échec (base / "
-        "mesuré) | Calcul (h, base) | Interventions du superviseur | Connaissances "
-        "créées | Promues |\n"
-        "| --- | --- | --- | --- | --- | --- | --- | --- |\n" + "\n".join(rows) + "\n"
+        "lot 40) ; « mesuré » : recompté par `rex` sur les archives d'exécution.\n\n"
+        "Depuis le lot 44, les exécutions mesurées se séparent en **développement** "
+        "et **vérification** (lancée par une commande de rejeu -- constats, "
+        "références, tests lents -- ou rejeu d'un `.comm` déjà réussi, même "
+        "empreinte) ; le taux d'échec mesuré porte sur le développement seul. Les "
+        "interventions déclarées sont comptées lot par lot à partir du lot 42.\n\n"
+        "| Projet | Lots (base) | Exécutions (base) | Exécutions mesurées "
+        "(dév. + vérif.) | Taux d'échec (base / dév.) | Échecs en vérification | "
+        "Calcul (h, base) | Interventions (base) | Interventions déclarées (lots) | "
+        "Connaissances créées | Promues |\n"
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n"
+        + "\n".join(rows)
+        + "\n"
     )
 
 
@@ -809,6 +920,17 @@ def render_report(report: RexReport) -> list[str]:
             f"{len(report.failures)} ; depuis le dernier retour d'expérience "
             f"({report.last_review or 'aucun'}) : {report.since_last_review}."
         )
+        measured = report.metrics.get("measured") or {}
+        dev = measured.get("development") or {}
+        ver = measured.get("verification") or {}
+        rate = measured.get("failure_rate")
+        lines.append(
+            f"Développement : {dev.get('runs')} exécution(s), {dev.get('failures')} "
+            "échec(s), taux "
+            + ("—" if rate is None else f"{100 * rate:.1f} %".replace(".", ","))
+            + f" ; vérification : {ver.get('runs')} exécution(s), "
+            f"{ver.get('failures')} échec(s) (hors taux)."
+        )
         by_decision: dict[str, int] = {}
         for f in report.failures:
             key = f.classification.decision if f.classification else "non classé"
@@ -847,8 +969,11 @@ def render_report(report: RexReport) -> list[str]:
     )
     for p in report.constat_proposals:
         lines.append(f"  point {p.point_label} : {p.topic}")
+    threshold = f"{PATTERN_SIMILARITY_THRESHOLD:.2f}".replace(".", ",")
     lines.append(
-        f"Candidats patrons dans le code du projet : {len(report.pattern_candidates)}."
+        f"Candidats patrons dans le code du projet : {len(report.pattern_candidates)} "
+        f"(similarité ≥ {threshold} ; {report.pattern_candidates_below} "
+        "fonction(s) sous le seuil, non listées)."
     )
     for c in report.pattern_candidates:
         lines.append(
@@ -878,11 +1003,13 @@ def render_report(report: RexReport) -> list[str]:
 
 __all__ = [
     "METRICS_RELATIVE",
+    "PATTERN_SIMILARITY_THRESHOLD",
     "REX_RELATIVE",
     "Classification",
     "RexRegistry",
     "RexReport",
     "RunSummary",
+    "classify_runs",
     "compute_metrics",
     "constat_proposals",
     "load_registry",

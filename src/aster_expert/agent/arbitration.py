@@ -53,6 +53,8 @@ from __future__ import annotations
 from datetime import datetime
 
 from aster_expert.agent.hypotheses import (
+    AGENT_CHOICE_DOMAINS,
+    AgentChoiceDomain,
     CodeAsterHypothesisEntry,
     CodeAsterSource,
     DiscardedVariant,
@@ -148,6 +150,54 @@ def record_practice_decision(
         decided_at=decided_at,
         decision_history=history,
         revision_history=revisions,
+    )
+
+
+AGENT = "agent (choix_agent)"
+"""`decided_by` of every choice of the agent (lot 44)."""
+
+
+def record_agent_choice(
+    *,
+    entry: PracticeHypothesisEntry,
+    domain: AgentChoiceDomain | tuple[AgentChoiceDomain, ...],
+    verified_by: tuple[str, ...],
+    option_retained: str,
+    justification: str,
+    validity_domain: str,
+    discarded_variants: tuple[DiscardedVariant, ...],
+    reference: str,
+    decided_at: datetime,
+) -> PracticeHypothesisEntry:
+    """Decide one `pratique` entry as a choice of the agent (lot 44).
+
+    Allowed only in a domain of the partition rule (`AgentChoiceDomain`) and
+    with named verifiers -- both checked by `PracticeSource`, so a hand-built
+    entry is held to the same rules. The result is `tranche` (no generation
+    blocker); MM replaces it by `record_practice_decision`, which keeps it in
+    `decision_history`. A point that spans several domains (mesh, convergence
+    and reading of fields, say) gets one source per domain, same verifiers.
+    """
+    domains = (domain,) if isinstance(domain, str) else domain
+    sources = tuple(
+        PracticeSource(
+            origin="choix_agent",
+            reference=reference,
+            date=decided_at.date(),
+            domain=d,
+            verified_by=verified_by,
+        )
+        for d in domains
+    )
+    return record_practice_decision(
+        entry=entry,
+        option_retained=option_retained,
+        justification=justification,
+        validity_domain=validity_domain,
+        sources=sources,
+        discarded_variants=discarded_variants,
+        decided_by=AGENT,
+        decided_at=decided_at,
     )
 
 
@@ -386,14 +436,63 @@ def render_decision_sheet(sheet: HypothesesSheet) -> str:
         else:
             lines.append("- Aucune option catalogue directement rattachée à ce point.")
         lines.append("")
+    lines += _render_agent_choices(sheet)
     return "\n".join(lines)
 
 
+def _render_agent_choices(sheet: HypothesesSheet) -> list[str]:
+    """Separate section of the agent's choices (lot 44): what MM may replace."""
+    choices = sheet.agent_choices()
+    groups = sheet.agent_group_names()
+    if not choices and not groups:
+        return []
+    lines = [
+        "## Choix de modélisation de l'agent (remplaçables par MM)",
+        "",
+        "Ces points ne bloquent pas la génération : l'agent les a tranchés dans un "
+        "domaine que les contrôles ou le niveau E vérifient (règle de partage, "
+        "lot 44), et chacun nomme ses vérificateurs. MM peut remplacer n'importe "
+        "lequel par sa propre décision ; le choix de l'agent est alors conservé dans "
+        "l'historique de l'entrée.",
+        "",
+    ]
+    for entry in choices:
+        domains = "; ".join(AGENT_CHOICE_DOMAINS[s.domain or ""] for s in entry.sources)
+        verifiers = ", ".join(
+            dict.fromkeys(v for s in entry.sources for v in s.verified_by)
+        )
+        lines += [
+            f"### Point {entry.point_label or '?'} -- {entry.topic}",
+            "",
+            f"- Domaine : {domains}.",
+            f"- Choix : {entry.option_retained}",
+            f"- Justification : {entry.justification}",
+            f"- Domaine de validité : {entry.validity_domain}",
+            f"- Vérifié par : {verifiers}.",
+        ]
+        lines.extend(
+            f"- Écarté : {v.description} -- {v.reason}"
+            for v in entry.discarded_variants
+        )
+        lines.append("")
+    if groups:
+        lines += ["### Noms de groupes choisis par l'agent", ""]
+        lines.extend(
+            f"- `{g.group_name}` ({g.kind}, point {g.point_label or '?'}) : "
+            f"{g.description} Vérifié par : {', '.join(g.verified_by)}."
+            for g in groups
+        )
+        lines.append("")
+    return lines
+
+
 __all__: list[str] = [
+    "AGENT",
     "apply_decision",
     "declare_under_revision",
     "insert_practice_entry",
     "lift_revision",
+    "record_agent_choice",
     "record_practice_decision",
     "render_decision_sheet",
 ]

@@ -2328,21 +2328,36 @@ def precedents(root: Path) -> list[KnowledgeEntry]:
         n += 1
         assert entry.decided_at is not None
         topic = entry.topic.strip().rstrip(".")
+        summary = (
+            f"Décision de MM au point {entry.point_label} de la fiche du quai "
+            f"({entry.decided_at.date().isoformat()}) : {topic}."
+        )
+        note = _PRECEDENT_NOTES.get(entry.topic)
         out.append(
             precedent_from_entry(
                 entry,
                 precedent_id=f"PRE-{n:03d}",
                 title=f"Point {entry.point_label} : {topic}",
-                summary=(
-                    f"Décision de MM au point {entry.point_label} de la fiche du quai "
-                    f"({entry.decided_at.date().isoformat()}) : {topic}."
-                ),
+                summary=f"{summary[:-1]} ; {note}." if note else summary,
                 origin_project=PROJECT,
                 fiche=FICHE,
-                recorded_on=RECORDED_ON,
+                # Lot 44 : une décision prise après l'amorçage (D20, D21) est datée
+                # du jour de son versement, non de celui de l'amorçage.
+                recorded_on=max(RECORDED_ON, entry.decided_at.date()),
             )
         )
     return out
+
+
+_PRECEDENT_NOTES = {
+    "Maîtrise de la fissuration de la poutre de couronnement (section minimale, "
+    "contrainte de l'acier)": (
+        "D21 ; correspondance : l'arbitrage de la dalle "
+        "(arbitrage_dalle_appuyee_01_v1, P6) la citait par erreur « PRE-021 », "
+        "identifiant qui n'a jamais existé"
+    ),
+}
+"""Lot 44: notes appended to a precedent's summary, by topic of the decision."""
 
 
 def build_entries(root: Path) -> list[KnowledgeEntry]:

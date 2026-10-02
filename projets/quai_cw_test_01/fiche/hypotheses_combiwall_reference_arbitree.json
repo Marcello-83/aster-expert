@@ -1228,6 +1228,62 @@
       "nature": "constat",
       "constat_id": "CA-045",
       "point_label": "14"
+    },
+    {
+      "point_label": "14",
+      "topic": "Coefficients partiels des matériaux en situation accidentelle (ELU accidentelle)",
+      "options_considered": [],
+      "option_retained": "Situation accidentelle : γc = 1,2 et γs = 1,0.",
+      "justification": "Décision de MM (consigne du lot 44, D20). Ces valeurs étaient déjà employées depuis le lot 39 pour la famille ELU accidentelle du ferraillage de la poutre de couronnement (EN 1992-1-1, tableau 2.1N, valeurs recommandées), sans décision de MM : D20 les retient, aucun résultat du quai ne change.",
+      "discarded_variants": [
+        {
+          "description": "γc = 1,5 et γs = 1,15 en situation accidentelle.",
+          "reason": "valeurs des situations durables et transitoires, non celles de la situation accidentelle."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Combinaison ELU accidentelle de D17 seulement ; les situations durables et transitoires gardent γc = 1,5 et γs = 1,15 (D18).",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décisions D20 et D21 (consigne du lot 44)",
+          "date": "2026-10-02"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-02T09:02:53-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "14",
+      "topic": "Maîtrise de la fissuration de la poutre de couronnement (section minimale, contrainte de l'acier)",
+      "options_considered": [],
+      "option_retained": "Act est la zone tendue complète, b·h, l'élément étant tendu (EN 1992-1-1, 7.3.2) ; σs est tiré du tableau 7.2N, avec le diamètre modifié par 7.6N ; φ40 ; wk = 0,2 mm.",
+      "justification": "Décision de MM (consigne du lot 44, D21). La poutre de couronnement est tendue : la section minimale de 7.3.2 porte sur toute la section, et non sur la moitié comme en flexion simple.",
+      "discarded_variants": [
+        {
+          "description": "Act = b·h/2 et kc = 0,4 (flexion simple).",
+          "reason": "la poutre de couronnement est tendue ; c'est le cas de la dalle (lot 43), hors du domaine de D21."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Éléments tendus ou en traction gênée. Il exclut la flexion simple, comme la dalle l'a montré au lot 43 (kc = 0,4 et Act = b·h/2).",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décisions D20 et D21 (consigne du lot 44)",
+          "date": "2026-10-02"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-02T09:02:53-04:00",
+      "decision_history": [],
+      "revision_history": []
     }
   ],
   "group_naming": [

@@ -1,0 +1,34 @@
+{
+  "parametres_manquants": [
+    "CALC_FERRAILLAGE/UNITE_CONTRAINTE (TYPE_COMB=ELU, TYPE_STRUCTURE=2D) : obligatoire (catalogue), catégorie agent:repere",
+    "CALC_FERRAILLAGE/AFFE.EYS (TYPE_COMB=ELU, TYPE_STRUCTURE=2D) : obligatoire (exécution), catégorie mm:paramètres de ferraillage",
+    "CALC_FERRAILLAGE/UNITE_CONTRAINTE (TYPE_COMB=ELS, TYPE_STRUCTURE=2D) : obligatoire (catalogue), catégorie agent:repere",
+    "CALC_FERRAILLAGE/AFFE.ALPHA_E (TYPE_COMB=ELS, TYPE_STRUCTURE=2D) : obligatoire (exécution), catégorie mm:paramètres de ferraillage",
+    "CALC_FERRAILLAGE/AFFE.SIGC_INF_ELS (TYPE_COMB=ELS, TYPE_STRUCTURE=2D) : obligatoire (exécution), catégorie mm:paramètres de ferraillage",
+    "CALC_FERRAILLAGE/AFFE.SIGC_SUP_ELS (TYPE_COMB=ELS, TYPE_STRUCTURE=2D) : obligatoire (exécution), catégorie mm:paramètres de ferraillage",
+    "CALC_FERRAILLAGE/UNITE_CONTRAINTE (TYPE_COMB=ELS_QP, TYPE_STRUCTURE=2D) : obligatoire (catalogue), catégorie agent:repere",
+    "CALC_FERRAILLAGE/AFFE.ALPHA_E (TYPE_COMB=ELS_QP, TYPE_STRUCTURE=2D) : obligatoire (exécution), catégorie mm:paramètres de ferraillage",
+    "CALC_FERRAILLAGE/AFFE.EYS (TYPE_COMB=ELS_QP, TYPE_STRUCTURE=2D) : obligatoire (exécution), catégorie mm:paramètres de ferraillage",
+    "CALC_FERRAILLAGE/AFFE.SIGC_ELS_QP (TYPE_COMB=ELS_QP, TYPE_STRUCTURE=2D) : obligatoire (exécution), catégorie mm:paramètres de ferraillage",
+    "CALC_FERRAILLAGE/AFFE.KT (TYPE_COMB=ELS_QP, TYPE_STRUCTURE=2D) : obligatoire (exécution), catégorie mm:paramètres de ferraillage"
+  ],
+  "questions_ajoutees": 11,
+  "parametres_els_lot43": {
+    "σc": [
+      "AFFE.SIGC_ELS_QP",
+      "AFFE.SIGC_INF_ELS",
+      "AFFE.SIGC_SUP_ELS"
+    ],
+    "αe": [
+      "AFFE.ALPHA_E"
+    ],
+    "KT": [
+      "AFFE.KT"
+    ],
+    "Es": [
+      "AFFE.EYS"
+    ]
+  },
+  "bloqueurs_avant": 31,
+  "bloqueurs_apres": 42
+}

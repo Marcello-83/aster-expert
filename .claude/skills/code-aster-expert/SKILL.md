@@ -35,6 +35,34 @@ répondu (comportement par défaut de `get_command_schema`/`validate_comm`
 sans `version`). Un désaccord entre deux outils sur la version en jeu est
 signalé, jamais lissé.
 
+## 1 bis. Aiguiller la question vers le bon outil (lot 44)
+
+Avant toute recherche, classer la question :
+
+| La question porte sur… | Outil |
+| --- | --- |
+| un **cas test** nommé (`ssls502a`, `zzzz200b`…) ou « un cas test qui emploie X » | `search_test_cases` (commande, mot-clé) puis `read_test_case` — jamais `search_codeaster_docs` : les cas tests ne sont pas indexés dans la documentation |
+| un **comportement établi par exécution** (piège, écart à la documentation, signature d'erreur, contrôle, précédent) | `search_connaissances` |
+| un **principe** (théorie, méthode, choix de modélisation) ou une **syntaxe** | `search_codeaster_docs` (§ 2), puis `get_document_section`, et `get_command_schema` pour la syntaxe |
+
+Constat du lot 44 : les deux requêtes du journal du lot 42 restées sans
+résultat (cand-019, cand-021) avaient été lancées avec `family="testcase"`,
+famille absente de l'index documentaire ; `search_test_cases(command=
+"DEFI_MATERIAU", keyword="ELAS_COQUE")` trouve `ssls502a.comm` d'emblée
+(`data/evaluations/lot44/reformulation.json`).
+
+## 1 ter. Reformuler une liste de mots-clés en phrase (lot 44)
+
+Une requête faite d'une suite de mots-clés (« ELAS_COQUE MEMB_L FLEX_L rigidité
+membrane orthotrope ») est **reformulée en une question en langage naturel**
+avant d'être envoyée à `search_codeaster_docs` (« Comment définir le matériau
+ELAS_COQUE d'une coque orthotrope en donnant ses rigidités de membrane et de
+flexion »), en gardant les identifiants Code_Aster exacts dans la phrase. Mesure
+du lot 44 sur les 19 questions documentées versées au banc : hit@10 de 14 avec
+les requêtes d'origine du journal, 16 avec leur reformulation (3 gains, 1 perte :
+eval-078) — l'effet est réel mais pas systématique ; si la reformulation ne
+ramène pas le document attendu, essayer aussi la liste d'origine.
+
 ## 2. Choisir le profil de recherche, et le dire
 
 Avant tout appel de `search_codeaster_docs`, choisir `profile` parmi

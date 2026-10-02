@@ -29,6 +29,7 @@ from aster_expert.connaissances.modeles import (
     CaughtError,
     CodeEvidence,
     Control,
+    DecisionEvidence,
     Diagnostic,
     DocumentEvidence,
     ExecutionEvidence,
@@ -257,19 +258,21 @@ def test_a_reference_result_is_recomputed_from_its_criterion() -> None:
 
 def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
     """Amorçage par le quai (lot 42), puis apport de la dalle (lot 43) : 7
-    constats, 2 patrons, 1 contrôle, 1 référence, 10 précédents."""
+    constats, 2 patrons, 1 contrôle, 1 référence, 10 précédents ; lot 44 : CA-053
+    et les précédents de D20 et D21 (PRE-019, PRE-020)."""
     base = load_knowledge(ROOT)
     counts = {layer: sum(row.values()) for layer, row in base.counts().items()}
     assert counts == {
-        "constats_code_aster": 52,
+        "constats_code_aster": 53,
         "diagnostics": 25,
         "patrons": 11,
         "controles": 12,
         "references_validation": 14,
-        "precedents": 28,
+        "precedents": 30,
     }
-    assert all(row["promu"] == 0 for row in base.counts().values())
-    assert all(e.status in ("observé", "établi") for e in base.all_entries())
+    # Lot 44 : cinq promotions, par la commande, sous la règle corrigée.
+    promoted = sorted(e.id for e in base.all_entries() if e.status == "promu")
+    assert promoted == ["CTL-005", "CTL-006", "CTL-012", "PAT-011", "REF-014"]
 
 
 def test_every_proof_of_the_versioned_base_holds_against_the_repository() -> None:
@@ -286,23 +289,85 @@ def test_nothing_from_the_single_project_can_be_promoted() -> None:
 
 def test_the_second_project_owns_its_findings_and_opens_promotions() -> None:
     """Lot 43 : un constat d'un projet sans `fiche_project_name` est attribué par
-    sa `structure` ; une réutilisation prouvée dans la dalle ouvre la promotion
-    d'une entrée du quai (sans rien promouvoir)."""
+    sa `structure`. Lot 44 : seule une réutilisation éprouvée (exécution réussie,
+    test) compte ; une citation par la fiche de la dalle ne compte plus."""
     base = load_knowledge(ROOT)
     assert "dalle_appuyee_01" in base.constats["CA-052"].projects
-    assert set(base.constats["CA-045"].projects) == {
-        "dalle_appuyee_01",
-        "quai_cw_test_01",
-    }
+    assert base.constats["CA-045"].projects == ("quai_cw_test_01",)
+    assert base.constats["CA-045"].cited_by == ("dalle_appuyee_01",)
+    # Code seul (script de maillage) : pas une épreuve.
     allowed, reason, projects = promotion_conditions(ROOT, "PAT-008")
-    assert allowed and "2 projets" in reason and len(projects) == 2
+    assert not allowed and "cité sans épreuve par dalle_appuyee_01" in reason
+    # REF-014 (niveau E) a été promu au lot 44.
     allowed, reason, _ = promotion_conditions(ROOT, "REF-014")
-    assert allowed and "niveau E" in reason
+    assert not allowed and "déjà promu" in reason
     assert not promotion_conditions(ROOT, "PRE-018")[0]  # observé : jamais promu
     from aster_expert.connaissances.rex import knowledge_counts  # noqa: PLC0415
 
     counts = knowledge_counts(ROOT, "dalle_appuyee_01", base)
-    assert sum(counts["constats_code_aster"].values()) == 7
+    assert sum(counts["constats_code_aster"].values()) == 8  # lot 44 : CA-053
+
+
+def test_formal_eligibility_of_lot_43_is_gone() -> None:
+    """CA-025 et CA-041 n'étaient éligibles qu'en étant cités par la dalle."""
+    for cid in ("CA-025", "CA-041"):
+        allowed, reason, projects = promotion_conditions(ROOT, cid)
+        assert not allowed, cid
+        assert projects == ["quai_cw_test_01"]
+        assert "cité sans épreuve" in reason
+
+
+def test_only_a_successful_run_or_a_test_proves_a_reuse() -> None:
+    from aster_expert.connaissances.modeles import is_proof  # noqa: PLC0415
+
+    run = ExecutionEvidence(
+        case_path="c.comm", case_sha256=SHA, outcome="réussite", level="D", note="n"
+    )
+    failed = ExecutionEvidence(
+        case_path="c.comm", case_sha256=SHA, outcome="échec", note="n"
+    )
+    assert is_proof(run)
+    assert not is_proof(failed)
+    assert is_proof(TestEvidence(path="tests/t.py", function="test_x"))
+    assert not is_proof(DocumentEvidence(path="docs/x.md"))
+    assert not is_proof(CodeEvidence(path="src/x.py", symbol="f"))
+    decision = DecisionEvidence(
+        fiche="f.json",
+        point_label="1",
+        decided_by="MM",
+        decided_at=dt.datetime(2026, 10, 2, tzinfo=dt.UTC),
+    )
+    assert not is_proof(decision)
+    cited = Reuse(
+        project="projet_b", date=dt.date(2026, 10, 2), evidence=decision, note="n"
+    )
+    entry = _pattern(reuses=[cited])
+    assert entry.projects() == {"projet_a"}
+    assert entry.cited_projects() == {"projet_b"}
+
+
+def test_a_finding_is_proved_by_an_epreuve_never_by_a_citation(tmp_path: Path) -> None:
+    from aster_expert.connaissances.base import ConstatProof  # noqa: PLC0415
+
+    with pytest.raises(ValidationError, match="jamais une citation"):
+        ConstatProof(
+            constat_id="CA-001",
+            reuse=Reuse(
+                project="p",
+                date=dt.date(2026, 10, 2),
+                evidence=DocumentEvidence(path="docs/x.md"),
+                note="n",
+            ),
+        )
+    root = _mini_repo(tmp_path)
+    (root / "connaissances" / "epreuves_constats.yaml").write_text(
+        "epreuves:\n- constat_id: CA-999\n  reuse:\n    project: p\n"
+        "    date: '2026-10-02'\n    evidence: {kind: test, path: tests/t.py, "
+        "function: test_x}\n    note: n\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(KnowledgeBaseError, match="CA-999 absent de la base"):
+        load_knowledge(root)
 
 
 def test_a_base_with_a_wrong_file_name_or_unknown_finding_is_refused(
@@ -695,7 +760,7 @@ def test_the_mcp_tool_answers_level_a_and_journals_itself(tmp_path: Path) -> Non
         result.results[0].layer == "diagnostics"
         and result.results[0].status == "établi"
     )
-    assert result.total_by_layer["precedents"] == 28
+    assert result.total_by_layer["precedents"] == 30
     line = json.loads(log.read_text("utf-8").splitlines()[0])
     assert line["tool"] == "search_connaissances"
 

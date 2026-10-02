@@ -62,3 +62,25 @@
 {"id": "eval-062", "question": "Comment réaliser un calcul transitoire par superposition modale", "query_profile": "syntaxe"}
 {"id": "eval-063", "question": "Comment définir l'amortissement d'une structure en dynamique", "query_profile": "syntaxe"}
 {"id": "eval-064", "question": "Quelle est la différence entre un calcul transitoire direct et un calcul sur base modale", "query_profile": "theorie"}
+{"id": "eval-066", "question": "Comment choisir une loi de comportement pour un sol : Mohr-Coulomb, Drucker-Prager ou Cam-Clay", "query_profile": "methode"}
+{"id": "eval-067", "question": "Comment modéliser un écran de soutènement ou une paroi moulée : éléments de coque, de plaque ou de poutre", "query_profile": "methode"}
+{"id": "eval-068", "question": "Comment représenter l'interface entre le sol et un écran : contact frottant, glissement et décollement", "query_profile": "methode"}
+{"id": "eval-069", "question": "Comment choisir la modélisation éléments finis d'un poteau, d'une poutre ou d'un voile en béton armé", "query_profile": "methode"}
+{"id": "eval-070", "question": "Où trouver la notice d'utilisation des éléments discrets : ressorts, amortisseurs, DIS_T, DIS_CHOC", "query_profile": "methode"}
+{"id": "eval-071", "question": "Quelles conditions aux limites appliquer sur les bords latéraux et le fond d'un modèle de massif de sol", "query_profile": "methode"}
+{"id": "eval-072", "question": "Quel est le domaine de validité du modèle de Mohr-Coulomb pour un sol pulvérulent ou cohérent", "query_profile": "theorie"}
+{"id": "eval-073", "question": "Comment choisir entre DKT, DST et COQUE_3D selon l'élancement de la structure", "query_profile": "methode"}
+{"id": "eval-074", "question": "Comment modéliser une frontière absorbante avec un amortissement paraxial des ondes", "query_profile": "methode"}
+{"id": "eval-075", "question": "Comment appliquer une force surfacique de direction globale fixe sur des éléments de coque", "query_profile": "syntaxe"}
+{"id": "eval-076", "question": "Comment définir une coque orthotrope en donnant directement ses rigidités de membrane et de flexion", "query_profile": "methode"}
+{"id": "eval-077", "question": "Comment raccorder deux plaques planes qui se rejoignent sous un angle, avec la rotation autour de la normale", "query_profile": "methode"}
+{"id": "eval-078", "question": "Comment représenter un appui élastique de type Winkler, avec un module de réaction en N/m3, sous des éléments de coque", "query_profile": "methode"}
+{"id": "eval-079", "question": "Comment créer des ressorts nodaux au sol sur des mailles POI1 avec DIS_T et K_T_D_N", "query_profile": "methode"}
+{"id": "eval-080", "question": "Quelles sont la définition et la convention de repère des efforts généralisés des coques", "query_profile": "methode"}
+{"id": "eval-081", "question": "Quels degrés de liberté bloquer pour une condition de symétrie sur des éléments de plaque ou de coque", "query_profile": "methode"}
+{"id": "eval-082", "question": "Pourquoi une redondance entre une relation cinématique dualisée et une condition aux limites donne-t-elle un pivot nul", "query_profile": "theorie"}
+{"id": "eval-083", "question": "Comment écrire une relation linéaire entre plusieurs degrés de liberté avec LIAISON_DDL", "query_profile": "syntaxe"}
+{"id": "eval-084", "question": "Comment obtenir l'effort dans un élément discret de type ressort", "query_profile": "methode"}
+{"id": "eval-085", "question": "Quand faut-il utiliser une poutre de Timoshenko POU_D_T plutôt qu'une poutre d'Euler POU_D_E", "query_profile": "methode"}
+{"id": "eval-086", "question": "Comment combiner linéairement des résultats de cas de charge et produire une enveloppe avec les efforts concomitants", "query_profile": "methode"}
+{"id": "eval-087", "question": "Comment lier un ensemble de nœuds en corps rigide avec LIAISON_SOLIDE", "query_profile": "syntaxe"}

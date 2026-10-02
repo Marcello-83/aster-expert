@@ -1,0 +1,615 @@
+{
+  "project_name": "DALLE-APPUYEE-01",
+  "structure_description": "Dalle en béton armé C30/37 de 6,00 m × 4,00 m et 0,30 m d'épaisseur, simplement appuyée sur ses quatre côtés ; poids propre et exploitation uniforme de 10 kPa ; déplacements, moments et ferraillage (ELU, ELS en XC1, enrobage 30 mm), avec comparaison à la solution analytique (description de MM, lot 43).",
+  "aster_version": "17.4.0",
+  "created_at": "2026-10-01T12:00:00-04:00",
+  "entries": [
+    {
+      "nature": "constat",
+      "constat_id": "CA-046",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-047",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-048",
+      "point_label": "4"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-049",
+      "point_label": "5"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-050",
+      "point_label": "6"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-051",
+      "point_label": "14"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-002",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-025",
+      "point_label": "1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-024",
+      "point_label": "4"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-018",
+      "point_label": "4"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-030",
+      "point_label": "6"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-023",
+      "point_label": "6"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-039",
+      "point_label": "14"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-041",
+      "point_label": "14"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-045",
+      "point_label": "14"
+    },
+    {
+      "point_label": "0",
+      "topic": "Objet et périmètre du calcul",
+      "options_considered": [
+        "Calcul élastique linéaire de la dalle seule (plaque), béton non fissuré, chargement statique ; flèches instantanées ; ferraillage par CALC_FERRAILLAGE sur les efforts élastiques.",
+        "Même calcul, complété d'une estimation des flèches à long terme (fluage, fissuration) hors du modèle élastique."
+      ],
+      "option_retained": "Calcul élastique linéaire et non fissuré de la dalle seule (plaque), sous chargement statique. Les flèches obtenues sont des flèches instantanées et non fissurées ; la flèche à long terme (fluage, fissuration, EC2 7.4.3) est hors périmètre, et le compte rendu le dit explicitement. Le ferraillage est calculé par CALC_FERRAILLAGE sur les efforts élastiques.",
+      "justification": "Décision P2 de MM : « Le calcul est élastique linéaire et non fissuré. Les flèches obtenues sont des flèches instantanées et non fissurées. »",
+      "discarded_variants": [
+        {
+          "description": "Estimation des flèches à long terme (fluage, fissuration).",
+          "reason": "Hors périmètre de ce lot (P2)."
+        }
+      ],
+      "notes": "Cherché sous methode (\"précédents : périmètre du calcul (search_connaissances, couche precedents)\") : PRE-009 (quai) : périmètre d'un modèle 3D d'écran ; son contenu (géotechnique amont, charges localisées) ne s'applique pas à une dalle isolée, non proposé. Déduction : MM demande « les déplacements » sans dire s'ils sont instantanés ou à long terme ; un calcul élastique linéaire ne donne que les premiers. La comparaison à Navier (niveau E) porte sur le calcul élastique.",
+      "validity_domain": "Flèches instantanées seulement ; aucune flèche différée, aucun effet de la fissuration sur la raideur ; EC2 7.4.3 hors périmètre.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_dalle_appuyee_01_v1, A, P2",
+          "date": "2026-10-02"
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1992-1-1, 7.4.3 — référence normative fournie par MM, non indexée",
+          "date": null
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-02T04:37:34-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "1",
+      "topic": "Choix de la modélisation de plaque de la dalle (h/L = 1/13,3)",
+      "options_considered": [
+        "DKT (Love-Kirchhoff) : cohérent avec la référence de Navier demandée (Kirchhoff) ; ignore la déformation d'effort tranchant.",
+        "DST (cisaillement transverse, k = 5/6) : plus proche de la plaque épaisse ; la flèche dépasse alors celle de Kirchhoff d'un terme d'effort tranchant, la comparaison à Navier n'est plus exacte.",
+        "Q4GG (modélisation du cas test SSLS127)."
+      ],
+      "option_retained": "Modélisation DKT (Love-Kirchhoff) pour toute la dalle.",
+      "justification": "Décision P1 de MM : avec h/L = 0,30/4,00 = 1/13,3, la part de cisaillement transverse dans la flèche d'une bande simplement appuyée vaut environ 0,8·E/(κG)·(h/L)², soit à peu près 1,3 % avec ν = 0,2 et κ = 5/6, négligeable devant la précision d'ingénieur ; les moments d'une plaque appuyée y sont peu sensibles. La référence du niveau E est Kirchhoff (Navier) : DKT est la seule modélisation qui rend la comparaison exacte, sans correction.",
+      "discarded_variants": [
+        {
+          "description": "DST (cisaillement transverse), y compris en sensibilité.",
+          "reason": "Ajoute un écart de modèle qui brouille le niveau E, sans bénéfice pour cet ouvrage ; la sensibilité DST est hors périmètre de ce lot (P1)."
+        },
+        {
+          "description": "Q4GG (modélisation du cas test SSLS127).",
+          "reason": "Même raison que DST : écart de modèle par rapport à Kirchhoff (P1)."
+        }
+      ],
+      "notes": "Cherché sous methode (\"DKT DST Kirchhoff cisaillement transverse plaque mince épaisse choix modélisation\") : U2.02.01 § Conclusion : DKT pour h/L < 1/20, DST/Q4G ou coque courbe pour les structures épaisses ; rien pour 1/20 < h/L < 1/10. Cherché sous methode (\"plaque rectangulaire simplement appuyée pression uniforme flèche centre DKT (famille V)\") : SSLS127 (DKTG, Q4GG), SSNV129 (DKT, contact) : aucun ne départage DKT et DST pour cet élancement. Cherché sous methode (\"précédents : choix de modélisation de coque (search_connaissances, couche precedents)\") : PRE-001 et PRE-011 (quai) : tube métallique facettisé de 14 mm, élancement sans rapport ; non proposés. Déduction : Le niveau E demandé (Navier, Kirchhoff) n'est exact que pour DKT ; avec DST, il faudrait une référence de Reissner-Mindlin ou accepter un écart de cisaillement à estimer. Les mailles QUAD4 donnent l'élément DKQ (R3.07.03).",
+      "validity_domain": "Déformation d'effort tranchant négligée (environ 1,3 % de la flèche selon l'estimation de MM) ; aucune étude de sensibilité DST dans ce lot.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_dalle_appuyee_01_v1, A, P1",
+          "date": "2026-10-02"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-02T04:37:34-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "4",
+      "topic": "Valeurs et application des charges : poids volumique, g, forme de la charge d'exploitation",
+      "options_considered": [
+        "Poids volumique du béton armé 25 kN/m³ (EN 1991-1-1, annexe A, tableau A.1), RHO et g choisis pour le reproduire.",
+        "RHO = 2500 kg/m³ et g = 9,81 m/s² (poids 24,5 kN/m³).",
+        "Exploitation par FORCE_COQUE/FZ (indépendante de l'orientation des mailles).",
+        "Exploitation par FORCE_COQUE/PRES après ORIE_NORM_COQUE (schéma de SSLS127).",
+        "Exploitation sur toute la dalle seulement, ou aussi des dispositions partielles (damier) pour les moments maximaux."
+      ],
+      "option_retained": "Deux cas de charge calculés séparément, chacun comparé à Navier. G : poids propre, poids volumique 25 kN/m³, appliqué par PESANTEUR avec g = 9,81 m/s² et RHO = 25 000 / 9,81 = 2 548,42 kg/m³, de façon que ρ·g vaille exactement 25 kN/m³ ; résultante attendue 25 × 6 × 4 × 0,30 = 180,0 kN. Q : exploitation de 10 kPa en charge surfacique de direction globale −Z (FORCE_COQUE/FZ), et non en PRES, pour ne pas dépendre de l'orientation des normales ; résultante attendue 240,0 kN.",
+      "justification": "Décision P3 de MM.",
+      "discarded_variants": [
+        {
+          "description": "RHO = 2500 kg/m³ et g = 9,81 m/s² (poids 24,5 kN/m³).",
+          "reason": "MM retient 25 kN/m³ exactement (P3)."
+        },
+        {
+          "description": "Exploitation par FORCE_COQUE/PRES après ORIE_NORM_COQUE.",
+          "reason": "Le résultat dépendrait de l'orientation des normales (P3)."
+        },
+        {
+          "description": "Dispositions partielles (damier) de l'exploitation.",
+          "reason": "Non retenues par P3 : exploitation uniforme de 10 kPa."
+        }
+      ],
+      "notes": "Cherché sous syntaxe (\"FORCE_COQUE PRES pression positive normale sens FX FY FZ repère global\") : U4.44.01 § FORCE_COQUE : FZ global ou PRES normale ; ne fixe aucune valeur de charge. Cherché sous methode (\"précédents : poids propre, poids volumique (search_connaissances, couche precedents)\") : aucun précédent sur le poids volumique d'un béton armé. Déduction : Une dalle isostatique sur quatre appuis simples sous charge uniforme a ses moments maximaux sous chargement total ; une disposition partielle n'est utile que pour une dalle continue (hors périmètre de la description).",
+      "validity_domain": "Exploitation uniforme sur toute la dalle ; aucune disposition partielle. RHO est un artifice pour obtenir ρ·g = 25 kN/m³ (le poids volumique du béton armé, pas sa masse volumique réelle) : il n'est valable qu'en statique.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_dalle_appuyee_01_v1, A, P3",
+          "date": "2026-10-02"
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1991-1-1, annexe A — référence normative fournie par MM, non indexée",
+          "date": null
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-02T04:37:34-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "5",
+      "topic": "Paramètres élastiques du béton C30/37 (E, ν) et hypothèse de béton non fissuré",
+      "options_considered": [
+        "E = Ecm (EN 1992-1-1, tableau 3.1, C30/37), ν = 0,2 (EN 1992-1-1, 3.1.3(4), béton non fissuré).",
+        "ν = 0 (EN 1992-1-1, 3.1.3(4), béton fissuré).",
+        "Module effectif à long terme pour les flèches différées."
+      ],
+      "option_retained": "Béton C30/37 : E = Ecm = 33 000 MPa, ν = 0,2 (béton non fissuré), fck = 30 MPa, fctm = 2,9 MPa. Calcul élastique linéaire et non fissuré. ν est figé avant l'écriture du critère du niveau E.",
+      "justification": "Décision P2 de MM.",
+      "discarded_variants": [
+        {
+          "description": "ν = 0 (béton fissuré).",
+          "reason": "MM retient le béton non fissuré, ν = 0,2 (P2)."
+        },
+        {
+          "description": "Module effectif à long terme.",
+          "reason": "Flèche à long terme hors périmètre (P2)."
+        }
+      ],
+      "notes": "Cherché sous methode (\"précédents : module béton (search_connaissances, couche precedents)\") : aucun résultat. Déduction : Les moments de Navier dépendent de ν (Mx et My au centre) mais pas de E ; la flèche dépend de E et de ν. La valeur de ν est donc à fixer avant le critère du niveau E.",
+      "validity_domain": "Béton non fissuré : raideur de flexion surestimée pour une dalle fissurée ; flèches instantanées seulement.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_dalle_appuyee_01_v1, A, P2",
+          "date": "2026-10-02"
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1992-1-1, tableau 3.1 — référence normative fournie par MM, non indexée",
+          "date": null
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1992-1-1, 3.1.3(4) — référence normative fournie par MM, non indexée",
+          "date": null
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-02T04:37:34-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "6",
+      "topic": "Représentation de l'appui simple et des mouvements de corps rigide de membrane",
+      "options_considered": [
+        "Appui bilatéral DZ = 0 sur tout le contour, rotations libres (« appui simple » de Navier : les coins sont retenus contre le soulèvement).",
+        "Appui unilatéral (contact) : les coins peuvent se soulever ; non linéaire, hors de la solution de Navier.",
+        "Blocage de membrane minimal (DX, DY en un coin, DY ou DX en un second) pour supprimer les mouvements de corps rigide dans le plan, sans effort parasite.",
+        "Dalle entière, ou quart de dalle avec deux plans de symétrie (schéma de SSLS127)."
+      ],
+      "option_retained": "Dalle entière, sans symétrie. Appui bilatéral sur les quatre bords : DZ = 0 sur `APPUIS`, rotations libres (hypothèse de Navier, coins retenus). Plan de la dalle : blocage isostatique, DX = DY = 0 au coin `P_A` et DY = 0 au coin `P_B`, adjacent selon X, sans aucune redondance avec d'autres conditions (DIAG-001). La réaction concentrée aux coins, dirigée vers le bas, est attendue et se commente comme résultat physique. La symétrie des résultats selon les deux axes est un contrôle de niveau D.",
+      "justification": "Décision P4 de MM.",
+      "discarded_variants": [
+        {
+          "description": "Appui unilatéral (contact).",
+          "reason": "Calcul de contact non linéaire, hors périmètre (P4)."
+        },
+        {
+          "description": "Quart de dalle avec deux plans de symétrie.",
+          "reason": "Le modèle est petit ; la symétrie devient un contrôle de niveau D, et le piège des conditions de symétrie des coques disparaît (P4)."
+        }
+      ],
+      "notes": "Cherché sous theorie (\"plaque mince simplement appuyée charge uniforme solution analytique (famille V)\") : SSLS127 : DZ = 0 sur le contour, quart de dalle ; ne dit rien des coins ni de la membrane. Cherché sous methode (\"précédents : appui (search_connaissances, couches precedents et patrons)\") : PRE-014 (appui vertical d'un écran, DZ au pied des tubes) : hors sujet, non proposé. Déduction : La solution de Navier suppose w = 0 et Mn = 0 sur tout le bord, donc des réactions de coin dirigées vers le bas (les coins sont tenus). Un modèle « DZ = 0 bilatéral » la reproduit ; un appui réel qui laisse les coins se soulever n'est pas cette plaque.",
+      "validity_domain": "Appui bilatéral : un appui réel qui laisse les coins se soulever (contact unilatéral) n'est pas représenté.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_dalle_appuyee_01_v1, A, P4",
+          "date": "2026-10-02"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-02T04:37:34-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "9",
+      "topic": "Repère global, origine et unités du modèle",
+      "options_considered": [
+        "Origine au coin de la dalle, X le long du grand côté (0 à 6,00), Y le long du petit côté (0 à 4,00), Z vertical ascendant (repère de la série de Navier).",
+        "Origine au centre de la dalle (symétries en X = 0 et Y = 0).",
+        "Précédent PRE-012 (quai_cw_test_01) : Repère global orthonormé direct :\n\n- X horizontal, le long du quai, de la face `SYM_G` vers la face `SYM_D` ;\n- Y horizontal, perpendiculaire au quai, positif vers la terre ;\n- Z vertical ascendant.\n\nOrigine : X = 0 dans l'axe de `TUBE_05`, Y = 0 dans le plan des axes des tubes, Z = 0 à la cote 0,00 CM. Les cotes du cas de test sont donc directement les valeurs de Z. Les faces de coupe sont à X = −10,40 et X = +10,40. La palplanche intercalaire est dans le plan Y = 0 et rejoint chaque tube sur ses génératrices situées en Y = 0, à X = ±0,71 m de l'axe du tube. Unités du modèle : mètre, newton, pascal, kilogramme."
+      ],
+      "option_retained": "Origine au coin A (0, 0, 0). X selon le côté de 6,00 m, Y selon le côté de 4,00 m, Z vers le haut. Plan de la dalle à z = 0 (feuillet moyen). Unités m, N, Pa, kg.",
+      "justification": "Section B de l'arbitrage (choix de modélisation vérifié par le niveau E et les contrôles D). Repère de la série de Navier (origine au coin).",
+      "discarded_variants": [
+        {
+          "description": "Origine au centre de la dalle.",
+          "reason": "Non retenue par la section B (origine au coin A)."
+        },
+        {
+          "description": "Précédent PRE-012 (repère du quai).",
+          "reason": "Repère propre au quai (axe de tube, cote CM) ; seule la déclaration du repère et des unités dans la fiche est reprise."
+        }
+      ],
+      "notes": "Cherché sous methode (\"précédents : repère global (search_connaissances, couche precedents)\") : PRE-012 (quai, point 9) : repère déclaré dans la fiche, unités m, N, Pa, kg. Précédent proposé, non appliqué : PRE-012, origine precedent_projet. Domaine de validité du précédent : Le plan des serrures dans l'axe des tubes est une idéalisation : la position réelle des serrures dépend du type de connecteur. Les unités SI imposent des charges en N et des raideurs en N/m ou N·m, et non les MN utilisés dans les décisions ; la conversion est à la charge du générateur et doit être contrôlée. — à confronter au présent ouvrage et à arbitrer par MM (record_practice_decision).",
+      "validity_domain": "Convention de repère : sans limite physique.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_dalle_appuyee_01_v1, B, repère",
+          "date": "2026-10-02"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "Claude (superviseur), section B de arbitrage_dalle_appuyee_01_v1 — document validé par MM",
+      "decided_at": "2026-10-02T04:37:34-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "10",
+      "topic": "Discrétisation : type de mailles, taille, étude de convergence, nœud au centre",
+      "options_considered": [
+        "QUAD4 réguliers (DKQ), nombre pair de mailles par côté pour qu'un nœud tombe au centre ; suite de trois maillages à tailles divisées par 2 (critère de convergence de CLAUDE.md).",
+        "TRIA3 (DKT triangulaire).",
+        "Moments au centre lus en EFGE_NOEU (moyenne aux nœuds) ou en EFGE_ELNO d'une maille adjacente au centre (SSLS127 lit EFGE_ELNO d'une maille).",
+        "Précédent PRE-013 (quai_cw_test_01) : | Sujet | Retenu |\n|---|---|\n| Tête des tubes | Tubes maillés jusqu'à la sous-face de la poutre (+2,60). Anneau `TETE_TUBE_xx` à +2,60, relié par liaison de corps solide au nœud de l'axe de la poutre de même X. |\n| Tête des palplanches | Palplanches maillées jusqu'à +2,60, bord supérieur libre. |\n| Épaisseur de coque des tubes | 14 mm sur toute la circonférence, soit 16 mm moins 2 mm de corrosion. |\n| Accrochage des tirants | Nœud du tube sur la génératrice côté terre (Y = +0,71), à +2,50. Direction du tirant : dans le plan YZ, vers +Y, descendante de 20°. Extrémité `ANC_xx` à Y = +25,14, Z = −6,39. |\n| Surface de poussée | `ECRAN_POUSSEE` regroupe les facettes des tubes situées côté terre (Y ≥ 0) et les palplanches. Au-dessous de −18,00, seuls les tubes la reçoivent. |\n| Facettisation des tubes | 40 facettes sur la circonférence (9°). Des génératrices tombent donc exactement en Y = 0 (serrures) et à ±45° de la génératrice côté bassin (empreinte `DEFENSE`). |\n| Taille verticale des mailles | 0,25 m visé. Des nœuds sont imposés aux cotes −26,00 ; −18,00 ; −12,00 ; +1,00 ; +2,00 ; +2,50 ; +2,60. |\n| Palplanches, sens horizontal | 5 mailles par intervalle de 1,18 m. |\n| Poutre de couronnement | Éléments de poutre, 8 par entraxe, avec un nœud au droit de chaque tube (X = 0 compris, pour `BOLLARD`). |\n| Tirants | Un élément de barre par tirant. |"
+      ],
+      "option_retained": "Mailles QUAD4 régulières sous la modélisation DKT. Suite de convergence de rapport 2 : tailles 0,50 / 0,25 / 0,125 m, soit 12×8, 24×16 et 48×32 mailles, avec un nœud au centre (3,0 ; 2,0) dans les trois maillages. Moments au centre lus en EFGE_NOEU au nœud `CENTRE` pour la comparaison à Navier ; EFGE_ELNO sert seulement à contrôler l'écart de lissage au centre.",
+      "justification": "Section B de l'arbitrage. Le précédent PRE-013 (quai) n'avait fait l'objet d'aucune étude de convergence : la suite de rapport 2 en tient lieu ici.",
+      "discarded_variants": [
+        {
+          "description": "TRIA3.",
+          "reason": "Non retenus par la section B (QUAD4 réguliers)."
+        },
+        {
+          "description": "Moments lus en EFGE_ELNO d'une maille pour la comparaison.",
+          "reason": "EFGE_ELNO ne sert qu'à contrôler l'écart de lissage (section B)."
+        }
+      ],
+      "notes": "Cherché sous methode (\"convergence maillage (search_connaissances, toutes couches)\") : aucun résultat : la base ne contient aucune étude de convergence. Précédent proposé, non appliqué : PRE-013, origine precedent_projet. Domaine de validité du précédent : - L'épaisseur uniforme de 14 mm sous-estime la raideur côté terre, où il n'y a pas de corrosion.\n- Le bord libre des palplanches en tête ignore leur encastrement réel dans la poutre.\n- L'accrochage du tirant en un seul nœud crée une singularité locale de contrainte : les contraintes du tube autour de ce nœud ne sont pas exploitables.\n- La taille de maille (0,25 m, 40 facettes) n'a fait l'objet d'aucune étude de convergence. — à confronter au présent ouvrage et à arbitrer par MM (record_practice_decision).",
+      "validity_domain": "Convergence établie aux seuls points de comparaison (centre) ; les coins, où Mxy est maximal, ne sont pas couverts par la référence de Navier au même titre.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_dalle_appuyee_01_v1, B, mailles, suite de convergence, lecture des moments",
+          "date": "2026-10-02"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "Claude (superviseur), section B de arbitrage_dalle_appuyee_01_v1 — document validé par MM",
+      "decided_at": "2026-10-02T04:37:34-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "13",
+      "topic": "Combinaisons d'actions ELU et ELS (poids propre G, exploitation Q)",
+      "options_considered": [
+        "ELU fondamentale γG G + γQ Q ; ELS caractéristique G + Q ; ELS quasi permanente G + ψ2 Q (EN 1990, 6.10, 6.14b, 6.16b), ψ selon la catégorie d'usage.",
+        "Précédent PRE-016 (quai_cw_test_01) : Combinaisons de l'EN 1990, avec les coefficients usuels.\n\n*Classement des actions.*\n- **Permanentes :**\n- G, poids propre et poussée des terres ;\n- EAU_P, pression d'eau différentielle permanente, traitée comme une action permanente avec G et affectée du même coefficient.\n- **Variables :**\n- Q1, surcharge de terre-plein : ψ0 = 0,7, ψ1 = 0,5, ψ2 = 0,3 ;\n- Q3, amarrage : ψ0 = 0,7, ψ1 = 0,5, ψ2 = 0.\n- **Accidentelle :** A, accostage, qui ne se cumule qu'avec EAU_A (nappe accidentelle) à la place d'EAU_P.\n\n*Coefficients partiels.* γG = 1,35 (défavorable) ou 1,00 (favorable), appliqué à G + EAU_P considérés comme un bloc ; γQ = 1,50.\n\n*Combinaisons*, avec Q1 et Q3 tour à tour en action dominante, et chaque action variable présente ou absente :\n- **ELU fondamentale :** γG (G + EAU_P) + 1,5 Q_dom + 1,5 ψ0 Q_acc ;\n- **ELU accidentelle :** (G + EAU_A) + A + 0,5 Q1, sans Q3 : amarrage et accostage ne sont pas simultanés.\n- **ELS caractéristique :** (G + EAU_P) + Q_dom + ψ0 Q_acc ;\n- **ELS fréquente :** (G + EAU_P) + ψ1 Q_dom + ψ2 Q_acc ;\n- **ELS quasi permanente :** (G + EAU_P) + ψ2 Q1 + ψ2 Q3.\n\nLe résultat est une enveloppe par famille de combinaisons, où chaque extremum d'effort est accompagné des efforts concomitants."
+      ],
+      "option_retained": "Catégorie d'usage E (aires de stockage) : ψ0 = 1,0, ψ1 = 0,9, ψ2 = 0,8. ELU fondamental : 1,35 G + 1,5 Q, G toujours défavorable (aucun cas favorable). ELS caractéristique : G + Q. ELS quasi permanent : G + 0,8 Q. PRE-016 (quai) n'est retenu que pour γG = 1,35 et γQ = 1,5.",
+      "justification": "Décision P5 de MM : 10 kPa dépasse les valeurs usuelles des catégories A à D ; la catégorie E est la seule cohérente avec cette intensité. G est toujours défavorable sur une travée isostatique.",
+      "discarded_variants": [
+        {
+          "description": "γG favorable (1,0 G + 1,5 Q).",
+          "reason": "G est toujours défavorable sur une travée isostatique (P5)."
+        },
+        {
+          "description": "Catégories d'usage A à D.",
+          "reason": "10 kPa dépasse leurs valeurs usuelles (P5)."
+        },
+        {
+          "description": "Reste du précédent PRE-016 (actions G, EAU, Q1, Q3, A du quai).",
+          "reason": "Actions propres au quai (P5)."
+        }
+      ],
+      "notes": "Cherché sous methode (\"précédents : combinaisons (search_connaissances, couche precedents)\") : PRE-016 (quai, point 13) : combinaisons de l'EN 1990, γG 1,35/1,00, γQ 1,50. Précédent proposé, non appliqué : PRE-016, origine precedent_projet. Domaine de validité du précédent : - Les coefficients ψ de Q1 et Q3 sont des valeurs usuelles non justifiées par un référentiel portuaire propre au projet.\n- Conformément à la décision 7 (D15), le modèle n'est représentatif que pour les effets des charges localisées. Les efforts des tubes et des palplanches sous G, EAU et Q1 relèvent du calcul géotechnique amont : leurs combinaisons issues de ce modèle ne sont pas des efforts de dimensionnement des tubes. Pour la poutre de couronnement, les charges de terre et d'eau uniformes ne produisent pas de flexion dans son plan (lot 37), et ses efforts sont dominés par Q3 et A. — à confronter au présent ouvrage et à arbitrer par MM (record_practice_decision).",
+      "validity_domain": "Dalle isostatique sous deux actions (G, Q) ; le reste de PRE-016 (actions du quai) ne s'applique pas.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_dalle_appuyee_01_v1, A, P5",
+          "date": "2026-10-02"
+        },
+        {
+          "origin": "precedent_projet",
+          "reference": "PRE-016 — quai_cw_test_01, point 13 (projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json), décidé par MM le 2026-09-25",
+          "date": null
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1991-1-1, tableau 6.1 — référence normative fournie par MM, non indexée",
+          "date": null
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1990, tableau A1.1 — référence normative fournie par MM, non indexée",
+          "date": null
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1990, 6.10 — référence normative fournie par MM, non indexée",
+          "date": null
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-02T04:37:34-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "14",
+      "topic": "Ferraillage : acier, distance parement–axe, ELS en XC1 (contraintes, fissuration), ferraillage minimal",
+      "options_considered": [
+        "Acier B500B (fyk = 500 MPa, classe B) — à confirmer, la description ne le donne pas.",
+        "Distance parement–axe = enrobage + φ/2 de la nappe extérieure, une valeur par face (C_INF, C_SUP) commune aux deux directions, ou la valeur de la nappe intérieure (plus défavorable).",
+        "ELS en XC1 : maîtrise de la fissuration sous combinaison quasi permanente (ELS_QP, WMAX) avec wk de l'EN 1992-1-1, tableau 7.1N ; limitation des contraintes sous combinaison caractéristique (ELS, SIGS_ELS, SIGC_*_ELS) selon EN 1992-1-1, 7.2.",
+        "Ferraillage minimal : FERR_MIN='EC2' (en MPa, constat CA-041) ou aucun.",
+        "METHODE_2D : CAPRA-MAURY (défaut, constat CA-045) ou SANDWICH.",
+        "γc, γs, αcc : valeurs de l'EN 1992-1-1 (tableau 2.1N, 3.1.6) ou de l'annexe nationale ; ALPHA_CC vaut 0,85 par défaut dans le catalogue.",
+        "Précédent PRE-017 (quai_cw_test_01) : - Béton C35/45, acier B500B (cas de test, §3).\n- Classe d'exposition XS3 ; durée d'utilisation de projet de 100 ans.\n- Enrobage nominal de 65 mm.\n- Maîtrise de la fissuration sous combinaison quasi permanente, avec une ouverture de fissure limite wk = 0,2 mm.",
+        "Précédent PRE-018 (quai_cw_test_01) : Dans les calculs de section, la distance entre le parement et l'axe des armatures longitudinales est de 0,10 m sur toutes les faces. Ce sont les valeurs `C_SUP_*` et `C_INF_*` de `CALC_FERRAILLAGE`, ou ds et di du logiciel de MM. Le diamètre équivalent des armatures longitudinales est de 40 mm."
+      ],
+      "option_retained": "Acier B500B, fyk = 500 MPa. γc = 1,5 et γs = 1,15 en situation durable ; ALPHA_CC = 1,0 écrit explicitement dans le .comm (la valeur par défaut 0,85 n'est pas retenue). Barres HA12 dans les deux directions, nappes inférieure et supérieure. Distance du parement à l'axe, enrobage nominal 30 mm : lit extérieur (barres portant dans la petite portée, Y) 30 + 6 = 36 mm ; lit intérieur (barres portant dans la grande portée, X) 30 + 12 + 6 = 48 mm. CALC_FERRAILLAGE n'admet qu'une distance par face en 2D (catalogue 17.4 : C_INF et C_SUP, un réel chacun) : 48 mm est retenu pour les deux directions et déclaré ; la contre-vérification manuelle utilise la même valeur. ELS en XC1 : wk limite = 0,4 mm sous combinaison quasi permanente ; σs ≤ 0,8 fyk sous combinaison caractéristique ; pas de limite sur σc en XC1. Ferraillage minimal : non-fragilité As,min = max(0,26·fctm/fyk ; 0,0013)·b·d ; maîtrise de la fissuration en flexion simple, kc = 0,4, k = 1,0, fct,eff = fctm, Act = b·h/2 ; armatures de répartition ≥ 20 % des armatures principales. Méthode 2D native de CALC_FERRAILLAGE pour les plaques ; contre-vérification indépendante au centre de la dalle (Mxy nul par symétrie) ; coins relevés et commentés, armatures de coin signalées, non calculées.",
+      "justification": "Décision P6 de MM. Distance à l'axe selon PRE-018 (enrobage mesuré au nu de l'armature). MM écarte « PRE-021 (D21, Act = zone tendue complète) », poutre tendue du quai : aucune entrée PRE-021 n'existe dans la base (PRE-001 à PRE-018) et D21 n'est enregistrée dans aucune fiche du dépôt ; le domaine de validité invoqué est consigné tel quel (dalle fléchie, pas tendue).",
+      "discarded_variants": [
+        {
+          "description": "ALPHA_CC = 0,85 (défaut de CALC_FERRAILLAGE).",
+          "reason": "Annexe nationale française : αcc = 1,0, comme au quai (P6)."
+        },
+        {
+          "description": "Deux distances par face (36 mm en Y, 48 mm en X).",
+          "reason": "Une seule distance par face en 2D dans CALC_FERRAILLAGE ; 48 mm, sécuritaire, est retenu (P6)."
+        },
+        {
+          "description": "Précédent PRE-017 (XS3, wk = 0,2 mm, enrobage 65 mm du quai).",
+          "reason": "Exposition XC1 et enrobage de 30 mm donnés par MM."
+        },
+        {
+          "description": "Act = zone tendue complète (« PRE-021 / D21 » cité par MM).",
+          "reason": "Concerne une poutre tendue ; la dalle est fléchie (P6)."
+        },
+        {
+          "description": "Calcul des armatures de coin (9.3.1.3).",
+          "reason": "Signalées, non calculées (P6)."
+        }
+      ],
+      "notes": "Cherché sous methode (\"précédents : enrobage, fissuration, axe des armatures (search_connaissances)\") : PRE-017 (durabilité du quai, XS3, wk 0,2 mm) et PRE-018 (axe des armatures à 0,10 m) trouvés. Cherché sous syntaxe (\"CALC_FERRAILLAGE (get_command_schema)\") : TYPE_COMB ELU/ELS/ELS_QP, WMAX_INF/WMAX_SUP en 2D, METHODE_2D CAPRA-MAURY/SANDWICH. Déduction : L'enrobage de 30 mm n'est pas la distance à l'axe (PRE-018) ; il faut un diamètre de barre pour passer de l'un à l'autre. ALPHA_CC = 0,85 par défaut dans CALC_FERRAILLAGE alors que le quai a retenu 1,0 (projet.yaml du quai) : valeur à fixer explicitement. Précédent proposé, non appliqué : PRE-017, origine precedent_projet. Domaine de validité du précédent : Ces valeurs s'appliquent à la seule poutre de couronnement, seul élément en béton armé du modèle. Les tubes et les palplanches en acier relèvent de l'EN 1993-5, hors de cette décision. — à confronter au présent ouvrage et à arbitrer par MM (record_practice_decision). Précédent proposé, non appliqué : PRE-018, origine precedent_projet. Domaine de validité du précédent : La valeur est forfaitaire ; elle sera à ajuster au ferraillage réellement retenu. — à confronter au présent ouvrage et à arbitrer par MM (record_practice_decision).",
+      "validity_domain": "Une seule distance (48 mm) pour les deux directions : défavorable pour le lit extérieur (Y, 36 mm réels). wk = 0,4 mm est la valeur recommandée du tableau 7.1N ; MM vérifie le tableau 7.1NF de l'annexe nationale. Armatures de coin (9.3.1.3) non calculées.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_dalle_appuyee_01_v1, A, P6",
+          "date": "2026-10-02"
+        },
+        {
+          "origin": "precedent_projet",
+          "reference": "PRE-018 — quai_cw_test_01, point 14 (projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json), décidé par MM le 2026-09-28",
+          "date": null
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1992-1-1, tableau 2.1N — référence normative fournie par MM, non indexée",
+          "date": null
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1992-1-1, 3.1.6(1)P (annexe nationale française) — référence normative fournie par MM, non indexée",
+          "date": null
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1992-1-1, tableau 7.1N — référence normative fournie par MM, non indexée",
+          "date": null
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1992-1-1, 7.2(5) — référence normative fournie par MM, non indexée",
+          "date": null
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1992-1-1, 9.3.1.1 et 9.2.1.1 — référence normative fournie par MM, non indexée",
+          "date": null
+        },
+        {
+          "origin": "norme",
+          "reference": "EN 1992-1-1, 7.3.2 — référence normative fournie par MM, non indexée",
+          "date": null
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-02T04:37:34-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "14",
+      "topic": "Paramètres ELS obligatoires de CALC_FERRAILLAGE en 2D (ALPHA_E, SIGC_*_ELS, SIGC_ELS_QP, KT, EYS)",
+      "options_considered": [
+        "ALPHA_E = 15 ou Es/Ecm",
+        "SIGC_*_ELS = 0,6 fck avec étude de sensibilité, ou valeur non contraignante",
+        "SIGC_ELS_QP = 0,45 fck ou valeur non contraignante",
+        "KT = 0,4 ou 0,6 ; EYS = 200 ou 210 GPa"
+      ],
+      "option_retained": "ALPHA_E = 15. SIGC_INF_ELS = SIGC_SUP_ELS = 0,6 fck = 18 MPa, avec un second calcul à valeur non contraignante pour montrer que la limite n'est pas active (rapportée si elle l'est). SIGC_ELS_QP = 0,45 fck = 13,5 MPa. KT = 0,4 (chargement de longue durée). EYS = 210 000 MPa (Es = 210 GPa, comme au quai).",
+      "justification": "Réponses de MM aux questions de la session (complément d'arbitrage, donnees/sources/arbitrage_dalle_appuyee_01_complement_els.md) : ces paramètres sont obligatoires en 2D selon U4.81.42 et l'arbitrage v1 dit « pas de limite sur σc en XC1 ».",
+      "discarded_variants": [
+        {
+          "description": "ALPHA_E = Es/Ecm (≈ 6,4).",
+          "reason": "MM retient 15."
+        },
+        {
+          "description": "SIGC_*_ELS non contraignant sans sensibilité.",
+          "reason": "MM retient 0,6 fck et demande la sensibilité."
+        },
+        {
+          "description": "KT = 0,6 (courte durée).",
+          "reason": "Longue durée."
+        },
+        {
+          "description": "EYS = 200 000 MPa.",
+          "reason": "MM retient 210 GPa, comme au quai."
+        }
+      ],
+      "notes": "Cherché sous syntaxe (\"SIGC_INF_ELS SIGC_SUP_ELS SIGS_ELS ALPHA_E contrainte admissible béton ELS obligatoire (U4.81.42)\") : U4.81.42 : SIGC_INF_ELS et SIGC_SUP_ELS obligatoires en 2D à l'ELS, ALPHA_E obligatoire à l'ELS et à l'ELS_QP, SIGC_ELS_QP et KT obligatoires à l'ELS_QP, EYS « couramment 210000 MPa » ; aucune de ces valeurs n'est fixée par arbitrage_dalle_appuyee_01_v1.",
+      "validity_domain": "La limite σc = 18 MPa est un artifice de saisie exigé par la commande, sans exigence de l'EC2 en XC1 : son inactivité est vérifiée par la sensibilité.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_dalle_appuyee_01_complement_els (réponses de MM en séance, lot 43, phase 2)",
+          "date": "2026-10-02"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-02T04:37:34-04:00",
+      "decision_history": [],
+      "revision_history": []
+    }
+  ],
+  "group_naming": [
+    {
+      "group_name": "DALLE",
+      "kind": "maille",
+      "description": "Toutes les mailles QUAD4 de la dalle (surface).",
+      "status": "tranche",
+      "point_label": "1"
+    },
+    {
+      "group_name": "APPUI_X0",
+      "kind": "maille",
+      "description": "Bord X = 0 (SEG2).",
+      "status": "tranche",
+      "point_label": "6"
+    },
+    {
+      "group_name": "APPUI_X6",
+      "kind": "maille",
+      "description": "Bord X = 6,00 (SEG2).",
+      "status": "tranche",
+      "point_label": "6"
+    },
+    {
+      "group_name": "APPUI_Y0",
+      "kind": "maille",
+      "description": "Bord Y = 0 (SEG2).",
+      "status": "tranche",
+      "point_label": "6"
+    },
+    {
+      "group_name": "APPUI_Y4",
+      "kind": "maille",
+      "description": "Bord Y = 4,00 (SEG2).",
+      "status": "tranche",
+      "point_label": "6"
+    },
+    {
+      "group_name": "APPUIS",
+      "kind": "noeud",
+      "description": "Réunion des nœuds des quatre bords : DZ = 0.",
+      "status": "tranche",
+      "point_label": "6"
+    },
+    {
+      "group_name": "P_A",
+      "kind": "noeud",
+      "description": "Coin A (0, 0, 0) : DX = DY = 0.",
+      "status": "tranche",
+      "point_label": "6"
+    },
+    {
+      "group_name": "P_B",
+      "kind": "noeud",
+      "description": "Coin B (6, 0, 0), adjacent selon X : DY = 0.",
+      "status": "tranche",
+      "point_label": "6"
+    },
+    {
+      "group_name": "CENTRE",
+      "kind": "noeud",
+      "description": "Nœud central (3,0 ; 2,0) : comparaison à Navier.",
+      "status": "tranche",
+      "point_label": "10"
+    }
+  ]
+}

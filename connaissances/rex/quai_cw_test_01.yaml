@@ -27,7 +27,7 @@ baseline:
 lots:
 - lot: '42'
   supervisor_interventions:
-    value: 0
+    value: 0.0
     nature: mesure
     note: 'Déclaré par MM : aucune intervention de fond au lot 42. Les seuls échanges ont
       été la validation du tri des questions candidates et la fusion.'
@@ -36,9 +36,29 @@ lots:
     nature: non renseigné
     note: 'lot de construction de la base : aucune consultation n''a pu éviter d''erreur'
   note: null
+- lot: '44'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune intervention de fond de MM pendant le lot 44 : les décisions D20, D21 et
+      Es étaient dans la consigne (« validées par le lancement du lot ») ; une interruption
+      accidentelle d''un appel d''outil, suivie de « Reprends », n''est pas une intervention.'
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune erreur de calcul évitée par la base au lot 44 : aucune commande d''ouvrage
+      écrite, aucun contrôle nouveau.'
+  note: 'Lot de consolidation : décisions D20 et D21 de MM enregistrées dans la fiche (PRE-019,
+    PRE-020) ; aucune exécution du quai, aucun résultat changé.'
 reviews:
 - date: '2026-10-01'
   lot: '42'
+  runs: 373
+  failures: 73
+  unclassified: 0
+  last_run: 20261001T122432-e51f90d6
+- date: '2026-10-02'
+  lot: '44'
   runs: 373
   failures: 73
   unclassified: 0

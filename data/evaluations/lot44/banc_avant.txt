@@ -1,0 +1,20 @@
+Écrit dans data/evaluations/lot44/banc_avant.json
+Questions sans profil annoté (repli sur 'syntaxe') : ('eval-065',)
+  plancher   hit@5= 71.4% hit@10= 81.0% hit@20= 87.3%
+  réaliste   hit@5= 73.0% hit@10= 82.5% hit@20= 90.5%
+Ventilation par profil (hit@10, réaliste) :
+  theorie    n= 9 hit@10=66.7 %
+  syntaxe    n=45 hit@10=91.1 %
+  methode    n= 9 hit@10=55.6 %
+Échecs à k=10 (réaliste), avec le profil utilisé :
+  eval-001   [theorie ] modelisation_poutre requis=('U3.11.01', 'U3.11.04', 'U3.11.05', 'U3.11.07')
+  eval-006   [methode ] interaction_sol_structure requis=('R5.03.17',)
+  eval-008   [methode ] modelisation_coque requis=('U4.42.01', 'U4.43.01')
+  eval-010   [theorie ] lois_comportement requis=('R5.03.17',)
+  eval-035   [syntaxe ] post_traitement requis=('U4.81.04',)
+  eval-041   [methode ] verification requis=('U4.81.21', 'U4.81.04')
+  eval-045   [syntaxe ] post_traitement requis=('U4.81.21',)
+  eval-048   [theorie ] interaction_sol_structure requis=('U7.03.12', 'R4.05.04', 'R4.05.07')
+  eval-051   [methode ] verification requis=('U4.81.22',)
+  eval-063   [syntaxe ] dynamique requis=('U2.06.03', 'U4.43.01', 'U4.53.05')
+  eval-065   [syntaxe ] dynamique requis=('U4.31.03', 'U4.32.02')

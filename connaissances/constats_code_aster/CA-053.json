@@ -1,0 +1,125 @@
+{
+  "constat_id": "CA-053",
+  "summary": "Piège : en 17.4, le catalogue déclare optionnels, sans valeur par défaut, ALPHA_E, SIGC_*_ELS, SIGC_ELS_QP, KT et EYS de CALC_FERRAILLAGE, que la commande exige à l'exécution selon TYPE_COMB et TYPE_STRUCTURE : le schéma seul ne les fait pas demander.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "CALC_FERRAILLAGE"
+  ],
+  "keywords": [
+    "AFFE",
+    "ALPHA_E",
+    "CODIFICATION",
+    "EC2",
+    "ELS",
+    "ELS_QP",
+    "ELU",
+    "EYS",
+    "FCK",
+    "FYK",
+    "GAMMA_C",
+    "GAMMA_S",
+    "KT",
+    "MM",
+    "SIGC_ELS_QP",
+    "SIGC_INF_ELS",
+    "SIGC_SUP_ELS",
+    "SIGS_ELS",
+    "SUP",
+    "TYPE_COMB",
+    "TYPE_STRUCTURE",
+    "WMAX_INF"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "DALLE-APPUYEE-01",
+    "fiche": "projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json",
+    "point_label": "14"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "CALC_FERRAILLAGE : mots-clés optionnels au catalogue, obligatoires à l'exécution selon TYPE_COMB et TYPE_STRUCTURE",
+    "options_considered": [],
+    "option_retained": "Catalogue 17.4 : AFFE.ALPHA_E, AFFE.SIGC_INF_ELS, AFFE.SIGC_SUP_ELS, AFFE.SIGC_ELS_QP, AFFE.KT, AFFE.EYS (et FYK, FCK, GAMMA_C, GAMMA_S, SIGS_ELS, WMAX_*, PHI_*) ont le statut `optional` sans valeur par défaut. U4.81.42 § Erreurs et alarmes et l'implémentation arrêtent pourtant le calcul (<F>) s'ils manquent : EC2 à l'ELU : GAMMA_S, GAMMA_C, FYK, FCK, EYS (message CALCULEL_74) ; à l'ELS : ALPHA_E, SIGS_ELS, FCK et, en 2D, SIGC_INF_ELS/SIGC_SUP_ELS (CALCULEL_82) ; à l'ELS_QP : ALPHA_E, FYK, FCK, EYS, SIGC_ELS_QP, KT et, en 2D, WMAX_INF/SUP, PHI_INF/SUP_X/Y (CALCULEL7_8).",
+    "justification": "U4.81.42 § Erreurs et alarmes et § Opérande ALPHA_E (lus en entier au lot 44) ; schéma du catalogue 17.4 (get_command_schema CALC_FERRAILLAGE, AFFE, variante CODIFICATION='EC2') ; table exploitable : data/config/obligations_execution.yaml (aster_expert.agent.obligatoires).",
+    "discarded_variants": [],
+    "notes": "Sources d'implémentation (codeaster-src 50ebc13c70ee) : bibfor/calculel/w175af.F90 contrôle n32 n33 n34 n35 n36 n37 à l'ELU, n17 n24 n37 à l'ELS (et n26 seul en 2D : SIGC_SUP_ELS, alors que U4.81.42 et CALCULEL_82 citent aussi SIGC_INF_ELS), n17 n34 n35 n37 n54 n55 à l'ELS_QP ; messages code_aster/Messages/calculel.py (74, 82) et calculel7.py (8). EYS n'est pas cité par U4.81.42 § Erreurs et alarmes mais l'est par les messages CALCULEL_74 et CALCULEL7_8 ; son opérande U4.81.42 dit seulement « La valeur couramment utilisée est 210000 MPa ». Conséquence au lot 43 : seconde intervention de MM (journal d'autonomie, n° 21). Non vérifié par exécution au lot 44.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U4.81.42",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Erreurs_et_alarmes"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.81.42/Erreurs_et_alarmes.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "syntaxe",
+        "excerpt": "dans le cas EC2 à l’ELS_QP: si les mots-clé ALPHA_E, FYK, FCK, SIGC_ELS_QP, WMAX_INF/SUP(_Y/Z), KT, PHI_X/Y/Z_INF/SUP ne sont pas renseignés;"
+      },
+      {
+        "document_id": "U4.81.42",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Op_randes"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.81.42/Op_randes.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "syntaxe",
+        "excerpt": "Il est obligatoire de renseigner sa valeur pour le calcul aux États Limites de Service Caractéristique (ELS) et Quasi Permanent(ELS_QP)."
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "ALPHA_E"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "SIGC_ELS_QP"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "KT"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "EYS"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      }
+    ],
+    "status": "tranche"
+  }
+}

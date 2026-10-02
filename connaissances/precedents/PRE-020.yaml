@@ -1,0 +1,40 @@
+id: PRE-020
+title: 'Point 14 : Maîtrise de la fissuration de la poutre de couronnement (section minimale,
+  contrainte de l''acier)'
+summary: 'Décision de MM au point 14 de la fiche du quai (2026-10-02) : Maîtrise de la fissuration
+  de la poutre de couronnement (section minimale, contrainte de l''acier) ; D21 ; correspondance
+  : l''arbitrage de la dalle (arbitrage_dalle_appuyee_01_v1, P6) la citait par erreur « PRE-021
+  », identifiant qui n''a jamais existé.'
+origin_project: quai_cw_test_01
+date: '2026-10-02'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '14'
+  decided_by: MM
+  decided_at: '2026-10-02T09:02:53-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '14'
+topic: Maîtrise de la fissuration de la poutre de couronnement (section minimale, contrainte
+  de l'acier)
+option_retained: Act est la zone tendue complète, b·h, l'élément étant tendu (EN 1992-1-1,
+  7.3.2) ; σs est tiré du tableau 7.2N, avec le diamètre modifié par 7.6N ; φ40 ; wk = 0,2
+  mm.
+justification: 'Décision de MM (consigne du lot 44, D21). La poutre de couronnement est tendue
+  : la section minimale de 7.3.2 porte sur toute la section, et non sur la moitié comme en
+  flexion simple.'
+validity_domain: Éléments tendus ou en traction gênée. Il exclut la flexion simple, comme
+  la dalle l'a montré au lot 43 (kc = 0,4 et Act = b·h/2).
+discarded_variants:
+- 'Act = b·h/2 et kc = 0,4 (flexion simple). — écartée : la poutre de couronnement est tendue
+  ; c''est le cas de la dalle (lot 43), hors du domaine de D21.'
+decided_by: MM
+decided_at: '2026-10-02T09:02:53-04:00'
+superseded_decisions: 0
+application: proposition seulement

@@ -1,0 +1,71 @@
+# Mots-clés obligatoires à l'exécution que le catalogue ne déclare pas obligatoires
+# (lot 44, étape 2). Schéma : aster_expert.agent.obligatoires.ExecutionRules.
+#
+# Le catalogue 17.4 déclare `optional`, sans valeur par défaut, des mots-clés que la
+# commande refuse ensuite à l'exécution (arrêt <F>) s'ils manquent. Leur obligation ne
+# se lit donc pas dans le schéma (`get_command_schema`) : elle est relevée ici, règle
+# par règle, avec ses sources (documentation U4 de la même version, puis sources
+# d'implémentation : priorité des sources de syntaxe, CLAUDE.md). Une règle ne
+# s'applique que si toutes ses conditions `when` sont vraies ; les options non
+# données prennent la valeur par défaut du catalogue (CODIFICATION = 'EC2').
+#
+# Écart relevé entre les deux sources (constat CA-053) : à l'ELS 2D, U4.81.42 et le
+# message CALCULEL_82 citent SIGC_INF_ELS et SIGC_SUP_ELS ; w175af.F90 ne contrôle que
+# SIGC_SUP_ELS. Les deux sont retenus ici (la documentation prime).
+aster_version: 17.4.0
+source_commit: 50ebc13c70ee9df62faf93ddcb746a3757b3042a
+doc_commit: 9c8c179f57ef7ca1d2891cac275ee4823a57967c
+rules:
+  - command: CALC_FERRAILLAGE
+    when: {CODIFICATION: EC2, TYPE_COMB: ELU}
+    keywords: [AFFE.GAMMA_S, AFFE.GAMMA_C, AFFE.FYK, AFFE.FCK, AFFE.EYS]
+    sources:
+      - "U4.81.42 § Erreurs et alarmes : « dans le cas EC2 à l’ELU: si les mots-clé GAMMA_S,GAMMA_CFYK ou FCK, ne sont pas renseignés »"
+      - "code_aster/Messages/calculel.py, CALCULEL_74 : « pour CODIFICATION = 'EC2' : FYK, FCK, GAMMA_S, GAMMA_C, TYPE_DIAGRAMME et EYS »"
+      - "bibfor/calculel/w175af.F90 : TYPE_COMB ELU, n32 n33 n34 n35 n36 n37 (GAMMA_S, GAMMA_C, FYK, EYS, TYPE_DIAGRAMME, FCK) ; TYPE_DIAGRAMME a une valeur par défaut au catalogue"
+  - command: CALC_FERRAILLAGE
+    when: {CODIFICATION: EC2, TYPE_COMB: ELS}
+    keywords: [AFFE.ALPHA_E, AFFE.SIGS_ELS, AFFE.FCK]
+    sources:
+      - "U4.81.42 § Erreurs et alarmes : « dans le cas EC2 à l’ELS: si les mots-clé ALPHA_E, SIGS_ELS,SIGC_INF/SUP(_Y/Z)_ELSou FCK ne sont pas renseignés »"
+      - "U4.81.42 § Opérande ALPHA_E : « Il est obligatoire de renseigner sa valeur pour le calcul aux États Limites de Service Caractéristique (ELS) et Quasi Permanent(ELS_QP). »"
+      - "code_aster/Messages/calculel.py, CALCULEL_82"
+      - "bibfor/calculel/w175af.F90 : TYPE_COMB ELS, n17 n24 n37 (ALPHA_E, SIGS_ELS, FCK)"
+  - command: CALC_FERRAILLAGE
+    when: {CODIFICATION: EC2, TYPE_COMB: ELS, TYPE_STRUCTURE: 2D}
+    keywords: [AFFE.SIGC_INF_ELS, AFFE.SIGC_SUP_ELS]
+    sources:
+      - "U4.81.42 § Erreurs et alarmes (SIGC_INF/SUP(_Y/Z)_ELS)"
+      - "code_aster/Messages/calculel.py, CALCULEL_82 (SIGC_INF_ELS, SIGC_SUP_ELS)"
+      - "bibfor/calculel/w175af.F90 : TYPE_STRUCTURE 2D, n26 (SIGC_SUP_ELS) seulement"
+  - command: CALC_FERRAILLAGE
+    when: {CODIFICATION: EC2, TYPE_COMB: ELS, TYPE_STRUCTURE: 1D}
+    keywords: [AFFE.SIGC_INF_Y_ELS, AFFE.SIGC_SUP_Y_ELS, AFFE.SIGC_INF_Z_ELS, AFFE.SIGC_SUP_Z_ELS]
+    sources:
+      - "U4.81.42 § Erreurs et alarmes (SIGC_INF/SUP(_Y/Z)_ELS)"
+      - "bibfor/calculel/w175af.F90 : TYPE_STRUCTURE 1D, n27 n28 n29 n30"
+  - command: CALC_FERRAILLAGE
+    when: {CODIFICATION: EC2, TYPE_COMB: ELS_QP}
+    keywords: [AFFE.ALPHA_E, AFFE.FYK, AFFE.FCK, AFFE.EYS, AFFE.SIGC_ELS_QP, AFFE.KT]
+    sources:
+      - "U4.81.42 § Erreurs et alarmes : « dans le cas EC2 à l’ELS_QP: si les mots-clé ALPHA_E, FYK, FCK, SIGC_ELS_QP, WMAX_INF/SUP(_Y/Z), KT, PHI_X/Y/Z_INF/SUP ne sont pas renseignés »"
+      - "code_aster/Messages/calculel7.py, CALCULEL7_8 : « pour CODIFICATION = 'EC2 : ALPHA_E,FCK,FYK,EYS,… SIGC_ELS_QP,KT,… »"
+      - "bibfor/calculel/w175af.F90 : TYPE_COMB ELS_QP, n17 n34 n35 n37 n54 n55 (ALPHA_E, FYK, EYS, FCK, SIGC_ELS_QP, KT)"
+  - command: CALC_FERRAILLAGE
+    when: {CODIFICATION: EC2, TYPE_COMB: ELS_QP, TYPE_STRUCTURE: 2D}
+    keywords: [AFFE.WMAX_INF, AFFE.WMAX_SUP, AFFE.PHI_INF_X, AFFE.PHI_SUP_X, AFFE.PHI_INF_Y, AFFE.PHI_SUP_Y]
+    sources:
+      - "U4.81.42 § Erreurs et alarmes (WMAX_INF/SUP, PHI_X/Y_INF/SUP)"
+      - "bibfor/calculel/w175af.F90 : TYPE_STRUCTURE 2D, n48 n49 n56 n57 n58 n59"
+  - command: CALC_FERRAILLAGE
+    when: {CODIFICATION: EC2, TYPE_COMB: ELS_QP, TYPE_STRUCTURE: 1D}
+    keywords: [AFFE.WMAX_INF_Y, AFFE.WMAX_SUP_Y, AFFE.WMAX_INF_Z, AFFE.WMAX_SUP_Z, AFFE.PHI_INF_Y, AFFE.PHI_SUP_Y, AFFE.PHI_INF_Z, AFFE.PHI_SUP_Z]
+    sources:
+      - "U4.81.42 § Erreurs et alarmes (WMAX_INF/SUP_Y/Z, PHI_Y/Z_INF/SUP)"
+      - "bibfor/calculel/w175af.F90 : TYPE_STRUCTURE 1D, n50 à n53, n58 à n61"
+# Catégorie d'un paramètre manquant (règle de partage, lot 44) : `mm` (une décision
+# qui engage l'ouvrage) ou `agent:<domaine>` (un choix vérifié par contrôle).
+categories:
+  CALC_FERRAILLAGE:
+    default: "mm:paramètres de ferraillage"
+    UNITE_CONTRAINTE: "agent:repere"

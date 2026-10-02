@@ -1,0 +1,35 @@
+# Anomalies ouvertes (lot 44) : plusieurs entrées de la base qui portent peut-être
+# une même cause inexpliquée, reliées sans rien conclure. Schéma :
+# aster_expert.connaissances.base.OpenAnomaly ; chaque entrée citée doit exister
+# (contrôlé au chargement de la base, `aster-expert connaissances verifier`).
+anomalies:
+- id: ANO-001
+  title: CALC_FERRAILLAGE à l'ELS caractéristique s'écarte du pivot acier de R7.04.05 (1D et 2D)
+  status: ouverte
+  opened: '2026-10-02'
+  lot: '44'
+  signatures:
+  - entry: CA-052
+    command: CALC_FERRAILLAGE
+    situation: TYPE_STRUCTURE='2D', TYPE_COMB='ELS', dalle DKT de 0,30 m (lot 43)
+    deviation: >-
+      densités de 3 à 4 % au-dessus du pivot acier de R7.04.05 refait par
+      aster_expert.rebar ; elles changent avec SIGC_*_ELS même là où la limite du
+      béton n'est pas atteinte
+  - entry: REF-012
+    command: CALC_FERRAILLAGE
+    situation: TYPE_STRUCTURE='1D', TYPE_COMB='ELS', section rectangulaire, MFZ puis MFY seuls (lot 39)
+    deviation: >-
+      aires de −4,4 % (AYS, MFZ = 2 MN·m) et de +0,25 % (AZS, MFY = 1 MN·m) par
+      rapport au pivot acier de R7.04.05 refait par aster_expert.rebar
+  related: [CA-044]
+  hypothesis: >-
+    Même commande, même combinaison (ELS caractéristique), même référence
+    indépendante (pivot acier de R7.04.05 refait par le module rebar), écarts de
+    quelques pour cent de signes différents : une cause commune est possible (lecture
+    de R7.04.05 par le module, ou algorithme ELS de CALC_FERRAILLAGE différent du
+    pivot acier documenté), sans qu'aucune ne soit établie. CA-044 (écarts 1D de
+    0,25 % à 16 %) est de la même famille.
+  investigation: >-
+    Aucune : le lot 44 interdit d'enquêter (consigne, étape 7.2). Les deux
+    signatures sont reliées pour qu'un prochain lot les traite ensemble.

@@ -1,0 +1,39 @@
+{
+  "bloqueurs_avant": 31,
+  "bloqueurs_apres": 19,
+  "bloqueurs_leves": [
+    "entrée pratique non tranchée (point 6) : Représentation de l'appui simple et des mouvements de corps rigide de membrane",
+    "entrée pratique non tranchée (point 9) : Repère global, origine et unités du modèle",
+    "entrée pratique non tranchée (point 10) : Discrétisation : type de mailles, taille, étude de convergence, nœud au centre",
+    "nom de groupe non tranché : DALLE (maille)",
+    "nom de groupe non tranché : BORD_X0 (maille)",
+    "nom de groupe non tranché : BORD_XL (maille)",
+    "nom de groupe non tranché : BORD_Y0 (maille)",
+    "nom de groupe non tranché : BORD_YL (maille)",
+    "nom de groupe non tranché : APPUIS (noeud)",
+    "nom de groupe non tranché : COIN_O (noeud)",
+    "nom de groupe non tranché : COIN_X (noeud)",
+    "nom de groupe non tranché : CENTRE (noeud)",
+    "valeur à fournir (point 10) : maillage.taille_elements [m] -- Taille de maille du calcul de référence, et suite de maillages de l'étude de convergence."
+  ],
+  "bloqueurs_nouveaux": [
+    "entrée pratique non tranchée (point 6) : Condition d'appui physique des bords : bilatérale ou unilatérale"
+  ],
+  "choix_agent_entrees": [
+    "point 6 : Blocage des mouvements de corps rigide de membrane et étendue du modèle",
+    "point 9 : Repère global, origine et unités du modèle",
+    "point 10 : Discrétisation : type de mailles, taille, étude de convergence, nœud au centre"
+  ],
+  "choix_agent_groupes": [
+    "DALLE",
+    "BORD_X0",
+    "BORD_XL",
+    "BORD_Y0",
+    "BORD_YL",
+    "APPUIS",
+    "COIN_O",
+    "COIN_X",
+    "CENTRE"
+  ],
+  "ecarts_donnees": []
+}

@@ -547,3 +547,55 @@ def test_validate_comm_journals_only_name_and_fingerprint_never_content(
     assert entry["file_fingerprint"].startswith("sha256:")
     assert "MAIL" not in json.dumps(entry)
     assert "LIRE_MAILLAGE" not in json.dumps(entry)
+
+
+def test_get_command_schema_filter_returns_only_the_subtree(
+    catalogue_root: Path,
+) -> None:
+    # Lot 44 : avec un filtre, le schéma complet n'est plus renvoyé.
+    result = get_command_schema(
+        project_root=catalogue_root, command="STAT_NON_LINE", keyword="COMPORTEMENT"
+    )
+    assert result.command_schema.keywords == []
+    assert result.command_schema.command == "STAT_NON_LINE"
+    assert result.keywords_omitted == 1
+    assert result.keyword_variants is not None
+    assert [v.path for v in result.keyword_variants] == [["COMPORTEMENT"]]
+
+
+_REAL_CATALOGUE = (
+    Path(__file__).resolve().parents[2]
+    / "data"
+    / "processed"
+    / "catalogue"
+    / "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+)
+
+
+@pytest.mark.skipif(
+    not (_REAL_CATALOGUE / "DEFI_MATERIAU.json").is_file(),
+    reason="catalogue 17.4 extrait absent (data/processed)",
+)
+def test_defi_materiau_filtered_on_elas_is_small_and_alone(tmp_path: Path) -> None:
+    root = _REAL_CATALOGUE.parents[3]
+    result = get_command_schema(
+        project_root=root,
+        command="DEFI_MATERIAU",
+        keyword="ELAS",
+        version="17.4.0",
+        log_path=tmp_path / "log.jsonl",
+    )
+    text = result.model_dump_json()
+    assert len(text) < 50_000
+    assert result.keyword_variants is not None
+
+    def factors(entries: list[Any]) -> set[str]:
+        out = set()
+        for e in entries:
+            if e.kind == "factor":
+                out.add(".".join(e.path))
+                out |= factors(e.children)
+        return out
+
+    assert factors(result.keyword_variants) == {"ELAS"}
+    assert result.command_schema.keywords == []

@@ -1,0 +1,35 @@
+id: PRE-019
+title: 'Point 14 : Coefficients partiels des matériaux en situation accidentelle (ELU accidentelle)'
+summary: 'Décision de MM au point 14 de la fiche du quai (2026-10-02) : Coefficients partiels
+  des matériaux en situation accidentelle (ELU accidentelle).'
+origin_project: quai_cw_test_01
+date: '2026-10-02'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+  point_label: '14'
+  decided_by: MM
+  decided_at: '2026-10-02T09:02:53-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
+point_label: '14'
+topic: Coefficients partiels des matériaux en situation accidentelle (ELU accidentelle)
+option_retained: 'Situation accidentelle : γc = 1,2 et γs = 1,0.'
+justification: 'Décision de MM (consigne du lot 44, D20). Ces valeurs étaient déjà employées
+  depuis le lot 39 pour la famille ELU accidentelle du ferraillage de la poutre de couronnement
+  (EN 1992-1-1, tableau 2.1N, valeurs recommandées), sans décision de MM : D20 les retient,
+  aucun résultat du quai ne change.'
+validity_domain: Combinaison ELU accidentelle de D17 seulement ; les situations durables et
+  transitoires gardent γc = 1,5 et γs = 1,15 (D18).
+discarded_variants:
+- 'γc = 1,5 et γs = 1,15 en situation accidentelle. — écartée : valeurs des situations durables
+  et transitoires, non celles de la situation accidentelle.'
+decided_by: MM
+decided_at: '2026-10-02T09:02:53-04:00'
+superseded_decisions: 0
+application: proposition seulement

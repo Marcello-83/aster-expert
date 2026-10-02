@@ -5,7 +5,7 @@ summary: Les déplacements de paires de nœuds symétriques sont égaux (composa
 origin_project: quai_cw_test_01
 date: '2026-10-01'
 validation_level: B
-status: établi
+status: promu
 sources:
 - kind: test
   path: tests/unit/test_controles_equilibre.py
@@ -26,7 +26,13 @@ reuses:
     note: contrôles D de la dalle (48×32)
   note: 'Symétrie selon deux plans (X = 3, Y = 2) de la dalle entière : 808 paires par plan,
     5,2e-13.'
-status_history: []
+status_history:
+- status: promu
+  date: '2026-10-02'
+  by: session du lot 44 (promotion autorisée par la consigne de MM)
+  reason: 'Règle corrigée (lot 44) : éprouvé dans deux projets — quai (test tests/unit/test_controles_equilibre.py::test_symmetry_about_an_offset_plane,
+    origine) et dalle (exécution réussie, niveau D, cas dalle_h0p125.comm : symétrie selon
+    deux plans, 5,2e-13).'
 detects: Une condition de symétrie ou un chargement dissymétrique par erreur.
 parameters: Plan de symétrie, paires de nœuds, seuil.
 implementation:

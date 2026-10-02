@@ -7,7 +7,7 @@ summary: Une dalle DKT simplement appuyée se modélise entière, DZ = 0 sur les
 origin_project: dalle_appuyee_01
 date: '2026-10-02'
 validation_level: E
-status: établi
+status: promu
 sources:
 - kind: execution
   run: null
@@ -32,7 +32,12 @@ keywords:
 - EFGE_NOEU
 - ORIE_NORM_COQUE
 reuses: []
-status_history: []
+status_history:
+- status: promu
+  date: '2026-10-02'
+  by: session du lot 44 (promotion autorisée par la consigne de MM)
+  reason: 'Règle corrigée (lot 44) : niveau E — cas de référence de la dalle (dalle_h0p125.comm,
+    exécution réussie de niveau E, REF-014).'
 problem: Représenter l'appui simple de Navier (coins retenus) sans redondance de conditions
   (DIAG-001) ni mouvement de corps rigide dans le plan.
 solution: DDL_IMPO DZ sur le groupe des bords, DX et DY en P_A, DY en P_B ; ORIE_NORM_COQUE
