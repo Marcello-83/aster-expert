@@ -15,7 +15,7 @@ baseline:
       décision : lots 21, 23, 28 à 34, 36, 37, 39, entre autres). Ce n''est pas une mesure
       ; les interventions sont comptées à partir du lot 43.'
 knowledge:
-  created: 123
+  created: 124
   promoted: 2
   by_layer:
     constats_code_aster:
@@ -39,7 +39,7 @@ knowledge:
       établi: 13
       promu: 0
     precedents:
-      observé: 20
+      observé: 21
       établi: 0
       promu: 0
 consultations:
