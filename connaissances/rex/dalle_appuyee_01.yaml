@@ -39,6 +39,22 @@ lots:
   note: 'Lot de consolidation : décision de MM Es = 200 GPa enregistrée (PRE-031 corrigé)
     ; une exécution de la chaîne (recalcul du ferraillage, ELS QP seul changé, ferraillage
     retenu inchangé).'
+- lot: '45'
+  supervisor_interventions:
+    value: null
+    nature: non renseigné
+    note: 'à renseigner par MM : les décisions D20, D21, Es et les quatre points de la partie
+      A étaient dans la consigne (« validées par le lancement du lot ») ; la session n''a
+      sollicité aucune décision supplémentaire'
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune erreur de calcul évitée à déclarer : aucune commande d''ouvrage écrite ;
+      CA-041 consulté (search_constats FERR_MIN) pour la règle d''unités, sans erreur constatée
+      avant ni après'
+  note: 'Lot Cloud : notes Word, règle de conservation des niveaux, rejeu des critères E de
+    la dalle (3 exécutions Code_Aster réussies, 0 échec, hors archives du dépôt : profil cloud)
+    ; revue rex non inscrite faute d''archives complètes'
 reviews:
 - date: '2026-10-02'
   lot: '43'
