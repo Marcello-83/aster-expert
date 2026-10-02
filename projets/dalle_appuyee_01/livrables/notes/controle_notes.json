@@ -1,0 +1,48 @@
+{
+ "projet": "dalle_appuyee_01",
+ "genere_le": "2026-10-02T14:43:41Z",
+ "hypotheses": {
+  "note": "note_hypotheses.docx",
+  "taille_octets": 44796,
+  "pages": 13,
+  "controle": "OK",
+  "compteurs": {
+   "points_verifies": 9,
+   "textes_de_decision_verifies": 55,
+   "sources_verifiees": 27,
+   "decideurs_et_dates_verifies": 10,
+   "decisions_remplacees_verifiees": 2,
+   "valeurs_de_donnees_verifiees": 38,
+   "groupes_nommes_verifies": 9,
+   "constats_verifies": 15,
+   "combinaisons_verifiees": 4,
+   "marqueurs_interdits_recherches": 3,
+   "runs_verifies": 751,
+   "cellules_d_en_tete_grises": 67,
+   "tableaux": 15,
+   "titres_numerotes": 24
+  },
+  "problemes": []
+ },
+ "resultats": {
+  "note": "note_resultats.docx",
+  "taille_octets": 37672,
+  "pages": 8,
+  "controle": "OK",
+  "compteurs": {
+   "points_verifies": 9,
+   "cellules_de_tableau_verifiees": 136,
+   "figures_declarees": 0,
+   "figures_dans_la_note": 0,
+   "valeurs_mesurees_retrouvees_dans_le_paquet": 101,
+   "niveau_verifie": 1,
+   "criteres_verifies": 2,
+   "marqueurs_interdits_recherches": 3,
+   "runs_verifies": 658,
+   "cellules_d_en_tete_grises": 96,
+   "tableaux": 25,
+   "titres_numerotes": 16
+  },
+  "problemes": []
+ }
+}

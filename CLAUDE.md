@@ -902,6 +902,35 @@ Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de
   `.comm` régénéré ne diffère de l'exécuté que par l'empreinte de la fiche en
   en-tête (`regeneration_comm.difference`).
 
+- **Lot 45, partie B** (Cloud, `docs/essais_lot45.md`, `docs/lots/lot45_consigne.md`) :
+  notes Word génériques. `aster-expert note hypotheses|resultats|controler <projet>`
+  (`aster_expert.notes`) : Arial 10, texte noir, en-têtes de tableaux sur fond gris
+  `D9D9D9`, titres numérotés ; le contenu vient entièrement de la fiche, des données,
+  de la convention de nommage et du paquet de résultats (jamais d'un texte écrit à
+  la main ; un marqueur cité par la fiche, `[À CONFIRMER MM]`, est montré entre
+  guillemets). Les tableaux et figures de la note de résultats sont **déclarés dans
+  `projet.yaml`** (`results_package.note_tables`, `note_figures`) ; les sections
+  affichées suivent le contenu du paquet. Contrôle automatique relu dans le `.docx`
+  (points, valeurs, textes mot pour mot, marqueurs, police, taille, couleur, fond
+  gris), éprouvé par altération du fichier. Livrables versionnés :
+  `projets/<projet>/livrables/notes/` (`scripts/build_lot45_notes.py`). **Règle de
+  conservation d'un niveau** (paquet) : un niveau reste acquis pour un `.comm`
+  identique hors commentaires et en-tête (`normalize_comm`), sinon il est rejoué avec
+  les critères d'origine ; critères commités après l'exécution ou avec des
+  résultats : signalés (`anteriorite_demontrable`) ; `projet exporter-resultats
+  --reevaluer` ré-applique tout cela à un paquet existant sans archive (Cloud).
+  Dalle : E0, E1, E2 rejoués sur le `.comm` actuel (EYS = 200 GPa, maillages
+  versionnés, critères du lot 43), niveau E acquis. Décisions : D20 et D21 au texte de
+  MM (PRE-019, PRE-020), D21 s'applique à la dalle (P6 révisée, PRE-030), Es = 200 GPa
+  pour tous les projets, **en attente d'application au quai** (PRE-032, déclarée « en
+  révision » : bloqueur de génération visible, le quai garde 210 GPa). `FERR_MIN`
+  n'est demandé qu'avec `UNITE_CONTRAINTE='MPa'` (`aster_expert.ferraillage.unites`,
+  CA-041) ; signalement factuel : `docs/signalements/ferr_min_unite_contrainte.md`.
+  Piège : dans le Cloud, une exécution crée `data/processed/runs/` ; les tests qui
+  prennent ce répertoire pour l'archive complète du quai (`rex`, `connaissances
+  verifier`, `test_capitalisation_lot42`) échouent ensuite : lancer `pytest -m
+  lent_aster` en dernier, comme le veut l'ordre des contrôles.
+
 ## Périmètre à ne pas dépasser sans instruction
 
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne

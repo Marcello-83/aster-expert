@@ -100,6 +100,8 @@ ignore = []
 # dépendre que de la bibliothèque standard et peuvent cibler un interpréteur
 # plus ancien.
 "scripts/*" = ["UP"]
+# Lot 45 : le contrôle des notes formule chaque écart en une phrase complète.
+"src/aster_expert/notes/controle.py" = ["E501"]
 # Lot 41 : les scripts d'un projet ajoutent `projets/` au chemin d'import avant
 # d'importer le paquet du projet (E402), comme les scripts ajoutaient `src/`.
 "projets/*/scripts/*" = ["UP", "E402", "E501"]

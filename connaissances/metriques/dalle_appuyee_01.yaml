@@ -32,8 +32,8 @@ knowledge:
       promu: 0
 consultations:
   calls:
-    search_connaissances: 0
-    search_constats: 0
+    search_connaissances: 12
+    search_constats: 1
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
   avoided_errors:
@@ -70,15 +70,16 @@ lots:
       écrite, aucun contrôle nouveau.'
 declared_interventions_since_baseline: 2.0
 measured:
-  runs: 3
+  runs: 6
   failures: 0
   development:
-    runs: 3
+    runs: 5
     failures: 0
   verification:
-    runs: 0
+    runs: 1
     failures: 0
-    by_reason: {}
+    by_reason:
+      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 1
   failure_rate: 0.0
   failure_rate_note: 'lot 44 : taux sur les exécutions de développement seulement ; une exécution
     de vérification (commande de rejeu, ou .comm déjà réussi rejoué sans modification) n''y
@@ -86,13 +87,13 @@ measured:
   failure_rate_all_runs: 0.0
   compute_s:
     aster_legacy: 0
-    wall_since_lot41: 23.3
+    wall_since_lot41: 66.0
     unknown_runs: 0
     note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
       versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
       deux grandeurs distinctes, jamais additionnées'
-  first_run: 20261002T141809-88f29db3
-  last_run: 20261002T141829-8e840378
+  first_run: 20261002T085726-378a7180
+  last_run: 20261002T130616-537395b0
   failures_by_signature: {}
   failures_by_cause: {}
   automatic_diagnosis:

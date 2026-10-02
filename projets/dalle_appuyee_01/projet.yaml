@@ -123,3 +123,64 @@ results_package:
     results: references/rejeu_niveau_e_lot45.json
     criteria_ids: [E0, E1, E2]
     comm: references/rejeu_lot45/dalle_h0p125.comm
+  # Tableaux de la note de résultats (lot 45) : lus dans les fichiers du paquet.
+  note_tables:
+    - section: cas
+      title: Cas G, suite de convergence — comparaison à la solution de Navier au centre
+      source: niveau_e/rejeu_niveau_e_lot45.json
+      rows: series
+      columns:
+        - {header: "Taille de maille (m)", path: taille_m}
+        - {header: Mailles, path: mailles}
+        - {header: "Flèche w (m)", path: cas.G.w}
+        - {header: "Erreur relative de w", path: cas.G.erreurs.w}
+        - {header: "Mx (N·m/m)", path: cas.G.mx}
+        - {header: "Erreur relative de Mx", path: cas.G.erreurs.mx}
+        - {header: "My (N·m/m)", path: cas.G.my}
+        - {header: "Erreur relative de My", path: cas.G.erreurs.my}
+    - section: cas
+      title: Cas Q, suite de convergence — comparaison à la solution de Navier au centre
+      source: niveau_e/rejeu_niveau_e_lot45.json
+      rows: series
+      columns:
+        - {header: "Taille de maille (m)", path: taille_m}
+        - {header: Mailles, path: mailles}
+        - {header: "Flèche w (m)", path: cas.Q.w}
+        - {header: "Erreur relative de w", path: cas.Q.erreurs.w}
+        - {header: "Mx (N·m/m)", path: cas.Q.mx}
+        - {header: "Erreur relative de Mx", path: cas.Q.erreurs.mx}
+        - {header: "My (N·m/m)", path: cas.Q.my}
+        - {header: "Erreur relative de My", path: cas.Q.erreurs.my}
+    - section: cas
+      title: Solution de Navier de référence, par cas
+      source: niveau_e/navier_lot43.json
+      rows: cas
+      key_header: Cas
+      columns:
+        - {header: Cas, path: "$key"}
+        - {header: "Charge q (Pa)", path: q_pa}
+        - {header: "Flèche w (m)", path: w_m}
+        - {header: "Mx (N·m/m)", path: mx_nm_par_m}
+        - {header: "My (N·m/m)", path: my_nm_par_m}
+        - {header: "Termes de la série", path: termes_m_n}
+    - section: cas
+      title: Équilibre par composante, par cas (N)
+      source: controles/equilibre.json
+      rows: cases.*.components
+      columns:
+        - {header: Cas, path: "^$key"}
+        - {header: Composante, path: "$key"}
+        - {header: "Charge appliquée", path: applied_as_evaluated_n}
+        - {header: "Réactions bloquées", path: reactions_blocked_n}
+        - {header: Bilan, path: balance_n}
+        - {header: "Écart relatif", path: relative_gap}
+    - section: cas
+      title: Réactions d'appui par groupe, par cas (N)
+      source: controles/equilibre.json
+      rows: cases.*.reactions_by_group_n
+      columns:
+        - {header: Cas, path: "^$key"}
+        - {header: Groupe, path: "$key"}
+        - {header: DX, path: DX}
+        - {header: DY, path: DY}
+        - {header: DZ, path: DZ}

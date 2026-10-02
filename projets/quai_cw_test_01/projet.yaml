@@ -245,3 +245,100 @@ results_package:
     - {level: D, document: docs/essais_lot34.md}
     - {level: D, document: docs/essais_lot37.md}
     - {level: D, document: docs/essais_lot39.md}
+  # Tableaux et figures de la note de résultats (lot 45) : lus dans les fichiers du
+  # paquet, rien n'est recalculé. Titres et en-têtes sont des libellés.
+  note_tables:
+    - section: cas
+      title: Déplacement des nœuds de tête de tube, par cas (m)
+      source: cas/synthese.json
+      rows: cases
+      columns:
+        - {header: Cas, path: case}
+        - {header: "Valeur de plus grand module", path: head.max_abs.value}
+        - {header: Tube, path: head.max_abs.holder}
+        - {header: Minimum, path: head.minimum.value}
+        - {header: Maximum, path: head.maximum.value}
+        - {header: Nœuds, path: head.n_nodes}
+    - section: cas
+      title: Effort normal des tirants, par cas (N)
+      source: cas/synthese.json
+      rows: cases.*.ties
+      columns:
+        - {header: Cas, path: "^case"}
+        - {header: Tirant, path: tie}
+        - {header: "X (m)", path: x}
+        - {header: Effort normal, path: n}
+        - {header: Minimum, path: minimum}
+        - {header: Maximum, path: maximum}
+    - section: cas
+      title: Réactions par groupe d'appui, par cas (N)
+      source: cas/synthese.json
+      rows: cases.*.reactions
+      columns:
+        - {header: Cas, path: "^case"}
+        - {header: Groupe, path: group}
+        - {header: DX, path: dx}
+        - {header: DY, path: dy}
+        - {header: DZ, path: dz}
+        - {header: Bloqué, path: blocked}
+    - section: cas
+      title: Ressorts de sol, par cas (N, pression en kPa)
+      source: cas/synthese.json
+      rows: cases
+      columns:
+        - {header: Cas, path: case}
+        - {header: "Force totale des ressorts", path: springs.total_force_n}
+        - {header: "Nœuds comprimés", path: springs.bearing.n_compressed}
+        - {header: "Taux maximal de butée", path: springs.bearing.max_ratio}
+        - {header: "Pression maximale", path: springs.bearing.max_pressure_kpa}
+        - {header: "Nœuds au-delà de 100 %", path: springs.bearing.n_over_100}
+    - section: cas
+      title: Efforts généralisés des tubes, extrema par cas
+      source: cas/synthese.json
+      rows: cases.*.tubes
+      columns:
+        - {header: Cas, path: "^case"}
+        - {header: Composante, path: component}
+        - {header: Maximum, path: maximum.value}
+        - {header: "Tube du maximum", path: maximum.holder}
+        - {header: Minimum, path: minimum.value}
+        - {header: "Tube du minimum", path: minimum.holder}
+    - section: cas
+      title: Efforts généralisés de la poutre de couronnement, extrema par cas
+      source: cas/synthese.json
+      rows: cases.*.beam
+      columns:
+        - {header: Cas, path: "^case"}
+        - {header: Composante, path: component}
+        - {header: Maximum, path: maximum.value}
+        - {header: Minimum, path: minimum.value}
+    - section: combinaisons
+      title: Extrema de la poutre de couronnement par combinaison (N, N·m)
+      source: combinaisons/extrema.csv
+      max_rows: 120
+      columns:
+        - {header: Combinaison, path: combinaison}
+        - {header: "Composante extrémale", path: composante_extremale}
+        - {header: "X (m)", path: x_m}
+        - {header: N, path: N}
+        - {header: VY, path: VY}
+        - {header: VZ, path: VZ}
+        - {header: MFY, path: MFY}
+        - {header: MFZ, path: MFZ}
+    - section: ferraillage
+      title: Aires retenues le long de la poutre (m²), maximum de Code_Aster et des minima
+      source: ferraillage/synthese.csv
+      step: 8
+      columns:
+        - {header: "X (m)", path: x_m}
+        - {header: AYS, path: AYS_retenu}
+        - {header: AYI, path: AYI_retenu}
+        - {header: AZS, path: AZS_retenu}
+        - {header: AZI, path: AZI_retenu}
+        - {header: "AST Code_Aster (m²/m)", path: AST_calc_ferraillage_m2_par_m}
+  note_figures:
+    - {section: cas, pattern: "cas/fleches_*.png", title: "Charges appliquées et réactions des ressorts et tirants", caption: "{stem}", max_figures: 6, width_cm: 16}
+    - {section: cas, pattern: "cas/deformee_*.png", title: "Déformées amplifiées", caption: "{stem}", max_figures: 6, width_cm: 16}
+    - {section: cas, pattern: "cas/efforts_tubes_*.png", title: "Efforts généralisés des tubes", caption: "{stem}", max_figures: 6, width_cm: 15}
+    - {section: cas, pattern: "cas/butee_*.png", title: "Pression de réaction des ressorts et butée limite (constat, sans verdict)", caption: "{stem}", max_figures: 6, width_cm: 11}
+    - {section: ferraillage, pattern: "ferraillage/as_x.png", title: "Aires d'armatures le long de la poutre", caption: "{stem}", max_figures: 1, width_cm: 16}

@@ -218,3 +218,20 @@ aster-expert rex dalle_appuyee_01
 - Aucune exécution des modèles, sauf pour un test lent.
 - Aucun envoi sur `main` depuis le Cloud.
 - Aucun identifiant Code_Aster énoncé de mémoire.
+
+---
+
+## Décisions de MM sur les trois points de la partie A (font partie de la consigne)
+
+1. **Règle de conservation d'un niveau.** Un niveau reste acquis pour un `.comm`
+   dont le contenu, commentaires et en-tête retirés, est identique à celui qui
+   l'a obtenu. Sinon, le niveau doit être rejoué, avec les critères d'origine,
+   sans les réécrire. Aucun jugement sur l'influence d'un paramètre. Implémente
+   cette règle de façon générique dans le paquet, avec des tests.
+2. **Dalle.** EYS a changé, donc rejoue E0, E1 et E2 sur le `.comm` actuel, si le
+   maillage est versionné. Exception autorisée à l'interdit d'exécution. Sinon,
+   la note indique « niveau E obtenu sur le .comm d'empreinte X, à rejouer ».
+3. **Quai.** Seule l'en-tête diffère, le niveau D est conservé.
+4. **Quai.** La note de résultats porte la mention « critères des lots 34, 37 et
+   39 commités avec les résultats, antériorité non démontrable ». Le paquet
+   signale désormais automatiquement tout critère commité après l'exécution.

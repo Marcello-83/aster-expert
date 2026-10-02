@@ -108,6 +108,7 @@ from aster_expert.validation.validate import (
 
 if TYPE_CHECKING:
     from aster_expert.connaissances.base import KnowledgeBase
+    from aster_expert.notes.controle import NoteCheck
 
 app = typer.Typer(
     add_completion=False,
@@ -2550,3 +2551,108 @@ def rex(
 
 if __name__ == "__main__":
     app()
+
+
+note_app = typer.Typer(
+    no_args_is_help=True,
+    help=(
+        "Notes Word génériques d'un projet (lot 45) : hypothèses et résultats, "
+        "dans projets/<nom>/livrables/notes/."
+    ),
+)
+app.add_typer(note_app, name="note")
+
+
+def _note_output(ctx: ProjectContext, kind: str, sortie: str) -> Path:
+    from aster_expert.notes.hypotheses import NOTE_NAME as HYPOTHESES_NAME
+    from aster_expert.notes.resultats import NOTE_NAME as RESULTS_NAME
+
+    if sortie:
+        return Path(sortie)
+    name = HYPOTHESES_NAME if kind == "hypotheses" else RESULTS_NAME
+    return ctx.project_dir / "livrables" / "notes" / name
+
+
+def _print_check(check: NoteCheck) -> None:
+    status = "OK" if check.ok else "ÉCHEC"
+    typer.echo(f"Contrôle de {check.note} : {status}")
+    for key, value in sorted(check.counts.items()):
+        typer.echo(f"  {key} : {value}")
+    for problem in check.problems:
+        typer.echo(f"  PROBLÈME {problem}")
+
+
+def _build_and_check_note(
+    kind: str, projet: str, sortie: str, sans_controle: bool
+) -> None:
+    from aster_expert.notes.controle import check_hypotheses_note, check_results_note
+    from aster_expert.notes.hypotheses import build_hypotheses_note
+    from aster_expert.notes.resultats import build_results_note
+    from aster_expert.projet.errors import ProjectError
+
+    ctx = _load_project_or_exit(f"note {kind}", projet)
+    target = _note_output(ctx, kind, sortie)
+    try:
+        if kind == "hypotheses":
+            build_hypotheses_note(ctx, target)
+        else:
+            build_results_note(ctx, target)
+    except ProjectError as exc:
+        typer.echo(f"note {kind} {projet} ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    typer.echo(f"Note écrite : {target} ({target.stat().st_size} octets)")
+    if sans_controle:
+        return
+    check = (
+        check_hypotheses_note(ctx, target)
+        if kind == "hypotheses"
+        else check_results_note(ctx, target)
+    )
+    _print_check(check)
+    if not check.ok:
+        raise typer.Exit(1)
+
+
+@note_app.command("hypotheses")
+def note_hypotheses(
+    projet: str = typer.Argument(..., help="Nom du projet (projets/<nom>/)."),
+    sortie: str = typer.Option("", "--sortie", help="Chemin du .docx à écrire."),
+    sans_controle: bool = typer.Option(False, "--sans-controle"),
+) -> None:
+    """Note d'hypothèses : fiche, données et convention de nommage (lot 45)."""
+    _build_and_check_note("hypotheses", projet, sortie, sans_controle)
+
+
+@note_app.command("resultats")
+def note_resultats(
+    projet: str = typer.Argument(..., help="Nom du projet (projets/<nom>/)."),
+    sortie: str = typer.Option("", "--sortie", help="Chemin du .docx à écrire."),
+    sans_controle: bool = typer.Option(False, "--sans-controle"),
+) -> None:
+    """Note de résultats, lue dans le paquet de résultats du projet (lot 45)."""
+    _build_and_check_note("resultats", projet, sortie, sans_controle)
+
+
+@note_app.command("controler")
+def note_controler(
+    projet: str = typer.Argument(..., help="Nom du projet (projets/<nom>/)."),
+) -> None:
+    """Contrôler les deux notes déjà écrites d'un projet (lot 45)."""
+    from aster_expert.notes.controle import check_hypotheses_note, check_results_note
+
+    ctx = _load_project_or_exit("note controler", projet)
+    failed = False
+    for kind, check in (
+        ("hypotheses", check_hypotheses_note),
+        ("resultats", check_results_note),
+    ):
+        path = _note_output(ctx, kind, "")
+        if not path.is_file():
+            typer.echo(f"Note absente : {path}", err=True)
+            failed = True
+            continue
+        result = check(ctx, path)
+        _print_check(result)
+        failed = failed or not result.ok
+    if failed:
+        raise typer.Exit(1)

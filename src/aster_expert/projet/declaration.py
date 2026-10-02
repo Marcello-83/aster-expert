@@ -397,6 +397,51 @@ class PackageLevelE(_Model):
     line by line, to the `.comm` of the packaged execution."""
 
 
+class NoteColumn(_Model):
+    """One column of a table of the results note: a header and where to read the
+    value in a row (a column name of a CSV, or a dotted path of a JSON row)."""
+
+    header: str
+    path: str
+    format: str | None = None
+    """Python format of a number, e.g. `{:.4e}`; by default 6 significant digits."""
+
+
+class NoteTable(_Model):
+    """A table of the results note (lot 45), read from a file of the package:
+    nothing is computed, each cell is a value of the file."""
+
+    section: PackageSectionName
+    """Where the note shows it (`cas`: results by case...)."""
+    title: str
+    source: str
+    """CSV or JSON file of the package, relative to the package directory."""
+    rows: str | None = None
+    """JSON: dotted path of the list (or dict) of rows; `*` iterates the elements or
+    the values of a list or dict (`cases.*.ties`); a column path starting with `^`
+    reads the enclosing element (`^case`), `^^` the one above; `$key` is the key of the
+    row in its dict, `^$key` the key of the enclosing element."""
+    key_header: str | None = None
+    """JSON dict of rows: header of the extra first column holding each key."""
+    columns: tuple[NoteColumn, ...] = Field(min_length=1)
+    step: int = Field(default=1, ge=1)
+    """One row out of `step` (the first one included); the note says so."""
+    max_rows: int = Field(default=60, ge=1, le=500)
+
+
+class NoteFigures(_Model):
+    """Existing figures of the package shown in the results note (lot 45)."""
+
+    section: PackageSectionName
+    pattern: str
+    """Glob relative to the package directory (`cas/deformee_*.png`)."""
+    title: str
+    caption: str = "{stem}"
+    """`{stem}`: file name without suffix."""
+    max_figures: int = Field(default=12, ge=1, le=60)
+    width_cm: float = Field(default=16.0, gt=0, le=17.0)
+
+
 class ResultsPackageSection(_Model):
     """`aster-expert projet exporter-resultats <nom>` (lot 45): a versionable
     package of results -- tables, existing figures, fingerprints, level reached
@@ -408,6 +453,8 @@ class ResultsPackageSection(_Model):
     items: tuple[PackageItem, ...]
     criteria: tuple[PackageCriterion, ...] = ()
     level_e: PackageLevelE | None = None
+    note_tables: tuple[NoteTable, ...] = ()
+    note_figures: tuple[NoteFigures, ...] = ()
 
     @model_validator(mode="after")
     def _within_ceiling(self) -> ResultsPackageSection:
@@ -500,6 +547,9 @@ __all__ = [
     "PackageCriterion",
     "PackageItem",
     "PackageLevelE",
+    "NoteColumn",
+    "NoteFigures",
+    "NoteTable",
     "PackageSectionName",
     "ProjectDeclaration",
     "RebarFamily",

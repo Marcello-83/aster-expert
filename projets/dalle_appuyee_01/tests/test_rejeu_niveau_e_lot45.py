@@ -58,12 +58,12 @@ def test_the_fingerprints_recorded_by_the_replay_are_those_of_the_files() -> Non
 
 def test_the_results_of_the_replay_equal_those_of_lot_43_where_eys_cannot_act() -> None:
     old = json.loads((_REF / "niveau_e_lot43.json").read_text(encoding="utf-8"))
-    new = _replay()
-    for a, b in zip(old["series"], new["series"], strict=True):  # type: ignore[arg-type]
+    new = json.loads((_REF / "rejeu_niveau_e_lot45.json").read_text(encoding="utf-8"))
+    assert len(old["series"]) == len(new["series"]) == 3
+    for before, after in zip(old["series"], new["series"], strict=True):
         for case in ("G", "Q"):
-            assert a["cas"][case]["DZ"] == b["cas"][case]["DZ"]
-            assert a["cas"][case]["MXX"] == b["cas"][case]["MXX"]
-    assert {k: v["verdict"] for k, v in old["verdicts"].items()} == {
-        k: v["verdict"]
-        for k, v in new["verdicts"].items()  # type: ignore[attr-defined]
-    }
+            assert before["cas"][case]["DZ"] == after["cas"][case]["DZ"]
+            assert before["cas"][case]["MXX"] == after["cas"][case]["MXX"]
+    verdicts_old = {k: v["verdict"] for k, v in old["verdicts"].items()}
+    verdicts_new = {k: v["verdict"] for k, v in new["verdicts"].items()}
+    assert verdicts_old == verdicts_new
