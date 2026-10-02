@@ -106,6 +106,7 @@ results_package:
     - {section: controles, source: resultats/controles/controles_d.json}
     - {section: controles, source: resultats/controles/equilibre.json}
     - {section: niveau_e, source: references/niveau_e_lot43.json}
+    - {section: niveau_e, source: references/rejeu_niveau_e_lot45.json}
     - {section: niveau_e, source: references/navier_lot43.json}
     - {section: ferraillage, source: "resultats/ferraillage/ferraillage_*.json"}
     - {section: ferraillage, source: references/recalcul_es_lot44.json}
@@ -113,9 +114,12 @@ results_package:
   criteria:
     - {level: D, document: docs/essais_lot43.md}
     - {level: E, document: docs/essais_lot43.md}
-  # Niveau E : comparaison à Navier sur la suite de convergence du lot 43 ; le
-  # .comm du maillage le plus fin est confronté à celui de l'exécution du paquet.
+  # Niveau E : comparaison à Navier sur la suite de convergence. Le niveau obtenu au
+  # lot 43 (`niveau_e_lot43.json`, EYS = 210 GPa) ne se reporte pas sur le `.comm`
+  # actuel (EYS = 200 GPa, règle de conservation) : critères rejoués au lot 45 sur les
+  # maillages versionnés, avec les critères d'origine (`rejeu_niveau_e_lot45.json`).
+  # Le `.comm` du maillage le plus fin du rejeu est confronté à celui de l'exécution.
   level_e:
-    results: references/niveau_e_lot43.json
+    results: references/rejeu_niveau_e_lot45.json
     criteria_ids: [E0, E1, E2]
-    comm: references/cas/dalle_h0p125.comm
+    comm: references/rejeu_lot45/dalle_h0p125.comm

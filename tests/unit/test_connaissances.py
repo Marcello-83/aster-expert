@@ -259,7 +259,7 @@ def test_a_reference_result_is_recomputed_from_its_criterion() -> None:
 def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
     """Amorçage par le quai (lot 42), puis apport de la dalle (lot 43) : 7
     constats, 2 patrons, 1 contrôle, 1 référence, 10 précédents ; lot 44 : CA-053
-    et les précédents de D20 et D21 (PRE-019, PRE-020)."""
+    et les précédents de D20 et D21 (PRE-019, PRE-020) ; lot 45 : PRE-032 (Es)."""
     base = load_knowledge(ROOT)
     counts = {layer: sum(row.values()) for layer, row in base.counts().items()}
     assert counts == {
@@ -268,7 +268,7 @@ def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
         "patrons": 11,
         "controles": 12,
         "references_validation": 14,
-        "precedents": 30,
+        "precedents": 31,
     }
     # Lot 44 : cinq promotions, par la commande, sous la règle corrigée.
     promoted = sorted(e.id for e in base.all_entries() if e.status == "promu")
@@ -760,7 +760,7 @@ def test_the_mcp_tool_answers_level_a_and_journals_itself(tmp_path: Path) -> Non
         result.results[0].layer == "diagnostics"
         and result.results[0].status == "établi"
     )
-    assert result.total_by_layer["precedents"] == 30
+    assert result.total_by_layer["precedents"] == 31
     line = json.loads(log.read_text("utf-8").splitlines()[0])
     assert line["tool"] == "search_connaissances"
 

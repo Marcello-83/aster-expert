@@ -2076,6 +2076,15 @@ def projet(
         "--sans-regeneration",
         help="projet exporter-resultats : ne pas régénérer le .comm pour le comparer.",
     ),
+    reevaluer: bool = typer.Option(
+        False,
+        "--reevaluer",
+        help=(
+            "projet exporter-resultats : ré-appliquer la règle de conservation des "
+            "niveaux et les signalements de critères au paquet existant, à partir de "
+            "ses seuls fichiers (sans archive d'exécution, utilisable dans le Cloud)."
+        ),
+    ),
 ) -> None:
     """Enchaîner les commandes existantes sur un projet (`projets/<nom>/`).
 
@@ -2098,7 +2107,7 @@ def projet(
         _create_project(etape, description)
         return
     if nom == "exporter-resultats":
-        _export_results(etape, regenerate=not sans_regeneration)
+        _export_results(etape, regenerate=not sans_regeneration, reevaluate=reevaluer)
         return
     ctx = _load_project_or_exit("projet", nom)
     try:
@@ -2110,14 +2119,25 @@ def projet(
         typer.echo(line)
 
 
-def _export_results(name: str, *, regenerate: bool) -> None:
+def _export_results(name: str, *, regenerate: bool, reevaluate: bool = False) -> None:
     from aster_expert.projet.errors import ProjectError
-    from aster_expert.projet.paquet import export_results
+    from aster_expert.projet.paquet import export_results, reevaluate_package
     from aster_expert.projet.pipeline import Runtime
 
     ctx = _load_project_or_exit("projet exporter-resultats", name)
     try:
-        result = export_results(ctx, Runtime(_project_root()), regenerate=regenerate)
+        if reevaluate:
+            section = ctx.declaration.results_package
+            if section is None:
+                message = f"le projet {name} ne déclare pas de paquet de résultats"
+                raise ProjectError(message)
+            result = reevaluate_package(
+                ctx.results_dir / section.output, ctx.repo_root, ctx
+            )
+        else:
+            result = export_results(
+                ctx, Runtime(_project_root()), regenerate=regenerate
+            )
     except ProjectError as exc:
         typer.echo(f"projet exporter-resultats {name} ÉCHEC : {exc}", err=True)
         raise typer.Exit(1) from exc

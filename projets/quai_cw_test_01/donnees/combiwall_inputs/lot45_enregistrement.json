@@ -1,0 +1,13 @@
+{
+  "decisions_20_21_es": {
+    "decided_at": "2026-10-02T14:04:31+00:00",
+    "origin": "Heure de l'enregistrement par la session du lot 45 (UTC), relevée par la commande date. La consigne du lot 45 ne porte aucune heure de décision : le lancement du lot vaut validation par MM."
+  },
+  "es_en_attente": {
+    "topic": "Module d'élasticité de l'acier de ferraillage (Es)",
+    "point_label": "14",
+    "declared_by": "Claude (session du lot 45)",
+    "declared_at": "2026-10-02T14:04:31+00:00",
+    "reason": "Décision de MM : Es = 200 GPa pour tous les projets. Le ferraillage du quai (lot 39, eys_pa = 2,1e11 Pa dans projet.yaml) porte encore 210 GPa : la décision est en attente d'application et la génération reste bloquée jusqu'au prochain lot qui recalcule le quai."
+  }
+}

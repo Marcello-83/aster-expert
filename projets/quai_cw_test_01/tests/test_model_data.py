@@ -326,12 +326,16 @@ def test_the_fiche_and_the_data_file_report_no_blocker() -> None:
     manquante (lot 27, les 22 valeurs ont toutes trouvé une source).
 
     Lot 32 : la révision est levée (règle de construction des conditions aux
-    limites de l'étape 1, décision 4 inchangée) -- plus aucun bloqueur."""
+    limites de l'étape 1, décision 4 inchangée) -- plus aucun bloqueur.
+
+    Lot 45 : un seul bloqueur, la décision sur Es (200 GPa pour tous les projets)
+    en attente d'application au quai, qui garde 210 GPa jusqu'à son recalcul."""
     sheet = load_resolved_sheet(_SHEET)
     data = load_model_data(_YAML)
-    assert sheet.generation_blockers() == ()
-    assert sheet.generation_blockers(data) == ()
-    assert sheet.is_ready_for_generation
+    for blockers in (sheet.generation_blockers(), sheet.generation_blockers(data)):
+        (blocker,) = blockers
+        assert "Module d'élasticité de l'acier de ferraillage (Es)" in blocker
+    assert not sheet.is_ready_for_generation
 
 
 # --- lot 35 : profil de butée limite (donnees_butee_combiwall_v1.md) --------------

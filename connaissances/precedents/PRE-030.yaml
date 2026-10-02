@@ -2,7 +2,9 @@ id: PRE-030
 title: 'Point 14 : Ferraillage : acier, distance parement–axe, ELS en XC1 (contraintes, fissuration),
   ferraillage minimal'
 summary: 'Décision de MM au point 14 de la fiche de la dalle (2026-10-02) : Ferraillage :
-  acier, distance parement–axe, ELS en XC1 (contraintes, fissuration), ferraillage minimal.'
+  acier, distance parement–axe, ELS en XC1 (contraintes, fissuration), ferraillage minimal
+  ; kc = 0,4 et Act = b·h/2 appliquent D21 (PRE-020) à une pièce fléchie, ils n''en sont pas
+  une exception (correction du lot 45 ; « PRE-021 » n''a jamais existé).'
 origin_project: dalle_appuyee_01
 date: '2026-10-02'
 validation_level: A
@@ -12,7 +14,7 @@ sources:
   fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
   point_label: '14'
   decided_by: MM
-  decided_at: '2026-10-02T04:37:34-04:00'
+  decided_at: '2026-10-02T14:04:31Z'
 commands: []
 keywords: []
 reuses: []
@@ -36,10 +38,13 @@ option_retained: 'Acier B500B, fyk = 500 MPa. γc = 1,5 et γs = 1,15 en situati
   les plaques ; contre-vérification indépendante au centre de la dalle (Mxy nul par symétrie)
   ; coins relevés et commentés, armatures de coin signalées, non calculées.'
 justification: 'Décision P6 de MM. Distance à l''axe selon PRE-018 (enrobage mesuré au nu
-  de l''armature). MM écarte « PRE-021 (D21, Act = zone tendue complète) », poutre tendue
-  du quai : aucune entrée PRE-021 n''existe dans la base (PRE-001 à PRE-018) et D21 n''est
-  enregistrée dans aucune fiche du dépôt ; le domaine de validité invoqué est consigné tel
-  quel (dalle fléchie, pas tendue).'
+  de l''armature). Maîtrise de la fissuration : application de D21 (PRE-020, décision de MM
+  sur la poutre de couronnement du quai, EN 1992-1-1, 7.3.2) à une pièce fléchie : Act est
+  la zone tendue complète de la section avant fissuration, soit b·h/2 en flexion ; kc = 0,4
+  dépend de la sollicitation ; k = 1,0 dépend de h (h ≤ 300 mm). Correction du lot 45 : l''arbitrage
+  v1 et la fiche du lot 43 présentaient kc = 0,4 et Act = b·h/2 comme une exception à D21
+  (« PRE-021 », identifiant qui n''a jamais existé : D21 est PRE-020) ; c''est l''application
+  de D21.'
 validity_domain: 'Une seule distance (48 mm) pour les deux directions : défavorable pour le
   lit extérieur (Y, 36 mm réels). wk = 0,4 mm est la valeur recommandée du tableau 7.1N ;
   MM vérifie le tableau 7.1NF de l''annexe nationale. Armatures de coin (9.3.1.3) non calculées.'
@@ -50,10 +55,8 @@ discarded_variants:
   en 2D dans CALC_FERRAILLAGE ; 48 mm, sécuritaire, est retenu (P6).'
 - 'Précédent PRE-017 (XS3, wk = 0,2 mm, enrobage 65 mm du quai). — écartée : Exposition XC1
   et enrobage de 30 mm donnés par MM.'
-- 'Act = zone tendue complète (« PRE-021 / D21 » cité par MM). — écartée : Concerne une poutre
-  tendue ; la dalle est fléchie (P6).'
 - 'Calcul des armatures de coin (9.3.1.3). — écartée : Signalées, non calculées (P6).'
 decided_by: MM
-decided_at: '2026-10-02T04:37:34-04:00'
-superseded_decisions: 0
+decided_at: '2026-10-02T14:04:31Z'
+superseded_decisions: 1
 application: proposition seulement

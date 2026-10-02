@@ -2325,7 +2325,11 @@ def precedents(root: Path) -> list[KnowledgeEntry]:
     for entry in sheet.entries:
         if not isinstance(entry, PracticeHypothesisEntry) or entry.status != "tranche":
             continue
-        n += 1
+        # Lot 45 : une décision postérieure à la dalle prend un identifiant fixé
+        # (PRE-021 reste libre, PRE-022 à PRE-031 sont ceux de la dalle).
+        fixed = _PRECEDENT_IDS.get(entry.topic)
+        if fixed is None:
+            n += 1
         assert entry.decided_at is not None
         topic = entry.topic.strip().rstrip(".")
         summary = (
@@ -2336,7 +2340,7 @@ def precedents(root: Path) -> list[KnowledgeEntry]:
         out.append(
             precedent_from_entry(
                 entry,
-                precedent_id=f"PRE-{n:03d}",
+                precedent_id=fixed or f"PRE-{n:03d}",
                 title=f"Point {entry.point_label} : {topic}",
                 summary=f"{summary[:-1]} ; {note}." if note else summary,
                 origin_project=PROJECT,
@@ -2349,12 +2353,25 @@ def precedents(root: Path) -> list[KnowledgeEntry]:
     return out
 
 
+_PRECEDENT_IDS = {
+    "Module d'élasticité de l'acier de ferraillage (Es)": "PRE-032",
+}
+"""Lot 45: fixed identifier of a decision taken after the second project's
+precedents (PRE-022 to PRE-031; PRE-021 stays free, MM cited it by mistake)."""
+
 _PRECEDENT_NOTES = {
     "Maîtrise de la fissuration de la poutre de couronnement (section minimale, "
     "contrainte de l'acier)": (
-        "D21 ; correspondance : l'arbitrage de la dalle "
+        "D21, texte exact de MM (lot 45, qui corrige la consigne du lot 44) ; la "
+        "dalle (PRE-030) applique D21 à une pièce fléchie (kc = 0,4, Act = b·h/2), "
+        "elle n'en est pas une exception ; correspondance : l'arbitrage de la dalle "
         "(arbitrage_dalle_appuyee_01_v1, P6) la citait par erreur « PRE-021 », "
         "identifiant qui n'a jamais existé"
+    ),
+    "Module d'élasticité de l'acier de ferraillage (Es)": (
+        "Es = 200 GPa pour tous les projets, appliqué à la dalle (PRE-031) ; le quai "
+        "garde 210 GPa jusqu'à son prochain recalcul, décision en attente "
+        "d'application"
     ),
 }
 """Lot 44: notes appended to a precedent's summary, by topic of the decision."""

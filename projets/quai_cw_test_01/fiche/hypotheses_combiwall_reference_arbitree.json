@@ -1233,57 +1233,139 @@
       "point_label": "14",
       "topic": "Coefficients partiels des matériaux en situation accidentelle (ELU accidentelle)",
       "options_considered": [],
-      "option_retained": "Situation accidentelle : γc = 1,2 et γs = 1,0.",
-      "justification": "Décision de MM (consigne du lot 44, D20). Ces valeurs étaient déjà employées depuis le lot 39 pour la famille ELU accidentelle du ferraillage de la poutre de couronnement (EN 1992-1-1, tableau 2.1N, valeurs recommandées), sans décision de MM : D20 les retient, aucun résultat du quai ne change.",
+      "option_retained": "ELU accidentelle, γc = 1,2 et γs = 1,0.",
+      "justification": "Valeurs du tableau 2.1N de l'EN 1992-1-1 pour les situations accidentelles. L'accostage est traité en combinaison accidentelle (D17).",
       "discarded_variants": [
         {
-          "description": "γc = 1,5 et γs = 1,15 en situation accidentelle.",
-          "reason": "valeurs des situations durables et transitoires, non celles de la situation accidentelle."
+          "description": "Conserver γc = 1,5 et γs = 1,15 en situation accidentelle.",
+          "reason": "Ignore la distinction entre situations durables et accidentelles faite par l'EN 1992-1-1, et n'apporte qu'une marge non justifiée."
         }
       ],
       "notes": null,
-      "validity_domain": "Combinaison ELU accidentelle de D17 seulement ; les situations durables et transitoires gardent γc = 1,5 et γs = 1,15 (D18).",
+      "validity_domain": "Combinaison ELU accidentelle uniquement.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "decision_ingenieur",
-          "reference": "MM, cas de test QUAI-CW-TEST-01, décisions D20 et D21 (consigne du lot 44)",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décisions D20, D21 et module de l'acier (consigne du lot 45)",
           "date": "2026-10-02"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-10-02T09:02:53-04:00",
-      "decision_history": [],
+      "decided_at": "2026-10-02T14:04:31Z",
+      "decision_history": [
+        {
+          "option_retained": "Situation accidentelle : γc = 1,2 et γs = 1,0.",
+          "justification": "Décision de MM (consigne du lot 44, D20). Ces valeurs étaient déjà employées depuis le lot 39 pour la famille ELU accidentelle du ferraillage de la poutre de couronnement (EN 1992-1-1, tableau 2.1N, valeurs recommandées), sans décision de MM : D20 les retient, aucun résultat du quai ne change.",
+          "validity_domain": "Combinaison ELU accidentelle de D17 seulement ; les situations durables et transitoires gardent γc = 1,5 et γs = 1,15 (D18).",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décisions D20 et D21 (consigne du lot 44)",
+              "date": "2026-10-02"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "γc = 1,5 et γs = 1,15 en situation accidentelle.",
+              "reason": "valeurs des situations durables et transitoires, non celles de la situation accidentelle."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-10-02T09:02:53-04:00"
+        }
+      ],
       "revision_history": []
     },
     {
       "point_label": "14",
       "topic": "Maîtrise de la fissuration de la poutre de couronnement (section minimale, contrainte de l'acier)",
       "options_considered": [],
-      "option_retained": "Act est la zone tendue complète, b·h, l'élément étant tendu (EN 1992-1-1, 7.3.2) ; σs est tiré du tableau 7.2N, avec le diamètre modifié par 7.6N ; φ40 ; wk = 0,2 mm.",
-      "justification": "Décision de MM (consigne du lot 44, D21). La poutre de couronnement est tendue : la section minimale de 7.3.2 porte sur toute la section, et non sur la moitié comme en flexion simple.",
+      "option_retained": "As,min selon l'EN 1992-1-1, 7.3.2. Act est égale à la zone tendue complète de la section avant fissuration, soit b·h/2 en flexion. kc dépend de la sollicitation. k dépend de h : 0,65 pour h ≥ 800 mm. fct,eff = fctm. σs est tirée du tableau 7.2N, avec la correction 7.6N, pour φ = 40 mm et wk = 0,2 mm.",
+      "justification": "Lecture littérale de 7.3.2, retenue par MM pour la poutre de couronnement.",
       "discarded_variants": [
         {
-          "description": "Act = b·h/2 et kc = 0,4 (flexion simple).",
-          "reason": "la poutre de couronnement est tendue ; c'est le cas de la dalle (lot 43), hors du domaine de D21."
+          "description": "Act limitée à une hauteur effective hc,eff autour des aciers.",
+          "reason": "Non retenue par MM pour cet ouvrage, qui préfère la lecture littérale de 7.3.2."
         }
       ],
       "notes": null,
-      "validity_domain": "Éléments tendus ou en traction gênée. Il exclut la flexion simple, comme la dalle l'a montré au lot 43 (kc = 0,4 et Act = b·h/2).",
+      "validity_domain": "Lecture littérale de Act, par opposition à une aire effective hc,eff. Pour une pièce massive, elle est plus pénalisante : environ 68 cm² sur les faces AY et 91 cm² sur les faces AZ. Sur les faces AZ, φ*s sort du tableau 7.2N et σs est bornée à 160 MPa. MM confirmera la transcription complète du tableau 7.2N sur son exemplaire.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "decision_ingenieur",
-          "reference": "MM, cas de test QUAI-CW-TEST-01, décisions D20 et D21 (consigne du lot 44)",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décisions D20, D21 et module de l'acier (consigne du lot 45)",
+          "date": "2026-10-02"
+        },
+        {
+          "origin": "norme",
+          "reference": "NF EN 1992-1-1, 7.3.2, tableau 7.2N, expression 7.6N",
+          "date": null
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-02T14:04:31Z",
+      "decision_history": [
+        {
+          "option_retained": "Act est la zone tendue complète, b·h, l'élément étant tendu (EN 1992-1-1, 7.3.2) ; σs est tiré du tableau 7.2N, avec le diamètre modifié par 7.6N ; φ40 ; wk = 0,2 mm.",
+          "justification": "Décision de MM (consigne du lot 44, D21). La poutre de couronnement est tendue : la section minimale de 7.3.2 porte sur toute la section, et non sur la moitié comme en flexion simple.",
+          "validity_domain": "Éléments tendus ou en traction gênée. Il exclut la flexion simple, comme la dalle l'a montré au lot 43 (kc = 0,4 et Act = b·h/2).",
+          "sources": [
+            {
+              "origin": "decision_ingenieur",
+              "reference": "MM, cas de test QUAI-CW-TEST-01, décisions D20 et D21 (consigne du lot 44)",
+              "date": "2026-10-02"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Act = b·h/2 et kc = 0,4 (flexion simple).",
+              "reason": "la poutre de couronnement est tendue ; c'est le cas de la dalle (lot 43), hors du domaine de D21."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-10-02T09:02:53-04:00"
+        }
+      ],
+      "revision_history": []
+    },
+    {
+      "point_label": "14",
+      "topic": "Module d'élasticité de l'acier de ferraillage (Es)",
+      "options_considered": [],
+      "option_retained": "Es = 200 GPa (EN 1992-1-1, 3.2.7(4)), pour tous les projets. Le quai garde 210 GPa (valeur employée depuis le lot 39) jusqu'au prochain lot qui recalcule son ferraillage ; la décision est en attente d'application.",
+      "justification": "Décision de MM (consigne du lot 44, confirmée au lot 45) : la valeur de 210 GPa est celle des aciers de construction (EN 1993) ; la réglementation du béton armé retient 200 GPa pour les armatures. Appliquée à la dalle au lot 44.",
+      "discarded_variants": [
+        {
+          "description": "Es = 210 GPa.",
+          "reason": "Valeur des aciers de construction (EN 1993), non celle des armatures de béton armé."
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Tous les projets. Tant que le ferraillage du quai n'est pas recalculé, les résultats du quai (lot 39, eys_pa = 2,1e11 Pa) portent 210 GPa : la fiche déclare cette décision « en révision » (bloqueur de génération visible) jusqu'à l'application.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "decision_ingenieur",
+          "reference": "MM, cas de test QUAI-CW-TEST-01, décisions D20, D21 et module de l'acier (consigne du lot 45)",
           "date": "2026-10-02"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-10-02T09:02:53-04:00",
+      "decided_at": "2026-10-02T14:04:31Z",
       "decision_history": [],
-      "revision_history": []
+      "revision_history": [
+        {
+          "kind": "declared",
+          "reason": "Décision de MM : Es = 200 GPa pour tous les projets. Le ferraillage du quai (lot 39, eys_pa = 2,1e11 Pa dans projet.yaml) porte encore 210 GPa : la décision est en attente d'application et la génération reste bloquée jusqu'au prochain lot qui recalcule le quai.",
+          "by": "Claude (session du lot 45)",
+          "at": "2026-10-02T14:04:31Z"
+        }
+      ]
     }
   ],
   "group_naming": [

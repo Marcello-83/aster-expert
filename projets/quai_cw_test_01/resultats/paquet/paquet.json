@@ -88,7 +88,8 @@
   "difference": [
    "-# Fiche             : sha256:38b1eea7430d3b5906e0bc15b6922bc7afdaddea1799f215bf9e5fa74b290f7f",
    "+# Fiche             : sha256:684d3c3a06cc1daa9610bb4983450911cb2085318991ce7c94be8903dfb37b42"
-  ]
+  ],
+  "identique_hors_commentaires": true
  },
  "criteres": [
   {
@@ -97,7 +98,32 @@
    "document_sha256": "44376a398e0e3f31dc92156dce9a6ed77d7fca5e5746b25827285478dedd3af3",
    "commit_introduction": "f6da541da361a878429bb3dfd4b335ef204ec922",
    "date": "2026-09-24T12:23:07-04:00",
-   "message": "Lot 34 : écart d'équilibre expliqué et fermé — quatre causes démontrées, modèle complet à 1e-10 en X, Y, Z (niveau C, contrôles D)"
+   "message": "Lot 34 : écart d'équilibre expliqué et fermé — quatre causes démontrées, modèle complet à 1e-10 en X, Y, Z (niveau C, contrôles D)",
+   "posterieur_a_l_execution": false,
+   "resultats_dans_le_commit": [
+    "data/examples/lot34_equilibre/rapports/corrigee_aucune.json",
+    "data/examples/lot34_equilibre/rapports/corrigee_ecran.json",
+    "data/examples/lot34_equilibre/rapports/corrigee_palplanches.json",
+    "data/examples/lot34_equilibre/rapports/corrigee_tubes.json",
+    "data/examples/lot34_equilibre/rapports/decomposition_ecart_lot33_quai_reduit.json",
+    "data/examples/lot34_equilibre/rapports/equilibre_modele_complet.json",
+    "data/examples/lot34_equilibre/rapports/equilibre_quai_reduit_v1.json",
+    "data/examples/lot34_equilibre/rapports/equilibre_quai_reduit_v2.json",
+    "data/examples/lot34_equilibre/rapports/equilibre_quai_reduit_v3.json",
+    "data/examples/lot34_equilibre/rapports/executions.json",
+    "data/examples/lot34_equilibre/rapports/initiale_aucune.json",
+    "data/examples/lot34_equilibre/rapports/initiale_ecran.json",
+    "data/examples/lot34_equilibre/rapports/initiale_palplanches.json",
+    "data/examples/lot34_equilibre/rapports/initiale_tubes.json",
+    "data/examples/lot34_equilibre/rapports/integrale_modele_complet.json",
+    "data/examples/lot34_equilibre/rapports/mess_extraits_modele_complet.txt",
+    "data/examples/lot34_equilibre/rapports/ressorts_G_corrige.json",
+    "data/examples/lot34_equilibre/rapports/ressorts_G_defaut.json",
+    "data/examples/lot34_equilibre/rapports/sonde_ecran_12chiffres.json",
+    "data/examples/lot34_equilibre/rapports/sonde_ecran_couches.json"
+   ],
+   "anteriorite_demontrable": false,
+   "anteriorite_motif": "commité avec des résultats d'exécution (20 fichier(s) : data/examples/lot34_equilibre/rapports/corrigee_aucune.json, data/examples/lot34_equilibre/rapports/corrigee_ecran.json, data/examples/lot34_equilibre/rapports/corrigee_palplanches.json, ...) : antériorité non démontrable"
   },
   {
    "niveau": "D",
@@ -105,7 +131,70 @@
    "document_sha256": "8dbec5b45cbbe62bec7351226d2c60a46e7cc2f9f7b32b1d652c1775e6233344",
    "commit_introduction": "4ef77ff96cf8a9e561795ed8ed98c10c6e22211e",
    "date": "2026-09-25T09:32:11-04:00",
-   "message": "Lot 37 : tirants de bord à demi-section, décisions D14-D16, efforts d'ensemble des tubes — modèle complet niveau C avec contrôles D"
+   "message": "Lot 37 : tirants de bord à demi-section, décisions D14-D16, efforts d'ensemble des tubes — modèle complet niveau C avec contrôles D",
+   "posterieur_a_l_execution": false,
+   "resultats_dans_le_commit": [
+    "data/examples/lot37_efforts/rapports/complet/synthese.json",
+    "data/examples/lot37_efforts/rapports/complet/vues/butee_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/butee_EAU_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/butee_EAU_P.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/butee_G.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/butee_Q1.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/butee_Q3.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/deformee_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/deformee_EAU_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/deformee_EAU_P.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/deformee_G.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/deformee_Q1.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/deformee_Q3.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/dy_ecran_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/dy_ecran_EAU_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/dy_ecran_EAU_P.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/dy_ecran_G.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/dy_ecran_Q1.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/dy_ecran_Q3.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_palplanches_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_palplanches_EAU_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_palplanches_EAU_P.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_palplanches_G.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_palplanches_Q1.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_palplanches_Q3.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tube_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tube_EAU_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tube_EAU_P.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tube_G.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tube_Q1.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tube_Q3.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tubes_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tubes_EAU_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tubes_EAU_P.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tubes_G.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tubes_Q1.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/efforts_tubes_Q3.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/fleches_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/fleches_EAU_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/fleches_EAU_P.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/fleches_G.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/fleches_Q1.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/fleches_Q3.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/poutre_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/poutre_EAU_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/poutre_EAU_P.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/poutre_G.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/poutre_Q1.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/poutre_Q3.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/profils_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/profils_EAU_A.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/profils_EAU_P.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/profils_G.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/profils_Q1.png",
+    "data/examples/lot37_efforts/rapports/complet/vues/profils_Q3.png",
+    "data/examples/lot37_efforts/rapports/criteres_lot37.json",
+    "data/examples/lot37_efforts/rapports/equilibre_complet.json",
+    "data/examples/lot37_efforts/rapports/integrale_modele_complet.json"
+   ],
+   "anteriorite_demontrable": false,
+   "anteriorite_motif": "commité avec des résultats d'exécution (58 fichier(s) : data/examples/lot37_efforts/rapports/complet/synthese.json, data/examples/lot37_efforts/rapports/complet/vues/butee_A.png, data/examples/lot37_efforts/rapports/complet/vues/butee_EAU_A.png, ...) : antériorité non démontrable"
   },
   {
    "niveau": "D",
@@ -113,7 +202,21 @@
    "document_sha256": "d8af38f8f878bb9088a95a903bfdc919ec3e7f1250a6440c927af5a71c535799",
    "commit_introduction": "8382425645a123ab2a17e6da7080f6e93ed58c50",
    "date": "2026-09-28T09:19:39-04:00",
-   "message": "Lot 39 : ferraillage de la poutre de couronnement et limites de CALC_FERRAILLAGE — module rebar corrigé, D19, 6 constats, niveau C"
+   "message": "Lot 39 : ferraillage de la poutre de couronnement et limites de CALC_FERRAILLAGE — module rebar corrigé, D19, 6 constats, niveau C",
+   "posterieur_a_l_execution": false,
+   "resultats_dans_le_commit": [
+    "data/examples/lot39_essais/rapports/executions.json",
+    "data/examples/lot39_essais/rapports/mess_d19_extrait.txt",
+    "data/examples/lot39_essais/rapports/mess_fermin_extrait.txt",
+    "data/examples/lot39_essais/rapports/mess_fermin_mpa_extrait.txt",
+    "data/examples/lot39_essais/rapports/mess_fiss_extrait.txt",
+    "data/examples/lot39_essais/rapports/mess_limites_extrait.txt",
+    "data/examples/lot39_essais/rapports/mess_plaque_extrait.txt",
+    "data/examples/lot39_poutre/rapports/executions.json",
+    "data/examples/lot39_poutre/rapports/mess_ferr_extrait.txt"
+   ],
+   "anteriorite_demontrable": false,
+   "anteriorite_motif": "commité avec des résultats d'exécution (9 fichier(s) : data/examples/lot39_essais/rapports/executions.json, data/examples/lot39_essais/rapports/mess_d19_extrait.txt, data/examples/lot39_essais/rapports/mess_fermin_extrait.txt, ...) : antériorité non démontrable"
   }
  ],
  "niveau_e": null,
@@ -140,7 +243,12 @@
     "atteint": false,
     "motif": "aucune référence déclarée"
    }
-  ]
+  ],
+  "regle_de_conservation": "Un niveau reste acquis pour un .comm dont le contenu, commentaires et en-tête retirés, est identique à celui qui l'a obtenu ; sinon le niveau doit être rejoué, avec les critères d'origine, sans les réécrire. Aucun jugement sur l'influence d'un paramètre.",
+  "conservation": {
+   "valable": true,
+   "motif": "le .comm régénéré ne diffère de l'exécuté que par des commentaires ou l'en-tête : les niveaux atteints sont conservés (règle de conservation)"
+  }
  },
  "sections": [
   "cas",

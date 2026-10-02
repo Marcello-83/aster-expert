@@ -99,11 +99,16 @@ def test_the_fiche_cites_the_base_and_resolves_to_the_same_sheet() -> None:
 
     assert len(raw.finding_references()) == 45
     assert not any(isinstance(e, CodeAsterHypothesisEntry) for e in raw.entries)
-    assert raw.generation_blockers()[0].startswith(
-        "constat référencé non résolu contre la base partagée : CA-001"
+    assert any(
+        b.startswith("constat référencé non résolu contre la base partagée : CA-001")
+        for b in raw.generation_blockers()
     )
     assert resolved.finding_references() == ()
-    assert resolved.generation_blockers() == ()
+    # Lot 45 : le seul bloqueur restant est la décision sur Es, en attente
+    # d'application (déclarée « en révision »).
+    (blocker,) = resolved.generation_blockers()
+    assert blocker.startswith("entrée pratique en révision (point 14)")
+    assert "Module d'élasticité de l'acier de ferraillage (Es)" in blocker
     assert externalize_sheet(resolved, _base()) == raw
     first = next(e for e in resolved.entries if isinstance(e, CodeAsterHypothesisEntry))
     assert first.point_label == "1"

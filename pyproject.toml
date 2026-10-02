@@ -33,6 +33,7 @@ dependencies = [
     # du lot 6). Ne dépend pas de Sphinx : aucune extension, aucun conf.py
     # exécuté.
     "docutils>=0.21",
+    "python-docx>=1.2.0",
 ]
 
 [project.optional-dependencies]

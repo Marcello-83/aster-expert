@@ -40,6 +40,9 @@ _ARBITREE_PATH = (
 )
 
 
+ES_TOPIC = "Module d'élasticité de l'acier de ferraillage (Es)"
+
+
 def _load() -> HypothesesSheet:
     return load_resolved_sheet(_ARBITREE_PATH)
 
@@ -76,7 +79,9 @@ def test_arbitree_fiche_round_trips_through_the_schema() -> None:
     # + lot 39 : D19 (point 14) ajoute une entrée ; 6 constats d'exécution sur
     #   CALC_FERRAILLAGE (point 14)
     # + lot 44 : D20 et D21 (point 14) ajoutent deux entrées
-    assert len(sheet.entries) == 65
+    # + lot 45 : la décision sur Es (point 14) ajoute une entrée (D20 et D21 sont
+    #   révisées sur place)
+    assert len(sheet.entries) == 66
 
 
 def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
@@ -91,8 +96,8 @@ def test_arbitree_fiche_has_eleven_decided_practice_entries() -> None:
     # the global frame (point 9, lot 25), decision 11 (point 10, lot 27),
     # decision 12 (point 11, lot 28), decision 13 (point 12, lot 33) and, lot 38,
     # D17 (point 13) and D18 (point 14), lot 39: D19 (point 14), lot 44: D20 and
-    # D21 (point 14)
-    assert len(tranche_practice) == 20
+    # D21 (point 14), lot 45: Es (point 14)
+    assert len(tranche_practice) == 21
     assert {e.point_label for e in tranche_practice} == {
         "0",
         "1",
@@ -246,7 +251,8 @@ def test_arbitree_fiche_v3_revisions_keep_the_v2_decision_in_history() -> None:
         and e.decision_history
     }
     # Lot 23 : v4 revised points 7 and 8 again (2026-09-22, after v3).
-    assert set(revised) == {"1", "2", "3", "4", "5", "6", "7", "8"}
+    # Lot 45 : D20 et D21 (point 14) sont révisées sur place.
+    assert set(revised) == {"1", "2", "3", "4", "5", "6", "7", "8", "14"}
     for label in ("1", "2", "5"):
         entry = revised[label]
         assert len(entry.decision_history) == 1
@@ -301,8 +307,10 @@ def test_arbitree_fiche_norme_sources_carry_no_invented_day() -> None:
         for s in e.sources
         if s.origin == "norme"
     ]
-    assert {pl for pl, _ in norme} == {"2", "4"}
-    assert all(s.date is None and "mars 2009" in s.reference for _, s in norme)
+    # Lot 45 : D21 cite la norme (tableau 7.2N) sans date, au point 14.
+    assert {pl for pl, _ in norme} == {"2", "4", "14"}
+    assert all(s.date is None for _, s in norme)
+    assert all("mars 2009" in s.reference for pl, s in norme if pl != "14")
 
 
 def test_arbitree_fiche_group_naming_is_registered() -> None:
@@ -377,8 +385,9 @@ def test_arbitree_fiche_has_no_blocker_left_after_decision_2_v5() -> None:
     itself unchanged) -- no entry is under revision any more."""
     sheet = _load()
 
-    assert sheet.entries_under_revision() == ()
-    assert sheet.is_ready_for_generation is True
+    # Lot 45 : seule la décision sur Es, en attente d'application, est en révision.
+    assert [e.topic for e in sheet.entries_under_revision()] == [ES_TOPIC]
+    assert sheet.is_ready_for_generation is False
     (entry,) = [
         e
         for e in sheet.entries
@@ -540,7 +549,7 @@ def test_arbitree_fiche_records_the_lot31_finding_and_revision() -> None:
         ("declared", "Claude (lot 31)"),
         ("lifted", "Claude (lot 32)"),
     ]
-    assert sheet.entries_under_revision() == ()
+    assert [e.topic for e in sheet.entries_under_revision()] == [ES_TOPIC]
 
 
 def test_arbitree_fiche_lot28_facts_are_recorded_and_sourced() -> None:

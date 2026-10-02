@@ -30,7 +30,7 @@ ROOT = Path(__file__).resolve().parents[3]
 
 def test_every_seeded_entry_is_rebuilt_byte_for_byte() -> None:
     entries = build_entries(ROOT)
-    assert len(entries) == 78  # lot 44 : D20 et D21 (PRE-019, PRE-020)
+    assert len(entries) == 79  # lot 45 : + Es (PRE-032)
     for entry in entries:
         path = entry_path(ROOT, entry)
         # Lot 43 : un projet suivant n'ajoute que des réutilisations (`reuses`) ;

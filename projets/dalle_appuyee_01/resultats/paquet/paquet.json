@@ -82,7 +82,11 @@
    "document_sha256": "955e264f90c1c9058692e25ffc8e6b64de1972ca34a31b6920fc7c2a20403962",
    "commit_introduction": "4093f126b4829bec8fc07a97c67beba010c80fce",
    "date": "2026-10-02T04:56:49-04:00",
-   "message": "Lot 43, étape 2a : arbitrage reporté, projet de la dalle et critère du niveau E (avant exécution)"
+   "message": "Lot 43, étape 2a : arbitrage reporté, projet de la dalle et critère du niveau E (avant exécution)",
+   "posterieur_a_l_execution": false,
+   "resultats_dans_le_commit": [],
+   "anteriorite_demontrable": true,
+   "anteriorite_motif": "commit antérieur à l'exécution, sans résultat d'exécution dans le commit"
   },
   {
    "niveau": "E",
@@ -90,12 +94,16 @@
    "document_sha256": "955e264f90c1c9058692e25ffc8e6b64de1972ca34a31b6920fc7c2a20403962",
    "commit_introduction": "4093f126b4829bec8fc07a97c67beba010c80fce",
    "date": "2026-10-02T04:56:49-04:00",
-   "message": "Lot 43, étape 2a : arbitrage reporté, projet de la dalle et critère du niveau E (avant exécution)"
+   "message": "Lot 43, étape 2a : arbitrage reporté, projet de la dalle et critère du niveau E (avant exécution)",
+   "posterieur_a_l_execution": false,
+   "resultats_dans_le_commit": [],
+   "anteriorite_demontrable": true,
+   "anteriorite_motif": "commit antérieur à l'exécution, sans résultat d'exécution dans le commit"
   }
  ],
  "niveau_e": {
-  "resultats": "references/niveau_e_lot43.json",
-  "resultats_sha256": "6125847bd3ce3afb3f679fdbecb6308a59b4a930cbe14f76fed9b95e27ccbd91",
+  "resultats": "references/rejeu_niveau_e_lot45.json",
+  "resultats_sha256": "bde2172e5fbee9a4c545b15480b2acfba7c70913f3515fa417909ae008ae239b",
   "criteres_niveau_e": [
    "E0",
    "E1",
@@ -114,24 +122,19 @@
    "E3": "INFORMATIF"
   },
   "tous_reussis": true,
-  "comm_reference": "references/cas/dalle_h0p125.comm",
-  "comm_reference_sha256": "c5828faee49df1baf40c22746a2b2085b75d8f4bc93d160201b2edd62232bf1a",
-  "meme_comm_que_l_execution": false,
+  "comm_reference": "references/rejeu_lot45/dalle_h0p125.comm",
+  "comm_reference_sha256": "1b76e7b67a8348abac9d48eff7cd63e155bf8fc222bb365b6a78f09a4894c82d",
+  "comm_execute_sha256": "70ae851c380a4dad612adad6962b2611feea61485fe096aeb533e39d75e09848",
+  "comm_execute_hors_commentaires_sha256": "8946dc3931267f3a4aa302b7df8fa4f6ea8bc74b8d7f7217922b8ef8ad79fad8",
+  "meme_comm_octets": false,
+  "meme_comm_que_l_execution": true,
   "difference_comm": [
    "-# Dalle DALLE-APPUYEE-01 (lot 43) -- maillage h0p125 (48 x 32).",
-   "+# Dalle DALLE-APPUYEE-01 (lot 43) -- maillage dalle_mesh.med.",
-   "-            EYS=210000000000.0,",
-   "+            EYS=200000000000.0,",
-   "-            EYS=210000000000.0,",
-   "+            EYS=200000000000.0,",
-   "-            EYS=210000000000.0,",
-   "+            EYS=200000000000.0,",
-   "-            EYS=210000000000.0,",
-   "+            EYS=200000000000.0,"
+   "+# Dalle DALLE-APPUYEE-01 (lot 43) -- maillage dalle_mesh.med."
   ]
  },
  "niveau": {
-  "atteint": "D",
+  "atteint": "E",
   "par_niveau": [
    {
     "niveau": "B",
@@ -150,10 +153,15 @@
    },
    {
     "niveau": "E",
-    "atteint": false,
-    "motif": "critères réussis par les exécutions de référence, dont le .comm diffère de celui de l'exécution du paquet (10 ligne(s) de différence, `difference_comm`) : le niveau E ne se reporte pas"
+    "atteint": true,
+    "motif": "critères réussis sur un .comm identique à celui de l'exécution du paquet hors commentaires et en-tête (règle de conservation)"
    }
-  ]
+  ],
+  "regle_de_conservation": "Un niveau reste acquis pour un .comm dont le contenu, commentaires et en-tête retirés, est identique à celui qui l'a obtenu ; sinon le niveau doit être rejoué, avec les critères d'origine, sans les réécrire. Aucun jugement sur l'influence d'un paramètre.",
+  "conservation": {
+   "valable": true,
+   "motif": "le .comm régénéré de la fiche et des données actuelles est identique"
+  }
  },
  "sections": [
   "controles",
@@ -237,6 +245,15 @@
    "sha256": "6125847bd3ce3afb3f679fdbecb6308a59b4a930cbe14f76fed9b95e27ccbd91"
   },
   {
+   "chemin": "niveau_e/rejeu_niveau_e_lot45.json",
+   "section": "niveau_e",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/references/rejeu_niveau_e_lot45.json",
+   "libelle": null,
+   "octets": 19722,
+   "sha256": "bde2172e5fbee9a4c545b15480b2acfba7c70913f3515fa417909ae008ae239b"
+  },
+  {
    "chemin": "validation/validation.json",
    "section": "validation",
    "type": "tableau",
@@ -246,6 +263,6 @@
    "sha256": "4f204a7d2f78c58c02be8c953c0b3330a63557a01769d6df9217ab669e87d776"
   }
  ],
- "taille_octets": 60017,
+ "taille_octets": 79739,
  "plafond_octets": 20971520
 }

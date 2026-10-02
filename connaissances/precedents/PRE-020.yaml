@@ -2,7 +2,9 @@ id: PRE-020
 title: 'Point 14 : Maîtrise de la fissuration de la poutre de couronnement (section minimale,
   contrainte de l''acier)'
 summary: 'Décision de MM au point 14 de la fiche du quai (2026-10-02) : Maîtrise de la fissuration
-  de la poutre de couronnement (section minimale, contrainte de l''acier) ; D21 ; correspondance
+  de la poutre de couronnement (section minimale, contrainte de l''acier) ; D21, texte exact
+  de MM (lot 45, qui corrige la consigne du lot 44) ; la dalle (PRE-030) applique D21 à une
+  pièce fléchie (kc = 0,4, Act = b·h/2), elle n''en est pas une exception ; correspondance
   : l''arbitrage de la dalle (arbitrage_dalle_appuyee_01_v1, P6) la citait par erreur « PRE-021
   », identifiant qui n''a jamais existé.'
 origin_project: quai_cw_test_01
@@ -14,7 +16,7 @@ sources:
   fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
   point_label: '14'
   decided_by: MM
-  decided_at: '2026-10-02T09:02:53-04:00'
+  decided_at: '2026-10-02T14:04:31Z'
 commands: []
 keywords: []
 reuses: []
@@ -23,18 +25,19 @@ fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.jso
 point_label: '14'
 topic: Maîtrise de la fissuration de la poutre de couronnement (section minimale, contrainte
   de l'acier)
-option_retained: Act est la zone tendue complète, b·h, l'élément étant tendu (EN 1992-1-1,
-  7.3.2) ; σs est tiré du tableau 7.2N, avec le diamètre modifié par 7.6N ; φ40 ; wk = 0,2
-  mm.
-justification: 'Décision de MM (consigne du lot 44, D21). La poutre de couronnement est tendue
-  : la section minimale de 7.3.2 porte sur toute la section, et non sur la moitié comme en
-  flexion simple.'
-validity_domain: Éléments tendus ou en traction gênée. Il exclut la flexion simple, comme
-  la dalle l'a montré au lot 43 (kc = 0,4 et Act = b·h/2).
+option_retained: 'As,min selon l''EN 1992-1-1, 7.3.2. Act est égale à la zone tendue complète
+  de la section avant fissuration, soit b·h/2 en flexion. kc dépend de la sollicitation. k
+  dépend de h : 0,65 pour h ≥ 800 mm. fct,eff = fctm. σs est tirée du tableau 7.2N, avec la
+  correction 7.6N, pour φ = 40 mm et wk = 0,2 mm.'
+justification: Lecture littérale de 7.3.2, retenue par MM pour la poutre de couronnement.
+validity_domain: 'Lecture littérale de Act, par opposition à une aire effective hc,eff. Pour
+  une pièce massive, elle est plus pénalisante : environ 68 cm² sur les faces AY et 91 cm²
+  sur les faces AZ. Sur les faces AZ, φ*s sort du tableau 7.2N et σs est bornée à 160 MPa.
+  MM confirmera la transcription complète du tableau 7.2N sur son exemplaire.'
 discarded_variants:
-- 'Act = b·h/2 et kc = 0,4 (flexion simple). — écartée : la poutre de couronnement est tendue
-  ; c''est le cas de la dalle (lot 43), hors du domaine de D21.'
+- 'Act limitée à une hauteur effective hc,eff autour des aciers. — écartée : Non retenue par
+  MM pour cet ouvrage, qui préfère la lecture littérale de 7.3.2.'
 decided_by: MM
-decided_at: '2026-10-02T09:02:53-04:00'
-superseded_decisions: 0
+decided_at: '2026-10-02T14:04:31Z'
+superseded_decisions: 1
 application: proposition seulement

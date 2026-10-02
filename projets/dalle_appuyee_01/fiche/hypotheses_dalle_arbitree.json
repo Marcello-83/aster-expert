@@ -427,7 +427,7 @@
         "Précédent PRE-018 (quai_cw_test_01) : Dans les calculs de section, la distance entre le parement et l'axe des armatures longitudinales est de 0,10 m sur toutes les faces. Ce sont les valeurs `C_SUP_*` et `C_INF_*` de `CALC_FERRAILLAGE`, ou ds et di du logiciel de MM. Le diamètre équivalent des armatures longitudinales est de 40 mm."
       ],
       "option_retained": "Acier B500B, fyk = 500 MPa. γc = 1,5 et γs = 1,15 en situation durable ; ALPHA_CC = 1,0 écrit explicitement dans le .comm (la valeur par défaut 0,85 n'est pas retenue). Barres HA12 dans les deux directions, nappes inférieure et supérieure. Distance du parement à l'axe, enrobage nominal 30 mm : lit extérieur (barres portant dans la petite portée, Y) 30 + 6 = 36 mm ; lit intérieur (barres portant dans la grande portée, X) 30 + 12 + 6 = 48 mm. CALC_FERRAILLAGE n'admet qu'une distance par face en 2D (catalogue 17.4 : C_INF et C_SUP, un réel chacun) : 48 mm est retenu pour les deux directions et déclaré ; la contre-vérification manuelle utilise la même valeur. ELS en XC1 : wk limite = 0,4 mm sous combinaison quasi permanente ; σs ≤ 0,8 fyk sous combinaison caractéristique ; pas de limite sur σc en XC1. Ferraillage minimal : non-fragilité As,min = max(0,26·fctm/fyk ; 0,0013)·b·d ; maîtrise de la fissuration en flexion simple, kc = 0,4, k = 1,0, fct,eff = fctm, Act = b·h/2 ; armatures de répartition ≥ 20 % des armatures principales. Méthode 2D native de CALC_FERRAILLAGE pour les plaques ; contre-vérification indépendante au centre de la dalle (Mxy nul par symétrie) ; coins relevés et commentés, armatures de coin signalées, non calculées.",
-      "justification": "Décision P6 de MM. Distance à l'axe selon PRE-018 (enrobage mesuré au nu de l'armature). MM écarte « PRE-021 (D21, Act = zone tendue complète) », poutre tendue du quai : aucune entrée PRE-021 n'existe dans la base (PRE-001 à PRE-018) et D21 n'est enregistrée dans aucune fiche du dépôt ; le domaine de validité invoqué est consigné tel quel (dalle fléchie, pas tendue).",
+      "justification": "Décision P6 de MM. Distance à l'axe selon PRE-018 (enrobage mesuré au nu de l'armature). Maîtrise de la fissuration : application de D21 (PRE-020, décision de MM sur la poutre de couronnement du quai, EN 1992-1-1, 7.3.2) à une pièce fléchie : Act est la zone tendue complète de la section avant fissuration, soit b·h/2 en flexion ; kc = 0,4 dépend de la sollicitation ; k = 1,0 dépend de h (h ≤ 300 mm). Correction du lot 45 : l'arbitrage v1 et la fiche du lot 43 présentaient kc = 0,4 et Act = b·h/2 comme une exception à D21 (« PRE-021 », identifiant qui n'a jamais existé : D21 est PRE-020) ; c'est l'application de D21.",
       "discarded_variants": [
         {
           "description": "ALPHA_CC = 0,85 (défaut de CALC_FERRAILLAGE).",
@@ -440,10 +440,6 @@
         {
           "description": "Précédent PRE-017 (XS3, wk = 0,2 mm, enrobage 65 mm du quai).",
           "reason": "Exposition XC1 et enrobage de 30 mm donnés par MM."
-        },
-        {
-          "description": "Act = zone tendue complète (« PRE-021 / D21 » cité par MM).",
-          "reason": "Concerne une poutre tendue ; la dalle est fléchie (P6)."
         },
         {
           "description": "Calcul des armatures de coin (9.3.1.3).",
@@ -493,12 +489,89 @@
           "origin": "norme",
           "reference": "EN 1992-1-1, 7.3.2 — référence normative fournie par MM, non indexée",
           "date": null
+        },
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne du lot 45 (docs/lots/lot45_consigne.md), conséquence pour la dalle : kc = 0,4 et Act = b·h/2 appliquent D21 (PRE-020)",
+          "date": "2026-10-02"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-10-02T04:37:34-04:00",
-      "decision_history": [],
+      "decided_at": "2026-10-02T14:04:31Z",
+      "decision_history": [
+        {
+          "option_retained": "Acier B500B, fyk = 500 MPa. γc = 1,5 et γs = 1,15 en situation durable ; ALPHA_CC = 1,0 écrit explicitement dans le .comm (la valeur par défaut 0,85 n'est pas retenue). Barres HA12 dans les deux directions, nappes inférieure et supérieure. Distance du parement à l'axe, enrobage nominal 30 mm : lit extérieur (barres portant dans la petite portée, Y) 30 + 6 = 36 mm ; lit intérieur (barres portant dans la grande portée, X) 30 + 12 + 6 = 48 mm. CALC_FERRAILLAGE n'admet qu'une distance par face en 2D (catalogue 17.4 : C_INF et C_SUP, un réel chacun) : 48 mm est retenu pour les deux directions et déclaré ; la contre-vérification manuelle utilise la même valeur. ELS en XC1 : wk limite = 0,4 mm sous combinaison quasi permanente ; σs ≤ 0,8 fyk sous combinaison caractéristique ; pas de limite sur σc en XC1. Ferraillage minimal : non-fragilité As,min = max(0,26·fctm/fyk ; 0,0013)·b·d ; maîtrise de la fissuration en flexion simple, kc = 0,4, k = 1,0, fct,eff = fctm, Act = b·h/2 ; armatures de répartition ≥ 20 % des armatures principales. Méthode 2D native de CALC_FERRAILLAGE pour les plaques ; contre-vérification indépendante au centre de la dalle (Mxy nul par symétrie) ; coins relevés et commentés, armatures de coin signalées, non calculées.",
+          "justification": "Décision P6 de MM. Distance à l'axe selon PRE-018 (enrobage mesuré au nu de l'armature). MM écarte « PRE-021 (D21, Act = zone tendue complète) », poutre tendue du quai : aucune entrée PRE-021 n'existe dans la base (PRE-001 à PRE-018) et D21 n'est enregistrée dans aucune fiche du dépôt ; le domaine de validité invoqué est consigné tel quel (dalle fléchie, pas tendue).",
+          "validity_domain": "Une seule distance (48 mm) pour les deux directions : défavorable pour le lit extérieur (Y, 36 mm réels). wk = 0,4 mm est la valeur recommandée du tableau 7.1N ; MM vérifie le tableau 7.1NF de l'annexe nationale. Armatures de coin (9.3.1.3) non calculées.",
+          "sources": [
+            {
+              "origin": "arbitrage_mm",
+              "reference": "arbitrage_dalle_appuyee_01_v1, A, P6",
+              "date": "2026-10-02"
+            },
+            {
+              "origin": "precedent_projet",
+              "reference": "PRE-018 — quai_cw_test_01, point 14 (projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json), décidé par MM le 2026-09-28",
+              "date": null
+            },
+            {
+              "origin": "norme",
+              "reference": "EN 1992-1-1, tableau 2.1N — référence normative fournie par MM, non indexée",
+              "date": null
+            },
+            {
+              "origin": "norme",
+              "reference": "EN 1992-1-1, 3.1.6(1)P (annexe nationale française) — référence normative fournie par MM, non indexée",
+              "date": null
+            },
+            {
+              "origin": "norme",
+              "reference": "EN 1992-1-1, tableau 7.1N — référence normative fournie par MM, non indexée",
+              "date": null
+            },
+            {
+              "origin": "norme",
+              "reference": "EN 1992-1-1, 7.2(5) — référence normative fournie par MM, non indexée",
+              "date": null
+            },
+            {
+              "origin": "norme",
+              "reference": "EN 1992-1-1, 9.3.1.1 et 9.2.1.1 — référence normative fournie par MM, non indexée",
+              "date": null
+            },
+            {
+              "origin": "norme",
+              "reference": "EN 1992-1-1, 7.3.2 — référence normative fournie par MM, non indexée",
+              "date": null
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "ALPHA_CC = 0,85 (défaut de CALC_FERRAILLAGE).",
+              "reason": "Annexe nationale française : αcc = 1,0, comme au quai (P6)."
+            },
+            {
+              "description": "Deux distances par face (36 mm en Y, 48 mm en X).",
+              "reason": "Une seule distance par face en 2D dans CALC_FERRAILLAGE ; 48 mm, sécuritaire, est retenu (P6)."
+            },
+            {
+              "description": "Précédent PRE-017 (XS3, wk = 0,2 mm, enrobage 65 mm du quai).",
+              "reason": "Exposition XC1 et enrobage de 30 mm donnés par MM."
+            },
+            {
+              "description": "Act = zone tendue complète (« PRE-021 / D21 » cité par MM).",
+              "reason": "Concerne une poutre tendue ; la dalle est fléchie (P6)."
+            },
+            {
+              "description": "Calcul des armatures de coin (9.3.1.3).",
+              "reason": "Signalées, non calculées (P6)."
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-10-02T04:37:34-04:00"
+        }
+      ],
       "revision_history": []
     },
     {

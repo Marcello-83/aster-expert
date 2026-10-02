@@ -11,7 +11,7 @@ sources:
   fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
   point_label: '14'
   decided_by: MM
-  decided_at: '2026-10-02T09:02:53-04:00'
+  decided_at: '2026-10-02T14:04:31Z'
 commands: []
 keywords: []
 reuses: []
@@ -19,17 +19,15 @@ status_history: []
 fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
 point_label: '14'
 topic: Coefficients partiels des matériaux en situation accidentelle (ELU accidentelle)
-option_retained: 'Situation accidentelle : γc = 1,2 et γs = 1,0.'
-justification: 'Décision de MM (consigne du lot 44, D20). Ces valeurs étaient déjà employées
-  depuis le lot 39 pour la famille ELU accidentelle du ferraillage de la poutre de couronnement
-  (EN 1992-1-1, tableau 2.1N, valeurs recommandées), sans décision de MM : D20 les retient,
-  aucun résultat du quai ne change.'
-validity_domain: Combinaison ELU accidentelle de D17 seulement ; les situations durables et
-  transitoires gardent γc = 1,5 et γs = 1,15 (D18).
+option_retained: ELU accidentelle, γc = 1,2 et γs = 1,0.
+justification: Valeurs du tableau 2.1N de l'EN 1992-1-1 pour les situations accidentelles.
+  L'accostage est traité en combinaison accidentelle (D17).
+validity_domain: Combinaison ELU accidentelle uniquement.
 discarded_variants:
-- 'γc = 1,5 et γs = 1,15 en situation accidentelle. — écartée : valeurs des situations durables
-  et transitoires, non celles de la situation accidentelle.'
+- 'Conserver γc = 1,5 et γs = 1,15 en situation accidentelle. — écartée : Ignore la distinction
+  entre situations durables et accidentelles faite par l''EN 1992-1-1, et n''apporte qu''une
+  marge non justifiée.'
 decided_by: MM
-decided_at: '2026-10-02T09:02:53-04:00'
-superseded_decisions: 0
+decided_at: '2026-10-02T14:04:31Z'
+superseded_decisions: 1
 application: proposition seulement

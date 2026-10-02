@@ -21,15 +21,10 @@ from quai_cw_test_01.generation.generate import (
     generate_comm,
 )
 from quai_cw_test_01.meshing.combiwall import build_params
+from quai_cw_test_01.testing import fiche_generable
 
 _ROOT = Path(__file__).resolve().parents[3]
-_FICHE = (
-    _ROOT
-    / "projets"
-    / "quai_cw_test_01"
-    / "fiche"
-    / "hypotheses_combiwall_reference_arbitree.json"
-)
+_FICHE = fiche_generable()
 _DATA = _ROOT / "projets" / "quai_cw_test_01" / "donnees" / "combiwall_model_data.yaml"
 
 

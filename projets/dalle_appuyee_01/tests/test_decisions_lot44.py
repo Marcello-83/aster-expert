@@ -31,11 +31,11 @@ def script() -> ModuleType:
     return module
 
 
-def test_current_fiche_and_precedent_are_reproduced(script: ModuleType) -> None:
+def test_lot_44_precedent_is_reproduced(script: ModuleType) -> None:
+    # Lot 45 : la fiche courante est celle de `decisions_lot45` (correction de la
+    # mention de D21, testée dans test_decisions_lot45.py) ; le précédent PRE-031 et
+    # la décision Es sont ceux du lot 44, que la fiche du lot 45 conserve.
     sheet = script.current_sheet()
-    text = json.dumps(sheet.model_dump(mode="json"), ensure_ascii=False, indent=2)
-    assert script.FICHE.read_text(encoding="utf-8") == text + "\n"
-    assert script.DOCUMENT.read_text(encoding="utf-8") == script.lot43.render(sheet)
     precedent = script.precedent(sheet)
     versioned = read_entry(entry_path(_ROOT, precedent), precedent.layer)
     assert dump_entry(versioned) == dump_entry(precedent)
