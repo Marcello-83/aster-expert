@@ -37,6 +37,7 @@ from aster_expert.combinaisons.enumeration import (
     combine,
     enumerate_combinations,
 )
+from aster_expert.ferraillage.unites import check_ferr_min_unit
 from aster_expert.projet.context import ProjectContext
 from aster_expert.projet.declaration import RebarFamily, RebarMember
 from aster_expert.projet.errors import ProjectError
@@ -258,7 +259,7 @@ RESU = CALC_FERRAILLAGE(
 """
         )
     header = "".join(f"# {line}\n" for line in member.comm_header)
-    return f"""{header}# Produit par {PRODUCER} -- ne pas éditer.
+    text = f"""{header}# Produit par {PRODUCER} -- ne pas éditer.
 
 DEBUT(CODE="OUI")
 
@@ -302,6 +303,8 @@ IMPR_TABLE(TABLE=T_FERR, UNITE=6, FORMAT_R="E20.12", TITRE="{TABLE_TITLE}")
 
 FIN()
 """
+    check_ferr_min_unit(text)
+    return text
 
 
 def mesh_text(member: RebarMember, count: int) -> str:

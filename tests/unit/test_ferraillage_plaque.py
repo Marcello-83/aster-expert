@@ -143,6 +143,8 @@ def test_the_commands_name_every_parameter_of_their_family(
     assert text.count("CALC_FERRAILLAGE(") == 3
     assert text.count("ALPHA_CC=1.0") == 3
     assert text.count('UNITE_CONTRAINTE="Pa"') == 3
+    # Lot 45 : le générateur ne demande jamais FERR_MIN (faux en Pa, CA-041).
+    assert "FERR_MIN" not in text
     assert "C_INF=0.048" in text
     assert "GAMMA_C=1.5" in text and "GAMMA_S=1.15" in text
     assert "SIGC_INF_ELS=18000000.0" in text and "SIGS_ELS=400000000.0" in text

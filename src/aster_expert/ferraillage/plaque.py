@@ -38,6 +38,7 @@ from pathlib import Path
 from typing import Any
 
 from aster_expert.combinaisons.enumeration import Combination, enumerate_combinations
+from aster_expert.ferraillage.unites import check_ferr_min_unit
 from aster_expert.projet.context import ProjectContext
 from aster_expert.projet.declaration import RebarFamily, RebarPlate
 from aster_expert.projet.errors import ProjectError
@@ -253,7 +254,9 @@ T_{efge} = CREA_TABLE(
 )
 IMPR_TABLE(TABLE=T_{efge}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}", TITRE="{efge}")
 """)
-    return "".join(blocks)
+    text = "".join(blocks)
+    check_ferr_min_unit(text)
+    return text
 
 
 # --- reading -----------------------------------------------------------------
