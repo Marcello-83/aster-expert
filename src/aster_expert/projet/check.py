@@ -91,7 +91,9 @@ def _numbers(ctx: ProjectContext) -> list[Number]:
     out: list[Number] = []
     if d.combinations is not None:
         c: CombinationsSection = d.combinations
-        out += [c.gamma_g_unfavourable, c.gamma_g_favourable, c.gamma_q]
+        out += [c.gamma_g_unfavourable, c.gamma_q]
+        if c.gamma_g_favourable is not None:
+            out.append(c.gamma_g_favourable)
         for v in c.variables:
             out += [v.psi0, v.psi1, v.psi2]
         for a in c.accidental:
@@ -108,6 +110,23 @@ def _numbers(ctx: ProjectContext) -> list[Number]:
                 member.fck_mpa,
                 member.fyk_mpa,
                 member.eys_pa,
+            ]
+        for plate in d.rebar.plates:
+            out += [
+                plate.thickness_m,
+                plate.cover_mm,
+                plate.fck_mpa,
+                plate.fyk_mpa,
+                plate.fctm_mpa,
+                plate.eys_mpa,
+                plate.alpha_cc,
+                plate.sigma_s_ratio,
+                plate.sigma_c_els_mpa,
+                plate.sigma_c_els_qp_mpa,
+                plate.alpha_e,
+                plate.kt,
+                plate.wk_mm,
+                plate.phi_mm,
             ]
     return out
 
@@ -137,6 +156,10 @@ def _mesh_groups(ctx: ProjectContext) -> list[str]:
         ]
     if d.rebar is not None:
         wanted += [(m.group, "élément à ferrailler") for m in d.rebar.members]
+        wanted += [(p.group, "plaque à ferrailler") for p in d.rebar.plates]
+        wanted += [
+            (p.check_node, "nœud de contrôle du ferraillage") for p in d.rebar.plates
+        ]
     return [
         f"groupe absent du maillage : {group} ({role}, absent des invariants "
         f"{d.mesh.invariants})"

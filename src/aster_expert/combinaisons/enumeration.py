@@ -10,8 +10,9 @@ and in the data).
 Rules, for variable actions `Q_1 ... Q_n` declared in this order:
 
 - fundamental: for each dominant `Q_i`, for γG unfavourable then favourable
-  (applied to the whole permanent block), with then without the other actions
-  (each at γQ ψ0);
+  (applied to the whole permanent block; no favourable block when the
+  declaration gives no favourable γG, lot 43), with then without the other
+  actions (each at γQ ψ0);
 - accidental: written out in the declaration;
 - characteristic: permanent block at 1, dominant at 1, the others at ψ0 (with,
   then without);
@@ -60,7 +61,11 @@ def enumerate_combinations(
     """The combinations of the declaration, `number` resolving a declared value
     (a literal or a value of the data file)."""
     gamma_unfav = number(section.gamma_g_unfavourable)
-    gamma_fav = number(section.gamma_g_favourable)
+    gamma_fav = (
+        number(section.gamma_g_favourable)
+        if section.gamma_g_favourable is not None
+        else None
+    )
     gamma_q = number(section.gamma_q)
     psi = {
         v.name: (number(v.psi0), number(v.psi1), number(v.psi2))
@@ -70,7 +75,10 @@ def enumerate_combinations(
     out: list[Combination] = []
     for dominant in names:
         others = [n for n in names if n != dominant]
-        for gamma_name, gamma_g in (("defav", gamma_unfav), ("favo", gamma_fav)):
+        gammas = [("defav", gamma_unfav)]
+        if gamma_fav is not None:
+            gammas.append(("favo", gamma_fav))
+        for gamma_name, gamma_g in gammas:
             for with_acc in (True, False) if others else (False,):
                 coefficients = dict.fromkeys(section.permanent, gamma_g)
                 coefficients[dominant] = gamma_q

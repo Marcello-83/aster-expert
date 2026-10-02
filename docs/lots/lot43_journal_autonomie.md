@@ -35,3 +35,23 @@ Tenu au fil de la session. Chaque ligne est classée :
 - Arrêt volontaire : fiche prête à arbitrer, remise à MM (`projets/dalle_appuyee_01/fiche/fiche_a_arbitrer.md`).
 - Blocages vrais (impossible d'avancer sans MM) : les 9 points pratiques, les 9 noms de groupes et les 13 valeurs « à fournir ».
 - Aucune intervention de MM pendant la phase 1.
+
+## Phase 2 — après arbitrage
+
+Interventions de MM comptées (règle de la section C de l'arbitrage) : l'arrêt pour
+arbitrage ne compte pas ; la section B compte pour **une** intervention (information
+manquante fournie par le superviseur) ; les questions ELS ci-dessous comptent pour
+**une** seconde intervention.
+
+| # | Classe | Constat | Conséquence |
+|---|---|---|---|
+| 18 | OUTIL | L'origine `arbitrage_mm` demandée par MM n'existait pas dans le schéma (`PracticeOrigin` : `norme`, `precedent_projet`, `decision_ingenieur`). | Ajoutée au tronc commun (date obligatoire, comme `decision_ingenieur`), deux tests. |
+| 19 | MANQUE | L'arbitrage cite « PRE-021 (D21, Act = zone tendue complète) » : aucune entrée PRE-021 dans la base (PRE-001 à PRE-018), et D21 n'est enregistrée dans aucune fiche du dépôt (elle n'apparaît que comme exemple dans la consigne du lot 42). | Consigné tel quel dans la justification du point 14 ; la décision (Act = b·h/2) n'en dépend pas. |
+| 20 | LACUNE | La fiche n'a pas de catégorie « choix de modélisation proposé par l'agent, vérifié par contrôle » (section C, 2) : les choix de la section B (repère, mailles, convergence, lecture des moments, groupes) ont dû être enregistrés comme décisions pratiques d'origine `arbitrage_mm`, avec `decided_by` = « Claude (superviseur), section B — document validé par MM ». | Catégorie à créer au lot 44 (annoncée par MM). |
+| 21 | BLOCAGE | U4.81.42 rend **obligatoires** en 2D, pour l'ELS, `SIGC_INF_ELS`/`SIGC_SUP_ELS`, `ALPHA_E`, `SIGC_ELS_QP`, `KT` (et `PHI_*`, `WMAX_*`), alors que l'arbitrage dit « pas de limite sur σc en XC1 » et ne fixe ni αe, ni KT, ni σc QP, ni Es. Décisions de pratique : posées à MM (quatre questions, une réponse). | Complément d'arbitrage `donnees/sources/arbitrage_dalle_appuyee_01_complement_els.md` ; entrée pratique ajoutée au point 14. Seconde intervention. |
+| 22 | LACUNE | U4.81.42 dit que `CALC_FERRAILLAGE` lit `EFGE_ELNO` (« But »), mais ni U4.81.42 ni R7.04.05 ne disent comment les valeurs aux nœuds d'une maille sont réduites à une densité par maille. | Le contrôle exact module/Code_Aster est déclaré exploratoire (F1) ; le critère porte sur la convergence au centre (F2). |
+| 23 | ÉVITÉ | PAT-009 / DIAG-012 : les efforts se lisent par `CREA_TABLE`, jamais par `POST_RELEVE_T` ; CTL-010 : intitulés de 16 caractères au plus et uniques (contrôlé par le générateur). | Aucune erreur de lecture de table. |
+| 24 | ÉVITÉ | DIAG-001 : chaque ddl bloqué une seule fois (DZ sur `APPUIS`, DX/DY en `P_A`, DY en `P_B`) ; CA-036 : seules les composantes bloquées entrent dans l'équilibre (`supports` de `projet.yaml`). | Pas de pivot nul, bilan juste. |
+| 25 | ÉVITÉ | CA-041 : `FERR_MIN='EC2'` faux hors MPa. Le modèle étant en N et Pa, `UNITE_CONTRAINTE='Pa'` et minima calculés par le module `aster_expert.rebar` (9.2.1.1, 7.3.2), jamais par `FERR_MIN`. | Pas de minimum faux. |
+| 26 | OUTIL | `ctx.number` ne convertit jamais : les champs de la plaque portent leur unité dans leur nom (`cover_mm`, `fck_mpa`…), confrontée à l'unité des données. | Pas de confusion mm/m possible. |
+| 27 | ÉVITÉ | Premier maillage Salomé produit et vérifié du premier coup (PAT-008 : partition unique, groupes sur la géométrie, nombre de segments imposé ; arguments nommés). 60 et 48 invariants tenus. | Aucun aller-retour de maillage. |

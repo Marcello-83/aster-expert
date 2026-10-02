@@ -53,7 +53,9 @@ from aster_expert.constats.base import base_dir, load_base, resolve_sheet
 PROJECT = ROOT / "projets" / "dalle_appuyee_01"
 FICHE = PROJECT / "fiche" / "hypotheses_dalle_projet.json"
 DOCUMENT = PROJECT / "fiche" / "fiche_a_arbitrer.md"
-DATA = PROJECT / "donnees" / "dalle_model_data.yaml"
+# Phase 1 (fiche proposée) : données telles qu'elles étaient à la remise à MM,
+# figées pour que le document d'arbitrage reste reproductible à l'octet.
+DATA = PROJECT / "donnees" / "historique" / "dalle_model_data_phase1.yaml"
 SOURCES = PROJECT / "donnees" / "sources"
 CORPUS = ROOT / "external" / "codeaster-doc"
 

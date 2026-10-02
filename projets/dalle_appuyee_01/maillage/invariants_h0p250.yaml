@@ -1,0 +1,192 @@
+# Généré par scripts/invariants_lot43.py à partir des paramètres (taille 0.25 m, 24 x 16 QUAD4) : ne pas éditer.
+schema_version: 1
+counts:
+  nodes: 425
+  cells:
+    QUAD4: 384
+    SEG2: 120
+bbox:
+- 0.0
+- 6.0
+- 0.0
+- 4.0
+- 0.0
+- 0.0
+bbox_tolerance: 1.0e-09
+groups:
+- name: DALLE
+  kind: cell
+  count: 384
+  bbox:
+  - 0.0
+  - 6.0
+  - 0.0
+  - 4.0
+  - 0.0
+  - 0.0
+  tolerance: 1.0e-09
+  cell_type: QUAD4
+- name: APPUI_X0
+  kind: cell
+  count: 16
+  bbox:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 4.0
+  - 0.0
+  - 0.0
+  tolerance: 1.0e-09
+  cell_type: SEG2
+- name: APPUI_X6
+  kind: cell
+  count: 16
+  bbox:
+  - 6.0
+  - 6.0
+  - 0.0
+  - 4.0
+  - 0.0
+  - 0.0
+  tolerance: 1.0e-09
+  cell_type: SEG2
+- name: APPUI_Y0
+  kind: cell
+  count: 24
+  bbox:
+  - 0.0
+  - 6.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  tolerance: 1.0e-09
+  cell_type: SEG2
+- name: APPUI_Y4
+  kind: cell
+  count: 24
+  bbox:
+  - 0.0
+  - 6.0
+  - 4.0
+  - 4.0
+  - 0.0
+  - 0.0
+  tolerance: 1.0e-09
+  cell_type: SEG2
+- name: APPUIS
+  kind: node
+  count: 80
+  bbox:
+  - 0.0
+  - 6.0
+  - 0.0
+  - 4.0
+  - 0.0
+  - 0.0
+  tolerance: 1.0e-09
+- name: P_A
+  kind: node
+  count: 1
+  bbox:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  tolerance: 1.0e-09
+- name: P_B
+  kind: node
+  count: 1
+  bbox:
+  - 6.0
+  - 6.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  tolerance: 1.0e-09
+- name: CENTRE
+  kind: node
+  count: 1
+  bbox:
+  - 3.0
+  - 3.0
+  - 2.0
+  - 2.0
+  - 0.0
+  - 0.0
+  tolerance: 1.0e-09
+group_areas:
+- group: DALLE
+  area: 24.0
+  tolerance: 1.0e-09
+nodes_at:
+- label: coin A
+  point:
+  - 0.0
+  - 0.0
+  - 0.0
+  tolerance: 1.0e-09
+- label: coin B
+  point:
+  - 6.0
+  - 0.0
+  - 0.0
+  tolerance: 1.0e-09
+- label: centre
+  point:
+  - 3.0
+  - 2.0
+  - 0.0
+  tolerance: 1.0e-09
+- label: coin opposé
+  point:
+  - 6.0
+  - 4.0
+  - 0.0
+  tolerance: 1.0e-09
+shared_nodes:
+- label: coin A dans les appuis
+  groups:
+  - P_A
+  - APPUIS
+  kinds:
+  - node
+  - node
+  count: 1
+  at:
+  - - 0.0
+    - 0.0
+    - 0.0
+  tolerance: 1.0e-09
+- label: coin B dans les appuis
+  groups:
+  - P_B
+  - APPUIS
+  kinds:
+  - node
+  - node
+  count: 1
+  at:
+  - - 6.0
+    - 0.0
+    - 0.0
+  tolerance: 1.0e-09
+- label: centre dans la dalle
+  groups:
+  - CENTRE
+  - DALLE
+  kinds:
+  - node
+  - cell
+  count: 1
+  at:
+  - - 3.0
+    - 2.0
+    - 0.0
+  tolerance: 1.0e-09
+no_orphan_nodes: true
+no_coincident_nodes:
+  tolerance: 1.0e-09

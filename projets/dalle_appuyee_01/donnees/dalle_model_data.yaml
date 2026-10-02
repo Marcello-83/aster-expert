@@ -1,59 +1,95 @@
 # Données chiffrées du modèle DALLE-APPUYEE-01 (lot 43).
 #
 # Schéma : aster_expert.agent.model_data (Pydantic). Chaque valeur porte sa valeur,
-# son unité et sa source, recopiée dans l'unité de la source (m, mm, kPa) : aucune
-# conversion ni déduction ici. La seule source avant arbitrage est la description
-# de MM (sources/description_MM_lot43.md). Toute valeur qu'elle ne donne pas reste
-# `a_fournir`, avec le point de la fiche qui la demande : elle bloque la génération
-# (HypothesesSheet.generation_blockers). Aucune valeur « usuelle » n'est complétée
-# par la session (lot 43 : aucune décision pratique à la place de MM).
+# son unité et sa source, recopiée dans l'unité de la source (m, mm, kPa, MPa) :
+# aucune conversion ni déduction ici (la conversion en m, N, Pa, kg est à la charge
+# du générateur, point 9). Sources : la description de MM
+# (sources/description_MM_lot43.md) et les décisions de la fiche arbitrée (point_label),
+# reportées de l'arbitrage de MM (sources/arbitrage_dalle_appuyee_01_v1.md).
+# Phase 1 (avant arbitrage) : historique/dalle_model_data_phase1.yaml.
 project: DALLE-APPUYEE-01
-case_reference: "Description de MM, consigne du lot 43 (sources/description_MM_lot43.md) ; fiche fiche/hypotheses_dalle_projet.json"
+case_reference: "Description de MM (sources/description_MM_lot43.md) et arbitrage arbitrage_dalle_appuyee_01_v1 ; fiche fiche/hypotheses_dalle_arbitree.json"
 groups:
   geometrie:
     longueur:
-      {status: fourni, value: 6.00, unit: m, source: {kind: cas_test, document: description_MM_lot43.md, section: document}, comment: "Grand côté (6,00 m × 4,00 m) ; son orientation dans le repère est le point 9."}
+      {status: fourni, value: 6.00, unit: m, source: {kind: cas_test, document: description_MM_lot43.md, section: document}, comment: "Côté selon X (point 9)."}
     largeur:
-      {status: fourni, value: 4.00, unit: m, source: {kind: cas_test, document: description_MM_lot43.md, section: document}, comment: "Petit côté."}
+      {status: fourni, value: 4.00, unit: m, source: {kind: cas_test, document: description_MM_lot43.md, section: document}, comment: "Côté selon Y (point 9)."}
     epaisseur:
       {status: fourni, value: 0.30, unit: m, source: {kind: cas_test, document: description_MM_lot43.md, section: document}}
   beton:
     classe:
       {status: fourni, value: C30/37, unit: "-", source: {kind: cas_test, document: description_MM_lot43.md, section: document}}
     module_young:
-      {status: a_fournir, unit: MPa, required_by: "5", comment: "La description donne la classe C30/37, pas le module : module sécant Ecm de l'EN 1992-1-1 (tableau 3.1), module à long terme ou autre valeur, à décider par MM."}
+      {status: fourni, value: 33000, unit: MPa, source: {kind: decision, point_label: "5"}, comment: "Ecm."}
     coefficient_poisson:
-      {status: a_fournir, unit: "-", required_by: "5", comment: "Non donné. L'EN 1992-1-1 (3.1.3) distingue béton non fissuré et fissuré ; les moments de la dalle en dépendent."}
+      {status: fourni, value: 0.2, unit: "-", source: {kind: decision, point_label: "5"}, comment: "Béton non fissuré."}
+    fck:
+      {status: fourni, value: 30, unit: MPa, source: {kind: decision, point_label: "5"}}
+    fctm:
+      {status: fourni, value: 2.9, unit: MPa, source: {kind: decision, point_label: "5"}}
     poids_volumique:
-      {status: a_fournir, unit: kN/m3, required_by: "4", comment: "« poids propre » sans valeur : poids volumique du béton armé à fixer (EN 1991-1-1, annexe A, ou valeur propre à MM)."}
+      {status: fourni, value: 25, unit: kN/m3, source: {kind: decision, point_label: "4"}, comment: "RHO = poids volumique / g (2 548,42 kg/m³) : calculé par le générateur."}
   acier:
     nuance:
-      {status: a_fournir, unit: "-", required_by: "14", comment: "La description ne donne pas l'acier des armatures (fyk, classe de ductilité)."}
+      {status: fourni, value: B500B, unit: "-", source: {kind: decision, point_label: "14"}}
+    fyk:
+      {status: fourni, value: 500, unit: MPa, source: {kind: decision, point_label: "14"}}
     diametre_barres:
-      {status: a_fournir, unit: mm, required_by: "14", comment: "Nécessaire pour passer de l'enrobage (30 mm) à la distance parement–axe des armatures, et pour le calcul d'ouverture de fissure."}
+      {status: fourni, value: 12, unit: mm, source: {kind: decision, point_label: "14"}, comment: "HA12 dans les deux directions, deux nappes."}
+    gamma_c:
+      {status: fourni, value: 1.5, unit: "-", source: {kind: decision, point_label: "14"}, comment: "Situation durable."}
+    gamma_s:
+      {status: fourni, value: 1.15, unit: "-", source: {kind: decision, point_label: "14"}, comment: "Situation durable."}
+    alpha_cc:
+      {status: fourni, value: 1.0, unit: "-", source: {kind: decision, point_label: "14"}, comment: "Écrit explicitement dans le .comm (défaut de Code_Aster : 0,85)."}
+    alpha_e:
+      {status: fourni, value: 15, unit: "-", source: {kind: decision, point_label: "14"}, comment: "Complément d'arbitrage (paramètres ELS)."}
+    sigma_c_els:
+      {status: fourni, value: 18, unit: MPa, source: {kind: decision, point_label: "14"}, comment: "0,6 fck : artifice de saisie exigé en 2D ; inactivité vérifiée par sensibilité."}
+    sigma_c_els_qp:
+      {status: fourni, value: 13.5, unit: MPa, source: {kind: decision, point_label: "14"}, comment: "0,45 fck."}
+    kt:
+      {status: fourni, value: 0.4, unit: "-", source: {kind: decision, point_label: "14"}, comment: "Chargement de longue durée."}
+    module_young:
+      {status: fourni, value: 210000, unit: MPa, source: {kind: decision, point_label: "14"}, comment: "EYS."}
+    rapport_sigma_s_els:
+      {status: fourni, value: 0.8, unit: "-", source: {kind: decision, point_label: "14"}, comment: "σs ≤ 0,8 fyk sous combinaison caractéristique."}
   charges:
     exploitation_uniforme:
       {status: fourni, value: 10, unit: kPa, source: {kind: cas_test, document: description_MM_lot43.md, section: document}}
-    categorie_exploitation:
-      {status: a_fournir, unit: "-", required_by: "13", comment: "La catégorie d'usage (EN 1991-1-1, tableau 6.1) fixe ψ0, ψ1, ψ2 (EN 1990, tableau A1.1) : non donnée."}
     acceleration_pesanteur:
-      {status: a_fournir, unit: m/s2, required_by: "4", comment: "Valeur de g à retenir avec le poids volumique (voir point 4)."}
+      {status: fourni, value: 9.81, unit: m/s2, source: {kind: decision, point_label: "4"}}
+    resultante_poids_propre_attendue:
+      {status: fourni, value: 180.0, unit: kN, source: {kind: decision, point_label: "4"}, comment: "Contrôle de résultante du cas G (MM)."}
+    resultante_exploitation_attendue:
+      {status: fourni, value: 240.0, unit: kN, source: {kind: decision, point_label: "4"}, comment: "Contrôle de résultante du cas Q (MM)."}
   durabilite:
     classe_exposition:
       {status: fourni, value: XC1, unit: "-", source: {kind: cas_test, document: description_MM_lot43.md, section: document}}
     enrobage:
-      {status: fourni, value: 30, unit: mm, source: {kind: cas_test, document: description_MM_lot43.md, section: document}, comment: "Enrobage (nominal ou minimal : non précisé) ; ce n'est pas la distance parement–axe des armatures (précédent PRE-018)."}
-    ouverture_fissure_limite:
-      {status: a_fournir, unit: mm, required_by: "14", comment: "« ELS en XC1 » sans valeur de wk ni combinaison associée (EN 1992-1-1, 7.3.1, tableau 7.1N)."}
+      {status: fourni, value: 30, unit: mm, source: {kind: decision, point_label: "14"}, comment: "Enrobage nominal (P6)."}
+    distance_axe_lit_exterieur:
+      {status: fourni, value: 36, unit: mm, source: {kind: decision, point_label: "14"}, comment: "Barres portant selon Y (petite portée)."}
+    distance_axe_lit_interieur:
+      {status: fourni, value: 48, unit: mm, source: {kind: decision, point_label: "14"}, comment: "Barres portant selon X (grande portée)."}
     distance_parement_axe_armatures:
-      {status: a_fournir, unit: m, required_by: "14", comment: "C_INF/C_SUP de CALC_FERRAILLAGE (une seule valeur par face en 2D pour les deux directions) : à déduire de l'enrobage et des diamètres, décision de MM."}
+      {status: fourni, value: 48, unit: mm, source: {kind: decision, point_label: "14"}, comment: "C_INF = C_SUP de CALC_FERRAILLAGE : une seule distance par face en 2D (catalogue 17.4), valeur sécuritaire pour les deux directions."}
+    ouverture_fissure_limite:
+      {status: fourni, value: 0.4, unit: mm, source: {kind: decision, point_label: "14"}, comment: "Sous combinaison quasi permanente (tableau 7.1N ; 7.1NF à vérifier par MM)."}
   combinaisons:
+    categorie_exploitation:
+      {status: fourni, value: E, unit: "-", source: {kind: decision, point_label: "13"}, comment: "Aires de stockage."}
     gamma_g_defavorable:
-      {status: a_fournir, unit: "-", required_by: "13", comment: "Non donné."}
-    gamma_g_favorable:
-      {status: a_fournir, unit: "-", required_by: "13", comment: "Non donné."}
+      {status: fourni, value: 1.35, unit: "-", source: {kind: decision, point_label: "13"}, comment: "G toujours défavorable : aucun γG favorable."}
     gamma_q:
-      {status: a_fournir, unit: "-", required_by: "13", comment: "Non donné."}
+      {status: fourni, value: 1.5, unit: "-", source: {kind: decision, point_label: "13"}}
+    q_psi0:
+      {status: fourni, value: 1.0, unit: "-", source: {kind: decision, point_label: "13"}}
+    q_psi1:
+      {status: fourni, value: 0.9, unit: "-", source: {kind: decision, point_label: "13"}}
+    q_psi2:
+      {status: fourni, value: 0.8, unit: "-", source: {kind: decision, point_label: "13"}}
   maillage:
-    taille_elements:
-      {status: a_fournir, unit: m, required_by: "10", comment: "Taille de maille du calcul de référence, et suite de maillages de l'étude de convergence."}
+    tailles_convergence:
+      {status: fourni, value: [0.50, 0.25, 0.125], unit: m, source: {kind: decision, point_label: "10"}, comment: "Suite de rapport 2 (12×8, 24×16, 48×32 mailles) ; la chaîne projet utilise la plus fine."}

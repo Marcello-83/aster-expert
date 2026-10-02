@@ -225,7 +225,9 @@ class CombinationsSection(_Model):
 
     permanent: tuple[str, ...]
     gamma_g_unfavourable: Number
-    gamma_g_favourable: Number
+    gamma_g_favourable: Number | None = None
+    """Without it, no fundamental combination with the permanent block favourable
+    (lot 43: a simply supported span where G is always unfavourable)."""
     gamma_q: Number
     variables: tuple[VariableAction, ...]
     frequent_accompanying: Literal["psi0", "psi2"] = "psi2"
@@ -278,8 +280,66 @@ class RebarMember(_Model):
     """Extension `f(ctx, result, out_dir)` writing the Markdown and the figure."""
 
 
+class RebarPlate(_Model):
+    """A plate (DKT, `TYPE_STRUCTURE='2D'`) designed by `CALC_FERRAILLAGE` on the
+    combined results of the project's own `.comm` (lot 43): the commands are
+    written by `aster_expert.ferraillage.plaque.plate_rebar_block`, called by the
+    project's generator, and read back by the `ferraillage` step, which also
+    checks the densities at `check_node` with the independent module
+    `aster_expert.rebar`. Units are named by
+    each field; a value read from the data file must carry the unit named by its
+    field (`_mm`, `_mpa`, `_m`), never converted."""
+
+    group: str
+    """Cell group of the plate (`GROUP_MA`)."""
+    label: str
+    thickness_m: Number
+    """Plate thickness."""
+    cover_mm: Number
+    """Distance from each face to the axis of its bars, `C_INF` = `C_SUP`: one
+    value per face for both directions in 2D (catalogue 17.4)."""
+    fck_mpa: Number
+    fyk_mpa: Number
+    fctm_mpa: Number
+    eys_mpa: Number
+    alpha_cc: Number
+    """Written explicitly: the catalogue default is 0.85."""
+    sigma_s_ratio: Number
+    """`SIGS_ELS` = ratio x fyk (characteristic ELS)."""
+    sigma_c_els_mpa: Number
+    """`SIGC_INF_ELS` = `SIGC_SUP_ELS` (mandatory in 2D at the ELS)."""
+    sigma_c_els_qp_mpa: Number
+    alpha_e: Number
+    kt: Number
+    wk_mm: Number
+    phi_mm: Number
+    families: tuple[RebarFamily, ...]
+    """Combination family (as named by `aster_expert.combinaisons.enumeration`)
+    -> `TYPE_COMB`, with the partial factors of the ULS families."""
+    check_node: str
+    """Node group (one node) of the independent check: the elements around it
+    are compared with `aster_expert.rebar`."""
+    output: str = "ferraillage"
+
+    @model_validator(mode="after")
+    def _uls_families_have_factors(self) -> RebarPlate:
+        for f in self.families:
+            if f.type_comb == "ELU" and (f.gamma_c is None or f.gamma_s is None):
+                message = f"famille {f.family} (ELU) : gamma_c et gamma_s sont requis"
+                raise ValueError(message)
+        return self
+
+
 class RebarSection(_Model):
-    members: tuple[RebarMember, ...]
+    members: tuple[RebarMember, ...] = ()
+    plates: tuple[RebarPlate, ...] = ()
+
+    @model_validator(mode="after")
+    def _not_empty(self) -> RebarSection:
+        if not self.members and not self.plates:
+            message = "ferraillage : ni `members` (1D) ni `plates` (2D)"
+            raise ValueError(message)
+        return self
 
 
 class SynthesisSection(_Model):
@@ -362,6 +422,7 @@ __all__ = [
     "ProjectDeclaration",
     "RebarFamily",
     "RebarMember",
+    "RebarPlate",
     "RebarSection",
     "Resultant",
     "SpringsSection",

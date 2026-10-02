@@ -1,0 +1,98 @@
+# Déclaration du projet DALLE-APPUYEE-01 : dalle appuyée sur quatre côtés (lot 43).
+#
+# Interface avec le tronc commun (schéma aster_expert.projet.declaration). Elle
+# déclare, sans rien calculer : fiche arbitrée et données, maillage (script Salomé,
+# invariants du maillage le plus fin de la suite de convergence), générateur,
+# contrôles de niveau D (réactions, pesanteur, symétrie selon X et Y), combinaisons
+# (règles EN 1990 lues des données) et plaque à ferrailler en 2D. Chemins relatifs
+# au répertoire du projet.
+schema_version: 1
+name: dalle_appuyee_01
+structure: DALLE-APPUYEE-01
+description: >-
+  Dalle en béton armé C30/37 de 6,00 m x 4,00 m x 0,30 m, simplement appuyée sur
+  ses quatre côtés (appui bilatéral), DKT, élasticité linéaire non fissurée ; poids
+  propre et exploitation de 10 kPa ; comparaison à Navier (niveau E) et
+  ferraillage 2D.
+fiche: fiche/hypotheses_dalle_arbitree.json
+data: donnees/dalle_model_data.yaml
+data_sources: donnees/sources
+results: resultats
+
+mesh:
+  script: maillage/dalle_mesh.py
+  parameters: dalle_appuyee_01.extensions:mesh_parameters
+  invariants: maillage/invariants_h0p125.yaml
+
+comm:
+  generator: dalle_appuyee_01.extensions:generate
+  output: resultats/dalle.comm
+  export:
+    time_limit: 900
+    memory_limit: 4096
+    mesh_unit: 20
+    mesh_format: mmed
+  required_data:
+    - geometrie.longueur
+    - geometrie.largeur
+    - geometrie.epaisseur
+    - beton.module_young
+    - beton.coefficient_poisson
+    - beton.poids_volumique
+    - charges.acceleration_pesanteur
+    - charges.exploitation_uniforme
+    - charges.resultante_poids_propre_attendue
+    - charges.resultante_exploitation_attendue
+    - maillage.tailles_convergence
+
+controls:
+  threshold: 1.0e-6
+  vertical: DZ
+  output: equilibre.json
+  total_reactions: {label: TOUS, table: "REAC_TOUS_{case}"}
+  # Seules les composantes réellement bloquées entrent dans l'équilibre (CA-036) ;
+  # P_A et P_B appartiennent aussi à APPUIS, mais pour DZ seulement.
+  supports:
+    - {group: APPUIS, blocked: [DZ], table: "REAC_APPUIS_{case}"}
+    - {group: P_A, blocked: [DX, DY], table: "REAC_PA_{case}"}
+    - {group: P_B, blocked: [DY], table: "REAC_PB_{case}"}
+  cases:
+    - {name: G, gravity: true, expected_resultant: "dalle_appuyee_01.extensions:resultant"}
+    - {name: Q, expected_resultant: "dalle_appuyee_01.extensions:resultant"}
+  # Point 6 (P4) : dalle entière, la symétrie est un contrôle, pas une hypothèse.
+  symmetry_planes:
+    - {normal: X, position: 3.0, table: "SYMETRIE_{case}", cases: [G, Q]}
+    - {normal: Y, position: 2.0, table: "SYMETRIE_{case}", cases: [G, Q]}
+
+# Point 13 (P5) : catégorie E, G toujours défavorable (aucun γG favorable).
+combinations:
+  permanent: [G]
+  gamma_g_unfavourable: {data: combinaisons.gamma_g_defavorable}
+  gamma_q: {data: combinaisons.gamma_q}
+  variables:
+    - {name: Q, psi0: {data: combinaisons.q_psi0}, psi1: {data: combinaisons.q_psi1}, psi2: {data: combinaisons.q_psi2}}
+
+# Point 14 (P6 et complément ELS) : ferraillage 2D par le tronc commun.
+rebar:
+  plates:
+    - group: DALLE
+      label: dalle appuyée
+      thickness_m: {data: geometrie.epaisseur}
+      cover_mm: {data: durabilite.distance_parement_axe_armatures}
+      fck_mpa: {data: beton.fck}
+      fyk_mpa: {data: acier.fyk}
+      fctm_mpa: {data: beton.fctm}
+      eys_mpa: {data: acier.module_young}
+      alpha_cc: {data: acier.alpha_cc}
+      sigma_s_ratio: {data: acier.rapport_sigma_s_els}
+      sigma_c_els_mpa: {data: acier.sigma_c_els}
+      sigma_c_els_qp_mpa: {data: acier.sigma_c_els_qp}
+      alpha_e: {data: acier.alpha_e}
+      kt: {data: acier.kt}
+      wk_mm: {data: durabilite.ouverture_fissure_limite}
+      phi_mm: {data: acier.diametre_barres}
+      families:
+        - {family: ELU fondamentale, type_comb: ELU, gamma_c: 1.5, gamma_s: 1.15}
+        - {family: ELS caractéristique, type_comb: ELS}
+        - {family: ELS quasi permanente, type_comb: ELS_QP}
+      check_node: CENTRE

@@ -131,6 +131,11 @@ ignore = []
 # Lot 41 : prose des rapports du quai (lignes de tableau, titres de figure), reprise
 # telle quelle des scripts des lots 38 et 39.
 "projets/quai_cw_test_01/rapports.py" = ["E501"]
+# Lot 43 : gabarits de commandes CALC_FERRAILLAGE / CREA_TABLE et lignes de tableau
+# Markdown du ferraillage 2D (contenu du .comm et du rapport, non du code).
+"src/aster_expert/ferraillage/plaque.py" = ["E501"]
+# Lot 43 : gabarit du .comm de la dalle (lignes du fichier généré, non du code).
+"projets/dalle_appuyee_01/generation.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -140,7 +145,7 @@ python_version = "3.12"
 # (Python 3.9 de Salomé-Méca, modules `salome`/`GEOM`/`SMESH` absents de ce
 # Python) en sont exclus.
 files = ["src", "tests", "projets"]
-mypy_path = ["src", "projets", "projets/quai_cw_test_01/scripts"]
+mypy_path = ["src", "projets", "projets/quai_cw_test_01/scripts", "projets/dalle_appuyee_01/scripts"]
 explicit_package_bases = true
 exclude = ['^projets/[^/]+/maillage/.*\.py$']
 strict = true

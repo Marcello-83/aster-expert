@@ -195,7 +195,12 @@ from typing import Annotated, Literal, Protocol
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-PracticeOrigin = Literal["norme", "precedent_projet", "decision_ingenieur"]
+PracticeOrigin = Literal[
+    "norme", "precedent_projet", "decision_ingenieur", "arbitrage_mm"
+]
+"""`arbitrage_mm` (lot 43): a decision written in an arbitration document of MM,
+the engineer who supervises every project, reported in a fiche with that
+document as `reference`. Dated, like `decision_ingenieur`."""
 
 
 class DocumentarySource(BaseModel):
@@ -363,8 +368,10 @@ class PracticeSource(BaseModel):
     `origin` distinguishes the three kinds M1 names: `norme` (a normative
     reference -- a standard, a code of practice), `precedent_projet` (a
     prior project's own decision, reused), `decision_ingenieur` (an
-    explicit, dated decision by the engineer working this fiche). `date` is
-    required exactly for `decision_ingenieur` ("avec sa date" in M1 reads
+    explicit, dated decision by the engineer working this fiche) and, since
+    lot 43, `arbitrage_mm` (a decision of MM's arbitration document, named in
+    `reference`). `date` is required exactly for these two dated kinds
+    ("avec sa date" in M1 reads
     naturally against that one kind: an engineer's decision is a dated
     act; a standard's or a prior project's own reference is already dated
     or identified by `reference` itself, e.g. an edition year or a project
@@ -379,7 +386,7 @@ class PracticeSource(BaseModel):
 
     @model_validator(mode="after")
     def _decision_requires_a_date(self) -> PracticeSource:
-        if self.origin == "decision_ingenieur" and self.date is None:
+        if self.origin in ("decision_ingenieur", "arbitrage_mm") and self.date is None:
             message = "une décision explicite de l'ingénieur exige une date"
             raise ValueError(message)
         return self

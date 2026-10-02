@@ -135,6 +135,21 @@ def test_practice_source_cannot_carry_a_document_id() -> None:
         )
 
 
+def test_practice_source_arbitrage_mm_requires_a_date() -> None:
+    """Lot 43: an arbitration of MM is a dated decision, like `decision_ingenieur`."""
+    with pytest.raises(ValidationError, match="exige une date"):
+        PracticeSource(origin="arbitrage_mm", reference="arbitrage_x_v1, P1")
+    dated = PracticeSource(
+        origin="arbitrage_mm", reference="arbitrage_x_v1, P1", date=date(2026, 10, 2)
+    )
+    assert dated.origin == "arbitrage_mm"
+
+
+def test_practice_source_unknown_origin_is_refused() -> None:
+    with pytest.raises(ValidationError):
+        PracticeSource(origin="arbitrage", reference="x", date=date(2026, 10, 2))  # type: ignore[arg-type]
+
+
 def test_practice_source_decision_ingenieur_requires_a_date() -> None:
     with pytest.raises(ValidationError, match="exige une date"):
         PracticeSource(

@@ -545,6 +545,20 @@ def step_ferraillage(ctx: ProjectContext, rt: Runtime) -> list[str]:
             f"{check['comparaisons']} comparaisons, {check['echecs']} échec(s) dans le "
             f"critère -- {out}"
         )
+    for plate in rebar.plates:
+        # Lot 43 : une plaque se ferraille dans l'exécution du projet lui-même
+        # (CALC_FERRAILLAGE écrit par le générateur), rien n'est relancé ici.
+        from aster_expert.ferraillage.plaque import analyze_plate  # noqa: PLC0415
+
+        plate_out = ctx.results_dir / plate.output
+        plate_result = analyze_plate(ctx, plate, mess, plate_out)
+        chk = plate_result["controle_independant"]
+        lines.append(
+            f"{plate.label} : {len(plate_result['combinaisons'])} combinaisons "
+            "ferraillées ; "
+            f"contrôle indépendant au nœud {chk['noeud']} : {chk['reussites_moyenne']}/"
+            f"{chk['comparaisons']} mailles reproduites -- {plate_out}"
+        )
     return lines
 
 
