@@ -1,0 +1,51 @@
+{
+  "report": {
+    "comm_path": "/home/ubuntu/projets/aster-expert/projets/dalle_appuyee_01/resultats/dalle.comm",
+    "aster_version": "17.4.0",
+    "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+    "status": "completed_ok",
+    "diag": "OK",
+    "return_code": 0,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261002T130616-537395b0",
+    "mess_path": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261002T130616-537395b0/proc.0/fort.6",
+    "result_files": [
+      "proc.0/1.export",
+      "proc.0/__timer__",
+      "proc.0/dalle.comm.changed.py",
+      "proc.0/fort.15",
+      "proc.0/fort.20",
+      "proc.0/fort.6",
+      "proc.0/fort.8",
+      "proc.0/fort.9"
+    ],
+    "duration_s": 11.049632730981102,
+    "extracted_by": "run_aster.status",
+    "executed_at": "2026-10-02T13:06:28.048657Z",
+    "messages": [],
+    "messages_source": "run_aster.error_messages",
+    "messages_truncated": 0,
+    "messages_error": null
+  },
+  "command": "python3 /work/_aster_expert_run_comm.py --file /work/dalle.export --wrkdir /work --status-file /work/__status__ --time-limit 1800 --memory-limit 4096",
+  "image": "simvia/code_aster@sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "inputs_sha256": {
+    "dalle.comm": "70ae851c380a4dad612adad6962b2611feea61485fe096aeb533e39d75e09848",
+    "dalle.export": "11ac73e0b80e02471f331128694f05b2e87a1d10c262359cffdcffccda636efd",
+    "dalle.mmed": "0a3868d78543f1db72b01c1d7e90fe9af6a31780ff2af0a81dc83ad7ade9737e"
+  },
+  "outputs": {
+    "proc.0/1.export": 211,
+    "proc.0/__timer__": 348,
+    "proc.0/dalle.comm.changed.py": 18333,
+    "proc.0/fort.15": 60775,
+    "proc.0/fort.20": 152295,
+    "proc.0/fort.6": 2871718,
+    "proc.0/fort.8": 0,
+    "proc.0/fort.9": 0
+  },
+  "alarms_by_identifier": {},
+  "errors": [],
+  "diagnostics": [],
+  "diagnostics_error": null,
+  "origin": null
+}

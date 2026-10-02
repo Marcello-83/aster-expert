@@ -1,0 +1,1899 @@
+{
+ "critere": "1e-6 relatif (1e-12 m² absolu pour une aire nulle), pivots A et B, combinaisons ELU fondamentale et accidentelle",
+ "nombre_de_comparaisons": 63,
+ "dans_le_critere": 63,
+ "echecs": 2,
+ "ecart_relatif_max_dans_le_critere": 0.9941805228996426,
+ "comparaisons": [
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S064",
+   "maille_poutre": 39542,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+   "N_MN": 0.0004255421413287,
+   "MFY_MNm": 0.5494781050569,
+   "MFZ_MNm": 1.528462230047,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.003153820147837,
+    "AYI": 0.0,
+    "AZS": 0.002090861933902,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0031538201478365944,
+    "AYI": 8.109868239878821e-19,
+    "AZS": 0.002090861933902367,
+    "AZI": 7.520108969013489e-18
+   },
+   "ecart_relatif_max": 1.7568242554997956e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S065",
+   "maille_poutre": 39543,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+   "N_MN": 0.0004255421408751,
+   "MFY_MNm": 0.5494781050642,
+   "MFZ_MNm": 1.528462230044,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.00315382014783,
+    "AYI": 0.0,
+    "AZS": 0.002090861933929,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0031538201478292253,
+    "AYI": 0.0,
+    "AZS": 0.002090861933929011,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 2.45592327944439e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S064",
+   "maille_poutre": 39542,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+   "N_MN": 2.0130634804610003e-12,
+   "MFY_MNm": -3.458180383826e-11,
+   "MFZ_MNm": 2.5987738725329997e-12,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 6,
+   "code_aster": {
+    "AYS": 8.645731919535e-15,
+    "AYI": 0.0,
+    "AZS": 0.0,
+    "AZI": 1.127890309897e-13
+   },
+   "module": {
+    "AYS": 8.68427400022442e-15,
+    "AYI": 0.0,
+    "AZS": 0.0,
+    "AZI": 1.1280695343904853e-13
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S065",
+   "maille_poutre": 39543,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+   "N_MN": 1.460527778157e-12,
+   "MFY_MNm": -2.711243584518e-11,
+   "MFZ_MNm": 9.521641792941e-13,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 5,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 7.796313680971e-14,
+    "AZS": 0.0,
+    "AZI": 4.8276293774e-12
+   },
+   "module": {
+    "AYS": 4.238493713194516e-15,
+    "AYI": 1.1715538484046333e-15,
+    "AZS": 4.471232433768487e-18,
+    "AZI": 8.016595307064377e-14
+   },
+   "ecart_relatif_max": 0.9833943439308055,
+   "dans_le_critere": true,
+   "reussite": false
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S064",
+   "maille_poutre": 39542,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+   "N_MN": 0.00042554214091979997,
+   "MFY_MNm": 0.5494781050639,
+   "MFZ_MNm": 1.528462230047,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.003153820147835,
+    "AYI": 0.0,
+    "AZS": 0.002090861933928,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.00315382014783555,
+    "AYI": 9.326348475861554e-18,
+    "AZS": 0.0020908619339279834,
+    "AZI": 6.714383008047758e-18
+   },
+   "ecart_relatif_max": 1.7436230225811903e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S065",
+   "maille_poutre": 39543,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+   "N_MN": 0.0004255421405057,
+   "MFY_MNm": 0.5494781050699,
+   "MFZ_MNm": 1.528462230044,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.003153820147829,
+    "AYI": 0.0,
+    "AZS": 0.00209086193395,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0031538201478282834,
+    "AYI": 2.8384538839563873e-18,
+    "AZS": 0.002090861933949773,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 2.2716602786357327e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S064",
+   "maille_poutre": 39542,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+   "N_MN": 1.604108594716e-12,
+   "MFY_MNm": -2.758812034106e-11,
+   "MFZ_MNm": 2.21528604955e-12,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 6,
+   "code_aster": {
+    "AYS": 7.156737504445e-15,
+    "AYI": 0.0,
+    "AZS": 0.0,
+    "AZI": 8.99824020593e-14
+   },
+   "module": {
+    "AYS": 7.165186653487063e-15,
+    "AYI": 4.607986015488863e-19,
+    "AZS": 5.8437965227366744e-18,
+    "AZI": 8.99884329856936e-14
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S065",
+   "maille_poutre": 39543,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+   "N_MN": 1.091140723743e-12,
+   "MFY_MNm": -2.133121462678e-11,
+   "MFZ_MNm": 1.0382609997619998e-12,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 6,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 7.288640869079e-14,
+    "AZS": 0.0,
+    "AZI": 1.190025168184e-11
+   },
+   "module": {
+    "AYS": 4.062318399448473e-15,
+    "AYI": 3.836330094497356e-16,
+    "AZS": 0.0,
+    "AZI": 6.925324215095735e-14
+   },
+   "ecart_relatif_max": 0.9941805228996426,
+   "dans_le_critere": true,
+   "reussite": false
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S064",
+   "maille_poutre": 39542,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+   "N_MN": 0.0006079173437619,
+   "MFY_MNm": 0.7849687215269999,
+   "MFZ_MNm": 2.183517471494,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.004513417090189,
+    "AYI": 0.0,
+    "AZS": 0.002990546648578,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.004513417090188326,
+    "AYI": 0.0,
+    "AZS": 0.0029905466485786107,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 2.0418429648441078e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S065",
+   "maille_poutre": 39543,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+   "N_MN": 0.0006079173434706999,
+   "MFY_MNm": 0.7849687215333,
+   "MFZ_MNm": 2.183517471491,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.004513417090181,
+    "AYI": 0.0,
+    "AZS": 0.002990546648602,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.00451341709018135,
+    "AYI": 0.0,
+    "AZS": 0.0029905466486019276,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 7.744615076008448e-14,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S064",
+   "maille_poutre": 39542,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+   "N_MN": 0.0006079173434569,
+   "MFY_MNm": 0.7849687215323,
+   "MFZ_MNm": 2.1835174714930004,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.004513417090186,
+    "AYI": 0.0,
+    "AZS": 0.002990546648598,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.004513417090185473,
+    "AYI": 0.0,
+    "AZS": 0.0029905466485980682,
+    "AZI": 6.982958328369668e-18
+   },
+   "ecart_relatif_max": 1.16649661318419e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S065",
+   "maille_poutre": 39543,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+   "N_MN": 0.0006079173434456,
+   "MFY_MNm": 0.7849687215367,
+   "MFZ_MNm": 2.18351747149,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.00451341709018,
+    "AYI": 0.0,
+    "AZS": 0.002990546648615,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.004513417090179209,
+    "AYI": 0.0,
+    "AZS": 0.0029905466486148595,
+    "AZI": 8.86298557062304e-18
+   },
+   "ecart_relatif_max": 1.752627530849086e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S064",
+   "maille_poutre": 39542,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+   "N_MN": 0.000607917343353,
+   "MFY_MNm": 0.7849687215339,
+   "MFZ_MNm": 2.183517471494,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.004513417090187,
+    "AYI": 0.0,
+    "AZS": 0.002990546648604,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.004513417090187289,
+    "AYI": 3.2843551134359506e-18,
+    "AZS": 0.002990546648603911,
+    "AZI": 2.417177882897193e-18
+   },
+   "ecart_relatif_max": 6.39939657644521e-14,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S065",
+   "maille_poutre": 39543,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+   "N_MN": 0.0006079173431013,
+   "MFY_MNm": 0.7849687215391,
+   "MFZ_MNm": 2.183517471491,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.004513417090181,
+    "AYI": 0.0,
+    "AZS": 0.002990546648623,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.004513417090180411,
+    "AYI": 1.8298549917702618e-17,
+    "AZS": 0.002990546648623127,
+    "AZI": 8.862985570623039e-18
+   },
+   "ecart_relatif_max": 1.3048619445682738e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S064",
+   "maille_poutre": 39542,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+   "N_MN": 0.000607917343048,
+   "MFY_MNm": 0.7849687215393001,
+   "MFZ_MNm": 2.1835174714930004,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.004513417090185,
+    "AYI": 0.0,
+    "AZS": 0.002990546648624,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.004513417090184434,
+    "AYI": 4.691935876336338e-18,
+    "AZS": 0.0029905466486237525,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 1.2529749452986165e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S065",
+   "maille_poutre": 39543,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+   "N_MN": 0.0006079173430762001,
+   "MFY_MNm": 0.7849687215423999,
+   "MFZ_MNm": 2.18351747149,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.004513417090179,
+    "AYI": 0.0,
+    "AZS": 0.002990546648636,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.004513417090178271,
+    "AYI": 1.407580762899872e-17,
+    "AZS": 0.0029905466486356775,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 1.616183940180272e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S064",
+   "maille_poutre": 39542,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_ACCIDENTELLE",
+   "N_MN": 0.0004447740283903,
+   "MFY_MNm": 0.024822598916899998,
+   "MFZ_MNm": -1.2971734895309999,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.0023245855175,
+    "AZS": 8.289550716425e-05,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0,
+    "AYI": 0.002324585517500727,
+    "AZS": 8.289550716425497e-05,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 3.1267902641661145e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "bollard (X = 0)",
+   "section_code_aster": "S065",
+   "maille_poutre": 39543,
+   "noeud_poutre": 2259,
+   "combinaison": "ELU_ACCIDENTELLE",
+   "N_MN": 0.0004447740287323,
+   "MFY_MNm": 0.02482259891912,
+   "MFZ_MNm": -1.2971734895279998,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.002324585517497,
+    "AZS": 8.289550717232e-05,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 2.4027483880426718e-17,
+    "AYI": 0.0023245855174960977,
+    "AZS": 8.289550717236492e-05,
+    "AZI": 1.2324510209478966e-17
+   },
+   "ecart_relatif_max": 5.419669781252679e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S056",
+   "maille_poutre": 39538,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+   "N_MN": 0.0004255421413287,
+   "MFY_MNm": 0.30867576687489995,
+   "MFZ_MNm": 1.014062934711,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002089892892633,
+    "AYI": 0.0,
+    "AZS": 0.001173619009132,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0020898928926321126,
+    "AYI": 1.2287986978054173e-17,
+    "AZS": 0.0011736190091323623,
+    "AZI": 3.3571915040238795e-19
+   },
+   "ecart_relatif_max": 4.245725037345036e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S057",
+   "maille_poutre": 39539,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+   "N_MN": 0.0004255421413287,
+   "MFY_MNm": 0.30867576687489995,
+   "MFZ_MNm": 1.014062934711,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002089892892632,
+    "AYI": 0.0,
+    "AZS": 0.001173619009132,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0020898928926321126,
+    "AYI": 1.2287986978054173e-17,
+    "AZS": 0.0011736190091323623,
+    "AZI": 3.3571915040238795e-19
+   },
+   "ecart_relatif_max": 3.087376424760945e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S056",
+   "maille_poutre": 39538,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+   "N_MN": 2.0130634804610003e-12,
+   "MFY_MNm": -2.761550744544e-11,
+   "MFZ_MNm": 5.379234643663e-12,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 7,
+   "code_aster": {
+    "AYS": 1.472821668923e-14,
+    "AYI": 0.0,
+    "AZS": 0.0,
+    "AZI": 1.000588936251e-13
+   },
+   "module": {
+    "AYS": 1.4745580623642916e-14,
+    "AYI": 0.0,
+    "AZS": 0.0,
+    "AZI": 1.0006966395928371e-13
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S057",
+   "maille_poutre": 39539,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+   "N_MN": 2.0130634804610003e-12,
+   "MFY_MNm": -2.7621612852439998e-11,
+   "MFZ_MNm": 5.196305824528e-12,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 7,
+   "code_aster": {
+    "AYS": 1.438685798789e-14,
+    "AYI": 0.0,
+    "AZS": 0.0,
+    "AZI": 1.000588936251e-13
+   },
+   "module": {
+    "AYS": 1.4403521740302822e-14,
+    "AYI": 0.0,
+    "AZS": 0.0,
+    "AZI": 1.0009077465788531e-13
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S056",
+   "maille_poutre": 39538,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+   "N_MN": 0.00042554214091979997,
+   "MFY_MNm": 0.3086757668804,
+   "MFZ_MNm": 1.0140629347099999,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002089892892629,
+    "AYI": 0.0,
+    "AZS": 0.001173619009152,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0020898928926290014,
+    "AYI": 1.1737778605901344e-17,
+    "AZS": 0.0011736190091522047,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 1.7441552034261264e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S057",
+   "maille_poutre": 39539,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+   "N_MN": 0.00042554214091979997,
+   "MFY_MNm": 0.3086757668804,
+   "MFZ_MNm": 1.0140629347099999,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002089892892628,
+    "AYI": 0.0,
+    "AZS": 0.001173619009152,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0020898928926290014,
+    "AYI": 1.1737778605901344e-17,
+    "AZS": 0.0011736190091522047,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 4.791485391617031e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S056",
+   "maille_poutre": 39538,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+   "N_MN": 1.604108594716e-12,
+   "MFY_MNm": -2.2053890869660002e-11,
+   "MFZ_MNm": 3.971143604248e-12,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 7,
+   "code_aster": {
+    "AYS": 1.113970168208e-14,
+    "AYI": 0.0,
+    "AZS": 0.0,
+    "AZI": 7.992435081669e-14
+   },
+   "module": {
+    "AYS": 1.1160894807233894e-14,
+    "AYI": 0.0,
+    "AZS": 4.385595942117069e-18,
+    "AZI": 7.990690302554193e-14
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S057",
+   "maille_poutre": 39539,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+   "N_MN": 1.604108594716e-12,
+   "MFY_MNm": -2.205827313201e-11,
+   "MFZ_MNm": 3.821877706566e-12,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 7,
+   "code_aster": {
+    "AYS": 1.084710850949e-14,
+    "AYI": 0.0,
+    "AZS": 0.0,
+    "AZI": 7.992435081669e-14
+   },
+   "module": {
+    "AYS": 1.0881749796749234e-14,
+    "AYI": 8.416475920735964e-18,
+    "AZS": 1.0029883762221681e-17,
+    "AZI": 7.992157770804018e-14
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S056",
+   "maille_poutre": 39538,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+   "N_MN": 0.0006079173437619,
+   "MFY_MNm": 0.44096538126350004,
+   "MFZ_MNm": 1.4486613352989999,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.00298904025191,
+    "AYI": 0.0,
+    "AZS": 0.00167772737913,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.00298904025190882,
+    "AYI": 9.57412964747815e-18,
+    "AZS": 0.0016777273791297998,
+    "AZI": 2.9543285235410143e-18
+   },
+   "ecart_relatif_max": 3.9479081748035096e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S057",
+   "maille_poutre": 39539,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+   "N_MN": 0.0006079173437619,
+   "MFY_MNm": 0.44096538126350004,
+   "MFZ_MNm": 1.4486613352989999,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251909,
+    "AYI": 0.0,
+    "AZS": 0.00167772737913,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.00298904025190882,
+    "AYI": 9.57412964747815e-18,
+    "AZS": 0.0016777273791297998,
+    "AZI": 2.9543285235410143e-18
+   },
+   "ecart_relatif_max": 1.1929454304108119e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S056",
+   "maille_poutre": 39538,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+   "N_MN": 0.0006079173434569,
+   "MFY_MNm": 0.4409653812678,
+   "MFZ_MNm": 1.4486613353,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251909,
+    "AYI": 0.0,
+    "AZS": 0.001677727379145,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.002989040251910114,
+    "AYI": 0.0,
+    "AZS": 0.0016777273791453737,
+    "AZI": 7.385821308852534e-18
+   },
+   "ecart_relatif_max": 3.727370856696005e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S057",
+   "maille_poutre": 39539,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+   "N_MN": 0.0006079173434569,
+   "MFY_MNm": 0.4409653812678,
+   "MFZ_MNm": 1.4486613352989999,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251909,
+    "AYI": 0.0,
+    "AZS": 0.001677727379145,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0029890402519080414,
+    "AYI": 2.0345025500892525e-17,
+    "AZS": 0.0016777273791453735,
+    "AZI": 7.385821308852534e-18
+   },
+   "ecart_relatif_max": 3.206496533009436e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S056",
+   "maille_poutre": 39538,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+   "N_MN": 0.000607917343353,
+   "MFY_MNm": 0.440965381269,
+   "MFZ_MNm": 1.448661335298,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251906,
+    "AYI": 0.0,
+    "AZS": 0.00167772737915,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0029890402519057073,
+    "AYI": 0.0,
+    "AZS": 0.0016777273791496708,
+    "AZI": 1.3428766016095518e-19
+   },
+   "ecart_relatif_max": 1.9619622571419557e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S057",
+   "maille_poutre": 39539,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+   "N_MN": 0.000607917343353,
+   "MFY_MNm": 0.440965381269,
+   "MFZ_MNm": 1.448661335298,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251906,
+    "AYI": 0.0,
+    "AZS": 0.00167772737915,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0029890402519057073,
+    "AYI": 0.0,
+    "AZS": 0.0016777273791496708,
+    "AZI": 1.3428766016095518e-19
+   },
+   "ecart_relatif_max": 1.9619622571419557e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S056",
+   "maille_poutre": 39538,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+   "N_MN": 0.000607917343048,
+   "MFY_MNm": 0.44096538127339996,
+   "MFZ_MNm": 1.448661335298,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251905,
+    "AYI": 0.0,
+    "AZS": 0.001677727379165,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0029890402519049297,
+    "AYI": 1.9946103432245413e-18,
+    "AZS": 0.0016777273791656268,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 3.7365170522691456e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S057",
+   "maille_poutre": 39539,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+   "N_MN": 0.000607917343048,
+   "MFY_MNm": 0.44096538127339996,
+   "MFZ_MNm": 1.448661335298,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251905,
+    "AYI": 0.0,
+    "AZS": 0.001677727379165,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0029890402519049297,
+    "AYI": 1.9946103432245413e-18,
+    "AZS": 0.0016777273791656268,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 3.7365170522691456e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S056",
+   "maille_poutre": 39538,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_ACCIDENTELLE",
+   "N_MN": 0.0004447740283903,
+   "MFY_MNm": 0.01577431065598,
+   "MFZ_MNm": -0.8582813702288,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.00153696604439,
+    "AZS": 5.305094847936e-05,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 2.7075553235796128e-18,
+    "AYI": 0.0015369660443899128,
+    "AZS": 5.305094847939086e-05,
+    "AZI": 3.093820147848093e-18
+   },
+   "ecart_relatif_max": 5.816880794573685e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = -1,30)",
+   "section_code_aster": "S057",
+   "maille_poutre": 39539,
+   "noeud_poutre": 37587,
+   "combinaison": "ELU_ACCIDENTELLE",
+   "N_MN": 0.0004447740283903,
+   "MFY_MNm": 0.01577431065598,
+   "MFZ_MNm": -0.8582813702288999,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.00153696604439,
+    "AZS": 5.305094847936e-05,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 1.3236937137500523e-17,
+    "AYI": 0.001536966044390092,
+    "AZS": 5.3050948479390855e-05,
+    "AZI": 3.0938201478480935e-18
+   },
+   "ecart_relatif_max": 5.815603482146242e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S072",
+   "maille_poutre": 39546,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+   "N_MN": 0.0004255421408751,
+   "MFY_MNm": 0.3086757668876,
+   "MFZ_MNm": 1.014062934699,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002089892892605,
+    "AYI": 0.0,
+    "AZS": 0.001173619009179,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0020898928926061677,
+    "AYI": 1.3755209303762845e-17,
+    "AZS": 0.0011736190091794793,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 5.586261877164995e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S073",
+   "maille_poutre": 39547,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+   "N_MN": 0.0004255421408751,
+   "MFY_MNm": 0.3086757668876,
+   "MFZ_MNm": 1.014062934699,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002089892892606,
+    "AYI": 0.0,
+    "AZS": 0.001173619009179,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0020898928926061677,
+    "AYI": 1.3755209303762845e-17,
+    "AZS": 0.0011736190091794793,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 4.083244702841271e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S072",
+   "maille_poutre": 39546,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+   "N_MN": 1.460527778157e-12,
+   "MFY_MNm": -1.481090156943e-11,
+   "MFZ_MNm": -5.834818055516e-12,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 7,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 1.429987662301e-14,
+    "AZS": 0.0,
+    "AZI": 5.456423847681e-14
+   },
+   "module": {
+    "AYS": 4.0673595392715136e-18,
+    "AYI": 1.430594622627835e-14,
+    "AZS": 6.935434561066873e-20,
+    "AZI": 5.458884215784926e-14
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S073",
+   "maille_poutre": 39547,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+   "N_MN": 1.460527778157e-12,
+   "MFY_MNm": -1.48143620362e-11,
+   "MFZ_MNm": -5.77316429379e-12,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 7,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 1.420234556548e-14,
+    "AZS": 0.0,
+    "AZI": 5.456423847681e-14
+   },
+   "module": {
+    "AYS": 0.0,
+    "AYI": 1.4191030412796805e-14,
+    "AZS": 9.156586550487242e-18,
+    "AZI": 5.4600073895962715e-14
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S072",
+   "maille_poutre": 39546,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+   "N_MN": 0.0004255421405057,
+   "MFY_MNm": 0.30867576689079995,
+   "MFZ_MNm": 1.014062934701,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002089892892608,
+    "AYI": 0.0,
+    "AZS": 0.001173619009191,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0020898928926093544,
+    "AYI": 1.1737778605882878e-17,
+    "AZS": 0.0011736190091906737,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 6.480644815141039e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S073",
+   "maille_poutre": 39547,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+   "N_MN": 0.0004255421405057,
+   "MFY_MNm": 0.30867576689079995,
+   "MFZ_MNm": 1.014062934701,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002089892892608,
+    "AYI": 0.0,
+    "AZS": 0.001173619009191,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0020898928926093544,
+    "AYI": 1.1737778605882878e-17,
+    "AZS": 0.0011736190091906737,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 6.480644815141039e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S072",
+   "maille_poutre": 39546,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+   "N_MN": 1.091140723743e-12,
+   "MFY_MNm": -1.155028938898e-11,
+   "MFZ_MNm": -3.989153837737e-12,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 7,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 1.001092707001e-14,
+    "AZS": 0.0,
+    "AZI": 4.243710098801e-14
+   },
+   "module": {
+    "AYS": 4.824936550979355e-18,
+    "AYI": 9.996804381089492e-15,
+    "AZS": 1.91378649007916e-18,
+    "AZI": 4.245550617183788e-14
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S073",
+   "maille_poutre": 39547,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+   "N_MN": 1.091140723743e-12,
+   "MFY_MNm": -1.1553030785709999e-11,
+   "MFZ_MNm": -3.96191643937e-12,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 7,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 9.91339601248e-15,
+    "AZS": 0.0,
+    "AZI": 4.248427002625e-14
+   },
+   "module": {
+    "AYS": 0.0,
+    "AYI": 9.946412034948193e-15,
+    "AZS": 0.0,
+    "AZI": 4.246574540131867e-14
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S072",
+   "maille_poutre": 39546,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+   "N_MN": 0.0006079173434706999,
+   "MFY_MNm": 0.440965381275,
+   "MFZ_MNm": 1.448661335286,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251881,
+    "AYI": 0.0,
+    "AZS": 0.001677727379173,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.002989040251881163,
+    "AYI": 0.0,
+    "AZS": 0.0016777273791728406,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 9.499619624371333e-14,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S073",
+   "maille_poutre": 39547,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+   "N_MN": 0.0006079173434706999,
+   "MFY_MNm": 0.440965381275,
+   "MFZ_MNm": 1.448661335286,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251881,
+    "AYI": 0.0,
+    "AZS": 0.001677727379173,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.002989040251881163,
+    "AYI": 0.0,
+    "AZS": 0.0016777273791728406,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 9.499619624371333e-14,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S072",
+   "maille_poutre": 39546,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+   "N_MN": 0.0006079173434456,
+   "MFY_MNm": 0.4409653812765,
+   "MFZ_MNm": 1.448661335285,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251879,
+    "AYI": 0.0,
+    "AZS": 0.001677727379179,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.00298904025187903,
+    "AYI": 0.0,
+    "AZS": 0.0016777273791784874,
+    "AZI": 1.3428766016095518e-19
+   },
+   "ecart_relatif_max": 3.0553878628480977e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S073",
+   "maille_poutre": 39547,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+   "N_MN": 0.0006079173434456,
+   "MFY_MNm": 0.4409653812765,
+   "MFZ_MNm": 1.448661335285,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251879,
+    "AYI": 0.0,
+    "AZS": 0.001677727379179,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.00298904025187903,
+    "AYI": 0.0,
+    "AZS": 0.0016777273791784874,
+    "AZI": 1.3428766016095518e-19
+   },
+   "ecart_relatif_max": 3.0553878628480977e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S072",
+   "maille_poutre": 39546,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+   "N_MN": 0.0006079173431013,
+   "MFY_MNm": 0.4409653812782,
+   "MFZ_MNm": 1.448661335288,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251884,
+    "AYI": 0.0,
+    "AZS": 0.001677727379184,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0029890402518843624,
+    "AYI": -0.0,
+    "AZS": 0.0016777273791840522,
+    "AZI": 7.788684289335398e-18
+   },
+   "ecart_relatif_max": 1.2129552496008976e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S073",
+   "maille_poutre": 39547,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+   "N_MN": 0.0006079173431013,
+   "MFY_MNm": 0.4409653812782,
+   "MFZ_MNm": 1.448661335288,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251884,
+    "AYI": 0.0,
+    "AZS": 0.001677727379184,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0029890402518843624,
+    "AYI": -0.0,
+    "AZS": 0.0016777273791840522,
+    "AZI": 7.788684289335398e-18
+   },
+   "ecart_relatif_max": 1.2129552496008976e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S072",
+   "maille_poutre": 39546,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+   "N_MN": 0.0006079173430762001,
+   "MFY_MNm": 0.4409653812798,
+   "MFZ_MNm": 1.4486613352870001,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251882,
+    "AYI": 0.0,
+    "AZS": 0.00167772737919,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0029890402518822287,
+    "AYI": 0.0,
+    "AZS": 0.001677727379190082,
+    "AZI": 1.342876601609552e-18
+   },
+   "ecart_relatif_max": 7.646260963398677e-14,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S073",
+   "maille_poutre": 39547,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+   "N_MN": 0.0006079173430762001,
+   "MFY_MNm": 0.4409653812798,
+   "MFZ_MNm": 1.4486613352870001,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.002989040251882,
+    "AYI": 0.0,
+    "AZS": 0.00167772737919,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0029890402518822287,
+    "AYI": 0.0,
+    "AZS": 0.001677727379190082,
+    "AZI": 1.342876601609552e-18
+   },
+   "ecart_relatif_max": 7.646260963398677e-14,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S072",
+   "maille_poutre": 39546,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_ACCIDENTELLE",
+   "N_MN": 0.0004447740287323,
+   "MFY_MNm": 0.01577431066147,
+   "MFZ_MNm": -0.8582813702277999,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.001536966044389,
+    "AZS": 5.305094849831e-05,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0,
+    "AYI": 0.0015369660443888815,
+    "AZS": 5.305094849828799e-05,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 4.148710762854103e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "mi-travée entre tubes (X = +1,30)",
+   "section_code_aster": "S073",
+   "maille_poutre": 39547,
+   "noeud_poutre": 37594,
+   "combinaison": "ELU_ACCIDENTELLE",
+   "N_MN": 0.0004447740287323,
+   "MFY_MNm": 0.01577431066146,
+   "MFZ_MNm": -0.8582813702277,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.001536966044389,
+    "AZS": 5.305094849825e-05,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 1.8351208304258043e-17,
+    "AYI": 0.0015369660443887018,
+    "AZS": 5.30509484982543e-05,
+    "AZI": 7.596518393793162e-18
+   },
+   "ecart_relatif_max": 1.9398971013184709e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "plan de symétrie SYM_G (X = -10,40)",
+   "section_code_aster": "S001",
+   "maille_poutre": 39511,
+   "noeud_poutre": 2255,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+   "N_MN": -0.0001916404048437,
+   "MFY_MNm": -0.15748551382009998,
+   "MFZ_MNm": -0.7898592884626999,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.001625516135944,
+    "AZS": 0.0,
+    "AZI": 0.0005972340927288
+   },
+   "module": {
+    "AYS": 4.051482221366516e-18,
+    "AYI": 0.0016255161359440308,
+    "AZS": 0.0,
+    "AZI": 0.0005972340927289786
+   },
+   "ecart_relatif_max": 2.989918023474185e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "plan de symétrie SYM_G (X = -10,40)",
+   "section_code_aster": "S001",
+   "maille_poutre": 39511,
+   "noeud_poutre": 2255,
+   "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+   "N_MN": -6.67845344988e-12,
+   "MFY_MNm": 2.954981842891e-11,
+   "MFZ_MNm": -4.364432964005e-11,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 9,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 7.972823851501e-14,
+    "AZS": 1.037276419813e-13,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0,
+    "AYI": 7.975909905362563e-14,
+    "AZS": 1.0377155337802129e-13,
+    "AZI": 5.2605114497294394e-18
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "plan de symétrie SYM_G (X = -10,40)",
+   "section_code_aster": "S001",
+   "maille_poutre": 39511,
+   "noeud_poutre": 2255,
+   "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+   "N_MN": -0.0001916404032388,
+   "MFY_MNm": -0.157485513827,
+   "MFZ_MNm": -0.7898592884569,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.001625516135936,
+    "AZS": 0.0,
+    "AZI": 0.0005972340927596
+   },
+   "module": {
+    "AYS": 0.0,
+    "AYI": 0.0016255161359361719,
+    "AZS": 0.0,
+    "AZI": 0.0005972340927594431
+   },
+   "ecart_relatif_max": 2.626843582116164e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "plan de symétrie SYM_G (X = -10,40)",
+   "section_code_aster": "S001",
+   "maille_poutre": 39511,
+   "noeud_poutre": 2255,
+   "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+   "N_MN": -5.0734958333110004e-12,
+   "MFY_MNm": 2.256655771843e-11,
+   "MFZ_MNm": -3.784755778581e-11,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 9,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 7.120253593625e-14,
+    "AZS": 7.932854498932e-14,
+    "AZI": 0.0
+   },
+   "module": {
+    "AYS": 0.0,
+    "AYI": 7.119351492539582e-14,
+    "AZS": 7.932734475828785e-14,
+    "AZI": 0.0
+   },
+   "ecart_relatif_max": 0.0,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "plan de symétrie SYM_G (X = -10,40)",
+   "section_code_aster": "S001",
+   "maille_poutre": 39511,
+   "noeud_poutre": 2255,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+   "N_MN": -0.00027377200391100003,
+   "MFY_MNm": -0.2249793054707,
+   "MFZ_MNm": -1.128370412065,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.00232427364723,
+    "AZS": 0.0,
+    "AZI": 0.000853485205603
+   },
+   "module": {
+    "AYS": 3.7477717548348144e-19,
+    "AYI": 0.0023242736472311766,
+    "AZS": 1.6785957520119395e-18,
+    "AZI": 0.0008534852056030776
+   },
+   "ecart_relatif_max": 5.062124242482731e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "plan de symétrie SYM_G (X = -10,40)",
+   "section_code_aster": "S001",
+   "maille_poutre": 39511,
+   "noeud_poutre": 2255,
+   "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+   "N_MN": -0.0002737720035695,
+   "MFY_MNm": -0.2249793054725,
+   "MFZ_MNm": -1.12837041205,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.0023242736472,
+    "AZS": 0.0,
+    "AZI": 0.0008534852056109
+   },
+   "module": {
+    "AYS": 1.4054144080589676e-17,
+    "AYI": 0.0023242736472010466,
+    "AZS": 1.611451921931462e-18,
+    "AZI": 0.0008534852056108247
+   },
+   "ecart_relatif_max": 4.502361149011859e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "plan de symétrie SYM_G (X = -10,40)",
+   "section_code_aster": "S001",
+   "maille_poutre": 39511,
+   "noeud_poutre": 2255,
+   "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+   "N_MN": -0.00027377200230609995,
+   "MFY_MNm": -0.22497930547769998,
+   "MFZ_MNm": -1.128370412059,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.002324273647222,
+    "AZS": 0.0,
+    "AZI": 0.0008534852056338
+   },
+   "module": {
+    "AYS": 6.558600570951201e-18,
+    "AYI": 0.002324273647222874,
+    "AZS": 0.0,
+    "AZI": 0.0008534852056339388
+   },
+   "ecart_relatif_max": 3.7597421115514707e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "plan de symétrie SYM_G (X = -10,40)",
+   "section_code_aster": "S001",
+   "maille_poutre": 39511,
+   "noeud_poutre": 2255,
+   "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+   "N_MN": -0.0002737720019645,
+   "MFY_MNm": -0.2249793054795,
+   "MFZ_MNm": -1.1283704120440001,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0,
+    "AYI": 0.002324273647192,
+    "AZS": 0.0,
+    "AZI": 0.0008534852056417
+   },
+   "module": {
+    "AYS": 0.0,
+    "AYI": 0.0023242736471927464,
+    "AZS": 8.795841740542562e-18,
+    "AZI": 0.000853485205641685
+   },
+   "ecart_relatif_max": 3.2111742799324824e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  },
+  {
+   "section": "plan de symétrie SYM_G (X = -10,40)",
+   "section_code_aster": "S001",
+   "maille_poutre": 39511,
+   "noeud_poutre": 2255,
+   "combinaison": "ELU_ACCIDENTELLE",
+   "N_MN": -0.00017838195294260002,
+   "MFY_MNm": -0.01701227028267,
+   "MFZ_MNm": 0.6639709397440999,
+   "pivots_z_y": [
+    "A",
+    "A"
+   ],
+   "iterations_bresler": 8,
+   "code_aster": {
+    "AYS": 0.0011873488397,
+    "AYI": 0.0,
+    "AZS": 0.0,
+    "AZI": 5.569568811492e-05
+   },
+   "module": {
+    "AYS": 0.001187348839699586,
+    "AYI": 0.0,
+    "AZS": 0.0,
+    "AZI": 5.5695688114954267e-05
+   },
+   "ecart_relatif_max": 6.152642345201432e-13,
+   "dans_le_critere": true,
+   "reussite": true
+  }
+ ]
+}

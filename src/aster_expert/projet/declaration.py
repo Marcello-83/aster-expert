@@ -347,6 +347,82 @@ class SynthesisSection(_Model):
     """Extension `f(ctx, run_dir, out_dir, level_d_path, views) -> list[Path]`."""
 
 
+PackageSectionName = Literal[
+    "maillage",
+    "validation",
+    "controles",
+    "niveau_e",
+    "cas",
+    "combinaisons",
+    "ferraillage",
+]
+"""Sections of a results package (lot 45): what a results note may display is
+decided by the sections the package holds, never by the project's name."""
+
+PACKAGE_MAX_BYTES = 20 * 1024 * 1024
+"""Ceiling of a results package (lot 45, 20 Mo per project)."""
+
+
+class PackageItem(_Model):
+    """Files copied into the results package: a path or a glob, relative to
+    the project directory (its results or its versioned references)."""
+
+    section: PackageSectionName
+    source: str
+    label: str | None = None
+    """Short label (a caption), never a sentence of hypothesis."""
+    required: bool = True
+    """A required item that matches nothing refuses the export."""
+
+
+class PackageCriterion(_Model):
+    """Document in which the criteria of a level were written before the
+    execution; the export records the commit that introduced it."""
+
+    level: Literal["D", "E"]
+    document: str
+    """Path relative to the repository."""
+
+
+class PackageLevelE(_Model):
+    """Comparison to a validated reference (level E), run by the project."""
+
+    results: str
+    """JSON relative to the project, holding `verdicts: {id: {verdict: ...}}`."""
+    criteria_ids: tuple[str, ...] = Field(min_length=1)
+    """The verdicts that make level E (the file may hold others: level D,
+    reinforcement, informative ones), each of which must read `RÉUSSI`."""
+    comm: str | None = None
+    """`.comm` of the reference execution (relative to the project): compared,
+    line by line, to the `.comm` of the packaged execution."""
+
+
+class ResultsPackageSection(_Model):
+    """`aster-expert projet exporter-resultats <nom>` (lot 45): a versionable
+    package of results -- tables, existing figures, fingerprints, level reached
+    -- never a MED file."""
+
+    output: str = "paquet"
+    """Directory, relative to the project's results directory."""
+    max_bytes: int = PACKAGE_MAX_BYTES
+    items: tuple[PackageItem, ...]
+    criteria: tuple[PackageCriterion, ...] = ()
+    level_e: PackageLevelE | None = None
+
+    @model_validator(mode="after")
+    def _within_ceiling(self) -> ResultsPackageSection:
+        if not 0 < self.max_bytes <= PACKAGE_MAX_BYTES:
+            message = (
+                f"paquet de résultats : max_bytes={self.max_bytes}, plafond "
+                f"{PACKAGE_MAX_BYTES} octets (20 Mo)"
+            )
+            raise ValueError(message)
+        if Path(self.output).is_absolute() or ".." in Path(self.output).parts:
+            message = "paquet de résultats : `output` doit rester sous les résultats"
+            raise ValueError(message)
+        return self
+
+
 class ProjectDeclaration(_Model):
     schema_version: Literal[1]
     name: str
@@ -369,6 +445,7 @@ class ProjectDeclaration(_Model):
     combinations: CombinationsSection | None = None
     rebar: RebarSection | None = None
     synthesis: SynthesisSection | None = None
+    results_package: ResultsPackageSection | None = None
     results: str = "resultats"
     """Directory, relative to the project, where the steps write their outputs."""
 
@@ -416,15 +493,21 @@ __all__ = [
     "ElementForces",
     "ExplicitCombination",
     "LoadCase",
+    "PACKAGE_MAX_BYTES",
     "ManualCheck",
     "MeshSection",
     "Number",
+    "PackageCriterion",
+    "PackageItem",
+    "PackageLevelE",
+    "PackageSectionName",
     "ProjectDeclaration",
     "RebarFamily",
     "RebarMember",
     "RebarPlate",
     "RebarSection",
     "Resultant",
+    "ResultsPackageSection",
     "SpringsSection",
     "SupportGroup",
     "SymmetryPlane",

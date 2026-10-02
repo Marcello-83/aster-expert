@@ -220,3 +220,28 @@ rebar:
 # Synthèse d'un calcul du quai (lots 35 à 37) : profils, efforts, vues, butée.
 synthesis:
   extension: quai_cw_test_01.extensions:synthesis
+
+# Paquet de résultats versionnable (lot 45, `aster-expert projet exporter-resultats
+# quai_cw_test_01`) : ce que les notes de résultats peuvent lire, sans MED. Les
+# comptes rendus d'exécution, le rapport de `mesh check` et la validation B y
+# sont ajoutés d'office ; les sections présentes décident des sections des notes.
+results_package:
+  items:
+    - {section: controles, source: resultats/controles/controles_d.json}
+    - {section: controles, source: resultats/controles/equilibre.json}
+    - {section: controles, source: resultats/controles/integrale.json}
+    - {section: cas, source: resultats/synthese/synthese.json}
+    - {section: cas, source: "resultats/synthese/vues/*.png", label: vue 2D}
+    - {section: combinaisons, source: "resultats/combinaisons/*.csv"}
+    - {section: combinaisons, source: resultats/combinaisons/controle_manuel.json}
+    - {section: ferraillage, source: "resultats/ferraillage/*.csv"}
+    - {section: ferraillage, source: resultats/ferraillage/resume.json}
+    - {section: ferraillage, source: resultats/ferraillage/controle_main.json}
+    - {section: ferraillage, source: resultats/ferraillage/rapports/executions.json}
+    - {section: ferraillage, source: "resultats/ferraillage/figures/*.png", label: ferraillage}
+  # Documents où les critères ont été écrits : équilibre et symétrie (lot 34),
+  # statique des tubes (lot 37), contrôle du module de ferraillage (lot 39).
+  criteria:
+    - {level: D, document: docs/essais_lot34.md}
+    - {level: D, document: docs/essais_lot37.md}
+    - {level: D, document: docs/essais_lot39.md}

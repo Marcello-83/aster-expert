@@ -1,0 +1,824 @@
+{
+ "schema_version": 1,
+ "projet": "quai_cw_test_01",
+ "ouvrage": "QUAI-CW-TEST-01",
+ "exporte_le": "2026-10-02T13:52:18Z",
+ "depot": {
+  "commit": "aca7e68bbb847d3305605dd492badcaea5f0c255",
+  "arbre_modifie": true
+ },
+ "code_aster": {
+  "version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+ },
+ "empreintes": {
+  "fiche": {
+   "chemin": "projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json",
+   "sha256": "684d3c3a06cc1daa9610bb4983450911cb2085318991ce7c94be8903dfb37b42"
+  },
+  "donnees": {
+   "chemin": "projets/quai_cw_test_01/donnees/combiwall_model_data.yaml",
+   "sha256": "1cce0927e6ba2182690629f25003dc8c0033e648de02778e904a5e862015f39d"
+  },
+  "comm": {
+   "chemin": "projets/quai_cw_test_01/resultats/complet.comm",
+   "sha256": "683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733"
+  },
+  "maillage": {
+   "chemin": "data/processed/mesh_runs/20260922T071600-8d931d77/combiwall_mesh.med",
+   "sha256": "1bd724bd5e00daeca385801554243bba27270e9d9437b29501d15e84e33ad0b8"
+  },
+  "execution": {
+   "repertoire": "data/processed/runs/20261001T071428-babb7e8c",
+   "compte_rendu_sha256": "3b794346b4d2d3bb8b8d16f5f9f84107d6de56a32fa43bfa10edfbeb38ae3461",
+   "mess_sha256": "9ff447357303a75bc29be9ef265552fbb4e448458ca9f259d922588fa0799c49",
+   "entrees_sha256": {
+    "complet.comm": "683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733",
+    "complet.export": "5834caa02173157eb44d0dff69f29101dfb4ce639ab4d3e43b43e8eaa58f8486",
+    "complet.mmed": "1bd724bd5e00daeca385801554243bba27270e9d9437b29501d15e84e33ad0b8"
+   },
+   "statut": "completed_ok",
+   "diagnostic": "OK",
+   "duree_s": 169.6264525929946,
+   "execute_le": "2026-10-01T07:17:19.042871Z"
+  },
+  "executions_ferraillage": {
+   "POUTRE_COUR": {
+    "repertoire": "data/processed/runs/20261001T071911-a60362f2",
+    "compte_rendu_sha256": "825b2cdec79bca2208c2be01fa715959be2aa8e228681cbfb08e7f2bde1c7f10",
+    "entrees_sha256": {
+     "poutre.comm": "c0596fedba19bc20688724ec414f75bef44c10b9bdf3c153bdb0dc573f319ab9",
+     "poutre.export": "f5e11f4107df9d8e3a3a35e14a39675928a351525f8d53eee363c76ddbff52a8",
+     "poutre.mail": "7a5325a57fb37392e6874a1836414b8d009f788ecec9d9680cf9d8fba54c4e94"
+    },
+    "statut": "completed_ok",
+    "diagnostic": "OK"
+   }
+  }
+ },
+ "coherence": [
+  {
+   "controle": ".comm du projet = .comm de l'exécution",
+   "attendu": "683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733",
+   "obtenu": "683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733",
+   "ok": true
+  },
+  {
+   "controle": "maillage vérifié = maillage de l'exécution",
+   "attendu": "1bd724bd5e00daeca385801554243bba27270e9d9437b29501d15e84e33ad0b8",
+   "obtenu": "1bd724bd5e00daeca385801554243bba27270e9d9437b29501d15e84e33ad0b8",
+   "ok": true
+  },
+  {
+   "controle": "contrôles D faits sur le .mess de l'exécution",
+   "attendu": "9ff447357303a75bc29be9ef265552fbb4e448458ca9f259d922588fa0799c49",
+   "obtenu": "9ff447357303a75bc29be9ef265552fbb4e448458ca9f259d922588fa0799c49",
+   "ok": true
+  },
+  {
+   "controle": "contrôles D faits sur le .comm de l'exécution",
+   "attendu": "683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733",
+   "obtenu": "683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733",
+   "ok": true
+  }
+ ],
+ "regeneration_comm": {
+  "statut": "different",
+  "sha256": "f6c10fc27c0ccacbd4cca13539cc4d442a9f07d1b3f3529eda3e2e89b2c56e31",
+  "difference": [
+   "-# Fiche             : sha256:38b1eea7430d3b5906e0bc15b6922bc7afdaddea1799f215bf9e5fa74b290f7f",
+   "+# Fiche             : sha256:684d3c3a06cc1daa9610bb4983450911cb2085318991ce7c94be8903dfb37b42"
+  ]
+ },
+ "criteres": [
+  {
+   "niveau": "D",
+   "document": "docs/essais_lot34.md",
+   "document_sha256": "44376a398e0e3f31dc92156dce9a6ed77d7fca5e5746b25827285478dedd3af3",
+   "commit_introduction": "f6da541da361a878429bb3dfd4b335ef204ec922",
+   "date": "2026-09-24T12:23:07-04:00",
+   "message": "Lot 34 : écart d'équilibre expliqué et fermé — quatre causes démontrées, modèle complet à 1e-10 en X, Y, Z (niveau C, contrôles D)"
+  },
+  {
+   "niveau": "D",
+   "document": "docs/essais_lot37.md",
+   "document_sha256": "8dbec5b45cbbe62bec7351226d2c60a46e7cc2f9f7b32b1d652c1775e6233344",
+   "commit_introduction": "4ef77ff96cf8a9e561795ed8ed98c10c6e22211e",
+   "date": "2026-09-25T09:32:11-04:00",
+   "message": "Lot 37 : tirants de bord à demi-section, décisions D14-D16, efforts d'ensemble des tubes — modèle complet niveau C avec contrôles D"
+  },
+  {
+   "niveau": "D",
+   "document": "docs/essais_lot39.md",
+   "document_sha256": "d8af38f8f878bb9088a95a903bfdc919ec3e7f1250a6440c927af5a71c535799",
+   "commit_introduction": "8382425645a123ab2a17e6da7080f6e93ed58c50",
+   "date": "2026-09-28T09:19:39-04:00",
+   "message": "Lot 39 : ferraillage de la poutre de couronnement et limites de CALC_FERRAILLAGE — module rebar corrigé, D19, 6 constats, niveau C"
+  }
+ ],
+ "niveau_e": null,
+ "niveau": {
+  "atteint": "D",
+  "par_niveau": [
+   {
+    "niveau": "B",
+    "atteint": true,
+    "motif": "265/265 commandes confrontées au catalogue, 0 erreur(s)"
+   },
+   {
+    "niveau": "C",
+    "atteint": true,
+    "motif": "exécution completed_ok (OK) ; .comm du projet identique de celui de l'exécution"
+   },
+   {
+    "niveau": "D",
+    "atteint": true,
+    "motif": "contrôles D : RÉUSSI (seuil 1e-06) ; rattachés à l'exécution du paquet par leurs empreintes"
+   },
+   {
+    "niveau": "E",
+    "atteint": false,
+    "motif": "aucune référence déclarée"
+   }
+  ]
+ },
+ "sections": [
+  "cas",
+  "combinaisons",
+  "controles",
+  "execution",
+  "ferraillage",
+  "maillage",
+  "validation"
+ ],
+ "fichiers": [
+  {
+   "chemin": "cas/butee_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/butee_A.png",
+   "libelle": "vue 2D",
+   "octets": 87085,
+   "sha256": "433045ed35fe396d61187b37ef59a010a034cff42795bdcc328390af352cf13d"
+  },
+  {
+   "chemin": "cas/butee_EAU_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/butee_EAU_A.png",
+   "libelle": "vue 2D",
+   "octets": 89163,
+   "sha256": "4addf703548c150a5b5e3370ac050d415e59ae7f655b97fa7ee0092f902406fa"
+  },
+  {
+   "chemin": "cas/butee_EAU_P.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/butee_EAU_P.png",
+   "libelle": "vue 2D",
+   "octets": 88434,
+   "sha256": "4bb7d544087b624ab35af80c348f640fea1757d933eb17de304c8afa6be23cce"
+  },
+  {
+   "chemin": "cas/butee_G.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/butee_G.png",
+   "libelle": "vue 2D",
+   "octets": 89238,
+   "sha256": "c71d2a4adcde62dc0965c19234a9ef62ec648b47ecbeee6fc963b0faa53b4267"
+  },
+  {
+   "chemin": "cas/butee_Q1.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/butee_Q1.png",
+   "libelle": "vue 2D",
+   "octets": 88060,
+   "sha256": "cd354a6802e6a64a9094d41e17874d9216da57d0e76bce7cc109e0b46219a7b3"
+  },
+  {
+   "chemin": "cas/butee_Q3.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/butee_Q3.png",
+   "libelle": "vue 2D",
+   "octets": 85869,
+   "sha256": "bdf6a16d662a0255acec72a4974d942e70031cee74fd1ccc3eb82437af135c5b"
+  },
+  {
+   "chemin": "cas/deformee_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/deformee_A.png",
+   "libelle": "vue 2D",
+   "octets": 107594,
+   "sha256": "3f2773ad41ca62894514526505d678ac5612650502c800c24b5537a41c31ec81"
+  },
+  {
+   "chemin": "cas/deformee_EAU_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/deformee_EAU_A.png",
+   "libelle": "vue 2D",
+   "octets": 105860,
+   "sha256": "e33eb92f6b230e821ff516b0156f50610e8b7688dbe7760907e9a550b2969e63"
+  },
+  {
+   "chemin": "cas/deformee_EAU_P.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/deformee_EAU_P.png",
+   "libelle": "vue 2D",
+   "octets": 104717,
+   "sha256": "c910a90e43cf00edaf7c411d65cd98820046b9cd0a877f27fbb0b149f9d51424"
+  },
+  {
+   "chemin": "cas/deformee_G.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/deformee_G.png",
+   "libelle": "vue 2D",
+   "octets": 104467,
+   "sha256": "a547f51df2a91c5a8be857bc6525ca13b8e4938fdca2e2afbf2f56664ad46f13"
+  },
+  {
+   "chemin": "cas/deformee_Q1.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/deformee_Q1.png",
+   "libelle": "vue 2D",
+   "octets": 103998,
+   "sha256": "fb3569778e3a7892bf7c82c66ae53f15acedeef04ceb018e39718a7064327fd1"
+  },
+  {
+   "chemin": "cas/deformee_Q3.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/deformee_Q3.png",
+   "libelle": "vue 2D",
+   "octets": 110025,
+   "sha256": "da6170f14d964ce37bdd778a0ef34447150508fdb36470dedea6a04e3d8c88fd"
+  },
+  {
+   "chemin": "cas/dy_ecran_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/dy_ecran_A.png",
+   "libelle": "vue 2D",
+   "octets": 102357,
+   "sha256": "7eba1f8e11d5818df684d0a3bfbeee338f43e6b74fdd14ee85153f046fc0378e"
+  },
+  {
+   "chemin": "cas/dy_ecran_EAU_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/dy_ecran_EAU_A.png",
+   "libelle": "vue 2D",
+   "octets": 113658,
+   "sha256": "e1edf255b464aeb86c26c625347e889d293dc2924285dc1cb4a10a3e8f103e59"
+  },
+  {
+   "chemin": "cas/dy_ecran_EAU_P.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/dy_ecran_EAU_P.png",
+   "libelle": "vue 2D",
+   "octets": 111848,
+   "sha256": "bbc7d3f6dfc984eef694a1f2bf9b44b34c4ced84ef4a432edd0ecc1bf1c5f204"
+  },
+  {
+   "chemin": "cas/dy_ecran_G.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/dy_ecran_G.png",
+   "libelle": "vue 2D",
+   "octets": 115921,
+   "sha256": "4d3e0672473fc3bac0fe9975fc72c6c8bc1eb888baf3c90f8dbd376c287776e7"
+  },
+  {
+   "chemin": "cas/dy_ecran_Q1.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/dy_ecran_Q1.png",
+   "libelle": "vue 2D",
+   "octets": 111408,
+   "sha256": "8278f6231770d4e2622348462bcfacb69b6dc425a96576ed1d6644c271134363"
+  },
+  {
+   "chemin": "cas/dy_ecran_Q3.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/dy_ecran_Q3.png",
+   "libelle": "vue 2D",
+   "octets": 106128,
+   "sha256": "c6d673880f9980a98fbb027389174c2d56ac3fc2db3bf9646e8f79b2444d1a23"
+  },
+  {
+   "chemin": "cas/efforts_palplanches_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_palplanches_A.png",
+   "libelle": "vue 2D",
+   "octets": 107505,
+   "sha256": "faca9359fa6cd4dfd09d330d70d12d37f4c4c583d784dce88d1ebaa02db3f60f"
+  },
+  {
+   "chemin": "cas/efforts_palplanches_EAU_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_palplanches_EAU_A.png",
+   "libelle": "vue 2D",
+   "octets": 90010,
+   "sha256": "16a28e8c8c70adb200e1872f851e1fc5e8224dec9cf90a6ff0f0a11434cac378"
+  },
+  {
+   "chemin": "cas/efforts_palplanches_EAU_P.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_palplanches_EAU_P.png",
+   "libelle": "vue 2D",
+   "octets": 91238,
+   "sha256": "53e1c6882845db41e5f9f2d2195b5a919311b2d25f98e37999d98e976e090846"
+  },
+  {
+   "chemin": "cas/efforts_palplanches_G.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_palplanches_G.png",
+   "libelle": "vue 2D",
+   "octets": 91045,
+   "sha256": "2bf3d1bf3ae92438ebb427f04ce9051f6de88b2d18365c9995fef391e4770a5c"
+  },
+  {
+   "chemin": "cas/efforts_palplanches_Q1.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_palplanches_Q1.png",
+   "libelle": "vue 2D",
+   "octets": 92142,
+   "sha256": "34143cfe31958a830157456643b5a31bf4c12e448608ab404f2a3896ae5863a3"
+  },
+  {
+   "chemin": "cas/efforts_palplanches_Q3.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_palplanches_Q3.png",
+   "libelle": "vue 2D",
+   "octets": 113686,
+   "sha256": "19dcb7c12a929812cdd3a212ae2456d920999050a4de8166eb2cc76ae793a5ba"
+  },
+  {
+   "chemin": "cas/efforts_tube_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tube_A.png",
+   "libelle": "vue 2D",
+   "octets": 98388,
+   "sha256": "88dbdb25b4033a0945d6277cae4af4f4a237dc7b351aa9642a4281d1d3e70a73"
+  },
+  {
+   "chemin": "cas/efforts_tube_EAU_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tube_EAU_A.png",
+   "libelle": "vue 2D",
+   "octets": 127738,
+   "sha256": "6c1e7ed4c148d056b423f15b1b2bc03f755252e7a5fd01bf509b3329a75c0c0b"
+  },
+  {
+   "chemin": "cas/efforts_tube_EAU_P.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tube_EAU_P.png",
+   "libelle": "vue 2D",
+   "octets": 127580,
+   "sha256": "871b3387b959f363a01ad11d192fc75d008db46914b4cc204e0cfda2c5eb9304"
+  },
+  {
+   "chemin": "cas/efforts_tube_G.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tube_G.png",
+   "libelle": "vue 2D",
+   "octets": 129350,
+   "sha256": "294540b7b739f47e7d72c4b63401fa5252135aaefcc4e6228df69c7f769966ab"
+  },
+  {
+   "chemin": "cas/efforts_tube_Q1.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tube_Q1.png",
+   "libelle": "vue 2D",
+   "octets": 127029,
+   "sha256": "0c7188de148aba206f243faaa3908a214494e8916fc7ca678848bfa38a98fa97"
+  },
+  {
+   "chemin": "cas/efforts_tube_Q3.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tube_Q3.png",
+   "libelle": "vue 2D",
+   "octets": 89674,
+   "sha256": "9ece0ae728b0cef1e5cfabdc9c9e4327533d48ec42aa14f4d110e670ea757bb9"
+  },
+  {
+   "chemin": "cas/efforts_tubes_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tubes_A.png",
+   "libelle": "vue 2D",
+   "octets": 263903,
+   "sha256": "70c787ac0d421125378bca7aa3502fddc0a0325340f6f47e496734f3ee72dc6a"
+  },
+  {
+   "chemin": "cas/efforts_tubes_EAU_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tubes_EAU_A.png",
+   "libelle": "vue 2D",
+   "octets": 277833,
+   "sha256": "4241b27c18c64d74144a2910644af40f017d248a056ad8ccd9366ee68e497310"
+  },
+  {
+   "chemin": "cas/efforts_tubes_EAU_P.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tubes_EAU_P.png",
+   "libelle": "vue 2D",
+   "octets": 275894,
+   "sha256": "0ee9a2254e0430eb5076783fe65e7a66bff96b388bb0f6f9af2d26c7238875ec"
+  },
+  {
+   "chemin": "cas/efforts_tubes_G.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tubes_G.png",
+   "libelle": "vue 2D",
+   "octets": 278101,
+   "sha256": "b58971c572059ccef446861dcfb594a2130a2c1eca38460a103d7a5d73d54f7b"
+  },
+  {
+   "chemin": "cas/efforts_tubes_Q1.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tubes_Q1.png",
+   "libelle": "vue 2D",
+   "octets": 276970,
+   "sha256": "115d3293a0ea310311cde70195c4299990e086e8fd5fe5dfa3bac3592b4373b4"
+  },
+  {
+   "chemin": "cas/efforts_tubes_Q3.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/efforts_tubes_Q3.png",
+   "libelle": "vue 2D",
+   "octets": 288639,
+   "sha256": "aacfe4182dd37a7c30a404bbeb0b80e17077a36353c263dd9f1ad0de1348edbc"
+  },
+  {
+   "chemin": "cas/fleches_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/fleches_A.png",
+   "libelle": "vue 2D",
+   "octets": 84724,
+   "sha256": "c1511d2c0dab578c6205bc55f66e51972a7beef50a581eb79a50dc00cacf272f"
+  },
+  {
+   "chemin": "cas/fleches_EAU_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/fleches_EAU_A.png",
+   "libelle": "vue 2D",
+   "octets": 98793,
+   "sha256": "192dbcee213292ebf0c1c4779ea2e65cc04608f8fe3f7e1a302f2aacfd15011f"
+  },
+  {
+   "chemin": "cas/fleches_EAU_P.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/fleches_EAU_P.png",
+   "libelle": "vue 2D",
+   "octets": 98234,
+   "sha256": "30308739e71c2cc0d9edde9ae40d8060ffe9207188afdc761670f5405affbaaa"
+  },
+  {
+   "chemin": "cas/fleches_G.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/fleches_G.png",
+   "libelle": "vue 2D",
+   "octets": 99535,
+   "sha256": "77ad55f58f054459ee4e79b872c27aaca90f2fc04bf83f0f8f6b0670cf4f7e71"
+  },
+  {
+   "chemin": "cas/fleches_Q1.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/fleches_Q1.png",
+   "libelle": "vue 2D",
+   "octets": 98784,
+   "sha256": "98e127691d7653480398266b175c7a68fb5c9cbfb303410ef437ff09f6f15240"
+  },
+  {
+   "chemin": "cas/fleches_Q3.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/fleches_Q3.png",
+   "libelle": "vue 2D",
+   "octets": 84308,
+   "sha256": "eab1b3a5824b5c1ff56d4b7da9cbc3d39a310d33c8f8a44df1687b830b920e78"
+  },
+  {
+   "chemin": "cas/poutre_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/poutre_A.png",
+   "libelle": "vue 2D",
+   "octets": 101203,
+   "sha256": "f95e050a77b45502690fc24e9760157e309570445feebc7421dae22043aad596"
+  },
+  {
+   "chemin": "cas/poutre_EAU_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/poutre_EAU_A.png",
+   "libelle": "vue 2D",
+   "octets": 104469,
+   "sha256": "75696894562527821018e7b99e562dfba57bf12c56e8881aa8c6662df8b689f3"
+  },
+  {
+   "chemin": "cas/poutre_EAU_P.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/poutre_EAU_P.png",
+   "libelle": "vue 2D",
+   "octets": 103811,
+   "sha256": "1f083e2fac3521a4d48bcd1c01b1670f8adfe83f1828d04a680f6450c88a661b"
+  },
+  {
+   "chemin": "cas/poutre_G.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/poutre_G.png",
+   "libelle": "vue 2D",
+   "octets": 105550,
+   "sha256": "4974c16bd21eab679a96f71a73b975f7336d50882646a15a0a4a5bf40bbde23d"
+  },
+  {
+   "chemin": "cas/poutre_Q1.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/poutre_Q1.png",
+   "libelle": "vue 2D",
+   "octets": 99466,
+   "sha256": "8c1bbf47299724b8f5181e085a302147869e1743f336e9ebef5dcb57b0a1d577"
+  },
+  {
+   "chemin": "cas/poutre_Q3.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/poutre_Q3.png",
+   "libelle": "vue 2D",
+   "octets": 100355,
+   "sha256": "8d02f00db2fc2a210011295068332240be9c79dc23c566ae6ba8fb705f64251c"
+  },
+  {
+   "chemin": "cas/profils_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/profils_A.png",
+   "libelle": "vue 2D",
+   "octets": 202488,
+   "sha256": "5159c81ecd17dda36e4103de3f96aac595a387fad443a38c5048bf7be99a278e"
+  },
+  {
+   "chemin": "cas/profils_EAU_A.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/profils_EAU_A.png",
+   "libelle": "vue 2D",
+   "octets": 235718,
+   "sha256": "665a1248ed51a7171c4b121d4818a41e72afefdf4ee2b8e5a404b75d6d963849"
+  },
+  {
+   "chemin": "cas/profils_EAU_P.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/profils_EAU_P.png",
+   "libelle": "vue 2D",
+   "octets": 234688,
+   "sha256": "4e1d64b679f51f61bfa48c35c16b306b9e176ac66980e2114fb416b577c921da"
+  },
+  {
+   "chemin": "cas/profils_G.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/profils_G.png",
+   "libelle": "vue 2D",
+   "octets": 232140,
+   "sha256": "9429858763ffa6f554df6ea14d07687473869ce51f8bd6ac8a17b0cc7b40486c"
+  },
+  {
+   "chemin": "cas/profils_Q1.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/profils_Q1.png",
+   "libelle": "vue 2D",
+   "octets": 239056,
+   "sha256": "9ab9f8a1ede616c1ed6733283a81ec40b7c7ade47f9be6a6ee9608c3b61748ad"
+  },
+  {
+   "chemin": "cas/profils_Q3.png",
+   "section": "cas",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/synthese/vues/profils_Q3.png",
+   "libelle": "vue 2D",
+   "octets": 189511,
+   "sha256": "6e353ba3981d1d3ccfbf3e01a14bbddd3a45835b59ac8e7bc779f1aa0513ee9d"
+  },
+  {
+   "chemin": "cas/synthese.json",
+   "section": "cas",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/synthese/synthese.json",
+   "libelle": null,
+   "octets": 2061533,
+   "sha256": "041f326bd62e5835752c0582c35137893819f473475f2c3d980acf16ebe519c8"
+  },
+  {
+   "chemin": "combinaisons/combinaisons.csv",
+   "section": "combinaisons",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/combinaisons/combinaisons.csv",
+   "libelle": null,
+   "octets": 161478,
+   "sha256": "4afac85c80e1bd02328d3704289b34f2e226be51d8a87e3d61080ec4eac578db"
+  },
+  {
+   "chemin": "combinaisons/controle_manuel.json",
+   "section": "combinaisons",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/combinaisons/controle_manuel.json",
+   "libelle": null,
+   "octets": 549,
+   "sha256": "414cf5c081c64f4ca39655cc08c1d92f98f99bebe87aa6f760536ddc397ec97e"
+  },
+  {
+   "chemin": "combinaisons/extrema.csv",
+   "section": "combinaisons",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/combinaisons/extrema.csv",
+   "libelle": null,
+   "octets": 15143,
+   "sha256": "b005b0962bc7bed8f27641079022a44fde995dd991b57f54d4f87d7d611b5638"
+  },
+  {
+   "chemin": "controles/controles_d.json",
+   "section": "controles",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/controles/controles_d.json",
+   "libelle": null,
+   "octets": 2070,
+   "sha256": "9963f0d8299db90aec92025eda23fd13fc6e7ae05c32682be1688e39cb5b98b1"
+  },
+  {
+   "chemin": "controles/equilibre.json",
+   "section": "controles",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/controles/equilibre.json",
+   "libelle": null,
+   "octets": 16743,
+   "sha256": "5c269c0ae2054cc27c2cef5ac84e6851a78124402f0b7a63ce90891ee6308b4d"
+  },
+  {
+   "chemin": "controles/integrale.json",
+   "section": "controles",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/controles/integrale.json",
+   "libelle": null,
+   "octets": 3804,
+   "sha256": "17fc2f594facbe1f0f54d7fb4a01d27dbe3466834753bcd8b8eabf8b646b4c95"
+  },
+  {
+   "chemin": "execution/compte_rendu.json",
+   "section": "execution",
+   "type": "tableau",
+   "source": "data/processed/runs/20261001T071428-babb7e8c/compte_rendu.json",
+   "libelle": null,
+   "octets": 2004,
+   "sha256": "3b794346b4d2d3bb8b8d16f5f9f84107d6de56a32fa43bfa10edfbeb38ae3461"
+  },
+  {
+   "chemin": "execution/compte_rendu_ferraillage_POUTRE_COUR.json",
+   "section": "execution",
+   "type": "tableau",
+   "source": "data/processed/runs/20261001T071911-a60362f2/compte_rendu.json",
+   "libelle": null,
+   "octets": 1892,
+   "sha256": "825b2cdec79bca2208c2be01fa715959be2aa8e228681cbfb08e7f2bde1c7f10"
+  },
+  {
+   "chemin": "ferraillage/as_x.png",
+   "section": "ferraillage",
+   "type": "figure",
+   "source": "projets/quai_cw_test_01/resultats/ferraillage/figures/as_x.png",
+   "libelle": "ferraillage",
+   "octets": 170523,
+   "sha256": "8dfcd65a13f2241a2588de0ebc503ca55b6244ca868fe839e28e1b32b70827f1"
+  },
+  {
+   "chemin": "ferraillage/controle_main.json",
+   "section": "ferraillage",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/ferraillage/controle_main.json",
+   "libelle": null,
+   "octets": 44597,
+   "sha256": "46b6b012b6ed987a4f9680eb8b1854009e6f2b17d5575354f0a87960f2089f12"
+  },
+  {
+   "chemin": "ferraillage/efforts.csv",
+   "section": "ferraillage",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/ferraillage/efforts.csv",
+   "libelle": null,
+   "octets": 300378,
+   "sha256": "8fe67bfe13a5863817885198d621c28c51ec4ddc21802833567c2d8103b65f3a"
+  },
+  {
+   "chemin": "ferraillage/enveloppes.csv",
+   "section": "ferraillage",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/ferraillage/enveloppes.csv",
+   "libelle": null,
+   "octets": 36382,
+   "sha256": "838f5bf66ddbee003d5c280bcbc5d534b907243bfd604b20a6f0207913a4a1a9"
+  },
+  {
+   "chemin": "ferraillage/executions.json",
+   "section": "ferraillage",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/ferraillage/rapports/executions.json",
+   "libelle": null,
+   "octets": 448,
+   "sha256": "bcfc227757d3f576845578ca13ab7a5b574854a4d6baa67e5e31b9f0f18bb1d4"
+  },
+  {
+   "chemin": "ferraillage/ferraillage.csv",
+   "section": "ferraillage",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/ferraillage/ferraillage.csv",
+   "libelle": null,
+   "octets": 305224,
+   "sha256": "c7ea1573339b13ad1a6777b5eb2a85ead46ca758710209cbe91292b2cff6f26f"
+  },
+  {
+   "chemin": "ferraillage/resume.json",
+   "section": "ferraillage",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/ferraillage/resume.json",
+   "libelle": null,
+   "octets": 944,
+   "sha256": "98042e2e6402e89cb5f308feaee7e8c6fd2c04c5baf7fc3b2639250e7b341573"
+  },
+  {
+   "chemin": "ferraillage/sections.csv",
+   "section": "ferraillage",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/ferraillage/sections.csv",
+   "libelle": null,
+   "octets": 3055,
+   "sha256": "7d9318ed3ae0d3b714b1c1a2ba94da49e7b78537551ede2645680e0394d99c86"
+  },
+  {
+   "chemin": "ferraillage/synthese.csv",
+   "section": "ferraillage",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/ferraillage/synthese.csv",
+   "libelle": null,
+   "octets": 21992,
+   "sha256": "55b635227648040238ac8262236797143edf159086edbcefe94de92d482b7655"
+  },
+  {
+   "chemin": "maillage/rapport_mesh_check.txt",
+   "section": "maillage",
+   "type": "texte",
+   "source": "projets/quai_cw_test_01/resultats/maillage/rapport_mesh_check.txt",
+   "libelle": null,
+   "octets": 90359,
+   "sha256": "91a6f0e37ebccdcde2c7793c2b72696f5db972e8d54c1f0e8549d0446cb1fe7b"
+  },
+  {
+   "chemin": "validation/validation.json",
+   "section": "validation",
+   "type": "tableau",
+   "source": "projets/quai_cw_test_01/resultats/validation.json",
+   "libelle": null,
+   "octets": 35903,
+   "sha256": "2d45bc33571c638dadf1c861c64ef6c44d4337b630f22668c6f542c8ae5a63d0"
+  }
+ ],
+ "taille_octets": 10560409,
+ "plafond_octets": 20971520
+}

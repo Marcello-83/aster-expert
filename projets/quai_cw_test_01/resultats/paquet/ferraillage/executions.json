@@ -1,0 +1,12 @@
+{
+ "poutre": {
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "comm_path": "projets/quai_cw_test_01/resultats/ferraillage/poutre.comm",
+  "comm_sha256": "c0596fedba19bc20688724ec414f75bef44c10b9bdf3c153bdb0dc573f319ab9",
+  "diagnostic": "OK",
+  "duration_s": 7.7,
+  "executed_at": "2026-10-01T07:19:19Z",
+  "work_dir": "data/processed/runs/20261001T071911-a60362f2"
+ }
+}

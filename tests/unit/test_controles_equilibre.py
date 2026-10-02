@@ -4,6 +4,7 @@ Docker : les tables sont écrites comme `IMPR_TABLE` les imprime."""
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 from collections.abc import Callable, Sequence
@@ -100,6 +101,11 @@ def test_a_balanced_model_passes_equilibrium_gravity_and_symmetry(
     assert summary["level"] == "D"
     assert summary["gravity"]["G"]["component"] == "DZ"
     assert summary["gravity"]["G"]["applied_n"] == -100.0
+    # lot 45 : les verdicts portent les empreintes de ce qui a été contrôlé
+    assert summary["provenance"] == {
+        "mess_sha256": hashlib.sha256((tmp_path / "fort.6").read_bytes()).hexdigest(),
+        "comm_sha256": hashlib.sha256(b"DEBUT()\nFIN()\n").hexdigest(),
+    }
     text = (out / "controles_d.md").read_text(encoding="utf-8")
     assert "jamais une validation par comparaison à une référence" in text
     assert (out / "equilibre.json").read_text(encoding="utf-8").endswith("}\n")

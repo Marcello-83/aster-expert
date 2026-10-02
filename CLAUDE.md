@@ -41,7 +41,13 @@ pas suffi à la faire respecter : ne pas la redéplacer plus bas.
   (`{"nature": "constat", "constat_id": "CA-nnn", "point_label": ...}`).
 - Enchaînement : `aster-expert projet <nom> <étape>` (verifier, maillage, generer,
   valider, executer, controles, synthese, combinaisons, ferraillage, tout). Les
-  sorties vont dans `projets/<nom>/resultats/` (non versionné, `etat.json`).
+  sorties vont dans `projets/<nom>/resultats/` (non versionné, `etat.json`), sauf
+  `resultats/paquet/` (lot 45), **versionné** : `aster-expert projet
+  exporter-resultats <nom>` y copie ce que déclare `results_package` dans
+  `projet.yaml` (CSV, JSON, PNG, TXT ; jamais de MED ; 20 Mo au plus) et écrit
+  `paquet.json` (empreintes, cohérences, régénération du `.comm`, commits des
+  critères, niveau atteint niveau par niveau). C'est la seule source de résultats
+  d'une session Cloud.
 - Premier projet : `projets/quai_cw_test_01/` (quai combi-wall). Les répertoires
   `data/examples/lotNN_*` restent les archives des essais des lots.
 
@@ -885,6 +891,16 @@ Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de
   Es = 200 GPa pour la dalle (ELS QP +6,6 % au plus, ferraillage retenu inchangé),
   ANO-001 (CA-052 + REF-012) ; banc : 22 questions versées (87 au total), aiguillage et
   reformulation dans le skill `code-aster-expert`.
+
+- **Lot 45, partie A** (VM, `docs/lots/lot45_consigne.md`) : paquets de résultats
+  (`aster_expert.projet.paquet`) du quai (74 fichiers, 10,6 Mo, niveau D) et de la
+  dalle (9 fichiers, 60 ko, niveau D). `controles_d.json` porte désormais les
+  empreintes du `.mess` et du `.comm` contrôlés (`provenance`) : sans elles, le
+  niveau D n'est pas reconnu par le paquet. Dalle : le niveau E du lot 43 n'est pas
+  reporté sur l'exécution du lot 44 (`.comm` différent : un commentaire et `EYS`
+  des quatre `CALC_FERRAILLAGE`, listés dans `niveau_e.difference_comm`). Quai : le
+  `.comm` régénéré ne diffère de l'exécuté que par l'empreinte de la fiche en
+  en-tête (`regeneration_comm.difference`).
 
 ## Périmètre à ne pas dépasser sans instruction
 

@@ -1,0 +1,48 @@
+{
+  "report": {
+    "comm_path": "/home/ubuntu/projets/aster-expert/projets/quai_cw_test_01/resultats/ferraillage/poutre.comm",
+    "aster_version": "17.4.0",
+    "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+    "status": "completed_ok",
+    "diag": "OK",
+    "return_code": 0,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T071911-a60362f2",
+    "mess_path": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T071911-a60362f2/proc.0/fort.6",
+    "result_files": [
+      "proc.0/1.export",
+      "proc.0/__timer__",
+      "proc.0/fort.15",
+      "proc.0/fort.20",
+      "proc.0/fort.6",
+      "proc.0/fort.8",
+      "proc.0/fort.9",
+      "proc.0/poutre.comm.changed.py"
+    ],
+    "duration_s": 7.706452534002892,
+    "extracted_by": "run_aster.status",
+    "executed_at": "2026-10-01T07:19:19.549393Z",
+    "messages": [],
+    "messages_source": "run_aster.error_messages",
+    "messages_truncated": 0,
+    "messages_error": null
+  },
+  "command": "python3 /work/_aster_expert_run_comm.py --file /work/poutre.export --wrkdir /work --status-file /work/__status__ --time-limit 1800 --memory-limit 8192",
+  "image": "simvia/code_aster@sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "inputs_sha256": {
+    "poutre.comm": "c0596fedba19bc20688724ec414f75bef44c10b9bdf3c153bdb0dc573f319ab9",
+    "poutre.export": "f5e11f4107df9d8e3a3a35e14a39675928a351525f8d53eee363c76ddbff52a8",
+    "poutre.mail": "7a5325a57fb37392e6874a1836414b8d009f788ecec9d9680cf9d8fba54c4e94"
+  },
+  "outputs": {
+    "proc.0/1.export": 213,
+    "proc.0/__timer__": 348,
+    "proc.0/fort.15": 171834,
+    "proc.0/fort.20": 19591,
+    "proc.0/fort.6": 957502,
+    "proc.0/fort.8": 0,
+    "proc.0/fort.9": 0,
+    "proc.0/poutre.comm.changed.py": 379254
+  },
+  "alarms_by_identifier": {},
+  "errors": []
+}

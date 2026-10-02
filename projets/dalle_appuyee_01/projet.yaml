@@ -96,3 +96,26 @@ rebar:
         - {family: ELS caractéristique, type_comb: ELS}
         - {family: ELS quasi permanente, type_comb: ELS_QP}
       check_node: CENTRE
+
+# Paquet de résultats versionnable (lot 45, `aster-expert projet exporter-resultats
+# dalle_appuyee_01`) : ce que les notes de résultats peuvent lire, sans MED. Les
+# comptes rendus d'exécution, le rapport de `mesh check` et la validation B y
+# sont ajoutés d'office ; les sections présentes décident des sections des notes.
+results_package:
+  items:
+    - {section: controles, source: resultats/controles/controles_d.json}
+    - {section: controles, source: resultats/controles/equilibre.json}
+    - {section: niveau_e, source: references/niveau_e_lot43.json}
+    - {section: niveau_e, source: references/navier_lot43.json}
+    - {section: ferraillage, source: "resultats/ferraillage/ferraillage_*.json"}
+    - {section: ferraillage, source: references/recalcul_es_lot44.json}
+  # Critères de niveau D et E écrits avant l'exécution (lot 43, étape 2a).
+  criteria:
+    - {level: D, document: docs/essais_lot43.md}
+    - {level: E, document: docs/essais_lot43.md}
+  # Niveau E : comparaison à Navier sur la suite de convergence du lot 43 ; le
+  # .comm du maillage le plus fin est confronté à celui de l'exécution du paquet.
+  level_e:
+    results: references/niveau_e_lot43.json
+    criteria_ids: [E0, E1, E2]
+    comm: references/cas/dalle_h0p125.comm

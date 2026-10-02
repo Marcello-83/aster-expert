@@ -1,0 +1,428 @@
+"""`aster-expert projet exporter-resultats <nom>` (lot 45) sur le projet factice :
+contenu du paquet, empreintes et cohérences, niveau atteint niveau par niveau,
+régénération du `.comm`, refus (MED, plafond de 20 Mo, fichier exigé absent).
+L'état laissé par les étapes est écrit directement (aucun conteneur) ; le paquet
+réel des deux projets est produit au lot 45 (partie A)."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import subprocess
+from collections.abc import Callable
+from typing import Any
+
+import pytest
+from typer.testing import CliRunner
+
+from aster_expert.cli import app
+from aster_expert.projet.context import ProjectContext, load_project
+from aster_expert.projet.declaration import PACKAGE_MAX_BYTES
+from aster_expert.projet.errors import ProjectError
+from aster_expert.projet.paquet import MANIFEST_NAME, export_results
+from aster_expert.projet.pipeline import ProjectState, Runtime, save_state
+
+Factory = Callable[..., Any]
+_DIGEST = "sha256:" + "d" * 64
+_COMM = "# généré pour 17.4.0\nDEBUT()\n# L = 2.0\nFIN()\n"
+_MESS = "  --- DIAGNOSTIC JOB : OK\n"
+
+
+def _sha(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def _package(**changes: Any) -> dict[str, Any]:
+    package: dict[str, Any] = {
+        "items": [
+            {"section": "controles", "source": "resultats/controles/controles_d.json"},
+            {"section": "cas", "source": "resultats/vues/*.png", "label": "vue"},
+            {"section": "cas", "source": "resultats/tableau.csv"},
+        ],
+    }
+    package.update(changes)
+    return package
+
+
+@pytest.fixture
+def ready(
+    fake_project: Factory, monkeypatch: pytest.MonkeyPatch
+) -> Callable[..., ProjectContext]:
+    """A fake project whose steps have run: verified mesh, `.comm`, level B,
+    execution with its report, level D controls carrying their provenance."""
+    monkeypatch.setattr(Runtime, "aster", lambda self: (_DIGEST, "17.4.0"))
+
+    def make(
+        *,
+        package: dict[str, Any] | None = None,
+        provenance: bool = True,
+        executed_comm: str = _COMM,
+    ) -> ProjectContext:
+        project = fake_project(results_package=package or _package())
+        ctx = load_project(project.name, project.repo_root)
+        results = ctx.results_dir
+        (results / "controles").mkdir(parents=True)
+        (results / "vues").mkdir()
+        comm = results / "barre.comm"
+        comm.write_text(_COMM, encoding="utf-8")
+        mesh = project.directory / "maillage.med"
+        run = project.repo_root / "runs" / project.name
+        (run / "proc.0").mkdir(parents=True)
+        (run / "proc.0" / "fort.6").write_text(_MESS, encoding="utf-8")
+        (run / "barre.comm").write_text(executed_comm, encoding="utf-8")
+        (run / "compte_rendu.json").write_text(
+            json.dumps(
+                {
+                    "report": {
+                        "aster_version": "17.4.0",
+                        "image_digest": _DIGEST,
+                        "status": "completed_ok",
+                        "diag": "OK",
+                        "duration_s": 2.0,
+                        "executed_at": "2026-10-02T00:00:00Z",
+                    },
+                    "inputs_sha256": {
+                        "barre.comm": _sha(executed_comm.encode()),
+                        "barre.mmed": _sha(mesh.read_bytes()),
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+        summary: dict[str, Any] = {"threshold": 1e-6, "verdict": "RÉUSSI"}
+        if provenance:
+            summary["provenance"] = {
+                "mess_sha256": _sha(_MESS.encode()),
+                "comm_sha256": _sha(executed_comm.encode()),
+            }
+        (results / "controles" / "controles_d.json").write_text(
+            json.dumps(summary), encoding="utf-8"
+        )
+        (results / "vues" / "a.png").write_bytes(b"\x89PNG factice a")
+        (results / "vues" / "b.png").write_bytes(b"\x89PNG factice b")
+        (results / "tableau.csv").write_text("x;y\n1;2\n", encoding="utf-8")
+        (results / "validation.json").write_text("{}\n", encoding="utf-8")
+        mesh_report = results / "rapport_mesh_check.txt"
+        mesh_report.write_text("1/1 invariants tenus\n", encoding="utf-8")
+        save_state(
+            ctx,
+            ProjectState(
+                mesh_med=str(mesh),
+                mesh_check_report=str(mesh_report),
+                comm=str(comm),
+                validation={
+                    "validation_level": "B",
+                    "valid": True,
+                    "commands_checked": 2,
+                    "commands_total": 2,
+                    "errors": 0,
+                },
+                execution_dir=str(run),
+            ),
+        )
+        return ctx
+
+    return make
+
+
+def _manifest(ctx: ProjectContext) -> dict[str, Any]:
+    path = ctx.results_dir / "paquet" / MANIFEST_NAME
+    loaded: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
+    return loaded
+
+
+def test_the_package_holds_tables_figures_fingerprints_and_the_level(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    ctx = ready()
+
+    result = export_results(ctx, Runtime(ctx.repo_root))
+
+    out = ctx.results_dir / "paquet"
+    assert result.directory == out
+    names = sorted(p.relative_to(out).as_posix() for p in out.rglob("*") if p.is_file())
+    assert names == [
+        "cas/a.png",
+        "cas/b.png",
+        "cas/tableau.csv",
+        "controles/controles_d.json",
+        "execution/compte_rendu.json",
+        "maillage/rapport_mesh_check.txt",
+        MANIFEST_NAME,
+        "validation/validation.json",
+    ]
+    assert not any(p.suffix in (".med", ".mmed", ".rmed") for p in out.rglob("*"))
+    manifest = _manifest(ctx)
+    assert manifest["sections"] == [
+        "cas",
+        "controles",
+        "execution",
+        "maillage",
+        "validation",
+    ]
+    prints = manifest["empreintes"]
+    assert prints["comm"]["sha256"] == _sha(_COMM.encode())
+    assert prints["fiche"]["sha256"] == _sha(ctx.fiche_path.read_bytes())
+    assert prints["donnees"]["sha256"] == _sha(ctx.data_path.read_bytes())
+    assert prints["maillage"]["sha256"] == _sha(b"MED factice")
+    assert prints["execution"]["mess_sha256"] == _sha(_MESS.encode())
+    assert manifest["code_aster"] == {"version": "17.4.0", "image_digest": _DIGEST}
+    assert all(c["ok"] for c in manifest["coherence"])
+    assert len(manifest["coherence"]) == 4
+    figure = next(f for f in manifest["fichiers"] if f["chemin"] == "cas/a.png")
+    assert figure["type"] == "figure"
+    assert figure["libelle"] == "vue"
+    assert figure["sha256"] == _sha(b"\x89PNG factice a")
+    assert manifest["taille_octets"] == sum(f["octets"] for f in manifest["fichiers"])
+    assert manifest["plafond_octets"] == PACKAGE_MAX_BYTES
+    level = manifest["niveau"]
+    assert level["atteint"] == "D"
+    assert [s["atteint"] for s in level["par_niveau"]] == [True, True, True, False]
+    assert level["par_niveau"][3]["motif"] == "aucune référence déclarée"
+    assert manifest["regeneration_comm"] == {
+        "statut": "identique",
+        "sha256": _sha(_COMM.encode()),
+        "difference": [],
+    }
+    assert result.lines[-1] == "Niveau atteint : D"
+
+
+def test_a_second_export_replaces_the_previous_package(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    ctx = ready()
+    export_results(ctx, Runtime(ctx.repo_root))
+    (ctx.results_dir / "vues" / "b.png").unlink()
+
+    export_results(ctx, Runtime(ctx.repo_root))
+
+    assert not (ctx.results_dir / "paquet" / "cas" / "b.png").exists()
+    assert not (ctx.results_dir / "paquet.en_cours").exists()
+
+
+def test_controls_without_provenance_stop_the_level_at_c(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    ctx = ready(provenance=False)
+
+    manifest = export_results(ctx, Runtime(ctx.repo_root)).manifest
+
+    assert manifest["niveau"]["atteint"] == "C"
+    d = manifest["niveau"]["par_niveau"][2]
+    assert d["atteint"] is False
+    assert "NON rattachés" in d["motif"]
+
+
+def test_a_comm_differing_from_the_execution_stops_the_level_at_b(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    ctx = ready(executed_comm=_COMM.replace("2.0", "3.0"))
+
+    manifest = export_results(ctx, Runtime(ctx.repo_root)).manifest
+
+    assert manifest["coherence"][0]["ok"] is False
+    assert manifest["niveau"]["atteint"] == "B"
+    assert "DIFFÉRENT" in manifest["niveau"]["par_niveau"][1]["motif"]
+
+
+def test_a_regenerated_comm_that_differs_is_shown_line_by_line(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    ctx = ready()
+    data = ctx.data_path.read_text(encoding="utf-8").replace("value: 2.0", "value: 2.5")
+    ctx.data_path.write_text(data, encoding="utf-8")
+    ctx.cache.clear()
+
+    manifest = export_results(ctx, Runtime(ctx.repo_root)).manifest
+
+    assert manifest["regeneration_comm"]["statut"] == "different"
+    assert manifest["regeneration_comm"]["difference"] == ["-# L = 2.0", "+# L = 2.5"]
+    off = export_results(ctx, Runtime(ctx.repo_root), regenerate=False).manifest
+    assert off["regeneration_comm"] == {"statut": "non_demandee"}
+
+
+def _level_e(ctx: ProjectContext, verdicts: dict[str, str], comm: str) -> None:
+    references = ctx.project_dir / "references"
+    references.mkdir(exist_ok=True)
+    (references / "niveau_e.json").write_text(
+        json.dumps({"verdicts": {k: {"verdict": v} for k, v in verdicts.items()}}),
+        encoding="utf-8",
+    )
+    (references / "cas.comm").write_text(comm, encoding="utf-8")
+
+
+_E_SPEC = {
+    "results": "references/niveau_e.json",
+    "criteria_ids": ["E1", "E2"],
+    "comm": "references/cas.comm",
+}
+
+
+def test_level_e_is_reached_only_on_the_comm_of_the_execution(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    ctx = ready(package=_package(level_e=_E_SPEC))
+    # F4 en échec et D7 informatif : hors des critères de niveau E déclarés
+    verdicts = {"E1": "RÉUSSI", "E2": "RÉUSSI", "F4": "ÉCHEC", "D7": "INFORMATIF"}
+    _level_e(ctx, verdicts, _COMM)
+
+    manifest = export_results(ctx, Runtime(ctx.repo_root)).manifest
+
+    assert manifest["niveau"]["atteint"] == "E"
+    assert manifest["niveau_e"]["verdicts"]["F4"] == "ÉCHEC"
+    assert manifest["niveau_e"]["meme_comm_que_l_execution"] is True
+
+
+def test_level_e_on_another_comm_is_not_carried_over(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    ctx = ready(package=_package(level_e=_E_SPEC))
+    _level_e(ctx, {"E1": "RÉUSSI", "E2": "RÉUSSI"}, _COMM.replace("2.0", "2.1"))
+
+    manifest = export_results(ctx, Runtime(ctx.repo_root)).manifest
+
+    assert manifest["niveau"]["atteint"] == "D"
+    assert manifest["niveau_e"]["difference_comm"] == ["-# L = 2.1", "+# L = 2.0"]
+    assert "ne se reporte pas" in manifest["niveau"]["par_niveau"][3]["motif"]
+
+
+def test_level_e_with_a_failed_criterion_or_a_missing_one(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    ctx = ready(package=_package(level_e=_E_SPEC))
+    _level_e(ctx, {"E1": "RÉUSSI", "E2": "ÉCHEC"}, _COMM)
+    manifest = export_results(ctx, Runtime(ctx.repo_root)).manifest
+    assert manifest["niveau"]["atteint"] == "D"
+    assert "en échec" in manifest["niveau"]["par_niveau"][3]["motif"]
+
+    _level_e(ctx, {"E1": "RÉUSSI"}, _COMM)
+    with pytest.raises(ProjectError, match="critères absents .* E2"):
+        export_results(ctx, Runtime(ctx.repo_root))
+
+
+def test_a_med_file_is_refused_by_suffix_and_by_signature(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    items = [{"section": "cas", "source": "maillage.med"}]
+    ctx = ready(package=_package(items=items))
+    with pytest.raises(ProjectError, match="fichier MED refusé"):
+        export_results(ctx, Runtime(ctx.repo_root))
+
+    ctx2 = ready(package=_package(items=[{"section": "cas", "source": "x.json"}]))
+    (ctx2.project_dir / "x.json").write_bytes(b"\x89HDF\r\n\x1a\n...")
+    with pytest.raises(ProjectError, match="fichier MED refusé"):
+        export_results(ctx2, Runtime(ctx2.repo_root))
+    assert not (ctx2.results_dir / "paquet").exists()
+
+
+def test_other_extensions_are_refused(ready: Callable[..., ProjectContext]) -> None:
+    ctx = ready(package=_package(items=[{"section": "cas", "source": "fiche.json"}]))
+    export_results(ctx, Runtime(ctx.repo_root))
+    (ctx.project_dir / "notes.md").write_text("# prose\n", encoding="utf-8")
+    ctx2 = ready(package=_package(items=[{"section": "cas", "source": "*.md"}]))
+    (ctx2.project_dir / "notes.md").write_text("# prose\n", encoding="utf-8")
+    with pytest.raises(ProjectError, match="extensions admises"):
+        export_results(ctx2, Runtime(ctx2.repo_root))
+
+
+def test_the_ceiling_refuses_and_writes_nothing(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    ctx = ready(package=_package(max_bytes=10))
+
+    with pytest.raises(ProjectError, match="plafond 10"):
+        export_results(ctx, Runtime(ctx.repo_root))
+    assert not (ctx.results_dir / "paquet").exists()
+
+
+def test_a_missing_required_item_is_refused_an_optional_one_is_not(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    items = [{"section": "ferraillage", "source": "resultats/absent/*.csv"}]
+    ctx = ready(package=_package(items=items))
+    with pytest.raises(ProjectError, match="aucun fichier pour"):
+        export_results(ctx, Runtime(ctx.repo_root))
+
+    optional = [{**items[0], "required": False}]
+    ctx2 = ready(package=_package(items=optional))
+    manifest = export_results(ctx2, Runtime(ctx2.repo_root)).manifest
+    assert "ferraillage" not in manifest["sections"]
+
+
+def test_two_sources_for_one_destination_are_refused(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    items = [
+        {"section": "cas", "source": "resultats/tableau.csv"},
+        {"section": "cas", "source": "autre/tableau.csv"},
+    ]
+    ctx = ready(package=_package(items=items))
+    (ctx.project_dir / "autre").mkdir()
+    (ctx.project_dir / "autre" / "tableau.csv").write_text("z\n", encoding="utf-8")
+
+    with pytest.raises(ProjectError, match="deux fichiers pour cas/tableau.csv"):
+        export_results(ctx, Runtime(ctx.repo_root))
+
+
+def test_the_declaration_bounds_the_package(fake_project: Factory) -> None:
+    project = fake_project(results_package=_package(max_bytes=PACKAGE_MAX_BYTES + 1))
+    with pytest.raises(ProjectError, match="plafond"):
+        load_project(project.name, project.repo_root)
+    project = fake_project(results_package=_package(output="../ailleurs"))
+    with pytest.raises(ProjectError, match="sous les résultats"):
+        load_project(project.name, project.repo_root)
+
+
+def test_a_project_without_package_is_refused(fake_project: Factory) -> None:
+    project = fake_project()
+    ctx = load_project(project.name, project.repo_root)
+    with pytest.raises(ProjectError, match="ne déclare pas de paquet"):
+        export_results(ctx, Runtime(ctx.repo_root))
+
+
+def test_criteria_documents_carry_the_commit_that_introduced_them(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    criteria = [{"level": "D", "document": "docs/criteres.md"}]
+    ctx = ready(package=_package(criteria=criteria))
+    root = ctx.repo_root
+    (root / "docs").mkdir()
+    (root / "docs" / "criteres.md").write_text("# Critères\n", encoding="utf-8")
+    env = ["-c", "user.name=Essai", "-c", "user.email=essai@example.invalid"]
+    for args in (
+        ["init", "-q"],
+        ["add", "docs/criteres.md"],
+        [*env, "commit", "-q", "-m", "Critères avant exécution"],
+    ):
+        subprocess.run(["git", *args], cwd=root, check=True)  # noqa: S603, S607
+
+    manifest = export_results(ctx, Runtime(root)).manifest
+
+    (criterion,) = manifest["criteres"]
+    assert criterion["niveau"] == "D"
+    assert criterion["message"] == "Critères avant exécution"
+    assert len(criterion["commit_introduction"]) == 40
+    assert manifest["depot"]["commit"] == criterion["commit_introduction"]
+    assert manifest["depot"]["arbre_modifie"] is True
+
+
+def test_the_cli_exports_and_refuses_readably(
+    ready: Callable[..., ProjectContext], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    ctx = ready()
+    monkeypatch.setattr("aster_expert.cli._project_root", lambda: ctx.repo_root)
+    runner = CliRunner()
+
+    done = runner.invoke(
+        app,
+        ["projet", "exporter-resultats", ctx.declaration.name, "--sans-regeneration"],
+    )
+    assert done.exit_code == 0, done.output
+    assert "Niveau atteint : D" in done.output
+    assert "Régénération du .comm : non_demandee" in done.output
+
+    (ctx.results_dir / "tableau.csv").unlink()
+    refused = runner.invoke(app, ["projet", "exporter-resultats", ctx.declaration.name])
+    assert refused.exit_code == 1
+    assert "projet exporter-resultats" in refused.output
+    assert "ÉCHEC" in refused.output

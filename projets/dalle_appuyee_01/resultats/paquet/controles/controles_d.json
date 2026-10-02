@@ -1,0 +1,57 @@
+{
+  "project": "dalle_appuyee_01",
+  "level": "D",
+  "threshold": 1e-06,
+  "equilibrium": {
+    "G": {
+      "worst_relative_gap": 8.33339678744475e-12,
+      "verdict": "RÉUSSI"
+    },
+    "Q": {
+      "worst_relative_gap": 8.333275521484515e-12,
+      "verdict": "RÉUSSI"
+    }
+  },
+  "gravity": {
+    "G": {
+      "component": "DZ",
+      "applied_n": -180000.0,
+      "reactions_blocked_n": 179999.9999985,
+      "springs_on_structure_n": 0.0,
+      "relative_gap": 8.33339678744475e-12,
+      "verdict": "RÉUSSI"
+    }
+  },
+  "symmetry": {
+    "G X=3.0": {
+      "n_pairs_checked": 808,
+      "n_unmatched": 0,
+      "worst_relative_gap": 5.217306701649408e-13,
+      "verdict": "RÉUSSI"
+    },
+    "Q X=3.0": {
+      "n_pairs_checked": 808,
+      "n_unmatched": 0,
+      "worst_relative_gap": 3.9129800262370564e-13,
+      "verdict": "RÉUSSI"
+    },
+    "G Y=2.0": {
+      "n_pairs_checked": 808,
+      "n_unmatched": 0,
+      "worst_relative_gap": 5.217306701649408e-13,
+      "verdict": "RÉUSSI"
+    },
+    "Q Y=2.0": {
+      "n_pairs_checked": 808,
+      "n_unmatched": 0,
+      "worst_relative_gap": 3.9129800262370564e-13,
+      "verdict": "RÉUSSI"
+    }
+  },
+  "informative": {},
+  "verdict": "RÉUSSI",
+  "provenance": {
+    "mess_sha256": "eedbe1b9aa4b4e9b4e33286e4f14ef23c13f0e4eb9dcac5a8c5acd0083c1f717",
+    "comm_sha256": "70ae851c380a4dad612adad6962b2611feea61485fe096aeb533e39d75e09848"
+  }
+}

@@ -1,0 +1,53 @@
+Rapport mesh check : dalle_mesh.med
+Invariants : 48, tenus : 48, en écart : 0
+
+[OK    ] comptage | nombre de nœuds | attendu : 1617 | obtenu : 1617
+[OK    ] comptage | mailles par type | attendu : {'QUAD4': 1536, 'SEG2': 240} | obtenu : {'QUAD4': 1536, 'SEG2': 240}
+[OK    ] boîte | boîte englobante du modèle (tol. 1e-09) | attendu : (0, 6, 0, 4, 0, 0) | obtenu : (0, 6, 0, 4, 0, 0)
+[OK    ] groupe | groupe DALLE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe DALLE : cardinalité | attendu : 1536 | obtenu : 1536
+[OK    ] groupe | groupe DALLE : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 1536}
+[OK    ] groupe | groupe DALLE : boîte englobante (tol. 1e-09) | attendu : (0, 6, 0, 4, 0, 0) | obtenu : (0, 6, 0, 4, 0, 0)
+[OK    ] groupe | groupe APPUI_X0 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe APPUI_X0 : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe APPUI_X0 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe APPUI_X0 : boîte englobante (tol. 1e-09) | attendu : (0, 0, 0, 4, 0, 0) | obtenu : (0, 0, 0, 4, 0, 0)
+[OK    ] groupe | groupe APPUI_X6 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe APPUI_X6 : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe APPUI_X6 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe APPUI_X6 : boîte englobante (tol. 1e-09) | attendu : (6, 6, 0, 4, 0, 0) | obtenu : (6, 6, 0, 4, 0, 0)
+[OK    ] groupe | groupe APPUI_Y0 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe APPUI_Y0 : cardinalité | attendu : 48 | obtenu : 48
+[OK    ] groupe | groupe APPUI_Y0 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 48}
+[OK    ] groupe | groupe APPUI_Y0 : boîte englobante (tol. 1e-09) | attendu : (0, 6, 0, 0, 0, 0) | obtenu : (0, 6, 0, 0, 0, 0)
+[OK    ] groupe | groupe APPUI_Y4 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe APPUI_Y4 : cardinalité | attendu : 48 | obtenu : 48
+[OK    ] groupe | groupe APPUI_Y4 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 48}
+[OK    ] groupe | groupe APPUI_Y4 : boîte englobante (tol. 1e-09) | attendu : (0, 6, 4, 4, 0, 0) | obtenu : (0, 6, 4, 4, 0, 0)
+[OK    ] groupe | groupe APPUIS : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe APPUIS : cardinalité | attendu : 160 | obtenu : 160
+[OK    ] groupe | groupe APPUIS : boîte englobante (tol. 1e-09) | attendu : (0, 6, 0, 4, 0, 0) | obtenu : (0, 6, 0, 4, 0, 0)
+[OK    ] groupe | groupe P_A : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe P_A : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe P_A : boîte englobante (tol. 1e-09) | attendu : (0, 0, 0, 0, 0, 0) | obtenu : (0, 0, 0, 0, 0, 0)
+[OK    ] groupe | groupe P_B : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe P_B : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe P_B : boîte englobante (tol. 1e-09) | attendu : (6, 6, 0, 0, 0, 0) | obtenu : (6, 6, 0, 0, 0, 0)
+[OK    ] groupe | groupe CENTRE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe CENTRE : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe CENTRE : boîte englobante (tol. 1e-09) | attendu : (3, 3, 2, 2, 0, 0) | obtenu : (3, 3, 2, 2, 0, 0)
+[OK    ] aire | aire développée de DALLE (tol. 1e-09) | attendu : 24 | obtenu : 24
+[OK    ] nœud imposé | nœud en coin A (0, 0, 0) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en coin B (6, 0, 0) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en centre (3, 2, 0) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en coin opposé (6, 4, 0) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] interface | nœuds partagés P_A / APPUIS (coin A dans les appuis) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés P_A / APPUIS (coin A dans les appuis) : nœud partagé en (0, 0, 0) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés P_B / APPUIS (coin B dans les appuis) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés P_B / APPUIS (coin B dans les appuis) : nœud partagé en (6, 0, 0) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés CENTRE / DALLE (centre dans la dalle) | attendu : 1 | obtenu : 1
+[OK    ] interface | nœuds partagés CENTRE / DALLE (centre dans la dalle) : nœud partagé en (3, 2, 0) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] nœuds orphelins | nœuds sans maille | attendu : 0 | obtenu : 0
+[OK    ] nœuds confondus | paires de nœuds à moins de 1e-09 | attendu : 0 | obtenu : 0
+
+Tous les invariants sont tenus.

@@ -29,6 +29,7 @@ largest displacement of the case.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -273,6 +274,12 @@ def level_d_controls(
         json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     summary = summarize(ctx, result)
+    # Lot 45 : les empreintes de ce qui a été contrôlé, pour que le paquet de
+    # résultats rattache ces verdicts à une exécution précise.
+    summary["provenance"] = {
+        "mess_sha256": hashlib.sha256(mess_path.read_bytes()).hexdigest(),
+        "comm_sha256": hashlib.sha256(comm_path.read_bytes()).hexdigest(),
+    }
     (out_dir / "controles_d.json").write_text(
         json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )

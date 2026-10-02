@@ -1,0 +1,84 @@
+{
+  "project": "quai_cw_test_01",
+  "level": "D",
+  "threshold": 1e-06,
+  "equilibrium": {
+    "G": {
+      "worst_relative_gap": 8.632719782282853e-13,
+      "verdict": "RÉUSSI"
+    },
+    "Q1": {
+      "worst_relative_gap": 2.756127117434427e-12,
+      "verdict": "RÉUSSI"
+    },
+    "EAU_P": {
+      "worst_relative_gap": 2.0790842527003005e-12,
+      "verdict": "RÉUSSI"
+    },
+    "EAU_A": {
+      "worst_relative_gap": 1.9161798941974257e-12,
+      "verdict": "RÉUSSI"
+    }
+  },
+  "gravity": {
+    "G": {
+      "component": "DZ",
+      "applied_n": -3162915.3285978176,
+      "reactions_blocked_n": 3162915.328596,
+      "springs_on_structure_n": 0.0,
+      "relative_gap": 8.097843037456734e-14,
+      "verdict": "RÉUSSI"
+    }
+  },
+  "symmetry": {
+    "G": {
+      "n_pairs_checked": 20057,
+      "n_unmatched": 0,
+      "worst_relative_gap": 3.8520207014116234e-11,
+      "verdict": "RÉUSSI"
+    },
+    "Q1": {
+      "n_pairs_checked": 20057,
+      "n_unmatched": 0,
+      "worst_relative_gap": 3.310426221648816e-11,
+      "verdict": "RÉUSSI"
+    },
+    "EAU_P": {
+      "n_pairs_checked": 20057,
+      "n_unmatched": 0,
+      "worst_relative_gap": 4.1156166521252994e-11,
+      "verdict": "RÉUSSI"
+    },
+    "EAU_A": {
+      "n_pairs_checked": 20057,
+      "n_unmatched": 0,
+      "worst_relative_gap": 3.273663374566689e-11,
+      "verdict": "RÉUSSI"
+    },
+    "Q3": {
+      "n_pairs_checked": 20057,
+      "n_unmatched": 0,
+      "worst_relative_gap": 4.851737886808235e-11,
+      "verdict": "RÉUSSI"
+    },
+    "A": {
+      "n_pairs_checked": 20057,
+      "n_unmatched": 0,
+      "worst_relative_gap": 5.209776349599515e-11,
+      "verdict": "RÉUSSI"
+    }
+  },
+  "informative": {
+    "Q3": {
+      "worst_relative_gap": 5.47590586475116e-12
+    },
+    "A": {
+      "worst_relative_gap": 6.672798917861656e-12
+    }
+  },
+  "verdict": "RÉUSSI",
+  "provenance": {
+    "mess_sha256": "9ff447357303a75bc29be9ef265552fbb4e448458ca9f259d922588fa0799c49",
+    "comm_sha256": "683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733"
+  }
+}

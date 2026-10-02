@@ -50,7 +50,9 @@ fort.*
 
 # Lot 41 : sorties des étapes d'un projet (`aster-expert projet <nom> <étape>`),
 # reproductibles ; les résultats de référence vivent dans projets/<nom>/references/.
-/projets/*/resultats/
+/projets/*/resultats/*
+# Lot 45 : sauf le paquet de résultats versionnable (`projet exporter-resultats`).
+!/projets/*/resultats/paquet/
 
 # Lot 41 ter : réglages locaux de Claude Code (jusqu'ici ignorés par le seul
 # fichier d'exclusion global de la VM).

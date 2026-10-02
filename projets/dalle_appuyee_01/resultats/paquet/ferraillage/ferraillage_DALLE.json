@@ -1,0 +1,268 @@
+{
+  "plaque": "DALLE",
+  "libelle": "dalle appuyée",
+  "valeurs": {
+    "thickness": 0.3,
+    "cover": 0.048,
+    "fck": 30000000.0,
+    "fyk": 500000000.0,
+    "fctm": 2900000.0,
+    "eys": 200000000000.0,
+    "alpha_cc": 1.0,
+    "sigs_els": 400000000.0,
+    "sigc_els": 18000000.0,
+    "sigc_els_qp": 13500000.0,
+    "alpha_e": 15.0,
+    "kt": 0.4,
+    "wk": 0.0004,
+    "phi": 0.012
+  },
+  "minima_en_1992": {
+    "d_m": 0.252,
+    "as_min_9_2_1_1_m2_per_m": 0.000380016,
+    "as_min_7_3_2_m2_per_m": 0.000348,
+    "as_min_m2_per_m": 0.000380016,
+    "repartition_min_ratio_9_3_1_1": 0.2
+  },
+  "enveloppe_besoins_elu_els_qp_m2_par_m": {
+    "DNSXI": 0.0001774436900055,
+    "DNSXS": 0.0001627190821351,
+    "DNSYI": 0.0002906174483216,
+    "DNSYS": 0.0001942403040248
+  },
+  "enveloppe_avec_minimum_m2_par_m": {
+    "DNSXI": 0.000380016,
+    "DNSXS": 0.000380016,
+    "DNSYI": 0.000380016,
+    "DNSYS": 0.000380016
+  },
+  "combinaisons": [
+    {
+      "index": 1,
+      "combinaison": "ELU_FOND_Q_DOM_G_defav",
+      "famille": "ELU fondamentale",
+      "type_comb": "ELU",
+      "coefficients": {
+        "G": 1.35,
+        "Q": 1.5
+      },
+      "mailles": 1536,
+      "max": {
+        "DNSXI": {
+          "maille": "440",
+          "m2_par_m": 0.0001774436900055
+        },
+        "DNSXS": {
+          "maille": "601",
+          "m2_par_m": 0.0001627190821351
+        },
+        "DNSYI": {
+          "maille": "264",
+          "m2_par_m": 0.0002906174483216
+        },
+        "DNSYS": {
+          "maille": "601",
+          "m2_par_m": 0.0001942403040248
+        }
+      }
+    },
+    {
+      "index": 2,
+      "combinaison": "ELS_CARA_Q_DOM",
+      "famille": "ELS caractéristique",
+      "type_comb": "ELS",
+      "coefficients": {
+        "G": 1.0,
+        "Q": 1.0
+      },
+      "mailles": 1536,
+      "max": {
+        "DNSXI": {
+          "maille": "347",
+          "m2_par_m": 0.0001607042254752
+        },
+        "DNSXS": {
+          "maille": "601",
+          "m2_par_m": 0.0001443644279434
+        },
+        "DNSYI": {
+          "maille": "288",
+          "m2_par_m": 0.0002372003762399
+        },
+        "DNSYS": {
+          "maille": "529",
+          "m2_par_m": 0.0001710766150001
+        }
+      }
+    },
+    {
+      "index": 3,
+      "combinaison": "ELS_QUASI_PERMANENTE",
+      "famille": "ELS quasi permanente",
+      "type_comb": "ELS_QP",
+      "coefficients": {
+        "G": 1.0,
+        "Q": 0.8
+      },
+      "mailles": 1536,
+      "max": {
+        "DNSXI": {
+          "maille": "372",
+          "m2_par_m": 0.0001553361813826
+        },
+        "DNSXS": {
+          "maille": "577",
+          "m2_par_m": 0.0001301296404089
+        },
+        "DNSYI": {
+          "maille": "264",
+          "m2_par_m": 0.000215258096168
+        },
+        "DNSYS": {
+          "maille": "554",
+          "m2_par_m": 0.000151165042483
+        }
+      }
+    }
+  ],
+  "controle_independant": {
+    "noeud": "CENTRE",
+    "tolerance_relative": 1e-06,
+    "mailles": [
+      {
+        "combinaison": "ELU_FOND_Q_DOM_G_defav",
+        "maille": "264",
+        "efforts_moyens": {
+          "NXX": 0.0,
+          "NYY": 0.0,
+          "NXY": 0.0,
+          "MXX": -17074.6231051725,
+          "MYY": -31436.9417838,
+          "MXY": 21.514047023436227
+        },
+        "mxy_max_abs": 43.02809405008,
+        "code_aster": {
+          "DNSXI": 0.0001569523738736,
+          "DNSXS": 0.0,
+          "DNSYI": 0.0002906174483216,
+          "DNSYS": 0.0
+        },
+        "module_moyenne_des_noeuds": {
+          "DNSXI": 0.00015690167287812516,
+          "DNSXS": 2.418326976580561e-19,
+          "DNSYI": 0.00029056614767188397,
+          "DNSYS": 1.6122179843870408e-19
+        },
+        "ecart_moyenne": 0.00032303426971841664,
+        "ecarts_par_noeud": {
+          "47": 0.0017138921476628536,
+          "260": 0.002732155312284267,
+          "62": 0.002363657671429249,
+          "3": 0.002377428203014895
+        },
+        "reussite_moyenne": false
+      },
+      {
+        "combinaison": "ELU_FOND_Q_DOM_G_defav",
+        "maille": "625",
+        "efforts_moyens": {
+          "NXX": 0.0,
+          "NYY": 0.0,
+          "NXY": 0.0,
+          "MXX": -17074.62310517,
+          "MYY": -31436.941783797498,
+          "MXY": -21.514047033024774
+        },
+        "mxy_max_abs": 43.02809406072,
+        "code_aster": {
+          "DNSXI": 0.0001569523738737,
+          "DNSXS": 0.0,
+          "DNSYI": 0.0002906174483216,
+          "DNSYS": 0.0
+        },
+        "module_moyenne_des_noeuds": {
+          "DNSXI": 0.00015690167287810215,
+          "DNSXS": 0.0,
+          "DNSYI": 0.00029056614767186055,
+          "DNSYS": 0.0
+        },
+        "ecart_moyenne": 0.00032303427050207813,
+        "ecarts_par_noeud": {
+          "3": 0.002377428203014895,
+          "62": 0.002363657672655266,
+          "583": 0.002732155312284267,
+          "86": 0.0017138921464386159
+        },
+        "reussite_moyenne": false
+      },
+      {
+        "combinaison": "ELU_FOND_Q_DOM_G_defav",
+        "maille": "1392",
+        "efforts_moyens": {
+          "NXX": 0.0,
+          "NYY": 0.0,
+          "NXY": 0.0,
+          "MXX": -17074.6231051725,
+          "MYY": -31436.9417838,
+          "MXY": -21.51404703021917
+        },
+        "mxy_max_abs": 43.02809405583,
+        "code_aster": {
+          "DNSXI": 0.0001569523738737,
+          "DNSXS": 0.0,
+          "DNSYI": 0.0002906174483216,
+          "DNSYS": 0.0
+        },
+        "module_moyenne_des_noeuds": {
+          "DNSXI": 0.00015690167287812516,
+          "DNSXS": 2.418326976580561e-19,
+          "DNSYI": 0.00029056614767188397,
+          "DNSYS": 1.6122179843870408e-19
+        },
+        "ecart_moyenne": 0.0003230342703554592,
+        "ecarts_par_noeud": {
+          "1272": 0.002732155312284267,
+          "47": 0.0017138921470266973,
+          "3": 0.0023774282033355095,
+          "185": 0.002363657672064991
+        },
+        "reussite_moyenne": false
+      },
+      {
+        "combinaison": "ELU_FOND_Q_DOM_G_defav",
+        "maille": "1753",
+        "efforts_moyens": {
+          "NXX": 0.0,
+          "NYY": 0.0,
+          "NXY": 0.0,
+          "MXX": -17074.623105175,
+          "MYY": -31436.9417838,
+          "MXY": 21.514047018857333
+        },
+        "mxy_max_abs": 43.02809404445,
+        "code_aster": {
+          "DNSXI": 0.0001569523738736,
+          "DNSXS": 0.0,
+          "DNSYI": 0.0002906174483216,
+          "DNSYS": 0.0
+        },
+        "module_moyenne_des_noeuds": {
+          "DNSXI": 0.00015690167287814834,
+          "DNSXS": 1.0364258471059548e-19,
+          "DNSYI": 0.00029056614767188397,
+          "DNSYS": 1.6122179843870408e-19
+        },
+        "ecart_moyenne": 0.0003230342695707615,
+        "ecarts_par_noeud": {
+          "185": 0.002363657671429249,
+          "3": 0.0023774282033355095,
+          "86": 0.0017138921470747721,
+          "1595": 0.002732155311961936
+        },
+        "reussite_moyenne": false
+      }
+    ],
+    "reussites_moyenne": 0,
+    "comparaisons": 4
+  }
+}

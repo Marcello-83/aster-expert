@@ -1,0 +1,52 @@
+{
+  "report": {
+    "comm_path": "/home/ubuntu/projets/aster-expert/projets/quai_cw_test_01/resultats/complet.comm",
+    "aster_version": "17.4.0",
+    "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+    "status": "completed_ok",
+    "diag": "OK",
+    "return_code": 0,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T071428-babb7e8c",
+    "mess_path": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T071428-babb7e8c/proc.0/fort.6",
+    "result_files": [
+      "proc.0/1.export",
+      "proc.0/__timer__",
+      "proc.0/complet.comm.changed.py",
+      "proc.0/fort.15",
+      "proc.0/fort.20",
+      "proc.0/fort.6",
+      "proc.0/fort.8",
+      "proc.0/fort.80",
+      "proc.0/fort.81",
+      "proc.0/fort.9"
+    ],
+    "duration_s": 169.6264525929946,
+    "extracted_by": "run_aster.status",
+    "executed_at": "2026-10-01T07:17:19.042871Z",
+    "messages": [],
+    "messages_source": "run_aster.error_messages",
+    "messages_truncated": 0,
+    "messages_error": null
+  },
+  "command": "python3 /work/_aster_expert_run_comm.py --file /work/complet.export --wrkdir /work --status-file /work/__status__ --time-limit 1800 --memory-limit 8192",
+  "image": "simvia/code_aster@sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "inputs_sha256": {
+    "complet.comm": "683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733",
+    "complet.export": "5834caa02173157eb44d0dff69f29101dfb4ce639ab4d3e43b43e8eaa58f8486",
+    "complet.mmed": "1bd724bd5e00daeca385801554243bba27270e9d9437b29501d15e84e33ad0b8"
+  },
+  "outputs": {
+    "proc.0/1.export": 215,
+    "proc.0/__timer__": 348,
+    "proc.0/complet.comm.changed.py": 307775,
+    "proc.0/fort.15": 632094,
+    "proc.0/fort.20": 4911035,
+    "proc.0/fort.6": 331803544,
+    "proc.0/fort.8": 0,
+    "proc.0/fort.80": 142848889,
+    "proc.0/fort.81": 7173447,
+    "proc.0/fort.9": 0
+  },
+  "alarms_by_identifier": {},
+  "errors": []
+}

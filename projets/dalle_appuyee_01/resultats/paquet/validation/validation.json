@@ -1,0 +1,763 @@
+{
+  "file_path": "/home/ubuntu/projets/aster-expert/projets/dalle_appuyee_01/resultats/dalle.comm",
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "validation_level": "B",
+  "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "commands_checked": [
+    {
+      "statement_index": 0,
+      "command": "DEBUT",
+      "line": 6,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 1,
+      "command": "LIRE_MAILLAGE",
+      "line": 8,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 2,
+      "command": "MODI_MAILLAGE",
+      "line": 12,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 3,
+      "command": "DEFI_GROUP",
+      "line": 17,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 4,
+      "command": "DEFI_GROUP",
+      "line": 23,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 5,
+      "command": "AFFE_MODELE",
+      "line": 35,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 6,
+      "command": "DEFI_MATERIAU",
+      "line": 42,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 7,
+      "command": "AFFE_MATERIAU",
+      "line": 43,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 8,
+      "command": "AFFE_CARA_ELEM",
+      "line": 46,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 9,
+      "command": "AFFE_CHAR_MECA",
+      "line": 54,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 10,
+      "command": "AFFE_CHAR_MECA",
+      "line": 65,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 11,
+      "command": "AFFE_CHAR_MECA",
+      "line": 69,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 12,
+      "command": "MECA_STATIQUE",
+      "line": 71,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 13,
+      "command": "MECA_STATIQUE",
+      "line": 74,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 14,
+      "command": "CALC_CHAMP",
+      "line": 78,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 15,
+      "command": "POST_RELEVE_T",
+      "line": 85,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 16,
+      "command": "IMPR_TABLE",
+      "line": 96,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 17,
+      "command": "POST_RELEVE_T",
+      "line": 98,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 18,
+      "command": "IMPR_TABLE",
+      "line": 109,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 19,
+      "command": "POST_RELEVE_T",
+      "line": 111,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 20,
+      "command": "IMPR_TABLE",
+      "line": 122,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 21,
+      "command": "POST_RELEVE_T",
+      "line": 124,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 22,
+      "command": "IMPR_TABLE",
+      "line": 135,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 23,
+      "command": "POST_RELEVE_T",
+      "line": 139,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 24,
+      "command": "IMPR_TABLE",
+      "line": 150,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 25,
+      "command": "POST_RELEVE_T",
+      "line": 151,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 26,
+      "command": "IMPR_TABLE",
+      "line": 162,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 27,
+      "command": "POST_RELEVE_T",
+      "line": 165,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 28,
+      "command": "IMPR_TABLE",
+      "line": 176,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 29,
+      "command": "CREA_TABLE",
+      "line": 177,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 30,
+      "command": "IMPR_TABLE",
+      "line": 186,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 31,
+      "command": "CREA_TABLE",
+      "line": 187,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 32,
+      "command": "IMPR_TABLE",
+      "line": 196,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 33,
+      "command": "CREA_TABLE",
+      "line": 197,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 34,
+      "command": "IMPR_TABLE",
+      "line": 206,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 35,
+      "command": "CALC_CHAMP",
+      "line": 208,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 36,
+      "command": "POST_RELEVE_T",
+      "line": 215,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 37,
+      "command": "IMPR_TABLE",
+      "line": 226,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 38,
+      "command": "POST_RELEVE_T",
+      "line": 228,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 39,
+      "command": "IMPR_TABLE",
+      "line": 239,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 40,
+      "command": "POST_RELEVE_T",
+      "line": 241,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 41,
+      "command": "IMPR_TABLE",
+      "line": 252,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 42,
+      "command": "POST_RELEVE_T",
+      "line": 254,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 43,
+      "command": "IMPR_TABLE",
+      "line": 265,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 44,
+      "command": "POST_RELEVE_T",
+      "line": 269,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 45,
+      "command": "IMPR_TABLE",
+      "line": 280,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 46,
+      "command": "POST_RELEVE_T",
+      "line": 281,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 47,
+      "command": "IMPR_TABLE",
+      "line": 292,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 48,
+      "command": "POST_RELEVE_T",
+      "line": 295,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 49,
+      "command": "IMPR_TABLE",
+      "line": 306,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 50,
+      "command": "CREA_TABLE",
+      "line": 307,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 51,
+      "command": "IMPR_TABLE",
+      "line": 316,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 52,
+      "command": "CREA_TABLE",
+      "line": 317,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 53,
+      "command": "IMPR_TABLE",
+      "line": 326,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 54,
+      "command": "CREA_TABLE",
+      "line": 327,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 55,
+      "command": "IMPR_TABLE",
+      "line": 336,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 56,
+      "command": "DEFI_CONSTANTE",
+      "line": 341,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 57,
+      "command": "DEFI_CONSTANTE",
+      "line": 342,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 58,
+      "command": "MECA_STATIQUE",
+      "line": 343,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 59,
+      "command": "CALC_CHAMP",
+      "line": 353,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 60,
+      "command": "CREA_TABLE",
+      "line": 354,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 61,
+      "command": "IMPR_TABLE",
+      "line": 363,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 62,
+      "command": "DEFI_CONSTANTE",
+      "line": 366,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 63,
+      "command": "DEFI_CONSTANTE",
+      "line": 367,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 64,
+      "command": "MECA_STATIQUE",
+      "line": 368,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 65,
+      "command": "CALC_CHAMP",
+      "line": 378,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 66,
+      "command": "CREA_TABLE",
+      "line": 379,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 67,
+      "command": "IMPR_TABLE",
+      "line": 388,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 68,
+      "command": "DEFI_CONSTANTE",
+      "line": 391,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 69,
+      "command": "DEFI_CONSTANTE",
+      "line": 392,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 70,
+      "command": "MECA_STATIQUE",
+      "line": 393,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 71,
+      "command": "CALC_CHAMP",
+      "line": 403,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 72,
+      "command": "CREA_TABLE",
+      "line": 404,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 73,
+      "command": "IMPR_TABLE",
+      "line": 413,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 74,
+      "command": "DEFI_CONSTANTE",
+      "line": 416,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 75,
+      "command": "DEFI_CONSTANTE",
+      "line": 417,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 76,
+      "command": "MECA_STATIQUE",
+      "line": 418,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 77,
+      "command": "CALC_CHAMP",
+      "line": 428,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 78,
+      "command": "CREA_TABLE",
+      "line": 429,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 79,
+      "command": "IMPR_TABLE",
+      "line": 438,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 80,
+      "command": "CALC_FERRAILLAGE",
+      "line": 443,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 81,
+      "command": "CREA_TABLE",
+      "line": 463,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 82,
+      "command": "IMPR_TABLE",
+      "line": 472,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 83,
+      "command": "CREA_TABLE",
+      "line": 473,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 84,
+      "command": "IMPR_TABLE",
+      "line": 482,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 85,
+      "command": "CALC_FERRAILLAGE",
+      "line": 485,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 86,
+      "command": "CREA_TABLE",
+      "line": 507,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 87,
+      "command": "IMPR_TABLE",
+      "line": 516,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 88,
+      "command": "CREA_TABLE",
+      "line": 517,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 89,
+      "command": "IMPR_TABLE",
+      "line": 526,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 90,
+      "command": "CALC_FERRAILLAGE",
+      "line": 529,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 91,
+      "command": "CREA_TABLE",
+      "line": 556,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 92,
+      "command": "IMPR_TABLE",
+      "line": 565,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 93,
+      "command": "CREA_TABLE",
+      "line": 566,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 94,
+      "command": "IMPR_TABLE",
+      "line": 575,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 95,
+      "command": "DEFI_CONSTANTE",
+      "line": 581,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 96,
+      "command": "DEFI_CONSTANTE",
+      "line": 582,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 97,
+      "command": "MECA_STATIQUE",
+      "line": 583,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 98,
+      "command": "CALC_CHAMP",
+      "line": 593,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 99,
+      "command": "CREA_TABLE",
+      "line": 594,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 100,
+      "command": "IMPR_TABLE",
+      "line": 603,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 101,
+      "command": "CALC_FERRAILLAGE",
+      "line": 606,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 102,
+      "command": "CREA_TABLE",
+      "line": 628,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 103,
+      "command": "IMPR_TABLE",
+      "line": 637,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 104,
+      "command": "CREA_TABLE",
+      "line": 638,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 105,
+      "command": "IMPR_TABLE",
+      "line": 647,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 106,
+      "command": "FIN",
+      "line": 649,
+      "ok": true,
+      "warnings": []
+    }
+  ],
+  "commands_not_checked": [],
+  "checked_at": "2026-10-02T13:06:16.932659Z"
+}

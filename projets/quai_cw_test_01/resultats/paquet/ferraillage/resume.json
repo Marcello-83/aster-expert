@@ -1,0 +1,43 @@
+{
+ "sections": 128,
+ "instants": 14,
+ "aires_negatives_non_resolues": 0,
+ "minima": {
+  "AY": {
+   "b_m": 1.4,
+   "h_m": 2.5,
+   "d_m": 2.4,
+   "as_min_9_2_1_1": 0.005608446378129919,
+   "phi_star_mm": 14.454997789785772,
+   "sigma_s_MPa": 215.45002210214227,
+   "sigma_s_borne_tableau": false,
+   "act_m2": 1.75,
+   "as_min_7_3_2": 0.006778987055656518
+  },
+  "AZ": {
+   "b_m": 2.5,
+   "h_m": 1.4,
+   "d_m": 1.2999999999999998,
+   "as_min_9_2_1_1": 0.005424836526464952,
+   "phi_star_mm": 25.81249605318888,
+   "sigma_s_MPa": 160.0,
+   "sigma_s_borne_tableau": true,
+   "act_m2": 1.75,
+   "as_min_7_3_2": 0.009128330693570833
+  }
+ },
+ "controle_main": {
+  "comparaisons": 63,
+  "dans_le_critere": 63,
+  "echecs": 2
+ },
+ "max_par_face_toutes_familles": {
+  "AYS": 0.004513417090189,
+  "AYI": 0.0023245855175,
+  "AZS": 0.002990546648636,
+  "AZI": 0.0008536375261655,
+  "AST": 0.0
+ },
+ "max_bielle": 0.10026199500403149,
+ "max_asl_torsion": 0.0
+}

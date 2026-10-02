@@ -1,0 +1,151 @@
+{
+  "cases": {
+    "EAU_A": {
+      "as_evaluated": {
+        "integrated_n": {
+          "DX": -1.1620215900620678e-10,
+          "DY": -17194800.000000264,
+          "DZ": 2.511687236154968e-10
+        },
+        "relative_gap": null,
+        "screen_n": {
+          "DX": -1.1620215900620678e-10,
+          "DY": -17178160.000000264,
+          "DZ": 2.511687236154968e-10
+        },
+        "verdict": null
+      },
+      "assembled_n": null,
+      "beam_n": {
+        "DY": -16639.99999999998,
+        "DZ": 0
+      },
+      "integrated_n": {
+        "DX": -1.1459633242338896e-10,
+        "DY": -17194800.000000264,
+        "DZ": 2.511687236154966e-10
+      },
+      "relative_gap": null,
+      "screen_n": {
+        "DX": -1.1459633242338896e-10,
+        "DY": -17178160.000000264,
+        "DZ": 2.511687236154966e-10
+      },
+      "verdict": null,
+      "weight_n": 0.0,
+      "zero_load": false
+    },
+    "EAU_P": {
+      "as_evaluated": {
+        "integrated_n": {
+          "DX": 6.63568755499e-10,
+          "DY": -7369200.0000000885,
+          "DZ": 1.0669626321045477e-10
+        },
+        "relative_gap": null,
+        "screen_n": {
+          "DX": 6.63568755499e-10,
+          "DY": -7369200.0000000885,
+          "DZ": 1.0669626321045477e-10
+        },
+        "verdict": null
+      },
+      "assembled_n": null,
+      "beam_n": {
+        "DY": 0.0,
+        "DZ": 0
+      },
+      "integrated_n": {
+        "DX": 6.636113880631456e-10,
+        "DY": -7369200.0000000885,
+        "DZ": 1.0669626321045477e-10
+      },
+      "relative_gap": null,
+      "screen_n": {
+        "DX": 6.636113880631456e-10,
+        "DY": -7369200.0000000885,
+        "DZ": 1.0669626321045477e-10
+      },
+      "verdict": null,
+      "weight_n": 0.0,
+      "zero_load": false
+    },
+    "G": {
+      "as_evaluated": {
+        "integrated_n": {
+          "DX": 5.100503130961442e-09,
+          "DY": -22443951.99999969,
+          "DZ": -3162915.3285978176
+        },
+        "relative_gap": null,
+        "screen_n": {
+          "DX": 5.100503130961442e-09,
+          "DY": -22324705.599999692,
+          "DZ": 3.8798989372127805e-10
+        },
+        "verdict": null
+      },
+      "assembled_n": null,
+      "beam_n": {
+        "DY": -119246.40000000001,
+        "DZ": -1785420.0
+      },
+      "integrated_n": {
+        "DX": -3.3781475394789595e-09,
+        "DY": -22443951.999953028,
+        "DZ": -3162915.3285978176
+      },
+      "relative_gap": null,
+      "screen_n": {
+        "DX": -3.3781475394789595e-09,
+        "DY": -22324705.59995303,
+        "DZ": 3.879898937270679e-10
+      },
+      "verdict": null,
+      "weight_n": 1377495.3285978183,
+      "zero_load": false
+    },
+    "Q1": {
+      "as_evaluated": {
+        "integrated_n": {
+          "DX": -2.0099122366445954e-08,
+          "DY": -7348863.999999925,
+          "DZ": 1.0825173001339202e-10
+        },
+        "relative_gap": null,
+        "screen_n": {
+          "DX": -2.0099122366445954e-08,
+          "DY": -6990687.999999925,
+          "DZ": 1.0825173001339202e-10
+        },
+        "verdict": null
+      },
+      "assembled_n": null,
+      "beam_n": {
+        "DY": -358176.0,
+        "DZ": 0
+      },
+      "integrated_n": {
+        "DX": -2.0040005210830714e-08,
+        "DY": -7348863.999999925,
+        "DZ": 1.0825173001339202e-10
+      },
+      "relative_gap": null,
+      "screen_n": {
+        "DX": -2.0040005210830714e-08,
+        "DY": -6990687.999999925,
+        "DZ": 1.0825173001339202e-10
+      },
+      "verdict": null,
+      "weight_n": 0.0,
+      "zero_load": false
+    }
+  },
+  "informative": {},
+  "n_loaded_cells": 21720,
+  "pression_sur": "ecran",
+  "threshold": 1e-06,
+  "weight_analytic_n": 1377495.3285969119,
+  "weight_mesh_n": 1377495.3285978183,
+  "weight_relative_gap": 6.580128998824007e-13
+}

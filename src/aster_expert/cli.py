@@ -2071,6 +2071,11 @@ def projet(
     description: str = typer.Option(
         "Ouvrage à décrire.", "--description", help="projet creer : description."
     ),
+    sans_regeneration: bool = typer.Option(
+        False,
+        "--sans-regeneration",
+        help="projet exporter-resultats : ne pas régénérer le .comm pour le comparer.",
+    ),
 ) -> None:
     """Enchaîner les commandes existantes sur un projet (`projets/<nom>/`).
 
@@ -2081,12 +2086,19 @@ def projet(
 
     `aster-expert projet creer <nom>` (lot 44) crée un projet : arborescence,
     `projet.yaml` minimal, racines d'exécution dans config/validation.yaml et
-    registre rex."""
+    registre rex.
+
+    `aster-expert projet exporter-resultats <nom>` (lot 45) écrit le paquet de
+    résultats versionnable du projet (tableaux, figures, empreintes, niveau
+    atteint ; jamais de MED) dans `resultats/paquet/`."""
     from aster_expert.projet.errors import ProjectError
     from aster_expert.projet.pipeline import Runtime, run_step
 
     if nom == "creer":
         _create_project(etape, description)
+        return
+    if nom == "exporter-resultats":
+        _export_results(etape, regenerate=not sans_regeneration)
         return
     ctx = _load_project_or_exit("projet", nom)
     try:
@@ -2095,6 +2107,21 @@ def projet(
         typer.echo(f"projet {nom} {etape} ÉCHEC : {exc}", err=True)
         raise typer.Exit(1) from exc
     for line in lines:
+        typer.echo(line)
+
+
+def _export_results(name: str, *, regenerate: bool) -> None:
+    from aster_expert.projet.errors import ProjectError
+    from aster_expert.projet.paquet import export_results
+    from aster_expert.projet.pipeline import Runtime
+
+    ctx = _load_project_or_exit("projet exporter-resultats", name)
+    try:
+        result = export_results(ctx, Runtime(_project_root()), regenerate=regenerate)
+    except ProjectError as exc:
+        typer.echo(f"projet exporter-resultats {name} ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    for line in result.lines:
         typer.echo(line)
 
 
