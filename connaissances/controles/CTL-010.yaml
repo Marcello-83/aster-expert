@@ -13,7 +13,15 @@ sources:
 commands:
 - IMPR_TABLE
 keywords: []
-reuses: []
+reuses:
+- project: dalle_appuyee_01
+  date: '2026-10-02'
+  evidence:
+    kind: code
+    path: projets/dalle_appuyee_01/generation.py
+    symbol: _title
+    note: null
+  note: Intitulés de la dalle contrôlés à 16 caractères et uniques par le générateur.
 status_history: []
 detects: Deux tables rendues indiscernables par la troncature d'IMPR_TABLE.
 parameters: Longueur 16, unicité.

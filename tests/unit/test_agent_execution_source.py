@@ -301,10 +301,11 @@ def test_every_execution_source_of_the_fiche_points_to_an_existing_case() -> Non
     sources = _fiche_execution_sources()
 
     assert (
-        len(sources) == 84
+        len(sources) == 86
     )  # 1 + 3 + 6 + 3 + 2 (lot 22) + 5 + 11 + 1 + 3 (lot 23) + 13 (lot 24) + 7 (lot 25)
     # + 7 (lot 35 : 3 + 2 + 1 + 1, constats du lot 34)
     # + 22 (lot 39 : 4 + 5 + 3 + 5 + 2 + 3, CALC_FERRAILLAGE, point 14)
+    # + 2 (lot 43 : CA-052, ELS 2D de CALC_FERRAILLAGE, dalle_appuyee_01)
     for _, source in sources:
         check_execution_source(source, repo_root=_ROOT)
         assert source.mess_path is not None

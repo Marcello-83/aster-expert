@@ -24,7 +24,16 @@ commands: []
 keywords:
 - SEG2
 - QUAD4
-reuses: []
+reuses:
+- project: dalle_appuyee_01
+  date: '2026-10-02'
+  evidence:
+    kind: code
+    path: projets/dalle_appuyee_01/maillage/dalle_mesh.py
+    symbol: geometry_group
+    note: null
+  note: 'Script Salomé de la dalle (partition unique, groupes sur la géométrie, segments imposés)
+    : trois maillages vérifiés du premier coup (48/48 invariants).'
 status_history: []
 problem: Garantir le partage des nœuds aux interfaces coque/poutre/barre et des groupes reproductibles.
 solution: 'MakePartition en arguments nommés (KeepNonlimitShapes=1, 8e argument) entre # ASSEMBLY

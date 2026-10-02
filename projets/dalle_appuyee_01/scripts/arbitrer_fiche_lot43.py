@@ -47,7 +47,12 @@ from aster_expert.catalogue.query import catalogue_vocabulary
 from aster_expert.connaissances.base import load_knowledge
 from aster_expert.connaissances.modeles import Precedent
 from aster_expert.connaissances.precedents import precedent_source
-from aster_expert.constats.base import base_dir, load_base, resolve_sheet
+from aster_expert.constats.base import (
+    base_dir,
+    externalize_sheet,
+    load_base,
+    resolve_sheet,
+)
 
 PROJECT = ROOT / "projets" / "dalle_appuyee_01"
 FICHE = PROJECT / "fiche" / "hypotheses_dalle_arbitree.json"
@@ -513,6 +518,13 @@ def arbitrate(proposed: HypothesesSheet) -> HypothesesSheet:
     )
 
 
+def final_sheet() -> HypothesesSheet:
+    """The arbitrated fiche as versioned: its `code_aster` entries replaced by
+    references to the shared base (CA-046 to CA-051, versed by
+    `verser_connaissances_lot43.py`; lot 41 rule)."""
+    return externalize_sheet(arbitrate(build_sheet()), load_base(base_dir(ROOT)))
+
+
 def render(sheet: HypothesesSheet) -> str:
     resolved = resolve_sheet(sheet, load_base(base_dir(ROOT)))
     data = load_model_data(DATA)
@@ -561,7 +573,7 @@ def render(sheet: HypothesesSheet) -> str:
 
 
 def main() -> int:
-    sheet = arbitrate(build_sheet())
+    sheet = final_sheet()
     resolved = resolve_sheet(sheet, load_base(base_dir(ROOT)))
     data = load_model_data(DATA)
     vocabulary = catalogue_vocabulary_or_empty()

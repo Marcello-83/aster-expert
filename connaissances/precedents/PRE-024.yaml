@@ -1,0 +1,43 @@
+id: PRE-024
+title: 'Point 4 : Valeurs et application des charges : poids volumique, g, forme de la charge
+  d''exploitation'
+summary: 'Décision de MM au point 4 de la fiche de la dalle (2026-10-02) : Valeurs et application
+  des charges : poids volumique, g, forme de la charge d''exploitation.'
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+  point_label: '4'
+  decided_by: MM
+  decided_at: '2026-10-02T04:37:34-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+point_label: '4'
+topic: 'Valeurs et application des charges : poids volumique, g, forme de la charge d''exploitation'
+option_retained: 'Deux cas de charge calculés séparément, chacun comparé à Navier. G : poids
+  propre, poids volumique 25 kN/m³, appliqué par PESANTEUR avec g = 9,81 m/s² et RHO = 25
+  000 / 9,81 = 2 548,42 kg/m³, de façon que ρ·g vaille exactement 25 kN/m³ ; résultante attendue
+  25 × 6 × 4 × 0,30 = 180,0 kN. Q : exploitation de 10 kPa en charge surfacique de direction
+  globale −Z (FORCE_COQUE/FZ), et non en PRES, pour ne pas dépendre de l''orientation des
+  normales ; résultante attendue 240,0 kN.'
+justification: Décision P3 de MM.
+validity_domain: 'Exploitation uniforme sur toute la dalle ; aucune disposition partielle.
+  RHO est un artifice pour obtenir ρ·g = 25 kN/m³ (le poids volumique du béton armé, pas sa
+  masse volumique réelle) : il n''est valable qu''en statique.'
+discarded_variants:
+- 'RHO = 2500 kg/m³ et g = 9,81 m/s² (poids 24,5 kN/m³). — écartée : MM retient 25 kN/m³ exactement
+  (P3).'
+- 'Exploitation par FORCE_COQUE/PRES après ORIE_NORM_COQUE. — écartée : Le résultat dépendrait
+  de l''orientation des normales (P3).'
+- 'Dispositions partielles (damier) de l''exploitation. — écartée : Non retenues par P3 :
+  exploitation uniforme de 10 kPa.'
+decided_by: MM
+decided_at: '2026-10-02T04:37:34-04:00'
+superseded_decisions: 0
+application: proposition seulement

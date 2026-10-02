@@ -1,0 +1,37 @@
+id: PRE-027
+title: 'Point 9 : Repère global, origine et unités du modèle'
+summary: 'Décision de MM au point 9 de la fiche de la dalle (2026-10-02) : Repère global,
+  origine et unités du modèle.'
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+  point_label: '9'
+  decided_by: Claude (superviseur), section B de arbitrage_dalle_appuyee_01_v1 — document
+    validé par MM
+  decided_at: '2026-10-02T04:37:34-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+point_label: '9'
+topic: Repère global, origine et unités du modèle
+option_retained: Origine au coin A (0, 0, 0). X selon le côté de 6,00 m, Y selon le côté de
+  4,00 m, Z vers le haut. Plan de la dalle à z = 0 (feuillet moyen). Unités m, N, Pa, kg.
+justification: Section B de l'arbitrage (choix de modélisation vérifié par le niveau E et
+  les contrôles D). Repère de la série de Navier (origine au coin).
+validity_domain: 'Convention de repère : sans limite physique.'
+discarded_variants:
+- 'Origine au centre de la dalle. — écartée : Non retenue par la section B (origine au coin
+  A).'
+- 'Précédent PRE-012 (repère du quai). — écartée : Repère propre au quai (axe de tube, cote
+  CM) ; seule la déclaration du repère et des unités dans la fiche est reprise.'
+decided_by: Claude (superviseur), section B de arbitrage_dalle_appuyee_01_v1 — document validé
+  par MM
+decided_at: '2026-10-02T04:37:34-04:00'
+superseded_decisions: 0
+application: proposition seulement

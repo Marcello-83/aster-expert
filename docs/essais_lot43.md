@@ -80,16 +80,120 @@ Toute autre issue est un échec, rapporté tel quel.
 
 ## Modèle et exécution
 
-(À compléter après exécution.)
+- Générateur : `projets/dalle_appuyee_01/generation.py` (fiche arbitrée et données) ;
+  `.comm` du maillage fin validé au niveau B (107/107 commandes, 0 erreur).
+- Chaîne projet (`aster-expert projet dalle_appuyee_01 maillage generer valider
+  executer controles ferraillage`) : maillage 48×32, 48/48 invariants ; exécution
+  `completed_ok`, 14,3 s, 0 alarme (`data/processed/runs/20261002T085726-378a7180`).
+- Suite de convergence (`scripts/niveau_e_lot43.py`, commit de départ 4093f12, arbre
+  modifié par les scripts d'analyse et `config/validation.yaml`) : trois maillages
+  Salomé, chacun 48/48 invariants, trois exécutions `completed_ok`, 0 alarme
+  (9,5 s, 9,8 s, 10,4 s). Cas versionnés : `projets/dalle_appuyee_01/references/cas/`
+  (`.comm`, `.mmed`, `.export`, extrait de listing). Valeurs lues et verdicts :
+  `projets/dalle_appuyee_01/references/niveau_e_lot43.json`.
 
 ## Résultats
 
-(À compléter après exécution.)
+### Niveau E — centre de la dalle
+
+| Maillage | Cas | w (m) | Mx (N·m/m) | My (N·m/m) | err. w | err. Mx | err. My |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 12×8 | G | 1,910985e-04 | 5 112,49 | 9 482,22 | −3,36e-03 | +8,68e-04 | +8,42e-03 |
+| 24×16 | G | 1,915848e-04 | 5 109,20 | 9 422,54 | −8,25e-04 | +2,22e-04 | +2,08e-03 |
+| 48×32 | G | 1,917036e-04 | 5 108,35 | 9 407,88 | −2,05e-04 | +5,58e-05 | +5,17e-04 |
+| 12×8 | Q | 2,547981e-04 | 6 816,66 | 12 642,96 | −3,36e-03 | +8,68e-04 | +8,42e-03 |
+| 24×16 | Q | 2,554463e-04 | 6 812,26 | 12 563,38 | −8,25e-04 | +2,22e-04 | +2,08e-03 |
+| 48×32 | Q | 2,556048e-04 | 6 811,13 | 12 543,84 | −2,05e-04 | +5,58e-05 | +5,17e-04 |
+
+L'erreur est divisée par 4,07 à 4,06 à chaque raffinement (convergence d'ordre 2).
+Signes : DZ, MXX, MYY < 0 au centre dans les six calculs. E3 (informatif) : sur 48×32,
+`EFGE_ELNO` des quatre mailles voisines au nœud central coïncide avec `EFGE_NOEU` à
+la précision d'impression (MXX = −5 108,346847 pour G dans les quatre mailles) ; MXY y
+vaut au plus 2,5e-9 N·m/m.
+
+### Niveau D
+
+- D1 : équilibre G et Q, écart 8,3e-12 en Z, 0 en X et Y (tronc commun,
+  `resultats/controles/controles_d.md`).
+- D2 et D3 : résultantes reprises par les appuis 180 000,0 N et 240 000,0 N (somme sur
+  tous les nœuds) ; charges attendues 180,0 et 240,0 kN (MM), calculées identiquement.
+- D4 : symétrie X = 3 et Y = 2, 808 paires par plan, écart relatif maximal 5,2e-13 (G)
+  et 3,9e-13 (Q).
+- D5 : |MXY| au centre / max(|MXX|, |MYY|) = 1,7e-13 (G), 1,6e-13 (Q).
+- D6 : w(G)/w(Q) = 0,75 exactement (écart 0) ; MXX 3,9e-13 ; MYY 6,4e-13.
+- D7 (informatif) : réaction de chaque coin −11 608,0 N (G) et −15 477,4 N (Q), dirigée
+  vers le bas, alors que les autres nœuds des bords portent +226 432 N (G) au total (180 000 + 4 × 11 608) : c'est la force de
+  coin de la plaque de Kirchhoff retenue contre le soulèvement (hypothèse de Navier,
+  P4). Contrôle de lecture (déduction) : MXY au coin (0, 0) vaut 7 807,4 N·m/m sous Q
+  (`EFGE_NOEU`), et 2·MXY = 15 614,8 N, à 0,9 % de la réaction de coin du maillage fin.
+- Contrôle complémentaire (ajouté après exécution, hors critère) : la combinaison ELU
+  au centre vaut 1,35 G + 1,5 Q à 4e-13 près (MXX et MYY, trois maillages).
+
+### Ferraillage 2D (maillage 48×32, `resultats/ferraillage/ferraillage_DALLE.md`)
+
+| Combinaison | DNSXI | DNSXS | DNSYI | DNSYS |
+| --- | --- | --- | --- | --- |
+| ELU fondamentale (1,35 G + 1,5 Q) | 1,774 | 1,627 | 2,906 | 1,942 |
+| ELS caractéristique (G + Q) | 1,607 | 1,444 | 2,372 | 1,711 |
+| ELS quasi permanente (G + 0,8 Q) | 1,457 | 1,221 | 2,056 | 1,544 |
+
+(maxima sur les mailles, cm²/m ; « S » = dessus, CA-045.) Minimum EN 1992-1-1 (d =
+0,252 m) : 9.2.1.1 → 3,80 cm²/m, 7.3.2 (kc = 0,4, k = 1, Act = b·h/2) → 3,48 cm²/m ;
+**le minimum de 3,80 cm²/m gouverne dans les deux directions et sur les deux faces**.
+Les maxima de la face supérieure (DNSXS, DNSYS) sont aux coins (MXY = 7 807 N·m/m sous
+Q au coin (0, 0)) : armatures de coin (9.3.1.3) signalées, non calculées (P6).
+
+- F1 (exploratoire) : 0/4 mailles reproduites à 1e-6 par le module évalué à la moyenne
+  des nœuds (écart 3,2e-4), ni à un nœud (1,7e-3 au mieux) ; MXY aux nœuds non
+  centraux de ces mailles vaut 43 N·m/m. La réduction par maille reste non établie.
+- F2 : écart entre la moyenne des 4 mailles voisines et le calcul manuel au nœud
+  `CENTRE` : DNSXI 1,86e-2 → 5,83e-3 → 1,93e-3 ; DNSYI 2,98e-2 → 7,69e-3 → 2,38e-3.
+  Au maillage fin : 1,5695 contre 1,5726 cm²/m (X) et 2,9062 contre 2,9131 cm²/m (Y).
+- F3 : module `aster_expert.rebar` contre formule fermée du bloc rectangulaire au
+  centre : 3,7e-16.
+- F4 : densités ELS caractéristiques avec SIGC_*_ELS = 18 MPa et 1 000 MPa : **elles
+  diffèrent** (4 124 des 6 144 valeurs du maillage fin, y compris dans des mailles
+  peu sollicitées ; écart relatif maximal 1,0, une densité nulle d'un côté). Au centre,
+  DNSYI = 2,372e-4 (18 MPa) et 2,392e-4 m²/m (1 000 MPa) ; le pivot acier de R7.04.05,
+  où σc,lim se simplifie, refait par `aster_expert.rebar.serviceability.design_els`,
+  donne 2,294e-4 m²/m pour les deux valeurs (constat CA-052, rejoué).
 
 ## Verdict
 
-(À compléter après exécution.)
+| N° | Verdict |
+| --- | --- |
+| E0 | réussi |
+| E1 | réussi (6/6 grandeurs, deux raffinements) |
+| E2 | réussi (écart maximal 5,2e-4 ≤ 1e-2) |
+| D1 à D6 | réussis |
+| F2 | réussi |
+| F3 | réussi |
+| F4 | **échec** : les densités dépendent de SIGC_*_ELS. La lecture prévue par le critère (« la limite est active ») est contredite par les données : la limite de 18 MPa n'est pas atteinte dans les mailles peu sollicitées où les densités changent aussi ; c'est le paramètre lui-même qui intervient (CA-052). |
+
+**Niveau atteint : E** pour la flèche et les moments au centre (cas G et Q, Navier) ;
+**D** pour l'équilibre, la symétrie et les combinaisons ; ferraillage : C avec
+contrôles D (F2, F3), et un échec F4 rapporté tel quel.
+
+## Lecture
+
+- Fait : DKT reproduit la plaque de Kirchhoff avec une erreur d'ordre 2 en h ; sur
+  48×32, l'écart à Navier est de 0,02 % (flèche) et 0,05 % (moment de la petite portée).
+- Fait : la correspondance de signes déduite de CA-045 (normales +Z) est confirmée.
+- Fait : le ferraillage de la dalle est gouverné par le minimum de l'EN 1992-1-1
+  (3,80 cm²/m), au-dessus de tous les besoins ELU et ELS.
+- Déduction : la dépendance des densités ELS 2D à SIGC_*_ELS (F4) est de la même
+  famille que les écarts ELS 1D inexpliqués de CA-044 ; elle ne change rien ici
+  (l'ELS ne gouverne pas) mais interdit de traiter SIGC_*_ELS comme une limite neutre.
+- Rappel (P2) : **les flèches sont instantanées et non fissurées** ; la flèche à long
+  terme (fluage, fissuration, EC2 7.4.3) est hors périmètre.
 
 ## Limites
 
-(À compléter après exécution.)
+- Appui bilatéral (coins retenus) ; l'appui unilatéral n'est pas étudié.
+- Sensibilité DST non faite (hors périmètre, P1).
+- Réduction par maille de `CALC_FERRAILLAGE` en 2D non établie (F1) ; contre-vérification
+  au centre seulement ; armatures de coin non calculées.
+- Ferraillage ELS 2D : écart au pivot acier et dépendance à SIGC_*_ELS non expliqués.
+- Aucun MED de résultats écrit (les tables du listing suffisent au contrôle) : pas de
+  vue graphique.
+- Les articles d'Eurocode sont ceux fournis par MM, non vérifiés par l'outil.

@@ -14,7 +14,17 @@ sources:
   decided_at: '2026-09-25T09:53:49-04:00'
 commands: []
 keywords: []
-reuses: []
+reuses:
+- project: dalle_appuyee_01
+  date: '2026-10-02'
+  evidence:
+    kind: decision
+    fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+    point_label: '13'
+    decided_by: MM
+    decided_at: '2026-10-02T04:37:34-04:00'
+  note: Retenu par MM pour la dalle pour γG = 1,35 et γQ = 1,5 seulement (P5) ; le reste (actions
+    du quai) ne s'applique pas.
 status_history: []
 fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
 point_label: '13'

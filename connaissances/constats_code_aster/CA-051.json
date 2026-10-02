@@ -1,0 +1,123 @@
+{
+  "constat_id": "CA-051",
+  "summary": "En 2D, CALC_FERRAILLAGE (EC2) offre les méthodes CAPRA-MAURY et SANDWICH, n'admet qu'une distance C_INF et C_SUP par face pour les deux directions, et ALPHA_CC y vaut 0,85 par défaut.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "CALC_FERRAILLAGE"
+  ],
+  "keywords": [
+    "AFFE",
+    "ALPHA_CC",
+    "CODIFICATION",
+    "C_INF",
+    "C_SUP",
+    "DKT",
+    "EC2",
+    "ELS",
+    "ELS_QP",
+    "ELU",
+    "FCK",
+    "FERR_ELEM",
+    "FERR_MIN",
+    "FERR_MIN_FISS",
+    "FYK",
+    "GAMMA_C",
+    "GAMMA_S",
+    "KT",
+    "METHODE_2D",
+    "PHI_INF_X",
+    "PHI_SUP_X",
+    "SANDWICH",
+    "SIGC_ELS_QP",
+    "SIGC_INF_ELS",
+    "SIGC_SUP_ELS",
+    "SIGS_ELS",
+    "TYPE_COMB",
+    "TYPE_STRUCTURE",
+    "UNITE_CONTRAINTE",
+    "VALE_MIN",
+    "WMAX_INF",
+    "WMAX_SUP"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "DALLE-APPUYEE-01",
+    "fiche": "projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json",
+    "point_label": "14"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "CALC_FERRAILLAGE en 2D : options disponibles dans le catalogue 17.4",
+    "options_considered": [
+      "METHODE_2D='CAPRA-MAURY'",
+      "METHODE_2D='SANDWICH'"
+    ],
+    "option_retained": "CALC_FERRAILLAGE (CODIFICATION='EC2' par défaut) : TYPE_COMB ELU, ELS ou ELS_QP ; METHODE_2D CAPRA-MAURY (défaut) ou SANDWICH ; UNITE_CONTRAINTE MPa ou Pa (obligatoire) ; en 2D, C_INF et C_SUP obligatoires (une valeur par face, commune aux deux directions) ; FCK, FYK, GAMMA_C, GAMMA_S, ALPHA_CC (défaut 0,85), SIGS_ELS, SIGC_INF_ELS, SIGC_SUP_ELS, WMAX_INF, WMAX_SUP, SIGC_ELS_QP, KT, PHI_INF_X/Y, PHI_SUP_X/Y, FERR_MIN (VALE_MIN ou EC2), FERR_MIN_FISS. Sortie : densités DNSXI, DNSXS, DNSYI, DNSYS (champ FERR_ELEM).",
+    "justification": "Schéma complet du catalogue 17.4 (get_command_schema, CALC_FERRAILLAGE) ; cas test ssls135a.comm (DKT, TYPE_STRUCTURE='2D', TYPE_COMB='ELS', C_INF = C_SUP = 0,04, composantes DNSXI…DNSYS de FERR_ELEM).",
+    "discarded_variants": [],
+    "notes": "Déduction : en 2D, CALC_FERRAILLAGE n'admet qu'une distance C_INF (et C_SUP) pour les deux nappes d'une face, alors que, dans une dalle réelle, les nappes X et Y d'une même face sont à des hauteurs différentes (l'une est au-dessus de l'autre). Le choix de la valeur unique est une question de pratique (point 14).",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "TYPE_COMB"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "METHODE_2D"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "C_INF"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "WMAX_INF"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "CALC_FERRAILLAGE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "UNITE_CONTRAINTE"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      }
+    ],
+    "status": "tranche"
+  }
+}

@@ -540,7 +540,10 @@ def review_project(repo_root: Path, project: str) -> RexReport:
 
 
 def _fiche_project_name(repo_root: Path, project: str) -> str | None:
-    name = _declaration(repo_root, project).get("fiche_project_name")
+    # `structure` when the declaration gives no `fiche_project_name` (same rule
+    # as `aster_expert.projet.check` and `connaissances.base.project_aliases`).
+    raw = _declaration(repo_root, project)
+    name = raw.get("fiche_project_name") or raw.get("structure")
     return name if isinstance(name, str) else None
 
 

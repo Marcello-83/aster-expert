@@ -728,7 +728,7 @@ Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D
   ligne par plan de flexion, colonnes de MM vides. ELU accidentelle : γc = 1,2, γs = 1,0
   (EN 1992-1-1, tableau 2.1N, non décidés par MM). 7 exécutions réelles (71,3 s).
 
-## Lots 33 à 42 (résumé)
+## Lots 33 à 43 (résumé)
 
 Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de leur
 époque : depuis le lot 41, le code, les données et les scripts du quai sont dans
@@ -815,6 +815,21 @@ Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de
   diagnostic proposé automatiquement est le bon pour les 69), 4 écartés (fautes de
   frappe sur un nom de groupe). Le journal `query_log.jsonl` contient une ligne
   abîmée (octets nuls) : lue en tolérance, jamais réparée.
+- **Lot 43** (`docs/essais_lot43.md`, `docs/lots/lot43_journal_autonomie.md`,
+  `projets/dalle_appuyee_01/`) : second projet, dalle C30/37 6 × 4 × 0,30 m appuyée sur
+  quatre côtés, menée pour mesurer l'autonomie de l'outil. Phase 1 : fiche proposée,
+  arrêt pour arbitrage. Phase 2 : arbitrage de MM (`arbitrage_dalle_appuyee_01_v1`,
+  nouvelle origine `arbitrage_mm`) et complément ELS. DKT, appui bilatéral, dalle
+  entière. Tronc commun : ferraillage 2D des plaques (`aster_expert.ferraillage.plaque`,
+  `rebar.plates`), γG favorable facultatif, alias de projet par `structure`.
+  **Niveau E** (Navier, 16,8 millions de termes, Lévy à 1e-14) : erreur au centre
+  divisée par 4 à chaque raffinement, 0,05 % au plus sur 48×32 ; contrôles D à 1e-12.
+  Le minimum EN 1992 (3,80 cm²/m) gouverne le ferraillage. Échec F4 rapporté :
+  les densités ELS 2D de `CALC_FERRAILLAGE` dépendent de `SIGC_*_ELS` (CA-052).
+  Connaissances : CA-046 à CA-052, REF-014, PAT-010, PAT-011, CTL-012, PRE-022 à
+  PRE-031 (PRE-021 laissé libre, cité par MM) ; réutilisations de PAT-008, PAT-009,
+  CTL-005, CTL-006, CTL-008, CTL-010, PRE-016, PRE-018 ; aucune promotion.
+  Interventions de MM : 2.
 
 ## Périmètre à ne pas dépasser sans instruction
 

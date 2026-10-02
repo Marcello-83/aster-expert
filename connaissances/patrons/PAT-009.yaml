@@ -30,7 +30,16 @@ keywords:
 - EFGE_NOEU
 - FORMAT_R
 - TITRE
-reuses: []
+reuses:
+- project: dalle_appuyee_01
+  date: '2026-10-02'
+  evidence:
+    kind: code
+    path: projets/dalle_appuyee_01/generation.py
+    symbol: case_tables
+    note: null
+  note: 'Efforts de la dalle lus par CREA_TABLE (EFGE_NOEU, EFGE_ELNO, FERR_ELEM), déplacements
+    et réactions par POST_RELEVE_T : aucun arrêt.'
 status_history: []
 problem: Extraire des efforts de coques facettées et de poutres sans les arrêts POSTRELE_70,
   POSTRELE_38, UTILITAI_4.

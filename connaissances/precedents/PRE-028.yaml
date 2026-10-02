@@ -1,0 +1,41 @@
+id: PRE-028
+title: 'Point 10 : Discrétisation : type de mailles, taille, étude de convergence, nœud au
+  centre'
+summary: 'Décision de MM au point 10 de la fiche de la dalle (2026-10-02) : Discrétisation
+  : type de mailles, taille, étude de convergence, nœud au centre.'
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+  point_label: '10'
+  decided_by: Claude (superviseur), section B de arbitrage_dalle_appuyee_01_v1 — document
+    validé par MM
+  decided_at: '2026-10-02T04:37:34-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+point_label: '10'
+topic: 'Discrétisation : type de mailles, taille, étude de convergence, nœud au centre'
+option_retained: 'Mailles QUAD4 régulières sous la modélisation DKT. Suite de convergence
+  de rapport 2 : tailles 0,50 / 0,25 / 0,125 m, soit 12×8, 24×16 et 48×32 mailles, avec un
+  nœud au centre (3,0 ; 2,0) dans les trois maillages. Moments au centre lus en EFGE_NOEU
+  au nœud `CENTRE` pour la comparaison à Navier ; EFGE_ELNO sert seulement à contrôler l''écart
+  de lissage au centre.'
+justification: 'Section B de l''arbitrage. Le précédent PRE-013 (quai) n''avait fait l''objet
+  d''aucune étude de convergence : la suite de rapport 2 en tient lieu ici.'
+validity_domain: Convergence établie aux seuls points de comparaison (centre) ; les coins,
+  où Mxy est maximal, ne sont pas couverts par la référence de Navier au même titre.
+discarded_variants:
+- 'TRIA3. — écartée : Non retenus par la section B (QUAD4 réguliers).'
+- 'Moments lus en EFGE_ELNO d''une maille pour la comparaison. — écartée : EFGE_ELNO ne sert
+  qu''à contrôler l''écart de lissage (section B).'
+decided_by: Claude (superviseur), section B de arbitrage_dalle_appuyee_01_v1 — document validé
+  par MM
+decided_at: '2026-10-02T04:37:34-04:00'
+superseded_decisions: 0
+application: proposition seulement

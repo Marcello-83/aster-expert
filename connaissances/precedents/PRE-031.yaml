@@ -1,0 +1,42 @@
+id: PRE-031
+title: 'Point 14 : Paramètres ELS obligatoires de CALC_FERRAILLAGE en 2D (ALPHA_E, SIGC_*_ELS,
+  SIGC_ELS_QP, KT, EYS)'
+summary: 'Décision de MM au point 14 de la fiche de la dalle (2026-10-02) : Paramètres ELS
+  obligatoires de CALC_FERRAILLAGE en 2D (ALPHA_E, SIGC_*_ELS, SIGC_ELS_QP, KT, EYS).'
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+  point_label: '14'
+  decided_by: MM
+  decided_at: '2026-10-02T04:37:34-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+point_label: '14'
+topic: Paramètres ELS obligatoires de CALC_FERRAILLAGE en 2D (ALPHA_E, SIGC_*_ELS, SIGC_ELS_QP,
+  KT, EYS)
+option_retained: ALPHA_E = 15. SIGC_INF_ELS = SIGC_SUP_ELS = 0,6 fck = 18 MPa, avec un second
+  calcul à valeur non contraignante pour montrer que la limite n'est pas active (rapportée
+  si elle l'est). SIGC_ELS_QP = 0,45 fck = 13,5 MPa. KT = 0,4 (chargement de longue durée).
+  EYS = 210 000 MPa (Es = 210 GPa, comme au quai).
+justification: 'Réponses de MM aux questions de la session (complément d''arbitrage, donnees/sources/arbitrage_dalle_appuyee_01_complement_els.md)
+  : ces paramètres sont obligatoires en 2D selon U4.81.42 et l''arbitrage v1 dit « pas de
+  limite sur σc en XC1 ».'
+validity_domain: 'La limite σc = 18 MPa est un artifice de saisie exigé par la commande, sans
+  exigence de l''EC2 en XC1 : son inactivité est vérifiée par la sensibilité.'
+discarded_variants:
+- 'ALPHA_E = Es/Ecm (≈ 6,4). — écartée : MM retient 15.'
+- 'SIGC_*_ELS non contraignant sans sensibilité. — écartée : MM retient 0,6 fck et demande
+  la sensibilité.'
+- 'KT = 0,6 (courte durée). — écartée : Longue durée.'
+- 'EYS = 200 000 MPa. — écartée : MM retient 210 GPa, comme au quai.'
+decided_by: MM
+decided_at: '2026-10-02T04:37:34-04:00'
+superseded_decisions: 0
+application: proposition seulement

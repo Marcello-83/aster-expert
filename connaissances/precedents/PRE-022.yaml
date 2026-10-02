@@ -1,0 +1,37 @@
+id: PRE-022
+title: 'Point 0 : Objet et périmètre du calcul'
+summary: 'Décision de MM au point 0 de la fiche de la dalle (2026-10-02) : Objet et périmètre
+  du calcul.'
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+  point_label: '0'
+  decided_by: MM
+  decided_at: '2026-10-02T04:37:34-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+point_label: '0'
+topic: Objet et périmètre du calcul
+option_retained: Calcul élastique linéaire et non fissuré de la dalle seule (plaque), sous
+  chargement statique. Les flèches obtenues sont des flèches instantanées et non fissurées
+  ; la flèche à long terme (fluage, fissuration, EC2 7.4.3) est hors périmètre, et le compte
+  rendu le dit explicitement. Le ferraillage est calculé par CALC_FERRAILLAGE sur les efforts
+  élastiques.
+justification: 'Décision P2 de MM : « Le calcul est élastique linéaire et non fissuré. Les
+  flèches obtenues sont des flèches instantanées et non fissurées. »'
+validity_domain: Flèches instantanées seulement ; aucune flèche différée, aucun effet de la
+  fissuration sur la raideur ; EC2 7.4.3 hors périmètre.
+discarded_variants:
+- 'Estimation des flèches à long terme (fluage, fissuration). — écartée : Hors périmètre de
+  ce lot (P2).'
+decided_by: MM
+decided_at: '2026-10-02T04:37:34-04:00'
+superseded_decisions: 0
+application: proposition seulement

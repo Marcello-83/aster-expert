@@ -1,6 +1,34 @@
-# Registre de retour d'expérience (aster-expert rex, lot 42) du projet
-# dalle_appuyee_01 (lot 43). Les classements d'échec et les chiffres déclarés sont
-# écrits par la session ; `reviews` par `aster-expert rex --enregistrer`.
+# Registre de retour d'expérience (aster-expert rex, lot 42). Les classements
+# d'échec et les chiffres déclarés sont écrits par la session ; `reviews` par
+# `aster-expert rex --enregistrer`.
 project: dalle_appuyee_01
 case_roots:
 - projets/dalle_appuyee_01
+legacy_runs: null
+baseline: null
+lots:
+- lot: '43'
+  supervisor_interventions:
+    value: 2.0
+    nature: mesure
+    note: 'Règle de MM (arbitrage_dalle_appuyee_01_v1, section C, 3) : l''arrêt pour arbitrage
+      ne compte pas ; la section B (choix de modélisation fournis par le superviseur) compte
+      pour une intervention ; les quatre questions ELS posées en phase 2 (paramètres obligatoires
+      de CALC_FERRAILLAGE en 2D, non fixés par l''arbitrage) comptent pour une seconde.'
+  avoided_errors:
+    value: 11.0
+    nature: mesure
+    note: 'Décompte des lignes « ÉVITÉ » du journal d''autonomie (docs/lots/lot43_journal_autonomie.md,
+      n° 3 à 6, 16, 17, 23 à 25, 27, 29) : PRE-018, CA-045, CA-041, CA-023/026, SSLS127, ALPHA_CC,
+      PAT-009/DIAG-012/CTL-010, DIAG-001/CA-036, CA-041 en Pa, PAT-008, signes de CA-045 dans le
+      critère E0.'
+  note: 'Second projet ; 5 exécutions Code_Aster réussies (chaîne projet, 3 maillages de
+    convergence, rejeu de CA-052), aucun échec.'
+reviews:
+- date: '2026-10-02'
+  lot: '43'
+  runs: 5
+  failures: 0
+  unclassified: 0
+  last_run: 20261002T090553-731530e0
+classifications: []

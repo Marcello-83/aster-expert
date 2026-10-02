@@ -1,0 +1,58 @@
+id: PAT-011
+title: 'Dalle en plaque DKT appuyée : appui bilatéral, blocage plan isostatique, normales
+  orientées'
+summary: Une dalle DKT simplement appuyée se modélise entière, DZ = 0 sur les nœuds des bords,
+  DX = DY = 0 en un coin et DY = 0 au coin voisin selon X, normales orientées +Z, et se lit
+  en EFGE_NOEU au nœud central.
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: E
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+  case_sha256: c5828faee49df1baf40c22746a2b2085b75d8f4bc93d160201b2edd62232bf1a
+  outcome: réussite
+  level: E
+  note: cas de référence de la dalle (48×32)
+- kind: document
+  path: docs/essais_lot43.md
+  section: null
+  note: niveau E (REF-014), contrôles D
+commands:
+- AFFE_CARA_ELEM
+- AFFE_CHAR_MECA
+- AFFE_MODELE
+- MODI_MAILLAGE
+keywords:
+- ANGL_REP
+- DDL_IMPO
+- DKT
+- EFGE_NOEU
+- ORIE_NORM_COQUE
+reuses: []
+status_history: []
+problem: Représenter l'appui simple de Navier (coins retenus) sans redondance de conditions
+  (DIAG-001) ni mouvement de corps rigide dans le plan.
+solution: DDL_IMPO DZ sur le groupe des bords, DX et DY en P_A, DY en P_B ; ORIE_NORM_COQUE
+  VECT_NORM = (0, 0, 1) pour que la face « supérieure » de CALC_FERRAILLAGE soit le dessus
+  (CA-045) ; ANGL_REP = (0, 0) pour x_l = X ; symétrie contrôlée, pas imposée.
+fragment: "CL = AFFE_CHAR_MECA(\n    MODELE=MODELE,\n    DDL_IMPO=(\n        _F(GROUP_NO=\"\
+  APPUIS\", DZ=0.0),\n        _F(GROUP_NO=\"P_A\", DX=0.0, DY=0.0),\n        _F(GROUP_NO=\"\
+  P_B\", DY=0.0),\n    ),\n)"
+fragment_language: comm
+conditions: 'Plaque plane dans le plan XY, DKT, petits déplacements ; appui bilatéral (les
+  coins sont retenus : réaction de coin vers le bas).'
+controls:
+- CTL-005
+- CTL-006
+- CTL-012
+constats:
+- CA-028
+- CA-045
+implementation:
+- kind: code
+  path: projets/dalle_appuyee_01/generation.py
+  symbol: build_comm
+  note: null

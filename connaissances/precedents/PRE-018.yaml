@@ -15,7 +15,17 @@ sources:
   decided_at: '2026-09-28T05:45:12-04:00'
 commands: []
 keywords: []
-reuses: []
+reuses:
+- project: dalle_appuyee_01
+  date: '2026-10-02'
+  evidence:
+    kind: decision
+    fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+    point_label: '14'
+    decided_by: MM
+    decided_at: '2026-10-02T04:37:34-04:00'
+  note: 'Retenu par MM pour la dalle (P6) : distance parement–axe = enrobage + diamètres,
+    36 et 48 mm.'
 status_history: []
 fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
 point_label: '14'

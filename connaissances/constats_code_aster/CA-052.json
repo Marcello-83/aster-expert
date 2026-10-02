@@ -1,0 +1,90 @@
+{
+  "constat_id": "CA-052",
+  "summary": "Piège : en 2D à l'ELS caractéristique, les densités de CALC_FERRAILLAGE changent avec SIGC_*_ELS même là où la limite du béton n'est pas atteinte, et s'écartent de 3 à 4 % du pivot acier de R7.04.05.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "CALC_FERRAILLAGE"
+  ],
+  "keywords": [
+    "ALPHA_E",
+    "CENTRE",
+    "C_INF",
+    "C_SUP",
+    "DKT",
+    "ELS",
+    "ELU",
+    "F2",
+    "SIGC_INF_ELS",
+    "SIGC_SUP_ELS",
+    "SIGS_ELS"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm",
+      "case_sha256": "c5828faee49df1baf40c22746a2b2085b75d8f4bc93d160201b2edd62232bf1a",
+      "mess_path": "projets/dalle_appuyee_01/references/cas/dalle_h0p125_listing_extrait.txt"
+    }
+  ],
+  "origin": {
+    "project": "DALLE-APPUYEE-01",
+    "fiche": "projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json",
+    "point_label": "14"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "CALC_FERRAILLAGE en 2D à l'ELS caractéristique : densités dépendantes de SIGC_*_ELS au pivot acier, écart au calcul de R7.04.05",
+    "options_considered": [],
+    "option_retained": "Dalle DKT de 0,30 m (C_INF = C_SUP = 0,048 m, SIGS_ELS = 400 MPa, ALPHA_E = 15), combinaison ELS caractéristique : DNSYI de la maille 264 voisine du centre vaut 2.371940376887e-04 m²/m avec SIGC_INF_ELS = SIGC_SUP_ELS = 18 MPa et 2.392190170310e-04 m²/m avec 1000 MPa (limite inatteignable) ; 4124 des 6144 densités de la dalle changent, y compris dans des mailles très peu sollicitées. Le pivot acier de R7.04.05 (cas 1D), où σc,lim se simplifie, refait par le module indépendant au nœud CENTRE, donne 2.294113425214e-04 m²/m pour les deux valeurs : écarts de +3.39% et +4.28%.",
+    "justification": "Exécution réelle du cas versionné references/cas/dalle_h0p125.comm (tables FER02 et SFER02, extrait de listing versionné) ; R7.04.05 § Dimensionnement à l'ELS caractéristique (pivot relatif à l'acier tendu).",
+    "discarded_variants": [],
+    "notes": "Lot 43, dalle_appuyee_01. Déduction, non établie : l'écart ne vient pas de la discrétisation (à l'ELU, la même comparaison maille/nœud ne s'écarte que de 0,24 % sur ce maillage, critère F2 de docs/essais_lot43.md) ; même famille que les écarts ELS 1D inexpliqués de CA-044. Le mécanisme interne de l'ELS 2D n'est décrit ni par U4.81.42 ni par R7.04.05 (qui ne détaille que le cas 1D). Sans effet sur le ferraillage de la dalle : l'ELU et le minimum EN 1992 gouvernent. Conséquence pratique : SIGC_*_ELS n'est pas une simple limite inactive ; sa valeur change les densités ELS 2D, il faut la déclarer comme paramètre.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "4093f126b4829bec8fc07a97c67beba010c80fce",
+        "working_tree_modified": true,
+        "case_path": "projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm",
+        "case_sha256": "c5828faee49df1baf40c22746a2b2085b75d8f4bc93d160201b2edd62232bf1a",
+        "mess_path": "projets/dalle_appuyee_01/references/cas/dalle_h0p125_listing_extrait.txt",
+        "quantity": "DNSYI maille 264, ELS_CARA_Q_DOM, SIGC_*_ELS = 18 MPa (table FER02)",
+        "value_obtained": 0.0002371940376887,
+        "reference": "pivot acier de R7.04.05 refait par aster_expert.rebar.serviceability.design_els au nœud CENTRE (MYY de EFN_C_RC02, σs,lim = 400 MPa, αe = 15), indépendant de σc,lim (18 ou 1000 MPa)",
+        "reference_value": 0.00022941134252138284,
+        "relative_deviation": 0.033924631109256365,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "4093f126b4829bec8fc07a97c67beba010c80fce",
+        "working_tree_modified": true,
+        "case_path": "projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm",
+        "case_sha256": "c5828faee49df1baf40c22746a2b2085b75d8f4bc93d160201b2edd62232bf1a",
+        "mess_path": "projets/dalle_appuyee_01/references/cas/dalle_h0p125_listing_extrait.txt",
+        "quantity": "DNSYI maille 264, ELS_CARA_Q_DOM, SIGC_*_ELS = 1000 MPa (table SFER02)",
+        "value_obtained": 0.000239219017031,
+        "reference": "pivot acier de R7.04.05 refait par aster_expert.rebar.serviceability.design_els au nœud CENTRE (MYY de EFN_C_RC02, σs,lim = 400 MPa, αe = 15), indépendant de σc,lim (18 ou 1000 MPa)",
+        "reference_value": 0.00022941134252138284,
+        "relative_deviation": 0.042751480383769636,
+        "validation_level": "D"
+      },
+      {
+        "document_id": "R7.04.05",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Calcul_du_ferraillage_des_poutres_et_poteaux"
+        ],
+        "source_path": "source/manuals/man_r/r7/r7.04.05/Calcul_du_ferraillage_des_poutres_et_poteaux.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "theorie",
+        "excerpt": "c’est le pivot relatif à l’acier tendu qui est retenu"
+      }
+    ],
+    "status": "tranche"
+  }
+}

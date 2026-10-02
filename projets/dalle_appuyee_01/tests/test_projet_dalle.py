@@ -46,7 +46,8 @@ def test_the_arbitrated_fiche_is_reproduced_byte_for_byte() -> None:
     import arbitrer_fiche_lot43 as script  # noqa: PLC0415
     from build_fiche_lot43 import build_sheet  # noqa: PLC0415
 
-    sheet = script.arbitrate(build_sheet())
+    sheet = script.final_sheet()
+    assert script.arbitrate(build_sheet()).project_name == sheet.project_name
     text = (
         json.dumps(sheet.model_dump(mode="json"), ensure_ascii=False, indent=2) + "\n"
     )

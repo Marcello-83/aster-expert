@@ -215,8 +215,9 @@ def load_promotions(repo_root: Path) -> list[PromotionEvent]:
 
 
 def project_aliases(repo_root: Path) -> dict[str, str]:
-    """`fiche_project_name` of each declared project -> its name: the origin of
-    a finding is written with the fiche's project name (lot 41)."""
+    """`fiche_project_name` (or, without it, `structure`) of each declared
+    project -> its name: the origin of a finding is written with the fiche's
+    project name (lot 41)."""
     out: dict[str, str] = {}
     for declaration in sorted((repo_root / "projets").glob("*/projet.yaml")):
         try:
@@ -224,7 +225,10 @@ def project_aliases(repo_root: Path) -> dict[str, str]:
         except yaml.YAMLError:
             continue
         name = raw.get("name") or declaration.parent.name
-        alias = raw.get("fiche_project_name")
+        # Same rule as the coherence check (`aster_expert.projet.check`): the
+        # fiche carries `fiche_project_name`, or `structure` when it is absent
+        # (lot 43: the slab's findings were attributed to no project).
+        alias = raw.get("fiche_project_name") or raw.get("structure")
         if isinstance(alias, str):
             out[alias] = str(name)
     return out

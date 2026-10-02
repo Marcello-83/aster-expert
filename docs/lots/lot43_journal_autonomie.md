@@ -55,3 +55,38 @@ manquante fournie par le superviseur) ; les questions ELS ci-dessous comptent po
 | 25 | ÉVITÉ | CA-041 : `FERR_MIN='EC2'` faux hors MPa. Le modèle étant en N et Pa, `UNITE_CONTRAINTE='Pa'` et minima calculés par le module `aster_expert.rebar` (9.2.1.1, 7.3.2), jamais par `FERR_MIN`. | Pas de minimum faux. |
 | 26 | OUTIL | `ctx.number` ne convertit jamais : les champs de la plaque portent leur unité dans leur nom (`cover_mm`, `fck_mpa`…), confrontée à l'unité des données. | Pas de confusion mm/m possible. |
 | 27 | ÉVITÉ | Premier maillage Salomé produit et vérifié du premier coup (PAT-008 : partition unique, groupes sur la géométrie, nombre de segments imposé ; arguments nommés). 60 et 48 invariants tenus. | Aucun aller-retour de maillage. |
+| 28 | MANQUE | `aster-expert projet … executer` refuse un `.comm` hors des racines de `config/validation.yaml` (`execution.allowed_roots`) ; rien ne les étend à un nouveau projet, et le rejeu (`constats rejouer`) bute sur la même règle pour les cas versionnés du projet. | Deux racines ajoutées à la main (`projets/dalle_appuyee_01/resultats`, `…/references/cas`). À automatiser (lot 44 : naissance d'un projet). |
+| 29 | ÉVITÉ | E0 : la correspondance des signes (MXX < 0 en flexion positive, normales +Z), déduite de CA-045, a été écrite **dans le critère** avant exécution : elle est confirmée, pas supposée. | Niveau E sans ambiguïté de signe. |
+| 30 | LACUNE | `CALC_FERRAILLAGE` 2D à l'ELS : les densités dépendent de `SIGC_*_ELS` même au pivot acier, contrairement au cas 1D de R7.04.05, et s'écartent de 3 à 4 % du pivot acier refait par le module. Le critère F4 (écrit avant exécution) supposait le contraire : **échec rapporté tel quel**. | Constat CA-052 (niveau D, rejoué) ; cause non établie (même famille que CA-044). |
+| 31 | OUTIL | `project_aliases` (base) et `rex` n'attribuaient un constat à son projet que par `fiche_project_name`, alors que la vérification de cohérence retombe sur `structure` : les 7 constats de la dalle n'étaient attribués à aucun projet. | Corrigé dans le tronc commun (même règle partout), test ajouté. |
+| 32 | LACUNE | La condition de promotion « deux projets » compte la **citation** d'un constat par une fiche comme une réutilisation : CA-025 (sous `ELAS_COQUE`) et CA-041 (`FERR_MIN`) la remplissent grâce à la dalle sans y avoir été éprouvés (la dalle est en `ELAS`, sans `FERR_MIN`). | Signalé ; aucune promotion faite. Une réutilisation devrait porter sa preuve, comme `reuses` pour les entrées YAML. |
+| 33 | OUTIL | Les tests du lot 42 supposaient une base amorcée par le seul quai (effectifs fixes, entrées du quai reconstruites à l'octet) : l'ajout de réutilisations par la dalle les faisait échouer. | Tests adaptés : les entrées du quai sont reconstruites à l'octet hors `reuses`, les effectifs incluent la dalle. |
+| 34 | MANQUE | Aucun MED de résultats : l'`.export` produit par le tronc commun ne déclare que le `.comm` et le maillage, pas d'unité de sortie. | Contrôles faits sur les tables du listing ; pas de vue graphique. |
+
+### Bilan de la phase 2
+
+- Niveau E atteint (flèche et moments au centre, G et Q, Navier), D sur l'équilibre, la
+  symétrie et les combinaisons ; ferraillage 2D : C avec contrôles D, un échec (F4).
+- Exécutions Code_Aster : 4 réussies pour le projet (chaîne projet + 3 maillages de
+  convergence), 1 rejeu (CA-052), 0 échec d'exécution ; tests réels lents : 3 réussis.
+- Interventions de MM : **2** (section B ; questions ELS), selon la règle de la section C.
+- Consultations de la base : `search_connaissances` **12** (journal `query_log.jsonl`, appels de
+  `mcp-check` exclus) : 6 en phase 1, 6 en phase 2, toutes du lot 43 (0 au lot 42, selon MM).
+
+## Écarts entre l'outil et ce qu'il faudrait pour traiter seul une dalle
+
+1. **Catégorie « choix de modélisation de l'agent, vérifié par contrôle »** dans la fiche
+   (repère, mailles, convergence, lecture, groupes) : 15 des 31 bloqueurs de la phase 1
+   n'avaient pas à remonter à MM (n° 20 ; lot 44).
+2. **Paramètres obligatoires des commandes** : l'outil n'a pas signalé, à la rédaction de
+   la fiche, que `CALC_FERRAILLAGE` 2D exige des valeurs ELS (σc, αe, KT, Es) qui sont des
+   décisions de pratique ; ils ont été découverts au moment d'écrire le `.comm` (n° 21).
+   Une lecture des opérandes « obligatoires » de U4 au moment de la fiche l'aurait évité.
+3. **Naissance d'un projet** : racines d'exécution et registre `rex` à créer à la main
+   (n° 15, 28) ; état « fiche en cours d'arbitrage » absent de `projet.yaml` (n° 11).
+4. **Normes non indexées** : tout article d'Eurocode vient de la mémoire de la session
+   ou de MM (n° 13).
+5. **Ferraillage 2D** : désormais dans le tronc commun (lot 43), mais la réduction par
+   maille et l'ELS 2D de `CALC_FERRAILLAGE` restent inexpliqués (n° 22, 30).
+6. **Promotion** : la citation d'un constat vaut réutilisation (n° 32).
+7. **`get_command_schema`** : le filtre par mot-clé n'allège pas la sortie (n° 2 ; lot 44).

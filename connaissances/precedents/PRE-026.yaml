@@ -1,0 +1,40 @@
+id: PRE-026
+title: 'Point 6 : Représentation de l''appui simple et des mouvements de corps rigide de membrane'
+summary: 'Décision de MM au point 6 de la fiche de la dalle (2026-10-02) : Représentation
+  de l''appui simple et des mouvements de corps rigide de membrane.'
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+  point_label: '6'
+  decided_by: MM
+  decided_at: '2026-10-02T04:37:34-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+point_label: '6'
+topic: Représentation de l'appui simple et des mouvements de corps rigide de membrane
+option_retained: 'Dalle entière, sans symétrie. Appui bilatéral sur les quatre bords : DZ
+  = 0 sur `APPUIS`, rotations libres (hypothèse de Navier, coins retenus). Plan de la dalle
+  : blocage isostatique, DX = DY = 0 au coin `P_A` et DY = 0 au coin `P_B`, adjacent selon
+  X, sans aucune redondance avec d''autres conditions (DIAG-001). La réaction concentrée aux
+  coins, dirigée vers le bas, est attendue et se commente comme résultat physique. La symétrie
+  des résultats selon les deux axes est un contrôle de niveau D.'
+justification: Décision P4 de MM.
+validity_domain: 'Appui bilatéral : un appui réel qui laisse les coins se soulever (contact
+  unilatéral) n''est pas représenté.'
+discarded_variants:
+- 'Appui unilatéral (contact). — écartée : Calcul de contact non linéaire, hors périmètre
+  (P4).'
+- 'Quart de dalle avec deux plans de symétrie. — écartée : Le modèle est petit ; la symétrie
+  devient un contrôle de niveau D, et le piège des conditions de symétrie des coques disparaît
+  (P4).'
+decided_by: MM
+decided_at: '2026-10-02T04:37:34-04:00'
+superseded_decisions: 0
+application: proposition seulement

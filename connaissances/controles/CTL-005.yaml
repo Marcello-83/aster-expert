@@ -16,7 +16,19 @@ commands:
 keywords:
 - REAC_NODA
 - RESULTANTE
-reuses: []
+reuses:
+- project: dalle_appuyee_01
+  date: '2026-10-02'
+  evidence:
+    kind: execution
+    run: null
+    case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+    case_sha256: c5828faee49df1baf40c22746a2b2085b75d8f4bc93d160201b2edd62232bf1a
+    outcome: réussite
+    level: D
+    note: contrôles D de la dalle (48×32)
+  note: Équilibre G et Q de la dalle à 8,3e-12 (contrôle du tronc commun, composantes bloquées
+    seules).
 status_history: []
 detects: Une charge mal assemblée, une raideur perdue, une lecture de réaction fausse.
 parameters: Groupes d'appui et composantes bloquées, groupes de ressorts, résultantes attendues

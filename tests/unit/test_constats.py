@@ -50,7 +50,9 @@ def _base() -> dict[str, Constat]:
 
 
 def test_the_base_holds_the_45_findings_of_the_quay() -> None:
-    base = _base()
+    # Lot 43 : la base porte aussi les constats de la dalle (CA-046 à CA-052,
+    # test suivant) ; ceux du quai sont inchangés.
+    base = {k: c for k, c in _base().items() if int(k[3:]) <= 45}
 
     assert list(base) == [f"CA-{n:03d}" for n in range(1, 46)]
     levels = Counter(c.validation_level for c in base.values())
@@ -64,6 +66,18 @@ def test_the_base_holds_the_45_findings_of_the_quay() -> None:
     assert sum(len(c.trial_cases) for c in base.values()) == 47
     assert "LIAISON_SOLIDE" in base["CA-008"].keywords
     assert "AFFE_CHAR_MECA" in base["CA-008"].commands
+
+
+def test_the_slab_adds_seven_findings_of_its_own() -> None:
+    """Lot 43 : six constats documentaires externalisés de la fiche de la dalle
+    (CA-046 à CA-051) et un constat d'exécution (CA-052, niveau D)."""
+    base = {k: c for k, c in _base().items() if int(k[3:]) > 45}
+
+    assert list(base) == [f"CA-{n:03d}" for n in range(46, 53)]
+    assert all(c.origin.project == "DALLE-APPUYEE-01" for c in base.values())
+    assert base["CA-052"].validation_level == "D"
+    assert "CALC_FERRAILLAGE" in base["CA-052"].commands
+    assert len(base["CA-052"].trial_cases) == 1
 
 
 def test_every_trial_case_is_versioned_with_its_bytes() -> None:
@@ -218,7 +232,7 @@ def test_the_mcp_tool_is_logged_and_level_a(tmp_path: Path) -> None:
     )
 
     assert result.validation_level == "A"
-    assert result.total_in_base == 45
+    assert result.total_in_base == 52
     assert len(result.results) == 3
     hit = result.results[0]
     assert hit.file.startswith("connaissances/constats_code_aster/CA-")

@@ -1,0 +1,649 @@
+# Dalle DALLE-APPUYEE-01 (lot 43) -- maillage h0p125 (48 x 32).
+# Généré par dalle_appuyee_01.generation à partir de la fiche arbitrée
+# (fiche/hypotheses_dalle_arbitree.json) et des données (donnees/dalle_model_data.yaml) :
+# ne pas éditer. Unités : m, N, Pa, kg (point 9).
+
+DEBUT(CODE="OUI")
+
+MAIL = LIRE_MAILLAGE(FORMAT="MED", UNITE=20)
+
+# Point 10 / CA-045 : normales +Z, la face « supérieure » de CALC_FERRAILLAGE est le
+# dessus de la dalle (MODI_MAILLAGE/ORIE_NORM_COQUE, CA-028).
+MAIL = MODI_MAILLAGE(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    ORIE_NORM_COQUE=_F(GROUP_MA=("DALLE",), VECT_NORM=(0.0, 0.0, 1.0), GROUP_NO="P_A"),
+)
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_NO=_F(GROUP_MA="DALLE", NOM="GEN_NOEUDS"),
+)
+
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_MA=_F(
+        NOM="CENTRE_V",
+        OPTION="APPUI",
+        GROUP_NO="CENTRE",
+        TYPE_APPUI="AU_MOINS_UN",
+    ),
+)
+
+# Point 1 : DKT (Love-Kirchhoff).
+MODELE = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=_F(GROUP_MA="DALLE", PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+)
+
+# Point 5 : béton non fissuré E = 3.3e+10 Pa, NU = 0.2 ; point 4 :
+# RHO = poids volumique / g = 25000 / 9.81 kg/m3 (ρ·g = 25 kN/m³).
+BETON = DEFI_MATERIAU(ELAS=_F(E=33000000000.0, NU=0.2, RHO=2548.41997961264))
+CHMAT = AFFE_MATERIAU(MAILLAGE=MAIL, AFFE=_F(GROUP_MA="DALLE", MATER=BETON))
+
+# Épaisseur ; ANGL_REP = (0, 0) : x_l = X, MXX porte sur la direction X.
+CARA = AFFE_CARA_ELEM(
+    MODELE=MODELE,
+    COQUE=_F(GROUP_MA="DALLE", EPAIS=0.3, ANGL_REP=(0.0, 0.0)),
+)
+
+# Point 6 : appui bilatéral DZ = 0 sur APPUIS (rotations libres), blocage plan
+# isostatique DX = DY = 0 en P_A, DY = 0 en P_B ; chaque ddl bloqué une seule fois
+# (DIAG-001).
+CL = AFFE_CHAR_MECA(
+    MODELE=MODELE,
+    DDL_IMPO=(
+        _F(GROUP_NO="APPUIS", DZ=0.0),
+        _F(GROUP_NO="P_A", DX=0.0, DY=0.0),
+        _F(GROUP_NO="P_B", DY=0.0),
+    ),
+)
+
+# Point 4 : G par PESANTEUR (résultante attendue 180000 N), Q par
+# FORCE_COQUE/FZ en -Z (résultante attendue 240000 N), calculés séparément.
+CH_G = AFFE_CHAR_MECA(
+    MODELE=MODELE,
+    PESANTEUR=_F(GRAVITE=9.81, DIRECTION=(0.0, 0.0, -1.0), GROUP_MA=("DALLE",)),
+)
+CH_Q = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_COQUE=_F(GROUP_MA="DALLE", FZ=-10000.0))
+
+RESU_G = MECA_STATIQUE(
+    MODELE=MODELE, CHAM_MATER=CHMAT, CARA_ELEM=CARA, EXCIT=(_F(CHARGE=CL), _F(CHARGE=CH_G))
+)
+RESU_Q = MECA_STATIQUE(
+    MODELE=MODELE, CHAM_MATER=CHMAT, CARA_ELEM=CARA, EXCIT=(_F(CHARGE=CL), _F(CHARGE=CH_Q))
+)
+
+RESU_G = CALC_CHAMP(
+    reuse=RESU_G,
+    RESULTAT=RESU_G,
+    CONTRAINTE=("EFGE_ELNO", "EFGE_NOEU"),
+    FORCE=("REAC_NODA",),
+)
+
+T_RAP_G = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REAC_APPUIS_G",
+        RESULTAT=RESU_G,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("APPUIS",),
+        RESULTANTE=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=T_RAP_G, UNITE=6, FORMAT_R="E20.12")
+
+T_RPA_G = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REAC_PA_G",
+        RESULTAT=RESU_G,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("P_A",),
+        RESULTANTE=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=T_RPA_G, UNITE=6, FORMAT_R="E20.12")
+
+T_RPB_G = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REAC_PB_G",
+        RESULTAT=RESU_G,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("P_B",),
+        RESULTANTE=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=T_RPB_G, UNITE=6, FORMAT_R="E20.12")
+
+T_RTO_G = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REAC_TOUS_G",
+        RESULTAT=RESU_G,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("GEN_NOEUDS",),
+        RESULTANTE=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=T_RTO_G, UNITE=6, FORMAT_R="E20.12")
+
+# Réactions nœud par nœud des appuis (réaction de coin, P4) et symétrie de tous les
+# nœuds (contrôle D : la symétrie est vérifiée, pas imposée, P4).
+T_RN_G = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REACN_APPUI_G",
+        RESULTAT=RESU_G,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("APPUIS",),
+        NOM_CMP=("DZ",),
+    )
+)
+IMPR_TABLE(TABLE=T_RN_G, UNITE=6, FORMAT_R="E20.12")
+T_SY_G = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="SYMETRIE_G",
+        RESULTAT=RESU_G,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("GEN_NOEUDS",),
+        NOM_CMP=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=T_SY_G, UNITE=6, FORMAT_R="E20.12")
+# Niveau E (point 10) : flèche et moments au nœud CENTRE (EFGE_NOEU) ; EFGE_ELNO des
+# mailles voisines pour l'écart de lissage seulement.
+T_DC_G = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="DEPL_CENTRE_G",
+        RESULTAT=RESU_G,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("CENTRE",),
+        NOM_CMP=("DX", "DY", "DZ", "DRX", "DRY"),
+    )
+)
+IMPR_TABLE(TABLE=T_DC_G, UNITE=6, FORMAT_R="E20.12")
+T_NC_G = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RESU_G,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("MXX", "MYY", "MXY", "QX", "QY"),
+        GROUP_NO="CENTRE",
+    )
+)
+IMPR_TABLE(TABLE=T_NC_G, UNITE=6, FORMAT_R="E20.12", TITRE="EFN_CENTRE_G")
+T_EC_G = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RESU_G,
+        NOM_CHAM="EFGE_ELNO",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("MXX", "MYY", "MXY"),
+        GROUP_MA="CENTRE_V",
+    )
+)
+IMPR_TABLE(TABLE=T_EC_G, UNITE=6, FORMAT_R="E20.12", TITRE="EFE_CENTRE_G")
+T_ND_G = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RESU_G,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("MXX", "MYY", "MXY"),
+        GROUP_MA="DALLE",
+    )
+)
+IMPR_TABLE(TABLE=T_ND_G, UNITE=6, FORMAT_R="E20.12", TITRE="EFN_DALLE_G")
+
+RESU_Q = CALC_CHAMP(
+    reuse=RESU_Q,
+    RESULTAT=RESU_Q,
+    CONTRAINTE=("EFGE_ELNO", "EFGE_NOEU"),
+    FORCE=("REAC_NODA",),
+)
+
+T_RAP_Q = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REAC_APPUIS_Q",
+        RESULTAT=RESU_Q,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("APPUIS",),
+        RESULTANTE=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=T_RAP_Q, UNITE=6, FORMAT_R="E20.12")
+
+T_RPA_Q = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REAC_PA_Q",
+        RESULTAT=RESU_Q,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("P_A",),
+        RESULTANTE=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=T_RPA_Q, UNITE=6, FORMAT_R="E20.12")
+
+T_RPB_Q = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REAC_PB_Q",
+        RESULTAT=RESU_Q,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("P_B",),
+        RESULTANTE=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=T_RPB_Q, UNITE=6, FORMAT_R="E20.12")
+
+T_RTO_Q = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REAC_TOUS_Q",
+        RESULTAT=RESU_Q,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("GEN_NOEUDS",),
+        RESULTANTE=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=T_RTO_Q, UNITE=6, FORMAT_R="E20.12")
+
+# Réactions nœud par nœud des appuis (réaction de coin, P4) et symétrie de tous les
+# nœuds (contrôle D : la symétrie est vérifiée, pas imposée, P4).
+T_RN_Q = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="REACN_APPUI_Q",
+        RESULTAT=RESU_Q,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("APPUIS",),
+        NOM_CMP=("DZ",),
+    )
+)
+IMPR_TABLE(TABLE=T_RN_Q, UNITE=6, FORMAT_R="E20.12")
+T_SY_Q = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="SYMETRIE_Q",
+        RESULTAT=RESU_Q,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("GEN_NOEUDS",),
+        NOM_CMP=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=T_SY_Q, UNITE=6, FORMAT_R="E20.12")
+# Niveau E (point 10) : flèche et moments au nœud CENTRE (EFGE_NOEU) ; EFGE_ELNO des
+# mailles voisines pour l'écart de lissage seulement.
+T_DC_Q = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="DEPL_CENTRE_Q",
+        RESULTAT=RESU_Q,
+        NOM_CHAM="DEPL",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("CENTRE",),
+        NOM_CMP=("DX", "DY", "DZ", "DRX", "DRY"),
+    )
+)
+IMPR_TABLE(TABLE=T_DC_Q, UNITE=6, FORMAT_R="E20.12")
+T_NC_Q = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RESU_Q,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("MXX", "MYY", "MXY", "QX", "QY"),
+        GROUP_NO="CENTRE",
+    )
+)
+IMPR_TABLE(TABLE=T_NC_Q, UNITE=6, FORMAT_R="E20.12", TITRE="EFN_CENTRE_Q")
+T_EC_Q = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RESU_Q,
+        NOM_CHAM="EFGE_ELNO",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("MXX", "MYY", "MXY"),
+        GROUP_MA="CENTRE_V",
+    )
+)
+IMPR_TABLE(TABLE=T_EC_Q, UNITE=6, FORMAT_R="E20.12", TITRE="EFE_CENTRE_Q")
+T_ND_Q = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RESU_Q,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("MXX", "MYY", "MXY"),
+        GROUP_MA="DALLE",
+    )
+)
+IMPR_TABLE(TABLE=T_ND_Q, UNITE=6, FORMAT_R="E20.12", TITRE="EFN_DALLE_Q")
+
+# Point 13 : combinaisons (aster_expert.combinaisons.enumeration, γ et ψ des données).
+
+# ELU_FOND_Q_DOM_G_defav (ELU fondamentale) : {'G': 1.35, 'Q': 1.5}
+F_RC01_G = DEFI_CONSTANTE(VALE=1.35)
+F_RC01_Q = DEFI_CONSTANTE(VALE=1.5)
+RC01 = MECA_STATIQUE(
+    MODELE=MODELE,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(
+        _F(CHARGE=CL),
+        _F(CHARGE=CH_G, FONC_MULT=F_RC01_G),
+        _F(CHARGE=CH_Q, FONC_MULT=F_RC01_Q),
+    ),
+)
+RC01 = CALC_CHAMP(reuse=RC01, RESULTAT=RC01, CONTRAINTE=("EFGE_ELNO", "EFGE_NOEU"))
+T_N_RC01 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RC01,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY"),
+        GROUP_NO="CENTRE",
+    )
+)
+IMPR_TABLE(TABLE=T_N_RC01, UNITE=6, FORMAT_R="E20.12", TITRE="EFN_C_RC01")
+
+# ELS_CARA_Q_DOM (ELS caractéristique) : {'G': 1.0, 'Q': 1.0}
+F_RC02_G = DEFI_CONSTANTE(VALE=1.0)
+F_RC02_Q = DEFI_CONSTANTE(VALE=1.0)
+RC02 = MECA_STATIQUE(
+    MODELE=MODELE,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(
+        _F(CHARGE=CL),
+        _F(CHARGE=CH_G, FONC_MULT=F_RC02_G),
+        _F(CHARGE=CH_Q, FONC_MULT=F_RC02_Q),
+    ),
+)
+RC02 = CALC_CHAMP(reuse=RC02, RESULTAT=RC02, CONTRAINTE=("EFGE_ELNO", "EFGE_NOEU"))
+T_N_RC02 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RC02,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY"),
+        GROUP_NO="CENTRE",
+    )
+)
+IMPR_TABLE(TABLE=T_N_RC02, UNITE=6, FORMAT_R="E20.12", TITRE="EFN_C_RC02")
+
+# ELS_FREQ_Q_DOM (ELS fréquente) : {'G': 1.0, 'Q': 0.9}
+F_RC03_G = DEFI_CONSTANTE(VALE=1.0)
+F_RC03_Q = DEFI_CONSTANTE(VALE=0.9)
+RC03 = MECA_STATIQUE(
+    MODELE=MODELE,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(
+        _F(CHARGE=CL),
+        _F(CHARGE=CH_G, FONC_MULT=F_RC03_G),
+        _F(CHARGE=CH_Q, FONC_MULT=F_RC03_Q),
+    ),
+)
+RC03 = CALC_CHAMP(reuse=RC03, RESULTAT=RC03, CONTRAINTE=("EFGE_ELNO", "EFGE_NOEU"))
+T_N_RC03 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RC03,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY"),
+        GROUP_NO="CENTRE",
+    )
+)
+IMPR_TABLE(TABLE=T_N_RC03, UNITE=6, FORMAT_R="E20.12", TITRE="EFN_C_RC03")
+
+# ELS_QUASI_PERMANENTE (ELS quasi permanente) : {'G': 1.0, 'Q': 0.8}
+F_RC04_G = DEFI_CONSTANTE(VALE=1.0)
+F_RC04_Q = DEFI_CONSTANTE(VALE=0.8)
+RC04 = MECA_STATIQUE(
+    MODELE=MODELE,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(
+        _F(CHARGE=CL),
+        _F(CHARGE=CH_G, FONC_MULT=F_RC04_G),
+        _F(CHARGE=CH_Q, FONC_MULT=F_RC04_Q),
+    ),
+)
+RC04 = CALC_CHAMP(reuse=RC04, RESULTAT=RC04, CONTRAINTE=("EFGE_ELNO", "EFGE_NOEU"))
+T_N_RC04 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RC04,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY"),
+        GROUP_NO="CENTRE",
+    )
+)
+IMPR_TABLE(TABLE=T_N_RC04, UNITE=6, FORMAT_R="E20.12", TITRE="EFN_C_RC04")
+
+# Point 14 : ferraillage 2D (aster_expert.ferraillage.plaque).
+
+# dalle appuyée : ELU_FOND_Q_DOM_G_defav (ELU fondamentale, TYPE_COMB=ELU)
+RC01 = CALC_FERRAILLAGE(
+    reuse=RC01,
+    RESULTAT=RC01,
+    CARA_ELEM=CARA,
+    CODIFICATION="EC2",
+    TYPE_COMB="ELU",
+    UNITE_CONTRAINTE="Pa",
+    AFFE=(_F(
+            GROUP_MA="DALLE",
+            TYPE_STRUCTURE="2D",
+            C_INF=0.048,
+            C_SUP=0.048,
+            FCK=30000000.0,
+            FYK=500000000.0,
+            EYS=210000000000.0,
+            ALPHA_CC=1.0,
+            GAMMA_C=1.5,
+            GAMMA_S=1.15,
+        ),),
+)
+T_FER01 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RC01,
+        NOM_CHAM="FERR_ELEM",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=('DNSXI', 'DNSXS', 'DNSYI', 'DNSYS'),
+        GROUP_MA="DALLE",
+    )
+)
+IMPR_TABLE(TABLE=T_FER01, UNITE=6, FORMAT_R="E20.12", TITRE="FER01")
+T_EFG01 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RC01,
+        NOM_CHAM="EFGE_ELNO",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=('NXX', 'NYY', 'NXY', 'MXX', 'MYY', 'MXY'),
+        GROUP_MA="CENTRE_V",
+    )
+)
+IMPR_TABLE(TABLE=T_EFG01, UNITE=6, FORMAT_R="E20.12", TITRE="EFG01")
+
+# dalle appuyée : ELS_CARA_Q_DOM (ELS caractéristique, TYPE_COMB=ELS)
+RC02 = CALC_FERRAILLAGE(
+    reuse=RC02,
+    RESULTAT=RC02,
+    CARA_ELEM=CARA,
+    CODIFICATION="EC2",
+    TYPE_COMB="ELS",
+    UNITE_CONTRAINTE="Pa",
+    AFFE=(_F(
+            GROUP_MA="DALLE",
+            TYPE_STRUCTURE="2D",
+            C_INF=0.048,
+            C_SUP=0.048,
+            FCK=30000000.0,
+            FYK=500000000.0,
+            EYS=210000000000.0,
+            ALPHA_CC=1.0,
+            SIGS_ELS=400000000.0,
+            SIGC_INF_ELS=18000000.0,
+            SIGC_SUP_ELS=18000000.0,
+            ALPHA_E=15.0,
+        ),),
+)
+T_FER02 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RC02,
+        NOM_CHAM="FERR_ELEM",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=('DNSXI', 'DNSXS', 'DNSYI', 'DNSYS'),
+        GROUP_MA="DALLE",
+    )
+)
+IMPR_TABLE(TABLE=T_FER02, UNITE=6, FORMAT_R="E20.12", TITRE="FER02")
+T_EFG02 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RC02,
+        NOM_CHAM="EFGE_ELNO",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=('NXX', 'NYY', 'NXY', 'MXX', 'MYY', 'MXY'),
+        GROUP_MA="CENTRE_V",
+    )
+)
+IMPR_TABLE(TABLE=T_EFG02, UNITE=6, FORMAT_R="E20.12", TITRE="EFG02")
+
+# dalle appuyée : ELS_QUASI_PERMANENTE (ELS quasi permanente, TYPE_COMB=ELS_QP)
+RC04 = CALC_FERRAILLAGE(
+    reuse=RC04,
+    RESULTAT=RC04,
+    CARA_ELEM=CARA,
+    CODIFICATION="EC2",
+    TYPE_COMB="ELS_QP",
+    UNITE_CONTRAINTE="Pa",
+    AFFE=(_F(
+            GROUP_MA="DALLE",
+            TYPE_STRUCTURE="2D",
+            C_INF=0.048,
+            C_SUP=0.048,
+            FCK=30000000.0,
+            FYK=500000000.0,
+            EYS=210000000000.0,
+            ALPHA_CC=1.0,
+            SIGC_ELS_QP=13500000.0,
+            ALPHA_E=15.0,
+            KT=0.4,
+            WMAX_INF=0.0004,
+            WMAX_SUP=0.0004,
+            PHI_INF_X=0.012,
+            PHI_SUP_X=0.012,
+            PHI_INF_Y=0.012,
+            PHI_SUP_Y=0.012,
+        ),),
+)
+T_FER03 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RC04,
+        NOM_CHAM="FERR_ELEM",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=('DNSXI', 'DNSXS', 'DNSYI', 'DNSYS'),
+        GROUP_MA="DALLE",
+    )
+)
+IMPR_TABLE(TABLE=T_FER03, UNITE=6, FORMAT_R="E20.12", TITRE="FER03")
+T_EFG03 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RC04,
+        NOM_CHAM="EFGE_ELNO",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=('NXX', 'NYY', 'NXY', 'MXX', 'MYY', 'MXY'),
+        GROUP_MA="CENTRE_V",
+    )
+)
+IMPR_TABLE(TABLE=T_EFG03, UNITE=6, FORMAT_R="E20.12", TITRE="EFG03")
+
+# Sensibilité demandée par MM : SIGC_*_ELS non contraignant (1e+09 Pa) sur
+# la combinaison caractéristique ; densités identiques = limite de 0,6 fck inactive.
+
+# ELS_CARA_Q_DOM (ELS caractéristique) : {'G': 1.0, 'Q': 1.0}
+F_RSENS_G = DEFI_CONSTANTE(VALE=1.0)
+F_RSENS_Q = DEFI_CONSTANTE(VALE=1.0)
+RSENS = MECA_STATIQUE(
+    MODELE=MODELE,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    EXCIT=(
+        _F(CHARGE=CL),
+        _F(CHARGE=CH_G, FONC_MULT=F_RSENS_G),
+        _F(CHARGE=CH_Q, FONC_MULT=F_RSENS_Q),
+    ),
+)
+RSENS = CALC_CHAMP(reuse=RSENS, RESULTAT=RSENS, CONTRAINTE=("EFGE_ELNO", "EFGE_NOEU"))
+T_N_RSENS = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RSENS,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("NXX", "NYY", "NXY", "MXX", "MYY", "MXY"),
+        GROUP_NO="CENTRE",
+    )
+)
+IMPR_TABLE(TABLE=T_N_RSENS, UNITE=6, FORMAT_R="E20.12", TITRE="EFN_C_RSENS")
+
+# dalle appuyée : ELS_CARA_Q_DOM (ELS caractéristique, TYPE_COMB=ELS)
+RSENS = CALC_FERRAILLAGE(
+    reuse=RSENS,
+    RESULTAT=RSENS,
+    CARA_ELEM=CARA,
+    CODIFICATION="EC2",
+    TYPE_COMB="ELS",
+    UNITE_CONTRAINTE="Pa",
+    AFFE=(_F(
+            GROUP_MA="DALLE",
+            TYPE_STRUCTURE="2D",
+            C_INF=0.048,
+            C_SUP=0.048,
+            FCK=30000000.0,
+            FYK=500000000.0,
+            EYS=210000000000.0,
+            ALPHA_CC=1.0,
+            SIGS_ELS=400000000.0,
+            SIGC_INF_ELS=1000000000.0,
+            SIGC_SUP_ELS=1000000000.0,
+            ALPHA_E=15.0,
+        ),),
+)
+T_SFER02 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RSENS,
+        NOM_CHAM="FERR_ELEM",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=('DNSXI', 'DNSXS', 'DNSYI', 'DNSYS'),
+        GROUP_MA="DALLE",
+    )
+)
+IMPR_TABLE(TABLE=T_SFER02, UNITE=6, FORMAT_R="E20.12", TITRE="SFER02")
+T_SEFG02 = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RSENS,
+        NOM_CHAM="EFGE_ELNO",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=('NXX', 'NYY', 'NXY', 'MXX', 'MYY', 'MXY'),
+        GROUP_MA="CENTRE_V",
+    )
+)
+IMPR_TABLE(TABLE=T_SEFG02, UNITE=6, FORMAT_R="E20.12", TITRE="SEFG02")
+
+FIN()

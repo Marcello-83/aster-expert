@@ -13,7 +13,15 @@ sources:
   note: null
 commands: []
 keywords: []
-reuses: []
+reuses:
+- project: dalle_appuyee_01
+  date: '2026-10-02'
+  evidence:
+    kind: document
+    path: projets/dalle_appuyee_01/maillage/invariants_h0p125.yaml
+    section: null
+    note: invariants analytiques
+  note: 'mesh check sur les trois maillages de la dalle : 48/48 invariants chacun.'
 status_history: []
 detects: Une géométrie ou un groupe perdu, des nœuds non partagés aux interfaces.
 parameters: Fichier d'invariants généré à partir des paramètres.

@@ -1,22 +1,28 @@
 # Projet DALLE-APPUYEE-01 — dalle appuyée sur quatre côtés
 
-Second projet du dépôt (lot 43, mesure d'autonomie de l'outil). Ouvrage décrit par
-MM : dalle en béton armé C30/37 de 6,00 m × 4,00 m × 0,30 m, simplement appuyée sur
-ses quatre côtés, poids propre et exploitation uniforme de 10 kPa ; déplacements,
-moments, ferraillage ELU et ELS (XC1, enrobage 30 mm), comparaison à la solution
-analytique (`donnees/sources/description_MM_lot43.md`).
+Second projet du dépôt (lot 43, mesure d'autonomie de l'outil). Dalle en béton armé
+C30/37 de 6,00 m (X) × 4,00 m (Y) × 0,30 m, appui bilatéral sur les quatre bords, DKT,
+élasticité linéaire non fissurée ; poids propre (25 kN/m³) et exploitation de 10 kPa
+(catégorie E) ; ferraillage ELU et ELS (XC1). Décisions : arbitrage de MM
+(`donnees/sources/arbitrage_dalle_appuyee_01_v1.md`) et complément ELS.
 
-**État : fiche proposée, en attente de l'arbitrage de MM.** Aucune décision
-pratique n'est prise ; `projet.yaml` (déclaration du lot 41) sera écrit après
-l'arbitrage, l'interface exigeant déjà le maillage et le générateur.
+**Niveau atteint : E** pour la flèche et les moments au centre (série de Navier,
+`docs/essais_lot43.md`) ; D pour l'équilibre, la symétrie et les combinaisons. Les
+flèches sont **instantanées et non fissurées** (long terme hors périmètre).
 
 | Fichier | Contenu |
 | --- | --- |
-| `fiche/hypotheses_dalle_projet.json` | fiche proposée (`HypothesesSheet`), produite par `scripts/build_fiche_lot43.py` : ne jamais l'éditer à la main |
-| `fiche/fiche_a_arbitrer.md` | document d'arbitrage pour MM (même script) |
-| `donnees/dalle_model_data.yaml` | données chiffrées (`aster_expert.agent.model_data`) : valeurs de la description, le reste « à fournir » |
-| `donnees/sources/` | description de MM recopiée à l'identique |
-| `navier.py` | solution exacte de Kirchhoff (série de Navier, nombre de termes par doublement jusqu'à convergence ; contrôle par la série de Lévy) |
+| `projet.yaml` | déclaration : fiche arbitrée, données, maillage, générateur, contrôles D, combinaisons, plaque à ferrailler (2D) |
+| `fiche/hypotheses_dalle_projet.json`, `fiche_a_arbitrer.md` | fiche proposée de la phase 1 et document d'arbitrage (`scripts/build_fiche_lot43.py`) |
+| `fiche/hypotheses_dalle_arbitree.json`, `fiche_arbitree.md` | fiche arbitrée, constats cités par référence (`scripts/arbitrer_fiche_lot43.py`) |
+| `donnees/` | données (`dalle_model_data.yaml`), sources recopiées à l'identique, données de la phase 1 figées |
+| `discretisation.py`, `maillage/` | comptages analytiques, script Salomé, invariants des trois maillages (générés, ne pas éditer) |
+| `generation.py`, `extensions.py` | générateur du `.comm` et extensions déclarées |
+| `navier.py`, `references/navier_lot43.json` | solution de Kirchhoff (Navier, contrôle par Lévy) calculée avant exécution |
+| `references/niveau_e_lot43.json`, `references/cas/` | valeurs lues et verdicts de la suite de convergence ; cas versionnés (rejouables) |
+| `scripts/` | fiche, arbitrage, invariants, référence, niveau E, versement des connaissances |
 | `tests/` | tests propres à la dalle |
+| `resultats/` | sorties de `aster-expert projet dalle_appuyee_01 <étape>` (non versionné) |
 
-Reconstruire la fiche : `.venv/bin/python projets/dalle_appuyee_01/scripts/build_fiche_lot43.py`.
+Chaîne : `aster-expert projet dalle_appuyee_01 tout` (maillage 48×32), puis
+`scripts/niveau_e_lot43.py` pour la suite de convergence et le niveau E.

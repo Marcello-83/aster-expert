@@ -256,15 +256,17 @@ def test_a_reference_result_is_recomputed_from_its_criterion() -> None:
 
 
 def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
+    """Amorçage par le quai (lot 42), puis apport de la dalle (lot 43) : 7
+    constats, 2 patrons, 1 contrôle, 1 référence, 10 précédents."""
     base = load_knowledge(ROOT)
     counts = {layer: sum(row.values()) for layer, row in base.counts().items()}
     assert counts == {
-        "constats_code_aster": 45,
+        "constats_code_aster": 52,
         "diagnostics": 25,
-        "patrons": 9,
-        "controles": 11,
-        "references_validation": 13,
-        "precedents": 18,
+        "patrons": 11,
+        "controles": 12,
+        "references_validation": 14,
+        "precedents": 28,
     }
     assert all(row["promu"] == 0 for row in base.counts().values())
     assert all(e.status in ("observé", "établi") for e in base.all_entries())
@@ -280,6 +282,27 @@ def test_nothing_from_the_single_project_can_be_promoted() -> None:
     assert not allowed and "un seul projet" in reason and len(projects) == 1
     allowed, reason, _ = promotion_conditions(ROOT, "CA-021")
     assert not allowed
+
+
+def test_the_second_project_owns_its_findings_and_opens_promotions() -> None:
+    """Lot 43 : un constat d'un projet sans `fiche_project_name` est attribué par
+    sa `structure` ; une réutilisation prouvée dans la dalle ouvre la promotion
+    d'une entrée du quai (sans rien promouvoir)."""
+    base = load_knowledge(ROOT)
+    assert "dalle_appuyee_01" in base.constats["CA-052"].projects
+    assert set(base.constats["CA-045"].projects) == {
+        "dalle_appuyee_01",
+        "quai_cw_test_01",
+    }
+    allowed, reason, projects = promotion_conditions(ROOT, "PAT-008")
+    assert allowed and "2 projets" in reason and len(projects) == 2
+    allowed, reason, _ = promotion_conditions(ROOT, "REF-014")
+    assert allowed and "niveau E" in reason
+    assert not promotion_conditions(ROOT, "PRE-018")[0]  # observé : jamais promu
+    from aster_expert.connaissances.rex import knowledge_counts  # noqa: PLC0415
+
+    counts = knowledge_counts(ROOT, "dalle_appuyee_01", base)
+    assert sum(counts["constats_code_aster"].values()) == 7
 
 
 def test_a_base_with_a_wrong_file_name_or_unknown_finding_is_refused(
@@ -672,7 +695,7 @@ def test_the_mcp_tool_answers_level_a_and_journals_itself(tmp_path: Path) -> Non
         result.results[0].layer == "diagnostics"
         and result.results[0].status == "établi"
     )
-    assert result.total_by_layer["precedents"] == 18
+    assert result.total_by_layer["precedents"] == 28
     line = json.loads(log.read_text("utf-8").splitlines()[0])
     assert line["tool"] == "search_connaissances"
 

@@ -1,0 +1,87 @@
+{
+  "constat_id": "CA-049",
+  "summary": "La statique linéaire s'écrit MECA_STATIQUE (MODELE, CHAM_MATER, CARA_ELEM, EXCIT) avec un matériau DEFI_MATERIAU/ELAS (E, NU, RHO).",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "CALC_FERRAILLAGE",
+    "DEFI_MATERIAU",
+    "MECA_STATIQUE"
+  ],
+  "keywords": [
+    "CARA_ELEM",
+    "CHAM_MATER",
+    "DKT",
+    "E",
+    "ELAS",
+    "EXCIT",
+    "MODELE",
+    "NU",
+    "RHO"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "DALLE-APPUYEE-01",
+    "fiche": "projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json",
+    "point_label": "5"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Opérateur de résolution et loi élastique isotrope",
+    "options_considered": [],
+    "option_retained": "Statique linéaire : MECA_STATIQUE (MODELE, CHAM_MATER, CARA_ELEM, EXCIT), résultat evol_elas. Matériau : DEFI_MATERIAU/ELAS (E, NU, RHO).",
+    "justification": "Schémas du catalogue 17.4 (MECA_STATIQUE, DEFI_MATERIAU/ELAS). Cas test ssls135a.comm (DKT, béton ELAS E = 3e10, NU = 0,15, RHO = 2500, MECA_STATIQUE puis CALC_FERRAILLAGE 2D) : même chaîne d'opérateurs.",
+    "discarded_variants": [],
+    "notes": null,
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "MECA_STATIQUE",
+        "aster_version": "17.4.0",
+        "keyword_path": [],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "DEFI_MATERIAU",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "ELAS",
+          "E"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "DEFI_MATERIAU",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "ELAS",
+          "NU"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "DEFI_MATERIAU",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "ELAS",
+          "RHO"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      }
+    ],
+    "status": "tranche"
+  }
+}

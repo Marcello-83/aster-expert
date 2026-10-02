@@ -1,0 +1,40 @@
+id: PRE-029
+title: 'Point 13 : Combinaisons d''actions ELU et ELS (poids propre G, exploitation Q)'
+summary: 'Décision de MM au point 13 de la fiche de la dalle (2026-10-02) : Combinaisons d''actions
+  ELU et ELS (poids propre G, exploitation Q).'
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+  point_label: '13'
+  decided_by: MM
+  decided_at: '2026-10-02T04:37:34-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+point_label: '13'
+topic: Combinaisons d'actions ELU et ELS (poids propre G, exploitation Q)
+option_retained: 'Catégorie d''usage E (aires de stockage) : ψ0 = 1,0, ψ1 = 0,9, ψ2 = 0,8.
+  ELU fondamental : 1,35 G + 1,5 Q, G toujours défavorable (aucun cas favorable). ELS caractéristique
+  : G + Q. ELS quasi permanent : G + 0,8 Q. PRE-016 (quai) n''est retenu que pour γG = 1,35
+  et γQ = 1,5.'
+justification: 'Décision P5 de MM : 10 kPa dépasse les valeurs usuelles des catégories A à
+  D ; la catégorie E est la seule cohérente avec cette intensité. G est toujours défavorable
+  sur une travée isostatique.'
+validity_domain: Dalle isostatique sous deux actions (G, Q) ; le reste de PRE-016 (actions
+  du quai) ne s'applique pas.
+discarded_variants:
+- 'γG favorable (1,0 G + 1,5 Q). — écartée : G est toujours défavorable sur une travée isostatique
+  (P5).'
+- 'Catégories d''usage A à D. — écartée : 10 kPa dépasse leurs valeurs usuelles (P5).'
+- 'Reste du précédent PRE-016 (actions G, EAU, Q1, Q3, A du quai). — écartée : Actions propres
+  au quai (P5).'
+decided_by: MM
+decided_at: '2026-10-02T04:37:34-04:00'
+superseded_decisions: 0
+application: proposition seulement

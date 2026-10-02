@@ -1,0 +1,173 @@
+id: REF-014
+title: Dalle rectangulaire DKT appuyée sur quatre côtés contre Navier (lot 43)
+summary: 'Flèche et moments au centre d''une dalle DKT 6 × 4 m simplement appuyée sous charge
+  uniforme, comparés à la série de Navier sur trois maillages de rapport 2 : erreur divisée
+  par environ 4 à chaque raffinement.'
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: E
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p500.comm
+  case_sha256: 7ebb3cc36ac93c28f5501679aec35ec48207501d6785f9e4409398ca62be48d7
+  outcome: réussite
+  level: E
+  note: maillage h0p500 de la suite de convergence
+- kind: execution
+  run: null
+  case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p250.comm
+  case_sha256: cdecf3679f8a9f2e56d75eca6fa3f9b687e79f4e87b24c47f7ee7489f3267901
+  outcome: réussite
+  level: E
+  note: maillage h0p250 de la suite de convergence
+- kind: execution
+  run: null
+  case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+  case_sha256: c5828faee49df1baf40c22746a2b2085b75d8f4bc93d160201b2edd62232bf1a
+  outcome: réussite
+  level: E
+  note: maillage h0p125 de la suite de convergence
+- kind: document
+  path: docs/essais_lot43.md
+  section: null
+  note: critère écrit avant exécution (commit 4093f12), verdicts E0 à E2
+- kind: test
+  path: projets/dalle_appuyee_01/tests/test_navier.py
+  function: test_navier_deflection_matches_levy
+  note: null
+commands:
+- AFFE_CARA_ELEM
+- AFFE_CHAR_MECA
+- AFFE_MODELE
+- MECA_STATIQUE
+keywords:
+- DKT
+- EFGE_NOEU
+- FORCE_COQUE
+- PESANTEUR
+reuses: []
+status_history: []
+problem: Dalle 6,00 × 4,00 × 0,30 m, E = 33 000 MPa, ν = 0,2, appui bilatéral DZ = 0 sur les
+  quatre bords, cas G (7 500 Pa) et Q (10 000 Pa), QUAD4 12×8, 24×16, 48×32.
+reference_solution: 'Série de Navier (Kirchhoff), ordre doublé jusqu''à 1e-10 (16 777 216
+  termes), contrôlée par la série de Lévy à 1e-14. Critère écrit avant exécution : erreur
+  décroissante au raffinement ×2 (E1) et ≤ 1 % sur le maillage fin (E2) ; obtenu sur 48×32
+  : w -2.05e-04, Mx 5.58e-05, My 5.17e-04.'
+cases:
+- case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p500.comm
+  case_sha256: 7ebb3cc36ac93c28f5501679aec35ec48207501d6785f9e4409398ca62be48d7
+  quantities:
+  - name: flèche au centre (m), cas G, maillage h0p500
+    value_obtained: 0.0001910985416084
+    reference_value: 0.00019174298526770074
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p250.comm
+    refined_value: 0.0001915847539081
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+  - name: Mx au centre (N·m/m), cas G, maillage h0p500
+    value_obtained: 5112.494735882
+    reference_value: 5108.061863819495
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p250.comm
+    refined_value: 5109.195577151
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+  - name: My au centre (N·m/m), cas G, maillage h0p500
+    value_obtained: 9482.217783051
+    reference_value: 9403.0175447398
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p250.comm
+    refined_value: 9422.536806484
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+  - name: flèche au centre (m), cas Q, maillage h0p500
+    value_obtained: 0.0002547980554778
+    reference_value: 0.0002556573136902676
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p250.comm
+    refined_value: 0.0002554463385442
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+  - name: Mx au centre (N·m/m), cas Q, maillage h0p500
+    value_obtained: 6816.659647843
+    reference_value: 6810.749151759326
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p250.comm
+    refined_value: 6812.260769535
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+  - name: My au centre (N·m/m), cas Q, maillage h0p500
+    value_obtained: 12642.95704407
+    reference_value: 12537.356726319733
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p250.comm
+    refined_value: 12563.38240865
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+- case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p250.comm
+  case_sha256: cdecf3679f8a9f2e56d75eca6fa3f9b687e79f4e87b24c47f7ee7489f3267901
+  quantities:
+  - name: flèche au centre (m), cas G, maillage h0p250
+    value_obtained: 0.0001915847539081
+    reference_value: 0.00019174298526770074
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+    refined_value: 0.0001917036051957
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+  - name: Mx au centre (N·m/m), cas G, maillage h0p250
+    value_obtained: 5109.195577151
+    reference_value: 5108.061863819495
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+    refined_value: 5108.346846982
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+  - name: My au centre (N·m/m), cas G, maillage h0p250
+    value_obtained: 9422.536806484
+    reference_value: 9403.0175447398
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+    refined_value: 9407.880127929
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+  - name: flèche au centre (m), cas Q, maillage h0p250
+    value_obtained: 0.0002554463385442
+    reference_value: 0.0002556573136902676
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+    refined_value: 0.0002556048069276
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+  - name: Mx au centre (N·m/m), cas Q, maillage h0p250
+    value_obtained: 6812.260769535
+    reference_value: 6810.749151759326
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+    refined_value: 6811.129129312
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+  - name: My au centre (N·m/m), cas Q, maillage h0p250
+    value_obtained: 12563.38240865
+    reference_value: 12537.356726319733
+    criterion: raffinement
+    tolerance: null
+    refined_case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+    refined_value: 12543.84017058
+    result: réussi
+    note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
+result: réussi

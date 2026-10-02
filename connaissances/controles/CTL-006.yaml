@@ -13,7 +13,19 @@ sources:
   note: null
 commands: []
 keywords: []
-reuses: []
+reuses:
+- project: dalle_appuyee_01
+  date: '2026-10-02'
+  evidence:
+    kind: execution
+    run: null
+    case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+    case_sha256: c5828faee49df1baf40c22746a2b2085b75d8f4bc93d160201b2edd62232bf1a
+    outcome: réussite
+    level: D
+    note: contrôles D de la dalle (48×32)
+  note: 'Symétrie selon deux plans (X = 3, Y = 2) de la dalle entière : 808 paires par plan,
+    5,2e-13.'
 status_history: []
 detects: Une condition de symétrie ou un chargement dissymétrique par erreur.
 parameters: Plan de symétrie, paires de nœuds, seuil.

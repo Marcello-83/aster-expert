@@ -1,0 +1,48 @@
+id: PAT-010
+title: Combinaisons d'actions par MECA_STATIQUE à multiplicateurs constants
+summary: En élasticité linéaire, chaque combinaison s'obtient par un MECA_STATIQUE dont chaque
+  charge élémentaire porte une FONC_MULT = DEFI_CONSTANTE(VALE=coefficient), ce qui donne
+  directement les champs combinés sur lesquels CALC_FERRAILLAGE travaille.
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: D
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+  case_sha256: c5828faee49df1baf40c22746a2b2085b75d8f4bc93d160201b2edd62232bf1a
+  outcome: réussite
+  level: E
+  note: cas de référence de la dalle (48×32)
+- kind: test
+  path: projets/dalle_appuyee_01/tests/test_projet_dalle.py
+  function: test_the_generated_comm_carries_every_decision
+  note: null
+commands:
+- CALC_FERRAILLAGE
+- DEFI_CONSTANTE
+- MECA_STATIQUE
+keywords:
+- EXCIT
+- FONC_MULT
+reuses: []
+status_history: []
+problem: Ferrailler une plaque sur des combinaisons EN 1990 alors que les combinaisons du
+  tronc commun (lot 41) ne combinent que des tables d'efforts de poutre.
+solution: 'Énumérer les combinaisons (aster_expert.combinaisons.enumeration) et écrire un
+  MECA_STATIQUE par combinaison ; le résultat porte EFGE_ELNO et se ferraille en 2D. Vérifié
+  au centre de la dalle : ELU = 1,35 G + 1,5 Q à 4e-13 près.'
+fragment: "F_RC01_G = DEFI_CONSTANTE(VALE=1.35)\nF_RC01_Q = DEFI_CONSTANTE(VALE=1.5)\nRC01\
+  \ = MECA_STATIQUE(\n    MODELE=MODELE, CHAM_MATER=CHMAT, CARA_ELEM=CARA,\n    EXCIT=(_F(CHARGE=CL),\
+  \ _F(CHARGE=CH_G, FONC_MULT=F_RC01_G), _F(CHARGE=CH_Q, FONC_MULT=F_RC01_Q)),\n)"
+fragment_language: comm
+conditions: Élasticité linéaire, Code_Aster 17.4.0 ; les conditions aux limites (CL) sans
+  multiplicateur.
+controls: []
+constats: []
+implementation:
+- kind: code
+  path: projets/dalle_appuyee_01/generation.py
+  symbol: combination_block
+  note: null

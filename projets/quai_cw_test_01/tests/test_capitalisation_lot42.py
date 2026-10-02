@@ -20,6 +20,7 @@ from aster_expert.connaissances.base import (
     dump_entry,
     entry_path,
     load_knowledge,
+    read_entry,
 )
 from aster_expert.connaissances.rex import load_registry, project_runs
 from quai_cw_test_01.capitalisation import PROJECT, build_entries, classify
@@ -32,7 +33,15 @@ def test_every_seeded_entry_is_rebuilt_byte_for_byte() -> None:
     assert len(entries) == 76
     for entry in entries:
         path = entry_path(ROOT, entry)
-        assert path.read_text(encoding="utf-8") == dump_entry(entry), path
+        # Lot 43 : un projet suivant n'ajoute que des réutilisations (`reuses`) ;
+        # tout le reste de l'amorçage est reconstruit à l'octet.
+        versioned = read_entry(path, entry.layer)
+        assert versioned.reuses == () or all(
+            r.project != PROJECT for r in versioned.reuses
+        ), path
+        assert dump_entry(versioned.model_copy(update={"reuses": ()})) == dump_entry(
+            entry
+        ), path
 
 
 def test_no_seeded_entry_is_promoted_and_precedents_cover_every_decision() -> None:
@@ -52,7 +61,12 @@ def test_no_seeded_entry_is_promoted_and_precedents_cover_every_decision() -> No
         for e in fiche["entries"]
         if e.get("nature") == "pratique" and e.get("status") == "tranche"
     ]
-    assert len([e for e in base.entries if e.startswith("PRE-")]) == len(decided)
+    seeded = [
+        e
+        for k, e in base.entries.items()
+        if k.startswith("PRE-") and e.origin_project == PROJECT
+    ]
+    assert len(seeded) == len(decided)
 
 
 def test_the_baseline_metrics_are_declared_as_such() -> None:

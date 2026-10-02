@@ -1,0 +1,39 @@
+id: PRE-023
+title: 'Point 1 : Choix de la modélisation de plaque de la dalle (h/L = 1/13,3)'
+summary: 'Décision de MM au point 1 de la fiche de la dalle (2026-10-02) : Choix de la modélisation
+  de plaque de la dalle (h/L = 1/13,3).'
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+  point_label: '1'
+  decided_by: MM
+  decided_at: '2026-10-02T04:37:34-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+point_label: '1'
+topic: Choix de la modélisation de plaque de la dalle (h/L = 1/13,3)
+option_retained: Modélisation DKT (Love-Kirchhoff) pour toute la dalle.
+justification: 'Décision P1 de MM : avec h/L = 0,30/4,00 = 1/13,3, la part de cisaillement
+  transverse dans la flèche d''une bande simplement appuyée vaut environ 0,8·E/(κG)·(h/L)²,
+  soit à peu près 1,3 % avec ν = 0,2 et κ = 5/6, négligeable devant la précision d''ingénieur
+  ; les moments d''une plaque appuyée y sont peu sensibles. La référence du niveau E est Kirchhoff
+  (Navier) : DKT est la seule modélisation qui rend la comparaison exacte, sans correction.'
+validity_domain: Déformation d'effort tranchant négligée (environ 1,3 % de la flèche selon
+  l'estimation de MM) ; aucune étude de sensibilité DST dans ce lot.
+discarded_variants:
+- 'DST (cisaillement transverse), y compris en sensibilité. — écartée : Ajoute un écart de
+  modèle qui brouille le niveau E, sans bénéfice pour cet ouvrage ; la sensibilité DST est
+  hors périmètre de ce lot (P1).'
+- 'Q4GG (modélisation du cas test SSLS127). — écartée : Même raison que DST : écart de modèle
+  par rapport à Kirchhoff (P1).'
+decided_by: MM
+decided_at: '2026-10-02T04:37:34-04:00'
+superseded_decisions: 0
+application: proposition seulement

@@ -1,0 +1,40 @@
+id: CTL-012
+title: Convergence au raffinement ×2 contre une solution analytique
+summary: Sur une suite de maillages de rapport 2, l'erreur de chaque grandeur sensible à la
+  discrétisation doit décroître strictement, et rester sous le seuil écrit avant l'exécution
+  sur le maillage le plus fin.
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: E
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm
+  case_sha256: c5828faee49df1baf40c22746a2b2085b75d8f4bc93d160201b2edd62232bf1a
+  outcome: réussite
+  level: E
+  note: cas de référence de la dalle (48×32)
+- kind: document
+  path: docs/essais_lot43.md
+  section: null
+  note: critères E1 et E2
+commands: []
+keywords: []
+reuses: []
+status_history: []
+detects: Une erreur de modèle (conditions aux limites, signe, unités) qui ne disparaît pas
+  au raffinement, ou un maillage trop grossier.
+parameters: Tailles de la suite (données du projet), seuil sur le maillage fin (1 % au lot
+  43), référence calculée avant exécution.
+implementation:
+  kind: code
+  path: projets/dalle_appuyee_01/scripts/niveau_e_lot43.py
+  symbol: evaluate
+  note: null
+scope: projet
+caught_error:
+  mode: aucune consignée
+  description: 'Aucune erreur attrapée au lot 43 : les six grandeurs convergent.'
+  evidence: null
+default_harness: false

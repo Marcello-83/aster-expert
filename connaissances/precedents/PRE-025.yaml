@@ -1,0 +1,34 @@
+id: PRE-025
+title: 'Point 5 : Paramètres élastiques du béton C30/37 (E, ν) et hypothèse de béton non fissuré'
+summary: 'Décision de MM au point 5 de la fiche de la dalle (2026-10-02) : Paramètres élastiques
+  du béton C30/37 (E, ν) et hypothèse de béton non fissuré.'
+origin_project: dalle_appuyee_01
+date: '2026-10-02'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+  point_label: '5'
+  decided_by: MM
+  decided_at: '2026-10-02T04:37:34-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json
+point_label: '5'
+topic: Paramètres élastiques du béton C30/37 (E, ν) et hypothèse de béton non fissuré
+option_retained: 'Béton C30/37 : E = Ecm = 33 000 MPa, ν = 0,2 (béton non fissuré), fck =
+  30 MPa, fctm = 2,9 MPa. Calcul élastique linéaire et non fissuré. ν est figé avant l''écriture
+  du critère du niveau E.'
+justification: Décision P2 de MM.
+validity_domain: 'Béton non fissuré : raideur de flexion surestimée pour une dalle fissurée
+  ; flèches instantanées seulement.'
+discarded_variants:
+- 'ν = 0 (béton fissuré). — écartée : MM retient le béton non fissuré, ν = 0,2 (P2).'
+- 'Module effectif à long terme. — écartée : Flèche à long terme hors périmètre (P2).'
+decided_by: MM
+decided_at: '2026-10-02T04:37:34-04:00'
+superseded_decisions: 0
+application: proposition seulement

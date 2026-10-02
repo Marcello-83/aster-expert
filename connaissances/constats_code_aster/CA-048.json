@@ -1,0 +1,110 @@
+{
+  "constat_id": "CA-048",
+  "summary": "Sur une plaque, le poids propre s'applique par PESANTEUR avec RHO et une charge surfacique par FORCE_COQUE, en FZ global ou en PRES positive à l'opposé de la normale de la maille.",
+  "aster_version": "17.4.0",
+  "validation_level": "B",
+  "commands": [
+    "AFFE_CHAR_MECA",
+    "DEFI_MATERIAU",
+    "MODI_MAILLAGE"
+  ],
+  "keywords": [
+    "DIRECTION",
+    "ELAS",
+    "FORCE_COQUE",
+    "FZ",
+    "GRAVITE",
+    "ORIE_NORM_COQUE",
+    "PESANTEUR",
+    "PRES",
+    "RHO",
+    "VECT_NORM"
+  ],
+  "trial_cases": [],
+  "origin": {
+    "project": "DALLE-APPUYEE-01",
+    "fiche": "projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json",
+    "point_label": "4"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Application du poids propre et d'une charge surfacique uniforme sur une plaque",
+    "options_considered": [
+      "FORCE_COQUE/FZ (repère global)",
+      "FORCE_COQUE/PRES (normale à la maille)"
+    ],
+    "option_retained": "Poids propre : AFFE_CHAR_MECA/PESANTEUR (GRAVITE, DIRECTION), avec RHO de DEFI_MATERIAU/ELAS. Charge surfacique : AFFE_CHAR_MECA/FORCE_COQUE, soit FZ dans le repère global, soit PRES, positive dans le sens contraire de la normale à la maille (le sens dépend donc de l'orientation des mailles, ORIE_NORM_COQUE).",
+    "justification": "U4.44.01 § Mot-clé FORCE_COQUE (lu en entier) ; catalogue 17.4 (PESANTEUR, FORCE_COQUE). Le cas test ssls127d.comm applique FORCE_COQUE/PRES = -10000 Pa après MODI_MAILLAGE/ORIE_NORM_COQUE (VECT_NORM = (0, 0, 1)).",
+    "discarded_variants": [],
+    "notes": null,
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U4.44.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements_de_type_Neumann_pour_les__l_ments_de_structure_",
+          "Chargements de type Neumann pour les éléments de structure",
+          "Mot-clé FORCE_COQUE"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_pour_les__l_ments_de_structure_.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "syntaxe",
+        "excerpt": "La pression appliquée est positive suivant le sens contraire de la normale à l’élément"
+      },
+      {
+        "document_id": "U4.44.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements_de_type_Neumann_pour_les__l_ments_de_structure_",
+          "Chargements de type Neumann pour les éléments de structure",
+          "Mot-clé FORCE_COQUE"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_pour_les__l_ments_de_structure_.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": null,
+        "profile": "syntaxe",
+        "excerpt": "Dans le repère **global**  avec les mot-clefs FX, FY, FZ, MX, MY et MZ"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "PESANTEUR",
+          "GRAVITE"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_COQUE",
+          "FZ"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      },
+      {
+        "command": "AFFE_CHAR_MECA",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "FORCE_COQUE",
+          "PRES"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+      }
+    ],
+    "status": "tranche"
+  }
+}
