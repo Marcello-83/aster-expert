@@ -1,0 +1,12 @@
+# Connaissances appliquées par la sonde du lot 47 (lot 46, fichier compagnon).
+schema_version: 1
+project: estacade_pieux_01
+applied:
+  - id: DIAG-004
+    how: "masse M_T_D_N nulle affectée au ressort DIS_T, le modèle portant PESANTEUR"
+  - id: PAT-001
+    how: "ressort nodal par CREA_POI1 implicite (maille POI1 du maillage), K_T_D_N par classe"
+  - id: CA-048
+    how: "charge surfacique de plaque par FORCE_COQUE en FZ global, poids par PESANTEUR et RHO"
+  - id: CA-037
+    how: "poutre de Timoshenko POU_D_T (E13)"

@@ -256,8 +256,9 @@ def _section(text: str, section: str) -> str | None:
     sans sections numérotées (une note de données du projet)."""
     if section == "document":
         return text
-    if re.fullmatch(r"[A-Z]\.\d+", section):
-        # sub-section `### A.1 …` of a complementary-data file: up to the next heading
+    if re.fullmatch(r"[A-Z]\.?\d+", section):
+        # sub-section `### A.1 …` of a complementary-data file, or `### B3. …` of
+        # an annex copied verbatim (lot 47): up to the next heading
         match = re.search(
             rf"^### {re.escape(section)}\b.*?(?=^#{{1,3}} |\Z)", text, flags=re.M | re.S
         )
