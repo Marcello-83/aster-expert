@@ -49,6 +49,11 @@ def project_root(tmp_path: Path) -> Path:
     root = tmp_path / "project"
     (root / "config").mkdir(parents=True)
     (root / "config" / "retrieval.yaml").write_text(_RETRIEVAL_YAML, encoding="utf-8")
+    # Lot 46 : les `.comm` de ces tests vivent sous `tmp_path`, déclaré racine externe.
+    (root / "config" / "chemins.yaml").write_text(
+        f"lecture:\n  racines_depot: []\n  racines_externes: ['{tmp_path}']\n",
+        encoding="utf-8",
+    )
     (root / "config" / "versions.yaml").write_text(
         "detected:\n  container:\n    image_digest: " + DIGEST + "\n", encoding="utf-8"
     )
