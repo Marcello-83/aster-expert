@@ -1,0 +1,320 @@
+id: REF-015
+title: 'Estacade sur pieux : contre-calcul d''un modèle d''avant-projet non validé (lot 47)'
+summary: 'Comparaison aux valeurs publiées d''un modèle externe non validé (C1 à C13) : accord
+  sur les moments de travée de la dalle, l''effort normal en tête de pieu et l''effort tranchant
+  du bouchon ; écarts aux appuis ponctuels (têtes de pieux), sur les chevêtres et les moments
+  des pieux. Jamais un niveau E.'
+origin_project: estacade_pieux_01
+date: '2026-10-05'
+validation_level: C
+status: établi
+sources:
+- kind: execution
+  run: 20261005T101455-e0d5c870
+  case_path: projets/estacade_pieux_01/references/cas/estacade_pieux_01.comm
+  case_sha256: fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692
+  outcome: réussite
+  level: C
+  note: 'exécution de production (1 753 s, OK) ; contrôles D : équilibre et symétrie tenus
+    sur les cas chargés, ÉCHEC formel de TEP et TEM (écart relatif indéfini pour une charge
+    nulle)'
+- kind: document
+  path: docs/essais_lot47.md
+  section: '2.5'
+  note: critères écrits avant l'exécution (commit fa97116), tableau § 3
+commands:
+- MACRO_ELAS_MULT
+- AFFE_CARA_ELEM
+- AFFE_CHAR_MECA
+- CALC_CHAMP
+keywords:
+- DKT
+- POU_D_T
+- DIS_T
+- EFGE_NOEU
+- EFGE_ELNO
+- FORCE_COQUE
+reuses: []
+status_history: []
+problem: Dalle DKT 31,20 × 6,00 × 0,40 m sur 7 chevêtres POU_D_T au plan moyen, 14 pieux POU_D_T
+  à ressorts horizontaux, DZ = 0 en pointe ; 247 cas, combinaisons 100 à 115 du modèle source
+  (E1 à E16).
+reference_solution: 'Valeurs publiées d''un modèle d''avant-projet d''un autre logiciel, non
+  validé : un écart ne désigne pas d''avance le calcul fautif.'
+cases:
+- case_path: projets/estacade_pieux_01/references/cas/estacade_pieux_01.comm
+  case_sha256: fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692
+  quantities:
+  - name: C13 LM1 Mxx inf.
+    value_obtained: 83.61291688035071
+    reference_value: 85.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'verdict du rapport : dans la tolérance'
+  - name: C13 LM1 Mxx sup.
+    value_obtained: -80.03072223731714
+    reference_value: -47.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C13 LM1 V (|Qxx|)
+    value_obtained: 738.6025420561682
+    reference_value: 154.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C13 LM2 Mxx inf.
+    value_obtained: 64.38013857915355
+    reference_value: 64.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'verdict du rapport : dans la tolérance'
+  - name: C13 LM2 Mxx sup.
+    value_obtained: -33.74000863484498
+    reference_value: -30.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C13 LM2 V (|Qxx|)
+    value_obtained: 335.6163158146744
+    reference_value: 138.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C1 ELS c (107)
+    value_obtained: 0.43747711841417897
+    reference_value: 0.5
+    criterion: contre_calcul
+    tolerance: 0.5
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'valeur source arrondie au demi-centimètre : compatible si 0,25 ≤ u < 0,75 cm (équivaut
+      à ±50 %)'
+  - name: C2 ELS_f (112)
+    value_obtained: 526.8826534251499
+    reference_value: 514.0
+    criterion: contre_calcul
+    tolerance: 0.03
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'verdict du rapport : dans la tolérance'
+  - name: C2 ELS_c (112)
+    value_obtained: 713.9929860906942
+    reference_value: 727.0
+    criterion: contre_calcul
+    tolerance: 0.03
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'verdict du rapport : dans la tolérance'
+  - name: C2 ELU (112)
+    value_obtained: 1022.6452685914513
+    reference_value: 1048.0
+    criterion: contre_calcul
+    tolerance: 0.03
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'verdict du rapport : dans la tolérance'
+  - name: C3 ELS_f (111)
+    value_obtained: 130.998650296562
+    reference_value: 209.0
+    criterion: contre_calcul
+    tolerance: 0.05
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C3 ELS_c (111)
+    value_obtained: 192.03727317385383
+    reference_value: 312.0
+    criterion: contre_calcul
+    tolerance: 0.05
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C3 ELU (111)
+    value_obtained: 283.3501342093566
+    reference_value: 449.0
+    criterion: contre_calcul
+    tolerance: 0.05
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C4 ELU (114)
+    value_obtained: 259.35370902351195
+    reference_value: 253.0
+    criterion: contre_calcul
+    tolerance: 0.05
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'verdict du rapport : dans la tolérance'
+  - name: C5 ELU (111)
+    value_obtained: 105.200686083442
+    reference_value: 463.0
+    criterion: contre_calcul
+    tolerance: 0.05
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C6 ELS_f (105)
+    value_obtained: 202.8057310704838
+    reference_value: 180.0
+    criterion: contre_calcul
+    tolerance: 0.05
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C6 ELS_c (105)
+    value_obtained: 303.2129500928595
+    reference_value: 276.0
+    criterion: contre_calcul
+    tolerance: 0.05
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C6 ELU (112)
+    value_obtained: 443.11415676276243
+    reference_value: 408.0
+    criterion: contre_calcul
+    tolerance: 0.05
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C7 ELU (enveloppe 100-115, gouvernée par 111)
+    value_obtained: 141.93753721723868
+    reference_value: 177.0
+    criterion: contre_calcul
+    tolerance: 0.05
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C8 ELU (105, 112)
+    value_obtained: 198.06355417467913
+    reference_value: 653.0
+    criterion: contre_calcul
+    tolerance: 0.05
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C9 ELS_f (111)
+    value_obtained: 111.40005492831509
+    reference_value: 79.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C9 ELS_c (111)
+    value_obtained: 150.42709014778427
+    reference_value: 118.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C9 ELU (111)
+    value_obtained: 214.10447993814404
+    reference_value: 174.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C10 ELS_f (112)
+    value_obtained: 81.92382293095
+    reference_value: 82.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'verdict du rapport : dans la tolérance'
+  - name: C10 ELS_c (112)
+    value_obtained: 130.82194326547707
+    reference_value: 134.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'verdict du rapport : dans la tolérance'
+  - name: C10 ELU (112)
+    value_obtained: 192.86507743154363
+    reference_value: 198.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'verdict du rapport : dans la tolérance'
+  - name: C11 FR seul
+    value_obtained: 58.756377121194014
+    reference_value: 18.9
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C11 TE- seul
+    value_obtained: 149.22488750632522
+    reference_value: 64.1
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+  - name: C12 ELU courant (111)
+    value_obtained: 351.3771237946202
+    reference_value: 320.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: réussi
+    note: 'verdict du rapport : dans la tolérance'
+  - name: C12 ELU rive (100)
+    value_obtained: 990.3357526791281
+    reference_value: 568.0
+    criterion: contre_calcul
+    tolerance: 0.1
+    refined_case_path: null
+    refined_value: null
+    result: échec
+    note: 'verdict du rapport : hors tolérance'
+result: échec
+reference_kind: calcul_externe_non_valide

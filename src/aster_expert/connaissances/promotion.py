@@ -36,7 +36,7 @@ from aster_expert.connaissances.base import (
     load_knowledge,
     write_entry,
 )
-from aster_expert.connaissances.modeles import StatusEvent
+from aster_expert.connaissances.modeles import StatusEvent, ValidationReference
 
 
 class PromotionRefusedError(ValueError):
@@ -51,6 +51,16 @@ def promotion_conditions(repo_root: Path, entry_id: str) -> tuple[bool, str, lis
         return False, f"{entry_id} absent de la base", []
     if entry.status == "promu":
         return False, f"{entry_id} est déjà promu", []
+    if (
+        isinstance(entry, ValidationReference)
+        and entry.reference_kind == "calcul_externe_non_valide"
+    ):
+        return (
+            False,
+            f"{entry_id} est un calcul externe non validé : il ne peut servir à "
+            "aucune promotion",
+            [],
+        )
     if entry.status != "établi":
         return (
             False,

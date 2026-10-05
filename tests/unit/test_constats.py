@@ -71,7 +71,7 @@ def test_the_base_holds_the_45_findings_of_the_quay() -> None:
 def test_the_slab_adds_seven_findings_of_its_own() -> None:
     """Lot 43 : six constats documentaires externalisés de la fiche de la dalle
     (CA-046 à CA-051) et un constat d'exécution (CA-052, niveau D)."""
-    base = {k: c for k, c in _base().items() if int(k[3:]) > 45}
+    base = {k: c for k, c in _base().items() if 45 < int(k[3:]) < 54}
 
     # Lot 44 : CA-053 (paramètres obligatoires à l'exécution), même origine.
     assert list(base) == [f"CA-{n:03d}" for n in range(46, 54)]
@@ -79,6 +79,14 @@ def test_the_slab_adds_seven_findings_of_its_own() -> None:
     assert base["CA-052"].validation_level == "D"
     assert "CALC_FERRAILLAGE" in base["CA-052"].commands
     assert len(base["CA-052"].trial_cases) == 1
+
+
+def test_the_jetty_adds_four_findings_from_its_probe() -> None:
+    """Lot 47 : CA-054 à CA-057, établis par la sonde S1 de l'estacade (niveau D)."""
+    base = {k: c for k, c in _base().items() if int(k[3:]) > 53}
+    assert list(base) == [f"CA-{n:03d}" for n in range(54, 58)]
+    assert all(c.origin.project == "ESTACADE-PIEUX-01" for c in base.values())
+    assert all(c.validation_level == "D" for c in base.values())
 
 
 def test_every_trial_case_is_versioned_with_its_bytes() -> None:
@@ -238,7 +246,7 @@ def test_the_mcp_tool_is_logged_and_level_a(tmp_path: Path) -> None:
     )
 
     assert result.validation_level == "A"
-    assert result.total_in_base == 53
+    assert result.total_in_base == 57  # lot 47 : CA-054 à CA-057
     assert len(result.results) == 3
     hit = result.results[0]
     assert hit.file.startswith("connaissances/constats_code_aster/CA-")

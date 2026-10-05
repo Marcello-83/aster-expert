@@ -69,6 +69,17 @@ class Options:
     variant: str = "reference"
     cell: float = 0.05
     """Mesh size of the slab, to check the print alignment."""
+    post: str | None = "FORCE"
+    """MUMPS `POSTTRAITEMENTS` (iterative refinement), `None` for the default of
+    Code_Aster. Lot 47: `FORCE` for every run of the jetty, because the finest mesh
+    of the convergence series (1,8 million dof) stopped on `<F> <FACTOR_57>` (error
+    2,08e-6 for RESI_RELA = 1e-6, DIAG-003) with the default; RESI_RELA itself is
+    never relaxed by default, and every run of the lot uses the same solver settings."""
+    resi_rela: float | None = None
+    """MUMPS `RESI_RELA`, `None` for the default (1e-6). Lot 47: 1e-5 for the
+    sensitivity variant `pou_d_e_chevetres` only, which stopped on FACTOR_57 (error
+    2,81e-6) even with POSTTRAITEMENTS='FORCE' (DIAG-003: relaxed with a written
+    reason, equilibrium checked on the 242 positions)."""
 
 
 def _r(x: float) -> str:
@@ -311,7 +322,23 @@ def moving_loads_block(cases: tuple[MovingCase, ...]) -> str:
     )
 
 
-def thermal_block(v: ModelValues) -> str:
+def solver_keyword(options: Options) -> str:
+    """The `SOLVEUR` keyword shared by every solve of a run (empty for the default)."""
+    parts = []
+    if options.post is not None:
+        parts.append(f'POSTTRAITEMENTS="{options.post}"')
+    if options.resi_rela is not None:
+        parts.append(f"RESI_RELA={options.resi_rela!r}")
+    if not parts:
+        return ""
+    return f', SOLVEUR=_F(METHODE="MUMPS", {", ".join(parts)})'
+
+
+def thermal_block(v: ModelValues, options: Options) -> str:
+    # The reference ran TE+ and TE- with the default solver (they succeeded); only a
+    # relaxed RESI_RELA (variant pou_d_e_chevetres) is carried to them, which the
+    # thermal solve of that variant needed (FACTOR_57, error 1,41e-6).
+    solver = solver_keyword(options) if options.resi_rela is not None else ""
     out = []
     for name, sign in (("TEP", 1.0), ("TEM", -1.0)):
         dt = sign * v.delta_t
@@ -347,7 +374,7 @@ M_{name} = AFFE_MATERIAU(
         _F(GROUP_MA="CHEVETRES", NOM_VARC="TEMP", CHAM_GD=T_{name}_P, VALE_REF=0.0),
     ),
 )
-{name} = MECA_STATIQUE(MODELE=MODELE, CHAM_MATER=M_{name}, CARA_ELEM=CARA, EXCIT=_F(CHARGE=CL))
+{name} = MECA_STATIQUE(MODELE=MODELE, CHAM_MATER=M_{name}, CARA_ELEM=CARA, EXCIT=_F(CHARGE=CL){solver})
 """
         )
     return "".join(out)
@@ -394,10 +421,24 @@ def batches(names: list[str]) -> list[list[str]]:
 
 
 def solve_block(
-    names: list[str], harness: set[str], seen: set[str]
+    names: list[str],
+    harness: set[str],
+    seen: set[str],
+    post: str | None = None,
+    resi_rela: float | None = None,
 ) -> tuple[str, list[dict[str, Any]]]:
     out = []
     manifest = []
+    options = []
+    if post is not None:
+        options.append(f'POSTTRAITEMENTS="{post}"')
+    if resi_rela is not None:
+        options.append(f"RESI_RELA={resi_rela!r}")
+    solver = (
+        ""
+        if not options
+        else f'\n    SOLVEUR=_F(METHODE="MUMPS", {", ".join(options)}),'
+    )
     for i, batch in enumerate(batches(names), start=1):
         resu = f"MB{i:02d}"
         cases = "\n        ".join(
@@ -421,7 +462,7 @@ IMPR_TABLE(TABLE=T_RA_{resu}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
     CHAR_MECA_GLOBAL=CL,
     CAS_CHARGE=(
         {cases}
-    ),
+    ),{solver}
 )
 {_fields_and_output(resu, resu)}{tables}{all_rows}DETRUIRE(NOM={resu})
 """
@@ -430,15 +471,32 @@ IMPR_TABLE(TABLE=T_RA_{resu}, UNITE=6, FORMAT_R="{TABLE_FORMAT_R}")
     return "".join(out), manifest
 
 
+SYMMETRY_SOURCES = ("PIEUX", "CHEVETRES", "RIVE_YM", "RIVE_YP")
+
+
 def groups_block() -> str:
-    return """
-# Nœuds des ressorts (contrôle d'équilibre) et ensemble symétrique pour CTL-006.
+    """Nodes of a symmetric set for CTL-006: one CREA_GROUP_NO per GROUP_MA, then
+    their UNION (DIAG-010: several GROUP_MA in one occurrence stopped a later command
+    on <F> <JEVEUX_10>, &&SSCGNO.LITMP2 -- reproduced by the first production run of
+    this lot)."""
+    singles = "\n        ".join(
+        f'_F(GROUP_MA="{g}", NOM="{_gn("SYMN_" + g)}"),' for g in SYMMETRY_SOURCES
+    )
+    union = ", ".join(f'"SYMN_{g}"' for g in SYMMETRY_SOURCES)
+    return f"""
+# Ensemble symétrique de nœuds pour CTL-006 : un groupe par GROUP_MA puis UNION
+# (DIAG-010).
 MAIL = DEFI_GROUP(
     reuse=MAIL,
     MAILLAGE=MAIL,
     CREA_GROUP_NO=(
-        _F(GROUP_MA=("PIEUX", "CHEVETRES", "RIVE_YM", "RIVE_YP"), NOM="SYM_NOEUDS"),
+        {singles}
     ),
+)
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_NO=_F(UNION=({union},), NOM="SYM_NOEUDS"),
 )
 """
 
@@ -458,10 +516,12 @@ def build_comm(
     production = options.mode == "production"
     statics = list(STATIC_CASES) if production else []
     harness = set(STATIC_CASES) | set(HARNESS_MOVING) if production else set()
-    solve, manifest = solve_block(statics + names, harness, seen)
+    solve, manifest = solve_block(
+        statics + names, harness, seen, options.post, options.resi_rela
+    )
     thermal = ""
     if production:
-        thermal = thermal_block(v)
+        thermal = thermal_block(v, options)
         for name in THERMAL_CASES:
             thermal += _fields_and_output(name, name) + _case_tables(
                 name, name, seen, by_name=False

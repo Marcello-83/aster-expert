@@ -167,11 +167,15 @@ def moving_resultants(v: ModelValues, mess_text: str, batches: int) -> dict[str,
             rows[name] = {
                 "charge_dz_n": applied,
                 "reaction_dz_n": reaction,
-                "ecart_relatif": (applied + reaction) / abs(applied),
+                # FR n'a pas de charge selon DZ : écart absolu seulement.
+                "ecart_relatif": (applied + reaction) / abs(applied)
+                if applied
+                else None,
+                "ecart_absolu_n": applied + reaction,
                 "reactions_dx_dy_n": [float(record["DX"]), float(record["DY"])],
             }
     moving = [n for n in rows if n not in STATIC_CASES]
-    worst = max((abs(rows[n]["ecart_relatif"]) for n in rows), default=float("nan"))
+    worst = max((abs(rows[n]["ecart_relatif"]) for n in moving), default=float("nan"))
     return {
         "seuil": THRESHOLD,
         "cas": rows,

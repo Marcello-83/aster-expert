@@ -1,0 +1,34 @@
+id: PRE-035
+title: 'Point E12 : Tolérances de comparaison'
+summary: 'Décision de MM au point E12 de la fiche de l''estacade (2026-10-05) : Tolérances
+  de comparaison.'
+origin_project: estacade_pieux_01
+date: '2026-10-05'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json
+  point_label: E12
+  decided_by: MM
+  decided_at: '2026-10-05T05:48:41-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json
+point_label: E12
+topic: Tolérances de comparaison
+option_retained: 'Tolérances de comparaison : **3 %** pour les efforts globaux (réactions,
+  N des pieux) ; **5 %** pour les moments et efforts tranchants des barres (pieux, bouchons,
+  chevêtres) ; **10 %** pour les efforts locaux de la dalle (Mxx, Qxx).'
+justification: Décision E12 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).
+validity_domain: Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé
+  ; hors de ce contre-calcul, la décision n'est pas établie.
+discarded_variants:
+- 'Tolérance unique pour toutes les grandeurs — écartée : 3 %, 5 % et 10 % selon la grandeur
+  (E12)'
+decided_by: MM
+decided_at: '2026-10-05T05:48:41-04:00'
+superseded_decisions: 0
+application: proposition seulement

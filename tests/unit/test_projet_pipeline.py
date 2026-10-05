@@ -171,6 +171,23 @@ def test_the_whole_chain_on_the_fake_project(
     assert faked["executed"] == [comm]
 
 
+def test_the_controls_step_runs_the_declared_extra_extension(
+    fake_project: Factory, faked: dict[str, Any]
+) -> None:
+    # Lot 47 : `controls.extra` était déclaré au schéma mais appelé par aucune étape.
+    project = fake_project()
+    declaration = project.declaration()
+    declaration["controls"]["extra"] = f"{project.name}.extensions:extra"
+    project.write_declaration(declaration)
+    ctx = load_project(project.name, project.repo_root)
+
+    lines = run_step(ctx, Runtime(project.repo_root), "tout", views=False)
+
+    produced = ctx.results_dir / "controles" / "produit_projet.json"
+    assert produced.is_file()
+    assert any(line == f"Produit du projet : {produced}" for line in lines)
+
+
 def test_ferraillage_without_members_is_refused(
     fake_project: Factory, faked: dict[str, Any]
 ) -> None:

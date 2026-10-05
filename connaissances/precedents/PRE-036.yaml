@@ -1,0 +1,37 @@
+id: PRE-036
+title: 'Point E13 : Formulations d''éléments et variantes de sensibilité'
+summary: 'Décision de MM au point E13 de la fiche de l''estacade (2026-10-05) : Formulations
+  d''éléments et variantes de sensibilité.'
+origin_project: estacade_pieux_01
+date: '2026-10-05'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json
+  point_label: E13
+  decided_by: MM
+  decided_at: '2026-10-05T05:48:41-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json
+point_label: E13
+topic: Formulations d'éléments et variantes de sensibilité
+option_retained: 'Choix 1 : DKT pour la dalle, POU_D_T pour les pieux et les chevêtres.Variantes
+  de sensibilité déclarées :  (a) DST pour la dalle ;  (b) POU_D_E pour les chevêtres seulement,
+  pour tester l''hypothèse      « le modèle source ne prend pas en compte la déformation d''effort
+  tranchant      des barres » si C6 à C8 sortent de tolérance.À inscrire comme décision E13,
+  origine arbitrage_mm.'
+justification: Décision E13 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).
+validity_domain: Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé
+  ; hors de ce contre-calcul, la décision n'est pas établie.
+discarded_variants:
+- 'DKT et POU_D_E — écartée : option proposée, non retenue par MM (E13)'
+- 'DST et POU_D_T — écartée : option proposée, non retenue ; DST gardé en variante de sensibilité
+  (E13)'
+decided_by: MM
+decided_at: '2026-10-05T05:48:41-04:00'
+superseded_decisions: 0
+application: proposition seulement

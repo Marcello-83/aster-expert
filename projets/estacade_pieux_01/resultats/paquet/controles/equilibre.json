@@ -1,0 +1,829 @@
+{
+  "cases": {
+    "FR": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 381000.0,
+          "applied_specified_n": 381000.0,
+          "balance_n": 2.641801256686449e-05,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": -1.344346856058e-11,
+          "reactions_free_components_relative": -3.528469438472441e-17,
+          "relative_gap": 6.933861566106165e-11,
+          "relative_gap_vs_specified": 6.933861566106165e-11,
+          "springs_on_structure_n": -380999.999973582
+        },
+        "DY": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -3.228025090895592e-06,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": -4.909961333519e-14,
+          "reactions_free_components_relative": -1.2887037620784777e-19,
+          "relative_gap": -8.472506800250898e-12,
+          "relative_gap_vs_specified": -8.472506800250898e-12,
+          "springs_on_structure_n": -3.228025090895592e-06
+        },
+        "DZ": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": 1.024570883601e-05,
+          "reactions_blocked_n": 1.024570883601e-05,
+          "reactions_free_components_n": 0,
+          "reactions_free_components_relative": 0.0,
+          "relative_gap": 2.6891624241496062e-11,
+          "relative_gap_vs_specified": 2.6891624241496062e-11,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reactions_by_group_n": {
+        "PIEDS": {
+          "DX": -1.344346856058e-11,
+          "DY": -4.909961333519e-14,
+          "DZ": 1.024570883601e-05
+        }
+      },
+      "springs_k_dx_dy_by_band_n": {
+        "EAU": {
+          "DX": 128713.37112967065,
+          "DY": 1.1220411256784857e-06
+        },
+        "RIVE": {
+          "DX": 252286.62884391134,
+          "DY": 2.1059839652171064e-06
+        }
+      },
+      "verdict": "R\u00c9USSI"
+    },
+    "G2": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -6.7197536424146165e-09,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": -8.799905209975e-14,
+          "reactions_free_components_relative": -8.792027553287254e-20,
+          "relative_gap": -6.713738133047406e-15,
+          "relative_gap_vs_specified": -6.713738133047406e-15,
+          "springs_on_structure_n": -6.7197536424146165e-09
+        },
+        "DY": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": 9.731988825922855e-10,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": 5.2929882699e-14,
+          "reactions_free_components_relative": 5.28824999790188e-20,
+          "relative_gap": 9.723276769936992e-16,
+          "relative_gap_vs_specified": 9.723276769936992e-16,
+          "springs_on_structure_n": 9.731988825922855e-10
+        },
+        "DZ": {
+          "applied_as_evaluated_n": -1000896.0,
+          "applied_specified_n": -1000896.0,
+          "balance_n": -4.099996294826269e-05,
+          "reactions_blocked_n": 1000895.999959,
+          "reactions_free_components_n": 0,
+          "reactions_free_components_relative": 0.0,
+          "relative_gap": -4.096325986742148e-11,
+          "relative_gap_vs_specified": -4.096325986742148e-11,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reactions_by_group_n": {
+        "PIEDS": {
+          "DX": -8.799905209975e-14,
+          "DY": 5.2929882699e-14,
+          "DZ": 1000895.999959
+        }
+      },
+      "springs_k_dx_dy_by_band_n": {
+        "EAU": {
+          "DX": 1.309117260817061e-06,
+          "DY": -4.6109141135786125e-07
+        },
+        "RIVE": {
+          "DX": -1.3023975071746463e-06,
+          "DY": 4.6011821247526896e-07
+        }
+      },
+      "verdict": "R\u00c9USSI"
+    },
+    "L2A_M00": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -8.311445753861335e-09,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": -4.871936187811e-13,
+          "reactions_free_components_relative": -1.5224800586909375e-18,
+          "relative_gap": -2.5973267980816673e-14,
+          "relative_gap_vs_specified": -2.5973267980816673e-14,
+          "springs_on_structure_n": -8.311445753861335e-09
+        },
+        "DY": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": 1.748650862130885e-09,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": -1.268318349651e-12,
+          "reactions_free_components_relative": -3.963494842659375e-18,
+          "relative_gap": 5.464533944159016e-15,
+          "relative_gap_vs_specified": 5.464533944159016e-15,
+          "springs_on_structure_n": 1.748650862130885e-09
+        },
+        "DZ": {
+          "applied_as_evaluated_n": -320000.0,
+          "applied_specified_n": -320000.0,
+          "balance_n": 2.6999972760677338e-05,
+          "reactions_blocked_n": 320000.000027,
+          "reactions_free_components_n": 0,
+          "reactions_free_components_relative": 0.0,
+          "relative_gap": 8.437491487711667e-11,
+          "relative_gap_vs_specified": 8.437491487711667e-11,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reactions_by_group_n": {
+        "PIEDS": {
+          "DX": -4.871936187811e-13,
+          "DY": -1.268318349651e-12,
+          "DZ": 320000.000027
+        }
+      },
+      "springs_k_dx_dy_by_band_n": {
+        "EAU": {
+          "DX": 85.74902341710968,
+          "DY": 4.5639765649391206e-07
+        },
+        "RIVE": {
+          "DX": -85.74902340879824,
+          "DY": -4.5814630735604295e-07
+        }
+      },
+      "verdict": "R\u00c9USSI"
+    },
+    "L2B_M00": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -1.6089600762825285e-08,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": -5.793143742494e-13,
+          "reactions_free_components_relative": -1.8103574195293752e-18,
+          "relative_gap": -5.0280002383829015e-14,
+          "relative_gap_vs_specified": -5.0280002383829015e-14,
+          "springs_on_structure_n": -1.6089600762825285e-08
+        },
+        "DY": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -1.969368668142124e-07,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": 1.853239783856e-13,
+          "reactions_free_components_relative": 5.79137432455e-19,
+          "relative_gap": -6.154277087944137e-13,
+          "relative_gap_vs_specified": -6.154277087944137e-13,
+          "springs_on_structure_n": -1.969368668142124e-07
+        },
+        "DZ": {
+          "applied_as_evaluated_n": -320000.0,
+          "applied_specified_n": -320000.0,
+          "balance_n": 2.9399991035461426e-05,
+          "reactions_blocked_n": 320000.0000294,
+          "reactions_free_components_n": 0,
+          "reactions_free_components_relative": 0.0,
+          "relative_gap": 9.187497198581696e-11,
+          "relative_gap_vs_specified": 9.187497198581696e-11,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reactions_by_group_n": {
+        "PIEDS": {
+          "DX": -5.793143742494e-13,
+          "DY": 1.853239783856e-13,
+          "DZ": 320000.0000294
+        }
+      },
+      "springs_k_dx_dy_by_band_n": {
+        "EAU": {
+          "DX": 86.00699279745074,
+          "DY": -505.9916345220214
+        },
+        "RIVE": {
+          "DX": -86.00699278136113,
+          "DY": 505.99163471895827
+        }
+      },
+      "verdict": "R\u00c9USSI"
+    },
+    "PP": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -1.4855841001804038e-08,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": -2.035357992106e-12,
+          "reactions_free_components_relative": -5.728081964805783e-19,
+          "relative_gap": -4.180860332408013e-15,
+          "relative_gap_vs_specified": -4.180860332408013e-15,
+          "springs_on_structure_n": -1.4855841001804038e-08
+        },
+        "DY": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": 1.3258567577167923e-09,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": 2.501998608295e-12,
+          "reactions_free_components_relative": 7.041342682578748e-19,
+          "relative_gap": 3.731341715437107e-16,
+          "relative_gap_vs_specified": 3.731341715437107e-16,
+          "springs_on_structure_n": 1.3258567577167923e-09
+        },
+        "DZ": {
+          "applied_as_evaluated_n": -3553297.6040000003,
+          "applied_specified_n": -3553297.6040000003,
+          "balance_n": 0.00010999990627169609,
+          "reactions_blocked_n": 3553297.60411,
+          "reactions_free_components_n": 0,
+          "reactions_free_components_relative": 0.0,
+          "relative_gap": 3.0957132931355804e-11,
+          "relative_gap_vs_specified": 3.0957132931355804e-11,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reactions_by_group_n": {
+        "PIEDS": {
+          "DX": -2.035357992106e-12,
+          "DY": 2.501998608295e-12,
+          "DZ": 3553297.60411
+        }
+      },
+      "springs_k_dx_dy_by_band_n": {
+        "EAU": {
+          "DX": 1.6889751552895405e-06,
+          "DY": -2.85593048232613e-06
+        },
+        "RIVE": {
+          "DX": -1.6741193142877364e-06,
+          "DY": 2.8546046255684132e-06
+        }
+      },
+      "verdict": "R\u00c9USSI"
+    },
+    "TEM": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -9.058836894837441e-06,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": 1.563194018636e-11,
+          "reactions_free_components_relative": NaN,
+          "relative_gap": NaN,
+          "relative_gap_vs_specified": NaN,
+          "springs_on_structure_n": -9.058836894837441e-06
+        },
+        "DY": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -2.9057360961814993e-09,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": -1.726618847897e-12,
+          "reactions_free_components_relative": NaN,
+          "relative_gap": NaN,
+          "relative_gap_vs_specified": NaN,
+          "springs_on_structure_n": -2.9057360961814993e-09
+        },
+        "DZ": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": 2.369902358623e-05,
+          "reactions_blocked_n": 2.369902358623e-05,
+          "reactions_free_components_n": 0,
+          "reactions_free_components_relative": NaN,
+          "relative_gap": NaN,
+          "relative_gap_vs_specified": NaN,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reactions_by_group_n": {
+        "PIEDS": {
+          "DX": 1.563194018636e-11,
+          "DY": -1.726618847897e-12,
+          "DZ": 2.369902358623e-05
+        }
+      },
+      "springs_k_dx_dy_by_band_n": {
+        "EAU": {
+          "DX": 6.387440066646377e-06,
+          "DY": -2.458030508023512e-07
+        },
+        "RIVE": {
+          "DX": 2.671396828191064e-06,
+          "DY": 2.487087868985327e-07
+        }
+      },
+      "verdict": "\u00c9CHEC"
+    },
+    "TEP": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": 9.058836894837441e-06,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": -1.563194018636e-11,
+          "reactions_free_components_relative": NaN,
+          "relative_gap": NaN,
+          "relative_gap_vs_specified": NaN,
+          "springs_on_structure_n": 9.058836894837441e-06
+        },
+        "DY": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": 2.9057360961814993e-09,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": 1.726618847897e-12,
+          "reactions_free_components_relative": NaN,
+          "relative_gap": NaN,
+          "relative_gap_vs_specified": NaN,
+          "springs_on_structure_n": 2.9057360961814993e-09
+        },
+        "DZ": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -2.369902358623e-05,
+          "reactions_blocked_n": -2.369902358623e-05,
+          "reactions_free_components_n": 0,
+          "reactions_free_components_relative": NaN,
+          "relative_gap": NaN,
+          "relative_gap_vs_specified": NaN,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reactions_by_group_n": {
+        "PIEDS": {
+          "DX": -1.563194018636e-11,
+          "DY": 1.726618847897e-12,
+          "DZ": -2.369902358623e-05
+        }
+      },
+      "springs_k_dx_dy_by_band_n": {
+        "EAU": {
+          "DX": -6.387440066646377e-06,
+          "DY": 2.458030508023512e-07
+        },
+        "RIVE": {
+          "DX": -2.671396828191064e-06,
+          "DY": -2.487087868985327e-07
+        }
+      },
+      "verdict": "\u00c9CHEC"
+    },
+    "TR": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -4.007050691257064e-09,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": 7.378611609725e-13,
+          "reactions_free_components_relative": 1.5766264123344017e-18,
+          "relative_gap": -8.562074126617657e-15,
+          "relative_gap_vs_specified": -8.562074126617657e-15,
+          "springs_on_structure_n": -4.007050691257064e-09
+        },
+        "DY": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": 6.125709939297508e-10,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": 1.564304241697e-13,
+          "reactions_free_components_relative": 3.342530430976496e-19,
+          "relative_gap": 1.3089123801917752e-15,
+          "relative_gap_vs_specified": 1.3089123801917752e-15,
+          "springs_on_structure_n": 6.125709939297508e-10
+        },
+        "DZ": {
+          "applied_as_evaluated_n": -468000.0,
+          "applied_specified_n": -468000.0,
+          "balance_n": 1.179997343569994e-05,
+          "reactions_blocked_n": 468000.0000118,
+          "reactions_free_components_n": 0,
+          "reactions_free_components_relative": 0.0,
+          "relative_gap": 2.5213618452350297e-11,
+          "relative_gap_vs_specified": 2.5213618452350297e-11,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reactions_by_group_n": {
+        "PIEDS": {
+          "DX": 7.378611609725e-13,
+          "DY": 1.564304241697e-13,
+          "DZ": 468000.0000118
+        }
+      },
+      "springs_k_dx_dy_by_band_n": {
+        "EAU": {
+          "DX": 4.625391367696352e-07,
+          "DY": -5.317693498874121e-07
+        },
+        "RIVE": {
+          "DX": -4.5853208607837814e-07,
+          "DY": 5.311567788934823e-07
+        }
+      },
+      "verdict": "R\u00c9USSI"
+    },
+    "TSA_P00": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -1.0114344362044392e-09,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": 1.709160591952e-12,
+          "reactions_free_components_relative": 3.1651122073185186e-18,
+          "relative_gap": -1.8730267337119244e-15,
+          "relative_gap_vs_specified": -1.8730267337119244e-15,
+          "springs_on_structure_n": -1.0114344362044392e-09
+        },
+        "DY": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": 1.137076565717321e-10,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": -2.055324226785e-12,
+          "reactions_free_components_relative": -3.806155975527777e-18,
+          "relative_gap": 2.1056973439209648e-16,
+          "relative_gap_vs_specified": 2.1056973439209648e-16,
+          "springs_on_structure_n": 1.137076565717321e-10
+        },
+        "DZ": {
+          "applied_as_evaluated_n": -540000.0,
+          "applied_specified_n": -540000.0,
+          "balance_n": 6.500002928078175e-05,
+          "reactions_blocked_n": 540000.000065,
+          "reactions_free_components_n": 0,
+          "reactions_free_components_relative": 0.0,
+          "relative_gap": 1.2037042459404028e-10,
+          "relative_gap_vs_specified": 1.2037042459404028e-10,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reactions_by_group_n": {
+        "PIEDS": {
+          "DX": 1.709160591952e-12,
+          "DY": -2.055324226785e-12,
+          "DZ": 540000.000065
+        }
+      },
+      "springs_k_dx_dy_by_band_n": {
+        "EAU": {
+          "DX": -3.4275873339595364e-07,
+          "DY": 3.587195000209764e-07
+        },
+        "RIVE": {
+          "DX": 3.437701678321581e-07,
+          "DY": -3.5883320767754814e-07
+        }
+      },
+      "verdict": "R\u00c9USSI"
+    },
+    "TSB_P00": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -2.8506180749232612e-08,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": 2.413957923561e-12,
+          "reactions_free_components_relative": 4.470292451038889e-18,
+          "relative_gap": -5.278922360969002e-14,
+          "relative_gap_vs_specified": -5.278922360969002e-14,
+          "springs_on_structure_n": -2.8506180749232612e-08
+        },
+        "DY": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -4.3551290218601935e-07,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": 1.409095062854e-12,
+          "reactions_free_components_relative": 2.6094353015814817e-18,
+          "relative_gap": -8.065053744185544e-13,
+          "relative_gap_vs_specified": -8.065053744185544e-13,
+          "springs_on_structure_n": -4.3551290218601935e-07
+        },
+        "DZ": {
+          "applied_as_evaluated_n": -540000.0,
+          "applied_specified_n": -540000.0,
+          "balance_n": 9.109999518841505e-05,
+          "reactions_blocked_n": 540000.0000911,
+          "reactions_free_components_n": 0,
+          "reactions_free_components_relative": 0.0,
+          "relative_gap": 1.687036947933612e-10,
+          "relative_gap_vs_specified": 1.687036947933612e-10,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reactions_by_group_n": {
+        "PIEDS": {
+          "DX": 2.413957923561e-12,
+          "DY": 1.409095062854e-12,
+          "DZ": 540000.0000911
+        }
+      },
+      "springs_k_dx_dy_by_band_n": {
+        "EAU": {
+          "DX": -2.484536238966939e-07,
+          "DY": -1313.7020322054987
+        },
+        "RIVE": {
+          "DX": 2.769598046459265e-07,
+          "DY": 1313.7020326410116
+        }
+      },
+      "verdict": "R\u00c9USSI"
+    },
+    "UDL": {
+      "components": {
+        "DX": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": -2.6076538706121255e-09,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": -4.142242102641e-13,
+          "reactions_free_components_relative": -7.02455925695462e-19,
+          "relative_gap": -4.422150777730507e-15,
+          "relative_gap_vs_specified": -4.422150777730507e-15,
+          "springs_on_structure_n": -2.6076538706121255e-09
+        },
+        "DY": {
+          "applied_as_evaluated_n": 0.0,
+          "applied_specified_n": 0.0,
+          "balance_n": 7.358669229518e-10,
+          "reactions_blocked_n": 0,
+          "reactions_free_components_n": 2.027267242966e-12,
+          "reactions_free_components_relative": 3.437910804107312e-18,
+          "relative_gap": 1.247908904747999e-15,
+          "relative_gap_vs_specified": 1.247908904747999e-15,
+          "springs_on_structure_n": 7.358669229518e-10
+        },
+        "DZ": {
+          "applied_as_evaluated_n": -589680.0,
+          "applied_specified_n": -589680.0,
+          "balance_n": -1.4399993233382702e-05,
+          "reactions_blocked_n": 589679.9999856,
+          "reactions_free_components_n": 0,
+          "reactions_free_components_relative": 0.0,
+          "relative_gap": -2.4420012944957776e-11,
+          "relative_gap_vs_specified": -2.4420012944957776e-11,
+          "springs_on_structure_n": 0.0
+        }
+      },
+      "reactions_by_group_n": {
+        "PIEDS": {
+          "DX": -4.142242102641e-13,
+          "DY": 2.027267242966e-12,
+          "DZ": 589679.9999856
+        }
+      },
+      "springs_k_dx_dy_by_band_n": {
+        "EAU": {
+          "DX": 2.1905627645146808e-07,
+          "DY": 3.204753475927191e-07
+        },
+        "RIVE": {
+          "DX": -2.1644862258085595e-07,
+          "DY": -3.212112145156709e-07
+        }
+      },
+      "verdict": "R\u00c9USSI"
+    }
+  },
+  "informative_cases": {},
+  "symmetry": {
+    "G2 X=15.6": {
+      "max_abs_depl_m": 0.0002406438272251,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 2.909000000282105e-14,
+        "dy_gap": 2.0630369999004854e-14,
+        "dz_gap": 1.376999913833138e-13,
+        "point": [
+          3.4,
+          3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 1.376999913833138e-13,
+      "worst_relative_gap": 5.722149326294924e-10
+    },
+    "G2 Y=0.0": {
+      "max_abs_depl_m": 0.0002406438272251,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 4.559700010176948e-15,
+        "dy_gap": 2.4760500002838863e-14,
+        "dz_gap": 8.759998477471387e-14,
+        "point": [
+          7.7,
+          -3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 8.759998477471387e-14,
+      "worst_relative_gap": 3.640234024900718e-10
+    },
+    "PP X=15.6": {
+      "max_abs_depl_m": 0.0005883975491772,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 5.0534999955145895e-14,
+        "dy_gap": 6.137078999243354e-14,
+        "dz_gap": 3.3159998184817407e-13,
+        "point": [
+          3.15,
+          3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 3.3159998184817407e-13,
+      "worst_relative_gap": 5.635645191110585e-10
+    },
+    "PP Y=0.0": {
+      "max_abs_depl_m": 0.0005883975491772,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 1.2388000002162228e-14,
+        "dy_gap": 8.912130000693074e-14,
+        "dz_gap": 3.0279999427978987e-13,
+        "point": [
+          7.7,
+          -3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 3.0279999427978987e-13,
+      "worst_relative_gap": 5.146180413280402e-10
+    },
+    "TEM X=15.6": {
+      "max_abs_depl_m": 0.004224742618532,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 1.45999965589505e-13,
+        "dy_gap": 3.669991827798258e-14,
+        "dz_gap": 1.6269998586240786e-13,
+        "point": [
+          3.1,
+          3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 1.6269998586240786e-13,
+      "worst_relative_gap": 3.8511218446472445e-11
+    },
+    "TEM Y=0.0": {
+      "max_abs_depl_m": 0.004224742618532,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 8.999745393367675e-15,
+        "dy_gap": 3.410000146836234e-14,
+        "dz_gap": 7.740000047135043e-14,
+        "point": [
+          3.65,
+          -3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 7.740000047135043e-14,
+      "worst_relative_gap": 1.8320642808352935e-11
+    },
+    "TEP X=15.6": {
+      "max_abs_depl_m": 0.004224742618532,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 1.45999965589505e-13,
+        "dy_gap": 3.669991827798258e-14,
+        "dz_gap": 1.6269998586240786e-13,
+        "point": [
+          3.1,
+          3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 1.6269998586240786e-13,
+      "worst_relative_gap": 3.8511218446472445e-11
+    },
+    "TEP Y=0.0": {
+      "max_abs_depl_m": 0.004224742618532,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 8.999745393367675e-15,
+        "dy_gap": 3.410000146836234e-14,
+        "dz_gap": 7.740000047135043e-14,
+        "point": [
+          3.65,
+          -3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 7.740000047135043e-14,
+      "worst_relative_gap": 1.8320642808352935e-11
+    },
+    "TR X=15.6": {
+      "max_abs_depl_m": 0.0001197401734722,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 1.2706199999017805e-14,
+        "dy_gap": 1.0272960000108939e-14,
+        "dz_gap": 6.469999503603413e-14,
+        "point": [
+          3.15,
+          3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 6.469999503603413e-14,
+      "worst_relative_gap": 5.403365734312677e-10
+    },
+    "TR Y=0.0": {
+      "max_abs_depl_m": 0.0001197401734722,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 2.0240000505407276e-15,
+        "dy_gap": 1.675906999691549e-14,
+        "dz_gap": 5.849999846520293e-14,
+        "point": [
+          7.9,
+          -3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 5.849999846520293e-14,
+      "worst_relative_gap": 4.885578228996372e-10
+    },
+    "UDL X=15.6": {
+      "max_abs_depl_m": 0.0001230931326096,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 8.522199970287844e-15,
+        "dy_gap": 1.0589240001574939e-14,
+        "dz_gap": 5.4900000019154904e-14,
+        "point": [
+          3.1,
+          3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 5.4900000019154904e-14,
+      "worst_relative_gap": 4.460037603663461e-10
+    },
+    "UDL Y=0.0": {
+      "max_abs_depl_m": 0.0001230931326096,
+      "n_nodes": 2531,
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_detail": {
+        "dx_gap": 2.2180999797446555e-15,
+        "dy_gap": 1.4420740003350522e-14,
+        "dz_gap": 6.470999680107531e-14,
+        "point": [
+          23.15,
+          -3.0,
+          1.3
+        ]
+      },
+      "worst_gap_m": 6.470999680107531e-14,
+      "worst_relative_gap": 5.256994880966136e-10
+    }
+  },
+  "threshold": 1e-06
+}

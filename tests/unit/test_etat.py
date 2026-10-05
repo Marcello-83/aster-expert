@@ -17,7 +17,11 @@ _REPO = Path(__file__).resolve().parents[2]
 def test_etat_valide_au_schema() -> None:
     state = etat.load_state(_REPO)
     assert state.lots[-1].id == state.mis_a_jour_au_lot
-    assert {p.nom for p in state.projets} == {"quai_cw_test_01", "dalle_appuyee_01"}
+    assert {p.nom for p in state.projets} == {
+        "quai_cw_test_01",
+        "dalle_appuyee_01",
+        "estacade_pieux_01",  # lot 47
+    }
     for nom in (
         "recherche",
         "catalogue",

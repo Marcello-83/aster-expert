@@ -6,6 +6,8 @@ Python porte `medcoupling`, `MEDLoader` et `numpy`. Usage :
     python3 med_results_dump.py <fichier.med> <sortie.json> inventory
     python3 med_results_dump.py <fichier.med> <sortie.json> extract <champ> [<champ>...]
 
+    python3 med_results_dump.py <fichier.med> <sortie.json> extract_steps <champ> [...]
+
 `inventory` : nombre de nœuds, niveaux de maillage, champs (nom MED complet,
 composantes, supports, pas de temps), écrit dans `<sortie.json>`.
 
@@ -19,6 +21,11 @@ présents) et `<sortie>.npz` (tableaux) :
 - champ par élément aux nœuds (ELNO) `<champ>@<niv>` : une ligne par (maille, nœud
   local) dans l'ordre des mailles de `<champ>@<niv>#cells` (numéros de maille du
   niveau `niv`) ; l'ordre des nœuds d'une maille est celui de `conn_<niv>`.
+
+`extract_steps` (lot 47) : comme `extract`, mais **tous les pas** de chaque champ,
+empilés sur un premier axe (pas, entités, composantes) dans l'ordre de
+`getIterations` (un résultat `mult_elas` : un pas par cas, dans l'ordre de
+`CAS_CHARGE`) ; tableaux non compressés (`np.savez`), métadonnées `iterations`.
 
 Les numéros de nœud et de maille sont des indices MED à partir de 0 (le nœud `N<k>`
 de Code_Aster est l'indice `k - 1`).
@@ -118,6 +125,61 @@ def extract(path: str, names: list[str], npz_path: str) -> dict[str, object]:
     return meta
 
 
+def extract_steps(path: str, names: list[str], npz_path: str) -> dict[str, object]:
+    fields, mesh = _fields(path)
+    arrays: dict[str, np.ndarray] = {"coords": mesh.getCoords().toNumPyArray()}
+    meta: dict[str, object] = {"mesh": mesh.getName(), "fields": {}}
+    for level in mesh.getNonEmptyLevels():
+        if int(level) in _LEVELS:
+            arrays[f"conn_{int(level)}"] = _connectivity(mesh, int(level))
+    groups: dict[str, object] = {"node": {}, "cell": {}}
+    for lev in mesh.getNonEmptyLevelsExt():
+        for name in mesh.getGroupsOnSpecifiedLev(lev):
+            ids = [int(i) for i in mesh.getGroupArr(lev, name).getValues()]
+            if lev == 1:
+                groups["node"][name] = ids
+            else:
+                groups["cell"].setdefault(str(lev), {})[name] = ids
+    meta["groups"] = groups
+    for name in names:
+        multi = fields.getFieldWithName(name)
+        iterations = [list(map(int, it)) for it in multi.getIterations()]
+        info = {
+            "components": list(multi.getInfo()),
+            "arrays": [],
+            "iterations": iterations,
+        }
+        stacks: dict[str, list[np.ndarray]] = {}
+        for step in range(len(iterations)):
+            one = multi[step]
+            supports = [int(t) for t in one.getTypesOfFieldAvailable()]
+            if MEDLoader.ON_NODES in supports:
+                values, nodes = one.getFieldWithProfile(MEDLoader.ON_NODES, 0, mesh)
+                stacks.setdefault(name, []).append(values.toNumPyArray())
+                if step == 0 and nodes is not None:
+                    arrays[f"{name}#nodes"] = nodes.toNumPyArray().astype(np.int64)
+            if MEDLoader.ON_GAUSS_NE in supports:
+                for level in _LEVELS[:2]:
+                    try:
+                        values, cells = one.getFieldWithProfile(
+                            MEDLoader.ON_GAUSS_NE, level, mesh
+                        )
+                    except MEDLoader.InterpKernelException:
+                        continue
+                    key = f"{name}@{level}"
+                    stacks.setdefault(key, []).append(values.toNumPyArray())
+                    if step == 0:
+                        ids = np.arange(0) if cells is None else cells.toNumPyArray()
+                        arrays[f"{key}#cells"] = ids.astype(np.int64)
+        for key, values in stacks.items():
+            arrays[key] = np.stack(values)
+            info["arrays"].append(key)
+        meta["fields"][name] = info
+    np.savez(npz_path, **arrays)
+    meta["npz"] = npz_path
+    return meta
+
+
 def main(argv: list[str]) -> int:
     if len(argv) < 4:
         sys.stderr.write(__doc__ or "")
@@ -127,6 +189,8 @@ def main(argv: list[str]) -> int:
         result = inventory(path)
     elif mode == "extract":
         result = extract(path, argv[4:], sortie[: -len(".json")] + ".npz")
+    elif mode == "extract_steps":
+        result = extract_steps(path, argv[4:], sortie[: -len(".json")] + ".npz")
     else:
         sys.stderr.write(f"mode inconnu : {mode}\n")
         return 2

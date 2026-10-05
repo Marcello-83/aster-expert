@@ -1,0 +1,218 @@
+{
+ "schema_version": 1,
+ "projet": "estacade_pieux_01",
+ "ouvrage": "ESTACADE-PIEUX-01",
+ "exporte_le": "2026-10-05T14:00:27Z",
+ "depot": {
+  "commit": "fa97116252b81f7db7ca52a6b6b78b3e2cb9c040",
+  "arbre_modifie": true
+ },
+ "code_aster": {
+  "version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+ },
+ "empreintes": {
+  "fiche": {
+   "chemin": "projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json",
+   "sha256": "e7f76525ebace94ed269ff96987ced19b3ded7e90c6b54f1d2affd83d7c9a7e0"
+  },
+  "donnees": {
+   "chemin": "projets/estacade_pieux_01/donnees/estacade_pieux_01_model_data.yaml",
+   "sha256": "701180abae3b797a01dabfba5bbbac00978945cf1df33d769601c8fc05b8bf9a"
+  },
+  "comm": {
+   "chemin": "projets/estacade_pieux_01/resultats/estacade_pieux_01.comm",
+   "sha256": "fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692"
+  },
+  "maillage": {
+   "chemin": "data/processed/mesh_runs/20261005T095924-06544ca4/estacade_mesh.med",
+   "sha256": "743ff299992b1182e00fc3f8c469dd2a4be19403cf4071ec50ce097d9737bb9d"
+  },
+  "execution": {
+   "repertoire": "data/processed/runs/20261005T101455-e0d5c870",
+   "compte_rendu_sha256": "f51f6fa39c890464202b968a45d51400237436271fd9d760b38d720ad34a80e8",
+   "mess_sha256": "f9809df8170bb713b42e004af9368b4271acb6d6b519e75d69aeecb360b99bdb",
+   "entrees_sha256": {
+    "estacade_pieux_01.comm": "fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692",
+    "estacade_pieux_01.connaissances.yaml": "837efd7f5a4a0ebb917286c2fb21a181b0f8e23338dc421bd0af4304a14d4a32",
+    "estacade_pieux_01.export": "103d0052dd7c225c527ea5b2356ff1d8bc0f343121929496d3feacc39770c0c3",
+    "estacade_pieux_01.mmed": "743ff299992b1182e00fc3f8c469dd2a4be19403cf4071ec50ce097d9737bb9d"
+   },
+   "statut": "completed_ok",
+   "diagnostic": "OK",
+   "duree_s": 1753.0214099269942,
+   "execute_le": "2026-10-05T10:44:08.220074Z"
+  },
+  "executions_ferraillage": {}
+ },
+ "coherence": [
+  {
+   "controle": ".comm du projet = .comm de l'exécution",
+   "attendu": "fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692",
+   "obtenu": "fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692",
+   "ok": true
+  },
+  {
+   "controle": "maillage vérifié = maillage de l'exécution",
+   "attendu": "743ff299992b1182e00fc3f8c469dd2a4be19403cf4071ec50ce097d9737bb9d",
+   "obtenu": "743ff299992b1182e00fc3f8c469dd2a4be19403cf4071ec50ce097d9737bb9d",
+   "ok": true
+  },
+  {
+   "controle": "contrôles D faits sur le .mess de l'exécution",
+   "attendu": "f9809df8170bb713b42e004af9368b4271acb6d6b519e75d69aeecb360b99bdb",
+   "obtenu": "f9809df8170bb713b42e004af9368b4271acb6d6b519e75d69aeecb360b99bdb",
+   "ok": true
+  },
+  {
+   "controle": "contrôles D faits sur le .comm de l'exécution",
+   "attendu": "fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692",
+   "obtenu": "fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692",
+   "ok": true
+  }
+ ],
+ "regeneration_comm": {
+  "statut": "identique",
+  "sha256": "fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692",
+  "identique_hors_commentaires": true,
+  "empreinte_hors_commentaires": "e5d01be84c5a032c939f64a04598ee7157df6e2490881e484bedca81c7921c69",
+  "difference": []
+ },
+ "criteres": [
+  {
+   "niveau": "D",
+   "document": "docs/essais_lot47.md",
+   "document_sha256": "2ec30abf0621e4a2dcd1d89275d766c5f8fc234c816b2e2e236fddafa8447118",
+   "commit_introduction": "9519b6c2ee8bef547f820a7e4c7102438d5bf5af",
+   "date": "2026-10-05T05:40:54-04:00",
+   "message": "Lot 47 : critères de la sonde S1 écrits avant exécution, données du projet",
+   "posterieur_a_l_execution": false,
+   "resultats_dans_le_commit": [],
+   "anteriorite_demontrable": true,
+   "anteriorite_motif": "commit antérieur à l'exécution, sans résultat d'exécution dans le commit"
+  }
+ ],
+ "niveau_e": null,
+ "niveau": {
+  "atteint": "C",
+  "par_niveau": [
+   {
+    "niveau": "B",
+    "atteint": true,
+    "motif": "420/420 commandes confrontées au catalogue, 0 erreur(s)"
+   },
+   {
+    "niveau": "C",
+    "atteint": true,
+    "motif": "exécution completed_ok (OK) ; .comm du projet identique de celui de l'exécution"
+   },
+   {
+    "niveau": "D",
+    "atteint": false,
+    "motif": "contrôles D : ÉCHEC (seuil 1e-06) ; rattachés à l'exécution du paquet par leurs empreintes"
+   },
+   {
+    "niveau": "E",
+    "atteint": false,
+    "motif": "aucune référence déclarée"
+   }
+  ],
+  "regle_de_conservation": "Un niveau reste acquis pour un .comm dont le contenu, commentaires et en-tête retirés, est identique à celui qui l'a obtenu ; sinon le niveau doit être rejoué, avec les critères d'origine, sans les réécrire. Aucun jugement sur l'influence d'un paramètre.",
+  "conservation": {
+   "valable": true,
+   "motif": "le .comm régénéré de la fiche et des données actuelles est identique"
+  }
+ },
+ "sections": [
+  "contre_calcul",
+  "controles",
+  "execution",
+  "maillage",
+  "validation"
+ ],
+ "fichiers": [
+  {
+   "chemin": "contre_calcul/comparaison.json",
+   "section": "contre_calcul",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/resultats/comparaison/comparaison.json",
+   "libelle": null,
+   "octets": 10740,
+   "sha256": "075118bf71f0d486552dd878b763a73eea9b9546425b0816d3cc97982bc7bc79"
+  },
+  {
+   "chemin": "contre_calcul/explications_lot47.json",
+   "section": "contre_calcul",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/explications_lot47.json",
+   "libelle": null,
+   "octets": 3839,
+   "sha256": "69af4b2b8abb280f7db1fc114bcb87d8f4f38016ab0a5472f7193db66885ecbc"
+  },
+  {
+   "chemin": "controles/controles_d.json",
+   "section": "controles",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/resultats/controles/controles_d.json",
+   "libelle": null,
+   "octets": 4934,
+   "sha256": "6c993474423139ca8db469ed7e3495e91751f7c49dc3f615cdad76b38b56d486"
+  },
+  {
+   "chemin": "controles/controles_projet.json",
+   "section": "controles",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/resultats/controles/controles_projet.json",
+   "libelle": null,
+   "octets": 65245,
+   "sha256": "0c366f751b88e0f1719ac793eb801aa2613594eca2e25a2ebece3740cd61f4ce"
+  },
+  {
+   "chemin": "controles/convergence_lot47.json",
+   "section": "controles",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/convergence_lot47.json",
+   "libelle": null,
+   "octets": 3285,
+   "sha256": "1ee03c734b4f44559e7becae21526c66180f5504009932ce0747e9b2d3de2beb"
+  },
+  {
+   "chemin": "controles/equilibre.json",
+   "section": "controles",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/resultats/controles/equilibre.json",
+   "libelle": null,
+   "octets": 27054,
+   "sha256": "131ffd2ef6f43e36d17f7ec02bd5da9b5103e7dfc52955761c1401c5218e467c"
+  },
+  {
+   "chemin": "execution/compte_rendu.json",
+   "section": "execution",
+   "type": "tableau",
+   "source": "data/processed/runs/20261005T101455-e0d5c870/compte_rendu.json",
+   "libelle": null,
+   "octets": 5429,
+   "sha256": "f51f6fa39c890464202b968a45d51400237436271fd9d760b38d720ad34a80e8"
+  },
+  {
+   "chemin": "maillage/rapport_mesh_check.txt",
+   "section": "maillage",
+   "type": "texte",
+   "source": "projets/estacade_pieux_01/resultats/maillage/rapport_mesh_check.txt",
+   "libelle": null,
+   "octets": 42011,
+   "sha256": "871ed4ca03a420f10d0555204d79c645adcc326eb13909457188c7bb4712a0c4"
+  },
+  {
+   "chemin": "validation/validation.json",
+   "section": "validation",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/resultats/validation.json",
+   "libelle": null,
+   "octets": 57127,
+   "sha256": "4cb6d3a36aacbbe958c91cafb0a8850c83cafb5b3092ab6933057cc803c4180e"
+  }
+ ],
+ "taille_octets": 219664,
+ "plafond_octets": 20971520
+}

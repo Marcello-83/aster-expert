@@ -76,6 +76,12 @@ def stiffness(ctx, comm_text):
     return {"n_nodes": 0}
 
 
+def extra(ctx, run_dir, out_dir):
+    path = out_dir / "produit_projet.json"
+    path.write_text("{}\\n", encoding="utf-8")
+    return [path]
+
+
 def mesh_parameters(ctx):
     return b"{}\\n"
 

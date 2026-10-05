@@ -1,0 +1,152 @@
+{
+  "report": {
+    "comm_path": "/home/ubuntu/projets/aster-expert/projets/estacade_pieux_01/resultats/estacade_pieux_01.comm",
+    "aster_version": "17.4.0",
+    "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+    "status": "completed_ok",
+    "diag": "OK",
+    "return_code": 0,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261005T101455-e0d5c870",
+    "mess_path": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261005T101455-e0d5c870/proc.0/fort.6",
+    "result_files": [
+      "proc.0/1.export",
+      "proc.0/__timer__",
+      "proc.0/estacade_pieux_01.comm.changed.py",
+      "proc.0/fort.15",
+      "proc.0/fort.20",
+      "proc.0/fort.6",
+      "proc.0/fort.8",
+      "proc.0/fort.80",
+      "proc.0/fort.9"
+    ],
+    "duration_s": 1753.0214099269942,
+    "extracted_by": "run_aster.status",
+    "executed_at": "2026-10-05T10:44:08.220074Z",
+    "messages": [],
+    "messages_source": "run_aster.error_messages",
+    "messages_truncated": 0,
+    "messages_error": null
+  },
+  "command": "python3 /work/_aster_expert_run_comm.py --file /work/estacade_pieux_01.export --wrkdir /work --status-file /work/__status__ --time-limit 7200 --memory-limit 10240",
+  "image": "simvia/code_aster@sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "inputs_sha256": {
+    "estacade_pieux_01.comm": "fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692",
+    "estacade_pieux_01.connaissances.yaml": "837efd7f5a4a0ebb917286c2fb21a181b0f8e23338dc421bd0af4304a14d4a32",
+    "estacade_pieux_01.export": "103d0052dd7c225c527ea5b2356ff1d8bc0f343121929496d3feacc39770c0c3",
+    "estacade_pieux_01.mmed": "743ff299992b1182e00fc3f8c469dd2a4be19403cf4071ec50ce097d9737bb9d"
+  },
+  "outputs": {
+    "proc.0/1.export": 237,
+    "proc.0/__timer__": 348,
+    "proc.0/estacade_pieux_01.comm.changed.py": 129005,
+    "proc.0/fort.15": 15053238,
+    "proc.0/fort.20": 6931499,
+    "proc.0/fort.6": 5346327,
+    "proc.0/fort.8": 0,
+    "proc.0/fort.80": 1555970070,
+    "proc.0/fort.9": 0
+  },
+  "alarms_by_identifier": {},
+  "errors": [],
+  "diagnostics": [],
+  "diagnostics_error": null,
+  "origin": null,
+  "knowledge": {
+    "file": "projets/estacade_pieux_01/resultats/estacade_pieux_01.connaissances.yaml",
+    "sha256": "837efd7f5a4a0ebb917286c2fb21a181b0f8e23338dc421bd0af4304a14d4a32",
+    "project": "estacade_pieux_01",
+    "applied": [
+      {
+        "id": "PAT-001",
+        "how": "ressorts nodaux par classe de raideur : une CREA_POI1 et une DISCRET K_T_D_N (k, k, 0) par classe",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-034",
+        "how": "chaque nœud à ressort dans une seule classe (une maille POI1 par nœud)",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-020",
+        "how": "chaîne CREA_POI1, DIS_T, DISCRET/K_T_D_N en repère global",
+        "corrected_defect": null
+      },
+      {
+        "id": "DIAG-004",
+        "how": "masse M_T_D_N nulle des ressorts, le modèle portant PESANTEUR",
+        "corrected_defect": null
+      },
+      {
+        "id": "PAT-003",
+        "how": "empreintes de roue par bandes CREA_GROUP_MA/BANDE (CRIT_NOEUD=TOUS) intersectées avec la voie",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-029",
+        "how": "pressions constantes sur des mailles entières, jamais une fonction de X et Y évaluée aux nœuds",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-028",
+        "how": "normales de la dalle orientées +Z par ORIE_NORM_COQUE",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-045",
+        "how": "MXX > 0 tend la face supérieure : convention de signe de la comparaison",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-048",
+        "how": "poids par PESANTEUR et RHO = γ / g ; charges surfaciques par FORCE_COQUE en FZ global",
+        "corrected_defect": null
+      },
+      {
+        "id": "DIAG-001",
+        "how": "aucune relation cinématique dualisée, chaque ddl bloqué une seule fois (DZ des pointes)",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-032",
+        "how": "liaison barre-coque par nœuds partagés, sans LIAISON_SOLIDE",
+        "corrected_defect": null
+      },
+      {
+        "id": "DIAG-011",
+        "how": "EFGE_NOEU restreint à la dalle ; poutres en EFGE_ELNO",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-037",
+        "how": "poutres de Timoshenko POU_D_T (E13)",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-054",
+        "how": "température TE± : PREP_VARC sur la dalle, CHAM_GD TEMP sur les chevêtres",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-055",
+        "how": "MACRO_ELAS_MULT par lots, une factorisation par lot",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-056",
+        "how": "garde-corps par FORCE_ARETE sur les arêtes de rive affectées en DKT",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-057",
+        "how": "pieux en SECTION CERCLE du tube équivalent à A et I de chaque tronçon",
+        "corrected_defect": null
+      },
+      {
+        "id": "CTL-010",
+        "how": "intitulés de tables imprimées d'au plus 16 caractères, uniques",
+        "corrected_defect": null
+      }
+    ],
+    "none_reason": null
+  }
+}

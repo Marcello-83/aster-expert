@@ -1,0 +1,501 @@
+{
+ "statut": "contre-calcul d'un modèle non validé (jamais un niveau E)",
+ "critere": "docs/essais_lot47.md § 2.3 à 2.5",
+ "execution": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261005T101455-e0d5c870",
+ "comm_sha256": "fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692",
+ "lignes": [
+  {
+   "point": "C13",
+   "colonne": "LM1 Mxx inf.",
+   "code_aster": 83.61291688035071,
+   "source": 85,
+   "ecart_relatif": -0.016318624937050472,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "lieu": {
+    "X": 3.049999999999997,
+    "Y": 1.2999999999999927,
+    "cas": "TSB_M24"
+   },
+   "note": ""
+  },
+  {
+   "point": "C13",
+   "colonne": "LM1 Mxx sup.",
+   "code_aster": -80.03072223731714,
+   "source": -47,
+   "ecart_relatif": -0.7027813241982369,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 5.6,
+    "Y": 2.0,
+    "cas": "TSB_M24"
+   },
+   "note": ""
+  },
+  {
+   "point": "C13",
+   "colonne": "LM1 V (|Qxx|)",
+   "code_aster": 738.6025420561682,
+   "source": 154,
+   "ecart_relatif": 3.7961204029621314,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 5.549999999999988,
+    "Y": 2.0,
+    "cas": "TSB_M22"
+   },
+   "note": ""
+  },
+  {
+   "point": "C13",
+   "colonne": "LM2 Mxx inf.",
+   "code_aster": 64.38013857915355,
+   "source": 64,
+   "ecart_relatif": 0.005939665299274255,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "lieu": {
+    "X": 3.049999999999997,
+    "Y": 1.1499999999999932,
+    "cas": "L2B_M25"
+   },
+   "note": ""
+  },
+  {
+   "point": "C13",
+   "colonne": "LM2 Mxx sup.",
+   "code_aster": -33.74000863484498,
+   "source": -30,
+   "ecart_relatif": -0.12466695449483277,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 5.6,
+    "Y": 2.0,
+    "cas": "L2B_M24"
+   },
+   "note": ""
+  },
+  {
+   "point": "C13",
+   "colonne": "LM2 V (|Qxx|)",
+   "code_aster": 335.6163158146744,
+   "source": 138,
+   "ecart_relatif": 1.4320022885121333,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 5.549999999999988,
+    "Y": 2.0,
+    "cas": "L2B_M22"
+   },
+   "note": ""
+  },
+  {
+   "point": "C1",
+   "colonne": "ELS c (107)",
+   "code_aster": 0.43747711841417897,
+   "source": 0.5,
+   "ecart_relatif": -0.12504576317164207,
+   "tolerance": null,
+   "verdict": "compatible avec l'arrondi",
+   "lieu": {
+    "X": 31.2,
+    "Y": 3.0,
+    "Z": 1.3,
+    "TS": "TSA_M26"
+   },
+   "note": ""
+  },
+  {
+   "point": "C2",
+   "colonne": "ELS_f (112)",
+   "code_aster": 526.8826534251499,
+   "source": 514,
+   "ecart_relatif": 0.025063528064493964,
+   "tolerance": 0.03,
+   "verdict": "dans la tolérance",
+   "lieu": {
+    "X": 5.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "TS": "TSB_M20"
+   },
+   "note": "écart à la valeur alternative 554 : -0.049"
+  },
+  {
+   "point": "C2",
+   "colonne": "ELS_c (112)",
+   "code_aster": 713.9929860906942,
+   "source": 727,
+   "ecart_relatif": -0.01789135338281401,
+   "tolerance": 0.03,
+   "verdict": "dans la tolérance",
+   "lieu": {
+    "X": 5.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "TS": "TSB_M20"
+   },
+   "note": "écart à la valeur alternative 767 : -0.069"
+  },
+  {
+   "point": "C2",
+   "colonne": "ELU (112)",
+   "code_aster": 1022.6452685914513,
+   "source": 1048,
+   "ecart_relatif": -0.024193446000523543,
+   "tolerance": 0.03,
+   "verdict": "dans la tolérance",
+   "lieu": {
+    "X": 5.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "TS": "TSB_M20"
+   },
+   "note": "écart à la valeur alternative 1102 : -0.072"
+  },
+  {
+   "point": "C3",
+   "colonne": "ELS_f (111)",
+   "code_aster": 130.998650296562,
+   "source": 209,
+   "ecart_relatif": -0.37321219953798085,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 0.7,
+    "TS": "TSB_P25"
+   },
+   "note": "publié 155 / -209 : module comparé à 209"
+  },
+  {
+   "point": "C3",
+   "colonne": "ELS_c (111)",
+   "code_aster": 192.03727317385383,
+   "source": 312,
+   "ecart_relatif": -0.38449591931457106,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 0.7,
+    "TS": "TSB_P25"
+   },
+   "note": "publié 186 / -312 : module comparé à 312"
+  },
+  {
+   "point": "C3",
+   "colonne": "ELU (111)",
+   "code_aster": 283.3501342093566,
+   "source": 449,
+   "ecart_relatif": -0.3689306587764886,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 0.7,
+    "TS": "TSB_P25"
+   },
+   "note": "publié 260 / -449 : module comparé à 449"
+  },
+  {
+   "point": "C4",
+   "colonne": "ELU (114)",
+   "code_aster": 259.35370902351195,
+   "source": 253,
+   "ecart_relatif": 0.02511347440123302,
+   "tolerance": 0.05,
+   "verdict": "dans la tolérance",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 0.7,
+    "TS": "TSB_P25"
+   },
+   "note": ""
+  },
+  {
+   "point": "C5",
+   "colonne": "ELU (111)",
+   "code_aster": 105.200686083442,
+   "source": 463,
+   "ecart_relatif": -0.7727846952841425,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": -2.5,
+    "TS": "TSB_M26"
+   },
+   "note": "publié 273 / -463 : module comparé à 463"
+  },
+  {
+   "point": "C6",
+   "colonne": "ELS_f (105)",
+   "code_aster": 202.8057310704838,
+   "source": 180,
+   "ecart_relatif": 0.12669850594713222,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 5.6,
+    "Y": -3.1086244689504383e-15,
+    "Z": 1.3,
+    "TS": "TSA_M20"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELS_c (105)",
+   "code_aster": 303.2129500928595,
+   "source": 276,
+   "ecart_relatif": 0.0985976452639837,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 5.6,
+    "Y": -3.1086244689504383e-15,
+    "Z": 1.3,
+    "TS": "TSA_M20"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELU (112)",
+   "code_aster": 443.11415676276243,
+   "source": 408,
+   "ecart_relatif": 0.08606410971265302,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 5.6,
+    "Y": -0.15000000000000258,
+    "Z": 1.3,
+    "TS": "TSB_M20"
+   },
+   "note": ""
+  },
+  {
+   "point": "C7",
+   "colonne": "ELU (enveloppe 100-115, gouvernée par 111)",
+   "code_aster": 141.93753721723868,
+   "source": 177.0,
+   "ecart_relatif": -0.1980930100720978,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "TS": "TSB_M20",
+    "moment_signe_kNm": -141.93753721723868
+   },
+   "note": "minimum de M_travée comparé en module à |−177|"
+  },
+  {
+   "point": "C8",
+   "colonne": "ELU (105, 112)",
+   "code_aster": 198.06355417467913,
+   "source": 653.0,
+   "ecart_relatif": -0.6966867470525588,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "VZ_max_kN": 198.06355417467913,
+    "VZ_min_kN": -189.89373995694478
+   },
+   "note": "module de l'effort tranchant comparé à |−653| ; publié 620 / −653"
+  },
+  {
+   "point": "C9",
+   "colonne": "ELS_f (111)",
+   "code_aster": 111.40005492831509,
+   "source": 79,
+   "ecart_relatif": 0.4101272775736087,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 20.6,
+    "Y": 2.0,
+    "TS": "TSB_P14"
+   },
+   "note": ""
+  },
+  {
+   "point": "C9",
+   "colonne": "ELS_c (111)",
+   "code_aster": 150.42709014778427,
+   "source": 118,
+   "ecart_relatif": 0.27480584871003616,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 5.6,
+    "Y": 2.0,
+    "TS": "TSB_M24"
+   },
+   "note": ""
+  },
+  {
+   "point": "C9",
+   "colonne": "ELU (111)",
+   "code_aster": 214.10447993814404,
+   "source": 174,
+   "ecart_relatif": 0.23048551688588528,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 5.6,
+    "Y": 2.0,
+    "TS": "TSB_M24"
+   },
+   "note": ""
+  },
+  {
+   "point": "C10",
+   "colonne": "ELS_f (112)",
+   "code_aster": 81.92382293095,
+   "source": 82,
+   "ecart_relatif": -0.0009289886469512722,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "lieu": {
+    "X": 2.549999999999999,
+    "Y": 1.2999999999999927,
+    "TS": "TSB_M25"
+   },
+   "note": ""
+  },
+  {
+   "point": "C10",
+   "colonne": "ELS_c (112)",
+   "code_aster": 130.82194326547707,
+   "source": 134,
+   "ecart_relatif": -0.023716841302409895,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "lieu": {
+    "X": 2.549999999999999,
+    "Y": 1.2999999999999927,
+    "TS": "TSB_M25"
+   },
+   "note": ""
+  },
+  {
+   "point": "C10",
+   "colonne": "ELU (112)",
+   "code_aster": 192.86507743154363,
+   "source": 198,
+   "ecart_relatif": -0.025933952365941287,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "lieu": {
+    "X": 2.549999999999999,
+    "Y": 1.2999999999999927,
+    "TS": "TSB_M25"
+   },
+   "note": ""
+  },
+  {
+   "point": "C11",
+   "colonne": "FR seul",
+   "code_aster": 58.756377121194014,
+   "source": 18.9,
+   "ecart_relatif": 2.108803022285398,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 30.55000000000007,
+    "Y": -2.0,
+    "NXX_signe_kN_m": -58.756377121194014
+   },
+   "note": ""
+  },
+  {
+   "point": "C11",
+   "colonne": "TE- seul",
+   "code_aster": 149.22488750632522,
+   "source": 64.1,
+   "ecart_relatif": 1.3280013651532798,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 0.65,
+    "Y": 2.0,
+    "NXX_signe_kN_m": 149.22488750632522
+   },
+   "note": ""
+  },
+  {
+   "point": "C12",
+   "colonne": "ELU courant (111)",
+   "code_aster": 351.3771237946202,
+   "source": 320,
+   "ecart_relatif": 0.09805351185818818,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "lieu": {
+    "X": 30.50000000000007,
+    "Y": 1.299999999999993,
+    "TS": "TSB_P28"
+   },
+   "note": ""
+  },
+  {
+   "point": "C12",
+   "colonne": "ELU rive (100)",
+   "code_aster": 990.3357526791281,
+   "source": 568,
+   "ecart_relatif": 0.7435488603505775,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "lieu": {
+    "X": 5.549999999999988,
+    "Y": 2.0,
+    "TS": "—"
+   },
+   "note": ""
+  },
+  {
+   "point": "C12",
+   "colonne": "ELU consoles d'about (111), information",
+   "code_aster": 2195.436701460985,
+   "source": 320,
+   "ecart_relatif": 5.860739692065579,
+   "tolerance": null,
+   "verdict": "—",
+   "lieu": {
+    "X": 30.55000000000007,
+    "Y": 2.0,
+    "TS": "TSB_P29"
+   },
+   "note": "lecture complémentaire, sans verdict"
+  },
+  {
+   "point": "C12",
+   "colonne": "ELU consoles d'about (100), information",
+   "code_aster": 738.5554693448257,
+   "source": 568,
+   "ecart_relatif": 0.30027371363525657,
+   "tolerance": null,
+   "verdict": "—",
+   "lieu": {
+    "X": 0.65,
+    "Y": 2.0,
+    "TS": "—"
+   },
+   "note": "lecture complémentaire, sans verdict"
+  }
+ ]
+}

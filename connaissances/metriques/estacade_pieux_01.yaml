@@ -1,0 +1,94 @@
+# Métriques du projet (aster-expert rex, lot 42) : « fonction de perte » de l'outil.
+# Fichier produit : ne pas éditer à la main.
+project: estacade_pieux_01
+baseline: null
+knowledge:
+  created: 13
+  promoted: 0
+  by_layer:
+    constats_code_aster:
+      observé: 0
+      établi: 4
+      promu: 0
+    diagnostics:
+      observé: 0
+      établi: 0
+      promu: 0
+    patrons:
+      observé: 1
+      établi: 0
+      promu: 0
+    controles:
+      observé: 1
+      établi: 0
+      promu: 0
+    references_validation:
+      observé: 0
+      établi: 1
+      promu: 0
+    precedents:
+      observé: 6
+      établi: 0
+      promu: 0
+consultations:
+  calls:
+    search_connaissances: 27
+    search_constats: 1
+  note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
+    ne porte pas le projet'
+  avoided_errors:
+    value: 8.0
+    nature: mesure
+    note: déclaré lot par lot dans le compte rendu (registre, `lots`)
+lots:
+- lot: '47'
+  supervisor_interventions:
+    value: 1.0
+    nature: mesure
+    note: Une seule question de la session, au début du lot, sur les quatre points pratiques
+      que ni E1 à E12 ni l'annexe B ne couvraient (E13 à E16) ; les décisions E1 à E12 étaient
+      dans la consigne (« validées par le lancement du lot »).
+  avoided_errors:
+    value: 8.0
+    nature: mesure
+    note: 'Décompte des lignes « ÉVITÉ » du journal d''autonomie (docs/lots/lot47_journal_autonomie.md,
+      n° 3 à 8, 12, 13) : PAT-001/CA-020/CA-034, DIAG-004, CA-029/PAT-003, CA-032/DIAG-001,
+      CA-048/CA-028/CA-045, DIAG-011, DIAG-003, DIAG-007. Une erreur non évitée alors que
+      la base la décrivait (n° 11, DIAG-010).'
+declared_interventions_since_baseline: 1.0
+measured:
+  runs: 17
+  failures: 4
+  development:
+    runs: 13
+    failures: 4
+  verification:
+    runs: 4
+    failures: 0
+    by_reason:
+      lancée par une commande de vérification (rejeu_constats): 4
+  failure_rate: 0.3077
+  failure_rate_note: 'lot 44 : taux sur les exécutions de développement seulement ; une exécution
+    de vérification (commande de rejeu, ou .comm déjà réussi rejoué sans modification) n''y
+    entre pas'
+  failure_rate_all_runs: 0.2353
+  compute_s:
+    aster_legacy: 0
+    wall_since_lot41: 8201.6
+    unknown_runs: 0
+    note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
+      versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
+      deux grandeurs distinctes, jamais additionnées'
+  first_run: 20261005T094059-46dee2b7
+  last_run: 20261005T132953-7c17bdcb
+  failures_by_signature:
+    <F> <FACTOR_57>: 3
+    <F> <JEVEUX_10>: 1
+  failures_by_cause:
+    DIAG-003: 3
+    DIAG-010: 1
+  automatic_diagnosis:
+    attached_failures: 4
+    single_match_equal_to_classification: 4
+    note: échecs rattachés à un diagnostic pour lesquels la recherche automatique de la base
+      (signature) propose ce diagnostic et lui seul

@@ -1,0 +1,62 @@
+id: CTL-014
+title: 'Maxima locaux d''une dalle à un appui ponctuel : convergence à contrôler avant toute
+  comparaison'
+summary: 'Un maximum de dalle lu à une tête de pieu reliée en un seul nœud (effort tranchant,
+  moment, effort normal) peut croître sans limite au raffinement : le contrôler sur une suite
+  ×2 et lire aussi la grandeur hors du voisinage de l''appui avant de la comparer.'
+origin_project: estacade_pieux_01
+date: '2026-10-05'
+validation_level: C
+status: observé
+sources:
+- kind: execution
+  run: 20261005T100812-bdc02930
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: suite de convergence, maillage 0,10 m
+- kind: execution
+  run: 20261005T100829-3782599a
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: suite de convergence, maillage 0,05 m
+- kind: execution
+  run: 20261005T100910-b21d2121
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: suite de convergence, maillage 0,025 m
+commands:
+- CALC_CHAMP
+keywords:
+- EFGE_NOEU
+- DKT
+- QX
+- MXX
+reuses: []
+status_history: []
+detects: 'Une singularité d''appui ponctuel prise pour un effort de dimensionnement : |QX|
+  doublé à chaque division de la maille par 2 aux têtes de pieux (179 → 368 → 766 kN/m), moment
+  sur appui +11,7 % entre 0,05 et 0,025 m.'
+parameters: Suite de maillages de rapport 2 ; rayon d'exclusion autour des appuis ponctuels
+  (0,60 m au lot 47) pour la lecture complémentaire.
+implementation:
+  kind: code
+  path: projets/estacade_pieux_01/lecture.py
+  symbol: read_convergence
+  note: null
+scope: projet
+caught_error:
+  mode: a posteriori
+  description: C9, C12 « rive » et la colonne V de C13 lisent des maxima atteints aux têtes
+    de pieux (lot 47, § 3.4).
+  evidence:
+    kind: document
+    path: docs/essais_lot47.md
+    section: '3.1'
+    note: null
+default_harness: false

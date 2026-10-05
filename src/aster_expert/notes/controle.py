@@ -21,6 +21,7 @@ from __future__ import annotations
 import bisect
 import csv
 import json
+import math
 import re
 import zipfile
 from dataclasses import dataclass, field
@@ -532,7 +533,10 @@ def _numbers_of_package(directory: Path) -> list[float]:
         if isinstance(value, bool):
             return
         if isinstance(value, int | float):
-            numbers.append(float(value))
+            # Lot 47 : un NaN (écart relatif d'un cas de charge nulle) rompait l'ordre
+            # de la liste triée et faisait manquer des valeurs présentes.
+            if math.isfinite(value):
+                numbers.append(float(value))
         elif isinstance(value, dict):
             for item in value.values():
                 walk(item)
@@ -664,6 +668,9 @@ def check_results_note(ctx: ProjectContext, path: Path) -> NoteCheck:
 
 
 def _tolerates(text: str, source: float) -> bool:
+    if math.isnan(source):
+        # Lot 47 : un écart indéfini (NaN) se montre « nan », jamais un nombre.
+        return text.strip().lower() == "nan"
     shown = parse_number(text)
     if shown is None:
         return False

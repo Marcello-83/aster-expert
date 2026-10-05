@@ -1,0 +1,34 @@
+id: PRE-037
+title: 'Point E15 : Surface d''application des roues (TS et LM2)'
+summary: 'Décision de MM au point E15 de la fiche de l''estacade (2026-10-05) : Surface d''application
+  des roues (TS et LM2).'
+origin_project: estacade_pieux_01
+date: '2026-10-05'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json
+  point_label: E15
+  decided_by: MM
+  decided_at: '2026-10-05T05:48:41-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json
+point_label: E15
+topic: Surface d'application des roues (TS et LM2)
+option_retained: 'Empreinte B4 telle quelle (Recommandé) — Je lis B4 comme la donnée du modèle
+  source : 0,40 × 0,40 m (TS) et 0,35 × 0,60 m (LM2), en pression uniforme au plan moyen,
+  sans diffusion.'
+justification: Décision E15 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).
+validity_domain: Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé
+  ; hors de ce contre-calcul, la décision n'est pas établie.
+discarded_variants:
+- 'Diffusion à 45° jusqu''au plan moyen — écartée : non retenue par MM (E15)'
+- 'Les deux, la diffusion en sensibilité — écartée : non retenue par MM (E15)'
+decided_by: MM
+decided_at: '2026-10-05T05:48:41-04:00'
+superseded_decisions: 0
+application: proposition seulement

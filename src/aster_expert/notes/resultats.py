@@ -46,7 +46,20 @@ LEVELS = (
     ("D", "résultats soumis à des contrôles physiques"),
     ("E", "résultats comparés à une référence validée"),
 )
-SECTION_ORDER = ("controles", "niveau_e", "cas", "combinaisons", "ferraillage")
+SECTION_ORDER = (
+    "controles",
+    "niveau_e",
+    "cas",
+    "contre_calcul",
+    "combinaisons",
+    "ferraillage",
+)
+COUNTER_CALCULATION = (
+    "Contre-calcul d'un modèle non validé : les valeurs de comparaison viennent d'un "
+    "calcul externe qui n'est pas une référence validée. Un écart ne désigne pas "
+    "d'avance le calcul fautif, et la comparaison n'est jamais un niveau E."
+)
+"""Lot 47: the sentence that opens the section `contre_calcul` of a results note."""
 
 
 def _read_json(path: Path) -> Any:
@@ -692,6 +705,12 @@ def build_results_note(
         render_tables(note, package, "cas")
         render_figures(note, package, "cas")
 
+    if "contre_calcul" in shown:
+        note.heading("Contre-calcul d'un modèle non validé", 1)
+        note.paragraph(COUNTER_CALCULATION, bold=True)
+        render_tables(note, package, "contre_calcul")
+        render_figures(note, package, "contre_calcul")
+
     if "combinaisons" in shown:
         note.heading("Combinaisons", 1)
         render_combinations_results(note, package)
@@ -707,4 +726,4 @@ def build_results_note(
     return output
 
 
-__all__ = ["NOTE_NAME", "Package", "build_results_note"]
+__all__ = ["COUNTER_CALCULATION", "NOTE_NAME", "Package", "build_results_note"]

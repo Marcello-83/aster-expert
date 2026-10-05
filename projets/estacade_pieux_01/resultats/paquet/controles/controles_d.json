@@ -1,0 +1,203 @@
+{
+  "project": "estacade_pieux_01",
+  "level": "D",
+  "threshold": 1e-06,
+  "equilibrium": {
+    "PP": {
+      "worst_relative_gap": 3.0957132931355804e-11,
+      "verdict": "RÉUSSI"
+    },
+    "G2": {
+      "worst_relative_gap": 4.096325986742148e-11,
+      "verdict": "RÉUSSI"
+    },
+    "UDL": {
+      "worst_relative_gap": 2.4420012944957776e-11,
+      "verdict": "RÉUSSI"
+    },
+    "TR": {
+      "worst_relative_gap": 2.5213618452350297e-11,
+      "verdict": "RÉUSSI"
+    },
+    "FR": {
+      "worst_relative_gap": 6.933861566106165e-11,
+      "verdict": "RÉUSSI"
+    },
+    "TEP": {
+      "worst_relative_gap": NaN,
+      "verdict": "ÉCHEC"
+    },
+    "TEM": {
+      "worst_relative_gap": NaN,
+      "verdict": "ÉCHEC"
+    },
+    "TSA_P00": {
+      "worst_relative_gap": 1.2037042459404028e-10,
+      "verdict": "RÉUSSI"
+    },
+    "TSB_P00": {
+      "worst_relative_gap": 1.687036947933612e-10,
+      "verdict": "RÉUSSI"
+    },
+    "L2A_M00": {
+      "worst_relative_gap": 8.437491487711667e-11,
+      "verdict": "RÉUSSI"
+    },
+    "L2B_M00": {
+      "worst_relative_gap": 9.187497198581696e-11,
+      "verdict": "RÉUSSI"
+    }
+  },
+  "gravity": {
+    "PP": {
+      "component": "DZ",
+      "applied_n": -3553297.6040000003,
+      "reactions_blocked_n": 3553297.60411,
+      "springs_on_structure_n": 0.0,
+      "relative_gap": 3.0957132931355804e-11,
+      "verdict": "RÉUSSI"
+    }
+  },
+  "symmetry": {
+    "PP X=15.6": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 5.635645191110585e-10,
+      "verdict": "RÉUSSI"
+    },
+    "G2 X=15.6": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 5.722149326294924e-10,
+      "verdict": "RÉUSSI"
+    },
+    "UDL X=15.6": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 4.460037603663461e-10,
+      "verdict": "RÉUSSI"
+    },
+    "TR X=15.6": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 5.403365734312677e-10,
+      "verdict": "RÉUSSI"
+    },
+    "TEP X=15.6": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 3.8511218446472445e-11,
+      "verdict": "RÉUSSI"
+    },
+    "TEM X=15.6": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 3.8511218446472445e-11,
+      "verdict": "RÉUSSI"
+    },
+    "PP Y=0.0": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 5.146180413280402e-10,
+      "verdict": "RÉUSSI"
+    },
+    "G2 Y=0.0": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 3.640234024900718e-10,
+      "verdict": "RÉUSSI"
+    },
+    "UDL Y=0.0": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 5.256994880966136e-10,
+      "verdict": "RÉUSSI"
+    },
+    "TR Y=0.0": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 4.885578228996372e-10,
+      "verdict": "RÉUSSI"
+    },
+    "TEP Y=0.0": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 1.8320642808352935e-11,
+      "verdict": "RÉUSSI"
+    },
+    "TEM Y=0.0": {
+      "n_pairs_checked": 1265,
+      "n_unmatched": 0,
+      "worst_relative_gap": 1.8320642808352935e-11,
+      "verdict": "RÉUSSI"
+    }
+  },
+  "informative": {},
+  "verdict": "ÉCHEC",
+  "harness": {
+    "controls": {
+      "CTL-005": {
+        "verdict": "ÉCHEC",
+        "worst_relative_gap": 1.687036947933612e-10,
+        "cases": [
+          "FR",
+          "G2",
+          "L2A_M00",
+          "L2B_M00",
+          "PP",
+          "TEM",
+          "TEP",
+          "TR",
+          "TSA_P00",
+          "TSB_P00",
+          "UDL"
+        ]
+      },
+      "CTL-006": {
+        "verdict": "RÉUSSI",
+        "worst_relative_gap": 5.722149326294924e-10,
+        "planes": [
+          "G2 X=15.6",
+          "G2 Y=0.0",
+          "PP X=15.6",
+          "PP Y=0.0",
+          "TEM X=15.6",
+          "TEM Y=0.0",
+          "TEP X=15.6",
+          "TEP Y=0.0",
+          "TR X=15.6",
+          "TR Y=0.0",
+          "UDL X=15.6",
+          "UDL Y=0.0"
+        ]
+      },
+      "CTL-012": {
+        "verdict": "NON APPLICABLE",
+        "reason": "niveau E non visé par le projet"
+      },
+      "CTL-013": {
+        "verdict": "ÉCHEC",
+        "threshold": 1e-06,
+        "relative_gap_by_case": {
+          "PP": 0.0,
+          "G2": 0.0,
+          "UDL": 0.0,
+          "TR": 0.0,
+          "FR": 0.0,
+          "TEP": NaN,
+          "TEM": NaN,
+          "TSA_P00": 0.0,
+          "TSB_P00": 0.0,
+          "L2A_M00": 0.0,
+          "L2B_M00": 0.0
+        },
+        "worst_relative_gap": 0.0
+      }
+    },
+    "disabled": {}
+  },
+  "provenance": {
+    "mess_sha256": "f9809df8170bb713b42e004af9368b4271acb6d6b519e75d69aeecb360b99bdb",
+    "comm_sha256": "fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692"
+  }
+}

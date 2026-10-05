@@ -29,7 +29,20 @@ keywords:
 - MUMPS
 - RESI_RELA
 - SOLVEUR
-reuses: []
+reuses:
+- project: estacade_pieux_01
+  date: '2026-10-05'
+  evidence:
+    kind: execution
+    run: 20261005T101455-e0d5c870
+    case_path: projets/estacade_pieux_01/references/cas/estacade_pieux_01.comm
+    case_sha256: fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692
+    outcome: réussite
+    level: C
+    note: exécution de production après correction
+  note: FACTOR_57 au maillage fin de la suite de convergence (1,8 million de ddl, erreur 2,08e-6,
+    exécution 20261005T100413-8334652d) ; aucune redondance ni mécanisme ; corrigé par POSTTRAITEMENTS='FORCE'
+    (raffinement itératif), RESI_RELA inchangé ; toutes les exécutions suivantes réussies.
 status_history: []
 category: modélisation
 signature:

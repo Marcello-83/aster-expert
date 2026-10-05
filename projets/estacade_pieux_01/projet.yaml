@@ -79,3 +79,53 @@ controls:
   # Contrôle propre au projet : Σ DZ des pointes = charge des roues, pour les 242
   # positions mobiles ; double compte d'E2 chiffré.
   extra: estacade_pieux_01.extensions:extra_controls
+
+# Paquet de résultats versionnable (lots 45, 46, 47) : ce que les notes lisent, sans MED.
+# Section `contre_calcul` (lot 47) : contre-calcul d'un modèle non validé, jamais un
+# niveau E.
+results_package:
+  items:
+    - {section: controles, source: resultats/controles/controles_d.json}
+    - {section: controles, source: resultats/controles/equilibre.json}
+    - {section: controles, source: resultats/controles/controles_projet.json}
+    - {section: controles, source: references/convergence_lot47.json}
+    - {section: contre_calcul, source: resultats/comparaison/comparaison.json}
+    - {section: contre_calcul, source: references/explications_lot47.json}
+  # Critères de niveau D écrits avant l'exécution (lot 47, commit fa97116).
+  criteria:
+    - {level: D, document: docs/essais_lot47.md}
+  note_tables:
+    - section: contre_calcul
+      title: Comparaison aux valeurs du modèle source (C1 à C13) — contre-calcul d'un modèle non validé
+      source: contre_calcul/comparaison.json
+      rows: lignes
+      columns:
+        - {header: Point, path: point}
+        - {header: Colonne, path: colonne}
+        - {header: Code_Aster, path: code_aster}
+        - {header: Source, path: source}
+        - {header: Écart relatif, path: ecart_relatif}
+        - {header: Tolérance, path: tolerance}
+        - {header: Verdict, path: verdict}
+    - section: controles
+      title: Convergence de maillage de la dalle sous TS (h = 0,10 / 0,05 / 0,025 m)
+      source: controles/convergence_lot47.json
+      rows: verdicts
+      columns:
+        - {header: Grandeur, path: "$key"}
+        - {header: "Écart 0,10-0,05", path: ecart_0p10_0p05}
+        - {header: "Écart 0,05-0,025", path: ecart_0p05_0p025}
+        - {header: "Écart de production", path: ecart_relatif_production}
+        - {header: Verdict, path: verdict}
+    - section: controles
+      title: Équilibre par composante, par cas (N)
+      source: controles/equilibre.json
+      rows: cases.*.components
+      columns:
+        - {header: Cas, path: "^$key"}
+        - {header: Composante, path: "$key"}
+        - {header: "Charge appliquée", path: applied_as_evaluated_n}
+        - {header: "Réactions bloquées", path: reactions_blocked_n}
+        - {header: "Ressorts", path: springs_on_structure_n}
+        - {header: Bilan, path: balance_n}
+        - {header: "Écart relatif", path: relative_gap}

@@ -492,3 +492,25 @@ def test_the_cli_writes_and_checks_the_notes(
     assert "Contrôle de h.docx : OK" in done.output
     refused = runner.invoke(app, ["note", "resultats", "projet_inconnu"])
     assert refused.exit_code == 1
+
+
+def test_a_nan_in_the_package_does_not_hide_present_values(tmp_path: Path) -> None:
+    # Lot 47 : un écart relatif NaN (cas de charge nulle) rompait la recherche.
+    import json as _json
+
+    from aster_expert.notes.controle import _in_package, _numbers_of_package
+
+    (tmp_path / "a.json").write_text(
+        _json.dumps({"x": [303.2129, float("nan"), 1.5, 990.336, 12.0]}),
+        encoding="utf-8",
+    )
+    numbers = sorted(_numbers_of_package(tmp_path))
+    assert all(n == n for n in numbers)
+    assert _in_package(numbers, "303,213") and _in_package(numbers, "990,336")
+
+
+def test_an_undefined_value_is_shown_as_nan() -> None:
+    from aster_expert.notes.controle import _tolerates
+
+    assert _tolerates("nan", float("nan"))
+    assert not _tolerates("0", float("nan"))

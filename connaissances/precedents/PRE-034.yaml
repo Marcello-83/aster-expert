@@ -1,0 +1,33 @@
+id: PRE-034
+title: 'Point E4 : Appui vertical en pointe des pieux'
+summary: 'Décision de MM au point E4 de la fiche de l''estacade (2026-10-05) : Appui vertical
+  en pointe des pieux.'
+origin_project: estacade_pieux_01
+date: '2026-10-05'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json
+  point_label: E4
+  decided_by: MM
+  decided_at: '2026-10-05T05:48:41-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json
+point_label: E4
+topic: Appui vertical en pointe des pieux
+option_retained: 'Appui vertical en pointe : **DZ = 0** à −13,00 m NGF, rotations libres.
+  Les ressorts sont horizontaux (kx = ky) : sans cet appui, le mouvement vertical d''ensemble
+  n''est pas bloqué.'
+justification: Décision E4 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).
+validity_domain: Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé
+  ; hors de ce contre-calcul, la décision n'est pas établie.
+discarded_variants:
+- 'Rotations bloquées en pointe — écartée : « rotations libres » (E4)'
+decided_by: MM
+decided_at: '2026-10-05T05:48:41-04:00'
+superseded_decisions: 0
+application: proposition seulement

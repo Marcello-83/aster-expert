@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 46 bis (2026-10-05), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 47 (2026-10-05), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 49 faits sur 51 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 46 bis, Correction du workflow ci-lent : profil ci de env-check, ASTER_IMAGE_REF dérivée de versions.yaml.
+Lots : 49 faits sur 52 ; autres : 12 (partiel), 13 (non fait), 47 (en cours). Dernier lot : 47, Contre-calcul d'une estacade sur pieux (estacade_pieux_01) : premier ouvrage réel, comparaison à un modèle externe non validé.
 
 Capacités :
 
@@ -287,11 +287,13 @@ Capacités :
 - base_de_connaissances : sans niveau de validation, opérationnelle. Depuis le lot 46 une exécution de projet déclare ses connaissances ; aucune exécution passée n'est attribuée ; manifestes d'archive à enregistrer dans la VM (rex --manifeste).
 - securite_mcp : sans niveau de validation, opérationnelle. Politique de lecture appliquée aux outils MCP et aux commandes recevant un chemin ; les sorties (écriture) ne sont pas couvertes.
 - integration_continue : sans niveau de validation, opérationnelle. ci.yml vert sur la branche du lot 46 (2 min 28 s) ; ci-lent.yml corrigé au lot 46 bis (profil ci), passage réel vert sur la branche claude/blissful-turing-ajkazc (constaté par MM, 2026-10-05).
+- contre_calcul : niveau C, partielle. Comparaison à un calcul externe non validé (type calcul_externe_non_valide, jamais E ni promu) ; lecture C1 à C13 propre à l'estacade ; écarts des moments de pieux inexpliqués.
 
 Projets :
 
 - `quai_cw_test_01` (Quai combi-wall QUAI-CW-TEST-01) : niveau D atteint, preuve `projets/quai_cw_test_01/resultats/paquet/paquet.json`.
 - `dalle_appuyee_01` (Dalle appuyée C30/37 6 x 4 x 0,30 m) : niveau E atteint, preuve `projets/dalle_appuyee_01/resultats/paquet/paquet.json`.
+- `estacade_pieux_01` (Estacade sur pieux ESTACADE-PIEUX-01 (contre-calcul d'un modèle non validé)) : niveau C atteint, preuve `projets/estacade_pieux_01/resultats/paquet/paquet.json`.
 
 Métriques :
 
@@ -300,6 +302,8 @@ Métriques :
 - Métriques de la dalle : `connaissances/metriques/dalle_appuyee_01.yaml`
 - Registre du retour d'expérience du quai : `connaissances/rex/quai_cw_test_01.yaml`
 - Registre du retour d'expérience de la dalle : `connaissances/rex/dalle_appuyee_01.yaml`
+- Métriques de l'estacade : `connaissances/metriques/estacade_pieux_01.yaml`
+- Registre du retour d'expérience de l'estacade : `connaissances/rex/estacade_pieux_01.yaml`
 
 <!-- etat:fin -->
 

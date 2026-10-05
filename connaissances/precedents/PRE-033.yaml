@@ -1,0 +1,36 @@
+id: PRE-033
+title: 'Point E2 : Chevêtres : section, position et recouvrement avec la dalle'
+summary: 'Décision de MM au point E2 de la fiche de l''estacade (2026-10-05) : Chevêtres :
+  section, position et recouvrement avec la dalle.'
+origin_project: estacade_pieux_01
+date: '2026-10-05'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json
+  point_label: E2
+  decided_by: MM
+  decided_at: '2026-10-05T05:48:41-04:00'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json
+point_label: E2
+topic: 'Chevêtres : section, position et recouvrement avec la dalle'
+option_retained: 'Chevêtres : barre de **1,20 × 0,90 m**, section rectangulaire, **au plan
+  moyen de la dalle**, sans excentrement. Conséquence connue et acceptée : la dalle et le
+  chevêtre se recouvrent sur 1,20 × 0,40 m, ce qui compte deux fois ce volume en raideur et
+  en poids, comme dans le modèle Robot. La session chiffre ce double compte en kN par chevêtre
+  et le rapporte, sans le corriger.'
+justification: Décision E2 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).
+validity_domain: Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé
+  ; hors de ce contre-calcul, la décision n'est pas établie.
+discarded_variants:
+- 'Chevêtre excentré sous la dalle — écartée : « sans excentrement » (E2) ; double compte
+  accepté, chiffré sans correction'
+decided_by: MM
+decided_at: '2026-10-05T05:48:41-04:00'
+superseded_decisions: 0
+application: proposition seulement

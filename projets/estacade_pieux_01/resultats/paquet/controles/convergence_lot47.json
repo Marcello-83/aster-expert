@@ -1,0 +1,119 @@
+{
+ "critere": "docs/essais_lot47.md § 2.7",
+ "maillages": [
+  "h0p100",
+  "h0p050",
+  "h0p025"
+ ],
+ "valeurs": {
+  "h0p100": {
+   "travee_max_moins_MXX": 66870.71279076938,
+   "travee_max_abs_QX": 179233.30527571615,
+   "travee_max_abs_DZ": 0.0009855111048330722,
+   "appui_max_MXX_file2": 25118.895323363555,
+   "appui_max_abs_QX": 197081.89439060635,
+   "appui_max_abs_DZ": 0.0005764991907590636
+  },
+  "h0p050": {
+   "travee_max_moins_MXX": 66884.24341977393,
+   "travee_max_abs_QX": 368336.3524778085,
+   "travee_max_abs_DZ": 0.0009847918268369744,
+   "appui_max_MXX_file2": 30726.966998060157,
+   "appui_max_abs_QX": 452126.7824775863,
+   "appui_max_abs_DZ": 0.000574940374206814
+  },
+  "h0p025": {
+   "travee_max_moins_MXX": 66982.96025304383,
+   "travee_max_abs_QX": 766211.073210867,
+   "travee_max_abs_DZ": 0.0009841258345512508,
+   "appui_max_MXX_file2": 34780.473359506635,
+   "appui_max_abs_QX": 993376.1710228466,
+   "appui_max_abs_DZ": 0.0005736167555241101
+  }
+ },
+ "verdicts": {
+  "travee_max_moins_MXX": {
+   "valeurs": [
+    66870.71279076938,
+    66884.24341977393,
+    66982.96025304383
+   ],
+   "ecart_0p10_0p05": 13.530629004555522,
+   "ecart_0p05_0p025": 98.71683326989296,
+   "rapport_ecarts": 0.1370650633368944,
+   "ecart_relatif_production": 0.0014737603846854035,
+   "decroit": false,
+   "verdict": "ÉCHEC"
+  },
+  "travee_max_abs_QX": {
+   "valeurs": [
+    179233.30527571615,
+    368336.3524778085,
+    766211.073210867
+   ],
+   "ecart_0p10_0p05": 189103.04720209233,
+   "ecart_0p05_0p025": 397874.7207330585,
+   "rapport_ecarts": 0.47528289018634345,
+   "ecart_relatif_production": 0.5192756077848544,
+   "decroit": false,
+   "verdict": "ÉCHEC"
+  },
+  "travee_max_abs_DZ": {
+   "valeurs": [
+    0.0009855111048330722,
+    0.0009847918268369744,
+    0.0009841258345512508
+   ],
+   "ecart_0p10_0p05": 7.192779960978665e-07,
+   "ecart_0p05_0p025": 6.659922857235948e-07,
+   "rapport_ecarts": 1.0800095008854003,
+   "ecart_relatif_production": 0.0006767348872893668,
+   "decroit": true,
+   "verdict": "RÉUSSI"
+  },
+  "appui_max_MXX_file2": {
+   "valeurs": [
+    25118.895323363555,
+    30726.966998060157,
+    34780.473359506635
+   ],
+   "ecart_0p10_0p05": 5608.071674696603,
+   "ecart_0p05_0p025": 4053.506361446478,
+   "rapport_ecarts": 1.3835112553506352,
+   "ecart_relatif_production": 0.1165454627240869,
+   "decroit": true,
+   "verdict": "ÉCHEC"
+  },
+  "appui_max_abs_QX": {
+   "valeurs": [
+    197081.89439060635,
+    452126.7824775863,
+    993376.1710228466
+   ],
+   "ecart_0p10_0p05": 255044.88808697995,
+   "ecart_0p05_0p025": 541249.3885452603,
+   "rapport_ecarts": 0.47121510616848045,
+   "ecart_relatif_production": 0.544858437653033,
+   "decroit": false,
+   "verdict": "ÉCHEC"
+  },
+  "appui_max_abs_DZ": {
+   "valeurs": [
+    0.0005764991907590636,
+    0.000574940374206814,
+    0.0005736167555241101
+   ],
+   "ecart_0p10_0p05": 1.558816552249564e-06,
+   "ecart_0p05_0p025": 1.323618682703932e-06,
+   "rapport_ecarts": 1.177693071742658,
+   "ecart_relatif_production": 0.0023074965470535284,
+   "decroit": true,
+   "verdict": "RÉUSSI"
+  }
+ },
+ "runs": {
+  "h0p100": "data/processed/runs/20261005T100812-bdc02930",
+  "h0p050": "data/processed/runs/20261005T100829-3782599a",
+  "h0p025": "data/processed/runs/20261005T100910-b21d2121"
+ }
+}

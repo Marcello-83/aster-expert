@@ -262,16 +262,17 @@ def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
     """Amorçage par le quai (lot 42), puis apport de la dalle (lot 43) : 7
     constats, 2 patrons, 1 contrôle, 1 référence, 10 précédents ; lot 44 : CA-053
     et les précédents de D20 et D21 (PRE-019, PRE-020) ; lot 45 : PRE-032 (Es) ;
-    lot 46 : CTL-013."""
+    lot 46 : CTL-013 ; lot 47 (estacade) : CA-054 à CA-057, PAT-012, CTL-014, REF-015
+    (calcul externe non validé), PRE-033 à PRE-038."""
     base = load_knowledge(ROOT)
     counts = {layer: sum(row.values()) for layer, row in base.counts().items()}
     assert counts == {
-        "constats_code_aster": 53,
+        "constats_code_aster": 57,
         "diagnostics": 25,
-        "patrons": 11,
-        "controles": 13,
-        "references_validation": 14,
-        "precedents": 31,
+        "patrons": 12,
+        "controles": 14,
+        "references_validation": 15,
+        "precedents": 37,
     }
     # Lot 44 : cinq promotions, par la commande, sous la règle corrigée.
     promoted = sorted(e.id for e in base.all_entries() if e.status == "promu")
@@ -297,7 +298,8 @@ def test_the_second_project_owns_its_findings_and_opens_promotions() -> None:
     base = load_knowledge(ROOT)
     assert "dalle_appuyee_01" in base.constats["CA-052"].projects
     assert base.constats["CA-045"].projects == ("quai_cw_test_01",)
-    assert base.constats["CA-045"].cited_by == ("dalle_appuyee_01",)
+    # Lot 47 : la fiche de l'estacade cite aussi CA-045, sans l'éprouver.
+    assert base.constats["CA-045"].cited_by == ("dalle_appuyee_01", "estacade_pieux_01")
     # Code seul (script de maillage) : pas une épreuve.
     allowed, reason, projects = promotion_conditions(ROOT, "PAT-008")
     assert not allowed and "cité sans épreuve par dalle_appuyee_01" in reason
@@ -769,7 +771,7 @@ def test_the_mcp_tool_answers_level_a_and_journals_itself(tmp_path: Path) -> Non
         result.results[0].layer == "diagnostics"
         and result.results[0].status == "établi"
     )
-    assert result.total_by_layer["precedents"] == 31
+    assert result.total_by_layer["precedents"] == 37  # lot 47 : PRE-033 à PRE-038
     line = json.loads(log.read_text("utf-8").splitlines()[0])
     assert line["tool"] == "search_connaissances"
 
@@ -812,3 +814,96 @@ def test_cli_rex_blocks_on_an_unclassified_failure(
     assert out.exit_code == 1
     assert "clôture du lot bloquée" in out.output
     assert (root / "connaissances" / "metriques" / "p.yaml").is_file()
+
+
+def _external_reference(**changes: object) -> dict[str, object]:
+    """A reference of kind « calcul externe non validé » (lot 47)."""
+    sha = "a" * 64
+    data: dict[str, object] = {
+        "id": "REF-900",
+        "title": "Contre-calcul d'un modèle externe",
+        "summary": "Comparaison à un calcul externe non validé.",
+        "origin_project": "projet_essai",
+        "date": "2026-10-05",
+        "validation_level": "D",
+        "status": "établi",
+        "sources": [
+            {
+                "kind": "execution",
+                "case_path": "projets/x/cas.comm",
+                "case_sha256": sha,
+                "outcome": "réussite",
+                "level": "D",
+                "note": "cas d'essai",
+                "run": None,
+            },
+        ],
+        "problem": "Estacade.",
+        "reference_solution": "Valeurs publiées d'un modèle non validé.",
+        "cases": [
+            {
+                "case_path": "projets/x/cas.comm",
+                "case_sha256": sha,
+                "quantities": [
+                    {
+                        "name": "N",
+                        "value_obtained": 1.02,
+                        "reference_value": 1.0,
+                        "criterion": "contre_calcul",
+                        "tolerance": 0.03,
+                        "result": "réussi",
+                    },
+                ],
+            }
+        ],
+        "result": "réussi",
+        "reference_kind": "calcul_externe_non_valide",
+    }
+    data.update(changes)
+    return data
+
+
+def test_an_external_calculation_reference_is_never_level_e_nor_promoted() -> None:
+    from aster_expert.connaissances.modeles import ValidationReference
+
+    ref = ValidationReference.model_validate(_external_reference())
+    assert ref.reference_kind == "calcul_externe_non_valide"
+    with pytest.raises(ValueError, match="calcul externe non validé"):
+        ValidationReference.model_validate(_external_reference(validation_level="E"))
+    # « promu » est refusé (par cette règle ou par celle de l'historique de statut).
+    with pytest.raises(ValueError, match="promu"):
+        ValidationReference.model_validate(_external_reference(status="promu"))
+    known = _external_reference(reference_kind="solution_connue")
+    with pytest.raises(ValueError, match="réservé"):
+        ValidationReference.model_validate(known)
+
+
+def test_a_known_solution_reference_keeps_its_bytes() -> None:
+    from aster_expert.connaissances.base import dump_entry, read_entry
+
+    path = ROOT / "connaissances" / "references_validation" / "REF-014.yaml"
+    entry = read_entry(path, "references_validation")
+    assert "reference_kind" not in dump_entry(entry)
+    assert dump_entry(entry) == path.read_text(encoding="utf-8")
+
+
+def test_an_external_calculation_reference_serves_no_promotion(tmp_path: Path) -> None:
+    from aster_expert.connaissances.base import dump_entry
+    from aster_expert.connaissances.modeles import ValidationReference
+
+    root = tmp_path
+    (root / "connaissances" / "references_validation").mkdir(parents=True)
+    ref = ValidationReference.model_validate(_external_reference())
+    (root / "connaissances" / "references_validation" / "REF-900.yaml").write_text(
+        dump_entry(ref), encoding="utf-8"
+    )
+    for layer in (
+        "constats_code_aster",
+        "diagnostics",
+        "patrons",
+        "controles",
+        "precedents",
+    ):
+        (root / "connaissances" / layer).mkdir(exist_ok=True)
+    allowed, reason, _ = promotion_conditions(root, "REF-900")
+    assert not allowed and "aucune promotion" in reason

@@ -1,0 +1,72 @@
+id: PAT-012
+title: 'Charges mobiles : positions en lots de MACRO_ELAS_MULT, empreintes alignées, enveloppes
+  hors Code_Aster'
+summary: 'Les positions d''une charge mobile s''écrivent par un générateur : une charge FORCE_COQUE
+  par position sur des empreintes réunions de mailles entières (bandes CREA_GROUP_MA/BANDE
+  intersectées), résolues en lots de MACRO_ELAS_MULT (OPTION=''SANS'', une factorisation par
+  lot, DETRUIRE après IMPR_RESU), puis enveloppées et combinées sur le poste à partir du MED.'
+origin_project: estacade_pieux_01
+date: '2026-10-05'
+validation_level: C
+status: observé
+sources:
+- kind: execution
+  run: 20261005T101455-e0d5c870
+  case_path: projets/estacade_pieux_01/references/cas/estacade_pieux_01.comm
+  case_sha256: fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692
+  outcome: réussite
+  level: C
+  note: 242 positions mobiles, Σ DZ des pointes = charge des roues à 2,8e-10
+- kind: document
+  path: docs/essais_lot47.md
+  section: '2.2'
+  note: null
+commands:
+- MACRO_ELAS_MULT
+- DEFI_GROUP
+- AFFE_CHAR_MECA
+- IMPR_RESU
+- DETRUIRE
+keywords:
+- CAS_CHARGE
+- NOM_CAS
+- BANDE
+- CRIT_NOEUD
+- INTERSEC
+- FORCE_COQUE
+- OPTION
+reuses: []
+status_history: []
+problem: Évaluer des enveloppes et des combinaisons sur des centaines de positions d'une charge
+  roulante sans écrire un cas à la main par position ni saturer la mémoire.
+solution: Taille de maille qui divise tous les bords d'empreinte aux pas de déplacement ;
+  groupes d'essieu par INTERSEC d'une bande X et d'une bande Y (CRIT_NOEUD='TOUS') ; lots
+  de 25 cas par MACRO_ELAS_MULT avec OPTION='SANS', champs restreints (EFGE_NOEU de la dalle,
+  EFGE_ELNO des poutres) écrits au MED puis le résultat détruit ; tous les pas lus par medcoupling
+  (extract_steps), enveloppes et combinaisons calculées sur le poste.
+fragment: "MB01 = MACRO_ELAS_MULT(MODELE=MODELE, CHAM_MATER=CHMAT, CARA_ELEM=CARA,\n    CHAR_MECA_GLOBAL=CL,\n\
+  \    CAS_CHARGE=(\n        _F(NOM_CAS=\"TSA_M29\", CHAR_MECA=CH_TSA_M29, OPTION=\"SANS\"\
+  ),\n        _F(NOM_CAS=\"TSA_M28\", CHAR_MECA=CH_TSA_M28, OPTION=\"SANS\"),\n    ),\n  \
+  \  SOLVEUR=_F(METHODE=\"MUMPS\", POSTTRAITEMENTS=\"FORCE\"))"
+fragment_language: comm
+conditions: Élasticité linéaire ; empreintes rectangulaires alignées sur une grille régulière
+  ; CHAR_MECA en référence simple (validateur de niveau B).
+controls:
+- CTL-005
+- CTL-013
+constats:
+- CA-029
+- CA-055
+implementation:
+- kind: code
+  path: projets/estacade_pieux_01/generation.py
+  symbol: solve_block
+  note: null
+- kind: code
+  path: projets/estacade_pieux_01/charges_mobiles.py
+  symbol: all_cases
+  note: null
+- kind: code
+  path: projets/estacade_pieux_01/comparaison.py
+  symbol: Combiner
+  note: null

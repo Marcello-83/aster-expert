@@ -26,7 +26,14 @@ import math
 import re
 from typing import Annotated, ClassVar, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    SerializerFunctionWrapHandler,
+    model_serializer,
+    model_validator,
+)
 
 Status = Literal["observé", "établi", "promu"]
 Level = Literal["A", "B", "C", "D", "E"]
@@ -605,7 +612,10 @@ class ReferenceQuantity(_Model):
     name: str
     value_obtained: float
     reference_value: float
-    criterion: Literal["exact", "raffinement"]
+    criterion: Literal["exact", "raffinement", "contre_calcul"]
+    """`contre_calcul` (lot 47): comparison with an external calculation that is not
+    validated, held to the tolerance written before the run; only for a reference
+    of kind `calcul_externe_non_valide`."""
     tolerance: float | None = None
     refined_case_path: str | None = None
     refined_value: float | None = None
@@ -623,7 +633,7 @@ class ReferenceQuantity(_Model):
         return (self.refined_value - self.reference_value) / self.reference_value
 
     def computed_result(self) -> Literal["réussi", "échec"]:
-        if self.criterion == "exact":
+        if self.criterion in ("exact", "contre_calcul"):
             assert self.tolerance is not None
             return "réussi" if abs(self.deviation) <= self.tolerance else "échec"
         refined = self.refined_deviation
@@ -637,12 +647,14 @@ class ReferenceQuantity(_Model):
                 f"{self.name} : référence nulle ou non finie (écart relatif indéfini)"
             )
             raise ValueError(message)
-        if self.criterion == "exact":
+        if self.criterion in ("exact", "contre_calcul"):
             if self.tolerance is None or self.tolerance <= 0.0:
-                message = f"{self.name} : critère exact sans tolérance positive"
+                message = (
+                    f"{self.name} : critère {self.criterion} sans tolérance positive"
+                )
                 raise ValueError(message)
             if self.refined_value is not None or self.refined_case_path is not None:
-                message = f"{self.name} : critère exact sans valeur raffinée"
+                message = f"{self.name} : critère {self.criterion} sans valeur raffinée"
                 raise ValueError(message)
         else:
             if self.refined_value is None or self.refined_case_path is None:
@@ -685,6 +697,50 @@ class ValidationReference(KnowledgeEntry):
     reference_solution: str
     cases: tuple[ReferenceCase, ...]
     result: Literal["réussi", "échec"]
+    reference_kind: Literal["solution_connue", "calcul_externe_non_valide"] = (
+        "solution_connue"
+    )
+    """Lot 47: `calcul_externe_non_valide` is a counter-calculation of an external
+    model that is not validated (another software, a design office's model). Its
+    quantities use the `contre_calcul` criterion, its level is never E, and it can
+    serve no promotion, neither its own (`promotion.promotion_conditions`) nor as the
+    reference of another entry: it says that two calculations agree, not that
+    either is right."""
+
+    @model_serializer(mode="wrap")
+    def _omit_default_kind(
+        self, handler: SerializerFunctionWrapHandler
+    ) -> dict[str, object]:
+        # The references written before lot 47 keep their exact bytes.
+        data: dict[str, object] = handler(self)
+        if self.reference_kind == "solution_connue":
+            data.pop("reference_kind", None)
+        return data
+
+    @model_validator(mode="after")
+    def _external_calculation(self) -> ValidationReference:
+        external = self.reference_kind == "calcul_externe_non_valide"
+        criteria = {q.criterion for c in self.cases for q in c.quantities}
+        if external:
+            if self.validation_level == "E" or self.status == "promu":
+                message = (
+                    f"{self.id} : un calcul externe non validé n'atteint jamais le "
+                    "niveau E et ne peut être promu"
+                )
+                raise ValueError(message)
+            if criteria - {"contre_calcul"}:
+                message = (
+                    f"{self.id} : un calcul externe non validé ne se compare que par "
+                    "le critère contre_calcul"
+                )
+                raise ValueError(message)
+        elif "contre_calcul" in criteria:
+            message = (
+                f"{self.id} : le critère contre_calcul est réservé aux références "
+                "de type calcul_externe_non_valide"
+            )
+            raise ValueError(message)
+        return self
 
     @model_validator(mode="after")
     def _reference_rules(self) -> ValidationReference:

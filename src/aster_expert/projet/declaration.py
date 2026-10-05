@@ -409,9 +409,12 @@ PackageSectionName = Literal[
     "cas",
     "combinaisons",
     "ferraillage",
+    "contre_calcul",
 ]
 """Sections of a results package (lot 45): what a results note may display is
-decided by the sections the package holds, never by the project's name."""
+decided by the sections the package holds, never by the project's name. Lot 47:
+`contre_calcul`, the comparison with an external calculation that is not validated
+(never a level E)."""
 
 PACKAGE_MAX_BYTES = 20 * 1024 * 1024
 """Ceiling of a results package (lot 45, 20 Mo per project)."""

@@ -70,7 +70,7 @@ def generer(meds: dict[str, Path]) -> None:
         text, report = build_comm(
             ctx,
             mesh_label=f"{label}.med",
-            options=Options(mode="convergence", cell=size),
+            options=Options(mode="convergence", cell=size, post="FORCE"),
         )
         (out / f"{stem}.comm").write_text(text, encoding="utf-8")
         (out / f"{stem}.generation.json").write_text(
