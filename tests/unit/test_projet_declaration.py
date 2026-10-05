@@ -258,6 +258,10 @@ def test_projet_refuses_an_unknown_project_and_an_unknown_step(
 def test_mesh_check_refuses_an_incoherent_invariants_file(
     tmp_path: Path, lecture_sous_tmp: Path
 ) -> None:
+    # `mesh check` résout d'abord l'image par son catalogue extrait : sur un runner
+    # neuf (intégration continue), il n'existe pas.
+    if not (Path(__file__).resolve().parents[2] / "data/processed/catalogue").is_dir():
+        pytest.skip("catalogue extrait absent (data/processed/catalogue)")
     invariants = tmp_path / "invariants.yaml"
     invariants.write_text(
         yaml.safe_dump({"schema_version": 1, "groups": [{"nom": "X"}]}), "utf-8"
