@@ -50,4 +50,4 @@ caught_error:
     path: docs/essais_lot34.md
     section: null
     note: null
-default_harness: false
+default_harness: true

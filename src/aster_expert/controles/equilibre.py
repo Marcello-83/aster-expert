@@ -35,6 +35,11 @@ import math
 from pathlib import Path
 from typing import Any
 
+from aster_expert.controles.harnais import (
+    GENERIC_CONTROLS,
+    VERDICTS_THAT_COUNT,
+    run_harness,
+)
 from aster_expert.controles.tables import Record, TableIndex
 from aster_expert.projet.context import ProjectContext
 from aster_expert.projet.declaration import (
@@ -334,7 +339,7 @@ def summarize(ctx: ProjectContext, result: dict[str, Any]) -> dict[str, Any]:
     verdicts = [c["verdict"] for c in (*cases.values(), *gravity.values())] + [
         s["verdict"] for s in symmetry.values()
     ]
-    return {
+    summary: dict[str, Any] = {
         "project": ctx.declaration.name,
         "level": "D",
         "threshold": threshold,
@@ -346,6 +351,19 @@ def summarize(ctx: ProjectContext, result: dict[str, Any]) -> dict[str, Any]:
         if verdicts and all(v == "RÉUSSI" for v in verdicts)
         else "ÉCHEC",
     }
+    # Lot 46 : le harnais par défaut. CTL-005 et CTL-006 relisent les verdicts
+    # ci-dessus (inchangés) ; CTL-013 et CTL-012 y ajoutent les leurs, qui comptent
+    # dans le verdict d'ensemble.
+    summary["harness"] = run_harness(ctx, result, summary)
+    extra = [
+        c["verdict"]
+        for control_id, c in summary["harness"]["controls"].items()
+        if control_id in GENERIC_CONTROLS + ("CTL-012",)
+        and c["verdict"] in VERDICTS_THAT_COUNT
+    ]
+    if summary["verdict"] == "RÉUSSI" and any(v != "RÉUSSI" for v in extra):
+        summary["verdict"] = "ÉCHEC"
+    return summary
 
 
 def render_summary(summary: dict[str, Any]) -> str:

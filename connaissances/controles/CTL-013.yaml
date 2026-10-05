@@ -1,0 +1,44 @@
+id: CTL-013
+title: Résultante de chaque cas de charge comparée à la charge déclarée
+summary: Pour chaque cas de charge, la résultante que Code_Aster évalue pour la charge appliquée
+  égale celle que le projet déclare, composante par composante, au seuil du projet.
+origin_project: quai_cw_test_01
+date: '2026-10-05'
+validation_level: B
+status: établi
+sources:
+- kind: test
+  path: tests/unit/test_harnais_d.py
+  function: test_resultante_differente_de_la_charge_declaree_echoue
+  note: un écart de 0,1 % entre résultante évaluée et déclarée fait échouer le cas et le verdict
+    d'ensemble
+- kind: test
+  path: tests/unit/test_harnais_d.py
+  function: test_le_harnais_redonne_les_verdicts_d_du_paquet
+  note: 'relecture des paquets de la dalle et du quai : le contrôle passe sur les deux, sans
+    exécution'
+commands:
+- FORCE_COQUE
+- AFFE_CHAR_MECA
+keywords:
+- PESANTEUR
+reuses: []
+status_history: []
+detects: Une charge dont l'intensité ou la surface d'application n'est pas celle qu'on croit
+  (évaluation aux nœuds, surface développée, couche non alignée) avant même la lecture des
+  réactions.
+parameters: 'Résultante attendue de chaque cas (controls.cases de projet.yaml, évaluée par
+  l''extension du projet) et seuil relatif controls.threshold ; échelle : la plus grande composante
+  de la charge.'
+implementation:
+  kind: code
+  path: src/aster_expert/controles/harnais.py
+  symbol: _resultant
+  note: null
+scope: tronc commun
+caught_error:
+  mode: aucune consignée
+  description: 'Aucune erreur réelle attrapée par ce contrôle à ce jour : il a été écrit au
+    lot 46 et passe sur les deux paquets de résultats.'
+  evidence: null
+default_harness: false

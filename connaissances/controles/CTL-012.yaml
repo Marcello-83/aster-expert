@@ -30,16 +30,17 @@ status_history:
     (cas dalle_h0p125.comm, exécution réussie de niveau E, critères E1 et E2 de docs/essais_lot43.md).'
 detects: Une erreur de modèle (conditions aux limites, signe, unités) qui ne disparaît pas
   au raffinement, ou un maillage trop grossier.
-parameters: Tailles de la suite (données du projet), seuil sur le maillage fin (1 % au lot
-  43), référence calculée avant exécution.
+parameters: Série d'erreurs par grandeur sur les maillages de la suite (extension du projet,
+  controls.convergence), seuil sur le maillage fin écrit avant l'exécution (1 % pour la dalle).
 implementation:
   kind: code
-  path: projets/dalle_appuyee_01/scripts/niveau_e_lot43.py
-  symbol: evaluate
-  note: null
-scope: projet
+  path: src/aster_expert/controles/harnais.py
+  symbol: convergence_verdict
+  note: 'généralisé au lot 46 : le projet fournit la série d''erreurs (controls.convergence),
+    le tronc commun juge'
+scope: tronc commun
 caught_error:
   mode: aucune consignée
   description: 'Aucune erreur attrapée au lot 43 : les six grandeurs convergent.'
   evidence: null
-default_harness: false
+default_harness: true

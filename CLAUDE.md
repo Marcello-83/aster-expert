@@ -950,6 +950,22 @@ Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de
   supposent l'archive complète s'ignorent avec ce motif. Plus aucun ordre à respecter entre
   `pytest -m lent_aster` et les autres tests.
 
+- **Lot 46** (`docs/essais_lot46.md`, `docs/lots/lot46_consigne.md`, `docs/etat.yaml`) : socle,
+  aucun résultat d'ouvrage changé. Politique de lecture des chemins d'entrée
+  (`aster_expert.chemins`, `config/chemins.yaml` : dépôt, corpus, racines externes déclarées
+  dans `config/chemins.local.yaml` non versionné ; liens et `..` résolus avant la comparaison ;
+  extension `.comm` pour les outils MCP `analyze_comm`/`validate_comm` ; refus qui nomme la
+  racine manquante) ; intégration continue (`.github/workflows/ci.yml`, `ci-lent.yml`) ; état
+  versionné (`docs/etat.yaml`, README généré, `requires-python = ">=3.12,<3.13"`) ; manifeste de
+  l'archive d'exécution (`connaissances.archive`) ; trace des connaissances appliquées par
+  exécution (`<nom>.connaissances.yaml`, `connaissances.declaration`, `connaissances.epreuve`,
+  `aster-expert connaissances eprouver`) ; harnais de niveau D par défaut
+  (`controles.harnais` : CTL-005, CTL-006, CTL-012 promus et CTL-013 générique ; `controls.disabled`
+  et `controls.convergence` dans `projet.yaml`). Décisions de MM : PRE-032 au texte de MM (fiche du
+  quai régénérée, révision maintenue), intervention du lot 45 (1) déclarée au registre de la dalle,
+  marqueurs `[À CONFIRMER MM]` : refusés dans un texte en vigueur, acceptés cités dans l'historique.
+  **Les outils MCP ont changé : redémarrer la session avant le lot suivant.**
+
 ## Périmètre à ne pas dépasser sans instruction
 
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne

@@ -632,6 +632,18 @@ def check_results_note(ctx: ProjectContext, path: Path) -> NoteCheck:
                             f"valeur {cell!r} introuvable dans les fichiers du paquet"
                         )
 
+    # lot 46 : every control the project disables is shown with its written reason
+    controls_path = package.directory / "controles" / "controles_d.json"
+    if controls_path.is_file():
+        harness = json.loads(controls_path.read_text(encoding="utf-8")).get("harness")
+        for control_id, reason in ((harness or {}).get("disabled") or {}).items():
+            result.count("controles_desactives_verifies")
+            if control_id not in text or _norm(reason) not in text:
+                result.problem(
+                    f"contrôle {control_id} désactivé : son motif « {reason} » doit "
+                    "figurer dans la note"
+                )
+
     # level and criteria
     level = package.manifest["niveau"]["atteint"] or "aucun"
     result.count("niveau_verifie")

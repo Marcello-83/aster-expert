@@ -261,14 +261,15 @@ def test_a_reference_result_is_recomputed_from_its_criterion() -> None:
 def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
     """Amorçage par le quai (lot 42), puis apport de la dalle (lot 43) : 7
     constats, 2 patrons, 1 contrôle, 1 référence, 10 précédents ; lot 44 : CA-053
-    et les précédents de D20 et D21 (PRE-019, PRE-020) ; lot 45 : PRE-032 (Es)."""
+    et les précédents de D20 et D21 (PRE-019, PRE-020) ; lot 45 : PRE-032 (Es) ;
+    lot 46 : CTL-013."""
     base = load_knowledge(ROOT)
     counts = {layer: sum(row.values()) for layer, row in base.counts().items()}
     assert counts == {
         "constats_code_aster": 53,
         "diagnostics": 25,
         "patrons": 11,
-        "controles": 12,
+        "controles": 13,
         "references_validation": 14,
         "precedents": 31,
     }

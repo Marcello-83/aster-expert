@@ -57,3 +57,23 @@ def resultant(
         "as_evaluated": {"DX": 0.0, "DY": 0.0, "DZ": computed},
         "specified": {"DX": 0.0, "DY": 0.0, "DZ": specified},
     }
+
+
+def convergence_series(ctx: ProjectContext) -> dict[str, Any]:
+    """Mesh convergence series of the slab (control CTL-012, lot 46).
+
+    The relative errors of the six quantities at the centre (w, Mx, My under G and Q)
+    against Navier's series, for the three meshes of the convergence suite (0,50, 0,25
+    and 0,125 m, coarse to fine), as Code_Aster computed them in the replay of lot 45
+    (`references/rejeu_niveau_e_lot45.json`, criteria E1 and E2 written before the
+    execution). The final threshold is that of criterion E2 (docs/essais_lot43.md)."""
+    import json  # noqa: PLC0415
+
+    path = ctx.project_dir / "references" / "rejeu_niveau_e_lot45.json"
+    verdicts = json.loads(path.read_text(encoding="utf-8"))["verdicts"]
+    detail = verdicts["E1"]["detail"]
+    return {
+        "series": {name: list(entry["erreurs"]) for name, entry in detail.items()},
+        "final_threshold": 0.01,
+        "source": "references/rejeu_niveau_e_lot45.json (E1) ; seuil du critère E2",
+    }

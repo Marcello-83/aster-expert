@@ -49,9 +49,14 @@ def test_every_seeded_entry_is_rebuilt_byte_for_byte() -> None:
                     "status_history": versioned.status_history[:-1],
                 }
             )
-        assert dump_entry(versioned.model_copy(update={"reuses": ()})) == dump_entry(
-            entry
-        ), path
+        # Lot 46 : le drapeau `default_harness` (harnais D par défaut) est posé par la
+        # base sur les contrôles promus, il ne fait pas partie de l'amorçage.
+        neutral: dict[str, object] = {"reuses": ()}
+        if getattr(versioned, "default_harness", False):
+            neutral["default_harness"] = False
+        assert dump_entry(versioned.model_copy(update=neutral)) == dump_entry(entry), (
+            path
+        )
 
 
 def test_no_seeded_entry_is_promoted_and_precedents_cover_every_decision() -> None:

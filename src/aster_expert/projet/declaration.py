@@ -22,7 +22,14 @@ from pathlib import Path
 from typing import Literal
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    ValidationError,
+    field_validator,
+    model_validator,
+)
 
 from aster_expert.projet.errors import ProjectError
 
@@ -175,6 +182,33 @@ class SymmetryPlane(_Model):
     coordinate_tolerance: float = 1.0e-6
 
 
+class DisabledControl(_Model):
+    """A default-harness control the project does not apply, with its written reason
+    (lot 46, step 6). The results note shows it."""
+
+    id: str
+    reason: str
+
+    @field_validator("reason")
+    @classmethod
+    def _written(cls, value: str) -> str:
+        if len(value.split()) < 4:
+            message = (
+                "désactiver un contrôle par défaut exige un motif écrit (au moins une "
+                "phrase)"
+            )
+            raise ValueError(message)
+        return value
+
+
+class ConvergenceSection(_Model):
+    """Mesh convergence data of a project aiming at level E (control CTL-012)."""
+
+    series: str
+    """Extension `f(ctx) -> {'series': {quantity: [error per mesh, coarse to fine]},
+    'final_threshold': x, 'source': text}`: results of the project's own runs."""
+
+
 class ControlsSection(_Model):
     threshold: float = 1.0e-6
     vertical: Component = "DZ"
@@ -188,6 +222,11 @@ class ControlsSection(_Model):
     extra: str | None = None
     """Extension run after the controls, `f(ctx, run_dir, out_dir) -> list[Path]`
     (project-specific products, e.g. the integrated loads file)."""
+    convergence: ConvergenceSection | None = None
+    """Lot 46: mesh convergence series, required of a project aiming at level E."""
+    disabled: tuple[DisabledControl, ...] = ()
+    """Lot 46: default-harness controls the project does not apply, each with a
+    written reason (never silent)."""
 
 
 class VariableAction(_Model):

@@ -384,6 +384,38 @@ def render_controls_d(note: NoteDocument, package: Package) -> None:
         render_generic_json(
             note, informative, title="Contrôles informatifs (sans verdict)"
         )
+    harness = data.get("harness")
+    if harness:
+        # Lot 46 : le harnais de niveau D appliqué par défaut ; un contrôle désactivé
+        # par le projet est affiché avec son motif écrit, jamais passé sous silence.
+        note.table(
+            ["Contrôle", "Verdict", "Précision"],
+            [
+                [
+                    control_id,
+                    entry["verdict"],
+                    entry.get("reason")
+                    or (
+                        f"écart relatif maximal {cell(entry['worst_relative_gap'])}"
+                        if "worst_relative_gap" in entry
+                        else (
+                            f"erreur maximale au maillage fin "
+                            f"{cell(entry['worst_finest_error'])}"
+                            if "worst_finest_error" in entry
+                            else EMPTY
+                        )
+                    ),
+                ]
+                for control_id, entry in harness["controls"].items()
+            ],
+            widths_cm=[2.6, 3.4, 11],
+            caption="Contrôles de niveau D appliqués par défaut",
+        )
+        for control_id, reason in harness.get("disabled", {}).items():
+            note.paragraph(
+                f"{control_id} désactivé par le projet : {reason}",
+                label="Contrôle désactivé",
+            )
 
 
 def render_level_e(note: NoteDocument, package: Package) -> None:

@@ -64,6 +64,10 @@ controls:
   symmetry_planes:
     - {normal: X, position: 3.0, table: "SYMETRIE_{case}", cases: [G, Q]}
     - {normal: Y, position: 2.0, table: "SYMETRIE_{case}", cases: [G, Q]}
+  # Lot 46 : niveau E visé, donc convergence de maillage (CTL-012) : erreurs au centre
+  # de la suite h0p500, h0p250, h0p125 contre Navier.
+  convergence:
+    series: dalle_appuyee_01.extensions:convergence_series
 
 # Point 13 (P5) : catégorie E, G toujours défavorable (aucun γG favorable).
 combinations:
