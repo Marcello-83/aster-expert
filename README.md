@@ -270,7 +270,7 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 
 Mis à jour au lot 47 (2026-10-05), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 49 faits sur 52 ; autres : 12 (partiel), 13 (non fait), 47 (en cours). Dernier lot : 47, Contre-calcul d'une estacade sur pieux (estacade_pieux_01) : premier ouvrage réel, comparaison à un modèle externe non validé.
+Lots : 50 faits sur 52 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 47, Contre-calcul d'une estacade sur pieux (estacade_pieux_01) : premier ouvrage réel, comparaison à un modèle externe non validé.
 
 Capacités :
 
