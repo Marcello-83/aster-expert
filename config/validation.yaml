@@ -106,6 +106,9 @@ execution:
     - projets/dalle_appuyee_01/resultats
     # Cas versionnés de la dalle (constats et référence de validation, rejeu).
     - projets/dalle_appuyee_01/references/cas
+    # Projet estacade_pieux_01 (aster-expert projet creer, lot 44).
+    - projets/estacade_pieux_01/resultats
+    - projets/estacade_pieux_01/references/cas
   work_dir_root: data/processed/runs
   keep_work_dir: true
   timeout_seconds: 1800

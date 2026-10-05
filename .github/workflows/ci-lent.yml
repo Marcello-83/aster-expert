@@ -16,7 +16,10 @@ permissions:
 
 jobs:
   lent-aster:
-    runs-on: ubuntu-latest
+    # Label fixé (lot 47) : `ubuntu-latest` passe à Ubuntu 26 le 19 octobre 2026 ;
+    # `ubuntu-26.04` est en disponibilité générale (actions/runner-images, README,
+    # relevé le 2026-10-05) et aligne l'intégration continue sur la VM.
+    runs-on: ubuntu-26.04
     timeout-minutes: 45
     env:
       ASTER_CONTAINER_WORKROOT: ${{ github.workspace }}/data/processed/workroot

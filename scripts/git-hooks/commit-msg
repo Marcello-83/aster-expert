@@ -1,0 +1,11 @@
+#!/bin/sh
+# Crochet Git du dépôt (lot 47) : refuse un message de commit qui contient un
+# terme confidentiel de config/termes_interdits.local.txt (sans casse ni accents).
+# Installation, une fois par clone : git config core.hooksPath scripts/git-hooks
+racine=$(git rev-parse --show-toplevel) || exit 1
+python="$racine/.venv/bin/python"
+if [ ! -x "$python" ]; then
+    echo "commit-msg : $python absent ; lancer \`uv sync --locked --all-extras\`." >&2
+    exit 1
+fi
+exec "$python" -m aster_expert.publication --message "$1"

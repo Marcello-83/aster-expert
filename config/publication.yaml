@@ -30,6 +30,8 @@ forbidden_paths:
     reason: "clé privée ou certificat"
   - pattern: '(^|/)config/chemins\.local\.yaml$'
     reason: "racines de lecture propres à la machine de MM (lot 46) : jamais versées"
+  - pattern: '(^|/)config/termes_interdits\.local\.txt$'
+    reason: "termes confidentiels d'un projet réel (lot 47) : la liste n'est jamais versée"
   - pattern: '(^|/)\.claude/settings\.local\.json$'
     reason: "réglages locaux de Claude Code (permissions propres à la machine)"
 

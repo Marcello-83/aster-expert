@@ -61,3 +61,7 @@ fort.*
 
 # Racines de lecture propres à la machine (lot 46) : jamais versionnées.
 /config/chemins.local.yaml
+
+# Lot 47 : termes confidentiels d'un projet réel (annexe A), fournis par MM ;
+# la liste elle-même ne doit jamais entrer dans le dépôt.
+/config/termes_interdits.local.txt

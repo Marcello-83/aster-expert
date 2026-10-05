@@ -1,0 +1,23 @@
+# Déclaration du projet ESTACADE-PIEUX-01 (créée par `aster-expert projet creer`).
+#
+# Interface avec le tronc commun (schéma aster_expert.projet.declaration). Squelette
+# minimal : la fiche et les données existent (vides) ; les invariants du maillage et
+# le générateur restent à écrire par la session du projet. `aster-expert projet
+# estacade_pieux_01 verifier` liste ce qui manque. Chemins relatifs au répertoire du projet.
+schema_version: 1
+name: estacade_pieux_01
+structure: ESTACADE-PIEUX-01
+description: >-
+  Ouvrage à décrire.
+fiche: fiche/hypotheses_estacade_pieux_01.json
+data: donnees/estacade_pieux_01_model_data.yaml
+data_sources: donnees/sources
+results: resultats
+knowledge_applied: connaissances_appliquees.yaml
+
+mesh:
+  invariants: maillage/invariants.yaml
+
+comm:
+  generator: estacade_pieux_01.extensions:generate
+  output: resultats/estacade_pieux_01.comm

@@ -1,0 +1,16 @@
+# Registre de retour d'expérience (aster-expert rex, lot 42). Les classements
+# d'échec et les chiffres déclarés sont écrits par la session ; `reviews` par
+# `aster-expert rex --enregistrer`.
+project: estacade_pieux_01
+case_roots:
+- projets/estacade_pieux_01
+legacy_runs: null
+baseline: null
+lots: []
+archive:
+  runs: 0
+  sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+  recorded: '2026-10-05'
+declaration_required_since: '2026-10-05T05:28:20.904249'
+reviews: []
+classifications: []
