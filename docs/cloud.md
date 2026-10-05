@@ -33,13 +33,19 @@ disque, Docker, `uv`, `gh` et `git` préinstallés. Le corpus (≈ 1,2 Go de cop
 travail), l'image Code_Aster (5,0 Go décompressés) et le `.venv` tiennent dans ces
 30 Go.
 
-## 2. Profil `vm` ou `cloud`
+## 2. Profil `vm`, `cloud` ou `ci`
 
 `aster-expert env-check` annonce son profil en première ligne :
 
 - `cloud` quand `CLAUDE_CODE_REMOTE=true` (variable posée par Claude Code dans une
-  session Cloud, jamais en local), sinon `vm` ; `ASTER_EXPERT_PROFIL=vm|cloud` force
-  le profil (essais) ;
+  session Cloud, jamais en local), `ci` quand `GITHUB_ACTIONS=true` (runner GitHub,
+  lot 46 bis), sinon `vm` ; `ASTER_EXPERT_PROFIL=vm|cloud|ci` force le profil
+  (essais) ;
+- en profil `ci`, mêmes absences attendues que dans le Cloud, plus celle du serveur
+  MCP ; sans `cave`, `ASTER_IMAGE_REF` est **obligatoire** (la vérification `image`
+  échoue sans elle). Le workflow `ci-lent` la construit depuis `config/versions.yaml`
+  (digest lu, jamais recopié), après `docker pull` par digest, et `env-check` y est
+  bloquant ;
 - en profil `cloud`, l'absence de `cave`, de Salomé et du dossier partagé est
   **attendue** : la ligne commence par `--` au lieu de `OK` et le bilan les compte
   à part (« dont N absences attendues ») ; toute autre vérification (Python du

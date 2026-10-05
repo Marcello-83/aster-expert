@@ -1667,8 +1667,10 @@ def validate(
 def env_check() -> None:
     """Vérifier l'environnement : .venv, Docker, cave, Salomé, partage, MCP.
 
-    Le profil (`vm` ou `cloud`, lot 41 ter) est annoncé en tête ; en profil
-    `cloud`, l'absence de `cave`, de Salomé et du dossier partagé est attendue.
+    Le profil (`vm`, `cloud` ou `ci`, lots 41 ter et 46 bis) est annoncé en tête ;
+    en profil `cloud`, l'absence de `cave`, de Salomé et du dossier partagé est
+    attendue ; en profil `ci` (GitHub Actions), celle du serveur MCP aussi, et
+    `ASTER_IMAGE_REF` est obligatoire.
     """
     from aster_expert.environnement.verification import (
         CHECK_NAMES,

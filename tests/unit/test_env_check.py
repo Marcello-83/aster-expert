@@ -7,6 +7,7 @@ fake runner and a fake `which`; files live in a temporary directory.
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 import tomllib
@@ -14,6 +15,7 @@ from collections.abc import Callable
 from pathlib import Path
 
 import pytest
+import yaml
 from typer.testing import CliRunner
 
 from aster_expert import cli
@@ -567,7 +569,7 @@ def test_cli_env_check_refuses_an_unknown_forced_profile(
     monkeypatch.setenv(v.PROFILE_ENV, "portable")
     result = CliRunner().invoke(cli.app, ["env-check"])
     assert result.exit_code == 1
-    assert "valeurs admises 'vm' ou 'cloud'" in result.output
+    assert "valeurs admises 'vm', 'cloud' ou 'ci'" in result.output
 
 
 # --- Profile (lot 41 ter) -------------------------------------------------------------
@@ -584,6 +586,13 @@ def test_cli_env_check_refuses_an_unknown_forced_profile(
             ("vm", "ASTER_EXPERT_PROFIL=vm"),
         ),
         ({"ASTER_EXPERT_PROFIL": "cloud"}, ("cloud", "ASTER_EXPERT_PROFIL=cloud")),
+        ({"GITHUB_ACTIONS": "true"}, ("ci", "GITHUB_ACTIONS=true")),
+        ({"GITHUB_ACTIONS": "false"}, ("vm", "CLAUDE_CODE_REMOTE non défini")),
+        ({"ASTER_EXPERT_PROFIL": "ci"}, ("ci", "ASTER_EXPERT_PROFIL=ci")),
+        (
+            {"GITHUB_ACTIONS": "true", "ASTER_EXPERT_PROFIL": "vm"},
+            ("vm", "ASTER_EXPERT_PROFIL=vm"),
+        ),
     ],
 )
 def test_detect_profile(environ: dict[str, str], expected: tuple[str, str]) -> None:
@@ -647,6 +656,164 @@ def test_vm_profile_fails_on_a_missing_salome(
     _all_pass_but(monkeypatch, {"salome"})
     with pytest.raises(EnvCheckError, match=r"^salome : salome introuvable$"):
         v.run_checks(_ctx(_project(tmp_path)))
+
+
+# --- Profile ci (lot 46 bis) ----------------------------------------------------------
+
+
+def test_ci_profile_reports_cave_salome_share_and_mcp_as_expected_absences(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    called = _all_pass_but(monkeypatch, {"cave", "salome", "partage", "mcp"})
+    results = v.run_checks(_ctx(_project(tmp_path), profile="ci"))
+    assert called == list(CHECK_NAMES)
+    absent = {r.name: r.detail for r in results if r.expected_absent}
+    assert absent == {
+        "cave": "absent, attendu en profil ci (cave introuvable)",
+        "salome": "absent, attendu en profil ci (salome introuvable)",
+        "partage": "absent, attendu en profil ci (partage introuvable)",
+        "mcp": "absent, attendu en profil ci (mcp introuvable)",
+    }
+
+
+def test_ci_profile_still_fails_on_docker_or_the_image(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _all_pass_but(monkeypatch, {"docker"})
+    with pytest.raises(EnvCheckError, match=r"^docker : docker introuvable$"):
+        v.run_checks(_ctx(_project(tmp_path), profile="ci"))
+
+
+def test_cloud_profile_does_not_excuse_the_mcp_server(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _all_pass_but(monkeypatch, {"mcp"})
+    with pytest.raises(EnvCheckError, match=r"^mcp : mcp introuvable$"):
+        v.run_checks(_ctx(_project(tmp_path), profile="cloud"))
+
+
+@pytest.mark.parametrize("value", [None, "", "  "])
+def test_ci_profile_refuses_a_missing_image_reference(
+    tmp_path: Path, value: str | None
+) -> None:
+    ctx = _ctx(_project(tmp_path), profile="ci", image_ref_env=value)
+    with pytest.raises(EnvCheckError, match="ASTER_IMAGE_REF non défini"):
+        v.check_image(
+            ctx, lambda argv, timeout: _completed(argv), lambda _name: "docker"
+        )
+
+
+def test_ci_profile_missing_image_reference_stops_run_checks(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _all_pass_but(monkeypatch, set())
+    monkeypatch.undo()  # real check_image, the other checks are replaced below
+    for name, function in {
+        "python": "check_python",
+        "dependances": "check_dependencies",
+        "docker": "check_docker",
+    }.items():
+        monkeypatch.setattr(
+            v, function, lambda *a, _n=name, **k: CheckResult(name=_n, detail="ok")
+        )
+    ctx = _ctx(_project(tmp_path), profile="ci", image_ref_env=None)
+    with pytest.raises(EnvCheckError, match=r"^image : ASTER_IMAGE_REF non défini"):
+        v.run_checks(ctx, which=lambda _name: "docker")
+
+
+def test_ci_profile_accepts_the_image_reference_handed_by_the_workflow(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    seen: list[str | None] = []
+
+    def fake_resolve(**kwargs: object) -> ResolvedImage:
+        seen.append(kwargs["image_ref_env"])  # type: ignore[arg-type]
+        return ResolvedImage(
+            repository="simvia/code_aster",
+            tag="17.4.0",
+            digest=_DIGEST,
+            image_id="sha256:" + "b" * 64,
+            cave_pin_source="none",
+        )
+
+    monkeypatch.setattr(
+        "aster_expert.execution.docker_client.resolve_image", fake_resolve
+    )
+    ctx = _ctx(_project(tmp_path), profile="ci", image_ref_env=_DIGEST)
+    result = v.check_image(
+        ctx, lambda argv, timeout: _completed(argv), lambda _name: "docker"
+    )
+    assert seen == [_DIGEST]
+    assert _DIGEST in result.detail
+
+
+def test_from_machine_in_a_github_runner_is_the_ci_profile(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    monkeypatch.delenv(v.PROFILE_ENV, raising=False)
+    monkeypatch.delenv(v.CLOUD_MARKER_ENV, raising=False)
+    monkeypatch.setenv(v.CI_MARKER_ENV, "true")
+    monkeypatch.setenv(v.IMAGE_REF_ENV, _DIGEST)
+    ctx = v.from_machine(tmp_path)
+    assert ctx.profile == "ci"
+    assert ctx.image_ref_env == _DIGEST
+
+
+def test_cli_env_check_ci_announces_the_profile(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    def fake_run(ctx: EnvContext, *, on_result: Callable[[CheckResult], None]) -> None:
+        for name in CHECK_NAMES:
+            absent = name in v.EXPECTED_ABSENT_IN_CI
+            on_result(CheckResult(name=name, detail="d", expected_absent=absent))
+
+    monkeypatch.delenv(v.PROFILE_ENV, raising=False)
+    monkeypatch.delenv(v.CLOUD_MARKER_ENV, raising=False)
+    monkeypatch.setenv(v.CI_MARKER_ENV, "true")
+    monkeypatch.setattr(v, "from_machine", lambda root: _ctx(_project(tmp_path)))
+    monkeypatch.setattr(v, "run_checks", fake_run)
+    result = CliRunner().invoke(cli.app, ["env-check"])
+    assert result.exit_code == 0
+    assert result.output.startswith("Profil : ci (GITHUB_ACTIONS=true)")
+    assert "(profil ci) : 8 vérifications, dont 4 absences attendues." in result.output
+
+
+# --- Workflow ci-lent (lot 46 bis) ---------------------------------------------------
+
+
+def _ci_lent_text() -> str:
+    return (_REPO / ".github" / "workflows" / "ci-lent.yml").read_text(encoding="utf-8")
+
+
+def test_ci_lent_env_check_is_blocking() -> None:
+    text = _ci_lent_text()
+    assert re.search(r"run: \.venv/bin/aster-expert env-check$", text, re.MULTILINE)
+    assert "|| true" not in text
+
+
+def test_ci_lent_takes_the_image_reference_from_versions_yaml_only() -> None:
+    text = _ci_lent_text()
+    assert not re.search(r"sha256:[0-9a-f]{16,}", text)
+    assert "config/versions.yaml" in text
+    assert 'echo "ASTER_IMAGE_REF=$digest" >> "$GITHUB_ENV"' in text
+
+
+def test_ci_lent_pulls_by_digest_before_env_check_and_tests() -> None:
+    text = _ci_lent_text()
+    pull = text.index('docker pull "$repository@$digest"')
+    check = text.index("run: .venv/bin/aster-expert env-check")
+    extract = text.index("aster-expert catalogue extract")
+    tests = text.index("run: .venv/bin/pytest -m lent_aster")
+    assert pull < check < extract < tests
+
+
+def test_ci_lent_digest_is_the_one_of_cloud_setup() -> None:
+    versions = yaml.safe_load(
+        (_REPO / "config" / "versions.yaml").read_text(encoding="utf-8")
+    )
+    digest = versions["detected"]["container"]["image_digest"]
+    setup = (_REPO / "scripts" / "cloud_setup.sh").read_text(encoding="utf-8")
+    assert f'IMAGE_DIGEST="{digest}"' in setup
 
 
 # --- The repository's own pins --------------------------------------------------------

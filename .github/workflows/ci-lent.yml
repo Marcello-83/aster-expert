@@ -2,7 +2,8 @@
 #
 # Déclenché à la main seulement (Actions > ci-lent > Run workflow) pour ne pas
 # consommer les minutes d'un dépôt privé à chaque envoi. L'image est tirée par son
-# digest, lu de config/versions.yaml (jamais par un tag seul, CLAUDE.md principe 1).
+# digest, lu de config/versions.yaml (jamais par un tag seul, CLAUDE.md principe 1) ;
+# ASTER_IMAGE_REF en est dérivé (lot 46 bis), env-check (profil ci) est bloquant.
 # Salomé (`lent_salome`) n'existe que dans la VM : jamais ici.
 
 name: ci-lent
@@ -33,22 +34,32 @@ jobs:
       - name: Image Code_Aster, tirée par digest
         run: |
           set -eu
-          digest=$(.venv/bin/python - <<'PY'
+          # Source unique de vérité : config/versions.yaml (image et digest).
+          # Rien n'est recopié en dur ici (le même digest vit dans
+          # scripts/cloud_setup.sh, gardé identique par un test).
+          read -r repository tag digest < <(.venv/bin/python - <<'PY'
           import yaml
           data = yaml.safe_load(open("config/versions.yaml", encoding="utf-8"))
-          print(data["detected"]["container"]["image_digest"])
+          c = data["detected"]["container"]
+          print(c["image_repository"], c["image_tag"], c["image_digest"])
           PY
           )
-          echo "digest : $digest"
-          docker pull "simvia/code_aster@$digest"
+          echo "image : $repository@$digest (étiquette locale $tag)"
+          docker pull "$repository@$digest"
           # Étiquette locale du même digest (comme `cave` dans la VM, comme
           # scripts/cloud_setup.sh) ; jamais `stable`.
-          docker tag "simvia/code_aster@$digest" simvia/code_aster:17.4.0
+          docker tag "$repository@$digest" "$repository:$tag"
           mkdir -p "$ASTER_CONTAINER_WORKROOT"
+          # Référence de l'image pour env-check, l'extraction du catalogue et les
+          # tests (sans `cave`, aucune autre source) : un digest nu, comme dans le
+          # Cloud (`ASTER_IMAGE_REF=$IMAGE_DIGEST`).
+          echo "ASTER_IMAGE_REF=$digest" >> "$GITHUB_ENV"
+
+      - name: Environnement (profil ci, bloquant)
+        run: .venv/bin/aster-expert env-check
 
       - name: Catalogue de l'image
         run: |
-          .venv/bin/aster-expert env-check || true
           .venv/bin/aster-expert catalogue extract
           # `catalogue extract` réécrit la section `detected` de config/versions.yaml.
           git checkout -- config/versions.yaml

@@ -22,6 +22,12 @@ In the cloud (a Claude Code cloud session, `CLAUDE_CODE_REMOTE=true`), `cave`,
 Salome and the shared folder do not exist by design: their absence is reported
 as expected, never as a failure. Every other check is the same in both profiles.
 
+Lot 46 bis: a third profile, `ci` (GitHub Actions, `GITHUB_ACTIONS=true`). There
+too `cave`, Salome, the shared folder and the MCP server are absent by design
+(the image is pulled by digest and handed over as `ASTER_IMAGE_REF`; no `.mcp.json`
+session). Without `cave` to fall back on, a missing `ASTER_IMAGE_REF` is a failure
+of the `image` check, never a silent default.
+
 Every external call goes through an injectable runner, so that the checks are
 tested without Docker, Singularity or the shared folder.
 """
@@ -57,13 +63,23 @@ _NORMALIZE = re.compile(r"[-_.]+")
 _REQUIREMENT_NAME = re.compile(r"^\s*([A-Za-z0-9][A-Za-z0-9._-]*)")
 
 
-Profile = Literal["vm", "cloud"]
+Profile = Literal["vm", "cloud", "ci"]
+PROFILES: tuple[Profile, ...] = ("vm", "cloud", "ci")
 PROFILE_ENV = "ASTER_EXPERT_PROFIL"
 CLOUD_MARKER_ENV = "CLAUDE_CODE_REMOTE"
+CI_MARKER_ENV = "GITHUB_ACTIONS"
+IMAGE_REF_ENV = "ASTER_IMAGE_REF"
 # Checks whose resource is absent from a cloud session by design (lot 41 ter):
 # no `cave` (the image is pulled by digest), no Salome image (a local file of
 # several GB, on no registry), no VirtualBox shared folder.
 EXPECTED_ABSENT_IN_CLOUD: frozenset[str] = frozenset({"cave", "salome", "partage"})
+# Lot 46 bis: same absences in a GitHub Actions runner, plus the MCP server.
+EXPECTED_ABSENT_IN_CI: frozenset[str] = frozenset({"cave", "salome", "partage", "mcp"})
+EXPECTED_ABSENT: dict[Profile, frozenset[str]] = {
+    "vm": frozenset(),
+    "cloud": EXPECTED_ABSENT_IN_CLOUD,
+    "ci": EXPECTED_ABSENT_IN_CI,
+}
 
 
 class EnvCheckError(Exception):
@@ -87,21 +103,24 @@ class CheckResult(BaseModel):
 def detect_profile(
     environ: Mapping[str, str] | None = None,
 ) -> tuple[Profile, str]:
-    """(profile, reason): `ASTER_EXPERT_PROFIL` wins, else `CLAUDE_CODE_REMOTE`.
+    """(profile, reason): `ASTER_EXPERT_PROFIL` wins, else the platform markers.
 
     Claude Code sets `CLAUDE_CODE_REMOTE=true` in a cloud session and never
-    locally (documentation « Configure cloud environments »).
+    locally (documentation « Configure cloud environments »); GitHub Actions
+    sets `GITHUB_ACTIONS=true` in every workflow run (lot 46 bis).
     """
     env = os.environ if environ is None else environ
     forced = (env.get(PROFILE_ENV) or "").strip()
     if forced:
-        if forced not in ("vm", "cloud"):
-            message = f"{PROFILE_ENV}={forced!r} : valeurs admises 'vm' ou 'cloud'"
-            raise EnvCheckError(message)
-        profile: Profile = "cloud" if forced == "cloud" else "vm"
-        return profile, f"{PROFILE_ENV}={forced}"
+        for profile in PROFILES:
+            if forced == profile:
+                return profile, f"{PROFILE_ENV}={forced}"
+        message = f"{PROFILE_ENV}={forced!r} : valeurs admises 'vm', 'cloud' ou 'ci'"
+        raise EnvCheckError(message)
     if (env.get(CLOUD_MARKER_ENV) or "").strip().lower() == "true":
         return "cloud", f"{CLOUD_MARKER_ENV}=true"
+    if (env.get(CI_MARKER_ENV) or "").strip().lower() == "true":
+        return "ci", f"{CI_MARKER_ENV}=true"
     return "vm", f"{CLOUD_MARKER_ENV} non défini"
 
 
@@ -175,7 +194,7 @@ def from_machine(project_root: Path) -> EnvContext:
         interpreter=InterpreterInfo.current(),
         installed=installed_distributions(),
         direct_requirements=direct_requirement_names(requires),
-        image_ref_env=os.environ.get("ASTER_IMAGE_REF"),
+        image_ref_env=os.environ.get(IMAGE_REF_ENV),
         profile=detect_profile()[0],
     )
 
@@ -411,6 +430,13 @@ def check_image(ctx: EnvContext, runner: Runner, which: Which) -> CheckResult:
     from aster_expert.execution.errors import EnvironmentDetectionError
 
     repository, expected = read_expected_image(ctx.project_root)
+    if ctx.profile == "ci" and not (ctx.image_ref_env or "").strip():
+        message = (
+            f"{IMAGE_REF_ENV} non défini : sans `cave`, le profil ci n'a aucune autre "
+            "source de la référence de l'image ; le workflow la construit depuis "
+            "config/versions.yaml (digest), jamais recopiée en dur"
+        )
+        raise EnvCheckError(message)
     try:
         resolved = resolve_image(
             docker_bin=Path(_docker_bin(which)),
@@ -616,7 +642,7 @@ def run_checks(
     """Run every check in order; raise `EnvCheckError` naming the first failure.
 
     The raised error's message starts with the failing check's name. In the
-    `cloud` profile, a failure of a check of `EXPECTED_ABSENT_IN_CLOUD` is an
+    `cloud` and `ci` profiles, a failure of a check of `EXPECTED_ABSENT[profile]` is an
     expected absence (`CheckResult.expected_absent`), not a failure.
     """
     steps: dict[str, Callable[[], CheckResult]] = {
@@ -636,10 +662,10 @@ def run_checks(
         try:
             result = steps[name]()
         except EnvCheckError as exc:
-            if ctx.profile == "cloud" and name in EXPECTED_ABSENT_IN_CLOUD:
+            if name in EXPECTED_ABSENT[ctx.profile]:
                 result = CheckResult(
                     name=name,
-                    detail=f"absent, attendu en profil cloud ({exc})",
+                    detail=f"absent, attendu en profil {ctx.profile} ({exc})",
                     expected_absent=True,
                 )
                 results.append(result)
