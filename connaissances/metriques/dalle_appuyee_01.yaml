@@ -70,18 +70,19 @@ lots:
       écrite, aucun contrôle nouveau.'
 - lot: '45'
   supervisor_interventions:
-    value: null
-    nature: non renseigné
-    note: 'à renseigner par MM : les décisions D20, D21, Es et les quatre points de la partie
-      A étaient dans la consigne (« validées par le lancement du lot ») ; la session n''a
-      sollicité aucune décision supplémentaire'
+    value: 1.0
+    nature: mesure
+    note: 'Déclaré par MM (consigne du lot 46, décision 2) : une intervention au lot 45, l''arbitrage
+      des trois points de la partie A sur la conservation des niveaux. C''était une information
+      qui manquait, non une correction. Les décisions D20, D21 et Es étaient dans la consigne.
+      Valeur déclarée sans recalcul des métriques (lot 46, étape 4).'
   avoided_errors:
     value: 0.0
     nature: mesure
     note: 'Aucune erreur de calcul évitée à déclarer : aucune commande d''ouvrage écrite ;
       CA-041 consulté (search_constats FERR_MIN) pour la règle d''unités, sans erreur constatée
       avant ni après'
-declared_interventions_since_baseline: 2.0
+declared_interventions_since_baseline: 3.0
 measured:
   runs: 6
   failures: 0

@@ -51,7 +51,10 @@ def test_versioned_summary_is_reproduced(rejeu: ModuleType) -> None:
 
 
 def test_cli_lists_and_adds_the_missing_parameters(
-    rejeu: ModuleType, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    rejeu: ModuleType,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    lecture_sous_tmp: Path,
 ) -> None:
     from typer.testing import CliRunner  # noqa: PLC0415
 

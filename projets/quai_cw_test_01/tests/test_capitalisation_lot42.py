@@ -15,8 +15,8 @@ from pathlib import Path
 import pytest
 import yaml
 
+from aster_expert.connaissances.archive import archive_problem
 from aster_expert.connaissances.base import (
-    RUNS_RELATIVE,
     dump_entry,
     entry_path,
     load_knowledge,
@@ -88,9 +88,14 @@ def test_the_baseline_metrics_are_declared_as_such() -> None:
     assert registry.baseline.supervisor_interventions.nature == "estimation"
 
 
+# Lot 46 : l'archive doit être celle du manifeste du registre (ni absente, ni partielle
+# comme dans le Cloud, ni étrangère).
+_ARCHIVE_PROBLEM = archive_problem(ROOT)
+
+
 @pytest.mark.skipif(
-    not (ROOT / RUNS_RELATIVE).is_dir(),
-    reason="archives d'exécution absentes (profil cloud) : classement non vérifiable",
+    _ARCHIVE_PROBLEM is not None,
+    reason=f"archive d'exécution non conforme au manifeste : {_ARCHIVE_PROBLEM}",
 )
 def test_the_73_archived_failures_are_classified_as_recorded() -> None:
     registry = load_registry(ROOT, PROJECT)

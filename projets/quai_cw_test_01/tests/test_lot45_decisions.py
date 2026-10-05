@@ -63,8 +63,22 @@ def test_d21_is_the_literal_reading_of_7_3_2_not_the_lot_44_wording() -> None:
 def test_es_is_decided_and_blocks_generation_until_the_quai_is_recomputed() -> None:
     entry = _entry(_ES)
     assert entry.status == "tranche"
-    assert "Es = 200 GPa" in (entry.option_retained or "")
-    assert "210 GPa" in (entry.option_retained or "")
+    # Lot 46 : texte de MM (consigne, décision 1), qui remplace celui du lot 45.
+    assert entry.option_retained == (
+        "Module d'élasticité des armatures de béton armé, Es = 200 GPa, pour tous les "
+        "projets."
+    )
+    assert "EN 1992-1-1, 3.2.7(4)" in (entry.justification or "")
+    assert "EN 1993-1-1, 3.2.6" in (entry.justification or "")
+    assert "Hors domaine : acier de construction" in (entry.validity_domain or "")
+    assert [v.description for v in entry.discarded_variants] == [
+        "Es = 210 GPa pour les armatures."
+    ]
+    assert entry.discarded_variants[0].reason == (
+        "Valeur de l'EN 1993, non conforme à l'EN 1992-1-1."
+    )
+    (prior,) = entry.decision_history  # le texte du lot 45 est conservé
+    assert "210 GPa" in (prior.option_retained or "")
     assert entry.under_revision
     sheet = _sheet()
     assert any(_ES in b for b in sheet.generation_blockers())

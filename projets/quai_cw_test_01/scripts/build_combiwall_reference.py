@@ -1382,6 +1382,39 @@ def _lot45(sheet: HypothesesSheet) -> HypothesesSheet:
     return sheet.model_copy(update={"entries": tuple(entries)})
 
 
+def _lot46(sheet: HypothesesSheet) -> HypothesesSheet:
+    """Lot 46: the decision on Es worded by MM
+    (`arbitrage_combiwall_MM_lot46_Es.md`, the lot 45 text goes to `decision_history`).
+    Recording closes the revision opened at lot 45; the quai is not recomputed, so the
+    entry is declared « en révision » again (`lot46_enregistrement.json`)."""
+    record = json.loads((INPUTS / "lot46_enregistrement.json").read_text("utf-8"))
+    decided_at = datetime.fromisoformat(record["decision_es"]["decided_at"])
+    sheet = _record_decisions(
+        sheet,
+        INPUTS / "arbitrage_combiwall_MM_lot46_Es.md",
+        decided_at_override=decided_at,
+    )
+    pending = record["es_en_attente"]
+    entries = list(sheet.entries)
+    matches = [
+        i
+        for i, e in enumerate(entries)
+        if isinstance(e, PracticeHypothesisEntry)
+        and e.point_label == pending["point_label"]
+        and e.topic == pending["topic"]
+    ]
+    assert len(matches) == 1, pending["topic"]
+    target = entries[matches[0]]
+    assert isinstance(target, PracticeHypothesisEntry)
+    entries[matches[0]] = declare_under_revision(
+        target,
+        reason=pending["reason"],
+        declared_by=pending["declared_by"],
+        declared_at=datetime.fromisoformat(pending["declared_at"]),
+    )
+    return sheet.model_copy(update={"entries": tuple(entries)})
+
+
 def build_sheet() -> HypothesesSheet:
     sheet = HypothesesSheet.model_validate_json(BASE_PATH.read_text(encoding="utf-8"))
     sheet = _record_decisions(sheet, INPUTS / "arbitrage_combiwall_MM_v2.md")
@@ -1404,7 +1437,7 @@ def build_sheet() -> HypothesesSheet:
     sheet = _lot37(sheet)
     sheet = _lot38(sheet)
     sheet = _lot39(sheet)
-    return _lot45(_lot44(sheet))
+    return _lot46(_lot45(_lot44(sheet)))
 
 
 def build(*, externalize: bool = True) -> HypothesesSheet:

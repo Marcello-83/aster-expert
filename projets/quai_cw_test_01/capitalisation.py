@@ -2369,8 +2369,9 @@ _PRECEDENT_NOTES = {
         "identifiant qui n'a jamais existé"
     ),
     "Module d'élasticité de l'acier de ferraillage (Es)": (
-        "Es = 200 GPa pour tous les projets, appliqué à la dalle (PRE-031) ; le quai "
-        "garde 210 GPa jusqu'à son prochain recalcul, décision en attente "
+        "Es = 200 GPa pour les armatures de béton armé de tous les projets (texte de "
+        "MM, lot 46), appliqué à la dalle (PRE-031) ; le ferraillage du quai n'est pas "
+        "encore recalculé (210 GPa dans ses résultats), décision en attente "
         "d'application"
     ),
 }

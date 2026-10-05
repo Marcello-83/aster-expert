@@ -51,7 +51,9 @@ from aster_expert.connaissances.references import replay_references
 from aster_expert.connaissances.rex import (
     Classification,
     RexRegistry,
+    load_registry,
     read_log_tolerant,
+    record_manifest,
     render_dashboard,
     render_report,
     review_project,
@@ -610,6 +612,7 @@ def _rex_repo(tmp_path: Path) -> Path:
         }
         (work / "compte_rendu.json").write_text(json.dumps(record), "utf-8")
     write_registry(root, RexRegistry(project="p", case_roots=("projets/p",)))
+    record_manifest(root, "p")  # lot 46 : l'archive factice est la complète
     return root
 
 
@@ -629,6 +632,7 @@ def test_a_classified_failure_releases_the_closure(tmp_path: Path) -> None:
         RexRegistry(
             project="p",
             case_roots=("projets/p",),
+            archive=load_registry(root, "p").archive,
             classifications=(
                 Classification(
                     run="20261005T100000-aaaaaaaa",
@@ -656,6 +660,7 @@ def test_a_classification_under_another_signature_blocks(tmp_path: Path) -> None
         RexRegistry(
             project="p",
             case_roots=("projets/p",),
+            archive=load_registry(root, "p").archive,
             classifications=(
                 Classification(
                     run="20261005T100000-aaaaaaaa",
@@ -676,7 +681,10 @@ def test_without_run_archives_rex_says_so_without_failing(tmp_path: Path) -> Non
     shutil.rmtree(root / "data")
     report = review_project(root, "p")
     assert not report.archives_present and report.blocking == []
-    assert "Archives d'exécution absentes" in render_report(report)[1]
+    assert (
+        "Archive d'exécution refusée : archives d'exécution absentes"
+        in (render_report(report)[1])
+    )
 
 
 def test_a_damaged_journal_line_is_counted_not_fatal(tmp_path: Path) -> None:

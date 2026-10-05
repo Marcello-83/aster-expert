@@ -228,13 +228,75 @@ def check_layout(document: DocumentType, path: Path, result: NoteCheck) -> None:
     result.count("titres_numerotes", len(headings))
 
 
+ANNEX_TITLE = "Annexe : historique des révisions"
+_QUOTED_MARKER = re.compile(r"«\s*(?:À CONFIRMER|QUESTION)[^»]*»")
+_OPEN_MARKERS = ("[À CONFIRMER", "[QUESTION")
+_SOURCE_MARKER = re.compile(r"\[(?:À CONFIRMER|QUESTION)[^\]]*\]|TODO")
+
+
+def _annex_start(document: DocumentType) -> int | None:
+    """Index, among the paragraphs of the body, of the annex heading (if any)."""
+    for index, paragraph in enumerate(document.paragraphs):
+        if paragraph.text.strip().endswith(ANNEX_TITLE):
+            return index
+    return None
+
+
 def check_markers(document: DocumentType, result: NoteCheck) -> None:
-    text = full_text(document)
-    for marker in FORBIDDEN:
-        found = text.count(marker)
-        if found:
-            result.problem(f"{found} occurrence(s) de « {marker} »")
-    result.count("marqueurs_interdits_recherches", len(FORBIDDEN))
+    """Placeholder markers (lot 45, refined at lot 46).
+
+    A marker in a text in force fails the check, whatever its form (`[À CONFIRMER MM]`
+    or quoted `« À CONFIRMER MM »`). A marker in the history (the annex of revisions:
+    decisions replaced, revision events) is allowed when it is quoted between
+    guillemets, as the note shows a marker cited from a closed revision; an open
+    bracketed marker fails even there. `TODO` fails everywhere.
+    """
+    # Table cells carry most of the quoted history: `blocks` orders paragraphs and
+    # tables as the body does, the annex starts at its heading.
+    annex = _annex_start(document)
+    in_force_text: list[str] = []
+    history_text: list[str] = []
+    in_annex = False
+    for block in blocks(document):
+        if block.kind == "p" and block.paragraph is not None:
+            if annex is not None and block.paragraph.text.strip().endswith(ANNEX_TITLE):
+                in_annex = True
+            (history_text if in_annex else in_force_text).append(block.paragraph.text)
+        elif block.table is not None:
+            cells = [c.text for row in block.table.rows for c in row.cells]
+            (history_text if in_annex else in_force_text).extend(cells)
+    for section in document.sections:
+        in_force_text.extend(p.text for p in section.footer.paragraphs)
+        in_force_text.extend(p.text for p in section.header.paragraphs)
+
+    current = "\n".join(in_force_text)
+    past = "\n".join(history_text)
+    for marker in (*_OPEN_MARKERS, "TODO"):
+        for where, text in (("texte en vigueur", current), ("historique", past)):
+            found = text.count(marker)
+            if found:
+                result.problem(f"{found} occurrence(s) de « {marker} » dans le {where}")
+    quoted_in_force = len(_QUOTED_MARKER.findall(current))
+    if quoted_in_force:
+        result.problem(
+            f"{quoted_in_force} marqueur(s) cité(s) entre guillemets dans un texte en "
+            "vigueur : seul l'historique des révisions peut en citer"
+        )
+    result.count("marqueurs_cites_historique", len(_QUOTED_MARKER.findall(past)))
+    result.count("marqueurs_interdits_recherches", len(_OPEN_MARKERS) + 1)
+
+
+def check_sheet_markers(sheet: HypothesesSheet, result: NoteCheck) -> None:
+    """A marker in a decision in force, in the fiche itself (the note would quote it)."""
+    for entry in sheet.entries:
+        if not isinstance(entry, PracticeHypothesisEntry):
+            continue
+        for name in ("option_retained", "justification", "validity_domain"):
+            value = getattr(entry, name)
+            if value and _SOURCE_MARKER.search(value):
+                result.problem(
+                    f"point {entry.point_label} : marqueur dans {name}, texte en vigueur"
+                )
 
 
 # -- hypotheses note -----------------------------------------------------------------
@@ -455,6 +517,7 @@ def check_hypotheses_note(ctx: ProjectContext, path: Path) -> NoteCheck:
             )
     _check_combinations(document, ctx, result)
     check_markers(document, result)
+    check_sheet_markers(sheet, result)
     check_layout(document, path, result)
     return result
 
@@ -605,5 +668,6 @@ __all__ = [
     "check_hypotheses_note",
     "check_layout",
     "check_markers",
+    "check_sheet_markers",
     "check_results_note",
 ]

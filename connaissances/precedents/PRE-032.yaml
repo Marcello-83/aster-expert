@@ -1,10 +1,11 @@
 id: PRE-032
 title: 'Point 14 : Module d''élasticité de l''acier de ferraillage (Es)'
-summary: 'Décision de MM au point 14 de la fiche du quai (2026-10-02) : Module d''élasticité
-  de l''acier de ferraillage (Es) ; Es = 200 GPa pour tous les projets, appliqué à la dalle
-  (PRE-031) ; le quai garde 210 GPa jusqu''à son prochain recalcul, décision en attente d''application.'
+summary: 'Décision de MM au point 14 de la fiche du quai (2026-10-05) : Module d''élasticité
+  de l''acier de ferraillage (Es) ; Es = 200 GPa pour les armatures de béton armé de tous
+  les projets (texte de MM, lot 46), appliqué à la dalle (PRE-031) ; le ferraillage du quai
+  n''est pas encore recalculé (210 GPa dans ses résultats), décision en attente d''application.'
 origin_project: quai_cw_test_01
-date: '2026-10-02'
+date: '2026-10-05'
 validation_level: A
 status: observé
 sources:
@@ -12,7 +13,7 @@ sources:
   fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
   point_label: '14'
   decided_by: MM
-  decided_at: '2026-10-02T14:04:31Z'
+  decided_at: '2026-10-05T07:27:34Z'
 commands: []
 keywords: []
 reuses: []
@@ -20,19 +21,16 @@ status_history: []
 fiche: projets/quai_cw_test_01/fiche/hypotheses_combiwall_reference_arbitree.json
 point_label: '14'
 topic: Module d'élasticité de l'acier de ferraillage (Es)
-option_retained: Es = 200 GPa (EN 1992-1-1, 3.2.7(4)), pour tous les projets. Le quai garde
-  210 GPa (valeur employée depuis le lot 39) jusqu'au prochain lot qui recalcule son ferraillage
-  ; la décision est en attente d'application.
-justification: 'Décision de MM (consigne du lot 44, confirmée au lot 45) : la valeur de 210
-  GPa est celle des aciers de construction (EN 1993) ; la réglementation du béton armé retient
-  200 GPa pour les armatures. Appliquée à la dalle au lot 44.'
-validity_domain: 'Tous les projets. Tant que le ferraillage du quai n''est pas recalculé,
-  les résultats du quai (lot 39, eys_pa = 2,1e11 Pa) portent 210 GPa : la fiche déclare cette
-  décision « en révision » (bloqueur de génération visible) jusqu''à l''application.'
+option_retained: Module d'élasticité des armatures de béton armé, Es = 200 GPa, pour tous
+  les projets.
+justification: Valeur de calcul de l'EN 1992-1-1, 3.2.7(4). La valeur de 210 GPa est celle
+  des aciers de construction (EN 1993-1-1, 3.2.6) et ne s'applique pas aux armatures.
+validity_domain: 'Armatures passives de béton armé. Hors domaine : acier de construction (tubes,
+  palplanches, profilés), qui garde 210 GPa.'
 discarded_variants:
-- 'Es = 210 GPa. — écartée : Valeur des aciers de construction (EN 1993), non celle des armatures
-  de béton armé.'
+- 'Es = 210 GPa pour les armatures. — écartée : Valeur de l''EN 1993, non conforme à l''EN
+  1992-1-1.'
 decided_by: MM
-decided_at: '2026-10-02T14:04:31Z'
-superseded_decisions: 0
+decided_at: '2026-10-05T07:27:34Z'
+superseded_decisions: 1
 application: proposition seulement

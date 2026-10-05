@@ -939,10 +939,16 @@ Les chemins cités dans les entrées détaillées des lots 22 à 39 sont ceux de
   révision » : bloqueur de génération visible, le quai garde 210 GPa). `FERR_MIN`
   n'est demandé qu'avec `UNITE_CONTRAINTE='MPa'` (`aster_expert.ferraillage.unites`,
   CA-041) ; signalement factuel : `docs/signalements/ferr_min_unite_contrainte.md`.
-  Piège : dans le Cloud, une exécution crée `data/processed/runs/` ; les tests qui
-  prennent ce répertoire pour l'archive complète du quai (`rex`, `connaissances
-  verifier`, `test_capitalisation_lot42`) échouent ensuite : lancer `pytest -m
-  lent_aster` en dernier, comme le veut l'ordre des contrôles.
+
+- **Lot 46, archive d'exécution** : le registre de chaque projet (`connaissances/rex/<projet>.yaml`)
+  porte un manifeste (`archive` : nombre d'exécutions du projet, empreinte de leur liste triée),
+  recopié dans `data/processed/runs/manifeste.json`. `aster-expert rex <projet> --manifeste`
+  l'enregistre (VM, archive complète ; refusé si l'archive contredit un manifeste déjà
+  enregistré). Une archive absente, partielle (Cloud) ou non conforme est **refusée** : `rex`
+  n'écrit alors que les champs déclarés (interventions, erreurs évitées, notes) et dit pourquoi,
+  `connaissances verifier` classe les sources d'exécution en « non vérifiables », et les tests qui
+  supposent l'archive complète s'ignorent avec ce motif. Plus aucun ordre à respecter entre
+  `pytest -m lent_aster` et les autres tests.
 
 ## Périmètre à ne pas dépasser sans instruction
 

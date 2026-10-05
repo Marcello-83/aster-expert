@@ -37,6 +37,13 @@ from typing import Any, Literal
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from aster_expert.connaissances.archive import (
+    ArchiveManifest,
+    attributed_runs,
+    build_manifest,
+    conformity_problem,
+    write_mirror,
+)
 from aster_expert.connaissances.base import RUNS_RELATIVE, KnowledgeBase, load_knowledge
 from aster_expert.connaissances.modeles import (
     LAYERS,
@@ -146,6 +153,8 @@ class RexRegistry(_Model):
     legacy_runs: LegacyRuns | None = None
     baseline: Baseline | None = None
     lots: tuple[LotRecord, ...] = ()
+    archive: ArchiveManifest | None = None
+    """Manifest of the complete archive (lot 46): see `connaissances.archive`."""
     reviews: tuple[Review, ...] = ()
     classifications: tuple[Classification, ...] = ()
 
@@ -294,17 +303,25 @@ def _legacy_durations(repo_root: Path, legacy: LegacyRuns | None) -> dict[str, f
     return out
 
 
+def registry_run_ids(repo_root: Path, registry: RexRegistry) -> list[str]:
+    """Identifiers of the archived runs attributed to the project, oldest first."""
+    legacy = registry.legacy_runs
+    return attributed_runs(
+        repo_root, registry.case_roots, legacy.before if legacy else None
+    )
+
+
 def project_runs(
     repo_root: Path, registry: RexRegistry, base: KnowledgeBase | None
 ) -> list[RunSummary]:
     """Runs attributed to the project, oldest first (see the module docstring)."""
     runs_dir = repo_root / RUNS_RELATIVE
     durations = _legacy_durations(repo_root, registry.legacy_runs)
-    roots = tuple(r.rstrip("/") + "/" for r in registry.case_roots)
+    attributed = set(registry_run_ids(repo_root, registry))
     out = []
     for run_dir in sorted(p for p in runs_dir.iterdir() if p.is_dir()):
         started = run_started(run_dir.name)
-        if started is None:
+        if started is None or run_dir.name not in attributed:
             continue
         record = run_dir / "compte_rendu.json"
         mess_path = None
@@ -313,9 +330,7 @@ def project_runs(
         if record.is_file():
             data = json.loads(record.read_text(encoding="utf-8"))
             report = data["report"]
-            comm = _relative_to_root(str(report["comm_path"]), repo_root)
-            if comm is None or not comm.startswith(roots):
-                continue
+            comm = _relative_to_root(str(report["comm_path"]), repo_root) or ""
             comm_sha = (data.get("inputs_sha256") or {}).get(
                 Path(str(report["comm_path"])).name
             )
@@ -334,9 +349,6 @@ def project_runs(
                 for e in data.get("errors", [])
             ]
         else:
-            legacy = registry.legacy_runs
-            if legacy is None or started >= legacy.before.replace(tzinfo=None):
-                continue
             comms = sorted(p.name for p in run_dir.glob("*.comm"))
             comm = comms[0] if comms else "(aucun .comm)"
             if comms:
@@ -523,6 +535,9 @@ class FailureLine(_Model):
 class RexReport(_Model):
     project: str
     archives_present: bool
+    archive_problem: str | None = None
+    """Why the archive is refused (absent, partial, not conformant to the manifest):
+    the measured metrics are then neither computed nor written (lot 46)."""
     runs: int = 0
     failures: tuple[FailureLine, ...] = ()
     since_last_review: int = 0
@@ -547,10 +562,16 @@ def review_project(repo_root: Path, project: str) -> RexReport:
     below = len(
         pattern_candidates(repo_root, project, base, limit=10_000, threshold=0.0)
     ) - len(candidates)
-    if not (repo_root / RUNS_RELATIVE).is_dir():
+    problem = (
+        "archives d'exécution absentes (data/processed/runs/ : Cloud ou clone neuf)"
+        if not (repo_root / RUNS_RELATIVE).is_dir()
+        else conformity_problem(registry_run_ids(repo_root, registry), registry.archive)
+    )
+    if problem is not None:
         return RexReport(
             project=project,
             archives_present=False,
+            archive_problem=problem,
             constat_proposals=proposals,
             pattern_candidates=candidates,
             pattern_candidates_below=below,
@@ -809,6 +830,57 @@ def write_metrics(repo_root: Path, metrics: dict[str, Any]) -> Path:
     return path
 
 
+_DECLARED_METRICS = ("baseline", "lots", "declared_interventions_since_baseline")
+
+
+def write_declared_metrics(repo_root: Path, metrics: dict[str, Any]) -> Path:
+    """Update only the declared fields of the metrics file (lot 46).
+
+    Used when the archive is absent, partial or not conformant to its manifest:
+    interventions, avoided errors, notes and baseline come from the registry and are
+    safe to write; every measured field of the existing file is left as it is. A file
+    that does not exist yet is created without measures.
+    """
+    path = repo_root / METRICS_RELATIVE / f"{metrics['project']}.yaml"
+    if path.is_file():
+        current = yaml.safe_load(path.read_text(encoding="utf-8"))
+    else:
+        current = {**metrics, "measured": None}
+    for key in _DECLARED_METRICS:
+        current[key] = metrics[key]
+    avoided = metrics["consultations"]["avoided_errors"]
+    current.setdefault("consultations", metrics["consultations"])
+    current["consultations"]["avoided_errors"] = avoided
+    return write_metrics(repo_root, current)
+
+
+def record_manifest(
+    repo_root: Path, project: str, *, today: dt.date | None = None
+) -> ArchiveManifest:
+    """Record the manifest of the complete archive in the registry (VM).
+
+    Refused when the archive is absent, or when it contradicts a manifest already
+    recorded (partial archive): a recorded manifest is never replaced from a partial
+    archive. A first manifest is the engineer's explicit statement that the archive in
+    front of the command is complete.
+    """
+    registry = load_registry(repo_root, project)
+    if not (repo_root / RUNS_RELATIVE).is_dir():
+        message = "archives d'exécution absentes : aucun manifeste à enregistrer"
+        raise ValueError(message)
+    ids = registry_run_ids(repo_root, registry)
+    if registry.archive is not None:
+        problem = conformity_problem(ids, registry.archive)
+        if problem is not None:
+            message = f"manifeste existant contredit : {problem}"
+            raise ValueError(message)
+    manifest = build_manifest(ids, today=today)
+    updated = registry.model_copy(update={"archive": manifest})
+    write_registry(repo_root, RexRegistry.model_validate(updated.model_dump()))
+    write_mirror(repo_root)
+    return manifest
+
+
 def _fmt(value: Any, nature: str | None = None) -> str:
     if value is None:
         return "non renseigné"
@@ -911,8 +983,9 @@ def render_report(report: RexReport) -> list[str]:
     lines = [f"Retour d'expérience du projet {report.project}"]
     if not report.archives_present:
         lines.append(
-            "Archives d'exécution absentes (data/processed/runs/ : profil cloud ou "
-            "clone neuf) : aucun échec examiné, métriques mesurées non recalculées."
+            f"Archive d'exécution refusée : {report.archive_problem}. Aucun échec "
+            "examiné, métriques mesurées ni recalculées ni écrites ; seuls les champs "
+            "déclarés (interventions, erreurs évitées, notes) sont mis à jour."
         )
     else:
         lines.append(

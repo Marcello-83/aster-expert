@@ -33,6 +33,7 @@ from typing import Any, Literal
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
 
+from aster_expert.connaissances.archive import RUNS_RELATIVE, archive_problem
 from aster_expert.connaissances.modeles import (
     ENTRY_TYPES,
     LAYERS,
@@ -58,7 +59,6 @@ from aster_expert.constats.models import Constat
 
 KNOWLEDGE_RELATIVE = Path("connaissances")
 PROMOTIONS_FILE = "promotions.yaml"
-RUNS_RELATIVE = Path("data") / "processed" / "runs"
 
 
 class KnowledgeBaseError(ValueError):
@@ -538,7 +538,8 @@ class RepositoryCheck(BaseModel):
 def verify_against_repository(base: KnowledgeBase) -> RepositoryCheck:
     root = base.root
     runs = root / RUNS_RELATIVE
-    runs_present = runs.is_dir()
+    # Lot 46: a partial archive (Cloud) counts as absent, not as complete.
+    runs_present = runs.is_dir() and archive_problem(root) is None
     problems: list[str] = []
     unverifiable: list[str] = []
     checked = 0

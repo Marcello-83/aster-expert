@@ -2576,17 +2576,32 @@ def rex(
         False, "--enregistrer", help="Inscrire la revue dans le registre du projet."
     ),
     lot: str = typer.Option("", "--lot", help="Lot de la revue (avec --enregistrer)."),
+    manifeste: bool = typer.Option(
+        False,
+        "--manifeste",
+        help=(
+            "Enregistrer le manifeste de l'archive d'exécution (VM, archive complète) "
+            "dans le registre du projet ; refusé si l'archive contredit un manifeste "
+            "déjà enregistré."
+        ),
+    ),
 ) -> None:
     """Retour d'expérience d'un projet (lot 42) : échecs à classer, constats à
     verser, candidats patrons, métriques et tableau de bord. Code 1 si un échec
-    n'est pas classé (la clôture du lot est bloquée). Sans archives d'exécution
-    (profil cloud), le dit et n'échoue pas."""
+    n'est pas classé (la clôture du lot est bloquée).
+
+    Lot 46 : les métriques mesurées ne sont écrites que si l'archive d'exécution est
+    conforme au manifeste du registre. Absente, partielle (Cloud) ou non conforme,
+    l'archive est refusée avec son motif et seuls les champs déclarés (interventions,
+    erreurs évitées, notes) sont mis à jour ; le code de sortie reste 0."""
     from aster_expert.connaissances.base import KnowledgeBaseError
     from aster_expert.connaissances.rex import (
+        record_manifest,
         record_review,
         render_report,
         review_project,
         write_dashboard,
+        write_declared_metrics,
         write_metrics,
     )
 
@@ -2594,6 +2609,16 @@ def rex(
     if enregistrer and not lot:
         typer.echo("rex : --enregistrer exige --lot", err=True)
         raise typer.Exit(2)
+    if manifeste:
+        try:
+            recorded = record_manifest(root, projet)
+        except (FileNotFoundError, ValueError, KnowledgeBaseError) as exc:
+            typer.echo(f"rex --manifeste ÉCHEC : {exc}", err=True)
+            raise typer.Exit(1) from exc
+        typer.echo(
+            f"Manifeste enregistré : {recorded.runs} exécution(s) du projet, "
+            f"empreinte {recorded.sha256[:16]}…"
+        )
     try:
         report = review_project(root, projet)
     except (FileNotFoundError, ValueError, KnowledgeBaseError) as exc:
@@ -2609,8 +2634,13 @@ def rex(
         if enregistrer:
             registry = record_review(root, report, lot=lot)
             typer.echo(f"Revue inscrite : {registry.relative_to(root)}")
-    elif enregistrer:
-        typer.echo("Revue non inscrite : archives d'exécution absentes.")
+            record_manifest(root, projet)
+    else:
+        path = write_declared_metrics(root, report.metrics)
+        typer.echo(f"Champs déclarés seuls mis à jour : {path.relative_to(root)}")
+        write_dashboard(root)
+        if enregistrer:
+            typer.echo("Revue non inscrite : archive d'exécution refusée.")
     if report.blocking:
         raise typer.Exit(1)
 
