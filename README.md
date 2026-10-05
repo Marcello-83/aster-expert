@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 46 (2026-10-05), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 46 bis (2026-10-05), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 48 faits sur 50 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 46, Socle : politique de lecture MCP, intégration continue, état versionné, trace des connaissances appliquées, harnais D par défaut.
+Lots : 49 faits sur 51 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 46 bis, Correction du workflow ci-lent : profil ci de env-check, ASTER_IMAGE_REF dérivée de versions.yaml.
 
 Capacités :
 
@@ -286,7 +286,7 @@ Capacités :
 - maillage : niveau D, opérationnelle. Salomé n'existe que dans la VM ; indisponible dans le Cloud.
 - base_de_connaissances : sans niveau de validation, opérationnelle. Depuis le lot 46 une exécution de projet déclare ses connaissances ; aucune exécution passée n'est attribuée ; manifestes d'archive à enregistrer dans la VM (rex --manifeste).
 - securite_mcp : sans niveau de validation, opérationnelle. Politique de lecture appliquée aux outils MCP et aux commandes recevant un chemin ; les sorties (écriture) ne sont pas couvertes.
-- integration_continue : sans niveau de validation, opérationnelle. ci.yml vert sur la branche du lot 46 (2 min 28 s) ; ci-lent.yml jamais lancé.
+- integration_continue : sans niveau de validation, opérationnelle. ci.yml vert sur la branche du lot 46 (2 min 28 s) ; ci-lent.yml corrigé au lot 46 bis (profil ci), passage réel à vérifier par MM.
 
 Projets :
 

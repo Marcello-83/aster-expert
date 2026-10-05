@@ -12,7 +12,7 @@
 # (racine 82b9a5d) : les lots antérieurs n'ont pas de commit consultable.
 
 schema_version: 1
-mis_a_jour_au_lot: "46"
+mis_a_jour_au_lot: "46 bis"
 date: 2026-10-05
 
 lots:
@@ -66,6 +66,7 @@ lots:
   - {id: "44", objet: "Consolidation : choix de l'agent, paramètres obligatoires, projet creer", etat: fait, commit: "68fe335", commits_suivants: ["aca7e68"], date: 2026-10-02}
   - {id: "45", objet: "Paquets de résultats (A) et notes Word génériques (B)", etat: fait, commit: "81da85b", commits_suivants: ["0ece15e", "554d44b", "eae5711", "ed89222", "a6c85a2"], date: 2026-10-02, note: "partie A : 0ece15e"}
   - {id: "46", objet: "Socle : politique de lecture MCP, intégration continue, état versionné, trace des connaissances appliquées, harnais D par défaut", etat: fait, commit: "19888e4", date: 2026-10-05, note: "branche claude/lot-46-securite-mcp-wakze8 ; compte rendu docs/essais_lot46.md"}
+  - {id: "46 bis", objet: "Correction du workflow ci-lent : profil ci de env-check, ASTER_IMAGE_REF dérivée de versions.yaml", etat: fait, commit: "51baf31", date: 2026-10-05, note: "branche claude/blissful-turing-ajkazc ; passage réel de ci-lent à lancer par MM"}
 
 # Niveaux A à E : CLAUDE.md, « Niveaux de validation ». Un niveau n'est donné que pour ce
 # que la preuve établit ; `limites` dit ce qui n'est pas couvert.
@@ -147,7 +148,7 @@ capacites:
     etat: operationnelle
     fichiers: [.github/workflows/ci.yml, .github/workflows/ci-lent.yml, tests/unit/test_ci_workflows.py]
     commandes: ["pytest tests/unit/test_ci_workflows.py"]
-    limites: "ci.yml vert sur la branche du lot 46 (2 min 28 s) ; ci-lent.yml jamais lancé."
+    limites: "ci.yml vert sur la branche du lot 46 (2 min 28 s) ; ci-lent.yml corrigé au lot 46 bis (profil ci), passage réel à vérifier par MM."
 
 projets:
   - nom: quai_cw_test_01
