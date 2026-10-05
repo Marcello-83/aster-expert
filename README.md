@@ -270,7 +270,7 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 
 Mis à jour au lot 46 (2026-10-05), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 47 faits sur 50 ; autres : 12 (partiel), 13 (non fait), 46 (en cours). Dernier lot : 46, Socle : politique de lecture MCP, intégration continue, état versionné, trace des connaissances appliquées, harnais D par défaut.
+Lots : 48 faits sur 50 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 46, Socle : politique de lecture MCP, intégration continue, état versionné, trace des connaissances appliquées, harnais D par défaut.
 
 Capacités :
 
@@ -279,14 +279,14 @@ Capacités :
 - analyse : niveau A, opérationnelle. Les constructions dynamiques sont déclarées, jamais devinées.
 - validation_b : niveau B, opérationnelle. Syntaxe confrontée au catalogue ; ne dit rien de l'exécution ni de la physique.
 - execution_c : niveau C, opérationnelle. Racines d'exécution déclarées une à une (execution.allowed_roots). Salomé : VM seulement.
-- controles_d : niveau D, opérationnelle. Harnais par défaut ajouté au lot 46 (étape 6) ; avant, chaque projet déclarait les siens.
+- controles_d : niveau D, opérationnelle. Harnais par défaut depuis le lot 46 (CTL-005, CTL-006, CTL-012, CTL-013) ; les paquets versionnés ne portent pas encore la clé harness (non réexportés).
 - reference_e : niveau E, partielle. Niveau E sur la seule dalle (solution de Navier) ; aucune référence pour le quai.
 - ferraillage : niveau D, opérationnelle. Module EN 1992 indépendant calibré sur ssll13b/ssll13d ; FERR_MIN_FISS refusé pour les poutres ; tableau 7.2N transcrit, à vérifier par MM.
 - notes : niveau D, opérationnelle. Contenu tiré de la fiche, des données et du paquet de résultats, jamais écrit à la main.
 - maillage : niveau D, opérationnelle. Salomé n'existe que dans la VM ; indisponible dans le Cloud.
-- base_de_connaissances : sans niveau de validation, opérationnelle. Avant le lot 46, aucune exécution n'enregistre les connaissances qu'elle applique (étape 5).
+- base_de_connaissances : sans niveau de validation, opérationnelle. Depuis le lot 46 une exécution de projet déclare ses connaissances ; aucune exécution passée n'est attribuée ; manifestes d'archive à enregistrer dans la VM (rex --manifeste).
 - securite_mcp : sans niveau de validation, opérationnelle. Politique de lecture appliquée aux outils MCP et aux commandes recevant un chemin ; les sorties (écriture) ne sont pas couvertes.
-- integration_continue : sans niveau de validation, à confirmer. Premier passage sur GitHub à constater par MM (non déclenché depuis la session).
+- integration_continue : sans niveau de validation, opérationnelle. ci.yml vert sur la branche du lot 46 (2 min 28 s) ; ci-lent.yml jamais lancé.
 
 Projets :
 
