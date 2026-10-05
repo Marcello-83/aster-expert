@@ -45,6 +45,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from aster_expert.chemins import PathRefusedError, execution_policy, resolve_input_path
 from aster_expert.execution.compte_rendu import (
     build_record,
     parse_messages,
@@ -81,45 +82,21 @@ _MESS_FILE_NAME = "fort.6"
 _TIMEOUT_MARGIN_SECONDS = 20
 
 
-def _resolve_allowed_root(root: str, *, project_root: Path) -> Path:
-    candidate = Path(root)
-    resolved = candidate if candidate.is_absolute() else project_root / candidate
-    return resolved.resolve()
-
-
 def check_allowed(
     comm_path: Path, *, config: ExecutionConfig, project_root: Path
 ) -> Path:
-    """Refuse a `.comm` outside the configured roots. Never falls back to permissive."""
-    if not config.allowed_roots:
-        message = (
-            "no allowed_roots declared in config/validation.yaml, "
-            "execution.allowed_roots: refusing to execute anything until at "
-            "least one root is explicitly configured"
+    """Refuse a `.comm` outside the configured roots. Never falls back to permissive.
+
+    Goes through the common path resolution (lot 46): links and `..` are resolved
+    before the comparison to `execution.allowed_roots`.
+    """
+    policy = execution_policy(config.allowed_roots, project_root)
+    try:
+        return resolve_input_path(
+            comm_path, policy=policy, base=Path.cwd(), suffixes=(".comm",)
         )
-        raise ExecutionRunError(message)
-
-    resolved = comm_path.resolve()
-    if not resolved.is_file():
-        message = f".comm file not found: {resolved}"
-        raise ExecutionRunError(message)
-    if resolved.suffix != ".comm":
-        message = f"not a .comm file (suffix {resolved.suffix!r}): {resolved}"
-        raise ExecutionRunError(message)
-
-    roots = [
-        _resolve_allowed_root(r, project_root=project_root)
-        for r in config.allowed_roots
-    ]
-    for root in roots:
-        if resolved.is_relative_to(root):
-            return resolved
-
-    message = (
-        f"{resolved} is outside every allowed_roots declared in config/validation.yaml "
-        f"(execution.allowed_roots): {[str(r) for r in roots]}"
-    )
-    raise ExecutionRunError(message)
+    except PathRefusedError as exc:
+        raise ExecutionRunError(str(exc)) from exc
 
 
 def _stage_inputs(comm_path: Path, work_dir: Path) -> str:

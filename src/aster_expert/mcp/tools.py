@@ -48,6 +48,7 @@ from aster_expert.catalogue.query import (
     resolve_active_digest,
     resolve_digest_for_aster_version,
 )
+from aster_expert.chemins import PathRefusedError, load_read_policy, resolve_input_path
 from aster_expert.execution.docker_client import find_docker_binary
 from aster_expert.execution.errors import EnvironmentDetectionError
 from aster_expert.indexing.bm25_index import (
@@ -370,6 +371,17 @@ def get_command_schema(
     return result
 
 
+def _resolve_comm(project_root: Path, comm_path: str) -> Path:
+    """Read policy (lot 46): links and `..` resolved, roots and extension checked."""
+    try:
+        policy = load_read_policy(project_root)
+        return resolve_input_path(
+            comm_path, policy=policy, base=project_root, suffixes=(".comm",)
+        )
+    except PathRefusedError as exc:
+        raise McpToolError(str(exc)) from exc
+
+
 def analyze_comm(
     *,
     project_root: Path,
@@ -377,7 +389,7 @@ def analyze_comm(
     log_path: Path | None = None,
 ) -> CommAnalysisResult:
     """Structural analysis of a `.comm` file, never executed (lot 9, wrapped)."""
-    path = Path(comm_path)
+    path = _resolve_comm(project_root, comm_path)
 
     started = time.monotonic()
     try:
@@ -419,10 +431,7 @@ def validate_comm(
     it is produced, never re-wrapped, so H2's "the level travels with the
     response" holds without a second, redundant field.
     """
-    path = Path(comm_path)
-    if not path.is_file():
-        message = f"Fichier introuvable : {path}"
-        raise McpToolError(message)
+    path = _resolve_comm(project_root, comm_path)
     if workroot is None:
         message = (
             "ASTER_CONTAINER_WORKROOT n'est pas renseigné : aucune validation "

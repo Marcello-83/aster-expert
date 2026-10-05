@@ -28,6 +28,8 @@ forbidden_paths:
     reason: "fichier d'environnement local (.env) : peut contenir des secrets"
   - pattern: '(^|/)id_(rsa|dsa|ecdsa|ed25519)$|\.(pem|p12|pfx|key)$'
     reason: "clé privée ou certificat"
+  - pattern: '(^|/)config/chemins\.local\.yaml$'
+    reason: "racines de lecture propres à la machine de MM (lot 46) : jamais versées"
   - pattern: '(^|/)\.claude/settings\.local\.json$'
     reason: "réglages locaux de Claude Code (permissions propres à la machine)"
 

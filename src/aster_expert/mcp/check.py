@@ -406,7 +406,13 @@ async def run_check(
                     f"en trop {sorted(set(listed) - set(expected))}"
                 )
                 raise McpCheckError(message)
-            with tempfile.TemporaryDirectory(prefix="aster-expert-mcp-check-") as tmp:
+            # Under data/processed (read policy, lot 46): a system temp directory
+            # is outside every read root, the probe would be refused.
+            scratch = project_root / "data" / "processed" / "mcp_check"
+            scratch.mkdir(parents=True, exist_ok=True)
+            with tempfile.TemporaryDirectory(
+                prefix="aster-expert-mcp-check-", dir=scratch
+            ) as tmp:
                 for tool, probe in _PROBES.items():
                     if tool in expected:
                         checks.extend(await probe(session, Path(tmp)))

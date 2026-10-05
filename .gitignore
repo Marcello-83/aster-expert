@@ -58,3 +58,6 @@ fort.*
 # fichier d'exclusion global de la VM).
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
+
+# Racines de lecture propres à la machine (lot 46) : jamais versionnées.
+/config/chemins.local.yaml

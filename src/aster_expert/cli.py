@@ -194,6 +194,31 @@ def _resolve_aster_version_tag(versions_path: Path) -> str:
     return str(tag)
 
 
+def _lecture(
+    chemin: str | Path,
+    *suffixes: str,
+    kind: str | None = "file",
+) -> Path:
+    """Path to read, through the read policy (lot 46), or a readable refusal."""
+    from aster_expert.chemins import (
+        PathRefusedError,
+        load_read_policy,
+        resolve_input_path,
+    )
+
+    try:
+        return resolve_input_path(
+            chemin,
+            policy=load_read_policy(_project_root()),
+            base=Path.cwd(),
+            suffixes=suffixes or None,
+            kind=kind,
+        )
+    except PathRefusedError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(1) from exc
+
+
 def _default_manifest_commit(project_root: Path, source_name: str) -> str:
     manifest_path = default_manifest_path(project_root)
     if not manifest_path.is_file():
@@ -693,7 +718,7 @@ def catalogue_show(
 def comm_parse(comm_path: str) -> None:
     """Analyser la structure d'un fichier .comm sans jamais l'exécuter (lot 9)."""
     try:
-        analysis = parse_comm_file(Path(comm_path))
+        analysis = parse_comm_file(_lecture(comm_path, ".comm"))
     except CommParseError as exc:
         typer.echo(str(exc), err=True)
         raise typer.Exit(1) from exc
@@ -721,7 +746,7 @@ def eval_summary(
     """Compter les questions résolues/non résolues du jeu d'évaluation (lot 5)."""
     project_root = _project_root()
     path = (
-        Path(questions_path)
+        _lecture(questions_path, ".jsonl")
         if questions_path
         else _default_questions_path(project_root)
     )
@@ -793,14 +818,14 @@ def eval_score(
     """
     project_root = _project_root()
     path = (
-        Path(questions_path)
+        _lecture(questions_path, ".jsonl")
         if questions_path
         else _default_questions_path(project_root)
     )
     if not path.is_file():
         typer.echo(f"Jeu d'évaluation introuvable : {path}", err=True)
         raise typer.Exit(1)
-    results_file = Path(results_path)
+    results_file = _lecture(results_path, ".json", ".jsonl", kind=None)
     if not results_file.is_file():
         typer.echo(f"Résultats introuvables : {results_file}", err=True)
         raise typer.Exit(1)
@@ -854,7 +879,7 @@ def eval_bench(
         raise typer.Exit(1)
 
     path = (
-        Path(questions_path)
+        _lecture(questions_path, ".jsonl")
         if questions_path
         else _default_questions_path(project_root)
     )
@@ -964,7 +989,7 @@ def eval_decompose(
     """
     project_root = _project_root()
     path = (
-        Path(questions_path)
+        _lecture(questions_path, ".jsonl")
         if questions_path
         else _default_questions_path(project_root)
     )
@@ -1124,7 +1149,7 @@ def eval_profile_bench(
         raise typer.Exit(1)
 
     path = (
-        Path(questions_path)
+        _lecture(questions_path, ".jsonl")
         if questions_path
         else _default_questions_path(project_root)
     )
@@ -1133,7 +1158,7 @@ def eval_profile_bench(
         raise typer.Exit(1)
 
     profiles_file = (
-        Path(profiles_path)
+        _lecture(profiles_path, ".jsonl")
         if profiles_path
         else default_query_profiles_path(project_root)
     )
@@ -1600,7 +1625,7 @@ def validate(
     try:
         docker_bin = find_docker_binary(os.environ.get("ASTER_DOCKER_BIN") or None)
         report = validate_comm_file(
-            Path(comm_path),
+            _lecture(comm_path, ".comm"),
             project_root=project_root,
             workroot=workroot,
             docker_bin=docker_bin,
@@ -1831,10 +1856,10 @@ def mesh_run(
     try:
         config = load_mesh_config(project_root / "config" / "validation.yaml")
         report = run_salome_script(
-            script,
+            _lecture(script, ".py"),
             project_root=project_root,
             config=config,
-            params=Path(params) if params else None,
+            params=_lecture(params, ".json") if params else None,
         )
     except MeshError as exc:
         typer.echo(f"mesh run ÉCHEC : {exc}", err=True)
@@ -1876,8 +1901,8 @@ def mesh_check(
     from aster_expert.meshing.errors import MeshError
 
     project_root = _project_root()
-    med_path = Path(med) if med else None
-    invariants_path = Path(invariants) if invariants else None
+    med_path = _lecture(med, ".med") if med else None
+    invariants_path = _lecture(invariants, ".yaml", ".yml") if invariants else None
     if projet:
         from aster_expert.projet.pipeline import load_state
 
@@ -1934,8 +1959,8 @@ def _load_project_or_exit(
         return load_project(
             projet,
             _project_root(),
-            fiche=Path(fiche) if fiche else None,
-            data=Path(donnees) if donnees else None,
+            fiche=_lecture(fiche) if fiche else None,
+            data=_lecture(donnees) if donnees else None,
         )
     except ProjectError as exc:
         typer.echo(f"{command} ÉCHEC : {exc}", err=True)
@@ -1991,6 +2016,7 @@ def report(
     from aster_expert.projet.errors import ProjectError
 
     ctx = _load_project_or_exit("report", projet, donnees=donnees)
+    resultat = _lecture(resultat, kind="either")
     try:
         require_valid_project(ctx, FOR_REPORT)
         if ctx.declaration.synthesis is None:
@@ -2001,10 +2027,10 @@ def report(
             ctx,
             result=resultat,
             out_dir=Path(sortie) if sortie else run_dir,
-            data_path=Path(donnees) if donnees else ctx.data_path,
-            comm_path=Path(comm) if comm else None,
-            level_d_path=Path(controles_d) if controles_d else None,
-            med_path=Path(med) if med else None,
+            data_path=_lecture(donnees) if donnees else ctx.data_path,
+            comm_path=_lecture(comm, ".comm") if comm else None,
+            level_d_path=_lecture(controles_d, ".json") if controles_d else None,
+            med_path=_lecture(med) if med else None,
             label=etiquette,
             views=not sans_vues,
         )
@@ -2046,7 +2072,7 @@ def generate(
         target, report_data = generate_project(
             ctx,
             Runtime(_project_root()),
-            med=Path(maillage) if maillage else None,
+            med=_lecture(maillage, ".med") if maillage else None,
             output=Path(sortie) if sortie else None,
         )
     except ProjectError as exc:
@@ -2463,8 +2489,10 @@ def fiche_obligatoires(
     root = _project_root()
     catalogue_root = root / "data" / "processed" / "catalogue"
     try:
-        sheet = HypothesesSheet.model_validate_json(fiche.read_text(encoding="utf-8"))
-        data = load_model_data(Path(donnees)) if donnees else None
+        sheet = HypothesesSheet.model_validate_json(
+            _lecture(fiche, ".json").read_text(encoding="utf-8")
+        )
+        data = load_model_data(_lecture(donnees)) if donnees else None
         rules = load_execution_rules(default_rules_path(root))
         digest, aster_version = resolve_digest_for_version(
             catalogue_root, version or None, root / "config" / "versions.yaml"

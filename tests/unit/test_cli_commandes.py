@@ -70,6 +70,16 @@ def _detected() -> Any:
 # --- env, sources, catalogue ---------------------------------------------------------
 
 
+@pytest.fixture(autouse=True)
+def _lecture_sous_tmp(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Les fichiers d'entrée de ces tests vivent sous `tmp_path` : racine de lecture
+    factice. La politique réelle est testée dans `test_chemins.py`."""
+    from aster_expert import chemins
+
+    politique = chemins.PathPolicy("lecture", (tmp_path.resolve(),), "")
+    monkeypatch.setattr(chemins, "load_read_policy", lambda _root: politique)
+
+
 def test_env_detect_writes_the_detected_section(
     depot: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -522,6 +532,9 @@ def test_mesh_run_and_check(
     import aster_expert.meshing.run as run_module
     from aster_expert.meshing.errors import MeshRunError
 
+    for nom in ("script.py", "p.json", "m.med", "inv.yaml"):
+        (tmp_path / nom).write_text("x\n", encoding="utf-8")
+    monkeypatch.chdir(tmp_path)
     report = SimpleNamespace(
         from_cache=True,
         med_path="m.med",

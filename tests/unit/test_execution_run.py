@@ -59,27 +59,27 @@ def project_root(tmp_path: Path) -> Path:
 def test_check_allowed_refuses_when_no_roots_declared(project_root: Path) -> None:
     comm = project_root / "astest" / "case.comm"
     comm.write_text("DEBUT()\nFIN()\n", encoding="utf-8")
-    with pytest.raises(ExecutionRunError, match="allowed_roots"):
+    with pytest.raises(ExecutionRunError, match="aucune racine"):
         check_allowed(comm, config=_config(allowed_roots=()), project_root=project_root)
 
 
 def test_check_allowed_refuses_missing_file(project_root: Path) -> None:
     comm = project_root / "astest" / "missing.comm"
-    with pytest.raises(ExecutionRunError, match="not found"):
+    with pytest.raises(ExecutionRunError, match="introuvable"):
         check_allowed(comm, config=_config(), project_root=project_root)
 
 
 def test_check_allowed_refuses_non_comm_suffix(project_root: Path) -> None:
     export = project_root / "astest" / "case.export"
     export.write_text("F comm case.comm D 1\n", encoding="utf-8")
-    with pytest.raises(ExecutionRunError, match=r"not a \.comm file"):
+    with pytest.raises(ExecutionRunError, match="extension"):
         check_allowed(export, config=_config(), project_root=project_root)
 
 
 def test_check_allowed_refuses_file_outside_roots(project_root: Path) -> None:
     comm = project_root / "outside" / "case.comm"
     comm.write_text("DEBUT()\nFIN()\n", encoding="utf-8")
-    with pytest.raises(ExecutionRunError, match="outside every allowed_roots"):
+    with pytest.raises(ExecutionRunError, match="hors des racines autorisées"):
         check_allowed(comm, config=_config(), project_root=project_root)
 
 

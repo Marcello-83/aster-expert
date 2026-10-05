@@ -92,6 +92,18 @@ def project_root(tmp_path: Path) -> Path:
     return root
 
 
+@pytest.fixture(autouse=True)
+def _lecture_sous_tmp(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Ces tests écrivent leurs `.comm` sous `tmp_path` : racine de lecture factice.
+
+    La politique réelle est testée dans `test_chemins.py`."""
+    from aster_expert import chemins
+    from aster_expert.mcp import tools as mcp_tools
+
+    politique = chemins.PathPolicy("lecture", (tmp_path.resolve(),), "")
+    monkeypatch.setattr(mcp_tools, "load_read_policy", lambda _root: politique)
+
+
 def test_search_codeaster_docs_unknown_family_lists_the_present_ones(
     project_root: Path,
 ) -> None:

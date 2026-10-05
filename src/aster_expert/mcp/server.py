@@ -229,6 +229,13 @@ _ANALYZE_DESCRIPTION = (
 )
 
 
+_ANALYZE_DESCRIPTION += (
+    "\n\nLecture seule, limitée aux racines de config/chemins.yaml (dépôt, corpus, "
+    "racines externes déclarées) et à l'extension .comm ; un refus nomme la racine "
+    "manquante et dit comment la déclarer."
+)
+
+
 @app.tool(description=_ANALYZE_DESCRIPTION)
 def analyze_comm(comm_path: str) -> CommAnalysisResult:
     return tools.analyze_comm(project_root=_project_root(), comm_path=comm_path)
@@ -249,6 +256,11 @@ _VALIDATE_DESCRIPTION = (
     "Nécessite un catalogue déjà extrait pour la version visée et un "
     "conteneur Docker joignable (ASTER_CONTAINER_WORKROOT, "
     "ASTER_DOCKER_BIN) : voir README.md."
+)
+
+
+_VALIDATE_DESCRIPTION += (
+    "\n\nMême politique de lecture que analyze_comm (config/chemins.yaml, .comm)."
 )
 
 

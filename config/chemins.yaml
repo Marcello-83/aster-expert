@@ -1,0 +1,36 @@
+# Politique de lecture des chemins d'entrée (lot 46, étape 1).
+#
+# Lue par `aster_expert.chemins`, appliquée par tous les outils MCP et toutes les
+# commandes `aster-expert` qui reçoivent un chemin de fichier à lire. Un chemin est
+# résolu (liens symboliques et `..` suivis) AVANT la comparaison aux racines : un
+# lien dans une racine qui pointe hors de toutes les racines est refusé.
+#
+# Deux politiques existent :
+#   - lecture    : celle de ce fichier (analyse, validation de niveau B, synthèse,
+#                  vérification de maillage...). Lecture seule, jamais d'exécution.
+#   - exécution  : `execution.allowed_roots` de config/validation.yaml (niveau C),
+#                  inchangée. Plus stricte : elle n'accepte que `.comm`.
+#
+# Les racines relatives sont lues depuis la racine du dépôt.
+
+schema_version: 1
+
+lecture:
+  # Parties du dépôt lisibles. Le dépôt n'est pas ouvert en bloc : `.git`, `.venv`,
+  # `.env` et les fichiers cachés de la racine restent hors politique.
+  racines_depot:
+    - config
+    - connaissances
+    - data
+    - docs
+    - projets
+    - scripts
+    - src
+    - tests
+    # Corpus et cas tests officiels (clonés, jamais versionnés).
+    - external
+  # Racines hors du dépôt, déclarées explicitement, en lecture seule, sans copie
+  # (par exemple le dossier où MM garde ses `.comm`). Un chemin propre à une machine
+  # se déclare dans `config/chemins.local.yaml` (même schéma, non versionné, refusé
+  # par le contrôle de publication), pas ici.
+  racines_externes: []
