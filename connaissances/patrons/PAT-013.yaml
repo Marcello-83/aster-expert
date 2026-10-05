@@ -1,0 +1,68 @@
+id: PAT-013
+title: 'Plaque sur appuis ponctuels : ne pas lire un extremum au nœud singulier de l''appui'
+summary: Sur une plaque portée en un nœud (tête de pieu, appui ponctuel), les maxima de QX, QY
+  et du moment sur appui se lisent hors d'un disque déclaré autour du nœud, ou en grandeur
+  intégrée, jamais au nœud ou à ses voisins immédiats, où ils croissent sans limite au raffinement.
+origin_project: estacade_pieux_01
+date: '2026-10-05'
+validation_level: C
+status: établi
+sources:
+- kind: execution
+  run: null
+  case_path: projets/estacade_pieux_01/references/cas/estacade_pieux_01.comm
+  case_sha256: fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692
+  outcome: réussite
+  level: C
+  note: production du lot 47 ; extrema de C9, C12 « rive », C13 « sup. » et « V » à moins
+    d'une maille d'une tête de pieu (docs/essais_lot47.md § 3.4)
+- kind: document
+  path: docs/essais_lot47.md
+  section: 3.1 Convergence de maillage
+  note: max |QX| doublé à chaque division de la maille par 2 (179 → 368 → 766 kN/m), MXX sur
+    appui croissant (25,1 → 30,7 → 34,8 kN·m/m), aux nœuds de tête de pieu
+- kind: test
+  path: projets/estacade_pieux_01/tests/test_estacade_modele.py
+  function: test_lecture_v2_exclut_les_disques_des_tetes_de_pieux
+  note: disque fermé de 0,60 m autour des 14 têtes, nœud à 0,60 m exactement exclu
+- kind: document
+  path: docs/essais_lot47bis.md
+  section: 1.2 Disques d'exclusion des têtes de pieux
+  note: règle E17.3 de MM, écrite avant la relecture
+commands:
+- CALC_CHAMP
+- AFFE_MODELE
+keywords:
+- DKT
+- DST
+- EFGE_NOEU
+- QX
+- QY
+- MXX
+reuses: []
+status_history: []
+problem: Une plaque reliée en un seul nœud à un appui (pieu, poteau, appui ponctuel) reçoit une
+  force et un couple ponctuels ; l'effort tranchant (en 1/r) et le moment (en log r) y sont
+  singuliers. Le maximum nodal sur toute la plaque tombe alors au nœud d'appui ou à ses voisins,
+  dépend du maillage (dans Code_Aster comme dans un autre logiciel) et n'a pas de limite au
+  raffinement ; le comparer à une valeur publiée ne dit rien du modèle.
+solution: 'Avant l''exécution, déclarer pour chaque point de comparaison de la plaque son lieu
+  de lecture : maximum hors des disques fermés de rayon r centrés sur les nœuds d''appui (r
+  de l''ordre de la largeur de l''appui ou de la poutre d''appui ; 0,60 m à l''estacade, E17.3),
+  ou une grandeur intégrée (moyenne de section, total d''une section en T, CA-058). Vérifier la
+  singularité par une suite de raffinement (CTL-012 n''est pas applicable : la grandeur n''a pas
+  de limite) : une valeur qui double à chaque division de la maille est singulière.'
+fragment: "near = np.zeros(len(x), dtype=bool)\nfor p in supports:\n    near |= np.hypot(x - p.x,\
+  \ y - p.y) <= RADIUS + 1e-9\naway = ~near  # lecture des maxima sur les seuls nœuds `away`"
+fragment_language: python
+conditions: 'Plaque DKT ou DST, appui en un nœud (sans répartition sur une surface d''appui) ;
+  lecture des efforts nodaux EFGE_NOEU. Le rayon est une décision de lecture, déclarée avant
+  l''exécution ; il ne corrige pas le modèle.'
+controls: []
+constats:
+- CA-058
+implementation:
+- kind: code
+  path: projets/estacade_pieux_01/comparaison_v2.py
+  symbol: ComparisonV2
+  note: null

@@ -1,0 +1,43 @@
+# Connaissances de la base appliquées par les exécutions du projet (lot 46, lot 47).
+# Déclarées avant la première exécution du modèle ; chaque exécution en porte la
+# copie (fichier compagnon <nom>.connaissances.yaml). Schéma :
+# aster_expert.connaissances.declaration.
+schema_version: 1
+project: estacade_pieux_01
+applied:
+  - id: PAT-001
+    how: "ressorts nodaux par classe de raideur : une CREA_POI1 et une DISCRET K_T_D_N (k, k, 0) par classe"
+  - id: CA-034
+    how: "chaque nœud à ressort dans une seule classe (une maille POI1 par nœud)"
+  - id: CA-020
+    how: "chaîne CREA_POI1, DIS_T, DISCRET/K_T_D_N en repère global"
+  - id: DIAG-004
+    how: "masse M_T_D_N nulle des ressorts, le modèle portant PESANTEUR"
+  - id: PAT-003
+    how: "empreintes de roue par bandes CREA_GROUP_MA/BANDE (CRIT_NOEUD=TOUS) intersectées avec la voie"
+  - id: CA-029
+    how: "pressions constantes sur des mailles entières, jamais une fonction de X et Y évaluée aux nœuds"
+  - id: CA-028
+    how: "normales de la dalle orientées +Z par ORIE_NORM_COQUE"
+  - id: CA-045
+    how: "MXX > 0 tend la face supérieure : convention de signe de la comparaison"
+  - id: CA-048
+    how: "poids par PESANTEUR et RHO = γ / g ; charges surfaciques par FORCE_COQUE en FZ global"
+  - id: DIAG-001
+    how: "aucune relation cinématique dualisée, chaque ddl bloqué une seule fois (DZ des pointes)"
+  - id: CA-032
+    how: "liaison barre-coque par nœuds partagés, sans LIAISON_SOLIDE"
+  - id: DIAG-011
+    how: "EFGE_NOEU restreint à la dalle ; poutres en EFGE_ELNO"
+  - id: CA-037
+    how: "poutres de Timoshenko POU_D_T (E13)"
+  - id: CA-054
+    how: "température TE± : PREP_VARC sur la dalle, CHAM_GD TEMP sur les chevêtres"
+  - id: CA-055
+    how: "MACRO_ELAS_MULT par lots, une factorisation par lot"
+  - id: CA-056
+    how: "garde-corps par FORCE_ARETE sur les arêtes de rive affectées en DKT"
+  - id: CA-057
+    how: "pieux en SECTION CERCLE du tube équivalent à A et I de chaque tronçon"
+  - id: CTL-010
+    how: "intitulés de tables imprimées d'au plus 16 caractères, uniques"

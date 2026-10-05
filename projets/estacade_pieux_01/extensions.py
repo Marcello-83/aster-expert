@@ -154,6 +154,33 @@ def spring_forces(
     return out
 
 
+def spring_scale(
+    ctx: ProjectContext,
+    mess_text: str,
+    case: str,
+    *,
+    comm_text: str,  # noqa: ARG001 - signature commune des extensions d'échelle
+) -> dict[str, Any]:
+    """Scale of a self-equilibrated case (CTL-005 and CTL-013, version 2, lot 47 bis):
+    max over DX, DY of Σ |k·u| on every spring node (k of the data, u read in the
+    listing), the sum of the moduli of the forces the balance adds up."""
+    v = model_values(ctx)
+    cached = ctx.cache.get("estacade_tables")
+    if not isinstance(cached, TableIndex):
+        cached = TableIndex(mess_text)
+        ctx.cache["estacade_tables"] = cached
+    sums = {"DX": 0.0, "DY": 0.0}
+    for row in cached.find(f"DR_{case}"):
+        k = spring_stiffness_at(v, float(row["COOR_X"]), float(row["COOR_Z"]))
+        for c in sums:
+            sums[c] += abs(k * float(row[c]))
+    return {
+        "value_n": max(sums.values()),
+        "definition": "max sur DX, DY de Σ |k·u| aux nœuds de ressort "
+        f"(DX : {sums['DX']:.6e} N, DY : {sums['DY']:.6e} N)",
+    }
+
+
 def moving_resultants(v: ModelValues, mess_text: str, batches: int) -> dict[str, Any]:
     """Σ DZ of the tip reactions of every case of every batch, against the load."""
     tables = TableIndex(mess_text)
@@ -218,5 +245,6 @@ __all__ = [
     "reference_mesh",
     "resultant",
     "spring_forces",
+    "spring_scale",
     "weights",
 ]

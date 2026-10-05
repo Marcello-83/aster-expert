@@ -23,9 +23,29 @@ lots:
       la base la décrivait (n° 11, DIAG-010).'
   note: Premier ouvrage réel, contre-calcul d'un modèle non validé ; 4 échecs d'exécution,
     tous rattachés à un diagnostic existant (DIAG-003 ×3, DIAG-010).
+- lot: 47bis
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune question posée à MM pendant le lot : les décisions E17 à E19 et le diagnostic
+      du superviseur étaient dans la consigne. Une relance de MM sur la durée d''E19 (« Toujours
+      pas fini ? »), sans effet sur le contenu.'
+  avoided_errors:
+    value: 2.0
+    nature: mesure
+    note: 'DIAG-012 : l''alarme <A> <POSTRELE_70> de la sonde S2 classée dès sa lecture (champ
+      d''efforts de structure en repère local), sans recherche ; CA-028/CA-045 : normales
+      de la dalle de S2 orientées +Z avant la charge, signe de MYY connu avant la lecture.
+      Incident d''outil : search_connaissances du serveur MCP attaché échouait pendant tout
+      le lot (un serveur neuf répond, mcp-check OK) ; consultations faites par search_constats
+      et par un serveur neuf.'
+  note: 'Relecture v2 (E17), essieu de trottoir (E18), variante de chevêtre (E19), sonde S2,
+    harnais D v2 ; 3 exécutions réussies (S2 7,8 s ; E18 332,6 s ; E19 1 770,1 s), aucun échec.
+    Deux appels refusés par la politique des chemins (.export au lieu du .comm) avant toute
+    exécution : aucun répertoire d''exécution créé.'
 archive:
-  runs: 17
-  sha256: 9ddb376de989fba82fc6291f9c27ab75ba81654a923e5e8e6c0c9cd707018d8f
+  runs: 20
+  sha256: 9144dfd41f1a47306a9db897038dd38f3ed49c3a4c6437e320aec70614721059
   recorded: '2026-10-05'
 declaration_required_since: '2026-10-05T05:28:20.904249'
 reviews:
@@ -35,6 +55,12 @@ reviews:
   failures: 4
   unclassified: 0
   last_run: 20261005T132953-7c17bdcb
+- date: '2026-10-05'
+  lot: 47bis
+  runs: 20
+  failures: 4
+  unclassified: 0
+  last_run: 20261005T150840-65219726
 classifications:
 - run: 20261005T100413-8334652d
   signature: <F> <FACTOR_57>

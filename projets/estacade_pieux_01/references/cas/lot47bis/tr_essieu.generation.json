@@ -1,0 +1,965 @@
+{
+ "comm_sha256": "45e19ccffd2a7e80dec0d3922e12ebb867aa9c788f775cf773af86a3d10a2036",
+ "mode": "tr_essieu",
+ "variante": "reference",
+ "lots": [
+  {
+   "resultat": "MB01",
+   "cas": [
+    "TRE_M28",
+    "TRE_M27",
+    "TRE_M26",
+    "TRE_M25",
+    "TRE_M24",
+    "TRE_M23",
+    "TRE_M22",
+    "TRE_M21",
+    "TRE_M20",
+    "TRE_M19",
+    "TRE_M18",
+    "TRE_M17",
+    "TRE_M16",
+    "TRE_M15",
+    "TRE_M14",
+    "TRE_M13",
+    "TRE_M12",
+    "TRE_M11",
+    "TRE_M10",
+    "TRE_M09",
+    "TRE_M08",
+    "TRE_M07",
+    "TRE_M06",
+    "TRE_M05",
+    "TRE_M04"
+   ]
+  },
+  {
+   "resultat": "MB02",
+   "cas": [
+    "TRE_M03",
+    "TRE_M02",
+    "TRE_M01",
+    "TRE_P00",
+    "TRE_P01",
+    "TRE_P02",
+    "TRE_P03",
+    "TRE_P04",
+    "TRE_P05",
+    "TRE_P06",
+    "TRE_P07",
+    "TRE_P08",
+    "TRE_P09",
+    "TRE_P10",
+    "TRE_P11",
+    "TRE_P12",
+    "TRE_P13",
+    "TRE_P14",
+    "TRE_P15",
+    "TRE_P16",
+    "TRE_P17",
+    "TRE_P18",
+    "TRE_P19",
+    "TRE_P20",
+    "TRE_P21"
+   ]
+  },
+  {
+   "resultat": "MB03",
+   "cas": [
+    "TRE_P22",
+    "TRE_P23",
+    "TRE_P24",
+    "TRE_P25",
+    "TRE_P26",
+    "TRE_P27",
+    "TRE_P28"
+   ]
+  }
+ ],
+ "cas_thermiques": [],
+ "tables": [
+  "RPIEDS_MB01",
+  "RPIEDS_MB02",
+  "RPIEDS_MB03"
+ ],
+ "positions": {
+  "TRE_M28": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 1.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    0.6,
+    2.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M27": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 2.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    1.1,
+    3.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M26": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 2.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    1.6,
+    3.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M25": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 3.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    2.1,
+    4.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M24": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 3.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    2.6,
+    4.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M23": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 4.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    3.1,
+    5.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M22": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 4.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    3.6,
+    5.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M21": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 5.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    4.1,
+    6.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M20": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 5.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    4.6,
+    6.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M19": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 6.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    5.1,
+    7.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M18": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 6.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    5.6,
+    7.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M17": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 7.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    6.1,
+    8.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M16": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 7.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    6.6,
+    8.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M15": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 8.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    7.1,
+    9.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M14": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 8.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    7.6,
+    9.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M13": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 9.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    8.1,
+    10.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M12": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 9.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    8.6,
+    10.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M11": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 10.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    9.1,
+    11.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M10": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 10.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    9.6,
+    11.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M09": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 11.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    10.1,
+    12.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M08": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 11.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    10.6,
+    12.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M07": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 12.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    11.1,
+    13.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M06": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 12.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    11.6,
+    13.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M05": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 13.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    12.1,
+    14.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M04": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 13.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    12.6,
+    14.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M03": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 14.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    13.1,
+    15.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M02": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 14.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    13.6,
+    15.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_M01": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 15.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    14.1,
+    16.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P00": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 15.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    14.6,
+    16.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P01": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 16.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    15.1,
+    17.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P02": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 16.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    15.6,
+    17.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P03": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 17.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    16.1,
+    18.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P04": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 17.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    16.6,
+    18.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P05": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 18.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    17.1,
+    19.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P06": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 18.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    17.6,
+    19.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P07": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 19.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    18.1,
+    20.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P08": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 19.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    18.6,
+    20.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P09": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 20.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    19.1,
+    21.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P10": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 20.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    19.6,
+    21.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P11": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 21.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    20.1,
+    22.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P12": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 21.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    20.6,
+    22.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P13": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 22.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    21.1,
+    23.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P14": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 22.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    21.6,
+    23.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P15": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 23.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    22.1,
+    24.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P16": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 23.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    22.6,
+    24.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P17": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 24.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    23.1,
+    25.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P18": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 24.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    23.6,
+    25.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P19": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 25.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    24.1,
+    26.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P20": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 25.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    24.6,
+    26.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P21": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 26.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    25.1,
+    27.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P22": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 26.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    25.6,
+    27.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P23": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 27.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    26.1,
+    28.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P24": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 27.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    26.6,
+    28.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P25": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 28.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    27.1,
+    29.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P26": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 28.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    27.6,
+    29.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P27": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 29.1,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    28.1,
+    30.1
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  },
+  "TRE_P28": {
+   "modele": "TR",
+   "transversal": "trottoir",
+   "x": 29.6,
+   "roues_y": [
+    2.25
+   ],
+   "essieux_x": [
+    28.6,
+    30.6
+   ],
+   "pression_pa": 499999.9999999999,
+   "charge_totale_n": 160000.0
+  }
+ },
+ "classes_ressorts": {
+  "RESS_K00900": [
+   "KE_M200"
+  ],
+  "RESS_K02400": [
+   "KE_M250"
+  ],
+  "RESS_K03000": [
+   "KE_M300"
+  ],
+  "RESS_K03400": [
+   "KR_M300",
+   "KR_M350",
+   "KR_M400",
+   "KR_M450",
+   "KR_M500",
+   "KR_M550",
+   "KR_M600",
+   "KE_M350",
+   "KE_M400",
+   "KE_M450",
+   "KE_M500",
+   "KE_M550",
+   "KE_M600"
+  ],
+  "RESS_K03500": [
+   "KR_P100"
+  ],
+  "RESS_K08300": [
+   "KR_P050"
+  ],
+  "RESS_K09700": [
+   "KR_P000"
+  ],
+  "RESS_K10600": [
+   "KR_M1300",
+   "KE_M1300"
+  ],
+  "RESS_K11000": [
+   "KR_M050"
+  ],
+  "RESS_K12300": [
+   "KR_M100"
+  ],
+  "RESS_K13600": [
+   "KR_M150"
+  ],
+  "RESS_K14000": [
+   "KR_M200",
+   "KR_M250"
+  ],
+  "RESS_K21200": [
+   "KR_M650",
+   "KR_M700",
+   "KR_M750",
+   "KR_M800",
+   "KR_M850",
+   "KR_M900",
+   "KR_M950",
+   "KR_M1000",
+   "KR_M1050",
+   "KR_M1100",
+   "KR_M1150",
+   "KR_M1200",
+   "KR_M1250",
+   "KE_M650",
+   "KE_M700",
+   "KE_M750",
+   "KE_M800",
+   "KE_M850",
+   "KE_M900",
+   "KE_M950",
+   "KE_M1000",
+   "KE_M1050",
+   "KE_M1100",
+   "KE_M1150",
+   "KE_M1200",
+   "KE_M1250"
+  ]
+ }
+}

@@ -267,9 +267,9 @@ def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
     base = load_knowledge(ROOT)
     counts = {layer: sum(row.values()) for layer, row in base.counts().items()}
     assert counts == {
-        "constats_code_aster": 57,
+        "constats_code_aster": 58,
         "diagnostics": 25,
-        "patrons": 12,
+        "patrons": 13,
         "controles": 14,
         "references_validation": 15,
         "precedents": 37,

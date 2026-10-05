@@ -60,14 +60,16 @@ controls:
     groups: [RESSORTS]
     direction: [DX, DY]
     forces: estacade_pieux_01.extensions:spring_forces
+  # Lot 47 bis (CTL-005, CTL-013 version 2) : TE+ et TE− sont autoéquilibrés (charge
+  # nulle) ; leur écart est rapporté à l'échelle déclarée (Σ |k·u| des ressorts).
   cases:
     - {name: PP, gravity: true, expected_resultant: "estacade_pieux_01.extensions:resultant"}
     - {name: G2, expected_resultant: "estacade_pieux_01.extensions:resultant"}
     - {name: UDL, expected_resultant: "estacade_pieux_01.extensions:resultant"}
     - {name: TR, expected_resultant: "estacade_pieux_01.extensions:resultant"}
     - {name: FR, expected_resultant: "estacade_pieux_01.extensions:resultant"}
-    - {name: TEP, expected_resultant: "estacade_pieux_01.extensions:resultant"}
-    - {name: TEM, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+    - {name: TEP, expected_resultant: "estacade_pieux_01.extensions:resultant", self_equilibrated_scale: "estacade_pieux_01.extensions:spring_scale"}
+    - {name: TEM, expected_resultant: "estacade_pieux_01.extensions:resultant", self_equilibrated_scale: "estacade_pieux_01.extensions:spring_scale"}
     - {name: TSA_P00, expected_resultant: "estacade_pieux_01.extensions:resultant"}
     - {name: TSB_P00, expected_resultant: "estacade_pieux_01.extensions:resultant"}
     - {name: L2A_M00, expected_resultant: "estacade_pieux_01.extensions:resultant"}
@@ -91,12 +93,43 @@ results_package:
     - {section: controles, source: references/convergence_lot47.json}
     - {section: contre_calcul, source: resultats/comparaison/comparaison.json}
     - {section: contre_calcul, source: references/explications_lot47.json}
-  # Critères de niveau D écrits avant l'exécution (lot 47, commit fa97116).
+    # Lot 47 bis : comparaison v2 (E17, E18), variante E19, sonde S2, verdict D v1.
+    - {section: contre_calcul, source: references/comparaison_v2_lot47bis.json}
+    - {section: contre_calcul, source: references/variante_chevetre_0p80_lot47bis.json}
+    - {section: contre_calcul, source: references/sonde_lot47bis_resultats.json}
+    - {section: controles, source: references/controles_d_v1_lot47.json}
+  # Critères de niveau D écrits avant l'exécution (lot 47, commit fa97116) ; harnais
+  # v2 des cas autoéquilibrés (lot 47 bis, commit 5ad8e24), écrit après l'exécution
+  # de production qu'il réévalue.
   criteria:
     - {level: D, document: docs/essais_lot47.md}
+    - {level: D, document: docs/essais_lot47bis.md}
   note_tables:
     - section: contre_calcul
-      title: Comparaison aux valeurs du modèle source (C1 à C13) — contre-calcul d'un modèle non validé
+      title: Comparaison v2 (lecture E17, cas TR d'E18) aux valeurs du modèle source (C1 à C13) — contre-calcul d'un modèle non validé
+      source: contre_calcul/comparaison_v2_lot47bis.json
+      rows: lignes
+      columns:
+        - {header: Point, path: point}
+        - {header: Colonne, path: colonne}
+        - {header: Code_Aster, path: code_aster}
+        - {header: Source, path: source}
+        - {header: Écart relatif, path: ecart_relatif}
+        - {header: Tolérance, path: tolerance}
+        - {header: Verdict, path: verdict}
+        - {header: Règle de lecture, path: regle}
+    - section: contre_calcul
+      title: Variante E19 (chevêtre de 0,80 m) — C6, C7, C8, sans verdict
+      source: contre_calcul/variante_chevetre_0p80_lot47bis.json
+      rows: lignes
+      columns:
+        - {header: Point, path: point}
+        - {header: Colonne, path: colonne}
+        - {header: Code_Aster, path: code_aster}
+        - {header: Source, path: source}
+        - {header: Écart relatif, path: ecart_relatif}
+    - section: contre_calcul
+      title: Comparaison v1 (lot 47, conservée) aux valeurs du modèle source (C1 à C13) — contre-calcul d'un modèle non validé
       source: contre_calcul/comparaison.json
       rows: lignes
       columns:

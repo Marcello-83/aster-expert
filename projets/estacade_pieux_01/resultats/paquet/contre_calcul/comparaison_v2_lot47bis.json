@@ -1,0 +1,1142 @@
+{
+ "statut": "contre-calcul d'un modèle non validé (jamais un niveau E) ; critères v2 écrits après la première exécution",
+ "critere": "docs/essais_lot47bis.md § 1 (E17, E18), écrits avant la relecture",
+ "execution_production": "data/processed/runs/20261005T101455-e0d5c870",
+ "execution_tr": "data/processed/runs/20261005T150307-187df570",
+ "lignes": [
+  {
+   "point": "C1",
+   "colonne": "ELS c (107)",
+   "code_aster": 0.43747711841417897,
+   "source": 0.5,
+   "ecart_relatif": -0.12504576317164207,
+   "tolerance": null,
+   "verdict": "compatible avec l'arrondi",
+   "regle": "max √(DX²+DY²+DZ²), tous les nœuds (inchangé)",
+   "lieu": {
+    "X": 31.2,
+    "Y": 3.0,
+    "Z": 1.3,
+    "cas_mobile": "TSA_M26",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C2",
+   "colonne": "ELS_f (112)",
+   "code_aster": 526.8826534251499,
+   "source": 514,
+   "ecart_relatif": 0.025063528064493964,
+   "tolerance": 0.03,
+   "verdict": "dans la tolérance",
+   "regle": "max(−N), extrémité haute de l'élément de tête (inchangé)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C2",
+   "colonne": "ELS_c (112)",
+   "code_aster": 713.9929860906942,
+   "source": 727,
+   "ecart_relatif": -0.01789135338281401,
+   "tolerance": 0.03,
+   "verdict": "dans la tolérance",
+   "regle": "max(−N), extrémité haute de l'élément de tête (inchangé)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C2",
+   "colonne": "ELU (112)",
+   "code_aster": 1022.6452685914513,
+   "source": 1048,
+   "ecart_relatif": -0.024193446000523543,
+   "tolerance": 0.03,
+   "verdict": "dans la tolérance",
+   "regle": "max(−N), extrémité haute de l'élément de tête (inchangé)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C3",
+   "colonne": "ELS_f (111)",
+   "code_aster": 202.4061612549893,
+   "source": 209.0,
+   "ecart_relatif": -0.031549467679476965,
+   "tolerance": 0.05,
+   "verdict": "dans la tolérance",
+   "regle": "max √(MFY²+MFZ²), éléments entre +1,30 et −0,80 (E17.1)",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "cas_mobile": "TSB_P25",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C3",
+   "colonne": "ELS_c (111)",
+   "code_aster": 294.268596993644,
+   "source": 312.0,
+   "ecart_relatif": -0.05683141989216668,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "regle": "max √(MFY²+MFZ²), éléments entre +1,30 et −0,80 (E17.1)",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "cas_mobile": "TSB_P25",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C3",
+   "colonne": "ELU (111)",
+   "code_aster": 435.49431119478214,
+   "source": 449.0,
+   "ecart_relatif": -0.030079485089572068,
+   "tolerance": 0.05,
+   "verdict": "dans la tolérance",
+   "regle": "max √(MFY²+MFZ²), éléments entre +1,30 et −0,80 (E17.1)",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "cas_mobile": "TSB_P25",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C4",
+   "colonne": "ELS_f (114), information",
+   "code_aster": 121.29344391955534,
+   "source": null,
+   "ecart_relatif": NaN,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max √(VY²+VZ²), bouchon −0,80 à +0,70 (inchangé)",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 0.7,
+    "cas_mobile": "TSB_P25",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C4",
+   "colonne": "ELS_c (114), information",
+   "code_aster": 174.23139356505152,
+   "source": null,
+   "ecart_relatif": NaN,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max √(VY²+VZ²), bouchon −0,80 à +0,70 (inchangé)",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 0.7,
+    "cas_mobile": "TSB_P25",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C4",
+   "colonne": "ELU (114)",
+   "code_aster": 259.35370902351195,
+   "source": 253.0,
+   "ecart_relatif": 0.02511347440123302,
+   "tolerance": 0.05,
+   "verdict": "dans la tolérance",
+   "regle": "max √(VY²+VZ²), bouchon −0,80 à +0,70 (inchangé)",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 0.7,
+    "cas_mobile": "TSB_P25",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C5",
+   "colonne": "ELS_f (111), information",
+   "code_aster": 202.4061612549893,
+   "source": null,
+   "ecart_relatif": NaN,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max √(MFY²+MFZ²), tout le pieu (E17.1)",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "cas_mobile": "TSB_P25",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C5",
+   "colonne": "ELS_c (111), information",
+   "code_aster": 294.268596993644,
+   "source": null,
+   "ecart_relatif": NaN,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max √(MFY²+MFZ²), tout le pieu (E17.1)",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "cas_mobile": "TSB_P25",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C5",
+   "colonne": "ELU (111)",
+   "code_aster": 435.49431119478214,
+   "source": 463.0,
+   "ecart_relatif": -0.059407535216453256,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "regle": "max √(MFY²+MFZ²), tout le pieu (E17.1)",
+   "lieu": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 1.3,
+    "cas_mobile": "TSB_P25",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELS_f (105), total barre + dalle",
+   "code_aster": 215.01597584498109,
+   "source": 180,
+   "ecart_relatif": 0.1945331991387838,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "regle": "max M_T = s·MFY − ∫MYY dX, |Y| < 2,00 (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": -3.1086244689504383e-15,
+    "Z": 1.3,
+    "cas_mobile": "TSA_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELS_c (105), total barre + dalle",
+   "code_aster": 323.07726124226923,
+   "source": 276,
+   "ecart_relatif": 0.17056978710967113,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "regle": "max M_T = s·MFY − ∫MYY dX, |Y| < 2,00 (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": -3.1086244689504383e-15,
+    "Z": 1.3,
+    "cas_mobile": "TSA_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELU (112), total barre + dalle",
+   "code_aster": 473.1995025852737,
+   "source": 408,
+   "ecart_relatif": 0.15980270241488653,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "regle": "max M_T = s·MFY − ∫MYY dX, |Y| < 2,00 (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": -0.2000000000000024,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C7",
+   "colonne": "ELU (enveloppe 100-115, gouvernée par 111), total barre + dalle",
+   "code_aster": 177.6863894433,
+   "source": 177.0,
+   "ecart_relatif": 0.003877906459321961,
+   "tolerance": 0.05,
+   "verdict": "dans la tolérance",
+   "regle": "min M_T aux nœuds Y = ±2,00, comparé en module (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": "",
+   "moment_signe_kNm": -177.6863894433
+  },
+  {
+   "point": "C7",
+   "colonne": "ELS_f (enveloppe 100-115, gouvernée par 111), total barre + dalle, information",
+   "code_aster": 99.66955877866937,
+   "source": 177.0,
+   "ecart_relatif": -0.4368951481431109,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "min M_T aux nœuds Y = ±2,00, comparé en module (E17.2)",
+   "lieu": {
+    "X": 20.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_P10",
+    "famille": "ELS_f"
+   },
+   "note": "",
+   "moment_signe_kNm": -99.66955877866937
+  },
+  {
+   "point": "C7",
+   "colonne": "ELS_c (enveloppe 100-115, gouvernée par 111), total barre + dalle, information",
+   "code_aster": 125.75312023944329,
+   "source": 177.0,
+   "ecart_relatif": -0.28953039412743903,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "min M_T aux nœuds Y = ±2,00, comparé en module (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": "",
+   "moment_signe_kNm": -125.75312023944329
+  },
+  {
+   "point": "C8",
+   "colonne": "ELU (105, 112 ; gouvernée par 112), total barre + dalle, toutes lignes",
+   "code_aster": 722.4880243639527,
+   "source": 653.0,
+   "ecart_relatif": 0.10641351357420017,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELU (105, 112 ; gouvernée par 112), total barre + dalle, hors Y = ±2,00, information",
+   "code_aster": 722.4880243639527,
+   "source": 653.0,
+   "ecart_relatif": 0.10641351357420017,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_f (105, 112 ; gouvernée par 112), total barre + dalle, toutes lignes, information",
+   "code_aster": 349.4214359468772,
+   "source": 653.0,
+   "ecart_relatif": -0.46489826041825855,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_f (105, 112 ; gouvernée par 112), total barre + dalle, hors Y = ±2,00, information",
+   "code_aster": 349.4214359468772,
+   "source": 653.0,
+   "ecart_relatif": -0.46489826041825855,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_c (105, 112 ; gouvernée par 112), total barre + dalle, toutes lignes, information",
+   "code_aster": 500.5302864810473,
+   "source": 653.0,
+   "ecart_relatif": -0.23349113862014195,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_c (105, 112 ; gouvernée par 112), total barre + dalle, hors Y = ±2,00, information",
+   "code_aster": 500.5302864810473,
+   "source": 653.0,
+   "ecart_relatif": -0.23349113862014195,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELS_f (105), barre seule, information",
+   "code_aster": 202.8057310704838,
+   "source": 180,
+   "ecart_relatif": 0.12669850594713222,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max s·MFY, |Y| < 2,00",
+   "lieu": {
+    "X": 5.6,
+    "Y": -3.1086244689504383e-15,
+    "Z": 1.3,
+    "cas_mobile": "TSA_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELS_c (105), barre seule, information",
+   "code_aster": 303.2129500928595,
+   "source": 276,
+   "ecart_relatif": 0.0985976452639837,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max s·MFY, |Y| < 2,00",
+   "lieu": {
+    "X": 5.6,
+    "Y": -3.1086244689504383e-15,
+    "Z": 1.3,
+    "cas_mobile": "TSA_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELU (112), barre seule, information",
+   "code_aster": 443.1141567627625,
+   "source": 408,
+   "ecart_relatif": 0.08606410971265316,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max s·MFY, |Y| < 2,00",
+   "lieu": {
+    "X": 5.6,
+    "Y": -0.15000000000000258,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C7",
+   "colonne": "ELU (enveloppe 100-115, gouvernée par 111), barre seule, information",
+   "code_aster": 141.93753721723868,
+   "source": 177.0,
+   "ecart_relatif": -0.1980930100720978,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "min s·MFY aux nœuds Y = ±2,00, comparé en module",
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": "",
+   "moment_signe_kNm": -141.93753721723868
+  },
+  {
+   "point": "C7",
+   "colonne": "ELS_f (enveloppe 100-115, gouvernée par 111), barre seule, information",
+   "code_aster": 79.34434832638537,
+   "source": 177.0,
+   "ecart_relatif": -0.5517268456136419,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "min s·MFY aux nœuds Y = ±2,00, comparé en module",
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_f"
+   },
+   "note": "",
+   "moment_signe_kNm": -79.34434832638537
+  },
+  {
+   "point": "C7",
+   "colonne": "ELS_c (enveloppe 100-115, gouvernée par 111), barre seule, information",
+   "code_aster": 100.28784059661022,
+   "source": 177.0,
+   "ecart_relatif": -0.4334020305276259,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "min s·MFY aux nœuds Y = ±2,00, comparé en module",
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": "",
+   "moment_signe_kNm": -100.28784059661022
+  },
+  {
+   "point": "C8",
+   "colonne": "ELU (105, 112 ; gouvernée par 112), barre seule, information, toutes lignes, information",
+   "code_aster": 198.06355417467913,
+   "source": 653.0,
+   "ecart_relatif": -0.6966867470525588,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELU (105, 112 ; gouvernée par 112), barre seule, information, hors Y = ±2,00, information",
+   "code_aster": 198.06355417467913,
+   "source": 653.0,
+   "ecart_relatif": -0.6966867470525588,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_f (105, 112 ; gouvernée par 112), barre seule, information, toutes lignes, information",
+   "code_aster": 94.90025184273968,
+   "source": 653.0,
+   "ecart_relatif": -0.8546703647124967,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_f (105, 112 ; gouvernée par 112), barre seule, information, hors Y = ±2,00, information",
+   "code_aster": 94.90025184273968,
+   "source": 653.0,
+   "ecart_relatif": -0.8546703647124967,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_c (105, 112 ; gouvernée par 112), barre seule, information, toutes lignes, information",
+   "code_aster": 137.08986088594784,
+   "source": 653.0,
+   "ecart_relatif": -0.7900614687810906,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_c (105, 112 ; gouvernée par 112), barre seule, information, hors Y = ±2,00, information",
+   "code_aster": 137.08986088594784,
+   "source": 653.0,
+   "ecart_relatif": -0.7900614687810906,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C9",
+   "colonne": "ELS_f (111)",
+   "code_aster": 70.65627145918957,
+   "source": 79,
+   "ecart_relatif": -0.10561681697228395,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "regle": "max MXX, |X − X_i| ≤ 0,60, hors disques (E17.3)",
+   "lieu": {
+    "X": 30.55000000000007,
+    "Y": 1.3999999999999924,
+    "cas_mobile": "TSB_P27",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C9",
+   "colonne": "ELS_c (111)",
+   "code_aster": 105.36268667513359,
+   "source": 118,
+   "ecart_relatif": -0.10709587563446112,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "regle": "max MXX, |X − X_i| ≤ 0,60, hors disques (E17.3)",
+   "lieu": {
+    "X": 30.55000000000007,
+    "Y": 1.3999999999999924,
+    "cas_mobile": "TSB_P27",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C9",
+   "colonne": "ELU (111)",
+   "code_aster": 156.150802192036,
+   "source": 174,
+   "ecart_relatif": -0.10258159659749427,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "regle": "max MXX, |X − X_i| ≤ 0,60, hors disques (E17.3)",
+   "lieu": {
+    "X": 30.55000000000007,
+    "Y": 1.3999999999999924,
+    "cas_mobile": "TSB_P27",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C10",
+   "colonne": "ELS_f (112)",
+   "code_aster": 81.92382293095001,
+   "source": 82,
+   "ecart_relatif": -0.0009289886469510989,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "regle": "max(−MXX), |X − X_i| > 0,60 (inchangé)",
+   "lieu": {
+    "X": 2.549999999999999,
+    "Y": 1.2999999999999927,
+    "cas_mobile": "TSB_M25",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C10",
+   "colonne": "ELS_c (112)",
+   "code_aster": 130.82194326547707,
+   "source": 134,
+   "ecart_relatif": -0.023716841302409895,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "regle": "max(−MXX), |X − X_i| > 0,60 (inchangé)",
+   "lieu": {
+    "X": 2.549999999999999,
+    "Y": 1.2999999999999927,
+    "cas_mobile": "TSB_M25",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C10",
+   "colonne": "ELU (112)",
+   "code_aster": 192.86507743154363,
+   "source": 198,
+   "ecart_relatif": -0.025933952365941287,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "regle": "max(−MXX), |X − X_i| > 0,60 (inchangé)",
+   "lieu": {
+    "X": 2.549999999999999,
+    "Y": 1.2999999999999927,
+    "cas_mobile": "TSB_M25",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C11",
+   "colonne": "FR seul",
+   "code_aster": 19.69724508277066,
+   "source": 18.9,
+   "ecart_relatif": 0.04218227951167522,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "regle": "max sur X de |(1/6,00) ∫ NXX dY| (E17.4)",
+   "lieu": {
+    "X": 30.55,
+    "NXX_moyen_signe_kN_m": -19.69724508277066,
+    "lignes": 625
+   },
+   "note": ""
+  },
+  {
+   "point": "C11",
+   "colonne": "TE- seul",
+   "code_aster": 62.881376390640156,
+   "source": 64.1,
+   "ecart_relatif": -0.01901128875756378,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "regle": "max sur X de |(1/6,00) ∫ NXX dY| (E17.4)",
+   "lieu": {
+    "X": 15.6,
+    "NXX_moyen_signe_kN_m": 62.881376390640156,
+    "lignes": 625
+   },
+   "note": ""
+  },
+  {
+   "point": "C12",
+   "colonne": "ELU courant (111)",
+   "code_aster": 351.3771237946202,
+   "source": 320,
+   "ecart_relatif": 0.09805351185818818,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "regle": "max |QX|, hors disques (E17.3)",
+   "lieu": {
+    "X": 30.50000000000007,
+    "Y": 1.299999999999993,
+    "cas_mobile": "TSB_P28",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C12",
+   "colonne": "ELU rive (100)",
+   "code_aster": 222.08219310605702,
+   "source": 568,
+   "ecart_relatif": -0.6090102234048291,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "regle": "max |QX|, hors disques (E17.3) ; TR d'E18",
+   "lieu": {
+    "X": 5.549999999999997,
+    "Y": 2.8999999999999964,
+    "cas_mobile": "TRE_M24",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C12",
+   "colonne": "ELU rive, dans les disques compris, information (100)",
+   "code_aster": 1430.9357571553958,
+   "source": 568,
+   "ecart_relatif": 1.5192530935834432,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |QX|, hors disques (E17.3) ; TR d'E18",
+   "lieu": {
+    "X": 5.549999999999988,
+    "Y": 2.0,
+    "cas_mobile": "TRE_M23",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C12",
+   "colonne": "ELU rive (100), TR = 5 kPa seul (charge de v1), information",
+   "code_aster": 100.36415194500532,
+   "source": 568,
+   "ecart_relatif": -0.8233025493925962,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |QX|, hors disques, sans l'essieu d'E18",
+   "lieu": {
+    "X": 5.4999999999999964,
+    "Y": 2.8499999999999974
+   },
+   "note": ""
+  },
+  {
+   "point": "C13",
+   "colonne": "LM1 Mxx inf.",
+   "code_aster": 83.61291688035071,
+   "source": 85,
+   "ecart_relatif": -0.016318624937050472,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "regle": "enveloppe non pondérée, dalle hors disques (E17.3)",
+   "lieu": {
+    "X": 3.049999999999997,
+    "Y": 1.2999999999999927,
+    "cas_mobile": "TSB_M24"
+   },
+   "note": ""
+  },
+  {
+   "point": "C13",
+   "colonne": "LM1 Mxx sup.",
+   "code_aster": -54.60417936802492,
+   "source": -47,
+   "ecart_relatif": -0.161791050383509,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "regle": "enveloppe non pondérée, dalle hors disques (E17.3)",
+   "lieu": {
+    "X": 5.5499999999999865,
+    "Y": 1.3999999999999924,
+    "cas_mobile": "TSB_M24"
+   },
+   "note": ""
+  },
+  {
+   "point": "C13",
+   "colonne": "LM1 V (|Qxx|)",
+   "code_aster": 204.97645088957916,
+   "source": 154,
+   "ecart_relatif": 0.3310159148673971,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "regle": "enveloppe non pondérée, dalle hors disques (E17.3)",
+   "lieu": {
+    "X": 25.700000000000003,
+    "Y": 1.2999999999999927,
+    "cas_mobile": "TSB_P22"
+   },
+   "note": ""
+  },
+  {
+   "point": "C13",
+   "colonne": "LM2 Mxx inf.",
+   "code_aster": 64.38013857915355,
+   "source": 64,
+   "ecart_relatif": 0.005939665299274255,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "regle": "enveloppe non pondérée, dalle hors disques (E17.3)",
+   "lieu": {
+    "X": 3.049999999999997,
+    "Y": 1.1499999999999932,
+    "cas_mobile": "L2B_M25"
+   },
+   "note": ""
+  },
+  {
+   "point": "C13",
+   "colonne": "LM2 Mxx sup.",
+   "code_aster": -26.195095140245,
+   "source": -30,
+   "ecart_relatif": 0.12683016199183328,
+   "tolerance": 0.1,
+   "verdict": "hors tolérance",
+   "regle": "enveloppe non pondérée, dalle hors disques (E17.3)",
+   "lieu": {
+    "X": 5.5499999999999865,
+    "Y": 0.9999999999999931,
+    "cas_mobile": "L2B_M24"
+   },
+   "note": ""
+  },
+  {
+   "point": "C13",
+   "colonne": "LM2 V (|Qxx|)",
+   "code_aster": 134.8367095713545,
+   "source": 138,
+   "ecart_relatif": -0.022922394410474608,
+   "tolerance": 0.1,
+   "verdict": "dans la tolérance",
+   "regle": "enveloppe non pondérée, dalle hors disques (E17.3)",
+   "lieu": {
+    "X": 0.6999999999999993,
+    "Y": 1.1999999999999933,
+    "cas_mobile": "L2B_M29"
+   },
+   "note": ""
+  }
+ ],
+ "controle_total": {
+  "critere": "écart relatif ≤ 2 %",
+  "coupes": {
+   "Y0=-2.50": {
+    "poids_W_N": 250500.0,
+    "somme_VZ_chevetres_N": 77398.52959599302,
+    "integrale_QY_N": 173285.6755038067,
+    "effort_total_N": 250684.20509979973,
+    "signe_effort_total": "+",
+    "ecart_relatif_effort": 0.0007353496997993153,
+    "terme_de_bord_MXY_N": 378.3644580742703,
+    "somme_sMFY_Nm": -46862.719466900686,
+    "integrale_MYY_Nm": 15762.280509145707,
+    "moment_total_Nm": -62624.99997604639,
+    "moment_attendu_Nm": -62625.0,
+    "ecart_relatif_moment": 3.8249276396251487e-10,
+    "verdict": "RÉUSSI"
+   },
+   "Y0=-2.25": {
+    "poids_W_N": 375750.0,
+    "somme_VZ_chevetres_N": 116865.93357942774,
+    "integrale_QY_N": 259086.89023337356,
+    "effort_total_N": 375952.8238128013,
+    "signe_effort_total": "+",
+    "ecart_relatif_effort": 0.0005397839329375235,
+    "terme_de_bord_MXY_N": 417.9418369578772,
+    "somme_sMFY_Nm": -121172.0158183471,
+    "integrale_MYY_Nm": 19734.234140780864,
+    "moment_total_Nm": -140906.24995912798,
+    "moment_attendu_Nm": -140906.25,
+    "ecart_relatif_moment": 2.900653626760693e-10,
+    "verdict": "RÉUSSI"
+   }
+  },
+  "verdict": "RÉUSSI"
+ },
+ "diagnostic_a": {
+  "C3_v1": {
+   "valeur_v1_kNm": 283.3501342093566,
+   "lieu_v1": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": 0.7,
+    "TS": "TSB_P25"
+   },
+   "par_famille": {
+    "ELU+": {
+     "max_kNm": 283.3501342093566,
+     "lieu_Z": 0.7,
+     "cas_mobile": "TSB_P25"
+    },
+    "ELU-": {
+     "max_kNm": 272.3700157411845,
+     "lieu_Z": 0.7,
+     "cas_mobile": "TSB_P25"
+    }
+   },
+   "famille_qui_gouverne": "ELU+"
+  },
+  "C5_v1": {
+   "valeur_v1_kNm": 105.200686083442,
+   "lieu_v1": {
+    "X": 30.6,
+    "Y": 2.0,
+    "Z": -2.5,
+    "TS": "TSB_M26"
+   },
+   "par_famille": {
+    "ELU+": {
+     "max_kNm": 104.17918705785569,
+     "lieu_Z": -2.5,
+     "cas_mobile": "TSB_M26"
+    },
+    "ELU-": {
+     "max_kNm": 105.200686083442,
+     "lieu_Z": -2.5,
+     "cas_mobile": "TSB_M26"
+    }
+   },
+   "famille_qui_gouverne": "ELU-"
+  },
+  "F7_YP_111_ELU+": {
+   "M_tete_kNm": 435.49431119478214,
+   "cas_mobile": "TSB_P25",
+   "ecart_a_449": -0.030079485089572068,
+   "ecart_a_463": -0.059407535216453256,
+   "profil_haut_du_pieu": [
+    {
+     "Z": 1.3,
+     "M_kNm": 435.49431119478214,
+     "V_kN": 262.5025325501389
+    },
+    {
+     "Z": 1.0,
+     "M_kNm": 356.75185054634903,
+     "V_kN": 262.5025325501389
+    },
+    {
+     "Z": 1.0,
+     "M_kNm": 356.7518505463488,
+     "V_kN": 244.70698481774107
+    },
+    {
+     "Z": 0.7,
+     "M_kNm": 283.3501342093569,
+     "V_kN": 244.70698481774107
+    },
+    {
+     "Z": 0.7,
+     "M_kNm": 283.3501342093566,
+     "V_kN": 244.70698481774278
+    },
+    {
+     "Z": 0.5,
+     "M_kNm": 234.41926795906195,
+     "V_kN": 244.70698481774278
+    },
+    {
+     "Z": 0.5,
+     "M_kNm": 234.41926795906252,
+     "V_kN": 205.12834017888505
+    },
+    {
+     "Z": 0.0,
+     "M_kNm": 131.8936483173256,
+     "V_kN": 205.12834017888505
+    }
+   ]
+  }
+ },
+ "diagnostic_b": {
+  "effort_tranchant_Y_1p90": {
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3
+   },
+   "cas_mobile": "TSB_M20",
+   "barre_kN_ou_kNm": 198.06355417467913,
+   "dalle_kN_ou_kNm": 501.8636069268149,
+   "total": 699.927161101494,
+   "part_dalle": 0.7170226200923805
+  },
+  "moment_sur_appui_Y_2p00": {
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3
+   },
+   "cas_mobile": "TSB_M20",
+   "barre_kN_ou_kNm": -132.68061916134914,
+   "dalle_kN_ou_kNm": -41.61782922212524,
+   "total": -174.29844838347438,
+   "part_dalle": 0.2387733775493042
+  }
+ },
+ "disques": {
+  "rayon_m": 0.6,
+  "noeuds_exclus": 6174
+ }
+}

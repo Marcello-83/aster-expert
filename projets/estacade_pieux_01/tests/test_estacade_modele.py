@@ -239,6 +239,11 @@ def test_project_scripts_import(monkeypatch: pytest.MonkeyPatch) -> None:
         "convergence_lot47",
         "comparer_lot47",
         "sonde_lot47",
+        "comparer_lot47bis",
+        "constats_lot47bis",
+        "executions_lot47bis",
+        "sonde_lot47bis",
+        "analyse_sonde_lot47bis",
     ):
         assert __import__(name) is not None
     assert "estacade_pieux_01" in sys.modules
@@ -254,3 +259,84 @@ def test_the_results_note_says_it_is_a_counter_calculation() -> None:
     assert "Contre-calcul d'un modèle non validé" in text
     assert COUNTER_CALCULATION in text
     assert "jamais un niveau E" in text
+
+
+# --------------------------------------------------------------------------
+# Lot 47 bis : E17 (lecture v2), E18 (essieu de trottoir), E19 (chevêtre 0,80 m)
+# --------------------------------------------------------------------------
+
+
+def test_sidewalk_axle_of_e18(ctx: ProjectContext) -> None:
+    from estacade_pieux_01.charges_mobiles import tr_axle_cases
+
+    v = model_values(ctx)
+    cases = tr_axle_cases(v)
+    assert len(cases) == 57 and cases[0].name == "TRE_M28"
+    assert {c.total for c in cases} == {160e3}
+    for c in cases:
+        assert [a.wheels_y for a in c.axles] == [(2.25,), (2.25,)]
+        assert c.axles[1].x - c.axles[0].x == pytest.approx(2.0)
+        assert c.axles[0].x - 0.2 >= -1e-9 and c.axles[1].x + 0.2 <= v.length + 1e-9
+    assert check_alignment(cases, 0.05) == []
+    text, report = build_comm(
+        ctx, mesh_label="m.med", options=Options(mode="tr_essieu")
+    )
+    assert len(report["positions"]) == 57
+    assert "PESANTEUR" not in text and "TEP = MECA_STATIQUE" not in text
+    prints = re.findall(r'INTERSEC=\("BX_\d{5}T", "BY_TR_TROTTOIR", "(\w+)"\)', text)
+    assert prints and set(prints) == {"TROTT"}
+    assert "UNION" not in text.split("CREA_POI1")[0].split("Empreintes")[1]
+
+
+def test_production_comm_is_unchanged_by_lot47bis(ctx: ProjectContext) -> None:
+    # Les options du lot 47 bis ne touchent pas la référence : le .comm de production
+    # est identique, octet pour octet, au cas versionné du lot 47.
+    reference = PROJECT / "references" / "cas" / "estacade_pieux_01.comm"
+    text, _ = build_comm(ctx, mesh_label="estacade_mesh.med")
+    assert text == reference.read_text(encoding="utf-8")
+
+
+def test_variant_e19_changes_only_the_cap_height(ctx: ProjectContext) -> None:
+    ref, _ = build_comm(ctx, mesh_label="m.med", options=Options(tr_axle=True))
+    text, report = build_comm(
+        ctx, mesh_label="m.med", options=Options(variant="chevetre_0p80", tr_axle=True)
+    )
+    diff = [
+        (a, b)
+        for a, b in zip(ref.splitlines(), text.splitlines(), strict=True)
+        if a != b
+    ]
+    assert len(diff) == 3, diff
+    assert any("VALE=(1.2, 0.8)" in b for _, b in diff)
+    assert len(report["positions"]) == 242 + 57
+
+
+def test_lecture_v2_exclut_les_disques_des_tetes_de_pieux(ctx: ProjectContext) -> None:
+    import numpy as np
+
+    from estacade_pieux_01.comparaison_v2 import RADIUS, ComparisonV2
+
+    v = model_values(ctx)
+    xs = np.round(np.arange(0, 625) * 0.05, 9)
+    ys = np.round(-3.0 + np.arange(0, 121) * 0.05, 9)
+    gx, gy = np.meshgrid(xs, ys)
+    cmp = ComparisonV2.__new__(ComparisonV2)
+    cmp.v, cmp.x, cmp.y = v, gx.ravel(), gy.ravel()
+    away = cmp._away()
+    # Disque fermé de 0,60 m autour de chacune des 14 têtes (disques disjoints).
+    per_disc = sum(
+        1
+        for i in range(-12, 13)
+        for j in range(-12, 13)
+        if np.hypot(i * 0.05, j * 0.05) <= RADIUS + 1e-9
+    )
+    assert (~away).sum() == 14 * per_disc
+
+    def at(x: float, y: float) -> bool:
+        k = int(
+            np.nonzero((np.abs(cmp.x - x) < 1e-9) & (np.abs(cmp.y - y) < 1e-9))[0][0]
+        )
+        return bool(away[k])
+
+    assert not at(5.6, 2.0) and not at(6.2, 2.0) and not at(5.6, 1.4)
+    assert at(6.25, 2.0) and at(5.6, 1.35)

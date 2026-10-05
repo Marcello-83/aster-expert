@@ -283,9 +283,11 @@
           "balance_n": -9.058836894837441e-06,
           "reactions_blocked_n": 0,
           "reactions_free_components_n": 1.563194018636e-11,
-          "reactions_free_components_relative": NaN,
-          "relative_gap": NaN,
-          "relative_gap_vs_specified": NaN,
+          "reactions_free_components_relative": 1.5943938106700165e-17,
+          "relative_gap": -9.239642235581787e-12,
+          "relative_gap_vs_specified": -9.239642235581787e-12,
+          "scale_definition": "max sur DX, DY de \u03a3 |k\u00b7u| aux n\u0153uds de ressort (DX : 9.804316e+05 N, DY : 1.922542e+05 N)",
+          "scale_n": 980431.5647582039,
           "springs_on_structure_n": -9.058836894837441e-06
         },
         "DY": {
@@ -294,9 +296,11 @@
           "balance_n": -2.9057360961814993e-09,
           "reactions_blocked_n": 0,
           "reactions_free_components_n": -1.726618847897e-12,
-          "reactions_free_components_relative": NaN,
-          "relative_gap": NaN,
-          "relative_gap_vs_specified": NaN,
+          "reactions_free_components_relative": -1.7610804363717344e-18,
+          "relative_gap": -2.9637316877880386e-15,
+          "relative_gap_vs_specified": -2.9637316877880386e-15,
+          "scale_definition": "max sur DX, DY de \u03a3 |k\u00b7u| aux n\u0153uds de ressort (DX : 9.804316e+05 N, DY : 1.922542e+05 N)",
+          "scale_n": 980431.5647582039,
           "springs_on_structure_n": -2.9057360961814993e-09
         },
         "DZ": {
@@ -305,9 +309,11 @@
           "balance_n": 2.369902358623e-05,
           "reactions_blocked_n": 2.369902358623e-05,
           "reactions_free_components_n": 0,
-          "reactions_free_components_relative": NaN,
-          "relative_gap": NaN,
-          "relative_gap_vs_specified": NaN,
+          "reactions_free_components_relative": 0.0,
+          "relative_gap": 2.417203243764872e-11,
+          "relative_gap_vs_specified": 2.417203243764872e-11,
+          "scale_definition": "max sur DX, DY de \u03a3 |k\u00b7u| aux n\u0153uds de ressort (DX : 9.804316e+05 N, DY : 1.922542e+05 N)",
+          "scale_n": 980431.5647582039,
           "springs_on_structure_n": 0.0
         }
       },
@@ -328,7 +334,7 @@
           "DY": 2.487087868985327e-07
         }
       },
-      "verdict": "\u00c9CHEC"
+      "verdict": "R\u00c9USSI"
     },
     "TEP": {
       "components": {
@@ -338,9 +344,11 @@
           "balance_n": 9.058836894837441e-06,
           "reactions_blocked_n": 0,
           "reactions_free_components_n": -1.563194018636e-11,
-          "reactions_free_components_relative": NaN,
-          "relative_gap": NaN,
-          "relative_gap_vs_specified": NaN,
+          "reactions_free_components_relative": -1.5943938106700165e-17,
+          "relative_gap": 9.239642235581787e-12,
+          "relative_gap_vs_specified": 9.239642235581787e-12,
+          "scale_definition": "max sur DX, DY de \u03a3 |k\u00b7u| aux n\u0153uds de ressort (DX : 9.804316e+05 N, DY : 1.922542e+05 N)",
+          "scale_n": 980431.5647582039,
           "springs_on_structure_n": 9.058836894837441e-06
         },
         "DY": {
@@ -349,9 +357,11 @@
           "balance_n": 2.9057360961814993e-09,
           "reactions_blocked_n": 0,
           "reactions_free_components_n": 1.726618847897e-12,
-          "reactions_free_components_relative": NaN,
-          "relative_gap": NaN,
-          "relative_gap_vs_specified": NaN,
+          "reactions_free_components_relative": 1.7610804363717344e-18,
+          "relative_gap": 2.9637316877880386e-15,
+          "relative_gap_vs_specified": 2.9637316877880386e-15,
+          "scale_definition": "max sur DX, DY de \u03a3 |k\u00b7u| aux n\u0153uds de ressort (DX : 9.804316e+05 N, DY : 1.922542e+05 N)",
+          "scale_n": 980431.5647582039,
           "springs_on_structure_n": 2.9057360961814993e-09
         },
         "DZ": {
@@ -360,9 +370,11 @@
           "balance_n": -2.369902358623e-05,
           "reactions_blocked_n": -2.369902358623e-05,
           "reactions_free_components_n": 0,
-          "reactions_free_components_relative": NaN,
-          "relative_gap": NaN,
-          "relative_gap_vs_specified": NaN,
+          "reactions_free_components_relative": 0.0,
+          "relative_gap": -2.417203243764872e-11,
+          "relative_gap_vs_specified": -2.417203243764872e-11,
+          "scale_definition": "max sur DX, DY de \u03a3 |k\u00b7u| aux n\u0153uds de ressort (DX : 9.804316e+05 N, DY : 1.922542e+05 N)",
+          "scale_n": 980431.5647582039,
           "springs_on_structure_n": 0.0
         }
       },
@@ -383,7 +395,7 @@
           "DY": -2.487087868985327e-07
         }
       },
-      "verdict": "\u00c9CHEC"
+      "verdict": "R\u00c9USSI"
     },
     "TR": {
       "components": {

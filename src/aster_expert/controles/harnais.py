@@ -93,13 +93,17 @@ def _resultant(
 ) -> dict[str, Any]:
     """CTL-013: for each load case, the resultant Code_Aster evaluates equals the
     declared one, component by component, within the project's threshold, referred to
-    the largest component of the load (same scale as the equilibrium)."""
+    the largest component of the load (same scale as the equilibrium). Version 2
+    (lot 47 bis): a self-equilibrated case is referred to its declared scale."""
     controls = ctx.declaration.controls
     assert controls is not None
     cases: dict[str, float] = {}
     for name, entry in result["cases"].items():
         terms = entry["components"]
         scale = max(abs(t["applied_as_evaluated_n"]) for t in terms.values())
+        declared = [t["scale_n"] for t in terms.values() if "scale_n" in t]
+        if declared:
+            scale = max(declared)
         gap = max(
             abs(t["applied_as_evaluated_n"] - t["applied_specified_n"])
             for t in terms.values()

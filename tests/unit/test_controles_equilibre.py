@@ -242,3 +242,36 @@ def test_find_table_reports_an_absent_title() -> None:
     with pytest.raises(KeyError, match="table introuvable : ABSENTE"):
         find_table(_mess(), "ABSENTE")
     assert find_table(_mess(), "REAC_APPUI_G")[0]["DZ"] == 100.0
+
+
+def test_a_self_equilibrated_case_uses_its_declared_scale() -> None:
+    # Lot 47 bis (CTL-005, version 2) : une charge nulle par construction (TE±)
+    # rapporte son bilan à l'échelle déclarée par le projet, au lieu de NaN.
+    controls = _spring_controls(["DX", "DY"])
+    zero = {"DX": 0.0, "DY": 0.0, "DZ": 0.0}
+    reactions = {"P": {"DX": 0.0, "DY": 0.0, "DZ": 2.0e-5}}
+    springs = {"K1": {"DX": 5.0e5, "DY": 0.0}, "K2": {"DX": -5.0e5, "DY": 0.0}}
+    scale = {"value_n": 1.0e6, "definition": "Σ |k·u|"}
+
+    v1 = balance_terms(controls, zero, zero, reactions, springs)
+    v2 = balance_terms(controls, zero, zero, reactions, springs, scale)
+
+    assert math.isnan(v1["DZ"]["relative_gap"])
+    assert v2["DZ"]["relative_gap"] == pytest.approx(2.0e-11)
+    assert v2["DX"]["scale_n"] == 1.0e6 and v2["DX"]["scale_definition"] == "Σ |k·u|"
+    assert "scale_n" not in v1["DX"]
+
+
+def test_a_declared_scale_is_refused_on_a_loaded_case_or_if_not_positive() -> None:
+    controls = _spring_controls(["DX", "DY"])
+    reactions = {"P": {"DX": 0.0, "DY": 0.0, "DZ": 10.0}}
+    loaded = {"DX": 0.0, "DY": 0.0, "DZ": -10.0}
+    zero = dict.fromkeys(loaded, 0.0)
+    with pytest.raises(ProjectError, match="pas nulle"):
+        balance_terms(
+            controls, loaded, loaded, reactions, {}, {"value_n": 1.0, "definition": "x"}
+        )
+    with pytest.raises(ProjectError, match="non positive"):
+        balance_terms(
+            controls, zero, zero, reactions, {}, {"value_n": 0.0, "definition": "x"}
+        )

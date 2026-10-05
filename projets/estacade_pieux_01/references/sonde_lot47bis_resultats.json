@@ -1,0 +1,55 @@
+{
+ "execution": "data/processed/runs/20261005T150756-c0428813",
+ "reaction_DZ_N": 71999.99999946,
+ "reaction_attendue_N": 72000.00000000001,
+ "ecart_reaction": -7.500299640620746e-12,
+ "signe_s": -1.0,
+ "lignes": {
+  "L_M190": {
+   "Y": -1.9,
+   "grandeur": "effort tranchant |VZ + ∫QY dX| (N)",
+   "barre_seule": -6452.5373561095,
+   "barre_extremites": [
+    -6420.368342274,
+    -6484.706369945
+   ],
+   "dalle": -16322.956778578697,
+   "total": -22775.494134688197,
+   "statique": 22800.000000000004,
+   "ecart_relatif_total": -0.0010748186540266095,
+   "part_de_la_barre": 0.2833105318352663,
+   "terme_de_bord_MXY": 44.65647532959
+  },
+  "L_M200": {
+   "Y": -2.0,
+   "grandeur": "moment s·MFY − ∫MYY dX (N·m)",
+   "barre_seule": -4733.7623214079995,
+   "barre_extremites": [
+    -4826.356527417,
+    -4641.168115399
+   ],
+   "dalle": -1266.2376784406924,
+   "total": -5999.999999848692,
+   "statique": -6000.000000000001,
+   "ecart_relatif_total": 2.5218165925859158e-11,
+   "part_de_la_barre": 0.7889603869212293,
+   "terme_de_bord_MXY": 72.92045469661
+  },
+  "L_P000": {
+   "Y": 0.0,
+   "grandeur": "moment s·MFY − ∫MYY dX (N·m)",
+   "barre_seule": 16594.8764602,
+   "barre_extremites": [
+    16594.8764602,
+    16594.8764602
+   ],
+   "dalle": 1405.1235392323952,
+   "total": 17999.999999432395,
+   "statique": 18000.0,
+   "ecart_relatif_total": -3.1533596080003514e-11,
+   "part_de_la_barre": 0.9219375811512943,
+   "terme_de_bord_MXY": 9.312101645339999e-10
+  }
+ },
+ "verdict": "RÉUSSI"
+}

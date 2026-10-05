@@ -12,7 +12,7 @@
 # (racine 82b9a5d) : les lots antérieurs n'ont pas de commit consultable.
 
 schema_version: 1
-mis_a_jour_au_lot: "47"
+mis_a_jour_au_lot: "47bis"
 date: 2026-10-05
 
 lots:
@@ -68,6 +68,7 @@ lots:
   - {id: "46", objet: "Socle : politique de lecture MCP, intégration continue, état versionné, trace des connaissances appliquées, harnais D par défaut", etat: fait, commit: "19888e4", date: 2026-10-05, note: "branche claude/lot-46-securite-mcp-wakze8 ; compte rendu docs/essais_lot46.md"}
   - {id: "46 bis", objet: "Correction du workflow ci-lent : profil ci de env-check, ASTER_IMAGE_REF dérivée de versions.yaml", etat: fait, commit: "51baf31", date: 2026-10-05, note: "branche claude/blissful-turing-ajkazc ; passage réel de ci-lent vert, constaté par MM"}
   - {id: "47", objet: "Contre-calcul d'une estacade sur pieux (estacade_pieux_01) : premier ouvrage réel, comparaison à un modèle externe non validé", etat: fait, commit: "f97d48e", date: 2026-10-05, note: "branche lot-47 ; compte rendu docs/essais_lot47.md et message du commit f97d48e"}
+  - {id: "47bis", objet: "Estacade : relecture des écarts (critères v2, E17), essieu de trottoir (E18), variante de chevêtre (E19), sonde S2, harnais D v2 des cas autoéquilibrés", etat: fait, commit: "5ad8e24", date: 2026-10-05, note: "branche lot-47bis ; compte rendu docs/essais_lot47bis.md et message du commit final du lot (5ad8e24 : critères écrits avant exécution)"}
 
 # Niveaux A à E : CLAUDE.md, « Niveaux de validation ». Un niveau n'est donné que pour ce
 # que la preuve établit ; `limites` dit ce qui n'est pas couvert.
@@ -107,7 +108,7 @@ capacites:
     etat: operationnelle
     fichiers: [src/aster_expert/controles, projets/dalle_appuyee_01/resultats/paquet/controles]
     commandes: ["aster-expert projet <nom> controles"]
-    limites: "Harnais par défaut depuis le lot 46 (CTL-005, CTL-006, CTL-012, CTL-013) ; les paquets versionnés ne portent pas encore la clé harness (non réexportés)."
+    limites: "Harnais par défaut depuis le lot 46 (CTL-005, CTL-006, CTL-012, CTL-013) ; version 2 de CTL-005 et CTL-013 (lot 47 bis) : échelle déclarée d'un cas autoéquilibré (self_equilibrated_scale). Les paquets du quai et de la dalle ne portent pas encore la clé harness (non réexportés)."
   - nom: reference_e
     niveau: E
     etat: partielle
@@ -170,9 +171,9 @@ projets:
     limites: "Niveau E acquis par la règle de conservation (E0, E1, E2 rejoués au lot 45)."
   - nom: estacade_pieux_01
     ouvrage: "Estacade sur pieux ESTACADE-PIEUX-01 (contre-calcul d'un modèle non validé)"
-    niveau_atteint: C
+    niveau_atteint: D
     preuve: projets/estacade_pieux_01/resultats/paquet/paquet.json
-    limites: "Niveau D non atteint : écart relatif indéfini (NaN) de l'équilibre des cas thermiques auto-équilibrés ; contre-calcul : 11 lignes sur 30 dans la tolérance, écarts expliqués ou déclarés inexpliqués (docs/essais_lot47.md § 3.4)."
+    limites: "Niveau D par le harnais v2 (lot 47 bis), critère écrit après l'exécution (antériorité non démontrable, signalée par le paquet) ; contre-calcul d'un modèle non validé, jamais E : lecture v2 (E17), 17 lignes sur 30 dans la tolérance (v1 : 11), docs/essais_lot47bis.md § 7."
 
 metriques:
   - {libelle: "Tableau de bord des projets", fichier: connaissances/metriques/tableau_de_bord.md}

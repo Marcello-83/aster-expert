@@ -55,3 +55,15 @@ caught_error:
     section: null
     note: null
 default_harness: true
+version: 2
+version_history:
+- version: 2
+  date: '2026-10-05'
+  change: "Un cas déclaré autoéquilibré (charge appliquée nulle par construction, `self_equilibrated_scale` dans projet.yaml) rapporte son bilan à l'échelle que le projet déclare (estacade : max sur DX, DY de Σ |k·u| des ressorts), au lieu d'un écart relatif indéfini ; refusé sur un cas chargé."
+  reason: "Lot 47 : TE+ et TE− de l'estacade, autoéquilibrés, rendaient un écart relatif NaN et un échec formel qui privait le paquet du niveau D (docs/essais_lot47.md § 3.3) ; consigne du lot 47 bis, § 3.5."
+  evidence:
+    kind: test
+    path: tests/unit/test_controles_equilibre.py
+    function: test_a_self_equilibrated_case_uses_its_declared_scale
+    note: échelle déclarée d'un cas autoéquilibré au lieu de NaN ; refus sur un cas chargé
+  previous_verdicts: "Verdicts de la version 1 conservés tels quels : ÉCHEC formel de l'estacade au lot 47 (projets/estacade_pieux_01/references/controles_d_v1_lot47.json) ; aucun autre projet n'a de cas autoéquilibré, leurs verdicts sont identiques en version 2."

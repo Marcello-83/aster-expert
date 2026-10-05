@@ -24,12 +24,12 @@
       "verdict": "RÉUSSI"
     },
     "TEP": {
-      "worst_relative_gap": NaN,
-      "verdict": "ÉCHEC"
+      "worst_relative_gap": 2.417203243764872e-11,
+      "verdict": "RÉUSSI"
     },
     "TEM": {
-      "worst_relative_gap": NaN,
-      "verdict": "ÉCHEC"
+      "worst_relative_gap": 2.417203243764872e-11,
+      "verdict": "RÉUSSI"
     },
     "TSA_P00": {
       "worst_relative_gap": 1.2037042459404028e-10,
@@ -133,11 +133,11 @@
     }
   },
   "informative": {},
-  "verdict": "ÉCHEC",
+  "verdict": "RÉUSSI",
   "harness": {
     "controls": {
       "CTL-005": {
-        "verdict": "ÉCHEC",
+        "verdict": "RÉUSSI",
         "worst_relative_gap": 1.687036947933612e-10,
         "cases": [
           "FR",
@@ -176,7 +176,7 @@
         "reason": "niveau E non visé par le projet"
       },
       "CTL-013": {
-        "verdict": "ÉCHEC",
+        "verdict": "RÉUSSI",
         "threshold": 1e-06,
         "relative_gap_by_case": {
           "PP": 0.0,
@@ -184,8 +184,8 @@
           "UDL": 0.0,
           "TR": 0.0,
           "FR": 0.0,
-          "TEP": NaN,
-          "TEM": NaN,
+          "TEP": 0.0,
+          "TEM": 0.0,
           "TSA_P00": 0.0,
           "TSB_P00": 0.0,
           "L2A_M00": 0.0,

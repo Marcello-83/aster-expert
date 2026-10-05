@@ -181,11 +181,19 @@ class LoadCase(_Model):
     check."""
     informative: bool = False
     """Balance reported without verdict (point loads, lot 33)."""
+    self_equilibrated_scale: str | None = None
+    """Lot 47 bis (CTL-005 and CTL-013, version 2): a self-equilibrated case (applied
+    load zero by construction, e.g. a uniform temperature) declares the extension
+    that gives the scale of its gaps, `f(ctx, mess_text, case, *, comm_text) ->
+    {"value_n": S, "definition": text}`; without it the relative gap of a zero load
+    is undefined (NaN). Refused on a case whose applied load is not zero."""
 
     @model_validator(mode="after")
     def _extension(self) -> LoadCase:
         if isinstance(self.expected_resultant, str):
             _check_extension(self.expected_resultant)
+        if self.self_equilibrated_scale is not None:
+            _check_extension(self.self_equilibrated_scale)
         return self
 
 

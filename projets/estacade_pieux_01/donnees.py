@@ -127,6 +127,14 @@ class ModelValues:
     fr_total: float
     delta_t: float
     moving_step: float
+    tr_axle_wheel: float
+    """Wheel of the sidewalk axle of the combination 100 (E18, lot 47 bis), N."""
+    tr_axle_spacing: float
+    """Spacing of its two wheels along X (E18), m."""
+    tr_axle_print: float
+    """Side of the square print of each wheel (E18), m."""
+    tr_axle_y: float
+    """Y of the wheels, centre of the sidewalk Y > 0 (E18), m."""
 
     @property
     def y_min(self) -> float:
@@ -310,6 +318,10 @@ def model_values(ctx: ProjectContext) -> ModelValues:
         fr_total=_value(ctx, "charges.fr_total", "kN") * 1e3,
         delta_t=_value(ctx, "charges.delta_t", "°C"),
         moving_step=_value(ctx, "charges.pas_charge_mobile", "m"),
+        tr_axle_wheel=_value(ctx, "charges.tr_essieu_charge_roue", "kN") * 1e3,
+        tr_axle_spacing=_value(ctx, "charges.tr_essieu_entraxe_roues", "m"),
+        tr_axle_print=_value(ctx, "charges.tr_essieu_empreinte", "m"),
+        tr_axle_y=_value(ctx, "charges.tr_essieu_ordonnee", "m"),
     )
     ctx.cache["estacade_values"] = values
     return values

@@ -82,9 +82,10 @@ def test_the_slab_adds_seven_findings_of_its_own() -> None:
 
 
 def test_the_jetty_adds_four_findings_from_its_probe() -> None:
-    """Lot 47 : CA-054 à CA-057, établis par la sonde S1 de l'estacade (niveau D)."""
+    """Lot 47 : CA-054 à CA-057, établis par la sonde S1 de l'estacade (niveau D) ;
+    lot 47 bis : CA-058, établi par la sonde S2 (niveau D)."""
     base = {k: c for k, c in _base().items() if int(k[3:]) > 53}
-    assert list(base) == [f"CA-{n:03d}" for n in range(54, 58)]
+    assert list(base) == [f"CA-{n:03d}" for n in range(54, 59)]
     assert all(c.origin.project == "ESTACADE-PIEUX-01" for c in base.values())
     assert all(c.validation_level == "D" for c in base.values())
 
@@ -246,7 +247,7 @@ def test_the_mcp_tool_is_logged_and_level_a(tmp_path: Path) -> None:
     )
 
     assert result.validation_level == "A"
-    assert result.total_in_base == 57  # lot 47 : CA-054 à CA-057
+    assert result.total_in_base == 58  # lot 47 : CA-054 à CA-057 ; lot 47 bis : CA-058
     assert len(result.results) == 3
     hit = result.results[0]
     assert hit.file.startswith("connaissances/constats_code_aster/CA-")

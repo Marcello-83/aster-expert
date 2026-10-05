@@ -54,6 +54,11 @@ def test_every_seeded_entry_is_rebuilt_byte_for_byte() -> None:
         neutral: dict[str, object] = {"reuses": ()}
         if getattr(versioned, "default_harness", False):
             neutral["default_harness"] = False
+        # Lot 47 bis : une nouvelle version d'un contrôle (règle changée, preuve et
+        # verdicts antérieurs dans l'historique) n'est pas de l'amorçage non plus.
+        if getattr(versioned, "version", 1) > 1:
+            neutral["version"] = 1
+            neutral["version_history"] = ()
         assert dump_entry(versioned.model_copy(update=neutral)) == dump_entry(entry), (
             path
         )

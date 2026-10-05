@@ -2,9 +2,9 @@
  "schema_version": 1,
  "projet": "estacade_pieux_01",
  "ouvrage": "ESTACADE-PIEUX-01",
- "exporte_le": "2026-10-05T14:00:27Z",
+ "exporte_le": "2026-10-05T18:02:55Z",
  "depot": {
-  "commit": "fa97116252b81f7db7ca52a6b6b78b3e2cb9c040",
+  "commit": "c2fc6f9ed3533fb678a59efc64ba1d86c23a908c",
   "arbre_modifie": true
  },
  "code_aster": {
@@ -14,11 +14,11 @@
  "empreintes": {
   "fiche": {
    "chemin": "projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json",
-   "sha256": "e7f76525ebace94ed269ff96987ced19b3ded7e90c6b54f1d2affd83d7c9a7e0"
+   "sha256": "cf7ffe07917f3fe510ea28faf0f76698af2a5c534c53c38e5c2bf78fe8c50bea"
   },
   "donnees": {
    "chemin": "projets/estacade_pieux_01/donnees/estacade_pieux_01_model_data.yaml",
-   "sha256": "701180abae3b797a01dabfba5bbbac00978945cf1df33d769601c8fc05b8bf9a"
+   "sha256": "804d915fa6db0d9a898eaf39f5610a513cefe6fbcf7b55b4f42e809ba2130e1c"
   },
   "comm": {
    "chemin": "projets/estacade_pieux_01/resultats/estacade_pieux_01.comm",
@@ -90,11 +90,23 @@
    "resultats_dans_le_commit": [],
    "anteriorite_demontrable": true,
    "anteriorite_motif": "commit antérieur à l'exécution, sans résultat d'exécution dans le commit"
+  },
+  {
+   "niveau": "D",
+   "document": "docs/essais_lot47bis.md",
+   "document_sha256": "6ce3458b3731d37f0e2ccb5779b62a77b10902cf82296f4fb7c1756ddf87a002",
+   "commit_introduction": "5ad8e245ad5cca76f8ca606c6154089dcf42f2a0",
+   "date": "2026-10-05T10:58:08-04:00",
+   "message": "Lot 47 bis : critères de lecture v2 (E17), E18 et E19, écrits avant toute exécution",
+   "posterieur_a_l_execution": true,
+   "resultats_dans_le_commit": [],
+   "anteriorite_demontrable": false,
+   "anteriorite_motif": "commité après l'exécution : antériorité non démontrable"
   }
  ],
  "niveau_e": null,
  "niveau": {
-  "atteint": "C",
+  "atteint": "D",
   "par_niveau": [
    {
     "niveau": "B",
@@ -108,8 +120,8 @@
    },
    {
     "niveau": "D",
-    "atteint": false,
-    "motif": "contrôles D : ÉCHEC (seuil 1e-06) ; rattachés à l'exécution du paquet par leurs empreintes"
+    "atteint": true,
+    "motif": "contrôles D : RÉUSSI (seuil 1e-06) ; rattachés à l'exécution du paquet par leurs empreintes"
    },
    {
     "niveau": "E",
@@ -141,6 +153,15 @@
    "sha256": "075118bf71f0d486552dd878b763a73eea9b9546425b0816d3cc97982bc7bc79"
   },
   {
+   "chemin": "contre_calcul/comparaison_v2_lot47bis.json",
+   "section": "contre_calcul",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/comparaison_v2_lot47bis.json",
+   "libelle": null,
+   "octets": 27633,
+   "sha256": "e92cecfd57bb359737c4d9dac231b826692e62c602a5d69128ef5e3feba94940"
+  },
+  {
    "chemin": "contre_calcul/explications_lot47.json",
    "section": "contre_calcul",
    "type": "tableau",
@@ -150,10 +171,37 @@
    "sha256": "69af4b2b8abb280f7db1fc114bcb87d8f4f38016ab0a5472f7193db66885ecbc"
   },
   {
+   "chemin": "contre_calcul/sonde_lot47bis_resultats.json",
+   "section": "contre_calcul",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/sonde_lot47bis_resultats.json",
+   "libelle": null,
+   "octets": 1514,
+   "sha256": "5e0c730cc21100c86be82e4bb7ac53580bae27db35cbec2adb6d370a3b16956b"
+  },
+  {
+   "chemin": "contre_calcul/variante_chevetre_0p80_lot47bis.json",
+   "section": "contre_calcul",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/variante_chevetre_0p80_lot47bis.json",
+   "libelle": null,
+   "octets": 11471,
+   "sha256": "8d50ffce71f3453c1648351903d90d42a57f106eb146797cc566bff132791f17"
+  },
+  {
    "chemin": "controles/controles_d.json",
    "section": "controles",
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/controles/controles_d.json",
+   "libelle": null,
+   "octets": 4975,
+   "sha256": "e1c6fc5911111308dd12308f5b8ecd4bff8913720b411fbfddfe559d5bb32f3d"
+  },
+  {
+   "chemin": "controles/controles_d_v1_lot47.json",
+   "section": "controles",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/controles_d_v1_lot47.json",
    "libelle": null,
    "octets": 4934,
    "sha256": "6c993474423139ca8db469ed7e3495e91751f7c49dc3f615cdad76b38b56d486"
@@ -164,8 +212,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/controles/controles_projet.json",
    "libelle": null,
-   "octets": 65245,
-   "sha256": "0c366f751b88e0f1719ac793eb801aa2613594eca2e25a2ebece3740cd61f4ce"
+   "octets": 65286,
+   "sha256": "6e71b6a503c3bdb4b5354a157a8e5a87d488ea397d7b2b6d41cdb4a126b38e8d"
   },
   {
    "chemin": "controles/convergence_lot47.json",
@@ -182,8 +230,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/controles/equilibre.json",
    "libelle": null,
-   "octets": 27054,
-   "sha256": "131ffd2ef6f43e36d17f7ec02bd5da9b5103e7dfc52955761c1401c5218e467c"
+   "octets": 28428,
+   "sha256": "e03b6d0f25e672fd6db717291da0fbf0a2f8cd4ec7136437ed069cfe665b925e"
   },
   {
    "chemin": "execution/compte_rendu.json",
@@ -213,6 +261,6 @@
    "sha256": "4cb6d3a36aacbbe958c91cafb0a8850c83cafb5b3092ab6933057cc803c4180e"
   }
  ],
- "taille_octets": 219664,
+ "taille_octets": 266672,
  "plafond_octets": 20971520
 }

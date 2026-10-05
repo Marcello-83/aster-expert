@@ -1,0 +1,452 @@
+{
+ "statut": "variante de sensibilité E19, sans verdict ; contre-calcul d'un modèle non validé",
+ "critere": "docs/essais_lot47bis.md § 1 (E17, E18), écrits avant la relecture",
+ "execution": "data/processed/runs/20261005T150840-65219726",
+ "comm_sha256": "d0e8183b18ae13941f7e00e517c23788304b216f3056e73cf90f5b21ec856be6",
+ "lignes": [
+  {
+   "point": "C6",
+   "colonne": "ELS_f (105), total barre + dalle",
+   "code_aster": 194.05208918283418,
+   "source": 180,
+   "ecart_relatif": 0.07806716212685656,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "regle": "max M_T = s·MFY − ∫MYY dX, |Y| < 2,00 (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": -3.1086244689504383e-15,
+    "Z": 1.3,
+    "cas_mobile": "TSA_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELS_c (105), total barre + dalle",
+   "code_aster": 292.1638464524519,
+   "source": 276,
+   "ecart_relatif": 0.05856466105960825,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "regle": "max M_T = s·MFY − ∫MYY dX, |Y| < 2,00 (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": -3.1086244689504383e-15,
+    "Z": 1.3,
+    "cas_mobile": "TSA_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELU (112), total barre + dalle",
+   "code_aster": 429.3080115202151,
+   "source": 408,
+   "ecart_relatif": 0.052225518431899695,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "regle": "max M_T = s·MFY − ∫MYY dX, |Y| < 2,00 (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": -0.2000000000000024,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C7",
+   "colonne": "ELU (enveloppe 100-115, gouvernée par 111), total barre + dalle",
+   "code_aster": 186.03615198280434,
+   "source": 177.0,
+   "ecart_relatif": 0.051051706117538655,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "regle": "min M_T aux nœuds Y = ±2,00, comparé en module (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": "",
+   "moment_signe_kNm": -186.03615198280434
+  },
+  {
+   "point": "C7",
+   "colonne": "ELS_f (enveloppe 100-115, gouvernée par 111), total barre + dalle, information",
+   "code_aster": 102.0102904508649,
+   "source": 177.0,
+   "ecart_relatif": -0.42367067541884235,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "min M_T aux nœuds Y = ±2,00, comparé en module (E17.2)",
+   "lieu": {
+    "X": 20.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_P10",
+    "famille": "ELS_f"
+   },
+   "note": "",
+   "moment_signe_kNm": -102.0102904508649
+  },
+  {
+   "point": "C7",
+   "colonne": "ELS_c (enveloppe 100-115, gouvernée par 111), total barre + dalle, information",
+   "code_aster": 131.27150941001636,
+   "source": 177.0,
+   "ecart_relatif": -0.2583530541806985,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "min M_T aux nœuds Y = ±2,00, comparé en module (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": "",
+   "moment_signe_kNm": -131.27150941001636
+  },
+  {
+   "point": "C8",
+   "colonne": "ELU (105, 112 ; gouvernée par 112), total barre + dalle, toutes lignes",
+   "code_aster": 700.8535597525768,
+   "source": 653.0,
+   "ecart_relatif": 0.07328263361803485,
+   "tolerance": 0.05,
+   "verdict": "hors tolérance",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELU (105, 112 ; gouvernée par 112), total barre + dalle, hors Y = ±2,00, information",
+   "code_aster": 700.8535597525768,
+   "source": 653.0,
+   "ecart_relatif": 0.07328263361803485,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_f (105, 112 ; gouvernée par 112), total barre + dalle, toutes lignes, information",
+   "code_aster": 337.7325864888917,
+   "source": 653.0,
+   "ecart_relatif": -0.4827984892972562,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_f (105, 112 ; gouvernée par 112), total barre + dalle, hors Y = ±2,00, information",
+   "code_aster": 337.7325864888917,
+   "source": 653.0,
+   "ecart_relatif": -0.4827984892972562,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_c (105, 112 ; gouvernée par 112), total barre + dalle, toutes lignes, information",
+   "code_aster": 485.32916609949524,
+   "source": 653.0,
+   "ecart_relatif": -0.2567700366010793,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_c (105, 112 ; gouvernée par 112), total barre + dalle, hors Y = ±2,00, information",
+   "code_aster": 485.32916609949524,
+   "source": 653.0,
+   "ecart_relatif": -0.2567700366010793,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |V_T| = |VZ + ∫QY dX| (E17.2)",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.9499999999999984,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELS_f (105), barre seule, information",
+   "code_aster": 177.1113545437925,
+   "source": 180,
+   "ecart_relatif": -0.016048030312263963,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max s·MFY, |Y| < 2,00",
+   "lieu": {
+    "X": 5.6,
+    "Y": -3.1086244689504383e-15,
+    "Z": 1.3,
+    "cas_mobile": "TSA_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELS_c (105), barre seule, information",
+   "code_aster": 265.129672485856,
+   "source": 276,
+   "ecart_relatif": -0.0393852446164637,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max s·MFY, |Y| < 2,00",
+   "lieu": {
+    "X": 5.6,
+    "Y": -3.1086244689504383e-15,
+    "Z": 1.3,
+    "cas_mobile": "TSA_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C6",
+   "colonne": "ELU (112), barre seule, information",
+   "code_aster": 388.5847994216486,
+   "source": 408,
+   "ecart_relatif": -0.04758627592733187,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max s·MFY, |Y| < 2,00",
+   "lieu": {
+    "X": 5.6,
+    "Y": -0.15000000000000258,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C7",
+   "colonne": "ELU (enveloppe 100-115, gouvernée par 111), barre seule, information",
+   "code_aster": 146.66236976896283,
+   "source": 177.0,
+   "ecart_relatif": -0.17139904085331734,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "min s·MFY aux nœuds Y = ±2,00, comparé en module",
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": "",
+   "moment_signe_kNm": -146.66236976896283
+  },
+  {
+   "point": "C7",
+   "colonne": "ELS_f (enveloppe 100-115, gouvernée par 111), barre seule, information",
+   "code_aster": 79.77465661011391,
+   "source": 177.0,
+   "ecart_relatif": -0.5492957253665881,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "min s·MFY aux nœuds Y = ±2,00, comparé en module",
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_f"
+   },
+   "note": "",
+   "moment_signe_kNm": -79.77465661011391
+  },
+  {
+   "point": "C7",
+   "colonne": "ELS_c (enveloppe 100-115, gouvernée par 111), barre seule, information",
+   "code_aster": 103.26521137683196,
+   "source": 177.0,
+   "ecart_relatif": -0.4165807266845652,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "min s·MFY aux nœuds Y = ±2,00, comparé en module",
+   "lieu": {
+    "X": 5.6,
+    "Y": -2.0,
+    "Z": 1.3,
+    "combinaison": 111,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": "",
+   "moment_signe_kNm": -103.26521137683196
+  },
+  {
+   "point": "C8",
+   "colonne": "ELU (105, 112 ; gouvernée par 112), barre seule, information, toutes lignes, information",
+   "code_aster": 172.64485226481293,
+   "source": 653.0,
+   "ecart_relatif": -0.7356127836679741,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELU (105, 112 ; gouvernée par 112), barre seule, information, hors Y = ±2,00, information",
+   "code_aster": 172.64485226481293,
+   "source": 653.0,
+   "ecart_relatif": -0.7356127836679741,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELU+"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_f (105, 112 ; gouvernée par 112), barre seule, information, toutes lignes, information",
+   "code_aster": 82.46439607920983,
+   "source": 653.0,
+   "ecart_relatif": -0.8737145542431703,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_f (105, 112 ; gouvernée par 112), barre seule, information, hors Y = ±2,00, information",
+   "code_aster": 82.46439607920983,
+   "source": 653.0,
+   "ecart_relatif": -0.8737145542431703,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_f"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_c (105, 112 ; gouvernée par 112), barre seule, information, toutes lignes, information",
+   "code_aster": 119.46036369618403,
+   "source": 653.0,
+   "ecart_relatif": -0.8170591673871608,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  },
+  {
+   "point": "C8",
+   "colonne": "ELS_c (105, 112 ; gouvernée par 112), barre seule, information, hors Y = ±2,00, information",
+   "code_aster": 119.46036369618403,
+   "source": 653.0,
+   "ecart_relatif": -0.8170591673871608,
+   "tolerance": null,
+   "verdict": "—",
+   "regle": "max |VZ|",
+   "lieu": {
+    "X": 5.6,
+    "Y": 1.8999999999999986,
+    "Z": 1.3,
+    "cas_mobile": "TSB_M20",
+    "famille": "ELS_c"
+   },
+   "note": ""
+  }
+ ]
+}

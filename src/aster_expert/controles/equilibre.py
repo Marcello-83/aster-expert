@@ -21,7 +21,10 @@ For each case and each component c:
   the project gives it, and as specified.
 
 The gap is referred to the largest component of the applied load; a case passes
-when every gap is within the declared threshold. Informative cases are reported
+when every gap is within the declared threshold. Version 2 (lot 47 bis): a
+self-equilibrated case (zero applied load) is referred to the scale its project
+declares (`self_equilibrated_scale`), reported with its definition; without one its
+gap stays undefined (NaN), as in version 1. Informative cases are reported
 without verdict. Symmetry: every node of the case's table is paired with its
 mirror image through each declared plane; the worst gap is referred to the
 largest displacement of the case.
@@ -110,7 +113,10 @@ def balance_terms(
     applied_spec: dict[str, float],
     reactions: dict[str, dict[str, float]],
     springs: dict[str, float] | dict[str, dict[str, float]],
-) -> dict[str, dict[str, float]]:
+    declared_scale: dict[str, Any] | None = None,
+) -> dict[str, dict[str, Any]]:
+    """Terms of the balance of a case, per component. `declared_scale` (version 2):
+    the scale of a self-equilibrated case, `{"value_n", "definition"}`."""
     blocked = {s.group: s.blocked for s in controls.supports}
     directions = controls.springs.components if controls.springs else ()
     spring_on_structure = {
@@ -122,7 +128,18 @@ def balance_terms(
         for c in COMPONENTS
     }
     scale = max(abs(applied_eval[k]) for k in COMPONENTS)
-    terms: dict[str, dict[str, float]] = {}
+    if declared_scale is not None:
+        if scale != 0.0:
+            message = (
+                "échelle d'autoéquilibre déclarée pour un cas dont la charge appliquée "
+                f"n'est pas nulle ({scale:.6e} N)"
+            )
+            raise ProjectError(message)
+        scale = float(declared_scale["value_n"])
+        if not math.isfinite(scale) or scale <= 0.0:
+            message = f"échelle d'autoéquilibre non positive : {scale}"
+            raise ProjectError(message)
+    terms: dict[str, dict[str, Any]] = {}
     for c in COMPONENTS:
         balance = applied_eval[c] + blocked_sum[c] + spring_on_structure[c]
         balance_spec = applied_spec[c] + blocked_sum[c] + spring_on_structure[c]
@@ -142,6 +159,9 @@ def balance_terms(
             if scale
             else math.nan,
         }
+        if declared_scale is not None:
+            terms[c]["scale_n"] = scale
+            terms[c]["scale_definition"] = str(declared_scale["definition"])
     return terms
 
 
@@ -273,7 +293,16 @@ def level_d_controls(
             if springs_ext is not None
             else {}
         )
-        terms = balance_terms(controls, applied_eval, applied_spec, reactions, springs)
+        declared_scale = (
+            ctx.extension(case.self_equilibrated_scale)(
+                ctx, mess_text, case.name, comm_text=comm_text
+            )
+            if case.self_equilibrated_scale is not None
+            else None
+        )
+        terms = balance_terms(
+            controls, applied_eval, applied_spec, reactions, springs, declared_scale
+        )
         if case.informative:
             result["informative_cases"][case.name] = {"components": terms}
             continue

@@ -8,6 +8,11 @@ and mid + h/2 + step k with h the production cell (0.05 m), k = 0 ... so that ev
 print edge lies on a mesh line. Transverse positions: "axé" (wheels at Y = +-1.00)
 and "bord de voie" on the side Y > 0 (outer wheel tangent to the lane edge).
 
+Sidewalk axle of the combination 100 (E18, lot 47 bis): two wheels of 80 kN aligned
+along X, 2.00 m apart, square print 0.40 m, centred on the sidewalk Y > 0
+(Y = +2.25); centre of the axle at X = mid + step k, every print on the slab. Each
+wheel is its own "axle" of one wheel (the two prints are at different X).
+
 The print of an axle is the intersection of an X band (the axle) and a Y band (the two
 wheels): element groups built by `CREA_GROUP_MA/BANDE` with `CRIT_NOEUD="TOUS"`
 (PAT-003),
@@ -41,9 +46,9 @@ class MovingCase:
     """`TSA_P00` (TS axé, k = +0), `TSB_M12`, `L2A_P03`, `L2B_M00` (8 characters
     at most)."""
     model: str
-    """`TS` or `LM2`."""
+    """`TS`, `LM2` or `TR` (sidewalk axle of E18)."""
     transverse: str
-    """`axe` or `bord`."""
+    """`axe`, `bord` or `trottoir` (E18)."""
     x: float
     axles: tuple[Axle, ...]
     wheel_load: float
@@ -135,6 +140,38 @@ def lm2_cases(v: ModelValues, transverse: str, cell: float) -> tuple[MovingCase,
     return tuple(sorted(out, key=lambda c: c.x))
 
 
+def tr_axle_cases(v: ModelValues) -> tuple[MovingCase, ...]:
+    """Positions of the sidewalk axle of E18: `TRE_M28` ... `TRE_P28` at the mesh of
+    production."""
+    mid = v.length / 2.0
+    half = v.tr_axle_print / 2.0
+    reach = v.tr_axle_spacing / 2.0 + half
+    k_max = int((mid - reach) / v.moving_step + ALIGN)
+    out = []
+    for k in range(-k_max, k_max + 1):
+        x = round(mid + v.moving_step * k, 9)
+        axles = tuple(
+            Axle(
+                x=round(x + s * v.tr_axle_spacing / 2.0, 9),
+                half_x=half,
+                wheels_y=(v.tr_axle_y,),
+                half_y=half,
+            )
+            for s in (-1.0, 1.0)
+        )
+        out.append(
+            MovingCase(
+                name=_label("TRE", k),
+                model="TR",
+                transverse="trottoir",
+                x=x,
+                axles=axles,
+                wheel_load=v.tr_axle_wheel,
+            )
+        )
+    return tuple(out)
+
+
 def all_cases(v: ModelValues, cell: float) -> tuple[MovingCase, ...]:
     return (
         *ts_cases(v, "axe"),
@@ -166,6 +203,7 @@ __all__ = [
     "check_alignment",
     "lm2_cases",
     "lm2_wheels",
+    "tr_axle_cases",
     "ts_cases",
     "ts_wheels",
 ]

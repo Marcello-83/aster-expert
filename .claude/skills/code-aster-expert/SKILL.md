@@ -244,6 +244,28 @@ proposé à MM) ; une référence par le rejeu réussi d'un de ses cas ; un pré
 Ne déclarer que ce que l'exécution applique réellement, et ne jamais attribuer a posteriori
 une épreuve à une exécution passée.
 
+## 6 sexies. Tout point de comparaison externe déclare son lieu, sa composante et sa famille avant exécution (lot 47 bis)
+
+Un point comparé à une valeur extérieure (calcul d'un autre logiciel, note publiée,
+référence) déclare, **dans le critère écrit avant l'exécution**, trois choses, chacune
+explicite, sans laisser l'agent la choisir après coup :
+
+- le **lieu** de lecture : élément, nœud ou zone (cotes, distance à un appui), extrémité
+  d'élément pour un champ `ELNO`, zones exclues (disque autour d'un appui ponctuel,
+  PAT-013) ;
+- la **composante** et sa convention : nom Code_Aster exact (`MFY`, `QY`, `NXX`…), signe,
+  repère, module ou composante, grandeur intégrée le cas échéant (total d'une section en
+  T, CA-058 ; moyenne de section) ;
+- la **famille** de combinaison : numéro, famille (ELS f, ELS c, ELU+, ELU−), enveloppe et
+  positions de la charge mobile ; la valeur rapportée nomme la famille et la position qui
+  gouvernent.
+
+Au lot 47, le lieu de lecture des moments des pieux (tête ou bouchon) n'avait pas été
+écrit par le superviseur : la lecture « dans le bouchon » sous-estimait la valeur publiée
+« en tête » de près de 40 %, écart de lecture pris d'abord pour un écart de modèle. Une
+règle de lecture changée après une exécution est déclarée « écrite après la première
+exécution » et les verdicts antérieurs restent dans l'historique.
+
 ## 7. Annoncer le niveau de validation atteint, jamais un niveau supérieur
 
 `search_codeaster_docs`, `get_document_section`, `get_command_schema`,

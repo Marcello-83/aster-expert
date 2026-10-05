@@ -228,3 +228,216 @@ Y = −2,00 et +18 000 N·m (travée) à Y = 0.
 Grandeur établie (rapportée, sans seuil) : la part de la barre seule dans le total, à
 Y = −1,90, −2,00 et 0. Un échec du critère est rapporté tel quel et interdit de
 fonder le constat sur cette sonde.
+
+## 7. Résultats (rédigés après les exécutions et la relecture ; les sections 1 à 6 ne sont pas modifiées)
+
+Exécutions du lot (toutes `OK`, sans alarme sauf S2) :
+
+| Exécution | Répertoire | Durée | Critère | Résultat |
+| --- | --- | --- | --- | --- |
+| E18, essieu de trottoir (57 positions), niveau B 95/95 | `data/processed/runs/20261005T150307-187df570` | 332,6 s | § 2.2 : Σ DZ des pointes = 160 kN | 57/57, écart maximal 5,9e-10 : **réussi** |
+| E19, chevêtre de 0,80 m (+ positions d'E18), niveau B 501/501 | `data/processed/runs/20261005T150840-65219726` | 1 770,1 s | § 3.2 : Σ DZ des pointes, 299 positions ; PP | 299/299 à 6,2e-10 ; PP = 3 427 297,604 N à 2,0e-11 : **réussi** |
+| Sonde S2, niveau B 24/24 | `data/processed/runs/20261005T150756-c0428813` | 7,8 s | § 6.2 | **réussi** (§ 7.4) |
+
+Deux appels de `aster-expert run` sur le `.export` ont d'abord été refusés par la politique
+des chemins (lot 46 : `.comm` attendu), avant toute exécution. S2 émet quatre
+`<A> <POSTRELE_70>` : diagnostic **DIAG-012** consulté avant toute hypothèse ; l'alarme
+signale que `EFGE_NOEU` est relu dans le repère local des éléments, qui est ici le repère
+global (dalle seule, `ANGL_REP = (0, 0)`, normale +Z, aucune `UTILITAI_4`) : aucune lecture
+n'en dépend.
+
+Relecture : `projets/estacade_pieux_01/scripts/comparer_lot47bis.py` (module
+`comparaison_v2.py`), production du lot 47 + E18 →
+`projets/estacade_pieux_01/references/comparaison_v2_lot47bis.json` ; variante E19 →
+`references/variante_chevetre_0p80_lot47bis.json`.
+
+### 7.1 Contrôle de la lecture du total (§ 1.5) — réussi
+
+| Coupe | W (kN) | Σ VZ (kN) | ∫ QY (kN) | Total (kN) | Écart | Moment total (kN·m) | Attendu | Écart |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Y0 = −2,50 | 250,5 | 77,4 | 173,3 | 250,7 | +0,07 % | −62,625 | −62,625 | 3,8e-10 |
+| Y0 = −2,25 | 375,75 | 116,9 | 259,1 | 375,95 | +0,05 % | −140,906 | −140,906 | 2,9e-10 |
+
+`VZ` et `∫QY` s'ajoutent avec le même signe ; le total redonne la statique. Terme de bord
+[MXY] aux abouts : 0,38 et 0,42 kN (rapporté, hors critère). La lecture du total de C6 à
+C8 est donc fondée.
+
+### 7.2 Tableau C1 à C13 : verdicts v1 et v2 côte à côte
+
+v1 : `docs/essais_lot47.md` § 3.4 (conservé). v2 : règles du § 1.4. Valeurs Code_Aster ;
+écart ; verdict. Unités : kN, kN·m, kN·m/m, kN/m, cm.
+
+| Point | Colonne | Source | v1 | v2 | Règle v2 appliquée ; lieu ; famille, position |
+| --- | --- | --- | --- | --- | --- |
+| C1 | ELS c (107) | 0,5 | 0,4375 ; −12,5 % ; compatible avec l'arrondi | 0,4375 ; −12,5 % ; **compatible avec l'arrondi** | max √(DX²+DY²+DZ²), tous les nœuds (inchangé) ; X = 31,20, Y = 3,00 ; ELS c, TSA_M26 |
+| C2 | ELS f (112) | 514 | 526,9 ; +2,5 % ; dans la tolérance | 526,9 ; +2,5 % ; **dans la tolérance** | max(−N) en tête (inchangé) ; F2_YP ; ELS f, TSB_M20 |
+| C2 | ELS c (112) | 727 | 714 ; −1,8 % ; dans la tolérance | 714 ; −1,8 % ; **dans la tolérance** | idem ; ELS c, TSB_M20 |
+| C2 | ELU (112) | 1 048 | 1 023 ; −2,4 % ; dans la tolérance | 1 023 ; −2,4 % ; **dans la tolérance** | idem ; ELU+, TSB_M20 |
+| C3 | ELS f (111) | 209 | 131 ; −37,3 % ; hors tolérance | 202,4 ; −3,2 % ; **dans la tolérance** | max √(MFY²+MFZ²), +1,30 à −0,80 (E17.1) ; F7_YP, Z = +1,30 ; ELS f, TSB_P25 |
+| C3 | ELS c (111) | 312 | 192 ; −38,4 % ; hors tolérance | 294,3 ; −5,7 % ; **hors tolérance** | idem ; F7_YP, Z = +1,30 ; ELS c, TSB_P25 |
+| C3 | ELU (111) | 449 | 283,4 ; −36,9 % ; hors tolérance | 435,5 ; −3,0 % ; **dans la tolérance** | idem ; F7_YP, Z = +1,30 ; ELU+, TSB_P25 |
+| C4 | ELU (114) | 253 | 259,4 ; +2,5 % ; dans la tolérance | 259,4 ; +2,5 % ; **dans la tolérance** | bouchon (inchangé) ; F7_YP, Z = +0,70 ; ELU+, TSB_P25 |
+| C5 | ELU (111) | 463 | 105,2 ; −77,3 % ; hors tolérance | 435,5 ; −5,9 % ; **hors tolérance** | tout le pieu (E17.1) ; F7_YP, Z = +1,30 ; ELU+, TSB_P25 |
+| C6 | ELS f (105) | 180 | 202,8 ; +12,7 % ; hors tolérance | 215,0 ; +19,5 % ; **hors tolérance** | total M_T, |Y| < 2,00 (E17.2) ; file 2, Y = 0 ; ELS f, TSA_M20 |
+| C6 | ELS c (105) | 276 | 303,2 ; +9,9 % ; hors tolérance | 323,1 ; +17,1 % ; **hors tolérance** | idem ; file 2, Y = 0 ; ELS c, TSA_M20 |
+| C6 | ELU (112) | 408 | 443,1 ; +8,6 % ; hors tolérance | 473,2 ; +16,0 % ; **hors tolérance** | idem ; file 2, Y = −0,20 ; ELU+, TSB_M20 |
+| C7 | ELU (enveloppe 100–115) | 177 | 141,9 ; −19,8 % ; hors tolérance | 177,7 ; +0,4 % ; **dans la tolérance** | min M_T aux nœuds Y = ±2,00 (E17.2) ; file 2, Y = −2,00 ; comb. 111, ELU+, TSB_M20 |
+| C8 | ELU (105, 112) | 653 | 198,1 ; −69,7 % ; hors tolérance | 722,5 ; +10,6 % ; **hors tolérance** | max |VZ + ∫QY dX| (E17.2) ; file 2, Y = +1,95 ; comb. 112, ELU+, TSB_M20 |
+| C9 | ELS f (111) | 79 | 111,4 ; +41,0 % ; hors tolérance | 70,66 ; −10,6 % ; **hors tolérance** | max MXX, chapeau hors disques (E17.3) ; X = 30,55, Y = 1,40 ; ELS f, TSB_P27 |
+| C9 | ELS c (111) | 118 | 150,4 ; +27,5 % ; hors tolérance | 105,4 ; −10,7 % ; **hors tolérance** | idem ; ELS c, TSB_P27 |
+| C9 | ELU (111) | 174 | 214,1 ; +23,0 % ; hors tolérance | 156,2 ; −10,3 % ; **hors tolérance** | idem ; ELU+, TSB_P27 |
+| C10 | ELS f (112) | 82 | 81,92 ; −0,1 % ; dans la tolérance | 81,92 ; −0,1 % ; **dans la tolérance** | travée (inchangé) ; X = 2,55, Y = 1,30 ; ELS f, TSB_M25 |
+| C10 | ELS c (112) | 134 | 130,8 ; −2,4 % ; dans la tolérance | 130,8 ; −2,4 % ; **dans la tolérance** | idem ; ELS c |
+| C10 | ELU (112) | 198 | 192,9 ; −2,6 % ; dans la tolérance | 192,9 ; −2,6 % ; **dans la tolérance** | idem ; ELU+ |
+| C11 | FR seul | 18,9 | 58,76 ; +210,9 % ; hors tolérance | 19,70 ; +4,2 % ; **dans la tolérance** | moyenne de section (E17.4) ; X = 30,55 |
+| C11 | TE− seul | 64,1 | 149,2 ; +132,8 % ; hors tolérance | 62,88 ; −1,9 % ; **dans la tolérance** | idem ; X = 15,60 |
+| C12 | ELU courant (111) | 320 | 351,4 ; +9,8 % ; dans la tolérance | 351,4 ; +9,8 % ; **dans la tolérance** | max |QX|, voie hors disques (E17.3) ; X = 30,50, Y = 1,30 ; ELU+, TSB_P28 |
+| C12 | ELU rive (100) | 568 | 990,3 ; +74,4 % ; hors tolérance | 222,1 ; −60,9 % ; **hors tolérance** | max |QX|, trottoirs hors disques, TR d'E18 ; X = 5,55, Y = 2,90 ; ELU+, TRE_M24 |
+| C13 | LM1 Mxx inf. | 85 | 83,61 ; −1,6 % ; dans la tolérance | 83,61 ; −1,6 % ; **dans la tolérance** | hors disques (E17.3) ; X = 3,05, Y = 1,30 ; TSB_M24 |
+| C13 | LM1 Mxx sup. | −47 | −80,03 ; −70,3 % ; hors tolérance | −54,60 ; −16,2 % ; **hors tolérance** | idem ; X = 5,55, Y = 1,40 ; TSB_M24 |
+| C13 | LM1 V | 154 | 738,6 ; +379,6 % ; hors tolérance | 205,0 ; +33,1 % ; **hors tolérance** | idem ; X = 25,70, Y = 1,30 ; TSB_P22 |
+| C13 | LM2 Mxx inf. | 64 | 64,38 ; +0,6 % ; dans la tolérance | 64,38 ; +0,6 % ; **dans la tolérance** | idem ; X = 3,05, Y = 1,15 ; L2B_M25 |
+| C13 | LM2 Mxx sup. | −30 | −33,74 ; −12,5 % ; hors tolérance | −26,20 ; +12,7 % ; **hors tolérance** | idem ; X = 5,55, Y = 1,00 ; L2B_M24 |
+| C13 | LM2 V | 138 | 335,6 ; +143,2 % ; hors tolérance | 134,8 ; −2,3 % ; **dans la tolérance** | idem ; X = 0,70, Y = 1,20 ; L2B_M29 |
+
+Bilan : **v2, 17 lignes sur 30** dans la tolérance (ou compatibles avec l'arrondi) ;
+v1, 11 sur 30. Les lectures « information » (barre seule, ELS de C4, C5, C7, C8, C12 dans
+les disques ou avec TR = 5 kPa seul) sont dans le JSON, sans verdict.
+
+Lecture des 13 lignes hors tolérance v2 (faits, puis déductions marquées) :
+
+- **C3 ELS c (−5,7 %) et C5 (−5,9 %)** : à la limite de 5 %. Le maximum de tout le pieu
+  est en tête (Z = +1,30) : C5 v2 égale C3 v2 ELU. Déduction : la source, qui publie 463
+  pour C5 et 449 pour C3 sous la même combinaison, ne lit pas les deux au même lieu ; le
+  lieu de C5 dans la source reste inconnu.
+- **C6 (+16 à +19,5 %)** : le total est plus éloigné de la source que la barre seule
+  (+8,6 à +12,7 %). Testé par E19 (§ 9).
+- **C8 (+10,6 %)** : le total dépasse la source ; à Y = ±1,90, +7,2 % (§ 8 (b)).
+- **C9 (−10,3 à −10,7 %)** : juste au-delà de 10 %, lu à X = 30,55, Y = 1,40, au bord du
+  disque de la tête F7_YP. Déduction : la valeur hors disque dépend encore du rayon choisi
+  (gradient fort près de la tête).
+- **C12 rive (−60,9 %)** : § 8 (e).
+- **C13 LM1 sup. (−16,2 %), LM1 V (+33,1 %), LM2 sup. (+12,7 %)** : LM1 sup. est lu à
+  X = 5,55, Y = 1,40, juste hors du disque de la tête F2_YP (même dépendance au rayon que
+  C9) ; LM2 sup. à X = 5,55, Y = 1,00, à 1,00 m de la tête, sous la roue intérieure de LM2
+  bord de voie : non expliqué ; LM1 V est lu à X = 25,70, Y = 1,30, à 0,10 m du bord d'une
+  empreinte de roue de TS bord de voie (TSB_P22, empreinte X = 25,80 à 26,20), où QX varie
+  vite : grandeur locale sensible au maillage (suite de convergence du lot 47 : max |QX|
+  non convergé). Non expliqué au-delà.
+
+### 7.3 Contributions par famille et ELS des barres
+
+Pour chaque valeur ELU, la famille qui gouverne est ELU+ (γG = 1,35) ; aucune lecture v2
+n'est gouvernée par ELU−. ELS en information (sans source) : C4 114 ELS f / ELS c = 121,3 /
+174,2 kN ; C5 111 = 202,4 / 294,3 kN·m ; C7 total ELS f / ELS c = 99,7 / 125,8 kN·m ; C8
+total = 349,4 / 500,5 kN.
+
+### 7.4 Sonde S2 (§ 6) — réussie
+
+`projets/estacade_pieux_01/references/sonde_lot47bis_resultats.json`, listing versionné
+`references/cas/sonde_lot47bis_listing_extrait.txt`. Σ DZ = 71 999,99999946 N
+(−7,5e-12).
+
+| Ligne | Grandeur | Barre seule | Dalle | Total | Statique | Écart du total | Part de la barre |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Y = −1,90 | effort tranchant (N) | 6 452,5 | 16 323,0 | 22 775,5 | 22 800 | −0,11 % | **28 %** |
+| Y = −2,00 | moment sur appui (N·m) | −4 733,8 | −1 266,2 | −6 000,0 | −6 000 | 2,5e-11 | 79 % |
+| Y = 0 | moment en travée (N·m) | 16 594,9 | 1 405,1 | 18 000,0 | 18 000 | −3,2e-11 | 92 % |
+
+Fait établi (CA-058) : la barre seule n'est pas l'effort de la section en T ; près de
+l'appui ponctuel, la dalle DKT porte 72 % de l'effort tranchant.
+
+## 8. Diagnostics du superviseur : vérification
+
+**(a) C3, C5, lieu de lecture — confirmé, sauf la famille de C3.**
+- Lieux v1 : C3 lu à Z = +0,70 (F7_YP, ELU 111), C5 à Z = −2,50 (F7_YP) : **confirmé**.
+- Famille : C3 v1 est gouverné par **ELU+** (283,4 kN·m ; ELU− 272,4) et non ELU− ;
+  C5 v1 par **ELU−** (105,2 ; ELU+ 104,2) : confirmé pour C5 seulement.
+- Au nœud de tête F7_YP, 111 ELU+ (TSB_P25) : **435,49 kN·m**, −3,0 % de 449 et −5,9 % de
+  463 : **confirmé** au chiffre près.
+- Profil : M = 435,5 (Z = +1,30) → 356,8 (+1,00) → 283,4 (+0,70) kN·m sous V = 262,5 puis
+  244,7 kN : 152,1 kN·m perdus sur 0,60 m : **confirmé** (« environ 150 kN·m sous environ
+  260 kN »). Le nœud intermédiaire +1,00 (ressort) existe : l'élément de tête est
+  +1,30 → +1,00.
+
+**(b) C7, C8, partage dalle/chevêtre — confirmé pour le partage et pour C7 ; le total de
+C8 ne rejoint pas la source.**
+- Mécanisme : établi indépendamment par S2 (§ 7.4) ; sur l'estacade à Y = +1,90, 112
+  ELU+ (TSB_M20, file 2) : VZ = 198,1 kN, ∫QY = 501,9 kN, total **699,9 kN**, part de la
+  dalle **72 %** (annoncé ≈ 190 / 476 / 666 kN, ≈ 70 %). Le partage est confirmé ; le total
+  est à **+7,2 %** de 653 (annoncé +2 %), et le maximum v2 de C8 (Y = +1,95) à +10,6 % :
+  **hors tolérance**, le chiffre du superviseur n'est pas retrouvé.
+- Sur appui (Y = −2,00, 112 ELU+, TSB_M20, file 2) : MFY = −132,7 kN·m, dalle −41,6, total
+  **−174,3 kN·m** (annoncé −125 à −133, −42, −170) : **confirmé** ; C7 v2 = 177,7 (+0,4 %).
+
+**(c) C6 et chevêtre de 0,80 m — partiellement confirmé** (classement du § 3.2), § 9.
+
+**(e) Essieu de trottoir de la combinaison 100 — confirmé comme cause principale de
+l'écart de v1 sur la charge, mais l'écart reste.**
+- TR = 5 kPa seul, hors disques : 100,4 kN/m ; avec l'essieu d'E18 : **222,1 kN/m**
+  (×2,2), −60,9 % de 568. Dans les disques : 1 431 kN/m (singulier, sans sens).
+- Position gouvernante : TRE_M24, roues à X = 2,60 et 4,60, Y = 2,25 ; extremum à
+  X = 5,55, Y = 2,90, au bord du chevêtre 2 (X = 5,60). Comme sur la figure 100, la
+  première roue est **juste avant un chevêtre** ; mais le chevêtre est le **2** (et son
+  symétrique 6), non le 4. Déduction : sous une empreinte de 0,40 m, l'effet de l'essieu
+  sur QX hors des disques est loin des 568 kN/m d'une charge ponctuelle, dont l'effort
+  tranchant est singulier (E18 l'annonçait) ; l'écart restant n'est pas expliqué par les
+  données disponibles.
+
+## 9. Variante E19 — chevêtre de 0,80 m (sans verdict)
+
+| Point | Lecture | Référence 0,90 m | E19 0,80 m | Source | Écart E19 |
+| --- | --- | --- | --- | --- | --- |
+| C6 ELS f (105) | total | 215,0 | 194,1 | 180 | +7,8 % |
+| C6 ELS c (105) | total | 323,1 | 292,2 | 276 | +5,9 % |
+| C6 ELU (112) | total | 473,2 | 429,3 | 408 | +5,2 % |
+| C6 ELS f / ELS c / ELU | barre seule | 202,8 / 303,2 / 443,1 | 177,1 / 265,1 / 388,6 | 180 / 276 / 408 | −1,6 / −3,9 / −4,8 % |
+| C7 ELU (100–115) | total | 177,7 | 186,0 | 177 | +5,1 % |
+| C7 ELU | barre seule | 141,9 | 146,7 | 177 | −17,1 % |
+| C8 ELU (105, 112) | total | 722,5 | 700,9 | 653 | +7,3 % |
+| C8 ELU | barre seule | 198,1 | 172,6 | 653 | −73,6 % |
+
+Classement écrit avant (§ 3.2) : C6 total ne rentre pas dans 5 % (+5,2 à +7,8 %), C7 en
+sort (+5,1 %) : **piste (c) partielle**. Faits : le chevêtre de 0,80 m rapproche C6 de la
+source d'environ 10 points (total) et ramène la barre seule dans 5 % ; il réduit aussi
+C8 (+7,3 %). Déduction : une hauteur de chevêtre de 0,80 m dans le modèle source est
+compatible avec C6 « barre seule », non démontrée ; la grandeur publiée (barre ou section
+en T) reste inconnue.
+
+## 10. Harnais D v2 et niveau
+
+`aster-expert projet estacade_pieux_01 controles` relancé sur l'exécution de production du
+lot 47, sans nouvelle exécution. Échelle déclarée de TE± : S = max(Σ |k·u_X|, Σ |k·u_Y|)
+= max(9,804316e5 ; 1,922542e5) = **9,804316e5 N**.
+
+| Contrôle | v1 (lot 47) | v2 (lot 47 bis) |
+| --- | --- | --- |
+| CTL-005, TEP et TEM | NaN, échec formel | bilan max 2,37e-5 N (DZ) → 2,4e-11 : **réussi** |
+| CTL-013, TEP et TEM | NaN, échec formel | 0 / S = 0 : **réussi** |
+| CTL-005 autres cas, CTL-006, pesanteur | réussi | identiques (≤ 1,7e-10 ; symétrie ≤ 5,7e-10) |
+| Verdict d'ensemble | ÉCHEC | **RÉUSSI** |
+
+Verdict v1 conservé : `projets/estacade_pieux_01/references/controles_d_v1_lot47.json`,
+`equilibre_v1_lot47.json`. Paquet de résultats (`aster-expert projet exporter-resultats`) :
+**niveau D atteint** (B 420/420, C, D), E non atteint ; le paquet signale que le critère
+v2 (`docs/essais_lot47bis.md`) est « commité après l'exécution : antériorité non
+démontrable » — c'est exact : l'échelle a été définie après avoir vu l'échec v1.
+
+## 11. Limites
+
+- **Contre-calcul d'un modèle non validé**, jamais un niveau E ; les règles v2 sont écrites
+  après la première exécution et après les lectures du superviseur : elles ne sont pas
+  aveugles.
+- C9 et C13 « sup. » sont lus au bord des disques de 0,60 m : leur valeur dépend du rayon,
+  décision de lecture d'E17, non d'une convergence.
+- C12 « rive » : l'effet de l'essieu est calculé sous une empreinte de 0,40 m, la source
+  en charges ponctuelles ; aucune lecture ne peut les rapprocher. Le côté Y < 0 n'est pas
+  calculé (symétrie).
+- C8 : le total n'atteint pas le +2 % annoncé ; la grandeur publiée par la source reste
+  inconnue.
+- La sonde S2 établit le partage pour une bande isolée de 1,20 m, au maillage de 0,05 m ;
+  les parts dépendent du maillage (lot 47), le total non.
+- Incident d'outil : `search_connaissances` du serveur MCP attaché à la session échouait
+  pendant tout le lot (un serveur neuf répond : `mcp-check` OK). Consultations faites par
+  `search_constats` et par l'appel direct du même outil sur un serveur neuf (DIAG-012).
+  **Redémarrer la session avant le lot suivant.**

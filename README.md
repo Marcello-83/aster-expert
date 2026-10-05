@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 47 (2026-10-05), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 47bis (2026-10-05), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 50 faits sur 52 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 47, Contre-calcul d'une estacade sur pieux (estacade_pieux_01) : premier ouvrage réel, comparaison à un modèle externe non validé.
+Lots : 51 faits sur 53 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 47bis, Estacade : relecture des écarts (critères v2, E17), essieu de trottoir (E18), variante de chevêtre (E19), sonde S2, harnais D v2 des cas autoéquilibrés.
 
 Capacités :
 
@@ -279,7 +279,7 @@ Capacités :
 - analyse : niveau A, opérationnelle. Les constructions dynamiques sont déclarées, jamais devinées.
 - validation_b : niveau B, opérationnelle. Syntaxe confrontée au catalogue ; ne dit rien de l'exécution ni de la physique.
 - execution_c : niveau C, opérationnelle. Racines d'exécution déclarées une à une (execution.allowed_roots). Salomé : VM seulement.
-- controles_d : niveau D, opérationnelle. Harnais par défaut depuis le lot 46 (CTL-005, CTL-006, CTL-012, CTL-013) ; les paquets versionnés ne portent pas encore la clé harness (non réexportés).
+- controles_d : niveau D, opérationnelle. Harnais par défaut depuis le lot 46 (CTL-005, CTL-006, CTL-012, CTL-013) ; version 2 de CTL-005 et CTL-013 (lot 47 bis) : échelle déclarée d'un cas autoéquilibré (self_equilibrated_scale). Les paquets du quai et de la dalle ne portent pas encore la clé harness (non réexportés).
 - reference_e : niveau E, partielle. Niveau E sur la seule dalle (solution de Navier) ; aucune référence pour le quai.
 - ferraillage : niveau D, opérationnelle. Module EN 1992 indépendant calibré sur ssll13b/ssll13d ; FERR_MIN_FISS refusé pour les poutres ; tableau 7.2N transcrit, à vérifier par MM.
 - notes : niveau D, opérationnelle. Contenu tiré de la fiche, des données et du paquet de résultats, jamais écrit à la main.
@@ -293,7 +293,7 @@ Projets :
 
 - `quai_cw_test_01` (Quai combi-wall QUAI-CW-TEST-01) : niveau D atteint, preuve `projets/quai_cw_test_01/resultats/paquet/paquet.json`.
 - `dalle_appuyee_01` (Dalle appuyée C30/37 6 x 4 x 0,30 m) : niveau E atteint, preuve `projets/dalle_appuyee_01/resultats/paquet/paquet.json`.
-- `estacade_pieux_01` (Estacade sur pieux ESTACADE-PIEUX-01 (contre-calcul d'un modèle non validé)) : niveau C atteint, preuve `projets/estacade_pieux_01/resultats/paquet/paquet.json`.
+- `estacade_pieux_01` (Estacade sur pieux ESTACADE-PIEUX-01 (contre-calcul d'un modèle non validé)) : niveau D atteint, preuve `projets/estacade_pieux_01/resultats/paquet/paquet.json`.
 
 Métriques :
 

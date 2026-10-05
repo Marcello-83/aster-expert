@@ -563,6 +563,30 @@ class CaughtError(_Model):
         return self
 
 
+class ControlVersion(_Model):
+    """One version of a control (lot 47 bis): what changed, why, and what became of
+    the verdicts given by the previous version (kept, never rewritten)."""
+
+    version: int
+    date: dt.date
+    change: str
+    reason: str
+    evidence: Evidence
+    """The proof of the new rule (a versioned test, for a control in the trunk)."""
+    previous_verdicts: str
+
+    @model_validator(mode="after")
+    def _coherent(self) -> ControlVersion:
+        if self.version < 2:
+            message = "l'historique des versions commence à la version 2"
+            raise ValueError(message)
+        for name in ("change", "reason", "previous_verdicts"):
+            if not getattr(self, name).strip():
+                message = f"version {self.version} d'un contrôle sans `{name}`"
+                raise ValueError(message)
+        return self
+
+
 class Control(KnowledgeEntry):
     """A reusable verification control."""
 
@@ -577,9 +601,20 @@ class Control(KnowledgeEntry):
     caught_error: CaughtError
     default_harness: bool = False
     """In the default harness of every project: only a promoted control."""
+    version: int = 1
+    """Version of the control's rule (lot 47 bis); 1 when it never changed."""
+    version_history: tuple[ControlVersion, ...] = ()
+    """Each version after the first, in order; the last one is `version`."""
 
     @model_validator(mode="after")
     def _control_rules(self) -> Control:
+        numbers = [v.version for v in self.version_history]
+        if numbers != list(range(2, self.version + 1)):
+            message = (
+                f"{self.id} : version {self.version} et historique des versions "
+                f"{numbers} incohérents (2, 3, … jusqu'à la version courante)"
+            )
+            raise ValueError(message)
         if self.default_harness and self.status != "promu":
             message = (
                 f"{self.id} : seul un contrôle promu entre dans le harnais par défaut"

@@ -27,7 +27,11 @@ Pa, kg (U1). Blocks, each naming what it applies:
 - tables of the level D controls (titles of 16 characters at most, CTL-010, `E20.12`).
 
 Variants of E13 (sensitivity only, never the reference): `dst` (DST slab) and
-`pou_d_e_chevetres` (POU_D_E cap beams). Mode `convergence`: two TS positions only.
+`pou_d_e_chevetres` (POU_D_E cap beams); of E19 (lot 47 bis): `chevetre_0p80` (cap
+beam height 0.80 m, the rest unchanged). Mode `convergence`: two TS positions only;
+mode `tr_essieu` (lot 47 bis): the positions of the sidewalk axle of E18 only (the
+other cases of the combination 100 are those of the production run). Option
+`tr_axle`: the production cases plus those positions.
 """
 
 from __future__ import annotations
@@ -41,6 +45,7 @@ from estacade_pieux_01.charges_mobiles import (
     MovingCase,
     all_cases,
     check_alignment,
+    tr_axle_cases,
     ts_cases,
 )
 from estacade_pieux_01.donnees import ModelValues, model_values
@@ -55,7 +60,12 @@ HARNESS_MOVING = ("TSA_P00", "TSB_P00", "L2A_M00", "L2B_M00")
 SYMMETRIC_CASES = ("PP", "G2", "UDL", "TR", "TEP", "TEM")
 CONVERGENCE_CASES = ("TSA_M15", "TSA_M20")
 """TS axé centred at X = 8,10 (span between files 2 and 3) and X = 5,60 (file 2)."""
-VARIANTS = ("reference", "dst", "pou_d_e_chevetres")
+VARIANTS = ("reference", "dst", "pou_d_e_chevetres", "chevetre_0p80")
+MODES = ("production", "convergence", "tr_essieu")
+CAP_HEIGHT_E19 = 0.80
+"""Cap beam height of the sensitivity variant of E19 (m); the reference is E2."""
+PRINT_AREA = {"TS": "VOIE", "LM2": "VOIE", "TR": "TROTT"}
+"""Group a print is intersected with: the lane, or the sidewalks (E18)."""
 
 
 class GenerationError(ValueError):
@@ -65,8 +75,11 @@ class GenerationError(ValueError):
 @dataclass(frozen=True)
 class Options:
     mode: str = "production"
-    """`production` (every case) or `convergence` (CONVERGENCE_CASES only)."""
+    """`production` (every case), `convergence` (CONVERGENCE_CASES only) or
+    `tr_essieu` (the positions of the sidewalk axle of E18 only)."""
     variant: str = "reference"
+    tr_axle: bool = False
+    """Production mode: add the positions of the sidewalk axle of E18 (lot 47 bis)."""
     cell: float = 0.05
     """Mesh size of the slab, to check the print alignment."""
     post: str | None = "FORCE"
@@ -133,8 +146,12 @@ def moving_cases(v: ModelValues, options: Options) -> tuple[MovingCase, ...]:
     if options.mode == "convergence":
         chosen = {c.name: c for c in ts_cases(v, "axe")}
         cases = tuple(chosen[n] for n in CONVERGENCE_CASES)
+    elif options.mode == "tr_essieu":
+        cases = tr_axle_cases(v)
     else:
         cases = all_cases(v, options.cell)
+        if options.tr_axle:
+            cases = (*cases, *tr_axle_cases(v))
     bad = check_alignment(cases, options.cell)
     if bad:
         message = f"empreintes non alignées sur le maillage : {bad[:3]}"
@@ -146,53 +163,70 @@ def print_groups_block(cases: tuple[MovingCase, ...]) -> str:
     """X and Y bands, then the axle prints (intersections): two commands, a group is
     visible only after the command that creates it."""
     bands: dict[str, str] = {}
-    prints: dict[str, tuple[str, str]] = {}
+    prints: dict[str, tuple[str, str, str]] = {}
+    united: set[str] = set()
     for case in cases:
         a0 = case.axles[0]
         yname = y_band(case)
         if yname not in bands:
-            # The two wheels of an axle: two bands, united.
+            # The two wheels of an axle: two bands, united; a single wheel (E18):
+            # one band, under the name of the union.
+            single = len(a0.wheels_y) == 1
             for i, y in enumerate(a0.wheels_y):
-                bands[f"{yname}{i}"] = (
-                    f'_F(NOM="{yname}{i}", OPTION="BANDE", POINT=(0.0, {_r(y)}, 0.0), '
+                name = yname if single else f"{yname}{i}"
+                bands[name] = (
+                    f'_F(NOM="{name}", OPTION="BANDE", POINT=(0.0, {_r(y)}, 0.0), '
                     f"VECT_NORMALE=(0.0, 1.0, 0.0), DIST={_r(a0.half_y + BAND_TOLERANCE)}, "
                     'CRIT_NOEUD="TOUS"),'
                 )
-            bands[yname] = ""
+            if not single:
+                bands[yname] = ""
+                united.add(yname)
         for axle in case.axles:
-            xname = x_band(axle.x) + ("" if case.model == "TS" else "L")
+            xname = x_band(axle.x) + {"TS": "", "LM2": "L", "TR": "T"}[case.model]
             if xname not in bands:
                 bands[xname] = (
                     f'_F(NOM="{xname}", OPTION="BANDE", POINT=({_r(axle.x)}, 0.0, 0.0), '
                     f"VECT_NORMALE=(1.0, 0.0, 0.0), DIST={_r(axle.half_x + BAND_TOLERANCE)}, "
                     'CRIT_NOEUD="TOUS"),'
                 )
-            prints[axle_group(case, axle.x)] = (xname, yname)
+            prints[axle_group(case, axle.x)] = (xname, yname, PRINT_AREA[case.model])
     band_lines = "\n        ".join(b for b in bands.values() if b)
-    unions = sorted({y for (_, y) in prints.values()})
+    unions = sorted(united)
     union_lines = "\n        ".join(
         f'_F(NOM="{y}", UNION=("{y}0", "{y}1")),' for y in unions
     )
     print_lines = "\n        ".join(
-        f'_F(NOM="{name}", INTERSEC=("{x}", "{y}", "VOIE")),'
-        for name, (x, y) in sorted(prints.items())
+        f'_F(NOM="{name}", INTERSEC=("{x}", "{y}", "{area}")),'
+        for name, (x, y, area) in sorted(prints.items())
+    )
+    unions_block = (
+        f"""MAIL = DEFI_GROUP(reuse=MAIL, MAILLAGE=MAIL, CREA_GROUP_MA=(
+        {union_lines}
+    ),
+)
+"""
+        if unions
+        else ""
+    )
+    sidewalk = (
+        "# E18 : l'essieu de trottoir de la combinaison 100 est intersecté avec les\n"
+        "# trottoirs (TROTT), une bande en Y par roue.\n"
+        if any(area == "TROTT" for (_, _, area) in prints.values())
+        else ""
     )
     return f"""
 # Empreintes des roues (E15, PAT-003) : bandes en X (essieux) et en Y (roues), toutes
 # les mailles dont tous les nœuds sont dans la bande (CRIT_NOEUD="TOUS"), puis
 # intersection avec la voie : chaque empreinte est une réunion de mailles entières.
-MAIL = DEFI_GROUP(
+{sidewalk}MAIL = DEFI_GROUP(
     reuse=MAIL,
     MAILLAGE=MAIL,
     CREA_GROUP_MA=(
         {band_lines}
     ),
 )
-MAIL = DEFI_GROUP(reuse=MAIL, MAILLAGE=MAIL, CREA_GROUP_MA=(
-        {union_lines}
-    ),
-)
-MAIL = DEFI_GROUP(
+{unions_block}MAIL = DEFI_GROUP(
     reuse=MAIL,
     MAILLAGE=MAIL,
     CREA_GROUP_MA=(
@@ -205,6 +239,7 @@ MAIL = DEFI_GROUP(
 def model_block(v: ModelValues, options: Options) -> str:
     slab = "DST" if options.variant == "dst" else "DKT"
     cap = "POU_D_E" if options.variant == "pou_d_e_chevetres" else "POU_D_T"
+    cap_height = CAP_HEIGHT_E19 if options.variant == "chevetre_0p80" else v.cap_height
     classes = spring_classes(v)
     poi1 = "\n        ".join(
         f'_F(NOM_GROUP_MA="{class_group(k)}", GROUP_NO=({", ".join(repr(g) for g in groups)},)),'
@@ -260,14 +295,14 @@ CHMAT = AFFE_MATERIAU(
 )
 
 # Sections : dalle EPAIS, x_l = X (ANGL_REP) ; chevêtre rectangle {v.cap_width} (selon X)
-# × {v.cap_height} (selon Z), y_l = −X donc z_l vertical (E2) ; pieux, tube équivalent
+# × {cap_height} (selon Z), y_l = −X donc z_l vertical (E2{", E19" if cap_height != v.cap_height else ""}) ; pieux, tube équivalent
 # à A et I de chaque tronçon de B2 (CA-057), y_l = X ; ressorts (k, k, 0), masse nulle
 # (DIAG-004).
 CARA = AFFE_CARA_ELEM(
     MODELE=MODELE,
     COQUE=_F(GROUP_MA="DALLE", EPAIS={_r(v.thickness)}, ANGL_REP=(0.0, 0.0)),
     POUTRE=(
-        _F(GROUP_MA="CHEVETRES", SECTION="RECTANGLE", CARA=("HY", "HZ"), VALE=({_r(v.cap_width)}, {_r(v.cap_height)})),
+        _F(GROUP_MA="CHEVETRES", SECTION="RECTANGLE", CARA=("HY", "HZ"), VALE=({_r(v.cap_width)}, {_r(cap_height)})),
         {piles}
     ),
     ORIENTATION=(
@@ -508,6 +543,9 @@ def build_comm(
     if options.variant not in VARIANTS:
         message = f"variante inconnue : {options.variant} ({VARIANTS})"
         raise GenerationError(message)
+    if options.mode not in MODES:
+        message = f"mode inconnu : {options.mode} ({MODES})"
+        raise GenerationError(message)
     v = model_values(ctx)
     seen: set[str] = set()
     cases = moving_cases(v, options)
@@ -577,7 +615,9 @@ FIN()
 __all__ = [
     "BATCH_SIZE",
     "CONVERGENCE_CASES",
+    "CAP_HEIGHT_E19",
     "GenerationError",
+    "MODES",
     "HARNESS_MOVING",
     "Options",
     "STATIC_CASES",

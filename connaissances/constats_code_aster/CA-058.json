@@ -1,0 +1,119 @@
+{
+  "constat_id": "CA-058",
+  "summary": "Dalle DKT et poutre POU_D_T coplanaires à nœuds partagés : près d'un appui ponctuel la dalle porte l'essentiel de l'effort tranchant ; l'effort de la section en T est le total barre + bande de dalle, jamais la barre seule.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "AFFE_MODELE"
+  ],
+  "keywords": [
+    "AFFE",
+    "DKT",
+    "EFGE_ELNO",
+    "EFGE_NOEU",
+    "MFY",
+    "MODELISATION",
+    "MYY",
+    "POU_D_T",
+    "QY",
+    "VZ"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "projets/estacade_pieux_01/references/cas/sonde_lot47bis.comm",
+      "case_sha256": "df315d02ee2072df49bd3fed0b3ee99fb0aa9a4b21792b89d0136de04de19073",
+      "mess_path": "projets/estacade_pieux_01/references/cas/sonde_lot47bis_listing_extrait.txt"
+    }
+  ],
+  "origin": {
+    "project": "ESTACADE-PIEUX-01",
+    "fiche": "projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json",
+    "point_label": "K7"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Dalle DKT et poutre POU_D_T coplanaires à nœuds partagés : partage de l'effort tranchant près d'un appui ponctuel, grandeur à comparer",
+    "options_considered": [],
+    "option_retained": "Une dalle DKT et une poutre POU_D_T coplanaires qui partagent leurs nœuds forment une section en T dont l'effort se partage entre la barre (EFGE_ELNO : VZ, MFY) et la dalle (EFGE_NOEU : QY, MYY). Près d'un appui ponctuel porté par un nœud de la poutre, la dalle DKT (sans déformation d'effort tranchant) porte la plus grande part de l'effort tranchant : sur la sonde S2 (bande de 1,20 m, QUAD4 de 0,05 m, poutre 1,20 × 0,90 m), la barre seule porte 28 % de l'effort tranchant à 0,10 m de l'appui, 79 % du moment sur appui et 92 % du moment en travée. La grandeur d'une section en T est le total : VZ + ∫QY dX et s·MFY − ∫MYY dX sur la bande de dalle (trapèzes sur les nœuds de la ligne), qui redonne la statique à 0,1 % pour l'effort tranchant et à 3e-11 pour le moment. Comparer la barre seule à un calcul de section en T est une erreur de lecture.",
+    "justification": "Sonde S2 du lot 47 bis (docs/essais_lot47bis.md § 6, critère écrit avant l'exécution, réussi) : section en T isostatique, réactions exactes à 7,5e-12, totaux comparés à la statique ; la part de la barre est la grandeur mesurée. Confirmé sur l'estacade du lot 47 (production, § 7 du rapport du lot 47 bis).",
+    "discarded_variants": [],
+    "notes": "Les parts dépendent de la rigidité relative et du maillage : au lot 47, l'effort tranchant de la barre près du pieu décroît au raffinement de la dalle (88,9 → 60,4 → 36,9 kN pour h = 0,10 → 0,025 m) quand le moment reste stable ; le total n'en dépend pas. Le terme de bord [MXY] aux extrémités de la bande n'entre pas dans le total (rapporté à part). Les valeurs nodales de la dalle sont lues par POST_RELEVE_T, qui émet <A> <POSTRELE_70> (DIAG-012) : le repère local de la dalle (ANGL_REP = (0, 0), normale +Z) est ici le repère global.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "AFFE_MODELE",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE",
+          "MODELISATION"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "c2fc6f9ed3533fb678a59efc64ba1d86c23a908c",
+        "working_tree_modified": true,
+        "case_path": "projets/estacade_pieux_01/references/cas/sonde_lot47bis.comm",
+        "case_sha256": "df315d02ee2072df49bd3fed0b3ee99fb0aa9a4b21792b89d0136de04de19073",
+        "mess_path": "projets/estacade_pieux_01/references/cas/sonde_lot47bis_listing_extrait.txt",
+        "quantity": "S2 : Σ DZ des réactions des deux appuis ponctuels",
+        "value_obtained": 71999.99999946,
+        "reference": "W = q b L = 10 kPa × 1,20 × 6,00 m",
+        "reference_value": 72000.0,
+        "relative_deviation": -7.50009753068702e-12,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "c2fc6f9ed3533fb678a59efc64ba1d86c23a908c",
+        "working_tree_modified": true,
+        "case_path": "projets/estacade_pieux_01/references/cas/sonde_lot47bis.comm",
+        "case_sha256": "df315d02ee2072df49bd3fed0b3ee99fb0aa9a4b21792b89d0136de04de19073",
+        "mess_path": "projets/estacade_pieux_01/references/cas/sonde_lot47bis_listing_extrait.txt",
+        "quantity": "S2 : |VZ| de la poutre seule à Y = −1,90 (extrémité côté travée)",
+        "value_obtained": 6484.706369945,
+        "reference": "effort tranchant total de la section en T (statique) à Y = −1,90",
+        "reference_value": 22800.0,
+        "relative_deviation": -0.7155830539497806,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "c2fc6f9ed3533fb678a59efc64ba1d86c23a908c",
+        "working_tree_modified": true,
+        "case_path": "projets/estacade_pieux_01/references/cas/sonde_lot47bis.comm",
+        "case_sha256": "df315d02ee2072df49bd3fed0b3ee99fb0aa9a4b21792b89d0136de04de19073",
+        "mess_path": "projets/estacade_pieux_01/references/cas/sonde_lot47bis_listing_extrait.txt",
+        "quantity": "S2 : |MFY| de la poutre seule sur appui (Y = −2,00, côté console)",
+        "value_obtained": 4826.356527417,
+        "reference": "moment total de la section en T sur appui (statique)",
+        "reference_value": 6000.0,
+        "relative_deviation": -0.19560724543050007,
+        "validation_level": "D"
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "c2fc6f9ed3533fb678a59efc64ba1d86c23a908c",
+        "working_tree_modified": true,
+        "case_path": "projets/estacade_pieux_01/references/cas/sonde_lot47bis.comm",
+        "case_sha256": "df315d02ee2072df49bd3fed0b3ee99fb0aa9a4b21792b89d0136de04de19073",
+        "mess_path": "projets/estacade_pieux_01/references/cas/sonde_lot47bis_listing_extrait.txt",
+        "quantity": "S2 : MFY de la poutre seule en travée (Y = 0)",
+        "value_obtained": 16594.8764602,
+        "reference": "moment total de la section en T en travée (statique)",
+        "reference_value": 18000.0,
+        "relative_deviation": -0.07806241887777772,
+        "validation_level": "D"
+      }
+    ],
+    "status": "tranche"
+  }
+}
