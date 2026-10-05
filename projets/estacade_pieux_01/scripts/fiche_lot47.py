@@ -4,15 +4,17 @@ Three categories (CLAUDE.md, lot 44):
 
 - MM's decisions E1 to E16, origin `arbitrage_mm`, text copied as written in
   `donnees/sources/arbitrage_estacade_pieux_01_lot47.md` (E1 to E12 of the lot
-  instruction, E13 to E16 of MM's answers in the chat);
+  instruction, E13 to E16 of MM's answers in the chat), and E17 to E19 of the lot 47
+  bis instruction (`donnees/sources/arbitrage_estacade_pieux_01_lot47bis.md`: reading
+  rules v2, TR case of the combination 100, sensitivity variant of the cap height);
 - the agent's choices U1 to U6 (`choix_agent`), each in a domain of the partition
   rule and with its named verifiers;
 - the `code_aster` facts, by reference to the shared base (K1 to K6): the findings
   consulted before writing the commands, and CA-054 to CA-057 established by the
   probe S1 of this lot.
 
-Recording time of the decisions: `donnees/sources/enregistrement_lot47.json` (MM wrote
-neither date nor hour). Idempotent: rerun
+Recording time of the decisions: `donnees/sources/enregistrement_lot47.json` and
+`enregistrement_lot47bis.json` (MM wrote neither date nor hour). Idempotent: rerun
 `.venv/bin/python projets/estacade_pieux_01/scripts/fiche_lot47.py`; a test replays
 it and compares byte for byte.
 """
@@ -48,24 +50,21 @@ PROJECT = ROOT / "projets" / "estacade_pieux_01"
 FICHE = PROJECT / "fiche" / "hypotheses_estacade_pieux_01.json"
 SOURCES = PROJECT / "donnees" / "sources"
 ARBITRATION = "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md)"
+ARBITRATION_BIS = "arbitrage_estacade_pieux_01_lot47bis (donnees/sources/arbitrage_estacade_pieux_01_lot47bis.md)"
 VALIDITY = (
     "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; "
     "hors de ce contre-calcul, la décision n'est pas établie."
 )
 
 
-def recorded_at() -> datetime:
-    data = json.loads(
-        (SOURCES / "enregistrement_lot47.json").read_text(encoding="utf-8")
-    )
+def recorded_at(name: str = "enregistrement_lot47.json") -> datetime:
+    data = json.loads((SOURCES / name).read_text(encoding="utf-8"))
     return datetime.fromisoformat(data["enregistre_le"])
 
 
-def mm_decisions() -> dict[str, str]:
+def mm_decisions(name: str = "arbitrage_estacade_pieux_01_lot47.md") -> dict[str, str]:
     """Text of each decision, read in the arbitration file (never retyped)."""
-    text = (SOURCES / "arbitrage_estacade_pieux_01_lot47.md").read_text(
-        encoding="utf-8"
-    )
+    text = (SOURCES / name).read_text(encoding="utf-8")
     out: dict[str, str] = {}
     for line in text.splitlines():
         if line.startswith("| E") and "|" in line[2:]:
@@ -97,6 +96,11 @@ TOPICS = {
     "E14": "Étendue du bouchon des pieux",
     "E15": "Surface d'application des roues (TS et LM2)",
     "E16": "Positions de LM2",
+}
+TOPICS_BIS = {
+    "E17": "Règles de lecture v2 de la comparaison (écrites après la première exécution)",
+    "E18": "Cas TR de la combinaison 100 : essieu de 160 kN sur le trottoir",
+    "E19": "Variante de sensibilité : chevêtre de 0,80 m",
 }
 
 DISCARDED = {
@@ -162,6 +166,33 @@ DISCARDED = {
         ("Toute la largeur de la dalle", "non retenue par MM (E16)"),
         ("Axé seulement", "non retenue par MM (E16)"),
     ],
+    "E17": [
+        (
+            "Règles de lecture v1 (docs/essais_lot47.md § 2.5)",
+            "conservées avec leurs verdicts dans l'historique, remplacées pour la "
+            "comparaison par E17",
+        )
+    ],
+    "E18": [
+        (
+            "Essieu en charge ponctuelle",
+            "une force nodale sur une plaque est singulière (E18)",
+        ),
+        (
+            "Essieu posé en travers du trottoir",
+            "trottoir de 1,50 m trop étroit pour un essieu de 2,00 m (E18)",
+        ),
+        (
+            "Essieu ajouté aussi à la charge des trottoirs de LM1",
+            "« ce cas ne s'applique qu'à la combinaison 100 » (E18)",
+        ),
+    ],
+    "E19": [
+        (
+            "Chevêtre de 0,80 m comme référence",
+            "« la référence reste à 0,90 m (E2) » (E19)",
+        )
+    ],
 }
 
 NOTES = {
@@ -183,10 +214,16 @@ NOTES = {
 }
 
 
-def mm_entries(at: datetime) -> list[PracticeHypothesisEntry]:
-    texts = mm_decisions()
+def mm_entries(
+    at: datetime,
+    topics: dict[str, str] = TOPICS,
+    arbitration: str = ARBITRATION,
+    texts: dict[str, str] | None = None,
+) -> list[PracticeHypothesisEntry]:
+    texts = mm_decisions() if texts is None else texts
+    source_file = arbitration.split("(")[1].removesuffix(")").removeprefix("donnees/")
     out = []
-    for label, topic in TOPICS.items():
+    for label, topic in topics.items():
         open_entry = PracticeHypothesisEntry(
             point_label=label, topic=topic, status="non_tranche", notes=NOTES.get(label)
         )
@@ -195,14 +232,13 @@ def mm_entries(at: datetime) -> list[PracticeHypothesisEntry]:
                 entry=open_entry,
                 option_retained=texts[label],
                 justification=(
-                    f"Décision {label} de MM, recopiée à l'identique "
-                    "(sources/arbitrage_estacade_pieux_01_lot47.md)."
+                    f"Décision {label} de MM, recopiée à l'identique ({source_file})."
                 ),
                 validity_domain=VALIDITY,
                 sources=(
                     PracticeSource(
                         origin="arbitrage_mm",
-                        reference=f"{ARBITRATION}, {label}",
+                        reference=f"{arbitration}, {label}",
                         date=at.date(),
                     ),
                 ),
@@ -417,7 +453,13 @@ def build_sheet() -> HypothesesSheet:
         ),
         group_naming=tuple(group_names(values)),
     )
-    for entry in [*mm_entries(at), *agent_entries(at, "0,05 m")]:
+    bis = mm_entries(
+        recorded_at("enregistrement_lot47bis.json"),
+        TOPICS_BIS,
+        ARBITRATION_BIS,
+        mm_decisions("arbitrage_estacade_pieux_01_lot47bis.md"),
+    )
+    for entry in [*mm_entries(at), *agent_entries(at, "0,05 m"), *bis]:
         sheet = insert_practice_entry(sheet, entry)
     return sheet
 

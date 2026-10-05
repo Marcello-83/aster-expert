@@ -164,12 +164,13 @@ def test_fiche_is_reproducible_and_ready(
     assert json.loads(sheet.model_dump_json()) == written
     assert ctx.sheet().generation_blockers(ctx.data()) == ()
     labels = {e.point_label for e in sheet.entries}
-    assert {f"E{i}" for i in range(1, 17)} <= labels
+    # E1 à E16 (lot 47), E17 à E19 (lot 47 bis).
+    assert {f"E{i}" for i in range(1, 20)} <= labels
     assert {f"U{i}" for i in range(1, 7)} <= labels
     agent = sheet.agent_choices()
     assert len(agent) == 6 and all(s.verified_by for e in agent for s in e.sources)
     mm = [e for e in sheet.entries if getattr(e, "decided_by", None) == "MM"]
-    assert len(mm) == 16 and all(
+    assert len(mm) == 19 and all(
         s.origin == "arbitrage_mm" for e in mm for s in e.sources
     )
 

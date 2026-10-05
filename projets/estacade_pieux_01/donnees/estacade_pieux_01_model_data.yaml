@@ -5,7 +5,7 @@
 # (elle est faite une seule fois par le générateur, estacade_pieux_01.donnees). Sources :
 # l'annexe B de la consigne (sources/annexe_B_lot47.md : « référence externe, tableau Bn »)
 # et les décisions E1 à E16 de MM (sources/arbitrage_estacade_pieux_01_lot47.md), reportées
-# dans la fiche (point_label E1 à E16). Contre-calcul d'un modèle non validé.
+# dans la fiche (point_label E1 à E16), et E18 (lot 47 bis, sources/arbitrage_estacade_pieux_01_lot47bis.md). Contre-calcul d'un modèle non validé.
 project: ESTACADE-PIEUX-01
 case_reference: "Annexe B de la consigne du lot 47 (sources/annexe_B_lot47.md) et arbitrage de MM (sources/arbitrage_estacade_pieux_01_lot47.md) ; fiche fiche/hypotheses_estacade_pieux_01.json"
 groups:
@@ -103,6 +103,14 @@ groups:
       {status: fourni, value: 6.3, unit: "kPa", source: {kind: cas_test, document: annexe_B_lot47.md, section: B4}, comment: "Référence externe, tableau B4 de l'annexe B. Sur la voie, toute la longueur (E8)."}
     tr:
       {status: fourni, value: 5.0, unit: "kPa", source: {kind: cas_test, document: annexe_B_lot47.md, section: B4}, comment: "Référence externe, tableau B4 de l'annexe B. Sur les deux trottoirs, toute la longueur."}
+    tr_essieu_charge_roue:
+      {status: fourni, value: 80, unit: "kN", source: {kind: decision, point_label: "E18"}, comment: "Cas TR de la seule combinaison 100 (E18) : essieu αQ2·Q2k = 0,8 × 200 = 160 kN, deux roues de 80 kN."}
+    tr_essieu_entraxe_roues:
+      {status: fourni, value: 2.0, unit: "m", source: {kind: decision, point_label: "E18"}, comment: "E18 : roues alignées selon X, entraxe longitudinal 2,00 m (orientation déduite de la figure 100 par MM)."}
+    tr_essieu_empreinte:
+      {status: fourni, value: 0.4, unit: "m", source: {kind: decision, point_label: "E18"}, comment: "E18 : empreinte 0,40 × 0,40 m au plan moyen, pas de charge ponctuelle."}
+    tr_essieu_ordonnee:
+      {status: fourni, value: 2.25, unit: "m", source: {kind: decision, point_label: "E18"}, comment: "E18 : centré sur le trottoir Y > 0 (Y = +2,25)."}
     lm2_charge_roue:
       {status: fourni, value: 160, unit: "kN", source: {kind: cas_test, document: annexe_B_lot47.md, section: B4}, comment: "Référence externe, tableau B4 de l'annexe B. 2 roues."}
     lm2_empreinte_x:
