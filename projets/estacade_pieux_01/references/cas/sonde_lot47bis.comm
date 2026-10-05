@@ -1,0 +1,111 @@
+# Sonde S2 du lot 47 bis (estacade_pieux_01) : section en T, dalle DKT et poutre
+# POU_D_T coplanaires à nœuds partagés, deux appuis ponctuels, pression uniforme.
+# Généré par projets/estacade_pieux_01/scripts/sonde_lot47bis.py : ne pas éditer.
+
+DEBUT(CODE="OUI")
+
+MAIL = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+
+# CA-028, CA-045 : normales de la dalle +Z, MXX et MYY > 0 tendent la face supérieure.
+MAIL = MODI_MAILLAGE(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    ORIE_NORM_COQUE=_F(GROUP_MA=("DALLE",), VECT_NORM=(0.0, 0.0, 1.0), GROUP_NO="COIN"),
+)
+
+MODELE = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(GROUP_MA=("DALLE",), PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+        _F(GROUP_MA=("CHEV",), PHENOMENE="MECANIQUE", MODELISATION="POU_D_T"),
+    ),
+)
+
+BETON = DEFI_MATERIAU(ELAS=_F(E=34000000000.0, NU=0.2))
+
+CARA = AFFE_CARA_ELEM(
+    MODELE=MODELE,
+    COQUE=_F(GROUP_MA="DALLE", EPAIS=0.4, ANGL_REP=(0.0, 0.0)),
+    POUTRE=_F(GROUP_MA="CHEV", SECTION="RECTANGLE", CARA=("HY", "HZ"), VALE=(1.2, 0.9)),
+    ORIENTATION=_F(GROUP_MA="CHEV", CARA="VECT_Y", VALE=(-1.0, 0.0, 0.0)),
+)
+
+CHMAT = AFFE_MATERIAU(MAILLAGE=MAIL, AFFE=_F(GROUP_MA=("DALLE", "CHEV"), MATER=BETON))
+
+# Appuis ponctuels isostatiques sur les nœuds de la poutre (têtes de pieux).
+CL = AFFE_CHAR_MECA(
+    MODELE=MODELE,
+    DDL_IMPO=(
+        _F(GROUP_NO="P1", DX=0.0, DY=0.0, DZ=0.0, DRY=0.0),
+        _F(GROUP_NO="P2", DX=0.0, DZ=0.0),
+    ),
+)
+CH_Q = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_COQUE=_F(GROUP_MA="DALLE", FZ=-10000.0))
+
+RESU = MECA_STATIQUE(
+    MODELE=MODELE, CHAM_MATER=CHMAT, CARA_ELEM=CARA, EXCIT=(_F(CHARGE=CL), _F(CHARGE=CH_Q))
+)
+RESU = CALC_CHAMP(reuse=RESU, RESULTAT=RESU, GROUP_MA="DALLE", CONTRAINTE=("EFGE_NOEU",))
+RESU = CALC_CHAMP(reuse=RESU, RESULTAT=RESU, GROUP_MA="CHEV", CONTRAINTE=("EFGE_ELNO",))
+RESU = CALC_CHAMP(reuse=RESU, RESULTAT=RESU, FORCE=("REAC_NODA",))
+
+T_REAC = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="S2_REAC",
+        RESULTAT=RESU,
+        NOM_CHAM="REAC_NODA",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("APPUIS",),
+        RESULTANTE=("DX", "DY", "DZ"),
+    )
+)
+IMPR_TABLE(TABLE=T_REAC, UNITE=6, FORMAT_R="E20.12")
+T_POU = CREA_TABLE(
+    RESU=_F(
+        RESULTAT=RESU,
+        NOM_CHAM="EFGE_ELNO",
+        TOUT_ORDRE="OUI",
+        NOM_CMP=("N", "VY", "VZ", "MT", "MFY", "MFZ"),
+        GROUP_MA=("CHEV",),
+    )
+)
+IMPR_TABLE(TABLE=T_POU, UNITE=6, FORMAT_R="E20.12", TITRE="S2_EFGE_POUTRE")
+T_L_M190 = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="S2_L_M190",
+        RESULTAT=RESU,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("L_M190",),
+        NOM_CMP=("QX", "QY", "MXX", "MYY", "MXY"),
+    )
+)
+IMPR_TABLE(TABLE=T_L_M190, UNITE=6, FORMAT_R="E20.12")
+T_L_M200 = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="S2_L_M200",
+        RESULTAT=RESU,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("L_M200",),
+        NOM_CMP=("QX", "QY", "MXX", "MYY", "MXY"),
+    )
+)
+IMPR_TABLE(TABLE=T_L_M200, UNITE=6, FORMAT_R="E20.12")
+T_L_P000 = POST_RELEVE_T(
+    ACTION=_F(
+        OPERATION="EXTRACTION",
+        INTITULE="S2_L_P000",
+        RESULTAT=RESU,
+        NOM_CHAM="EFGE_NOEU",
+        TOUT_ORDRE="OUI",
+        GROUP_NO=("L_P000",),
+        NOM_CMP=("QX", "QY", "MXX", "MYY", "MXY"),
+    )
+)
+IMPR_TABLE(TABLE=T_L_P000, UNITE=6, FORMAT_R="E20.12")
+
+FIN()

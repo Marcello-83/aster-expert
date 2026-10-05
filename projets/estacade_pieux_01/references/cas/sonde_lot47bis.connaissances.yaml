@@ -1,0 +1,10 @@
+# Connaissances appliquées par la sonde S2 du lot 47 bis (lot 46, fichier compagnon).
+schema_version: 1
+project: estacade_pieux_01
+applied:
+  - id: CA-028
+    how: "normales de la dalle orientées +Z par ORIE_NORM_COQUE avant la charge"
+  - id: CA-045
+    how: "MYY > 0 tend la face du côté de la normale (face supérieure)"
+  - id: CA-037
+    how: "poutre de Timoshenko POU_D_T, section RECTANGLE (E13)"

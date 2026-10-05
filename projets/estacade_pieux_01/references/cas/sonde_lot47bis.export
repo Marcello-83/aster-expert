@@ -1,0 +1,7 @@
+P time_limit 600
+P memory_limit 2048
+P ncpus 1
+P mpi_nbcpu 1
+P mpi_nbnoeud 1
+F comm sonde_lot47bis.comm D 1
+F mail sonde_lot47bis.mail D 20

@@ -197,3 +197,34 @@ l'appui, chacun confirmé ou réfuté :
   dalle (≈ −42 kN·m), total (≈ −170 kN·m) ;
 - (c) par l'exécution E19 (§ 3) ;
 - (e) par l'exécution E18 (§ 2).
+
+## 6. Sonde S2 — partage de l'effort entre dalle DKT et poutre POU_D_T coplanaires
+
+Ajoutée pendant le lot, **avant son exécution**, pour donner au constat demandé par la
+consigne (§ 3.6) une preuve rejouable : les valeurs de la production ne sont pas
+imprimées dans un listing versionné. Script :
+`projets/estacade_pieux_01/scripts/sonde_lot47bis.py` ; valeurs attendues calculées
+avant l'exécution : `projets/estacade_pieux_01/references/sonde_lot47bis_attendus.json`.
+
+### 6.1 Modèle
+
+Bande de dalle de chevêtre isolée : dalle DKT X ∈ [−0,60 ; 0,60] × Y ∈ [−3,00 ; 3,00],
+e = 0,40 m, QUAD4 de 0,05 m ; poutre POU_D_T 1,20 × 0,90 m le long de X = 0, nœuds
+partagés, mêmes matériau (E = 34 GPa, ν = 0,2), section et orientation que
+l'estacade ; deux appuis ponctuels sur les nœuds de la poutre en Y = ±2,00 (têtes de
+pieux), isostatiques (P1 : DX, DY, DZ, DRY ; P2 : DX, DZ) ; pression uniforme
+q = 10 kPa sur la dalle. La section en T est isostatique : W = 72 000 N, 36 000 N par
+appui, effort tranchant total |V| = 22 800 N à Y = −1,90, moment total −6 000 N·m à
+Y = −2,00 et +18 000 N·m (travée) à Y = 0.
+
+### 6.2 Critère
+
+- Σ DZ des réactions des deux appuis = 72 000 N, à 1e-6 en relatif ;
+- total de la section (même lecture que § 1.3, bande = toute la largeur ; barre :
+  moyenne des deux extrémités d'élément au nœud de la ligne) : |VZ + ∫QY dX| à
+  Y = −1,90, s·MFY − ∫MYY dX à Y = −2,00 et à Y = 0, chacun à 2 % de la statique ; le
+  terme de bord [MXY] est rapporté à part.
+
+Grandeur établie (rapportée, sans seuil) : la part de la barre seule dans le total, à
+Y = −1,90, −2,00 et 0. Un échec du critère est rapporté tel quel et interdit de
+fonder le constat sur cette sonde.
