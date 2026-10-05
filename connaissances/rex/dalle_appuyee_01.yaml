@@ -6,7 +6,6 @@ case_roots:
 - projets/dalle_appuyee_01
 legacy_runs: null
 baseline: null
-declaration_required_since: '2026-10-05T00:00:00'
 lots:
 - lot: '43'
   supervisor_interventions:
@@ -44,10 +43,10 @@ lots:
   supervisor_interventions:
     value: 1.0
     nature: mesure
-    note: 'Déclaré par MM (consigne du lot 46, décision 2) : une intervention au lot 45,
-      l''arbitrage des trois points de la partie A sur la conservation des niveaux. C''était
-      une information qui manquait, non une correction. Les décisions D20, D21 et Es étaient
-      dans la consigne. Valeur déclarée sans recalcul des métriques (lot 46, étape 4).'
+    note: 'Déclaré par MM (consigne du lot 46, décision 2) : une intervention au lot 45, l''arbitrage
+      des trois points de la partie A sur la conservation des niveaux. C''était une information
+      qui manquait, non une correction. Les décisions D20, D21 et Es étaient dans la consigne.
+      Valeur déclarée sans recalcul des métriques (lot 46, étape 4).'
   avoided_errors:
     value: 0.0
     nature: mesure
@@ -57,6 +56,11 @@ lots:
   note: 'Lot Cloud : notes Word, règle de conservation des niveaux, rejeu des critères E de
     la dalle (3 exécutions Code_Aster réussies, 0 échec, hors archives du dépôt : profil cloud)
     ; revue rex non inscrite faute d''archives complètes'
+archive:
+  runs: 6
+  sha256: f66082b042863a63f3a31b92136997cc0737571799925a2e20d41eea689d9b9e
+  recorded: '2026-10-05'
+declaration_required_since: '2026-10-05T00:00:00'
 reviews:
 - date: '2026-10-02'
   lot: '43'

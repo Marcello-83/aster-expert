@@ -24,7 +24,6 @@ baseline:
       ont exigé une intervention de fond de MM (correction de diagnostic, de critère ou de
       décision : lots 21, 23, 28 à 34, 36, 37, 39, entre autres). Ce n''est pas une mesure
       ; les interventions sont comptées à partir du lot 43.'
-declaration_required_since: '2026-10-05T00:00:00'
 lots:
 - lot: '42'
   supervisor_interventions:
@@ -51,6 +50,11 @@ lots:
       écrite, aucun contrôle nouveau.'
   note: 'Lot de consolidation : décisions D20 et D21 de MM enregistrées dans la fiche (PRE-019,
     PRE-020) ; aucune exécution du quai, aucun résultat changé.'
+archive:
+  runs: 373
+  sha256: 034f4f14c2fd8492ee9186e77155a283a2ab38f88bf459d472d7942494de3bbf
+  recorded: '2026-10-05'
+declaration_required_since: '2026-10-05T00:00:00'
 reviews:
 - date: '2026-10-01'
   lot: '42'
