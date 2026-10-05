@@ -533,6 +533,8 @@ def test_cli_env_check_ok(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> No
 
     monkeypatch.delenv(v.PROFILE_ENV, raising=False)
     monkeypatch.delenv(v.CLOUD_MARKER_ENV, raising=False)
+    # Lot 47 : sur un runner GitHub, GITHUB_ACTIONS=true donne le profil ci (lot 46 bis).
+    monkeypatch.delenv(v.CI_MARKER_ENV, raising=False)
     monkeypatch.setattr(v, "from_machine", lambda root: _ctx(_project(tmp_path)))
     monkeypatch.setattr(v, "run_checks", fake_run)
     result = CliRunner().invoke(cli.app, ["env-check"])
