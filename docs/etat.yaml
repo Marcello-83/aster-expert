@@ -68,7 +68,7 @@ lots:
   - {id: "46", objet: "Socle : politique de lecture MCP, intégration continue, état versionné, trace des connaissances appliquées, harnais D par défaut", etat: fait, commit: "19888e4", date: 2026-10-05, note: "branche claude/lot-46-securite-mcp-wakze8 ; compte rendu docs/essais_lot46.md"}
   - {id: "46 bis", objet: "Correction du workflow ci-lent : profil ci de env-check, ASTER_IMAGE_REF dérivée de versions.yaml", etat: fait, commit: "51baf31", date: 2026-10-05, note: "branche claude/blissful-turing-ajkazc ; passage réel de ci-lent vert, constaté par MM"}
   - {id: "47", objet: "Contre-calcul d'une estacade sur pieux (estacade_pieux_01) : premier ouvrage réel, comparaison à un modèle externe non validé", etat: fait, commit: "f97d48e", date: 2026-10-05, note: "branche lot-47 ; compte rendu docs/essais_lot47.md et message du commit f97d48e"}
-  - {id: "47bis", objet: "Estacade : relecture des écarts (critères v2, E17), essieu de trottoir (E18), variante de chevêtre (E19), sonde S2, harnais D v2 des cas autoéquilibrés", etat: fait, commit: "5ad8e24", date: 2026-10-05, note: "branche lot-47bis ; compte rendu docs/essais_lot47bis.md et message du commit final du lot (5ad8e24 : critères écrits avant exécution)"}
+  - {id: "47bis", objet: "Estacade : relecture des écarts (critères v2, E17), essieu de trottoir (E18), variante de chevêtre (E19), sonde S2, harnais D v2 des cas autoéquilibrés", etat: fait, commit: "7454147", date: 2026-10-05, note: "branche lot-47bis ; compte rendu docs/essais_lot47bis.md et message du commit 7454147 (critères écrits avant exécution : 5ad8e24, c2fc6f9)"}
 
 # Niveaux A à E : CLAUDE.md, « Niveaux de validation ». Un niveau n'est donné que pour ce
 # que la preuve établit ; `limites` dit ce qui n'est pas couvert.
