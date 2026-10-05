@@ -656,9 +656,11 @@ def test_repository_pins_python_312_managed_by_uv() -> None:
     pin = (_REPO / ".python-version").read_text(encoding="utf-8").strip()
     assert pin == "3.12"
     project = tomllib.loads((_REPO / "pyproject.toml").read_text(encoding="utf-8"))
-    assert project["project"]["requires-python"] == ">=3.12"
+    # Lot 46 : borne haute alignée sur la décision du lot 41 bis.
+    assert project["project"]["requires-python"] == ">=3.12,<3.13"
     assert project["tool"]["mypy"]["python_version"] == pin
     assert project["tool"]["ruff"]["target-version"] == "py312"
     assert project["tool"]["uv"]["python-preference"] == "only-managed"
     lock = tomllib.loads((_REPO / "uv.lock").read_text(encoding="utf-8"))
-    assert lock["requires-python"] == project["project"]["requires-python"]
+    # `uv lock` écrit l'intervalle sous sa forme normalisée.
+    assert lock["requires-python"] == "==3.12.*"

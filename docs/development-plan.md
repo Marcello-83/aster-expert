@@ -3394,37 +3394,13 @@ Niveaux D et E. Hors périmètre v1.
 
 ## Journal des lots
 
-| Lot | Branche | État | Commit | Date |
-|-----|---------|------|--------|------|
-| 1 | main | fait | 934aca8 | 2026-09-15 |
-| 2 | lot-2-env-detect | fait | (ce lot, voir `git log`) | 2026-09-15 |
-| 3 | lot-3-sources | fait | (ce lot, voir `git log`) | 2026-09-16 |
-| 4 | lot-4-catalogue | fait | d1041e1 | 2026-09-15 |
-| 4b | lot-4b-catalogue-fix | fait | (ce lot, voir `git log`) | 2026-09-15 |
-| 5 | | à faire | | |
-| 6 | | à faire | | |
-| 7 | lot-7-retrieval | fait | (ce lot, voir `git log`) | 2026-09-17 |
-| 7b | lot-7b-ranking | fait | (ce lot, voir `git log`) | 2026-09-17 |
-| 8 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
-| 8b | | fait | (ce lot, voir `git log`) | 2026-09-18 |
-| 8c | | fait | (ce lot, voir `git log`) | 2026-09-18 |
-| 9 | lot-9-comm-parser | fait | (ce lot, voir `git log`) | 2026-09-15 |
-| 10 | lot-10-validation-b | fait | (ce lot, voir `git log`) | 2026-09-15 |
-| 10b | lot-10b-coverage | fait | (ce lot, voir `git log`) | 2026-09-15 |
-| 10c | lot-10c-placeholders | fait | (ce lot, voir `git log`) | 2026-09-16 |
-| 11 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
-| 12 | | à faire | | |
-| 13 | | à faire | | |
-| 14 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
-| 14b | | fait | (ce lot, voir `git log`) | 2026-09-18 |
-| 15 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
-| 16 | | fait (bloqué, diagnostic livré) | (ce lot, voir `git log`) | 2026-09-18 |
-| 17 | | fait | (ce lot, voir `git log`) | 2026-09-18 |
-| 18 | | fait | (ce lot, voir `git log`) | 2026-09-21 |
-| 19 | | fait (point 1 Code_Aster non tranché) | (ce lot, voir `git log`) | 2026-09-21 |
-| 20 | | fait (choix DKT/COQUE_3D renvoyé à la pratique) | (ce lot, voir `git log`) | 2026-09-21 |
-| 21 | | fait (ELAS_COQUE étudié, premier essai FORCE_COQUE) | (ce lot, voir `git log`) | 2026-09-21 |
-| 22 | | fait (source d'exécution, essais A/B/C, accès aux cas tests ; v4 non enregistrée) | (ce lot, voir `git log`) | 2026-09-21 |
+Le journal de ce document s'arrêtait au lot 22 et ne reflétait plus l'état du dépôt
+(lot 46, étape 3). L'état des lots (objet, état, commit qui porte le compte rendu), des
+capacités et des projets est tenu dans **`docs/etat.yaml`**, lisible par la machine ;
+la section « État du projet » du `README.md` en est générée (`aster-expert etat readme`,
+`aster-expert etat verifier`). Les comptes rendus complets sont dans le message du
+commit de chaque lot, dans `docs/essais_lotNN.md` et dans `docs/lots/`. Ce document
+garde le plan et les comptes rendus des lots 1 à 22 ; il ne porte plus de journal.
 
 ## Lot 22 — Source « exécution », essais ciblés, accès aux cas tests
 

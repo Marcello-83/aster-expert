@@ -2453,6 +2453,44 @@ def connaissances_rejouer_references(
         raise typer.Exit(1)
 
 
+etat_app = typer.Typer(
+    no_args_is_help=True,
+    help="État du projet lisible par la machine, docs/etat.yaml (lot 46).",
+)
+app.add_typer(etat_app, name="etat")
+
+
+@etat_app.command("readme")
+def etat_readme() -> None:
+    """Réécrire la section « État du projet » du README depuis docs/etat.yaml."""
+    from aster_expert import etat
+
+    try:
+        changed = etat.update_readme(_project_root())
+    except (etat.StateError, ValueError) as exc:
+        typer.echo(f"etat readme ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    typer.echo("README.md mis à jour." if changed else "README.md déjà à jour.")
+
+
+@etat_app.command("verifier")
+def etat_verifier() -> None:
+    """Contrôler docs/etat.yaml : schéma, fichiers cités, commits, README généré."""
+    from aster_expert import etat
+
+    root = _project_root()
+    try:
+        problems = [*etat.check_references(root), *etat.check_readme(root)]
+    except (etat.StateError, ValueError) as exc:
+        typer.echo(f"etat verifier ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    for problem in problems:
+        typer.echo(f"  {problem}", err=True)
+    if problems:
+        raise typer.Exit(1)
+    typer.echo("docs/etat.yaml cohérent (schéma, fichiers cités, commits, README).")
+
+
 fiche_app = typer.Typer(
     no_args_is_help=True,
     help="Fiche d'hypothèses : contrôles à la rédaction (lot 44).",

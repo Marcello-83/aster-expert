@@ -7,11 +7,11 @@ name = "aster-expert"
 version = "0.1.0"
 description = "Agent expert Code_Aster : corpus versionné, catalogue, validation et exécution"
 readme = "README.md"
-# Lot 41 bis : 3.12 est la borne basse ; la version exacte de l'environnement
-# est fixée par `.python-version` (3.12) et installée par `uv` dans l'espace
-# utilisateur, jamais prise au système. Aucune borne haute : elle interdirait
-# l'évaluation séparée d'une version plus récente (3.14), qui reste un lot à part.
-requires-python = ">=3.12"
+# Lot 41 bis : 3.12 fixé par `.python-version`, installé par `uv` dans l'espace
+# utilisateur, jamais pris au système. Lot 46 : borne haute alignée sur cette décision
+# (`uv.lock` résout pour une seule branche de Python) ; passer à 3.14, évalué au lot
+# 41 bis, reste un lot à part, délibéré et testé.
+requires-python = ">=3.12,<3.13"
 # Licence à choisir avant toute diffusion : décommenter après avoir ajouté
 # le fichier LICENSE correspondant.
 # license = { file = "LICENSE" }

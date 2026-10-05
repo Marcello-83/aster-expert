@@ -1,0 +1,169 @@
+# État du projet AsterExpert, lisible par la machine (lot 46, étape 3).
+#
+# Source unique de l'état : la section « État du projet » du README en est GÉNÉRÉE
+# (`aster-expert etat readme`) et un test échoue si les deux divergent. Tout lot met
+# ce fichier à jour (CLAUDE.md). Chaque entrée de `lots` vient de l'historique Git
+# (`git log`) et de `docs/lots/` ou du compte rendu du commit ; aucune de mémoire.
+#
+# Convention de fusion : MM fusionne par avance rapide (aucun commit de fusion
+# dans l'historique, `git log --merges` est vide). `commit` est donc le commit qui
+# porte le compte rendu du lot, contenu dans `main` ; `commits_suivants` liste les
+# corrections du même lot venues après lui. L'historique publié commence au lot 8
+# (racine 82b9a5d) : les lots antérieurs n'ont pas de commit consultable.
+
+schema_version: 1
+mis_a_jour_au_lot: "46"
+date: 2026-10-05
+
+lots:
+  - {id: "1", objet: "Initialisation du dépôt", etat: fait, commit: null, date: 2026-09-15, note: "antérieur à l'historique publié"}
+  - {id: "2", objet: "Détection de l'environnement Aster", etat: fait, commit: null, date: 2026-09-15, note: "antérieur à l'historique publié"}
+  - {id: "3", objet: "Synchronisation Git versionnée des dépôts Code_Aster", etat: fait, commit: null, date: 2026-09-16, note: "antérieur à l'historique publié"}
+  - {id: "4", objet: "Introspection du catalogue (et 4b, correctif)", etat: fait, commit: null, date: 2026-09-15, note: "antérieur à l'historique publié"}
+  - {id: "5", objet: "Jeu d'évaluation (5b : normalisation du schéma)", etat: fait, commit: null, date: null, note: "clôture inscrite dans docs/development-plan.md ; le journal d'origine le disait « à faire », à tort"}
+  - {id: "6", objet: "Inventaire du corpus (6b : relecture externe)", etat: fait, commit: null, date: null, note: "clôture inscrite dans docs/development-plan.md ; le journal d'origine le disait « à faire », à tort"}
+  - {id: "7", objet: "Index lexical et recherche (7b priorité des sources, 7c routage par profil)", etat: fait, commit: null, date: 2026-09-17, note: "antérieur à l'historique publié"}
+  - {id: "8", objet: "Serveur MCP minimal", etat: fait, commit: "82b9a5d", date: 2026-09-18}
+  - {id: "8b", objet: "Discipline d'usage des outils, cache mémoire et skill", etat: fait, commit: "676bd00", date: 2026-09-18}
+  - {id: "8c", objet: "Lecture intégrale des sections (get_document_section)", etat: fait, commit: "a8c9ccb", date: 2026-09-18}
+  - {id: "9", objet: "Parseur .comm", etat: fait, commit: null, date: 2026-09-15, note: "antérieur à l'historique publié"}
+  - {id: "10", objet: "Validation statique niveau B (10b couverture, 10c placeholders)", etat: fait, commit: null, date: 2026-09-16, note: "antérieur à l'historique publié"}
+  - {id: "11", objet: "Exécution encadrée dans le conteneur (niveau C)", etat: fait, commit: "bf3b969", date: 2026-09-18}
+  - {id: "12", objet: "Dépouillement .mess", etat: partiel, commit: null, date: null, note: "pas de lot dédié ; le compte rendu d'exécution (lot 41) encapsule run_aster.error_messages"}
+  - {id: "13", objet: "Hook de validation PostToolUse", etat: non_fait, commit: null, date: null, note: "aucun hook PostToolUse dans .claude/settings.json (seul SessionStart y figure)"}
+  - {id: "14", objet: "Schéma de la fiche d'hypothèses (14b : rédaction assistée)", etat: fait, commit: "79fc1b8", commits_suivants: ["f37454a"], date: 2026-09-18}
+  - {id: "15", objet: "Canal d'arbitrage des entrées pratique", etat: fait, commit: "6e9712a", date: 2026-09-18}
+  - {id: "16", objet: "Tentative d'arbitrage du combi-wall (bloquée, diagnostic livré)", etat: fait, commit: "192f120", date: 2026-09-18}
+  - {id: "17", objet: "Amendement du schéma : domaine de validité, insertion, nommage", etat: fait, commit: "05e4aaa", date: 2026-09-18}
+  - {id: "18", objet: "Enregistrement des arbitrages MM v2", etat: fait, commit: "f63e86b", date: 2026-09-21}
+  - {id: "19", objet: "Révision v3 de la fiche combi-wall, nommage", etat: fait, commit: "d07116e", date: 2026-09-21}
+  - {id: "20", objet: "Recherche Code_Aster points 1 et 8, étude palplanche", etat: fait, commit: "28b1fe8", date: 2026-09-21}
+  - {id: "21", objet: "Fondations ELAS_COQUE, ressorts nodaux, essai FORCE_COQUE", etat: fait, commit: "b7ce267", date: 2026-09-21}
+  - {id: "22", objet: "Source d'exécution, essais A/B/C, accès MCP aux cas tests", etat: fait, commit: "16c91ff", date: 2026-09-21}
+  - {id: "23", objet: "Post-traitement sous ELAS_COQUE, décisions 8 et 9", etat: fait, commit: "f5ede57", date: 2026-09-21}
+  - {id: "24", objet: "Accès MCP fiabilisé, essai D6, décision 2 v5", etat: fait, commit: "23b3dd7", commits_suivants: ["5718698"], date: 2026-09-21}
+  - {id: "25", objet: "Repère global, essai D7, données chiffrées structurées", etat: fait, commit: "9ed1cba", date: 2026-09-21}
+  - {id: "26", objet: "Chaîne Salomé (mesh run), vérificateur MED (mesh check)", etat: fait, commit: "55b4be9", date: 2026-09-21}
+  - {id: "27", objet: "Maillage du quai par Salomé, décision 11", etat: fait, commit: "68b4889", date: 2026-09-21}
+  - {id: "28", objet: "Générateur de .comm du quai, niveau B ; niveau C bloqué", etat: fait, commit: "92ad87c", date: 2026-09-23}
+  - {id: "29", objet: "Diagnostic du pivot nul par reproducteur minimal", etat: fait, commit: "3f5660a", date: 2026-09-23}
+  - {id: "30", objet: "Quai réduit : LIAISON_SOLIDE isolée comme cause du pivot nul", etat: fait, commit: "87566e7", date: 2026-09-23}
+  - {id: "31", objet: "Cause du pivot nul établie, quatre candidats comparés", etat: fait, commit: "5ca1b06", date: 2026-09-24}
+  - {id: "32", objet: "Pivot nul levé, niveau C sur le modèle complet du quai", etat: fait, commit: "0b3d386", date: 2026-09-24}
+  - {id: "33", objet: "Contrôle d'équilibre honnête (équilibre en échec rapporté)", etat: fait, commit: "236eb63", date: 2026-09-24}
+  - {id: "34", objet: "Écart d'équilibre expliqué et fermé (quatre causes)", etat: fait, commit: "f6da541", date: 2026-09-24}
+  - {id: "35", objet: "Consolidation, contrôles de validité de la décision 5, première synthèse", etat: fait, commit: "89773f4", date: 2026-09-25}
+  - {id: "36", objet: "Diagnostic de la butée sous G, MED de résultats lu, vues 2D", etat: fait, commit: "a9064e0", date: 2026-09-25}
+  - {id: "37", objet: "Tirants de bord à demi-section, D14 à D16, efforts d'ensemble", etat: fait, commit: "4ef77ff", date: 2026-09-25}
+  - {id: "38", objet: "Combinaisons D17, état des lieux et module de ferraillage EN 1992", etat: fait, commit: "069a888", date: 2026-09-28}
+  - {id: "39", objet: "Ferraillage de la poutre de couronnement, limites de CALC_FERRAILLAGE", etat: fait, commit: "8382425", date: 2026-09-28}
+  - {id: "40", objet: "Audit de l'outil (lecture seule)", etat: fait, commit: "a88472c", date: 2026-09-28}
+  - {id: "41", objet: "Restructuration en tronc commun et projets", etat: fait, commit: "1d38cc9", date: 2026-10-01}
+  - {id: "41bis", objet: "Mise en conformité Ubuntu 26 : Python 3.12 géré par uv, env-check", etat: fait, commit: "3f52c07", date: 2026-10-01}
+  - {id: "41ter", objet: "Dépôt GitHub privé, sessions Cloud, crochet pre-commit", etat: fait, commit: "3ddab25", date: 2026-10-01}
+  - {id: "42", objet: "Capitalisation : base de connaissances à six couches, rex", etat: fait, commit: "f6e3641", commits_suivants: ["840bb00", "65f151a"], date: 2026-10-01}
+  - {id: "43", objet: "Second ouvrage : dalle appuyée, niveau E (Navier)", etat: fait, commit: "656f0e0", commits_suivants: ["4d59d2f", "4093f12"], date: 2026-10-02}
+  - {id: "44", objet: "Consolidation : choix de l'agent, paramètres obligatoires, projet creer", etat: fait, commit: "68fe335", commits_suivants: ["aca7e68"], date: 2026-10-02}
+  - {id: "45", objet: "Paquets de résultats (A) et notes Word génériques (B)", etat: fait, commit: "81da85b", commits_suivants: ["0ece15e", "554d44b", "eae5711", "ed89222", "a6c85a2"], date: 2026-10-02, note: "partie A : 0ece15e"}
+  - {id: "46", objet: "Socle : politique de lecture MCP, intégration continue, état versionné, trace des connaissances appliquées, harnais D par défaut", etat: en_cours, commit: null, date: 2026-10-05, note: "branche claude/lot-46-securite-mcp-wakze8"}
+
+# Niveaux A à E : CLAUDE.md, « Niveaux de validation ». Un niveau n'est donné que pour ce
+# que la preuve établit ; `limites` dit ce qui n'est pas couvert.
+capacites:
+  - nom: recherche
+    niveau: A
+    etat: operationnelle
+    fichiers: [src/aster_expert/retrieval, data/evaluations/questions.jsonl, docs/corpus.md]
+    commandes: ["aster-expert search", "pytest tests/unit/test_retrieval_models.py"]
+    limites: "Moteur lexical BM25 seul ; ni index vectoriel ni reranking (lots conditionnels C1, C2 non lancés). Corpus, index et catalogue absents d'un runner neuf (ils se reconstruisent, scripts/cloud_setup.sh)."
+  - nom: catalogue
+    niveau: A
+    etat: operationnelle
+    fichiers: [src/aster_expert/catalogue, tests/unit/test_catalogue_extract.py]
+    commandes: ["aster-expert catalogue extract", "aster-expert catalogue show"]
+    limites: "Un seul catalogue : Code_Aster 17.4.0, image par digest (config/versions.yaml)."
+  - nom: analyse
+    niveau: A
+    etat: operationnelle
+    fichiers: [src/aster_expert/parsing, tests/unit/test_comm_parser.py]
+    commandes: ["aster-expert comm parse", "outil MCP analyze_comm"]
+    limites: "Les constructions dynamiques sont déclarées, jamais devinées."
+  - nom: validation_b
+    niveau: B
+    etat: operationnelle
+    fichiers: [src/aster_expert/validation, tests/unit/test_validate.py]
+    commandes: ["aster-expert validate", "outil MCP validate_comm"]
+    limites: "Syntaxe confrontée au catalogue ; ne dit rien de l'exécution ni de la physique."
+  - nom: execution_c
+    niveau: C
+    etat: operationnelle
+    fichiers: [src/aster_expert/execution, tests/integration/test_reel_lent.py, config/validation.yaml]
+    commandes: ["aster-expert run", "pytest -m lent_aster"]
+    limites: "Racines d'exécution déclarées une à une (execution.allowed_roots). Salomé : VM seulement."
+  - nom: controles_d
+    niveau: D
+    etat: operationnelle
+    fichiers: [src/aster_expert/controles, projets/dalle_appuyee_01/resultats/paquet/controles]
+    commandes: ["aster-expert projet <nom> controles"]
+    limites: "Harnais par défaut ajouté au lot 46 (étape 6) ; avant, chaque projet déclarait les siens."
+  - nom: reference_e
+    niveau: E
+    etat: partielle
+    fichiers: [projets/dalle_appuyee_01/references, connaissances/references_validation]
+    commandes: ["aster-expert connaissances rejouer-references"]
+    limites: "Niveau E sur la seule dalle (solution de Navier) ; aucune référence pour le quai."
+  - nom: ferraillage
+    niveau: D
+    etat: operationnelle
+    fichiers: [src/aster_expert/rebar, src/aster_expert/ferraillage, tests/unit/test_rebar_ultimate.py]
+    commandes: ["aster-expert projet <nom> ferraillage"]
+    limites: "Module EN 1992 indépendant calibré sur ssll13b/ssll13d ; FERR_MIN_FISS refusé pour les poutres ; tableau 7.2N transcrit, à vérifier par MM."
+  - nom: notes
+    niveau: D
+    etat: operationnelle
+    fichiers: [src/aster_expert/notes, tests/unit/test_notes.py, projets/dalle_appuyee_01/livrables/notes]
+    commandes: ["aster-expert note hypotheses|resultats|controler <projet>"]
+    limites: "Contenu tiré de la fiche, des données et du paquet de résultats, jamais écrit à la main."
+  - nom: maillage
+    niveau: D
+    etat: operationnelle
+    fichiers: [src/aster_expert/meshing, scripts/salome]
+    commandes: ["aster-expert mesh run", "aster-expert mesh check", "pytest -m lent_salome"]
+    limites: "Salomé n'existe que dans la VM ; indisponible dans le Cloud."
+  - nom: base_de_connaissances
+    niveau: null
+    etat: operationnelle
+    fichiers: [connaissances/LISEZMOI.md, src/aster_expert/connaissances, connaissances/metriques/tableau_de_bord.md]
+    commandes: ["aster-expert connaissances verifier", "aster-expert rex <projet>"]
+    limites: "Avant le lot 46, aucune exécution n'enregistre les connaissances qu'elle applique (étape 5)."
+  - nom: securite_mcp
+    niveau: null
+    etat: operationnelle
+    fichiers: [src/aster_expert/chemins.py, config/chemins.yaml, tests/unit/test_chemins.py]
+    commandes: ["pytest tests/unit/test_chemins.py"]
+    limites: "Politique de lecture appliquée aux outils MCP et aux commandes recevant un chemin ; les sorties (écriture) ne sont pas couvertes."
+  - nom: integration_continue
+    niveau: null
+    etat: a_confirmer
+    fichiers: [.github/workflows/ci.yml, .github/workflows/ci-lent.yml, tests/unit/test_ci_workflows.py]
+    commandes: ["pytest tests/unit/test_ci_workflows.py"]
+    limites: "Premier passage sur GitHub à constater par MM (non déclenché depuis la session)."
+
+projets:
+  - nom: quai_cw_test_01
+    ouvrage: "Quai combi-wall QUAI-CW-TEST-01"
+    niveau_atteint: D
+    preuve: projets/quai_cw_test_01/resultats/paquet/paquet.json
+    limites: "Aucune référence de niveau E ; Es = 210 GPa des armatures en attente d'application (PRE-032, déclarée en révision)."
+  - nom: dalle_appuyee_01
+    ouvrage: "Dalle appuyée C30/37 6 x 4 x 0,30 m"
+    niveau_atteint: E
+    preuve: projets/dalle_appuyee_01/resultats/paquet/paquet.json
+    limites: "Niveau E acquis par la règle de conservation (E0, E1, E2 rejoués au lot 45)."
+
+metriques:
+  - {libelle: "Tableau de bord des projets", fichier: connaissances/metriques/tableau_de_bord.md}
+  - {libelle: "Métriques du quai", fichier: connaissances/metriques/quai_cw_test_01.yaml}
+  - {libelle: "Métriques de la dalle", fichier: connaissances/metriques/dalle_appuyee_01.yaml}
+  - {libelle: "Registre du retour d'expérience du quai", fichier: connaissances/rex/quai_cw_test_01.yaml}
+  - {libelle: "Registre du retour d'expérience de la dalle", fichier: connaissances/rex/dalle_appuyee_01.yaml}

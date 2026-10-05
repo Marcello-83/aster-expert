@@ -309,7 +309,7 @@ Le forum et les sources communautaires sont des sources secondaires et doivent
 ## Règles de développement
 
 - Python du projet : 3.12, fixé par `.python-version`, installé par `uv`
-  (`requires-python = ">=3.12"` dans `pyproject.toml`, dépendances dans `uv.lock`).
+  (`requires-python = ">=3.12,<3.13"` dans `pyproject.toml`, dépendances dans `uv.lock`).
 - `pathlib` pour tous les chemins, jamais de concaténation de chaînes.
 - Annotations de types sur toute fonction publique.
 - Modèles de données validés (`pydantic`) pour tout objet sérialisé.
@@ -379,6 +379,12 @@ le compte rendu complet :
 2. la justification des choix techniques ;
 3. la liste des tests exécutés et leurs résultats exacts ;
 4. les limites connues et les points non couverts.
+
+Depuis le lot 46, **tout lot met à jour `docs/etat.yaml`** (état du lot, commit qui porte
+le compte rendu, capacités et projets touchés) puis `aster-expert etat readme` : la
+section « État du projet » du README en est générée, et `tests/unit/test_etat.py`
+échoue si les deux divergent ou si un fichier ou un commit cité n'existe pas
+(`aster-expert etat verifier`). Le journal de `docs/development-plan.md` n'existe plus.
 
 Depuis le lot 42, avant ce commit : `aster-expert rex <projet>` (et, une fois les
 échecs classés, `aster-expert rex <projet> --enregistrer --lot NN`) ; sa sortie est
