@@ -1,0 +1,73 @@
+{
+  "constat_id": "CA-055",
+  "summary": "MACRO_ELAS_MULT résout plusieurs cas d'un modèle linéaire en une factorisation, PESANTEUR comprise avec des ressorts DIS_T de masse nulle ; le MED range les cas en pas (k, k) dans l'ordre de CAS_CHARGE.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "CALC_CHAMP",
+    "IMPR_RESU",
+    "MACRO_ELAS_MULT",
+    "POST_RELEVE_T"
+  ],
+  "keywords": [
+    "CAS_CHARGE",
+    "CHAR_MECA_GLOBAL",
+    "DIS_T",
+    "MED",
+    "M_T_D_N",
+    "NOM_CAS",
+    "PESANTEUR"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "projets/estacade_pieux_01/references/cas/sonde_lot47.comm",
+      "case_sha256": "e81632fabb335ace4869d5d67f7cada00b7708ff63b1ed7f1ea48e9e9115d78d",
+      "mess_path": "projets/estacade_pieux_01/references/cas/sonde_lot47_listing_extrait.txt"
+    }
+  ],
+  "origin": {
+    "project": "ESTACADE-PIEUX-01",
+    "fiche": "projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json",
+    "point_label": "K4"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "MACRO_ELAS_MULT : plusieurs cas de charge d'un modèle linéaire en une factorisation, avec PESANTEUR et des ressorts DIS_T",
+    "options_considered": [],
+    "option_retained": "MACRO_ELAS_MULT(CHAR_MECA_GLOBAL=<conditions aux limites>, CAS_CHARGE=(_F(NOM_CAS=..., CHAR_MECA=<charge>), ...)) calcule chaque cas avec une seule matrice ; PESANTEUR y est admise sur un modèle qui porte des ressorts DIS_T dotés d'une masse M_T_D_N nulle (DIAG-004). Le résultat (mult_elas) se lit par CALC_CHAMP, POST_RELEVE_T (une ligne par NOM_CAS, NUME_ORDRE = rang dans CAS_CHARGE) et IMPR_RESU au format MED, où les cas sont des pas (k, k) dans l'ordre de CAS_CHARGE.",
+    "justification": "Sonde S1 du lot 47 : les quatre résultantes (PP, G2, FR, GC) égales aux charges déclarées à 1e-12 ; inventaire du MED par medcoupling (pas 1 à 4 pour MULT____DEPL et MULT____EFGE_NOEU).",
+    "discarded_variants": [],
+    "notes": "Le validateur de niveau B de l'outil ne résout pas un tuple de concepts (CHAR_MECA_GLOBAL=(CL,)) : écrire une référence simple pour que la commande et la suite soient confrontées au catalogue (lot 47).",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "command": "MACRO_ELAS_MULT",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "CAS_CHARGE"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "9519b6c2ee8bef547f820a7e4c7102438d5bf5af",
+        "working_tree_modified": false,
+        "case_path": "projets/estacade_pieux_01/references/cas/sonde_lot47.comm",
+        "case_sha256": "e81632fabb335ace4869d5d67f7cada00b7708ff63b1ed7f1ea48e9e9115d78d",
+        "mess_path": "projets/estacade_pieux_01/references/cas/sonde_lot47_listing_extrait.txt",
+        "quantity": "T2 : PP, résultante DZ des réactions d'appui (MACRO_ELAS_MULT)",
+        "value_obtained": 24596.605,
+        "reference": "poids de la plaque, du chevêtre et du pieu",
+        "reference_value": 24596.605,
+        "relative_deviation": 0.0,
+        "validation_level": "D"
+      }
+    ],
+    "status": "tranche"
+  }
+}

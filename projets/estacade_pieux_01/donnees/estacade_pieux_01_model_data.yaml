@@ -81,7 +81,7 @@ groups:
     acier_poids_volumique:
       {status: fourni, value: 78.5, unit: "kN/m3", source: {kind: decision, point_label: "E7"}, comment: "La valeur du modèle source (E7)."}
     dilatation_beton:
-      {status: fourni, value: 1e-05, unit: "1/°C", source: {kind: decision, point_label: "E10"}, comment: "α de la dalle et des chevêtres (E10)."}
+      {status: fourni, value: 1.0e-5, unit: "1/°C", source: {kind: decision, point_label: "E10"}, comment: "α de la dalle et des chevêtres (E10)."}
   charges:
     g2_trottoirs:
       {status: fourni, value: 8.08, unit: "kPa", source: {kind: cas_test, document: annexe_B_lot47.md, section: B4}, comment: "Référence externe, tableau B4 de l'annexe B. G2."}

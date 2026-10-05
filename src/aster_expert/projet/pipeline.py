@@ -451,10 +451,17 @@ def step_controles(ctx: ProjectContext, rt: Runtime) -> list[str]:  # noqa: ARG0
         ctx, mess_path=mess, comm_path=run_comm, mesh_path=mesh, out_dir=out
     )
     summary = json.loads((out / "controles_d.json").read_text(encoding="utf-8"))
-    return [
+    lines = [
         f"Contrôles D : {summary['verdict']} (équilibre, pesanteur, symétrie) -- "
         f"{out / 'controles_d.md'}"
     ]
+    # Lot 47 : l'extension `controls.extra` déclarée par le projet (produits propres
+    # au projet) n'était appelée par aucune étape.
+    extra = ctx.declaration.controls.extra if ctx.declaration.controls else None
+    if extra is not None:
+        produced = ctx.extension(extra)(ctx, run_dir, out)
+        lines.extend(f"Produit du projet : {path}" for path in produced)
+    return lines
 
 
 def step_synthese(ctx: ProjectContext, rt: Runtime, *, views: bool = True) -> list[str]:  # noqa: ARG001

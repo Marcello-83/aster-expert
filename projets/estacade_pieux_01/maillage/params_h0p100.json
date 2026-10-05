@@ -1,0 +1,477 @@
+{
+ "cotes_pieu": [
+  1.3,
+  1.0,
+  0.7,
+  0.5,
+  0.0,
+  -0.5,
+  -0.8,
+  -1.0,
+  -1.5,
+  -2.0,
+  -2.25,
+  -2.5,
+  -3.0,
+  -3.5,
+  -4.0,
+  -4.5,
+  -5.0,
+  -5.5,
+  -6.0,
+  -6.5,
+  -7.0,
+  -7.5,
+  -8.0,
+  -8.5,
+  -9.0,
+  -9.5,
+  -10.0,
+  -10.5,
+  -11.0,
+  -11.5,
+  -12.0,
+  -12.5,
+  -13.0
+ ],
+ "pieux": [
+  {
+   "famille": "RIVE",
+   "file": 1,
+   "nom": "F1_YM",
+   "x": 0.6,
+   "y": -2.0
+  },
+  {
+   "famille": "RIVE",
+   "file": 1,
+   "nom": "F1_YP",
+   "x": 0.6,
+   "y": 2.0
+  },
+  {
+   "famille": "EAU",
+   "file": 2,
+   "nom": "F2_YM",
+   "x": 5.6,
+   "y": -2.0
+  },
+  {
+   "famille": "EAU",
+   "file": 2,
+   "nom": "F2_YP",
+   "x": 5.6,
+   "y": 2.0
+  },
+  {
+   "famille": "EAU",
+   "file": 3,
+   "nom": "F3_YM",
+   "x": 10.6,
+   "y": -2.0
+  },
+  {
+   "famille": "EAU",
+   "file": 3,
+   "nom": "F3_YP",
+   "x": 10.6,
+   "y": 2.0
+  },
+  {
+   "famille": "EAU",
+   "file": 4,
+   "nom": "F4_YM",
+   "x": 15.6,
+   "y": -2.0
+  },
+  {
+   "famille": "EAU",
+   "file": 4,
+   "nom": "F4_YP",
+   "x": 15.6,
+   "y": 2.0
+  },
+  {
+   "famille": "EAU",
+   "file": 5,
+   "nom": "F5_YM",
+   "x": 20.6,
+   "y": -2.0
+  },
+  {
+   "famille": "EAU",
+   "file": 5,
+   "nom": "F5_YP",
+   "x": 20.6,
+   "y": 2.0
+  },
+  {
+   "famille": "EAU",
+   "file": 6,
+   "nom": "F6_YM",
+   "x": 25.6,
+   "y": -2.0
+  },
+  {
+   "famille": "EAU",
+   "file": 6,
+   "nom": "F6_YP",
+   "x": 25.6,
+   "y": 2.0
+  },
+  {
+   "famille": "RIVE",
+   "file": 7,
+   "nom": "F7_YM",
+   "x": 30.6,
+   "y": -2.0
+  },
+  {
+   "famille": "RIVE",
+   "file": 7,
+   "nom": "F7_YP",
+   "x": 30.6,
+   "y": 2.0
+  }
+ ],
+ "ressorts": [
+  {
+   "cote": 1.0,
+   "famille": "RIVE",
+   "groupe": "KR_P100"
+  },
+  {
+   "cote": 0.5,
+   "famille": "RIVE",
+   "groupe": "KR_P050"
+  },
+  {
+   "cote": 0.0,
+   "famille": "RIVE",
+   "groupe": "KR_P000"
+  },
+  {
+   "cote": -0.5,
+   "famille": "RIVE",
+   "groupe": "KR_M050"
+  },
+  {
+   "cote": -1.0,
+   "famille": "RIVE",
+   "groupe": "KR_M100"
+  },
+  {
+   "cote": -1.5,
+   "famille": "RIVE",
+   "groupe": "KR_M150"
+  },
+  {
+   "cote": -2.0,
+   "famille": "RIVE",
+   "groupe": "KR_M200"
+  },
+  {
+   "cote": -2.5,
+   "famille": "RIVE",
+   "groupe": "KR_M250"
+  },
+  {
+   "cote": -3.0,
+   "famille": "RIVE",
+   "groupe": "KR_M300"
+  },
+  {
+   "cote": -3.5,
+   "famille": "RIVE",
+   "groupe": "KR_M350"
+  },
+  {
+   "cote": -4.0,
+   "famille": "RIVE",
+   "groupe": "KR_M400"
+  },
+  {
+   "cote": -4.5,
+   "famille": "RIVE",
+   "groupe": "KR_M450"
+  },
+  {
+   "cote": -5.0,
+   "famille": "RIVE",
+   "groupe": "KR_M500"
+  },
+  {
+   "cote": -5.5,
+   "famille": "RIVE",
+   "groupe": "KR_M550"
+  },
+  {
+   "cote": -6.0,
+   "famille": "RIVE",
+   "groupe": "KR_M600"
+  },
+  {
+   "cote": -6.5,
+   "famille": "RIVE",
+   "groupe": "KR_M650"
+  },
+  {
+   "cote": -7.0,
+   "famille": "RIVE",
+   "groupe": "KR_M700"
+  },
+  {
+   "cote": -7.5,
+   "famille": "RIVE",
+   "groupe": "KR_M750"
+  },
+  {
+   "cote": -8.0,
+   "famille": "RIVE",
+   "groupe": "KR_M800"
+  },
+  {
+   "cote": -8.5,
+   "famille": "RIVE",
+   "groupe": "KR_M850"
+  },
+  {
+   "cote": -9.0,
+   "famille": "RIVE",
+   "groupe": "KR_M900"
+  },
+  {
+   "cote": -9.5,
+   "famille": "RIVE",
+   "groupe": "KR_M950"
+  },
+  {
+   "cote": -10.0,
+   "famille": "RIVE",
+   "groupe": "KR_M1000"
+  },
+  {
+   "cote": -10.5,
+   "famille": "RIVE",
+   "groupe": "KR_M1050"
+  },
+  {
+   "cote": -11.0,
+   "famille": "RIVE",
+   "groupe": "KR_M1100"
+  },
+  {
+   "cote": -11.5,
+   "famille": "RIVE",
+   "groupe": "KR_M1150"
+  },
+  {
+   "cote": -12.0,
+   "famille": "RIVE",
+   "groupe": "KR_M1200"
+  },
+  {
+   "cote": -12.5,
+   "famille": "RIVE",
+   "groupe": "KR_M1250"
+  },
+  {
+   "cote": -13.0,
+   "famille": "RIVE",
+   "groupe": "KR_M1300"
+  },
+  {
+   "cote": -2.0,
+   "famille": "EAU",
+   "groupe": "KE_M200"
+  },
+  {
+   "cote": -2.5,
+   "famille": "EAU",
+   "groupe": "KE_M250"
+  },
+  {
+   "cote": -3.0,
+   "famille": "EAU",
+   "groupe": "KE_M300"
+  },
+  {
+   "cote": -3.5,
+   "famille": "EAU",
+   "groupe": "KE_M350"
+  },
+  {
+   "cote": -4.0,
+   "famille": "EAU",
+   "groupe": "KE_M400"
+  },
+  {
+   "cote": -4.5,
+   "famille": "EAU",
+   "groupe": "KE_M450"
+  },
+  {
+   "cote": -5.0,
+   "famille": "EAU",
+   "groupe": "KE_M500"
+  },
+  {
+   "cote": -5.5,
+   "famille": "EAU",
+   "groupe": "KE_M550"
+  },
+  {
+   "cote": -6.0,
+   "famille": "EAU",
+   "groupe": "KE_M600"
+  },
+  {
+   "cote": -6.5,
+   "famille": "EAU",
+   "groupe": "KE_M650"
+  },
+  {
+   "cote": -7.0,
+   "famille": "EAU",
+   "groupe": "KE_M700"
+  },
+  {
+   "cote": -7.5,
+   "famille": "EAU",
+   "groupe": "KE_M750"
+  },
+  {
+   "cote": -8.0,
+   "famille": "EAU",
+   "groupe": "KE_M800"
+  },
+  {
+   "cote": -8.5,
+   "famille": "EAU",
+   "groupe": "KE_M850"
+  },
+  {
+   "cote": -9.0,
+   "famille": "EAU",
+   "groupe": "KE_M900"
+  },
+  {
+   "cote": -9.5,
+   "famille": "EAU",
+   "groupe": "KE_M950"
+  },
+  {
+   "cote": -10.0,
+   "famille": "EAU",
+   "groupe": "KE_M1000"
+  },
+  {
+   "cote": -10.5,
+   "famille": "EAU",
+   "groupe": "KE_M1050"
+  },
+  {
+   "cote": -11.0,
+   "famille": "EAU",
+   "groupe": "KE_M1100"
+  },
+  {
+   "cote": -11.5,
+   "famille": "EAU",
+   "groupe": "KE_M1150"
+  },
+  {
+   "cote": -12.0,
+   "famille": "EAU",
+   "groupe": "KE_M1200"
+  },
+  {
+   "cote": -12.5,
+   "famille": "EAU",
+   "groupe": "KE_M1250"
+  },
+  {
+   "cote": -13.0,
+   "famille": "EAU",
+   "groupe": "KE_M1300"
+  }
+ ],
+ "segments_x": [
+  6,
+  50,
+  50,
+  50,
+  50,
+  50,
+  50,
+  6
+ ],
+ "segments_y": [
+  10,
+  5,
+  30,
+  5,
+  10
+ ],
+ "taille_visee": 0.1,
+ "troncons": [
+  {
+   "bas": 0.7,
+   "groupe": "PIEU_T1",
+   "haut": 1.3
+  },
+  {
+   "bas": 0.0,
+   "groupe": "PIEU_T2",
+   "haut": 0.7
+  },
+  {
+   "bas": -0.8,
+   "groupe": "PIEU_T3",
+   "haut": 0.0
+  },
+  {
+   "bas": -2.25,
+   "groupe": "PIEU_T4",
+   "haut": -0.8
+  },
+  {
+   "bas": -13.0,
+   "groupe": "PIEU_T5",
+   "haut": -2.25
+  }
+ ],
+ "voie": [
+  -1.5,
+  1.5
+ ],
+ "x_coupes": [
+  0.0,
+  0.6,
+  5.6,
+  10.6,
+  15.6,
+  20.6,
+  25.6,
+  30.6,
+  31.2
+ ],
+ "x_files": [
+  0.6,
+  5.6,
+  10.6,
+  15.6,
+  20.6,
+  25.6,
+  30.6
+ ],
+ "y_coupes": [
+  -3.0,
+  -2.0,
+  -1.5,
+  1.5,
+  2.0,
+  3.0
+ ],
+ "z_dalle": 1.3
+}

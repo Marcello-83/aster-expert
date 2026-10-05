@@ -1,0 +1,71 @@
+{
+  "constat_id": "CA-056",
+  "summary": "Une charge linéique sur le bord d'une dalle DKT s'applique par FORCE_ARETE sur des SEG2 affectées en DKT ; sa résultante est exacte.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "AFFE_CHAR_MECA",
+    "AFFE_MODELE"
+  ],
+  "keywords": [
+    "DKT",
+    "FORCE_ARETE",
+    "FZ",
+    "SEG2"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "projets/estacade_pieux_01/references/cas/sonde_lot47.comm",
+      "case_sha256": "e81632fabb335ace4869d5d67f7cada00b7708ff63b1ed7f1ea48e9e9115d78d",
+      "mess_path": "projets/estacade_pieux_01/references/cas/sonde_lot47_listing_extrait.txt"
+    }
+  ],
+  "origin": {
+    "project": "ESTACADE-PIEUX-01",
+    "fiche": "projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json",
+    "point_label": "K5"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Charge linéique sur le bord d'une dalle DKT (FORCE_ARETE)",
+    "options_considered": [],
+    "option_retained": "AFFE_CHAR_MECA/FORCE_ARETE (FX, FY, FZ en repère global, force par unité de longueur) sur un groupe de mailles SEG2 du bord de la dalle, ces SEG2 étant affectées en DKT dans AFFE_MODELE avec les QUAD4 : la résultante est exactement q × L.",
+    "justification": "U4.44.01 § Mot-clé FORCE_ARETE (modélisations DKT, DST, Q4G, 3D, COQUE_3D) ; sonde S1 du lot 47, résultante 500,000 N pour 500 N attendus.",
+    "discarded_variants": [],
+    "notes": null,
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U4.44.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Chargements_de_type_Neumann_",
+          "Chargements de type Neumann",
+          "Mot-clé FORCE_ARETE"
+        ],
+        "source_path": "source/manuals/man_u/u4/u4.44.01/Chargements_de_type_Neumann_.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": "U4.44.01#Chargements_de_type_Neumann_::chargements_de_type_neumann/mot_cle_force_arete",
+        "profile": "syntaxe",
+        "excerpt": "Ce chargement s’applique aux modélisations suivantes: DKT, DST, Q4G, 3D et COQUE_3D."
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "9519b6c2ee8bef547f820a7e4c7102438d5bf5af",
+        "working_tree_modified": false,
+        "case_path": "projets/estacade_pieux_01/references/cas/sonde_lot47.comm",
+        "case_sha256": "e81632fabb335ace4869d5d67f7cada00b7708ff63b1ed7f1ea48e9e9115d78d",
+        "mess_path": "projets/estacade_pieux_01/references/cas/sonde_lot47_listing_extrait.txt",
+        "quantity": "T2 : GC (FORCE_ARETE FZ = -500 N/m sur 1,0 m), résultante DZ",
+        "value_obtained": 500.0,
+        "reference": "q x L = 500 x 1,0",
+        "reference_value": 500.0,
+        "relative_deviation": 0.0,
+        "validation_level": "D"
+      }
+    ],
+    "status": "tranche"
+  }
+}

@@ -78,17 +78,44 @@ def group_reactions(
     return out
 
 
+def _spring_sum(
+    springs: dict[str, float] | dict[str, dict[str, float]],
+    component: str,
+    directions: tuple[str, ...],
+) -> float:
+    """Σ k·u along `component`: a single direction gives one number per label (the
+    sum is then exactly `sum(springs.values())`, as before lot 47), several give a
+    number per label and component."""
+    if len(directions) == 1:
+        values = [v for v in springs.values() if not isinstance(v, dict)]
+        if len(values) != len(springs):
+            message = "ressorts dans une seule direction : une valeur par libellé"
+            raise ProjectError(message)
+        return sum(values)
+    total = 0.0
+    for label, value in springs.items():
+        if not isinstance(value, dict) or component not in value:
+            message = (
+                f"ressorts dans plusieurs directions : {label} doit donner "
+                f"{{composante: Σ k·u}} pour {component}"
+            )
+            raise ProjectError(message)
+        total += value[component]
+    return total
+
+
 def balance_terms(
     controls: ControlsSection,
     applied_eval: dict[str, float],
     applied_spec: dict[str, float],
     reactions: dict[str, dict[str, float]],
-    springs: dict[str, float],
+    springs: dict[str, float] | dict[str, dict[str, float]],
 ) -> dict[str, dict[str, float]]:
     blocked = {s.group: s.blocked for s in controls.supports}
-    direction = controls.springs.direction if controls.springs else None
+    directions = controls.springs.components if controls.springs else ()
     spring_on_structure = {
-        c: (-sum(springs.values()) if c == direction else 0.0) for c in COMPONENTS
+        c: (-_spring_sum(springs, c, directions) if c in directions else 0.0)
+        for c in COMPONENTS
     }
     blocked_sum = {
         c: sum(reactions[g][c] for g, comps in blocked.items() if c in comps)
@@ -231,7 +258,7 @@ def level_d_controls(
             ctx, comm_text
         )
     spring_key = (
-        f"springs_k_{springs_ext.direction.lower()}_by_band_n"
+        f"springs_k_{'_'.join(c.lower() for c in springs_ext.components)}_by_band_n"
         if springs_ext is not None
         else None
     )
@@ -239,7 +266,7 @@ def level_d_controls(
     for case in controls.cases:
         applied_eval, applied_spec = expected_resultant(ctx, case, **inputs)
         reactions = group_reactions(tables, controls, case.name)
-        springs: dict[str, float] = (
+        springs: dict[str, float] | dict[str, dict[str, float]] = (
             ctx.extension(springs_ext.forces)(
                 ctx, mess_text, case.name, comm_text=comm_text
             )

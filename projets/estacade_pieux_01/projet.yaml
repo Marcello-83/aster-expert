@@ -1,14 +1,19 @@
-# Déclaration du projet ESTACADE-PIEUX-01 (créée par `aster-expert projet creer`).
+# Déclaration du projet ESTACADE-PIEUX-01 (lot 47) : contre-calcul d'un modèle non validé.
 #
-# Interface avec le tronc commun (schéma aster_expert.projet.declaration). Squelette
-# minimal : la fiche et les données existent (vides) ; les invariants du maillage et
-# le générateur restent à écrire par la session du projet. `aster-expert projet
-# estacade_pieux_01 verifier` liste ce qui manque. Chemins relatifs au répertoire du projet.
+# Interface avec le tronc commun (schéma aster_expert.projet.declaration). Estacade sur
+# pieux : tablier-dalle DKT sur sept chevêtres POU_D_T, quatorze pieux POU_D_T à ressorts
+# de sol horizontaux, appui vertical en pointe. Décisions E1 à E16 de MM, choix U1 à U6
+# de l'agent (fiche). Chemins relatifs au répertoire du projet.
 schema_version: 1
 name: estacade_pieux_01
 structure: ESTACADE-PIEUX-01
 description: >-
-  Ouvrage à décrire.
+  Estacade sur pieux, contre-calcul d'un modèle d'avant-projet non validé : dalle de
+  31,20 × 6,00 × 0,40 m (DKT) sur 7 chevêtres de 1,20 × 0,90 m (POU_D_T, au plan
+  moyen), 14 pieux tubulaires corrodés (POU_D_T, tube équivalent par tronçon), ressorts
+  horizontaux kx = ky tous les 0,50 m, DZ = 0 en pointe ; calcul linéaire ; charges
+  PP, G2, UDL, TR, FR, TE± et 242 positions mobiles de TS et LM2 ; combinaisons 100 à
+  115 du modèle source.
 fiche: fiche/hypotheses_estacade_pieux_01.json
 data: donnees/estacade_pieux_01_model_data.yaml
 data_sources: donnees/sources
@@ -16,8 +21,61 @@ results: resultats
 knowledge_applied: connaissances_appliquees.yaml
 
 mesh:
-  invariants: maillage/invariants.yaml
+  script: maillage/estacade_mesh.py
+  parameters: estacade_pieux_01.extensions:mesh_parameters
+  invariants: maillage/invariants_h0p050.yaml
 
 comm:
   generator: estacade_pieux_01.extensions:generate
   output: resultats/estacade_pieux_01.comm
+  export:
+    time_limit: 7200
+    memory_limit: 10240
+    mesh_unit: 20
+    mesh_format: mmed
+  required_data:
+    - geometrie.longueur_tablier
+    - geometrie.largeur_tablier
+    - geometrie.epaisseur_dalle
+    - geometrie.cote_plan_moyen
+    - pieu.aires_troncons
+    - pieu.inerties_troncons
+    - ressorts.files_rive
+    - ressorts.files_eau
+    - materiaux.beton_module
+    - materiaux.acier_module
+    - charges.ts_charge_roue
+    - charges.lm2_charge_roue
+    - charges.fr_total
+    - charges.delta_t
+
+controls:
+  threshold: 1.0e-6
+  vertical: DZ
+  output: equilibre.json
+  # E4 : seul DZ est bloqué, aux pointes ; les ressorts reprennent DX et DY.
+  supports:
+    - {group: PIEDS, blocked: [DZ], table: "RP_{case}"}
+  springs:
+    groups: [RESSORTS]
+    direction: [DX, DY]
+    forces: estacade_pieux_01.extensions:spring_forces
+  cases:
+    - {name: PP, gravity: true, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+    - {name: G2, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+    - {name: UDL, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+    - {name: TR, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+    - {name: FR, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+    - {name: TEP, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+    - {name: TEM, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+    - {name: TSA_P00, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+    - {name: TSB_P00, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+    - {name: L2A_M00, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+    - {name: L2B_M00, expected_resultant: "estacade_pieux_01.extensions:resultant"}
+  # U6 : ouvrage entier, la symétrie est un contrôle (cas symétriques en X et en Y).
+  symmetry_planes:
+    - {normal: X, position: 15.6, table: "SYMETRIE_{case}", cases: [PP, G2, UDL, TR, TEP, TEM]}
+    - {normal: Y, position: 0.0, table: "SYMETRIE_{case}", cases: [PP, G2, UDL, TR, TEP, TEM]}
+  # Contrôle propre au projet : Σ DZ des pointes = charge des roues, pour les 242
+  # positions mobiles ; double compte d'E2 chiffré.
+  extra: estacade_pieux_01.extensions:extra_controls

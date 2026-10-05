@@ -175,6 +175,54 @@ def test_only_blocked_components_enter_the_balance() -> None:
     assert math.isnan(zero["DX"]["relative_gap"])
 
 
+def _spring_controls(direction: object) -> ControlsSection:
+    return ControlsSection.model_validate(
+        {
+            "supports": [{"group": "P", "blocked": ["DZ"], "table": "RP_{case}"}],
+            "springs": {
+                "groups": ["K"],
+                "direction": direction,
+                "forces": "projet_fictif.ext:forces",
+            },
+            "cases": [{"name": "W", "expected_resultant": {"DX": 0, "DY": 0, "DZ": 0}}],
+        }
+    )
+
+
+def test_springs_along_two_directions_enter_both_balances() -> None:
+    # Lot 47 : ressorts horizontaux kx = ky, la force de chaque classe selon DX et DY.
+    controls = _spring_controls(["DX", "DY"])
+    reactions = {"P": {"DX": 0.0, "DY": 0.0, "DZ": 10.0}}
+    applied = {"DX": 4.0, "DY": -1.0, "DZ": -10.0}
+    springs = {"K1": {"DX": 3.0, "DY": -0.5}, "K2": {"DX": 1.0, "DY": -0.5}}
+
+    terms = balance_terms(controls, applied, applied, reactions, springs)
+
+    assert terms["DX"]["springs_on_structure_n"] == -4.0
+    assert terms["DY"]["springs_on_structure_n"] == 1.0
+    assert terms["DZ"]["springs_on_structure_n"] == 0.0
+    assert all(t["balance_n"] == 0.0 for t in terms.values())
+    with pytest.raises(ProjectError, match="plusieurs directions"):
+        balance_terms(controls, applied, applied, reactions, {"K1": 4.0})
+
+
+def test_springs_along_one_direction_keep_their_single_sum() -> None:
+    controls = _spring_controls("DY")
+    reactions = {"P": {"DX": 0.0, "DY": 0.0, "DZ": 0.0}}
+    applied = {"DX": 0.0, "DY": 2.5, "DZ": 0.0}
+
+    terms = balance_terms(controls, applied, applied, reactions, {"A": 2.0, "B": 0.5})
+
+    assert terms["DY"]["balance_n"] == 0.0
+    with pytest.raises(ProjectError, match="une seule direction"):
+        balance_terms(controls, applied, applied, reactions, {"A": {"DY": 2.5}})
+
+
+def test_repeated_spring_directions_are_refused() -> None:
+    with pytest.raises(ValueError, match="répétées"):
+        _spring_controls(["DX", "DX"])
+
+
 def test_symmetry_about_an_offset_plane() -> None:
     plane = SymmetryPlane(normal="X", position=1.0, cases=("G",))
     tables = TableIndex(

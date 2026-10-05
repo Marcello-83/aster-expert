@@ -1,0 +1,98 @@
+{
+  "constat_id": "CA-054",
+  "summary": "Une température uniforme portée par des coques DKT et des poutres qui partagent leurs nœuds s'écrit par deux AFFE_VARC : EVOL préparé par CREA_RESU/PREP_VARC (TEMP_MIL/INF/SUP) sur les coques, CHAM_GD de composante TEMP sur les poutres.",
+  "aster_version": "17.4.0",
+  "validation_level": "D",
+  "commands": [
+    "AFFE_MATERIAU",
+    "CREA_RESU"
+  ],
+  "keywords": [
+    "AFFE_VARC",
+    "DKT",
+    "EVOL_THER",
+    "NOEU_TEMP_R",
+    "POU_D_T",
+    "PREP_VARC",
+    "TEMP",
+    "TEMP_INF",
+    "TEMP_MIL",
+    "TEMP_SUP",
+    "VALE_REF"
+  ],
+  "trial_cases": [
+    {
+      "case_path": "projets/estacade_pieux_01/references/cas/sonde_lot47.comm",
+      "case_sha256": "e81632fabb335ace4869d5d67f7cada00b7708ff63b1ed7f1ea48e9e9115d78d",
+      "mess_path": "projets/estacade_pieux_01/references/cas/sonde_lot47_listing_extrait.txt"
+    }
+  ],
+  "origin": {
+    "project": "ESTACADE-PIEUX-01",
+    "fiche": "projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json",
+    "point_label": "K3"
+  },
+  "entry": {
+    "point_label": null,
+    "topic": "Température uniforme sur une dalle DKT et une poutre POU_D_T qui partagent leurs nœuds (dilatation thermique)",
+    "options_considered": [],
+    "option_retained": "Deux occurrences d'AFFE_MATERIAU/AFFE_VARC (NOM_VARC='TEMP', VALE_REF) : sur les coques DKT, EVOL d'un EVOL_THER préparé par CREA_RESU/PREP_VARC (MODELE, CARA_ELEM, GROUP_MA) à partir d'un champ NOEU_TEMP_R de composantes TEMP_MIL, TEMP_INF, TEMP_SUP (syntaxe du cas test hsls01a) ; sur les poutres POU_D_T, CHAM_GD d'un champ NOEU_TEMP_R de composante TEMP (syntaxe du cas test ssll12a). Une plaque DKT et une poutre qui partagent leurs nœuds, isostatiques, se dilatent librement : DX = α ΔT L exact (2,750000000000e-4 m), efforts NXX, NYY et N du chevêtre au bruit numérique (≤ 4e-9).",
+    "justification": "Sonde S1 du lot 47 (docs/essais_lot47.md, section 1, critère écrit avant l'exécution) : DX du nœud x = 1,0 et DY(0,6) − DY(0) exacts à 1e-12, réaction résultante 1,7e-9 N ; U2.02.01 § Chaînage thermomécanique pour PREP_VARC des coques.",
+    "discarded_variants": [],
+    "notes": "Un champ TEMP seul n'a pas été essayé sur DKT, ni PREP_VARC sur les poutres : la sonde n'établit que la combinaison écrite.",
+    "validity_domain": null,
+    "nature": "code_aster",
+    "sources": [
+      {
+        "document_id": "U2.02.01",
+        "aster_version": "17.4.0",
+        "section_path": [
+          "Cha_nage_thermom_canique"
+        ],
+        "source_path": "source/manuals/man_u/u2/u2.02.01/Cha_nage_thermom_canique.rst",
+        "source_commit": "9c8c179f57ef7ca1d2891cac275ee4823a57967c",
+        "fragment_id": "U2.02.01#Cha_nage_thermom_canique",
+        "profile": "methode",
+        "excerpt": "Pour ces éléments, il est nécessaire de préparer le calcul de la température sur les couches en amont de la commande *AFFE_MATERIAU* . Pour cela, l'utilisateur doit utiliser la commande *CREA_RESU*  avec l'opération *PREP_VARC*"
+      },
+      {
+        "command": "CREA_RESU",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "PREP_VARC"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      },
+      {
+        "command": "AFFE_MATERIAU",
+        "aster_version": "17.4.0",
+        "keyword_path": [
+          "AFFE_VARC"
+        ],
+        "variant_id": null,
+        "catalogue_source": null,
+        "catalogue_hash": null,
+        "image_digest": null
+      },
+      {
+        "aster_version": "17.4.0",
+        "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+        "repo_commit": "9519b6c2ee8bef547f820a7e4c7102438d5bf5af",
+        "working_tree_modified": false,
+        "case_path": "projets/estacade_pieux_01/references/cas/sonde_lot47.comm",
+        "case_sha256": "e81632fabb335ace4869d5d67f7cada00b7708ff63b1ed7f1ea48e9e9115d78d",
+        "mess_path": "projets/estacade_pieux_01/references/cas/sonde_lot47_listing_extrait.txt",
+        "quantity": "T1 : DX du nœud Q (x = 1,0 m), dilatation libre",
+        "value_obtained": 0.000275,
+        "reference": "alpha dT L = 1e-5 x 27,5 x 1,0",
+        "reference_value": 0.000275,
+        "relative_deviation": 0.0,
+        "validation_level": "D"
+      }
+    ],
+    "status": "tranche"
+  }
+}

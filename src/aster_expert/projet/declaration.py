@@ -135,14 +135,29 @@ class TotalReactions(_Model):
 class SpringsSection(_Model):
     groups: tuple[str, ...]
     """Spring groups (created by the `.comm`, `CREA_POI1`)."""
-    direction: Component
+    direction: Component | tuple[Component, ...]
+    """One component, or several (lot 47: horizontal springs kx = ky act along DX
+    and DY)."""
     forces: str
-    """Extension `f(ctx, mess_text, case) -> {label: Σ k·u}` along `direction`."""
+    """Extension `f(ctx, mess_text, case) -> {label: Σ k·u}` along `direction`;
+    with several directions, `{label: {component: Σ k·u}}`."""
     stiffness_check: str | None = None
     """Extension `f(ctx, comm_text) -> dict`, reported as is."""
 
+    @property
+    def components(self) -> tuple[Component, ...]:
+        """The directions as a tuple, one or several."""
+        if isinstance(self.direction, tuple):
+            return self.direction
+        return (self.direction,)
+
     @model_validator(mode="after")
     def _extensions(self) -> SpringsSection:
+        if isinstance(self.direction, tuple) and (
+            not self.direction or len(set(self.direction)) != len(self.direction)
+        ):
+            message = f"ressorts : directions vides ou répétées {self.direction}"
+            raise ValueError(message)
         _check_extension(self.forces)
         if self.stiffness_check is not None:
             _check_extension(self.stiffness_check)

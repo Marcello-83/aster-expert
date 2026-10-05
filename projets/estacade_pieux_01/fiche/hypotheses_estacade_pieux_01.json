@@ -1,8 +1,1614 @@
 {
   "project_name": "ESTACADE-PIEUX-01",
-  "structure_description": "Ouvrage à décrire.",
-  "aster_version": null,
-  "created_at": "2026-10-05T05:28:20.904249-04:00",
-  "entries": [],
-  "group_naming": []
+  "structure_description": "Estacade sur pieux (contre-calcul d'un modèle non validé) : tablier-dalle de 31,20 × 6,00 × 0,40 m sur 7 chevêtres de 1,20 × 0,90 m, 14 pieux tubulaires métalliques à ressorts de sol horizontaux, appui vertical en pointe à −13,00 m NGF.",
+  "aster_version": "17.4.0",
+  "created_at": "2026-10-05T05:48:41-04:00",
+  "entries": [
+    {
+      "nature": "constat",
+      "constat_id": "CA-020",
+      "point_label": "K1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-034",
+      "point_label": "K1"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-029",
+      "point_label": "K2"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-021",
+      "point_label": "K2"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-048",
+      "point_label": "K2"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-028",
+      "point_label": "K2"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-047",
+      "point_label": "K2"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-045",
+      "point_label": "K2"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-037",
+      "point_label": "K3"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-054",
+      "point_label": "K3"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-055",
+      "point_label": "K4"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-056",
+      "point_label": "K5"
+    },
+    {
+      "nature": "constat",
+      "constat_id": "CA-057",
+      "point_label": "K6"
+    },
+    {
+      "point_label": "E1",
+      "topic": "Géométrie retenue : celle du modèle source",
+      "options_considered": [],
+      "option_retained": "Géométrie du **modèle Robot** : 31,20 m, 7 files de pieux à 5,00 m, 14 pieux. La description à 36,2 m et 8 files n'est **pas** retenue.",
+      "justification": "Décision E1 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Description à 36,2 m et 8 files",
+          "reason": "non retenue par MM (E1)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E1",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E2",
+      "topic": "Chevêtres : section, position et recouvrement avec la dalle",
+      "options_considered": [],
+      "option_retained": "Chevêtres : barre de **1,20 × 0,90 m**, section rectangulaire, **au plan moyen de la dalle**, sans excentrement. Conséquence connue et acceptée : la dalle et le chevêtre se recouvrent sur 1,20 × 0,40 m, ce qui compte deux fois ce volume en raideur et en poids, comme dans le modèle Robot. La session chiffre ce double compte en kN par chevêtre et le rapporte, sans le corriger.",
+      "justification": "Décision E2 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Chevêtre excentré sous la dalle",
+          "reason": "« sans excentrement » (E2) ; double compte accepté, chiffré sans correction"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E2",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E3",
+      "topic": "Sections des pieux par tronçon",
+      "options_considered": [],
+      "option_retained": "Pieux : sections corrodées par tronçon (annexe B, tableau B2), sans section mixte au droit du bouchon. Entre +0,70 m NGF et le nœud du tablier, la section du tronçon supérieur est prolongée.",
+      "justification": "Décision E3 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Section mixte acier-béton au droit du bouchon",
+          "reason": "exclue par E3"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E3",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E4",
+      "topic": "Appui vertical en pointe des pieux",
+      "options_considered": [],
+      "option_retained": "Appui vertical en pointe : **DZ = 0** à −13,00 m NGF, rotations libres. Les ressorts sont horizontaux (kx = ky) : sans cet appui, le mouvement vertical d'ensemble n'est pas bloqué.",
+      "justification": "Décision E4 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Rotations bloquées en pointe",
+          "reason": "« rotations libres » (E4)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E4",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E5",
+      "topic": "Comportement : linéaire",
+      "options_considered": [],
+      "option_retained": "Calcul **linéaire** : ressorts élastiques, sans palier.",
+      "justification": "Décision E5 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Ressorts à palier (non linéaires)",
+          "reason": "« sans palier » (E5)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E5",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E6",
+      "topic": "Ressorts de la file 1 : correction de recopie et nœuds manquants",
+      "options_considered": [],
+      "option_retained": "Ressorts de la file 1 aux nœuds −8,00 et −8,50 m : kx = ky = 21 200 kN/m (erreur de recopie du tableau source). Les nœuds manquants à −10,00 et −10,50 m sont complétés à 21 200 kN/m. Les files 1 et 7 sont identiques.",
+      "justification": "Décision E6 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Valeurs du tableau source aux nœuds −8,00 et −8,50 de la file 1",
+          "reason": "erreur de recopie (E6)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E6",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E7",
+      "topic": "Matériaux",
+      "options_considered": [],
+      "option_retained": "Béton : Ecm = 34 GPa, ν = 0,2, 25 kN/m³. Acier : 210 GPa, ν = 0,3, 78,5 kN/m³ (la valeur du modèle source).",
+      "justification": "Décision E7 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Autre poids volumique de l'acier",
+          "reason": "la valeur du modèle source est retenue (E7)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E7",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E8",
+      "topic": "Charge mobile TS : pas et positions ; UDL",
+      "options_considered": [],
+      "option_retained": "Charge mobile TS : **pas de 0,50 m** sur toute la longueur ; deux positions transversales, « axé » et « bord de voie », déduites de la géométrie de la voie (annexe B). UDL de 6,30 kPa sur toute la longueur de la voie.",
+      "justification": "Décision E8 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Autre pas ou positions transversales",
+          "reason": "pas de 0,50 m, « axé » et « bord de voie » (E8)"
+        }
+      ],
+      "notes": "Application par la session (à relire par MM) : TS, centre du tandem en X = 15,60 + 0,50 k, k = −29 … 29 (59 positions, toutes les empreintes sur la dalle, symétriques par rapport au milieu) ; « axé » : roues à Y = ±1,00 ; « bord de voie » : roue extérieure tangente au bord Y = 1,50 de la voie, roues à Y = 1,30 et −0,70, côté Y > 0 seulement (le côté Y < 0 en est l'image miroir).",
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E8",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E9",
+      "topic": "Freinage",
+      "options_considered": [],
+      "option_retained": "Freinage : **381 kN**, réparti uniformément sur la surface de la voie, appliqué dans le plan moyen de la dalle, selon X.",
+      "justification": "Décision E9 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Freinage appliqué en face supérieure",
+          "reason": "appliqué dans le plan moyen (E9)"
+        }
+      ],
+      "notes": "Une seule direction, +X.",
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E9",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E10",
+      "topic": "Température",
+      "options_considered": [],
+      "option_retained": "Température : ΔT uniforme de ±27,5 °C sur la dalle et les chevêtres seulement, α = 1×10⁻⁵ /°C.",
+      "justification": "Décision E10 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "ΔT appliqué aussi aux pieux",
+          "reason": "dalle et chevêtres seulement (E10)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E10",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E11",
+      "topic": "Combinaisons",
+      "options_considered": [],
+      "option_retained": "Combinaisons : celles du modèle source, **reproduites telles quelles** (n° 100 à 115, en ELS f, ELS c, ELU+ et ELU−). LM1 y est l'enveloppe sur les positions de la charge mobile.",
+      "justification": "Décision E11 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Combinaisons recalculées selon une norme",
+          "reason": "reproduites telles quelles (E11)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E11",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E12",
+      "topic": "Tolérances de comparaison",
+      "options_considered": [],
+      "option_retained": "Tolérances de comparaison : **3 %** pour les efforts globaux (réactions, N des pieux) ; **5 %** pour les moments et efforts tranchants des barres (pieux, bouchons, chevêtres) ; **10 %** pour les efforts locaux de la dalle (Mxx, Qxx).",
+      "justification": "Décision E12 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Tolérance unique pour toutes les grandeurs",
+          "reason": "3 %, 5 % et 10 % selon la grandeur (E12)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E12",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E13",
+      "topic": "Formulations d'éléments et variantes de sensibilité",
+      "options_considered": [],
+      "option_retained": "Choix 1 : DKT pour la dalle, POU_D_T pour les pieux et les chevêtres.Variantes de sensibilité déclarées :  (a) DST pour la dalle ;  (b) POU_D_E pour les chevêtres seulement, pour tester l'hypothèse      « le modèle source ne prend pas en compte la déformation d'effort tranchant      des barres » si C6 à C8 sortent de tolérance.À inscrire comme décision E13, origine arbitrage_mm.",
+      "justification": "Décision E13 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "DKT et POU_D_E",
+          "reason": "option proposée, non retenue par MM (E13)"
+        },
+        {
+          "description": "DST et POU_D_T",
+          "reason": "option proposée, non retenue ; DST gardé en variante de sensibilité (E13)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E13",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E14",
+      "topic": "Étendue du bouchon des pieux",
+      "options_considered": [],
+      "option_retained": "Le bouchon va de +0.70 à -0.80",
+      "justification": "Décision E14 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Nœud du tablier à +0,70, à 0,00, à −0,80 ou à −2,25",
+          "reason": "options proposées, non retenues (E14)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E14",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E15",
+      "topic": "Surface d'application des roues (TS et LM2)",
+      "options_considered": [],
+      "option_retained": "Empreinte B4 telle quelle (Recommandé) — Je lis B4 comme la donnée du modèle source : 0,40 × 0,40 m (TS) et 0,35 × 0,60 m (LM2), en pression uniforme au plan moyen, sans diffusion.",
+      "justification": "Décision E15 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Diffusion à 45° jusqu'au plan moyen",
+          "reason": "non retenue par MM (E15)"
+        },
+        {
+          "description": "Les deux, la diffusion en sensibilité",
+          "reason": "non retenue par MM (E15)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E15",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "E16",
+      "topic": "Positions de LM2",
+      "options_considered": [],
+      "option_retained": "Comme TS (Recommandé) — Pas de 0,50 m selon X sur toute la longueur. Deux positions transversales : « axé » (roues à Y = ±1,00) et « bord de voie » (roue tangente au bord de la voie, à Y = ±1,325).",
+      "justification": "Décision E16 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47.md).",
+      "discarded_variants": [
+        {
+          "description": "Toute la largeur de la dalle",
+          "reason": "non retenue par MM (E16)"
+        },
+        {
+          "description": "Axé seulement",
+          "reason": "non retenue par MM (E16)"
+        }
+      ],
+      "notes": "Erreur de la session dans la description proposée (Y = ±1,325) : la règle choisie, roue tangente au bord de la voie avec l'empreinte de 0,60 m selon Y, donne Y = 1,20 et −0,80 ; c'est la règle qui est appliquée. Positions selon X : 15,575 − 0,50 k et 15,625 + 0,50 k, k = 0 … 30 (62 positions, empreintes de 0,35 m alignées sur les mailles de 0,05 m).",
+      "validity_domain": "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; hors de ce contre-calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md), E16",
+          "date": "2026-10-05"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "U1",
+      "topic": "Repère global, origine et unités",
+      "options_considered": [],
+      "option_retained": "X le long du tablier depuis l'about (X = 0), Y transversal depuis l'axe du tablier, Z vers le haut égal à la cote NGF (dalle au plan moyen Z = +1,30, pointes à Z = −13,00) ; unités m, N, Pa, kg ; RHO = γ / g avec g = 9,81 m/s² (sans effet sur les résultats : la pesanteur redonne exactement γ).",
+      "justification": "Les cotes de B1 à B3 se lisent directement ; les résultantes et l'équilibre contrôlent les unités.",
+      "discarded_variants": [
+        {
+          "description": "Origine au milieu du tablier",
+          "reason": "les files de B1 sont données depuis l'about"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Modèle de l'estacade du lot 47.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 47 (projets/estacade_pieux_01, docs/essais_lot47.md)",
+          "date": "2026-10-05",
+          "domain": "repere",
+          "verified_by": [
+            "CTL-005",
+            "CTL-013"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "U2",
+      "topic": "Type et taille des mailles",
+      "options_considered": [],
+      "option_retained": "QUAD4 réguliers de 0,05 m sur la dalle (624 × 120 mailles), taille qui divise toutes les cotes utiles (files, lignes de pieux, bords de voie, bords des empreintes de TS et LM2 aux pas d'E8 et E16) : chaque empreinte est une réunion de mailles entières ; chevêtres : SEG2 de la dalle sur les lignes des files ; pieux : un SEG2 entre deux cotes successives (ressorts tous les 0,50 m, changements de section de B2, nœud du plan moyen).",
+      "justification": "Évite l'évaluation aux nœuds d'une pression en marche (CA-029, PAT-003) ; maillage contrôlé par 364 invariants calculés avant exécution.",
+      "discarded_variants": [
+        {
+          "description": "Maillage libre avec raffinement local sous les roues",
+          "reason": "les positions mobiles couvrent toute la voie : une grille régulière alignée y est plus simple et exacte"
+        },
+        {
+          "description": "Pression de roue définie par une fonction de X et Y",
+          "reason": "évaluée aux nœuds, elle déborde d'une demi-maille (CA-029)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Charges de roue à empreinte rectangulaire alignée ; DKT plans.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 47 (projets/estacade_pieux_01, docs/essais_lot47.md)",
+          "date": "2026-10-05",
+          "domain": "maillage",
+          "verified_by": [
+            "projet:mesh_check",
+            "CTL-013"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "U3",
+      "topic": "Suite de convergence de la dalle sous charge de roue",
+      "options_considered": [],
+      "option_retained": "Trois maillages de rapport 2 (h = 0,10 / 0,05 / 0,025 m), TS axé centré en X = 8,10 et X = 5,60 ; critère de docs/essais_lot47.md § 2.7.",
+      "justification": "Aucune solution de référence : l'écart entre maillages successifs doit décroître et rester petit au maillage de production.",
+      "discarded_variants": [
+        {
+          "description": "Comparaison à une solution analytique",
+          "reason": "aucune n'existe pour ce modèle"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Grandeurs locales de la dalle sous TS seulement.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 47 (projets/estacade_pieux_01, docs/essais_lot47.md)",
+          "date": "2026-10-05",
+          "domain": "convergence",
+          "verified_by": [
+            "projet:convergence"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "U4",
+      "topic": "Noms des groupes du maillage",
+      "options_considered": [],
+      "option_retained": "Noms de la convention de nommage de la fiche (24 caractères au plus) : dalle, voie, trottoirs, rives, chevêtres, pieux, tronçons, têtes, pointes et groupes de ressorts par famille et par cote.",
+      "justification": "Les invariants du maillage contrôlent chaque groupe (cardinal, type, boîte).",
+      "discarded_variants": [
+        {
+          "description": "Noms au-delà de 24 caractères",
+          "reason": "tronqués en silence par Code_Aster (lot 28)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Maillage du lot 47.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 47 (projets/estacade_pieux_01, docs/essais_lot47.md)",
+          "date": "2026-10-05",
+          "domain": "noms_groupes",
+          "verified_by": [
+            "projet:mesh_check"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "U5",
+      "topic": "Lecture des champs pour la comparaison",
+      "options_considered": [],
+      "option_retained": "Dalle : EFGE_NOEU calculé sur la seule dalle (DIAG-011), composantes MXX, QX, NXX ; pieux et chevêtres : EFGE_ELNO (extrémités d'élément, sans moyenne) ; déplacements DEPL ; zones, signes et enveloppes de docs/essais_lot47.md § 2.3 à 2.5 (critères écrits avant l'exécution).",
+      "justification": "EFGE_NOEU sur des éléments de repères différents déclenche UTILITAI_4 (DIAG-011, sonde S1) ; les modules des barres évitent les conventions d'axes inconnues du modèle source.",
+      "discarded_variants": [
+        {
+          "description": "EFGE_NOEU sur tout le modèle",
+          "reason": "repères locaux incompatibles aux nœuds partagés (DIAG-011)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Comparaison au modèle source du lot 47.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 47 (projets/estacade_pieux_01, docs/essais_lot47.md)",
+          "date": "2026-10-05",
+          "domain": "lecture_champs",
+          "verified_by": [
+            "CTL-005",
+            "projet:contre_calcul"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "U6",
+      "topic": "Étendue du modèle",
+      "options_considered": [],
+      "option_retained": "Ouvrage entier, sans réduction par symétrie ; la symétrie par rapport à X = 15,60 et Y = 0 est contrôlée sur les cas symétriques.",
+      "justification": "Les charges mobiles, le freinage et TS en bord de voie ne sont pas symétriques.",
+      "discarded_variants": [
+        {
+          "description": "Demi-ouvrage",
+          "reason": "charges non symétriques"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Modèle du lot 47.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 47 (projets/estacade_pieux_01, docs/essais_lot47.md)",
+          "date": "2026-10-05",
+          "domain": "etendue_modele",
+          "verified_by": [
+            "CTL-006"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-05T05:48:41-04:00",
+      "decision_history": [],
+      "revision_history": []
+    }
+  ],
+  "group_naming": [
+    {
+      "group_name": "DALLE",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (74880 QUAD4).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "VOIE",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (37440 QUAD4).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TROTT",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (37440 QUAD4).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "RIVE_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (624 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "RIVE_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (624 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEVETRES",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (840 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEUX",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (448 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TETES",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (14 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEDS",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (14 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "COIN_ABOUT",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (1 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEV_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (120 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEV_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (120 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEV_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (120 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEV_4",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (120 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEV_5",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (120 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEV_6",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (120 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEV_7",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (120 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F1_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F1_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F2_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F2_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F3_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F3_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F4_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F4_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F5_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F5_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F6_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F6_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F7_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_F7_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (32 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_T1",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (28 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_T2",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (28 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_T3",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (28 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_T4",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (56 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEU_T5",
+      "kind": "maille",
+      "description": "Groupe du maillage de l'estacade (308 SEG2).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_P100",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_P050",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_P000",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M050",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M100",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M150",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M200",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M250",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M300",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M350",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M400",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M450",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M500",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M550",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M600",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M650",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M700",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M750",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M800",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M850",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M900",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M950",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M1000",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M1050",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M1100",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M1150",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M1200",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M1250",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KR_M1300",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (4 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M200",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M250",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M300",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M350",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M400",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M450",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M500",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M550",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M600",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M650",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M700",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M750",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M800",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M850",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M900",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M950",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M1000",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M1050",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M1100",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M1150",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M1200",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M1250",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "KE_M1300",
+      "kind": "noeud",
+      "description": "Groupe du maillage de l'estacade (10 nœuds).",
+      "status": "choix_agent",
+      "point_label": "U4",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    }
+  ]
 }
