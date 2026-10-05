@@ -6,6 +6,7 @@ case_roots:
 - projets/dalle_appuyee_01
 legacy_runs: null
 baseline: null
+declaration_required_since: '2026-10-05T00:00:00'
 lots:
 - lot: '43'
   supervisor_interventions:

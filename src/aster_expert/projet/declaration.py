@@ -495,6 +495,10 @@ class ProjectDeclaration(_Model):
     results_package: ResultsPackageSection | None = None
     results: str = "resultats"
     """Directory, relative to the project, where the steps write their outputs."""
+    knowledge_applied: str | None = None
+    """Lot 46: declaration of the knowledge the project's runs apply (relative to the
+    project directory). Copied next to each `.comm` as `<stem>.connaissances.yaml`
+    before the run; a project's run without a declaration is refused."""
 
 
 def _format_validation_error(exc: ValidationError) -> tuple[str, ...]:

@@ -46,6 +46,7 @@ from pathlib import Path
 from typing import Any
 
 from aster_expert.chemins import PathRefusedError, execution_policy, resolve_input_path
+from aster_expert.connaissances.declaration import AppliedKnowledge
 from aster_expert.execution.compte_rendu import (
     build_record,
     parse_messages,
@@ -96,6 +97,29 @@ def check_allowed(
             comm_path, policy=policy, base=Path.cwd(), suffixes=(".comm",)
         )
     except PathRefusedError as exc:
+        raise ExecutionRunError(str(exc)) from exc
+
+
+def _declared_knowledge(comm: Path, project_root: Path) -> AppliedKnowledge | None:
+    """Declaration of the knowledge applied (lot 46), refused before any container
+    starts when a project's run has none or names an entry the base does not hold."""
+    from aster_expert.connaissances.base import (  # noqa: PLC0415
+        KnowledgeBaseError,
+        load_knowledge,
+    )
+    from aster_expert.connaissances.declaration import (  # noqa: PLC0415
+        DeclarationError,
+        companion_path,
+        load_for_run,
+        project_of,
+    )
+
+    if not companion_path(comm).is_file() and project_of(comm, project_root) is None:
+        return None
+    try:
+        base = load_knowledge(project_root)
+        return load_for_run(comm, project_root, {*base.entries, *base.constats})
+    except (DeclarationError, KnowledgeBaseError) as exc:
         raise ExecutionRunError(str(exc)) from exc
 
 
@@ -163,6 +187,7 @@ def execute_comm_file(
         raise ExecutionRunError(message)
 
     resolved_comm = check_allowed(comm_path, config=config, project_root=project_root)
+    knowledge = _declared_knowledge(resolved_comm, project_root)
 
     if not script_path.is_file():
         message = f"run_comm.py script not found: {script_path}"
@@ -240,6 +265,7 @@ def execute_comm_file(
                     image=image_ref,
                     inputs_sha256=inputs_sha256,
                     knowledge_root=project_root,
+                    knowledge=knowledge,
                 )
             )
         else:
@@ -323,6 +349,7 @@ def execute_comm_file(
                 image=image_ref,
                 inputs_sha256=inputs_sha256,
                 knowledge_root=project_root,
+                knowledge=knowledge,
             )
         )
     else:

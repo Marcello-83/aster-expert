@@ -124,6 +124,35 @@ def test_a_fatal_error_is_reported_with_its_identifier(tmp_path: Path) -> None:
     assert "DIAG-014" in markdown
 
 
+@pytest.mark.lent_aster
+def test_a_declared_replay_of_the_slab_proves_its_reference_only(
+    tmp_path: Path,
+) -> None:
+    """Lot 46, étape 5 : rejeu d'un cas de la dalle avec sa déclaration ; l'épreuve de
+    la référence est reconnue, celle d'un patron ou d'un contrôle ne l'est pas (aucun
+    résultat de contrôle D ne porte sur cette exécution), un précédent jamais."""
+    from aster_expert.connaissances.base import load_knowledge
+    from aster_expert.connaissances.epreuve import evaluate_run
+
+    cases = _ROOT / "projets" / "dalle_appuyee_01" / "references" / "cas"
+    report = _run(cases / "dalle_h0p125.comm", cases, tmp_path)
+    assert report.status == "completed_ok", report
+
+    record = load_record(Path(report.work_dir))
+    assert record.knowledge is not None
+    declared = {e.id for e in record.knowledge.applied}
+    assert {"REF-014", "PAT-009", "PAT-011", "CTL-010"} <= declared
+    assert "dalle_h0p125.connaissances.yaml" in record.inputs_sha256
+
+    verdicts = {
+        v.entry_id: v
+        for v in evaluate_run(_ROOT, Path(report.work_dir), load_knowledge(_ROOT))
+    }
+    assert verdicts["REF-014"].proven and verdicts["REF-014"].level == "C"
+    for entry_id in ("PAT-009", "PAT-011", "CTL-010"):
+        assert not verdicts[entry_id].proven, entry_id
+
+
 @pytest.mark.lent_salome
 def test_salome_meshes_a_minimal_geometry_and_mesh_check_holds(
     tmp_path: Path,

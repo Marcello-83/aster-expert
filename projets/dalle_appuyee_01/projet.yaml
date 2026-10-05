@@ -18,6 +18,7 @@ fiche: fiche/hypotheses_dalle_arbitree.json
 data: donnees/dalle_model_data.yaml
 data_sources: donnees/sources
 results: resultats
+knowledge_applied: connaissances_appliquees.yaml
 
 mesh:
   script: maillage/dalle_mesh.py

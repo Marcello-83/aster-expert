@@ -2392,6 +2392,54 @@ def connaissances_eligibilite(
     )
 
 
+@connaissances_app.command("eprouver")
+def connaissances_eprouver(
+    execution: str = typer.Argument(
+        ..., help="Répertoire d'exécution ou identifiant (data/processed/runs/<id>)."
+    ),
+    enregistrer: bool = typer.Option(
+        False,
+        "--enregistrer",
+        help=(
+            "Inscrire une réutilisation éprouvée sur chaque entrée reconnue "
+            "(jamais une promotion)."
+        ),
+    ),
+) -> None:
+    """Épreuve des connaissances déclarées par une exécution (lot 46) : constat,
+    précédent et diagnostic ne s'éprouvent pas par déclaration ; patron et contrôle
+    exigent une exécution réussie aux contrôles D réussis sur ses propres résultats ;
+    référence, le rejeu réussi d'un de ses cas. Code 1 si l'exécution ne porte aucune
+    déclaration."""
+    from aster_expert.connaissances.base import KnowledgeBaseError, load_knowledge
+    from aster_expert.connaissances.epreuve import evaluate_run, record_proofs
+
+    root = _project_root()
+    run_dir = Path(execution)
+    if not run_dir.is_dir():
+        run_dir = root / "data" / "processed" / "runs" / execution
+    run_dir = _lecture(run_dir, kind="dir")
+    try:
+        base = load_knowledge(root)
+        verdicts = evaluate_run(root, run_dir, base)
+    except (KnowledgeBaseError, FileNotFoundError, ValueError) as exc:
+        typer.echo(f"connaissances eprouver ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    if not verdicts:
+        typer.echo(
+            "Aucune déclaration dans cette exécution : rien n'est éprouvé "
+            "(pas d'attribution rétroactive).",
+            err=True,
+        )
+        raise typer.Exit(1)
+    for v in verdicts:
+        state = f"ÉPROUVÉ (niveau {v.level})" if v.proven else "non éprouvé"
+        typer.echo(f"{v.entry_id} [{v.layer}] : {state} -- {v.reason}")
+    if enregistrer:
+        for path in record_proofs(root, run_dir, verdicts, base):
+            typer.echo(f"Réutilisation éprouvée inscrite : {path.relative_to(root)}")
+
+
 @connaissances_app.command("proposer-precedent")
 def connaissances_proposer_precedent(
     identifiant: str,

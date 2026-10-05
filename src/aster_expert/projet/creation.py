@@ -30,6 +30,7 @@ from pathlib import Path
 import yaml
 
 from aster_expert.agent.hypotheses import HypothesesSheet
+from aster_expert.connaissances.archive import build_manifest
 from aster_expert.connaissances.rex import RexRegistry, registry_path, write_registry
 from aster_expert.projet.context import PROJECTS_DIR
 from aster_expert.projet.declaration import DECLARATION_NAME, load_declaration
@@ -86,6 +87,7 @@ fiche: fiche/hypotheses_{name}.json
 data: donnees/{name}_model_data.yaml
 data_sources: donnees/sources
 results: resultats
+knowledge_applied: connaissances_appliquees.yaml
 
 mesh:
   invariants: maillage/invariants.yaml
@@ -229,11 +231,28 @@ def create_project(
         f'case_reference: "à renseigner"\n'
         "groups: {}\n",
     )
+    write(
+        "connaissances_appliquees.yaml",
+        "# Connaissances de la base appliquées par les exécutions du projet (lot 46).\n"
+        "# À remplir AVANT la première exécution : une exécution de projet sans\n"
+        "# entrée déclarée (ni `none_reason` motivé) est refusée. Schéma :\n"
+        "# aster_expert.connaissances.declaration.\n"
+        "schema_version: 1\n"
+        f"project: {name}\n"
+        "applied: []\n",
+    )
     write(DECLARATION_NAME, _declaration(name, description))
     load_declaration(project_dir / DECLARATION_NAME)
     roots = add_execution_roots(repo_root, execution_roots(name), name)
     registry = write_registry(
-        repo_root, RexRegistry(project=name, case_roots=(f"{PROJECTS_DIR}/{name}",))
+        repo_root,
+        RexRegistry(
+            project=name,
+            case_roots=(f"{PROJECTS_DIR}/{name}",),
+            declaration_required_since=created_at.replace(tzinfo=None),
+            # Un projet neuf n'a aucune exécution : son archive complète est vide.
+            archive=build_manifest([], today=created_at.date()),
+        ),
     )
     return CreatedProject(
         name=name,

@@ -24,6 +24,7 @@ baseline:
       ont exigé une intervention de fond de MM (correction de diagnostic, de critère ou de
       décision : lots 21, 23, 28 à 34, 36, 37, 39, entre autres). Ce n''est pas une mesure
       ; les interventions sont comptées à partir du lot 43.'
+declaration_required_since: '2026-10-05T00:00:00'
 lots:
 - lot: '42'
   supervisor_interventions:

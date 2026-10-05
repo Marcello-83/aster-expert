@@ -1,0 +1,25 @@
+# Connaissances de la base appliquées par les exécutions de la chaîne du projet
+# (lot 46, étape 5). Copié à côté de chaque .comm avant l'exécution
+# (`<nom>.connaissances.yaml`) puis recopié dans compte_rendu.json. Une entrée
+# déclarée n'est pas éprouvée pour autant : voir aster_expert.connaissances.epreuve.
+schema_version: 1
+project: dalle_appuyee_01
+applied:
+  - id: PAT-008
+    how: "script Salomé en partition unique, groupes créés sur la géométrie (étape maillage)"
+  - id: PAT-009
+    how: "efforts de plaque lus par CREA_TABLE, déplacements par POST_RELEVE_T"
+  - id: PAT-011
+    how: "dalle DKT entière, appui bilatéral, blocage plan isostatique, normales orientées +Z"
+  - id: CTL-005
+    how: "équilibre par cas de charge (contrôles D du projet)"
+  - id: CTL-006
+    how: "symétrie des déplacements selon X = 3,0 m et Y = 2,0 m (contrôles D du projet)"
+  - id: CTL-008
+    how: "invariants de maillage vérifiés par mesh check avant génération"
+  - id: CTL-010
+    how: "intitulés des tables imprimées d'au plus 16 caractères"
+  - id: CA-045
+    how: "ferraillage 2D : convention de signe de MXX et densités de CALC_FERRAILLAGE"
+  - id: CA-041
+    how: "FERR_MIN demandé seulement avec UNITE_CONTRAINTE='MPa'"

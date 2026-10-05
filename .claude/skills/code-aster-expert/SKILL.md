@@ -223,6 +223,27 @@ diagnostic, ou écarté avec un motif) ; un échec non classé bloque la clôtur
 lot. Une entrée nouvelle s'écrit dans sa couche avec sa preuve ; aucune n'est
 promue sans `aster-expert connaissances promouvoir`, qui vérifie les conditions.
 
+## 6 quinquies. Déclarer les connaissances appliquées avant toute exécution de projet (lot 46)
+
+Toute exécution d'un **projet** (`.comm` sous `projets/<nom>/`) déclare les entrées de la
+base qu'elle applique, **avant** de partir : un fichier compagnon `<nom>.connaissances.yaml`
+à côté du `.comm` (schéma `aster_expert.connaissances.declaration` : `schema_version: 1`,
+`project`, `applied: [{id: PAT-009, how: "<ce qui en est appliqué>"}]`). Pour la chaîne
+d'un projet, le fichier est `projets/<nom>/connaissances_appliquees.yaml`, déclaré par
+`knowledge_applied` dans `projet.yaml` et copié à côté de chaque `.comm` par l'étape
+`executer`. `aster-expert run` refuse une exécution de projet sans déclaration, ou qui
+cite une entrée absente de la base, et recopie la déclaration dans `compte_rendu.json`.
+`aster-expert rex` signale toute exécution de projet sans déclaration.
+
+La déclaration ne prouve rien. L'épreuve (`aster-expert connaissances eprouver
+<exécution>`) suit le type d'entrée : un constat s'éprouve par le rejeu de son cas
+d'essai, jamais en appliquant un contournement ; un patron par une exécution réussie dont
+les contrôles D du projet passent sur ses propres résultats ; un contrôle par son
+exécution sur un résultat du projet (réussi, ou en échec sur un défaut réel corrigé,
+proposé à MM) ; une référence par le rejeu réussi d'un de ses cas ; un précédent jamais.
+Ne déclarer que ce que l'exécution applique réellement, et ne jamais attribuer a posteriori
+une épreuve à une exécution passée.
+
 ## 7. Annoncer le niveau de validation atteint, jamais un niveau supérieur
 
 `search_codeaster_docs`, `get_document_section`, `get_command_schema`,

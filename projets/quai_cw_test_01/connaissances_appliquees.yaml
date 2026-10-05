@@ -1,0 +1,21 @@
+# Connaissances de la base appliquées par les exécutions de la chaîne du projet
+# (lot 46, étape 5). Déclaration pour les exécutions à venir du quai (le quai n'est pas
+# recalculé au lot 46) ; aucune exécution passée n'en reçoit (pas d'attribution
+# rétroactive).
+schema_version: 1
+project: quai_cw_test_01
+applied:
+  - id: PAT-008
+    how: "script Salomé en partition unique, groupes créés sur la géométrie (étape maillage)"
+  - id: PAT-009
+    how: "efforts lus par CREA_TABLE, déplacements par POST_RELEVE_T"
+  - id: PAT-010
+    how: "combinaisons d'actions par MECA_STATIQUE à multiplicateurs constants"
+  - id: CTL-005
+    how: "équilibre par cas de charge (contrôles D du projet)"
+  - id: CTL-006
+    how: "symétrie des déplacements (contrôles D du projet)"
+  - id: CTL-008
+    how: "invariants de maillage vérifiés par mesh check avant génération"
+  - id: CTL-010
+    how: "intitulés des tables imprimées d'au plus 16 caractères"

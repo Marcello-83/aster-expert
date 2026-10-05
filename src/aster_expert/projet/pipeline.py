@@ -360,6 +360,19 @@ def step_valider(ctx: ProjectContext, rt: Runtime) -> list[str]:
     return [line]
 
 
+def _place_declaration(ctx: ProjectContext, comm: Path) -> None:
+    """Copy the project's declaration of the knowledge applied next to the `.comm`
+    (lot 46). Absent: nothing is copied and `execute_comm_file` refuses the run."""
+    from aster_expert.connaissances.declaration import companion_path  # noqa: PLC0415
+
+    declared = ctx.declaration.knowledge_applied
+    if declared is None:
+        return
+    source = ctx.path(declared)
+    if source.is_file():
+        shutil.copyfile(source, companion_path(comm))
+
+
 def execute(ctx: ProjectContext, rt: Runtime, comm: Path) -> Any:
     """`run_aster` in the container on `comm` (its `.export` next to it);
     refused unless it ends at `FIN`, with the `<F>` errors in the message."""
@@ -371,6 +384,7 @@ def execute(ctx: ProjectContext, rt: Runtime, comm: Path) -> Any:
     from aster_expert.execution.execute import execute_comm_file  # noqa: PLC0415
 
     export = ctx.declaration.comm.export
+    _place_declaration(ctx, comm)
     try:
         config = load_execution_config(ctx.repo_root / "config" / "validation.yaml")
         digest, version = rt.aster()

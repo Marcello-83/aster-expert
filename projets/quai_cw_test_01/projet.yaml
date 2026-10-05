@@ -26,6 +26,7 @@ fiche: fiche/hypotheses_combiwall_reference_arbitree.json
 data: donnees/combiwall_model_data.yaml
 data_sources: donnees/combiwall_inputs
 results: resultats
+knowledge_applied: connaissances_appliquees.yaml
 
 mesh:
   script: maillage/combiwall_mesh.py

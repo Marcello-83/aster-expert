@@ -27,6 +27,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict
 
+from aster_expert.connaissances.declaration import AppliedKnowledge
 from aster_expert.connaissances.signatures import (
     DiagnosticMatch,
     RunMessage,
@@ -101,6 +102,10 @@ class RunRecord(BaseModel):
     (`rejeu_constats`, `rejeu_references`, `test_lent`), read from
     `ASTER_EXPERT_RUN_ORIGIN`; `None` for an ordinary run. `rex` counts such runs
     as verification, never as development."""
+    knowledge: AppliedKnowledge | None = None
+    """Lot 46: the knowledge the run declares applying (companion file
+    `<stem>.connaissances.yaml`, copied here). Mandatory for a project's run; `None`
+    for an older run or one outside any project that declared nothing."""
 
 
 RUN_ORIGIN_ENV = "ASTER_EXPERT_RUN_ORIGIN"
@@ -162,6 +167,7 @@ def build_record(
     image: str,
     inputs_sha256: dict[str, str],
     knowledge_root: Path | None = None,
+    knowledge: AppliedKnowledge | None = None,
 ) -> RunRecord:
     work_dir = Path(report.work_dir)
     outputs = {
@@ -188,6 +194,7 @@ def build_record(
         diagnostics=diagnostics,
         diagnostics_error=diagnostics_error,
         origin=os.environ.get(RUN_ORIGIN_ENV) or None,
+        knowledge=knowledge,
     )
 
 
@@ -277,6 +284,22 @@ def render_markdown(record: RunRecord) -> str:
                     f"| `{d.diagnostic_id}` {d.title} | {d.status} | {d.signature} | "
                     f"{correction[:300]} |"
                 )
+    lines += ["", "## Connaissances appliquées (déclaration, lot 46)", ""]
+    if record.knowledge is None:
+        lines.append(
+            "Aucune déclaration (exécution hors projet ou antérieure au lot 46)."
+        )
+    else:
+        know = record.knowledge
+        lines.append(f"Déclaration `{know.file}` (SHA-256 `{know.sha256[:16]}…`).")
+        if know.applied:
+            lines += ["", "| Entrée | Ce qui en est appliqué |", "| --- | --- |"]
+            lines += [
+                f"| `{e.id}` | {e.how.replace('|', chr(92) + '|')} |"
+                for e in know.applied
+            ]
+        else:
+            lines.append(f"Aucune entrée appliquée : {know.none_reason}")
     lines += [
         "",
         "## Fichiers produits",

@@ -155,6 +155,10 @@ class RexRegistry(_Model):
     lots: tuple[LotRecord, ...] = ()
     archive: ArchiveManifest | None = None
     """Manifest of the complete archive (lot 46): see `connaissances.archive`."""
+    declaration_required_since: dt.datetime | None = None
+    """Lot 46: from this instant, a run of the project without a declaration of the
+    knowledge it applies is reported by `rex`. No retroactive attribution: earlier
+    runs stay without trace."""
     reviews: tuple[Review, ...] = ()
     classifications: tuple[Classification, ...] = ()
 
@@ -225,6 +229,9 @@ class RunSummary(_Model):
     `rejeu_references`, `test_lent`; `None` for an ordinary run."""
     kind: Literal["développement", "vérification"] = "développement"
     verification_reason: str | None = None
+    declared_knowledge: bool | None = None
+    """Lot 46: the run's compte rendu carries a declaration of the knowledge applied
+    (`None`: no compte rendu, a run older than that record)."""
 
 
 def classify_runs(runs: list[RunSummary]) -> list[RunSummary]:
@@ -327,6 +334,7 @@ def project_runs(
         mess_path = None
         comm_sha: str | None = None
         origin: str | None = None
+        declared: bool | None = None
         if record.is_file():
             data = json.loads(record.read_text(encoding="utf-8"))
             report = data["report"]
@@ -335,6 +343,7 @@ def project_runs(
                 Path(str(report["comm_path"])).name
             )
             origin = data.get("origin")
+            declared = data.get("knowledge") is not None
             failed = report["status"] not in ("completed_ok", "completed_with_alarms")
             job = report.get("diag")
             duration = report.get("duration_s")
@@ -384,6 +393,7 @@ def project_runs(
                 matches=matches,
                 comm_sha256=comm_sha,
                 origin=origin,
+                declared_knowledge=declared,
             )
         )
     return classify_runs(out)
@@ -548,6 +558,9 @@ class RexReport(_Model):
     pattern_candidates_below: int = 0
     """Functions under `PATTERN_SIMILARITY_THRESHOLD`: counted, not listed."""
     metrics: dict[str, Any] = Field(default_factory=dict)
+    runs_without_declaration: tuple[str, ...] = ()
+    """Project runs since `declaration_required_since` without a declaration (lot 46):
+    signalled, not blocking."""
 
     @property
     def blocking(self) -> list[FailureLine]:
@@ -612,9 +625,19 @@ def review_project(repo_root: Path, project: str) -> RexReport:
         )
     seen = {r.run for r in runs}
     unknown = tuple(c.run for c in registry.classifications if c.run not in seen)
+    since_rule = registry.declaration_required_since
+    missing = tuple(
+        r.run
+        for r in runs
+        if since_rule is not None
+        and r.started >= since_rule.replace(tzinfo=None)
+        and r.declared_knowledge is False
+        and r.comm.startswith(f"projets/{project}/")
+    )
     return RexReport(
         project=project,
         archives_present=True,
+        runs_without_declaration=missing,
         runs=len(runs),
         failures=tuple(failures),
         since_last_review=since if last_review else len(failures),
@@ -1064,6 +1087,14 @@ def render_report(report: RexReport) -> list[str]:
         + ", ".join(f"{t} {n}" for t, n in calls.items())
         + "."
     )
+    if report.runs_without_declaration:
+        lines.append(
+            "Exécutions de projet sans déclaration des connaissances appliquées "
+            f"(obligatoire depuis le lot 46) : {len(report.runs_without_declaration)} "
+            f"({', '.join(report.runs_without_declaration[:5])}"
+            + (" ..." if len(report.runs_without_declaration) > 5 else "")
+            + ")."
+        )
     if report.archives_present:
         verdict = (
             f"{len(report.blocking)} échec(s) non classé(s) : clôture du lot bloquée."
