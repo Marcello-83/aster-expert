@@ -235,7 +235,10 @@ def test_a_blocking_fiche_stops_the_generation(
 
 
 def test_the_cli_runs_a_step(
-    fake_project: Factory, faked: dict[str, Any], monkeypatch: pytest.MonkeyPatch
+    fake_project: Factory,
+    faked: dict[str, Any],
+    monkeypatch: pytest.MonkeyPatch,
+    lecture_sous_tmp: Path,
 ) -> None:
     project = fake_project()
     monkeypatch.setenv("ASTER_EXPERT_ROOT", str(project.repo_root))

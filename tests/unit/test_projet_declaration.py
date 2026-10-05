@@ -219,7 +219,9 @@ def test_generate_refuses_the_slab_data_readably() -> None:
     assert result.exception is None or isinstance(result.exception, SystemExit)
 
 
-def test_report_refuses_the_slab_data_readably(tmp_path: Path) -> None:
+def test_report_refuses_the_slab_data_readably(
+    tmp_path: Path, lecture_sous_tmp: Path
+) -> None:
     result = CliRunner().invoke(
         app,
         [
@@ -253,7 +255,9 @@ def test_projet_refuses_an_unknown_project_and_an_unknown_step(
     assert "étape inconnue : cuisiner" in result.output
 
 
-def test_mesh_check_refuses_an_incoherent_invariants_file(tmp_path: Path) -> None:
+def test_mesh_check_refuses_an_incoherent_invariants_file(
+    tmp_path: Path, lecture_sous_tmp: Path
+) -> None:
     invariants = tmp_path / "invariants.yaml"
     invariants.write_text(
         yaml.safe_dump({"schema_version": 1, "groups": [{"nom": "X"}]}), "utf-8"

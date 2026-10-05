@@ -469,7 +469,9 @@ def test_one_figure_per_profile_when_the_plotting_library_is_present(
     assert [p.name for p in paths] == saved
 
 
-def test_the_report_command_writes_the_documents(mess: Path, tmp_path: Path) -> None:
+def test_the_report_command_writes_the_documents(
+    mess: Path, tmp_path: Path, lecture_sous_tmp: Path
+) -> None:
     out = tmp_path / "sortie"
 
     result = CliRunner().invoke(

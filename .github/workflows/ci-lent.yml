@@ -1,0 +1,57 @@
+# Tests réels Code_Aster (lot 46, étape 2) : `pytest -m lent_aster`, à la demande.
+#
+# Déclenché à la main seulement (Actions > ci-lent > Run workflow) pour ne pas
+# consommer les minutes d'un dépôt privé à chaque envoi. L'image est tirée par son
+# digest, lu de config/versions.yaml (jamais par un tag seul, CLAUDE.md principe 1).
+# Salomé (`lent_salome`) n'existe que dans la VM : jamais ici.
+
+name: ci-lent
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lent-aster:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      ASTER_CONTAINER_WORKROOT: ${{ github.workspace }}/data/processed/workroot
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.21"
+          enable-cache: true
+
+      - name: Dépendances verrouillées
+        run: uv sync --locked --all-extras
+
+      - name: Image Code_Aster, tirée par digest
+        run: |
+          set -eu
+          digest=$(.venv/bin/python - <<'PY'
+          import yaml
+          data = yaml.safe_load(open("config/versions.yaml", encoding="utf-8"))
+          print(data["detected"]["container"]["image_digest"])
+          PY
+          )
+          echo "digest : $digest"
+          docker pull "simvia/code_aster@$digest"
+          # Étiquette locale du même digest (comme `cave` dans la VM, comme
+          # scripts/cloud_setup.sh) ; jamais `stable`.
+          docker tag "simvia/code_aster@$digest" simvia/code_aster:17.4.0
+          mkdir -p "$ASTER_CONTAINER_WORKROOT"
+
+      - name: Catalogue de l'image
+        run: |
+          .venv/bin/aster-expert env-check || true
+          .venv/bin/aster-expert catalogue extract
+          # `catalogue extract` réécrit la section `detected` de config/versions.yaml.
+          git checkout -- config/versions.yaml
+
+      - name: Tests réels Code_Aster
+        run: .venv/bin/pytest -m lent_aster

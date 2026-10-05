@@ -100,6 +100,13 @@ Cloud de Claude Code (`docs/cloud.md`).
   fois par clone : `git config core.hooksPath scripts/git-hooks` ; le script Cloud
   le fait) et `tests/unit/test_publication.py`. Ne jamais contourner le crochet
   (`--no-verify`).
+- **Intégration continue (lot 46)** : `.github/workflows/ci.yml` (pull request, envoi sur
+  `lot-*` et `claude/lot-*` : `uv sync --locked`, `ruff`, `mypy src` et `mypy`, `pytest`
+  hors tests lents, contrôle de publication, `pip-audit` non bloquant) ;
+  `.github/workflows/ci-lent.yml` (à la demande : `pytest -m lent_aster`, image tirée par
+  digest). **MM ne fusionne une branche dans `main` que si l'intégration continue est
+  verte** ; une session ne déclare pas un lot terminé tant que le passage de sa branche
+  n'est pas vert (ou qu'elle n'a pas dit à MM comment le vérifier).
 - `/media/sf_partage` reste la zone d'échange avec MM pour les livrables lourds
   (VM seulement). Les consignes et comptes rendus de lot peuvent vivre dans
   `docs/lots/`.

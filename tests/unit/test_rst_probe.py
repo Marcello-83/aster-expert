@@ -13,6 +13,8 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
+import pytest
+
 from aster_expert.ingestion.rst_probe import (
     build_probe_report,
     find_conf_py_extensions,
@@ -56,7 +58,13 @@ def test_probe_source_flags_unknown_sphinx_directive_but_keeps_body() -> None:
     assert result.recoverable_chars > 0
 
 
-def test_probe_source_reports_unresolved_include_target() -> None:
+def test_probe_source_reports_unresolved_include_target(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Lot 46 : docutils résout `../` depuis le répertoire courant ; à la racine, les
+    # cinq remontées aboutissent toujours à `/_cache/...`, quelle que soit la
+    # profondeur du clone (l'intégration continue en a une autre que la VM).
+    monkeypatch.chdir("/")
     text = "\n.. include:: ../../../../../_cache/math_styles.rst\n"
     result = probe_source(text)
     assert result.unresolved_includes == ("/_cache/math_styles.rst",)

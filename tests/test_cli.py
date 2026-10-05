@@ -36,7 +36,9 @@ def test_sources_sync_fails_loudly_without_config(
     assert "sources.yaml" in result.stderr
 
 
-def test_comm_parse_prints_analysis_json(tmp_path: Path) -> None:
+def test_comm_parse_prints_analysis_json(
+    tmp_path: Path, lecture_sous_tmp: Path
+) -> None:
     comm_path = tmp_path / "minimal.comm"
     comm_path.write_text(_MINIMAL_COMM, encoding="utf-8")
 

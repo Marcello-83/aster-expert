@@ -1,0 +1,77 @@
+# Intégration continue (lot 46, étape 2).
+#
+# Sur chaque pull request et chaque envoi sur une branche de lot. Le Cloud de Claude
+# Code ne peut pousser que sur la branche de travail de la session (`claude/lot-NN-...`,
+# docs/cloud.md) : elle est donc couverte au même titre que `lot-*`.
+# MM ne fusionne une branche que si ce workflow est vert (CLAUDE.md).
+#
+# Aucun test lent n'est lancé ici (Code_Aster : workflow `ci-lent.yml`, à la demande ;
+# Salomé : VM seulement). Un runner neuf n'a ni corpus, ni catalogue, ni index : les
+# tests qui en dépendent s'ignorent avec leur motif (`-ra` les liste), jamais en échec.
+
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "lot-*"
+      - "claude/lot-*"
+
+# Un envoi sur une branche qui a aussi une pull request lance deux exécutions : on
+# annule la plus ancienne (minutes facturées pour un dépôt privé).
+concurrency:
+  group: ci-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  controles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      # Version de uv recopiée de scripts/cloud_setup.sh (UV_VERSION) ; Python 3.12 est
+      # lu de `.python-version` et installé par uv (`python-preference = "only-managed"`).
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.21"
+          enable-cache: true
+
+      - name: Dépendances verrouillées
+        run: uv sync --locked --all-extras
+
+      - name: Formatage
+        run: .venv/bin/ruff format --check
+
+      - name: Analyse statique (ruff)
+        run: .venv/bin/ruff check
+
+      - name: Typage, tronc commun
+        run: .venv/bin/mypy src
+
+      - name: Typage, tronc commun, tests et projets
+        run: .venv/bin/mypy
+
+      - name: Tests (hors tests lents)
+        run: .venv/bin/pytest
+
+      - name: Contrôle de publication (motifs interdits, taille maximale)
+        run: .venv/bin/python -m aster_expert.publication --arbre
+
+      # Signalement non bloquant pour le lot 46 : les failles connues des dépendances
+      # verrouillées sont écrites dans le résumé de l'exécution, sans faire échouer.
+      - name: Audit des dépendances (non bloquant)
+        continue-on-error: true
+        run: |
+          uv export --locked --all-extras --no-hashes --no-emit-project -o exigences.txt
+          {
+            echo '### pip-audit (non bloquant)'
+            echo '```'
+            uv tool run pip-audit -r exigences.txt --no-deps --disable-pip 2>&1 || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          uv tool run pip-audit -r exigences.txt --no-deps --disable-pip

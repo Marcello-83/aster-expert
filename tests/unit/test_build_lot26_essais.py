@@ -166,17 +166,20 @@ def test_mesh_commands_are_registered() -> None:
     assert "run" in result.output and "check" in result.output
 
 
-def test_mesh_run_fails_loudly_on_a_missing_script() -> None:
-    result = CliRunner().invoke(app, ["mesh", "run", "/nonexistent/script.py"])
+def test_mesh_run_fails_loudly_on_a_missing_script(lecture_sous_tmp: Path) -> None:
+    absent = lecture_sous_tmp / "script.py"
+    result = CliRunner().invoke(app, ["mesh", "run", str(absent)])
     assert result.exit_code == 1
-    assert "mesh run ÉCHEC" in result.output
+    assert "introuvable" in result.output
 
 
-def test_mesh_check_fails_loudly_on_a_missing_med(tmp_path: Path) -> None:
+def test_mesh_check_fails_loudly_on_a_missing_med(
+    tmp_path: Path, lecture_sous_tmp: Path
+) -> None:
     invariants = tmp_path / "i.yaml"
     invariants.write_text("schema_version: 1\n", encoding="utf-8")
     result = CliRunner().invoke(
         app, ["mesh", "check", str(tmp_path / "absent.med"), str(invariants)]
     )
     assert result.exit_code == 1
-    assert "mesh check ÉCHEC" in result.output
+    assert "introuvable" in result.output
