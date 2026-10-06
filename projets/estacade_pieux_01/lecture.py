@@ -19,7 +19,7 @@ from typing import Any
 import numpy as np
 
 from aster_expert.projet.context import ProjectContext
-from aster_expert.report.med_read import med_field_name, run_med_script
+from aster_expert.report.med_read import med_field_name, run_med_script, take_arrays
 
 SLAB_COMPONENTS = ("NXX", "NYY", "MXX", "MYY", "MXY", "QX", "QY")
 BEAM_COMPONENTS = ("N", "VY", "VZ", "MT", "MFY", "MFZ")
@@ -80,8 +80,7 @@ def load_results(
     payload = runner(
         med, ["extract_steps", *names], memory_mb=memory_mb, timeout_seconds=7200
     )
-    npz = np.load(Path(payload["_work_dir"]) / "out.npz")
-    arrays = {k: npz[k] for k in npz.files}
+    arrays = take_arrays(payload)
     first = batches[0][0]
     efge = med_field_name(first, "EFGE_NOEU")
     elno = med_field_name(first, "EFGE_ELNO") + "@-1"

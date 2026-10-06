@@ -84,15 +84,49 @@ def attributed_runs(
         if started is None:
             continue
         record = run_dir / "compte_rendu.json"
-        if record.is_file():
-            data = json.loads(record.read_text(encoding="utf-8"))
+        data = _record_data(record)
+        if data is not None:
             comm = _relative_to_root(str(data["report"]["comm_path"]), repo_root)
             if comm is None or not comm.startswith(roots):
+                continue
+        elif record.is_file():
+            # Lot 47 ter (ENV-003): a report left empty by a full disk. The run is
+            # attributed by the SHA-256 of its .comm, found under the case roots.
+            if not _comm_under_roots(run_dir, repo_root, case_roots):
                 continue
         elif legacy_before is None or started >= legacy_before.replace(tzinfo=None):
             continue
         found.append(run_dir.name)
     return found
+
+
+def _record_data(record: Path) -> dict[str, Any] | None:
+    """The run report, or None when absent, empty or not JSON."""
+    if not record.is_file():
+        return None
+    try:
+        data = json.loads(record.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _comm_under_roots(
+    run_dir: Path, repo_root: Path, case_roots: tuple[str, ...]
+) -> bool:
+    """True when a .comm of the run has the SHA-256 of a .comm under a case root."""
+    wanted = {_sha256(p) for p in run_dir.glob("*.comm")}
+    if not wanted:
+        return False
+    for root in case_roots:
+        base = repo_root / root
+        if base.is_dir() and any(_sha256(p) in wanted for p in base.rglob("*.comm")):
+            return True
+    return False
 
 
 def build_manifest(

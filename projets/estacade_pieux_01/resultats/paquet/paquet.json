@@ -2,9 +2,9 @@
  "schema_version": 1,
  "projet": "estacade_pieux_01",
  "ouvrage": "ESTACADE-PIEUX-01",
- "exporte_le": "2026-10-05T18:02:55Z",
+ "exporte_le": "2026-10-06T14:43:50Z",
  "depot": {
-  "commit": "c2fc6f9ed3533fb678a59efc64ba1d86c23a908c",
+  "commit": "d5ea578209a481b5ad17488644dd0d306ac5e7d4",
   "arbre_modifie": true
  },
  "code_aster": {
@@ -94,7 +94,7 @@
   {
    "niveau": "D",
    "document": "docs/essais_lot47bis.md",
-   "document_sha256": "6ce3458b3731d37f0e2ccb5779b62a77b10902cf82296f4fb7c1756ddf87a002",
+   "document_sha256": "5b9ae4cccf773f45bda94f8d2a8298412cf015a8dff0bbcfb2cc69619481ea0e",
    "commit_introduction": "5ad8e245ad5cca76f8ca606c6154089dcf42f2a0",
    "date": "2026-10-05T10:58:08-04:00",
    "message": "Lot 47 bis : critères de lecture v2 (E17), E18 et E19, écrits avant toute exécution",
@@ -171,6 +171,24 @@
    "sha256": "69af4b2b8abb280f7db1fc114bcb87d8f4f38016ab0a5472f7193db66885ecbc"
   },
   {
+   "chemin": "contre_calcul/maillages_lot47ter.json",
+   "section": "contre_calcul",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/maillages_lot47ter.json",
+   "libelle": null,
+   "octets": 8065,
+   "sha256": "1784c8abb78b6098042a23ab09f2e58684e36a460c6526ba074b7d8fbf105903"
+  },
+  {
+   "chemin": "contre_calcul/plan_factoriel_lot47ter.json",
+   "section": "contre_calcul",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/plan_factoriel_lot47ter.json",
+   "libelle": null,
+   "octets": 73573,
+   "sha256": "fc6afaf596810bf94a82955e4b69ba42f5b3ba2a0d52ffcf5398ebc255b96b5c"
+  },
+  {
    "chemin": "contre_calcul/sonde_lot47bis_resultats.json",
    "section": "contre_calcul",
    "type": "tableau",
@@ -205,6 +223,15 @@
    "libelle": null,
    "octets": 4934,
    "sha256": "6c993474423139ca8db469ed7e3495e91751f7c49dc3f615cdad76b38b56d486"
+  },
+  {
+   "chemin": "controles/controles_lot47ter.json",
+   "section": "controles",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/controles_lot47ter.json",
+   "libelle": null,
+   "octets": 164214,
+   "sha256": "77912ac712fec7274349607ee2611936df4fdde52e0cd69086bd3dffea0f78f0"
   },
   {
    "chemin": "controles/controles_projet.json",
@@ -261,6 +288,6 @@
    "sha256": "4cb6d3a36aacbbe958c91cafb0a8850c83cafb5b3092ab6933057cc803c4180e"
   }
  ],
- "taille_octets": 266672,
+ "taille_octets": 512524,
  "plafond_octets": 20971520
 }

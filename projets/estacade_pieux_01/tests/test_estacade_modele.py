@@ -242,6 +242,7 @@ def test_project_scripts_import(monkeypatch: pytest.MonkeyPatch) -> None:
         "comparer_lot47bis",
         "constats_lot47bis",
         "executions_lot47bis",
+        "executions_lot47ter",
         "sonde_lot47bis",
         "analyse_sonde_lot47bis",
     ):

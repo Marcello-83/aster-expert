@@ -1,0 +1,5867 @@
+{
+ "seuil": 1e-06,
+ "executions": {
+  "n1_sh": {
+   "execution": "data/processed/runs/20261006T134632-58937400",
+   "positions_controlees": 299,
+   "pp_attendu_n": 3427297.6040000003,
+   "pp_obtenu_n": 3427297.604006,
+   "ecart_pp": 1.7505278849058223e-12,
+   "manquants": [],
+   "ecart_relatif_max": 5.937545211054385e-12,
+   "verdict": "RÉUSSI",
+   "cas": {
+    "PP": {
+     "charge_dz_n": -3427297.6040000003,
+     "reaction_dz_n": 3427297.604006,
+     "ecart_relatif": 1.7505278849058223e-12,
+     "ecart_absolu_n": 5.999580025672913e-06
+    },
+    "G2": {
+     "charge_dz_n": -1000896.0,
+     "reaction_dz_n": 1000896.000004,
+     "ecart_relatif": 3.99644963909685e-12,
+     "ecart_absolu_n": 4.00003045797348e-06
+    },
+    "UDL": {
+     "charge_dz_n": -589680.0,
+     "reaction_dz_n": 589680.0000012,
+     "ecart_relatif": 2.0350175305115385e-12,
+     "ecart_absolu_n": 1.200009137392044e-06
+    },
+    "TR": {
+     "charge_dz_n": -468000.0,
+     "reaction_dz_n": 468000.0000006,
+     "ecart_relatif": 1.2820610442222693e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "FR": {
+     "charge_dz_n": 0.0,
+     "reaction_dz_n": 2.090455382131e-07,
+     "ecart_relatif": null,
+     "ecart_absolu_n": 2.090455382131e-07
+    },
+    "TSA_M29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999986,
+     "ecart_relatif": -2.5926123338717002e-12,
+     "ecart_absolu_n": -1.400010660290718e-06
+    },
+    "TSA_M28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999991,
+     "ecart_relatif": -1.6666793574889501e-12,
+     "ecart_absolu_n": -9.00006853044033e-07
+    },
+    "TSA_M27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999988,
+     "ecart_relatif": -2.2222391433186e-12,
+     "ecart_absolu_n": -1.200009137392044e-06
+    },
+    "TSA_M26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.999999,
+     "ecart_relatif": -1.8518659527655002e-12,
+     "ecart_absolu_n": -1.00000761449337e-06
+    },
+    "TSA_M25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999993,
+     "ecart_relatif": -1.2963061669358501e-12,
+     "ecart_absolu_n": -7.00005330145359e-07
+    },
+    "TSA_M24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999991,
+     "ecart_relatif": -1.6666793574889501e-12,
+     "ecart_absolu_n": -9.00006853044033e-07
+    },
+    "TSA_M23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.999999,
+     "ecart_relatif": -1.8518659527655002e-12,
+     "ecart_absolu_n": -1.00000761449337e-06
+    },
+    "TSA_M22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999992,
+     "ecart_relatif": -1.4814927622124e-12,
+     "ecart_absolu_n": -8.00006091594696e-07
+    },
+    "TSA_M21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999993,
+     "ecart_relatif": -1.2963061669358501e-12,
+     "ecart_absolu_n": -7.00005330145359e-07
+    },
+    "TSA_M20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSA_M19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999995,
+     "ecart_relatif": -9.259329763827501e-13,
+     "ecart_absolu_n": -5.00003807246685e-07
+    },
+    "TSA_M18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000002,
+     "ecart_relatif": 3.703731905531e-13,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TSA_M15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000003,
+     "ecart_relatif": 5.5555978582965e-13,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TSA_M13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000003,
+     "ecart_relatif": 5.5555978582965e-13,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TSA_M12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000007,
+     "ecart_relatif": 1.2963061669358501e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "TSA_M11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000006,
+     "ecart_relatif": 1.1111195716593e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "TSA_M10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000011,
+     "ecart_relatif": 2.03705254804205e-12,
+     "ecart_absolu_n": 1.100008375942707e-06
+    },
+    "TSA_M09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000015,
+     "ecart_relatif": 2.77779892914825e-12,
+     "ecart_absolu_n": 1.500011421740055e-06
+    },
+    "TSA_M08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000013,
+     "ecart_relatif": 2.4074257385951503e-12,
+     "ecart_absolu_n": 1.300009898841381e-06
+    },
+    "TSA_M07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000019,
+     "ecart_relatif": 3.51854531025445e-12,
+     "ecart_absolu_n": 1.9000144675374031e-06
+    },
+    "TSA_M06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000021,
+     "ecart_relatif": 3.88891850080755e-12,
+     "ecart_absolu_n": 2.100015990436077e-06
+    },
+    "TSA_M05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000023,
+     "ecart_relatif": 4.25929169136065e-12,
+     "ecart_absolu_n": 2.300017513334751e-06
+    },
+    "TSA_M04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000027,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 2.700020559132099e-06
+    },
+    "TSA_M03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000027,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 2.700020559132099e-06
+    },
+    "TSA_M02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000027,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 2.700020559132099e-06
+    },
+    "TSA_M01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000028,
+     "ecart_relatif": 5.1852246677434004e-12,
+     "ecart_absolu_n": 2.800021320581436e-06
+    },
+    "TSA_P00": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000027,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 2.700020559132099e-06
+    },
+    "TSA_P01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000023,
+     "ecart_relatif": 4.25929169136065e-12,
+     "ecart_absolu_n": 2.300017513334751e-06
+    },
+    "TSA_P02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.000002,
+     "ecart_relatif": 3.7037319055310004e-12,
+     "ecart_absolu_n": 2.00001522898674e-06
+    },
+    "TSA_P03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000018,
+     "ecart_relatif": 3.3333587149779002e-12,
+     "ecart_absolu_n": 1.800013706088066e-06
+    },
+    "TSA_P04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000016,
+     "ecart_relatif": 2.9629855244248e-12,
+     "ecart_absolu_n": 1.600012183189392e-06
+    },
+    "TSA_P05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000009,
+     "ecart_relatif": 1.6666793574889501e-12,
+     "ecart_absolu_n": 9.00006853044033e-07
+    },
+    "TSA_P06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000015,
+     "ecart_relatif": 2.77779892914825e-12,
+     "ecart_absolu_n": 1.500011421740055e-06
+    },
+    "TSA_P07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000012,
+     "ecart_relatif": 2.2222391433186e-12,
+     "ecart_absolu_n": 1.200009137392044e-06
+    },
+    "TSA_P08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000014,
+     "ecart_relatif": 2.5926123338717002e-12,
+     "ecart_absolu_n": 1.400010660290718e-06
+    },
+    "TSA_P09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.000001,
+     "ecart_relatif": 1.8518659527655002e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "TSA_P10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000011,
+     "ecart_relatif": 2.03705254804205e-12,
+     "ecart_absolu_n": 1.100008375942707e-06
+    },
+    "TSA_P11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000007,
+     "ecart_relatif": 1.2963061669358501e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "TSA_P12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000005,
+     "ecart_relatif": 9.259329763827501e-13,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "TSA_P13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000005,
+     "ecart_relatif": 9.259329763827501e-13,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "TSA_P14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000008,
+     "ecart_relatif": 1.4814927622124e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "TSA_P15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000011,
+     "ecart_relatif": 2.03705254804205e-12,
+     "ecart_absolu_n": 1.100008375942707e-06
+    },
+    "TSA_P16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000013,
+     "ecart_relatif": 2.4074257385951503e-12,
+     "ecart_absolu_n": 1.300009898841381e-06
+    },
+    "TSA_P17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000013,
+     "ecart_relatif": 2.4074257385951503e-12,
+     "ecart_absolu_n": 1.300009898841381e-06
+    },
+    "TSA_P18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000018,
+     "ecart_relatif": 3.3333587149779002e-12,
+     "ecart_absolu_n": 1.800013706088066e-06
+    },
+    "TSA_P19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000017,
+     "ecart_relatif": 3.1481721197013503e-12,
+     "ecart_absolu_n": 1.700012944638729e-06
+    },
+    "TSA_P20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000021,
+     "ecart_relatif": 3.88891850080755e-12,
+     "ecart_absolu_n": 2.100015990436077e-06
+    },
+    "TSA_P21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000019,
+     "ecart_relatif": 3.51854531025445e-12,
+     "ecart_absolu_n": 1.9000144675374031e-06
+    },
+    "TSA_P22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000017,
+     "ecart_relatif": 3.1481721197013503e-12,
+     "ecart_absolu_n": 1.700012944638729e-06
+    },
+    "TSA_P23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000014,
+     "ecart_relatif": 2.5926123338717002e-12,
+     "ecart_absolu_n": 1.400010660290718e-06
+    },
+    "TSA_P24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000018,
+     "ecart_relatif": 3.3333587149779002e-12,
+     "ecart_absolu_n": 1.800013706088066e-06
+    },
+    "TSA_P25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000019,
+     "ecart_relatif": 3.51854531025445e-12,
+     "ecart_absolu_n": 1.9000144675374031e-06
+    },
+    "TSA_P26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000022,
+     "ecart_relatif": 4.0741050960841e-12,
+     "ecart_absolu_n": 2.200016751885414e-06
+    },
+    "TSA_P27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000025,
+     "ecart_relatif": 4.62966488191375e-12,
+     "ecart_absolu_n": 2.500019036233425e-06
+    },
+    "TSA_P28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000024,
+     "ecart_relatif": 4.4444782866372e-12,
+     "ecart_absolu_n": 2.400018274784088e-06
+    },
+    "TSA_P29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000024,
+     "ecart_relatif": 4.4444782866372e-12,
+     "ecart_absolu_n": 2.400018274784088e-06
+    },
+    "TSB_M29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999983,
+     "ecart_relatif": -3.1481721197013503e-12,
+     "ecart_absolu_n": -1.700012944638729e-06
+    },
+    "TSB_M28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999989,
+     "ecart_relatif": -2.03705254804205e-12,
+     "ecart_absolu_n": -1.100008375942707e-06
+    },
+    "TSB_M27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999991,
+     "ecart_relatif": -1.6666793574889501e-12,
+     "ecart_absolu_n": -9.00006853044033e-07
+    },
+    "TSB_M26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999989,
+     "ecart_relatif": -2.03705254804205e-12,
+     "ecart_absolu_n": -1.100008375942707e-06
+    },
+    "TSB_M25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999986,
+     "ecart_relatif": -2.5926123338717002e-12,
+     "ecart_absolu_n": -1.400010660290718e-06
+    },
+    "TSB_M24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.999999,
+     "ecart_relatif": -1.8518659527655002e-12,
+     "ecart_absolu_n": -1.00000761449337e-06
+    },
+    "TSB_M23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999993,
+     "ecart_relatif": -1.2963061669358501e-12,
+     "ecart_absolu_n": -7.00005330145359e-07
+    },
+    "TSB_M22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999993,
+     "ecart_relatif": -1.2963061669358501e-12,
+     "ecart_absolu_n": -7.00005330145359e-07
+    },
+    "TSB_M21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999995,
+     "ecart_relatif": -9.259329763827501e-13,
+     "ecart_absolu_n": -5.00003807246685e-07
+    },
+    "TSB_M20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999994,
+     "ecart_relatif": -1.1111195716593e-12,
+     "ecart_absolu_n": -6.00004568696022e-07
+    },
+    "TSB_M19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999995,
+     "ecart_relatif": -9.259329763827501e-13,
+     "ecart_absolu_n": -5.00003807246685e-07
+    },
+    "TSB_M18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999996,
+     "ecart_relatif": -7.407463811062e-13,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TSB_M17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_M14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000001,
+     "ecart_relatif": 1.8518659527655e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TSB_M13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000007,
+     "ecart_relatif": 1.2963061669358501e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "TSB_M12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000006,
+     "ecart_relatif": 1.1111195716593e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "TSB_M11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000006,
+     "ecart_relatif": 1.1111195716593e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "TSB_M10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000009,
+     "ecart_relatif": 1.6666793574889501e-12,
+     "ecart_absolu_n": 9.00006853044033e-07
+    },
+    "TSB_M09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000015,
+     "ecart_relatif": 2.77779892914825e-12,
+     "ecart_absolu_n": 1.500011421740055e-06
+    },
+    "TSB_M08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000012,
+     "ecart_relatif": 2.2222391433186e-12,
+     "ecart_absolu_n": 1.200009137392044e-06
+    },
+    "TSB_M07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000018,
+     "ecart_relatif": 3.3333587149779002e-12,
+     "ecart_absolu_n": 1.800013706088066e-06
+    },
+    "TSB_M06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000018,
+     "ecart_relatif": 3.3333587149779002e-12,
+     "ecart_absolu_n": 1.800013706088066e-06
+    },
+    "TSB_M05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000024,
+     "ecart_relatif": 4.4444782866372e-12,
+     "ecart_absolu_n": 2.400018274784088e-06
+    },
+    "TSB_M04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000027,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 2.700020559132099e-06
+    },
+    "TSB_M03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000026,
+     "ecart_relatif": 4.814851477190301e-12,
+     "ecart_absolu_n": 2.600019797682762e-06
+    },
+    "TSB_M02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000026,
+     "ecart_relatif": 4.814851477190301e-12,
+     "ecart_absolu_n": 2.600019797682762e-06
+    },
+    "TSB_M01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000028,
+     "ecart_relatif": 5.1852246677434004e-12,
+     "ecart_absolu_n": 2.800021320581436e-06
+    },
+    "TSB_P00": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000023,
+     "ecart_relatif": 4.25929169136065e-12,
+     "ecart_absolu_n": 2.300017513334751e-06
+    },
+    "TSB_P01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000021,
+     "ecart_relatif": 3.88891850080755e-12,
+     "ecart_absolu_n": 2.100015990436077e-06
+    },
+    "TSB_P02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000018,
+     "ecart_relatif": 3.3333587149779002e-12,
+     "ecart_absolu_n": 1.800013706088066e-06
+    },
+    "TSB_P03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000016,
+     "ecart_relatif": 2.9629855244248e-12,
+     "ecart_absolu_n": 1.600012183189392e-06
+    },
+    "TSB_P04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000017,
+     "ecart_relatif": 3.1481721197013503e-12,
+     "ecart_absolu_n": 1.700012944638729e-06
+    },
+    "TSB_P05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000014,
+     "ecart_relatif": 2.5926123338717002e-12,
+     "ecart_absolu_n": 1.400010660290718e-06
+    },
+    "TSB_P06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.000001,
+     "ecart_relatif": 1.8518659527655002e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "TSB_P07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.000001,
+     "ecart_relatif": 1.8518659527655002e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "TSB_P08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000009,
+     "ecart_relatif": 1.6666793574889501e-12,
+     "ecart_absolu_n": 9.00006853044033e-07
+    },
+    "TSB_P09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000006,
+     "ecart_relatif": 1.1111195716593e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "TSB_P10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000007,
+     "ecart_relatif": 1.2963061669358501e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "TSB_P11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.000001,
+     "ecart_relatif": 1.8518659527655002e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "TSB_P12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000005,
+     "ecart_relatif": 9.259329763827501e-13,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "TSB_P13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000008,
+     "ecart_relatif": 1.4814927622124e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "TSB_P14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000008,
+     "ecart_relatif": 1.4814927622124e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "TSB_P15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000012,
+     "ecart_relatif": 2.2222391433186e-12,
+     "ecart_absolu_n": 1.200009137392044e-06
+    },
+    "TSB_P16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000013,
+     "ecart_relatif": 2.4074257385951503e-12,
+     "ecart_absolu_n": 1.300009898841381e-06
+    },
+    "TSB_P17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000011,
+     "ecart_relatif": 2.03705254804205e-12,
+     "ecart_absolu_n": 1.100008375942707e-06
+    },
+    "TSB_P18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000015,
+     "ecart_relatif": 2.77779892914825e-12,
+     "ecart_absolu_n": 1.500011421740055e-06
+    },
+    "TSB_P19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000021,
+     "ecart_relatif": 3.88891850080755e-12,
+     "ecart_absolu_n": 2.100015990436077e-06
+    },
+    "TSB_P20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.000002,
+     "ecart_relatif": 3.7037319055310004e-12,
+     "ecart_absolu_n": 2.00001522898674e-06
+    },
+    "TSB_P21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000023,
+     "ecart_relatif": 4.25929169136065e-12,
+     "ecart_absolu_n": 2.300017513334751e-06
+    },
+    "TSB_P22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.000002,
+     "ecart_relatif": 3.7037319055310004e-12,
+     "ecart_absolu_n": 2.00001522898674e-06
+    },
+    "TSB_P23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000019,
+     "ecart_relatif": 3.51854531025445e-12,
+     "ecart_absolu_n": 1.9000144675374031e-06
+    },
+    "TSB_P24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000015,
+     "ecart_relatif": 2.77779892914825e-12,
+     "ecart_absolu_n": 1.500011421740055e-06
+    },
+    "TSB_P25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000017,
+     "ecart_relatif": 3.1481721197013503e-12,
+     "ecart_absolu_n": 1.700012944638729e-06
+    },
+    "TSB_P26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000021,
+     "ecart_relatif": 3.88891850080755e-12,
+     "ecart_absolu_n": 2.100015990436077e-06
+    },
+    "TSB_P27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000019,
+     "ecart_relatif": 3.51854531025445e-12,
+     "ecart_absolu_n": 1.9000144675374031e-06
+    },
+    "TSB_P28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000022,
+     "ecart_relatif": 4.0741050960841e-12,
+     "ecart_absolu_n": 2.200016751885414e-06
+    },
+    "TSB_P29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0000024,
+     "ecart_relatif": 4.4444782866372e-12,
+     "ecart_absolu_n": 2.400018274784088e-06
+    },
+    "L2A_M30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999995,
+     "ecart_relatif": -1.5625118976458907e-12,
+     "ecart_absolu_n": -5.00003807246685e-07
+    },
+    "L2A_M29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999992,
+     "ecart_relatif": -2.5000190362334253e-12,
+     "ecart_absolu_n": -8.00006091594696e-07
+    },
+    "L2A_M28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999995,
+     "ecart_relatif": -1.5625118976458907e-12,
+     "ecart_absolu_n": -5.00003807246685e-07
+    },
+    "L2A_M27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999993,
+     "ecart_relatif": -2.187516656704247e-12,
+     "ecart_absolu_n": -7.00005330145359e-07
+    },
+    "L2A_M26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999995,
+     "ecart_relatif": -1.5625118976458907e-12,
+     "ecart_absolu_n": -5.00003807246685e-07
+    },
+    "L2A_M25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999994,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -6.00004568696022e-07
+    },
+    "L2A_M24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999995,
+     "ecart_relatif": -1.5625118976458907e-12,
+     "ecart_absolu_n": -5.00003807246685e-07
+    },
+    "L2A_M23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999995,
+     "ecart_relatif": -1.5625118976458907e-12,
+     "ecart_absolu_n": -5.00003807246685e-07
+    },
+    "L2A_M22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999994,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -6.00004568696022e-07
+    },
+    "L2A_M21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999996,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "L2A_M20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999997,
+     "ecart_relatif": -9.375071385875344e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "L2A_M19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_M18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_M16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_M14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000001,
+     "ecart_relatif": 3.1250237952917816e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "L2A_M12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000002,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "L2A_M11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000006,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "L2A_M10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000006,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "L2A_M09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000006,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "L2A_M08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000009,
+     "ecart_relatif": 2.8125214157626033e-12,
+     "ecart_absolu_n": 9.00006853044033e-07
+    },
+    "L2A_M07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000011,
+     "ecart_relatif": 3.4375261748209594e-12,
+     "ecart_absolu_n": 1.100008375942707e-06
+    },
+    "L2A_M06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.000001,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "L2A_M05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000013,
+     "ecart_relatif": 4.062530933879316e-12,
+     "ecart_absolu_n": 1.300009898841381e-06
+    },
+    "L2A_M04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000015,
+     "ecart_relatif": 4.687535692937672e-12,
+     "ecart_absolu_n": 1.500011421740055e-06
+    },
+    "L2A_M03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000019,
+     "ecart_relatif": 5.937545211054385e-12,
+     "ecart_absolu_n": 1.9000144675374031e-06
+    },
+    "L2A_M02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000017,
+     "ecart_relatif": 5.312540451996028e-12,
+     "ecart_absolu_n": 1.700012944638729e-06
+    },
+    "L2A_M01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000017,
+     "ecart_relatif": 5.312540451996028e-12,
+     "ecart_absolu_n": 1.700012944638729e-06
+    },
+    "L2A_M00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000015,
+     "ecart_relatif": 4.687535692937672e-12,
+     "ecart_absolu_n": 1.500011421740055e-06
+    },
+    "L2A_P00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000016,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 1.600012183189392e-06
+    },
+    "L2A_P01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000013,
+     "ecart_relatif": 4.062530933879316e-12,
+     "ecart_absolu_n": 1.300009898841381e-06
+    },
+    "L2A_P02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000015,
+     "ecart_relatif": 4.687535692937672e-12,
+     "ecart_absolu_n": 1.500011421740055e-06
+    },
+    "L2A_P03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000011,
+     "ecart_relatif": 3.4375261748209594e-12,
+     "ecart_absolu_n": 1.100008375942707e-06
+    },
+    "L2A_P04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000008,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "L2A_P05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000008,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "L2A_P06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000007,
+     "ecart_relatif": 2.187516656704247e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "L2A_P07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000007,
+     "ecart_relatif": 2.187516656704247e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "L2A_P08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000008,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "L2A_P09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000005,
+     "ecart_relatif": 1.5625118976458907e-12,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "L2A_P10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000007,
+     "ecart_relatif": 2.187516656704247e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "L2A_P11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000005,
+     "ecart_relatif": 1.5625118976458907e-12,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "L2A_P12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000006,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "L2A_P13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000004,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "L2A_P14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000006,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "L2A_P15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000005,
+     "ecart_relatif": 1.5625118976458907e-12,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "L2A_P16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000008,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "L2A_P17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.000001,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "L2A_P18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.000001,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "L2A_P19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.000001,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "L2A_P20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000012,
+     "ecart_relatif": 3.7500285543501375e-12,
+     "ecart_absolu_n": 1.200009137392044e-06
+    },
+    "L2A_P21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000013,
+     "ecart_relatif": 4.062530933879316e-12,
+     "ecart_absolu_n": 1.300009898841381e-06
+    },
+    "L2A_P22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000011,
+     "ecart_relatif": 3.4375261748209594e-12,
+     "ecart_absolu_n": 1.100008375942707e-06
+    },
+    "L2A_P23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000009,
+     "ecart_relatif": 2.8125214157626033e-12,
+     "ecart_absolu_n": 9.00006853044033e-07
+    },
+    "L2A_P24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.000001,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "L2A_P25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000011,
+     "ecart_relatif": 3.4375261748209594e-12,
+     "ecart_absolu_n": 1.100008375942707e-06
+    },
+    "L2A_P26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000011,
+     "ecart_relatif": 3.4375261748209594e-12,
+     "ecart_absolu_n": 1.100008375942707e-06
+    },
+    "L2A_P27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000014,
+     "ecart_relatif": 4.375033313408494e-12,
+     "ecart_absolu_n": 1.400010660290718e-06
+    },
+    "L2A_P28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000016,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 1.600012183189392e-06
+    },
+    "L2A_P29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000016,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 1.600012183189392e-06
+    },
+    "L2A_P30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000014,
+     "ecart_relatif": 4.375033313408494e-12,
+     "ecart_absolu_n": 1.400010660290718e-06
+    },
+    "L2B_M30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999993,
+     "ecart_relatif": -2.187516656704247e-12,
+     "ecart_absolu_n": -7.00005330145359e-07
+    },
+    "L2B_M29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999993,
+     "ecart_relatif": -2.187516656704247e-12,
+     "ecart_absolu_n": -7.00005330145359e-07
+    },
+    "L2B_M28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999994,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -6.00004568696022e-07
+    },
+    "L2B_M27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999994,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -6.00004568696022e-07
+    },
+    "L2B_M26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999993,
+     "ecart_relatif": -2.187516656704247e-12,
+     "ecart_absolu_n": -7.00005330145359e-07
+    },
+    "L2B_M25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999994,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -6.00004568696022e-07
+    },
+    "L2B_M24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999994,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -6.00004568696022e-07
+    },
+    "L2B_M23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999994,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -6.00004568696022e-07
+    },
+    "L2B_M22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999996,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "L2B_M21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999996,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "L2B_M20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999997,
+     "ecart_relatif": -9.375071385875344e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "L2B_M19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999997,
+     "ecart_relatif": -9.375071385875344e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "L2B_M18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_M17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_M15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_M13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000002,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "L2B_M12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000004,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "L2B_M11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000004,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "L2B_M10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000003,
+     "ecart_relatif": 9.375071385875344e-13,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "L2B_M09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000005,
+     "ecart_relatif": 1.5625118976458907e-12,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "L2B_M08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000011,
+     "ecart_relatif": 3.4375261748209594e-12,
+     "ecart_absolu_n": 1.100008375942707e-06
+    },
+    "L2B_M07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.000001,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "L2B_M06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.000001,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "L2B_M05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000013,
+     "ecart_relatif": 4.062530933879316e-12,
+     "ecart_absolu_n": 1.300009898841381e-06
+    },
+    "L2B_M04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000014,
+     "ecart_relatif": 4.375033313408494e-12,
+     "ecart_absolu_n": 1.400010660290718e-06
+    },
+    "L2B_M03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000017,
+     "ecart_relatif": 5.312540451996028e-12,
+     "ecart_absolu_n": 1.700012944638729e-06
+    },
+    "L2B_M02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000017,
+     "ecart_relatif": 5.312540451996028e-12,
+     "ecart_absolu_n": 1.700012944638729e-06
+    },
+    "L2B_M01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000016,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 1.600012183189392e-06
+    },
+    "L2B_M00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000016,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 1.600012183189392e-06
+    },
+    "L2B_P00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000016,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 1.600012183189392e-06
+    },
+    "L2B_P01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000016,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 1.600012183189392e-06
+    },
+    "L2B_P02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000013,
+     "ecart_relatif": 4.062530933879316e-12,
+     "ecart_absolu_n": 1.300009898841381e-06
+    },
+    "L2B_P03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000007,
+     "ecart_relatif": 2.187516656704247e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "L2B_P04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000008,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "L2B_P05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000005,
+     "ecart_relatif": 1.5625118976458907e-12,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "L2B_P06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000007,
+     "ecart_relatif": 2.187516656704247e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "L2B_P07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000004,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "L2B_P08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000008,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "L2B_P09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000008,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "L2B_P10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000005,
+     "ecart_relatif": 1.5625118976458907e-12,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "L2B_P11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000005,
+     "ecart_relatif": 1.5625118976458907e-12,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "L2B_P12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000004,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "L2B_P13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000004,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "L2B_P14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000004,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "L2B_P15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000007,
+     "ecart_relatif": 2.187516656704247e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "L2B_P16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000006,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "L2B_P17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.000001,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "L2B_P18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000011,
+     "ecart_relatif": 3.4375261748209594e-12,
+     "ecart_absolu_n": 1.100008375942707e-06
+    },
+    "L2B_P19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000012,
+     "ecart_relatif": 3.7500285543501375e-12,
+     "ecart_absolu_n": 1.200009137392044e-06
+    },
+    "L2B_P20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.000001,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "L2B_P21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000012,
+     "ecart_relatif": 3.7500285543501375e-12,
+     "ecart_absolu_n": 1.200009137392044e-06
+    },
+    "L2B_P22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000009,
+     "ecart_relatif": 2.8125214157626033e-12,
+     "ecart_absolu_n": 9.00006853044033e-07
+    },
+    "L2B_P23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.000001,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "L2B_P24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.000001,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 1.00000761449337e-06
+    },
+    "L2B_P25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000007,
+     "ecart_relatif": 2.187516656704247e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "L2B_P26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000008,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "L2B_P27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000013,
+     "ecart_relatif": 4.062530933879316e-12,
+     "ecart_absolu_n": 1.300009898841381e-06
+    },
+    "L2B_P28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000013,
+     "ecart_relatif": 4.062530933879316e-12,
+     "ecart_absolu_n": 1.300009898841381e-06
+    },
+    "L2B_P29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000016,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 1.600012183189392e-06
+    },
+    "L2B_P30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000015,
+     "ecart_relatif": 4.687535692937672e-12,
+     "ecart_absolu_n": 1.500011421740055e-06
+    },
+    "TRE_M28": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999997,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TRE_M27": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999995,
+     "ecart_relatif": -3.1250237952917814e-12,
+     "ecart_absolu_n": -5.00003807246685e-07
+    },
+    "TRE_M26": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999997,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TRE_M25": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999997,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TRE_M24": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999997,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TRE_M23": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999998,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TRE_M22": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999998,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TRE_M21": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999996,
+     "ecart_relatif": -2.5000190362334253e-12,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TRE_M20": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999998,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TRE_M19": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999997,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TRE_M18": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999998,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TRE_M17": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999997,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TRE_M16": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999997,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TRE_M15": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999998,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TRE_M14": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M13": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M12": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M11": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000001,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TRE_M10": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_M09": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_M08": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_M07": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000004,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "TRE_M06": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000005,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "TRE_M05": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000006,
+     "ecart_relatif": 3.7500285543501375e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "TRE_M04": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000006,
+     "ecart_relatif": 3.7500285543501375e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "TRE_M03": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000007,
+     "ecart_relatif": 4.375033313408494e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "TRE_M02": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000006,
+     "ecart_relatif": 3.7500285543501375e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "TRE_M01": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000007,
+     "ecart_relatif": 4.375033313408494e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "TRE_P00": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000007,
+     "ecart_relatif": 4.375033313408494e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "TRE_P01": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000004,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "TRE_P02": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_P03": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_P04": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000001,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TRE_P05": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P06": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P07": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P08": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P09": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P10": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P11": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P12": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P13": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P14": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P15": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000001,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TRE_P16": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000001,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TRE_P17": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000001,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TRE_P18": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_P19": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_P20": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_P21": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_P22": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_P23": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_P24": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_P25": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_P26": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000004,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "TRE_P27": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_P28": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    }
+   }
+  },
+  "n2_s_tre": {
+   "execution": "data/processed/runs/20261006T134742-072cb0d7",
+   "positions_controlees": 57,
+   "pp_attendu_n": null,
+   "pp_obtenu_n": null,
+   "ecart_pp": null,
+   "manquants": [],
+   "ecart_relatif_max": 5.0000380724668505e-12,
+   "verdict": "RÉUSSI",
+   "cas": {
+    "TRE_M28": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999997,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TRE_M27": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999998,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TRE_M26": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999997,
+     "ecart_relatif": -1.8750142771750687e-12,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TRE_M25": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999998,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TRE_M24": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999998,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TRE_M23": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M22": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999998,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TRE_M21": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M20": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999998,
+     "ecart_relatif": -1.2500095181167126e-12,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TRE_M19": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M18": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000001,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TRE_M17": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M16": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M15": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M14": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_M13": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000001,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TRE_M12": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M11": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_M10": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_M09": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000001,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TRE_M08": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_M07": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000005,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "TRE_M06": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000005,
+     "ecart_relatif": 3.1250237952917814e-12,
+     "ecart_absolu_n": 5.00003807246685e-07
+    },
+    "TRE_M05": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000007,
+     "ecart_relatif": 4.375033313408494e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "TRE_M04": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000007,
+     "ecart_relatif": 4.375033313408494e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "TRE_M03": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000006,
+     "ecart_relatif": 3.7500285543501375e-12,
+     "ecart_absolu_n": 6.00004568696022e-07
+    },
+    "TRE_M02": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000007,
+     "ecart_relatif": 4.375033313408494e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "TRE_M01": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000007,
+     "ecart_relatif": 4.375033313408494e-12,
+     "ecart_absolu_n": 7.00005330145359e-07
+    },
+    "TRE_P00": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000008,
+     "ecart_relatif": 5.0000380724668505e-12,
+     "ecart_absolu_n": 8.00006091594696e-07
+    },
+    "TRE_P01": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000004,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "TRE_P02": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_P03": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_P04": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000001,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TRE_P05": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P06": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P07": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P08": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P09": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P10": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P11": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P12": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P13": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P14": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P15": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P16": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P17": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_P18": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000001,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TRE_P19": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000001,
+     "ecart_relatif": 6.250047590583563e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "TRE_P20": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_P21": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_P22": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_P23": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000003,
+     "ecart_relatif": 1.8750142771750687e-12,
+     "ecart_absolu_n": 3.00002284348011e-07
+    },
+    "TRE_P24": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000002,
+     "ecart_relatif": 1.2500095181167126e-12,
+     "ecart_absolu_n": 2.00001522898674e-07
+    },
+    "TRE_P25": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000004,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "TRE_P26": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000004,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "TRE_P27": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000004,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    },
+    "TRE_P28": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0000004,
+     "ecart_relatif": 2.5000190362334253e-12,
+     "ecart_absolu_n": 4.00003045797348e-07
+    }
+   }
+  },
+  "n3_sh_h0p250": {
+   "execution": "data/processed/runs/20261006T125858-33203f20",
+   "positions_controlees": 299,
+   "pp_attendu_n": 3427297.6040000003,
+   "pp_obtenu_n": 3427297.603999,
+   "ecart_pp": -2.918452263875897e-13,
+   "manquants": [],
+   "ecart_relatif_max": 7.407463811062e-13,
+   "verdict": "RÉUSSI",
+   "cas": {
+    "PP": {
+     "charge_dz_n": -3427297.6040000003,
+     "reaction_dz_n": 3427297.603999,
+     "ecart_relatif": -2.918452263875897e-13,
+     "ecart_absolu_n": -1.000240445137024e-06
+    },
+    "G2": {
+     "charge_dz_n": -1000896.0,
+     "reaction_dz_n": 1000896.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "UDL": {
+     "charge_dz_n": -589680.0,
+     "reaction_dz_n": 589679.9999997,
+     "ecart_relatif": -5.087543826278846e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TR": {
+     "charge_dz_n": -468000.0,
+     "reaction_dz_n": 467999.9999998,
+     "ecart_relatif": -4.273536814074231e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "FR": {
+     "charge_dz_n": 0.0,
+     "reaction_dz_n": -1.372609403916e-08,
+     "ecart_relatif": null,
+     "ecart_absolu_n": -1.372609403916e-08
+    },
+    "TSA_M29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSA_M28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSA_M27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSA_M26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSA_M25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSA_M23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSA_M22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSA_M21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSA_M20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSA_M04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_M03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999996,
+     "ecart_relatif": -7.407463811062e-13,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TSA_M02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_M01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P00": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999996,
+     "ecart_relatif": -7.407463811062e-13,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TSA_P05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999996,
+     "ecart_relatif": -7.407463811062e-13,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TSA_P08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999996,
+     "ecart_relatif": -7.407463811062e-13,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TSA_P12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999996,
+     "ecart_relatif": -7.407463811062e-13,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TSA_P25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999996,
+     "ecart_relatif": -7.407463811062e-13,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TSA_P26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSA_P29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_M29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSB_M26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSB_M24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSB_M23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSB_M22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSB_M19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_M08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999998,
+     "ecart_relatif": -3.703731905531e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TSB_M07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_M06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_M05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_M04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_M03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_M02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_M01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P00": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999996,
+     "ecart_relatif": -7.407463811062e-13,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TSB_P09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999996,
+     "ecart_relatif": -7.407463811062e-13,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TSB_P18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999996,
+     "ecart_relatif": -7.407463811062e-13,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TSB_P25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999996,
+     "ecart_relatif": -7.407463811062e-13,
+     "ecart_absolu_n": -4.00003045797348e-07
+    },
+    "TSB_P26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "TSB_P29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999997,
+     "ecart_relatif": -5.5555978582965e-13,
+     "ecart_absolu_n": -3.00002284348011e-07
+    },
+    "L2A_M30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_M03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_M02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_M01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_M00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_P24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2A_P29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2A_P30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_M30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_M12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_M05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_M04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_M03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_M02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_M01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_M00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "L2B_P30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999998,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -2.00001522898674e-07
+    },
+    "TRE_M28": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M27": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M26": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M25": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M24": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M23": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M22": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M21": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M20": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M19": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M18": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M17": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M16": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M15": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M14": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M13": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M12": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M11": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M10": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M09": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M08": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M07": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M06": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M05": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M04": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M03": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M02": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_M01": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P00": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P01": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P02": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P03": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P04": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P05": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P06": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P07": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P08": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P09": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P10": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P11": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P12": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P13": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P14": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P15": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P16": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P17": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P18": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P19": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P20": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P21": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P22": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P23": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P24": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P25": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P26": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P27": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TRE_P28": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 159999.9999999,
+     "ecart_relatif": -6.250047590583563e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    }
+   }
+  },
+  "n4_sh_h0p500": {
+   "execution": "data/processed/runs/20261006T125800-511148ec",
+   "positions_controlees": 299,
+   "pp_attendu_n": 3427297.6040000003,
+   "pp_obtenu_n": 3427297.604,
+   "ecart_pp": -1.358683549290455e-16,
+   "manquants": [],
+   "ecart_relatif_max": 3.1250237952917816e-13,
+   "verdict": "RÉUSSI",
+   "cas": {
+    "PP": {
+     "charge_dz_n": -3427297.6040000003,
+     "reaction_dz_n": 3427297.604,
+     "ecart_relatif": -1.358683549290455e-16,
+     "ecart_absolu_n": -4.656612873077393e-10
+    },
+    "G2": {
+     "charge_dz_n": -1000896.0,
+     "reaction_dz_n": 1000896.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "UDL": {
+     "charge_dz_n": -589680.0,
+     "reaction_dz_n": 589680.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TR": {
+     "charge_dz_n": -468000.0,
+     "reaction_dz_n": 468000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "FR": {
+     "charge_dz_n": 0.0,
+     "reaction_dz_n": 1.199805410579e-08,
+     "ecart_relatif": null,
+     "ecart_absolu_n": 1.199805410579e-08
+    },
+    "TSA_M29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSA_M27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_M01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P00": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSA_P26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSA_P29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_M01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P00": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P01": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P02": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P03": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P04": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P05": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P06": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P07": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P08": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P09": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P10": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P11": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P12": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P13": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P14": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P15": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P16": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P17": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSB_P18": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P19": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P20": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P21": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P22": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P23": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P24": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P25": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P26": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 539999.9999999,
+     "ecart_relatif": -1.8518659527655e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "TSB_P27": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P28": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TSB_P29": {
+     "charge_dz_n": -540000.0,
+     "reaction_dz_n": 540000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000001,
+     "ecart_relatif": 3.1250237952917816e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "L2A_M29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_M00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2A_P30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0000001,
+     "ecart_relatif": 3.1250237952917816e-13,
+     "ecart_absolu_n": 1.00000761449337e-07
+    },
+    "L2B_M30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_M00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P00": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P01": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P02": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P03": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P04": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P05": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P06": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P07": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P08": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P09": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P10": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P11": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P12": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P13": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P14": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P15": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P16": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P17": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P18": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P19": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P20": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P21": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P22": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P23": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P24": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 319999.9999999,
+     "ecart_relatif": -3.1250237952917816e-13,
+     "ecart_absolu_n": -1.00000761449337e-07
+    },
+    "L2B_P25": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P26": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P27": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P28": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P29": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "L2B_P30": {
+     "charge_dz_n": -320000.0,
+     "reaction_dz_n": 320000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M28": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M27": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M26": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M25": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M24": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M23": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M22": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M21": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M20": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M19": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M18": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M17": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M16": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M15": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M14": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M13": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M12": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M11": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M10": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M09": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M08": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M07": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M06": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M05": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M04": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M03": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M02": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_M01": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P00": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P01": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P02": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P03": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P04": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P05": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P06": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P07": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P08": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P09": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P10": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P11": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P12": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P13": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P14": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P15": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P16": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P17": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P18": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P19": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P20": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P21": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P22": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P23": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P24": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P25": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P26": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P27": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    },
+    "TRE_P28": {
+     "charge_dz_n": -160000.0,
+     "reaction_dz_n": 160000.0,
+     "ecart_relatif": 0.0,
+     "ecart_absolu_n": 0.0
+    }
+   }
+  }
+ }
+}

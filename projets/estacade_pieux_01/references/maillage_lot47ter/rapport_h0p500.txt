@@ -1,0 +1,372 @@
+Rapport mesh check : estacade_mesh.med
+Invariants : 367, tenus : 367, en écart : 0
+
+[OK    ] comptage | nombre de nœuds | attendu : 1267 | obtenu : 1267
+[OK    ] comptage | mailles par type | attendu : {'QUAD4': 744, 'SEG2': 928} | obtenu : {'QUAD4': 744, 'SEG2': 928}
+[OK    ] boîte | boîte englobante du modèle (tol. 1e-09) | attendu : (0, 31.2, -3, 3, -13, 1.3) | obtenu : (0, 31.2, -3, 3, -13, 1.3)
+[OK    ] groupe | groupe DALLE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe DALLE : cardinalité | attendu : 744 | obtenu : 744
+[OK    ] groupe | groupe DALLE : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 744}
+[OK    ] groupe | groupe DALLE : boîte englobante (tol. 1e-09) | attendu : (0, 31.2, -3, 3, 1.3, 1.3) | obtenu : (0, 31.2, -3, 3, 1.3, 1.3)
+[OK    ] groupe | groupe VOIE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe VOIE : cardinalité | attendu : 372 | obtenu : 372
+[OK    ] groupe | groupe VOIE : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 372}
+[OK    ] groupe | groupe VOIE : boîte englobante (tol. 1e-09) | attendu : (0, 31.2, -1.5, 1.5, 1.3, 1.3) | obtenu : (0, 31.2, -1.5, 1.5, 1.3, 1.3)
+[OK    ] groupe | groupe TROTT : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TROTT : cardinalité | attendu : 372 | obtenu : 372
+[OK    ] groupe | groupe TROTT : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 372}
+[OK    ] groupe | groupe TROTT : boîte englobante (tol. 1e-09) | attendu : (0, 31.2, -3, 3, 1.3, 1.3) | obtenu : (0, 31.2, -3, 3, 1.3, 1.3)
+[OK    ] groupe | groupe RIVE_YM : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe RIVE_YM : cardinalité | attendu : 62 | obtenu : 62
+[OK    ] groupe | groupe RIVE_YM : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 62}
+[OK    ] groupe | groupe RIVE_YM : boîte englobante (tol. 1e-09) | attendu : (0, 31.2, -3, -3, 1.3, 1.3) | obtenu : (0, 31.2, -3, -3, 1.3, 1.3)
+[OK    ] groupe | groupe RIVE_YP : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe RIVE_YP : cardinalité | attendu : 62 | obtenu : 62
+[OK    ] groupe | groupe RIVE_YP : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 62}
+[OK    ] groupe | groupe RIVE_YP : boîte englobante (tol. 1e-09) | attendu : (0, 31.2, 3, 3, 1.3, 1.3) | obtenu : (0, 31.2, 3, 3, 1.3, 1.3)
+[OK    ] groupe | groupe CHEVETRES : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe CHEVETRES : cardinalité | attendu : 84 | obtenu : 84
+[OK    ] groupe | groupe CHEVETRES : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 84}
+[OK    ] groupe | groupe CHEVETRES : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -3, 3, 1.3, 1.3) | obtenu : (0.6, 30.6, -3, 3, 1.3, 1.3)
+[OK    ] groupe | groupe PIEUX : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEUX : cardinalité | attendu : 448 | obtenu : 448
+[OK    ] groupe | groupe PIEUX : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 448}
+[OK    ] groupe | groupe PIEUX : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -13, 1.3) | obtenu : (0.6, 30.6, -2, 2, -13, 1.3)
+[OK    ] groupe | groupe TETES : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TETES : cardinalité | attendu : 14 | obtenu : 14
+[OK    ] groupe | groupe TETES : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, 1.3, 1.3) | obtenu : (0.6, 30.6, -2, 2, 1.3, 1.3)
+[OK    ] groupe | groupe PIEDS : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEDS : cardinalité | attendu : 14 | obtenu : 14
+[OK    ] groupe | groupe PIEDS : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -13, -13) | obtenu : (0.6, 30.6, -2, 2, -13, -13)
+[OK    ] groupe | groupe COIN_ABOUT : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe COIN_ABOUT : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe COIN_ABOUT : boîte englobante (tol. 1e-09) | attendu : (0, 0, -3, -3, 1.3, 1.3) | obtenu : (0, 0, -3, -3, 1.3, 1.3)
+[OK    ] groupe | groupe CHEV_1 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe CHEV_1 : cardinalité | attendu : 12 | obtenu : 12
+[OK    ] groupe | groupe CHEV_1 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 12}
+[OK    ] groupe | groupe CHEV_1 : boîte englobante (tol. 1e-09) | attendu : (0.6, 0.6, -3, 3, 1.3, 1.3) | obtenu : (0.6, 0.6, -3, 3, 1.3, 1.3)
+[OK    ] groupe | groupe CHEV_2 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe CHEV_2 : cardinalité | attendu : 12 | obtenu : 12
+[OK    ] groupe | groupe CHEV_2 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 12}
+[OK    ] groupe | groupe CHEV_2 : boîte englobante (tol. 1e-09) | attendu : (5.6, 5.6, -3, 3, 1.3, 1.3) | obtenu : (5.6, 5.6, -3, 3, 1.3, 1.3)
+[OK    ] groupe | groupe CHEV_3 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe CHEV_3 : cardinalité | attendu : 12 | obtenu : 12
+[OK    ] groupe | groupe CHEV_3 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 12}
+[OK    ] groupe | groupe CHEV_3 : boîte englobante (tol. 1e-09) | attendu : (10.6, 10.6, -3, 3, 1.3, 1.3) | obtenu : (10.6, 10.6, -3, 3, 1.3, 1.3)
+[OK    ] groupe | groupe CHEV_4 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe CHEV_4 : cardinalité | attendu : 12 | obtenu : 12
+[OK    ] groupe | groupe CHEV_4 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 12}
+[OK    ] groupe | groupe CHEV_4 : boîte englobante (tol. 1e-09) | attendu : (15.6, 15.6, -3, 3, 1.3, 1.3) | obtenu : (15.6, 15.6, -3, 3, 1.3, 1.3)
+[OK    ] groupe | groupe CHEV_5 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe CHEV_5 : cardinalité | attendu : 12 | obtenu : 12
+[OK    ] groupe | groupe CHEV_5 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 12}
+[OK    ] groupe | groupe CHEV_5 : boîte englobante (tol. 1e-09) | attendu : (20.6, 20.6, -3, 3, 1.3, 1.3) | obtenu : (20.6, 20.6, -3, 3, 1.3, 1.3)
+[OK    ] groupe | groupe CHEV_6 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe CHEV_6 : cardinalité | attendu : 12 | obtenu : 12
+[OK    ] groupe | groupe CHEV_6 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 12}
+[OK    ] groupe | groupe CHEV_6 : boîte englobante (tol. 1e-09) | attendu : (25.6, 25.6, -3, 3, 1.3, 1.3) | obtenu : (25.6, 25.6, -3, 3, 1.3, 1.3)
+[OK    ] groupe | groupe CHEV_7 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe CHEV_7 : cardinalité | attendu : 12 | obtenu : 12
+[OK    ] groupe | groupe CHEV_7 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 12}
+[OK    ] groupe | groupe CHEV_7 : boîte englobante (tol. 1e-09) | attendu : (30.6, 30.6, -3, 3, 1.3, 1.3) | obtenu : (30.6, 30.6, -3, 3, 1.3, 1.3)
+[OK    ] groupe | groupe PIEU_F1_YM : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F1_YM : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F1_YM : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F1_YM : boîte englobante (tol. 1e-09) | attendu : (0.6, 0.6, -2, -2, -13, 1.3) | obtenu : (0.6, 0.6, -2, -2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F1_YP : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F1_YP : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F1_YP : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F1_YP : boîte englobante (tol. 1e-09) | attendu : (0.6, 0.6, 2, 2, -13, 1.3) | obtenu : (0.6, 0.6, 2, 2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F2_YM : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F2_YM : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F2_YM : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F2_YM : boîte englobante (tol. 1e-09) | attendu : (5.6, 5.6, -2, -2, -13, 1.3) | obtenu : (5.6, 5.6, -2, -2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F2_YP : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F2_YP : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F2_YP : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F2_YP : boîte englobante (tol. 1e-09) | attendu : (5.6, 5.6, 2, 2, -13, 1.3) | obtenu : (5.6, 5.6, 2, 2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F3_YM : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F3_YM : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F3_YM : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F3_YM : boîte englobante (tol. 1e-09) | attendu : (10.6, 10.6, -2, -2, -13, 1.3) | obtenu : (10.6, 10.6, -2, -2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F3_YP : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F3_YP : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F3_YP : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F3_YP : boîte englobante (tol. 1e-09) | attendu : (10.6, 10.6, 2, 2, -13, 1.3) | obtenu : (10.6, 10.6, 2, 2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F4_YM : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F4_YM : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F4_YM : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F4_YM : boîte englobante (tol. 1e-09) | attendu : (15.6, 15.6, -2, -2, -13, 1.3) | obtenu : (15.6, 15.6, -2, -2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F4_YP : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F4_YP : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F4_YP : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F4_YP : boîte englobante (tol. 1e-09) | attendu : (15.6, 15.6, 2, 2, -13, 1.3) | obtenu : (15.6, 15.6, 2, 2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F5_YM : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F5_YM : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F5_YM : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F5_YM : boîte englobante (tol. 1e-09) | attendu : (20.6, 20.6, -2, -2, -13, 1.3) | obtenu : (20.6, 20.6, -2, -2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F5_YP : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F5_YP : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F5_YP : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F5_YP : boîte englobante (tol. 1e-09) | attendu : (20.6, 20.6, 2, 2, -13, 1.3) | obtenu : (20.6, 20.6, 2, 2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F6_YM : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F6_YM : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F6_YM : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F6_YM : boîte englobante (tol. 1e-09) | attendu : (25.6, 25.6, -2, -2, -13, 1.3) | obtenu : (25.6, 25.6, -2, -2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F6_YP : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F6_YP : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F6_YP : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F6_YP : boîte englobante (tol. 1e-09) | attendu : (25.6, 25.6, 2, 2, -13, 1.3) | obtenu : (25.6, 25.6, 2, 2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F7_YM : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F7_YM : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F7_YM : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F7_YM : boîte englobante (tol. 1e-09) | attendu : (30.6, 30.6, -2, -2, -13, 1.3) | obtenu : (30.6, 30.6, -2, -2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_F7_YP : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_F7_YP : cardinalité | attendu : 32 | obtenu : 32
+[OK    ] groupe | groupe PIEU_F7_YP : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 32}
+[OK    ] groupe | groupe PIEU_F7_YP : boîte englobante (tol. 1e-09) | attendu : (30.6, 30.6, 2, 2, -13, 1.3) | obtenu : (30.6, 30.6, 2, 2, -13, 1.3)
+[OK    ] groupe | groupe PIEU_T1 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_T1 : cardinalité | attendu : 28 | obtenu : 28
+[OK    ] groupe | groupe PIEU_T1 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 28}
+[OK    ] groupe | groupe PIEU_T1 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, 0.7, 1.3) | obtenu : (0.6, 30.6, -2, 2, 0.7, 1.3)
+[OK    ] groupe | groupe PIEU_T2 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_T2 : cardinalité | attendu : 28 | obtenu : 28
+[OK    ] groupe | groupe PIEU_T2 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 28}
+[OK    ] groupe | groupe PIEU_T2 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, 0, 0.7) | obtenu : (0.6, 30.6, -2, 2, 0, 0.7)
+[OK    ] groupe | groupe PIEU_T3 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_T3 : cardinalité | attendu : 28 | obtenu : 28
+[OK    ] groupe | groupe PIEU_T3 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 28}
+[OK    ] groupe | groupe PIEU_T3 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -0.8, 0) | obtenu : (0.6, 30.6, -2, 2, -0.8, 0)
+[OK    ] groupe | groupe PIEU_T4 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_T4 : cardinalité | attendu : 56 | obtenu : 56
+[OK    ] groupe | groupe PIEU_T4 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 56}
+[OK    ] groupe | groupe PIEU_T4 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -2.25, -0.8) | obtenu : (0.6, 30.6, -2, 2, -2.25, -0.8)
+[OK    ] groupe | groupe PIEU_T5 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEU_T5 : cardinalité | attendu : 308 | obtenu : 308
+[OK    ] groupe | groupe PIEU_T5 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 308}
+[OK    ] groupe | groupe PIEU_T5 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -13, -2.25) | obtenu : (0.6, 30.6, -2, 2, -13, -2.25)
+[OK    ] groupe | groupe KR_P100 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_P100 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_P100 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, 1, 1) | obtenu : (0.6, 30.6, -2, 2, 1, 1)
+[OK    ] groupe | groupe KR_P050 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_P050 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_P050 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, 0.5, 0.5) | obtenu : (0.6, 30.6, -2, 2, 0.5, 0.5)
+[OK    ] groupe | groupe KR_P000 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_P000 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_P000 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, 0, 0) | obtenu : (0.6, 30.6, -2, 2, 0, 0)
+[OK    ] groupe | groupe KR_M050 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M050 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M050 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -0.5, -0.5) | obtenu : (0.6, 30.6, -2, 2, -0.5, -0.5)
+[OK    ] groupe | groupe KR_M100 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M100 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M100 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -1, -1) | obtenu : (0.6, 30.6, -2, 2, -1, -1)
+[OK    ] groupe | groupe KR_M150 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M150 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M150 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -1.5, -1.5) | obtenu : (0.6, 30.6, -2, 2, -1.5, -1.5)
+[OK    ] groupe | groupe KR_M200 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M200 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M200 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -2, -2) | obtenu : (0.6, 30.6, -2, 2, -2, -2)
+[OK    ] groupe | groupe KR_M250 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M250 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M250 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -2.5, -2.5) | obtenu : (0.6, 30.6, -2, 2, -2.5, -2.5)
+[OK    ] groupe | groupe KR_M300 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M300 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M300 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -3, -3) | obtenu : (0.6, 30.6, -2, 2, -3, -3)
+[OK    ] groupe | groupe KR_M350 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M350 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M350 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -3.5, -3.5) | obtenu : (0.6, 30.6, -2, 2, -3.5, -3.5)
+[OK    ] groupe | groupe KR_M400 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M400 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M400 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -4, -4) | obtenu : (0.6, 30.6, -2, 2, -4, -4)
+[OK    ] groupe | groupe KR_M450 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M450 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M450 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -4.5, -4.5) | obtenu : (0.6, 30.6, -2, 2, -4.5, -4.5)
+[OK    ] groupe | groupe KR_M500 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M500 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M500 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -5, -5) | obtenu : (0.6, 30.6, -2, 2, -5, -5)
+[OK    ] groupe | groupe KR_M550 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M550 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M550 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -5.5, -5.5) | obtenu : (0.6, 30.6, -2, 2, -5.5, -5.5)
+[OK    ] groupe | groupe KR_M600 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M600 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M600 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -6, -6) | obtenu : (0.6, 30.6, -2, 2, -6, -6)
+[OK    ] groupe | groupe KR_M650 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M650 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M650 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -6.5, -6.5) | obtenu : (0.6, 30.6, -2, 2, -6.5, -6.5)
+[OK    ] groupe | groupe KR_M700 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M700 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M700 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -7, -7) | obtenu : (0.6, 30.6, -2, 2, -7, -7)
+[OK    ] groupe | groupe KR_M750 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M750 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M750 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -7.5, -7.5) | obtenu : (0.6, 30.6, -2, 2, -7.5, -7.5)
+[OK    ] groupe | groupe KR_M800 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M800 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M800 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -8, -8) | obtenu : (0.6, 30.6, -2, 2, -8, -8)
+[OK    ] groupe | groupe KR_M850 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M850 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M850 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -8.5, -8.5) | obtenu : (0.6, 30.6, -2, 2, -8.5, -8.5)
+[OK    ] groupe | groupe KR_M900 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M900 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M900 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -9, -9) | obtenu : (0.6, 30.6, -2, 2, -9, -9)
+[OK    ] groupe | groupe KR_M950 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M950 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M950 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -9.5, -9.5) | obtenu : (0.6, 30.6, -2, 2, -9.5, -9.5)
+[OK    ] groupe | groupe KR_M1000 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M1000 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M1000 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -10, -10) | obtenu : (0.6, 30.6, -2, 2, -10, -10)
+[OK    ] groupe | groupe KR_M1050 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M1050 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M1050 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -10.5, -10.5) | obtenu : (0.6, 30.6, -2, 2, -10.5, -10.5)
+[OK    ] groupe | groupe KR_M1100 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M1100 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M1100 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -11, -11) | obtenu : (0.6, 30.6, -2, 2, -11, -11)
+[OK    ] groupe | groupe KR_M1150 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M1150 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M1150 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -11.5, -11.5) | obtenu : (0.6, 30.6, -2, 2, -11.5, -11.5)
+[OK    ] groupe | groupe KR_M1200 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M1200 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M1200 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -12, -12) | obtenu : (0.6, 30.6, -2, 2, -12, -12)
+[OK    ] groupe | groupe KR_M1250 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M1250 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M1250 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -12.5, -12.5) | obtenu : (0.6, 30.6, -2, 2, -12.5, -12.5)
+[OK    ] groupe | groupe KR_M1300 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KR_M1300 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe KR_M1300 : boîte englobante (tol. 1e-09) | attendu : (0.6, 30.6, -2, 2, -13, -13) | obtenu : (0.6, 30.6, -2, 2, -13, -13)
+[OK    ] groupe | groupe KE_M200 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M200 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M200 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -2, -2) | obtenu : (5.6, 25.6, -2, 2, -2, -2)
+[OK    ] groupe | groupe KE_M250 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M250 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M250 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -2.5, -2.5) | obtenu : (5.6, 25.6, -2, 2, -2.5, -2.5)
+[OK    ] groupe | groupe KE_M300 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M300 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M300 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -3, -3) | obtenu : (5.6, 25.6, -2, 2, -3, -3)
+[OK    ] groupe | groupe KE_M350 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M350 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M350 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -3.5, -3.5) | obtenu : (5.6, 25.6, -2, 2, -3.5, -3.5)
+[OK    ] groupe | groupe KE_M400 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M400 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M400 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -4, -4) | obtenu : (5.6, 25.6, -2, 2, -4, -4)
+[OK    ] groupe | groupe KE_M450 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M450 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M450 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -4.5, -4.5) | obtenu : (5.6, 25.6, -2, 2, -4.5, -4.5)
+[OK    ] groupe | groupe KE_M500 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M500 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M500 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -5, -5) | obtenu : (5.6, 25.6, -2, 2, -5, -5)
+[OK    ] groupe | groupe KE_M550 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M550 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M550 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -5.5, -5.5) | obtenu : (5.6, 25.6, -2, 2, -5.5, -5.5)
+[OK    ] groupe | groupe KE_M600 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M600 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M600 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -6, -6) | obtenu : (5.6, 25.6, -2, 2, -6, -6)
+[OK    ] groupe | groupe KE_M650 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M650 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M650 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -6.5, -6.5) | obtenu : (5.6, 25.6, -2, 2, -6.5, -6.5)
+[OK    ] groupe | groupe KE_M700 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M700 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M700 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -7, -7) | obtenu : (5.6, 25.6, -2, 2, -7, -7)
+[OK    ] groupe | groupe KE_M750 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M750 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M750 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -7.5, -7.5) | obtenu : (5.6, 25.6, -2, 2, -7.5, -7.5)
+[OK    ] groupe | groupe KE_M800 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M800 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M800 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -8, -8) | obtenu : (5.6, 25.6, -2, 2, -8, -8)
+[OK    ] groupe | groupe KE_M850 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M850 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M850 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -8.5, -8.5) | obtenu : (5.6, 25.6, -2, 2, -8.5, -8.5)
+[OK    ] groupe | groupe KE_M900 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M900 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M900 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -9, -9) | obtenu : (5.6, 25.6, -2, 2, -9, -9)
+[OK    ] groupe | groupe KE_M950 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M950 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M950 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -9.5, -9.5) | obtenu : (5.6, 25.6, -2, 2, -9.5, -9.5)
+[OK    ] groupe | groupe KE_M1000 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M1000 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M1000 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -10, -10) | obtenu : (5.6, 25.6, -2, 2, -10, -10)
+[OK    ] groupe | groupe KE_M1050 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M1050 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M1050 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -10.5, -10.5) | obtenu : (5.6, 25.6, -2, 2, -10.5, -10.5)
+[OK    ] groupe | groupe KE_M1100 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M1100 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M1100 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -11, -11) | obtenu : (5.6, 25.6, -2, 2, -11, -11)
+[OK    ] groupe | groupe KE_M1150 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M1150 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M1150 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -11.5, -11.5) | obtenu : (5.6, 25.6, -2, 2, -11.5, -11.5)
+[OK    ] groupe | groupe KE_M1200 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M1200 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M1200 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -12, -12) | obtenu : (5.6, 25.6, -2, 2, -12, -12)
+[OK    ] groupe | groupe KE_M1250 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M1250 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M1250 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -12.5, -12.5) | obtenu : (5.6, 25.6, -2, 2, -12.5, -12.5)
+[OK    ] groupe | groupe KE_M1300 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe KE_M1300 : cardinalité | attendu : 10 | obtenu : 10
+[OK    ] groupe | groupe KE_M1300 : boîte englobante (tol. 1e-09) | attendu : (5.6, 25.6, -2, 2, -13, -13) | obtenu : (5.6, 25.6, -2, 2, -13, -13)
+[OK    ] aire | aire développée de DALLE (tol. 1e-09) | attendu : 187.2 | obtenu : 187.2
+[OK    ] aire | aire développée de VOIE (tol. 1e-09) | attendu : 93.6 | obtenu : 93.6
+[OK    ] inclusion | mailles de VOIE dans DALLE | attendu : 372 mailles incluses | obtenu : 372 sur 372
+[OK    ] inclusion | mailles de TROTT dans DALLE | attendu : 372 mailles incluses | obtenu : 372 sur 372
+[OK    ] plan | groupe PIEDS = nœuds en Z = -13 (tol. 1e-09) | attendu : 14 nœuds du plan | obtenu : 14 nœuds du groupe, 14 dans le plan
+[OK    ] nœud imposé | nœud en tête F1_YM (0.6, -2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F1_YP (0.6, 2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F2_YM (5.6, -2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F2_YP (5.6, 2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F3_YM (10.6, -2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F3_YP (10.6, 2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F4_YM (15.6, -2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F4_YP (15.6, 2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F5_YM (20.6, -2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F5_YP (20.6, 2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F6_YM (25.6, -2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F6_YP (25.6, 2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F7_YM (30.6, -2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en tête F7_YP (30.6, 2, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en coin about (0, -3, 1.3) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) | attendu : 14 | obtenu : 14
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (0.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (0.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (5.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (5.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (10.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (10.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (15.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (15.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (20.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (20.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (25.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (25.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (30.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / DALLE (têtes de pieux dans DALLE) : nœud partagé en (30.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) | attendu : 14 | obtenu : 14
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (0.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (0.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (5.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (5.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (10.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (10.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (15.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (15.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (20.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (20.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (25.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (25.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (30.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / CHEVETRES (têtes de pieux dans CHEVETRES) : nœud partagé en (30.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) | attendu : 14 | obtenu : 14
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (0.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (0.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (5.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (5.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (10.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (10.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (15.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (15.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (20.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (20.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (25.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (25.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (30.6, -2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] interface | nœuds partagés TETES / PIEUX (têtes de pieux dans PIEUX) : nœud partagé en (30.6, 2, 1.3) (tol. 1e-09) | attendu : un nœud partagé | obtenu : distance 0
+[OK    ] nœuds orphelins | nœuds sans maille | attendu : 0 | obtenu : 0
+[OK    ] nœuds confondus | paires de nœuds à moins de 1e-09 | attendu : 0 | obtenu : 0
+
+Tous les invariants sont tenus.

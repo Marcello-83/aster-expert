@@ -318,6 +318,20 @@ def registry_run_ids(repo_root: Path, registry: RexRegistry) -> list[str]:
     )
 
 
+def _readable_record(record: Path) -> dict[str, Any] | None:
+    """The run report, or None when it is absent, empty or not JSON (lot 47 ter,
+    ENV-003: a full disk left two empty reports, and `rex` stopped on them). Such a
+    run is then read like a run without report: its listing decides, and without
+    listing it is a failure to classify."""
+    if not record.is_file():
+        return None
+    try:
+        data = json.loads(record.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return None
+    return data if isinstance(data, dict) else None
+
+
 def project_runs(
     repo_root: Path, registry: RexRegistry, base: KnowledgeBase | None
 ) -> list[RunSummary]:
@@ -335,8 +349,8 @@ def project_runs(
         comm_sha: str | None = None
         origin: str | None = None
         declared: bool | None = None
-        if record.is_file():
-            data = json.loads(record.read_text(encoding="utf-8"))
+        data = _readable_record(record)
+        if data is not None:
             report = data["report"]
             comm = _relative_to_root(str(report["comm_path"]), repo_root) or ""
             comm_sha = (data.get("inputs_sha256") or {}).get(
@@ -368,7 +382,7 @@ def project_runs(
             duration = durations.get(run_dir.name)
             kind = "aster" if duration is not None else "inconnue"
         listing = _listing(run_dir, mess_path)
-        if not record.is_file():
+        if data is None:
             job = job_diagnostic(listing)
             failed = job is None or job not in OK_DIAGNOSTICS
         signature = None

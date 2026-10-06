@@ -532,6 +532,30 @@ def check_shared_folder(ctx: EnvContext) -> CheckResult:
     return CheckResult(name="partage", detail=f"{folder}, écriture possible")
 
 
+# --- 9. Free disk space (lot 47 ter, ENV-003) ------------------------------------
+
+MIN_FREE_GB: dict[Profile, float] = {"vm": 10.0, "cloud": 2.0, "ci": 2.0}
+"""Free space required under the repository (Go). Lot 47 ter: a full disk of the VM
+stopped two runs and left their reports empty (ENV-003); a run of the jetty writes
+about 2 Go and each reading of its MED of results needed 4 Go more."""
+
+DiskUsage = Callable[[Path], tuple[int, int, int]]
+
+
+def check_disk(ctx: EnvContext, usage: DiskUsage = shutil.disk_usage) -> CheckResult:
+    total, _used, free = usage(ctx.project_root)
+    free_gb = free / 1e9
+    floor = MIN_FREE_GB[ctx.profile]
+    detail = f"{free_gb:.1f} Go libres sur {total / 1e9:.0f} Go (minimum {floor:g} Go)"
+    if free_gb < floor:
+        message = (
+            f"espace disque insuffisant : {detail} sous {ctx.project_root} ; "
+            "libérer de l'espace avant toute exécution (ENV-003)"
+        )
+        raise EnvCheckError(message)
+    return CheckResult(name="disque", detail=detail)
+
+
 # --- 8. MCP server -------------------------------------------------------------
 
 
@@ -626,6 +650,7 @@ CHECK_NAMES: tuple[str, ...] = (
     "image",
     "salome",
     "partage",
+    "disque",
     "mcp",
 )
 
@@ -638,6 +663,7 @@ def run_checks(
     importer: Callable[[str], object] = importlib.import_module,
     names_of: Callable[[str], list[str]] = import_names,
     on_result: Callable[[CheckResult], None] | None = None,
+    disk_usage: DiskUsage = shutil.disk_usage,
 ) -> list[CheckResult]:
     """Run every check in order; raise `EnvCheckError` naming the first failure.
 
@@ -655,6 +681,7 @@ def run_checks(
         "image": lambda: check_image(ctx, runner, which),
         "salome": lambda: check_salome(ctx, runner, which),
         "partage": lambda: check_shared_folder(ctx),
+        "disque": lambda: check_disk(ctx, disk_usage),
         "mcp": lambda: check_mcp_server(ctx, runner),
     }
     results: list[CheckResult] = []

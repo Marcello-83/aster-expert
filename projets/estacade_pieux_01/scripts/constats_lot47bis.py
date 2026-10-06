@@ -125,7 +125,18 @@ def main() -> None:
             "extrémités de la bande n'entre pas dans le total (rapporté à part). Les "
             "valeurs nodales de la dalle sont lues par POST_RELEVE_T, qui émet "
             "<A> <POSTRELE_70> (DIAG-012) : le repère local de la dalle (ANGL_REP = "
-            "(0, 0), normale +Z) est ici le repère global."
+            "(0, 0), normale +Z) est ici le repère global. Domaine de validité "
+            "(plan factoriel du lot 47 ter, docs/essais_lot47ter.md § 6, observé sur "
+            "l'estacade au maillage de 0,05 m, sans listing versionné) : le partage "
+            "décrit vaut pour une dalle DKT. Avec une dalle DST (déformable à l'effort "
+            "tranchant), la barre porte l'essentiel de l'effort tranchant près du pieu : "
+            "maxima de |VZ| et de |VZ + ∫QY dX| en 105 et 112 ELU = 660,8 et 733,3 kN "
+            "(rapport 90 %), contre 198,1 et 722,5 kN (27 %) en DKT ; le moment de la "
+            "barre en travée "
+            "change à peine (C6 barre seule 443,1 kN·m en DKT et en DST). La grandeur "
+            "d'une section en T reste le total ; la barre seule ne se compare qu'à un "
+            "calcul qui publie l'effort de la barre, et dépend alors de la formulation "
+            "de la dalle."
         ),
     )
     constat = build_constat(

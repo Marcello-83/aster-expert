@@ -23,7 +23,7 @@ from typing import Any
 
 import numpy as np
 
-from aster_expert.report.med_read import med_field_name, run_med_script
+from aster_expert.report.med_read import med_field_name, run_med_script, take_arrays
 from aster_expert.report.tables import Record
 from quai_cw_test_01.generation import comm
 
@@ -91,8 +91,7 @@ def field_names(cases: Iterable[str], *, palplanches: bool = True) -> list[str]:
 def load_med_data(med: Path, cases: Sequence[str], **kwargs: Any) -> MedData:
     """Lit `med` (conteneur, `medcoupling`) : maillage, groupes et champs des cas."""
     payload = run_med_script(med, ["extract", *field_names(cases)], **kwargs)
-    npz = np.load(Path(payload["_work_dir"]) / "out.npz")
-    arrays = {k: npz[k] for k in npz.files}
+    arrays = take_arrays(payload)
     conn = {
         int(k.split("_", 1)[1]): arrays.pop(k)
         for k in [k for k in arrays if k.startswith("conn_")]

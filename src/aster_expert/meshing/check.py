@@ -21,6 +21,7 @@ import uuid
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict
 
@@ -67,6 +68,18 @@ class MeshCheckReport(BaseModel):
     checked_at: datetime
 
 
+def run_then_drop_copy(
+    runner: ContainerRunner, copy: Path, **kwargs: Any
+) -> subprocess.CompletedProcess[str]:
+    """Run the container, then delete the copy of the MED it read, whatever the
+    outcome (lot 47 ter, ENV-003: a copy of 1.9 GB per reading of the results of the
+    jetty, never deleted, filled the disk). The reports and dumps stay."""
+    try:
+        return runner(**kwargs)
+    finally:
+        copy.unlink(missing_ok=True)
+
+
 def dump_med(
     med: Path,
     *,
@@ -103,7 +116,9 @@ def dump_med(
     container_name = f"aster-expert-mesh-check-{uuid.uuid4().hex}"
     logger.info("reading %s with medcoupling in %s", med, image_ref)
     try:
-        result = runner(
+        result = run_then_drop_copy(
+            runner,
+            work_dir / _MED_NAME,
             docker_bin=docker_bin,
             image_ref=image_ref,
             workdir=work_dir,
@@ -116,6 +131,7 @@ def dump_med(
         )
     except subprocess.TimeoutExpired as exc:
         kill_container(docker_bin, container_name)
+        (work_dir / _MED_NAME).unlink(missing_ok=True)
         message = f"MED reading exceeded {checker.timeout_seconds} s"
         raise MeshCheckError(message) from exc
     except EnvironmentDetectionError as exc:

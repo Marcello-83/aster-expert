@@ -12,8 +12,8 @@
 # (racine 82b9a5d) : les lots antérieurs n'ont pas de commit consultable.
 
 schema_version: 1
-mis_a_jour_au_lot: "47bis"
-date: 2026-10-05
+mis_a_jour_au_lot: "47ter"
+date: 2026-10-06
 
 lots:
   - {id: "1", objet: "Initialisation du dépôt", etat: fait, commit: null, date: 2026-09-15, note: "antérieur à l'historique publié"}
@@ -69,6 +69,7 @@ lots:
   - {id: "46 bis", objet: "Correction du workflow ci-lent : profil ci de env-check, ASTER_IMAGE_REF dérivée de versions.yaml", etat: fait, commit: "51baf31", date: 2026-10-05, note: "branche claude/blissful-turing-ajkazc ; passage réel de ci-lent vert, constaté par MM"}
   - {id: "47", objet: "Contre-calcul d'une estacade sur pieux (estacade_pieux_01) : premier ouvrage réel, comparaison à un modèle externe non validé", etat: fait, commit: "f97d48e", date: 2026-10-05, note: "branche lot-47 ; compte rendu docs/essais_lot47.md et message du commit f97d48e"}
   - {id: "47bis", objet: "Estacade : relecture des écarts (critères v2, E17), essieu de trottoir (E18), variante de chevêtre (E19), sonde S2, harnais D v2 des cas autoéquilibrés", etat: fait, commit: "7454147", date: 2026-10-05, note: "branche lot-47bis ; compte rendu docs/essais_lot47bis.md et message du commit 7454147 (critères écrits avant exécution : 5ad8e24, c2fc6f9)"}
+  - {id: "47ter", objet: "Estacade : attribution des écarts (plan factoriel DKT/DST × chevêtre 0,90/0,80, maillages de dalle 0,25 et 0,50 m), ENV-002 (search_connaissances), ENV-003 (disque plein), DIAG-025", etat: fait, commit: null, date: 2026-10-06, note: "branche lot-47ter ; compte rendu docs/essais_lot47ter.md (critères écrits avant exécution : d5ea578) ; commit du compte rendu désigné au commit suivant"}
 
 # Niveaux A à E : CLAUDE.md, « Niveaux de validation ». Un niveau n'est donné que pour ce
 # que la preuve établit ; `limites` dit ce qui n'est pas couvert.
@@ -102,7 +103,7 @@ capacites:
     etat: operationnelle
     fichiers: [src/aster_expert/execution, tests/integration/test_reel_lent.py, config/validation.yaml]
     commandes: ["aster-expert run", "pytest -m lent_aster"]
-    limites: "Racines d'exécution déclarées une à une (execution.allowed_roots). Salomé : VM seulement."
+    limites: "Racines d'exécution déclarées une à une (execution.allowed_roots). Salomé : VM seulement. Le délai et la mémoire viennent de --timeout/--memory-mb ou de config/validation.yaml, jamais de l'.export (DIAG-025, lot 47 ter). env-check vérifie l'espace disque (ENV-003)."
   - nom: controles_d
     niveau: D
     etat: operationnelle
@@ -173,7 +174,7 @@ projets:
     ouvrage: "Estacade sur pieux ESTACADE-PIEUX-01 (contre-calcul d'un modèle non validé)"
     niveau_atteint: D
     preuve: projets/estacade_pieux_01/resultats/paquet/paquet.json
-    limites: "Niveau D par le harnais v2 (lot 47 bis), critère écrit après l'exécution (antériorité non démontrable, signalée par le paquet) ; contre-calcul d'un modèle non validé, jamais E : lecture v2 (E17), 17 lignes sur 30 dans la tolérance (v1 : 11), docs/essais_lot47bis.md § 7."
+    limites: "Niveau D par le harnais v2 (lot 47 bis), critère écrit après l'exécution (antériorité non démontrable, signalée par le paquet) ; contre-calcul d'un modèle non validé, jamais E : lecture v2 (E17), 17 lignes sur 30 dans la tolérance (v1 : 11), docs/essais_lot47bis.md § 7. Lot 47 ter : hypothèse « DST et chevêtre de 0,80 m » partielle (8/13 lignes contre 6/13) ; des 13 écarts v2, 4 attribués au chevêtre, à la formulation de la dalle et à la grandeur comparée, 7 au maillage (non comparables), 2 inexpliqués (C3 ELS c, C5), aucun à une erreur du modèle (docs/essais_lot47ter.md § 6)."
 
 metriques:
   - {libelle: "Tableau de bord des projets", fichier: connaissances/metriques/tableau_de_bord.md}

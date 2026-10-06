@@ -150,8 +150,8 @@ projets), `mypy`, `pytest -m lent`, le serveur MCP. Le passage reste un lot à p
 ## 3. `aster-expert env-check` (lot 41 bis)
 
 Module `aster_expert.environnement.verification`, commande `aster-expert env-check`,
-tests `tests/unit/test_env_check.py` (31 tests, sans Docker ni Singularity). Huit
-vérifications, dans l'ordre, arrêt au premier écart (code 1, sans trace Python,
+tests `tests/unit/test_env_check.py` (sans Docker ni Singularity). Neuf vérifications
+depuis le lot 47 ter (huit au lot 41 bis), dans l'ordre, arrêt au premier écart (code 1, sans trace Python,
 avec la liste des vérifications non évaluées) :
 
 | Vérification | Ce qui est contrôlé |
@@ -163,6 +163,7 @@ avec la liste des vérifications non évaluées) :
 | `image` | image résolue comme pour `aster-expert run` (épinglage `cave` ou `ASTER_IMAGE_REF`) ; digest = `config/versions.yaml` |
 | `salome` | `mesh.salome.runtime` présent ; image présente ; version lue dans l'image = `expected_version` |
 | `partage` | `environnement.partage` (`config/validation.yaml`) monté, écriture d'un fichier temporaire |
+| `disque` (lot 47 ter, ENV-003) | espace libre sous le dépôt : 10 Go au moins en profil vm, 2 Go en cloud et ci |
 | `mcp` | commande de `.mcp.json` (développée comme `mcp-check`) exécutable ; son interpréteur est celui du `.venv` et importe `aster_expert.mcp.server` |
 
 Limite : si le `.venv` est cassé au point que `aster-expert` ne démarre pas (cas

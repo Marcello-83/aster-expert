@@ -540,7 +540,7 @@ def test_cli_env_check_ok(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> No
     result = CliRunner().invoke(cli.app, ["env-check"])
     assert result.exit_code == 0
     assert result.output.startswith("Profil : vm (CLAUDE_CODE_REMOTE non défini)")
-    assert "env-check OK (profil vm) : 8 vérifications." in result.output
+    assert "env-check OK (profil vm) : 9 vérifications." in result.output
 
 
 def test_cli_env_check_cloud_marks_expected_absences(
@@ -560,7 +560,7 @@ def test_cli_env_check_cloud_marks_expected_absences(
     assert result.output.startswith("Profil : cloud (CLAUDE_CODE_REMOTE=true)")
     assert "  -- salome : d" in result.output
     assert "  OK docker : d" in result.output
-    assert "(profil cloud) : 8 vérifications, dont 3 absences attendues." in (
+    assert "(profil cloud) : 9 vérifications, dont 3 absences attendues." in (
         result.output
     )
 
@@ -616,6 +616,7 @@ def _all_pass_but(monkeypatch: pytest.MonkeyPatch, failing: set[str]) -> list[st
         "image": "check_image",
         "salome": "check_salome",
         "partage": "check_shared_folder",
+        "disque": "check_disk",
         "mcp": "check_mcp_server",
     }
     for name, function in functions.items():
@@ -777,7 +778,7 @@ def test_cli_env_check_ci_announces_the_profile(
     result = CliRunner().invoke(cli.app, ["env-check"])
     assert result.exit_code == 0
     assert result.output.startswith("Profil : ci (GITHUB_ACTIONS=true)")
-    assert "(profil ci) : 8 vérifications, dont 4 absences attendues." in result.output
+    assert "(profil ci) : 9 vérifications, dont 4 absences attendues." in result.output
 
 
 # --- Workflow ci-lent (lot 46 bis) ---------------------------------------------------
@@ -833,3 +834,26 @@ def test_repository_pins_python_312_managed_by_uv() -> None:
     lock = tomllib.loads((_REPO / "uv.lock").read_text(encoding="utf-8"))
     # `uv lock` écrit l'intervalle sous sa forme normalisée.
     assert lock["requires-python"] == "==3.12.*"
+
+
+# --- Disk (lot 47 ter, ENV-003) ---------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("profile", "free_gb", "ok"),
+    [("vm", 24.0, True), ("vm", 9.9, False), ("cloud", 2.5, True), ("ci", 1.0, False)],
+)
+def test_check_disk_requires_free_space_per_profile(
+    tmp_path: Path, profile: str, free_gb: float, ok: bool
+) -> None:
+    ctx = _ctx(_project(tmp_path), profile=profile)
+
+    def usage(_: Path) -> tuple[int, int, int]:
+        return (120_000_000_000, 0, int(free_gb * 1e9))
+
+    if ok:
+        result = v.check_disk(ctx, usage)
+        assert result.name == "disque" and f"{free_gb:.1f} Go libres" in result.detail
+    else:
+        with pytest.raises(EnvCheckError, match="espace disque insuffisant.*ENV-003"):
+            v.check_disk(ctx, usage)

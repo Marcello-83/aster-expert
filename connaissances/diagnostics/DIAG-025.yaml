@@ -1,0 +1,48 @@
+id: DIAG-025
+title: Arrêt par manque de temps CPU sous le délai par défaut de aster-expert run
+summary: aster-expert run impose son délai (execution.timeout_seconds, 1 800 s) et sa mémoire
+  (8 192 Mio) à Code_Aster, quelles que soient les valeurs de l'.export ; un calcul plus long
+  s'arrête sur SUPERVIS_63 (« ARRET PAR MANQUE DE TEMPS CPU »).
+origin_project: estacade_pieux_01
+date: '2026-10-06'
+validation_level: A
+status: observé
+sources:
+- kind: execution
+  run: 20261006T131606-cda5e20e
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 47 ter, N1 (variante SH, 299 positions) : <S>_CPU_LIMIT à 1 803,9 s ; l''.export
+    déclarait time_limit 7200 et memory_limit 10240, la commande Docker portait --time-limit 1800
+    --memory-limit 8192'
+- kind: execution
+  run: 20261005T104915-1d558927
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: 'lot 47, variante DST lancée avec --timeout 7200 --memory-mb 10240 : 2 442 s, OK'
+commands: []
+keywords:
+- SUPERVIS_63
+- CPU_LIMIT
+signature:
+  kind: <EXCEPTION>
+  identifiers:
+  - SUPERVIS_63
+  pattern: null
+category: préparation
+cause: 'Le délai et la mémoire passés à run_aster viennent de la ligne de commande de aster-expert
+  run (--timeout, --memory-mb) ou, à défaut, de config/validation.yaml (execution.timeout_seconds
+  = 1800, memory_mb = 8192) ; P time_limit et P memory_limit de l''.export ne sont pas lus côté
+  VM (leur lecture appartient à run_aster.export, dans le conteneur). La variante DST de
+  l''estacade dure plus de 1 800 s.'
+cause_established: true
+correction: Relancer avec --timeout et --memory-mb égaux aux valeurs de l'.export (estacade 7200 et
+  10240) ; jamais un délai relâché sans motif écrit.
+prevention: Un script de lot qui écrit un .export long imprime la commande d'exécution avec ses
+  limites explicites (projets/estacade_pieux_01/scripts/executions_lot47ter.py, lot 47 ter).
+reuses: []
+status_history: []

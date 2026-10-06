@@ -28,6 +28,7 @@ from aster_expert.execution.docker_client import (
     kill_container,
     run_in_container,
 )
+from aster_expert.meshing.check import run_then_drop_copy
 from aster_expert.meshing.config import load_mesh_config
 from aster_expert.meshing.errors import MeshCheckError
 from aster_expert.validation.validate import resolve_digest_for_version
@@ -38,6 +39,7 @@ ROOT = Path(__file__).resolve().parents[3]
 _SCRIPT = ROOT / "scripts" / "med_results_dump.py"
 _MED_NAME = "input.med"
 _OUT_NAME = "out.json"
+_ARRAYS_NAME = "out.npz"
 
 ContainerRunner = Callable[..., "subprocess.CompletedProcess[str]"]
 
@@ -81,7 +83,9 @@ def run_med_script(
     name = f"aster-expert-med-read-{uuid.uuid4().hex}"
     logger.info("lecture de %s par medcoupling dans %s", med, image_ref)
     try:
-        result = runner(
+        result = run_then_drop_copy(
+            runner,
+            work_dir / _MED_NAME,
             docker_bin=docker_bin,
             image_ref=image_ref,
             workdir=work_dir,
@@ -94,6 +98,7 @@ def run_med_script(
         )
     except subprocess.TimeoutExpired as exc:
         kill_container(docker_bin, name)
+        (work_dir / _MED_NAME).unlink(missing_ok=True)
         message = f"lecture du MED au-delà de {timeout_seconds} s"
         raise MeshCheckError(message) from exc
     if result.returncode != 0:
@@ -109,6 +114,18 @@ def run_med_script(
     payload: dict[str, Any] = json.loads(out.read_text(encoding="utf-8"))
     payload["_work_dir"] = str(work_dir)
     return payload
+
+
+def take_arrays(payload: dict[str, Any]) -> dict[str, Any]:
+    """The arrays written by the reader (`out.npz`), loaded in memory, then the file
+    deleted (lot 47 ter, ENV-003): an extraction is used once, by its caller."""
+    import numpy as np  # noqa: PLC0415
+
+    path = Path(payload["_work_dir"]) / _ARRAYS_NAME
+    with np.load(path) as npz:
+        arrays = {k: np.array(npz[k]) for k in npz.files}
+    path.unlink()
+    return arrays
 
 
 def med_field_name(case: str, quantity: str) -> str:

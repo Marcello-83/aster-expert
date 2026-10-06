@@ -1,0 +1,49 @@
+id: ENV-003
+title: Disque de la VM plein pendant une exécution
+summary: Le disque de la VM s'est rempli pendant deux exécutions de l'estacade ; elles se sont
+  arrêtées sur une erreur d'écriture et ont laissé un compte rendu vide, que rex ne savait pas
+  lire. Cause d'occupation principale, les copies de travail des lectures de MED de résultats,
+  jamais effacées.
+origin_project: estacade_pieux_01
+date: '2026-10-06'
+validation_level: A
+status: établi
+sources:
+- kind: test
+  path: tests/unit/test_med_read_copies.py
+  function: test_the_copy_is_deleted_after_reading_and_the_arrays_once_loaded
+  note: la copie du MED et l'extraction sont effacées après lecture
+- kind: test
+  path: tests/unit/test_env_check.py
+  function: test_check_disk_requires_free_space_per_profile
+  note: env-check refuse moins de 10 Go libres en profil vm
+- kind: test
+  path: tests/unit/test_rex_compte_rendu_illisible.py
+  function: test_an_empty_report_is_a_failure_to_classify_attributed_by_its_comm
+  note: rex lit une exécution au compte rendu vide comme un échec à classer
+- kind: document
+  path: docs/essais_lot47ter.md
+  section: 6.1 Incident d'environnement (ENV-003)
+  note: null
+commands: []
+keywords: []
+reuses: []
+status_history: []
+category: environnement
+signature:
+  kind: environnement
+  identifiers: []
+  pattern: 'No space left on device|Errno 28'
+cause: 'run_med_script (aster_expert.report.med_read) et mesh check copiaient le MED lu dans
+  data/processed/mesh_checks/ (input.med, 1,9 Go pour l''estacade) et y laissaient l''extraction
+  out.npz (1,9 Go), sans jamais les effacer : 20 Go pour les lectures du 5 octobre 2026 ; avec
+  l''archive des exécutions (31 Go), le disque de 120 Go était plein le 6 octobre, pendant N1
+  et N2 du lot 47 ter. Le compte rendu de chaque exécution, écrit après, est resté vide.'
+cause_established: true
+correction: 'Supprimer les copies input.med dont l''original de même SHA-256 est dans
+  data/processed/runs/, et les out.npz (lot 47 ter, accord de MM) ; relancer l''exécution.
+  Depuis le lot 47 ter, la copie est effacée dès la lecture faite (run_then_drop_copy) et
+  take_arrays efface l''extraction une fois chargée ; rex lit un compte rendu vide comme un
+  échec à classer, attribué par l''empreinte de son .comm.'
+prevention: env-check vérifie l'espace libre (10 Go en profil vm, 2 Go en cloud et ci) avant
+  tout lot ; aucune suppression de données sans accord de MM.

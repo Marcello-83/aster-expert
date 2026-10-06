@@ -98,6 +98,10 @@ results_package:
     - {section: contre_calcul, source: references/variante_chevetre_0p80_lot47bis.json}
     - {section: contre_calcul, source: references/sonde_lot47bis_resultats.json}
     - {section: controles, source: references/controles_d_v1_lot47.json}
+    # Lot 47 ter : plan factoriel {DKT, DST} × {0,90, 0,80}, maillages grossiers, contrôles.
+    - {section: contre_calcul, source: references/plan_factoriel_lot47ter.json}
+    - {section: contre_calcul, source: references/maillages_lot47ter.json}
+    - {section: controles, source: references/controles_lot47ter.json}
   # Critères de niveau D écrits avant l'exécution (lot 47, commit fa97116) ; harnais
   # v2 des cas autoéquilibrés (lot 47 bis, commit 5ad8e24), écrit après l'exécution
   # de production qu'il réévalue.
@@ -128,6 +132,30 @@ results_package:
         - {header: Code_Aster, path: code_aster}
         - {header: Source, path: source}
         - {header: Écart relatif, path: ecart_relatif}
+    - section: contre_calcul
+      title: Plan factoriel du lot 47 ter — lignes du critère de l'hypothèse (SH = DST et chevêtre de 0,80 m), sans changement de la référence
+      source: contre_calcul/plan_factoriel_lot47ter.json
+      rows: lignes_du_critere.SH
+      columns:
+        - {header: Point, path: point}
+        - {header: Ligne, path: colonne}
+        - {header: Code_Aster (SH), path: code_aster}
+        - {header: Source, path: source}
+        - {header: Écart relatif, path: ecart_relatif}
+        - {header: Tolérance, path: tolerance}
+    - section: contre_calcul
+      title: Dépendance au maillage des grandeurs locales (SH, dalle de 0,05 / 0,25 / 0,50 m)
+      source: contre_calcul/maillages_lot47ter.json
+      rows: lignes
+      columns:
+        - {header: Point, path: point}
+        - {header: Ligne, path: colonne}
+        - {header: Source, path: source}
+        - {header: "h = 0,05", path: "valeurs.0,05"}
+        - {header: "h = 0,25", path: "valeurs.0,25"}
+        - {header: "h = 0,50", path: "valeurs.0,50"}
+        - {header: Variation, path: variation_max_relative}
+        - {header: Comparabilité, path: comparabilite}
     - section: contre_calcul
       title: Comparaison v1 (lot 47, conservée) aux valeurs du modèle source (C1 à C13) — contre-calcul d'un modèle non validé
       source: contre_calcul/comparaison.json

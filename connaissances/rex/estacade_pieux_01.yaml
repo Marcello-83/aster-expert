@@ -43,10 +43,31 @@ lots:
     harnais D v2 ; 3 exécutions réussies (S2 7,8 s ; E18 332,6 s ; E19 1 770,1 s), aucun échec.
     Deux appels refusés par la politique des chemins (.export au lieu du .comm) avant toute
     exécution : aucun répertoire d''exécution créé.'
+- lot: 47ter
+  supervisor_interventions:
+    value: 1.0
+    nature: mesure
+    note: 'Une question posée à MM : la suppression des copies de travail des lectures MED
+      pour libérer le disque plein (accord, à condition de vérifier chaque copie contre son
+      original par SHA-256 ; consigne de classer l''échec et de relancer N1). Une question
+      de MM sur l''avancement de N1, sans effet sur le contenu.'
+  avoided_errors:
+    value: 1.0
+    nature: mesure
+    note: 'DIAG-002 (nom de groupe tronqué au-delà de 24 caractères) : les groupes de mailles
+      du maillage grossier (CX_, CY_, Qiii_jj) passent par le contrôle de longueur du générateur
+      (_gn) ; aucune autre consultation n''a évité d''erreur. Non évitées alors que la règle
+      existait : consultation par commande faite après N3 et N4 (DEFI_GROUP, FORCE_COQUE ;
+      aucune entrée contredite), une commande lancée avec le python3 du système (CLAUDE.md).'
+  note: 'Plan factoriel {DKT, DST} × {0,90, 0,80 m} et maillages de dalle 0,25 et 0,50 m :
+    4 exécutions réussies (N1 3 127,2 s ; N2 615,7 s ; N3 246,5 s ; N4 41,5 s), 3 échecs d''environnement
+    ou de préparation (ENV-003 ×2, DIAG-025), tous classés. Correctifs : ENV-002 (schéma de
+    la base rechargé par le serveur MCP), copies MED effacées, rex tolérant aux comptes rendus
+    vides, env-check disque.'
 archive:
-  runs: 20
-  sha256: 9144dfd41f1a47306a9db897038dd38f3ed49c3a4c6437e320aec70614721059
-  recorded: '2026-10-05'
+  runs: 27
+  sha256: 4665a966bdd17723456b1c337860bd5e2b21254d4075229504b2f789cc04ab2f
+  recorded: '2026-10-06'
 declaration_required_since: '2026-10-05T05:28:20.904249'
 reviews:
 - date: '2026-10-05'
@@ -61,6 +82,12 @@ reviews:
   failures: 4
   unclassified: 0
   last_run: 20261005T150840-65219726
+- date: '2026-10-06'
+  lot: 47ter
+  runs: 27
+  failures: 7
+  unclassified: 0
+  last_run: 20261006T134742-072cb0d7
 classifications:
 - run: 20261005T100413-8334652d
   signature: <F> <FACTOR_57>
@@ -88,3 +115,24 @@ classifications:
   diagnostic: DIAG-003
   reason: même variante, cas thermiques (MECA_STATIQUE sans le SOLVEUR relâché), erreur 1,41e-6
     ; SOLVEUR de la variante porté aux cas thermiques (lot 47)
+- run: 20261006T125858-7291dc7a
+  signature: (signature inconnue)
+  decision: nouveau
+  diagnostic: ENV-003
+  reason: 'N1 du lot 47 ter (variante SH) : disque de la VM plein pendant l''exécution («
+    No space left on device » dans la sortie de aster-expert run), compte rendu resté vide
+    ; aucune cause dans le modèle ; relancée après libération de 25 Go (accord de MM).'
+- run: 20261006T130308-683933a3
+  signature: (signature inconnue)
+  decision: nouveau
+  diagnostic: ENV-003
+  reason: 'N2 du lot 47 ter (positions d''E18 sur la variante DST) : arrêt sur OSError [Errno
+    28] No space left on device, compte rendu vide ; même cause que N1 ; relancée.'
+- run: 20261006T131606-cda5e20e
+  signature: <EXCEPTION> <SUPERVIS_63>
+  decision: nouveau
+  diagnostic: DIAG-025
+  reason: 'N1 du lot 47 ter relancée sans --timeout ni --memory-mb : délai par défaut de aster-expert
+    run (1 800 s) au lieu des 7 200 s de l''.export ; arrêt par manque de temps CPU à 1 803,9
+    s ; relancée avec --timeout 7200 --memory-mb 10240 (valeurs de la variante DST du lot
+    47).'
