@@ -27,6 +27,8 @@ from estacade_pieux_01.donnees import ModelValues
 
 PRECISION = 1.0e-9
 CONVERGENCE_SIZES = (0.1, 0.05, 0.025)
+COARSE_SIZES = (0.25, 0.5)
+"""Lot 47 ter, step 2: coarse slab meshes (mesh dependence of the local readings)."""
 """Mesh convergence series of the slab under a wheel (point U3): ratio 2."""
 PRODUCTION_SIZE = 0.05
 
@@ -35,8 +37,12 @@ class DiscretisationError(ValueError):
     """A size that does not divide a required coordinate."""
 
 
-def _count(length: float, size: float, label: str) -> int:
+def _count(length: float, size: float, label: str, *, exact: bool = True) -> int:
     n = round(length / size)
+    if not exact:
+        # Lot 47 ter (coarse slab meshes of the step 2): the integer nearest to
+        # length / size, at least 1, written in the parameters and the report.
+        return max(1, int(n))
     if n < 1 or abs(n * size - length) > PRECISION:
         message = f"{label} : {length} m n'est pas un multiple de la taille {size} m"
         raise DiscretisationError(message)
@@ -47,6 +53,11 @@ def _count(length: float, size: float, label: str) -> int:
 class JettyMesh:
     values: ModelValues
     size: float
+    exact: bool = True
+    """False (lot 47 ter, coarse meshes 0.25 and 0.50 m): an edge whose length is not
+    a multiple of the size gets the nearest integer number of segments (the about
+    of 0.60 m: 2 segments of 0.30 m at 0.25, 1 of 0.60 m at 0.50); the wheel prints
+    are then represented by fractions of cells (`generation.fractional_prints`)."""
 
     @property
     def x_cuts(self) -> tuple[float, ...]:
@@ -67,16 +78,31 @@ class JettyMesh:
     def x_segments(self) -> tuple[int, ...]:
         cuts = self.x_cuts
         return tuple(
-            _count(b - a, self.size, f"X {a}-{b}")
+            _count(b - a, self.size, f"X {a}-{b}", exact=self.exact)
             for a, b in zip(cuts, cuts[1:], strict=False)
         )
 
     def y_segments(self) -> tuple[int, ...]:
         cuts = self.y_cuts
         return tuple(
-            _count(b - a, self.size, f"Y {a}-{b}")
+            _count(b - a, self.size, f"Y {a}-{b}", exact=self.exact)
             for a, b in zip(cuts, cuts[1:], strict=False)
         )
+
+    @staticmethod
+    def _nodes(cuts: tuple[float, ...], segments: tuple[int, ...]) -> tuple[float, ...]:
+        out = [cuts[0]]
+        for a, b, n in zip(cuts, cuts[1:], segments, strict=False):
+            out += [round(a + (b - a) * k / n, 9) for k in range(1, n + 1)]
+        return tuple(out)
+
+    def x_nodes(self) -> tuple[float, ...]:
+        """Abscissae of the node lines of the slab, in order."""
+        return self._nodes(self.x_cuts, self.x_segments())
+
+    def y_nodes(self) -> tuple[float, ...]:
+        """Ordinates of the node lines of the slab, in order."""
+        return self._nodes(self.y_cuts, self.y_segments())
 
     @property
     def nx(self) -> int:
@@ -301,6 +327,7 @@ class JettyMesh:
 
 
 __all__ = [
+    "COARSE_SIZES",
     "CONVERGENCE_SIZES",
     "DiscretisationError",
     "JettyMesh",

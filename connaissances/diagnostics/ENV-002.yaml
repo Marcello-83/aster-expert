@@ -1,0 +1,44 @@
+id: ENV-002
+title: Serveur MCP au schéma de la base plus ancien que la base
+summary: Un processus de longue durée (le serveur MCP) relit la base à chaque appel mais garde le
+  schéma importé à son démarrage ; une session qui ajoute un champ au schéma et à une entrée rend
+  toute la base illisible pour ce processus, et search_connaissances échoue jusqu'au redémarrage.
+origin_project: estacade_pieux_01
+date: '2026-10-06'
+validation_level: A
+status: établi
+sources:
+- kind: test
+  path: tests/unit/test_connaissances_fraicheur.py
+  function: test_a_schema_changed_during_the_session_is_reloaded
+  note: panne du lot 47 bis rejouée dans un sous-processus (copie des sources et de la base),
+    puis corrigée par le rechargement
+- kind: code
+  path: src/aster_expert/connaissances/fraicheur.py
+  symbol: refresh_if_stale
+  note: null
+- kind: document
+  path: docs/essais_lot47ter.md
+  section: 1. Étape 0 — search_connaissances
+  note: null
+commands: []
+keywords: []
+reuses: []
+status_history: []
+category: environnement
+signature:
+  kind: environnement
+  identifiers: []
+  pattern: 'KnowledgeBaseError.*Extra inputs are not permitted'
+cause: 'Lot 47 bis : la session a ajouté `version` et `version_history` au modèle Control
+  (aster_expert.connaissances.modeles) et à CTL-005, CTL-013. Le serveur MCP, lancé avant, validait
+  les fichiers relus avec l''ancien modèle (extra="forbid") : deux entrées refusées, puis toutes
+  celles qui les citent, et load_knowledge refuse la base entière. Un serveur neuf (mcp-check)
+  importait le nouveau schéma et répondait.'
+cause_established: true
+correction: 'Depuis le lot 47 ter, search_connaissances et search_constats comparent l''empreinte des
+  sources du chemin de lecture (aster_expert.connaissances.fraicheur) à celle du démarrage et
+  rechargent ces modules si elle a changé. À défaut (schéma hors de ce chemin, comme
+  aster_expert.agent.hypotheses) : redémarrer la session ou reconnecter le serveur (/mcp).'
+prevention: Tout lot qui modifie un schéma de connaissances le dit dans son compte rendu ; la
+  consigne « redémarrer la session avant le lot suivant » s'applique aussi à ce cas.

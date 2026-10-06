@@ -1,7 +1,8 @@
 """Lot 47 -- writes the mesh invariants and parameters of the convergence series.
 
 `maillage/invariants_<h>.yaml` and `maillage/params_<h>.json` for each size of
-`CONVERGENCE_SIZES`, computed from the data only (never read from a MED): do not
+`CONVERGENCE_SIZES` and, since lot 47 ter, of each coarse size of `COARSE_SIZES`
+(about of 0.60 m rounded to an integer number of segments), computed from the data only (never read from a MED): do not
 edit, rerun `.venv/bin/python projets/estacade_pieux_01/scripts/invariants_lot47.py`.
 A test replays the script and compares byte for byte.
 """
@@ -13,7 +14,11 @@ from pathlib import Path
 import yaml
 
 from aster_expert.projet.context import load_project
-from estacade_pieux_01.discretisation import CONVERGENCE_SIZES, JettyMesh
+from estacade_pieux_01.discretisation import (
+    COARSE_SIZES,
+    CONVERGENCE_SIZES,
+    JettyMesh,
+)
 from estacade_pieux_01.donnees import model_values
 
 REPO = Path(__file__).resolve().parents[3]
@@ -28,8 +33,9 @@ def outputs() -> dict[Path, bytes]:
     ctx = load_project("estacade_pieux_01", REPO)
     values = model_values(ctx)
     out: dict[Path, bytes] = {}
-    for size in CONVERGENCE_SIZES:
-        mesh = JettyMesh(values, size)
+    sizes = [(h, True) for h in CONVERGENCE_SIZES] + [(h, False) for h in COARSE_SIZES]
+    for size, exact in sizes:
+        mesh = JettyMesh(values, size, exact=exact)
         label = mesh.label()
         text = HEADER.format(h=size) + yaml.safe_dump(
             mesh.invariants(), allow_unicode=True, sort_keys=False, width=100

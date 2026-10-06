@@ -60,7 +60,15 @@ HARNESS_MOVING = ("TSA_P00", "TSB_P00", "L2A_M00", "L2B_M00")
 SYMMETRIC_CASES = ("PP", "G2", "UDL", "TR", "TEP", "TEM")
 CONVERGENCE_CASES = ("TSA_M15", "TSA_M20")
 """TS axé centred at X = 8,10 (span between files 2 and 3) and X = 5,60 (file 2)."""
-VARIANTS = ("reference", "dst", "pou_d_e_chevetres", "chevetre_0p80")
+VARIANTS = (
+    "reference",
+    "dst",
+    "pou_d_e_chevetres",
+    "chevetre_0p80",
+    "dst_chevetre_0p80",
+)
+DST_VARIANTS = ("dst", "dst_chevetre_0p80")
+CAP_0P80_VARIANTS = ("chevetre_0p80", "dst_chevetre_0p80")
 MODES = ("production", "convergence", "tr_essieu")
 CAP_HEIGHT_E19 = 0.80
 """Cap beam height of the sensitivity variant of E19 (m); the reference is E2."""
@@ -82,6 +90,13 @@ class Options:
     """Production mode: add the positions of the sidewalk axle of E18 (lot 47 bis)."""
     cell: float = 0.05
     """Mesh size of the slab, to check the print alignment."""
+    mesh_size: float | None = None
+    """Lot 47 ter (step 2): size of a coarse slab mesh (0.25 or 0.50 m) on which the
+    prints cannot be unions of whole cells. The positions stay those of the
+    production mesh (`cell`); each wheel is then applied as a uniform pressure on
+    every cell it overlaps, equal to the wheel pressure times the overlapped
+    fraction of that cell, so that the force on each cell, and the total load, are
+    exact (`fractional_prints`)."""
     post: str | None = "FORCE"
     """MUMPS `POSTTRAITEMENTS` (iterative refinement), `None` for the default of
     Code_Aster. Lot 47: `FORCE` for every run of the jetty, because the finest mesh
@@ -153,7 +168,7 @@ def moving_cases(v: ModelValues, options: Options) -> tuple[MovingCase, ...]:
         if options.tr_axle:
             cases = (*cases, *tr_axle_cases(v))
     bad = check_alignment(cases, options.cell)
-    if bad:
+    if bad and options.mesh_size is None:
         message = f"empreintes non alignées sur le maillage : {bad[:3]}"
         raise GenerationError(message)
     return cases
@@ -237,9 +252,11 @@ def print_groups_block(cases: tuple[MovingCase, ...]) -> str:
 
 
 def model_block(v: ModelValues, options: Options) -> str:
-    slab = "DST" if options.variant == "dst" else "DKT"
+    slab = "DST" if options.variant in DST_VARIANTS else "DKT"
     cap = "POU_D_E" if options.variant == "pou_d_e_chevetres" else "POU_D_T"
-    cap_height = CAP_HEIGHT_E19 if options.variant == "chevetre_0p80" else v.cap_height
+    cap_height = (
+        CAP_HEIGHT_E19 if options.variant in CAP_0P80_VARIANTS else v.cap_height
+    )
     classes = spring_classes(v)
     poi1 = "\n        ".join(
         f'_F(NOM_GROUP_MA="{class_group(k)}", GROUP_NO=({", ".join(repr(g) for g in groups)},)),'
@@ -354,6 +371,146 @@ def moving_loads_block(cases: tuple[MovingCase, ...]) -> str:
         "\n# E8, E15, E16 : une charge par position (empreintes de B4 au plan moyen).\n"
         + "\n".join(lines)
         + "\n"
+    )
+
+
+def _overlap(a0: float, a1: float, b0: float, b1: float) -> float:
+    return max(0.0, min(a1, b1) - max(a0, b0))
+
+
+def print_area_bounds(
+    v: ModelValues, case: MovingCase, y: float
+) -> tuple[float, float]:
+    """Y range of the group a print is intersected with (PRINT_AREA): the lane, or
+    the sidewalk on the side of the wheel."""
+    if case.model in ("TS", "LM2"):
+        return v.lane
+    return (v.lane[1], v.y_max) if y > 0 else (v.y_min, v.lane[0])
+
+
+def fractional_prints(
+    v: ModelValues,
+    cases: tuple[MovingCase, ...],
+    x_nodes: tuple[float, ...],
+    y_nodes: tuple[float, ...],
+) -> tuple[
+    dict[tuple[int, int], tuple[float, float, float, float]],
+    dict[str, dict[tuple[int, int], float]],
+]:
+    """Cells overlapped by the prints and, per case, the pressure (Pa) on each.
+
+    The pressure of a cell is the wheel pressure times the overlapped area divided
+    by the cell area: the force on each cell is exact, so is the total; two prints
+    on one cell add up (one occurrence per cell and case, never two, so that no
+    occurrence of FORCE_COQUE overrides another)."""
+    cells: dict[tuple[int, int], tuple[float, float, float, float]] = {}
+    loads: dict[str, dict[tuple[int, int], float]] = {}
+    for case in cases:
+        forces: dict[tuple[int, int], float] = {}
+        applied = 0.0
+        for axle in case.axles:
+            x0, x1 = axle.bounds_x()
+            for y in axle.wheels_y:
+                ya, yb = print_area_bounds(v, case, y)
+                y0, y1 = max(y - axle.half_y, ya), min(y + axle.half_y, yb)
+                for i, (xa, xb) in enumerate(zip(x_nodes, x_nodes[1:], strict=False)):
+                    ox = _overlap(x0, x1, xa, xb)
+                    if ox <= 0.0:
+                        continue
+                    for j, (yc, yd) in enumerate(
+                        zip(y_nodes, y_nodes[1:], strict=False)
+                    ):
+                        oy = _overlap(y0, y1, yc, yd)
+                        if oy <= 0.0:
+                            continue
+                        cells[(i, j)] = (xa, xb, yc, yd)
+                        force = case.pressure * ox * oy
+                        forces[(i, j)] = forces.get((i, j), 0.0) + force
+                        applied += force
+        if abs(applied - case.total) > 1e-9 * case.total:
+            message = (
+                f"{case.name} : charge représentée {applied} N pour {case.total} N "
+                "(empreinte hors de son groupe)"
+            )
+            raise GenerationError(message)
+        loads[case.name] = {
+            ij: f / ((cells[ij][1] - cells[ij][0]) * (cells[ij][3] - cells[ij][2]))
+            for ij, f in forces.items()
+        }
+    return cells, loads
+
+
+def cell_group(ij: tuple[int, int]) -> str:
+    return _gn(f"Q{ij[0]:03d}_{ij[1]:02d}")
+
+
+def fractional_groups_block(
+    cells: dict[tuple[int, int], tuple[float, float, float, float]],
+) -> str:
+    """One group per overlapped cell: X band of its column, Y band of its row
+    (`BANDE`, `CRIT_NOEUD="TOUS"`, PAT-003), intersected with DALLE (the bands also
+    hold the SEG2 of the cap beams, piles and edges)."""
+    columns = {i: (b[0], b[1]) for (i, _), b in cells.items()}
+    rows = {j: (b[2], b[3]) for (_, j), b in cells.items()}
+    bands = [
+        f'_F(NOM="{_gn(f"CX_{i:03d}")}", OPTION="BANDE", POINT=({_r((a + b) / 2.0)}, 0.0, 0.0), '
+        f"VECT_NORMALE=(1.0, 0.0, 0.0), DIST={_r((b - a) / 2.0 + BAND_TOLERANCE)}, "
+        'CRIT_NOEUD="TOUS"),'
+        for i, (a, b) in sorted(columns.items())
+    ] + [
+        f'_F(NOM="{_gn(f"CY_{j:02d}")}", OPTION="BANDE", POINT=(0.0, {_r((a + b) / 2.0)}, 0.0), '
+        f"VECT_NORMALE=(0.0, 1.0, 0.0), DIST={_r((b - a) / 2.0 + BAND_TOLERANCE)}, "
+        'CRIT_NOEUD="TOUS"),'
+        for j, (a, b) in sorted(rows.items())
+    ]
+    inter = [
+        f'_F(NOM="{cell_group(ij)}", INTERSEC=("CX_{ij[0]:03d}", "CY_{ij[1]:02d}", "DALLE")),'
+        for ij in sorted(cells)
+    ]
+    band_lines = "\n        ".join(bands)
+    inter_lines = "\n        ".join(inter)
+    return f"""
+# Lot 47 ter, maillage grossier : les empreintes ne sont plus des réunions de mailles
+# entières. Une maille par groupe (bande de sa colonne en X, de sa rangée en Y,
+# CRIT_NOEUD="TOUS", PAT-003, intersectées avec DALLE) ; chaque roue charge chaque
+# maille qu'elle recouvre de sa pression × la fraction recouverte : force exacte par
+# maille, charge totale exacte (contrôle de résultante des pointes).
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_MA=(
+        {band_lines}
+    ),
+)
+MAIL = DEFI_GROUP(
+    reuse=MAIL,
+    MAILLAGE=MAIL,
+    CREA_GROUP_MA=(
+        {inter_lines}
+    ),
+)
+"""
+
+
+def fractional_loads_block(loads: dict[str, dict[tuple[int, int], float]]) -> str:
+    """One AFFE_CHAR_MECA per position; the cells of equal pressure share one
+    occurrence of FORCE_COQUE."""
+    lines = []
+    for name, pressures in loads.items():
+        by_value: dict[float, list[tuple[int, int]]] = {}
+        for ij, p in sorted(pressures.items()):
+            by_value.setdefault(float(f"{p:.12e}"), []).append(ij)
+        occurrences = "\n        ".join(
+            f"_F(GROUP_MA=({', '.join(repr(cell_group(ij)) for ij in ijs)},), FZ={_r(-p)}),"
+            for p, ijs in sorted(by_value.items())
+        )
+        lines.append(
+            f"CH_{name} = AFFE_CHAR_MECA(\n    MODELE=MODELE,\n    FORCE_COQUE=(\n"
+            f"        {occurrences}\n    ),\n)"
+        )
+    return (
+        "\n# E8, E15, E16, E18 : une charge par position, empreintes par fractions de\n"
+        "# mailles (maillage grossier, lot 47 ter).\n" + "\n".join(lines) + "\n"
     )
 
 
@@ -549,6 +706,16 @@ def build_comm(
     v = model_values(ctx)
     seen: set[str] = set()
     cases = moving_cases(v, options)
+    if options.mesh_size is not None:
+        from estacade_pieux_01.discretisation import JettyMesh  # noqa: PLC0415
+
+        coarse = JettyMesh(v, options.mesh_size, exact=False)
+        cells, frac = fractional_prints(v, cases, coarse.x_nodes(), coarse.y_nodes())
+        prints_text = fractional_groups_block(cells)
+        loads_text = fractional_loads_block(frac)
+    else:
+        prints_text = print_groups_block(cases)
+        loads_text = moving_loads_block(cases)
     names = [c.name for c in cases]
     spring_union = ", ".join(f'"{s.group}"' for s in v.springs)
     production = options.mode == "production"
@@ -567,7 +734,12 @@ def build_comm(
     header = (
         f"# Estacade ESTACADE-PIEUX-01 (lot 47) -- maillage {mesh_label}, mode {options.mode}, "
         f"variante {options.variant}.\n"
-        "# Contre-calcul d'un modèle non validé. Généré par estacade_pieux_01.generation à\n"
+        + (
+            f"# Lot 47 ter : dalle de {options.mesh_size} m, empreintes par fractions de mailles.\n"
+            if options.mesh_size is not None
+            else ""
+        )
+        + "# Contre-calcul d'un modèle non validé. Généré par estacade_pieux_01.generation à\n"
         "# partir de la fiche (fiche/hypotheses_estacade_pieux_01.json) et des données\n"
         "# (donnees/estacade_pieux_01_model_data.yaml) : ne pas éditer. Unités m, N, Pa (U1).\n"
     )
@@ -583,13 +755,16 @@ MAIL = MODI_MAILLAGE(
     ORIE_NORM_COQUE=_F(GROUP_MA=("DALLE",), VECT_NORM=(0.0, 0.0, 1.0), GROUP_NO="COIN_ABOUT"),
 )
 MAIL = DEFI_GROUP(reuse=MAIL, MAILLAGE=MAIL, CREA_GROUP_NO=_F(UNION=({spring_union},), NOM="RESSORTS"))
-{groups_block() if production else ""}{print_groups_block(cases)}{model_block(v, options)}{static_loads_block(v) if production else ""}{moving_loads_block(cases)}{solve}{thermal}
+{groups_block() if production else ""}{prints_text}{model_block(v, options)}{static_loads_block(v) if production else ""}{loads_text}{solve}{thermal}
 FIN()
 """
     report = {
         "comm_sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
         "mode": options.mode,
         "variante": options.variant,
+        "taille_dalle": options.mesh_size
+        if options.mesh_size is not None
+        else options.cell,
         "lots": manifest,
         "cas_thermiques": list(THERMAL_CASES) if production else [],
         "tables": sorted(seen),
@@ -615,7 +790,9 @@ FIN()
 __all__ = [
     "BATCH_SIZE",
     "CONVERGENCE_CASES",
+    "CAP_0P80_VARIANTS",
     "CAP_HEIGHT_E19",
+    "DST_VARIANTS",
     "GenerationError",
     "MODES",
     "HARNESS_MOVING",
@@ -625,5 +802,6 @@ __all__ = [
     "THERMAL_CASES",
     "VARIANTS",
     "build_comm",
+    "fractional_prints",
     "spring_classes",
 ]

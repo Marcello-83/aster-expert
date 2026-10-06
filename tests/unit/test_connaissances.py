@@ -263,12 +263,13 @@ def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
     constats, 2 patrons, 1 contrôle, 1 référence, 10 précédents ; lot 44 : CA-053
     et les précédents de D20 et D21 (PRE-019, PRE-020) ; lot 45 : PRE-032 (Es) ;
     lot 46 : CTL-013 ; lot 47 (estacade) : CA-054 à CA-057, PAT-012, CTL-014, REF-015
-    (calcul externe non validé), PRE-033 à PRE-038."""
+    (calcul externe non validé), PRE-033 à PRE-038 ; lot 47 bis : CA-058, PAT-013 ;
+    lot 47 ter : ENV-002."""
     base = load_knowledge(ROOT)
     counts = {layer: sum(row.values()) for layer, row in base.counts().items()}
     assert counts == {
         "constats_code_aster": 58,
-        "diagnostics": 25,
+        "diagnostics": 26,
         "patrons": 13,
         "controles": 14,
         "references_validation": 15,
@@ -783,7 +784,7 @@ def test_cli_verifier_chercher_and_refused_promotion(
     runner = CliRunner()
     out = runner.invoke(app, ["connaissances", "verifier"])
     assert out.exit_code == 0, out.output
-    assert "diagnostics : 25" in out.output
+    assert "diagnostics : 26" in out.output
     out = runner.invoke(app, ["connaissances", "chercher", "--mot-cle", "MED2_4"])
     assert out.exit_code == 0 and "DIAG-006" in out.output
     out = runner.invoke(

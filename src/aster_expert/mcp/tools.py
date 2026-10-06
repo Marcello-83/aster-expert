@@ -563,6 +563,15 @@ __all__: list[str] = [
 ]
 
 
+def _refresh_knowledge_schema() -> None:
+    """Reload the schema of the base when its sources changed since this process
+    imported them (lot 47 ter, ENV-002): the base is read again at every call, the
+    schema only at start, and a base written for a newer schema was refused whole."""
+    from aster_expert.connaissances.fraicheur import refresh_if_stale  # noqa: PLC0415
+
+    refresh_if_stale()
+
+
 def search_constats(
     *,
     project_root: Path,
@@ -575,6 +584,7 @@ def search_constats(
     """Findings of the shared base concerning a command, a keyword or a text
     (lot 41), level A: a reading of `connaissances/constats_code_aster/`, each hit
     with the level the finding itself reached."""
+    _refresh_knowledge_schema()
     from aster_expert.constats.base import (  # noqa: PLC0415
         BASE_RELATIVE,
         base_dir,
@@ -643,6 +653,7 @@ def search_connaissances(
 ) -> SearchConnaissancesResult:
     """Entries of the six knowledge layers concerning a text, a command or a
     keyword (lot 42), level A, each with its status and its own level."""
+    _refresh_knowledge_schema()
     from aster_expert.connaissances.base import (  # noqa: PLC0415
         entry_as_dict,
         load_knowledge,
