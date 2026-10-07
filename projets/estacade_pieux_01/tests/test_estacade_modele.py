@@ -161,6 +161,8 @@ def test_fiche_is_reproducible_and_ready(
     written = json.loads(
         (PROJECT / "fiche" / "hypotheses_estacade_pieux_01.json").read_text("utf-8")
     )
+    # Lot 48 bis : `planned_commands` vient de `fiche prevoir`, non du script.
+    assert written.pop("planned_commands")
     assert json.loads(sheet.model_dump_json()) == written
     assert ctx.sheet().generation_blockers(ctx.data()) == ()
     labels = {e.point_label for e in sheet.entries}

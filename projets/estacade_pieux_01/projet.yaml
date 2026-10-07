@@ -19,6 +19,9 @@ data: donnees/estacade_pieux_01_model_data.yaml
 data_sources: donnees/sources
 results: resultats
 knowledge_applied: connaissances_appliquees.yaml
+# Lot 48 bis : projet à données réelles ; la liste des termes interdits est obligatoire
+# pour le contrôle de publication (variable ASTER_EXPERT_TERMES_INTERDITS, docs/cloud.md § 11).
+confidential_data: true
 
 mesh:
   script: maillage/estacade_mesh.py

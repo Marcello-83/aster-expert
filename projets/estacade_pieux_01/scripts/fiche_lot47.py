@@ -44,6 +44,7 @@ from aster_expert.agent.hypotheses import (
     PracticeHypothesisEntry,
     PracticeSource,
 )
+from aster_expert.agent.prevues import carry_planned_commands
 from aster_expert.projet.context import load_project
 from estacade_pieux_01.discretisation import PRODUCTION_SIZE, JettyMesh
 from estacade_pieux_01.donnees import model_values
@@ -504,7 +505,8 @@ def build_sheet() -> HypothesesSheet:
 
 
 def main() -> None:
-    sheet = build_sheet()
+    # `fiche prevoir` écrit `planned_commands` dans la fiche : ne pas les perdre.
+    sheet = carry_planned_commands(build_sheet(), FICHE)
     FICHE.write_text(
         json.dumps(json.loads(sheet.model_dump_json()), indent=2, ensure_ascii=False)
         + "\n",

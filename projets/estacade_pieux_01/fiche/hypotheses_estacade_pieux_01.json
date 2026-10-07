@@ -1739,5 +1739,168 @@
         "projet:mesh_check"
       ]
     }
+  ],
+  "planned_commands": [
+    {
+      "command": "AFFE_CARA_ELEM",
+      "point_label": "K1",
+      "options": {
+        "SECTION": "RECTANGLE",
+        "CARA": "VECT_Y"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_CHAR_MECA",
+      "point_label": "K2",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_MATERIAU",
+      "point_label": "K3",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_MATERIAU",
+      "point_label": "K3",
+      "options": {
+        "NOM_VARC": "TEMP"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_MODELE",
+      "point_label": "K1",
+      "options": {
+        "PHENOMENE": "MECANIQUE"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "CALC_CHAMP",
+      "point_label": "K1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "CREA_CHAMP",
+      "point_label": "E1",
+      "options": {
+        "OPERATION": "AFFE"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "CREA_MAILLAGE",
+      "point_label": "K1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "CREA_RESU",
+      "point_label": "K3",
+      "options": {
+        "OPERATION": "AFFE",
+        "TYPE_RESU": "EVOL_THER"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "CREA_RESU",
+      "point_label": "K3",
+      "options": {
+        "OPERATION": "PREP_VARC",
+        "TYPE_RESU": "EVOL_THER"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "DEBUT",
+      "point_label": "E1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_GROUP",
+      "point_label": "K2",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_GROUP",
+      "point_label": "K2",
+      "options": {
+        "OPTION": "BANDE"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_MATERIAU",
+      "point_label": "K2",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DETRUIRE",
+      "point_label": "E1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "FIN",
+      "point_label": "K1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "IMPR_RESU",
+      "point_label": "K4",
+      "options": {
+        "FORMAT": "MED"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "IMPR_TABLE",
+      "point_label": "E1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "LIRE_MAILLAGE",
+      "point_label": "E1",
+      "options": {
+        "FORMAT": "MED"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "MACRO_ELAS_MULT",
+      "point_label": "K4",
+      "options": {
+        "METHODE": "MUMPS"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "MECA_STATIQUE",
+      "point_label": "E1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "MODI_MAILLAGE",
+      "point_label": "K2",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "POST_RELEVE_T",
+      "point_label": "K4",
+      "options": {},
+      "covered_by": {}
+    }
   ]
 }
