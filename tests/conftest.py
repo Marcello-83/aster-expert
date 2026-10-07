@@ -188,6 +188,7 @@ def _declaration(name: str, structure: str) -> dict[str, Any]:
         "name": name,
         "structure": structure,
         "description": "Projet factice des tests du tronc commun.",
+        "planned_commands_exemption": "projet factice sans commande réelle",
         "fiche": "fiche.json",
         "data": "donnees.yaml",
         "data_sources": "sources",
