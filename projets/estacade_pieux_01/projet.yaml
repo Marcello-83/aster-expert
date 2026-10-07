@@ -102,6 +102,11 @@ results_package:
     - {section: contre_calcul, source: references/plan_factoriel_lot47ter.json}
     - {section: contre_calcul, source: references/maillages_lot47ter.json}
     - {section: controles, source: references/controles_lot47ter.json}
+    # Lot 47 quater : variantes déclarées H1 (bouchon mixte) et H2 (tablier à +1,50),
+    # C6 à C8 barre seule sur les maillages grossiers, mesures de performance.
+    - {section: contre_calcul, source: references/verdict_lot47quater.json}
+    - {section: contre_calcul, source: references/maillages_barre_seule_lot47quater.json}
+    - {section: controles, source: references/controles_lot47quater.json}
   # Critères de niveau D écrits avant l'exécution (lot 47, commit fa97116) ; harnais
   # v2 des cas autoéquilibrés (lot 47 bis, commit 5ad8e24), écrit après l'exécution
   # de production qu'il réévalue.
@@ -109,6 +114,30 @@ results_package:
     - {level: D, document: docs/essais_lot47.md}
     - {level: D, document: docs/essais_lot47bis.md}
   note_tables:
+    - section: contre_calcul
+      title: Lot 47 quater, Q1 (H1, bouchon mixte de la tête à −0,80, DST, chevêtre 0,90) — critère du § 2.5, variante déclarée
+      source: contre_calcul/verdict_lot47quater.json
+      rows: q1.lignes
+      columns:
+        - {header: Rôle, path: role}
+        - {header: Point, path: point}
+        - {header: Ligne, path: ligne}
+        - {header: Code_Aster, path: valeur}
+        - {header: Source, path: source}
+        - {header: Écart relatif, path: ecart}
+        - {header: Écart de la base (S), path: ecart_base}
+    - section: contre_calcul
+      title: Lot 47 quater, Q2 (H2, plan du tablier à +1,50, DST, chevêtre 0,90) — critère du § 2.5, variante déclarée
+      source: contre_calcul/verdict_lot47quater.json
+      rows: q2.lignes
+      columns:
+        - {header: Rôle, path: role}
+        - {header: Point, path: point}
+        - {header: Ligne, path: ligne}
+        - {header: Code_Aster, path: valeur}
+        - {header: Source, path: source}
+        - {header: Écart relatif, path: ecart}
+        - {header: Écart de la base (S), path: ecart_base}
     - section: contre_calcul
       title: Comparaison v2 (lecture E17, cas TR d'E18) aux valeurs du modèle source (C1 à C13) — contre-calcul d'un modèle non validé
       source: contre_calcul/comparaison_v2_lot47bis.json

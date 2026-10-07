@@ -9,5 +9,5 @@ Depuis le lot 44, les exécutions mesurées se séparent en **développement** e
 | Projet | Lots (base) | Exécutions (base) | Exécutions mesurées (dév. + vérif.) | Taux d'échec (base / dév.) | Échecs en vérification | Calcul (h, base) | Interventions (base) | Interventions déclarées (lots) | Connaissances créées | Promues |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `dalle_appuyee_01` | non renseigné | non renseigné | 5 + 1 | — / 0,0 % | 0 | non renseigné | non renseigné | 3 (lot 43 : 2, lot 44 : 0, lot 45 : 1) | 22 | 3 |
-| `estacade_pieux_01` | non renseigné | non renseigné | 23 + 4 | — / 30,4 % | 0 | non renseigné | non renseigné | 2 (lot 47 : 1, lot 47bis : 0, lot 47ter : 1) | 18 | 0 |
+| `estacade_pieux_01` | non renseigné | non renseigné | 28 + 16 | — / 25,0 % | 3 | non renseigné | non renseigné | 2 (lot 47 : 1, lot 47bis : 0, lot 47ter : 1, lot 47quater : 0) | 22 | 0 |
 | `quai_cw_test_01` | 40 | 190 | 177 + 196 | 38,4 % / 41,2 % | 0 | 1,54 | 25 (estimation) | 0 (lot 42 : 0, lot 44 : 0) | 125 | 2 |

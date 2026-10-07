@@ -3,7 +3,7 @@
 project: estacade_pieux_01
 baseline: null
 knowledge:
-  created: 18
+  created: 22
   promoted: 0
   by_layer:
     constats_code_aster:
@@ -11,8 +11,8 @@ knowledge:
       établi: 5
       promu: 0
     diagnostics:
-      observé: 1
-      établi: 2
+      observé: 3
+      établi: 3
       promu: 0
     patrons:
       observé: 1
@@ -27,17 +27,17 @@ knowledge:
       établi: 1
       promu: 0
     precedents:
-      observé: 6
+      observé: 7
       établi: 0
       promu: 0
 consultations:
   calls:
-    search_connaissances: 35
+    search_connaissances: 43
     search_constats: 3
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
   avoided_errors:
-    value: 11.0
+    value: 13.0
     nature: mesure
     note: déclaré lot par lot dans le compte rendu (registre, `lots`)
 lots:
@@ -87,44 +87,65 @@ lots:
       (_gn) ; aucune autre consultation n''a évité d''erreur. Non évitées alors que la règle
       existait : consultation par commande faite après N3 et N4 (DEFI_GROUP, FORCE_COQUE ;
       aucune entrée contredite), une commande lancée avec le python3 du système (CLAUDE.md).'
+- lot: 47quater
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune question posée à MM pendant le lot : H1, H2, leurs critères et la décision
+      E20 (PRE-039) étaient dans la consigne. Deux relances de MM (« Continue ») après des
+      attentes, sans effet sur le contenu. Une décision prise par la session et signalée :
+      étendue du bouchon de H1 « de la tête à -0,80 » selon la consigne, quand E14 écrit «
+      de +0.70 à -0.80 » (E14 inchangée).'
+  avoided_errors:
+    value: 2.0
+    nature: mesure
+    note: 'CA-057 : la section mixte de H1 écrite en tube équivalent de même A et I, poids
+      exact (contrôle PP à 2e-12) ; CTL-005 (équilibre par cas) : l''écart de DIAG-027 (réactions
+      fausses sous PARALLELISME_TEMPS) reconnu par l''équilibre et non pris pour un effet
+      du parallélisme. Non évitée : la série de mesures lancée sans délai court pour l''essai
+      hybride (blocage m04t3, DIAG-026, arrêté à la main).'
 declared_interventions_since_baseline: 2.0
 measured:
-  runs: 27
-  failures: 7
+  runs: 44
+  failures: 10
   development:
-    runs: 23
+    runs: 28
     failures: 7
   verification:
-    runs: 4
-    failures: 0
+    runs: 16
+    failures: 3
     by_reason:
       lancée par une commande de vérification (rejeu_constats): 4
-  failure_rate: 0.3043
+      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 12
+  failure_rate: 0.25
   failure_rate_note: 'lot 44 : taux sur les exécutions de développement seulement ; une exécution
     de vérification (commande de rejeu, ou .comm déjà réussi rejoué sans modification) n''y
     entre pas'
-  failure_rate_all_runs: 0.2593
+  failure_rate_all_runs: 0.2273
   compute_s:
     aster_legacy: 0
-    wall_since_lot41: 16147.1
-    unknown_runs: 2
+    wall_since_lot41: 35398.8
+    unknown_runs: 3
     note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
       versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
       deux grandeurs distinctes, jamais additionnées'
   first_run: 20261005T094059-46dee2b7
-  last_run: 20261006T134742-072cb0d7
+  last_run: 20261007T075647-fcd8e999
   failures_by_signature:
-    (signature inconnue): 2
+    (signature inconnue): 3
     <EXCEPTION> <SUPERVIS_63>: 1
     <F> <FACTOR_57>: 3
     <F> <JEVEUX_10>: 1
+    '?': 2
   failures_by_cause:
     DIAG-003: 3
     DIAG-010: 1
     DIAG-025: 1
+    DIAG-026: 1
     ENV-003: 2
+    ENV-004: 2
   automatic_diagnosis:
-    attached_failures: 7
+    attached_failures: 10
     single_match_equal_to_classification: 5
     note: échecs rattachés à un diagnostic pour lesquels la recherche automatique de la base
       (signature) propose ce diagnostic et lui seul

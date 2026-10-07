@@ -89,13 +89,12 @@ def attributed_runs(
             comm = _relative_to_root(str(data["report"]["comm_path"]), repo_root)
             if comm is None or not comm.startswith(roots):
                 continue
-        elif record.is_file():
-            # Lot 47 ter (ENV-003): a report left empty by a full disk. The run is
-            # attributed by the SHA-256 of its .comm, found under the case roots.
+        elif legacy_before is None or started >= legacy_before.replace(tzinfo=None):
+            # Lot 47 ter (ENV-003): a report left empty by a full disk; lot 47 quater
+            # (DIAG-026): no report at all, the run having been stopped while hung. The
+            # run is attributed by the SHA-256 of its .comm, found under the case roots.
             if not _comm_under_roots(run_dir, repo_root, case_roots):
                 continue
-        elif legacy_before is None or started >= legacy_before.replace(tzinfo=None):
-            continue
         found.append(run_dir.name)
     return found
 

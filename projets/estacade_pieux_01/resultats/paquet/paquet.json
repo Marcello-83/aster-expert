@@ -2,9 +2,9 @@
  "schema_version": 1,
  "projet": "estacade_pieux_01",
  "ouvrage": "ESTACADE-PIEUX-01",
- "exporte_le": "2026-10-06T14:43:50Z",
+ "exporte_le": "2026-10-07T09:34:28Z",
  "depot": {
-  "commit": "d5ea578209a481b5ad17488644dd0d306ac5e7d4",
+  "commit": "27efdbc151453589a1c5224684ef757223b17c7f",
   "arbre_modifie": true
  },
  "code_aster": {
@@ -14,7 +14,7 @@
  "empreintes": {
   "fiche": {
    "chemin": "projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json",
-   "sha256": "cf7ffe07917f3fe510ea28faf0f76698af2a5c534c53c38e5c2bf78fe8c50bea"
+   "sha256": "be94de57ae8187994d03830b2800236a506bedab7433ffdfd02063bd548e6bde"
   },
   "donnees": {
    "chemin": "projets/estacade_pieux_01/donnees/estacade_pieux_01_model_data.yaml",
@@ -171,6 +171,15 @@
    "sha256": "69af4b2b8abb280f7db1fc114bcb87d8f4f38016ab0a5472f7193db66885ecbc"
   },
   {
+   "chemin": "contre_calcul/maillages_barre_seule_lot47quater.json",
+   "section": "contre_calcul",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/maillages_barre_seule_lot47quater.json",
+   "libelle": null,
+   "octets": 1884,
+   "sha256": "483954d42ef26cb122de7068999de08767157372c72f4eb1175f8df790d30485"
+  },
+  {
    "chemin": "contre_calcul/maillages_lot47ter.json",
    "section": "contre_calcul",
    "type": "tableau",
@@ -207,6 +216,15 @@
    "sha256": "8d50ffce71f3453c1648351903d90d42a57f106eb146797cc566bff132791f17"
   },
   {
+   "chemin": "contre_calcul/verdict_lot47quater.json",
+   "section": "contre_calcul",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/verdict_lot47quater.json",
+   "libelle": null,
+   "octets": 16532,
+   "sha256": "6095852b0cb320cf4029eb732d26a9cc2b1728b396d5501c799808aab030a540"
+  },
+  {
    "chemin": "controles/controles_d.json",
    "section": "controles",
    "type": "tableau",
@@ -223,6 +241,15 @@
    "libelle": null,
    "octets": 4934,
    "sha256": "6c993474423139ca8db469ed7e3495e91751f7c49dc3f615cdad76b38b56d486"
+  },
+  {
+   "chemin": "controles/controles_lot47quater.json",
+   "section": "controles",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/controles_lot47quater.json",
+   "libelle": null,
+   "octets": 1280,
+   "sha256": "bd6664c42172aabbd177ad7501de77d0844e9a1683394403a1fa9c5e3fb6e87c"
   },
   {
    "chemin": "controles/controles_lot47ter.json",
@@ -288,6 +315,6 @@
    "sha256": "4cb6d3a36aacbbe958c91cafb0a8850c83cafb5b3092ab6933057cc803c4180e"
   }
  ],
- "taille_octets": 512524,
+ "taille_octets": 532220,
  "plafond_octets": 20971520
 }

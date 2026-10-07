@@ -12,8 +12,8 @@
 # (racine 82b9a5d) : les lots antérieurs n'ont pas de commit consultable.
 
 schema_version: 1
-mis_a_jour_au_lot: "47ter"
-date: 2026-10-06
+mis_a_jour_au_lot: "47quater"
+date: 2026-10-07
 
 lots:
   - {id: "1", objet: "Initialisation du dépôt", etat: fait, commit: null, date: 2026-09-15, note: "antérieur à l'historique publié"}
@@ -70,6 +70,7 @@ lots:
   - {id: "47", objet: "Contre-calcul d'une estacade sur pieux (estacade_pieux_01) : premier ouvrage réel, comparaison à un modèle externe non validé", etat: fait, commit: "f97d48e", date: 2026-10-05, note: "branche lot-47 ; compte rendu docs/essais_lot47.md et message du commit f97d48e"}
   - {id: "47bis", objet: "Estacade : relecture des écarts (critères v2, E17), essieu de trottoir (E18), variante de chevêtre (E19), sonde S2, harnais D v2 des cas autoéquilibrés", etat: fait, commit: "7454147", date: 2026-10-05, note: "branche lot-47bis ; compte rendu docs/essais_lot47bis.md et message du commit 7454147 (critères écrits avant exécution : 5ad8e24, c2fc6f9)"}
   - {id: "47ter", objet: "Estacade : attribution des écarts (plan factoriel DKT/DST × chevêtre 0,90/0,80, maillages de dalle 0,25 et 0,50 m), ENV-002 (search_connaissances), ENV-003 (disque plein), DIAG-025", etat: fait, commit: "c99a61a", date: 2026-10-06, note: "branche lot-47ter ; compte rendu docs/essais_lot47ter.md et message du commit c99a61a (critères écrits avant exécution : d5ea578)"}
+  - {id: "47quater", objet: "Estacade, clôture : ressources d'exécution (.export → docker run, mesures OpenMP/MPI, exécutions simultanées), écarts de transcription H1 (bouchon mixte) et H2 (tablier à +1,50), E20 et PRE-039, ENV-004, DIAG-026, DIAG-027", etat: fait, commit: "27efdbc", date: 2026-10-07, note: "branche lot-47quater ; compte rendu docs/essais_lot47quater.md et message du commit de clôture ; 27efdbc porte les critères écrits avant exécution"}
 
 # Niveaux A à E : CLAUDE.md, « Niveaux de validation ». Un niveau n'est donné que pour ce
 # que la preuve établit ; `limites` dit ce qui n'est pas couvert.
@@ -103,7 +104,7 @@ capacites:
     etat: operationnelle
     fichiers: [src/aster_expert/execution, tests/integration/test_reel_lent.py, config/validation.yaml]
     commandes: ["aster-expert run", "pytest -m lent_aster"]
-    limites: "Racines d'exécution déclarées une à une (execution.allowed_roots). Salomé : VM seulement. Le délai et la mémoire viennent de --timeout/--memory-mb ou de config/validation.yaml, jamais de l'.export (DIAG-025, lot 47 ter). env-check vérifie l'espace disque (ENV-003)."
+    limites: "Racines d'exécution déclarées une à une (execution.allowed_roots). Salomé : VM seulement. Depuis le lot 47 quater, délai, mémoire, ncpus et mpi_nbcpu viennent de la ligne de commande, puis de l'.export (répercutés sur docker run), puis de la configuration (config/machine.local.yaml, config/validation.yaml) et de défauts calculés (aster_expert.execution.ressources) ; MPI exécutable (statut lu sur chaque rang, ENV-004) mais sans gain mesuré sur l'estacade ; refus sous 10 Go de disque libre (ENV-003)."
   - nom: controles_d
     niveau: D
     etat: operationnelle
@@ -174,7 +175,7 @@ projets:
     ouvrage: "Estacade sur pieux ESTACADE-PIEUX-01 (contre-calcul d'un modèle non validé)"
     niveau_atteint: D
     preuve: projets/estacade_pieux_01/resultats/paquet/paquet.json
-    limites: "Niveau D par le harnais v2 (lot 47 bis), critère écrit après l'exécution (antériorité non démontrable, signalée par le paquet) ; contre-calcul d'un modèle non validé, jamais E : lecture v2 (E17), 17 lignes sur 30 dans la tolérance (v1 : 11), docs/essais_lot47bis.md § 7. Lot 47 ter : hypothèse « DST et chevêtre de 0,80 m » partielle (8/13 lignes contre 6/13) ; des 13 écarts v2, 4 attribués au chevêtre, à la formulation de la dalle et à la grandeur comparée, 7 au maillage (non comparables), 2 inexpliqués (C3 ELS c, C5), aucun à une erreur du modèle (docs/essais_lot47ter.md § 6)."
+    limites: "Niveau D par le harnais v2 (lot 47 bis), critère écrit après l'exécution (antériorité non démontrable, signalée par le paquet) ; contre-calcul d'un modèle non validé, jamais E : lecture v2 (E17), 17 lignes sur 30 dans la tolérance (v1 : 11), docs/essais_lot47bis.md § 7. Lot 47 ter : hypothèse « DST et chevêtre de 0,80 m » partielle (8/13 lignes contre 6/13) ; des 13 écarts v2, 4 attribués au chevêtre, à la formulation de la dalle et à la grandeur comparée, 7 au maillage (non comparables), 2 inexpliqués (C3 ELS c, C5), aucun à une erreur du modèle (docs/essais_lot47ter.md § 6). Lot 47 quater (clôture) : les écarts de transcription H1 (bouchon mixte) et H2 (tablier à +1,50) n'expliquent pas C3 et C5 (H2 sans effet, H1 les porte de −3/−6 % à +10/+14 %) ; statut final : contre-calcul au niveau D, chaque écart attribué, deux lignes inexpliquées (docs/essais_lot47quater.md § 6.1)."
 
 metriques:
   - {libelle: "Tableau de bord des projets", fichier: connaissances/metriques/tableau_de_bord.md}

@@ -1,0 +1,435 @@
+{
+  "reference": {
+    "run": "20261006T125858-33203f20",
+    "profil": {
+      "total_elapsed_s": 238.15,
+      "total_user_sys_s": 122.02,
+      "groupes_s": {
+        "lecture du maillage": 0.05,
+        "assemblage et factorisation (MACRO_ELAS_MULT)": 53.400000000000006,
+        "CALC_CHAMP": 90.68,
+        "IMPR_RESU": 9.72,
+        "reste": 81.57000000000001
+      },
+      "groupes_part": {
+        "lecture du maillage": 0.00020995171110644553,
+        "assemblage et factorisation (MACRO_ELAS_MULT)": 0.22422842746168384,
+        "CALC_CHAMP": 0.3807684232626496,
+        "IMPR_RESU": 0.04081461263909301,
+        "reste": 0.3425152214990552
+      }
+    },
+    "duree_compte_rendu_s": 246.52840035099962,
+    "valeurs_comparees": 62271
+  },
+  "variantes": {
+    "t01": {
+      "ncpus": 1,
+      "mpi_nbcpu": 1,
+      "parallelisme_temps": false,
+      "run": "20261006T152556-49f4d7bd",
+      "code_retour": 0,
+      "duree_murale_s": 119.36923133799996,
+      "statut": "completed_ok",
+      "duree_compte_rendu_s": 118.63890850299981,
+      "ressources": "ncpus 1 (.export), mpi_nbcpu 1 (.export), time_limit 7200 s (.export), memory_limit 2048 Mio (.export) ; docker --cpus=1 --memory=4848m ; délai extérieur 9020 s",
+      "profil": {
+        "total_elapsed_s": 112.07,
+        "total_user_sys_s": 107.57,
+        "groupes_s": {
+          "lecture du maillage": 0.11,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 37.309999999999995,
+          "CALC_CHAMP": 51.21,
+          "IMPR_RESU": 3.7999999999999994,
+          "reste": 19.13999999999997
+        },
+        "groupes_part": {
+          "lecture du maillage": 0.0009815294012670652,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 0.33291692692067454,
+          "CALC_CHAMP": 0.45694655126260375,
+          "IMPR_RESU": 0.03390737931649861,
+          "reste": 0.17078611582046907
+        }
+      },
+      "ecart_aux_tables_de_n3": {
+        "comparable": true,
+        "n": 62271,
+        "ecart_relatif_max": 0.0,
+        "ecart_absolu_max": 0.0,
+        "ecart_absolu_max_rapporte_a_la_plus_grande_valeur": 0.0
+      },
+      "acceleration_sur_t01": 1.0
+    },
+    "t04": {
+      "ncpus": 4,
+      "mpi_nbcpu": 1,
+      "parallelisme_temps": false,
+      "run": "20261006T152755-e739395d",
+      "code_retour": 0,
+      "duree_murale_s": 116.07152777900001,
+      "statut": "completed_ok",
+      "duree_compte_rendu_s": 115.30099806199996,
+      "ressources": "ncpus 4 (.export), mpi_nbcpu 1 (.export), time_limit 7200 s (.export), memory_limit 2048 Mio (.export) ; docker --cpus=4 --memory=4848m ; délai extérieur 36020 s",
+      "profil": {
+        "total_elapsed_s": 110.19,
+        "total_user_sys_s": 179.05,
+        "groupes_s": {
+          "lecture du maillage": 0.03,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 42.84,
+          "CALC_CHAMP": 46.459999999999994,
+          "IMPR_RESU": 2.8,
+          "reste": 17.44999999999997
+        },
+        "groupes_part": {
+          "lecture du maillage": 0.0002722570106180234,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 0.3887830111625375,
+          "CALC_CHAMP": 0.42163535711044553,
+          "IMPR_RESU": 0.02541065432434885,
+          "reste": 0.1583628278428167
+        }
+      },
+      "ecart_aux_tables_de_n3": {
+        "comparable": true,
+        "n": 62271,
+        "ecart_relatif_max": 0.0,
+        "ecart_absolu_max": 0.0,
+        "ecart_absolu_max_rapporte_a_la_plus_grande_valeur": 0.0
+      },
+      "acceleration_sur_t01": 1.0289495364056171
+    },
+    "t08": {
+      "ncpus": 8,
+      "mpi_nbcpu": 1,
+      "parallelisme_temps": false,
+      "run": "20261006T152951-a035f140",
+      "code_retour": 0,
+      "duree_murale_s": 139.53881303900016,
+      "statut": "completed_ok",
+      "duree_compte_rendu_s": 138.77485929499994,
+      "ressources": "ncpus 8 (.export), mpi_nbcpu 1 (.export), time_limit 7200 s (.export), memory_limit 2048 Mio (.export) ; docker --cpus=8 --memory=4848m ; délai extérieur 72020 s",
+      "profil": {
+        "total_elapsed_s": 133.14,
+        "total_user_sys_s": 373.75,
+        "groupes_s": {
+          "lecture du maillage": 0.04,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 65.22,
+          "CALC_CHAMP": 45.38999999999999,
+          "IMPR_RESU": 2.96,
+          "reste": 19.05999999999997
+        },
+        "groupes_part": {
+          "lecture du maillage": 0.00030043563166591564,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 0.4898602974312754,
+          "CALC_CHAMP": 0.3409193330328977,
+          "IMPR_RESU": 0.022232236743277754,
+          "reste": 0.14315757848880856
+        }
+      },
+      "ecart_aux_tables_de_n3": {
+        "comparable": true,
+        "n": 62271,
+        "ecart_relatif_max": 0.0,
+        "ecart_absolu_max": 0.0,
+        "ecart_absolu_max_rapporte_a_la_plus_grande_valeur": 0.0
+      },
+      "acceleration_sur_t01": 0.8549020269644357
+    },
+    "t12": {
+      "ncpus": 12,
+      "mpi_nbcpu": 1,
+      "parallelisme_temps": false,
+      "run": "20261006T153211-3bf172dd",
+      "code_retour": 0,
+      "duree_murale_s": 288.89068650800004,
+      "statut": "completed_ok",
+      "duree_compte_rendu_s": 288.037281765,
+      "ressources": "ncpus 12 (.export), mpi_nbcpu 1 (.export), time_limit 7200 s (.export), memory_limit 2048 Mio (.export) ; docker --cpus=12 --memory=4848m ; délai extérieur 108020 s",
+      "profil": {
+        "total_elapsed_s": 283.15,
+        "total_user_sys_s": 1442.32,
+        "groupes_s": {
+          "lecture du maillage": 0.05,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 205.77,
+          "CALC_CHAMP": 52.59000000000002,
+          "IMPR_RESU": 3.2400000000000007,
+          "reste": 20.919999999999977
+        },
+        "groupes_part": {
+          "lecture du maillage": 0.00017658484901995412,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 0.7267172876567192,
+          "CALC_CHAMP": 0.1857319441991878,
+          "IMPR_RESU": 0.011442698216493028,
+          "reste": 0.07388310082994871
+        }
+      },
+      "ecart_aux_tables_de_n3": {
+        "comparable": true,
+        "n": 62271,
+        "ecart_relatif_max": 0.0,
+        "ecart_absolu_max": 0.0,
+        "ecart_absolu_max_rapporte_a_la_plus_grande_valeur": 0.0
+      },
+      "acceleration_sur_t01": 0.41188733547275086
+    },
+    "m02": {
+      "ncpus": 1,
+      "mpi_nbcpu": 2,
+      "parallelisme_temps": false,
+      "run": "20261007T073342-02692da3",
+      "code_retour": 0,
+      "duree_murale_s": 159.66752291400007,
+      "statut": "completed_ok",
+      "duree_compte_rendu_s": 158.99200910299987,
+      "ressources": "ncpus 1 (.export), mpi_nbcpu 2 (.export), time_limit 7200 s (.export), memory_limit 2048 Mio (.export) ; docker --cpus=2 --memory=9696m ; délai extérieur 9020 s",
+      "profil": {
+        "total_elapsed_s": 151.61,
+        "total_user_sys_s": 140.09,
+        "groupes_s": {
+          "lecture du maillage": 0.06,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 48.12,
+          "CALC_CHAMP": 63.689999999999976,
+          "IMPR_RESU": 6.29,
+          "reste": 32.89999999999995
+        },
+        "groupes_part": {
+          "lecture du maillage": 0.00039575225908581224,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 0.3173933117868214,
+          "CALC_CHAMP": 0.42009102301958956,
+          "IMPR_RESU": 0.04148802849416265,
+          "reste": 0.21700415539872003
+        }
+      },
+      "ecart_aux_tables_de_n3": {
+        "comparable": true,
+        "n": 62271,
+        "ecart_relatif_max": 0.0017217068101179464,
+        "ecart_absolu_max": 2.00001522898674e-07,
+        "ecart_absolu_max_rapporte_a_la_plus_grande_valeur": 5.835545844204207e-14
+      },
+      "acceleration_sur_t01": 0.7461941588909786
+    },
+    "m04": {
+      "ncpus": 1,
+      "mpi_nbcpu": 4,
+      "parallelisme_temps": false,
+      "run": "20261006T153913-0a246b46",
+      "code_retour": 1,
+      "duree_murale_s": 157.42442029899985,
+      "statut": "unknown",
+      "duree_compte_rendu_s": 156.46131041699982,
+      "ressources": "ncpus 1 (.export), mpi_nbcpu 4 (.export), time_limit 7200 s (.export), memory_limit 2048 Mio (.export) ; docker --cpus=4 --memory=19392m ; délai extérieur 9020 s",
+      "profil": {
+        "total_elapsed_s": 149.93,
+        "total_user_sys_s": 107.26,
+        "groupes_s": {
+          "lecture du maillage": 0.07,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 30.31,
+          "CALC_CHAMP": 75.39999999999998,
+          "IMPR_RESU": 6.07,
+          "reste": 37.83999999999995
+        },
+        "groupes_part": {
+          "lecture du maillage": 0.0004668845461215234,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 0.2021610084706196,
+          "CALC_CHAMP": 0.5029013539651835,
+          "IMPR_RESU": 0.04048555992796638,
+          "reste": 0.25238444607483457
+        }
+      },
+      "ecart_aux_tables_de_n3": {
+        "comparable": true,
+        "n": 62271,
+        "ecart_relatif_max": 0.0010646559374541738,
+        "ecart_absolu_max": 1.00000761449337e-07,
+        "ecart_absolu_max_rapporte_a_la_plus_grande_valeur": 2.9177729221021036e-14
+      },
+      "acceleration_sur_t01": 0.7582635489042246
+    },
+    "m04pt": {
+      "ncpus": 1,
+      "mpi_nbcpu": 4,
+      "parallelisme_temps": true,
+      "run": "20261007T073622-91853194",
+      "code_retour": 0,
+      "duree_murale_s": 174.16612386199995,
+      "statut": "completed_with_alarms",
+      "duree_compte_rendu_s": 173.38955097100006,
+      "ressources": "ncpus 1 (.export), mpi_nbcpu 4 (.export), time_limit 7200 s (.export), memory_limit 2048 Mio (.export) ; docker --cpus=4 --memory=19392m ; délai extérieur 9020 s",
+      "profil": {
+        "total_elapsed_s": 164.64,
+        "total_user_sys_s": 158.34,
+        "groupes_s": {
+          "lecture du maillage": 0.15,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 51.410000000000004,
+          "CALC_CHAMP": 49.22000000000001,
+          "IMPR_RESU": 12.85,
+          "reste": 51.27999999999994
+        },
+        "groupes_part": {
+          "lecture du maillage": 0.0009110787172011662,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 0.31225704567541307,
+          "CALC_CHAMP": 0.2989552964042761,
+          "IMPR_RESU": 0.07804907677356657,
+          "reste": 0.311467444120505
+        }
+      },
+      "ecart_aux_tables_de_n3": {
+        "comparable": true,
+        "n": 62271,
+        "ecart_relatif_max": 0.02104361912394063,
+        "ecart_absolu_max": 9848.413750000007,
+        "ecart_absolu_max_rapporte_a_la_plus_grande_valeur": 0.0028735216161295107
+      },
+      "acceleration_sur_t01": 0.6842333222423682
+    },
+    "c1": {
+      "ncpus": 1,
+      "mpi_nbcpu": 1,
+      "parallelisme_temps": false,
+      "run": "20261007T073917-012e365e",
+      "code_retour": 0,
+      "duree_murale_s": 152.53229858399936,
+      "statut": "completed_ok",
+      "duree_compte_rendu_s": 151.244232002,
+      "ressources": "ncpus 1 (.export), mpi_nbcpu 1 (.export), time_limit 7200 s (.export), memory_limit 2048 Mio (.export) ; docker --cpus=1 --memory=4848m ; délai extérieur 9020 s",
+      "profil": {
+        "total_elapsed_s": 141.18,
+        "total_user_sys_s": 122.84,
+        "groupes_s": {
+          "lecture du maillage": 0.03,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 50.07,
+          "CALC_CHAMP": 59.259999999999984,
+          "IMPR_RESU": 4.09,
+          "reste": 27.069999999999943
+        },
+        "groupes_part": {
+          "lecture du maillage": 0.00021249468763280918,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 0.35465363365915853,
+          "CALC_CHAMP": 0.41974783963734225,
+          "IMPR_RESU": 0.028970109080606314,
+          "reste": 0.19174103980733773
+        }
+      },
+      "ecart_aux_tables_de_n3": {
+        "comparable": true,
+        "n": 62271,
+        "ecart_relatif_max": 0.0,
+        "ecart_absolu_max": 0.0,
+        "ecart_absolu_max_rapporte_a_la_plus_grande_valeur": 0.0
+      },
+      "acceleration_sur_t01": 0.7844193919503057
+    },
+    "c2": {
+      "ncpus": 1,
+      "mpi_nbcpu": 1,
+      "parallelisme_temps": false,
+      "run": "20261007T073917-c403fc7b",
+      "code_retour": 0,
+      "duree_murale_s": 158.72006000999863,
+      "statut": "completed_ok",
+      "duree_compte_rendu_s": 157.49434893800026,
+      "ressources": "ncpus 1 (.export), mpi_nbcpu 1 (.export), time_limit 7200 s (.export), memory_limit 2048 Mio (.export) ; docker --cpus=1 --memory=4848m ; délai extérieur 9020 s",
+      "profil": {
+        "total_elapsed_s": 148.38,
+        "total_user_sys_s": 126.68,
+        "groupes_s": {
+          "lecture du maillage": 0.09,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 52.440000000000005,
+          "CALC_CHAMP": 63.960000000000015,
+          "IMPR_RESU": 4.95,
+          "reste": 25.599999999999962
+        },
+        "groupes_part": {
+          "lecture du maillage": 0.000606550748079256,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 0.3534169025475132,
+          "CALC_CHAMP": 0.431055398301658,
+          "IMPR_RESU": 0.03336029114435908,
+          "reste": 0.1725299905647659
+        }
+      },
+      "ecart_aux_tables_de_n3": {
+        "comparable": true,
+        "n": 62271,
+        "ecart_relatif_max": 0.0,
+        "ecart_absolu_max": 0.0,
+        "ecart_absolu_max_rapporte_a_la_plus_grande_valeur": 0.0
+      },
+      "acceleration_sur_t01": 0.7532899389914212
+    },
+    "t01b": {
+      "ncpus": 1,
+      "mpi_nbcpu": 1,
+      "parallelisme_temps": false,
+      "run": "20261007T074225-d8e14cf1",
+      "code_retour": 0,
+      "duree_murale_s": 136.14100633600174,
+      "statut": "completed_ok",
+      "duree_compte_rendu_s": 135.28386876100012,
+      "ressources": "ncpus 1 (.export), mpi_nbcpu 1 (.export), time_limit 7200 s (.export), memory_limit 2048 Mio (.export) ; docker --cpus=1 --memory=4848m ; délai extérieur 9020 s",
+      "profil": {
+        "total_elapsed_s": 129.66,
+        "total_user_sys_s": 127.15,
+        "groupes_s": {
+          "lecture du maillage": 0.03,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 44.75,
+          "CALC_CHAMP": 57.71,
+          "IMPR_RESU": 3.98,
+          "reste": 22.779999999999962
+        },
+        "groupes_part": {
+          "lecture du maillage": 0.00023137436372049977,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 0.3451334258830788,
+          "CALC_CHAMP": 0.44508715101033475,
+          "IMPR_RESU": 0.03069566558691964,
+          "reste": 0.17569026685176586
+        }
+      },
+      "ecart_aux_tables_de_n3": {
+        "comparable": true,
+        "n": 62271,
+        "ecart_relatif_max": 0.0,
+        "ecart_absolu_max": 0.0,
+        "ecart_absolu_max_rapporte_a_la_plus_grande_valeur": 0.0
+      },
+      "base_du_second_jour": true,
+      "acceleration_sur_t01": 0.8769627124767831
+    },
+    "m04t3b": {
+      "ncpus": 3,
+      "mpi_nbcpu": 4,
+      "parallelisme_temps": false,
+      "run": "20261007T074441-b096aca0",
+      "code_retour": 0,
+      "duree_murale_s": 231.7444061719998,
+      "statut": "completed_ok",
+      "duree_compte_rendu_s": 230.54181320799944,
+      "ressources": "ncpus 3 (.export), mpi_nbcpu 4 (.export), time_limit 300 s (.export), memory_limit 2048 Mio (.export) ; docker --cpus=12 --memory=19392m ; délai extérieur 1145 s",
+      "profil": {
+        "total_elapsed_s": 217.19,
+        "total_user_sys_s": 212.59,
+        "groupes_s": {
+          "lecture du maillage": 0.08,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 58.870000000000005,
+          "CALC_CHAMP": 98.14,
+          "IMPR_RESU": 11.900000000000002,
+          "reste": 50.789999999999935
+        },
+        "groupes_part": {
+          "lecture du maillage": 0.00036834108384363923,
+          "assemblage et factorisation (MACRO_ELAS_MULT)": 0.27105299507343805,
+          "CALC_CHAMP": 0.4518624246051844,
+          "IMPR_RESU": 0.05479073622174134,
+          "reste": 0.23385054560523014
+        }
+      },
+      "ecart_aux_tables_de_n3": {
+        "comparable": true,
+        "n": 62271,
+        "ecart_relatif_max": 0.0010635944659304418,
+        "ecart_absolu_max": 1.00000761449337e-07,
+        "ecart_absolu_max_rapporte_a_la_plus_grande_valeur": 2.9177729221021036e-14
+      },
+      "acceleration_sur_t01": 0.5146090717867366
+    }
+  }
+}

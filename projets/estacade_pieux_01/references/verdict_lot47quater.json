@@ -1,0 +1,683 @@
+{
+ "q1": {
+  "lignes": [
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELS_f (111)",
+    "valeur": 237.72137186054798,
+    "source": 209.0,
+    "ecart": 0.1374228318686506,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": -0.03282181651062463,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELS_c (111)",
+    "valeur": 343.50517643490184,
+    "source": 312.0,
+    "ecart": 0.10097812959904437,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": -0.05806039110758686,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELU (111)",
+    "valeur": 508.0784693727089,
+    "source": 449.0,
+    "ecart": 0.1315778827899976,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": -0.03142387391061863,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "objectif",
+    "point": "C5",
+    "ligne": "ELU (111)",
+    "valeur": 508.0784693727089,
+    "source": 463.0,
+    "ecart": 0.09736170490865859,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": -0.060711272971636636,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELS_f (112)",
+    "valeur": 528.2341720292037,
+    "source": 514,
+    "ecart": 0.027692941691057793,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": 0.02418805124677622,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELS_c (112)",
+    "valeur": 715.9753980223434,
+    "source": 727,
+    "ecart": -0.015164514412182434,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": -0.018707923096633123,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELU (112)",
+    "valeur": 1025.9305648067143,
+    "source": 1048,
+    "ecart": -0.021058621367639026,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": -0.025025197914695502,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C4",
+    "ligne": "ELU (114)",
+    "valeur": 273.28479982579915,
+    "source": 253.0,
+    "ecart": 0.08017707441027334,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": 0.024473810053792917,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELS_f (105), barre seule",
+    "valeur": 202.61978638289895,
+    "source": 180,
+    "ecart": 0.12566547990499416,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": 0.12929571704038587,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELS_c (105), barre seule",
+    "valeur": 302.46416646103194,
+    "source": 276,
+    "ecart": 0.09588466109069542,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": 0.10220444182367172,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELU (112), barre seule",
+    "valeur": 440.83665829151244,
+    "source": 408,
+    "ecart": 0.08048200561645205,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": 0.08597048057616644,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C7",
+    "ligne": "ELU (enveloppe 100-115), barre seule",
+    "valeur": 171.62967879269112,
+    "source": 177.0,
+    "ecart": -0.03034079778140608,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": -0.1252283128772407,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C8",
+    "ligne": "ELU (105, 112), barre seule, toutes lignes",
+    "valeur": 664.4203535109378,
+    "source": 653.0,
+    "ecart": 0.01748905591261538,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": 0.0119808302960757,
+    "base_dans_tolerance": true
+   }
+  ],
+  "objectif_atteint": false,
+  "gardes_sorties_par_rapport_a_la_base": [
+   "C4 ELU (114)"
+  ],
+  "gardes_hors_tolerance_lecture_stricte": [
+   "C4 ELU (114)",
+   "C6 ELS_f (105), barre seule",
+   "C6 ELS_c (105), barre seule",
+   "C6 ELU (112), barre seule"
+  ],
+  "explique": false,
+  "explique_lecture_stricte": false
+ },
+ "q2": {
+  "lignes": [
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELS_f (111)",
+    "valeur": 201.41211551952227,
+    "source": 209.0,
+    "ecart": -0.03630566737070682,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": -0.03282181651062463,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELS_c (111)",
+    "valeur": 294.5562194610103,
+    "source": 312.0,
+    "ecart": -0.05590955300958237,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": -0.05806039110758686,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELU (111)",
+    "valeur": 435.89659477831475,
+    "source": 449.0,
+    "ecart": -0.029183530560546213,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": -0.03142387391061863,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "objectif",
+    "point": "C5",
+    "ligne": "ELU (111)",
+    "valeur": 435.89659477831475,
+    "source": 463.0,
+    "ecart": -0.05853867218506534,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": -0.060711272971636636,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELS_f (112)",
+    "valeur": 526.0812567514512,
+    "source": 514,
+    "ecart": 0.023504390567025638,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": 0.02418805124677622,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELS_c (112)",
+    "valeur": 713.2350061683039,
+    "source": 727,
+    "ecart": -0.018933966756115646,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": -0.018707923096633123,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELU (112)",
+    "valeur": 1021.5356255921854,
+    "source": 1048,
+    "ecart": -0.025252265656311643,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": -0.025025197914695502,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C4",
+    "ligne": "ELU (114)",
+    "valeur": 244.59705886866664,
+    "source": 253.0,
+    "ecart": -0.03321320605270104,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": 0.024473810053792917,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELS_f (105), barre seule",
+    "valeur": 203.07850471871552,
+    "source": 180,
+    "ecart": 0.12821391510397512,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": 0.12929571704038587,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELS_c (105), barre seule",
+    "valeur": 304.0919539566171,
+    "source": 276,
+    "ecart": 0.10178244187180105,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": 0.10220444182367172,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELU (112), barre seule",
+    "valeur": 442.8884146139534,
+    "source": 408,
+    "ecart": 0.0855108201322387,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": 0.08597048057616644,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C7",
+    "ligne": "ELU (enveloppe 100-115), barre seule",
+    "valeur": 154.23303248720046,
+    "source": 177.0,
+    "ecart": -0.12862693510056236,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": -0.1252283128772407,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C8",
+    "ligne": "ELU (105, 112), barre seule, toutes lignes",
+    "valeur": 660.6255170891511,
+    "source": 653.0,
+    "ecart": 0.01167766782412116,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": 0.0119808302960757,
+    "base_dans_tolerance": true
+   }
+  ],
+  "objectif_atteint": false,
+  "gardes_sorties_par_rapport_a_la_base": [],
+  "gardes_hors_tolerance_lecture_stricte": [
+   "C6 ELS_f (105), barre seule",
+   "C6 ELS_c (105), barre seule",
+   "C6 ELU (112), barre seule",
+   "C7 ELU (enveloppe 100-115), barre seule"
+  ],
+  "explique": false,
+  "explique_lecture_stricte": false
+ },
+ "q3": {
+  "lignes": [
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELS_f (111)",
+    "valeur": 237.93203345274037,
+    "source": 209.0,
+    "ecart": 0.13843078207052809,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": -0.03282181651062463,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELS_c (111)",
+    "valeur": 345.5530875448003,
+    "source": 312.0,
+    "ecart": 0.1075419472589753,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": -0.05806039110758686,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELU (111)",
+    "valeur": 511.096534545228,
+    "source": 449.0,
+    "ecart": 0.13829963150384855,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": -0.03142387391061863,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "objectif",
+    "point": "C5",
+    "ligne": "ELU (111)",
+    "valeur": 511.096534545228,
+    "source": 463.0,
+    "ecart": 0.10388020420135637,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": -0.060711272971636636,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELS_f (112)",
+    "valeur": 527.902293898538,
+    "source": 514,
+    "ecart": 0.02704726439404281,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": 0.02418805124677622,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELS_c (112)",
+    "valeur": 715.8718537137142,
+    "source": 727,
+    "ecart": -0.015306941246610393,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": -0.018707923096633123,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELU (112)",
+    "valeur": 1025.7931075705735,
+    "source": 1048,
+    "ecart": -0.02118978285250619,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": -0.025025197914695502,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C4",
+    "ligne": "ELU (114)",
+    "valeur": 258.7169705625789,
+    "source": 253.0,
+    "ecart": 0.022596721591221034,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": 0.024473810053792917,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELS_f (105), barre seule",
+    "valeur": 202.3445598970476,
+    "source": 180,
+    "ecart": 0.1241364438724866,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": 0.12929571704038587,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELS_c (105), barre seule",
+    "valeur": 302.2195652273152,
+    "source": 276,
+    "ecart": 0.09499842473664917,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": 0.10220444182367172,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELU (112), barre seule",
+    "valeur": 440.472556393069,
+    "source": 408,
+    "ecart": 0.0795895990026201,
+    "dans_tolerance": false,
+    "base": "S",
+    "ecart_base": 0.08597048057616644,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C7",
+    "ligne": "ELU (enveloppe 100-115), barre seule",
+    "valeur": 171.5965618390377,
+    "source": 177.0,
+    "ecart": -0.030527899214476326,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": -0.1252283128772407,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C8",
+    "ligne": "ELU (105, 112), barre seule, toutes lignes",
+    "valeur": 664.3707315178283,
+    "source": 653.0,
+    "ecart": 0.017413065111528774,
+    "dans_tolerance": true,
+    "base": "S",
+    "ecart_base": 0.0119808302960757,
+    "base_dans_tolerance": true
+   }
+  ],
+  "objectif_atteint": false,
+  "gardes_sorties_par_rapport_a_la_base": [],
+  "gardes_hors_tolerance_lecture_stricte": [
+   "C6 ELS_f (105), barre seule",
+   "C6 ELS_c (105), barre seule",
+   "C6 ELU (112), barre seule"
+  ],
+  "explique": false,
+  "explique_lecture_stricte": false
+ },
+ "q4": {
+  "lignes": [
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELS_f (111)",
+    "valeur": 237.3340361212503,
+    "source": 209.0,
+    "ecart": 0.13556955081937946,
+    "dans_tolerance": false,
+    "base": "SH",
+    "ecart_base": -0.03466454508898433,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELS_c (111)",
+    "valeur": 344.9056223921646,
+    "source": 312.0,
+    "ecart": 0.10546673843642505,
+    "dans_tolerance": false,
+    "base": "SH",
+    "ecart_base": -0.05943966093434556,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "objectif",
+    "point": "C3",
+    "ligne": "ELU (111)",
+    "valeur": 510.1246046546344,
+    "source": 449.0,
+    "ecart": 0.1361349769590967,
+    "dans_tolerance": false,
+    "base": "SH",
+    "ecart_base": -0.03286459620140536,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "objectif",
+    "point": "C5",
+    "ligne": "ELU (111)",
+    "valeur": 510.1246046546344,
+    "source": 463.0,
+    "ecart": 0.10178100357372447,
+    "dans_tolerance": false,
+    "base": "SH",
+    "ecart_base": -0.06210843130546654,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELS_f (112)",
+    "valeur": 518.4825630614488,
+    "source": 514,
+    "ecart": 0.008720939808266121,
+    "dans_tolerance": true,
+    "base": "SH",
+    "ecart_base": 0.005887696518275131,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELS_c (112)",
+    "valeur": 706.1978134302786,
+    "source": 727,
+    "ecart": -0.028613736684623598,
+    "dans_tolerance": true,
+    "base": "SH",
+    "ecart_base": -0.03199824566423665,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C2",
+    "ligne": "ELU (112)",
+    "valeur": 1012.6332995565409,
+    "source": 1048,
+    "ecart": -0.033746851568186145,
+    "dans_tolerance": false,
+    "base": "SH",
+    "ecart_base": -0.0375610970578223,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C4",
+    "ligne": "ELU (114)",
+    "valeur": 258.42666685398433,
+    "source": 253.0,
+    "ecart": 0.02144927610270486,
+    "dans_tolerance": true,
+    "base": "SH",
+    "ecart_base": 0.023654907056343138,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELS_f (105), barre seule",
+    "valeur": 176.5441337229276,
+    "source": 180,
+    "ecart": -0.01919925709484668,
+    "dans_tolerance": true,
+    "base": "SH",
+    "ecart_base": -0.01134175266532651,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELS_c (105), barre seule",
+    "valeur": 264.04415096678423,
+    "source": 276,
+    "ecart": -0.043318293598607865,
+    "dans_tolerance": true,
+    "base": "SH",
+    "ecart_base": -0.03363165923442581,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C6",
+    "ligne": "ELU (112), barre seule",
+    "valeur": 385.72914685372393,
+    "source": 408,
+    "ecart": -0.05458542437812761,
+    "dans_tolerance": false,
+    "base": "SH",
+    "ecart_base": -0.04568722892834123,
+    "base_dans_tolerance": true
+   },
+   {
+    "role": "garde",
+    "point": "C7",
+    "ligne": "ELU (enveloppe 100-115), barre seule",
+    "valeur": 180.14126238169337,
+    "source": 177.0,
+    "ecart": 0.017747245094312802,
+    "dans_tolerance": true,
+    "base": "SH",
+    "ecart_base": -0.09537393617370377,
+    "base_dans_tolerance": false
+   },
+   {
+    "role": "garde",
+    "point": "C8",
+    "ligne": "ELU (105, 112), barre seule, toutes lignes",
+    "valeur": 639.5070391905625,
+    "source": 653.0,
+    "ecart": -0.020663033398832277,
+    "dans_tolerance": true,
+    "base": "SH",
+    "ecart_base": -0.02728388013968064,
+    "base_dans_tolerance": true
+   }
+  ],
+  "objectif_atteint": false,
+  "gardes_sorties_par_rapport_a_la_base": [
+   "C6 ELU (112), barre seule"
+  ],
+  "gardes_hors_tolerance_lecture_stricte": [
+   "C2 ELU (112)",
+   "C6 ELU (112), barre seule"
+  ],
+  "explique": false,
+  "explique_lecture_stricte": false
+ }
+}

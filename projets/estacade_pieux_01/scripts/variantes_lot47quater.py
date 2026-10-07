@@ -357,6 +357,57 @@ def comparer(runs: dict[str, Path]) -> None:
         )
 
 
+COARSE_LINES = (
+    ("C6", "ELS_f (105), barre seule"),
+    ("C6", "ELS_c (105), barre seule"),
+    ("C6", "ELU (112), barre seule"),
+    ("C7", "ELU (enveloppe 100-115), barre seule"),
+    ("C8", "ELU (105, 112), barre seule, toutes lignes"),
+)
+"""C6 to C8, bar alone, read on the coarse meshes of lot 47 ter (no new run)."""
+
+
+def grossiers() -> None:
+    """C6, C7, C8 bar alone on the meshes 0.05, 0.25, 0.50 m (configuration SH, lot 47
+    ter, `lectures.json`), with the criterion of comparability of § 3.4 of
+    docs/essais_lot47ter.md (variation <= 10 %)."""
+    folder = ROOT / "projets/estacade_pieux_01/resultats"
+    previous = json.loads((folder / "lot47ter/lectures.json").read_text("utf-8"))
+    meshes = {"0,05": "SH", "0,25": "SH_h0p250", "0,50": "SH_h0p500"}
+    rows = []
+    for point, label in COARSE_LINES:
+        values = {}
+        source = None
+        for size, config in meshes.items():
+            row = _index(previous[config]).get((point, label))
+            if row is None:
+                raise SystemExit(f"{config} : {point} {label} absent")
+            values[size] = row["code_aster"]
+            source = row["source"]
+        fine = values["0,05"]
+        variation = max(abs(values[h] - fine) / abs(fine) for h in ("0,25", "0,50"))
+        rows.append(
+            {
+                "point": point,
+                "ligne": label,
+                "source": source,
+                "valeurs": values,
+                "ecarts": {h: (v - source) / source for h, v in values.items()},
+                "variation_max": variation,
+                "comparable": variation <= 0.10,
+            }
+        )
+        print(
+            point,
+            label,
+            {h: round(v, 1) for h, v in values.items()},
+            f"{variation:.1%}",
+        )
+    out = folder / "lot47quater/maillages_barre_seule.json"
+    out.write_text(json.dumps(rows, indent=1, ensure_ascii=False) + "\n", "utf-8")
+    print(out)
+
+
 def _pairs(args: list[str]) -> dict[str, Path]:
     out = {}
     for item in args:
@@ -381,6 +432,8 @@ def main(argv: list[str]) -> None:
         )
         mpi = next((int(a.split("=")[1]) for a in options if a.startswith("--mpi=")), 1)
         generer(pairs, ncpus, mpi)
+    elif command == "grossiers":
+        grossiers()
     elif command == "controler":
         controler(_pairs(rest))
     elif command == "comparer":

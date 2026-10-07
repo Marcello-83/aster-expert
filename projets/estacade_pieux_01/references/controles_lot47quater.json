@@ -1,0 +1,45 @@
+{
+ "seuil": 1e-06,
+ "executions": {
+  "q1": {
+   "execution": "data/processed/runs/20261007T075647-fcd8e999",
+   "positions_controlees": 299,
+   "pp_attendu_n": 3776633.2215401763,
+   "pp_obtenu_n": 3776633.221548,
+   "ecart_pp": 2.071574026155163e-12,
+   "manquants": [],
+   "ecart_relatif_max": 5.5555978582965e-12,
+   "verdict": "RÉUSSI"
+  },
+  "q2": {
+   "execution": "data/processed/runs/20261007T075647-743a7a50",
+   "positions_controlees": 299,
+   "pp_attendu_n": 3560008.098,
+   "pp_obtenu_n": 3560008.098008,
+   "ecart_pp": 2.24707220726655e-12,
+   "manquants": [],
+   "ecart_relatif_max": 6.562549970112741e-12,
+   "verdict": "RÉUSSI"
+  },
+  "q3": {
+   "execution": "data/processed/runs/20261007T075647-2b4ff984",
+   "positions_controlees": 299,
+   "pp_attendu_n": 3804613.774353526,
+   "pp_obtenu_n": 3804613.774362,
+   "ecart_pp": 2.2273230895470184e-12,
+   "manquants": [],
+   "ecart_relatif_max": 5.37041126301995e-12,
+   "verdict": "RÉUSSI"
+  },
+  "q4": {
+   "execution": "data/processed/runs/20261007T075647-3a69da8e",
+   "positions_controlees": 299,
+   "pp_attendu_n": 3678613.774353526,
+   "pp_obtenu_n": 3678613.774358,
+   "ecart_pp": 1.216239029942475e-12,
+   "manquants": [],
+   "ecart_relatif_max": 5.312540451996028e-12,
+   "verdict": "RÉUSSI"
+  }
+ }
+}

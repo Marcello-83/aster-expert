@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 47ter (2026-10-06), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 47quater (2026-10-07), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 52 faits sur 54 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 47ter, Estacade : attribution des écarts (plan factoriel DKT/DST × chevêtre 0,90/0,80, maillages de dalle 0,25 et 0,50 m), ENV-002 (search_connaissances), ENV-003 (disque plein), DIAG-025.
+Lots : 53 faits sur 55 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 47quater, Estacade, clôture : ressources d'exécution (.export → docker run, mesures OpenMP/MPI, exécutions simultanées), écarts de transcription H1 (bouchon mixte) et H2 (tablier à +1,50), E20 et PRE-039, ENV-004, DIAG-026, DIAG-027.
 
 Capacités :
 
@@ -278,7 +278,7 @@ Capacités :
 - catalogue : niveau A, opérationnelle. Un seul catalogue : Code_Aster 17.4.0, image par digest (config/versions.yaml).
 - analyse : niveau A, opérationnelle. Les constructions dynamiques sont déclarées, jamais devinées.
 - validation_b : niveau B, opérationnelle. Syntaxe confrontée au catalogue ; ne dit rien de l'exécution ni de la physique.
-- execution_c : niveau C, opérationnelle. Racines d'exécution déclarées une à une (execution.allowed_roots). Salomé : VM seulement. Le délai et la mémoire viennent de --timeout/--memory-mb ou de config/validation.yaml, jamais de l'.export (DIAG-025, lot 47 ter). env-check vérifie l'espace disque (ENV-003).
+- execution_c : niveau C, opérationnelle. Racines d'exécution déclarées une à une (execution.allowed_roots). Salomé : VM seulement. Depuis le lot 47 quater, délai, mémoire, ncpus et mpi_nbcpu viennent de la ligne de commande, puis de l'.export (répercutés sur docker run), puis de la configuration (config/machine.local.yaml, config/validation.yaml) et de défauts calculés (aster_expert.execution.ressources) ; MPI exécutable (statut lu sur chaque rang, ENV-004) mais sans gain mesuré sur l'estacade ; refus sous 10 Go de disque libre (ENV-003).
 - controles_d : niveau D, opérationnelle. Harnais par défaut depuis le lot 46 (CTL-005, CTL-006, CTL-012, CTL-013) ; version 2 de CTL-005 et CTL-013 (lot 47 bis) : échelle déclarée d'un cas autoéquilibré (self_equilibrated_scale). Les paquets du quai et de la dalle ne portent pas encore la clé harness (non réexportés).
 - reference_e : niveau E, partielle. Niveau E sur la seule dalle (solution de Navier) ; aucune référence pour le quai.
 - ferraillage : niveau D, opérationnelle. Module EN 1992 indépendant calibré sur ssll13b/ssll13d ; FERR_MIN_FISS refusé pour les poutres ; tableau 7.2N transcrit, à vérifier par MM.

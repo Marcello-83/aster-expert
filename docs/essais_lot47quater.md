@@ -315,3 +315,291 @@ Tolérances d'E12. Lignes, toutes lues selon E17 v2 :
 - constat(s) sur le parallélisme de l'image 17.4.0 si les mesures en établissent ;
 - PRE-039 ; leçons de transcription (skill `hypotheses-drafting`) ;
 - `rex`, paquet de résultats, notes, `docs/etat.yaml`.
+
+## 5. Résultats
+
+(Rédigés après les exécutions ; les sections 1 à 4 ne sont pas modifiées, hormis l'ajout
+au § 1.4 du correctif du statut MPI, fait avant le commit des critères `27efdbc` et avant
+toute exécution de Q1 à Q4.)
+
+### 5.1 Étape 0 — Mesures d'accélération (N3, dalle 0,25 m)
+
+Résultats : `projets/estacade_pieux_01/resultats/lot47quater/perf/mesures.json`
+(`scripts/performances_lot47quater.py analyser`). Durée = durée du compte rendu (conteneur
+compris) ; « tables » = écart aux 62 271 valeurs `E20.12` de N3 (écart absolu maximal
+rapporté à la plus grande valeur, 4,7 × 10⁶ N).
+
+| Mesure | ncpus × MPI | Exécution | Durée | / t01 | Statut | Tables |
+| --- | --- | --- | --- | --- | --- | --- |
+| t01 | 1 × 1 | `20261006T152556-49f4d7bd` | 118,6 s | 1,00 | OK | identiques |
+| t04 | 4 × 1 | `20261006T152755-e739395d` | 115,3 s | 1,03 | OK | identiques |
+| t08 | 8 × 1 | `20261006T152951-a035f140` | 138,8 s | 0,85 | OK | identiques |
+| t12 | 12 × 1 | `20261006T153211-3bf172dd` | 288,0 s | 0,41 | OK | identiques |
+| m02 (1ʳᵉ) | 1 × 2 | `20261006T153700-fcf5f2ca` | 127,0 s (`TOTAL_JOB`) | — | OK sur les 2 rangs, rapporté `unknown` (ENV-004) | — |
+| m04 | 1 × 4 | `20261006T153913-0a246b46` | 156,5 s | 0,76 | OK sur les 4 rangs, rapporté `unknown` (ENV-004) | 2,9 × 10⁻¹⁴ |
+| m04t3 | 3 × 4 | `20261006T154150-780297c0` | — | — | **bloqué** dans `CALC_CHAMP` (DIAG-026), arrêté par la session | — |
+| *second jour (session graphique de la VM à ≈ 1,25 cœur)* | | | | | | |
+| t01b | 1 × 1 | `20261007T074225-d8e14cf1` | 135,3 s | 0,88 | OK | identiques |
+| m02 | 1 × 2 | `20261007T073342-02692da3` | 159,0 s | 0,75 | OK (statut lu sur 2 rangs) | 5,8 × 10⁻¹⁴ |
+| m04pt | 1 × 4, `PARALLELISME_TEMPS` | `20261007T073622-91853194` | 173,4 s | 0,68 | OK avec alarmes `PREPOST_15` (4) | **2,9 × 10⁻³** (DIAG-027) |
+| c1 ∥ c2 | 1 × 1, lancées ensemble | `20261007T073917-012e365e`, `…-c403fc7b` | 151,2 et 157,5 s | 1,12 et 1,16 × t01b | OK | identiques |
+| m04t3b | 3 × 4, time_limit 300 s | `20261007T074441-b096aca0` | 230,5 s | 0,51 | OK | 2,9 × 10⁻¹⁴ |
+
+Profil de t01 (112,1 s de `TOTAL_JOB`) : `MACRO_ELAS_MULT` 37,3 s, `CALC_CHAMP` 51,2 s,
+`IMPR_RESU` 3,8 s, reste 19,1 s ; de t12 : `MACRO_ELAS_MULT` 205,8 s (×5,5),
+`CALC_CHAMP` 52,6 s. Pic mémoire par rang : 907 Mo (m02), 934 Mo (N3).
+
+Faits :
+
+- **Fils OpenMP** : aucun gain (4 fils : 1,03) puis une dégradation (8 fils : 0,85 ;
+  12 fils : 0,41), portée par `MACRO_ELAS_MULT` (factorisation) ; résultats identiques à
+  l'octet. *Déduction* : avec l'OpenBLAS monofil de l'image, seuls les fils de MUMPS et
+  de `libgomp` travaillent, et leur coût de synchronisation l'emporte sur ce problème
+  (3 573 nœuds de dalle).
+- **MPI** : aucun gain (2 et 4 processus : 0,75 et 0,76 de t01 ; m02 rejouée, 159 s
+  contre 135 s pour t01b) ; tables égales au bruit numérique près (6 × 10⁻¹⁴ de la plus
+  grande valeur, sur des composantes quasi nulles), donc **écartées par la règle du
+  § 1.6** (10⁻⁶ en relatif) prise à la lettre — sans effet sur le choix, MPI étant plus
+  lent. U2.08.06 conseille 30 000 à 50 000 ddl par processus : N3 en a environ 25 000 au
+  total.
+- **`PARALLELISME_TEMPS='OUI'`** : plus lent (173 s) et **faux** sur trois réactions
+  (DIAG-027).
+- **Deux exécutions simultanées** : 1,12 et 1,16 fois la durée d'une exécution seule.
+
+**Valeurs par défaut retenues (règle du § 1.6)** : `execution.ncpus: 1`,
+`execution.mpi_processes: 1` (t04 est à 3 % de t01 et prend quatre cœurs) — inchangées.
+**Exécutions simultanées permises** (1,16 < 1,5 ; pics mémoire de 0,9 à 4,3 Go par
+exécution) : c'est le seul gain mesuré sur cette machine, et il est appliqué à Q1 à Q4,
+lancées ensemble (§ 5.2). Limites : un seul cas de taille moyenne ; la production (0,05 m,
+76 000 nœuds, ≈ 460 000 ddl) n'a pas été mesurée en MPI ; la dispersion d'un jour à
+l'autre (t01 118,6 s, t01b 135,3 s) vient de la charge de la VM et atteint 14 %.
+
+### 5.2 Étape 1 — Exécutions Q1 à Q4
+
+Lancées **ensemble** (règle du § 1.6), toutes au niveau B intégral avant exécution
+(`aster-expert validate` : 504, 501, 504, 504 commandes), `ncpus` 1, `mpi_nbcpu` 1,
+`memory_limit` 6 144 Mio (`docker run --cpus=1 --memory=8944m`, délai extérieur 9 020 s).
+
+| Exécution | Répertoire | Durée | Statut | Contrôle (§ 2.4) | PP obtenu |
+| --- | --- | --- | --- | --- | --- |
+| Q1 | `data/processed/runs/20261007T075647-fcd8e999` | 4 230,2 s | OK, aucune alarme | 299 positions, écart max 5,6e-12 | à 2,1e-12 de 3 776 633,222 N |
+| Q2 | `…/20261007T075647-743a7a50` | 4 350,4 s | OK, aucune alarme | 6,6e-12 | à 2,2e-12 de 3 560 008,098 N |
+| Q3 | `…/20261007T075647-2b4ff984` | 4 393,1 s | OK, aucune alarme | 5,4e-12 | à 2,2e-12 de 3 804 613,774 N |
+| Q4 | `…/20261007T075647-3a69da8e` | 4 322,0 s | OK, aucune alarme | 5,3e-12 | à 1,2e-12 de 3 678 613,774 N |
+
+Pic mémoire : 4 322 à 4 344 Mo par exécution. Les quatre exécutions ont pris **73 min
+ensemble**, contre ≈ 4 × 52 min en série (N1 seule : 3 127 s) : facteur ≈ 2,9.
+Contrôles : `projets/estacade_pieux_01/references/controles_lot47quater.json` ; lectures :
+`references/lectures_lot47quater.json` ; verdict : `references/verdict_lot47quater.json`
+(`scripts/variantes_lot47quater.py controler`, `comparer`). Maillage H2 :
+`references/maillage_lot47quater/rapport_h0p050_plan1p50.txt` (367/367, 76 073 nœuds),
+Salomé 10,5 s.
+
+### 5.3 Verdict (critère du § 2.5)
+
+Écart à la source ; entre parenthèses, celui de la base (S pour Q1 à Q3, SH pour Q4).
+
+| Rôle | Ligne | Source | Q1 (H1) | Q2 (H2) | Q3 (H1 + H2) | Q4 (H1 + H2, 0,80) | Tol. |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| objectif | C3 ELS f (111) | 209 | 237,7 ; +13,7 % ✗ (−3,3 %) | 201,4 ; −3,6 % (−3,3 %) | 237,9 ; +13,8 % ✗ | 237,3 ; +13,6 % ✗ (−3,5 %) | 5 % |
+| objectif | C3 ELS c (111) | 312 | 343,5 ; +10,1 % ✗ (−5,8 %) | 294,6 ; −5,6 % ✗ | 345,6 ; +10,8 % ✗ | 344,9 ; +10,5 % ✗ (−5,9 %) | 5 % |
+| objectif | C3 ELU (111) | 449 | 508,1 ; +13,2 % ✗ (−3,1 %) | 435,9 ; −2,9 % | 511,1 ; +13,8 % ✗ | 510,1 ; +13,6 % ✗ (−3,3 %) | 5 % |
+| objectif | C5 ELU (111) | 463 | 508,1 ; +9,7 % ✗ (−6,1 %) | 435,9 ; −5,9 % ✗ | 511,1 ; +10,4 % ✗ | 510,1 ; +10,2 % ✗ (−6,2 %) | 5 % |
+| garde | C2 ELS f (112) | 514 | +2,8 % (+2,4 %) | +2,4 % | +2,7 % | +0,9 % (+0,6 %) | 3 % |
+| garde | C2 ELS c (112) | 727 | −1,5 % (−1,9 %) | −1,9 % | −1,5 % | −2,9 % (−3,2 % ✗) | 3 % |
+| garde | C2 ELU (112) | 1 048 | −2,1 % (−2,5 %) | −2,5 % | −2,1 % | −3,4 % ✗ (−3,8 % ✗) | 3 % |
+| garde | C4 ELU (114) | 253 | 273,3 ; **+8,0 % ✗** (+2,4 %) | −3,3 % | +2,3 % | +2,1 % (+2,4 %) | 5 % |
+| garde | C6 ELS f (105), barre seule | 180 | +12,6 % ✗ (+12,9 % ✗) | +12,8 % ✗ | +12,4 % ✗ | −1,9 % (−1,1 %) | 5 % |
+| garde | C6 ELS c (105), barre seule | 276 | +9,6 % ✗ (+10,2 % ✗) | +10,2 % ✗ | +9,5 % ✗ | −4,3 % (−3,4 %) | 5 % |
+| garde | C6 ELU (112), barre seule | 408 | +8,0 % ✗ (+8,6 % ✗) | +8,6 % ✗ | +8,0 % ✗ | 385,7 ; **−5,5 % ✗** (−4,6 %) | 5 % |
+| garde | C7 ELU (100-115), barre seule | 177 | 171,6 ; −3,0 % (−12,5 % ✗) | −12,9 % ✗ | −3,1 % | +1,8 % (−9,5 % ✗) | 5 % |
+| garde | C8 ELU (105, 112), barre seule | 653 | +1,7 % (+1,2 %) | +1,2 % | +1,7 % | −2,1 % (−2,7 %) | 5 % |
+
+**Verdict, selon le critère écrit avant l'exécution : ni H1, ni H2, ni leur combinaison
+n'expliquent C3 et C5.** Aucune des quatre variantes n'a ses quatre lignes « objectif »
+dans 5 % ; gardes sorties par rapport à la base : C4 ELU (Q1), C6 ELU barre seule (Q4) ;
+lecture stricte : aucune variante ne tient toutes les gardes.
+
+Lecture (faits, puis déductions marquées) :
+
+- **H2 (plan à +1,50) : effet négligeable** sur les pieux (C3, C5 : ≤ 0,3 point ; C4
+  −5,7 points). Les écarts de C3 ELS c (−5,6 %) et C5 (−5,9 %) restent ceux de S.
+- **H1 (bouchon mixte de la tête à −0,80) : effet fort et de sens opposé à l'écart.**
+  EI de la tête 325,6 → 575,4 MN·m² ; C3 passe de −3 / −6 % à +10 / +14 %, C5 de −6 % à
+  +10 %. *Déduction* : la source se situe entre les deux modèles ; une raideur de tête
+  intermédiaire (bouchon sur l'étendue d'E14, +0,70 à −0,80, sans le tronçon de tête ; ou
+  béton fissuré, Ecm réduit) pourrait encadrer C3 et C5 ; **non testé** (hors des
+  variantes déclarées).
+- **H1 ramène C7 barre seule dans la tolérance** (−12,5 → −3,0 % ; −9,5 → +1,8 % avec
+  0,80 m) et, en information, **C9** (moment de dalle près des têtes) de −10,5 % à
+  +3,4 % (ELU) ; il éloigne C4 (+8,0 % en Q1, sans H2) et C13 « inf. » LM1 (−1,5 →
+  −5,4 %). *Déduction* : la raideur de la tête de pieu gouverne aussi le moment
+  d'encastrement transmis au chevêtre et à la dalle.
+- La combinaison Q4 (0,80 m) tient C6, C7, C8 barre seule et C2 ELS ; elle perd C2 ELU
+  (−3,4 %, poids des chevêtres de 0,80 m, comme SH) et C6 ELU (−5,5 %).
+
+### 5.4 C6, C7, C8 barre seule sur les maillages de 0,25 et 0,50 m (lot 47 ter, sans calcul)
+
+`references/maillages_barre_seule_lot47quater.json` (`variantes_lot47quater.py grossiers`),
+configuration SH.
+
+| Ligne | Source | 0,05 m | 0,25 m | 0,50 m | Variation max | Comparabilité (≤ 10 %) |
+| --- | --- | --- | --- | --- | --- | --- |
+| C6 ELS f (105) | 180 | 178,0 (−1,1 %) | 178,0 (−1,1 %) | 177,8 (−1,2 %) | 0,1 % | comparable |
+| C6 ELS c (105) | 276 | 266,7 (−3,4 %) | 266,7 (−3,4 %) | 266,2 (−3,5 %) | 0,2 % | comparable |
+| C6 ELU (112) | 408 | 389,4 (−4,6 %) | 388,5 (−4,8 %) | 388,2 (−4,9 %) | 0,3 % | comparable |
+| C7 ELU (100-115) | 177 | 160,1 (−9,5 %) | 156,7 (−11,5 %) | 150,5 (−15,0 %) | 6,0 % | comparable |
+| C8 ELU (105, 112), toutes lignes | 653 | 635,2 (−2,7 %) | 569,8 (−12,7 %) | 511,7 (−21,6 %) | **19,4 %** | **non comparable sans le maillage source** |
+
+La part de la barre dans l'effort tranchant près du pieu (C8) dépend du maillage de la
+dalle même en DST : la concordance de C8 barre seule à 0,05 m (−2,7 %) est un fait, sa
+robustesse au maillage ne l'est pas. Les moments de la barre (C6) n'en dépendent pas.
+
+## 6. Clôture du lot 47
+
+### 6.1 Tableau final d'attribution (A à G)
+
+Celui du lot 47 ter (§ 6.6), mis à jour par le § 5 ; lignes de la référence R (DKT,
+0,90 m), verdicts v2.
+
+| Point | Ligne | R (v2) | Catégorie finale | Preuve |
+| --- | --- | --- | --- | --- |
+| C1 | ELS c (107) | 0,4375 cm | aucun écart (D : arrondi de la source) | inchangé |
+| C2 | ELS f, ELS c, ELU | +2,5 / −1,8 / −2,4 % | aucun écart (D : la source donne aussi 554, 767, 1 102 kN) | H1, H2 : ≤ 0,4 point |
+| C3 | ELS f, ELU | −3,2 / −3,0 % | aucun écart (v1 : A, lieu de lecture) | — |
+| C3 | ELS c | −5,7 % | **G, inexpliqué** | pistes examinées : DKT/DST, chevêtre, maillage, lieu, famille (lot 47 ter) ; **H2** sans effet (−5,6 %) ; **H1** l'inverse (+10,1 %) ; non testé : raideur de tête intermédiaire |
+| C4 | ELU | +2,5 % | aucun écart | H1 seul : +8,0 % |
+| C5 | ELU | −5,9 % | **G, inexpliqué** | idem C3 ELS c (H2 −5,9 %, H1 +9,7 %) |
+| C6 | ELS f, ELS c, ELU, total | +19,5 / +17,1 / +16,0 % | **C (chevêtre, E2 ; D : I2 de la source) et A (grandeur : la source publie la barre)** | barre seule avec 0,80 m : −1,1 à −4,6 % ; indépendante du maillage (≤ 0,3 %) |
+| C7 | ELU, total | +0,4 % | aucun écart ; barre seule : **B, section mixte de tête perdue (H1)** | barre seule −12,5 % (S) → −3,0 % (Q1) ; −9,5 % (SH) → +1,8 % (Q4) |
+| C8 | ELU, total | +10,6 % | **C (E13, dalle DKT) et A (E17.2)** ; barre seule **E** (maillage) | barre seule DST −2,7 % à 0,05 m, −21,6 % à 0,50 m |
+| C9 | ELS f, ELS c, ELU | −10,6 / −10,7 / −10,3 % | **E, maillage** (inchangé) ; information : H1 donne +3,0 à +4,5 % | variation 30 à 39 % entre maillages (lot 47 ter) |
+| C10, C11, C12 courant, C13 inf. LM1/LM2, C13 V LM2 | — | dans la tolérance | aucun écart | — |
+| C12 | ELU rive | −60,9 % | **E, maillage** (v1 : B, E18) | inchangé |
+| C13 | LM1 sup., LM1 V, LM2 sup. | −16,2 / +33,1 / +12,7 % | **E, maillage** | inchangé |
+
+Bilan des 13 lignes hors tolérance de R : **4 en C et A**, **7 en E**, **2 en G** (C3 ELS c,
+C5), **0 en F**. L'étape 1 n'a déplacé aucune ligne jugée de G vers B : les deux
+écarts de transcription sont **réels** (H1, H2 sont dans la source), mais ils
+n'expliquent pas C3 et C5 au sens du critère. H1 explique la lecture « barre seule » de C7
+(B). **Statut final de l'estacade : contre-calcul au niveau D, chaque écart attribué** ;
+deux lignes restent inexpliquées, encadrées entre le modèle sans bouchon (−3 à −6 %) et
+le modèle à bouchon mixte de la tête à −0,80 (+10 à +14 %).
+
+### 6.2 Précédent PRE-039
+
+Décision de MM (consigne, étape 2), recopiée à l'identique et enregistrée comme **E20**
+dans la fiche (`donnees/sources/arbitrage_estacade_pieux_01_lot47quater.md`,
+`scripts/fiche_lot47.py`, heure d'enregistrement `enregistrement_lot47quater.json`), sans
+changer la référence (E13 garde la dalle DKT). `connaissances/precedents/PRE-039.yaml`
+(`scripts/connaissances_lot47quater.py`) : décision E20, CA-058, plan factoriel du lot
+47 ter ; domaine de validité de MM (h/L ≤ 1/10, poutres au plan moyen) ; « proposition
+seulement ». À ajouter au domaine, par ce lot (fait, § 5.4) : la part de l'effort
+tranchant portée par la barre, en DST, dépend encore du maillage de la dalle.
+
+### 6.3 Leçons pour l'outil
+
+| Leçon | Règle ou connaissance |
+| --- | --- |
+| Transcription d'une source : relever **toutes** les légendes, les niveaux et les sections du modèle source, pas seulement le texte (H1, H2 perdus au lot 47) | skill `hypotheses-drafting`, § 2 quater (ce lot) |
+| Points de comparaison : lieu, composante et famille déclarés avant exécution | skill `code-aster-expert`, § 6 sexies (lot 47 bis) ; E17 |
+| Lecture hors singularité | PAT-013 et CTL-014 (lots 47, 47 bis) ; disques d'E17.3 |
+| Partage de l'effort tranchant entre plaque et poutre | CA-058 (lot 47 bis, domaine précisé au lot 47 ter) ; PRE-039 (ce lot) ; dépendance au maillage en DST (§ 5.4) |
+| Ressources : l'`.export` ne pilotait pas `docker run` ; le parallélisme n'est pas un gain par défaut | `aster_expert.execution.ressources`, DIAG-025 corrigé ; mesures du § 5.1 ; DIAG-026, DIAG-027 |
+| Statut des exécutions MPI | ENV-004, `scripts/run_comm.py` |
+| Disque plein | ENV-003 : seuil avant exécution, `docs/retention_donnees.md` |
+
+### 6.4 Métriques du projet, comparées au quai et à la dalle
+
+| | Quai (`quai_cw_test_01`) | Dalle (`dalle_appuyee_01`) | Estacade (`estacade_pieux_01`) |
+| --- | --- | --- | --- |
+| Lots | 40 (base, lots 1 à 40) puis 42, 44 | 3 (43, 44, 45) | **4** (47, 47 bis, 47 ter, 47 quater) |
+| Exécutions mesurées (dév. + vérif.) | 177 + 196 | 5 + 1 | **28 + 16** |
+| Taux d'échec en développement | 41,2 % (base 38,4 %) | 0,0 % | **25,0 %** (7 / 28) |
+| Échecs en vérification | 0 | 0 | 3 (mesures MPI : ENV-004 ×2, DIAG-026) |
+| Interventions de MM déclarées | 25 (estimation, lots 19 à 41) | 3 | **2** (47 : 1 ; 47 bis : 0 ; 47 ter : 1 ; 47 quater : 0) |
+| Apports de fond du superviseur dans les consignes | — | — | 3 (diagnostic (b) au 47 bis, hypothèse DST + 0,80 au 47 ter, relecture H1/H2 au 47 quater) |
+| Erreurs évitées par la base (déclarées) | — | 11 | **13** (8 + 2 + 1 + 2) |
+| Connaissances créées / promues | 125 / 2 | 22 / 3 | 22 / 0 (dont 3 diagnostics et PRE-039 à ce lot) |
+| Niveau atteint | D | E | **D** (contre-calcul d'un modèle non validé) |
+
+Lecture : l'estacade, premier ouvrage réel, a demandé 4 lots contre 3 pour la dalle et une
+quarantaine pour le quai ; son taux d'échec (25 %) est inférieur à celui du quai (41 %),
+et 5 de ses 10 échecs ont été retrouvés automatiquement par la base. Les échecs restants
+sont d'environnement ou d'outil (disque, délai, statut MPI, blocage hybride), aucun de
+modélisation non diagnostiqué. Le superviseur a apporté à chaque lot de reprise
+l'hypothèse ou la relecture qui orientait le lot : c'est la part de l'expertise qui
+n'est pas encore dans l'outil (relecture de la source, § 6.3).
+
+### 6.5 Retour d'expérience (`aster-expert rex estacade_pieux_01`)
+
+Sortie après classement des trois échecs du lot, `--enregistrer --lot 47quater` et
+`--manifeste` (archive de 44 exécutions enregistrée) :
+
+```text
+Retour d'expérience du projet estacade_pieux_01
+Exécutions attribuées au projet : 44 ; échecs : 10 ; depuis le dernier retour d'expérience (2026-10-07) : 0.
+Développement : 28 exécution(s), 7 échec(s), taux 25,0 % ; vérification : 16 exécution(s), 3 échec(s) (hors taux).
+Classement : nouveau 6, rattaché 4.
+Diagnostic retrouvé automatiquement par la base (seul et égal au classement) : 5/10 échecs rattachés.
+Répartition par cause : DIAG-003 3, DIAG-010 1, DIAG-025 1, DIAG-026 1, ENV-003 2, ENV-004 2.
+Constats de la fiche à verser dans la base : 0.
+Candidats patrons dans le code du projet : 2 (similarité ≥ 0,40 ; 10 fonction(s) sous le seuil, non listées).
+  projets/estacade_pieux_01/generation.py:fractional_loads_block — proche d'un patron (PAT-005, similarité 0.5)
+  projets/estacade_pieux_01/generation.py:moving_loads_block — proche d'un patron (PAT-005, similarité 0.5)
+Connaissances créées par le projet : 22 ; promues : 0.
+Consultations journalisées (tous projets) : search_connaissances 43, search_constats 3.
+Tous les échecs sont classés : clôture possible.
+Métriques : connaissances/metriques/estacade_pieux_01.yaml
+```
+
+Correctif du tronc commun trouvé par ce retour d'expérience : une exécution **arrêtée sans
+compte rendu** (`m04t3`) n'était attribuée à aucun projet et disparaissait des métriques ;
+elle l'est maintenant par l'empreinte de son `.comm`, comme un compte rendu vide
+(`aster_expert.connaissances.archive.attributed_runs`, test
+`test_a_run_stopped_without_report_is_attributed_by_its_comm`).
+
+Interventions de MM pendant le lot : **0** question posée. Deux relances (« Continue »)
+après des attentes, sans effet sur le contenu. Décision prise par la session et signalée :
+l'étendue du bouchon de H1 suit la consigne (« de la tête à −0,80 ») et non le texte
+d'E14 (« de +0.70 à −0.80 »), E14 restant inchangée (§ 2.2).
+
+### 6.6 Contrôles de fin de lot
+
+| Commande | Résultat |
+| --- | --- |
+| `aster-expert env-check` | OK, profil vm, 10 vérifications (dont `ressources` : 14 processeurs, 21,0 Go) |
+| `aster-expert mcp-check` | OK, 9 outils sur un serveur neuf |
+| `ruff format --check .` ; `ruff check .` | 550 fichiers formatés ; aucune erreur |
+| `mypy src` ; `mypy` | aucune erreur (133 et 392 fichiers) |
+| `pytest` (série par défaut) | 1 629 réussis, 4 désélectionnés |
+| `pytest -m lent` | 4 réussis (Code_Aster et Salomé réels, nouveau chemin d'exécution) |
+| `aster-expert connaissances verifier` | OK (300 preuves confrontées) |
+| `aster-expert etat verifier` | cohérent |
+| `aster-expert projet exporter-resultats estacade_pieux_01` | niveau D ; `.comm` régénéré identique ; critère D du lot 47 bis signalé « antériorité non démontrable » (inchangé) |
+| `aster-expert note controler estacade_pieux_01` | OK pour les deux notes |
+| `aster-expert validate` (Q1 à Q4) | niveau B, 504, 501, 504, 504 commandes, 0 erreur |
+| `aster-expert mesh check` (maillage H2) | 367/367 invariants |
+
+Outils MCP : aucun outil n'a changé de nom, de paramètres ni de code ; la base de
+connaissances a de nouvelles entrées, relues à chaque appel. Pas de redémarrage requis
+par ce lot.
+
+### 6.7 Limites
+
+- **Contre-calcul d'un modèle non validé**, jamais un niveau E ; Q1 à Q4 sont des
+  variantes déclarées, la référence reste R (E1 à E19 ; E20 n'est pas appliquée à
+  l'estacade).
+- H1 est testée sur la seule étendue de la consigne (tête à −0,80), béton non fissuré ;
+  l'étendue d'E14 (+0,70 à −0,80) et un béton fissuré ne sont pas testés. Le tube
+  équivalent fixe A et I de la section mixte, pas ses coefficients de cisaillement.
+- Mesures de performance sur un seul cas de taille moyenne (N3) ; le modèle de production
+  (≈ 460 000 ddl) n'a pas été mesuré en MPI ; dispersion de 14 % d'un jour à l'autre
+  (charge de la VM) ; le blocage hybride (DIAG-026) n'est pas reproduit et sa cause n'est
+  pas établie ; DIAG-027 repose sur une exécution.
+- `config/machine.local.yaml` n'existe pas encore : MM peut y fixer les ressources de la
+  VM (clés de la section `execution:`).
+- Le critère « tables égales à 10⁻⁶ en relatif » (§ 1.6) écarte formellement les
+  configurations MPI pour du bruit sur des valeurs quasi nulles (6 × 10⁻¹⁴ de la plus
+  grande valeur) : critère trop strict pour MPI, rapporté tel quel, sans effet sur le
+  choix.
