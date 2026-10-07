@@ -38,6 +38,24 @@ def _unavailable(marker: str) -> str | None:
     return _UNAVAILABLE[marker]
 
 
+@pytest.fixture(autouse=True)
+def _disque_fictif(
+    request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Lot 47 quater : le seuil disque d'`aster-expert run` (ENV-003) lit le disque
+    réel ; un test unitaire n'en dépend jamais (runner GitHub : 4 Go libres). Les tests
+    réels (`lent*`) gardent le disque réel ; les tests du seuil passent leur mesure."""
+    if any(
+        request.node.get_closest_marker(m)
+        for m in ("lent", "lent_aster", "lent_salome")
+    ):
+        return
+    monkeypatch.setattr(
+        "aster_expert.execution.execute._disk_usage",
+        lambda _path: (10**12, 0, 10**12),
+    )
+
+
 def pytest_runtest_setup(item: pytest.Item) -> None:
     for marker in ("lent_aster", "lent_salome"):
         if item.get_closest_marker(marker) is not None:

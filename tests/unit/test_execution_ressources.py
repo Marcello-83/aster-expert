@@ -190,6 +190,8 @@ def test_machine_configuration_overrides_and_rejects_unknown_keys(
 def test_the_disk_threshold_refuses_before_any_container(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
+    monkeypatch.setenv("ASTER_EXPERT_PROFIL", "vm")  # seuil de 10 Go
+
     def full(_where: Path) -> tuple[int, int, int]:
         return (120 * 10**9, 115 * 10**9, 5 * 10**9)
 
@@ -278,3 +280,16 @@ def test_mpiexec_of_the_spack_view_is_put_on_the_path() -> None:
     assert 'export PATH="$PATH:$VIEW/bin"' in script
     # Appended after profile.sh: the Python it selects stays first.
     assert script.index('export PATH="$PATH:$VIEW/bin"') > script.index("profile.sh")
+
+
+def test_the_disk_threshold_follows_the_profile(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from aster_expert.execution.execute import disk_floor_gb  # noqa: PLC0415
+
+    monkeypatch.setenv("ASTER_EXPERT_PROFIL", "vm")
+    assert disk_floor_gb(10.0) == 10.0
+    monkeypatch.setenv("ASTER_EXPERT_PROFIL", "ci")
+    assert disk_floor_gb(10.0) == 2.0
+    monkeypatch.setenv("ASTER_EXPERT_PROFIL", "cloud")
+    assert disk_floor_gb(1.0) == 1.0  # never raised

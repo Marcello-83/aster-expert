@@ -603,3 +603,15 @@ par ce lot.
   configurations MPI pour du bruit sur des valeurs quasi nulles (6 × 10⁻¹⁴ de la plus
   grande valeur) : critère trop strict pour MPI, rapporté tel quel, sans effet sur le
   choix.
+
+### 6.8 Correction après le premier passage de l'intégration continue
+
+Le premier passage de la branche (`ci`, exécution 37602509623) a échoué : le seuil disque
+avant exécution (10 Go) s'appliquait aussi sur le runner GitHub (4,1 Go libres), et les
+tests unitaires de l'exécuteur lisaient le disque réel. Correctifs : le seuil
+d'`aster-expert run` suit le profil comme `env-check` (10 Go en vm, abaissé à 2 Go en
+cloud et ci, jamais relevé : `aster_expert.execution.execute.disk_floor_gb`, test
+`test_the_disk_threshold_follows_the_profile`) ; une fixture automatique de
+`tests/conftest.py` donne aux tests non lents un disque fictif (les tests réels gardent le
+disque réel). Série par défaut rejouée en profil ci (`GITHUB_ACTIONS=true`) et vm : 1 630
+réussis chacune.

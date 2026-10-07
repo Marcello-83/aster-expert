@@ -129,6 +129,28 @@ def _declared_knowledge(comm: Path, project_root: Path) -> AppliedKnowledge | No
         raise ExecutionRunError(str(exc)) from exc
 
 
+# Resolved at call time, so that the unit tests can replace it (tests/conftest.py):
+# a unit test never depends on the free space of the machine that runs it.
+_disk_usage: DiskUsage = shutil.disk_usage
+
+
+def disk_floor_gb(configured: float) -> float:
+    """Free space required before a run (Go): the configured threshold, lowered to the
+    one of `env-check` in the `cloud` and `ci` profiles (2 Go: a GitHub runner has about
+    4 Go free), never raised. Lot 47 quater, ENV-003."""
+    from aster_expert.environnement.verification import (  # noqa: PLC0415
+        MIN_FREE_GB,
+        EnvCheckError,
+        detect_profile,
+    )
+
+    try:
+        profile, _reason = detect_profile()
+    except EnvCheckError:
+        return configured
+    return configured if profile == "vm" else min(configured, MIN_FREE_GB[profile])
+
+
 def plan_resources(
     comm: Path,
     *,
@@ -212,7 +234,7 @@ def execute_comm_file(
     memory_mb: int | None = None,
     script_path: Path = _DEFAULT_SCRIPT_PATH,
     machine: MachineResources | None = None,
-    disk_usage: DiskUsage = shutil.disk_usage,
+    disk_usage: DiskUsage | None = None,
 ) -> ExecutionReport:
     if not config.enabled:
         message = (
@@ -241,7 +263,11 @@ def execute_comm_file(
     work_dir_root = project_root / config.work_dir_root
     work_dir_root.mkdir(parents=True, exist_ok=True)
     settings = config.resource_settings(project_root)
-    check_free_disk(work_dir_root, settings.min_free_disk_gb, disk_usage)
+    check_free_disk(
+        work_dir_root,
+        disk_floor_gb(settings.min_free_disk_gb),
+        disk_usage or _disk_usage,
+    )
     run_id = f"{datetime.now(UTC):%Y%m%dT%H%M%S}-{uuid.uuid4().hex[:8]}"
     work_dir = work_dir_root / run_id
     work_dir.mkdir(parents=True)
@@ -403,4 +429,4 @@ def execute_comm_file(
     return report
 
 
-__all__ = ["check_allowed", "execute_comm_file", "plan_resources"]
+__all__ = ["check_allowed", "disk_floor_gb", "execute_comm_file", "plan_resources"]

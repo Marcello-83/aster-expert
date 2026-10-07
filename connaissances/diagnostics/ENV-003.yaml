@@ -51,5 +51,6 @@ correction: 'Supprimer les copies input.med dont l''original de même SHA-256 es
   échec à classer, attribué par l''empreinte de son .comm.'
 prevention: 'env-check vérifie l''espace libre (10 Go en profil vm, 2 Go en cloud et ci) avant
   tout lot ; depuis le lot 47 quater, aster-expert run refuse de démarrer une exécution sous
-  execution.min_free_disk_gb (10 Go), avant tout conteneur ; politique de rétention de
+  execution.min_free_disk_gb (10 Go en vm, abaissé à 2 Go en cloud et ci), avant tout
+  conteneur ; politique de rétention de
   data/processed/ : docs/retention_donnees.md ; aucune suppression de données sans accord de MM.'
