@@ -108,6 +108,10 @@ class ReplayResult(BaseModel):
     def to_review(self) -> list[str]:
         return [c.constat_id for c in self.constats if c.verdict == "à réexaminer"]
 
+    @property
+    def not_replayable(self) -> list[str]:
+        return [c.constat_id for c in self.constats if c.verdict == "non rejouable"]
+
     def lines(self) -> list[str]:
         out = []
         for c in self.constats:

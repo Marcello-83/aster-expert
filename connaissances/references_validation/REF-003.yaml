@@ -59,3 +59,4 @@ cases:
     result: réussi
     note: 'CA-020 ; référence : charge appliquée p × aire = 1000 Pa × 1 m²'
 result: réussi
+replay_mode: listing

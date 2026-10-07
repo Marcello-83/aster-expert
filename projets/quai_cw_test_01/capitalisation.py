@@ -1916,6 +1916,8 @@ def references(repo: _Repo) -> list[ValidationReference]:
                 "reference_solution": solution + " " + _CRITERION_NOTE,
                 "cases": tuple(ref_cases),
                 "result": result,
+                # Lot 48 bis : le cas est exécuté, chaque valeur cherchée au listing.
+                "replay_mode": "listing",
             }
         )
 

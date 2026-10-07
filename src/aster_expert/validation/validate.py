@@ -645,7 +645,6 @@ def validate_comm_file(
         image_digest=digest,
         validation_level="B",
         catalogue_hash=schema0.catalogue_hash,
-        valid=len(errors) == 0,
         errors=errors,
         warnings=warnings,
         commands_checked=checked,

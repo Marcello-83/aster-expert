@@ -118,9 +118,10 @@ environment** :
    défaut : `pypi.org`/`files.pythonhosted.org` (`uv`, dépendances),
    `gitlab.com` (corpus), `registry-1.docker.io`, `auth.docker.io`,
    `production.cloudflare.docker.com` (image).
-3. **Environment variables** : aucune n'est requise (le crochet de session écrit
-   `ASTER_IMAGE_REF` et `ASTER_CONTAINER_WORKROOT`). Ne jamais y mettre de secret :
-   toute personne qui utilise l'environnement les lit.
+3. **Environment variables** : aucune n'est requise pour le calcul (le crochet de
+   session écrit `ASTER_IMAGE_REF` et `ASTER_CONTAINER_WORKROOT`). Ne jamais y mettre
+   de clé ou de jeton : toute personne qui utilise l'environnement les lit. Seule
+   exception, la liste des termes confidentiels d'un projet réel, § 11.
 4. **Setup script** : coller **tel quel** le texte de l'annexe (§ 10), qui est le
    contenu exact de `scripts/cloud_setup.sh`.
 
@@ -641,3 +642,61 @@ case "${1:-}" in
 esac
 exit 0
 ```
+
+## 11. Termes confidentiels et vérification avant envoi (lot 48 bis)
+
+### 11.1 La liste des termes
+
+Un projet construit sur des données réelles (site, client, entreprise, références de
+dossier) déclare `confidential_data: true` dans son `projet.yaml` (aujourd'hui :
+`estacade_pieux_01`). Pour un tel projet, le contrôle de publication
+(`python -m aster_expert.publication`) **échoue** quand il ne connaît aucun terme
+interdit : `--arbre` (intégration continue, `pytest` ne le fait pas) toujours,
+`--index` (crochet `pre-commit`) quand un fichier d'un tel projet est indexé. Avant le
+lot 48 bis, l'absence du fichier local `config/termes_interdits.local.txt`, qui
+n'existe que dans la VM, faisait passer le contrôle sans rien chercher (audit,
+`docs/audit/audit_lot48.md`, § 5).
+
+La liste vient de la variable d'environnement `ASTER_EXPERT_TERMES_INTERDITS` : un
+terme par ligne (ou séparés par `;`), les lignes vides et les lignes commençant par `#`
+sont ignorées, la comparaison se fait sans casse ni accents. Elle s'ajoute aux termes du
+fichier local de la VM. Elle n'est **jamais** versionnée, ni écrite dans un journal ou
+un message de commit (le contrôle ne cite que le rang du terme trouvé).
+
+### 11.2 Ce que MM crée (sans écrire les termes ici)
+
+1. **Intégration continue (GitHub Actions)** : dépôt GitHub → Settings → Secrets and
+   variables → Actions → *New repository secret* ; nom `ASTER_EXPERT_TERMES_INTERDITS` ;
+   valeur : les termes, un par ligne. Le workflow `ci.yml` le passe à l'étape « Contrôle
+   de publication ». Sans le secret, cette étape échoue, donc la branche n'est pas
+   fusionnable.
+2. **Session Cloud** : environnement `aster-expert` → *Environment variables* → ajouter
+   `ASTER_EXPERT_TERMES_INTERDITS=<termes séparés par ;>`. Limite constatée dans la
+   documentation de l'environnement : une variable d'environnement est lisible par
+   toute personne qui peut utiliser l'environnement (§ 5, point 3). La liste ne
+   contient que des noms, pas des identifiants de connexion : l'exposition est
+   acceptable tant que l'environnement n'est utilisé que par MM ; s'il est partagé,
+   ne pas poser la variable et lancer le contrôle de publication dans la VM ou en
+   intégration continue seulement.
+3. **VM** : inchangé (`config/termes_interdits.local.txt`, ignoré par Git).
+
+Vérification : `ASTER_EXPERT_TERMES_INTERDITS` absente, `python -m
+aster_expert.publication --arbre` répond « projet à données confidentielles sans liste
+de termes interdits » et le code 1 ; présente, il répond 0 si aucun terme n'apparaît
+dans les fichiers versionnés.
+
+### 11.3 Intégration continue : déclencheurs et coût
+
+- `ci.yml` : pull request, envoi sur `main`, `lot-*` et `claude/**`.
+- `ci-lent.yml` : à la demande, et automatiquement quand un envoi touche
+  `src/aster_expert/execution/`, `validation/`, `connaissances/` ou le répertoire
+  `connaissances/` (données de la base). Il lance `pytest -m lent_aster` puis le rejeu des références
+  (`aster-expert connaissances rejouer-references`, code non nul si une référence est à
+  réexaminer ou non rejouable). Durées et minutes facturées : `docs/essais_lot48bis.md`, § 2.
+
+### 11.4 Vérification locale avant envoi
+
+`scripts/git-hooks/pre-push` lance `ruff format --check`, `ruff check` puis `pytest`
+(hors tests lents) et refuse l'envoi au premier échec. Il est activé avec les autres
+crochets (`git config core.hooksPath scripts/git-hooks`, fait par
+`scripts/cloud_setup.sh`). Ne jamais le contourner (`--no-verify`).

@@ -149,3 +149,4 @@ cases:
     result: réussi
     note: 'CA-043 ; référence : maximum des deux directions : valeur de VZ seul'
 result: réussi
+replay_mode: listing

@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Literal
+from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, model_validator
 
 
 class ValidationFinding(BaseModel):
@@ -86,9 +86,25 @@ class ValidationReport(BaseModel):
     image_digest: str
     validation_level: Literal["B"]
     catalogue_hash: str
-    valid: bool
+    # Lot 48 bis (audit A16) : `valid` n'est vrai que si AUCUNE commande n'est
+    # restée hors du catalogue. `verdict` distingue « invalide » (une erreur),
+    # « partiel » (aucune erreur, mais des commandes non confrontées) et
+    # « valide » (toutes confrontées, aucune erreur). Les deux champs sont
+    # toujours dérivés de `errors` et `commands_not_checked`.
+    verdict: Literal["valide", "partiel", "invalide"] = "valide"
+    valid: bool = True
     errors: list[ValidationFinding]
     warnings: list[str]
     commands_checked: list[CheckedEntry]
     commands_not_checked: list[NotCheckedEntry]
     checked_at: datetime
+
+    @model_validator(mode="before")
+    @classmethod
+    def _derive_verdict(cls, data: Any) -> Any:
+        if not isinstance(data, dict):
+            return data
+        errors = data.get("errors") or []
+        not_checked = data.get("commands_not_checked") or []
+        verdict = "invalide" if errors else ("partiel" if not_checked else "valide")
+        return {**data, "verdict": verdict, "valid": verdict == "valide"}

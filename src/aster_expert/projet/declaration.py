@@ -539,6 +539,35 @@ class ResultsPackageSection(_Model):
         return self
 
 
+StepName = Literal[
+    "verifier",
+    "maillage",
+    "generer",
+    "valider",
+    "executer",
+    "controles",
+    "synthese",
+    "combinaisons",
+    "ferraillage",
+]
+
+
+class BlockerScope(_Model):
+    """The steps that depend on a practice entry under revision (lot 48 bis, R8).
+
+    A revision of the fiche blocks every step unless the project says which steps
+    depend on the revised point: any other step runs, and says it waived the
+    revision. An entry without a scope blocks every step, as before."""
+
+    point_label: str
+    topic: str
+    """Exact topic of the entry (a point can hold several entries)."""
+    steps: tuple[StepName, ...] = Field(min_length=1)
+    """The only steps this revision blocks."""
+    reason: str = Field(min_length=1)
+    """Why the other steps do not depend on it (shown by the steps that waive it)."""
+
+
 class ProjectDeclaration(_Model):
     schema_version: Literal[1]
     name: str
@@ -564,6 +593,15 @@ class ProjectDeclaration(_Model):
     results_package: ResultsPackageSection | None = None
     results: str = "resultats"
     """Directory, relative to the project, where the steps write their outputs."""
+    blocker_scopes: tuple[BlockerScope, ...] = ()
+    planned_commands_exemption: str | None = None
+    """Lot 48 bis (audit R6): `projet verifier` requires `planned_commands` in the fiche
+    (`aster-expert fiche prevoir`). A project whose fiche cannot receive them yet says
+    why here; the exemption is shown by `verifier`, never silent."""
+    confidential_data: bool = False
+    """Lot 48 bis (audit R4): the project is built from real data whose site, client or
+    firm names must never be versioned. The list of confidential terms then becomes
+    mandatory for the publication check (`aster_expert.publication.missing_terms`)."""
     knowledge_applied: str | None = None
     """Lot 46: declaration of the knowledge the project's runs apply (relative to the
     project directory). Copied next to each `.comm` as `<stem>.connaissances.yaml`

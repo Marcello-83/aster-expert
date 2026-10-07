@@ -409,6 +409,7 @@ def reference(cases: dict[str, dict[str, str]]) -> ValidationReference:
         ),
         cases=tuple(refcases),
         result="réussi",
+        replay_mode="listing",  # lot 48 bis
     )
 
 

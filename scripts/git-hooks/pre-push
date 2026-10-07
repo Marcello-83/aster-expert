@@ -1,0 +1,23 @@
+#!/bin/sh
+# Crochet Git du dépôt (lot 48 bis, audit R4) : vérification locale avant tout envoi.
+# Six échecs d'intégration continue en quatre lots venaient d'un envoi sans contrôle
+# local ; une règle écrite dans CLAUDE.md n'avait pas suffi. Le crochet lance, dans
+# l'ordre, le formatage, l'analyse statique et les tests hors tests lents (marqueurs
+# `lent*` exclus par la configuration de pytest), et refuse l'envoi au premier échec.
+# Installation, une fois par clone (le script Cloud le fait) :
+#   git config core.hooksPath scripts/git-hooks
+# Ne jamais contourner (`--no-verify`).
+racine=$(git rev-parse --show-toplevel) || exit 1
+cd "$racine" || exit 1
+venv="$racine/.venv/bin"
+if [ ! -x "$venv/ruff" ] || [ ! -x "$venv/pytest" ]; then
+    echo "pre-push : $venv/ruff ou pytest absent ; lancer \`uv sync --locked --all-extras\`." >&2
+    exit 1
+fi
+echo "pre-push : ruff format --check" >&2
+"$venv/ruff" format --check || { echo "pre-push : formatage refusé (ruff format)." >&2; exit 1; }
+echo "pre-push : ruff check" >&2
+"$venv/ruff" check || { echo "pre-push : analyse statique refusée." >&2; exit 1; }
+echo "pre-push : pytest (hors tests lents)" >&2
+"$venv/pytest" -q || { echo "pre-push : tests en échec, envoi refusé." >&2; exit 1; }
+exit 0

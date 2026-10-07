@@ -48,3 +48,4 @@ cases:
     note: 'CA-021 ; référence : surface développée exacte des 36 × 10 facettes planes (36
       cordes, R = 0,71 m, H = 1,00 m) = 2,229823082115976 m²'
 result: échec
+replay_mode: listing

@@ -722,5 +722,179 @@
       "status": "tranche",
       "point_label": "10"
     }
+  ],
+  "planned_commands": [
+    {
+      "command": "AFFE_CARA_ELEM",
+      "point_label": "1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_CHAR_MECA",
+      "point_label": "4",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_MATERIAU",
+      "point_label": "0",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_MODELE",
+      "point_label": "1",
+      "options": {
+        "PHENOMENE": "MECANIQUE"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "CALC_CHAMP",
+      "point_label": "0",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "CALC_FERRAILLAGE",
+      "point_label": "5",
+      "options": {
+        "CODIFICATION": "EC2",
+        "TYPE_COMB": "ELU",
+        "TYPE_STRUCTURE": "2D"
+      },
+      "covered_by": {
+        "UNITE_CONTRAINTE": "point:9",
+        "AFFE.C_INF": "point:14",
+        "AFFE.C_SUP": "point:14",
+        "AFFE.GAMMA_S": "point:14",
+        "AFFE.GAMMA_C": "point:14",
+        "AFFE.FYK": "point:14",
+        "AFFE.FCK": "point:14",
+        "AFFE.EYS": "point:14"
+      }
+    },
+    {
+      "command": "CALC_FERRAILLAGE",
+      "point_label": "5",
+      "options": {
+        "CODIFICATION": "EC2",
+        "TYPE_COMB": "ELS",
+        "TYPE_STRUCTURE": "2D"
+      },
+      "covered_by": {
+        "UNITE_CONTRAINTE": "point:9",
+        "AFFE.C_INF": "point:14",
+        "AFFE.C_SUP": "point:14",
+        "AFFE.ALPHA_E": "point:14",
+        "AFFE.SIGS_ELS": "point:14",
+        "AFFE.FCK": "point:14",
+        "AFFE.SIGC_INF_ELS": "point:14",
+        "AFFE.SIGC_SUP_ELS": "point:14"
+      }
+    },
+    {
+      "command": "CALC_FERRAILLAGE",
+      "point_label": "5",
+      "options": {
+        "CODIFICATION": "EC2",
+        "TYPE_COMB": "ELS_QP",
+        "TYPE_STRUCTURE": "2D"
+      },
+      "covered_by": {
+        "UNITE_CONTRAINTE": "point:9",
+        "AFFE.C_INF": "point:14",
+        "AFFE.C_SUP": "point:14",
+        "AFFE.ALPHA_E": "point:14",
+        "AFFE.FYK": "point:14",
+        "AFFE.FCK": "point:14",
+        "AFFE.EYS": "point:14",
+        "AFFE.SIGC_ELS_QP": "point:14",
+        "AFFE.KT": "point:14",
+        "AFFE.WMAX_INF": "point:14",
+        "AFFE.WMAX_SUP": "point:14",
+        "AFFE.PHI_INF_X": "point:14",
+        "AFFE.PHI_SUP_X": "point:14",
+        "AFFE.PHI_INF_Y": "point:14",
+        "AFFE.PHI_SUP_Y": "point:14"
+      }
+    },
+    {
+      "command": "CREA_TABLE",
+      "point_label": "0",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEBUT",
+      "point_label": "0",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_CONSTANTE",
+      "point_label": "0",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_GROUP",
+      "point_label": "0",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_GROUP",
+      "point_label": "0",
+      "options": {
+        "OPTION": "APPUI"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_MATERIAU",
+      "point_label": "4",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "FIN",
+      "point_label": "1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "IMPR_TABLE",
+      "point_label": "0",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "LIRE_MAILLAGE",
+      "point_label": "0",
+      "options": {
+        "FORMAT": "MED"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "MECA_STATIQUE",
+      "point_label": "5",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "MODI_MAILLAGE",
+      "point_label": "4",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "POST_RELEVE_T",
+      "point_label": "0",
+      "options": {},
+      "covered_by": {}
+    }
   ]
 }

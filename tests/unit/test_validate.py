@@ -245,7 +245,8 @@ def test_validate_comm_file_unknown_command_imported_is_not_checked(
         docker_bin=Path("/usr/bin/docker"),
     )
 
-    assert report.valid is True
+    assert report.valid is False  # lot 48 bis : une commande non confrontée
+    assert report.verdict == "partiel"
     assert report.errors == []
     not_checked = next(
         e for e in report.commands_not_checked if e.command == "DEFI_CONT"
@@ -359,7 +360,8 @@ def test_validate_comm_file_non_standard_catalogue_object_is_not_checked(
         docker_bin=Path("/usr/bin/docker"),
     )
 
-    assert report.valid is True
+    assert report.valid is False  # lot 48 bis : commande non confrontée
+    assert report.verdict == "partiel"
     assert report.errors == []
     assert report.commands_not_checked[0].command == "VARIABLE"
 
@@ -413,7 +415,8 @@ def test_validate_comm_file_unresolved_concept_is_not_checked_with_enriched_reas
         docker_bin=Path("/usr/bin/docker"),
     )
 
-    assert report.valid is True
+    assert report.valid is False  # lot 48 bis : commande non confrontée
+    assert report.verdict == "partiel"
     assert report.errors == []
     entries_by_command = {e.command: e for e in report.commands_not_checked}
     assert "control flow" in entries_by_command["MODI_MAILLAGE"].reasons[0]
@@ -647,7 +650,8 @@ def test_validate_comm_file_verified_checker_limitation_is_not_checked_not_an_er
         docker_bin=Path("/usr/bin/docker"),
     )
 
-    assert report.valid is True
+    assert report.valid is False  # lot 48 bis : commande non confrontée
+    assert report.verdict == "partiel"
     assert report.errors == []
     assert all(c.statement_index != 1 for c in report.commands_checked)
     not_checked = next(
@@ -655,3 +659,43 @@ def test_validate_comm_file_verified_checker_limitation_is_not_checked_not_an_er
     )
     assert "checkCommandSyntax limitation" in not_checked.reasons[0]
     assert "NOM_CAS" in not_checked.reasons[0]
+
+
+def test_validate_comm_file_tuple_of_concepts_is_resolved(
+    project_root: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Lot 48 bis (A16) : `CHAR_MECA_GLOBAL=(CL,)` est reconstruit en liste de
+    marqueurs de concept, la commande et la suite sont confrontées."""
+    comm_path = tmp_path / "case.comm"
+    comm_path.write_text(
+        'MAIL = LIRE_MAILLAGE(FORMAT="MED")\n'
+        'MO = AFFE_MODELE(MAILLAGE=MAIL, AFFE=_F(PHENOMENE="MECANIQUE", '
+        'MODELISATION="3D", TOUT="OUI"))\n'
+        'CL = AFFE_CHAR_MECA(MODELE=MO, DDL_IMPO=_F(GROUP_NO="A", DX=0.0))\n'
+        "R = MACRO_ELAS_MULT(MODELE=MO, CHAR_MECA_GLOBAL=(CL,), "
+        'CAS_CHARGE=_F(NOM_CAS="C1", CHAR_MECA=CL))\n',
+        encoding="utf-8",
+    )
+    seen: dict[int, dict[str, Any]] = {}
+
+    def fake_run_checks(
+        requests: list[dict[str, Any]], **kwargs: Any
+    ) -> dict[int, dict[str, Any]]:
+        for r in requests:
+            seen[r["id"]] = r
+        return {r["id"]: {"id": r["id"], "ok": True} for r in requests}
+
+    monkeypatch.setattr(validate_module, "run_checks", fake_run_checks)
+
+    report = validate_comm_file(
+        comm_path,
+        project_root=project_root,
+        workroot=tmp_path,
+        docker_bin=Path("/usr/bin/docker"),
+    )
+
+    assert report.commands_not_checked == []
+    macro = next(r for r in seen.values() if r["command"] == "MACRO_ELAS_MULT")
+    assert macro["keywords"]["CHAR_MECA_GLOBAL"] == [{"__concept_ref__": "CL"}]
+    assert report.verdict == "valide"
+    assert report.valid is True

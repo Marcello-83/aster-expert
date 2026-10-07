@@ -177,3 +177,4 @@ cases:
     result: réussi
     note: w = -DZ, Mx = -MXX, My = -MYY (EFGE_NOEU au nœud CENTRE) ; Navier, references/navier_lot43.json
 result: réussi
+replay_mode: listing

@@ -55,3 +55,4 @@ cases:
     result: réussi
     note: 'CA-045 ; référence : N/(2 fyd) par nappe'
 result: réussi
+replay_mode: listing

@@ -125,3 +125,4 @@ cases:
     result: réussi
     note: 'CA-027 ; référence : q·H³/(3·FLEX_L) = 100 N/m × 1 m³ / (3 × 89e6 N·m²/m)'
 result: échec
+replay_mode: listing

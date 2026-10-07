@@ -1,9 +1,13 @@
 # Intégration continue (lot 46, étape 2).
 #
-# Sur chaque pull request et chaque envoi sur une branche de lot. Le Cloud de Claude
-# Code ne peut pousser que sur la branche de travail de la session (`claude/lot-NN-...`,
-# docs/cloud.md) : elle est donc couverte au même titre que `lot-*`.
-# MM ne fusionne une branche que si ce workflow est vert (CLAUDE.md).
+# Sur chaque pull request et chaque envoi sur `main`, sur une branche de lot ou sur
+# n'importe quelle branche de travail du Cloud (`claude/**` : le nom n'est pas toujours
+# `claude/lot-NN-...`, lot 48 bis, audit R4). MM ne fusionne une branche que si ce
+# workflow est vert (CLAUDE.md).
+#
+# Le contrôle de publication exige la liste des termes confidentiels des projets à
+# données réelles : secret ASTER_EXPERT_TERMES_INTERDITS (docs/cloud.md § 9), jamais un
+# fichier versionné. Sans lui, l'étape échoue.
 #
 # Aucun test lent n'est lancé ici (Code_Aster : workflow `ci-lent.yml`, à la demande ;
 # Salomé : VM seulement). Un runner neuf n'a ni corpus, ni catalogue, ni index : les
@@ -15,8 +19,9 @@ on:
   pull_request:
   push:
     branches:
+      - "main"
       - "lot-*"
-      - "claude/lot-*"
+      - "claude/**"
 
 # Un envoi sur une branche qui a aussi une pull request lance deux exécutions : on
 # annule la plus ancienne (minutes facturées pour un dépôt privé).
@@ -62,7 +67,9 @@ jobs:
       - name: Tests (hors tests lents)
         run: .venv/bin/pytest
 
-      - name: Contrôle de publication (motifs interdits, taille maximale)
+      - name: Contrôle de publication (motifs, taille, termes confidentiels)
+        env:
+          ASTER_EXPERT_TERMES_INTERDITS: ${{ secrets.ASTER_EXPERT_TERMES_INTERDITS }}
         run: .venv/bin/python -m aster_expert.publication --arbre
 
       # Signalement non bloquant pour le lot 46 : les failles connues des dépendances

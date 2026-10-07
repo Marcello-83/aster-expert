@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+from collections.abc import Collection
 from pathlib import Path
 from typing import Any, Literal
 
@@ -338,6 +339,7 @@ def generate_comm(
     solver: SolverDiagnostics | None = None,
     probe: EquilibriumProbe | None = None,
     initial_pressure: InitialPressureDiagnostic | None = None,
+    waived_revisions: Collection[tuple[str, str]] = (),
 ) -> tuple[str, GenerationReport]:
     repos = (initial_pressure or InitialPressureDiagnostic()).pression_repos_bassin
     omit = diagnostic or DiagnosticOmissions()
@@ -358,7 +360,7 @@ def generate_comm(
 
     sheet = load_resolved_sheet(fiche_path)
     data = load_model_data(data_path)
-    blockers = sheet.generation_blockers(data)
+    blockers = sheet.generation_blockers(data, waived_revisions=waived_revisions)
     if blockers:
         message = (
             "génération refusée, la fiche ou les données ne sont pas prêtes :\n"

@@ -1663,8 +1663,19 @@ def validate(
     if report.warnings:
         typer.echo(f"Avertissements        : {len(report.warnings)}", err=True)
 
+    typer.echo(f"Verdict               : {report.verdict}", err=True)
+    for entry in report.commands_not_checked:
+        typer.echo(
+            f"  non vérifiée : {entry.command} (ligne {entry.line}) -- "
+            f"{'; '.join(entry.reasons)}",
+            err=True,
+        )
+
     if report.errors:
         raise typer.Exit(1)
+    if report.verdict == "partiel":
+        # Lot 48 bis (A16) : une commande hors catalogue n'est jamais « valide ».
+        raise typer.Exit(2)
 
 
 @app.command("env-check")
@@ -2257,8 +2268,8 @@ def constats_rejouer(
     exécution, et vérifier que chaque valeur obtenue est encore imprimée.
 
     Code de sortie 1 si un constat est à réexaminer (valeur absente, exécution en
-    échec, cas modifié) ; un cas non rejouable tel que versionné est signalé sans
-    rien conclure."""
+    échec, cas modifié) ; code 2 si un cas est non rejouable tel que versionné
+    (lot 48 bis : jamais un succès)."""
     from aster_expert.constats.rejeu import ReplayError, replay_base
 
     root = _project_root()
@@ -2275,6 +2286,13 @@ def constats_rejouer(
         typer.echo(line)
     if result.to_review:
         raise typer.Exit(1)
+    if result.not_replayable:
+        # Lot 48 bis (A15) : un cas non rejouable n'est plus un succès silencieux.
+        typer.echo(
+            f"constats rejouer : non rejouable(s) : {', '.join(result.not_replayable)}",
+            err=True,
+        )
+        raise typer.Exit(2)
 
 
 connaissances_app = typer.Typer(
@@ -2512,8 +2530,16 @@ def connaissances_rejouer_references(
         raise typer.Exit(1) from exc
     for line in result.lines():
         typer.echo(line)
-    if any(r.verdict == "à réexaminer" for r in result.references):
+    if result.to_review:
         raise typer.Exit(1)
+    if result.not_replayable:
+        # Lot 48 bis (A15) : un cas non rejouable n'est plus un succès silencieux.
+        typer.echo(
+            f"rejeu des références : non rejouable(s) : "
+            f"{', '.join(result.not_replayable)}",
+            err=True,
+        )
+        raise typer.Exit(2)
 
 
 etat_app = typer.Typer(
@@ -2608,12 +2634,22 @@ def fiche_obligatoires(
             p.command: load_command_schema(catalogue_root, digest, p.command)
             for p in sheet.planned_commands
         }
-        missing = missing_parameters(sheet, data, schemas, rules)
+        uninterpreted: list[str] = []
+        missing = missing_parameters(sheet, data, schemas, rules, uninterpreted)
     except (OSError, ValueError, ValidationRunError, CatalogueExtractionError) as exc:
         typer.echo(f"fiche obligatoires ÉCHEC : {exc}", err=True)
         raise typer.Exit(1) from exc
     planned = len(sheet.planned_commands)
     typer.echo(f"Commandes prévues : {planned} ; catalogue {aster_version}.")
+    by_keyword: dict[str, int] = {}
+    for condition in uninterpreted:
+        keyword = condition.split(" : ", 1)[0]
+        by_keyword[keyword] = by_keyword.get(keyword, 0) + 1
+    for keyword, count in sorted(by_keyword.items()):
+        typer.echo(
+            f"  NON INTERPRÉTÉE {keyword} ({count} condition(s) inconnue(s) du "
+            "lecteur : le mot-clé n'est compté ni obligatoire ni absent)"
+        )
     for parameter in missing:
         typer.echo(f"  MANQUE {parameter.label()}")
     if sortie:
@@ -2630,6 +2666,107 @@ def fiche_obligatoires(
     if missing:
         raise typer.Exit(1)
     typer.echo("Aucun paramètre obligatoire sans donnée ni question.")
+
+
+@fiche_app.command("prevoir")
+def fiche_prevoir(
+    projet: str,
+    comm: str = typer.Option(
+        "",
+        "--comm",
+        help="`.comm` à lire (défaut : la sortie déclarée du projet).",
+    ),
+    ecrire: bool = typer.Option(
+        False, "--ecrire", help="Écrire `planned_commands` dans la fiche du projet."
+    ),
+) -> None:
+    """Déduire de la `.comm` d'un projet les commandes prévues de sa fiche
+    (`planned_commands`, lot 48 bis) : une par commande et par combinaison d'options
+    écrites en clair que le catalogue teste ; aucune couverture n'est déduite.
+    Sans --ecrire, la liste est seulement affichée."""
+    from aster_expert.agent.prevues import (
+        derive_planned_commands,
+        write_planned_commands,
+    )
+
+    ctx = _load_project_or_exit("fiche prevoir", projet)
+    source = _lecture(comm) if comm else ctx.path(ctx.declaration.comm.output)
+    if not source.is_file():
+        typer.echo(
+            f"fiche prevoir ÉCHEC : {source} introuvable (générer le `.comm` ou "
+            "passer --comm).",
+            err=True,
+        )
+        raise typer.Exit(1)
+    try:
+        planned, skipped = derive_planned_commands(
+            ctx.fiche_path, source, _project_root()
+        )
+        if ecrire:
+            write_planned_commands(ctx.fiche_path, planned)
+    except (OSError, ValueError, ValidationRunError, CatalogueExtractionError) as exc:
+        typer.echo(f"fiche prevoir ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    for p in planned:
+        options = ", ".join(f"{k}={v}" for k, v in sorted(p.options.items()))
+        typer.echo(
+            f"  {p.command} (point {p.point_label}){' : ' + options if options else ''}"
+        )
+    typer.echo(
+        f"{len(planned)} commande(s) prévue(s) ; "
+        f"sans schéma : {', '.join(skipped) or 'aucune'}."
+    )
+    if ecrire:
+        typer.echo(f"planned_commands écrit dans {ctx.fiche_path}.")
+
+
+@fiche_app.command("enregistrer")
+def fiche_enregistrer(
+    projet: str,
+    arbitrage: str,
+    simuler: bool = typer.Option(
+        False, "--simuler", help="Afficher ce qui serait enregistré, sans écrire."
+    ),
+) -> None:
+    """Enregistrer dans la fiche d'un projet les décisions d'un fichier d'arbitrage
+    structuré (lot 48 bis ; format : `aster_expert.agent.enregistrement`). Le texte
+    cité de chaque décision doit figurer à l'identique dans le fichier source de
+    MM ; la décision passe par `record_practice_decision` (une décision déjà
+    tranchée est conservée dans l'historique). Remplace les scripts de lot."""
+    from aster_expert.agent.enregistrement import (
+        RecordingError,
+        check_quotes,
+        parse_arbitration,
+        record_decisions,
+    )
+    from aster_expert.agent.hypotheses import HypothesesSheet
+
+    ctx = _load_project_or_exit("fiche enregistrer", projet)
+    try:
+        arbitration = parse_arbitration(_lecture(arbitrage).read_text(encoding="utf-8"))
+        source = ctx.path(arbitration.source)
+        if not source.is_file():
+            message = f"fichier source du texte introuvable : {source}"
+            raise RecordingError(message)
+        check_quotes(arbitration, source.read_text(encoding="utf-8"))
+        sheet = HypothesesSheet.model_validate_json(
+            ctx.fiche_path.read_text(encoding="utf-8")
+        )
+        sheet, done = record_decisions(sheet, arbitration)
+    except (OSError, ValueError) as exc:
+        typer.echo(f"fiche enregistrer ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    for line in done:
+        typer.echo(f"  {line}")
+    if simuler:
+        typer.echo("Simulation : fiche non modifiée.")
+        return
+    ctx.fiche_path.write_text(
+        json.dumps(json.loads(sheet.model_dump_json()), indent=2, ensure_ascii=False)
+        + "\n",
+        encoding="utf-8",
+    )
+    typer.echo(f"{len(done)} décision(s) enregistrée(s) dans {ctx.fiche_path}.")
 
 
 @app.command("rex")

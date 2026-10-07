@@ -35,6 +35,7 @@ from typing import Any, TypeGuard
 from aster_expert.parsing.errors import CommParseError
 from aster_expert.parsing.models import (
     CommFileAnalysis,
+    ConceptListValue,
     ConceptReferenceValue,
     DynamicReason,
     DynamicValue,
@@ -469,6 +470,10 @@ def _resolve_value(node: ast.expr, ctx: _ResolveContext) -> SimpleValue:
         return LiteralValue(value=value, value_type=type(value).__name__)
 
     source = ast.unparse(node)
+    if isinstance(node, ast.List | ast.Tuple) and node.elts:
+        items = _concept_list_items(node.elts, ctx)
+        if items is not None:
+            return ConceptListValue(items=items, source=source)
     if isinstance(node, ast.Name):
         if node.id in ctx.known_concepts:
             return ConceptReferenceValue(concept=node.id, source=source)
@@ -479,6 +484,28 @@ def _resolve_value(node: ast.expr, ctx: _ResolveContext) -> SimpleValue:
 
     reason, construct = _classify_dynamic(node)
     return DynamicValue(reason=reason, node_type=construct, source=source)
+
+
+def _concept_list_items(
+    elts: list[ast.expr], ctx: _ResolveContext
+) -> list[LiteralValue | ConceptReferenceValue] | None:
+    """Items of a list/tuple of literals and known concepts, else None.
+
+    None also when no element is a concept: a pure literal list is already a
+    `LiteralValue`, and anything non-static must stay dynamic.
+    """
+    items: list[LiteralValue | ConceptReferenceValue] = []
+    has_concept = False
+    for elt in elts:
+        value = _resolve_value(elt, ctx)
+        if isinstance(value, ConceptReferenceValue):
+            has_concept = True
+            items.append(value)
+        elif isinstance(value, LiteralValue):
+            items.append(value)
+        else:
+            return None
+    return items if has_concept else None
 
 
 def _classify_dynamic(node: ast.expr) -> tuple[DynamicReason, str]:
@@ -671,6 +698,12 @@ def _aggregate(keywords: dict[str, KeywordNode]) -> _Aggregates:
                 agg.logical_units.update(_flatten_literal_ints(value.value))
         elif isinstance(value, ConceptReferenceValue):
             agg.referenced_concepts.add(value.concept)
+        elif isinstance(value, ConceptListValue):
+            agg.referenced_concepts.update(
+                item.concept
+                for item in value.items
+                if isinstance(item, ConceptReferenceValue)
+            )
         else:
             agg.unresolved.append(path)
             agg.dynamic = True

@@ -34,7 +34,11 @@ def script() -> ModuleType:
 def test_current_fiche_and_precedent_are_reproduced(script: ModuleType) -> None:
     sheet = script.current_sheet()
     text = json.dumps(sheet.model_dump(mode="json"), ensure_ascii=False, indent=2)
-    assert script.FICHE.read_text(encoding="utf-8") == text + "\n"
+    # Lot 48 bis : `fiche prevoir` ajoute `planned_commands` à la fiche, que les
+    # décisions ne produisent pas ; le reste doit être identique à l'octet.
+    written = json.loads(script.FICHE.read_text(encoding="utf-8"))
+    assert written.pop("planned_commands")
+    assert json.dumps(written, ensure_ascii=False, indent=2) + "\n" == text + "\n"
     assert script.DOCUMENT.read_text(encoding="utf-8") == script.lot43.render(sheet)
     precedent = script.precedent(sheet)
     versioned = read_entry(entry_path(_ROOT, precedent), precedent.layer)

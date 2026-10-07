@@ -28,6 +28,22 @@ data_sources: donnees/combiwall_inputs
 results: resultats
 knowledge_applied: connaissances_appliquees.yaml
 
+# Lot 48 bis (audit R8) : la révision du point 14 (Es = 200 GPa, PRE-032) ne bloque que
+# le ferraillage. Es n'entre ni dans le maillage, ni dans le `.comm` du calcul (module du
+# béton, de l'acier des tubes et des tirants fixés par d'autres points), ni dans la
+# validation ; il n'est lu que par le ferraillage (`rebar.eys_pa`). Tant que PRE-032 n'est
+# pas appliqué (la décision change `eys_pa`, donc des résultats du lot 39), `projet
+# quai_cw_test_01 ferraillage` reste refusé.
+blocker_scopes:
+  - point_label: "14"
+    topic: "Module d'élasticité de l'acier de ferraillage (Es)"
+    steps: [ferraillage]
+    reason: "Es ne sert qu'au ferraillage (eys_pa) ; le calcul des cas élémentaires ne le lit pas"
+
+# Lot 48 bis (audit R6) : la fiche du quai est produite par scripts/build_combiwall_reference.py
+# (jamais éditée à la main) et ne porte pas encore `planned_commands`.
+planned_commands_exemption: "fiche produite par script (build_combiwall_reference.py) avant le lot 44 ; `aster-expert fiche prevoir quai_cw_test_01 --ecrire` à faire dans la VM, où le `.comm` du quai se régénère, et le script de construction à compléter"
+
 mesh:
   script: maillage/combiwall_mesh.py
   parameters: quai_cw_test_01.extensions:mesh_parameters

@@ -64,6 +64,7 @@ def generate(
         project_root=ctx.repo_root,
         work_dir_root=MESH_RUNS,
         aster_version=aster_version,
+        waived_revisions=ctx.waived_revisions("generer"),
     )
     return text, json.loads(report.model_dump_json())
 

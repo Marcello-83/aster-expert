@@ -51,6 +51,22 @@ class ConceptReferenceValue(BaseModel):
     source: str
 
 
+class ConceptListValue(BaseModel):
+    """A list or tuple whose elements are literals and known concepts.
+
+    E.g. `CHAR_MECA_GLOBAL=(CL,)`. `items` keeps the order; each item is a
+    `LiteralValue` or a `ConceptReferenceValue`. A list that holds anything
+    else (call, unknown name, ...) stays a `DynamicValue`: no guess.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    kind: Literal["concept_list"] = "concept_list"
+    resolved: Literal[False] = False
+    items: list[LiteralValue | ConceptReferenceValue]
+    source: str
+
+
 class DynamicValue(BaseModel):
     """A keyword value that could not be statically resolved.
 
@@ -74,7 +90,8 @@ class DynamicValue(BaseModel):
 
 
 SimpleValue = Annotated[
-    LiteralValue | ConceptReferenceValue | DynamicValue, Field(discriminator="kind")
+    LiteralValue | ConceptReferenceValue | ConceptListValue | DynamicValue,
+    Field(discriminator="kind"),
 ]
 
 

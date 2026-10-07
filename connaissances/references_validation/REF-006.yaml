@@ -96,3 +96,4 @@ cases:
     result: réussi
     note: 'CA-025 ; référence : NXY = τ = 1e5 N/m'
 result: réussi
+replay_mode: listing

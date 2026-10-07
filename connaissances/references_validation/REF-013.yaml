@@ -64,3 +64,4 @@ cases:
     result: réussi
     note: 'CA-041 ; référence : EN 1992-1-1 9.2.2(5) (9.5N), rho_w,min x HY = 2500 mm'
 result: réussi
+replay_mode: listing

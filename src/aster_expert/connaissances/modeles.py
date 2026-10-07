@@ -24,7 +24,7 @@ from __future__ import annotations
 import datetime as dt
 import math
 import re
-from typing import Annotated, ClassVar, Literal
+from typing import Annotated, ClassVar, Final, Literal
 
 from pydantic import (
     BaseModel,
@@ -705,6 +705,15 @@ class ReferenceQuantity(_Model):
         return self
 
 
+REPLAY_MODES: Final = {
+    "listing": "cas exécuté ; chaque valeur est cherchée dans le listing imprimé",
+}
+"""Replay modes a reference may declare (lot 48 bis). A new mode is added here, with
+its implementation in `references.py` and its test."""
+
+ReplayMode = Literal["listing"]
+
+
 class ReferenceCase(_Model):
     case_path: str
     case_sha256: str
@@ -742,6 +751,13 @@ class ValidationReference(KnowledgeEntry):
     reference of another entry: it says that two calculations agree, not that
     either is right."""
 
+    replay_mode: ReplayMode | None = None
+    """Lot 48 bis (A15, REF-015) : how the tool replays the reference. `listing` :
+    the case is run and each `value_obtained` is looked for in the printed listing.
+    An `établi` or `promu` reference declares one (see `REPLAY_MODES`, tested by
+    `tests/unit/test_references_replay_mode.py`); an `observé` one may declare none
+    (derived quantities: envelopes, combinations, means, not printed)."""
+
     @model_serializer(mode="wrap")
     def _omit_default_kind(
         self, handler: SerializerFunctionWrapHandler
@@ -750,7 +766,20 @@ class ValidationReference(KnowledgeEntry):
         data: dict[str, object] = handler(self)
         if self.reference_kind == "solution_connue":
             data.pop("reference_kind", None)
+        if self.replay_mode is None:
+            data.pop("replay_mode", None)
         return data
+
+    @model_validator(mode="after")
+    def _replay_mode_declared(self) -> ValidationReference:
+        if self.status in ("établi", "promu") and self.replay_mode is None:
+            message = (
+                f"{self.id} : une référence au statut {self.status} déclare son "
+                f"mode de rejeu (`replay_mode`, parmi {sorted(REPLAY_MODES)}) ; "
+                "sinon elle reste observée, avec son motif dans `status_history`"
+            )
+            raise ValueError(message)
+        return self
 
     @model_validator(mode="after")
     def _external_calculation(self) -> ValidationReference:

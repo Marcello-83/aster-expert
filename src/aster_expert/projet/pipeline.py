@@ -160,14 +160,36 @@ class Runtime:
 
 def step_verifier(ctx: ProjectContext, rt: Runtime) -> list[str]:  # noqa: ARG001
     require_valid_project(ctx)
-    blockers = ctx.sheet().generation_blockers(ctx.data())
+    blockers = ctx.blockers_for("verifier")
     if blockers:
         message = f"projet {ctx.declaration.name} : la fiche ou les données bloquent"
         raise ProjectError(message, blockers)
+    planned = len(ctx.sheet().planned_commands)
+    exemption = ctx.declaration.planned_commands_exemption
+    if not planned and exemption is None:
+        message = (
+            f"projet {ctx.declaration.name} : la fiche ne déclare aucune commande "
+            "prévue (`planned_commands`), donc `fiche obligatoires` ne lit rien"
+        )
+        raise ProjectError(
+            message,
+            (
+                "écrire les commandes : aster-expert fiche prevoir "
+                f"{ctx.declaration.name} --ecrire",
+                "ou déclarer `planned_commands_exemption` (motif) dans projet.yaml",
+            ),
+        )
+    planned_line = (
+        f"Commandes prévues : {planned} (`fiche obligatoires`)."
+        if planned
+        else f"Commandes prévues : aucune, exemption déclarée : {exemption}"
+    )
     return [
         f"Déclaration {ctx.declaration.name} ({ctx.declaration.structure}) : "
         "cohérente avec ses fichiers.",
         f"Fiche : {len(ctx.sheet().entries)} entrées, aucun bloqueur de génération.",
+        planned_line,
+        *ctx.waiver_notes("verifier"),
     ]
 
 
@@ -282,7 +304,7 @@ def generate(
     """Refusals first (declaration, blockers), then the project's generator; the
     `.comm` is written with its `.export` and a copy of the mesh next to it."""
     require_valid_project(ctx, FOR_GENERATION)
-    blockers = ctx.sheet().generation_blockers(ctx.data())
+    blockers = ctx.blockers_for("generer")
     if blockers:
         message = "génération refusée, la fiche ou les données ne sont pas prêtes"
         raise ProjectError(message, blockers)
@@ -350,6 +372,7 @@ def step_valider(ctx: ProjectContext, rt: Runtime) -> list[str]:
     summary = {
         "validation_level": report.validation_level,
         "valid": report.valid,
+        "verdict": report.verdict,
         "commands_checked": n_checked,
         "commands_total": n_total,
         "errors": len(report.errors),
@@ -362,8 +385,8 @@ def step_valider(ctx: ProjectContext, rt: Runtime) -> list[str]:
     state.validation = summary
     save_state(ctx, state)
     line = (
-        f"Niveau B : valid={report.valid}, {n_checked}/{n_total} commandes "
-        f"confrontées, {len(report.errors)} erreur(s)"
+        f"Niveau B : valid={report.valid}, verdict={report.verdict}, "
+        f"{n_checked}/{n_total} commandes confrontées, {len(report.errors)} erreur(s)"
     )
     if not report.valid:
         message = f"validation refusée : {line}"
@@ -533,6 +556,13 @@ def step_ferraillage(ctx: ProjectContext, rt: Runtime) -> list[str]:
             f"le projet {ctx.declaration.name} ne déclare aucun élément à ferrailler"
         )
         raise ProjectError(message)
+    blockers = ctx.blockers_for("ferraillage")
+    if blockers:
+        message = (
+            f"ferraillage refusé : la fiche ou les données de {ctx.declaration.name} "
+            "bloquent cette étape"
+        )
+        raise ProjectError(message, blockers)
     _, mess, _ = _run_files(ctx)
     lines = []
     state = load_state(ctx)

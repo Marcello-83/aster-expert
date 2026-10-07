@@ -37,6 +37,7 @@ from typing import Any
 
 from aster_expert.parsing.models import (
     CommFileAnalysis,
+    ConceptListValue,
     ConceptReferenceValue,
     KeywordNode,
     LiteralValue,
@@ -190,6 +191,11 @@ def _reconstruct_value(value: SimpleValue, path: str) -> Any:
         return _json_safe(value.value)
     if isinstance(value, ConceptReferenceValue):
         return {"__concept_ref__": value.concept}
+    if isinstance(value, ConceptListValue):
+        return [
+            _reconstruct_value(item, f"{path}[{i}]")
+            for i, item in enumerate(value.items)
+        ]
     message = (
         f"unrecognized simple keyword value kind at {path!r}: {type(value).__name__}"
     )

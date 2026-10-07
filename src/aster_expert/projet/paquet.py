@@ -399,7 +399,7 @@ def _regenerate(ctx: ProjectContext, rt: Any, mesh: Path, executed: Path) -> Any
     d = ctx.declaration
     if d.comm.generator is None:
         return {"statut": "sans_objet", "motif": "`.comm` écrit à la main"}
-    blockers = ctx.sheet().generation_blockers(ctx.data())
+    blockers = ctx.blockers_for("generer")
     if blockers:
         return {"statut": "refusee", "motif": list(blockers)}
     try:

@@ -1,0 +1,14 @@
+# Déclaration de l'exécution de rejeu du cas de référence h0p500 (lot 48 bis, A15).
+# Ce cas est un projet : l'exécution déclare ce qu'elle applique, sans prétendre le
+# prouver (la machine n'éprouve que ce que ses règles permettent).
+schema_version: 1
+project: dalle_appuyee_01
+applied:
+  - id: REF-014
+    how: "rejeu du cas de référence de la dalle (suite de convergence contre Navier, maillage 12 x 8)"
+  - id: PAT-009
+    how: "tables lues par CREA_TABLE et POST_RELEVE_T"
+  - id: PAT-011
+    how: "dalle DKT entière, appui bilatéral, blocage plan isostatique, normales +Z"
+  - id: CTL-010
+    how: "intitulés de tables imprimées d'au plus 16 caractères"

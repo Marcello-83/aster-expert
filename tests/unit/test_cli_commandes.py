@@ -450,10 +450,17 @@ def test_fragments_and_index_build(
 # --- validation, exécution, maillage --------------------------------------------------
 
 
-def _validation(errors: int) -> Any:
+def _validation(errors: int, *, complete: bool = False) -> Any:
+    not_checked = (
+        []
+        if complete
+        else [SimpleNamespace(command="CALC_CHAMP", line=7, reasons=["raison"])]
+    )
+    verdict = "invalide" if errors else ("valide" if complete else "partiel")
     return SimpleNamespace(
+        verdict=verdict,
         commands_checked=[1, 2],
-        commands_not_checked=[3],
+        commands_not_checked=not_checked,
         validation_level="B",
         errors=[1] * errors,
         warnings=["attention"],
@@ -468,9 +475,20 @@ def test_validate(depot: Path, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) 
     monkeypatch.setattr(cli, "validate_comm_file", lambda *a, **k: _validation(0))
 
     result = runner.invoke(cli.app, ["validate", str(comm)])
-    assert result.exit_code == 0, result.output
+    # Lot 48 bis : une commande non confrontée donne « partiel », code 2.
+    assert result.exit_code == 2, result.output
     assert "Commandes vérifiées   : 2/3 (66.7 %)" in result.output
     assert "Avertissements        : 1" in result.output
+    assert "Verdict               : partiel" in result.output
+    assert "non vérifiée : CALC_CHAMP (ligne 7)" in result.output
+
+    monkeypatch.setattr(
+        cli, "validate_comm_file", lambda *a, **k: _validation(0, complete=True)
+    )
+    result = runner.invoke(cli.app, ["validate", str(comm)])
+    assert result.exit_code == 0, result.output
+    assert "Verdict               : valide" in result.output
+    monkeypatch.setattr(cli, "validate_comm_file", lambda *a, **k: _validation(0))
 
     monkeypatch.setattr(cli, "validate_comm_file", lambda *a, **k: _validation(2))
     result = runner.invoke(cli.app, ["validate", str(comm)])
@@ -588,7 +606,9 @@ def test_constats_chercher(repo: Path) -> None:
 def test_constats_rejouer(repo: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     import aster_expert.constats.rejeu as rejeu
 
-    fake = SimpleNamespace(lines=lambda: ["CA-001 : tient"], to_review=[])
+    fake = SimpleNamespace(
+        lines=lambda: ["CA-001 : tient"], to_review=[], not_replayable=[]
+    )
     monkeypatch.setattr(rejeu, "replay_base", lambda *a, **k: fake)
     result = runner.invoke(cli.app, ["constats", "rejouer", "--constat", "CA-001"])
     assert result.exit_code == 0
@@ -597,6 +617,13 @@ def test_constats_rejouer(repo: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     fake.to_review = ["CA-001"]
     assert runner.invoke(cli.app, ["constats", "rejouer"]).exit_code == 1
 
+    # Lot 48 bis (A15) : un cas non rejouable donne un code non nul.
+    fake.to_review = []
+    fake.not_replayable = ["CA-002"]
+    result = runner.invoke(cli.app, ["constats", "rejouer"])
+    assert result.exit_code == 2
+    assert "non rejouable(s) : CA-002" in result.output
+
     def fail(*a: Any, **k: Any) -> Any:
         raise rejeu.ReplayError("pas de conteneur")
 
@@ -604,3 +631,29 @@ def test_constats_rejouer(repo: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     result = runner.invoke(cli.app, ["constats", "rejouer"])
     assert result.exit_code == 1
     assert "constats rejouer ÉCHEC : pas de conteneur" in result.output
+
+
+def test_rejouer_references_non_rejouable_code_non_nul(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Lot 48 bis (A15) : la régression REF-014 ne passe plus en silence."""
+    import aster_expert.connaissances.references as references
+
+    fake = SimpleNamespace(
+        lines=lambda: ["REF-014 : non rejouable"],
+        to_review=[],
+        not_replayable=["REF-014"],
+    )
+    monkeypatch.setattr(references, "replay_references", lambda *a, **k: fake)
+    result = runner.invoke(cli.app, ["connaissances", "rejouer-references"])
+    assert result.exit_code == 2
+    assert "non rejouable(s) : REF-014" in result.output
+
+    fake.not_replayable = []
+    assert (
+        runner.invoke(cli.app, ["connaissances", "rejouer-references"]).exit_code == 0
+    )
+    fake.to_review = ["REF-014"]
+    assert (
+        runner.invoke(cli.app, ["connaissances", "rejouer-references"]).exit_code == 1
+    )

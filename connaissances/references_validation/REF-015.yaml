@@ -7,7 +7,7 @@ summary: 'Comparaison aux valeurs publiées d''un modèle externe non validé (C
 origin_project: estacade_pieux_01
 date: '2026-10-05'
 validation_level: C
-status: établi
+status: observé
 sources:
 - kind: execution
   run: 20261005T101455-e0d5c870
@@ -35,7 +35,16 @@ keywords:
 - EFGE_ELNO
 - FORCE_COQUE
 reuses: []
-status_history: []
+status_history:
+- status: observé
+  date: '2026-10-07'
+  by: lot 48 bis (audit R3c, A15)
+  reason: 'les 30 grandeurs sont dérivées (enveloppes sur les combinaisons, moyennes, lecture
+    C1 à C13 propre à l''estacade) et ne sont imprimées dans aucun listing : le rejeu du calcul
+    complet (2 268 s dans le Cloud) retrouve 0/30 valeurs. Le mode de rejeu `listing` ne s''applique
+    pas ; un rejeu par la lecture du projet n''existe pas dans le tronc commun. Une référence
+    qui ne sait pas se rejouer ne peut être « établie » : elle redevient observée, jusqu''à
+    un mode de rejeu déclaré et testé.'
 problem: Dalle DKT 31,20 × 6,00 × 0,40 m sur 7 chevêtres POU_D_T au plan moyen, 14 pieux POU_D_T
   à ressorts horizontaux, DZ = 0 en pointe ; 247 cas, combinaisons 100 à 115 du modèle source
   (E1 à E16).

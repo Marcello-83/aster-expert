@@ -15,12 +15,17 @@ from pathlib import Path
 import pytest
 
 from aster_expert.publication import (
+    TERMS_ENV,
     PublicationRules,
+    _names,
     check_file,
     check_index,
     check_tree,
+    confidential_projects,
+    load_forbidden_terms,
     load_rules,
     main,
+    with_forbidden_terms,
 )
 
 _REPO = Path(__file__).resolve().parents[2]
@@ -113,7 +118,15 @@ def test_naming_a_forbidden_file_in_a_text_is_allowed() -> None:
 def test_versioned_tree_holds_no_violation() -> None:
     if not (_REPO / ".git").exists():
         pytest.skip("pas de dépôt Git")
-    assert check_tree(_REPO, load_rules(_REPO)) == []
+    # Les fichiers versionnés seulement : l'obligation de fournir la liste des
+    # termes (lot 48 bis) a son propre test ci-dessous.
+    names = _names(
+        subprocess.run(
+            ["git", "-C", str(_REPO), "ls-files", "-z"], capture_output=True, check=True
+        ).stdout
+    )
+    rules = with_forbidden_terms(load_rules(_REPO), _REPO)
+    assert check_tree(_REPO, rules, names) == []
 
 
 def _git(root: Path, *args: str) -> None:
@@ -186,3 +199,61 @@ def test_pre_commit_hook_refuses_a_secret(depot: Path) -> None:
         check=False,
     )
     assert accepted.returncode == 0, accepted.stderr
+
+
+# --- Termes confidentiels hors de la VM (lot 48 bis, audit R4) ----------------------
+
+
+def test_terms_come_from_the_environment_variable(tmp_path: Path) -> None:
+    assert load_forbidden_terms(tmp_path, {}) is None
+    env = {TERMS_ENV: "Port Exemple\n# commentaire\nSociété Test;Port Exemple\n"}
+    assert load_forbidden_terms(tmp_path, env) == ("port exemple", "societe test")
+    assert load_forbidden_terms(tmp_path, {TERMS_ENV: ""}) == ()
+
+
+def test_the_estate_project_is_declared_confidential() -> None:
+    assert "estacade_pieux_01" in confidential_projects(_REPO)
+    assert "dalle_appuyee_01" not in confidential_projects(_REPO)
+
+
+def _depot_confidentiel(depot: Path) -> None:
+    projet = depot / "projets" / "reel"
+    projet.mkdir(parents=True)
+    (projet / "projet.yaml").write_text("confidential_data: true\n", encoding="utf-8")
+    (depot / "notes.txt").write_text("propre\n", encoding="utf-8")
+    (projet / "fiche.txt").write_text("propre\n", encoding="utf-8")
+
+
+def test_a_confidential_project_without_terms_fails_the_tree_check(
+    depot: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _depot_confidentiel(depot)
+    monkeypatch.chdir(depot)
+    monkeypatch.delenv(TERMS_ENV, raising=False)
+    _git(depot, "add", "-A")
+    _git(depot, "commit", "-q", "--no-verify", "-m", "essai")
+    assert main(["--arbre"]) == 1
+    # Avec la liste (variable d'environnement), le contrôle passe.
+    monkeypatch.setenv(TERMS_ENV, "terme absent du depot")
+    assert main(["--arbre"]) == 0
+    # Un terme présent dans un fichier versionné est refusé.
+    (depot / "projets" / "reel" / "fiche.txt").write_text(
+        "Terme ABSENT du dépôt\n", encoding="utf-8"
+    )
+    _git(depot, "add", "-A")
+    _git(depot, "commit", "-q", "--no-verify", "-m", "essai 2")
+    assert main(["--arbre"]) == 1
+
+
+def test_the_index_check_requires_terms_only_for_staged_project_files(
+    depot: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _depot_confidentiel(depot)
+    monkeypatch.chdir(depot)
+    monkeypatch.delenv(TERMS_ENV, raising=False)
+    _git(depot, "add", "notes.txt", "config/publication.yaml")
+    assert main(["--index"]) == 0  # rien du projet confidentiel n'est indexé
+    _git(depot, "add", "projets/reel/fiche.txt")
+    assert main(["--index"]) == 1
+    monkeypatch.setenv(TERMS_ENV, "autre terme")
+    assert main(["--index"]) == 0

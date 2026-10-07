@@ -35,7 +35,19 @@ def test_ci_se_declenche_sur_pull_request_et_branches_de_lot() -> None:
     triggers = _load("ci.yml")["on"]
     assert "pull_request" in triggers
     assert "lot-*" in triggers["push"]["branches"]
+    # Lot 48 bis : `main` et toute branche de travail du Cloud.
+    assert {"main", "claude/**"} <= set(triggers["push"]["branches"])
     assert "workflow_dispatch" not in triggers
+
+
+def test_ci_donne_le_secret_des_termes_au_controle_de_publication() -> None:
+    etapes = [
+        s
+        for s in _steps(_load("ci.yml"))
+        if "aster_expert.publication --arbre" in s.get("run", "")
+    ]
+    assert len(etapes) == 1
+    assert "secrets.ASTER_EXPERT_TERMES_INTERDITS" in str(etapes[0]["env"])
 
 
 def test_ci_lance_les_controles_demandes() -> None:
@@ -60,11 +72,18 @@ def test_audit_des_dependances_ne_bloque_pas() -> None:
     assert all(s.get("continue-on-error") is True for s in audit)
 
 
-def test_ci_lent_est_a_la_demande_seulement() -> None:
+def test_ci_lent_est_a_la_demande_et_sur_les_dossiers_sensibles() -> None:
     workflow = _load("ci-lent.yml")
-    assert set(workflow["on"]) == {"workflow_dispatch"}
+    assert set(workflow["on"]) == {"workflow_dispatch", "push"}
+    chemins = set(workflow["on"]["push"]["paths"])
+    assert {
+        "src/aster_expert/execution/**",
+        "src/aster_expert/validation/**",
+        "src/aster_expert/connaissances/**",
+    } <= chemins
     commandes = _commands(workflow)
     assert "pytest -m lent_aster" in commandes
+    assert "connaissances rejouer-references" in commandes
     assert "lent_salome" not in commandes
     assert "config/versions.yaml" in commandes  # image tirée par digest
 

@@ -501,3 +501,24 @@ def test_wildcard_import_contributes_no_names() -> None:
     analysis = parse_comm_source(source, file_path="synthetic.comm")
 
     assert analysis.imported_names == []
+
+
+def test_tuple_of_concepts_is_a_concept_list() -> None:
+    """Lot 48 bis (A16) : `(CL,)` n'est plus une valeur dynamique."""
+    from aster_expert.parsing.models import ConceptListValue
+
+    analysis = parse_comm_source(
+        "CL = AFFE_CHAR_MECA(MODELE=MO, DDL_IMPO=_F(GROUP_NO='A', DX=0.0))\n"
+        "R = MACRO_ELAS_MULT(CHAR_MECA_GLOBAL=(CL, 'X'))\n"
+        "S = MACRO_ELAS_MULT(CHAR_MECA_GLOBAL=(CL, fonction()))\n",
+        file_path="t.comm",
+    )
+    macro = analysis.statements[1]
+    node = macro.keywords["CHAR_MECA_GLOBAL"]
+    assert isinstance(node, SimpleKeywordValue)
+    assert isinstance(node.value, ConceptListValue)
+    assert macro.referenced_concepts == ["CL"]
+    assert not macro.dynamic
+    mixed = analysis.statements[2].keywords["CHAR_MECA_GLOBAL"]
+    assert isinstance(mixed, SimpleKeywordValue)
+    assert isinstance(mixed.value, DynamicValue)

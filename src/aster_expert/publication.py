@@ -11,7 +11,14 @@ Lot 47: a project built from real data adds confidential terms (site,
 client, firm, file references). They are listed by MM in the local, never
 versioned file `config/termes_interdits.local.txt` (one term per line, `#`
 comments) and searched without case nor accents in the paths, the text contents
-and the commit messages. Without that file the term check is skipped and said so.
+and the commit messages.
+
+Lot 48 bis (audit R4): the list also comes from the environment variable
+`ASTER_EXPERT_TERMES_INTERDITS` (terms separated by line breaks or `;`), set as a
+GitHub Actions secret and as a variable of the Cloud environment, never a versioned
+file. A project that declares `confidential_data: true` in its `projet.yaml` makes
+the list **mandatory**: `--arbre` fails without it, `--index` fails when a staged
+file lies under such a project. Before, the term check was silently skipped.
 
 Usage: `python -m aster_expert.publication --index` (staged files, as the hook
 does), `--arbre` (every versioned file) or `--message <file>` (a commit message,
@@ -21,11 +28,12 @@ every violation listed.
 
 from __future__ import annotations
 
+import os
 import re
 import subprocess
 import sys
 import unicodedata
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterable, Mapping
 from functools import partial
 from pathlib import Path
 
@@ -34,6 +42,7 @@ from pydantic import BaseModel, ConfigDict
 
 RULES_FILE = Path("config") / "publication.yaml"
 TERMS_FILE = Path("config") / "termes_interdits.local.txt"
+TERMS_ENV = "ASTER_EXPERT_TERMES_INTERDITS"
 _TEXT_PROBE = 8192
 
 
@@ -88,17 +97,70 @@ def fold(text: str) -> str:
     return "".join(c for c in decomposed if not unicodedata.combining(c)).casefold()
 
 
-def load_forbidden_terms(project_root: Path) -> tuple[str, ...] | None:
-    """Folded confidential terms of the local file, None if the file is absent."""
+def load_forbidden_terms(
+    project_root: Path, environ: Mapping[str, str] | None = None
+) -> tuple[str, ...] | None:
+    """Folded confidential terms of the local file and of `TERMS_ENV`.
+
+    None when neither source exists (the file is absent and the variable unset).
+    """
+    env = os.environ if environ is None else environ
     path = project_root / TERMS_FILE
-    if not path.is_file():
+    sources: list[str] = []
+    if path.is_file():
+        sources.extend(path.read_text(encoding="utf-8").splitlines())
+    from_env = env.get(TERMS_ENV)
+    if from_env is not None:
+        sources.extend(from_env.replace(";", "\n").splitlines())
+    if not path.is_file() and from_env is None:
         return None
     terms: list[str] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in sources:
         term = line.strip()
         if term and not term.startswith("#"):
             terms.append(fold(term))
-    return tuple(terms)
+    return tuple(dict.fromkeys(terms))
+
+
+def confidential_projects(project_root: Path) -> tuple[str, ...]:
+    """Names of the projects declaring `confidential_data: true` (lot 48 bis)."""
+    names: list[str] = []
+    for declaration in sorted((project_root / "projets").glob("*/projet.yaml")):
+        data = yaml.safe_load(declaration.read_text(encoding="utf-8"))
+        if isinstance(data, dict) and data.get("confidential_data") is True:
+            names.append(declaration.parent.name)
+    return tuple(names)
+
+
+def missing_terms(
+    project_root: Path,
+    rules: PublicationRules,
+    *,
+    paths: Iterable[str] | None = None,
+) -> list[Violation]:
+    """A refusal when a confidential project is concerned and no term is known.
+
+    `paths` is the set of files checked (staged files); None means the whole tree.
+    """
+    if rules.forbidden_terms:
+        return []
+    concerned = [
+        name
+        for name in confidential_projects(project_root)
+        if paths is None or any(p.startswith(f"projets/{name}/") for p in paths)
+    ]
+    return [
+        Violation(
+            path=f"projets/{name}",
+            reason=(
+                "projet à données confidentielles sans liste de termes interdits : "
+                f"définir la variable {TERMS_ENV} (secret GitHub Actions, variable "
+                f"de l'environnement Cloud) ou {TERMS_FILE.as_posix()} (VM), "
+                "docs/cloud.md § 11"
+            ),
+        )
+        for name in concerned
+    ]
 
 
 def with_forbidden_terms(
@@ -210,7 +272,7 @@ def check_index(project_root: Path, rules: PublicationRules) -> list[Violation]:
             project_root, "diff", "--cached", "--name-only", "-z", "--diff-filter=ACMR"
         ).stdout
     )
-    found: list[Violation] = []
+    found: list[Violation] = missing_terms(project_root, rules, paths=staged)
     for name in staged:
         size = int(_git(project_root, "cat-file", "-s", f":{name}").stdout)
         found.extend(
@@ -227,9 +289,12 @@ def check_tree(
     project_root: Path, rules: PublicationRules, names: Iterable[str] | None = None
 ) -> list[Violation]:
     """Violations among the versioned files of the working tree."""
+    tree_wide = names is None
     if names is None:
         names = _names(_git(project_root, "ls-files", "-z").stdout)
     found: list[Violation] = []
+    if tree_wide:
+        found.extend(missing_terms(project_root, rules))
     for name in names:
         path = project_root / name
         if not path.is_file():  # deleted, not yet committed
@@ -278,9 +343,11 @@ __all__: list[str] = [
     "check_index",
     "check_message",
     "check_tree",
+    "confidential_projects",
     "fold",
     "load_forbidden_terms",
     "load_rules",
     "main",
+    "missing_terms",
     "with_forbidden_terms",
 ]

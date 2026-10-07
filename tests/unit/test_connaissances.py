@@ -829,6 +829,7 @@ def _external_reference(**changes: object) -> dict[str, object]:
         "date": "2026-10-05",
         "validation_level": "D",
         "status": "établi",
+        "replay_mode": "listing",
         "sources": [
             {
                 "kind": "execution",

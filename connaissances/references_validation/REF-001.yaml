@@ -91,3 +91,4 @@ cases:
     note: 'CA-022 ; référence : P·L³/(3·FLEX·b) avec P = 10 N/m × 0,5 m = 5 N, L = 2 m, b
       = 0,5 m, FLEX = 4000 N·m : 0.006666666666666667'
 result: réussi
+replay_mode: listing

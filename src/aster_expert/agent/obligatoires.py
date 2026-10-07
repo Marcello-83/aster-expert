@@ -30,7 +30,8 @@ lot 44 partition rule). Nothing is ever decided here.
 from __future__ import annotations
 
 import ast
-from collections.abc import Mapping
+import re
+from collections.abc import Callable, Mapping
 from pathlib import Path
 
 import yaml
@@ -40,6 +41,7 @@ from aster_expert.agent.drafting import SearchAttempt, record_unfounded_point
 from aster_expert.agent.hypotheses import (
     AGENT_CHOICE_DOMAINS,
     HypothesesSheet,
+    PlannedCommand,
     PracticeHypothesisEntry,
 )
 from aster_expert.agent.model_data import ModelData
@@ -48,6 +50,12 @@ from aster_expert.catalogue.models import (
     FactorKeywordSchema,
     KeywordSchema,
     SimpleKeywordSchema,
+)
+from aster_expert.parsing.models import (
+    CommFileAnalysis,
+    KeywordNode,
+    LiteralValue,
+    SimpleKeywordValue,
 )
 
 _VALUE_TYPES = frozenset({"R", "I", "TXM", "C"})
@@ -148,7 +156,7 @@ def _holds(condition: str, options: Mapping[str, str]) -> bool:
         if isinstance(node, ast.Tuple | ast.List):
             return tuple(value(e) for e in node.elts)
         message = f"condition du catalogue non interprétée : {condition!r}"
-        raise ValueError(message)
+        raise UninterpretedConditionError(message)
 
     def number(text: str | None) -> float | None:
         try:
@@ -182,15 +190,27 @@ def _holds(condition: str, options: Mapping[str, str]) -> bool:
                 bound = float(str(args[1]))
                 return x > bound if node.func.id == "greater_than" else x < bound
         message = f"condition du catalogue non interprétée : {condition!r}"
-        raise ValueError(message)
+        raise UninterpretedConditionError(message)
 
     return ev(tree.body)
 
 
+class UninterpretedConditionError(ValueError):
+    """A catalogue condition the evaluator does not know (`is_type(...)`, ...)."""
+
+
 def mandatory_keywords(
-    schema: CommandSchema, options: Mapping[str, str], rules: ExecutionRules
+    schema: CommandSchema,
+    options: Mapping[str, str],
+    rules: ExecutionRules,
+    uninterpreted: list[str] | None = None,
 ) -> tuple[MandatoryKeyword, ...]:
-    """Mandatory keywords of `schema.command` under `options`, catalogue first."""
+    """Mandatory keywords of `schema.command` under `options`, catalogue first.
+
+    A keyword whose condition cannot be interpreted (lot 48 bis: `is_type("RESULTAT")`
+    on `CALC_CHAMP`, which aborted the whole check) is neither reported nor assumed
+    absent: it is appended to `uninterpreted` (`COMMANDE/MOT-CLÉ : condition`) so the
+    caller says it. Without that list the refusal stays an error, as before."""
     effective = {**_defaults(schema), **options}
     found: dict[str, MandatoryKeyword] = {}
     citation = (
@@ -200,7 +220,16 @@ def mandatory_keywords(
 
     def walk(entries: list[KeywordSchema]) -> None:
         for e in entries:
-            if not all(_holds(c, effective) for c in e.condition):
+            try:
+                holds = all(_holds(c, effective) for c in e.condition)
+            except UninterpretedConditionError:
+                if uninterpreted is None:
+                    raise
+                uninterpreted.append(
+                    f"{schema.command}/{'.'.join(e.path)} : {'; '.join(e.condition)}"
+                )
+                continue
+            if not holds:
                 continue
             if isinstance(e, FactorKeywordSchema):
                 if e.status == "required":
@@ -255,6 +284,7 @@ def missing_parameters(
     data: ModelData | None,
     schemas: Mapping[str, CommandSchema],
     rules: ExecutionRules,
+    uninterpreted: list[str] | None = None,
 ) -> tuple[MissingParameter, ...]:
     """Mandatory keywords of every planned command that nothing covers.
 
@@ -264,7 +294,9 @@ def missing_parameters(
     missing: list[MissingParameter] = []
     for planned in sheet.planned_commands:
         schema = schemas[planned.command]
-        for mandatory in mandatory_keywords(schema, planned.options, rules):
+        for mandatory in mandatory_keywords(
+            schema, planned.options, rules, uninterpreted
+        ):
             target = planned.covered_by.get(mandatory.keyword)
             if target is not None and _covered(target, sheet, data):
                 continue
@@ -277,6 +309,96 @@ def missing_parameters(
                 )
             )
     return tuple(missing)
+
+
+_CONSTANT = re.compile(r"""['"]([^'"]+)['"]""")
+_CONDITION_NAME = re.compile(
+    r'(?:equal_to|exists|absent|is_in|greater_than|less_than)\(\s*"([A-Za-z0-9_]+)"'
+)
+
+
+def _condition_values(schema: CommandSchema) -> dict[str, frozenset[str]]:
+    """Options the catalogue conditions of `schema` test, with the string constants
+    those conditions name (a superset of the values each option can take)."""
+    values: dict[str, set[str]] = {}
+
+    def walk(entries: list[KeywordSchema]) -> None:
+        for e in entries:
+            for condition in e.condition:
+                constants = set(_CONSTANT.findall(condition))
+                for name in _CONDITION_NAME.findall(condition):
+                    values.setdefault(name, set()).update(constants)
+            if isinstance(e, FactorKeywordSchema):
+                walk(e.children)
+
+    walk(list(schema.keywords))
+    return {name: frozenset(v) for name, v in values.items()}
+
+
+def _literal_options(
+    keywords: Mapping[str, KeywordNode], allowed: Mapping[str, frozenset[str]]
+) -> dict[str, str]:
+    found: dict[str, str] = {}
+    for name, node in keywords.items():
+        if isinstance(node, SimpleKeywordValue):
+            value = node.value
+            if (
+                isinstance(value, LiteralValue)
+                and isinstance(value.value, str)
+                and value.value in allowed.get(name, frozenset())
+            ):
+                found.setdefault(name, value.value)
+        else:
+            for occurrence in node.occurrences:
+                for key, val in _literal_options(occurrence.keywords, allowed).items():
+                    found.setdefault(key, val)
+    return found
+
+
+def planned_from_comm(
+    analysis: CommFileAnalysis,
+    schema_of: Callable[[str], CommandSchema | None],
+    point_of: Callable[[str], str],
+    rules: ExecutionRules,
+) -> tuple[tuple[PlannedCommand, ...], tuple[str, ...]]:
+    """The `planned_commands` a `.comm` implies (lot 48 bis, audit R6).
+
+    One entry per distinct command and per distinct combination of the options the
+    catalogue conditions of that command test, or the execution rules (`rules`) key
+    on, as written literally in the `.comm` (`TYPE_COMB="ELS"`). `schema_of` returns
+    None for a command without a catalogue schema (`DEBUT`, `FIN` and the like:
+    skipped, and named in the second result).
+    `point_of` gives the fiche point a command's questions are attached to. Nothing
+    is covered here: `covered_by` stays empty, a coverage is a decision.
+    """
+    planned: dict[tuple[str, tuple[tuple[str, str], ...]], PlannedCommand] = {}
+    skipped: list[str] = []
+    for statement in analysis.statements:
+        schema = schema_of(statement.command)
+        if schema is None:
+            if statement.command not in skipped:
+                skipped.append(statement.command)
+            continue
+        allowed = {
+            name: set(constants)
+            for name, constants in _condition_values(schema).items()
+        }
+        for rule in rules.rules:
+            if rule.command == statement.command:
+                for name, value in rule.when.items():
+                    allowed.setdefault(name, set()).add(value)
+        options = _literal_options(
+            statement.keywords, {n: frozenset(v) for n, v in allowed.items()}
+        )
+        key = (statement.command, tuple(sorted(options.items())))
+        if key not in planned:
+            planned[key] = PlannedCommand(
+                command=statement.command,
+                point_label=point_of(statement.command),
+                options=options,
+            )
+    ordered = sorted(planned.values(), key=lambda p: (p.command, sorted(p.options)))
+    return tuple(ordered), tuple(skipped)
 
 
 def _category_text(category: str) -> str:

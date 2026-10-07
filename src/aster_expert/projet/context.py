@@ -109,6 +109,34 @@ class ProjectContext:
         sheet: HypothesesSheet = self.cache["sheet"]
         return sheet
 
+    def waived_revisions(self, step: str) -> tuple[tuple[str, str], ...]:
+        """`(point, topic)` of the revisions that do not block `step` (lot 48 bis)."""
+        return tuple(
+            (scope.point_label, scope.topic)
+            for scope in self.declaration.blocker_scopes
+            if step not in scope.steps
+        )
+
+    def blockers_for(self, step: str) -> tuple[str, ...]:
+        """Generation blockers of the fiche and data that concern `step`."""
+        return self.sheet().generation_blockers(
+            self.data(), waived_revisions=self.waived_revisions(step)
+        )
+
+    def waiver_notes(self, step: str) -> list[str]:
+        """The revisions `step` waived and why, for the step's report."""
+        waived = set(self.waived_revisions(step))
+        under_revision = {
+            (e.point_label or "?", e.topic)
+            for e in self.sheet().entries_under_revision()
+        }
+        return [
+            f"Révision du point {scope.point_label} ({scope.topic}) non bloquante "
+            f"pour `{step}` : {scope.reason} (bloque : {', '.join(scope.steps)})."
+            for scope in self.declaration.blocker_scopes
+            if (scope.point_label, scope.topic) in waived & under_revision
+        ]
+
     def extension(self, reference: str) -> Callable[..., Any]:
         """Import `module:callable` from the project's own package."""
         module_name, _, attribute = reference.partition(":")

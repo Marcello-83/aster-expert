@@ -83,3 +83,4 @@ cases:
     result: réussi
     note: 'CA-025 ; référence : p·a/2 = 50 N par mètre de largeur'
 result: réussi
+replay_mode: listing

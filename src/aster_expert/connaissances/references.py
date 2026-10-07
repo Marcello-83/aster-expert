@@ -80,6 +80,17 @@ class ReferencesReplayResult(BaseModel):
     image_digest: str
     replayed_at: datetime
     references: tuple[ReferenceReplay, ...]
+    skipped: tuple[str, ...] = ()
+    """Lot 48 bis : references without a declared replay mode (`observé`), not run
+    unless asked for by name. Never counted as holding."""
+
+    @property
+    def to_review(self) -> list[str]:
+        return [r.reference_id for r in self.references if r.verdict == "à réexaminer"]
+
+    @property
+    def not_replayable(self) -> list[str]:
+        return [r.reference_id for r in self.references if r.verdict == "non rejouable"]
 
     def lines(self) -> list[str]:
         out = []
@@ -93,6 +104,10 @@ class ReferencesReplayResult(BaseModel):
                     else c.reason or ""
                 )
                 out.append(f"  {c.case_path} : {c.outcome} ({detail})")
+        out.extend(
+            f"{ref_id} : non rejouée (aucun mode de rejeu déclaré, statut observé)"
+            for ref_id in self.skipped
+        )
         n = sum(r.verdict == "tient" for r in self.references)
         out.append(
             f"{n}/{len(self.references)} référence(s) de validation tiennent sous "
@@ -102,6 +117,7 @@ class ReferencesReplayResult(BaseModel):
 
 
 def _replay_case(repo_root: Path, case: ReferenceCase, run: Runner) -> CaseOutcome:
+    """Mode `listing` (`modeles.REPLAY_MODES`) : run, then look each value up."""
     path = repo_root / case.case_path
     if not path.is_file():
         return CaseOutcome(
@@ -197,6 +213,12 @@ def replay_references(
         message = f"références inconnues : {unknown}"
         raise ReplayError(message)
     run, version, digest = runner or _default_runner(repo_root, "rejeu_references")
+    if only:
+        selected = [r for r in refs if r.id in only]
+        skipped: tuple[str, ...] = ()
+    else:
+        selected = [r for r in refs if r.replay_mode is not None]
+        skipped = tuple(r.id for r in refs if r.replay_mode is None)
     replays = [
         ReferenceReplay(
             reference_id=ref.id,
@@ -205,14 +227,14 @@ def replay_references(
                 _replay_case(repo_root, c, run) for c in _with_refined_cases(ref)
             ),
         )
-        for ref in refs
-        if not only or ref.id in only
+        for ref in selected
     ]
     result = ReferencesReplayResult(
         aster_version=version,
         image_digest=digest,
         replayed_at=datetime.now(UTC),
         references=tuple(replays),
+        skipped=skipped,
     )
     out = output_dir or (
         repo_root

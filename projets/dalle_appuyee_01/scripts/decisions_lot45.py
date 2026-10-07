@@ -38,6 +38,7 @@ from aster_expert.agent.hypotheses import (
     PracticeSource,
 )
 from aster_expert.agent.model_data import check_consistency, load_model_data
+from aster_expert.agent.prevues import carry_planned_commands
 from aster_expert.connaissances.base import write_entry
 from aster_expert.connaissances.modeles import Precedent
 from aster_expert.connaissances.precedents import precedent_from_entry
@@ -129,7 +130,8 @@ def precedent(sheet: HypothesesSheet) -> Precedent:
 
 
 def main() -> int:
-    sheet = current_sheet()
+    # `fiche prevoir` écrit `planned_commands` dans la fiche : ne pas les perdre.
+    sheet = carry_planned_commands(current_sheet(), FICHE)
     FICHE.write_text(
         json.dumps(sheet.model_dump(mode="json"), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",

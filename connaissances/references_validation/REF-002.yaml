@@ -59,3 +59,4 @@ cases:
     note: 'CA-024 ; référence : RHO × EPAIS × g × aire = 100 × 0,02 × 9,81 × 1 m² (hypothèse
       masse volumique ; l''hypothèse masse surfacique donnerait 981 N)'
 result: réussi
+replay_mode: listing

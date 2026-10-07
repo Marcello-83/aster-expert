@@ -55,3 +55,4 @@ cases:
     result: échec
     note: 'CA-044 ; référence : pivot acier de R7.04.05 (design_els), h = 1,40, b = 2,50'
 result: échec
+replay_mode: listing

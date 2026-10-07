@@ -1061,7 +1061,10 @@ class HypothesesSheet(BaseModel):
         return tuple(g for g in self.group_naming if g.status == "choix_agent")
 
     def generation_blockers(
-        self, model_data: MissingValues | None = None
+        self,
+        model_data: MissingValues | None = None,
+        *,
+        waived_revisions: Collection[tuple[str, str]] = (),
     ) -> tuple[str, ...]:
         """Human-readable reasons `is_ready_for_generation` is `False` (R3,
         lot 17).
@@ -1070,6 +1073,13 @@ class HypothesesSheet(BaseModel):
         (`aster_expert.agent.model_data.ModelData`): each value it still marks
         « à fournir » is one more blocker. Without it, only the fiche is
         examined, as before.
+
+        `waived_revisions` (lot 48 bis, audit R8) lists `(point_label, topic)` of
+        practice entries under revision that do **not** block the step being
+        asked about (a project declares which steps depend on a revised point:
+        the steel modulus of a revised decision blocks the reinforcement, not
+        the mesh or the generation). Only a revision can be waived; an open
+        question never is. The caller says which it waived.
 
         An empty `group_naming` is not the same state as a `group_naming`
         whose every entry is `tranche`: `unresolved_group_names()` lists
@@ -1097,6 +1107,7 @@ class HypothesesSheet(BaseModel):
             f"entrée pratique en révision (point {e.point_label or '?'}) : "
             f"{e.topic} -- motif : {e.revision_reason}"
             for e in self.entries_under_revision()
+            if (e.point_label or "?", e.topic) not in set(waived_revisions)
         )
         blockers.extend(
             f"nom de groupe non tranché : {g.group_name} ({g.kind})"
