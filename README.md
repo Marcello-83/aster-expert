@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 47quater (2026-10-07), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 48bis (2026-10-07), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 53 faits sur 55 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 47quater, Estacade, clôture : ressources d'exécution (.export → docker run, mesures OpenMP/MPI, exécutions simultanées), écarts de transcription H1 (bouchon mixte) et H2 (tablier à +1,50), E20 et PRE-039, ENV-004, DIAG-026, DIAG-027.
+Lots : 55 faits sur 57 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 48bis, Validation B partielle, rejeu strict, REF-014 rejouable, REF-015 observée, termes confidentiels par secret, pre-push, planned_commands, fiche enregistrer, bloqueurs par étape, CLAUDE.md allégé, mode résumé MCP, grille et table d'arrondi.
 
 Capacités :
 
@@ -287,7 +287,7 @@ Capacités :
 - base_de_connaissances : sans niveau de validation, opérationnelle. Depuis le lot 46 une exécution de projet déclare ses connaissances ; aucune exécution passée n'est attribuée ; manifestes d'archive à enregistrer dans la VM (rex --manifeste).
 - securite_mcp : sans niveau de validation, opérationnelle. Politique de lecture appliquée aux outils MCP et aux commandes recevant un chemin ; les sorties (écriture) ne sont pas couvertes.
 - integration_continue : sans niveau de validation, opérationnelle. ci.yml vert sur la branche du lot 46 (2 min 28 s) ; ci-lent.yml corrigé au lot 46 bis (profil ci), passage réel vert sur la branche claude/blissful-turing-ajkazc (constaté par MM, 2026-10-05).
-- contre_calcul : niveau C, partielle. Comparaison à un calcul externe non validé (type calcul_externe_non_valide, jamais E ni promu) ; lecture C1 à C13 propre à l'estacade ; écarts des moments de pieux inexpliqués.
+- contre_calcul : niveau C, partielle. Comparaison à un calcul externe non validé (type calcul_externe_non_valide, jamais E ni promu) ; REF-015 observée depuis le lot 48 bis (grandeurs dérivées, non rejouables par l'outil) ; lecture C1 à C13 propre à l'estacade ; écarts des moments de pieux inexpliqués.
 
 Projets :
 
