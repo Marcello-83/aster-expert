@@ -69,10 +69,16 @@ premier échec. Preuve réelle : lors du premier envoi de ce lot, il a lancé `p
 du faux projet (`tests/unit/test_projet_pipeline.py`) que l'exigence de `planned_commands` cassait : corrigés avant l'envoi
 (`tests/conftest.py`). Tests : `tests/unit/test_hook_pre_push.py` (ordre, premier échec, absence de branche distante).
 
-**Durée et coût** (mesures locales dans le conteneur Cloud, 4 vCPU ; les minutes facturées de la CI sont relevées après envoi,
-voir plus bas) : `ruff format --check` 1 s, `ruff check` < 1 s, `mypy src` < 1 s (cache), `mypy` 3 s, `pytest` 245 s (1 677
-réussis, 8 ignorés), `pytest -m lent_aster` 36 s (3 tests), rejeu des 14 références 247 s. Estimation du coût de `ci-lent` :
-mise en place (tirage de l'image de 5 Go, `uv sync`, extraction du catalogue) + 36 s + 247 s.
+**Durée et coût** (mesures locales dans le conteneur Cloud, 4 vCPU, puis mesures GitHub) : `ruff format --check` 1 s, `ruff check` < 1 s, `mypy src` < 1 s (cache), `mypy` 3 s, `pytest` 245 s (1 677
+réussis, 8 ignorés), `pytest -m lent_aster` 36 s (3 tests), rejeu des 14 références 247 s. 
+**Mesures sur GitHub (envoi du commit `79715fd`, runs 17 de `ci` et 4 de `ci-lent`, relevées par l'outil `actions_*`)** :
+`ci` : 3 min 12 s au total (installation 4 s, `mypy` 21 s, `pytest` 2 min 27 s, durée du job 3 min 8 s) ; **échec à l'étape
+« Contrôle de publication »**, comme voulu : le secret `ASTER_EXPERT_TERMES_INTERDITS` n'existe pas encore (voir `docs/cloud.md`
+§ 11.2), donc la branche n'est pas fusionnable avant que MM l'ait créé. `ci-lent` : **déclenché automatiquement** par l'envoi
+(il touche `src/aster_expert/validation/`), **vert**, 4 min 10 s : image tirée par digest 93 s, `env-check` 5 s, catalogue 9 s,
+`pytest -m lent_aster` 19 s, rejeu des références 113 s (14/14). Coût : environ 3,2 + 4,2 = 7,4 minutes de runner Linux par
+envoi touchant ces dossiers (l'API de facturation répond 0 : dépôt hors quota payant au moment de la mesure), 3,2 minutes pour
+tout autre envoi.
 
 ## 3. Fiche : commandes prévues et arbitrages (R6)
 
