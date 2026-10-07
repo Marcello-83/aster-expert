@@ -1,0 +1,511 @@
+{
+ "by_file": {
+  "floor": {
+   "5": {
+    "hit_rate": 0.6097560975609756,
+    "n": 82,
+    "mrr": 0.4749655043333317
+   },
+   "10": {
+    "hit_rate": 0.7317073170731707,
+    "n": 82,
+    "mrr": 0.4749655043333317
+   },
+   "20": {
+    "hit_rate": 0.8414634146341463,
+    "n": 82,
+    "mrr": 0.4749655043333317
+   }
+  },
+  "realistic": {
+   "5": {
+    "hit_rate": 0.7195121951219512,
+    "n": 82,
+    "mrr": 0.5195607967049303
+   },
+   "10": {
+    "hit_rate": 0.8292682926829268,
+    "n": 82,
+    "mrr": 0.5195607967049303
+   },
+   "20": {
+    "hit_rate": 0.9146341463414634,
+    "n": 82,
+    "mrr": 0.5195607967049303
+   }
+  },
+  "par_profil": {
+   "5": {
+    "theorie": {
+     "n_questions": 11,
+     "hit_rate": 0.45454545454545453,
+     "mean_recall": 0.4025974025974026,
+     "mean_reciprocal_rank": 0.3313997974206618
+    },
+    "syntaxe": {
+     "n_questions": 48,
+     "hit_rate": 0.8333333333333334,
+     "mean_recall": 0.671875,
+     "mean_reciprocal_rank": 0.6290032679738562
+    },
+    "methode": {
+     "n_questions": 23,
+     "hit_rate": 0.6086956521739131,
+     "mean_recall": 0.532608695652174,
+     "mean_reciprocal_rank": 0.3811491606709525
+    }
+   },
+   "10": {
+    "theorie": {
+     "n_questions": 11,
+     "hit_rate": 0.6363636363636364,
+     "mean_recall": 0.551948051948052,
+     "mean_reciprocal_rank": 0.3313997974206618
+    },
+    "syntaxe": {
+     "n_questions": 48,
+     "hit_rate": 0.9166666666666666,
+     "mean_recall": 0.7725694444444445,
+     "mean_reciprocal_rank": 0.6290032679738562
+    },
+    "methode": {
+     "n_questions": 23,
+     "hit_rate": 0.7391304347826086,
+     "mean_recall": 0.6413043478260869,
+     "mean_reciprocal_rank": 0.3811491606709525
+    }
+   },
+   "20": {
+    "theorie": {
+     "n_questions": 11,
+     "hit_rate": 0.8181818181818182,
+     "mean_recall": 0.7164502164502164,
+     "mean_reciprocal_rank": 0.3313997974206618
+    },
+    "syntaxe": {
+     "n_questions": 48,
+     "hit_rate": 0.9583333333333334,
+     "mean_recall": 0.8368055555555555,
+     "mean_reciprocal_rank": 0.6290032679738562
+    },
+    "methode": {
+     "n_questions": 23,
+     "hit_rate": 0.8695652173913043,
+     "mean_recall": 0.8260869565217391,
+     "mean_reciprocal_rank": 0.3811491606709525
+    }
+   }
+  },
+  "echecs_k10": [
+   {
+    "id": "eval-001",
+    "question": "Quels types d'éléments finis de poutre sont disponibles pour modéliser un pieu, et en quoi diffèrent-ils",
+    "profil": "theorie",
+    "attendus": [
+     "U3.11.01",
+     "U3.11.04",
+     "U3.11.05",
+     "U3.11.07"
+    ]
+   },
+   {
+    "id": "eval-006",
+    "question": "Comment représenter une loi de réaction latérale non linéaire du sol sur un pieu",
+    "profil": "methode",
+    "attendus": [
+     "R5.03.17"
+    ]
+   },
+   {
+    "id": "eval-008",
+    "question": "Comment modéliser un rideau de palplanches avec une inertie et une raideur équivalentes",
+    "profil": "methode",
+    "attendus": [
+     "U4.42.01",
+     "U4.43.01"
+    ]
+   },
+   {
+    "id": "eval-010",
+    "question": "Quelle relation de comportement décrit un ressort ne travaillant qu'en compression",
+    "profil": "theorie",
+    "attendus": [
+     "R5.03.17"
+    ]
+   },
+   {
+    "id": "eval-035",
+    "question": "Comment calculer les efforts généralisés aux noeuds d'un élément de coque",
+    "profil": "syntaxe",
+    "attendus": [
+     "U4.81.04"
+    ]
+   },
+   {
+    "id": "eval-041",
+    "question": "Comment contrôler le signe et la résultante d'un chargement de pression appliqué",
+    "profil": "methode",
+    "attendus": [
+     "U4.81.21",
+     "U4.81.04"
+    ]
+   },
+   {
+    "id": "eval-045",
+    "question": "Comment obtenir les valeurs extrêmes d'un champ et leur localisation",
+    "profil": "syntaxe",
+    "attendus": [
+     "U4.81.21"
+    ]
+   },
+   {
+    "id": "eval-048",
+    "question": "Quelles approches permettent de représenter l'interaction sol-structure et quelles sont leurs hypothèses",
+    "profil": "theorie",
+    "attendus": [
+     "U7.03.12",
+     "R4.05.04",
+     "R4.05.07"
+    ]
+   },
+   {
+    "id": "eval-051",
+    "question": "Comment vérifier la masse totale d'un modèle",
+    "profil": "methode",
+    "attendus": [
+     "U4.81.22"
+    ]
+   },
+   {
+    "id": "eval-063",
+    "question": "Comment définir l'amortissement d'une structure en dynamique",
+    "profil": "syntaxe",
+    "attendus": [
+     "U2.06.03",
+     "U4.43.01",
+     "U4.53.05"
+    ]
+   },
+   {
+    "id": "eval-065",
+    "question": "Comment déclarer un spectre d'oscillateur déjà défini par des valeurs tabulées (spectre réglementaire ou de sol fourni), sans le calculer depuis un accélérogramme",
+    "profil": "syntaxe",
+    "attendus": [
+     "U4.31.03",
+     "U4.32.02"
+    ]
+   },
+   {
+    "id": "eval-072",
+    "question": "Quel est le domaine de validité du modèle de Mohr-Coulomb pour un sol pulvérulent ou cohérent",
+    "profil": "theorie",
+    "attendus": [
+     "U2.03.09"
+    ]
+   },
+   {
+    "id": "eval-076",
+    "question": "Comment définir une coque orthotrope en donnant directement ses rigidités de membrane et de flexion",
+    "profil": "methode",
+    "attendus": [
+     "U4.43.01"
+    ]
+   },
+   {
+    "id": "eval-078",
+    "question": "Comment représenter un appui élastique de type Winkler, avec un module de réaction en N/m3, sous des éléments de coque",
+    "profil": "methode",
+    "attendus": [
+     "U4.42.01"
+    ]
+   }
+  ],
+  "questions_sans_profil": [
+   "eval-065"
+  ],
+  "realiste_k10_questions_lot40": [
+   52,
+   63
+  ],
+  "realiste_k10_questions_lot44": [
+   16,
+   19
+  ]
+ },
+ "by_subsection": {
+  "floor": {
+   "5": {
+    "hit_rate": 0.6219512195121951,
+    "n": 82,
+    "mrr": 0.447029812981461
+   },
+   "10": {
+    "hit_rate": 0.6829268292682927,
+    "n": 82,
+    "mrr": 0.447029812981461
+   },
+   "20": {
+    "hit_rate": 0.8292682926829268,
+    "n": 82,
+    "mrr": 0.447029812981461
+   }
+  },
+  "realistic": {
+   "5": {
+    "hit_rate": 0.6951219512195121,
+    "n": 82,
+    "mrr": 0.48297062975059274
+   },
+   "10": {
+    "hit_rate": 0.7682926829268293,
+    "n": 82,
+    "mrr": 0.48297062975059274
+   },
+   "20": {
+    "hit_rate": 0.9146341463414634,
+    "n": 82,
+    "mrr": 0.48297062975059274
+   }
+  },
+  "par_profil": {
+   "5": {
+    "theorie": {
+     "n_questions": 11,
+     "hit_rate": 0.36363636363636365,
+     "mean_recall": 0.22510822510822512,
+     "mean_reciprocal_rank": 0.17799091367599637
+    },
+    "syntaxe": {
+     "n_questions": 48,
+     "hit_rate": 0.875,
+     "mean_recall": 0.7291666666666666,
+     "mean_reciprocal_rank": 0.6294795482295482
+    },
+    "methode": {
+     "n_questions": 23,
+     "hit_rate": 0.4782608695652174,
+     "mean_recall": 0.42391304347826086,
+     "mean_reciprocal_rank": 0.32307275104757943
+    }
+   },
+   "10": {
+    "theorie": {
+     "n_questions": 11,
+     "hit_rate": 0.45454545454545453,
+     "mean_recall": 0.3593073593073593,
+     "mean_reciprocal_rank": 0.17799091367599637
+    },
+    "syntaxe": {
+     "n_questions": 48,
+     "hit_rate": 0.8958333333333334,
+     "mean_recall": 0.7586805555555555,
+     "mean_reciprocal_rank": 0.6294795482295482
+    },
+    "methode": {
+     "n_questions": 23,
+     "hit_rate": 0.6521739130434783,
+     "mean_recall": 0.6086956521739131,
+     "mean_reciprocal_rank": 0.32307275104757943
+    }
+   },
+   "20": {
+    "theorie": {
+     "n_questions": 11,
+     "hit_rate": 0.7272727272727273,
+     "mean_recall": 0.670995670995671,
+     "mean_reciprocal_rank": 0.17799091367599637
+    },
+    "syntaxe": {
+     "n_questions": 48,
+     "hit_rate": 0.9583333333333334,
+     "mean_recall": 0.828125,
+     "mean_reciprocal_rank": 0.6294795482295482
+    },
+    "methode": {
+     "n_questions": 23,
+     "hit_rate": 0.9130434782608695,
+     "mean_recall": 0.8369565217391305,
+     "mean_reciprocal_rank": 0.32307275104757943
+    }
+   }
+  },
+  "echecs_k10": [
+   {
+    "id": "eval-001",
+    "question": "Quels types d'éléments finis de poutre sont disponibles pour modéliser un pieu, et en quoi diffèrent-ils",
+    "profil": "theorie",
+    "attendus": [
+     "U3.11.01",
+     "U3.11.04",
+     "U3.11.05",
+     "U3.11.07"
+    ]
+   },
+   {
+    "id": "eval-008",
+    "question": "Comment modéliser un rideau de palplanches avec une inertie et une raideur équivalentes",
+    "profil": "methode",
+    "attendus": [
+     "U4.42.01",
+     "U4.43.01"
+    ]
+   },
+   {
+    "id": "eval-009",
+    "question": "Comment représenter un appui unilatéral sol-radier autorisant le décollement",
+    "profil": "methode",
+    "attendus": [
+     "R5.03.17",
+     "R5.03.31"
+    ]
+   },
+   {
+    "id": "eval-010",
+    "question": "Quelle relation de comportement décrit un ressort ne travaillant qu'en compression",
+    "profil": "theorie",
+    "attendus": [
+     "R5.03.17"
+    ]
+   },
+   {
+    "id": "eval-017",
+    "question": "Comment affecter plusieurs modélisations différentes dans un même modèle",
+    "profil": "syntaxe",
+    "attendus": [
+     "U4.41.01"
+    ]
+   },
+   {
+    "id": "eval-029",
+    "question": "Quelle formulation permet d'éviter la dépendance au maillage d'une loi adoucissante",
+    "profil": "theorie",
+    "attendus": [
+     "R5.04.01",
+     "R5.03.28"
+    ]
+   },
+   {
+    "id": "eval-035",
+    "question": "Comment calculer les efforts généralisés aux noeuds d'un élément de coque",
+    "profil": "syntaxe",
+    "attendus": [
+     "U4.81.04"
+    ]
+   },
+   {
+    "id": "eval-040",
+    "question": "Comment vérifier sans visualisation graphique que les normales de peau sont orientées comme attendu",
+    "profil": "methode",
+    "attendus": [
+     "U4.44.01"
+    ]
+   },
+   {
+    "id": "eval-041",
+    "question": "Comment contrôler le signe et la résultante d'un chargement de pression appliqué",
+    "profil": "methode",
+    "attendus": [
+     "U4.81.21",
+     "U4.81.04"
+    ]
+   },
+   {
+    "id": "eval-045",
+    "question": "Comment obtenir les valeurs extrêmes d'un champ et leur localisation",
+    "profil": "syntaxe",
+    "attendus": [
+     "U4.81.21"
+    ]
+   },
+   {
+    "id": "eval-048",
+    "question": "Quelles approches permettent de représenter l'interaction sol-structure et quelles sont leurs hypothèses",
+    "profil": "theorie",
+    "attendus": [
+     "U7.03.12",
+     "R4.05.04",
+     "R4.05.07"
+    ]
+   },
+   {
+    "id": "eval-051",
+    "question": "Comment vérifier la masse totale d'un modèle",
+    "profil": "methode",
+    "attendus": [
+     "U4.81.22"
+    ]
+   },
+   {
+    "id": "eval-063",
+    "question": "Comment définir l'amortissement d'une structure en dynamique",
+    "profil": "syntaxe",
+    "attendus": [
+     "U2.06.03",
+     "U4.43.01",
+     "U4.53.05"
+    ]
+   },
+   {
+    "id": "eval-065",
+    "question": "Comment déclarer un spectre d'oscillateur déjà défini par des valeurs tabulées (spectre réglementaire ou de sol fourni), sans le calculer depuis un accélérogramme",
+    "profil": "syntaxe",
+    "attendus": [
+     "U4.31.03",
+     "U4.32.02"
+    ]
+   },
+   {
+    "id": "eval-066",
+    "question": "Comment choisir une loi de comportement pour un sol : Mohr-Coulomb, Drucker-Prager ou Cam-Clay",
+    "profil": "methode",
+    "attendus": [
+     "U2.03.09"
+    ]
+   },
+   {
+    "id": "eval-068",
+    "question": "Comment représenter l'interface entre le sol et un écran : contact frottant, glissement et décollement",
+    "profil": "methode",
+    "attendus": [
+     "U2.03.09",
+     "U2.04.04"
+    ]
+   },
+   {
+    "id": "eval-072",
+    "question": "Quel est le domaine de validité du modèle de Mohr-Coulomb pour un sol pulvérulent ou cohérent",
+    "profil": "theorie",
+    "attendus": [
+     "U2.03.09"
+    ]
+   },
+   {
+    "id": "eval-078",
+    "question": "Comment représenter un appui élastique de type Winkler, avec un module de réaction en N/m3, sous des éléments de coque",
+    "profil": "methode",
+    "attendus": [
+     "U4.42.01"
+    ]
+   },
+   {
+    "id": "eval-082",
+    "question": "Pourquoi une redondance entre une relation cinématique dualisée et une condition aux limites donne-t-elle un pivot nul",
+    "profil": "theorie",
+    "attendus": [
+     "R3.03.01"
+    ]
+   }
+  ],
+  "questions_sans_profil": [
+   "eval-065"
+  ],
+  "realiste_k10_questions_lot40": [
+   49,
+   63
+  ],
+  "realiste_k10_questions_lot44": [
+   14,
+   19
+  ]
+ }
+}

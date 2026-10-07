@@ -1,0 +1,5 @@
+/home/user/aster-expert/projets/estacade_pieux_01/references/cas/estacade_pieux_01.mmed : extension '.mmed' refusée, .med attendu.
+
+real	0m0.538s
+user	0m0.867s
+sys	0m0.052s

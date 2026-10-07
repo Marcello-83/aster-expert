@@ -1,0 +1,6 @@
+...                                                                      [100%]
+3 passed, 1631 deselected in 20.69s
+
+real	0m21.448s
+user	0m4.812s
+sys	0m0.355s

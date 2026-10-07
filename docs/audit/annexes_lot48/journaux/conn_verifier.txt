@@ -1,0 +1,10 @@
+constats_code_aster : 58 (observé 34, établi 24, promu 0)
+diagnostics : 31 (observé 11, établi 20, promu 0)
+patrons : 13 (observé 1, établi 11, promu 1)
+controles : 14 (observé 1, établi 10, promu 3)
+references_validation : 15 (observé 0, établi 14, promu 1)
+precedents : 38 (observé 38, établi 0, promu 0)
+Anomalie ouverte ANO-001 (CA-052, REF-012) : CALC_FERRAILLAGE à l'ELS caractéristique s'écarte du pivot acier de R7.04.05 (1D et 2D)
+Preuves confrontées au dépôt : 300.
+Exécutions archivées non vérifiables (archives absentes) : 55.
+connaissances verifier OK.

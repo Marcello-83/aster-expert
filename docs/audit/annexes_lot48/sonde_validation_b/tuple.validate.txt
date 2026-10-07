@@ -1,0 +1,78 @@
+{
+  "file_path": "/home/user/aster-expert/data/processed/audit_lot48/tuple.comm",
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "validation_level": "B",
+  "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "commands_checked": [
+    {
+      "statement_index": 0,
+      "command": "DEBUT",
+      "line": 1,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 1,
+      "command": "LIRE_MAILLAGE",
+      "line": 2,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 2,
+      "command": "AFFE_MODELE",
+      "line": 3,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 3,
+      "command": "AFFE_CHAR_MECA",
+      "line": 4,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 4,
+      "command": "AFFE_CHAR_MECA",
+      "line": 5,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 7,
+      "command": "FIN",
+      "line": 8,
+      "ok": true,
+      "warnings": []
+    }
+  ],
+  "commands_not_checked": [
+    {
+      "statement_index": 5,
+      "command": "MACRO_ELAS_MULT",
+      "line": 6,
+      "reasons": [
+        "unresolved keyword: CHAR_MECA_GLOBAL"
+      ]
+    },
+    {
+      "statement_index": 6,
+      "command": "CALC_CHAMP",
+      "line": 7,
+      "reasons": [
+        "concept 'R' has no resolved placeholder in this batch — statement 5 (MACRO_ELAS_MULT) was not checked: unresolved keyword: CHAR_MECA_GLOBAL / statement 6 was not reached before this one"
+      ]
+    }
+  ],
+  "checked_at": "2026-10-07T12:10:52.628292Z"
+}
+Niveau de validation : B
+Commandes vérifiées   : 6/8 (75.0 %)
+Commandes non vérifiées : 2
+Erreurs remontées     : 0
+code de sortie : 0

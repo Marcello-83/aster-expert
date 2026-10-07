@@ -1,0 +1,12 @@
+=== quai_cw_test_01
+projet quai_cw_test_01 verifier ÉCHEC : projet quai_cw_test_01 : la fiche ou les données bloquent
+- entrée pratique en révision (point 14) : Module d'élasticité de l'acier de ferraillage (Es) -- motif : Décision de MM : Es = 200 GPa pour les armatures de béton armé de tous les projets. Le ferraillage du quai (lot 39, eys_pa = 2,1e11 Pa dans projet.yaml) porte encore 210 GPa : le quai n'est pas recalculé au lot 46, la décision reste en attente d'application et la génération reste bloquée jusqu'au prochain lot qui le recalcule.
+rc=0
+=== dalle_appuyee_01
+Déclaration dalle_appuyee_01 (DALLE-APPUYEE-01) : cohérente avec ses fichiers.
+Fiche : 25 entrées, aucun bloqueur de génération.
+rc=0
+=== estacade_pieux_01
+Déclaration estacade_pieux_01 (ESTACADE-PIEUX-01) : cohérente avec ses fichiers.
+Fiche : 40 entrées, aucun bloqueur de génération.
+rc=0

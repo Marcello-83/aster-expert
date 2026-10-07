@@ -1,0 +1,8 @@
+REF-015 (échec) : à réexaminer
+  projets/estacade_pieux_01/references/cas/estacade_pieux_01.comm : rejoué (0/30 valeurs retrouvées)
+0/1 référence(s) de validation tiennent sous Code_Aster 17.4.0.
+
+real	37m54.228s
+user	0m6.245s
+sys	0m0.446s
+rc=1

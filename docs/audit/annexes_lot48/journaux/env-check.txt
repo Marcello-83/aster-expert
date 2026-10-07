@@ -1,0 +1,16 @@
+Profil : cloud (CLAUDE_CODE_REMOTE=true)
+  OK python : 3.12.14, .venv sur /root/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu
+  OK dependances : 63 distributions conformes à uv.lock, 15 dépendances directes, 18 modules importés
+  OK docker : démon 29.8.2, sans sudo
+  -- cave : absent, attendu en profil cloud (cave introuvable dans le PATH)
+  OK image : simvia/code_aster:17.4.0 sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5
+  -- salome : absent, attendu en profil cloud (singularity introuvable dans le PATH (mesh.salome.runtime))
+  -- partage : absent, attendu en profil cloud (dossier partagé absent ou non monté : /media/sf_partage/echanges (montage VirtualBox : à rétablir par MM, jamais par la session))
+  OK disque : 21.7 Go libres sur 271 Go (minimum 2 Go)
+  OK ressources : 4 processeurs, 15.7 Go de mémoire (14.8 Go disponibles) ; défauts d'un .export de projet : ncpus 1, mpi_nbcpu 1 ; seuil disque avant exécution 10 Go ; config/machine.local.yaml absent
+  OK mcp : /opt/aster-expert/outils/uv/bin/uv run --project . --locked --all-extras --quiet aster-expert-mcp, module serveur importable
+env-check OK (profil cloud) : 10 vérifications, dont 3 absences attendues.
+
+real	0m6.529s
+user	0m6.176s
+sys	0m0.997s

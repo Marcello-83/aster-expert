@@ -1,0 +1,15 @@
+Outils déclarés dans le code (9) : analyze_comm, get_command_schema, get_document_section, read_test_case, search_codeaster_docs, search_connaissances, search_constats, search_test_cases, validate_comm
+  OK search_codeaster_docs {"query": "STAT_NON_LINE", "k": 1} -> U4.53.01#But
+  OK get_document_section {"fragment_id": "U4.53.01#But"} -> level A
+  OK get_command_schema {"command": "STAT_NON_LINE"} -> level A
+  OK analyze_comm {"comm_path": "/home/user/aster-expert/data/processed/mcp_check/aster-expert-mcp-check-bnpe34q4/minimal.comm"} -> level A
+  OK validate_comm {"comm_path": "/home/user/aster-expert/data/processed/mcp_check/aster-expert-mcp-check-bnpe34q4/minimal.comm"} -> level B, valid=True
+  OK search_test_cases {"command": "AFFE_MODELE", "limit": 1} -> adls102a.comm
+  OK read_test_case {"path": "adls102a.comm"} -> level A
+  OK search_constats {"command": "AFFE_CHAR_MECA", "limit": 1} -> CA-035, level A
+  OK search_connaissances {"keyword": "FORCE_COQUE", "limit": 1} -> REF-014 (references_validation, promu), level A
+mcp-check OK : 9 outils appelés sur un serveur neuf, identiques aux outils du code.
+
+real	1m26.555s
+user	1m16.846s
+sys	0m8.781s

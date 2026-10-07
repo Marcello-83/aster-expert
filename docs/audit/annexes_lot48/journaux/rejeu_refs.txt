@@ -1,0 +1,16 @@
+REF-005 (réussi) : tient
+  data/examples/lot23_essais/essai_d5/d5a.comm : rejoué (1/1 valeurs retrouvées)
+  data/examples/lot23_essais/essai_d5/d5b.comm : rejoué (2/2 valeurs retrouvées)
+REF-011 (réussi) : tient
+  data/examples/lot39_essais/plaque/plaque.comm : rejoué (2/2 valeurs retrouvées)
+REF-014 (réussi) : non rejouable
+  projets/dalle_appuyee_01/references/cas/dalle_h0p500.comm : non rejouable (exécution du projet dalle_appuyee_01 sans déclaration des connaissances appliquées : écrire dalle_h0p500.connaissances.yaml à côté du .comm (schéma aster_expert.connaissances.declaration, skill code-aster-expert § 6 quinquies). Une exécution de projet ne part pas sans elle (lot 46).)
+  projets/dalle_appuyee_01/references/cas/dalle_h0p250.comm : non rejouable (exécution du projet dalle_appuyee_01 sans déclaration des connaissances appliquées : écrire dalle_h0p250.connaissances.yaml à côté du .comm (schéma aster_expert.connaissances.declaration, skill code-aster-expert § 6 quinquies). Une exécution de projet ne part pas sans elle (lot 46).)
+  projets/dalle_appuyee_01/references/cas/dalle_h0p250.comm : non rejouable (exécution du projet dalle_appuyee_01 sans déclaration des connaissances appliquées : écrire dalle_h0p250.connaissances.yaml à côté du .comm (schéma aster_expert.connaissances.declaration, skill code-aster-expert § 6 quinquies). Une exécution de projet ne part pas sans elle (lot 46).)
+  projets/dalle_appuyee_01/references/cas/dalle_h0p125.comm : rejoué (6/6 valeurs retrouvées)
+2/3 référence(s) de validation tiennent sous Code_Aster 17.4.0.
+
+real	0m24.536s
+user	0m3.921s
+sys	0m0.226s
+rc=0

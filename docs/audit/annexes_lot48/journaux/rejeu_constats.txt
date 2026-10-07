@@ -1,0 +1,18 @@
+CA-034 : tient
+  data/examples/lot35_constats/f2_avant.ressorts.comm : rejoué (1/1 valeurs retrouvées)
+  data/examples/lot35_constats/f2_apres.ressorts.comm : rejoué (1/1 valeurs retrouvées)
+CA-040 : tient
+  data/examples/lot39_essais/d19/d19.comm : rejoué (2/2 valeurs retrouvées)
+  data/examples/lot39_essais/limites/limites.comm : rejoué (2/2 valeurs retrouvées)
+CA-043 : tient
+  data/examples/lot39_essais/limites/limites.comm : rejoué (5/5 valeurs retrouvées)
+CA-056 : tient
+  projets/estacade_pieux_01/references/cas/sonde_lot47.comm : rejoué (1/1 valeurs retrouvées)
+CA-057 : tient
+  projets/estacade_pieux_01/references/cas/sonde_lot47.comm : rejoué (1/1 valeurs retrouvées)
+5/5 constat(s) établi(s) par exécution tiennent sous Code_Aster 17.4.0 ; 0 non rejouable(s) en l'état ; à réexaminer : aucun.
+
+real	1m28.641s
+user	0m3.638s
+sys	0m0.819s
+rc=0

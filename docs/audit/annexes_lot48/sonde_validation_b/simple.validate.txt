@@ -1,0 +1,89 @@
+{
+  "file_path": "/home/user/aster-expert/data/processed/audit_lot48/simple.comm",
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "validation_level": "B",
+  "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+  "valid": false,
+  "errors": [
+    {
+      "code": "UNKNOWN_KEYWORD",
+      "command": "CALC_CHAMP",
+      "statement_index": 6,
+      "line": 7,
+      "path": [
+        "MOT_INEXISTANT"
+      ],
+      "variant_id": null,
+      "message": "Unauthorized keyword: 'MOT_INEXISTANT'",
+      "suggestion": null,
+      "source": "checkCommandSyntax"
+    }
+  ],
+  "warnings": [],
+  "commands_checked": [
+    {
+      "statement_index": 0,
+      "command": "DEBUT",
+      "line": 1,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 1,
+      "command": "LIRE_MAILLAGE",
+      "line": 2,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 2,
+      "command": "AFFE_MODELE",
+      "line": 3,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 3,
+      "command": "AFFE_CHAR_MECA",
+      "line": 4,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 4,
+      "command": "AFFE_CHAR_MECA",
+      "line": 5,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 5,
+      "command": "MACRO_ELAS_MULT",
+      "line": 6,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 6,
+      "command": "CALC_CHAMP",
+      "line": 7,
+      "ok": false,
+      "warnings": []
+    },
+    {
+      "statement_index": 7,
+      "command": "FIN",
+      "line": 8,
+      "ok": true,
+      "warnings": []
+    }
+  ],
+  "commands_not_checked": [],
+  "checked_at": "2026-10-07T12:10:54.473426Z"
+}
+Niveau de validation : B
+Commandes vérifiées   : 8/8 (100.0 %)
+Commandes non vérifiées : 0
+Erreurs remontées     : 1
+code de sortie : 1

@@ -1,0 +1,31 @@
+=== quai_cw_test_01
+Retour d'expérience du projet quai_cw_test_01
+Archive d'exécution refusée : archive partielle : 8 exécution(s) du projet pour 373 au manifeste. Aucun échec examiné, métriques mesurées ni recalculées ni écrites ; seuls les champs déclarés (interventions, erreurs évitées, notes) sont mis à jour.
+Constats de la fiche à verser dans la base : 0.
+Candidats patrons dans le code du projet : 2 (similarité ≥ 0,40 ; 31 fonction(s) sous le seuil, non listées).
+  projets/quai_cw_test_01/generation/comm.py:initial_pressure_load_block — proche d'un patron (PAT-003, similarité 0.429)
+  projets/quai_cw_test_01/generation/comm.py:_effort_table — proche d'un patron (PAT-009, similarité 0.412)
+Connaissances créées par le projet : 125 ; promues : 2.
+Consultations journalisées (tous projets) : search_connaissances 1, search_constats 1.
+Champs déclarés seuls mis à jour : connaissances/metriques/quai_cw_test_01.yaml
+rc=0
+=== dalle_appuyee_01
+Retour d'expérience du projet dalle_appuyee_01
+Archive d'exécution refusée : archive partielle : 1 exécution(s) du projet pour 6 au manifeste. Aucun échec examiné, métriques mesurées ni recalculées ni écrites ; seuls les champs déclarés (interventions, erreurs évitées, notes) sont mis à jour.
+Constats de la fiche à verser dans la base : 0.
+Candidats patrons dans le code du projet : 0 (similarité ≥ 0,40 ; 2 fonction(s) sous le seuil, non listées).
+Connaissances créées par le projet : 22 ; promues : 3.
+Consultations journalisées (tous projets) : search_connaissances 1, search_constats 1.
+Champs déclarés seuls mis à jour : connaissances/metriques/dalle_appuyee_01.yaml
+rc=0
+=== estacade_pieux_01
+Retour d'expérience du projet estacade_pieux_01
+Archive d'exécution refusée : archive partielle : 3 exécution(s) du projet pour 44 au manifeste. Aucun échec examiné, métriques mesurées ni recalculées ni écrites ; seuls les champs déclarés (interventions, erreurs évitées, notes) sont mis à jour.
+Constats de la fiche à verser dans la base : 0.
+Candidats patrons dans le code du projet : 2 (similarité ≥ 0,40 ; 10 fonction(s) sous le seuil, non listées).
+  projets/estacade_pieux_01/generation.py:fractional_loads_block — proche d'un patron (PAT-005, similarité 0.5)
+  projets/estacade_pieux_01/generation.py:moving_loads_block — proche d'un patron (PAT-005, similarité 0.5)
+Connaissances créées par le projet : 22 ; promues : 0.
+Consultations journalisées (tous projets) : search_connaissances 1, search_constats 1.
+Champs déclarés seuls mis à jour : connaissances/metriques/estacade_pieux_01.yaml
+rc=0
