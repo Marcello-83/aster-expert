@@ -49,6 +49,7 @@ from estacade_pieux_01.charges_mobiles import (
     ts_cases,
 )
 from estacade_pieux_01.donnees import ModelValues, model_values
+from estacade_pieux_01.transcription import mixed_sections, with_deck_level
 
 TABLE_FORMAT_R = "E20.12"
 TITLE_MAX = 16
@@ -108,6 +109,12 @@ class Options:
     sensitivity variant `pou_d_e_chevetres` only, which stopped on FACTOR_57 (error
     2,81e-6) even with POSTTRAITEMENTS='FORCE' (DIAG-003: relaxed with a written
     reason, equilibrium checked on the 242 positions)."""
+    mixed_plug: bool = False
+    """Lot 47 quater, declared variant H1: steel + plug concrete section, homogenised
+    in steel, from the head down to the bottom of the plug (`transcription`)."""
+    deck_level: float | None = None
+    """Lot 47 quater, declared variant H2: deck plane at this level (+1.50) instead of
+    the mid-plane of B1; needs the mesh built for that level (`transcription`)."""
 
 
 def _r(x: float) -> str:
@@ -251,6 +258,30 @@ def print_groups_block(cases: tuple[MovingCase, ...]) -> str:
 """
 
 
+def pile_materials(v: ModelValues, options: Options) -> tuple[str, str]:
+    """(definitions, AFFE_MATERIAU lines) of the pile steel. Reference: ACIER on PIEUX.
+    H1 (lot 47 quater): one steel material per mixed segment, RHO = (γs·As + γc·Ac) /
+    (g·A) so that the self-weight is that of the steel and of the plug concrete, and
+    ACIER on the other segments; the segments cover each pile once (no overlap)."""
+    if not options.mixed_plug:
+        return "", '_F(GROUP_MA=("PIEUX",), MATER=ACIER),'
+    mixed = mixed_sections(v)
+    names = {m.name for m in mixed}
+    defs = "".join(
+        f"# H1 (lot 47 quater) : tronçon {m.name}, acier + béton du bouchon homogénéisés en acier,\n"
+        f"# n = {m.ratio:.6g}, A = {m.area:.6g} m2, I = {m.inertia:.6g} m4.\n"
+        f"ACIER_{m.name} = DEFI_MATERIAU(\n"
+        f"    ELAS=_F(E={_r(v.e_steel)}, NU={_r(v.nu_steel)}, RHO={_r(m.density)})\n"
+        ")\n"
+        for m in mixed
+    )
+    plain = [f'"PIEU_{s.name}"' for s in v.sections if s.name not in names]
+    lines = [f'_F(GROUP_MA=("PIEU_{m.name}",), MATER=ACIER_{m.name}),' for m in mixed]
+    if plain:
+        lines.append(f"_F(GROUP_MA=({', '.join(plain)},), MATER=ACIER),")
+    return defs, "\n        ".join(lines)
+
+
 def model_block(v: ModelValues, options: Options) -> str:
     slab = "DST" if options.variant in DST_VARIANTS else "DKT"
     cap = "POU_D_E" if options.variant == "pou_d_e_chevetres" else "POU_D_T"
@@ -269,11 +300,16 @@ def model_block(v: ModelValues, options: Options) -> str:
         f'_F(GROUP_MA="{class_group(k)}", CARA="M_T_D_N", VALE=(0.0,)),'
         for k in classes
     )
+    mixed = {m.name: m for m in mixed_sections(v)} if options.mixed_plug else {}
     piles = "\n        ".join(
         f'_F(GROUP_MA="PIEU_{s.name}", SECTION="CERCLE", CARA=("R", "EP"), '
-        f"VALE=({_r(s.equivalent_tube()[0])}, {_r(s.equivalent_tube()[1])})),"
+        f"VALE=({_r(tube[0])}, {_r(tube[1])})),"
         for s in v.sections
+        for tube in [
+            mixed[s.name].equivalent_tube() if s.name in mixed else s.equivalent_tube()
+        ]
     )
+    steel_defs, steel_affe = pile_materials(v, options)
     return f"""
 # Ressorts (B3, E5, E6) : une maille POI1 par nœud, une classe par raideur (CA-034).
 MAILR = CREA_MAILLAGE(
@@ -303,11 +339,11 @@ BETON = DEFI_MATERIAU(
 ACIER = DEFI_MATERIAU(
     ELAS=_F(E={_r(v.e_steel)}, NU={_r(v.nu_steel)}, RHO={_r(v.gamma_steel / v.gravity)})
 )
-CHMAT = AFFE_MATERIAU(
+{steel_defs}CHMAT = AFFE_MATERIAU(
     MAILLAGE=MAILR,
     AFFE=(
         _F(GROUP_MA=("DALLE", "CHEVETRES"), MATER=BETON),
-        _F(GROUP_MA=("PIEUX",), MATER=ACIER),
+        {steel_affe}
     ),
 )
 
@@ -531,6 +567,7 @@ def thermal_block(v: ModelValues, options: Options) -> str:
     # relaxed RESI_RELA (variant pou_d_e_chevetres) is carried to them, which the
     # thermal solve of that variant needed (FACTOR_57, error 1,41e-6).
     solver = solver_keyword(options) if options.resi_rela is not None else ""
+    _defs, steel_affe = pile_materials(v, options)
     out = []
     for name, sign in (("TEP", 1.0), ("TEM", -1.0)):
         dt = sign * v.delta_t
@@ -559,7 +596,7 @@ M_{name} = AFFE_MATERIAU(
     MAILLAGE=MAILR,
     AFFE=(
         _F(GROUP_MA=("DALLE", "CHEVETRES"), MATER=BETON),
-        _F(GROUP_MA=("PIEUX",), MATER=ACIER),
+        {steel_affe}
     ),
     AFFE_VARC=(
         _F(GROUP_MA="DALLE", NOM_VARC="TEMP", EVOL=P_{name}_C, NOM_CHAM="TEMP", VALE_REF=0.0),
@@ -704,6 +741,8 @@ def build_comm(
         message = f"mode inconnu : {options.mode} ({MODES})"
         raise GenerationError(message)
     v = model_values(ctx)
+    if options.deck_level is not None:
+        v = with_deck_level(v, options.deck_level)
     seen: set[str] = set()
     cases = moving_cases(v, options)
     if options.mesh_size is not None:
@@ -735,6 +774,16 @@ def build_comm(
         f"# Estacade ESTACADE-PIEUX-01 (lot 47) -- maillage {mesh_label}, mode {options.mode}, "
         f"variante {options.variant}.\n"
         + (
+            "# Lot 47 quater, variante déclarée H1 : section mixte acier + béton du bouchon.\n"
+            if options.mixed_plug
+            else ""
+        )
+        + (
+            f"# Lot 47 quater, variante déclarée H2 : plan du tablier à {options.deck_level}.\n"
+            if options.deck_level is not None
+            else ""
+        )
+        + (
             f"# Lot 47 ter : dalle de {options.mesh_size} m, empreintes par fractions de mailles.\n"
             if options.mesh_size is not None
             else ""
@@ -762,6 +811,8 @@ FIN()
         "comm_sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
         "mode": options.mode,
         "variante": options.variant,
+        "section_mixte_bouchon": options.mixed_plug,
+        "plan_tablier": v.z_mid,
         "taille_dalle": options.mesh_size
         if options.mesh_size is not None
         else options.cell,

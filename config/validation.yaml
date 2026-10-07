@@ -111,13 +111,23 @@ execution:
     - projets/estacade_pieux_01/references/cas
   work_dir_root: data/processed/runs
   keep_work_dir: true
-  timeout_seconds: 1800
-  memory_mb: 8192
-  # Limite `--cpus` du conteneur (lot 11, O2 : jamais non bornée pour une
-  # exécution, à la différence des autres commandes de ce projet qui
-  # laissent Docker sans limite en l'absence d'ASTER_CONTAINER_CPUS).
-  cpus_limit: "1"
+  # Ressources d'une exécution (lot 47 quater, DIAG-025) : ordre de priorité
+  # ligne de commande > .export (P time_limit, memory_limit, ncpus, mpi_nbcpu) >
+  # config/machine.local.yaml (non versionné, propre à la machine) > cette section >
+  # valeurs calculées (aster_expert.execution.ressources). `auto` : pas de valeur
+  # imposée ici. Les limites de `docker run` en découlent : --cpus = ncpus ×
+  # mpi_nbcpu (jamais non bornée, lot 11 O2 ; refusée au-delà des processeurs de la
+  # machine), --memory = mpi_nbcpu × (memory_limit + memory_margin_mb).
+  timeout_seconds: auto  # défaut de run_aster : 86 400 s
+  memory_mb: auto  # memory_share × mémoire disponible / mpi_nbcpu − marge
+  ncpus: 1
   mpi_processes: 1
+  # `addmem` de la configuration run_aster de l'image 17.4.0 (share/aster/config.json,
+  # relevé au lot 47 quater), ajouté par run_sbatch à la réservation d'un calcul.
+  memory_margin_mb: 2800
+  memory_share: 0.8
+  # Seuil d'alerte avant exécution (ENV-003) : en dessous, `aster-expert run` refuse.
+  min_free_disk_gb: 10
   # Ne jamais supprimer un fichier utilisateur ni écrire hors du work_dir.
   write_outside_work_dir: false
 

@@ -540,7 +540,7 @@ def test_cli_env_check_ok(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> No
     result = CliRunner().invoke(cli.app, ["env-check"])
     assert result.exit_code == 0
     assert result.output.startswith("Profil : vm (CLAUDE_CODE_REMOTE non défini)")
-    assert "env-check OK (profil vm) : 9 vérifications." in result.output
+    assert "env-check OK (profil vm) : 10 vérifications." in result.output
 
 
 def test_cli_env_check_cloud_marks_expected_absences(
@@ -560,7 +560,7 @@ def test_cli_env_check_cloud_marks_expected_absences(
     assert result.output.startswith("Profil : cloud (CLAUDE_CODE_REMOTE=true)")
     assert "  -- salome : d" in result.output
     assert "  OK docker : d" in result.output
-    assert "(profil cloud) : 9 vérifications, dont 3 absences attendues." in (
+    assert "(profil cloud) : 10 vérifications, dont 3 absences attendues." in (
         result.output
     )
 
@@ -617,6 +617,7 @@ def _all_pass_but(monkeypatch: pytest.MonkeyPatch, failing: set[str]) -> list[st
         "salome": "check_salome",
         "partage": "check_shared_folder",
         "disque": "check_disk",
+        "ressources": "check_resources",
         "mcp": "check_mcp_server",
     }
     for name, function in functions.items():
@@ -778,7 +779,7 @@ def test_cli_env_check_ci_announces_the_profile(
     result = CliRunner().invoke(cli.app, ["env-check"])
     assert result.exit_code == 0
     assert result.output.startswith("Profil : ci (GITHUB_ACTIONS=true)")
-    assert "(profil ci) : 9 vérifications, dont 4 absences attendues." in result.output
+    assert "(profil ci) : 10 vérifications, dont 4 absences attendues." in result.output
 
 
 # --- Workflow ci-lent (lot 46 bis) ---------------------------------------------------

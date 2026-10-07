@@ -37,7 +37,6 @@ def _config(**overrides: object) -> ExecutionConfig:
         "keep_work_dir": True,
         "timeout_seconds": 1800,
         "memory_mb": 4096,
-        "cpus_limit": "1",
         "mpi_processes": 1,
         "write_outside_work_dir": False,
     }

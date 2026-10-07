@@ -106,6 +106,9 @@ class RunRecord(BaseModel):
     """Lot 46: the knowledge the run declares applying (companion file
     `<stem>.connaissances.yaml`, copied here). Mandatory for a project's run; `None`
     for an older run or one outside any project that declared nothing."""
+    resources: str | None = None
+    """Lot 47 quater: the limits of the run (threads, MPI processes, time, memory,
+    `docker run` limits) and where each came from; `None` for an older run."""
 
 
 RUN_ORIGIN_ENV = "ASTER_EXPERT_RUN_ORIGIN"
@@ -168,6 +171,7 @@ def build_record(
     inputs_sha256: dict[str, str],
     knowledge_root: Path | None = None,
     knowledge: AppliedKnowledge | None = None,
+    resources: str | None = None,
 ) -> RunRecord:
     work_dir = Path(report.work_dir)
     outputs = {
@@ -195,6 +199,7 @@ def build_record(
         diagnostics_error=diagnostics_error,
         origin=os.environ.get(RUN_ORIGIN_ENV) or None,
         knowledge=knowledge,
+        resources=resources,
     )
 
 
@@ -213,8 +218,10 @@ def render_markdown(record: RunRecord) -> str:
         f"| Code_Aster | {r.aster_version} |",
         f"| Image | `{record.image}` |",
         f"| Commande | `{record.command}` |",
+        f"| Ressources | {record.resources or '—'} |",
         f"| Statut | {r.status} |",
         f"| Diagnostic (`run_aster.status`) | {r.diag or '—'} |",
+        f"| Lecture du statut | {r.status_source or '—'} |",
         f"| Code de retour | {r.return_code if r.return_code is not None else '—'} |",
         "| Durée | "
         + (f"{r.duration_s:.1f} s" if r.duration_s is not None else "—")

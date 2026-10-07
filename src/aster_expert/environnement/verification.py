@@ -50,6 +50,13 @@ from typing import Literal
 import yaml
 from pydantic import BaseModel, ConfigDict
 
+from aster_expert.execution.config import load_execution_config
+from aster_expert.execution.ressources import (
+    MACHINE_CONFIG,
+    MachineResources,
+    machine_resources,
+)
+
 Runner = Callable[[list[str], int], subprocess.CompletedProcess[str]]
 Which = Callable[[str], str | None]
 
@@ -556,6 +563,39 @@ def check_disk(ctx: EnvContext, usage: DiskUsage = shutil.disk_usage) -> CheckRe
     return CheckResult(name="disque", detail=detail)
 
 
+# --- 10. Resources of the machine (lot 47 quater, DIAG-025) ------------------------
+
+
+def check_resources(
+    ctx: EnvContext,
+    machine: Callable[[], MachineResources] | None = None,
+) -> CheckResult:
+    """Processors and memory given to Code_Aster, and the execution defaults.
+
+    Informative: it fails only when the machine or the configuration cannot be read.
+    `aster-expert run` refuses later a run whose `.export` asks for more.
+    """
+    found = (machine or machine_resources)()
+    config = load_execution_config(ctx.project_root / "config" / "validation.yaml")
+    settings = config.resource_settings(ctx.project_root)
+    local = (ctx.project_root / MACHINE_CONFIG).is_file()
+    detail = (
+        f"{found.cpus} processeurs, {found.memory_total_mb / 1024:.1f} Go de mémoire "
+        f"({found.memory_available_mb / 1024:.1f} Go disponibles) ; "
+        f"défauts d'un .export de projet : ncpus {settings.ncpus}, "
+        f"mpi_nbcpu {settings.mpi_processes} ; seuil disque avant exécution "
+        f"{settings.min_free_disk_gb:g} Go ; "
+        + (f"{MACHINE_CONFIG} lu" if local else f"{MACHINE_CONFIG} absent")
+    )
+    if settings.ncpus * settings.mpi_processes > found.cpus:
+        message = (
+            f"{detail} : ncpus × mpi_nbcpu par défaut dépasse les processeurs de la "
+            "machine"
+        )
+        raise EnvCheckError(message)
+    return CheckResult(name="ressources", detail=detail)
+
+
 # --- 8. MCP server -------------------------------------------------------------
 
 
@@ -651,6 +691,7 @@ CHECK_NAMES: tuple[str, ...] = (
     "salome",
     "partage",
     "disque",
+    "ressources",
     "mcp",
 )
 
@@ -664,6 +705,7 @@ def run_checks(
     names_of: Callable[[str], list[str]] = import_names,
     on_result: Callable[[CheckResult], None] | None = None,
     disk_usage: DiskUsage = shutil.disk_usage,
+    machine: Callable[[], MachineResources] | None = None,
 ) -> list[CheckResult]:
     """Run every check in order; raise `EnvCheckError` naming the first failure.
 
@@ -682,6 +724,7 @@ def run_checks(
         "salome": lambda: check_salome(ctx, runner, which),
         "partage": lambda: check_shared_folder(ctx),
         "disque": lambda: check_disk(ctx, disk_usage),
+        "ressources": lambda: check_resources(ctx, machine),
         "mcp": lambda: check_mcp_server(ctx, runner),
     }
     results: list[CheckResult] = []

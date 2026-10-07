@@ -1,0 +1,48 @@
+id: DIAG-026
+title: Blocage d'une exécution hybride MPI × OpenMP dans CALC_CHAMP (non reproduit)
+summary: Une exécution à 4 processus MPI × 3 fils OpenMP s'est bloquée dans un CALC_CHAMP, sans
+  message, les quatre rangs inactifs ; rejouée à l'identique, elle a abouti. Cause non établie.
+origin_project: estacade_pieux_01
+date: '2026-10-07'
+validation_level: A
+status: observé
+sources:
+- kind: execution
+  run: 20261006T154150-780297c0
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 47 quater, mesure m04t3 (N3, dalle 0,25 m, ncpus 3, mpi_nbcpu 4) : les quatre
+    listings proc.N/fort.6 s''arrêtent sur l''écho du CALC_CHAMP de MB04 ; conteneur à 0 % de CPU
+    après plus de trois heures ; arrêté par la session (docker kill), pas de compte rendu'
+- kind: execution
+  run: 20261007T074441-b096aca0
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: 'm04t3b, même .comm et mêmes ressources, time_limit 300 s : OK en 230,5 s, tables égales
+    à N3 au bruit près (écart absolu 2,9e-14 de la plus grande valeur)'
+commands:
+- CALC_CHAMP
+keywords: []
+reuses: []
+status_history: []
+category: limite de Code_Aster
+signature:
+  kind: arrêt anormal
+  identifiers: []
+  pattern: 'Nombre de processeurs MPI utilisés : [2-9][\s\S]*Nombre de processus OpenMP utilisés
+    : [2-9]'
+cause: 'Non établie : une seule occurrence sur deux exécutions identiques ; aucune erreur ni
+  alarme dans les listings ; l''image lie OpenMPI 5.0.8 (MPI_THREAD_MULTIPLE) et une OpenBLAS
+  monofil. La VM a été suspendue pendant l''exécution (uptime remis à zéro, horloge du conteneur
+  décalée), ce qui peut aussi l''expliquer.'
+cause_established: false
+correction: 'Arrêter le conteneur (docker kill) et relancer ; le délai extérieur d''aster-expert run
+  (time_limit × 1,25 × ncpus + 20 s) l''aurait arrêté de lui-même. Les mesures du lot 47 quater
+  n''apportent aucun gain au parallélisme hybride sur ce cas (230 s contre 119 à 135 s en
+  séquentiel) : la configuration par défaut reste un processus, un fil.'
+prevention: Défaut des .export de projet ncpus 1 et mpi_nbcpu 1 (config/validation.yaml) ; un
+  .export hybride se déclare avec un time_limit proportionné à la durée attendue.

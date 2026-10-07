@@ -1,0 +1,53 @@
+id: DIAG-027
+title: PARALLELISME_TEMPS='OUI' sur REAC_NODA après MACRO_ELAS_MULT sous MPI (alarme PREPOST_15) donne des réactions fausses
+summary: Avec 4 processus MPI et CALC_CHAMP(FORCE='REAC_NODA', PARALLELISME_TEMPS='OUI') sur un
+  résultat de MACRO_ELAS_MULT dont le premier cas porte PESANTEUR, les réactions des cas 2 à 4 ont
+  reçu une même force de +9 848,4 N (1 à 2 %) ; seul signe, l'alarme PREPOST_15.
+origin_project: estacade_pieux_01
+date: '2026-10-07'
+validation_level: A
+status: observé
+sources:
+- kind: execution
+  run: 20261007T073622-91853194
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: 'lot 47 quater, mesure m04pt (N3 et PARALLELISME_TEMPS="OUI" sur EFGE_NOEU et REAC_NODA,
+    4 processus MPI) : RP_G2 1 010 744,41 N contre 1 000 896,00 N (N3, séquentiel, égal à la
+    charge), RP_UDL 599 528,41 contre 589 680,00, RP_TR 477 848,41 contre 468 000,00 ; RP_PP
+    inchangé ; 4 alarmes PREPOST_15 ; les 62 271 autres valeurs de table égales au bruit près'
+- kind: execution
+  run: 20261007T073342-02692da3
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: 'm02, même .comm sans PARALLELISME_TEMPS, 2 processus MPI : réactions égales à N3 (écart
+    absolu 5,8e-14 de la plus grande valeur)'
+commands:
+- CALC_CHAMP
+- MACRO_ELAS_MULT
+keywords:
+- PARALLELISME_TEMPS
+- PREPOST_15
+- REAC_NODA
+reuses: []
+status_history: []
+category: limite de Code_Aster
+signature:
+  kind: <A>
+  identifiers:
+  - PREPOST_15
+  pattern: null
+cause: 'Non établie. U4.81.04 (« Performance des calculs ») décrit le parallélisme en temps comme
+  une distribution des pas sur les processus et PREPOST_15 annonce un repli sur le parallélisme en
+  espace « comme si PARALLELISME_TEMPS était renseigné à NON » ; l''exécution montre pourtant des
+  réactions fausses sur les cas 2 à 4 du premier lot, tous du même écart.'
+cause_established: false
+correction: Ne pas poser PARALLELISME_TEMPS='OUI' sur REAC_NODA (le gain mesuré est nul ou négatif,
+  173 s contre 157 s sans) ; toute alarme PREPOST_15 rend les réactions suspectes jusqu'au
+  contrôle d'équilibre (CTL-005).
+prevention: Le contrôle d'équilibre par cas (Σ des réactions = charge appliquée, à 1e-6) détecte
+  l'écart (1 à 2 %).

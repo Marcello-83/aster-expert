@@ -24,6 +24,11 @@ sources:
   outcome: réussite
   level: C
   note: 'lot 47, variante DST lancée avec --timeout 7200 --memory-mb 10240 : 2 442 s, OK'
+- kind: test
+  path: tests/unit/test_execution_ressources.py
+  function: test_the_export_is_passed_on_to_docker_run
+  note: 'lot 47 quater : P time_limit 7200, memory_limit 3000, ncpus 4, mpi_nbcpu 2 arrivent sur
+    docker run (--cpus=8, --memory=11600m) et sur run_aster (--time-limit 7200 --memory-limit 3000)'
 commands: []
 keywords:
 - SUPERVIS_63
@@ -40,9 +45,14 @@ cause: 'Le délai et la mémoire passés à run_aster viennent de la ligne de co
   VM (leur lecture appartient à run_aster.export, dans le conteneur). La variante DST de
   l''estacade dure plus de 1 800 s.'
 cause_established: true
-correction: Relancer avec --timeout et --memory-mb égaux aux valeurs de l'.export (estacade 7200 et
-  10240) ; jamais un délai relâché sans motif écrit.
-prevention: Un script de lot qui écrit un .export long imprime la commande d'exécution avec ses
-  limites explicites (projets/estacade_pieux_01/scripts/executions_lot47ter.py, lot 47 ter).
+correction: 'Avant le lot 47 quater : relancer avec --timeout et --memory-mb égaux aux valeurs de
+  l''.export. Depuis le lot 47 quater, aster-expert run lit les quatre paramètres de ressource de
+  l''.export (time_limit, memory_limit, ncpus, mpi_nbcpu ; aster_expert.execution.ressources) et
+  les répercute sur run_aster et sur docker run (--cpus = ncpus × mpi_nbcpu, --memory =
+  mpi_nbcpu × (memory_limit + addmem)) ; il n''y a plus de délai codé (timeout_seconds: auto, défaut
+  de run_aster 86 400 s) ; la commande affiche les ressources résolues avant le départ.'
+prevention: Les ressources résolues et leur origine (ligne de commande, .export, configuration,
+  défaut) sont écrites dans compte_rendu.json (champ resources) ; un test vérifie que l'.export
+  arrive sur la ligne docker run (tests/unit/test_execution_ressources.py).
 reuses: []
 status_history: []

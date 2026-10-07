@@ -1,0 +1,63 @@
+id: ENV-004
+title: Exécution MPI réussie rapportée « unknown » par aster-expert run (fichier de statut perdu)
+summary: Avec mpi_nbcpu > 1, run_aster se relance sous mpiexec avec son propre --status-file,
+  dans un répertoire qu'il efface ; le fichier de statut demandé par aster-expert run n'est
+  jamais écrit et un calcul « DIAGNOSTIC JOB OK » sur tous les rangs était rapporté unknown.
+origin_project: estacade_pieux_01
+date: '2026-10-07'
+validation_level: A
+status: établi
+sources:
+- kind: execution
+  run: 20261006T153700-fcf5f2ca
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 47 quater, mesure m02 (2 processus MPI) : DIAGNOSTIC JOB OK sur proc.0 et proc.1,
+    compte rendu status unknown, diag « ? », aucun __status__ dans le répertoire'
+- kind: execution
+  run: 20261006T153913-0a246b46
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 47 quater, mesure m04 (4 processus MPI) : même signature, OK sur les quatre rangs'
+- kind: execution
+  run: 20261007T073342-02692da3
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: 'm02 relancée après correction : completed_ok, statut lu par run_aster.status.get_status
+    sur les 2 rangs'
+- kind: test
+  path: tests/unit/test_run_comm_mpi.py
+  function: test_mpi_status_comes_from_every_rank_listing
+  note: statut d'une exécution MPI calculé sur le listing de chaque rang
+- kind: test
+  path: tests/unit/test_run_comm_mpi.py
+  function: test_a_failure_on_another_rank_is_not_hidden
+  note: un rang en échec n'est jamais masqué par le rang 0
+commands: []
+keywords: []
+reuses: []
+status_history: []
+category: environnement
+signature:
+  kind: environnement
+  identifiers: []
+  pattern: 'EXECUTION_CODE_ASTER_EXIT_\d+=0'
+cause: 'run_aster_main (17.4.0), quand mpi_nbcpu > 1, relance run_aster sous mpiexec en ajoutant
+  à la ligne de commande « --status-file <statfile> », où statfile est dans un répertoire
+  temporaire ($HOME/.tmp_run_aster ou tmpdir) effacé à la fin ; ce second argument l''emporte
+  sur celui de scripts/run_comm.py, qui ne trouvait plus de fichier de statut. Run_aster.status
+  rendait alors un statut vide (diag « ? »).'
+cause_established: true
+correction: 'Depuis le lot 47 quater, scripts/run_comm.py calcule le statut par
+  run_aster.status.get_status (fonction de run_aster) sur le fort.6 de chaque rang (proc.N) quand
+  le fichier de statut manque, retient le premier rang dont le diagnostic diffère du rang 0, et
+  écrit la façon dont le statut a été lu dans le compte rendu (status_source). Une exécution MPI
+  rapportée unknown avant ce lot se relit dans ses listings proc.N/fort.6.'
+prevention: Test tests/unit/test_run_comm_mpi.py (faux run_aster reproduisant le comportement
+  observé) ; toute exécution MPI porte status_source dans son compte rendu.

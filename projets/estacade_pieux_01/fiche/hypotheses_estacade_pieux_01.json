@@ -824,6 +824,38 @@
       "decided_at": "2026-10-05T10:56:00-04:00",
       "decision_history": [],
       "revision_history": []
+    },
+    {
+      "point_label": "E20",
+      "topic": "DKT ou DST pour une dalle couplée à des poutres qui partagent ses nœuds",
+      "options_considered": [],
+      "option_retained": "**DST** pour une dalle dont les nœuds sont partagés par des poutres POU_D_T (chevêtres, nervures) ; **DKT** reste admis pour une dalle sans poutre couplée ; domaine de validité : dalle mince à moyennement épaisse (h/L ≤ 1/10), poutres au plan moyen ; justification : CA-058 et le plan factoriel du lot 47 ter.",
+      "justification": "Décision E20 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47quater.md).",
+      "discarded_variants": [
+        {
+          "description": "DKT pour toute dalle, la barre seule lue",
+          "reason": "sous-estime l'effort tranchant du chevêtre près des appuis (plan factoriel du lot 47 ter)"
+        },
+        {
+          "description": "DST sans condition",
+          "reason": "« DKT reste admis pour une dalle sans poutre couplée » (E20)"
+        }
+      ],
+      "notes": "Fonde le précédent PRE-039 (lot 47 quater). Ne modifie pas la référence de l'estacade : E13 garde la dalle DKT, la consigne du lot 47 quater interdisant tout changement de la référence (E1 à E19).",
+      "validity_domain": "Dalle mince à moyennement épaisse (h/L ≤ 1/10), poutres au plan moyen (E20, texte de MM) ; établie sur le plan factoriel du lot 47 ter (dalle de 0,40 m, chevêtres de 1,20 × 0,90 et 0,80 m, maillage de 0,05 m) et CA-058.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "arbitrage_estacade_pieux_01_lot47quater (donnees/sources/arbitrage_estacade_pieux_01_lot47quater.md), E20",
+          "date": "2026-10-06"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-06T11:38:00-04:00",
+      "decision_history": [],
+      "revision_history": []
     }
   ],
   "group_naming": [

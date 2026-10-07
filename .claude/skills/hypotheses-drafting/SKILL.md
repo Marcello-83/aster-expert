@@ -151,6 +151,33 @@ unité : choix de l'agent possible). Au lot 43, l'oubli de σc, αe, KT et Es a 
 une intervention de MM. Une nouvelle obligation d'exécution découverte (arrêt `<F>`
 pour mot-clé absent) s'ajoute à la table, avec ses sources.
 
+## 2 quater. Transcrire un modèle source : toutes les légendes, tous les niveaux, toutes les sections (lot 47 quater)
+
+Quand la fiche reprend un modèle existant (contre-calcul, note d'un autre logiciel,
+modèle d'avant-projet), la transcription ne se limite pas au texte : elle relève, **avant
+toute question à MM**, chacune des informations portées par les figures du modèle source,
+et chacune devient soit une donnée sourcée, soit une question explicite :
+
+- **toutes les légendes** de toutes les figures du modèle (familles d'éléments, de
+  sections, de matériaux, de charges) : une famille de la légende qui n'a pas d'équivalent
+  dans la fiche est une question, jamais un oubli silencieux ;
+- **tous les niveaux et cotes** portés sur les figures (plan du tablier, têtes, arases,
+  premières cotes des appuis élastiques), confrontés au texte : un niveau de figure qui
+  diffère du texte, ou que la discrétisation des appuis suggère (premier ressort et pas
+  des nœuds), est une question ;
+- **toutes les sections** du modèle, y compris mixtes ou composites (remplissage,
+  bouchon, chemisage) : la section retenue nomme chaque matériau qu'elle contient, et une
+  section simplifiée par rapport au modèle est une décision de MM, avec la variante
+  écartée.
+
+Au lot 47, deux informations du modèle Robot de l'estacade avaient été perdues à la
+transcription : la légende de la figure 66 distinguait des pieux « att. élevée-béton » et
+« im-béton » (section acier + béton du bouchon, H1), et la figure portait le niveau
+« +1,50 » au tablier quand la fiche le plaçait à +1,30 (H2). Le superviseur les a trouvées
+en relisant la source page par page, au lot 47 quater (`docs/essais_lot47quater.md` § 2).
+La fiche garde la trace de la relecture : liste des figures lues, légendes et niveaux
+relevés, et pour chacun la donnée ou la question qui en vient.
+
 ## 3. Nommage des groupes (rubrique 7)
 
 Un `MeshGroupNaming` par groupe `GROUP_MA`/`GROUP_NO` nécessaire — jamais

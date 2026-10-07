@@ -103,6 +103,15 @@ set +u
 # shellcheck disable=SC1091
 source "$PREFIX/share/aster/profile.sh"
 set -u
+
+# Lot 47 quater: `run_aster` restarts itself under `mpiexec` when `mpi_nbcpu` > 1
+# (its configuration: "mpiexec -n {{mpi_nbcpu}} --tag-output {{program}}"). In
+# simvia/code_aster:17.4.0, `mpiexec` (OpenMPI 5.0.8) is only in the Spack view's
+# `bin`, which neither the image's PATH nor profile.sh provides: appended last, so
+# that the Python chosen by profile.sh stays first.
+if [ -n "$VIEW" ] && [ -d "$VIEW/bin" ]; then
+    export PATH="$PATH:$VIEW/bin"
+fi
 """
 
 

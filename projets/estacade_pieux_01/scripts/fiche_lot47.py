@@ -6,7 +6,9 @@ Three categories (CLAUDE.md, lot 44):
   `donnees/sources/arbitrage_estacade_pieux_01_lot47.md` (E1 to E12 of the lot
   instruction, E13 to E16 of MM's answers in the chat), and E17 to E19 of the lot 47
   bis instruction (`donnees/sources/arbitrage_estacade_pieux_01_lot47bis.md`: reading
-  rules v2, TR case of the combination 100, sensitivity variant of the cap height);
+  rules v2, TR case of the combination 100, sensitivity variant of the cap height), and
+  E20 of the lot 47 quater instruction (DKT or DST for a slab coupled to beams sharing
+  its nodes, the decision of the precedent PRE-039; the reference is unchanged);
 - the agent's choices U1 to U6 (`choix_agent`), each in a domain of the partition
   rule and with its named verifiers;
 - the `code_aster` facts, by reference to the shared base (K1 to K6): the findings
@@ -51,10 +53,21 @@ FICHE = PROJECT / "fiche" / "hypotheses_estacade_pieux_01.json"
 SOURCES = PROJECT / "donnees" / "sources"
 ARBITRATION = "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md)"
 ARBITRATION_BIS = "arbitrage_estacade_pieux_01_lot47bis (donnees/sources/arbitrage_estacade_pieux_01_lot47bis.md)"
+ARBITRATION_QUATER = "arbitrage_estacade_pieux_01_lot47quater (donnees/sources/arbitrage_estacade_pieux_01_lot47quater.md)"
 VALIDITY = (
     "Contre-calcul du modèle source d'avant-projet (lot 47), tel que MM l'a décidé ; "
     "hors de ce contre-calcul, la décision n'est pas établie."
 )
+
+
+VALIDITY_OF = {
+    "E20": (
+        "Dalle mince à moyennement épaisse (h/L ≤ 1/10), poutres au plan moyen (E20, "
+        "texte de MM) ; établie sur le plan factoriel du lot 47 ter (dalle de 0,40 m, "
+        "chevêtres de 1,20 × 0,90 et 0,80 m, maillage de 0,05 m) et CA-058."
+    ),
+}
+"""Domain of validity written by MM for a decision, when MM wrote one."""
 
 
 def recorded_at(name: str = "enregistrement_lot47.json") -> datetime:
@@ -101,6 +114,9 @@ TOPICS_BIS = {
     "E17": "Règles de lecture v2 de la comparaison (écrites après la première exécution)",
     "E18": "Cas TR de la combinaison 100 : essieu de 160 kN sur le trottoir",
     "E19": "Variante de sensibilité : chevêtre de 0,80 m",
+}
+TOPICS_QUATER = {
+    "E20": "DKT ou DST pour une dalle couplée à des poutres qui partagent ses nœuds",
 }
 
 DISCARDED = {
@@ -193,6 +209,17 @@ DISCARDED = {
             "« la référence reste à 0,90 m (E2) » (E19)",
         )
     ],
+    "E20": [
+        (
+            "DKT pour toute dalle, la barre seule lue",
+            "sous-estime l'effort tranchant du chevêtre près des appuis "
+            "(plan factoriel du lot 47 ter)",
+        ),
+        (
+            "DST sans condition",
+            "« DKT reste admis pour une dalle sans poutre couplée » (E20)",
+        ),
+    ],
 }
 
 NOTES = {
@@ -204,6 +231,11 @@ NOTES = {
         "Y = 1,30 et −0,70, côté Y > 0 seulement (le côté Y < 0 en est l'image miroir)."
     ),
     "E9": "Une seule direction, +X.",
+    "E20": (
+        "Fonde le précédent PRE-039 (lot 47 quater). Ne modifie pas la référence de "
+        "l'estacade : E13 garde la dalle DKT, la consigne du lot 47 quater interdisant tout "
+        "changement de la référence (E1 à E19)."
+    ),
     "E16": (
         "Erreur de la session dans la description proposée (Y = ±1,325) : la règle "
         "choisie, roue tangente au bord de la voie avec l'empreinte de 0,60 m selon Y, "
@@ -234,7 +266,7 @@ def mm_entries(
                 justification=(
                     f"Décision {label} de MM, recopiée à l'identique ({source_file})."
                 ),
-                validity_domain=VALIDITY,
+                validity_domain=VALIDITY_OF.get(label, VALIDITY),
                 sources=(
                     PracticeSource(
                         origin="arbitrage_mm",
@@ -460,7 +492,13 @@ def build_sheet() -> HypothesesSheet:
         ARBITRATION_BIS,
         mm_decisions("arbitrage_estacade_pieux_01_lot47bis.md"),
     )
-    for entry in [*mm_entries(at), *agent_entries(at, "0,05 m"), *bis]:
+    quater = mm_entries(
+        recorded_at("enregistrement_lot47quater.json"),
+        TOPICS_QUATER,
+        ARBITRATION_QUATER,
+        mm_decisions("arbitrage_estacade_pieux_01_lot47quater.md"),
+    )
+    for entry in [*mm_entries(at), *agent_entries(at, "0,05 m"), *bis, *quater]:
         sheet = insert_practice_entry(sheet, entry)
     return sheet
 

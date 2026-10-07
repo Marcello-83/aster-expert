@@ -64,6 +64,15 @@ from aster_expert.execution.docker_client import (
 )
 from aster_expert.execution.errors import EnvironmentDetectionError, ExecutionRunError
 from aster_expert.execution.models import DIAG_TO_STATUS, ExecutionReport
+from aster_expert.execution.ressources import (
+    DiskUsage,
+    MachineResources,
+    ResolvedResources,
+    check_free_disk,
+    machine_resources,
+    read_export_parameters,
+    resolve_resources,
+)
 
 _SCRIPT_NAME = "_aster_expert_run_comm.py"
 _DEFAULT_SCRIPT_PATH = Path(__file__).resolve().parents[3] / "scripts" / "run_comm.py"
@@ -71,15 +80,12 @@ _STATUS_FILE_NAME = "__status__"
 # run_aster.run.TMPMESS (external/codeaster-src/run_aster/run.py).
 _MESS_FILE_NAME = "fort.6"
 
-# Added to `execution.timeout_seconds` for the *outer* subprocess timeout
-# (docs/architecture.md, ADR-006: "le délai maximal enveloppe l'appel docker
-# run lui-même... pour couvrir aussi un conteneur qui ne se terminerait
-# pas"). Aster's own `--time_limit` is given the configured value exactly;
-# this margin only covers container startup/shutdown overhead around it
-# (measured at ~25s for a comparable single-container invocation,
-# docs/development-plan.md, lot 10c, R5) -- generous enough not to fire on a
-# normal run, small enough that a deliberately tiny `--timeout` still
-# reliably exercises the outer safety net (lot 11, O5).
+# Added to the outer subprocess timeout (docs/architecture.md, ADR-006: « le délai
+# maximal enveloppe l'appel docker run lui-même... pour couvrir aussi un conteneur qui
+# ne se terminerait pas »). Since lot 47 quater the outer timeout is
+# `time_limit × 1.25 × ncpus` (run_aster's own rule, see
+# `aster_expert.execution.ressources`) plus this margin, which only covers container
+# startup/shutdown (~25 s measured at lot 10c).
 _TIMEOUT_MARGIN_SECONDS = 20
 
 
@@ -121,6 +127,32 @@ def _declared_knowledge(comm: Path, project_root: Path) -> AppliedKnowledge | No
         return load_for_run(comm, project_root, {*base.entries, *base.constats})
     except (DeclarationError, KnowledgeBaseError) as exc:
         raise ExecutionRunError(str(exc)) from exc
+
+
+def plan_resources(
+    comm: Path,
+    *,
+    config: ExecutionConfig,
+    project_root: Path,
+    timeout_seconds: int | None = None,
+    memory_mb: int | None = None,
+    machine: MachineResources | None = None,
+) -> ResolvedResources:
+    """Limits of the run of `comm` (lot 47 quater): its `.export` sibling, when there is
+    one, is what `run_aster` will execute, so its resource parameters are read here and
+    passed on to `docker run` (`aster_expert.execution.ressources`)."""
+    export_sibling = comm.with_name(f"{comm.stem}.export")
+    export = (
+        read_export_parameters(export_sibling) if export_sibling.is_file() else None
+    )
+    return resolve_resources(
+        export=export,
+        settings=config.resource_settings(project_root),
+        machine=machine or machine_resources(),
+        cli_timeout=timeout_seconds,
+        cli_memory_mb=memory_mb,
+        start_margin_s=_TIMEOUT_MARGIN_SECONDS,
+    )
 
 
 def _stage_inputs(comm_path: Path, work_dir: Path) -> str:
@@ -179,6 +211,8 @@ def execute_comm_file(
     timeout_seconds: int | None = None,
     memory_mb: int | None = None,
     script_path: Path = _DEFAULT_SCRIPT_PATH,
+    machine: MachineResources | None = None,
+    disk_usage: DiskUsage = shutil.disk_usage,
 ) -> ExecutionReport:
     if not config.enabled:
         message = (
@@ -193,13 +227,21 @@ def execute_comm_file(
         message = f"run_comm.py script not found: {script_path}"
         raise ExecutionRunError(message)
 
-    effective_timeout = (
-        timeout_seconds if timeout_seconds is not None else config.timeout_seconds
+    resources = plan_resources(
+        resolved_comm,
+        config=config,
+        project_root=project_root,
+        timeout_seconds=timeout_seconds,
+        memory_mb=memory_mb,
+        machine=machine,
     )
-    effective_memory_mb = memory_mb if memory_mb is not None else config.memory_mb
+    effective_timeout = resources.time_limit
+    effective_memory_mb = resources.memory_limit_mb
 
     work_dir_root = project_root / config.work_dir_root
     work_dir_root.mkdir(parents=True, exist_ok=True)
+    settings = config.resource_settings(project_root)
+    check_free_disk(work_dir_root, settings.min_free_disk_gb, disk_usage)
     run_id = f"{datetime.now(UTC):%Y%m%dT%H%M%S}-{uuid.uuid4().hex[:8]}"
     work_dir = work_dir_root / run_id
     work_dir.mkdir(parents=True)
@@ -225,7 +267,7 @@ def execute_comm_file(
 
     image_ref = f"{image_repository}@{image_digest}"
     container_name = f"aster-expert-run-{uuid.uuid4().hex}"
-    outer_timeout = effective_timeout + _TIMEOUT_MARGIN_SECONDS
+    outer_timeout = resources.outer_timeout
 
     started = time.monotonic()
     try:
@@ -235,8 +277,8 @@ def execute_comm_file(
             workdir=work_dir,
             command=command,
             network=network,
-            memory=f"{effective_memory_mb}m",
-            cpus=config.cpus_limit,
+            memory=f"{resources.docker_memory_mb}m",
+            cpus=str(resources.docker_cpus),
             timeout=outer_timeout,
             container_name=container_name,
         )
@@ -266,6 +308,7 @@ def execute_comm_file(
                     inputs_sha256=inputs_sha256,
                     knowledge_root=project_root,
                     knowledge=knowledge,
+                    resources=resources.summary(),
                 )
             )
         else:
@@ -336,6 +379,7 @@ def execute_comm_file(
             executed_at=datetime.now(UTC),
             messages=parse_messages(payload.get("messages") or []),
             messages_source=payload.get("messages_source"),
+            status_source=payload.get("status_source"),
             messages_truncated=int(payload.get("messages_truncated") or 0),
             messages_error=payload.get("messages_error"),
         )
@@ -350,6 +394,7 @@ def execute_comm_file(
                 inputs_sha256=inputs_sha256,
                 knowledge_root=project_root,
                 knowledge=knowledge,
+                resources=resources.summary(),
             )
         )
     else:
@@ -358,4 +403,4 @@ def execute_comm_file(
     return report
 
 
-__all__ = ["check_allowed", "execute_comm_file"]
+__all__ = ["check_allowed", "execute_comm_file", "plan_resources"]

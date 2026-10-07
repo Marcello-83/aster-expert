@@ -30,7 +30,6 @@ def _config(root: Path) -> ExecutionConfig:
         keep_work_dir=True,
         timeout_seconds=60,
         memory_mb=1024,
-        cpus_limit="1",
         mpi_processes=1,
         write_outside_work_dir=False,
     )

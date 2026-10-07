@@ -253,10 +253,21 @@ def step_maillage(ctx: ProjectContext, rt: Runtime) -> list[str]:
 
 
 def _export_text(ctx: ProjectContext, stem: str) -> str:
+    """The `.export` of a generated `.comm`. Lot 47 quater: `ncpus` and `mpi_nbcpu` come
+    from `projet.yaml` (`comm.export`), else from the machine's execution settings
+    (`config/machine.local.yaml`, then `config/validation.yaml`); `aster-expert run`
+    passes the same values to `docker run`."""
+    from aster_expert.execution.config import load_execution_config  # noqa: PLC0415
+
     e = ctx.declaration.comm.export
+    settings = load_execution_config(
+        ctx.repo_root / "config" / "validation.yaml"
+    ).resource_settings(ctx.repo_root)
+    ncpus = e.ncpus if e.ncpus is not None else settings.ncpus
+    mpi = e.mpi_nbcpu if e.mpi_nbcpu is not None else settings.mpi_processes
     return (
-        f"P time_limit {e.time_limit}\nP memory_limit {e.memory_limit}\nP ncpus 1\n"
-        f"P mpi_nbcpu 1\nP mpi_nbnoeud 1\nF comm {stem}.comm D 1\n"
+        f"P time_limit {e.time_limit}\nP memory_limit {e.memory_limit}\n"
+        f"P ncpus {ncpus}\nP mpi_nbcpu {mpi}\nP mpi_nbnoeud 1\nF comm {stem}.comm D 1\n"
         f"F {e.mesh_format} {stem}.{e.mesh_format} D {e.mesh_unit}\n"
     )
 
@@ -383,7 +394,6 @@ def execute(ctx: ProjectContext, rt: Runtime, comm: Path) -> Any:
     )
     from aster_expert.execution.execute import execute_comm_file  # noqa: PLC0415
 
-    export = ctx.declaration.comm.export
     _place_declaration(ctx, comm)
     try:
         config = load_execution_config(ctx.repo_root / "config" / "validation.yaml")
@@ -397,8 +407,6 @@ def execute(ctx: ProjectContext, rt: Runtime, comm: Path) -> Any:
             image_digest=digest,
             aster_version=version,
             network=os.environ.get("ASTER_CONTAINER_NETWORK", "none"),
-            timeout_seconds=max(export.time_limit, config.timeout_seconds),
-            memory_mb=export.memory_limit,
         )
     except (EnvironmentDetectionError, ExecutionRunError) as exc:
         message = f"exécution : {exc}"

@@ -329,7 +329,6 @@ def test_l_execution_d_un_projet_sans_declaration_est_refusee_avant_le_conteneur
         keep_work_dir=True,
         timeout_seconds=10,
         memory_mb=512,
-        cpus_limit="1",
         mpi_processes=1,
         write_outside_work_dir=False,
     )

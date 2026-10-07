@@ -65,3 +65,5 @@ fort.*
 # Lot 47 : termes confidentiels d'un projet réel (annexe A), fournis par MM ;
 # la liste elle-même ne doit jamais entrer dans le dépôt.
 /config/termes_interdits.local.txt
+# Ressources de la machine (lot 47 quater), propres à chaque VM.
+/config/machine.local.yaml

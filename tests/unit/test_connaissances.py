@@ -264,16 +264,17 @@ def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
     et les précédents de D20 et D21 (PRE-019, PRE-020) ; lot 45 : PRE-032 (Es) ;
     lot 46 : CTL-013 ; lot 47 (estacade) : CA-054 à CA-057, PAT-012, CTL-014, REF-015
     (calcul externe non validé), PRE-033 à PRE-038 ; lot 47 bis : CA-058, PAT-013 ;
-    lot 47 ter : ENV-002, ENV-003, DIAG-025."""
+    lot 47 ter : ENV-002, ENV-003, DIAG-025 ; lot 47 quater : ENV-004, DIAG-026,
+    DIAG-027, PRE-039."""
     base = load_knowledge(ROOT)
     counts = {layer: sum(row.values()) for layer, row in base.counts().items()}
     assert counts == {
         "constats_code_aster": 58,
-        "diagnostics": 28,
+        "diagnostics": 31,
         "patrons": 13,
         "controles": 14,
         "references_validation": 15,
-        "precedents": 37,
+        "precedents": 38,
     }
     # Lot 44 : cinq promotions, par la commande, sous la règle corrigée.
     promoted = sorted(e.id for e in base.all_entries() if e.status == "promu")
@@ -772,7 +773,7 @@ def test_the_mcp_tool_answers_level_a_and_journals_itself(tmp_path: Path) -> Non
         result.results[0].layer == "diagnostics"
         and result.results[0].status == "établi"
     )
-    assert result.total_by_layer["precedents"] == 37  # lot 47 : PRE-033 à PRE-038
+    assert result.total_by_layer["precedents"] == 38  # lot 47 quater : PRE-039
     line = json.loads(log.read_text("utf-8").splitlines()[0])
     assert line["tool"] == "search_connaissances"
 
@@ -784,7 +785,7 @@ def test_cli_verifier_chercher_and_refused_promotion(
     runner = CliRunner()
     out = runner.invoke(app, ["connaissances", "verifier"])
     assert out.exit_code == 0, out.output
-    assert "diagnostics : 28" in out.output
+    assert "diagnostics : 31" in out.output
     out = runner.invoke(app, ["connaissances", "chercher", "--mot-cle", "MED2_4"])
     assert out.exit_code == 0 and "DIAG-006" in out.output
     out = runner.invoke(

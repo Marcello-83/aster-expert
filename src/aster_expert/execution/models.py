@@ -186,6 +186,10 @@ class ExecutionReport(BaseModel):
     executed_at: datetime
     messages: tuple[ExecutionMessage, ...] = ()
     messages_source: Literal["run_aster.error_messages"] | None = None
+    status_source: str | None = None
+    """Lot 47 quater: how the status was read -- `run_aster.status.Status.load` of the
+    status file, or `run_aster.status.get_status` on the listing of each MPI rank when
+    run_aster (restarted under mpiexec) left no status file. `None` for an older run."""
     messages_truncated: int = 0
     """Messages omitted beyond the cap of `scripts/run_comm.py`."""
     messages_error: str | None = None

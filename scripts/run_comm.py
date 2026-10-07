@@ -27,6 +27,7 @@ import argparse
 import json
 import sys
 import traceback
+from pathlib import Path
 from typing import Any
 
 
@@ -94,7 +95,15 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload))
         return 0
 
-    status = Status.load(args.status_file)
+    status_source = "run_aster.status.Status.load"
+    if Path(args.status_file).is_file():
+        status = Status.load(args.status_file)
+    else:
+        # Lot 47 quater: with mpi_nbcpu > 1, run_aster_main restarts itself under
+        # mpiexec with its own `--status-file` (a temporary directory it deletes),
+        # which overrides ours: no status file is left here. The status is then
+        # computed by run_aster's own `get_status`, on the listing of each rank.
+        status, status_source = _status_from_ranks(args.wrkdir, exitcode)
     payload = {
         "ok": True,
         "return_code": exitcode,
@@ -103,10 +112,35 @@ def main(argv: list[str] | None = None) -> int:
         "is_completed": status.is_completed(),
         "results_saved": status.results_saved(),
         "times": status.times,
+        "status_source": status_source,
     }
     payload.update(_messages(args.wrkdir))
     print(json.dumps(payload))
     return 0
+
+
+def _status_from_ranks(wrkdir, exitcode):
+    """Status of an MPI run (lot 47 quater): `run_aster.status.get_status` on the
+    `fort.6` of every rank (`proc.N`); the first rank whose diagnostic is not that of
+    rank 0 is reported, so that a failure on any rank is never hidden."""
+    from run_aster.status import Status, get_status
+
+    listings = sorted(
+        Path(wrkdir).glob("proc.*/fort.6"), key=lambda p: int(p.parent.name[5:])
+    )
+    if not listings:
+        return Status(), "aucun listing de rang (proc.N/fort.6)"
+    statuses = [(p, get_status(exitcode, str(p))) for p in listings]
+    chosen_path, chosen = statuses[0]
+    for path, status in statuses[1:]:
+        if status.diag != chosen.diag:
+            chosen_path, chosen = path, status
+            break
+    source = (
+        f"run_aster.status.get_status sur {len(listings)} rang(s) MPI, "
+        f"retenu {chosen_path.parent.name}/fort.6"
+    )
+    return chosen, source
 
 
 # Lot 41 : messages <A>/<F>/<E>/<S> du listing, extraits par

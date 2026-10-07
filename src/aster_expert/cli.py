@@ -27,7 +27,11 @@ from aster_expert.execution.config import load_execution_config
 from aster_expert.execution.detect import detect_environment, write_detected_section
 from aster_expert.execution.docker_client import find_docker_binary
 from aster_expert.execution.errors import EnvironmentDetectionError, ExecutionRunError
-from aster_expert.execution.execute import check_allowed, execute_comm_file
+from aster_expert.execution.execute import (
+    check_allowed,
+    execute_comm_file,
+    plan_resources,
+)
 from aster_expert.execution.models import DetectedEnvironment
 from aster_expert.indexing.bm25_index import (
     build_bm25_index,
@@ -1750,16 +1754,17 @@ def run(
         0,
         "--timeout",
         help=(
-            "Délai maximal en secondes (config/validation.yaml, "
-            "execution.timeout_seconds par défaut)."
+            "Délai maximal en secondes ; à défaut, P time_limit de l'.export, puis "
+            "config/machine.local.yaml et config/validation.yaml, puis 86 400 s "
+            "(défaut de run_aster)."
         ),
     ),
     memory_mb: int = typer.Option(
         0,
         "--memory-mb",
         help=(
-            "Limite mémoire en Mio (config/validation.yaml, "
-            "execution.memory_mb par défaut)."
+            "Limite mémoire par processus MPI en Mio ; à défaut, P memory_limit de "
+            "l'.export, puis la configuration, puis une part de la mémoire disponible."
         ),
     ),
 ) -> None:
@@ -1779,6 +1784,14 @@ def run(
             catalogue_root, version or None, versions_path
         )
         docker_bin = find_docker_binary(os.environ.get("ASTER_DOCKER_BIN") or None)
+        planned = plan_resources(
+            Path(comm_path).resolve(),
+            config=exec_config,
+            project_root=project_root,
+            timeout_seconds=timeout or None,
+            memory_mb=memory_mb or None,
+        )
+        typer.echo(f"Ressources : {planned.summary()}")
         report = execute_comm_file(
             Path(comm_path),
             project_root=project_root,

@@ -90,6 +90,10 @@ class MeshSection(_Model):
 class ExportSection(_Model):
     time_limit: int = 1800
     memory_limit: int = 8192
+    ncpus: int | None = Field(default=None, gt=0)
+    """Lot 47 quater: threads per MPI process; `None`, the machine's default."""
+    mpi_nbcpu: int | None = Field(default=None, gt=0)
+    """Lot 47 quater: MPI processes; `None`, the machine's default."""
     mesh_unit: int = 20
     mesh_format: Literal["mmed", "mail"] = "mmed"
 
