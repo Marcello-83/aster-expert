@@ -1,0 +1,427 @@
+{
+  "regle": {
+    "grille_decimales": 3,
+    "epsilon": 1e-06,
+    "bloquant": false
+  },
+  "grille_m": 0.001,
+  "maillages": [
+    {
+      "maillage": "data/examples/lot26_essais/plaque_raidisseur/med/lot26_g1.med",
+      "taille_octets": 15489,
+      "grille": {
+        "grid": 0.001,
+        "epsilon": 1e-06,
+        "blocking": false,
+        "nodes": 25,
+        "coordinates": 75,
+        "noisy": 0,
+        "nodes_concerned": 0,
+        "max_distance": 0.0,
+        "examples": [],
+        "ok": true
+      }
+    },
+    {
+      "maillage": "data/examples/lot26_essais/poutre_barre/med/lot26_g3.med",
+      "taille_octets": 13441,
+      "grille": {
+        "grid": 0.001,
+        "epsilon": 1e-06,
+        "blocking": false,
+        "nodes": 19,
+        "coordinates": 57,
+        "noisy": 0,
+        "nodes_concerned": 0,
+        "max_distance": 0.0,
+        "examples": [],
+        "ok": true
+      }
+    },
+    {
+      "maillage": "data/examples/lot26_essais/tube_plaques/med/lot26_g2.med",
+      "taille_octets": 117930,
+      "grille": {
+        "grid": 0.001,
+        "epsilon": 1e-06,
+        "blocking": false,
+        "nodes": 836,
+        "coordinates": 2508,
+        "noisy": 0,
+        "nodes_concerned": 0,
+        "max_distance": 0.0,
+        "examples": [],
+        "ok": true
+      }
+    },
+    {
+      "maillage": "data/examples/lot27_maillage/med/combiwall_mesh.med",
+      "taille_octets": 4908789,
+      "grille": {
+        "grid": 0.001,
+        "epsilon": 1e-06,
+        "blocking": false,
+        "nodes": 40114,
+        "coordinates": 120342,
+        "noisy": 1162,
+        "nodes_concerned": 1058,
+        "max_distance": 1.7763568394002505e-15,
+        "examples": [
+          {
+            "node": 150,
+            "axis": "x",
+            "value": -7.090000000000001,
+            "distance": 8.881784197001252e-16
+          },
+          {
+            "node": 152,
+            "axis": "x",
+            "value": -7.090000000000001,
+            "distance": 8.881784197001252e-16
+          },
+          {
+            "node": 154,
+            "axis": "x",
+            "value": -7.090000000000001,
+            "distance": 8.881784197001252e-16
+          },
+          {
+            "node": 156,
+            "axis": "x",
+            "value": -7.090000000000001,
+            "distance": 8.881784197001252e-16
+          },
+          {
+            "node": 158,
+            "axis": "x",
+            "value": -7.090000000000001,
+            "distance": 8.881784197001252e-16
+          }
+        ],
+        "ok": true
+      },
+      "sonde_arrondi": {
+        "taille_origine": 4908789,
+        "taille_arrondi": 4908612,
+        "noeuds": 40114,
+        "mailles": 79703,
+        "coordonnees_modifiees": 67978,
+        "deplacement_max": 0.0004020660060009007
+      }
+    },
+    {
+      "maillage": "data/examples/lot28_quai/quai_combiwall.mmed",
+      "taille_octets": 4911035,
+      "grille": {
+        "grid": 0.001,
+        "epsilon": 1e-06,
+        "blocking": false,
+        "nodes": 40114,
+        "coordinates": 120342,
+        "noisy": 1162,
+        "nodes_concerned": 1058,
+        "max_distance": 1.7763568394002505e-15,
+        "examples": [
+          {
+            "node": 150,
+            "axis": "x",
+            "value": -7.090000000000001,
+            "distance": 8.881784197001252e-16
+          },
+          {
+            "node": 152,
+            "axis": "x",
+            "value": -7.090000000000001,
+            "distance": 8.881784197001252e-16
+          },
+          {
+            "node": 154,
+            "axis": "x",
+            "value": -7.090000000000001,
+            "distance": 8.881784197001252e-16
+          },
+          {
+            "node": 156,
+            "axis": "x",
+            "value": -7.090000000000001,
+            "distance": 8.881784197001252e-16
+          },
+          {
+            "node": 158,
+            "axis": "x",
+            "value": -7.090000000000001,
+            "distance": 8.881784197001252e-16
+          }
+        ],
+        "ok": true
+      }
+    },
+    {
+      "maillage": "data/examples/lot30_quai_reduit/quai_reduit.mmed",
+      "taille_octets": 1261985,
+      "grille": {
+        "grid": 0.001,
+        "epsilon": 1e-06,
+        "blocking": false,
+        "nodes": 10204,
+        "coordinates": 30612,
+        "noisy": 136,
+        "nodes_concerned": 132,
+        "max_distance": 1.7763568394002505e-15,
+        "examples": [
+          {
+            "node": 71,
+            "axis": "x",
+            "value": -1.8900000000000001,
+            "distance": 2.220446049250313e-16
+          },
+          {
+            "node": 72,
+            "axis": "x",
+            "value": -1.8900000000000003,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 73,
+            "axis": "x",
+            "value": -1.8900000000000003,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 74,
+            "axis": "x",
+            "value": -1.8900000000000003,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 75,
+            "axis": "x",
+            "value": -1.8900000000000003,
+            "distance": 4.440892098500626e-16
+          }
+        ],
+        "ok": true
+      }
+    },
+    {
+      "maillage": "data/examples/lot37_efforts/reduit_fin.mmed",
+      "taille_octets": 2438401,
+      "grille": {
+        "grid": 0.001,
+        "epsilon": 1e-06,
+        "blocking": false,
+        "nodes": 20208,
+        "coordinates": 60624,
+        "noisy": 259,
+        "nodes_concerned": 249,
+        "max_distance": 1.7763568394002505e-15,
+        "examples": [
+          {
+            "node": 71,
+            "axis": "x",
+            "value": -1.8900000000000001,
+            "distance": 2.220446049250313e-16
+          },
+          {
+            "node": 72,
+            "axis": "x",
+            "value": -1.8900000000000003,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 73,
+            "axis": "x",
+            "value": -1.8900000000000003,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 74,
+            "axis": "x",
+            "value": -1.8900000000000003,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 75,
+            "axis": "x",
+            "value": -1.8900000000000003,
+            "distance": 4.440892098500626e-16
+          }
+        ],
+        "ok": true
+      }
+    },
+    {
+      "maillage": "projets/dalle_appuyee_01/references/cas/dalle_h0p500.mmed",
+      "taille_octets": 28527,
+      "grille": {
+        "grid": 0.001,
+        "epsilon": 1e-06,
+        "blocking": false,
+        "nodes": 117,
+        "coordinates": 351,
+        "noisy": 0,
+        "nodes_concerned": 0,
+        "max_distance": 0.0,
+        "examples": [],
+        "ok": true
+      },
+      "sonde_arrondi": {
+        "taille_origine": 28527,
+        "taille_arrondi": 29479,
+        "noeuds": 117,
+        "mailles": 156,
+        "coordonnees_modifiees": 0,
+        "deplacement_max": 0.0
+      }
+    },
+    {
+      "maillage": "projets/dalle_appuyee_01/references/cas/dalle_h0p250.mmed",
+      "taille_octets": 54055,
+      "grille": {
+        "grid": 0.001,
+        "epsilon": 1e-06,
+        "blocking": false,
+        "nodes": 425,
+        "coordinates": 1275,
+        "noisy": 18,
+        "nodes_concerned": 18,
+        "max_distance": 4.440892098500626e-16,
+        "examples": [
+          {
+            "node": 132,
+            "axis": "x",
+            "value": 1.2499999999999998,
+            "distance": 2.220446049250313e-16
+          },
+          {
+            "node": 143,
+            "axis": "x",
+            "value": 1.2499999999999996,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 150,
+            "axis": "y",
+            "value": 1.0000000000000002,
+            "distance": 2.220446049250313e-16
+          },
+          {
+            "node": 154,
+            "axis": "x",
+            "value": 1.2499999999999998,
+            "distance": 2.220446049250313e-16
+          },
+          {
+            "node": 161,
+            "axis": "y",
+            "value": 0.7500000000000004,
+            "distance": 4.440892098500626e-16
+          }
+        ],
+        "ok": true
+      }
+    },
+    {
+      "maillage": "projets/dalle_appuyee_01/references/cas/dalle_h0p125.mmed",
+      "taille_octets": 152295,
+      "grille": {
+        "grid": 0.001,
+        "epsilon": 1e-06,
+        "blocking": false,
+        "nodes": 1617,
+        "coordinates": 4851,
+        "noisy": 110,
+        "nodes_concerned": 106,
+        "max_distance": 4.440892098500626e-16,
+        "examples": [
+          {
+            "node": 243,
+            "axis": "x",
+            "value": 0.8749999999999996,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 244,
+            "axis": "x",
+            "value": 1.0000000000000004,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 246,
+            "axis": "x",
+            "value": 1.2499999999999996,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 247,
+            "axis": "x",
+            "value": 1.3750000000000004,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 249,
+            "axis": "x",
+            "value": 1.6250000000000002,
+            "distance": 2.220446049250313e-16
+          }
+        ],
+        "ok": true
+      },
+      "sonde_arrondi": {
+        "taille_origine": 152295,
+        "taille_arrondi": 152202,
+        "noeuds": 1617,
+        "mailles": 1776,
+        "coordonnees_modifiees": 110,
+        "deplacement_max": 4.440892098500626e-16
+      }
+    },
+    {
+      "maillage": "projets/estacade_pieux_01/references/cas/estacade_pieux_01.mmed",
+      "taille_octets": 6931499,
+      "grille": {
+        "grid": 0.001,
+        "epsilon": 1e-06,
+        "blocking": false,
+        "nodes": 76073,
+        "coordinates": 228219,
+        "noisy": 135215,
+        "nodes_concerned": 75091,
+        "max_distance": 7.460698725481052e-14,
+        "examples": [
+          {
+            "node": 503,
+            "axis": "y",
+            "value": -2.0999999999999996,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 504,
+            "axis": "y",
+            "value": -2.1499999999999995,
+            "distance": 4.440892098500626e-16
+          },
+          {
+            "node": 505,
+            "axis": "y",
+            "value": -2.1999999999999993,
+            "distance": 8.881784197001252e-16
+          },
+          {
+            "node": 506,
+            "axis": "y",
+            "value": -2.249999999999999,
+            "distance": 8.881784197001252e-16
+          },
+          {
+            "node": 507,
+            "axis": "y",
+            "value": -2.299999999999999,
+            "distance": 8.881784197001252e-16
+          }
+        ],
+        "ok": true
+      }
+    }
+  ]
+}

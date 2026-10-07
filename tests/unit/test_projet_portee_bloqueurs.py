@@ -51,7 +51,8 @@ def test_only_a_revision_can_be_waived() -> None:
 
 
 def test_the_quai_generator_waives_the_declared_revision(tmp_path: Path) -> None:
-    from quai_cw_test_01.generation.generate import GenerationError, generate_comm
+    from quai_cw_test_01.generation.errors import GenerationError
+    from quai_cw_test_01.generation.generate import generate_comm
 
     ctx = load_project("quai_cw_test_01", ROOT)
     med = tmp_path / "faux.med"

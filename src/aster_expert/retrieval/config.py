@@ -102,7 +102,3 @@ def load_retrieval_config(path: Path) -> RetrievalConfig:
         raise FileNotFoundError(message)
     data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     return RetrievalConfig.model_validate(data)
-
-
-def default_retrieval_config_path(project_root: Path) -> Path:
-    return project_root / "config" / "retrieval.yaml"

@@ -73,6 +73,14 @@ from aster_expert.mcp.models import (
     SearchConstatsResult,
     SearchDocsResult,
 )
+from aster_expert.mcp.resume import (
+    Detail,
+    filter_analysis,
+    filter_report,
+    summarize_analysis,
+    summarize_report,
+    wants_summary,
+)
 from aster_expert.mcp.testcases import (
     SearchTestcasesResult,
     TestcaseFileResult,
@@ -387,8 +395,16 @@ def analyze_comm(
     project_root: Path,
     comm_path: str,
     log_path: Path | None = None,
+    detail: Detail = "auto",
+    command: str | None = None,
+    line_start: int | None = None,
+    line_end: int | None = None,
 ) -> CommAnalysisResult:
-    """Structural analysis of a `.comm` file, never executed (lot 9, wrapped)."""
+    """Structural analysis of a `.comm` file, never executed (lot 9, wrapped).
+
+    Lot 48 bis: above `resume.AUTO_THRESHOLD` statements the answer is a summary
+    (`detail="auto"`); `command` or `line_start`/`line_end` return the statements
+    concerned in full."""
     path = _resolve_comm(project_root, comm_path)
 
     started = time.monotonic()
@@ -407,6 +423,25 @@ def analyze_comm(
         file_name=path.name,
         file_fingerprint=analysis.file_hash,
     )
+    mode = wants_summary(
+        detail,
+        len(analysis.statements),
+        command=command,
+        line_start=line_start,
+        line_end=line_end,
+    )
+    if mode == "resume":
+        line_count = len(
+            path.read_text(encoding="utf-8", errors="replace").splitlines()
+        )
+        return CommAnalysisResult(
+            detail="resume", summary=summarize_analysis(analysis, line_count)
+        )
+    if mode == "filtre":
+        filtered = filter_analysis(
+            analysis, command=command, line_start=line_start, line_end=line_end
+        )
+        return CommAnalysisResult(detail="filtre", analysis=filtered)
     return CommAnalysisResult(analysis=analysis)
 
 
@@ -423,6 +458,10 @@ def validate_comm(
     cpus: str | None = None,
     timeout: int = 1800,
     log_path: Path | None = None,
+    detail: Detail = "auto",
+    command: str | None = None,
+    line_start: int | None = None,
+    line_end: int | None = None,
 ) -> ValidationReport:
     """Level B validation against the target catalogue (lot 10/10b/10c, wrapped).
 
@@ -482,6 +521,19 @@ def validate_comm(
         file_name=path.name,
         file_fingerprint=fingerprint,
     )
+    mode = wants_summary(
+        detail,
+        len(report.commands_checked) + len(report.commands_not_checked),
+        command=command,
+        line_start=line_start,
+        line_end=line_end,
+    )
+    if mode == "resume":
+        return summarize_report(report)
+    if mode == "filtre":
+        return filter_report(
+            report, command=command, line_start=line_start, line_end=line_end
+        )
     return report
 
 

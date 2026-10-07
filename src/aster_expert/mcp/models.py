@@ -73,13 +73,45 @@ class CommandSchemaResult(BaseModel):
     omission is stated, never silent. 0 without a filter."""
 
 
+class CommSummary(BaseModel):
+    """Summary mode of `analyze_comm` (lot 48 bis, audit R10 c): the commands by type,
+    the concepts, the warnings. The detail of a command or of a range of lines is asked
+    for with `command` or `line_start`/`line_end`."""
+
+    model_config = ConfigDict(frozen=True)
+
+    file_path: str
+    file_hash: str
+    line_count: int
+    statements_total: int
+    commands_by_type: dict[str, int]
+    concepts_count: int
+    concepts: list[str]
+    """The first concepts in file order, at most `CONCEPTS_SHOWN`."""
+    external_files: int
+    imported_names: list[str]
+    dynamic_statements: int
+    control_flow_statements: int
+    test_statements: int
+    parse_warnings_count: int
+    parse_warnings: list[str]
+    """The first warnings (`line N (type): message`), at most `WARNINGS_SHOWN`."""
+    warnings_omitted: int = 0
+
+
 class CommAnalysisResult(BaseModel):
-    """`analyze_comm` (lot 8, H1)."""
+    """`analyze_comm` (lot 8, H1; lot 48 bis: summary and filters).
+
+    `detail` is `complet` (the whole analysis), `resume` (`summary` only, chosen
+    automatically for a large file) or `filtre` (the statements of one command or of a
+    range of lines, in full)."""
 
     model_config = ConfigDict(frozen=True)
 
     validation_level: Literal["A"] = "A"
-    analysis: CommFileAnalysis
+    detail: Literal["complet", "resume", "filtre"] = "complet"
+    analysis: CommFileAnalysis | None = None
+    summary: CommSummary | None = None
 
 
 class DocumentSectionResult(BaseModel):

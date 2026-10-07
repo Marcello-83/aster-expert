@@ -166,7 +166,7 @@ def test_analyze_comm_mcp_accepte_racine_externe_declaree(depot: Path) -> None:
         comm_path=str(externe / "x.comm"),
         log_path=depot / "log.jsonl",
     )
-    assert resultat.analysis.statements
+    assert resultat.analysis is not None and resultat.analysis.statements
 
 
 def test_validate_comm_mcp_refuse_avant_tout_autre_prerequis(depot: Path) -> None:

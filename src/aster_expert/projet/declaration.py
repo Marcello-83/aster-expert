@@ -474,6 +474,10 @@ class NoteColumn(_Model):
     path: str
     format: str | None = None
     """Python format of a number, e.g. `{:.4e}`; by default 6 significant digits."""
+    unit: str | None = None
+    """Lot 48 bis: unit of the column; without `format`, the number is shown with the
+    decimals `config/arrondis.yaml` gives that unit (display only, the file is not
+    changed)."""
 
 
 class NoteTable(_Model):

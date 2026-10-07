@@ -78,6 +78,32 @@ class NotCheckedEntry(BaseModel):
     reasons: list[str]
 
 
+class CommandCounts(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    checked: int = 0
+    not_checked: int = 0
+    errors: int = 0
+
+
+class ValidationSummary(BaseModel):
+    """Summary mode of a report (lot 48 bis, audit R10 c).
+
+    Counts by command and the coverage; the full lists stay available by asking for
+    a command or a range of lines."""
+
+    model_config = ConfigDict(frozen=True)
+
+    statements_total: int
+    checked: int
+    not_checked: int
+    errors: int
+    coverage_rate: float
+    by_command: dict[str, CommandCounts]
+    errors_omitted: int = 0
+    not_checked_omitted: int = 0
+
+
 class ValidationReport(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -98,11 +124,16 @@ class ValidationReport(BaseModel):
     commands_checked: list[CheckedEntry]
     commands_not_checked: list[NotCheckedEntry]
     checked_at: datetime
+    detail: Literal["complet", "resume", "filtre"] = "complet"
+    """`complet`: every list in full. `resume`: `commands_checked` replaced by
+    `summary`, errors and unverified commands capped. `filtre`: only the asked
+    command or lines. The verdict is the one of the whole file in every mode."""
+    summary: ValidationSummary | None = None
 
     @model_validator(mode="before")
     @classmethod
     def _derive_verdict(cls, data: Any) -> Any:
-        if not isinstance(data, dict):
+        if not isinstance(data, dict) or "verdict" in data:
             return data
         errors = data.get("errors") or []
         not_checked = data.get("commands_not_checked") or []

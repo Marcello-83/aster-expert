@@ -1,0 +1,40 @@
+# Table unique d'arrondi des sorties texte (lot 48 bis, audit : remarque de MM).
+#
+# Lue par `aster_expert.arrondis`. Elle ne sert qu'à l'AFFICHAGE : tableaux CSV destinés à la
+# lecture, notes, commentaires de `.comm`. Les contrôles numériques, les combinaisons et le
+# ferraillage travaillent toujours sur les valeurs non arrondies ; un `.comm` garde la
+# précision d'une valeur dérivée d'un calcul exact (rayon et épaisseur d'un tube équivalent
+# qui reproduisent A et I) et porte la valeur arrondie en commentaire.
+schema_version: 1
+
+# Nombre de décimales par unité.
+decimales:
+  m: 3
+  mm: 1
+  cm: 2
+  "m²": 4
+  "cm²": 2
+  "m⁴": 6
+  N: 0
+  kN: 1
+  "kN/m": 1
+  "kN·m": 1
+  "N·m": 0
+  Pa: 0
+  kPa: 1
+  MPa: 2
+  GPa: 1
+  "°": 2
+  "%": 1
+  s: 1
+
+# Maillages : les coordonnées sont des réels binaires (arrondir ne réduit ni la taille du
+# fichier, ni le nombre de lignes) ; la grille ne sert qu'à la lisibilité, à la recherche de
+# nœuds et à la robustesse des groupes. 1 mm : plus fine que toute cote de projet des trois
+# ouvrages (tailles de maille 0,05 m à 0,50 m, entraxes et cotes au centimètre), plus grosse
+# que le bruit de calcul (1e-12) ; les maillages faceté (tubes) ne sont pas sur la grille
+# par construction, seul le « presque sur la grille sans y être » est un écart.
+maillage:
+  grille_decimales: 3
+  epsilon: 1.0e-6
+  bloquant: false

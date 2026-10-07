@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from typing import Literal
 
 from mcp.server.mcpserver import MCPServer
 
@@ -230,6 +231,10 @@ _ANALYZE_DESCRIPTION = (
 
 
 _ANALYZE_DESCRIPTION += (
+    "\n\nMode résumé (lot 48 bis) : au-delà de 150 commandes, la réponse par défaut "
+    "(detail='auto') est un résumé (commandes par type, concepts, avertissements) ; "
+    "detail='complet' force la réponse entière ; `command` ou `line_start`/`line_end` "
+    "donnent le détail filtré des commandes concernées."
     "\n\nLecture seule, limitée aux racines de config/chemins.yaml (dépôt, corpus, "
     "racines externes déclarées) et à l'extension .comm ; un refus nomme la racine "
     "manquante et dit comment la déclarer."
@@ -237,8 +242,21 @@ _ANALYZE_DESCRIPTION += (
 
 
 @app.tool(description=_ANALYZE_DESCRIPTION)
-def analyze_comm(comm_path: str) -> CommAnalysisResult:
-    return tools.analyze_comm(project_root=_project_root(), comm_path=comm_path)
+def analyze_comm(
+    comm_path: str,
+    detail: Literal["auto", "resume", "complet"] = "auto",
+    command: str | None = None,
+    line_start: int | None = None,
+    line_end: int | None = None,
+) -> CommAnalysisResult:
+    return tools.analyze_comm(
+        project_root=_project_root(),
+        comm_path=comm_path,
+        detail=detail,
+        command=command,
+        line_start=line_start,
+        line_end=line_end,
+    )
 
 
 _VALIDATE_DESCRIPTION = (
@@ -246,13 +264,13 @@ _VALIDATE_DESCRIPTION = (
     "syntaxe reconstruite au catalogue de la version cible via "
     "checkCommandSyntax, exécuté dans le conteneur Code_Aster (jamais une "
     "grammaire réimplémentée par ce projet).\n\n"
-    "`valid=true` signifie seulement que les commandes effectivement "
-    "confrontées sont syntaxiquement correctes — jamais que le fichier "
+    "`valid=true` signifie que toutes les commandes ont été confrontées au "
+    "catalogue et sont syntaxiquement correctes — jamais que le fichier "
     "s'exécute (niveau C), ni qu'il est physiquement correct (niveaux D/E), "
     "hors de portée de cet outil. `commands_not_checked` liste, sans jamais "
     "les masquer, les commandes qui n'ont pas pu être confrontées (mot-clé "
-    "non résolu, construction dynamique, concept jamais résolu) : un taux "
-    "de couverture partiel est toujours rapporté, jamais dissimulé.\n\n"
+    "non résolu, construction dynamique, concept jamais résolu) : tant qu'il en "
+    "reste, le verdict est `partiel` et `valid` faux.\n\n"
     "Nécessite un catalogue déjà extrait pour la version visée et un "
     "conteneur Docker joignable (ASTER_CONTAINER_WORKROOT, "
     "ASTER_DOCKER_BIN) : voir README.md."
@@ -260,16 +278,32 @@ _VALIDATE_DESCRIPTION = (
 
 
 _VALIDATE_DESCRIPTION += (
+    "\n\nVerdict (lot 48 bis) : `verdict` vaut `valide` (tout confronté, aucune "
+    "erreur), `partiel` (aucune erreur mais des commandes non confrontées : `valid` "
+    "est alors faux) ou `invalide`. Mode résumé au-delà de 150 commandes "
+    "(detail='auto'), complet sur demande, filtré par `command` ou "
+    "`line_start`/`line_end` ; le verdict est toujours celui du fichier entier."
     "\n\nMême politique de lecture que analyze_comm (config/chemins.yaml, .comm)."
 )
 
 
 @app.tool(description=_VALIDATE_DESCRIPTION)
-def validate_comm(comm_path: str, version: str | None = None) -> ValidationReport:
+def validate_comm(
+    comm_path: str,
+    version: str | None = None,
+    detail: Literal["auto", "resume", "complet"] = "auto",
+    command: str | None = None,
+    line_start: int | None = None,
+    line_end: int | None = None,
+) -> ValidationReport:
     return tools.validate_comm(
         project_root=_project_root(),
         comm_path=comm_path,
         version=version,
+        detail=detail,
+        command=command,
+        line_start=line_start,
+        line_end=line_end,
         workroot=_workroot(),
         docker_bin_env=os.environ.get("ASTER_DOCKER_BIN") or None,
         image_repository=os.environ.get("ASTER_IMAGE_REPOSITORY", "simvia/code_aster"),

@@ -466,6 +466,7 @@ def test_analyze_comm_returns_level_a_and_never_journals_content(
     result = analyze_comm(project_root=project_root, comm_path=str(comm_path))
 
     assert result.validation_level == "A"
+    assert result.analysis is not None
     assert len(result.analysis.statements) == 1
     assert result.analysis.statements[0].command == "LIRE_MAILLAGE"
 

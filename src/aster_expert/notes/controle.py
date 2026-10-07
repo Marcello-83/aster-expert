@@ -677,10 +677,6 @@ def _tolerates(text: str, source: float) -> bool:
     return abs(shown - source) <= displayed_tolerance(text) * abs(source) + 1e-300
 
 
-def sheet_points(sheet: HypothesesSheet) -> list[str | None]:
-    return sorted(_expected_points(sheet), key=lambda x: (x is None, str(x)))
-
-
 __all__ = [
     "FORBIDDEN",
     "NoteCheck",

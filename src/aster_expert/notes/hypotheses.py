@@ -688,16 +688,6 @@ def build_hypotheses_note(
     return output
 
 
-def hypotheses_sources(ctx: ProjectContext) -> dict[str, Any]:
-    """What the checks compare the note to, read afresh from the sources."""
-    return {
-        "fiche": HypothesesSheet.model_validate_json(
-            ctx.fiche_path.read_text(encoding="utf-8")
-        ),
-        "data": ctx.data(),
-    }
-
-
 __all__ = [
     "NOTE_NAME",
     "Provenance",

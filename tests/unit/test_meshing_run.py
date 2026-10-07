@@ -237,7 +237,11 @@ def test_check_med_reads_through_the_container_and_evaluates(
     assert report.ok and len(report.results) == 2
     assert seen["network"] == "none"
     assert "dump_med.py" in str(seen["command"])
-    assert Path(report.report_path).read_text("utf-8").endswith("tenus.\n")
+    text = Path(report.report_path).read_text("utf-8")
+    assert "Tous les invariants sont tenus." in text
+    # Lot 48 bis : l'invariant de grille est rapporté après les invariants du projet.
+    assert text.rstrip("\n").splitlines()[-1].startswith("[grille]")
+    assert report.grid is not None and report.grid.ok
 
     invariants.write_text("schema_version: 1\ncounts:\n  nodes: 3\n", encoding="utf-8")
     failing = check_med(

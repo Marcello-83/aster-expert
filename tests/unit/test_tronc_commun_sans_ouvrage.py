@@ -55,8 +55,15 @@ _IDENTIFIERS = (
     "combi-wall",
     "QUAI-CW",
     "quai_cw_test_01",
+    # dalle appuyée et estacade sur pieux (lot 48 bis, audit R5 : même frontière)
+    "dalle_appuyee",
+    "DALLE-APPUYEE",
+    "estacade_pieux",
+    "ESTACADE-PIEUX",
+    "chevêtre",
+    "chevetre",
 )
-_WORDS = re.compile(r"\bquais?\b", re.IGNORECASE)
+_WORDS = re.compile(r"\b(quais?|estacades?)\b", re.IGNORECASE)
 _TEXT_SUFFIXES = {".py", ".md", ".txt", ".yaml", ".yml", ".json", ".toml"}
 
 
@@ -72,7 +79,7 @@ def _occurrences() -> list[str]:
         ):
             hits = [i for i in _IDENTIFIERS if i in line]
             if _WORDS.search(line):
-                hits.append("quai")
+                hits.append(_WORDS.search(line).group(1).lower())  # type: ignore[union-attr]
             found += [f"{path.relative_to(_SRC)}:{number}: {h}" for h in hits]
     return found
 

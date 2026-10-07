@@ -15,6 +15,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from aster_expert.arrondis import RoundingTable, format_value, load_table
 from aster_expert.notes.formats import EMPTY, cell
 from aster_expert.projet.declaration import NoteColumn, NoteTable
 from aster_expert.projet.errors import ProjectError
@@ -120,6 +121,11 @@ def read_value(
     return current
 
 
+def _rounding_table() -> RoundingTable:
+    """The repository's own rounding table (`config/arrondis.yaml`)."""
+    return load_table(Path(__file__).resolve().parents[3])
+
+
 def _format(value: Any, column: NoteColumn) -> str:
     if (
         column.format is not None
@@ -127,6 +133,12 @@ def _format(value: Any, column: NoteColumn) -> str:
         and not isinstance(value, bool)
     ):
         return column.format.format(value).replace(".", ",")
+    if (
+        column.unit is not None
+        and isinstance(value, int | float)
+        and not isinstance(value, bool)
+    ):
+        return format_value(value, column.unit, _rounding_table(), decimal_comma=True)
     return cell(value)
 
 

@@ -25,6 +25,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict
 
+from aster_expert.arrondis import ArrondisError, GridRule, load_table
 from aster_expert.execution.container_env import (
     MOUNT_TARGET,
     build_environment_setup_script,
@@ -33,6 +34,7 @@ from aster_expert.execution.docker_client import kill_container, run_in_containe
 from aster_expert.execution.errors import EnvironmentDetectionError
 from aster_expert.meshing.config import MeshConfig
 from aster_expert.meshing.errors import MeshCheckError
+from aster_expert.meshing.grille import GridReport, check_grid
 from aster_expert.meshing.invariants import (
     InvariantResult,
     MedDump,
@@ -66,6 +68,10 @@ class MeshCheckReport(BaseModel):
     results: tuple[InvariantResult, ...]
     ok: bool
     checked_at: datetime
+    grid: GridReport | None = None
+    """Lot 48 bis: the generic grid invariant, reported apart from `results` (the
+    count of invariants of a project is unchanged), blocking only if the table says
+    so."""
 
 
 def run_then_drop_copy(
@@ -151,6 +157,15 @@ def dump_med(
     return dump, work_dir
 
 
+def _grid_rule(project_root: Path) -> GridRule:
+    """The grid rule of the project's `config/arrondis.yaml`, else the repository's
+    own table (a scratch project root, as the tests use, has none)."""
+    try:
+        return load_table(project_root).maillage
+    except ArrondisError:
+        return load_table(Path(__file__).resolve().parents[3]).maillage
+
+
 def check_med(
     med: Path,
     invariants_path: Path,
@@ -173,10 +188,11 @@ def check_med(
         script_path=script_path,
     )
     results = evaluate(dump, invariants)
-    report_text = format_report(med.name, results)
+    grid = check_grid(dump.coords, _grid_rule(project_root))
+    report_text = format_report(med.name, results) + grid.line() + "\n"
     report_path = work_dir / REPORT_NAME
     report_path.write_text(report_text, encoding="utf-8")
-    ok = all(r.ok for r in results)
+    ok = all(r.ok for r in results) and grid.ok
 
     if ok:
         # Cache de maillage (lot 28): a MED found `mesh check`-ok is recorded by its
@@ -206,4 +222,5 @@ def check_med(
         results=tuple(results),
         ok=ok,
         checked_at=datetime.now(UTC),
+        grid=grid,
     )
