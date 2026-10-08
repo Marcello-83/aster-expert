@@ -7,16 +7,17 @@ forum and Kitware superbuild, see `docs/essais_lot49.md`). Each deliverable MED 
 therefore converted too, and the conversion is checked: every array read back from
 the `.vtu` equals the source array, value for value (`check_identical`).
 
-Format: VTK XML 0.1, `UnstructuredGrid`, binary data inline, base64, a header of one
-`UInt64` (the byte count of the block), no compression, little endian. Arrays are
-`Float64` (values) or `Int64` (indices); points are `Float64`. Every component is a
-scalar array of its own, named `<prefix>_<COMPONENT>` (the convention of the ParaView
-script of MM: `FN_<case>_DX`), so that a `Calculator` can rebuild any vector.
+Format: VTK XML 0.1, `UnstructuredGrid`, data **appended raw** (`<AppendedData
+encoding="raw">`, each block preceded by its byte count as a `UInt64`), little endian,
+no compression -- a third smaller than inline base64. Arrays are `Float64` (values)
+or `Int64` (indices); points are `Float64`. Every component is a scalar array of its
+own, named `<prefix>_<COMPONENT>` (the convention of the ParaView script of MM:
+`FN_<case>_DX`), so that a `Calculator` can rebuild any vector.
 """
 
 from __future__ import annotations
 
-import base64
+import re
 import xml.etree.ElementTree as ET
 from collections.abc import Mapping
 from dataclasses import dataclass, field
@@ -41,6 +42,7 @@ _DTYPES: dict[str, np.dtype[Any]] = {
     "Int64": np.dtype("<i8"),
     "UInt8": np.dtype("u1"),
 }
+_MARKER = b'<AppendedData encoding="raw">'
 
 
 @dataclass
@@ -49,12 +51,12 @@ class Grid:
     connectivity: NDArray[np.int64]
     offsets: NDArray[np.int64]
     types: NDArray[np.uint8]
-    point_data: dict[str, NDArray[np.float64]] = field(default_factory=dict)
-    cell_data: dict[str, NDArray[np.float64]] = field(default_factory=dict)
+    point_data: dict[str, NDArray[Any]] = field(default_factory=dict)
+    cell_data: dict[str, NDArray[Any]] = field(default_factory=dict)
 
 
 def grid_from_mesh(
-    mesh: Mapping[str, NDArray[np.int64]],
+    mesh: Mapping[str, NDArray[Any]],
 ) -> tuple[Grid, list[tuple[int, int]]]:
     """The grid of every level of a MED mesh (`maillage.npz` of the container), and the
     (level, cell) of each VTK cell, in order."""
@@ -90,29 +92,63 @@ def grid_from_mesh(
     return grid, order
 
 
-def _encode(array: NDArray[Any], dtype: np.dtype[Any]) -> str:
-    data = np.ascontiguousarray(array, dtype=dtype).tobytes()
-    header = np.array([len(data)], dtype="<u8").tobytes()
-    return base64.b64encode(header + data).decode("ascii")
-
-
-def _data_array(
-    parent: ET.Element, name: str, array: NDArray[np.generic], type_name: str
-) -> None:
-    components = 1 if array.ndim == 1 else int(array.shape[1])
-    element = ET.SubElement(
-        parent,
-        "DataArray",
-        type=type_name,
-        Name=name,
-        NumberOfComponents=str(components),
-        format="binary",
+def select_cells(grid: Grid, cells: NDArray[np.int64]) -> Grid:
+    """The same points with only `cells` (VTK cell indices, in this order)."""
+    starts = np.concatenate([[0], grid.offsets[:-1]])
+    conn: list[NDArray[np.int64]] = []
+    offsets: list[int] = []
+    total = 0
+    for cell in cells:
+        nodes = grid.connectivity[starts[cell] : grid.offsets[cell]]
+        conn.append(nodes)
+        total += len(nodes)
+        offsets.append(total)
+    return Grid(
+        points=grid.points,
+        connectivity=(
+            np.concatenate(conn) if conn else np.zeros(0, dtype=np.int64)
+        ).astype(np.int64),
+        offsets=np.asarray(offsets, dtype=np.int64),
+        types=grid.types[cells].astype(np.uint8),
     )
-    element.text = _encode(array, _DTYPES[type_name])
 
 
-def _type_of(array: NDArray[np.generic]) -> str:
+def vertices(points: NDArray[np.float64], nodes: NDArray[np.int64]) -> Grid:
+    """A grid of the points `nodes` only, one vertex cell each."""
+    return Grid(
+        points=points[nodes],
+        connectivity=np.arange(len(nodes), dtype=np.int64),
+        offsets=np.arange(1, len(nodes) + 1, dtype=np.int64),
+        types=np.full(len(nodes), 1, dtype=np.uint8),
+    )
+
+
+def _type_of(array: NDArray[Any]) -> str:
     return "Int64" if np.issubdtype(array.dtype, np.integer) else "Float64"
+
+
+class _Appender:
+    def __init__(self) -> None:
+        self.blocks: list[bytes] = []
+        self.offset = 0
+
+    def add(
+        self, parent: ET.Element, name: str, array: NDArray[Any], type_name: str
+    ) -> None:
+        data = np.ascontiguousarray(array, dtype=_DTYPES[type_name]).tobytes()
+        components = 1 if array.ndim == 1 else int(array.shape[1])
+        ET.SubElement(
+            parent,
+            "DataArray",
+            type=type_name,
+            Name=name,
+            NumberOfComponents=str(components),
+            format="appended",
+            offset=str(self.offset),
+        )
+        block = np.array([len(data)], dtype="<u8").tobytes() + data
+        self.blocks.append(block)
+        self.offset += len(block)
 
 
 def write_vtu(path: Path, grid: Grid) -> None:
@@ -129,48 +165,62 @@ def write_vtu(path: Path, grid: Grid) -> None:
         NumberOfPoints=str(len(grid.points)),
         NumberOfCells=str(len(grid.types)),
     )
-    points = ET.SubElement(piece, "Points")
-    _data_array(points, "Points", grid.points, "Float64")
+    appender = _Appender()
+    appender.add(ET.SubElement(piece, "Points"), "Points", grid.points, "Float64")
     cells = ET.SubElement(piece, "Cells")
-    _data_array(cells, "connectivity", grid.connectivity, "Int64")
-    _data_array(cells, "offsets", grid.offsets, "Int64")
-    _data_array(cells, "types", grid.types, "UInt8")
+    appender.add(cells, "connectivity", grid.connectivity, "Int64")
+    appender.add(cells, "offsets", grid.offsets, "Int64")
+    appender.add(cells, "types", grid.types, "UInt8")
     pdata = ET.SubElement(piece, "PointData")
     for name, array in grid.point_data.items():
-        _data_array(pdata, name, array, _type_of(array))
+        appender.add(pdata, name, array, _type_of(array))
     cdata = ET.SubElement(piece, "CellData")
     for name, array in grid.cell_data.items():
-        _data_array(cdata, name, array, _type_of(array))
+        appender.add(cdata, name, array, _type_of(array))
+    header = ET.tostring(root, encoding="unicode")
+    assert header.endswith("</VTKFile>")
     path.parent.mkdir(parents=True, exist_ok=True)
-    ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True)
-
-
-def _decode(element: ET.Element) -> NDArray[Any]:
-    raw = base64.b64decode(element.text or "")
-    size = int(np.frombuffer(raw[:8], dtype="<u8")[0])
-    dtype = _DTYPES[element.attrib["type"]]
-    array = np.frombuffer(raw[8 : 8 + size], dtype=dtype).copy()
-    components = int(element.attrib.get("NumberOfComponents", "1"))
-    out: NDArray[Any] = array.reshape(-1, components) if components > 1 else array
-    return out
+    with path.open("wb") as handle:
+        handle.write(b'<?xml version="1.0"?>\n')
+        handle.write(header[: -len("</VTKFile>")].encode("utf-8"))
+        handle.write(b"\n  " + _MARKER + b"\n   _")
+        for block in appender.blocks:
+            handle.write(block)
+        handle.write(b"\n  </AppendedData>\n</VTKFile>\n")
 
 
 def read_vtu(path: Path) -> Grid:
-    piece = ET.parse(path).getroot().find("UnstructuredGrid/Piece")
+    raw = path.read_bytes()
+    start = raw.index(_MARKER)
+    data_start = raw.index(b"_", start + len(_MARKER)) + 1
+    header = raw[:start].decode("utf-8") + "</VTKFile>"
+    header = re.sub(r"^<\?xml[^>]*\?>", "", header).strip()
+    piece = ET.fromstring(header).find("UnstructuredGrid/Piece")
     assert piece is not None
+
+    def decode(element: ET.Element) -> NDArray[Any]:
+        offset = data_start + int(element.attrib["offset"])
+        size = int(np.frombuffer(raw[offset : offset + 8], dtype="<u8")[0])
+        array = np.frombuffer(
+            raw[offset + 8 : offset + 8 + size], dtype=_DTYPES[element.attrib["type"]]
+        ).copy()
+        components = int(element.attrib.get("NumberOfComponents", "1"))
+        out: NDArray[Any] = array.reshape(-1, components) if components > 1 else array
+        return out
+
     points = piece.find("Points/DataArray")
-    cells = {e.attrib["Name"]: e for e in piece.findall("Cells/DataArray")}
     assert points is not None
+    cells = {e.attrib["Name"]: e for e in piece.findall("Cells/DataArray")}
     grid = Grid(
-        points=_decode(points).astype(np.float64),
-        connectivity=_decode(cells["connectivity"]).astype(np.int64),
-        offsets=_decode(cells["offsets"]).astype(np.int64),
-        types=_decode(cells["types"]).astype(np.uint8),
+        points=decode(points).astype(np.float64),
+        connectivity=decode(cells["connectivity"]).astype(np.int64),
+        offsets=decode(cells["offsets"]).astype(np.int64),
+        types=decode(cells["types"]).astype(np.uint8),
     )
     for element in piece.findall("PointData/DataArray"):
-        grid.point_data[element.attrib["Name"]] = _decode(element)
+        grid.point_data[element.attrib["Name"]] = decode(element)
     for element in piece.findall("CellData/DataArray"):
-        grid.cell_data[element.attrib["Name"]] = _decode(element)
+        grid.cell_data[element.attrib["Name"]] = decode(element)
     return grid
 
 
@@ -212,5 +262,7 @@ __all__ = [
     "check_identical",
     "grid_from_mesh",
     "read_vtu",
+    "select_cells",
+    "vertices",
     "write_vtu",
 ]

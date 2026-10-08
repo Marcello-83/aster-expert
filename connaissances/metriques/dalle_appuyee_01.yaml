@@ -32,8 +32,8 @@ knowledge:
       promu: 0
 consultations:
   calls:
-    search_connaissances: 12
-    search_constats: 1
+    search_connaissances: 49
+    search_constats: 3
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
   avoided_errors:
@@ -82,36 +82,48 @@ lots:
     note: 'Aucune erreur de calcul évitée à déclarer : aucune commande d''ouvrage écrite ;
       CA-041 consulté (search_constats FERR_MIN) pour la règle d''unités, sans erreur constatée
       avant ni après'
+- lot: '49'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM pendant le lot.
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: Aucune erreur évitée avant exécution ; DIAG-017 retrouvé automatiquement après l'échec
+      de la première mutation.
 declared_interventions_since_baseline: 3.0
 measured:
-  runs: 6
-  failures: 0
+  runs: 10
+  failures: 1
   development:
-    runs: 5
-    failures: 0
+    runs: 8
+    failures: 1
   verification:
-    runs: 1
+    runs: 2
     failures: 0
     by_reason:
-      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 1
-  failure_rate: 0.0
+      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 2
+  failure_rate: 0.125
   failure_rate_note: 'lot 44 : taux sur les exécutions de développement seulement ; une exécution
     de vérification (commande de rejeu, ou .comm déjà réussi rejoué sans modification) n''y
     entre pas'
-  failure_rate_all_runs: 0.0
+  failure_rate_all_runs: 0.1
   compute_s:
     aster_legacy: 0
-    wall_since_lot41: 66.0
+    wall_since_lot41: 163.6
     unknown_runs: 0
     note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
       versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
       deux grandeurs distinctes, jamais additionnées'
   first_run: 20261002T085726-378a7180
-  last_run: 20261002T130616-537395b0
-  failures_by_signature: {}
-  failures_by_cause: {}
+  last_run: 20261008T120540-22c17443
+  failures_by_signature:
+    <F> <MODELISA6_96>: 1
+  failures_by_cause:
+    DIAG-017: 1
   automatic_diagnosis:
-    attached_failures: 0
-    single_match_equal_to_classification: 0
+    attached_failures: 1
+    single_match_equal_to_classification: 1
     note: échecs rattachés à un diagnostic pour lesquels la recherche automatique de la base
       (signature) propose ce diagnostic et lui seul

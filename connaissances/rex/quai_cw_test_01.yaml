@@ -50,10 +50,26 @@ lots:
       écrite, aucun contrôle nouveau.'
   note: 'Lot de consolidation : décisions D20 et D21 de MM enregistrées dans la fiche (PRE-019,
     PRE-020) ; aucune exécution du quai, aucun résultat changé.'
+- lot: '49'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM pendant le lot.
+  avoided_errors:
+    value: 2.0
+    nature: mesure
+    note: 'CA-023 et CA-026 : réactions livrées aux seuls appuis sans ELAS_COQUE (pieds de
+      tubes, ancrages) ; CA-025 : efforts des coques lus en EFGE. Non évitées : EFGE_NOEU
+      déclaré sur les tubes (DIAG-011, connu, consulté après l''arrêt) et CARA_ELEM sur les
+      forces des ressorts (DIAG-028, nouveau).'
+  note: 'Maillage (cache vérifié, 599/599), génération et validation rejouées : .comm identique
+    à la référence hors commentaires (seule l''empreinte de la fiche change dans l''en-tête).
+    Livrables : 9 931 632 valeurs de tables identiques à la production, MED 364 Mo, CTL-013
+    réussi, 110 images. Deux échecs de post-traitement classés (DIAG-011, DIAG-028).'
 archive:
-  runs: 373
-  sha256: 034f4f14c2fd8492ee9186e77155a283a2ab38f88bf459d472d7942494de3bbf
-  recorded: '2026-10-05'
+  runs: 376
+  sha256: aa253df80721611ce46a7f5ea270cc6f0860aa11e5417f035033c1c57c4e043f
+  recorded: '2026-10-08'
 declaration_required_since: '2026-10-05T00:00:00'
 reviews:
 - date: '2026-10-01'
@@ -74,7 +90,27 @@ reviews:
   failures: 73
   unclassified: 0
   last_run: 20261001T122432-e51f90d6
+- date: '2026-10-08'
+  lot: '49'
+  runs: 376
+  failures: 75
+  unclassified: 0
+  last_run: 20261008T122524-241fe6cd
 classifications:
+- run: 20261008T121847-521dfdf5
+  signature: <F> <MED2_13>
+  decision: nouveau
+  diagnostic: DIAG-028
+  reason: 'lot 49, post-traitement des livrables : CARA_ELEM donné pour SIEF_ELGA des ressorts
+    DIS_T (sans sous-points), alarme aggravée en erreur par le quai ; nouveau diagnostic,
+    générateur corrigé'
+- run: 20261008T120445-3c2f0250
+  signature: <F> <UTILITAI_4>
+  decision: rattaché
+  diagnostic: DIAG-011
+  reason: 'lot 49, post-traitement des livrables : contrat déclarant EFGE_NOEU sur les tubes
+    (facettes à repères incompatibles) ; contrat corrigé, EFGE_ELNO sur TUBES et EFGE_NOEU
+    sur PALPS, comme la production'
 - run: 20260921T093450-a49d007b
   signature: <EXCEPTION> <CALCULEL_6>
   decision: rattaché

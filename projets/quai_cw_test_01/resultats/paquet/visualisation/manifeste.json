@@ -1,0 +1,1169 @@
+{
+ "schema_version": 1,
+ "projet": "quai_cw_test_01",
+ "code_aster": {
+  "version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+ },
+ "execution_production": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261001T071428-babb7e8c",
+ "comm_production_sha256": "683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733",
+ "execution_post_traitement": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261008T122524-241fe6cd",
+ "comm_post_traitement_sha256": "6f10ec573a269464d81876fdbfcd5d989cc4f68ca22ca6421cfe79c603666f79",
+ "validation_post_traitement": {
+  "validation_level": "B",
+  "verdict": "valide",
+  "valid": true,
+  "commands_checked": 314,
+  "commands_total": 314,
+  "errors": 0
+ },
+ "tables_identiques": {
+  "valeurs_production": 9931632,
+  "valeurs_post_traitement": 9931632,
+  "identiques": true
+ },
+ "maillage": {
+  "chemin": "/home/ubuntu/projets/aster-expert/data/processed/mesh_runs/20260922T071600-8d931d77/combiwall_mesh.med",
+  "sha256": "1bd724bd5e00daeca385801554243bba27270e9d9437b29501d15e84e33ad0b8"
+ },
+ "fichiers": {
+  "med/resultats.med": {
+   "sha256": "4a9f99ab1848d7005c5ae8d7076874009d821a568849759ad51a71ba9009b330",
+   "octets": 364334804
+  },
+  "med/charges.med": {
+   "sha256": "b26df8ba4050849521fb780d7dce9af59c4edf6a299ce2dd14ce5d8f6ffaf5bc",
+   "octets": 18747793
+  },
+  "vtu/cas__DEPL.vtu": {
+   "sha256": "abff58318d63e7c50e862c22038f533c172ce98d83c2b998b4aec0e657536225",
+   "octets": 15332466
+  },
+  "vtu/cas__EFGE_ELNO.vtu": {
+   "sha256": "a3a442e40c45d42ceae6d10600b856cffb38b9fa010002fd341d798f63524d05",
+   "octets": 59021353
+  },
+  "vtu/cas__EFGE_ELNO_2.vtu": {
+   "sha256": "53c6867ade5a43f4482458792b7287bb2c2f90e2cad3462a407d859527cfc39c",
+   "octets": 1011029
+  },
+  "vtu/cas__EFGE_ELNO_3.vtu": {
+   "sha256": "92c02c9926f5fdf28151f4b1ab1fd508b2cc886f41a6dfe67c89301572c44fc1",
+   "octets": 966086
+  },
+  "vtu/cas__EFGE_NOEU.vtu": {
+   "sha256": "76b73bab552401548583f29e9483d9cb0ba8a22fe4234133a97141f932d1b7c6",
+   "octets": 1720265
+  },
+  "vtu/cas__REAC_NODA.vtu": {
+   "sha256": "5400edb003573af02b619cfe196c7bb1d560b3b811706ff67d550404cf678c5b",
+   "octets": 64169
+  },
+  "vtu/cas__SIEF_ELGA.vtu": {
+   "sha256": "54e7ffa1f930152e02b7be6eb25027e3786e3be61a7edd07092658b72ea5f82e",
+   "octets": 2645422
+  },
+  "vtu/charges.vtu": {
+   "sha256": "5309c83b32fd29fbb58c23321269c9291233cf7603ca25ec82bd1d655aec2773",
+   "octets": 15332214
+  },
+  "vtu/combinaisons__DEPL.vtu": {
+   "sha256": "dde1cf81b79432558bf72c686818584423ca6dfd5083822444e3baea9c322f8d",
+   "octets": 38448882
+  },
+  "vtu/combinaisons__EFGE_ELNO.vtu": {
+   "sha256": "346019817a9e10a83e0eda42bb806c149e54988c3679693183bb770147fe9fb9",
+   "octets": 172131325
+  },
+  "vtu/combinaisons__EFGE_ELNO_2.vtu": {
+   "sha256": "636edce3749bca8049c2ef6398ee2f5ae1ec7c28b341288d31c539d332b1992c",
+   "octets": 1107365
+  },
+  "vtu/combinaisons__EFGE_ELNO_3.vtu": {
+   "sha256": "689905d2ae63b866161e6e99f535684a70b55c612ea1869dae9b79129a828974",
+   "octets": 971530
+  },
+  "vtu/combinaisons__EFGE_NOEU.vtu": {
+   "sha256": "1a7ec7a2c4d7f8aa916f5f98b227d1ba9ce624a6effe4e909969e7149108bd13",
+   "octets": 4831585
+  },
+  "vtu/combinaisons__REAC_NODA.vtu": {
+   "sha256": "653eca83f0b75a0e5b5aa3238c959f8e295eae1d42bbb72eb8ffc15f2dd5f7c3",
+   "octets": 164948
+  },
+  "vtu/combinaisons__SIEF_ELGA.vtu": {
+   "sha256": "217e9be3043bcfadd7573f718661a7690afb901c392a4e238baa2f9edad673dc",
+   "octets": 5655616
+  },
+  "vtu/enveloppes__DEPL.vtu": {
+   "sha256": "744d29077ff0e3641724bfe56548bdb4edb117b8cbb7859a0ec81aea510642f2",
+   "octets": 15332622
+  },
+  "vtu/enveloppes__EFGE_ELNO.vtu": {
+   "sha256": "223c41d8e294fdf458e03a23a457bd7bbc22e8b150b7134eb8fb31d2ae3b4dae",
+   "octets": 59022185
+  },
+  "vtu/enveloppes__EFGE_ELNO_2.vtu": {
+   "sha256": "2a50aa5f0999f213532973282a56bc23c29a9d172e8b4309d3cb78b11f77f2d8",
+   "octets": 1011341
+  },
+  "vtu/enveloppes__EFGE_ELNO_3.vtu": {
+   "sha256": "584ef7157adf4946c6900ec2a550ce0bcc1da1c3d92c251ca52aa9df994683f6",
+   "octets": 966138
+  },
+  "vtu/enveloppes__EFGE_NOEU.vtu": {
+   "sha256": "3d3d723a617e2bcd61d32a7eb080c56b24ebbe5fca2443370fd6077827af2fdb",
+   "octets": 1720473
+  },
+  "vtu/enveloppes__REAC_NODA.vtu": {
+   "sha256": "dec272ba0a40f1c3473b5a91866e0a305c2de4dc161ff491c0e5032a457eaedb",
+   "octets": 64247
+  },
+  "vtu/enveloppes__SIEF_ELGA.vtu": {
+   "sha256": "c52a3159b32524a7a6d170611eafd4a9881309cfd3d46ff497ac414428b4d68c",
+   "octets": 2645500
+  }
+ },
+ "vtu": {
+  "cas__DEPL.vtu": {
+   "fichier": "cas__DEPL.vtu",
+   "octets": 15332466,
+   "tableaux": 36,
+   "valeurs": 1444104,
+   "differents": [],
+   "identiques": true
+  },
+  "combinaisons__DEPL.vtu": {
+   "fichier": "combinaisons__DEPL.vtu",
+   "octets": 38448882,
+   "tableaux": 108,
+   "valeurs": 4332312,
+   "differents": [],
+   "identiques": true
+  },
+  "enveloppes__DEPL.vtu": {
+   "fichier": "enveloppes__DEPL.vtu",
+   "octets": 15332622,
+   "tableaux": 36,
+   "valeurs": 1444104,
+   "differents": [],
+   "identiques": true
+  },
+  "cas__EFGE_NOEU.vtu": {
+   "fichier": "cas__EFGE_NOEU.vtu",
+   "octets": 1720265,
+   "tableaux": 48,
+   "valeurs": 193536,
+   "differents": [],
+   "identiques": true
+  },
+  "combinaisons__EFGE_NOEU.vtu": {
+   "fichier": "combinaisons__EFGE_NOEU.vtu",
+   "octets": 4831585,
+   "tableaux": 144,
+   "valeurs": 580608,
+   "differents": [],
+   "identiques": true
+  },
+  "enveloppes__EFGE_NOEU.vtu": {
+   "fichier": "enveloppes__EFGE_NOEU.vtu",
+   "octets": 1720473,
+   "tableaux": 48,
+   "valeurs": 193536,
+   "differents": [],
+   "identiques": true
+  },
+  "cas__EFGE_ELNO.vtu": {
+   "fichier": "cas__EFGE_ELNO.vtu",
+   "octets": 59021353,
+   "tableaux": 192,
+   "valeurs": 7065600,
+   "differents": [],
+   "identiques": true
+  },
+  "combinaisons__EFGE_ELNO.vtu": {
+   "fichier": "combinaisons__EFGE_ELNO.vtu",
+   "octets": 172131325,
+   "tableaux": 576,
+   "valeurs": 21196800,
+   "differents": [],
+   "identiques": true
+  },
+  "enveloppes__EFGE_ELNO.vtu": {
+   "fichier": "enveloppes__EFGE_ELNO.vtu",
+   "octets": 59022185,
+   "tableaux": 192,
+   "valeurs": 7065600,
+   "differents": [],
+   "identiques": true
+  },
+  "cas__EFGE_ELNO_2.vtu": {
+   "fichier": "cas__EFGE_ELNO_2.vtu",
+   "octets": 1011029,
+   "tableaux": 72,
+   "valeurs": 4608,
+   "differents": [],
+   "identiques": true
+  },
+  "combinaisons__EFGE_ELNO_2.vtu": {
+   "fichier": "combinaisons__EFGE_ELNO_2.vtu",
+   "octets": 1107365,
+   "tableaux": 216,
+   "valeurs": 13824,
+   "differents": [],
+   "identiques": true
+  },
+  "enveloppes__EFGE_ELNO_2.vtu": {
+   "fichier": "enveloppes__EFGE_ELNO_2.vtu",
+   "octets": 1011341,
+   "tableaux": 72,
+   "valeurs": 4608,
+   "differents": [],
+   "identiques": true
+  },
+  "cas__EFGE_ELNO_3.vtu": {
+   "fichier": "cas__EFGE_ELNO_3.vtu",
+   "octets": 966086,
+   "tableaux": 12,
+   "valeurs": 108,
+   "differents": [],
+   "identiques": true
+  },
+  "combinaisons__EFGE_ELNO_3.vtu": {
+   "fichier": "combinaisons__EFGE_ELNO_3.vtu",
+   "octets": 971530,
+   "tableaux": 36,
+   "valeurs": 324,
+   "differents": [],
+   "identiques": true
+  },
+  "enveloppes__EFGE_ELNO_3.vtu": {
+   "fichier": "enveloppes__EFGE_ELNO_3.vtu",
+   "octets": 966138,
+   "tableaux": 12,
+   "valeurs": 108,
+   "differents": [],
+   "identiques": true
+  },
+  "cas__REAC_NODA.vtu": {
+   "fichier": "cas__REAC_NODA.vtu",
+   "octets": 64169,
+   "tableaux": 18,
+   "valeurs": 5958,
+   "differents": [],
+   "identiques": true
+  },
+  "combinaisons__REAC_NODA.vtu": {
+   "fichier": "combinaisons__REAC_NODA.vtu",
+   "octets": 164948,
+   "tableaux": 54,
+   "valeurs": 17874,
+   "differents": [],
+   "identiques": true
+  },
+  "enveloppes__REAC_NODA.vtu": {
+   "fichier": "enveloppes__REAC_NODA.vtu",
+   "octets": 64247,
+   "tableaux": 18,
+   "valeurs": 5958,
+   "differents": [],
+   "identiques": true
+  },
+  "cas__SIEF_ELGA.vtu": {
+   "fichier": "cas__SIEF_ELGA.vtu",
+   "octets": 2645422,
+   "tableaux": 18,
+   "valeurs": 187794,
+   "differents": [],
+   "identiques": true
+  },
+  "combinaisons__SIEF_ELGA.vtu": {
+   "fichier": "combinaisons__SIEF_ELGA.vtu",
+   "octets": 5655616,
+   "tableaux": 54,
+   "valeurs": 563382,
+   "differents": [],
+   "identiques": true
+  },
+  "enveloppes__SIEF_ELGA.vtu": {
+   "fichier": "enveloppes__SIEF_ELGA.vtu",
+   "octets": 2645500,
+   "tableaux": 18,
+   "valeurs": 187794,
+   "differents": [],
+   "identiques": true
+  },
+  "charges.vtu": {
+   "fichier": "charges.vtu",
+   "octets": 15332214,
+   "tableaux": 36,
+   "valeurs": 1444104,
+   "differents": [],
+   "identiques": true
+  }
+ },
+ "cas_elementaires": [
+  "G",
+  "EAU_P",
+  "EAU_A",
+  "Q1",
+  "Q3",
+  "A"
+ ],
+ "combinaisons": [
+  {
+   "indice": 0,
+   "nom": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+   "famille": "ELU fondamentale",
+   "definition": "1.35·G + 1.35·EAU_P + 1.5·Q1 + 1.05·Q3",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 1,
+   "nom": "ELU_FOND_Q1_DOM_G_defav",
+   "famille": "ELU fondamentale",
+   "definition": "1.35·G + 1.35·EAU_P + 1.5·Q1",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 2,
+   "nom": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+   "famille": "ELU fondamentale",
+   "definition": "1·G + 1·EAU_P + 1.5·Q1 + 1.05·Q3",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 3,
+   "nom": "ELU_FOND_Q1_DOM_G_favo",
+   "famille": "ELU fondamentale",
+   "definition": "1·G + 1·EAU_P + 1.5·Q1",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 4,
+   "nom": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+   "famille": "ELU fondamentale",
+   "definition": "1.35·G + 1.35·EAU_P + 1.5·Q3 + 1.05·Q1",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 5,
+   "nom": "ELU_FOND_Q3_DOM_G_defav",
+   "famille": "ELU fondamentale",
+   "definition": "1.35·G + 1.35·EAU_P + 1.5·Q3",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 6,
+   "nom": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+   "famille": "ELU fondamentale",
+   "definition": "1·G + 1·EAU_P + 1.5·Q3 + 1.05·Q1",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 7,
+   "nom": "ELU_FOND_Q3_DOM_G_favo",
+   "famille": "ELU fondamentale",
+   "definition": "1·G + 1·EAU_P + 1.5·Q3",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 8,
+   "nom": "ELU_ACCIDENTELLE",
+   "famille": "ELU accidentelle",
+   "definition": "1·G + 1·EAU_A + 1·A + 0.5·Q1",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 9,
+   "nom": "ELS_CARA_Q1_DOM_Q3_ACC",
+   "famille": "ELS caractéristique",
+   "definition": "1·G + 1·EAU_P + 1·Q1 + 0.7·Q3",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 10,
+   "nom": "ELS_CARA_Q1_DOM",
+   "famille": "ELS caractéristique",
+   "definition": "1·G + 1·EAU_P + 1·Q1",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 11,
+   "nom": "ELS_CARA_Q3_DOM_Q1_ACC",
+   "famille": "ELS caractéristique",
+   "definition": "1·G + 1·EAU_P + 1·Q3 + 0.7·Q1",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 12,
+   "nom": "ELS_CARA_Q3_DOM",
+   "famille": "ELS caractéristique",
+   "definition": "1·G + 1·EAU_P + 1·Q3",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 13,
+   "nom": "ELS_FREQ_Q1_DOM_Q3_ACC",
+   "famille": "ELS fréquente",
+   "definition": "1·G + 1·EAU_P + 0.5·Q1 + 0.7·Q3",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 14,
+   "nom": "ELS_FREQ_Q1_DOM",
+   "famille": "ELS fréquente",
+   "definition": "1·G + 1·EAU_P + 0.5·Q1",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 15,
+   "nom": "ELS_FREQ_Q3_DOM_Q1_ACC",
+   "famille": "ELS fréquente",
+   "definition": "1·G + 1·EAU_P + 0.5·Q3 + 0.7·Q1",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 16,
+   "nom": "ELS_FREQ_Q3_DOM",
+   "famille": "ELS fréquente",
+   "definition": "1·G + 1·EAU_P + 0.5·Q3",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 17,
+   "nom": "ELS_QUASI_PERMANENTE",
+   "famille": "ELS quasi permanente",
+   "definition": "1·G + 1·EAU_P + 0.3·Q1 + 0·Q3",
+   "charge_mobile": null,
+   "positions": []
+  }
+ ],
+ "champs": [
+  {
+   "cle": "DEPL",
+   "champ": "DEPL",
+   "famille": "deplacements",
+   "groupes": [],
+   "groupes_noeuds": [],
+   "convention": "repère global (point 9) : X le long du quai de SYM_G vers SYM_D, Y vers la terre, Z ascendant",
+   "composantes": [
+    {
+     "nom": "DX",
+     "unite_si": "m",
+     "unite_affichage": "mm"
+    },
+    {
+     "nom": "DY",
+     "unite_si": "m",
+     "unite_affichage": "mm"
+    },
+    {
+     "nom": "DZ",
+     "unite_si": "m",
+     "unite_affichage": "mm"
+    },
+    {
+     "nom": "DRX",
+     "unite_si": "rad",
+     "unite_affichage": "mrad"
+    },
+    {
+     "nom": "DRY",
+     "unite_si": "rad",
+     "unite_affichage": "mrad"
+    },
+    {
+     "nom": "DRZ",
+     "unite_si": "rad",
+     "unite_affichage": "mrad"
+    }
+   ],
+   "noms_med": [
+    "CAS_G__DEPL",
+    "CAS_EAU_P__DEPL",
+    "CAS_EAU_A__DEPL",
+    "CAS_Q1__DEPL",
+    "CAS_Q3__DEPL",
+    "CAS_A__DEPL",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_defav__DEPL",
+    "COMB_ELU_FOND_Q1_DOM_G_defav__DEPL",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_favo__DEPL",
+    "COMB_ELU_FOND_Q1_DOM_G_favo__DEPL",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_defav__DEPL",
+    "COMB_ELU_FOND_Q3_DOM_G_defav__DEPL",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_favo__DEPL",
+    "COMB_ELU_FOND_Q3_DOM_G_favo__DEPL",
+    "COMB_ELU_ACCIDENTELLE__DEPL",
+    "COMB_ELS_CARA_Q1_DOM_Q3_ACC__DEPL",
+    "COMB_ELS_CARA_Q1_DOM__DEPL",
+    "COMB_ELS_CARA_Q3_DOM_Q1_ACC__DEPL",
+    "COMB_ELS_CARA_Q3_DOM__DEPL",
+    "COMB_ELS_FREQ_Q1_DOM_Q3_ACC__DEPL",
+    "COMB_ELS_FREQ_Q1_DOM__DEPL",
+    "COMB_ELS_FREQ_Q3_DOM_Q1_ACC__DEPL",
+    "COMB_ELS_FREQ_Q3_DOM__DEPL",
+    "COMB_ELS_QUASI_PERMANENTE__DEPL",
+    "ENV__DEPL__MAX",
+    "ENV__DEPL__MIN",
+    "ENV__DEPL__MAX_COMB",
+    "ENV__DEPL__MIN_COMB",
+    "ENV__DEPL__MAX_POS",
+    "ENV__DEPL__MIN_POS"
+   ]
+  },
+  {
+   "cle": "EFGE_NOEU",
+   "champ": "EFGE_NOEU",
+   "famille": "efforts_coques",
+   "groupes": [
+    "PALPS"
+   ],
+   "groupes_noeuds": [],
+   "convention": "palplanches DKT (ELAS_COQUE), repère local fixé par VECTEUR = (0, 0, 1) : axe x_l (L) vertical ; efforts par unité de largeur ; seuls EFGE_ELNO et EFGE_NOEU sont exacts sous ELAS_COQUE (CA-025)",
+   "composantes": [
+    {
+     "nom": "NXX",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "NYY",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "NXY",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "MXX",
+     "unite_si": "N·m/m",
+     "unite_affichage": "kN·m/m"
+    },
+    {
+     "nom": "MYY",
+     "unite_si": "N·m/m",
+     "unite_affichage": "kN·m/m"
+    },
+    {
+     "nom": "MXY",
+     "unite_si": "N·m/m",
+     "unite_affichage": "kN·m/m"
+    },
+    {
+     "nom": "QX",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "QY",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    }
+   ],
+   "noms_med": [
+    "CAS_G__EFGE_NOEU",
+    "CAS_EAU_P__EFGE_NOEU",
+    "CAS_EAU_A__EFGE_NOEU",
+    "CAS_Q1__EFGE_NOEU",
+    "CAS_Q3__EFGE_NOEU",
+    "CAS_A__EFGE_NOEU",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_defav__EFGE_NOEU",
+    "COMB_ELU_FOND_Q1_DOM_G_defav__EFGE_NOEU",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_favo__EFGE_NOEU",
+    "COMB_ELU_FOND_Q1_DOM_G_favo__EFGE_NOEU",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_defav__EFGE_NOEU",
+    "COMB_ELU_FOND_Q3_DOM_G_defav__EFGE_NOEU",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_favo__EFGE_NOEU",
+    "COMB_ELU_FOND_Q3_DOM_G_favo__EFGE_NOEU",
+    "COMB_ELU_ACCIDENTELLE__EFGE_NOEU",
+    "COMB_ELS_CARA_Q1_DOM_Q3_ACC__EFGE_NOEU",
+    "COMB_ELS_CARA_Q1_DOM__EFGE_NOEU",
+    "COMB_ELS_CARA_Q3_DOM_Q1_ACC__EFGE_NOEU",
+    "COMB_ELS_CARA_Q3_DOM__EFGE_NOEU",
+    "COMB_ELS_FREQ_Q1_DOM_Q3_ACC__EFGE_NOEU",
+    "COMB_ELS_FREQ_Q1_DOM__EFGE_NOEU",
+    "COMB_ELS_FREQ_Q3_DOM_Q1_ACC__EFGE_NOEU",
+    "COMB_ELS_FREQ_Q3_DOM__EFGE_NOEU",
+    "COMB_ELS_QUASI_PERMANENTE__EFGE_NOEU",
+    "ENV__EFGE_NOEU__MAX",
+    "ENV__EFGE_NOEU__MIN",
+    "ENV__EFGE_NOEU__MAX_COMB",
+    "ENV__EFGE_NOEU__MIN_COMB",
+    "ENV__EFGE_NOEU__MAX_POS",
+    "ENV__EFGE_NOEU__MIN_POS"
+   ]
+  },
+  {
+   "cle": "EFGE_ELNO",
+   "champ": "EFGE_ELNO",
+   "famille": "efforts_coques",
+   "groupes": [
+    "TUBES"
+   ],
+   "groupes_noeuds": [],
+   "convention": "tubes DKT (ELAS), repère local de chaque facette fixé par VECTEUR = (0, 0, 1) : axe x_l vertical ; efforts par unité de largeur, aux nœuds de chaque maille (ELNO, DIAG-011)",
+   "composantes": [
+    {
+     "nom": "NXX",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "NYY",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "NXY",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "MXX",
+     "unite_si": "N·m/m",
+     "unite_affichage": "kN·m/m"
+    },
+    {
+     "nom": "MYY",
+     "unite_si": "N·m/m",
+     "unite_affichage": "kN·m/m"
+    },
+    {
+     "nom": "MXY",
+     "unite_si": "N·m/m",
+     "unite_affichage": "kN·m/m"
+    },
+    {
+     "nom": "QX",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "QY",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    }
+   ],
+   "noms_med": [
+    "CAS_G__EFGE_ELNO",
+    "CAS_EAU_P__EFGE_ELNO",
+    "CAS_EAU_A__EFGE_ELNO",
+    "CAS_Q1__EFGE_ELNO",
+    "CAS_Q3__EFGE_ELNO",
+    "CAS_A__EFGE_ELNO",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_defav__EFGE_ELNO",
+    "COMB_ELU_FOND_Q1_DOM_G_defav__EFGE_ELNO",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_favo__EFGE_ELNO",
+    "COMB_ELU_FOND_Q1_DOM_G_favo__EFGE_ELNO",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_defav__EFGE_ELNO",
+    "COMB_ELU_FOND_Q3_DOM_G_defav__EFGE_ELNO",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_favo__EFGE_ELNO",
+    "COMB_ELU_FOND_Q3_DOM_G_favo__EFGE_ELNO",
+    "COMB_ELU_ACCIDENTELLE__EFGE_ELNO",
+    "COMB_ELS_CARA_Q1_DOM_Q3_ACC__EFGE_ELNO",
+    "COMB_ELS_CARA_Q1_DOM__EFGE_ELNO",
+    "COMB_ELS_CARA_Q3_DOM_Q1_ACC__EFGE_ELNO",
+    "COMB_ELS_CARA_Q3_DOM__EFGE_ELNO",
+    "COMB_ELS_FREQ_Q1_DOM_Q3_ACC__EFGE_ELNO",
+    "COMB_ELS_FREQ_Q1_DOM__EFGE_ELNO",
+    "COMB_ELS_FREQ_Q3_DOM_Q1_ACC__EFGE_ELNO",
+    "COMB_ELS_FREQ_Q3_DOM__EFGE_ELNO",
+    "COMB_ELS_QUASI_PERMANENTE__EFGE_ELNO",
+    "ENV__EFGE_ELNO__MAX",
+    "ENV__EFGE_ELNO__MIN",
+    "ENV__EFGE_ELNO__MAX_COMB",
+    "ENV__EFGE_ELNO__MIN_COMB",
+    "ENV__EFGE_ELNO__MAX_POS",
+    "ENV__EFGE_ELNO__MIN_POS"
+   ]
+  },
+  {
+   "cle": "EFGE_ELNO_2",
+   "champ": "EFGE_ELNO",
+   "famille": "efforts_poutres",
+   "groupes": [
+    "POUTRE_COUR"
+   ],
+   "groupes_noeuds": [],
+   "convention": "poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)",
+   "composantes": [
+    {
+     "nom": "N",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    },
+    {
+     "nom": "VY",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    },
+    {
+     "nom": "VZ",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    },
+    {
+     "nom": "MT",
+     "unite_si": "N·m",
+     "unite_affichage": "kN·m"
+    },
+    {
+     "nom": "MFY",
+     "unite_si": "N·m",
+     "unite_affichage": "kN·m"
+    },
+    {
+     "nom": "MFZ",
+     "unite_si": "N·m",
+     "unite_affichage": "kN·m"
+    }
+   ],
+   "noms_med": [
+    "CAS_G__EFGE_ELNO_2",
+    "CAS_EAU_P__EFGE_ELNO_2",
+    "CAS_EAU_A__EFGE_ELNO_2",
+    "CAS_Q1__EFGE_ELNO_2",
+    "CAS_Q3__EFGE_ELNO_2",
+    "CAS_A__EFGE_ELNO_2",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_defav__EFGE_ELNO_2",
+    "COMB_ELU_FOND_Q1_DOM_G_defav__EFGE_ELNO_2",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_favo__EFGE_ELNO_2",
+    "COMB_ELU_FOND_Q1_DOM_G_favo__EFGE_ELNO_2",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_defav__EFGE_ELNO_2",
+    "COMB_ELU_FOND_Q3_DOM_G_defav__EFGE_ELNO_2",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_favo__EFGE_ELNO_2",
+    "COMB_ELU_FOND_Q3_DOM_G_favo__EFGE_ELNO_2",
+    "COMB_ELU_ACCIDENTELLE__EFGE_ELNO_2",
+    "COMB_ELS_CARA_Q1_DOM_Q3_ACC__EFGE_ELNO_2",
+    "COMB_ELS_CARA_Q1_DOM__EFGE_ELNO_2",
+    "COMB_ELS_CARA_Q3_DOM_Q1_ACC__EFGE_ELNO_2",
+    "COMB_ELS_CARA_Q3_DOM__EFGE_ELNO_2",
+    "COMB_ELS_FREQ_Q1_DOM_Q3_ACC__EFGE_ELNO_2",
+    "COMB_ELS_FREQ_Q1_DOM__EFGE_ELNO_2",
+    "COMB_ELS_FREQ_Q3_DOM_Q1_ACC__EFGE_ELNO_2",
+    "COMB_ELS_FREQ_Q3_DOM__EFGE_ELNO_2",
+    "COMB_ELS_QUASI_PERMANENTE__EFGE_ELNO_2",
+    "ENV__EFGE_ELNO_2__MAX",
+    "ENV__EFGE_ELNO_2__MIN",
+    "ENV__EFGE_ELNO_2__MAX_COMB",
+    "ENV__EFGE_ELNO_2__MIN_COMB",
+    "ENV__EFGE_ELNO_2__MAX_POS",
+    "ENV__EFGE_ELNO_2__MIN_POS"
+   ]
+  },
+  {
+   "cle": "EFGE_ELNO_3",
+   "champ": "EFGE_ELNO",
+   "famille": "efforts_poutres",
+   "groupes": [
+    "TIRANTS"
+   ],
+   "groupes_noeuds": [],
+   "convention": "tirants BARRE : effort normal seul, N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)",
+   "composantes": [
+    {
+     "nom": "N",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    }
+   ],
+   "noms_med": [
+    "CAS_G__EFGE_ELNO_3",
+    "CAS_EAU_P__EFGE_ELNO_3",
+    "CAS_EAU_A__EFGE_ELNO_3",
+    "CAS_Q1__EFGE_ELNO_3",
+    "CAS_Q3__EFGE_ELNO_3",
+    "CAS_A__EFGE_ELNO_3",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_defav__EFGE_ELNO_3",
+    "COMB_ELU_FOND_Q1_DOM_G_defav__EFGE_ELNO_3",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_favo__EFGE_ELNO_3",
+    "COMB_ELU_FOND_Q1_DOM_G_favo__EFGE_ELNO_3",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_defav__EFGE_ELNO_3",
+    "COMB_ELU_FOND_Q3_DOM_G_defav__EFGE_ELNO_3",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_favo__EFGE_ELNO_3",
+    "COMB_ELU_FOND_Q3_DOM_G_favo__EFGE_ELNO_3",
+    "COMB_ELU_ACCIDENTELLE__EFGE_ELNO_3",
+    "COMB_ELS_CARA_Q1_DOM_Q3_ACC__EFGE_ELNO_3",
+    "COMB_ELS_CARA_Q1_DOM__EFGE_ELNO_3",
+    "COMB_ELS_CARA_Q3_DOM_Q1_ACC__EFGE_ELNO_3",
+    "COMB_ELS_CARA_Q3_DOM__EFGE_ELNO_3",
+    "COMB_ELS_FREQ_Q1_DOM_Q3_ACC__EFGE_ELNO_3",
+    "COMB_ELS_FREQ_Q1_DOM__EFGE_ELNO_3",
+    "COMB_ELS_FREQ_Q3_DOM_Q1_ACC__EFGE_ELNO_3",
+    "COMB_ELS_FREQ_Q3_DOM__EFGE_ELNO_3",
+    "COMB_ELS_QUASI_PERMANENTE__EFGE_ELNO_3",
+    "ENV__EFGE_ELNO_3__MAX",
+    "ENV__EFGE_ELNO_3__MIN",
+    "ENV__EFGE_ELNO_3__MAX_COMB",
+    "ENV__EFGE_ELNO_3__MIN_COMB",
+    "ENV__EFGE_ELNO_3__MAX_POS",
+    "ENV__EFGE_ELNO_3__MIN_POS"
+   ]
+  },
+  {
+   "cle": "REAC_NODA",
+   "champ": "REAC_NODA",
+   "famille": "reactions",
+   "groupes": [],
+   "groupes_noeuds": [
+    "PIED_TUBES",
+    "ANCRAGES"
+   ],
+   "convention": "repère global ; pieds des tubes (DZ bloqué) et ancrages (DX, DY, DZ bloqués) ; jamais aux nœuds d'éléments ELAS_COQUE (CA-026)",
+   "composantes": [
+    {
+     "nom": "DX",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    },
+    {
+     "nom": "DY",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    },
+    {
+     "nom": "DZ",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    }
+   ],
+   "noms_med": [
+    "CAS_G__REAC_NODA",
+    "CAS_EAU_P__REAC_NODA",
+    "CAS_EAU_A__REAC_NODA",
+    "CAS_Q1__REAC_NODA",
+    "CAS_Q3__REAC_NODA",
+    "CAS_A__REAC_NODA",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_defav__REAC_NODA",
+    "COMB_ELU_FOND_Q1_DOM_G_defav__REAC_NODA",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_favo__REAC_NODA",
+    "COMB_ELU_FOND_Q1_DOM_G_favo__REAC_NODA",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_defav__REAC_NODA",
+    "COMB_ELU_FOND_Q3_DOM_G_defav__REAC_NODA",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_favo__REAC_NODA",
+    "COMB_ELU_FOND_Q3_DOM_G_favo__REAC_NODA",
+    "COMB_ELU_ACCIDENTELLE__REAC_NODA",
+    "COMB_ELS_CARA_Q1_DOM_Q3_ACC__REAC_NODA",
+    "COMB_ELS_CARA_Q1_DOM__REAC_NODA",
+    "COMB_ELS_CARA_Q3_DOM_Q1_ACC__REAC_NODA",
+    "COMB_ELS_CARA_Q3_DOM__REAC_NODA",
+    "COMB_ELS_FREQ_Q1_DOM_Q3_ACC__REAC_NODA",
+    "COMB_ELS_FREQ_Q1_DOM__REAC_NODA",
+    "COMB_ELS_FREQ_Q3_DOM_Q1_ACC__REAC_NODA",
+    "COMB_ELS_FREQ_Q3_DOM__REAC_NODA",
+    "COMB_ELS_QUASI_PERMANENTE__REAC_NODA",
+    "ENV__REAC_NODA__MAX",
+    "ENV__REAC_NODA__MIN",
+    "ENV__REAC_NODA__MAX_COMB",
+    "ENV__REAC_NODA__MIN_COMB",
+    "ENV__REAC_NODA__MAX_POS",
+    "ENV__REAC_NODA__MIN_POS"
+   ]
+  },
+  {
+   "cle": "SIEF_ELGA",
+   "champ": "SIEF_ELGA",
+   "famille": "ressorts",
+   "groupes": [
+    "GEN_RESS_ARGI_01",
+    "GEN_RESS_ARGI_02",
+    "GEN_RESS_ARGI_03",
+    "GEN_RESS_ARGI_04",
+    "GEN_RESS_ARGI_05",
+    "GEN_RESS_ARGI_06",
+    "GEN_RESS_ARGI_07",
+    "GEN_RESS_ARGI_08",
+    "GEN_RESS_ARGI_09",
+    "GEN_RESS_ARGI_10",
+    "GEN_RESS_ARGI_11",
+    "GEN_RESS_ARGI_12",
+    "GEN_RESS_ARGI_13",
+    "GEN_RESS_ARGI_14",
+    "GEN_RESS_ARGI_15",
+    "GEN_RESS_ARGI_16",
+    "GEN_RESS_ARGI_17",
+    "GEN_RESS_ARGI_18",
+    "GEN_RESS_ARGI_19",
+    "GEN_RESS_ARGI_20",
+    "GEN_RESS_ARGI_21",
+    "GEN_RESS_ARGI_22",
+    "GEN_RESS_ARGI_23",
+    "GEN_RESS_ARGI_24",
+    "GEN_RESS_ARGI_25",
+    "GEN_RESS_COMM_01",
+    "GEN_RESS_COMM_02",
+    "GEN_RESS_COMM_03",
+    "GEN_RESS_COMM_04",
+    "GEN_RESS_COMM_05",
+    "GEN_RESS_COMM_06",
+    "GEN_RESS_COMM_07",
+    "GEN_RESS_COMM_08",
+    "GEN_RESS_COMM_09",
+    "GEN_RESS_COMM_10",
+    "GEN_RESS_COMM_11",
+    "GEN_RESS_COMM_12",
+    "GEN_RESS_MARNE_01",
+    "GEN_RESS_MARNE_02",
+    "GEN_RESS_MARNE_03",
+    "GEN_RESS_MARNE_04",
+    "GEN_RESS_MARNE_05",
+    "GEN_RESS_MARNE_06",
+    "GEN_RESS_MARNE_07",
+    "GEN_RESS_MARNE_08",
+    "GEN_RESS_MARNE_09",
+    "GEN_RESS_MARNE_10",
+    "GEN_RESS_MARNE_11",
+    "GEN_RESS_MARNE_12",
+    "GEN_RESS_MARNE_13",
+    "GEN_RESS_MARNE_14",
+    "GEN_RESS_MARNE_15",
+    "GEN_RESS_MARNE_16",
+    "GEN_RESS_MARNE_17",
+    "GEN_RESS_MARNE_18",
+    "GEN_RESS_MARNE_19",
+    "GEN_RESS_MARNE_20",
+    "GEN_RESS_MARNE_21",
+    "GEN_RESS_MARNE_22",
+    "GEN_RESS_MARNE_23"
+   ],
+   "groupes_noeuds": [],
+   "convention": "ressorts DIS_T horizontaux selon Y (K_T_D_N, repère global, décision 5) : effort interne k·u ; la force exercée par le ressort sur l'écran est −k·u",
+   "composantes": [
+    {
+     "nom": "N",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    },
+    {
+     "nom": "VY",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    },
+    {
+     "nom": "VZ",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    }
+   ],
+   "noms_med": [
+    "CAS_G__SIEF_ELGA",
+    "CAS_EAU_P__SIEF_ELGA",
+    "CAS_EAU_A__SIEF_ELGA",
+    "CAS_Q1__SIEF_ELGA",
+    "CAS_Q3__SIEF_ELGA",
+    "CAS_A__SIEF_ELGA",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_defav__SIEF_ELGA",
+    "COMB_ELU_FOND_Q1_DOM_G_defav__SIEF_ELGA",
+    "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_favo__SIEF_ELGA",
+    "COMB_ELU_FOND_Q1_DOM_G_favo__SIEF_ELGA",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_defav__SIEF_ELGA",
+    "COMB_ELU_FOND_Q3_DOM_G_defav__SIEF_ELGA",
+    "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_favo__SIEF_ELGA",
+    "COMB_ELU_FOND_Q3_DOM_G_favo__SIEF_ELGA",
+    "COMB_ELU_ACCIDENTELLE__SIEF_ELGA",
+    "COMB_ELS_CARA_Q1_DOM_Q3_ACC__SIEF_ELGA",
+    "COMB_ELS_CARA_Q1_DOM__SIEF_ELGA",
+    "COMB_ELS_CARA_Q3_DOM_Q1_ACC__SIEF_ELGA",
+    "COMB_ELS_CARA_Q3_DOM__SIEF_ELGA",
+    "COMB_ELS_FREQ_Q1_DOM_Q3_ACC__SIEF_ELGA",
+    "COMB_ELS_FREQ_Q1_DOM__SIEF_ELGA",
+    "COMB_ELS_FREQ_Q3_DOM_Q1_ACC__SIEF_ELGA",
+    "COMB_ELS_FREQ_Q3_DOM__SIEF_ELGA",
+    "COMB_ELS_QUASI_PERMANENTE__SIEF_ELGA",
+    "ENV__SIEF_ELGA__MAX",
+    "ENV__SIEF_ELGA__MIN",
+    "ENV__SIEF_ELGA__MAX_COMB",
+    "ENV__SIEF_ELGA__MIN_COMB",
+    "ENV__SIEF_ELGA__MAX_POS",
+    "ENV__SIEF_ELGA__MIN_POS"
+   ]
+  }
+ ],
+ "charges": [
+  {
+   "nom_med": "FN_A",
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "unite_si": "N (DX…DZ), N·m (DRX…DRZ)"
+  },
+  {
+   "nom_med": "FN_EAU_A",
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "unite_si": "N (DX…DZ), N·m (DRX…DRZ)"
+  },
+  {
+   "nom_med": "FN_EAU_P",
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "unite_si": "N (DX…DZ), N·m (DRX…DRZ)"
+  },
+  {
+   "nom_med": "FN_G",
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "unite_si": "N (DX…DZ), N·m (DRX…DRZ)"
+  },
+  {
+   "nom_med": "FN_Q1",
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "unite_si": "N (DX…DZ), N·m (DRX…DRZ)"
+  },
+  {
+   "nom_med": "FN_Q3",
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "unite_si": "N (DX…DZ), N·m (DRX…DRZ)"
+  }
+ ],
+ "echelles": {
+  "taille_du_modele_m": 44.26457387121218,
+  "charges": {
+   "FN_A": 20000.000000071836,
+   "FN_EAU_A": 2079.999999999998,
+   "FN_EAU_P": 885.000000000004,
+   "FN_G": 223674.71779325,
+   "FN_Q1": 44772.00000000001,
+   "FN_Q3": 999977.9997579947
+  },
+  "deplacements": {
+   "CAS_G__DEPL": 0.038946859012343585,
+   "CAS_EAU_P__DEPL": 0.018709856018652844,
+   "CAS_EAU_A__DEPL": 0.043378029814935014,
+   "CAS_Q1__DEPL": 0.016916785907411767,
+   "CAS_Q3__DEPL": 0.005086081672413641,
+   "CAS_A__DEPL": 0.007582192752767688,
+   "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_defav__DEPL": 0.10368526408887377,
+   "COMB_ELU_FOND_Q1_DOM_G_defav__DEPL": 0.10192490120275023,
+   "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_favo__DEPL": 0.08368900033890438,
+   "COMB_ELU_FOND_Q1_DOM_G_favo__DEPL": 0.08186650357157801,
+   "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_defav__DEPL": 0.09707275823743312,
+   "COMB_ELU_FOND_Q3_DOM_G_defav__DEPL": 0.07990412636441942,
+   "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_favo__DEPL": 0.07706593802638227,
+   "COMB_ELU_FOND_Q3_DOM_G_favo__DEPL": 0.059824732764738674,
+   "COMB_ELU_ACCIDENTELLE__DEPL": 0.08831420681794129,
+   "COMB_ELS_CARA_Q1_DOM_Q3_ACC__DEPL": 0.07485446337152667,
+   "COMB_ELS_CARA_Q1_DOM__DEPL": 0.07368090664458178,
+   "COMB_ELS_CARA_Q3_DOM_Q1_ACC__DEPL": 0.07044611427883347,
+   "COMB_ELS_CARA_Q3_DOM__DEPL": 0.05901101059027347,
+   "COMB_ELS_FREQ_Q1_DOM_Q3_ACC__DEPL": 0.06666885230143194,
+   "COMB_ELS_FREQ_Q1_DOM__DEPL": 0.06554078449029291,
+   "COMB_ELS_FREQ_Q3_DOM_Q1_ACC__DEPL": 0.0696077733906616,
+   "COMB_ELS_FREQ_Q3_DOM__DEPL": 0.058213560939541664,
+   "COMB_ELS_QUASI_PERMANENTE__DEPL": 0.062290972839297,
+   "ENV__DEPL__MAX": 0.058222320999309386,
+   "ENV__DEPL__MIN": 0.10368644043268567
+  },
+  "fleches": {
+   "CAS_G__REAC_NODA": 423651.7108241968,
+   "CAS_EAU_P__REAC_NODA": 218881.1141592903,
+   "CAS_EAU_A__REAC_NODA": 513686.3456292896,
+   "CAS_Q1__REAC_NODA": 259798.61052150663,
+   "CAS_Q3__REAC_NODA": 127094.40008288811,
+   "CAS_A__REAC_NODA": 96721.1720444512,
+   "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_defav__REAC_NODA": 1390550.134631603,
+   "COMB_ELU_FOND_Q1_DOM_G_defav__REAC_NODA": 1257102.2171049246,
+   "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_favo__REAC_NODA": 1165666.873404743,
+   "COMB_ELU_FOND_Q1_DOM_G_favo__REAC_NODA": 1032218.7119454755,
+   "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_defav__REAC_NODA": 1330833.7482516286,
+   "COMB_ELU_FOND_Q3_DOM_G_defav__REAC_NODA": 1058048.2589315802,
+   "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_favo__REAC_NODA": 1105950.3790827924,
+   "COMB_ELU_FOND_Q3_DOM_G_favo__REAC_NODA": 833164.3968614849,
+   "COMB_ELU_ACCIDENTELLE__REAC_NODA": 980393.2987038109,
+   "COMB_ELS_CARA_Q1_DOM_Q3_ACC__REAC_NODA": 991285.8325115511,
+   "COMB_ELS_CARA_Q1_DOM__REAC_NODA": 902320.6121510941,
+   "COMB_ELS_CARA_Q3_DOM_Q1_ACC__REAC_NODA": 951474.9342099541,
+   "COMB_ELS_CARA_Q3_DOM__REAC_NODA": 769618.0534085206,
+   "COMB_ELS_FREQ_Q1_DOM_Q3_ACC__REAC_NODA": 861387.8421433162,
+   "COMB_ELS_FREQ_Q1_DOM__REAC_NODA": 772422.9178044304,
+   "COMB_ELS_FREQ_Q3_DOM_Q1_ACC__REAC_NODA": 887928.3843014564,
+   "COMB_ELS_FREQ_Q3_DOM__REAC_NODA": 706071.8641422372,
+   "COMB_ELS_QUASI_PERMANENTE__REAC_NODA": 720464.0027151015,
+   "ENV__REAC_NODA__MAX": 1330012.8393300197,
+   "ENV__REAC_NODA__MIN": 814391.1845511114,
+   "CAS_G__SIEF_ELGA": 18735.98832587509,
+   "CAS_EAU_P__SIEF_ELGA": 6958.051978034773,
+   "CAS_EAU_A__SIEF_ELGA": 16192.351042794724,
+   "CAS_Q1__SIEF_ELGA": 6428.7595305204395,
+   "CAS_Q3__SIEF_ELGA": 174.30593876197935,
+   "CAS_A__SIEF_ELGA": 758.8202890524423,
+   "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_defav__SIEF_ELGA": 44513.114941653126,
+   "COMB_ELU_FOND_Q1_DOM_G_defav__SIEF_ELGA": 44330.093706040214,
+   "COMB_ELU_FOND_Q1_DOM_Q3_ACC_G_favo__SIEF_ELGA": 35520.200835306685,
+   "COMB_ELU_FOND_Q1_DOM_G_favo__SIEF_ELGA": 35337.1795996766,
+   "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_defav__SIEF_ELGA": 41698.61082536812,
+   "COMB_ELU_FOND_Q3_DOM_G_defav__SIEF_ELGA": 34948.413318336374,
+   "COMB_ELU_FOND_Q3_DOM_Q1_ACC_G_favo__SIEF_ELGA": 32705.696719021686,
+   "COMB_ELU_FOND_Q3_DOM_G_favo__SIEF_ELGA": 25955.499211989936,
+   "COMB_ELU_ACCIDENTELLE__SIEF_ELGA": 37781.04394646141,
+   "COMB_ELS_CARA_Q1_DOM_Q3_ACC__SIEF_ELGA": 32244.81399148678,
+   "COMB_ELS_CARA_Q1_DOM__SIEF_ELGA": 32122.799834416408,
+   "COMB_ELS_CARA_Q3_DOM_Q1_ACC__SIEF_ELGA": 30368.477913963445,
+   "COMB_ELS_CARA_Q3_DOM__SIEF_ELGA": 25868.346242608946,
+   "COMB_ELS_FREQ_Q1_DOM_Q3_ACC__SIEF_ELGA": 29030.434226233567,
+   "COMB_ELS_FREQ_Q1_DOM__SIEF_ELGA": 28908.42006915622,
+   "COMB_ELS_FREQ_Q3_DOM_Q1_ACC__SIEF_ELGA": 30281.324944582455,
+   "COMB_ELS_FREQ_Q3_DOM__SIEF_ELGA": 25781.193273227957,
+   "COMB_ELS_QUASI_PERMANENTE__SIEF_ELGA": 27622.66816305214,
+   "ENV__SIEF_ELGA__MAX": 25781.193273227957,
+   "ENV__SIEF_ELGA__MIN": 44513.114941653126
+  }
+ }
+}

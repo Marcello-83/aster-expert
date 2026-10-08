@@ -674,7 +674,16 @@ def _tolerates(text: str, source: float) -> bool:
     shown = parse_number(text)
     if shown is None:
         return False
-    return abs(shown - source) <= displayed_tolerance(text) * abs(source) + 1e-300
+    if abs(shown - source) <= displayed_tolerance(text) * abs(source) + 1e-300:
+        return True
+    # Lot 49 : un nombre en décimales fixes (table config/arrondis.yaml, colonne qui
+    # déclare son unité) porte une précision absolue, une demi-unité de sa dernière
+    # décimale : −1,5e-6 N affiché « 0 » est juste.
+    cleaned = text.strip().replace(",", ".").replace("−", "-").lower()
+    if "e" in cleaned:
+        return False
+    decimals = len(cleaned.split(".")[1]) if "." in cleaned else 0
+    return abs(shown - source) <= 0.5 * 10.0**-decimals * (1 + 1e-12)
 
 
 __all__ = [

@@ -122,6 +122,11 @@ execution:
   memory_mb: auto  # memory_share × mémoire disponible / mpi_nbcpu − marge
   ncpus: 1
   mpi_processes: 1
+  # Lot 49 (mesures de l'étape 0, docs/essais_lot49.md § 4.1) : au-delà de 4 fils
+  # OpenMP, une exécution ralentit (production de l'estacade : 1,34 à 4 fils, 0,71 à
+  # 14 fils). Règle : fils = min(useful_threads_max, processeurs ÷ exécutions
+  # simultanées), aster_expert.execution.regle_fils.
+  useful_threads_max: 4
   # `addmem` de la configuration run_aster de l'image 17.4.0 (share/aster/config.json,
   # relevé au lot 47 quater), ajouté par run_sbatch à la réservation d'un calcul.
   memory_margin_mb: 2800

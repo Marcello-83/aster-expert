@@ -1,0 +1,53 @@
+id: DIAG-028
+title: CARA_ELEM sous IMPR_RESU/RESU pour SIEF_ELGA de discrets sans sous-points (alarme MED2_13)
+summary: IMPR_RESU au format MED de SIEF_ELGA sur des éléments DIS_T avec CARA_ELEM donne l'alarme
+  MED2_13 (aucun élément à sous-points, CARA_ELEM ignoré) ; sous DEBUT(ERREUR=_F(ALARME='EXCEPTION'))
+  elle devient une erreur fatale.
+origin_project: quai_cw_test_01
+date: '2026-10-08'
+validation_level: A
+status: observé
+sources:
+- kind: execution
+  run: 20261008T121847-521dfdf5
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 49, post-traitement des livrables du quai : IMPR_RESU(FORMAT="MED", RESU=_F(RESULTAT=...,
+    NOM_CHAM="SIEF_ELGA", GROUP_MA=(GEN_RESS_*), CARA_ELEM=CARA)) ; <E> CATAMESS_3 puis <F> MED2_13
+    « Aucun élément de structure de type COQUE, GRILLE, TUYAU ou PMF contenant des sous-points pour
+    le champ SIEF_ELGA. Le CARA_ELEM est ignoré. Conseil : Supprimer le mot-clé CARA_ELEM sous le
+    mot clé facteur RESU »'
+- kind: execution
+  run: 20261008T115348-9d3191e5
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: 'lot 49, post-traitement des livrables de l''estacade (sans ALARME=EXCEPTION), .comm
+    généré avant la correction : 59 alarmes MED2_13 et 11 CATAMESS_41 (affichage plafonné) ;
+    CARA_ELEM ignoré, tables identiques à la production (135 668 valeurs)'
+commands:
+- IMPR_RESU
+keywords:
+- CARA_ELEM
+- MED2_13
+- SIEF_ELGA
+- DIS_T
+reuses: []
+status_history: []
+category: préparation
+signature:
+  kind: <F>
+  identifiers:
+  - MED2_13
+  pattern: null
+cause: CARA_ELEM sous IMPR_RESU/RESU ne sert qu'aux champs à sous-points (DIAG-005) ; donné pour
+  SIEF_ELGA d'éléments discrets, Code_Aster l'ignore avec l'alarme MED2_13, que le quai aggrave en
+  erreur (DEBUT(ERREUR=_F(ALARME='EXCEPTION'))).
+cause_established: true
+correction: Ne pas donner CARA_ELEM à une occurrence de RESU dont le champ n'a pas de sous-points
+  (forces des ressorts DIS_T) ; aster_expert.livrables.postcomm ne le donne plus pour la famille
+  ressorts.
+prevention: Le générateur des livrables n'écrit CARA_ELEM que hors de la famille ressorts.

@@ -602,3 +602,4 @@ Invariants : 599, tenus : 599, en écart : 0
 [OK    ] nœuds confondus | paires de nœuds à moins de 1e-09 | attendu : 0 | obtenu : 0
 
 Tous les invariants sont tenus.
+[grille] grille 0.001 m, epsilon 1e-06 : 1162 coordonnée(s) presque sur la grille sans y être sur 120342 (1058 nœud(s) sur 40114), écart maximal 1.776e-15 : écart rapporté

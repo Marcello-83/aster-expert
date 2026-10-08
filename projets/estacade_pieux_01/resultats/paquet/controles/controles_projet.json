@@ -2489,7 +2489,10 @@
   "variant": "reference",
   "tr_axle": false,
   "cell": 0.05,
+  "mesh_size": null,
   "post": "FORCE",
-  "resi_rela": null
+  "resi_rela": null,
+  "mixed_plug": false,
+  "deck_level": null
  }
 }

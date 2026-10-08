@@ -46,12 +46,17 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from calcul import combine, envelope, with_moving  # noqa: E402
 
-_KIND = {ml.ON_NODES: 0, ml.ON_GAUSS_NE: 1, ml.ON_GAUSS_PT: 2}
+_KIND = {ml.ON_NODES: 0, ml.ON_GAUSS_NE: 1, ml.ON_GAUSS_PT: 2, ml.ON_CELLS: 2}
+"""Row kinds: 0 node, 1 element-node, 2 one value per element (a Gauss point or a
+cell: the forces of a POI1 discrete element are written ON_CELLS)."""
 _LEVELS = (0, -1, -2, -3)
 
 
 def _raw(field: object) -> np.ndarray:
-    return field.getUndergroundDataArray().toNumPyArray().copy()
+    """The raw array, always (rows, components): one component comes out 1-D."""
+    array = field.getUndergroundDataArray()
+    values = array.toNumPyArray().copy()
+    return values.reshape(array.getNumberOfTuples(), array.getNumberOfComponents())
 
 
 def _one(path: str, name: str, iteration: tuple[int, int] | None = None) -> object:

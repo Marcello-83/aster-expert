@@ -4,6 +4,7 @@
   "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
   "validation_level": "B",
   "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+  "verdict": "valide",
   "valid": true,
   "errors": [],
   "warnings": [],
@@ -1865,5 +1866,7 @@
     }
   ],
   "commands_not_checked": [],
-  "checked_at": "2026-10-01T07:14:28.168860Z"
+  "checked_at": "2026-10-08T11:54:00.986084Z",
+  "detail": "complet",
+  "summary": null
 }

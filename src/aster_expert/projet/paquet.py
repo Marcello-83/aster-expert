@@ -516,6 +516,7 @@ def _levels(
     controls_attached: bool,
     level_e: dict[str, Any] | None,
     regeneration: dict[str, Any] | None,
+    comm_rule: str | None = None,
 ) -> dict[str, Any]:
     """Each level, reached or not, with its reason; the level reached is the
     highest of an unbroken sequence from B. The conservation rule decides whether
@@ -545,6 +546,7 @@ def _levels(
                 f"exécution {status} ({report.get('diag')}) ; .comm du projet "
                 + ("identique" if comm_ok else "DIFFÉRENT")
                 + " de celui de l'exécution"
+                + (f" ({comm_rule})" if comm_rule and comm_ok else "")
             ),
         }
     )
@@ -679,6 +681,19 @@ def export_results(
             inputs.get(mesh_copy),
         ),
     }
+    if not checks["comm_execute"]["ok"] and run_comm.is_file():
+        # Lot 49 : règle de conservation d'un niveau (lot 45) appliquée au niveau C ; un
+        # .comm identique hors commentaires et en-tête (l'en-tête porte l'empreinte de
+        # la fiche) garde le niveau de son exécution, et le dit.
+        same = normalize_comm(comm.read_text(encoding="utf-8")) == normalize_comm(
+            run_comm.read_text(encoding="utf-8")
+        )
+        checks["comm_execute"]["ok"] = same
+        checks["comm_execute"]["regle"] = (
+            "identique hors commentaires et en-tête (règle de conservation, lot 45)"
+            if same
+            else "différent hors commentaires et en-tête"
+        )
 
     controls_path = ctx.results_dir / "controles" / "controles_d.json"
     controls = _read_json(controls_path) if controls_path.is_file() else None
@@ -811,6 +826,7 @@ def export_results(
             and checks.get("controles_comm", {}).get("ok", False),
             level_e,
             regeneration,
+            comm_rule=checks["comm_execute"].get("regle"),
         ),
         "sections": sorted({c.section for c in copies}),
         "fichiers": files,
@@ -996,8 +1012,23 @@ def reevaluate_package(
             "comm_execute_sha256", manifest["empreintes"]["comm"]["sha256"]
         )
     validation = _read_optional(directory / "validation" / "validation.json") or {}
+    rule = next(
+        (
+            c.get("regle")
+            for c in manifest.get("coherence", [])
+            if c.get("controle") == ".comm du projet = .comm de l'exécution"
+        ),
+        None,
+    )
     manifest["niveau"] = _levels(
-        validation, report, comm_ok, controls, attached, level_e, regeneration
+        validation,
+        report,
+        comm_ok,
+        controls,
+        attached,
+        level_e,
+        regeneration,
+        comm_rule=rule,
     )
     manifest_path.write_text(
         json.dumps(manifest, indent=1, ensure_ascii=False) + "\n", encoding="utf-8"

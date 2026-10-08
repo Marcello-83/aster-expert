@@ -1,6 +1,6 @@
 [
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DX",
@@ -18,11 +18,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DX",
@@ -40,11 +41,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DY",
@@ -62,11 +64,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DY",
@@ -84,11 +87,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DZ",
@@ -106,11 +110,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DZ",
@@ -128,11 +133,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DRX",
@@ -150,11 +156,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DRX",
@@ -172,11 +179,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DRY",
@@ -194,11 +202,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DRY",
@@ -216,11 +225,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DRZ",
@@ -238,11 +248,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
   "composante": "DRZ",
@@ -260,11 +271,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "NXX",
@@ -284,11 +296,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "NXX",
@@ -308,11 +321,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "NYY",
@@ -332,11 +346,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "NYY",
@@ -356,11 +371,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "NXY",
@@ -380,11 +396,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "NXY",
@@ -404,11 +421,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "MXX",
@@ -428,11 +446,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "MXX",
@@ -452,11 +471,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "MYY",
@@ -476,11 +496,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "MYY",
@@ -500,11 +521,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "MXY",
@@ -524,11 +546,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "MXY",
@@ -548,11 +571,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "QX",
@@ -572,11 +596,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "QX",
@@ -596,11 +621,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "QY",
@@ -620,11 +646,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "efforts_coques",
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "QY",
@@ -644,11 +671,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "reactions",
   "champ": "REAC_NODA",
   "cle": "REAC_NODA",
   "composante": "DX",
@@ -668,11 +696,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "reactions",
   "champ": "REAC_NODA",
   "cle": "REAC_NODA",
   "composante": "DX",
@@ -692,11 +721,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "reactions",
   "champ": "REAC_NODA",
   "cle": "REAC_NODA",
   "composante": "DY",
@@ -716,11 +746,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "reactions",
   "champ": "REAC_NODA",
   "cle": "REAC_NODA",
   "composante": "DY",
@@ -740,11 +771,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "reactions",
   "champ": "REAC_NODA",
   "cle": "REAC_NODA",
   "composante": "DZ",
@@ -764,11 +796,12 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  },
  {
-  "famille": "ELU fondamentale",
+  "famille": "reactions",
   "champ": "REAC_NODA",
   "cle": "REAC_NODA",
   "composante": "DZ",
@@ -789,6 +822,7 @@
   },
   "hors_disques": false,
   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
   "position_mobile": null,
   "charge_mobile": null
  }

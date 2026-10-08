@@ -77,6 +77,48 @@
     }
   },
   "verdict": "RÉUSSI",
+  "harness": {
+    "controls": {
+      "CTL-005": {
+        "verdict": "RÉUSSI",
+        "worst_relative_gap": 2.756127117434427e-12,
+        "cases": [
+          "EAU_A",
+          "EAU_P",
+          "G",
+          "Q1"
+        ]
+      },
+      "CTL-006": {
+        "verdict": "RÉUSSI",
+        "worst_relative_gap": 5.209776349599515e-11,
+        "planes": [
+          "A",
+          "EAU_A",
+          "EAU_P",
+          "G",
+          "Q1",
+          "Q3"
+        ]
+      },
+      "CTL-012": {
+        "verdict": "NON APPLICABLE",
+        "reason": "niveau E non visé par le projet"
+      },
+      "CTL-013": {
+        "verdict": "RÉUSSI",
+        "threshold": 1e-06,
+        "relative_gap_by_case": {
+          "G": 2.0790895595630653e-12,
+          "Q1": 8.044393747828364e-18,
+          "EAU_P": 5.785236409054646e-21,
+          "EAU_A": 9.339024488902469e-20
+        },
+        "worst_relative_gap": 2.0790895595630653e-12
+      }
+    },
+    "disabled": {}
+  },
   "provenance": {
     "mess_sha256": "9ff447357303a75bc29be9ef265552fbb4e448458ca9f259d922588fa0799c49",
     "comm_sha256": "683ebc239b1cc4ab7e7adc99cbeca0a3748576c15b85f1d5289d2fcd39c40733"

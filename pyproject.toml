@@ -157,7 +157,9 @@ python_version = "3.12"
 files = ["src", "tests", "projets"]
 mypy_path = ["src", "projets", "projets/quai_cw_test_01/scripts", "projets/dalle_appuyee_01/scripts"]
 explicit_package_bases = true
-exclude = ['^projets/[^/]+/maillage/.*\.py$']
+# Lot 49 : les sorties des projets (`resultats/`, non versionnées) portent les scripts
+# ParaView générés (pvpython, modules `paraview` absents de ce Python).
+exclude = ['^projets/[^/]+/maillage/.*\.py$', '^projets/[^/]+/resultats/']
 strict = true
 warn_unreachable = true
 disallow_untyped_defs = true

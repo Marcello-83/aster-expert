@@ -270,7 +270,7 @@ def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
     counts = {layer: sum(row.values()) for layer, row in base.counts().items()}
     assert counts == {
         "constats_code_aster": 58,
-        "diagnostics": 31,
+        "diagnostics": 32,
         "patrons": 13,
         "controles": 14,
         "references_validation": 15,
@@ -785,7 +785,7 @@ def test_cli_verifier_chercher_and_refused_promotion(
     runner = CliRunner()
     out = runner.invoke(app, ["connaissances", "verifier"])
     assert out.exit_code == 0, out.output
-    assert "diagnostics : 31" in out.output
+    assert "diagnostics : 32" in out.output
     out = runner.invoke(app, ["connaissances", "chercher", "--mot-cle", "MED2_4"])
     assert out.exit_code == 0 and "DIAG-006" in out.output
     out = runner.invoke(

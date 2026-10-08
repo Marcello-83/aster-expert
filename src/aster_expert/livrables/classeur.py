@@ -299,8 +299,11 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
     s = sheets["Enveloppes"]
     linear = _load(vis / "enveloppes_lineiques.json")
     s.text("Enveloppe (max et min sur les combinaisons) à chaque extrémité d'élément")
-    if linear:
-        comps = [k[: -len("_max")] for k in linear[0] if k.endswith("_max")]
+    by_key: dict[str, list[dict[str, Any]]] = {}
+    for e in linear:
+        by_key.setdefault(e["cle"], []).append(e)
+    for key, rows in by_key.items():
+        comps = [k[: -len("_max")] for k in rows[0] if k.endswith("_max")]
         head = [
             "Champ",
             "Maille MED",
@@ -313,12 +316,12 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
         cols: list[str] = []
         col_units: list[str | None] = [None] * 4 + ["m", "m", "m"]
         for comp in comps:
-            unit = display(units[(linear[0]["cle"], comp)]).unit
+            unit = display(units[(key, comp)]).unit
             cols += [f"{comp}_max", f"{comp}_min"]
             head += [f"{comp} max ({unit})", f"{comp} min ({unit})"]
             col_units += [unit, unit]
         s.header(head)
-        for e in linear:
+        for e in rows:
             row = [
                 e["cle"],
                 e["maille_med"],
@@ -330,8 +333,9 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
             ]
             for col in cols:
                 comp = col.rsplit("_", 1)[0]
-                row.append(shown(e[col], units[(e["cle"], comp)])[0])
+                row.append(shown(e[col], units[(key, comp)])[0])
             s.values(row, col_units)
+        s.blank()
 
     # 5. Contrôles D et E
     s = sheets["Contrôles D et E"]
@@ -396,18 +400,21 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
         s.text("Sans objet : le projet n'a pas de comparaison à un calcul externe.")
     for path in files:
         data = _load(path)
-        rows = data.get("lignes") if isinstance(data, dict) else None
-        if not rows or not isinstance(rows, list) or not isinstance(rows[0], dict):
+        found = data.get("lignes") if isinstance(data, dict) else None
+        if not found or not isinstance(found, list) or not isinstance(found[0], dict):
             continue
+        table_rows: list[dict[str, Any]] = found
         s.text(
             f"{path.name} -- contre-calcul d'un modèle non validé, jamais un niveau E"
         )
-        keys = [k for k in rows[0] if not isinstance(rows[0][k], dict | list)]
+        keys = [
+            k for k in table_rows[0] if not isinstance(table_rows[0][k], dict | list)
+        ]
         s.header(keys)
-        for row in rows:
+        for line in table_rows:
             s.values(
                 [
-                    row.get(k) if not isinstance(row.get(k), dict | list) else None
+                    line.get(k) if not isinstance(line.get(k), dict | list) else None
                     for k in keys
                 ]
             )

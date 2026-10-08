@@ -113,11 +113,20 @@ def test_the_73_archived_failures_are_classified_as_recorded() -> None:
     runs = project_runs(ROOT, registry, base)
     legacy = [r for r in runs if r.started < registry.legacy_runs.before]  # type: ignore[union-attr]
     assert len(legacy) == 190
+    # Lot 49 : deux échecs de post-traitement des livrables s'ajoutent (DIAG-011,
+    # DIAG-028), classés ; les 73 de l'archive du lot 42 restent ceux d'avant.
     failed = [r for r in runs if r.failed]
-    assert len(failed) == 73
+    assert len(failed) == 75
     recorded = {c.run: c for c in registry.classifications}
+    lot49 = {
+        "20261008T120445-3c2f0250": "DIAG-011",
+        "20261008T121847-521dfdf5": "DIAG-028",
+    }
     for r in failed:
         assert r.signature is not None
+        if r.run in lot49:
+            assert recorded[r.run].diagnostic == lot49[r.run]
+            continue
         assert classify(r.signature, r.run) == recorded[r.run]
     decisions = Counter(c.decision for c in registry.classifications)
-    assert decisions == {"rattaché": 69, "écarté": 4}
+    assert decisions == {"rattaché": 70, "nouveau": 1, "écarté": 4}

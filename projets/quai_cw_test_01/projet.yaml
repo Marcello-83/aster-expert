@@ -249,9 +249,16 @@ deliverables:
       convention: "repère global (point 9) : X le long du quai de SYM_G vers SYM_D, Y vers la terre, Z ascendant"
     - family: efforts_coques
       field: EFGE_NOEU
-      groups: [TUBES, PALPS]
+      groups: [PALPS]
       components: [NXX, NYY, NXY, MXX, MYY, MXY, QX, QY]
-      convention: "coques DKT, repère local fixé par VECTEUR = (0, 0, 1) : axe x_l (L) vertical ; efforts par unité de largeur ; seuls EFGE_ELNO et EFGE_NOEU sont exacts sous ELAS_COQUE (CA-025)"
+      convention: "palplanches DKT (ELAS_COQUE), repère local fixé par VECTEUR = (0, 0, 1) : axe x_l (L) vertical ; efforts par unité de largeur ; seuls EFGE_ELNO et EFGE_NOEU sont exacts sous ELAS_COQUE (CA-025)"
+    # DIAG-011 : les facettes des tubes ont des repères locaux trop différents pour un
+    # champ aux nœuds (UTILITAI_4) ; leurs efforts se livrent par élément (ELNO).
+    - family: efforts_coques
+      field: EFGE_ELNO
+      groups: [TUBES]
+      components: [NXX, NYY, NXY, MXX, MYY, MXY, QX, QY]
+      convention: "tubes DKT (ELAS), repère local de chaque facette fixé par VECTEUR = (0, 0, 1) : axe x_l vertical ; efforts par unité de largeur, aux nœuds de chaque maille (ELNO, DIAG-011)"
     - family: efforts_poutres
       field: EFGE_ELNO
       groups: [POUTRE_COUR]

@@ -257,7 +257,10 @@ def _impr_occurrence(
         parts.append(f"GROUP_MA={_tuple(f.groups)}")
     if f.node_groups:
         parts.append(f"GROUP_NO={_tuple(f.node_groups)}")
-    if solve.cara_elem:
+    # CARA_ELEM sert aux champs à sous-points (DIAG-005) ; donné pour SIEF_ELGA de
+    # discrets, sans sous-points, il produit l'alarme MED2_13 (DIAG-028), fatale sous
+    # DEBUT(ERREUR=_F(ALARME="EXCEPTION")).
+    if solve.cara_elem and f.family != "ressorts":
         parts.append(f"CARA_ELEM={solve.cara_elem}")
     return "        _F(" + ", ".join(parts) + "),"
 

@@ -35,6 +35,7 @@ from typing import Any
 
 from aster_expert.livrables.chaine import deliverables_dir
 from aster_expert.livrables.unites import si_unit
+from aster_expert.livrables.vues import vtu_name
 from aster_expert.projet.context import ProjectContext
 from aster_expert.projet.errors import ProjectError
 
@@ -100,7 +101,7 @@ for cas in CAS:
     calc = Calculator(Input=source)
     calc.AttributeType = "Point Data"
     calc.ResultArrayName = "F_VEC_" + nom
-    calc.Function = "{{0}}_DX*iHat + {{0}}_DY*jHat + {{0}}_DZ*kHat".format(champ)
+    calc.Function = '"{{0}}_DX"*iHat + "{{0}}_DY"*jHat + "{{0}}_DZ"*kHat'.format(champ)
     RenameSource("Calc_" + nom, calc)
     glyph = Glyph(Input=calc, GlyphType="Arrow")
     glyph.OrientationArray = ["POINTS", "F_VEC_" + nom]
@@ -183,14 +184,13 @@ def _legende(display, view, tableau, association, titre, composante=None):
 def construire(groupe, view):
     """Les filtres d'un cas, d'une combinaison ou d'une enveloppe, masqués :
     une liste de (filtre, table de couleurs, nature)."""
-    source = _source(groupe["fichier"])
     objets = []
     dep = groupe.get("deplacement")
     if dep:
-        calc = Calculator(Input=source)
+        calc = Calculator(Input=_source(dep["fichier"]))
         calc.AttributeType = "Point Data"
         calc.ResultArrayName = "U_" + groupe["nom"]
-        calc.Function = "{{0}}_DX*iHat + {{0}}_DY*jHat + {{0}}_DZ*kHat".format(
+        calc.Function = '"{{0}}_DX"*iHat + "{{0}}_DY"*jHat + "{{0}}_DZ"*kHat'.format(
             dep["prefixe"]
         )
         RenameSource(groupe["nom"] + " : U", calc)
@@ -205,6 +205,7 @@ def construire(groupe, view):
         objets.append((warp, lut, "deformee"))
     for carte in groupe.get("cartes", []):
         association = carte["association"]
+        source = _source(carte["fichier"])
         seuil = Threshold(Input=source)
         seuil.Scalars = [association, carte["tableau"]]
         seuil.LowerThreshold = -1.0e300
@@ -216,8 +217,9 @@ def construire(groupe, view):
         RenameSource(groupe["nom"] + " : " + carte["titre"], filtre)
         display = Show(filtre, view)
         lut = _legende(display, view, carte["tableau"], association, carte["titre"])
-        objets.append((filtre, lut, "carte_" + carte["composante"]))
+        objets.append((filtre, lut, "carte_" + carte["image"]))
     for fleche in groupe.get("fleches", []):
+        source = _source(fleche["fichier"])
         base = source
         if fleche["association"] == "CELLS":
             base = CellCenters(Input=source)
@@ -314,11 +316,10 @@ def result_groups(manifest: dict[str, Any]) -> list[dict[str, Any]]:
     depl_scale = manifest["echelles"]["deplacements"]
     arrows = manifest["echelles"].get("fleches", {})
 
-    def group(name: str, fichier: str, png: bool) -> dict[str, Any]:
+    def group(name: str, png: bool) -> dict[str, Any]:
         if name not in groups:
             groups[name] = {
                 "nom": name,
-                "fichier": fichier,
                 "cartes": [],
                 "fleches": [],
                 "png": png,
@@ -332,38 +333,50 @@ def result_groups(manifest: dict[str, Any]) -> list[dict[str, Any]]:
             if med.endswith(("_COMB", "_POS")):
                 continue
             if med.startswith("CAS_"):
-                name, fichier, png = med[4:].split("__")[0], "cas.vtu", True
+                name, category, png = med[4:].split("__")[0], "cas", True
             elif med.startswith("COMB_"):
                 parts = med[5:].split("__")
                 name = parts[0] + ("__" + parts[2] if len(parts) > 2 else "")
-                fichier, png = "combinaisons.vtu", False
+                category, png = "combinaisons", False
             else:
                 parts = med.split("__")
-                name, fichier, png = "ENV_" + parts[2], "enveloppes.vtu", True
-            g = group(name, fichier, png)
+                name, category, png = "ENV_" + parts[2], "enveloppes", True
+            fichier = vtu_name(category, champ["cle"])
+            g = group(name, png)
             family = champ["famille"]
             if family == "deplacements":
-                g["deplacement"] = {"prefixe": med, "max": depl_scale.get(med, 0.0)}
+                g["deplacement"] = {
+                    "prefixe": med,
+                    "max": depl_scale.get(med, 0.0),
+                    "fichier": fichier,
+                }
             elif family in ("efforts_coques", "efforts_poutres", "contraintes_volumes"):
                 for comp in _pick(comps, family):
                     beam = family == "efforts_poutres"
+                    elno = champ["champ"].endswith("_ELNO")
                     g["cartes"].append(
                         {
-                            "tableau": f"{med}_{comp}" + ("_1" if beam else ""),
-                            "association": "CELLS" if beam else "POINTS",
+                            "tableau": f"{med}_{comp}" + ("_1" if elno else ""),
+                            "association": "CELLS" if elno else "POINTS",
                             "titre": f"{comp} {name} ({units[comp]})",
                             "composante": comp,
+                            "image": f"{champ['cle']}_{comp}",
                             "tubes": beam,
+                            "fichier": fichier,
                         }
                     )
             elif family == "reactions":
+                vector = " + ".join(
+                    f'"{med}_{c}"*{axis}'
+                    for c, axis in (("DX", "iHat"), ("DY", "jHat"), ("DZ", "kHat"))
+                    if c in comps
+                )
                 g["fleches"].append(
                     {
                         "nom": f"R_{name}",
                         "association": "POINTS",
-                        "fonction": f"{med}_DX*iHat + {med}_DY*jHat + {med}_DZ*kHat"
-                        if {"DX", "DY", "DZ"} <= set(comps)
-                        else f"{med}_{comps[0]}*kHat",
+                        "fonction": vector,
+                        "fichier": fichier,
                         "filtre": f"{med}_{comps[0]}",
                         "titre": f"réactions {name} (N)",
                         "max": arrows.get(med, 0.0),
@@ -371,7 +384,7 @@ def result_groups(manifest: dict[str, Any]) -> list[dict[str, Any]]:
                 )
             elif family == "ressorts":
                 fn = " + ".join(
-                    f"-{med}_{c}*{axis}"
+                    f'-"{med}_{c}"*{axis}'
                     for c, axis in (("N", "iHat"), ("VY", "jHat"), ("VZ", "kHat"))
                     if c in comps
                 )
@@ -382,6 +395,7 @@ def result_groups(manifest: dict[str, Any]) -> list[dict[str, Any]]:
                         "fonction": fn,
                         "filtre": f"{med}_{comps[0]}",
                         "titre": f"forces des ressorts {name} (N)",
+                        "fichier": fichier,
                         "max": arrows.get(med, 0.0),
                     }
                 )

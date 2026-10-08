@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 48bis (2026-10-07), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 49 (2026-10-07), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 55 faits sur 57 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 48bis, Validation B partielle, rejeu strict, REF-014 rejouable, REF-015 observée, termes confidentiels par secret, pre-push, planned_commands, fiche enregistrer, bloqueurs par étape, CLAUDE.md allégé, mode résumé MCP, grille et table d'arrondi.
+Lots : 56 faits sur 58 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 49, Livrables de résultats : contrat deliverables, MED des résultats et des charges par exécution de post-traitement (tables identiques à la production), combinaisons et enveloppes, VTU contrôlés, scripts ParaView générés et images sans écran, classeur Excel, resultats lire et query_results ; fils utiles = 4 sur mesures répétées, PARALLELISME_TEMPS refusé (DIAG-027) ; reprises du lot 48 bis.
 
 Capacités :
 
@@ -278,8 +278,8 @@ Capacités :
 - catalogue : niveau A, opérationnelle. Un seul catalogue : Code_Aster 17.4.0, image par digest (config/versions.yaml).
 - analyse : niveau A, opérationnelle. Les constructions dynamiques sont déclarées, jamais devinées.
 - validation_b : niveau B, opérationnelle. Syntaxe confrontée au catalogue ; ne dit rien de l'exécution ni de la physique.
-- execution_c : niveau C, opérationnelle. Racines d'exécution déclarées une à une (execution.allowed_roots). Salomé : VM seulement. Depuis le lot 47 quater, délai, mémoire, ncpus et mpi_nbcpu viennent de la ligne de commande, puis de l'.export (répercutés sur docker run), puis de la configuration (config/machine.local.yaml, config/validation.yaml) et de défauts calculés (aster_expert.execution.ressources) ; MPI exécutable (statut lu sur chaque rang, ENV-004) mais sans gain mesuré sur l'estacade ; refus sous 10 Go de disque libre (ENV-003).
-- controles_d : niveau D, opérationnelle. Harnais par défaut depuis le lot 46 (CTL-005, CTL-006, CTL-012, CTL-013) ; version 2 de CTL-005 et CTL-013 (lot 47 bis) : échelle déclarée d'un cas autoéquilibré (self_equilibrated_scale). Les paquets du quai et de la dalle ne portent pas encore la clé harness (non réexportés).
+- execution_c : niveau C, opérationnelle. Racines d'exécution déclarées une à une (execution.allowed_roots). Salomé : VM seulement. Depuis le lot 47 quater, délai, mémoire, ncpus et mpi_nbcpu viennent de la ligne de commande, puis de l'.export (répercutés sur docker run), puis de la configuration (config/machine.local.yaml, config/validation.yaml) et de défauts calculés (aster_expert.execution.ressources) ; MPI exécutable (statut lu sur chaque rang, ENV-004) mais sans gain mesuré sur l'estacade ; refus sous 10 Go de disque libre (ENV-003). Lot 49 : fils = min(4, processeurs ÷ exécutions simultanées) sur 3 répétitions par point (gain 1,34 à 4 fils sur la production, perte au-delà) ; PARALLELISME_TEMPS='OUI' refusé avant exécution (DIAG-027).
+- controles_d : niveau D, opérationnelle. Harnais par défaut depuis le lot 46 (CTL-005, CTL-006, CTL-012, CTL-013) ; version 2 de CTL-005 et CTL-013 (lot 47 bis) : échelle déclarée d'un cas autoéquilibré (self_equilibrated_scale). Paquets du quai et de la dalle réexportés avec le harnais au lot 49, sans exécution.
 - reference_e : niveau E, partielle. Niveau E sur la seule dalle (solution de Navier) ; aucune référence pour le quai.
 - ferraillage : niveau D, opérationnelle. Module EN 1992 indépendant calibré sur ssll13b/ssll13d ; FERR_MIN_FISS refusé pour les poutres ; tableau 7.2N transcrit, à vérifier par MM.
 - notes : niveau D, opérationnelle. Contenu tiré de la fiche, des données et du paquet de résultats, jamais écrit à la main.
@@ -288,6 +288,7 @@ Capacités :
 - securite_mcp : sans niveau de validation, opérationnelle. Politique de lecture appliquée aux outils MCP et aux commandes recevant un chemin ; les sorties (écriture) ne sont pas couvertes.
 - integration_continue : sans niveau de validation, opérationnelle. ci.yml vert sur la branche du lot 46 (2 min 28 s) ; ci-lent.yml corrigé au lot 46 bis (profil ci), passage réel vert sur la branche claude/blissful-turing-ajkazc (constaté par MM, 2026-10-05).
 - contre_calcul : niveau C, partielle. Comparaison à un calcul externe non validé (type calcul_externe_non_valide, jamais E ni promu) ; REF-015 observée depuis le lot 48 bis (grandeurs dérivées, non rejouables par l'outil) ; lecture C1 à C13 propre à l'estacade ; écarts des moments de pieux inexpliqués.
+- livrables : niveau C, opérationnelle. MED et VTU produits par une exécution de post-traitement qui recopie le .comm de production et n'est acceptée que si ses tables égalent celles de la production (dalle 82 134, quai 9 931 632, estacade 135 668 valeurs) ; CTL-013 sur le MED des charges ; MED jamais versionnés (estacade 1,16 Go). Lecture directe du MED par un ParaView Windows non vérifiée (greffon MEDReader des binaires 5.12+, source secondaire) : VTU fournis. Les scripts ParaView supposent ParaView ≥ 5.10 (noms de tableaux entre guillemets). Le contrôle des charges ne détecte pas un déplacement qui conserve l'aire chargée (point d'application rapporté).
 
 Projets :
 

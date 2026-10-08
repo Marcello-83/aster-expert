@@ -33,7 +33,7 @@ from aster_expert.projet.context import ProjectContext, load_project
 
 EXPORT = Path("/media/sf_partage/echanges/lot47")
 CASE = {"TE+": "TEP", "TE-": "TEM"}
-_COMB = re.compile(r"^(\d{3} (?:ELU[+-]|ELS_[fc]))\b")
+_COMB = re.compile(r"^(\d{3} (?:ELU[+-]|ELS_[fc]))(?=\s|$)")
 
 
 def _decimals(text: str) -> int:

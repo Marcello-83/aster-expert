@@ -105,12 +105,20 @@ def production(ctx: ProjectContext) -> Production:
     if not comm.is_file() or not export.is_file():
         message = f"livrables : {comm.name} ou {export.name} absent de {run_dir}"
         raise ProjectError(message)
-    if project_comm.is_file() and sha256(comm) != sha256(project_comm):
-        message = (
-            f"livrables : le .comm de l'exécution {run_dir.name} n'est pas celui du "
-            "projet (régénérer et exécuter, ou exporter le paquet d'abord)"
+    if project_comm.is_file():
+        from aster_expert.projet.paquet import normalize_comm  # noqa: PLC0415
+
+        # Règle de conservation des niveaux (lot 45) : même .comm hors commentaires et
+        # en-tête (l'en-tête porte l'empreinte de la fiche).
+        same = normalize_comm(comm.read_text(encoding="utf-8")) == normalize_comm(
+            project_comm.read_text(encoding="utf-8")
         )
-        raise ProjectError(message)
+        if not same:
+            message = (
+                f"livrables : le .comm de l'exécution {run_dir.name} n'est pas celui "
+                "du projet hors commentaires (régénérer et exécuter d'abord)"
+            )
+            raise ProjectError(message)
     meshes = [p for p in run_dir.iterdir() if p.suffix in (".mmed", ".med", ".mail")]
     if len(meshes) != 1:
         message = f"livrables : maillage introuvable ou ambigu dans {run_dir}"

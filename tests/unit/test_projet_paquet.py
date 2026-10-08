@@ -234,13 +234,28 @@ def test_controls_without_provenance_stop_the_level_at_c(
 def test_a_comm_differing_from_the_execution_stops_the_level_at_b(
     ready: Callable[..., ProjectContext],
 ) -> None:
-    ctx = ready(executed_comm=_COMM.replace("2.0", "3.0"))
+    ctx = ready(executed_comm=_COMM.replace("FIN()", "IMPR_TABLE(TABLE=T)\nFIN()"))
 
     manifest = export_results(ctx, Runtime(ctx.repo_root)).manifest
 
     assert manifest["coherence"][0]["ok"] is False
     assert manifest["niveau"]["atteint"] == "B"
     assert "DIFFÉRENT" in manifest["niveau"]["par_niveau"][1]["motif"]
+
+
+def test_a_comm_differing_only_in_comments_keeps_level_c(
+    ready: Callable[..., ProjectContext],
+) -> None:
+    """Lot 49 : la règle de conservation (lot 45, hors commentaires et en-tête) vaut
+    aussi pour le niveau C ; le motif le dit."""
+    ctx = ready(executed_comm=_COMM.replace("2.0", "3.0"))
+
+    manifest = export_results(ctx, Runtime(ctx.repo_root)).manifest
+
+    assert manifest["coherence"][0]["ok"] is True
+    assert "règle de conservation" in manifest["coherence"][0]["regle"]
+    c = manifest["niveau"]["par_niveau"][1]
+    assert c["atteint"] and "hors commentaires et en-tête" in c["motif"]
 
 
 def test_a_regenerated_comm_that_differs_is_shown_line_by_line(

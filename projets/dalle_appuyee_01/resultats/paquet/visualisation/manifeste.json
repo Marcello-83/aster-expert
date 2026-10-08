@@ -7,7 +7,7 @@
  },
  "execution_production": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261002T130616-537395b0",
  "comm_production_sha256": "70ae851c380a4dad612adad6962b2611feea61485fe096aeb533e39d75e09848",
- "execution_post_traitement": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261008T080443-426fc374",
+ "execution_post_traitement": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261008T115345-0ec1336b",
  "comm_post_traitement_sha256": "d0a8049e7965b38e199e6f53ddb292d8390e15fb23df1abc7212676c68637fa2",
  "validation_post_traitement": {
   "validation_level": "B",
@@ -28,58 +28,142 @@
  },
  "fichiers": {
   "med/resultats.med": {
-   "sha256": "e37203a01951f43e3302eff7941715e34471b1a235afd124d312be1cbae92352",
+   "sha256": "ff0540468806d1df6c18bbc420645f5661f73020efac33a47c095935ee9671f6",
    "octets": 2495499
   },
   "med/charges.med": {
-   "sha256": "bc01b867c079c3d05baa7db5620253e8e5397ab909e168ce255b3065edba8be3",
+   "sha256": "f499adafe668d89556b40d544965ff389f71d505c1908a87b386013478771031",
    "octets": 305561
   },
   "vtu/cas.vtu": {
    "sha256": "ae6e5ef04ddf38f34a6af10f534ef46ad05a142e05c6a1ddbcb86e9f9468b4c7",
    "octets": 734763
   },
+  "vtu/cas__DEPL.vtu": {
+   "sha256": "085f86ed38fd0b84017c8c7806dc2bde85b205f5d9c96db584455284748405f6",
+   "octets": 265168
+  },
+  "vtu/cas__EFGE_NOEU.vtu": {
+   "sha256": "28884afdaf3498d53cc34dd03e0958c0e8be95b4dba1d7a986d835c6e2cc292b",
+   "octets": 317458
+  },
+  "vtu/cas__REAC_NODA.vtu": {
+   "sha256": "faf9d01290717097029698f31740e93070d95b9401fc7ecec5e5407baff88bc6",
+   "octets": 15711
+  },
   "vtu/charges.vtu": {
-   "sha256": "879b3ed41e166d222fa89c70a2214359bbaeb559b5ec5f8636fda4de1804404b",
-   "octets": 352659
+   "sha256": "91b9514142e5ddb48ba39b52771ed104b6984b5cf78c3f5629d01945444feb34",
+   "octets": 265084
   },
   "vtu/combinaisons.vtu": {
    "sha256": "3f9795749f216671d07c174c485bd34b2fd36034f3eb63bb43c51eca02877a40",
    "octets": 1326287
   },
+  "vtu/combinaisons__DEPL.vtu": {
+   "sha256": "28d07bffdafc6abc88e0cc8d2de9a1ccc03d223adff5a4feccacc949a9b93152",
+   "octets": 422206
+  },
+  "vtu/combinaisons__EFGE_NOEU.vtu": {
+   "sha256": "e67664909b8615668940054b3503858ca8afe63b5b0ca858349e490c1c27332b",
+   "octets": 526926
+  },
+  "vtu/combinaisons__REAC_NODA.vtu": {
+   "sha256": "9c3310364fac362b860ac11a00a44066cdeb7f7b42081dea5d9cd97b23c1c937",
+   "octets": 24315
+  },
   "vtu/enveloppes.vtu": {
    "sha256": "b2204e7c611ece2f5b86b21b5c1cafd5e60cb099a7594f10119f0c431d0d87aa",
    "octets": 1916043
+  },
+  "vtu/enveloppes__DEPL.vtu": {
+   "sha256": "f86b6d954c9deb0f727eb1ab9eb558b2148e03e63d70bae95d4d0c5ada210302",
+   "octets": 578620
+  },
+  "vtu/enveloppes__EFGE_NOEU.vtu": {
+   "sha256": "54e5e5cacd4b8aef666c8c69a109f39cbfb7b4ce511941b0240fb8598d0e97fa",
+   "octets": 735562
+  },
+  "vtu/enveloppes__REAC_NODA.vtu": {
+   "sha256": "29f01905ddd76265d37b595d8833913723f1a4ee844d52af34dbbfe077367eb7",
+   "octets": 32607
   }
  },
  "vtu": {
-  "cas": {
-   "fichier": "cas.vtu",
-   "octets": 734763,
-   "tableaux": 34,
-   "valeurs": 54978,
+  "cas__DEPL.vtu": {
+   "fichier": "cas__DEPL.vtu",
+   "octets": 265168,
+   "tableaux": 12,
+   "valeurs": 19404,
    "differents": [],
    "identiques": true
   },
-  "combinaisons": {
-   "fichier": "combinaisons.vtu",
-   "octets": 1326287,
-   "tableaux": 68,
-   "valeurs": 109956,
+  "combinaisons__DEPL.vtu": {
+   "fichier": "combinaisons__DEPL.vtu",
+   "octets": 422206,
+   "tableaux": 24,
+   "valeurs": 38808,
    "differents": [],
    "identiques": true
   },
-  "enveloppes": {
-   "fichier": "enveloppes.vtu",
-   "octets": 1916043,
-   "tableaux": 102,
-   "valeurs": 164934,
+  "enveloppes__DEPL.vtu": {
+   "fichier": "enveloppes__DEPL.vtu",
+   "octets": 578620,
+   "tableaux": 36,
+   "valeurs": 58212,
    "differents": [],
    "identiques": true
   },
-  "charges": {
+  "cas__EFGE_NOEU.vtu": {
+   "fichier": "cas__EFGE_NOEU.vtu",
+   "octets": 317458,
+   "tableaux": 16,
+   "valeurs": 25872,
+   "differents": [],
+   "identiques": true
+  },
+  "combinaisons__EFGE_NOEU.vtu": {
+   "fichier": "combinaisons__EFGE_NOEU.vtu",
+   "octets": 526926,
+   "tableaux": 32,
+   "valeurs": 51744,
+   "differents": [],
+   "identiques": true
+  },
+  "enveloppes__EFGE_NOEU.vtu": {
+   "fichier": "enveloppes__EFGE_NOEU.vtu",
+   "octets": 735562,
+   "tableaux": 48,
+   "valeurs": 77616,
+   "differents": [],
+   "identiques": true
+  },
+  "cas__REAC_NODA.vtu": {
+   "fichier": "cas__REAC_NODA.vtu",
+   "octets": 15711,
+   "tableaux": 6,
+   "valeurs": 960,
+   "differents": [],
+   "identiques": true
+  },
+  "combinaisons__REAC_NODA.vtu": {
+   "fichier": "combinaisons__REAC_NODA.vtu",
+   "octets": 24315,
+   "tableaux": 12,
+   "valeurs": 1920,
+   "differents": [],
+   "identiques": true
+  },
+  "enveloppes__REAC_NODA.vtu": {
+   "fichier": "enveloppes__REAC_NODA.vtu",
+   "octets": 32607,
+   "tableaux": 18,
+   "valeurs": 2880,
+   "differents": [],
+   "identiques": true
+  },
+  "charges.vtu": {
    "fichier": "charges.vtu",
-   "octets": 352659,
+   "octets": 265084,
    "tableaux": 12,
    "valeurs": 19404,
    "differents": [],

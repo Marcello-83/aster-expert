@@ -1,0 +1,1836 @@
+[
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DX",
+  "extremum": "max",
+  "valeur_si": 0.019173671895018306,
+  "unite_si": "m",
+  "lieu": {
+   "noeud_med": 17582,
+   "coordonnees_m": [
+    -1.898741278177,
+    -0.111068470179,
+    -13.25
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DX",
+  "extremum": "min",
+  "valeur_si": -0.01917367189526843,
+  "unite_si": "m",
+  "lieu": {
+   "noeud_med": 24340,
+   "coordonnees_m": [
+    1.898741278177,
+    -0.111068470179,
+    -13.25
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DY",
+  "extremum": "max",
+  "valeur_si": 0.0015805328407968106,
+  "unite_si": "m",
+  "lieu": {
+   "noeud_med": 12227,
+   "coordonnees_m": [
+    -5.2,
+    -0.71,
+    -16.75
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DY",
+  "extremum": "min",
+  "valeur_si": -0.10367649797029563,
+  "unite_si": "m",
+  "lieu": {
+   "noeud_med": 39092,
+   "coordonnees_m": [
+    1.418,
+    0.0,
+    -4.0
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DZ",
+  "extremum": "max",
+  "valeur_si": 0.003311857750096411,
+  "unite_si": "m",
+  "lieu": {
+   "noeud_med": 18788,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    -11.25
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DZ",
+  "extremum": "min",
+  "valeur_si": -0.006382664882546359,
+  "unite_si": "m",
+  "lieu": {
+   "noeud_med": 37322,
+   "coordonnees_m": [
+    10.4,
+    -0.71,
+    -10.25
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DRX",
+  "extremum": "max",
+  "valeur_si": 0.0994477159861767,
+  "unite_si": "rad",
+  "lieu": {
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DRX",
+  "extremum": "min",
+  "valeur_si": -0.049244434836538536,
+  "unite_si": "rad",
+  "lieu": {
+   "noeud_med": 18840,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.25
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DRY",
+  "extremum": "max",
+  "valeur_si": 0.1338418247142147,
+  "unite_si": "rad",
+  "lieu": {
+   "noeud_med": 18949,
+   "coordonnees_m": [
+    -0.111068470179,
+    0.701258721823,
+    2.25
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DRY",
+  "extremum": "min",
+  "valeur_si": -0.1338418247142173,
+  "unite_si": "rad",
+  "lieu": {
+   "noeud_med": 18731,
+   "coordonnees_m": [
+    0.111068470179,
+    0.701258721823,
+    2.25
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DRZ",
+  "extremum": "max",
+  "valeur_si": 0.09004839954886591,
+  "unite_si": "rad",
+  "lieu": {
+   "noeud_med": 38828,
+   "coordonnees_m": [
+    -0.946,
+    0.0,
+    -4.75
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DRZ",
+  "extremum": "min",
+  "valeur_si": -0.09004839954887807,
+  "unite_si": "rad",
+  "lieu": {
+   "noeud_med": 38987,
+   "coordonnees_m": [
+    0.946,
+    0.0,
+    -4.75
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "NXX",
+  "extremum": "max",
+  "valeur_si": 714838.2169326203,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 38886,
+   "coordonnees_m": [
+    0.946,
+    0.0,
+    -13.0
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "NXX",
+  "extremum": "min",
+  "valeur_si": -810606.0172188516,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 1001,
+   "coordonnees_m": [
+    0.71,
+    0.0,
+    2.6
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "NYY",
+  "extremum": "max",
+  "valeur_si": 219.86072389869608,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 37560,
+   "coordonnees_m": [
+    9.218,
+    0.0,
+    2.6
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "NYY",
+  "extremum": "min",
+  "valeur_si": -3445.270574628676,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 17731,
+   "coordonnees_m": [
+    0.71,
+    0.0,
+    -13.25
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "NXY",
+  "extremum": "max",
+  "valeur_si": 636413.7501218251,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 19878,
+   "coordonnees_m": [
+    -0.71,
+    0.0,
+    -11.25
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "NXY",
+  "extremum": "min",
+  "valeur_si": -636413.7501231489,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 17849,
+   "coordonnees_m": [
+    0.71,
+    0.0,
+    -11.25
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "MXX",
+  "extremum": "max",
+  "valeur_si": 517528.3349640266,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "MXX",
+  "extremum": "min",
+  "valeur_si": -290482.17190458626,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 38142,
+   "coordonnees_m": [
+    -6.382,
+    0.0,
+    -7.5
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "MYY",
+  "extremum": "max",
+  "valeur_si": 8055.555774566523,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 19903,
+   "coordonnees_m": [
+    -0.71,
+    0.0,
+    -5.0
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "MYY",
+  "extremum": "min",
+  "valeur_si": -6219.376758104199,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 9012,
+   "coordonnees_m": [
+    -4.49,
+    0.0,
+    -13.5
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "MXY",
+  "extremum": "max",
+  "valeur_si": 410.29177579166816,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 38964,
+   "coordonnees_m": [
+    0.946,
+    0.0,
+    -10.5
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "MXY",
+  "extremum": "min",
+  "valeur_si": -410.2917757912244,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 38805,
+   "coordonnees_m": [
+    -0.946,
+    0.0,
+    -10.5
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "QX",
+  "extremum": "max",
+  "valeur_si": 1306071.2125724023,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 1281,
+   "coordonnees_m": [
+    3.31,
+    0.0,
+    2.6
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "QX",
+  "extremum": "min",
+  "valeur_si": -343188.1562983225,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 37426,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.0
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "QY",
+  "extremum": "max",
+  "valeur_si": 37900.90591260026,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 9012,
+   "coordonnees_m": [
+    -4.49,
+    0.0,
+    -13.5
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "QY",
+  "extremum": "min",
+  "valeur_si": -37900.90591245852,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 28590,
+   "coordonnees_m": [
+    4.49,
+    0.0,
+    -13.5
+   ],
+   "groupes": [
+    "PALPS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "NXX",
+  "extremum": "max",
+  "valeur_si": 4072406.6739869327,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ],
+   "maille_med": 17250,
+   "niveau": 0,
+   "extremite": 2,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "NXX",
+  "extremum": "min",
+  "valeur_si": -2779318.19654245,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 37311,
+   "coordonnees_m": [
+    10.4,
+    -0.71,
+    -13.25
+   ],
+   "maille_med": 36736,
+   "niveau": 0,
+   "extremite": 3,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "NYY",
+  "extremum": "max",
+  "valeur_si": 14571929.183342556,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ],
+   "maille_med": 17250,
+   "niveau": 0,
+   "extremite": 2,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "NYY",
+  "extremum": "min",
+  "valeur_si": -2874373.3848721134,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 18731,
+   "coordonnees_m": [
+    0.111068470179,
+    0.701258721823,
+    2.25
+   ],
+   "maille_med": 17249,
+   "niveau": 0,
+   "extremite": 1,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "NXY",
+  "extremum": "max",
+  "valeur_si": 10430944.075373957,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ],
+   "maille_med": 17250,
+   "niveau": 0,
+   "extremite": 2,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "NXY",
+  "extremum": "min",
+  "valeur_si": -10430944.075375976,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ],
+   "maille_med": 17365,
+   "niveau": 0,
+   "extremite": 1,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "MXX",
+  "extremum": "max",
+  "valeur_si": 174657.13594520366,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ],
+   "maille_med": 17365,
+   "niveau": 0,
+   "extremite": 1,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "MXX",
+  "extremum": "min",
+  "valeur_si": -242040.46172256648,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ],
+   "maille_med": 17250,
+   "niveau": 0,
+   "extremite": 3,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "MYY",
+  "extremum": "max",
+  "valeur_si": 179616.5794891698,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ],
+   "maille_med": 17365,
+   "niveau": 0,
+   "extremite": 1,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "MYY",
+  "extremum": "min",
+  "valeur_si": -72612.13851676999,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ],
+   "maille_med": 17250,
+   "niveau": 0,
+   "extremite": 3,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "MXY",
+  "extremum": "max",
+  "valeur_si": 25892.66154263485,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 1070,
+   "coordonnees_m": [
+    -0.111068470179,
+    0.7012587218229999,
+    2.5
+   ],
+   "maille_med": 17365,
+   "niveau": 0,
+   "extremite": 2,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "MXY",
+  "extremum": "min",
+  "valeur_si": -25892.661542634603,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 1056,
+   "coordonnees_m": [
+    0.111068470179,
+    0.7012587218229999,
+    2.5
+   ],
+   "maille_med": 17250,
+   "niveau": 0,
+   "extremite": 1,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "QX",
+  "extremum": "max",
+  "valeur_si": 1008411.4296699848,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 18840,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.25
+   ],
+   "maille_med": 17249,
+   "niveau": 0,
+   "extremite": 2,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "QX",
+  "extremum": "min",
+  "valeur_si": -4656281.510160807,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ],
+   "maille_med": 17365,
+   "niveau": 0,
+   "extremite": 1,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "QY",
+  "extremum": "max",
+  "valeur_si": 2574916.109416965,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ],
+   "maille_med": 17365,
+   "niveau": 0,
+   "extremite": 1,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO",
+  "composante": "QY",
+  "extremum": "min",
+  "valeur_si": -2574916.109416953,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 1056,
+   "coordonnees_m": [
+    0.111068470179,
+    0.7012587218229999,
+    2.5
+   ],
+   "maille_med": 17250,
+   "niveau": 0,
+   "extremite": 1,
+   "groupes": [
+    "TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "N",
+  "extremum": "max",
+  "valeur_si": 607.9173437618545,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 37585,
+   "coordonnees_m": [
+    -1.9499999999999997,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39537,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "N",
+  "extremum": "min",
+  "valeur_si": -273.7720039110666,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 2255,
+   "coordonnees_m": [
+    -10.4,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39511,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "VY",
+  "extremum": "max",
+  "valeur_si": 565273.9509282737,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 37597,
+   "coordonnees_m": [
+    2.2749999999999995,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39550,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "VY",
+  "extremum": "min",
+  "valeur_si": -565273.9509208408,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 2258,
+   "coordonnees_m": [
+    -2.5999999999999996,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39535,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "VZ",
+  "extremum": "max",
+  "valeur_si": 264617.9540507057,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 37587,
+   "coordonnees_m": [
+    -1.2999999999999998,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39539,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "VZ",
+  "extremum": "min",
+  "valeur_si": -264617.95404813346,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 37592,
+   "coordonnees_m": [
+    0.6499999999999999,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39545,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "MT",
+  "extremum": "max",
+  "valeur_si": 517115.02788989805,
+  "unite_si": "N·m",
+  "lieu": {
+   "noeud_med": 37584,
+   "coordonnees_m": [
+    -2.2749999999999995,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39536,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "MT",
+  "extremum": "min",
+  "valeur_si": -517115.02788122464,
+  "unite_si": "N·m",
+  "lieu": {
+   "noeud_med": 37595,
+   "coordonnees_m": [
+    1.6249999999999998,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39548,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "MFY",
+  "extremum": "max",
+  "valeur_si": 784968.7215423886,
+  "unite_si": "N·m",
+  "lieu": {
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39543,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "MFY",
+  "extremum": "min",
+  "valeur_si": -225010.28816053137,
+  "unite_si": "N·m",
+  "lieu": {
+   "noeud_med": 2256,
+   "coordonnees_m": [
+    -7.800000000000001,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39519,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "MFZ",
+  "extremum": "max",
+  "valeur_si": 2183517.4714937187,
+  "unite_si": "N·m",
+  "lieu": {
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39542,
+   "niveau": -1,
+   "extremite": 2,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_2",
+  "composante": "MFZ",
+  "extremum": "min",
+  "valeur_si": -1297173.4895304453,
+  "unite_si": "N·m",
+  "lieu": {
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ],
+   "maille_med": 39542,
+   "niveau": -1,
+   "extremite": 2,
+   "groupes": [
+    "POUTRE_COUR"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_3",
+  "composante": "N",
+  "extremum": "max",
+  "valeur_si": 1392581.327120159,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ],
+   "maille_med": 39579,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "TIRANTS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_poutres",
+  "champ": "EFGE_ELNO",
+  "cle": "EFGE_ELNO_3",
+  "composante": "N",
+  "extremum": "min",
+  "valeur_si": 350962.2328601442,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 2119,
+   "coordonnees_m": [
+    10.4,
+    0.71,
+    2.5
+   ],
+   "maille_med": 39583,
+   "niveau": -1,
+   "extremite": 1,
+   "groupes": [
+    "TIRANTS"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELS_FREQ_Q3_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "reactions",
+  "champ": "REAC_NODA",
+  "cle": "REAC_NODA",
+  "composante": "DX",
+  "extremum": "max",
+  "valeur_si": 12237.708724034477,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ],
+   "groupes": [
+    "PIED_TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "reactions",
+  "champ": "REAC_NODA",
+  "cle": "REAC_NODA",
+  "composante": "DX",
+  "extremum": "min",
+  "valeur_si": -12237.708724032584,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 2108,
+   "coordonnees_m": [
+    10.4,
+    0.71,
+    -26.0
+   ],
+   "groupes": [
+    "PIED_TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "reactions",
+  "champ": "REAC_NODA",
+  "cle": "REAC_NODA",
+  "composante": "DY",
+  "extremum": "max",
+  "valeur_si": 1308629.259321009,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 2268,
+   "coordonnees_m": [
+    0.0,
+    25.14,
+    -6.39
+   ],
+   "groupes": [
+    "ANCRAGES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "reactions",
+  "champ": "REAC_NODA",
+  "cle": "REAC_NODA",
+  "composante": "DY",
+  "extremum": "min",
+  "valeur_si": -5.507828859663277e-09,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 988,
+   "coordonnees_m": [
+    0.71,
+    0.0,
+    -26.0
+   ],
+   "groupes": [
+    "PIED_TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "reactions",
+  "champ": "REAC_NODA",
+  "cle": "REAC_NODA",
+  "composante": "DZ",
+  "extremum": "max",
+  "valeur_si": 29739.092824489682,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 2213,
+   "coordonnees_m": [
+    9.897954185358,
+    -0.502045814642,
+    -26.0
+   ],
+   "groupes": [
+    "PIED_TUBES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "reactions",
+  "champ": "REAC_NODA",
+  "cle": "REAC_NODA",
+  "composante": "DZ",
+  "extremum": "min",
+  "valeur_si": -470233.0683532548,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 2268,
+   "coordonnees_m": [
+    0.0,
+    25.14,
+    -6.39
+   ],
+   "groupes": [
+    "ANCRAGES"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "ressorts",
+  "champ": "SIEF_ELGA",
+  "cle": "SIEF_ELGA",
+  "composante": "N",
+  "extremum": "max",
+  "valeur_si": 0.0,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 1,
+   "coordonnees_m": [
+    -10.4,
+    -0.71,
+    -26.0
+   ],
+   "maille_med": 1,
+   "niveau": -2,
+   "extremite": 1,
+   "groupes": [
+    "GEN_RESS_MARNE_07"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "ressorts",
+  "champ": "SIEF_ELGA",
+  "cle": "SIEF_ELGA",
+  "composante": "N",
+  "extremum": "min",
+  "valeur_si": 0.0,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 1,
+   "coordonnees_m": [
+    -10.4,
+    -0.71,
+    -26.0
+   ],
+   "maille_med": 1,
+   "niveau": -2,
+   "extremite": 1,
+   "groupes": [
+    "GEN_RESS_MARNE_07"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "ressorts",
+  "champ": "SIEF_ELGA",
+  "cle": "SIEF_ELGA",
+  "composante": "VY",
+  "extremum": "max",
+  "valeur_si": 2197.809920488576,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 16582,
+   "coordonnees_m": [
+    -2.6,
+    -0.71,
+    -18.25
+   ],
+   "maille_med": 3994,
+   "niveau": -2,
+   "extremite": 1,
+   "groupes": [
+    "GEN_RESS_MARNE_23"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "ressorts",
+  "champ": "SIEF_ELGA",
+  "cle": "SIEF_ELGA",
+  "composante": "VY",
+  "extremum": "min",
+  "valeur_si": -44513.114941653126,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ],
+   "maille_med": 9904,
+   "niveau": -2,
+   "extremite": 1,
+   "groupes": [
+    "GEN_RESS_ARGI_25"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "ressorts",
+  "champ": "SIEF_ELGA",
+  "cle": "SIEF_ELGA",
+  "composante": "VZ",
+  "extremum": "max",
+  "valeur_si": 0.0,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 1,
+   "coordonnees_m": [
+    -10.4,
+    -0.71,
+    -26.0
+   ],
+   "maille_med": 1,
+   "niveau": -2,
+   "extremite": 1,
+   "groupes": [
+    "GEN_RESS_MARNE_07"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "ressorts",
+  "champ": "SIEF_ELGA",
+  "cle": "SIEF_ELGA",
+  "composante": "VZ",
+  "extremum": "min",
+  "valeur_si": 0.0,
+  "unite_si": "N",
+  "lieu": {
+   "noeud_med": 1,
+   "coordonnees_m": [
+    -10.4,
+    -0.71,
+    -26.0
+   ],
+   "maille_med": 1,
+   "niveau": -2,
+   "extremite": 1,
+   "groupes": [
+    "GEN_RESS_MARNE_07"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null
+ }
+]

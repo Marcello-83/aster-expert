@@ -3,7 +3,8 @@
 A load is moved on purpose to another group of cells in a copy of the post-processing
 `.comm` of the slab (never in the project's own files): `CH_Q`
 (`FORCE_COQUE/FZ` = −10 kN/m² on `DALLE`, resultant −240 kN declared in
-`projet.yaml`) is applied on `CENTRE_V` (the cells around the centre node) instead.
+`projet.yaml`) is applied on the shell cells of `CENTRE_V` (the cells around the centre
+node, `INTERSEC` with `DALLE`: `CENTRE_V` also holds edges outside the model, DIAG-017).
 The mutated copy is run, its MED of loads read (`medcoupling`, in the container), and
 the control of the deliverables (CTL-013 on the MED: Σ of the nodal forces against the
 declared resultant) must fail, while the point of application of the vertical
@@ -42,7 +43,13 @@ from aster_expert.report.med_read import run_med_script, take_arrays
 
 PROJECT = "dalle_appuyee_01"
 ORIGINAL = 'CH_Q = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_COQUE=_F(GROUP_MA="DALLE", FZ=-10000.0))'
-MUTATED = 'CH_Q = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_COQUE=_F(GROUP_MA="CENTRE_V", FZ=-10000.0))'
+MUTATED = (
+    "# Essai de mutation (lot 49) : CENTRE_V porte aussi des segments hors du modèle\n"
+    "# (DIAG-017) ; la charge va sur ses seules mailles de dalle.\n"
+    'MAIL = DEFI_GROUP(reuse=MAIL, MAILLAGE=MAIL, CREA_GROUP_MA=_F(NOM="MUT_Q", '
+    'INTERSEC=("CENTRE_V", "DALLE")))\n'
+    'CH_Q = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_COQUE=_F(GROUP_MA="MUT_Q", FZ=-10000.0))'
+)
 STEM = "dalle_mutation"
 
 
@@ -77,7 +84,7 @@ def preparer() -> None:
     (out / f"{STEM}.export").write_text(
         export.replace("dalle_livrables", STEM), encoding="utf-8"
     )
-    print(f"{out / (STEM + '.comm')} : CH_Q sur CENTRE_V au lieu de DALLE")
+    print(f"{out / (STEM + '.comm')} : CH_Q sur CENTRE_V ∩ DALLE au lieu de DALLE")
 
 
 def lancer() -> None:

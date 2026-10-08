@@ -1,0 +1,230 @@
+{
+ "controle": "CTL-013 sur le MED des charges (lot 49)",
+ "source": "somme des forces nodales du champ FN_<cas> (CALC_VECT_ELEM, ASSE_VECTEUR) ; résultante attendue de controls.cases (projet.yaml)",
+ "seuil": 1e-06,
+ "cas": {
+  "FR": {
+   "champ_med": "FN_FR",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 381000.00000030186,
+    "FY": 1.675540562689429e-27,
+    "FZ": 0.0,
+    "MX": -2.1782027314962415e-27,
+    "MY": 495300.00000026316,
+    "MZ": -3.8401815061206435e-10
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 381000.0,
+    "DY": 0.0,
+    "DZ": 0.0
+   },
+   "attendu_specifie_n": {
+    "DX": 381000.0,
+    "DY": 0.0,
+    "DZ": 0.0
+   },
+   "ecart_relatif": 7.922964028799002e-13,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "G2": {
+   "champ_med": "FN_G2",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -1000895.9999986594,
+    "MX": 2.134399323949765e-10,
+    "MY": 15613977.600000063,
+    "MZ": 0.0,
+    "X_APPLICATION_FZ": 15.600000000020959,
+    "Y_APPLICATION_FZ": -2.1324886141543416e-16
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -1000896.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -1000896.0
+   },
+   "ecart_relatif": 1.3394387090756496e-12,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "PP": {
+   "champ_med": "FN_PP",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 3.887506540929146e-27,
+    "FY": 4.610271947628648e-43,
+    "FZ": -3553297.6040000026,
+    "MX": -9.227063557659676e-10,
+    "MY": 55431442.62240001,
+    "MZ": 5.040470576176367e-42,
+    "X_APPLICATION_FZ": 15.59999999999999,
+    "Y_APPLICATION_FZ": 2.5967606955501355e-16
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -3553297.6040000003
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -3553297.6040000003
+   },
+   "ecart_relatif": 6.55252302514061e-16,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "TR": {
+   "champ_med": "FN_TR",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -467999.9999999975,
+    "MX": -8.105942583824799e-10,
+    "MY": 7300799.99999993,
+    "MZ": 0.0,
+    "X_APPLICATION_FZ": 15.599999999999934,
+    "Y_APPLICATION_FZ": 1.7320390136377867e-15
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -468000.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -468000.0
+   },
+   "ecart_relatif": 5.348139784784398e-15,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "UDL": {
+   "champ_med": "FN_UDL",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -589679.9999999981,
+    "MX": -3.9052139300110866e-10,
+    "MY": 9199007.99999992,
+    "MZ": 0.0,
+    "X_APPLICATION_FZ": 15.599999999999913,
+    "Y_APPLICATION_FZ": 6.622598578909068e-16
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -589680.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -589680.0
+   },
+   "ecart_relatif": 3.158738890976389e-15,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "TEM": {
+   "champ_med": "FV_TEM",
+   "nature": "forces_varc",
+   "somme_n": {
+    "FX": -8.629285730421543e-09,
+    "FY": 1.4902616385370493e-07,
+    "FZ": 0.0,
+    "MX": -2.7955829864359063e-07,
+    "MY": -1.295120455313144e-10,
+    "MZ": -3.1236653740051993e-06
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "autoequilibre": {
+    "somme_des_modules_n": 489192000.000003,
+    "ecart_relatif": 3.046373690773848e-16
+   }
+  },
+  "TEP": {
+   "champ_med": "FV_TEP",
+   "nature": "forces_varc",
+   "somme_n": {
+    "FX": 8.629285730421543e-09,
+    "FY": -1.4902616385370493e-07,
+    "FZ": 0.0,
+    "MX": 2.7955829864359063e-07,
+    "MY": 1.295120455313144e-10,
+    "MZ": 3.1236653740051993e-06
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "autoequilibre": {
+    "somme_des_modules_n": 489192000.000003,
+    "ecart_relatif": 3.046373690773848e-16
+   }
+  }
+ },
+ "echecs": [],
+ "verdict": "RÉUSSI"
+}

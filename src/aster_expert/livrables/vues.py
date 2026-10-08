@@ -26,6 +26,7 @@ from __future__ import annotations
 import csv
 import json
 import math
+import shutil
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
@@ -47,7 +48,14 @@ from aster_expert.livrables.donnees import (
     Mesh,
 )
 from aster_expert.livrables.unites import display, si_unit
-from aster_expert.livrables.vtu import Grid, check_identical, grid_from_mesh, write_vtu
+from aster_expert.livrables.vtu import (
+    Grid,
+    check_identical,
+    grid_from_mesh,
+    select_cells,
+    vertices,
+    write_vtu,
+)
 from aster_expert.projet.context import ProjectContext
 from aster_expert.projet.errors import ProjectError
 
@@ -87,89 +95,100 @@ def _category(npz_key: str) -> str:
     ]
 
 
-def _scatter(
+def vtu_name(category: str, key: str) -> str:
+    """One `.vtu` per category (cas, combinaisons, enveloppes) and per field."""
+    return f"{category}__{key}.vtu"
+
+
+def _support(
+    fa: FieldArrays, base: Grid, order: dict[tuple[int, int], int]
+) -> tuple[Grid, str, Any]:
+    """The grid of a field and how its rows map onto it: the whole mesh for a nodal
+    field over most nodes (`points`), the nodes alone for a small nodal profile
+    (`vertices`), the cells of its elements for an element field (`cells`)."""
+    if (fa.kind == 0).all():
+        nodes = fa.entity
+        if len(nodes) >= 0.5 * len(base.points):
+            grid = Grid(base.points, base.connectivity, base.offsets, base.types)
+            return grid, "points", nodes
+        return vertices(base.points, nodes), "vertices", np.arange(len(nodes))
+    vtk = np.array(
+        [order[(int(lv), int(e))] for lv, e in zip(fa.level, fa.entity, strict=True)]
+    )
+    cells = np.unique(vtk)
+    position = {int(c): i for i, c in enumerate(cells)}
+    return (
+        select_cells(base, cells),
+        "cells",
+        np.array([position[int(c)] for c in vtk]),
+    )
+
+
+def _arrays(
     fa: FieldArrays,
+    grid: Grid,
+    support: str,
+    index: Any,
     values: FloatArray,
-    order: dict[tuple[int, int], int],
-    n_points: int,
-    n_cells: int,
     prefix: str,
-    components: Iterable[str],
-) -> tuple[dict[str, FloatArray], dict[str, FloatArray]]:
-    """Per-component point and cell arrays of one MED field (NaN where the field is not
-    defined)."""
-    point: dict[str, FloatArray] = {}
-    cell: dict[str, FloatArray] = {}
+) -> None:
+    """Per-component arrays of one MED field on its grid (NaN where undefined)."""
     values = values.reshape(len(fa.kind), -1).astype(np.float64)
-    nodes = fa.kind == 0
-    if nodes.any():
-        for c, comp in enumerate(components):
-            full = np.full(n_points, np.nan)
-            full[fa.entity[nodes]] = values[nodes, c]
-            point[f"{prefix}_{comp}"] = full
-    elements = fa.kind > 0
-    if elements.any():
-        vtk_index = np.array(
-            [
-                order[(int(lv), int(e))]
-                for lv, e in zip(fa.level[elements], fa.entity[elements], strict=True)
-            ]
-        )
-        locals_ = fa.local[elements]
-        gauss = fa.kind[elements] == 2
-        for c, comp in enumerate(components):
-            for local in np.unique(locals_):
-                rows = locals_ == local
-                full = np.full(n_cells, np.nan)
-                full[vtk_index[rows]] = values[elements][rows, c]
-                suffix = "" if gauss.all() else f"_{int(local) + 1}"
-                cell[f"{prefix}_{comp}{suffix}"] = full
-    return point, cell
+    if support in ("points", "vertices"):
+        for c, comp in enumerate(fa.info.components):
+            full = np.full(len(grid.points), np.nan)
+            full[index] = values[:, c]
+            grid.point_data[f"{prefix}_{comp}"] = full
+        return
+    gauss = (fa.kind == 2).all()
+    for c, comp in enumerate(fa.info.components):
+        for local in np.unique(fa.local):
+            rows = fa.local == local
+            full = np.full(len(grid.types), np.nan)
+            full[index[rows]] = values[rows, c]
+            suffix = "" if gauss else f"_{int(local) + 1}"
+            grid.cell_data[f"{prefix}_{comp}{suffix}"] = full
 
 
 def export_vtu(d: Deliverables, infos: list[FieldInfo], out: Path) -> dict[str, Any]:
-    """`cas.vtu`, `combinaisons.vtu`, `enveloppes.vtu`, `charges.vtu`, each read back
-    and compared to its source arrays."""
+    """One `.vtu` per category and field, plus `charges.vtu`, each read back and
+    compared to its source arrays."""
     base, order_list = grid_from_mesh(d.mesh.arrays)
     order = {key: i for i, key in enumerate(order_list)}
-    n_points, n_cells = len(base.points), len(base.types)
-    grids: dict[str, Grid] = {}
+    report: dict[str, Any] = {}
 
-    def grid(name: str) -> Grid:
-        if name not in grids:
-            grids[name] = Grid(base.points, base.connectivity, base.offsets, base.types)
-        return grids[name]
+    def save(name: str, grid: Grid) -> None:
+        path = out / name
+        write_vtu(path, grid)
+        report[name] = {
+            "fichier": name,
+            "octets": path.stat().st_size,
+            **check_identical(grid, path),
+        }
 
     for info in infos:
         fa = d.field(info)
+        grids: dict[str, Grid] = {}
+        support = index = None
         for npz_key, med_name in array_names(d, info.key):
-            values = fa.arrays[npz_key]
-            point, cell = _scatter(
-                fa, values, order, n_points, n_cells, med_name, info.components
-            )
-            g = grid(_category(npz_key))
-            g.point_data.update(point)
-            g.cell_data.update(cell)
-    g = grid("charges")
+            category = _category(npz_key)
+            if category not in grids:
+                grids[category], support, index = _support(fa, base, order)
+            assert support is not None
+            _arrays(fa, grids[category], support, index, fa.arrays[npz_key], med_name)
+        for category, grid in grids.items():
+            save(vtu_name(category, info.key), grid)
+    grid = Grid(base.points, base.connectivity, base.offsets, base.types)
     for name, values, kind, entity, components in d.loads():
         if not (kind == 0).all():
             continue
         values = values.reshape(len(kind), -1)
-        for c, comp in enumerate(
-            components or [f"C{i}" for i in range(values.shape[1])]
-        ):
-            full = np.full(n_points, np.nan)
+        labels = components or [f"C{i}" for i in range(values.shape[1])]
+        for c, comp in enumerate(labels):
+            full = np.full(len(base.points), np.nan)
             full[entity] = values[:, c]
-            g.point_data[f"{name}_{comp}"] = full
-    report: dict[str, Any] = {}
-    for name, g in grids.items():
-        path = out / f"{name}.vtu"
-        write_vtu(path, g)
-        report[name] = {
-            "fichier": path.name,
-            "octets": path.stat().st_size,
-            **check_identical(g, path),
-        }
+            grid.point_data[f"{name}_{comp}"] = full
+    save("charges.vtu", grid)
     return report
 
 
@@ -401,9 +420,12 @@ def reading_points(
 
 
 def linear_envelopes(d: Deliverables, infos: list[FieldInfo]) -> list[dict[str, Any]]:
-    """Envelope of the element-node fields (beams), element end by element end."""
+    """Envelope of the beam fields (family `efforts_poutres`), element end by element
+    end."""
     out: list[dict[str, Any]] = []
     for info in infos:
+        if info.family != "efforts_poutres":
+            continue
         fa = d.field(info)
         if "env/max" not in fa.arrays or not (fa.kind == 1).any():
             continue
@@ -636,6 +658,8 @@ def step_vues(ctx: ProjectContext, rt: Any) -> list[str]:  # noqa: ARG001
     root = deliverables_dir(ctx)
     d = Deliverables(root)
     infos = d.field_infos(section.fields)
+    if (root / "vtu").exists():  # no file of an earlier layout left behind
+        shutil.rmtree(root / "vtu")
     vtu = export_vtu(d, infos, root / "vtu")
     bad = [k for k, v in vtu.items() if not v["identiques"]]
     if bad:

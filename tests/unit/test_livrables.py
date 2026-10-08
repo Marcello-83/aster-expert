@@ -298,19 +298,20 @@ def _write_deliverables(root: Path) -> None:
     data = root / "donnees"
     data.mkdir(parents=True)
     (root / "post").mkdir()
-    np.savez(
-        data / "maillage.npz",
-        coords=np.array(
+    mesh: dict[str, Any] = {
+        "coords": np.array(
             [[0.0, 0.0, 0.0], [2.0, 0.0, 0.0], [2.0, 2.0, 0.0], [0.0, 2.0, 0.0]]
         ),
-        conn_0=np.array([[0, 1, 2, 3]]),
-        type_0=np.array([4]),
-        **{"conn_-1": np.array([[0, 1]]), "type_-1": np.array([1])},
-        gno_APPUI=np.array([0]),
-        gma_0_DALLE=np.array([0]),
-        **{"gma_-1_POUTRE": np.array([0])},
-    )
-    combos = [
+        "conn_0": np.array([[0, 1, 2, 3]]),
+        "type_0": np.array([4]),
+        "conn_-1": np.array([[0, 1]]),
+        "type_-1": np.array([1]),
+        "gno_APPUI": np.array([0]),
+        "gma_0_DALLE": np.array([0]),
+        "gma_-1_POUTRE": np.array([0]),
+    }
+    np.savez(data / "maillage.npz", **mesh)
+    combos: list[dict[str, Any]] = [
         {
             "name": "C1",
             "family": "ELU",
@@ -404,14 +405,12 @@ def _write_deliverables(root: Path) -> None:
             "REAC_NODA": ["DX", "DY", "DZ"],
         }[key]
         container["champs"][key] = {"composantes": comps}
-    np.savez(
-        data / "charges.npz",
-        **{
-            "val/FN_G": np.zeros((4, 3)),
-            "row_kind/FN_G": np.zeros(4, int),
-            "row_entity/FN_G": np.arange(4),
-        },
-    )
+    loads: dict[str, Any] = {
+        "val/FN_G": np.zeros((4, 3)),
+        "row_kind/FN_G": np.zeros(4, int),
+        "row_entity/FN_G": np.arange(4),
+    }
+    np.savez(data / "charges.npz", **loads)
     plan = {
         "resultats": [
             {
@@ -529,6 +528,7 @@ MANIFEST: dict[str, Any] = {
     ],
     "champs": [
         {
+            "cle": "DEPL",
             "famille": "deplacements",
             "composantes": [{"nom": c, "unite_si": "m"} for c in ("DX", "DY", "DZ")],
             "noms_med": [
@@ -539,6 +539,7 @@ MANIFEST: dict[str, Any] = {
             ],
         },
         {
+            "cle": "REAC_NODA",
             "famille": "reactions",
             "composantes": [{"nom": c, "unite_si": "N"} for c in ("DX", "DY", "DZ")],
             "noms_med": ["CAS_G__REAC_NODA"],
@@ -586,14 +587,12 @@ def _loads(ctx: Any, fz: list[float]) -> None:
     data = ctx.results_dir / "livrables" / "donnees"
     forces = np.zeros((4, 3))
     forces[:, 2] = fz
-    np.savez(
-        data / "charges.npz",
-        **{
-            "val/FN_G": forces,
-            "row_kind/FN_G": np.zeros(4, int),
-            "row_entity/FN_G": np.arange(4),
-        },
-    )
+    arrays: dict[str, Any] = {
+        "val/FN_G": forces,
+        "row_kind/FN_G": np.zeros(4, int),
+        "row_entity/FN_G": np.arange(4),
+    }
+    np.savez(data / "charges.npz", **arrays)
 
 
 def test_the_loads_control_passes_then_fails_when_a_load_moves(delivered: Any) -> None:
