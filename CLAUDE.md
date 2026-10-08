@@ -283,8 +283,10 @@ arrêt brutal de la machine) ; jamais de commit de fusion cosmétique fait par l
   (`/mcp`). Elle ne se replie jamais sur une lecture directe de la documentation ou des cas tests.
 - Un lot qui ajoute ou modifie un outil MCP se termine par une consigne explicite à MM : redémarrer la session avant le lot suivant.
 - Une session par lot.
-- Neuf outils : `search_connaissances` interroge les six couches de `connaissances/` et englobe `search_constats` (constats seuls) ; le skill
-  `code-aster-expert` impose de les consulter avant d'écrire une commande.
+- Dix outils : `search_connaissances` interroge les six couches de `connaissances/` et englobe `search_constats` (constats seuls) ; le skill
+  `code-aster-expert` impose de les consulter avant d'écrire une commande. `query_results` (lot 49) répond à une question sur les résultats
+  d'un projet en lisant ses livrables (`aster-expert resultats lire`), jamais de mémoire ; sa sonde de `mcp-check` exige qu'un projet ait des
+  livrables.
 - Lot 44 : `get_command_schema` filtré par `keyword` ne renvoie que le sous-arbre demandé (`keyword_variants`), `command_schema` réduit à ses
   métadonnées et `keywords_omitted` qui compte ce qui est laissé de côté.
 - `search_codeaster_docs` n'indexe pas les cas tests (familles présentes : V, R, U4, D, U2, U3, U7, U1, SV, SU, U0) : les chercher par
@@ -322,7 +324,7 @@ d'invariants sont calculées **analytiquement à partir des paramètres**, avant
 
 Constat (lot 26) : les MED exportés contiennent aussi les SEG2 du maillage 1D (bords compris) ; les comptages de mailles les incluent.
 
-## Règles tirées des lots 19 à 46 (en vigueur)
+## Règles tirées des lots 19 à 49 (en vigueur)
 L'historique de ces lots est dans `docs/historique/claude_md_avant_lot48bis.md`, `docs/etat.yaml` et `docs/essais_lotNN.md`. Ne restent ici que les
 règles.
 
@@ -384,6 +386,20 @@ Contrôles exécutables ajoutés au lot 48 bis (audit R3, R4, R6, R8) :
 - Nombres des maillages et des sorties texte (lot 48 bis) : un script de maillage construit ses sommets à partir de valeurs exactes et recale les coordonnées voulues sur la grille de `config/arrondis.yaml` (1 mm) avant l'écriture ; `mesh check` rapporte toute coordonnée « presque sur la grille sans y être » (non bloquant tant que les maillages versionnés en portent). Les sorties texte (tableaux de notes, CSV de lecture, commentaires de `.comm`) arrondissent selon la table unique `config/arrondis.yaml` (`aster_expert.arrondis`) ; les contrôles numériques travaillent sur les valeurs non arrondies, et une valeur dérivée d'un calcul exact garde sa précision dans le `.comm` avec sa valeur arrondie en commentaire.
 - Crochet `pre-push` : `ruff format --check`, `ruff check`, `pytest` (hors tests lents) avant tout envoi ; ne jamais le contourner. `ci.yml` : `main`,
   `lot-*`, `claude/**` ; `ci-lent.yml` aussi sur tout envoi touchant `execution/`, `validation/` ou `connaissances/`.
+
+Livrables et ressources (lot 49) :
+- Tout projet déclare `deliverables` dans `projet.yaml` (`projet verifier` le refuse absent) : champs par famille, combinaisons, enveloppes,
+  livrables non pertinents avec leur motif. `aster-expert projet <nom> livrables` (sous-étapes `preparer`, `executer`, `verifier`, `traiter`,
+  `vues`, puis `classeur` après `exporter-resultats`) : le `.comm` de production n'est jamais modifié ; une copie, avec des blocs de sorties
+  insérés, est exécutée et n'est acceptée que si toutes ses tables `E20.12` égalent celles de la production. MED et VTU jamais versionnés ; le
+  paquet porte la section `visualisation` (manifeste avec empreintes, contrôle CTL-013 sur le MED des charges, synthèses, images).
+- Questions sur des résultats : `aster-expert resultats lire <projet>` ou `query_results`, jamais un script jetable.
+- `CALC_CHAMP/PARALLELISME_TEMPS='OUI'` est refusé avant toute exécution (DIAG-027, `execution.forbidden_keywords`) ; une règle se lève en la
+  retirant de `config/validation.yaml` une fois son diagnostic résolu. Fils d'une exécution : processeurs ÷ exécutions simultanées, plafonnés par
+  `execution.useful_threads_max` (mesures du lot 49, `aster_expert.execution.regle_fils`) ; MPI désactivé par défaut.
+- Rendu ParaView sans écran (VM) : ParaView 5.11 de l'image Salomé-Méca, `xvfb-run -a pvbatch --no-mpi` (sans `--no-mpi`, blocage à
+  l'initialisation MPI ; `--force-offscreen-rendering` s'arrête en SIGABRT). Les scripts ParaView sont générés du manifeste, jamais écrits
+  à la main avec une liste de cas.
 
 ## Périmètre à ne pas dépasser sans instruction
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne pas installer d'infrastructure non demandée, ne pas inventer la structure

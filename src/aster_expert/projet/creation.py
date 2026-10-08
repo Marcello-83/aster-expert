@@ -95,6 +95,17 @@ mesh:
 comm:
   generator: {name}.extensions:generate
   output: resultats/{name}.comm
+
+# Lot 49 : contrat de livrables, obligatoire (`verifier` refuse un projet sans lui) :
+# champs livrés par famille d'éléments, combinaisons, enveloppes, et chaque livrable
+# non pertinent avec son motif (aster_expert.projet.declaration.DeliverablesSection).
+# deliverables:
+#   fields:
+#     - {{family: deplacements, field: DEPL, components: [DX, DY, DZ],
+#        convention: "..."}}
+#   not_relevant:
+#     - {{item: ressorts, reason: "..."}}
+#   combinations: declarees
 """
 
 

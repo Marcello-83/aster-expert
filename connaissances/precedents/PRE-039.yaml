@@ -38,7 +38,9 @@ option_retained: '**DST** pour une dalle dont les nœuds sont partagés par des 
 justification: Décision E20 de MM, recopiée à l'identique (sources/arbitrage_estacade_pieux_01_lot47quater.md).
 validity_domain: Dalle mince à moyennement épaisse (h/L ≤ 1/10), poutres au plan moyen (E20,
   texte de MM) ; établie sur le plan factoriel du lot 47 ter (dalle de 0,40 m, chevêtres de
-  1,20 × 0,90 et 0,80 m, maillage de 0,05 m) et CA-058.
+  1,20 × 0,90 et 0,80 m, maillage de 0,05 m) et CA-058. Portée (consigne du lot 49, MM) --
+  précédent pour les projets futurs ; la référence de l'estacade reste en DKT (E13), sans
+  recalcul.
 discarded_variants:
 - 'DKT pour toute dalle, la barre seule lue — écartée : sous-estime l''effort tranchant du
   chevêtre près des appuis (plan factoriel du lot 47 ter)'

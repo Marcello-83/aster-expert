@@ -31,7 +31,9 @@ def test_verifier_passes_on_the_quai_and_names_the_waived_revision() -> None:
     ctx = load_project("quai_cw_test_01", ROOT)
     lines = step_verifier(ctx, Runtime(ROOT))
     assert any("non bloquante pour `verifier`" in line for line in lines)
-    assert any("exemption déclarée" in line for line in lines)
+    # Lot 49 : l'exemption du lot 48 bis est levée, la fiche porte ses commandes.
+    assert not any("exemption déclarée" in line for line in lines)
+    assert any(line.startswith("Commandes prévues : ") for line in lines)
 
 
 def test_the_reinforcement_of_the_quai_stays_refused() -> None:

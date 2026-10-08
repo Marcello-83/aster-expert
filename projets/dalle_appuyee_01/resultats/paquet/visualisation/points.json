@@ -1,0 +1,202 @@
+[
+ {
+  "point": "centre de la dalle",
+  "cle": "DEPL",
+  "famille": "deplacements",
+  "source": "cas/G",
+  "lieu": {
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ],
+   "groupes": []
+  },
+  "valeurs_si": {
+   "DX": 0.0,
+   "DY": 0.0,
+   "DZ": -0.0001917036051957189,
+   "DRX": 2.198893835642673e-17,
+   "DRY": 4.749522616047026e-17,
+   "DRZ": 0.0
+  }
+ },
+ {
+  "point": "centre de la dalle",
+  "cle": "DEPL",
+  "famille": "deplacements",
+  "source": "cas/Q",
+  "lieu": {
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ],
+   "groupes": []
+  },
+  "valeurs_si": {
+   "DX": 0.0,
+   "DY": 0.0,
+   "DZ": -0.00025560480692762524,
+   "DRX": 2.9312762508385256e-17,
+   "DRY": 6.343925332807118e-17,
+   "DRZ": 0.0
+  }
+ },
+ {
+  "point": "centre de la dalle",
+  "cle": "DEPL",
+  "famille": "deplacements",
+  "source": "env/max",
+  "lieu": {
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ],
+   "groupes": []
+  },
+  "valeurs_si": {
+   "DX": 0.0,
+   "DY": 0.0,
+   "DZ": -0.0003961874507378191,
+   "DRX": 7.365421054375396e-17,
+   "DRY": 1.592774353087416e-16,
+   "DRZ": 0.0
+  }
+ },
+ {
+  "point": "centre de la dalle",
+  "cle": "DEPL",
+  "famille": "deplacements",
+  "source": "env/min",
+  "lieu": {
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ],
+   "groupes": []
+  },
+  "valeurs_si": {
+   "DX": 0.0,
+   "DY": 0.0,
+   "DZ": -0.0006422070774056584,
+   "DRX": 4.543914836313493e-17,
+   "DRY": 9.824662882292719e-17,
+   "DRZ": 0.0
+  }
+ },
+ {
+  "point": "centre de la dalle",
+  "cle": "EFGE_NOEU",
+  "famille": "efforts_coques",
+  "source": "cas/G",
+  "lieu": {
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ],
+   "groupes": [
+    "DALLE"
+   ]
+  },
+  "valeurs_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -5108.3468469822765,
+   "MYY": -9407.88012792946,
+   "MXY": -1.5902979442165884e-09,
+   "QX": 1.0101819825081293e-08,
+   "QY": -2.917397523560794e-08
+  }
+ },
+ {
+  "point": "centre de la dalle",
+  "cle": "EFGE_NOEU",
+  "famille": "efforts_coques",
+  "source": "cas/Q",
+  "lieu": {
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ],
+   "groupes": [
+    "DALLE"
+   ]
+  },
+  "valeurs_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -6811.129129311661,
+   "MYY": -12543.840170577905,
+   "MXY": -2.062206962418168e-09,
+   "QX": 1.7985968270295416e-08,
+   "QY": 2.847187374754867e-09
+  }
+ },
+ {
+  "point": "centre de la dalle",
+  "cle": "EFGE_NOEU",
+  "famille": "efforts_coques",
+  "source": "env/max",
+  "lieu": {
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ],
+   "groupes": [
+    "DALLE"
+   ]
+  },
+  "valeurs_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -10557.250150431606,
+   "MYY": -19442.952264391784,
+   "MXY": -3.240063514151123e-09,
+   "QX": 4.061640916930287e-08,
+   "QY": -2.6326787860853074e-08
+  }
+ },
+ {
+  "point": "centre de la dalle",
+  "cle": "EFGE_NOEU",
+  "famille": "efforts_coques",
+  "source": "env/min",
+  "lieu": {
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ],
+   "groupes": [
+    "DALLE"
+   ]
+  },
+  "valeurs_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -17112.961937393564,
+   "MYY": -31516.39842857163,
+   "MXY": -5.240212668319647e-09,
+   "QX": 2.4490594441317626e-08,
+   "QY": -3.511408550593842e-08
+  }
+ }
+]

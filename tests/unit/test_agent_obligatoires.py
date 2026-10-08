@@ -16,6 +16,7 @@ from aster_expert.agent.hypotheses import (
 from aster_expert.agent.model_data import DataValue, ModelData
 from aster_expert.agent.obligatoires import (
     ExecutionRules,
+    NoQuestionRule,
     _holds,
     add_missing_parameters,
     default_rules_path,
@@ -23,6 +24,7 @@ from aster_expert.agent.obligatoires import (
     mandatory_keywords,
     missing_parameters,
 )
+from aster_expert.agent.prevues import apply_coverages
 from aster_expert.catalogue.models import CommandSchema
 
 _ROOT = Path(__file__).resolve().parents[2]
@@ -202,3 +204,77 @@ def test_versioned_rules_cite_their_sources() -> None:
     assert all(rule.sources for rule in rules.rules)
     keywords = {k for rule in rules.rules for k in rule.keywords}
     assert {"AFFE.ALPHA_E", "AFFE.KT", "AFFE.EYS", "AFFE.SIGC_ELS_QP"} <= keywords
+
+
+def test_a_keyword_without_question_is_reported_apart_not_missing() -> None:
+    rules = _RULES.model_copy(
+        update={
+            "without_question": (
+                NoQuestionRule(
+                    command="CMD",
+                    when={"TYPE_COMB": "ELS_QP"},
+                    keywords=("UNITE",),
+                    reason="unité de lecture, sans valeur de l'ouvrage",
+                    sources=("U4.x § UNITE",),
+                ),
+            )
+        }
+    )
+    exempt: list[str] = []
+    missing = missing_parameters(
+        _sheet({}), None, {"CMD": _schema()}, rules, without_question=exempt
+    )
+    assert "UNITE" not in {m.mandatory.keyword for m in missing}
+    assert exempt == ["CMD/UNITE : unité de lecture, sans valeur de l'ouvrage"]
+    # La condition `when` ne vaut que pour ses options.
+    other = _sheet({}).model_copy(
+        update={
+            "planned_commands": (
+                PlannedCommand(
+                    command="CMD", point_label="14", options={"TYPE_COMB": "ELS"}
+                ),
+            )
+        }
+    )
+    assert "UNITE" in {
+        m.mandatory.keyword
+        for m in missing_parameters(other, None, {"CMD": _schema()}, rules)
+    }
+
+
+def test_versioned_rules_never_exempt_a_number_of_the_structure() -> None:
+    """Lot 49 : seules la lecture et le codage des champs sont « sans question » ;
+    DEFI_CONSTANTE/VALE (un coefficient) se couvre par un point ou une donnée."""
+    rules = load_execution_rules(default_rules_path(_ROOT))
+    exempt = {(r.command, k) for r in rules.without_question for k in r.keywords}
+    assert exempt == {
+        ("POST_RELEVE_T", "ACTION.INTITULE"),
+        ("POST_RELEVE_T", "ACTION.OPERATION"),
+        ("CREA_CHAMP", "TYPE_CHAM"),
+        ("CREA_CHAMP", "AFFE.NOM_CMP"),
+        ("CREA_RESU", "AFFE.NOM_CHAM"),
+    }
+    assert all(r.sources and r.reason for r in rules.without_question)
+    assert not any(k.endswith("VALE") for _c, k in exempt)
+
+
+def test_coverages_are_kept_and_explicit_ones_added() -> None:
+    planned = (
+        PlannedCommand(command="DEFI_CONSTANTE", point_label="0"),
+        PlannedCommand(command="CMD", point_label="1", options={"A": "1"}),
+    )
+    previous = (
+        PlannedCommand(
+            command="CMD",
+            point_label="9",
+            options={"A": "1"},
+            covered_by={"K": "data:g.k"},
+        ),
+    )
+    out = apply_coverages(planned, previous, ("DEFI_CONSTANTE/VALE=point:13",))
+    assert out[0].covered_by == {"VALE": "point:13"}
+    assert out[1].covered_by == {"K": "data:g.k"}
+    with pytest.raises(ValueError, match="pas une commande prévue"):
+        apply_coverages(planned, (), ("ABSENTE/VALE=point:1",))
+    with pytest.raises(ValueError, match="forme attendue"):
+        apply_coverages(planned, (), ("DEFI_CONSTANTE=point:1",))

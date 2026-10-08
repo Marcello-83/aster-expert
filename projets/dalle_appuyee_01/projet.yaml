@@ -106,8 +106,46 @@ rebar:
 # dalle_appuyee_01`) : ce que les notes de résultats peuvent lire, sans MED. Les
 # comptes rendus d'exécution, le rapport de `mesh check` et la validation B y
 # sont ajoutés d'office ; les sections présentes décident des sections des notes.
+# Lot 49 : livrables de résultats (aster-expert projet dalle_appuyee_01 livrables). RC01 à
+# RC04 et RSENS sont des résolutions du .comm qui ne sont pas des cas élémentaires.
+deliverables:
+  fields:
+    - family: deplacements
+      field: DEPL
+      components: [DX, DY, DZ, DRX, DRY, DRZ]
+      convention: "repère global (point 9) : X et Y dans le plan de la dalle, Z vers le haut"
+    - family: efforts_coques
+      field: EFGE_NOEU
+      groups: [DALLE]
+      components: [NXX, NYY, NXY, MXX, MYY, MXY, QX, QY]
+      convention: "dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normales +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+    - family: reactions
+      field: REAC_NODA
+      node_groups: [APPUIS, P_A, P_B]
+      components: [DX, DY, DZ]
+      convention: "repère global ; appui simple DZ = 0 sur APPUIS, blocage isostatique DX = DY = 0 en P_A, DY = 0 en P_B (point 6)"
+  not_relevant:
+    - {item: efforts_poutres, reason: "le modèle n'a aucun élément de poutre (dalle DKT seule)"}
+    - {item: contraintes_volumes, reason: "le modèle n'a aucun élément de volume (dalle DKT seule)"}
+    - {item: ressorts, reason: "le modèle n'a aucun ressort (appui simple par DDL_IMPO, point 6)"}
+  combinations: declarees
+  ignored_results:
+    - {result: RC01, reason: "combinaison ELU déjà calculée par Code_Aster pour le ferraillage, recalculée par les livrables à partir des cas"}
+    - {result: RC02, reason: "combinaison ELS caractéristique déjà calculée par Code_Aster pour le ferraillage, recalculée par les livrables"}
+    - {result: RC03, reason: "combinaison ELS fréquente déjà calculée par Code_Aster pour le ferraillage, recalculée par les livrables"}
+    - {result: RC04, reason: "combinaison ELS quasi permanente déjà calculée par Code_Aster pour le ferraillage, recalculée par les livrables"}
+    - {result: RSENS, reason: "résolution de sensibilité du ferraillage, qui n'est pas un cas de charge de l'ouvrage"}
+  points:
+    - {label: centre de la dalle, node_group: CENTRE}
+
 results_package:
   items:
+    # Lot 49 : livrables (manifeste des MED et VTU, contrôle des charges, synthèses,
+    # images) ; les MED et VTU eux-mêmes ne sont jamais versionnés.
+    - {section: visualisation, source: "resultats/livrables/paquet/*.json"}
+    - {section: visualisation, source: resultats/livrables/paquet/synthese.csv}
+    - {section: visualisation, source: "resultats/livrables/png/charges_*.png", required: false}
+    - {section: visualisation, source: "resultats/livrables/png/resultats_ENV_*.png", required: false}
     - {section: controles, source: resultats/controles/controles_d.json}
     - {section: controles, source: resultats/controles/equilibre.json}
     - {section: niveau_e, source: references/niveau_e_lot43.json}
@@ -135,26 +173,26 @@ results_package:
       source: niveau_e/rejeu_niveau_e_lot45.json
       rows: series
       columns:
-        - {header: "Taille de maille (m)", path: taille_m}
+        - {header: "Taille de maille (m)", path: taille_m, unit: "m"}
         - {header: Mailles, path: mailles}
         - {header: "Flèche w (m)", path: cas.G.w}
         - {header: "Erreur relative de w", path: cas.G.erreurs.w}
-        - {header: "Mx (N·m/m)", path: cas.G.mx}
+        - {header: "Mx (N·m/m)", path: cas.G.mx, unit: "N·m/m"}
         - {header: "Erreur relative de Mx", path: cas.G.erreurs.mx}
-        - {header: "My (N·m/m)", path: cas.G.my}
+        - {header: "My (N·m/m)", path: cas.G.my, unit: "N·m/m"}
         - {header: "Erreur relative de My", path: cas.G.erreurs.my}
     - section: cas
       title: Cas Q, suite de convergence — comparaison à la solution de Navier au centre
       source: niveau_e/rejeu_niveau_e_lot45.json
       rows: series
       columns:
-        - {header: "Taille de maille (m)", path: taille_m}
+        - {header: "Taille de maille (m)", path: taille_m, unit: "m"}
         - {header: Mailles, path: mailles}
         - {header: "Flèche w (m)", path: cas.Q.w}
         - {header: "Erreur relative de w", path: cas.Q.erreurs.w}
-        - {header: "Mx (N·m/m)", path: cas.Q.mx}
+        - {header: "Mx (N·m/m)", path: cas.Q.mx, unit: "N·m/m"}
         - {header: "Erreur relative de Mx", path: cas.Q.erreurs.mx}
-        - {header: "My (N·m/m)", path: cas.Q.my}
+        - {header: "My (N·m/m)", path: cas.Q.my, unit: "N·m/m"}
         - {header: "Erreur relative de My", path: cas.Q.erreurs.my}
     - section: cas
       title: Solution de Navier de référence, par cas
@@ -163,10 +201,10 @@ results_package:
       key_header: Cas
       columns:
         - {header: Cas, path: "$key"}
-        - {header: "Charge q (Pa)", path: q_pa}
+        - {header: "Charge q (Pa)", path: q_pa, unit: "Pa"}
         - {header: "Flèche w (m)", path: w_m}
-        - {header: "Mx (N·m/m)", path: mx_nm_par_m}
-        - {header: "My (N·m/m)", path: my_nm_par_m}
+        - {header: "Mx (N·m/m)", path: mx_nm_par_m, unit: "N·m/m"}
+        - {header: "My (N·m/m)", path: my_nm_par_m, unit: "N·m/m"}
         - {header: "Termes de la série", path: termes_m_n}
     - section: cas
       title: Équilibre par composante, par cas (N)
@@ -175,9 +213,9 @@ results_package:
       columns:
         - {header: Cas, path: "^$key"}
         - {header: Composante, path: "$key"}
-        - {header: "Charge appliquée", path: applied_as_evaluated_n}
-        - {header: "Réactions bloquées", path: reactions_blocked_n}
-        - {header: Bilan, path: balance_n}
+        - {header: "Charge appliquée", path: applied_as_evaluated_n, unit: "N"}
+        - {header: "Réactions bloquées", path: reactions_blocked_n, unit: "N"}
+        - {header: Bilan, path: balance_n, unit: "N"}
         - {header: "Écart relatif", path: relative_gap}
     - section: cas
       title: Réactions d'appui par groupe, par cas (N)
@@ -186,6 +224,6 @@ results_package:
       columns:
         - {header: Cas, path: "^$key"}
         - {header: Groupe, path: "$key"}
-        - {header: DX, path: DX}
-        - {header: DY, path: DY}
-        - {header: DZ, path: DZ}
+        - {header: DX, path: DX, unit: "N"}
+        - {header: DY, path: DY, unit: "N"}
+        - {header: DZ, path: DZ, unit: "N"}

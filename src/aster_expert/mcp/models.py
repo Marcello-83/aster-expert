@@ -201,3 +201,22 @@ class SearchConnaissancesResult(BaseModel):
     total_by_layer: dict[str, int]
     results: list[KnowledgeHitResult]
     guidance: str
+
+
+class QueryResultsResult(BaseModel):
+    """`query_results` (lot 49): a question on the delivered results of a project,
+    answered by reading the arrays of its deliverables."""
+
+    model_config = ConfigDict(frozen=True)
+
+    validation_level: str
+    """Level reached by the project's results package (`paquet.json`), or `C` when
+    the package does not say: the values are those of an executed computation."""
+    projet: str
+    filtres: dict[str, str | None]
+    lignes: int
+    rows: list[dict[str, str]]
+    csv: str
+    provenance: str
+    notes: list[str]
+    guidance: str

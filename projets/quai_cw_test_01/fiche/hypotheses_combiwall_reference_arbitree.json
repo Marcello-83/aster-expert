@@ -1808,5 +1808,154 @@
       "status": "tranche",
       "point_label": "11"
     }
+  ],
+  "planned_commands": [
+    {
+      "command": "AFFE_CARA_ELEM",
+      "point_label": "4",
+      "options": {
+        "SECTION": "GENERALE",
+        "CARA": "K_T_D_N"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_CHAR_MECA",
+      "point_label": "3",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_CHAR_MECA_F",
+      "point_label": "5",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_MATERIAU",
+      "point_label": "2",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_MODELE",
+      "point_label": "1",
+      "options": {
+        "PHENOMENE": "MECANIQUE"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "CALC_CHAMP",
+      "point_label": "4",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "CREA_MAILLAGE",
+      "point_label": "4",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "CREA_TABLE",
+      "point_label": "1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEBUT",
+      "point_label": "1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_FONCTION",
+      "point_label": "5",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_GROUP",
+      "point_label": "5",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_GROUP",
+      "point_label": "5",
+      "options": {
+        "OPTION": "ENV_SPHERE"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_GROUP",
+      "point_label": "5",
+      "options": {
+        "OPTION": "BANDE"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_MATERIAU",
+      "point_label": "2",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DETRUIRE",
+      "point_label": "1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "FIN",
+      "point_label": "4",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "IMPR_RESU",
+      "point_label": "1",
+      "options": {
+        "FORMAT": "MED"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "IMPR_TABLE",
+      "point_label": "1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "LIRE_MAILLAGE",
+      "point_label": "1",
+      "options": {
+        "FORMAT": "MED"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "MECA_STATIQUE",
+      "point_label": "1",
+      "options": {
+        "METHODE": "MUMPS"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "MODI_MAILLAGE",
+      "point_label": "5",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "POST_RELEVE_T",
+      "point_label": "8",
+      "options": {},
+      "covered_by": {}
+    }
   ]
 }

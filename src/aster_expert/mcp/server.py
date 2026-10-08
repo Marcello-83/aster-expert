@@ -29,6 +29,7 @@ from aster_expert.mcp.models import (
     CommAnalysisResult,
     CommandSchemaResult,
     DocumentSectionResult,
+    QueryResultsResult,
     SearchConnaissancesResult,
     SearchConstatsResult,
     SearchDocsResult,
@@ -426,6 +427,54 @@ def search_connaissances(
         layers=layers,
         status=status,
         limit=limit,
+    )
+
+
+_QUERY_RESULTS_DESCRIPTION = (
+    "Interroge les résultats livrés d'un projet (lot 49, `aster-expert resultats "
+    "lire`) : lecture des tableaux des livrables (MED de post-traitement dont les "
+    "tables égalent celles de l'exécution de production), jamais de mémoire. "
+    "`projet` (nom sous projets/), `champ` (clé d'un champ livré : DEPL, EFGE_NOEU, "
+    "EFGE_ELNO, REAC_NODA, SIEF_ELGA...), `composantes`, `cas` (cas élémentaires, "
+    "positions mobiles, combinaisons par leur nom, '<combinaison>@<position>', "
+    "'expr:1.35*G+1.5*Q' ou 'enveloppe'), `groupes` (mailles ou nœuds, union), "
+    "`noeuds` (groupe de nœuds, intersection), "
+    "`mode` : 'extremum' (max et min, lieu, combinaison et position mobile qui "
+    "gouvernent), 'point' (nœud le plus proche de `point` = [x, y, z]), 'coupe' "
+    "(`coupe` = 'Y=0'), 'somme', 'tout' ; disques d'exclusion des appuis ponctuels "
+    "(PAT-013) appliqués aux extrema sauf `sans_disques`. Réponse : lignes, CSV et "
+    "une ligne de provenance (empreintes) ; `validation_level` est le niveau du "
+    "paquet du projet."
+)
+
+
+@app.tool(description=_QUERY_RESULTS_DESCRIPTION)
+def query_results(
+    projet: str,
+    champ: str | None = None,
+    composantes: list[str] | None = None,
+    cas: list[str] | None = None,
+    groupes: list[str] | None = None,
+    noeuds: str | None = None,
+    mode: str = "extremum",
+    point: list[float] | None = None,
+    coupe: str | None = None,
+    sans_disques: bool = False,
+    limite: int = 200,
+) -> QueryResultsResult:
+    return tools.query_results(
+        project_root=_project_root(),
+        projet=projet,
+        champ=champ,
+        composantes=composantes,
+        cas=cas,
+        groupes=groupes,
+        noeuds=noeuds,
+        mode=mode,
+        point=point,
+        coupe=coupe,
+        sans_disques=sans_disques,
+        limite=limite,
     )
 
 

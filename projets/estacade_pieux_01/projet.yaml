@@ -85,11 +85,56 @@ controls:
   # positions mobiles ; double compte d'E2 chiffré.
   extra: estacade_pieux_01.extensions:extra_controls
 
+# Lot 49 : livrables de résultats (MED des résultats et des charges, ParaView, classeur),
+# produits par `aster-expert projet estacade_pieux_01 livrables` (aster_expert.livrables).
+# Conventions recopiées du résumé du modèle du lot 47 (choix U1, CA-045) ; le signe des
+# efforts de ressorts est contrôlé par l'exécution de post-traitement.
+deliverables:
+  fields:
+    - family: deplacements
+      field: DEPL
+      components: [DX, DY, DZ, DRX, DRY, DRZ]
+      convention: "repère global (U1) : X le long du tablier depuis l'about, Y transversal depuis l'axe de la voie, Z vers le haut (cote NGF)"
+    - family: efforts_coques
+      field: EFGE_NOEU
+      groups: [DALLE]
+      components: [NXX, NYY, NXY, MXX, MYY, MXY, QX, QY]
+      convention: "dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+    - family: efforts_poutres
+      field: EFGE_ELNO
+      groups: [CHEVETRES, PIEUX]
+      components: [N, VY, VZ, MT, MFY, MFZ]
+      convention: "POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+    - family: reactions
+      field: REAC_NODA
+      node_groups: [PIEDS]
+      components: [DX, DY, DZ]
+      convention: "repère global ; réaction de l'appui DZ = 0 des pointes (E4), seule DZ est bloquée"
+    - family: ressorts
+      field: SIEF_ELGA
+      groups: ["RESS_K*"]
+      components: [N, VY, VZ]
+      convention: "ressorts DIS_T (K_T_D_N, repère global) : effort interne k·u selon X, Y, Z ; la force exercée par le ressort sur le pieu est −k·u"
+  not_relevant:
+    - {item: contraintes_volumes, reason: "le modèle n'a aucun élément de volume (dalle DKT, poutres POU_D_T, ressorts DIS_T)"}
+  combinations: "estacade_pieux_01.extensions:deliverable_combinations"
+  moving_cases: ["TSA_*", "TSB_*", "L2A_*", "L2B_*"]
+  exclusion_disks:
+    - {node_group: TETES, radius: 0.60, groups: [DALLE], source: "règle E17.3 de MM (lot 47 bis), patron PAT-013 : extrema de la dalle lus hors des disques des têtes de pieux"}
+  points:
+    - {label: têtes de pieux, node_group: TETES, cell_group: PIEUX}
+
 # Paquet de résultats versionnable (lots 45, 46, 47) : ce que les notes lisent, sans MED.
 # Section `contre_calcul` (lot 47) : contre-calcul d'un modèle non validé, jamais un
 # niveau E.
 results_package:
   items:
+    # Lot 49 : livrables (manifeste des MED et VTU, contrôle des charges, synthèses,
+    # images) ; les MED et VTU eux-mêmes ne sont jamais versionnés.
+    - {section: visualisation, source: "resultats/livrables/paquet/*.json"}
+    - {section: visualisation, source: resultats/livrables/paquet/synthese.csv}
+    - {section: visualisation, source: "resultats/livrables/png/charges_*.png", required: false}
+    - {section: visualisation, source: "resultats/livrables/png/resultats_ENV_*.png", required: false}
     - {section: controles, source: resultats/controles/controles_d.json}
     - {section: controles, source: resultats/controles/equilibre.json}
     - {section: controles, source: resultats/controles/controles_projet.json}
@@ -217,8 +262,8 @@ results_package:
       columns:
         - {header: Cas, path: "^$key"}
         - {header: Composante, path: "$key"}
-        - {header: "Charge appliquée", path: applied_as_evaluated_n}
-        - {header: "Réactions bloquées", path: reactions_blocked_n}
-        - {header: "Ressorts", path: springs_on_structure_n}
-        - {header: Bilan, path: balance_n}
+        - {header: "Charge appliquée", path: applied_as_evaluated_n, unit: "N"}
+        - {header: "Réactions bloquées", path: reactions_blocked_n, unit: "N"}
+        - {header: "Ressorts", path: springs_on_structure_n, unit: "N"}
+        - {header: Bilan, path: balance_n, unit: "N"}
         - {header: "Écart relatif", path: relative_gap}

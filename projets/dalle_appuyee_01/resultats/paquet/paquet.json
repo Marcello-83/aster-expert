@@ -2,9 +2,9 @@
  "schema_version": 1,
  "projet": "dalle_appuyee_01",
  "ouvrage": "DALLE-APPUYEE-01",
- "exporte_le": "2026-10-02T13:52:19Z",
+ "exporte_le": "2026-10-08T08:44:13Z",
  "depot": {
-  "commit": "aca7e68bbb847d3305605dd492badcaea5f0c255",
+  "commit": "8512bd89a0080c6ee4814c828df4060f47e51933",
   "arbre_modifie": true
  },
  "code_aster": {
@@ -14,7 +14,7 @@
  "empreintes": {
   "fiche": {
    "chemin": "projets/dalle_appuyee_01/fiche/hypotheses_dalle_arbitree.json",
-   "sha256": "297fcd56c98d9ee6bdc8935db4d1a6fc13fdd9b182cfe349535c5ba5569398e0"
+   "sha256": "9305d12b2aa869cc32f47df634a25211f4b478159ed62a31cf1ea5b3640a57bf"
   },
   "donnees": {
    "chemin": "projets/dalle_appuyee_01/donnees/dalle_model_data.yaml",
@@ -73,6 +73,8 @@
  "regeneration_comm": {
   "statut": "identique",
   "sha256": "70ae851c380a4dad612adad6962b2611feea61485fe096aeb533e39d75e09848",
+  "identique_hors_commentaires": true,
+  "empreinte_hors_commentaires": "8946dc3931267f3a4aa302b7df8fa4f6ea8bc74b8d7f7217922b8ef8ad79fad8",
   "difference": []
  },
  "criteres": [
@@ -169,7 +171,8 @@
   "ferraillage",
   "maillage",
   "niveau_e",
-  "validation"
+  "validation",
+  "visualisation"
  ],
  "fichiers": [
   {
@@ -178,8 +181,8 @@
    "type": "tableau",
    "source": "projets/dalle_appuyee_01/resultats/controles/controles_d.json",
    "libelle": null,
-   "octets": 1420,
-   "sha256": "e9660a16cf07cbdf0d7e9eba570ff3d1532a569b53c291c969d6b1dbac544625"
+   "octets": 2766,
+   "sha256": "c58be672e0386d3ca220a356c5a78247536ee9b023a3849b35d4f0dd6c5e6aec"
   },
   {
    "chemin": "controles/equilibre.json",
@@ -261,8 +264,71 @@
    "libelle": null,
    "octets": 14632,
    "sha256": "4f204a7d2f78c58c02be8c953c0b3330a63557a01769d6df9217ab669e87d776"
+  },
+  {
+   "chemin": "visualisation/controle_charges.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/controle_charges.json",
+   "libelle": null,
+   "octets": 1418,
+   "sha256": "173881c46f7b4754b6b00de0961ae2bdbe85240dd7f52387a8d5f42fc10c700d"
+  },
+  {
+   "chemin": "visualisation/enveloppes_lineiques.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/enveloppes_lineiques.json",
+   "libelle": null,
+   "octets": 3,
+   "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  },
+  {
+   "chemin": "visualisation/equilibre_livrables.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/equilibre_livrables.json",
+   "libelle": null,
+   "octets": 1061,
+   "sha256": "f75e1ad31eff05c5f1bb418957c6830085fdd9d3a28a2978eacd3c8b2c268e2b"
+  },
+  {
+   "chemin": "visualisation/manifeste.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/manifeste.json",
+   "libelle": null,
+   "octets": 8219,
+   "sha256": "e1d86f061b54416d5939eea86228edc86a8e90ca277829a1a484148b0c0dda7f"
+  },
+  {
+   "chemin": "visualisation/points.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/points.json",
+   "libelle": null,
+   "octets": 3377,
+   "sha256": "b873786129ff4d8de97f7de4591aa05654a53d04bdd302b26a7dd53f942a0c18"
+  },
+  {
+   "chemin": "visualisation/synthese.csv",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/synthese.csv",
+   "libelle": null,
+   "octets": 3323,
+   "sha256": "a010e741011c1b43a79fb77efdf7a5c8d3a9a480de2fce0c19287e44091ae738"
+  },
+  {
+   "chemin": "visualisation/synthese.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/synthese.json",
+   "libelle": null,
+   "octets": 14031,
+   "sha256": "53a28bf0162b1d01afe5c0f8075034141d3b80f5945c36d9eba82c48f3c55b6b"
   }
  ],
- "taille_octets": 79739,
+ "taille_octets": 112517,
  "plafond_octets": 20971520
 }

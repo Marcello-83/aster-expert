@@ -19,6 +19,12 @@ decimales:
   kN: 1
   "kN/m": 1
   "kN·m": 1
+  # Lot 49 : unités d'affichage des livrables (aster_expert.livrables.unites).
+  "kN·m/m": 1
+  "N/m": 0
+  "N·m/m": 0
+  mrad: 3
+  "°C": 1
   "N·m": 0
   Pa: 0
   kPa: 1

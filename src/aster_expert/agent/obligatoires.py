@@ -72,6 +72,29 @@ class ExecutionRule(BaseModel):
     sources: tuple[str, ...] = Field(min_length=1)
 
 
+class NoQuestionRule(BaseModel):
+    """Mandatory keywords that never make a question (lot 49): their value names a
+    table, a kind of reading or the encoding of a field (a field type, a component
+    name), fixed by the role of the command and never by the structure. Each rule
+    gives its reason and its sources; a keyword that carries a number of the
+    structure (a value, a coefficient) never goes here."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    command: str
+    when: dict[str, str] = Field(default_factory=dict)
+    keywords: tuple[str, ...] = Field(min_length=1)
+    reason: str = Field(min_length=10)
+    sources: tuple[str, ...] = Field(min_length=1)
+
+    def applies(self, command: str, keyword: str, options: dict[str, str]) -> bool:
+        return (
+            command == self.command
+            and keyword in self.keywords
+            and all(options.get(k) == v for k, v in self.when.items())
+        )
+
+
 class ExecutionRules(BaseModel):
     """The versioned table `data/config/obligations_execution.yaml`."""
 
@@ -82,11 +105,21 @@ class ExecutionRules(BaseModel):
     doc_commit: str
     rules: tuple[ExecutionRule, ...]
     categories: dict[str, dict[str, str]] = Field(default_factory=dict)
+    without_question: tuple[NoQuestionRule, ...] = ()
 
     def category(self, command: str, keyword: str) -> str:
         table = self.categories.get(command, {})
         name = keyword.rsplit(".", 1)[-1]
         return table.get(name, table.get("default", "mm:non classé"))
+
+    def no_question(
+        self, command: str, keyword: str, options: dict[str, str]
+    ) -> NoQuestionRule | None:
+        """The rule that exempts this keyword from a question, if any."""
+        return next(
+            (r for r in self.without_question if r.applies(command, keyword, options)),
+            None,
+        )
 
 
 def default_rules_path(project_root: Path) -> Path:
@@ -285,11 +318,14 @@ def missing_parameters(
     schemas: Mapping[str, CommandSchema],
     rules: ExecutionRules,
     uninterpreted: list[str] | None = None,
+    without_question: list[str] | None = None,
 ) -> tuple[MissingParameter, ...]:
     """Mandatory keywords of every planned command that nothing covers.
 
     A `covered_by` target that does not exist (data key absent from the file,
     point absent from the fiche) does not cover anything: the keyword is reported.
+    A keyword of the table's `without_question` rules is not reported; when
+    `without_question` is given, one line per such keyword is appended to it.
     """
     missing: list[MissingParameter] = []
     for planned in sheet.planned_commands:
@@ -299,6 +335,15 @@ def missing_parameters(
         ):
             target = planned.covered_by.get(mandatory.keyword)
             if target is not None and _covered(target, sheet, data):
+                continue
+            exempt = rules.no_question(
+                planned.command, mandatory.keyword, planned.options
+            )
+            if exempt is not None:
+                if without_question is not None:
+                    without_question.append(
+                        f"{planned.command}/{mandatory.keyword} : {exempt.reason}"
+                    )
                 continue
             missing.append(
                 MissingParameter(
@@ -455,6 +500,7 @@ __all__: list[str] = [
     "ExecutionRules",
     "MandatoryKeyword",
     "MissingParameter",
+    "NoQuestionRule",
     "add_missing_parameters",
     "default_rules_path",
     "load_execution_rules",

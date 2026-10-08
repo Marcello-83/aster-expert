@@ -52,6 +52,8 @@ STEPS = (
     "combinaisons",
     "ferraillage",
 )
+"""Steps of `tout`, in order. `livrables` (lot 49) is asked for by name: it runs a
+post-processing execution of its own."""
 
 
 class ProjectState(BaseModel):
@@ -177,6 +179,20 @@ def step_verifier(ctx: ProjectContext, rt: Runtime) -> list[str]:  # noqa: ARG00
                 "écrire les commandes : aster-expert fiche prevoir "
                 f"{ctx.declaration.name} --ecrire",
                 "ou déclarer `planned_commands_exemption` (motif) dans projet.yaml",
+            ),
+        )
+    if ctx.declaration.deliverables is None:
+        message = (
+            f"projet {ctx.declaration.name} : la section `deliverables` (contrat de "
+            "livrables, lot 49) est obligatoire"
+        )
+        raise ProjectError(
+            message,
+            (
+                "déclarer les champs livrés par famille (déplacements, efforts, "
+                "réactions, ressorts...), les combinaisons et les livrables non "
+                "pertinents avec leur motif (aster_expert.projet.declaration."
+                "DeliverablesSection)",
             ),
         )
     planned_line = (
@@ -621,6 +637,19 @@ def step_ferraillage(ctx: ProjectContext, rt: Runtime) -> list[str]:
     return lines
 
 
+def step_livrables(
+    ctx: ProjectContext,
+    rt: Runtime,
+    *,
+    only: str | None = None,
+    ncpus: int = 1,
+) -> list[str]:
+    """Lot 49: the deliverables (`aster_expert.livrables.chaine`)."""
+    from aster_expert.livrables.chaine import run_deliverables  # noqa: PLC0415
+
+    return run_deliverables(ctx, rt, only=only, ncpus=ncpus)
+
+
 def _sha(path: Path) -> str:
     import hashlib  # noqa: PLC0415
 
@@ -637,6 +666,7 @@ STEP_FUNCTIONS: dict[str, Callable[[ProjectContext, Runtime], list[str]]] = {
     "synthese": step_synthese,
     "combinaisons": step_combinaisons,
     "ferraillage": step_ferraillage,
+    "livrables": lambda ctx, rt: step_livrables(ctx, rt),
 }
 
 
@@ -649,6 +679,7 @@ def declared(ctx: ProjectContext, step: str) -> bool:
         "combinaisons": d.combinations is not None
         and d.combinations.forces is not None,
         "ferraillage": d.rebar is not None,
+        "livrables": d.deliverables is not None,
     }.get(step, True)
 
 
@@ -665,7 +696,10 @@ def run_step(
             lines += run_step(ctx, rt, name, views=views)
         return lines
     if step not in STEP_FUNCTIONS:
-        message = f"étape inconnue : {step} (étapes : {', '.join((*STEPS, 'tout'))})"
+        message = (
+            f"étape inconnue : {step} (étapes : "
+            f"{', '.join((*STEPS, 'livrables', 'tout'))})"
+        )
         raise ProjectError(message)
     if step == "synthese":
         return step_synthese(ctx, rt, views=views)

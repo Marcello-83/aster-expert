@@ -1,0 +1,60 @@
+{
+ "cas": {
+  "G": {
+   "charge_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -180000.0,
+    "MX": -360000.0,
+    "MY": 540000.0,
+    "MZ": 0.0,
+    "X_APPLICATION_FZ": 3.0,
+    "Y_APPLICATION_FZ": 2.0
+   },
+   "reactions_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": 179999.99999848992
+   },
+   "ressorts_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": 0.0
+   },
+   "bilan_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -1.510081347078085e-06
+   }
+  },
+  "Q": {
+   "charge_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -240000.0,
+    "MX": -480000.0,
+    "MY": 720000.0,
+    "MZ": 0.0,
+    "X_APPLICATION_FZ": 3.0,
+    "Y_APPLICATION_FZ": 2.0
+   },
+   "reactions_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": 239999.99999798863
+   },
+   "ressorts_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": 0.0
+   },
+   "bilan_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -2.0113657228648663e-06
+   }
+  }
+ },
+ "appuis_non_livres": [],
+ "note": "réactions des seuls groupes livrés ; un appui non livré (motif dans projet.yaml) laisse un bilan non nul sur ses composantes"
+}

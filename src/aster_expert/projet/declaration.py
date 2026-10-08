@@ -422,11 +422,13 @@ PackageSectionName = Literal[
     "combinaisons",
     "ferraillage",
     "contre_calcul",
+    "visualisation",
 ]
 """Sections of a results package (lot 45): what a results note may display is
 decided by the sections the package holds, never by the project's name. Lot 47:
 `contre_calcul`, the comparison with an external calculation that is not validated
-(never a level E)."""
+(never a level E). Lot 49: `visualisation`, the manifest of the deliverables (MED, VTU,
+ParaView), their tables and pictures."""
 
 PACKAGE_MAX_BYTES = 20 * 1024 * 1024
 """Ceiling of a results package (lot 45, 20 Mo per project)."""
@@ -543,6 +545,195 @@ class ResultsPackageSection(_Model):
         return self
 
 
+FieldFamily = Literal[
+    "deplacements",
+    "efforts_coques",
+    "efforts_poutres",
+    "contraintes_volumes",
+    "reactions",
+    "ressorts",
+]
+"""Families of result fields a deliverable declares (lot 49): each one is either
+written or declared not relevant, with a written reason."""
+
+DeliverableItem = Literal[
+    "deplacements",
+    "efforts_coques",
+    "efforts_poutres",
+    "contraintes_volumes",
+    "reactions",
+    "ressorts",
+    "cas_elementaires",
+    "combinaisons",
+    "enveloppes",
+    "charges",
+]
+
+_FIELD_OF_FAMILY: dict[str, frozenset[str]] = {
+    "deplacements": frozenset({"DEPL"}),
+    "efforts_coques": frozenset({"EFGE_NOEU", "EFGE_ELNO"}),
+    "efforts_poutres": frozenset({"EFGE_ELNO", "EFGE_NOEU"}),
+    "contraintes_volumes": frozenset({"SIGM_NOEU", "SIEF_NOEU", "SIGM_ELNO"}),
+    "reactions": frozenset({"REAC_NODA"}),
+    "ressorts": frozenset({"SIEF_ELGA"}),
+}
+"""Code_Aster fields admitted for each family (catalogue names of `NOM_CHAM`)."""
+
+
+def _written_reason(value: str) -> str:
+    if len(value.split()) < 4:
+        message = "un motif écrit est exigé (au moins une phrase)"
+        raise ValueError(message)
+    return value
+
+
+class DeliverableField(_Model):
+    """One result field written to the deliverable files, on some groups."""
+
+    family: FieldFamily
+    field: str
+    """Code_Aster field (`NOM_CHAM`): `DEPL`, `EFGE_NOEU`, `EFGE_ELNO`, `REAC_NODA`,
+    `SIEF_ELGA` (forces of discrete elements), `SIGM_NOEU`..."""
+    groups: tuple[str, ...] = ()
+    """Cell groups (`GROUP_MA`) the field is restricted to; empty: the whole model."""
+    node_groups: tuple[str, ...] = ()
+    """Node groups (`GROUP_NO`), for nodal reactions only."""
+    components: tuple[str, ...] = ()
+    """`NOM_CMP`; empty: every component of the field."""
+    convention: str = Field(min_length=10)
+    """Frame and sign convention, as the reader must know them (the workbook's
+    « Conventions » sheet shows it word for word)."""
+
+    @model_validator(mode="after")
+    def _consistent(self) -> DeliverableField:
+        allowed = _FIELD_OF_FAMILY[self.family]
+        if self.field not in allowed:
+            message = (
+                f"livrables : famille {self.family}, champ {self.field} non admis "
+                f"({', '.join(sorted(allowed))})"
+            )
+            raise ValueError(message)
+        if self.node_groups and self.field != "REAC_NODA":
+            message = "livrables : `node_groups` est réservé à REAC_NODA"
+            raise ValueError(message)
+        if self.groups and self.node_groups:
+            message = "livrables : `groups` ou `node_groups`, pas les deux"
+            raise ValueError(message)
+        return self
+
+
+class NotRelevant(_Model):
+    """A deliverable the project does not produce, with its written reason."""
+
+    item: DeliverableItem
+    reason: str
+
+    @field_validator("reason")
+    @classmethod
+    def _written(cls, value: str) -> str:
+        return _written_reason(value)
+
+
+class IgnoredResult(_Model):
+    """A result concept of the `.comm` that is not an elementary case (a combination
+    already computed by Code_Aster, a sensitivity run...), with its reason."""
+
+    result: str
+    reason: str
+
+    @field_validator("reason")
+    @classmethod
+    def _written(cls, value: str) -> str:
+        return _written_reason(value)
+
+
+class ExclusionDisk(_Model):
+    """PAT-013: around each node of `node_group`, a closed disc of `radius` (in the
+    plane XY) where a maximum of the plate is not read (singular support)."""
+
+    node_group: str
+    radius: float = Field(gt=0)
+    groups: tuple[str, ...] = ()
+    """Cell groups whose values the disc excludes; empty: every group."""
+    source: str = Field(min_length=10)
+    """Who decided it (a decision of MM, a pattern)."""
+
+
+class ReadingPoint(_Model):
+    """A place whose values the workbook lists case by case (pile heads, centre of a
+    slab): the nodes of `node_group`; for an element field, the element ends of
+    `cell_group` at those nodes."""
+
+    label: str
+    node_group: str
+    cell_group: str | None = None
+
+
+class DeliverablesSection(_Model):
+    """`deliverables` (lot 49): what a computation hands over to the engineer -- a MED
+    of results, a MED of the applied loads, ParaView scripts and pictures, a
+    workbook -- declared once, for any project.
+
+    Named in English like every other key of `projet.yaml` (`mesh`, `comm`,
+    `controls`, `results_package`). Every family of fields, the elementary cases,
+    the combinations, the envelopes and the loads are either produced or listed in
+    `not_relevant` with a written reason: nothing is left out in silence.
+    """
+
+    units: Literal["m, N, Pa"] = "m, N, Pa"
+    """Units of the model; the only system the trunk knows how to label today."""
+    fields: tuple[DeliverableField, ...] = Field(min_length=1)
+    combinations: str | None = None
+    """`declarees` (the `combinations` section of `projet.yaml`) or an extension
+    `f(ctx) -> list[dict]` returning combinations with their moving loads
+    (`aster_expert.livrables.combinaisons.GenericCombination`)."""
+    envelopes: bool = True
+    """Max and min of every component over the combinations, with the governing
+    combination and moving load position."""
+    moving_cases: tuple[str, ...] = ()
+    """Patterns (`TSA_*`) of the cases that are positions of a moving load: they are
+    enveloped in the combinations, never written one by one, and no MED of loads is
+    written for them."""
+    static_results: dict[str, str] = Field(default_factory=dict)
+    """Result concept of a `MECA_STATIQUE` -> name of its case, when the name is not
+    the concept itself nor the concept without `RESU_`."""
+    ignored_results: tuple[IgnoredResult, ...] = ()
+    not_relevant: tuple[NotRelevant, ...] = ()
+    exclusion_disks: tuple[ExclusionDisk, ...] = ()
+    points: tuple[ReadingPoint, ...] = ()
+    max_med_bytes: int = Field(default=2 * 1024**3, gt=0)
+    """Above this size a MED is not copied to the exchange folder (2 Go, lot 49)."""
+
+    @model_validator(mode="after")
+    def _complete(self) -> DeliverablesSection:
+        declared = {f.family for f in self.fields}
+        excused = {n.item for n in self.not_relevant}
+        both = declared & excused
+        if both:
+            message = f"livrables : produit et déclaré non pertinent : {sorted(both)}"
+            raise ValueError(message)
+        families = set(_FIELD_OF_FAMILY)
+        silent = sorted(families - declared - excused)
+        if silent:
+            message = (
+                "livrables : famille ni produite ni déclarée non pertinente (avec "
+                f"motif) : {', '.join(silent)}"
+            )
+            raise ValueError(message)
+        if self.combinations is None and "combinaisons" not in excused:
+            message = (
+                "livrables : `combinations` absent sans motif (not_relevant: "
+                "combinaisons)"
+            )
+            raise ValueError(message)
+        if not self.envelopes and "enveloppes" not in excused:
+            message = "livrables : enveloppes désactivées sans motif"
+            raise ValueError(message)
+        if self.combinations not in (None, "declarees"):
+            _check_extension(self.combinations)
+        return self
+
+
 StepName = Literal[
     "verifier",
     "maillage",
@@ -553,6 +744,7 @@ StepName = Literal[
     "synthese",
     "combinaisons",
     "ferraillage",
+    "livrables",
 ]
 
 
@@ -595,6 +787,9 @@ class ProjectDeclaration(_Model):
     rebar: RebarSection | None = None
     synthesis: SynthesisSection | None = None
     results_package: ResultsPackageSection | None = None
+    deliverables: DeliverablesSection | None = None
+    """Lot 49: the deliverables of the computation (MED, ParaView, workbook).
+    Required of a project created from lot 49 on (`aster-expert projet creer`)."""
     results: str = "resultats"
     """Directory, relative to the project, where the steps write their outputs."""
     blocker_scopes: tuple[BlockerScope, ...] = ()
@@ -652,6 +847,13 @@ __all__ = [
     "CommSection",
     "ControlsSection",
     "DataRef",
+    "DeliverableField",
+    "DeliverablesSection",
+    "ExclusionDisk",
+    "ReadingPoint",
+    "FieldFamily",
+    "IgnoredResult",
+    "NotRelevant",
     "ElementForces",
     "ExplicitCombination",
     "LoadCase",

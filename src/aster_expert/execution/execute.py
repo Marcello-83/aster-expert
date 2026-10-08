@@ -63,6 +63,7 @@ from aster_expert.execution.docker_client import (
     run_in_container,
 )
 from aster_expert.execution.errors import EnvironmentDetectionError, ExecutionRunError
+from aster_expert.execution.interdits import refuse_forbidden
 from aster_expert.execution.models import DIAG_TO_STATUS, ExecutionReport
 from aster_expert.execution.ressources import (
     DiskUsage,
@@ -244,6 +245,7 @@ def execute_comm_file(
 
     resolved_comm = check_allowed(comm_path, config=config, project_root=project_root)
     knowledge = _declared_knowledge(resolved_comm, project_root)
+    refuse_forbidden(resolved_comm, config.forbidden_keywords)
 
     if not script_path.is_file():
         message = f"run_comm.py script not found: {script_path}"

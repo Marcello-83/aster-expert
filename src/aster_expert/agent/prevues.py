@@ -70,6 +70,44 @@ def derive_planned_commands(
     )
 
 
+def apply_coverages(
+    planned: tuple[PlannedCommand, ...],
+    previous: tuple[PlannedCommand, ...],
+    explicit: tuple[str, ...] = (),
+) -> tuple[PlannedCommand, ...]:
+    """`planned` with the coverages of the fiche kept and the explicit ones added.
+
+    Lot 49. A new derivation must not drop a coverage the fiche already holds (same
+    command, same options): covering a keyword is a decision, recorded once. An explicit
+    coverage `COMMANDE/MOT_CLE=cible` (`data:<groupe.clé>` or `point:<p>`) applies to
+    every planned occurrence of that command; a command that is not planned is refused.
+    Whether the target exists is checked by `fiche obligatoires` (an unknown target
+    covers nothing).
+    """
+    kept = {
+        (p.command, tuple(sorted(p.options.items()))): p.covered_by for p in previous
+    }
+    added: dict[str, dict[str, str]] = {}
+    for item in explicit:
+        head, sep, target = item.partition("=")
+        command, slash, keyword = head.partition("/")
+        if not (sep and slash and command and keyword and target):
+            message = f"couverture {item!r} : forme attendue COMMANDE/MOT_CLE=cible"
+            raise ValueError(message)
+        if command not in {p.command for p in planned}:
+            message = f"couverture {item!r} : {command} n'est pas une commande prévue"
+            raise ValueError(message)
+        added.setdefault(command, {})[keyword] = target
+    out = []
+    for p in planned:
+        covered = {
+            **kept.get((p.command, tuple(sorted(p.options.items()))), {}),
+            **added.get(p.command, {}),
+        }
+        out.append(p.model_copy(update={"covered_by": covered}) if covered else p)
+    return tuple(PlannedCommand.model_validate(p.model_dump()) for p in out)
+
+
 def write_planned_commands(
     fiche_path: Path, planned: tuple[PlannedCommand, ...]
 ) -> None:
@@ -97,6 +135,7 @@ def carry_planned_commands(sheet: HypothesesSheet, fiche_path: Path) -> Hypothes
 
 
 __all__ = [
+    "apply_coverages",
     "carry_planned_commands",
     "derive_planned_commands",
     "write_planned_commands",

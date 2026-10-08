@@ -153,6 +153,8 @@ class ResourceSettings:
     memory_margin_mb: int
     memory_share: float
     min_free_disk_gb: float
+    useful_threads_max: int = 1
+    """Lot 49: threads that still pay (`aster_expert.execution.regle_fils`)."""
 
 
 def load_machine_overrides(project_root: Path) -> dict[str, Any]:
@@ -196,6 +198,10 @@ def settings_from(raw: dict[str, Any], overrides: dict[str, Any]) -> ResourceSet
         memory_margin_mb=int(merged.get("memory_margin_mb", 0)),
         memory_share=share,
         min_free_disk_gb=float(merged.get("min_free_disk_gb", 10.0)),
+        useful_threads_max=_auto_int(
+            merged.get("useful_threads_max", 1), "useful_threads_max"
+        )
+        or 1,
     )
 
 

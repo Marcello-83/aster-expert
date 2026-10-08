@@ -132,6 +132,7 @@ from aster_expert.agent.hypotheses import (
     PracticeHypothesisEntry,
     PracticeSource,
 )
+from aster_expert.agent.prevues import carry_planned_commands
 from aster_expert.constats.base import base_dir, externalize_sheet, load_base
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -1445,11 +1446,14 @@ def build(*, externalize: bool = True) -> HypothesesSheet:
     par une référence à la base partagée `connaissances/constats_code_aster/`
     (`aster_expert.constats.base.externalize_sheet`) -- refusé si un constat ne
     s'y trouve pas à l'identique. `externalize=False` rend la fiche complète, d'où
-    `extraire_constats_lot41.py` a tiré la base."""
+    `extraire_constats_lot41.py` a tiré la base. Lot 49 : les commandes prévues
+    (`planned_commands`) écrites par `aster-expert fiche prevoir` dans la fiche
+    versionnée sont reprises telles quelles (`carry_planned_commands`)."""
     sheet = build_sheet()
     if not externalize:
         return sheet
-    return externalize_sheet(sheet, load_base(base_dir(ROOT)))
+    sheet = externalize_sheet(sheet, load_base(base_dir(ROOT)))
+    return carry_planned_commands(sheet, DEFAULT_OUTPUT)
 
 
 def dump(sheet: HypothesesSheet) -> str:

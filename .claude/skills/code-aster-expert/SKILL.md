@@ -6,20 +6,21 @@ description: >-
   `.comm` file, or before generating a Code_Aster command — whenever the answer
   would rely on the `aster-expert` MCP server (search_codeaster_docs,
   get_document_section, get_command_schema, analyze_comm, validate_comm,
-  search_test_cases, read_test_case, search_constats, search_connaissances),
+  search_test_cases, read_test_case, search_constats, search_connaissances,
+  query_results),
   or when a Code_Aster run fails, before proposing a practice decision or
   writing a verification control. Not a source of Code_Aster knowledge itself:
-  describes the procedure for using those nine tools correctly, including the
+  describes the procedure for using those ten tools correctly, including the
   mandatory consultations of the knowledge base.
 ---
 
 # Expert Code_Aster — procédure d'usage des outils
 
 Ce skill ne contient aucune connaissance Code_Aster de première main. Il
-décrit comment utiliser les neuf outils du serveur MCP `aster-expert` —
+décrit comment utiliser les dix outils du serveur MCP `aster-expert` —
 `search_codeaster_docs`, `get_document_section`, `get_command_schema`,
 `analyze_comm`, `validate_comm`, `search_test_cases`, `read_test_case`,
-`search_constats`, `search_connaissances` — de façon à ne jamais confondre pertinence
+`search_constats`, `search_connaissances`, `query_results` — de façon à ne jamais confondre pertinence
 documentaire, validité syntaxique et exécution (CLAUDE.md). Toute
 connaissance Code_Aster affirmée dans une réponse doit venir de la sortie
 d'un de ces outils, jamais de la mémoire du modèle.
@@ -44,6 +45,7 @@ Avant toute recherche, classer la question :
 | un **cas test** nommé (`ssls502a`, `zzzz200b`…) ou « un cas test qui emploie X » | `search_test_cases` (commande, mot-clé) puis `read_test_case` — jamais `search_codeaster_docs` : les cas tests ne sont pas indexés dans la documentation |
 | un **comportement établi par exécution** (piège, écart à la documentation, signature d'erreur, contrôle, précédent) | `search_connaissances` |
 | un **principe** (théorie, méthode, choix de modélisation) ou une **syntaxe** | `search_codeaster_docs` (§ 2), puis `get_document_section`, et `get_command_schema` pour la syntaxe |
+| une **valeur de résultat** d'un projet (extremum, valeur en un point, somme sur un groupe, combinaison ou position qui gouverne) | `query_results` (lot 49 : lecture des livrables du projet, avec sa ligne de provenance) — jamais de mémoire, jamais par un script jetable ; son `validation_level` est celui du paquet du projet |
 
 Constat du lot 44 : les deux requêtes du journal du lot 42 restées sans
 résultat (cand-019, cand-021) avaient été lancées avec `family="testcase"`,
@@ -276,7 +278,7 @@ mais ne confronte rien, et `get_document_section`, qui renvoie un texte
 intégral mais toujours non exécuté). `validate_comm` est niveau B (syntaxe
 confrontée au catalogue). Les niveaux C/D/E (exécution, validité physique,
 comparaison à une référence) sont hors du périmètre de ce serveur : ne
-jamais les annoncer à partir de ces neuf outils (le niveau C ou D d'un constat
+jamais les annoncer à partir de ces outils documentaires (le niveau C ou D d'un constat
 ou d'une entrée de la base est celui de son cas d'essai, pas celui de la
 réponse). Les mots « validé »,
 « correct », « sans erreur » sont toujours qualifiés par leur niveau.

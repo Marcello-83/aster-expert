@@ -234,6 +234,28 @@ def _declaration(name: str, structure: str) -> dict[str, Any]:
             "report": f"{name}.extensions:combinations_report",
         },
         "synthesis": {"extension": f"{name}.extensions:synthesis"},
+        # Lot 49 : contrat de livrables, obligatoire pour `verifier`.
+        "deliverables": {
+            "fields": [
+                {
+                    "family": "deplacements",
+                    "field": "DEPL",
+                    "components": ["DX", "DY", "DZ"],
+                    "convention": "repère global de la barre factice",
+                }
+            ],
+            "not_relevant": [
+                {"item": item, "reason": "la barre factice n'en a aucun"}
+                for item in (
+                    "efforts_coques",
+                    "efforts_poutres",
+                    "contraintes_volumes",
+                    "reactions",
+                    "ressorts",
+                )
+            ],
+            "combinations": "declarees",
+        },
     }
 
 

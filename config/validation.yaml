@@ -130,6 +130,18 @@ execution:
   min_free_disk_gb: 10
   # Ne jamais supprimer un fichier utilisateur ni écrire hors du work_dir.
   write_outside_work_dir: false
+  # Valeurs de mots-clés refusées avant toute exécution (lot 49,
+  # aster_expert.execution.interdits) : chacune nomme son diagnostic. Une règle se
+  # lève en la retirant d'ici, une fois le diagnostic résolu.
+  forbidden_keywords:
+    - command: CALC_CHAMP
+      keyword: PARALLELISME_TEMPS
+      values: ["OUI"]
+      diagnostic: DIAG-027
+      reason: >-
+        réactions fausses de 1 à 2 % (même force ajoutée aux cas 2 à 4 d'un résultat de
+        MACRO_ELAS_MULT sous MPI, seul signe l'alarme PREPOST_15) et aucun gain mesuré
+        (lot 47 quater) ; interdit tant que DIAG-027 n'est pas résolu
 
 mess_analysis:
   # Extraction déléguée aux modules livrés avec l'installation.

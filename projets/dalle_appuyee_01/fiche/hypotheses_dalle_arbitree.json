@@ -836,7 +836,9 @@
       "command": "DEFI_CONSTANTE",
       "point_label": "0",
       "options": {},
-      "covered_by": {}
+      "covered_by": {
+        "VALE": "point:13"
+      }
     },
     {
       "command": "DEFI_GROUP",

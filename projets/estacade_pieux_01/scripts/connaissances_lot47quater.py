@@ -32,6 +32,12 @@ FICHE = f"projets/{PROJECT}/fiche/hypotheses_estacade_pieux_01.json"
 TODAY = dt.date(2026, 10, 6)
 
 
+LOT49_SCOPE = (
+    " Portée (consigne du lot 49, MM) -- précédent pour les projets futurs ; la "
+    "référence de l'estacade reste en DKT (E13), sans recalcul."
+)
+
+
 def pre_039() -> Precedent:
     sheet = HypothesesSheet.model_validate_json((ROOT / FICHE).read_text("utf-8"))
     entry = next(
@@ -70,6 +76,8 @@ def pre_039() -> Precedent:
             ),
             "commands": ("AFFE_MODELE",),
             "keywords": ("DKT", "DST", "POU_D_T"),
+            # Lot 49 (consigne de MM, étape 0.4) : portée du précédent.
+            "validity_domain": base.validity_domain + LOT49_SCOPE,
         }
     )
 

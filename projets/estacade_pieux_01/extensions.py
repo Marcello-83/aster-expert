@@ -248,3 +248,47 @@ __all__ = [
     "spring_scale",
     "weights",
 ]
+
+
+def deliverable_combinations(ctx: ProjectContext) -> list[dict[str, Any]]:
+    """Lot 49 (`deliverables.combinations`): combinations 100 to 115 of B5 (E11) in the
+    generic form of the trunk. G = PP + G2 at γG; LM1 = UDL + TR at its coefficient,
+    plus the TS positions (« axé » for 102 to 108, « bord de voie » for 109 to 115)
+    enveloped at the same coefficient, as the lot 47 reading did (comparaison.py)."""
+    from estacade_pieux_01.charges_mobiles import ts_cases  # noqa: PLC0415
+    from estacade_pieux_01.combinaisons import combinations  # noqa: PLC0415
+
+    v = model_values(ctx)
+    case_of = {"TE+": "TEP", "TE-": "TEM", "TR": "TR", "FR": "FR"}
+    positions = {t: tuple(c.name for c in ts_cases(v, t)) for t in ("axe", "bord")}
+    label = {"axe": "TS axé", "bord": "TS bord de voie"}
+    out: list[dict[str, Any]] = []
+    for c in combinations():
+        fixed: dict[str, float] = {"PP": c.gamma_g, "G2": c.gamma_g}
+        words = [f"{c.gamma_g:g}·(PP+G2)"]
+        lm1 = c.coefficients.get("LM1")
+        for action, coef in c.coefficients.items():
+            if action == "LM1":
+                fixed["UDL"] = fixed.get("UDL", 0.0) + coef
+                fixed["TR"] = fixed.get("TR", 0.0) + coef
+                words.append(f"{coef:g}·(UDL+TR+TS_k)")
+            else:
+                case = case_of[action]
+                fixed[case] = fixed.get(case, 0.0) + coef
+                words.append(f"{coef:g}·{action}")
+        entry: dict[str, Any] = {
+            "name": c.name,
+            "family": c.family,
+            "fixed": fixed,
+            "definition": f"{c.name} = " + " + ".join(words),
+        }
+        if lm1 is not None and c.ts_position is not None:
+            names = positions[c.ts_position]
+            entry["mobile_coefficient"] = lm1
+            entry["mobile_cases"] = list(names)
+            entry["mobile_label"] = label[c.ts_position]
+            entry["definition"] += (
+                f" ; enveloppe sur les {len(names)} positions {label[c.ts_position]}"
+            )
+        out.append(entry)
+    return out

@@ -1,0 +1,345 @@
+{
+ "schema_version": 1,
+ "projet": "dalle_appuyee_01",
+ "code_aster": {
+  "version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5"
+ },
+ "execution_production": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261002T130616-537395b0",
+ "comm_production_sha256": "70ae851c380a4dad612adad6962b2611feea61485fe096aeb533e39d75e09848",
+ "execution_post_traitement": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261008T080443-426fc374",
+ "comm_post_traitement_sha256": "d0a8049e7965b38e199e6f53ddb292d8390e15fb23df1abc7212676c68637fa2",
+ "validation_post_traitement": {
+  "validation_level": "B",
+  "verdict": "valide",
+  "valid": true,
+  "commands_checked": 120,
+  "commands_total": 120,
+  "errors": 0
+ },
+ "tables_identiques": {
+  "valeurs_production": 82134,
+  "valeurs_post_traitement": 82134,
+  "identiques": true
+ },
+ "maillage": {
+  "chemin": "/home/ubuntu/projets/aster-expert/data/processed/mesh_runs/20261002T085702-a9e5e2f3/dalle_mesh.med",
+  "sha256": "0a3868d78543f1db72b01c1d7e90fe9af6a31780ff2af0a81dc83ad7ade9737e"
+ },
+ "fichiers": {
+  "med/resultats.med": {
+   "sha256": "e37203a01951f43e3302eff7941715e34471b1a235afd124d312be1cbae92352",
+   "octets": 2495499
+  },
+  "med/charges.med": {
+   "sha256": "bc01b867c079c3d05baa7db5620253e8e5397ab909e168ce255b3065edba8be3",
+   "octets": 305561
+  },
+  "vtu/cas.vtu": {
+   "sha256": "ae6e5ef04ddf38f34a6af10f534ef46ad05a142e05c6a1ddbcb86e9f9468b4c7",
+   "octets": 734763
+  },
+  "vtu/charges.vtu": {
+   "sha256": "879b3ed41e166d222fa89c70a2214359bbaeb559b5ec5f8636fda4de1804404b",
+   "octets": 352659
+  },
+  "vtu/combinaisons.vtu": {
+   "sha256": "3f9795749f216671d07c174c485bd34b2fd36034f3eb63bb43c51eca02877a40",
+   "octets": 1326287
+  },
+  "vtu/enveloppes.vtu": {
+   "sha256": "b2204e7c611ece2f5b86b21b5c1cafd5e60cb099a7594f10119f0c431d0d87aa",
+   "octets": 1916043
+  }
+ },
+ "vtu": {
+  "cas": {
+   "fichier": "cas.vtu",
+   "octets": 734763,
+   "tableaux": 34,
+   "valeurs": 54978,
+   "differents": [],
+   "identiques": true
+  },
+  "combinaisons": {
+   "fichier": "combinaisons.vtu",
+   "octets": 1326287,
+   "tableaux": 68,
+   "valeurs": 109956,
+   "differents": [],
+   "identiques": true
+  },
+  "enveloppes": {
+   "fichier": "enveloppes.vtu",
+   "octets": 1916043,
+   "tableaux": 102,
+   "valeurs": 164934,
+   "differents": [],
+   "identiques": true
+  },
+  "charges": {
+   "fichier": "charges.vtu",
+   "octets": 352659,
+   "tableaux": 12,
+   "valeurs": 19404,
+   "differents": [],
+   "identiques": true
+  }
+ },
+ "cas_elementaires": [
+  "G",
+  "Q"
+ ],
+ "combinaisons": [
+  {
+   "indice": 0,
+   "nom": "ELU_FOND_Q_DOM_G_defav",
+   "famille": "ELU fondamentale",
+   "definition": "1.35·G + 1.5·Q",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 1,
+   "nom": "ELS_CARA_Q_DOM",
+   "famille": "ELS caractéristique",
+   "definition": "1·G + 1·Q",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 2,
+   "nom": "ELS_FREQ_Q_DOM",
+   "famille": "ELS fréquente",
+   "definition": "1·G + 0.9·Q",
+   "charge_mobile": null,
+   "positions": []
+  },
+  {
+   "indice": 3,
+   "nom": "ELS_QUASI_PERMANENTE",
+   "famille": "ELS quasi permanente",
+   "definition": "1·G + 0.8·Q",
+   "charge_mobile": null,
+   "positions": []
+  }
+ ],
+ "champs": [
+  {
+   "cle": "DEPL",
+   "champ": "DEPL",
+   "famille": "deplacements",
+   "groupes": [],
+   "groupes_noeuds": [],
+   "convention": "repère global (point 9) : X et Y dans le plan de la dalle, Z vers le haut",
+   "composantes": [
+    {
+     "nom": "DX",
+     "unite_si": "m",
+     "unite_affichage": "mm"
+    },
+    {
+     "nom": "DY",
+     "unite_si": "m",
+     "unite_affichage": "mm"
+    },
+    {
+     "nom": "DZ",
+     "unite_si": "m",
+     "unite_affichage": "mm"
+    },
+    {
+     "nom": "DRX",
+     "unite_si": "rad",
+     "unite_affichage": "mrad"
+    },
+    {
+     "nom": "DRY",
+     "unite_si": "rad",
+     "unite_affichage": "mrad"
+    },
+    {
+     "nom": "DRZ",
+     "unite_si": "rad",
+     "unite_affichage": "mrad"
+    }
+   ],
+   "noms_med": [
+    "CAS_G__DEPL",
+    "CAS_Q__DEPL",
+    "COMB_ELU_FOND_Q_DOM_G_defav__DEPL",
+    "COMB_ELS_CARA_Q_DOM__DEPL",
+    "COMB_ELS_FREQ_Q_DOM__DEPL",
+    "COMB_ELS_QUASI_PERMANENTE__DEPL",
+    "ENV__DEPL__MAX",
+    "ENV__DEPL__MIN",
+    "ENV__DEPL__MAX_COMB",
+    "ENV__DEPL__MIN_COMB",
+    "ENV__DEPL__MAX_POS",
+    "ENV__DEPL__MIN_POS"
+   ]
+  },
+  {
+   "cle": "EFGE_NOEU",
+   "champ": "EFGE_NOEU",
+   "famille": "efforts_coques",
+   "groupes": [
+    "DALLE"
+   ],
+   "groupes_noeuds": [],
+   "convention": "dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normales +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur",
+   "composantes": [
+    {
+     "nom": "NXX",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "NYY",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "NXY",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "MXX",
+     "unite_si": "N·m/m",
+     "unite_affichage": "kN·m/m"
+    },
+    {
+     "nom": "MYY",
+     "unite_si": "N·m/m",
+     "unite_affichage": "kN·m/m"
+    },
+    {
+     "nom": "MXY",
+     "unite_si": "N·m/m",
+     "unite_affichage": "kN·m/m"
+    },
+    {
+     "nom": "QX",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    },
+    {
+     "nom": "QY",
+     "unite_si": "N/m",
+     "unite_affichage": "kN/m"
+    }
+   ],
+   "noms_med": [
+    "CAS_G__EFGE_NOEU",
+    "CAS_Q__EFGE_NOEU",
+    "COMB_ELU_FOND_Q_DOM_G_defav__EFGE_NOEU",
+    "COMB_ELS_CARA_Q_DOM__EFGE_NOEU",
+    "COMB_ELS_FREQ_Q_DOM__EFGE_NOEU",
+    "COMB_ELS_QUASI_PERMANENTE__EFGE_NOEU",
+    "ENV__EFGE_NOEU__MAX",
+    "ENV__EFGE_NOEU__MIN",
+    "ENV__EFGE_NOEU__MAX_COMB",
+    "ENV__EFGE_NOEU__MIN_COMB",
+    "ENV__EFGE_NOEU__MAX_POS",
+    "ENV__EFGE_NOEU__MIN_POS"
+   ]
+  },
+  {
+   "cle": "REAC_NODA",
+   "champ": "REAC_NODA",
+   "famille": "reactions",
+   "groupes": [],
+   "groupes_noeuds": [
+    "APPUIS",
+    "P_A",
+    "P_B"
+   ],
+   "convention": "repère global ; appui simple DZ = 0 sur APPUIS, blocage isostatique DX = DY = 0 en P_A, DY = 0 en P_B (point 6)",
+   "composantes": [
+    {
+     "nom": "DX",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    },
+    {
+     "nom": "DY",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    },
+    {
+     "nom": "DZ",
+     "unite_si": "N",
+     "unite_affichage": "kN"
+    }
+   ],
+   "noms_med": [
+    "CAS_G__REAC_NODA",
+    "CAS_Q__REAC_NODA",
+    "COMB_ELU_FOND_Q_DOM_G_defav__REAC_NODA",
+    "COMB_ELS_CARA_Q_DOM__REAC_NODA",
+    "COMB_ELS_FREQ_Q_DOM__REAC_NODA",
+    "COMB_ELS_QUASI_PERMANENTE__REAC_NODA",
+    "ENV__REAC_NODA__MAX",
+    "ENV__REAC_NODA__MIN",
+    "ENV__REAC_NODA__MAX_COMB",
+    "ENV__REAC_NODA__MIN_COMB",
+    "ENV__REAC_NODA__MAX_POS",
+    "ENV__REAC_NODA__MIN_POS"
+   ]
+  }
+ ],
+ "charges": [
+  {
+   "nom_med": "FN_G",
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "unite_si": "N (DX…DZ), N·m (DRX…DRZ)"
+  },
+  {
+   "nom_med": "FN_Q",
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "unite_si": "N (DX…DZ), N·m (DRX…DRZ)"
+  }
+ ],
+ "echelles": {
+  "taille_du_modele_m": 7.211102550927978,
+  "charges": {
+   "FN_G": 117.18750000000031,
+   "FN_Q": 156.2500000000004
+  },
+  "deplacements": {
+   "CAS_G__DEPL": 0.0001917036051957189,
+   "CAS_Q__DEPL": 0.00025560480692762524,
+   "COMB_ELU_FOND_Q_DOM_G_defav__DEPL": 0.0006422070774056584,
+   "COMB_ELS_CARA_Q_DOM__DEPL": 0.0004473084121233441,
+   "COMB_ELS_FREQ_Q_DOM__DEPL": 0.00042174793143058163,
+   "COMB_ELS_QUASI_PERMANENTE__DEPL": 0.0003961874507378191,
+   "ENV__DEPL__MAX": 0.0003961874507378191,
+   "ENV__DEPL__MIN": 0.0006422070774056584
+  },
+  "fleches": {
+   "CAS_G__REAC_NODA": 11608.035723522715,
+   "CAS_Q__REAC_NODA": 15477.380964696935,
+   "COMB_ELU_FOND_Q_DOM_G_defav__REAC_NODA": 38886.91967380107,
+   "COMB_ELS_CARA_Q_DOM__REAC_NODA": 27085.41668821965,
+   "COMB_ELS_FREQ_Q_DOM__REAC_NODA": 25537.67859174996,
+   "COMB_ELS_QUASI_PERMANENTE__REAC_NODA": 23989.940495280265,
+   "ENV__REAC_NODA__MAX": 23989.940495280265,
+   "ENV__REAC_NODA__MIN": 38886.91967380107
+  }
+ }
+}

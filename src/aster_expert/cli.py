@@ -2115,11 +2115,32 @@ def projet(
         "verifier",
         help=(
             "verifier, maillage, generer, valider, executer, controles, synthese, "
-            "combinaisons, ferraillage, ou tout (toutes, dans l'ordre)."
+            "combinaisons, ferraillage, livrables, ou tout (toutes, dans l'ordre)."
         ),
     ),
     sans_vues: bool = typer.Option(
         False, "--sans-vues", help="Synthèse sans les vues PNG."
+    ),
+    sous_etape: str = typer.Option(
+        "",
+        "--sous-etape",
+        help=(
+            "livrables : une seule sous-étape (preparer, executer, verifier, traiter, "
+            "vues)."
+        ),
+    ),
+    ncpus: int = typer.Option(
+        0,
+        "--ncpus",
+        help=(
+            "livrables : fils de l'exécution de post-traitement (défaut : règle du "
+            "lot 49, processeurs ÷ exécutions simultanées)."
+        ),
+    ),
+    simultanees: int = typer.Option(
+        1,
+        "--simultanees",
+        help="livrables : nombre d'exécutions lancées en même temps (règle des fils).",
     ),
     description: str = typer.Option(
         "Ouvrage à décrire.", "--description", help="projet creer : description."
@@ -2164,7 +2185,18 @@ def projet(
         return
     ctx = _load_project_or_exit("projet", nom)
     try:
-        lines = run_step(ctx, Runtime(_project_root()), etape, views=not sans_vues)
+        if etape == "livrables":
+            from aster_expert.execution.regle_fils import threads_for  # noqa: PLC0415
+            from aster_expert.projet.pipeline import step_livrables  # noqa: PLC0415
+
+            lines = step_livrables(
+                ctx,
+                Runtime(_project_root()),
+                only=sous_etape or None,
+                ncpus=ncpus or threads_for(_project_root(), simultanees),
+            )
+        else:
+            lines = run_step(ctx, Runtime(_project_root()), etape, views=not sans_vues)
     except ProjectError as exc:
         typer.echo(f"projet {nom} {etape} ÉCHEC : {exc}", err=True)
         raise typer.Exit(1) from exc
@@ -2222,6 +2254,97 @@ constats_app = typer.Typer(
     help="Base partagée des constats Code_Aster (connaissances/constats_code_aster).",
 )
 app.add_typer(constats_app, name="constats")
+
+resultats_app = typer.Typer(
+    help=(
+        "Interroger les résultats livrés d'un projet (lot 49) : lecture des tableaux "
+        "des livrables, jamais de mémoire ni par script jetable."
+    ),
+    no_args_is_help=True,
+)
+app.add_typer(resultats_app, name="resultats")
+
+
+@resultats_app.command("lire")
+def resultats_lire(
+    projet: str,
+    groupe: list[str] = typer.Option(  # noqa: B008
+        [], "--groupe", help="Groupe de mailles ou de nœuds (répétable)."
+    ),
+    champ: str = typer.Option(
+        "", "--champ", help="Clé du champ livré (DEPL, EFGE_NOEU, EFGE_ELNO_2...)."
+    ),
+    noeuds: str = typer.Option(
+        "", "--noeuds", help="Groupe de nœuds portant chaque ligne (ET avec --groupe)."
+    ),
+    composante: list[str] = typer.Option(  # noqa: B008
+        [], "--composante", help="Composante (répétable)."
+    ),
+    cas: list[str] = typer.Option(  # noqa: B008
+        [],
+        "--cas",
+        help="Cas élémentaire, combinaison (par son nom) ou « enveloppe » (répétable).",
+    ),
+    mode: str = typer.Option(
+        "extremum", "--mode", help="extremum, point, coupe, somme ou tout."
+    ),
+    point: str = typer.Option("", "--point", help="mode point : x,y[,z] (m)."),
+    coupe: str = typer.Option("", "--coupe", help="mode coupe : AXE=valeur (ex. Y=0)."),
+    tolerance: float = typer.Option(
+        1.0e-6, "--tolerance", help="mode coupe : tolérance (m)."
+    ),
+    sans_disques: bool = typer.Option(
+        False,
+        "--sans-disques",
+        help="Ne pas appliquer les disques d'exclusion déclarés (PAT-013).",
+    ),
+    disque_groupe: str = typer.Option(
+        "", "--disque-groupe", help="Centres d'un disque d'exclusion (groupe de nœuds)."
+    ),
+    disque_rayon: float = typer.Option(
+        0.0, "--disque-rayon", help="Rayon du disque d'exclusion (m)."
+    ),
+    limite: int = typer.Option(100000, "--limite", help="Nombre maximal de lignes."),
+    sortie: str = typer.Option("", "--sortie", help="Écrire le CSV dans ce fichier."),
+) -> None:
+    """Lire les résultats livrés d'un projet : CSV (valeurs SI et affichées, lieu,
+    combinaison et position mobile qui gouvernent) et une ligne de provenance."""
+    from aster_expert.livrables.lecture import Query, query
+    from aster_expert.projet.errors import ProjectError
+
+    if mode not in ("extremum", "point", "coupe", "somme", "tout"):
+        typer.echo(f"resultats lire ÉCHEC : mode inconnu {mode}", err=True)
+        raise typer.Exit(1)
+    ctx = _load_project_or_exit("resultats lire", projet)
+    try:
+        answer = query(
+            ctx,
+            Query(
+                groupes=tuple(groupe),
+                noeuds=noeuds or None,
+                champ=champ or None,
+                composantes=tuple(composante),
+                cas=tuple(cas),
+                mode=mode,  # type: ignore[arg-type]
+                point=tuple(float(x) for x in point.split(",")) if point else None,
+                coupe=coupe or None,
+                tolerance=tolerance,
+                disques=not sans_disques,
+                disque_groupe=disque_groupe or None,
+                disque_rayon=disque_rayon or None,
+                limite=limite,
+            ),
+        )
+    except (ProjectError, ValueError) as exc:
+        typer.echo(f"resultats lire ÉCHEC : {exc}", err=True)
+        raise typer.Exit(1) from exc
+    text = answer.csv()
+    if sortie:
+        Path(sortie).write_text(text, encoding="utf-8")
+        typer.echo(f"{len(answer.rows)} ligne(s) écrites dans {sortie}", err=True)
+    else:
+        typer.echo(text, nl=False)
+    typer.echo(answer.provenance, err=True)
 
 
 @constats_app.command("chercher")
@@ -2635,7 +2758,10 @@ def fiche_obligatoires(
             for p in sheet.planned_commands
         }
         uninterpreted: list[str] = []
-        missing = missing_parameters(sheet, data, schemas, rules, uninterpreted)
+        exempt: list[str] = []
+        missing = missing_parameters(
+            sheet, data, schemas, rules, uninterpreted, without_question=exempt
+        )
     except (OSError, ValueError, ValidationRunError, CatalogueExtractionError) as exc:
         typer.echo(f"fiche obligatoires ÉCHEC : {exc}", err=True)
         raise typer.Exit(1) from exc
@@ -2650,6 +2776,8 @@ def fiche_obligatoires(
             f"  NON INTERPRÉTÉE {keyword} ({count} condition(s) inconnue(s) du "
             "lecteur : le mot-clé n'est compté ni obligatoire ni absent)"
         )
+    for line in sorted(set(exempt)):
+        typer.echo(f"  SANS QUESTION {line}")
     for parameter in missing:
         typer.echo(f"  MANQUE {parameter.label()}")
     if sortie:
@@ -2679,12 +2807,24 @@ def fiche_prevoir(
     ecrire: bool = typer.Option(
         False, "--ecrire", help="Écrire `planned_commands` dans la fiche du projet."
     ),
+    couvrir: list[str] = typer.Option(  # noqa: B008
+        [],
+        "--couvrir",
+        help=(
+            "Couverture explicite d'un mot-clé obligatoire, COMMANDE/MOT_CLE=cible "
+            "(data:<groupe.clé> ou point:<p>) ; répétable. Une couverture est une "
+            "décision : la cible doit exister (vérifié par fiche obligatoires)."
+        ),
+    ),
 ) -> None:
     """Déduire de la `.comm` d'un projet les commandes prévues de sa fiche
     (`planned_commands`, lot 48 bis) : une par commande et par combinaison d'options
-    écrites en clair que le catalogue teste ; aucune couverture n'est déduite.
+    écrites en clair que le catalogue teste ; aucune couverture n'est déduite, mais
+    celles que la fiche porte déjà sont conservées et --couvrir en ajoute (lot 49).
     Sans --ecrire, la liste est seulement affichée."""
+    from aster_expert.agent.hypotheses import HypothesesSheet
     from aster_expert.agent.prevues import (
+        apply_coverages,
         derive_planned_commands,
         write_planned_commands,
     )
@@ -2702,6 +2842,10 @@ def fiche_prevoir(
         planned, skipped = derive_planned_commands(
             ctx.fiche_path, source, _project_root()
         )
+        previous = HypothesesSheet.model_validate_json(
+            ctx.fiche_path.read_text(encoding="utf-8")
+        ).planned_commands
+        planned = apply_coverages(planned, previous, tuple(couvrir))
         if ecrire:
             write_planned_commands(ctx.fiche_path, planned)
     except (OSError, ValueError, ValidationRunError, CatalogueExtractionError) as exc:
@@ -2709,8 +2853,10 @@ def fiche_prevoir(
         raise typer.Exit(1) from exc
     for p in planned:
         options = ", ".join(f"{k}={v}" for k, v in sorted(p.options.items()))
+        covered = ", ".join(f"{k} ← {v}" for k, v in sorted(p.covered_by.items()))
         typer.echo(
             f"  {p.command} (point {p.point_label}){' : ' + options if options else ''}"
+            f"{' ; couvert : ' + covered if covered else ''}"
         )
     typer.echo(
         f"{len(planned)} commande(s) prévue(s) ; "

@@ -40,9 +40,8 @@ blocker_scopes:
     steps: [ferraillage]
     reason: "Es ne sert qu'au ferraillage (eys_pa) ; le calcul des cas élémentaires ne le lit pas"
 
-# Lot 48 bis (audit R6) : la fiche du quai est produite par scripts/build_combiwall_reference.py
-# (jamais éditée à la main) et ne porte pas encore `planned_commands`.
-planned_commands_exemption: "fiche produite par script (build_combiwall_reference.py) avant le lot 44 ; `aster-expert fiche prevoir quai_cw_test_01 --ecrire` à faire dans la VM, où le `.comm` du quai se régénère, et le script de construction à compléter"
+# Lot 49 : `planned_commands` écrit par `aster-expert fiche prevoir quai_cw_test_01 --ecrire`
+# (repris par scripts/build_combiwall_reference.py) ; l'exemption du lot 48 bis est levée.
 
 mesh:
   script: maillage/combiwall_mesh.py
@@ -238,12 +237,60 @@ rebar:
 synthesis:
   extension: quai_cw_test_01.extensions:synthesis
 
+# Lot 49 : livrables de résultats (aster-expert projet quai_cw_test_01 livrables). Réactions
+# aux seuls appuis sans élément ELAS_COQUE (CA-023, CA-026) : pieds des tubes (ELAS) et
+# ancrages des tirants ; les plans de symétrie SYM_G/SYM_D, sur les palplanches
+# ELAS_COQUE, n'en ont pas.
+deliverables:
+  fields:
+    - family: deplacements
+      field: DEPL
+      components: [DX, DY, DZ, DRX, DRY, DRZ]
+      convention: "repère global (point 9) : X le long du quai de SYM_G vers SYM_D, Y vers la terre, Z ascendant"
+    - family: efforts_coques
+      field: EFGE_NOEU
+      groups: [TUBES, PALPS]
+      components: [NXX, NYY, NXY, MXX, MYY, MXY, QX, QY]
+      convention: "coques DKT, repère local fixé par VECTEUR = (0, 0, 1) : axe x_l (L) vertical ; efforts par unité de largeur ; seuls EFGE_ELNO et EFGE_NOEU sont exacts sous ELAS_COQUE (CA-025)"
+    - family: efforts_poutres
+      field: EFGE_ELNO
+      groups: [POUTRE_COUR]
+      components: [N, VY, VZ, MT, MFY, MFZ]
+      convention: "poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+    - family: efforts_poutres
+      field: EFGE_ELNO
+      groups: [TIRANTS]
+      components: [N]
+      convention: "tirants BARRE : effort normal seul, N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+    - family: reactions
+      field: REAC_NODA
+      node_groups: [PIED_TUBES, ANCRAGES]
+      components: [DX, DY, DZ]
+      convention: "repère global ; pieds des tubes (DZ bloqué) et ancrages (DX, DY, DZ bloqués) ; jamais aux nœuds d'éléments ELAS_COQUE (CA-026)"
+    - family: ressorts
+      field: SIEF_ELGA
+      groups: ["GEN_RESS_*"]
+      components: [N, VY, VZ]
+      convention: "ressorts DIS_T horizontaux selon Y (K_T_D_N, repère global, décision 5) : effort interne k·u ; la force exercée par le ressort sur l'écran est −k·u"
+  not_relevant:
+    - {item: contraintes_volumes, reason: "le modèle n'a aucun élément de volume (coques DKT, poutre POU_D_T, tirants BARRE, ressorts DIS_T)"}
+  combinations: declarees
+  points:
+    - {label: ancrages des tirants, node_group: ANCRAGES, cell_group: TIRANTS}
+    - {label: pieds des tubes, node_group: PIED_TUBES}
+
 # Paquet de résultats versionnable (lot 45, `aster-expert projet exporter-resultats
 # quai_cw_test_01`) : ce que les notes de résultats peuvent lire, sans MED. Les
 # comptes rendus d'exécution, le rapport de `mesh check` et la validation B y
 # sont ajoutés d'office ; les sections présentes décident des sections des notes.
 results_package:
   items:
+    # Lot 49 : livrables (manifeste des MED et VTU, contrôle des charges, synthèses,
+    # images) ; les MED et VTU eux-mêmes ne sont jamais versionnés.
+    - {section: visualisation, source: "resultats/livrables/paquet/*.json"}
+    - {section: visualisation, source: resultats/livrables/paquet/synthese.csv}
+    - {section: visualisation, source: "resultats/livrables/png/charges_*.png", required: false}
+    - {section: visualisation, source: "resultats/livrables/png/resultats_ENV_*.png", required: false}
     - {section: controles, source: resultats/controles/controles_d.json}
     - {section: controles, source: resultats/controles/equilibre.json}
     - {section: controles, source: resultats/controles/integrale.json}
@@ -283,10 +330,10 @@ results_package:
       columns:
         - {header: Cas, path: "^case"}
         - {header: Tirant, path: tie}
-        - {header: "X (m)", path: x}
-        - {header: Effort normal, path: n}
-        - {header: Minimum, path: minimum}
-        - {header: Maximum, path: maximum}
+        - {header: "X (m)", path: x, unit: "m"}
+        - {header: Effort normal, path: n, unit: "N"}
+        - {header: Minimum, path: minimum, unit: "N"}
+        - {header: Maximum, path: maximum, unit: "N"}
     - section: cas
       title: Réactions par groupe d'appui, par cas (N)
       source: cas/synthese.json
@@ -294,9 +341,9 @@ results_package:
       columns:
         - {header: Cas, path: "^case"}
         - {header: Groupe, path: group}
-        - {header: DX, path: dx}
-        - {header: DY, path: dy}
-        - {header: DZ, path: dz}
+        - {header: DX, path: dx, unit: "N"}
+        - {header: DY, path: dy, unit: "N"}
+        - {header: DZ, path: dz, unit: "N"}
         - {header: Bloqué, path: blocked}
     - section: cas
       title: Ressorts de sol, par cas (N, pression en kPa)
@@ -304,10 +351,10 @@ results_package:
       rows: cases
       columns:
         - {header: Cas, path: case}
-        - {header: "Force totale des ressorts", path: springs.total_force_n}
+        - {header: "Force totale des ressorts", path: springs.total_force_n, unit: "N"}
         - {header: "Nœuds comprimés", path: springs.bearing.n_compressed}
         - {header: "Taux maximal de butée", path: springs.bearing.max_ratio}
-        - {header: "Pression maximale", path: springs.bearing.max_pressure_kpa}
+        - {header: "Pression maximale", path: springs.bearing.max_pressure_kpa, unit: "kPa"}
         - {header: "Nœuds au-delà de 100 %", path: springs.bearing.n_over_100}
     - section: cas
       title: Efforts généralisés des tubes, extrema par cas
@@ -336,18 +383,18 @@ results_package:
       columns:
         - {header: Combinaison, path: combinaison}
         - {header: "Composante extrémale", path: composante_extremale}
-        - {header: "X (m)", path: x_m}
-        - {header: N, path: N}
-        - {header: VY, path: VY}
-        - {header: VZ, path: VZ}
-        - {header: MFY, path: MFY}
-        - {header: MFZ, path: MFZ}
+        - {header: "X (m)", path: x_m, unit: "m"}
+        - {header: N, path: N, unit: "N"}
+        - {header: VY, path: VY, unit: "N"}
+        - {header: VZ, path: VZ, unit: "N"}
+        - {header: MFY, path: MFY, unit: "N·m"}
+        - {header: MFZ, path: MFZ, unit: "N·m"}
     - section: ferraillage
       title: Aires retenues le long de la poutre (m²), maximum de Code_Aster et des minima
       source: ferraillage/synthese.csv
       step: 8
       columns:
-        - {header: "X (m)", path: x_m}
+        - {header: "X (m)", path: x_m, unit: "m"}
         - {header: AYS, path: AYS_retenu}
         - {header: AYI, path: AYI_retenu}
         - {header: AZS, path: AZS_retenu}

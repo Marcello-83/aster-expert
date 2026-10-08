@@ -345,6 +345,49 @@ async def _probe_connaissances(
     ]
 
 
+def _project_with_deliverables(project_root: Path) -> str | None:
+    """First project (alphabetical order) whose deliverables exist: the trunk names
+    no project (`tests/unit/test_tronc_commun_sans_ouvrage.py`)."""
+    root = project_root / "projets"
+    if not root.is_dir():
+        return None
+    for directory in sorted(p for p in root.iterdir() if p.is_dir()):
+        if (directory / "resultats" / "livrables" / "manifeste.json").is_file():
+            return directory.name
+    return None
+
+
+async def _probe_query_results(session: Any, work_dir: Path) -> list[ToolCheck]:
+    """Lot 49: one extremum of the displacements read in the deliverables of the
+    first project that has them."""
+    project_root = work_dir.parents[3] if len(work_dir.parents) > 3 else work_dir
+    name = _project_with_deliverables(project_root)
+    if name is None:
+        message = (
+            "query_results : aucun projet n'a de livrables (aster-expert projet <nom> "
+            "livrables) ; l'outil ne peut pas être appelé sur une requête minimale"
+        )
+        raise McpCheckError(message)
+    request: dict[str, Any] = {
+        "projet": name,
+        "champ": "DEPL",
+        "mode": "extremum",
+        "limite": 50,
+    }
+    found = await _call(session, "query_results", request)
+    row = _first(found, "rows", "query_results")
+    return [
+        ToolCheck(
+            tool="query_results",
+            request=request,
+            summary=(
+                f"{row['composante']} {row['extremum']} = {row['valeur_si']} "
+                f"{row['unite_si']}, level {found.get('validation_level')}"
+            ),
+        )
+    ]
+
+
 # One probe per group of tools. A declared tool covered by no probe fails the
 # check: whoever adds a tool must also give it a minimal request here.
 _PROBES: dict[str, Probe] = {
@@ -354,6 +397,7 @@ _PROBES: dict[str, Probe] = {
     "search_test_cases": _probe_test_cases,
     "search_constats": _probe_constats,
     "search_connaissances": _probe_connaissances,
+    "query_results": _probe_query_results,
 }
 _COVERED_BY: dict[str, str] = {
     "get_document_section": "search_codeaster_docs",

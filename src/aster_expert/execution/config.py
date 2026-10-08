@@ -16,6 +16,7 @@ import yaml
 from pydantic import BaseModel, ConfigDict
 
 from aster_expert.execution.errors import ExecutionRunError
+from aster_expert.execution.interdits import ForbiddenKeyword
 from aster_expert.execution.ressources import (
     ResourceSettings,
     load_machine_overrides,
@@ -46,6 +47,9 @@ class ExecutionConfig(BaseModel):
     memory_margin_mb: int = 0
     memory_share: float = 0.8
     min_free_disk_gb: float = 10.0
+    forbidden_keywords: tuple[ForbiddenKeyword, ...] = ()
+    """Lot 49: keyword values refused before any run, each with its diagnosis
+    (`aster_expert.execution.interdits`)."""
 
     def resource_settings(self, project_root: Path) -> ResourceSettings:
         """This section, overridden by `config/machine.local.yaml` when it exists."""
@@ -84,6 +88,10 @@ def load_execution_config(config_path: Path) -> ExecutionConfig:
             memory_margin_mb=raw.get("memory_margin_mb", 0),
             memory_share=raw.get("memory_share", 0.8),
             min_free_disk_gb=raw.get("min_free_disk_gb", 10.0),
+            forbidden_keywords=tuple(
+                ForbiddenKeyword.model_validate(r)
+                for r in raw.get("forbidden_keywords") or ()
+            ),
         )
     except KeyError as exc:
         message = f"execution config missing key {exc} in {config_path}"

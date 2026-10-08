@@ -34,6 +34,10 @@ dependencies = [
     # exécuté.
     "docutils>=0.21",
     "python-docx>=1.2.0",
+    # Lot 49 : classeur Excel récapitulatif des livrables (police Arial 10, en-têtes sur
+    # fond gris, format d'affichage arrondi par cellule, valeur exacte conservée) ;
+    # bibliothèque de référence pour écrire et relire le format .xlsx, sans Excel.
+    "openpyxl>=3.1",
 ]
 
 [project.optional-dependencies]
@@ -176,6 +180,12 @@ ignore_missing_imports = true
 # importé seulement si la bibliothèque est présente ; ce n'est pas une dépendance.
 [[tool.mypy.overrides]]
 module = ["matplotlib.*"]
+ignore_missing_imports = true
+
+# Lot 49 : classeur des livrables ; openpyxl ne livre pas d'annotations (pas de
+# dépendance de stubs ajoutée pour cela).
+[[tool.mypy.overrides]]
+module = ["openpyxl.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

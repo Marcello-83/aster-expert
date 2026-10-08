@@ -50,6 +50,60 @@
   },
   "informative": {},
   "verdict": "RÉUSSI",
+  "harness": {
+    "controls": {
+      "CTL-005": {
+        "verdict": "RÉUSSI",
+        "worst_relative_gap": 8.33339678744475e-12,
+        "cases": [
+          "G",
+          "Q"
+        ]
+      },
+      "CTL-006": {
+        "verdict": "RÉUSSI",
+        "worst_relative_gap": 5.217306701649408e-13,
+        "planes": [
+          "G X=3.0",
+          "G Y=2.0",
+          "Q X=3.0",
+          "Q Y=2.0"
+        ]
+      },
+      "CTL-012": {
+        "verdict": "RÉUSSI",
+        "decreasing": {
+          "G.w": true,
+          "G.mx": true,
+          "G.my": true,
+          "Q.w": true,
+          "Q.mx": true,
+          "Q.my": true
+        },
+        "finest_error": {
+          "G.w": 0.0002053794664027206,
+          "G.mx": 5.579085964558939e-05,
+          "G.my": 0.0005171300772400087,
+          "Q.w": 0.00020537946640264993,
+          "Q.mx": 5.5790860037167696e-05,
+          "Q.my": 0.0005171300778781434
+        },
+        "final_threshold": 0.01,
+        "worst_finest_error": 0.0005171300778781434,
+        "source": "references/rejeu_niveau_e_lot45.json (E1) ; seuil du critère E2"
+      },
+      "CTL-013": {
+        "verdict": "RÉUSSI",
+        "threshold": 1e-06,
+        "relative_gap_by_case": {
+          "G": 0.0,
+          "Q": 0.0
+        },
+        "worst_relative_gap": 0.0
+      }
+    },
+    "disabled": {}
+  },
   "provenance": {
     "mess_sha256": "eedbe1b9aa4b4e9b4e33286e4f14ef23c13f0e4eb9dcac5a8c5acd0083c1f717",
     "comm_sha256": "70ae851c380a4dad612adad6962b2611feea61485fe096aeb533e39d75e09848"

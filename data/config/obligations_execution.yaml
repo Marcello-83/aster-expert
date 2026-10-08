@@ -69,3 +69,35 @@ categories:
   CALC_FERRAILLAGE:
     default: "mm:paramètres de ferraillage"
     UNITE_CONTRAINTE: "agent:repere"
+# Mots-clés obligatoires qui ne font jamais l'objet d'une question (lot 49) : leur valeur
+# nomme une table, un mode de lecture ou le codage d'un champ (type de champ, nom de
+# composante, nom symbolique), fixés par le rôle de la commande et jamais par
+# l'ouvrage. `fiche obligatoires` les affiche « SANS QUESTION », avec le motif. Un
+# mot-clé qui porte un nombre de l'ouvrage (valeur, coefficient : DEFI_CONSTANTE/VALE)
+# n'entre jamais ici : il se couvre par une donnée ou par un point de la fiche.
+without_question:
+  - command: POST_RELEVE_T
+    keywords: [ACTION.INTITULE, ACTION.OPERATION]
+    reason: >-
+      nom de la table de relevé et mode de lecture (EXTRACTION, MOYENNE, EXTREMA) : choix
+      de lecture des résultats, sans valeur de l'ouvrage
+    sources:
+      - "U4.81.21 § « Opérandes d'accès et d'impression du contenu des tables créées par POST_RELEVE_T », Opérande INTITULE : « Nom de la table de relevés de valeurs »"
+      - "U4.81.21 § Syntaxe : ACTION/OPERATION = EXTRACTION, MOYENNE, MOYENNE_ARITH, EXTREMA ; Tableau 7.4-a (paramètres de la table selon l'opération)"
+  - command: CREA_CHAMP
+    when: {OPERATION: AFFE}
+    keywords: [TYPE_CHAM, AFFE.NOM_CMP]
+    reason: >-
+      type du champ créé et noms de ses composantes : codage de la grandeur affectée (les
+      valeurs affectées, VALE, restent des données de l'ouvrage)
+    sources:
+      - "U4.72.04 § « Opérande TYPE_CHAM, affectation d'un type au champ résultat » : « Ce mot clé (obligatoire) sert d'abord à typer le champ résultat […] Il est indispensable pour les opérations 'AFFE', 'ASSE' et 'DISC' »"
+      - "U4.72.04 § « Opérandes pour OPERATION = 'AFFE' », Opérande NOM_CMP : « Les noms des composantes que l'on veut affecter sont donnés par l'opérande NOM_CMP »"
+  - command: CREA_RESU
+    when: {OPERATION: AFFE}
+    keywords: [AFFE.NOM_CHAM]
+    reason: >-
+      nom symbolique du champ rangé dans le résultat (TEMP pour un EVOL_THER) : imposé par
+      le type du résultat, sans valeur de l'ouvrage
+    sources:
+      - "U4.44.12 § Opérande NOM_CHAM : « Nom symbolique du champ à affecter. Ce nom doit être cohérent avec la structure de données modifiée ou créée »"

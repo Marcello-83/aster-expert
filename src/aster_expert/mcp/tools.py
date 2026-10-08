@@ -69,6 +69,7 @@ from aster_expert.mcp.models import (
     ConstatHitResult,
     DocumentSectionResult,
     KnowledgeHitResult,
+    QueryResultsResult,
     SearchConnaissancesResult,
     SearchConstatsResult,
     SearchDocsResult,
@@ -777,5 +778,95 @@ def search_connaissances(
             "diagnostic se lit avant toute autre hypothèse sur une erreur ; un "
             "précédent n'est jamais appliqué : il se propose dans une fiche "
             "(origine precedent_projet) et reste soumis à l'arbitrage de MM."
+        ),
+    )
+
+
+def query_results(
+    *,
+    project_root: Path,
+    projet: str,
+    champ: str | None = None,
+    composantes: list[str] | None = None,
+    cas: list[str] | None = None,
+    groupes: list[str] | None = None,
+    noeuds: str | None = None,
+    mode: str = "extremum",
+    point: list[float] | None = None,
+    coupe: str | None = None,
+    sans_disques: bool = False,
+    limite: int = 200,
+    log_path: Path | None = None,
+) -> QueryResultsResult:
+    """Lot 49: `aster-expert resultats lire`, as an MCP tool."""
+    import json as _json  # noqa: PLC0415
+
+    from aster_expert.livrables.lecture import Query, query  # noqa: PLC0415
+    from aster_expert.projet.context import load_project  # noqa: PLC0415
+    from aster_expert.projet.errors import ProjectError  # noqa: PLC0415
+
+    if mode not in ("extremum", "point", "coupe", "somme", "tout"):
+        message = f"mode inconnu : {mode} (extremum, point, coupe, somme, tout)"
+        raise McpToolError(message)
+    started = time.monotonic()
+    try:
+        ctx = load_project(projet, project_root)
+        answer = query(
+            ctx,
+            Query(
+                groupes=tuple(groupes or ()),
+                noeuds=noeuds,
+                champ=champ,
+                composantes=tuple(composantes or ()),
+                cas=tuple(cas or ()),
+                mode=mode,  # type: ignore[arg-type]
+                point=tuple(point) if point else None,
+                coupe=coupe,
+                disques=not sans_disques,
+                limite=limite,
+            ),
+        )
+    except (ProjectError, ValueError, KeyError) as exc:
+        raise McpToolError(str(exc)) from exc
+    level = "C"
+    package = ctx.results_dir / "paquet" / "paquet.json"
+    if package.is_file():
+        level = str(
+            _json.loads(package.read_text(encoding="utf-8"))["niveau"]["atteint"]
+        )
+    filters: dict[str, str | None] = {
+        "champ": champ,
+        "composantes": ",".join(composantes or ()) or None,
+        "cas": ",".join(cas or ()) or None,
+        "groupes": ",".join(groupes or ()) or None,
+        "noeuds": noeuds,
+        "mode": mode,
+        "point": ",".join(str(x) for x in point) if point else None,
+        "coupe": coupe,
+        "sans_disques": str(sans_disques),
+    }
+    append_query_log(
+        log_path if log_path is not None else default_query_log_path(project_root),
+        tool="query_results",
+        query=projet,
+        filters=filters,
+        returned=[],
+        duration_s=time.monotonic() - started,
+    )
+    return QueryResultsResult(
+        validation_level=level,
+        projet=projet,
+        filtres=filters,
+        lignes=len(answer.rows),
+        rows=[{k: str(v) for k, v in row.items()} for row in answer.rows],
+        csv=answer.csv(),
+        provenance=answer.provenance,
+        notes=answer.notes,
+        guidance=(
+            "Valeurs lues dans les livrables du projet (MED de post-traitement dont "
+            "les tables sont identiques à la production) : citer la provenance ; le "
+            "niveau est celui du paquet du projet, jamais plus. Un extremum de plaque "
+            "au droit d'un appui ponctuel est exclu par les disques déclarés "
+            "(PAT-013) ; sans_disques=True les lève."
         ),
     )

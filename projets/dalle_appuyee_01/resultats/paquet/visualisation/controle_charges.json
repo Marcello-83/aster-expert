@@ -1,0 +1,79 @@
+{
+ "controle": "CTL-013 sur le MED des charges (lot 49)",
+ "source": "somme des forces nodales du champ FN_<cas> (CALC_VECT_ELEM, ASSE_VECTEUR) ; résultante attendue de controls.cases (projet.yaml)",
+ "seuil": 1e-06,
+ "cas": {
+  "G": {
+   "champ_med": "FN_G",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -180000.0,
+    "MX": -360000.0,
+    "MY": 540000.0,
+    "MZ": 0.0,
+    "X_APPLICATION_FZ": 3.0,
+    "Y_APPLICATION_FZ": 2.0
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -180000.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -180000.0
+   },
+   "ecart_relatif": 0.0,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "Q": {
+   "champ_med": "FN_Q",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -240000.0,
+    "MX": -480000.0,
+    "MY": 720000.0,
+    "MZ": 0.0,
+    "X_APPLICATION_FZ": 3.0,
+    "Y_APPLICATION_FZ": 2.0
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -240000.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -240000.0
+   },
+   "ecart_relatif": 0.0,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  }
+ },
+ "echecs": [],
+ "verdict": "RÉUSSI"
+}
