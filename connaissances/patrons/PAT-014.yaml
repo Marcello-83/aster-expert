@@ -1,0 +1,76 @@
+id: PAT-014
+title: 'Poutre partageant ses nœuds avec une plaque : dimensionner sur la section en T, jamais
+  sur la barre seule'
+summary: 'Quand une poutre et une plaque partagent leurs nœuds, la barre seule porte une part
+  de l''effort qui dépend de la formulation de plaque (DKT, DST) et du maillage : la grandeur
+  de dimensionnement est le total de la section en T, barre plus bande de plaque, contrôlé
+  par l''équilibre d''une coupe.'
+origin_project: estacade_pieux_01
+date: '2026-10-09'
+validation_level: D
+status: observé
+sources:
+- kind: execution
+  run: 20261005T101455-e0d5c870
+  case_path: projets/estacade_pieux_01/references/cas/estacade_pieux_01.comm
+  case_sha256: fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692
+  outcome: réussite
+  level: C
+  note: livrables de la production du lot 47 relus au lot 49 ter
+- kind: document
+  path: docs/essais_lot49ter.md
+  section: 'D1 : section en T et équilibre d''une coupe'
+  note: 'sous PP, coupes Y = 0 et Y = −2,50 : moment total de la coupe égal à l''équilibre
+    du corps libre à moins de 10⁻⁹ ; à l''ELU, effort tranchant et moment sur appui de la
+    barre seule 3 à 4 fois sous ceux de la source, section en T du même ordre'
+- kind: test
+  path: tests/unit/test_livrables_lot49ter.py
+  function: test_the_tee_section_adds_the_trapezoid_integral_of_the_band
+  note: intégrale par trapèzes de la bande, barre seule gardée
+- kind: constat
+  constat_id: CA-058
+commands:
+- CALC_CHAMP
+keywords:
+- DKT
+- DST
+- POU_D_T
+- EFGE_ELNO
+- EFGE_NOEU
+- MFY
+- MYY
+- QY
+reuses: []
+status_history: []
+problem: 'Une poutre au plan moyen d''une plaque, nœuds partagés (chevêtre sous une dalle)
+  : la plaque et la barre se partagent l''effort à chaque nœud. La part de la barre change
+  avec la formulation de plaque (effort tranchant près d''un appui : 27 % en DKT, 90 % en
+  DST, CA-058) et avec le maillage ; un ferraillage fait sur la barre seule peut être faux
+  d''un facteur 3 à 4.'
+solution: 'Déclarer la section en T (largeur ±b/2 de part et d''autre de la ligne, b la largeur
+  de la poutre) : N_T = N + ∫NYY, M_T = MFY + ∫MYY, V_T = VZ + ∫QY par trapèzes sur les nœuds
+  de plaque de même abscisse, cas par cas ; dimensionner sur ce total à tous les états limites
+  ; garder la barre seule en colonne de traçabilité ; prouver la lecture par l''équilibre
+  d''une coupe (moyenne des deux extrémités d''élément au nœud de la coupe, moments nodaux
+  consistants des charges réparties non comptés).'
+fragment: "tee_section:\n  plate_family: tablier\n  half_width: 0.60\n  across: X\n  along:\
+  \ Y\n  parts:\n    - {beam: N, plate: NYY}\n    - {beam: MFY, plate: MYY}\n    - {beam:\
+  \ VZ, plate: QY}\n"
+fragment_language: python
+conditions: 'Poutre et plaque au même plan moyen (E20), repère de plaque égal au repère global
+  (ANGL_REP = (0, 0)), lecture EFGE_NOEU de la plaque et EFGE_ELNO de la barre. Le signe des
+  parts dépend du repère local de la poutre : le vérifier par une coupe en console (isostatique).'
+controls:
+- CTL-005
+- CTL-015
+constats:
+- CA-058
+implementation:
+- kind: code
+  path: src/aster_expert/livrables/sections.py
+  symbol: compose_tee
+  note: null
+- kind: code
+  path: src/aster_expert/livrables/coupe.py
+  symbol: cut_equilibrium
+  note: null

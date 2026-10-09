@@ -26,6 +26,13 @@ Conventions are converted here, never left to the reader:
   stretches the top face (CA-045), so a top fibre on the normal side gives M = −MXX;
 - a circular section in skew bending exports the resultant √(MFY² + MFZ²) ≥ 0, with a
   warning (the software computes plane bending; there is no « M min »).
+
+Lot 49 ter: a section keeps the moment line of the sign it declares (D3: span or
+support), the other one only when it dimensions; a support section with a design
+moment (E27) exports M_dim = max(M_nu ; 0,65 × M_enc) with N and V read at the face in
+the reference, and its traceability columns (M_nu, M_enc, 0,65 × M_enc, M_dim, the
+governing term, M_axe for comparison); a shell file carries the concomitant resultant
+shear √(QX² + QY²) (D2).
 """
 
 from __future__ import annotations
@@ -45,6 +52,7 @@ from aster_expert.livrables.torseurs import (
     StateEnvelope,
     Target,
     _pick,
+    kept,
     torsor_entry,
 )
 from aster_expert.projet.context import ProjectContext
@@ -150,6 +158,8 @@ def _lines_of_state(
     sec: SectionRows,
     plane: BendingPlane,
     type_label: str,
+    e27: dict[str, Any] | None = None,
+    dimensioning_opposite: frozenset[str] = frozenset(),
 ) -> list[ExportLine]:
     excluded = sec.singular if sec.section.exclude_singular else np.zeros_like(sec.mask)
     rows = np.where(sec.mask & ~excluded)[0]
@@ -157,20 +167,41 @@ def _lines_of_state(
     column = M_RES if plane.moment == "resultante" else plane.moment
     normal = _NORMAL[plane.moment]
     wanted: list[tuple[str, Target]] = []
+    out: list[ExportLine] = []
+    if e27 is not None and e27["colonne"] == column:
+        # E27 : la ligne du moment sur appui porte M_dim, N et V lus au nu.
+        torsor = e27["torseur_si"]
+        out.append(
+            ExportLine(
+                state=env.state,
+                type_label=type_label,
+                case="M sur appui (E27)",
+                n_kn=-torsor[normal] * 1.0e-3,
+                m_knm=sign * torsor[column] * 1.0e-3,
+                entry=e27,
+            )
+        )
     if plane.moment == "resultante":
-        wanted.append(("M max", Target("M max", M_RES, "max", "M")))
+        if e27 is None or e27["colonne"] != M_RES:
+            wanted.append(("M max", Target("M max", M_RES, "max", "M")))
     else:
         hi, lo = ("max", "min") if sign > 0 else ("min", "max")
-        wanted += [
-            ("M max", Target("M max", column, hi, "M")),
-            ("M min", Target("M min", column, lo, "M")),
-        ]
+        for case, sense in (("M max", hi), ("M min", lo)):
+            target = Target(case, column, sense, "M")
+            if not kept(sec.section, target) and sense not in dimensioning_opposite:
+                continue
+            if (
+                e27 is not None
+                and e27["colonne"] == column
+                and kept(sec.section, target)
+            ):
+                continue
+            wanted.append((case, target))
     # N > 0 en compression : N max du logiciel = N min de Code_Aster.
     wanted += [
         ("N max", Target("N max", normal, "min", "N")),
         ("N min", Target("N min", normal, "max", "N")),
     ]
-    out: list[ExportLine] = []
     seen: dict[tuple[int, int, int, str, str], ExportLine] = {}
     for case, target in wanted:
         picked = _pick(env, fr, rows, target)
@@ -212,6 +243,7 @@ def export_table(
     envelopes: dict[str, StateEnvelope],
     sec: SectionRows,
     plane: BendingPlane,
+    e27: dict[str, dict[str, Any]] | None = None,
 ) -> tuple[list[ExportLine], list[str]]:
     """The lines of one file, and the limit states left out (with why)."""
     types: list[tuple[str, str]] = []
@@ -231,7 +263,15 @@ def export_table(
     types.sort(key=lambda t: TYPE_ORDER.index(t[0]))
     lines: list[ExportLine] = []
     for label, state in types:
-        lines += _lines_of_state(fr, combinations, envelopes[state], sec, plane, label)
+        lines += _lines_of_state(
+            fr,
+            combinations,
+            envelopes[state],
+            sec,
+            plane,
+            label,
+            (e27 or {}).get(state),
+        )
     for absent in summary.absent_limit_states:
         left_out.append(f"{STATE_LABELS[absent.state]} : absent ({absent.reason})")
     return lines, left_out
@@ -244,7 +284,11 @@ def _place(fr: FamilyRows, entry: dict[str, Any]) -> tuple[str, str]:
         parts.append(f"maille {lieu['maille_med']}")
         if lieu["extremite"] is not None:
             parts.append(f"extrémité {lieu['extremite']}")
-    parts.append(f"nœud {lieu['noeud_med']}")
+    if lieu.get("interpolation"):
+        nodes = "-".join(str(n) for n in lieu["interpolation"]["noeuds_med"])
+        parts.append(f"interpolé entre les nœuds {nodes}")
+    else:
+        parts.append(f"nœud {lieu['noeud_med']}")
     x, y, z = lieu["coordonnees_m"]
     axis = fr.family.axis
     if axis is not None:
@@ -264,11 +308,14 @@ def write_export(
     sec: SectionRows,
     plane: BendingPlane,
     med_sha256: str | None,
+    e27: dict[str, dict[str, Any]] | None = None,
 ) -> tuple[str, list[ExportLine]]:
     """The text of one file (with its BOM) and its lines."""
     export = sec.section.bending_export
     assert isinstance(export, BendingExport)
-    lines, left_out = export_table(summary, fr, combinations, envelopes, sec, plane)
+    lines, left_out = export_table(
+        summary, fr, combinations, envelopes, sec, plane, e27
+    )
     h, h_src = _length(ctx, export.h, "m")
     b, b_src = _length(ctx, export.b, "m")
     ds, ds_src = _length(ctx, export.ds, "m")
@@ -350,11 +397,42 @@ def write_export(
         w.writerow(["Limite de la lecture", sec.section.caveat, ""])
     for note in sec.notes:
         w.writerow(["Lecture", note, ""])
+    signs = sec.section.moment_signs
+    if signs:
+        w.writerow(
+            [
+                "Zone et signe (D3)",
+                f"zone « {sec.section.zone} » ; signe retenu (Code_Aster) : "
+                + ", ".join(f"{k} {v}" for k, v in signs.items())
+                + " ; le signe opposé n'est exporté que s'il dimensionne",
+                "",
+            ]
+        )
+    dm = sec.section.design_moment
+    if dm is not None:
+        w.writerow(
+            [
+                "Moment sur appui (E27)",
+                f"M_dim = max(M_nu ; {number(dm.fraction, 2)} × M_encastrement), "
+                f"M_encastrement du modèle auxiliaire {dm.auxiliary} ; N et V lus au "
+                "nu dans la référence, même combinaison et même position ; M_axe : "
+                "comparaison seulement"
+                + (
+                    f" ; variantes {', '.join(dm.variants)} : au-delà de "
+                    f"{number(100 * (dm.variant_threshold or 0.0), 0)} % de variation "
+                    "de M_dim, enveloppe, torseur lu dans la variante qui gouverne"
+                    if dm.variants
+                    else ""
+                ),
+                dm.source,
+            ]
+        )
     w.writerow([])
     v_column = (
         V_RES if plane.moment == "resultante" else SHEAR_OF_MOMENT.get(plane.moment, "")
     )
     raw_columns = ["MFY", "MFZ"] if plane.moment == "resultante" else [plane.moment]
+    shell_v = fr.family.kind == "coque" and V_RES in fr.columns
     unit_m = "kN.m/m" if export.per_metre else "kN.m"
     unit_n = "kN/m" if export.per_metre else "kN"
     w.writerow(
@@ -370,8 +448,22 @@ def write_export(
             "Lieu",
             "Cote (m)",
             f"V concomitant ({unit_n})",
+            *([f"V résultant concomitant ({unit_n})"] if shell_v else []),
             *[f"{c} brut Code_Aster ({unit_m})" for c in raw_columns],
             f"{normal} brut Code_Aster ({unit_n})",
+            *(
+                [
+                    f"M_nu ({unit_m})",
+                    f"M_enc ({unit_m})",
+                    f"{number(dm.fraction, 2)} × M_enc ({unit_m})",
+                    f"M_dim ({unit_m})",
+                    "Terme qui gouverne",
+                    f"M_axe, comparaison ({unit_m})",
+                    "Appui",
+                ]
+                if dm is not None
+                else []
+            ),
             "Repère des valeurs brutes",
         ]
     )
@@ -391,14 +483,32 @@ def write_export(
                 place,
                 cote,
                 number(torsor[v_column] * 1.0e-3) if v_column in torsor else "",
+                *([number(torsor[V_RES] * 1.0e-3)] if shell_v else []),
                 *[number(torsor[c] * 1.0e-3) for c in raw_columns],
                 number(torsor[normal] * 1.0e-3),
+                *(_e27_cells(line.entry) if dm is not None else []),
                 fr.info.convention,
             ]
         )
     w.writerow([])
     w.writerow(["Empreinte du MED source (resultats.med, SHA-256)", med_sha256 or ""])
     return "﻿" + buffer.getvalue(), lines
+
+
+def _e27_cells(entry: dict[str, Any]) -> list[str]:
+    data = entry.get("e27")
+    if data is None:
+        return [""] * 7
+    appui = ", ".join(number(v, 2) for v in data["appui"])
+    return [
+        number(data["M_nu_si"] * 1.0e-3),
+        number(data["M_enc_si"] * 1.0e-3),
+        number(data["fraction_M_enc_si"] * 1.0e-3),
+        number(data["M_dim_si"] * 1.0e-3),
+        data["terme_gouvernant"],
+        number(data["M_axe_si"] * 1.0e-3),
+        f"({appui})",
+    ]
 
 
 def file_name(section: str, plane: BendingPlane, planes: int) -> str:

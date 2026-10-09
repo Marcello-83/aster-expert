@@ -1,0 +1,60 @@
+id: PAT-015
+title: 'Lecture au nu : bande ±b/2 le long des lignes poutre–plaque et disque autour des appuis
+  ponctuels'
+summary: 'Une plaque reliée à une poutre par ses nœuds se lit au nu de la poutre : les nœuds
+  à moins de b/2 de la ligne sont hors de la valeur de dimensionnement (gardés en valeur d''axe
+  pour comparaison), en plus des disques autour des appuis ponctuels (PAT-013).'
+origin_project: estacade_pieux_01
+date: '2026-10-09'
+validation_level: C
+status: observé
+sources:
+- kind: execution
+  run: 20261005T101455-e0d5c870
+  case_path: projets/estacade_pieux_01/references/cas/estacade_pieux_01.comm
+  case_sha256: fe73819a8501c5196d62ffe88ff6d7adf0e0b18dab24e5b3ec5ab7ea57d6e692
+  outcome: réussite
+  level: C
+  note: 'QY de 10 409 kN/m sur la ligne du chevêtre et 577 kN/m à 5 cm (lots 49, 49 bis) :
+    valeurs sans signification physique'
+- kind: document
+  path: docs/essais_lot49ter.md
+  section: 2.6 Bande d'exclusion E26
+  note: règle E26 de MM (lot 49 ter), EN 1992-1-1 §5.3.2.2(3) citée d'après MM et le superviseur
+- kind: test
+  path: tests/unit/test_livrables_lot49ter.py
+  function: test_the_band_excludes_the_plate_strictly_inside_half_the_beam_width
+  note: nu lu, intérieur de la bande exclu, motif écrit
+commands:
+- CALC_CHAMP
+keywords:
+- DKT
+- EFGE_NOEU
+- MXX
+- MYY
+- QX
+- QY
+reuses: []
+status_history: []
+problem: 'Le long d''une ligne de nœuds partagés avec une poutre, la plaque porte un effort
+  d''interaction nodal (CA-058) : ses valeurs sur la ligne et à ses voisins immédiats n''ont
+  pas de sens physique et dépendent du maillage ; une lecture « hors disques » ne les écarte
+  pas (une ligne n''est pas un disque).'
+solution: 'Déclarer sur la famille de poutres une bande de demi-largeur b/2 (exclusion_band)
+  : tout nœud de plaque à moins de b/2 (strictement) d''un nœud de la poutre est exclu de
+  la valeur de dimensionnement de toutes les familles de coque ; le nu (distance b/2) est
+  lu ; les disques PAT-013 restent ; les valeurs de la bande sont rapportées en « axe (comparaison)
+  ».'
+fragment: "exclusion_band:\n  half_width: 0.60\n  source: \"E26 de MM\"\n"
+fragment_language: python
+conditions: Poutre de largeur b au plan moyen d'une plaque, nœuds partagés ; appui monolithique
+  (lecture au nu). La demi-largeur est une décision de lecture, déclarée avant la lecture.
+controls:
+- CTL-015
+constats:
+- CA-058
+implementation:
+- kind: code
+  path: src/aster_expert/livrables/sections.py
+  symbol: singular_rows
+  note: null

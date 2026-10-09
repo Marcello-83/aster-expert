@@ -198,7 +198,11 @@ cases:
     refined_case_path: null
     refined_value: null
     result: échec
-    note: 'verdict du rapport : hors tolérance'
+    note: 'verdict du rapport : hors tolérance ; attribution (lot 49 ter, constat sur E19)
+      : C, chevêtre de 0,80 m dans le modèle source -- probable, appuyé par le texte de la
+      source (§20.5.1 : « h = 0.80 m (augmenté à 0.90m) ») ; avec 0,80 m la barre seule tient
+      la tolérance (lot 47 bis, § 9 ; lot 47 quater, § 5.4) ; et A, la source publie la barre
+      (E17.2 compare le total). Référence E1 à E23 inchangée.'
   - name: C6 ELS_c (105)
     value_obtained: 303.2129500928595
     reference_value: 276.0
@@ -207,7 +211,11 @@ cases:
     refined_case_path: null
     refined_value: null
     result: échec
-    note: 'verdict du rapport : hors tolérance'
+    note: 'verdict du rapport : hors tolérance ; attribution (lot 49 ter, constat sur E19)
+      : C, chevêtre de 0,80 m dans le modèle source -- probable, appuyé par le texte de la
+      source (§20.5.1 : « h = 0.80 m (augmenté à 0.90m) ») ; avec 0,80 m la barre seule tient
+      la tolérance (lot 47 bis, § 9 ; lot 47 quater, § 5.4) ; et A, la source publie la barre
+      (E17.2 compare le total). Référence E1 à E23 inchangée.'
   - name: C6 ELU (112)
     value_obtained: 443.11415676276243
     reference_value: 408.0
@@ -216,7 +224,11 @@ cases:
     refined_case_path: null
     refined_value: null
     result: échec
-    note: 'verdict du rapport : hors tolérance'
+    note: 'verdict du rapport : hors tolérance ; attribution (lot 49 ter, constat sur E19)
+      : C, chevêtre de 0,80 m dans le modèle source -- probable, appuyé par le texte de la
+      source (§20.5.1 : « h = 0.80 m (augmenté à 0.90m) ») ; avec 0,80 m la barre seule tient
+      la tolérance (lot 47 bis, § 9 ; lot 47 quater, § 5.4) ; et A, la source publie la barre
+      (E17.2 compare le total). Référence E1 à E23 inchangée.'
   - name: C7 ELU (enveloppe 100-115, gouvernée par 111)
     value_obtained: 141.93753721723868
     reference_value: 177.0

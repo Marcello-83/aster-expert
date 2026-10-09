@@ -18,6 +18,16 @@ member per row and limit state), then the sheets of lot 49 kept: reactions and
 equilibrium, controls D and E, external comparison, conventions, provenance. The long
 raw tables of lot 49 (values at reading points, envelopes along the members, extrema
 per field) are CSV annexes, out of the workbook.
+
+Lot 49 ter: the « Synthèse ingénieur » is in the engineer's convention of the CSV
+files (N > 0 in compression, M signed as the section declares: span or support moment,
+|V|) with physical names (D4); « Torseurs » and the raw columns keep the Code_Aster
+convention, and the head of every sheet says which one applies. Every numeric cell
+gets a display format (D5): the decimals of its unit in `config/arrondis.yaml`, or a
+scientific format for a relative gap without unit (`UNITLESS_FORMAT`); the stored value
+stays exact. A sheet « Moments sur appui (E27) » gives M_nu, M_enc, 0,65 × M_enc, M_dim,
+the governing term and M_axe; « Comparaison externe » starts with the structured table
+of the project (`comparaison_externe.json`) when it delivers one.
 """
 
 from __future__ import annotations
@@ -49,7 +59,26 @@ MUTED_FILL = PatternFill(
 )
 """Grey 5 %: a value « non significative »."""
 WORKBOOK = "classeur_livrables.xlsx"
-FIRST_SHEETS = ("Synthèse ingénieur", "Vérifications de service", "Torseurs")
+FIRST_SHEETS = (
+    "Synthèse ingénieur",
+    "Vérifications de service",
+    "Torseurs",
+    "Moments sur appui (E27)",
+)
+UNITLESS_FORMAT = "0.00E+00"
+"""Display of a number without unit (relative gaps, ratios): D5, lot 49 ter."""
+INTEGER_FORMAT = "0"
+CONVENTION_CA = (
+    "Convention de Code_Aster : N > 0 en traction ; MFY = ∫z·σxx dS, MFZ = −∫y·σxx dS "
+    "(R3.08.01) ; MXX, MYY > 0 tendent la face supérieure (CA-045) ; repères en "
+    "feuille Conventions."
+)
+CONVENTION_ING = (
+    "Convention ingénieur (celle des fichiers flexion_composee/*.csv) : N > 0 en "
+    "compression ; M > 0 dans le sens déclaré par la section (moment de travée : fibre "
+    "inférieure tendue ; moment sur appui : fibre supérieure tendue ; section "
+    "circulaire : moment résultant) ; V en valeur absolue."
+)
 LAST_SHEETS = (
     "Réactions et équilibre",
     "Contrôles D et E",
@@ -145,6 +174,12 @@ class Sheet:
             if isinstance(value, float) and unit:
                 decimals = self.table.decimals(unit)
                 cell.number_format = "0" if decimals == 0 else "0." + "0" * decimals
+            elif isinstance(value, bool):
+                pass
+            elif isinstance(value, float):
+                cell.number_format = UNITLESS_FORMAT
+            elif isinstance(value, int):
+                cell.number_format = INTEGER_FORMAT
             text = "" if value is None else str(value)
             if isinstance(value, float):
                 text = f"{value:.2f}"
@@ -203,7 +238,11 @@ def _place_text(lieu: dict[str, Any]) -> str:
         parts.append(f"maille {lieu['maille_med']}")
         if lieu.get("extremite") is not None:
             parts.append(f"extr. {lieu['extremite']}")
-    parts.append(f"nœud {lieu['noeud_med']}")
+    if lieu.get("interpolation"):
+        nodes = "-".join(str(n) for n in lieu["interpolation"]["noeuds_med"])
+        parts.append(f"interpolé entre les nœuds {nodes}")
+    else:
+        parts.append(f"nœud {lieu['noeud_med']}")
     x, y, z = lieu["coordonnees_m"]
     parts.append(f"({x:.2f} ; {y:.2f} ; {z:.2f})")
     return ", ".join(parts)
@@ -218,17 +257,42 @@ def _converted(
     return value, unit
 
 
+def _moment_sign(section: dict[str, Any], column: str | None) -> float:
+    """Factor from the Code_Aster moment to the section's declared sense (D4)."""
+    if column is None:
+        return 1.0
+    declared = (section.get("signes") or {}).get(column)
+    return -1.0 if declared == "negative" else 1.0
+
+
+def engineer(
+    t: dict[str, Any], section: dict[str, Any], role: str, column: str | None
+) -> tuple[float | None, str | None]:
+    """A value of a torsor in the engineer's convention (D4): N > 0 in compression,
+    M in the section's sense, |V|."""
+    value, unit = _converted(t, column)
+    if value is None:
+        return None, unit
+    if role == "N":
+        return -value, unit
+    if role == "M":
+        return _moment_sign(section, column) * value, unit
+    return abs(value), unit
+
+
 def _sheet_summary(s: Sheet, syn: dict[str, Any]) -> None:
     states = [e["etat"] for e in syn["etats_limites"]]
     s.text(
         f"Projet {syn['projet']} — synthèse ingénieur : valeur dimensionnante de "
-        "chaque "
-        "section et torseur concomitant (N, M, V au même lieu, même combinaison, même "
-        "position mobile), par état limite. Signes de Code_Aster (N > 0 traction ; "
-        "repères en feuille Conventions) ; coques par mètre de largeur. Les fichiers "
-        "flexion_composee/*.csv donnent ces efforts dans la convention du logiciel de "
-        "flexion composée.",
+        "chaque section et torseur concomitant (N, M, V au même lieu, même "
+        "combinaison, même position mobile), par état limite ; coques par mètre de "
+        "largeur.",
         bold=True,
+    )
+    s.text(CONVENTION_ING, bold=True)
+    s.text(
+        "Les torseurs bruts (convention de Code_Aster) sont dans la feuille Torseurs ; "
+        "les moments sur appui (E27) dans la feuille Moments sur appui (E27)."
     )
     absent = "; ".join(f"{a['libelle']} : {a['motif']}" for a in syn["etats_absents"])
     if absent:
@@ -247,15 +311,16 @@ def _sheet_summary(s: Sheet, syn: dict[str, Any]) -> None:
     s.merged_header([(1, len(fixed), "")] + spans)
     labels = list(fixed)
     for _state in states:
-        labels += ["Valeur", "N", "M", "V"]
+        labels += ["Valeur", "N (compr. > 0)", "M", "|V|"]
     labels += ["Détail", "Remarque"]
     s.header(labels, freeze=3)
     by_key: dict[tuple[str, str, bool], dict[str, dict[str, Any]]] = {}
     order: list[tuple[str, str, bool]] = []
     for t in syn["torseurs"]:
-        if not t.get("principal", True):
+        if not t.get("principal", True) or t.get("comparaison_seulement"):
             continue
-        key = (t["section"], t["grandeur"], t["significative"])
+        name = t.get("libelle_ingenieur") or t["grandeur"]
+        key = (t["section"], name, t["significative"])
         if key not in by_key:
             by_key[key] = {}
             order.append(key)
@@ -287,11 +352,11 @@ def _sheet_summary(s: Sheet, syn: dict[str, Any]) -> None:
                     values += [None] * 4
                     units += [None] * 4
                     continue
-                value, unit = shown(t["valeur_si"], t["unite_si"])
-                cells: list[Any] = [value]
+                main, unit = engineer(t, section, t["role"], t["colonne"])
+                cells: list[Any] = [main]
                 cell_units: list[str | None] = [unit]
                 for role in ("N", "M", "V"):
-                    v, u = _converted(t, triplet.get(role))
+                    v, u = engineer(t, section, role, triplet.get(role))
                     cells.append(v)
                     cell_units.append(u)
                 bold.append(len(row) + 2 + len(values))
@@ -308,7 +373,14 @@ def _sheet_summary(s: Sheet, syn: dict[str, Any]) -> None:
                 else "Torseurs"
             )
             remark = None if key[2] else f"non significative : {any_t['motif']}"
-            if section.get("reserve") and key[2]:
+            if "e27" in any_t:
+                remark = "; ".join(
+                    f"{SHORT[st]} : {x['e27']['terme_gouvernant']} gouverne"
+                    for st, x in entries.items()
+                )
+            elif any_t.get("signe_oppose"):
+                remark = any_t.get("motif")
+            elif section.get("reserve") and key[2]:
                 remark = section["reserve"]
             row.append(remark)
             s.values(row, units, muted=not key[2], bold=bold)
@@ -384,13 +456,13 @@ def _sheet_service(s: Sheet, data: dict[str, Any]) -> None:
 def _sheet_torsors(s: Sheet, syn: dict[str, Any], lines: list[dict[str, Any]]) -> None:
     s.text(
         "Torseurs complets (format large), signes et repères de Code_Aster : d'abord "
-        "les "
-        "torseurs dimensionnants (section × état limite × grandeur), puis, pour chaque "
-        "section et chaque combinaison, le torseur où la grandeur principale est la "
-        "plus "
-        "grande en module.",
+        "les torseurs dimensionnants (section × état limite × grandeur), puis, pour "
+        "chaque section et chaque combinaison, le torseur où la grandeur principale "
+        "est la plus grande en module. Section en T (E25) : N, MFY, VZ sont les totaux "
+        "barre + bande ; *_barre : la barre seule (traçabilité).",
         bold=True,
     )
+    s.text(CONVENTION_CA, bold=True)
     present = {c for t in syn["torseurs"] + lines for c in t["torseur_si"]}
     comps = [c for c in COMPONENT_ORDER if c in present]
     head = [
@@ -443,6 +515,186 @@ def _sheet_torsors(s: Sheet, syn: dict[str, Any], lines: list[dict[str, Any]]) -
                 [None] * 5 + [shown_unit] + [None] * 4 + units,
                 muted=not significant,
             )
+
+
+def _sheet_e27(s: Sheet, syn: dict[str, Any], derived: dict[str, Any] | None) -> None:
+    rows = [t for t in syn["torseurs"] if "e27" in t]
+    s.text(
+        "Moment de dimensionnement sur appui (E27, règle de MM) : M_dim = max(M_nu ; "
+        "0,65 × M_encastrement), combinaison par combinaison et position par "
+        "position, puis enveloppe. M_encastrement : moment d'encastrement parfait des "
+        "modèles auxiliaires (charges verticales seulement : freinage et température "
+        "exclus, choix que MM peut renverser) ; M_axe : moment élastique de la "
+        "référence à l'axe, comparaison seulement. Clause EN 1992-1-1 §5.3.2.2(3) "
+        "citée d'après MM et le superviseur (le corpus du dépôt ne contient pas "
+        "l'Eurocode).",
+        bold=True,
+    )
+    s.text(
+        "Valeurs signées dans le sens d'appui de la section (M > 0 : moment sur "
+        "appui) ; N (compression > 0) et |V| lus au nu dans la référence, à la ligne "
+        "de M_nu, même combinaison et même position."
+    )
+    if not rows:
+        s.text("Sans objet : aucune section ne déclare de moment sur appui (E27).")
+    else:
+        s.header(
+            [
+                "Section",
+                "État limite",
+                "Auxiliaire",
+                "M_nu",
+                "M_enc",
+                "0,65 × M_enc",
+                "M_dim",
+                "Terme qui gouverne",
+                "M_axe (comparaison)",
+                "N (compr. > 0)",
+                "|V|",
+                "Unités",
+                "Combinaison",
+                "Position mobile",
+                "Appui",
+                "Lieu au nu",
+                "Lieu dans l'auxiliaire",
+            ],
+            freeze=2,
+        )
+        sections = {x["nom"]: x for x in syn["sections"]}
+        for t in rows:
+            e = t["e27"]
+            unit_si = t["unite_si"]
+            m = [shown(e[k], unit_si) for k in ("M_nu_si", "M_enc_si")]
+            fm = shown(e["fraction_M_enc_si"], unit_si)
+            md = shown(e["M_dim_si"], unit_si)
+            ma = shown(e["M_axe_si"], unit_si)
+            section = sections[t["section"]]
+            n, n_unit = engineer(t, section, "N", t["triplet"].get("N"))
+            v, v_unit = engineer(t, section, "V", t["triplet"].get("V"))
+            s.values(
+                [
+                    section["libelle"],
+                    SHORT[t["etat_limite"]],
+                    e["auxiliaire"],
+                    m[0][0],
+                    m[1][0],
+                    fm[0],
+                    md[0],
+                    e["terme_gouvernant"],
+                    ma[0],
+                    n,
+                    v,
+                    " ; ".join(dict.fromkeys(u for u in (md[1], n_unit, v_unit) if u)),
+                    t["combinaison"],
+                    t["position_mobile"],
+                    "(" + " ; ".join(f"{c:.2f}" for c in e["appui"]) + ")",
+                    _place_text(t["lieu"]),
+                    _place_text(e["lieu_auxiliaire"]),
+                ],
+                [
+                    None,
+                    None,
+                    None,
+                    md[1],
+                    md[1],
+                    md[1],
+                    md[1],
+                    None,
+                    md[1],
+                    n_unit,
+                    v_unit,
+                ],
+                bold=[7],
+            )
+        s.blank()
+        s.text("Par appui : enveloppe de M_dim de chaque appui", bold=True)
+        s.header(
+            [
+                "Section",
+                "État limite",
+                "Appui",
+                "M_nu",
+                "M_enc",
+                "0,65 × M_enc",
+                "M_dim",
+                "Terme qui gouverne",
+                "M_axe",
+                "Combinaison",
+                "Position mobile",
+            ]
+        )
+        for t in rows:
+            unit_si = t["unite_si"]
+            for a in t["e27"]["par_appui"]:
+                s.values(
+                    [
+                        sections[t["section"]]["libelle"],
+                        SHORT[t["etat_limite"]],
+                        "(" + " ; ".join(f"{c:.2f}" for c in a["appui"]) + ")",
+                        shown(a["M_nu"], unit_si)[0],
+                        shown(a["M_enc"], unit_si)[0],
+                        shown(a["fraction_M_enc"], unit_si)[0],
+                        shown(a["M_dim"], unit_si)[0],
+                        a["terme_gouvernant"],
+                        shown(a["M_axe"], unit_si)[0],
+                        a["combinaison"],
+                        a["position_mobile"],
+                    ],
+                    [None, None, None, *[shown(0.0, unit_si)[1]] * 4, None]
+                    + [shown(0.0, unit_si)[1]],
+                )
+    if derived:
+        s.blank()
+        s.text(
+            "Modèles dérivés de la référence (lot 49 ter) : harnais D (Σ charges + Σ "
+            "réactions + Σ ressorts par cas élémentaire ; réaction verticale de chaque "
+            "position mobile égale à la référence)",
+            bold=True,
+        )
+        s.header(
+            [
+                "Modèle",
+                "Nature",
+                "Libellé",
+                "Conditions ajoutées",
+                "Cas exclus",
+                "Écart max (cas)",
+                "Écart max FZ (positions)",
+                "Verdict",
+            ]
+        )
+        for name, m in derived.items():
+            control = m.get("controle") or {}
+            s.values(
+                [
+                    name,
+                    m["nature"],
+                    m["libelle"],
+                    m["conditions"],
+                    ", ".join(m["cas_exclus"]) or None,
+                    control.get("ecart_relatif_max_cas"),
+                    control.get("ecart_relatif_max_positions_FZ"),
+                    control.get("verdict", "non exécuté"),
+                ]
+            )
+
+
+def _sheet_tables(s: Sheet, data: dict[str, Any]) -> None:
+    """Tables a project delivers as `{"tableaux": [{"titre", "note", "colonnes":
+    [{"cle", "entete", "unite"}], "lignes": [...]}]}`."""
+    for table in data.get("tableaux", []):
+        s.text(table["titre"], bold=True)
+        if table.get("note"):
+            s.text(table["note"])
+        columns = table["colonnes"]
+        s.header([c["entete"] for c in columns], freeze=1)
+        for line in table["lignes"]:
+            s.values(
+                [line.get(c["cle"]) for c in columns],
+                [c.get("unite") for c in columns],
+                muted=bool(line.get("_grise")),
+            )
+        s.blank()
 
 
 def _sheet_detail(
@@ -512,6 +764,12 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
         )
         _sheet_torsors(
             sheets["Torseurs"], syn, _load(vis / "torseurs_combinaisons.json")
+        )
+        derived_path = vis / "modeles_derives.json"
+        _sheet_e27(
+            sheets["Moments sur appui (E27)"],
+            syn,
+            _load(derived_path) if derived_path.is_file() else None,
         )
         members = _load(vis / "detail_membres.json")
         diagram = _load(vis / "diagrammes.json")
@@ -678,9 +936,12 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
 
     # Comparaison externe
     s = sheets["Comparaison externe"]
+    structured = vis / "comparaison_externe.json"
+    if structured.is_file():
+        _sheet_tables(s, _load(structured))
     external = package / "contre_calcul"
     files = sorted(external.glob("*.json")) if external.is_dir() else []
-    if not files:
+    if not files and not structured.is_file():
         s.text("Sans objet : le projet n'a pas de comparaison à un calcul externe.")
     for path in files:
         data = _load(path)
@@ -806,8 +1067,10 @@ __all__ = [
     "HEADER_FILL",
     "LAST_SHEETS",
     "MUTED_FILL",
+    "UNITLESS_FORMAT",
     "WORKBOOK",
     "build_workbook",
+    "engineer",
     "shown",
     "write_workbook",
 ]

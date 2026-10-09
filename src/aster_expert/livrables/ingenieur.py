@@ -42,12 +42,21 @@ from aster_expert.livrables.donnees import Deliverables, FieldInfo
 from aster_expert.livrables.flexion import file_name, write_export
 from aster_expert.livrables.lecture import Query, query
 from aster_expert.livrables.sections import (
+    BAR_SUFFIX,
     LEVEL,
     M_RES,
+    SYNTHETIC,
     V_RES,
+    Band,
     FamilyRows,
+    SectionRows,
+    add_level_rows,
+    band_nodes,
+    band_of,
+    compose_tee,
     group_names,
     load_family,
+    rule_mask,
     section_rows,
     singular_rows,
 )
@@ -66,6 +75,7 @@ from aster_expert.projet.context import ProjectContext
 from aster_expert.projet.declaration import (
     LIMIT_STATES,
     EngineeringSummarySection,
+    Level,
     LimitState,
     MemberFamily,
 )
@@ -106,6 +116,225 @@ def _info(infos: list[FieldInfo], family: MemberFamily) -> FieldInfo:
 def _states(summary: EngineeringSummarySection) -> list[LimitState]:
     declared = {s.state for s in summary.limit_states}
     return [s for s in LIMIT_STATES if s in declared]
+
+
+def _levels(summary: EngineeringSummarySection, family: MemberFamily) -> list[Level]:
+    """Levels cut in a beam family: those of its sections and of their E27 axes."""
+    out: list[Level] = []
+    for section in summary.sections:
+        if section.family != family.name:
+            continue
+        for rule in (
+            section.rule,
+            section.design_moment.axis_rule if section.design_moment else None,
+        ):
+            if rule is not None and rule.level is not None and rule.level not in out:
+                out.append(rule.level)
+    return out
+
+
+def family_rows(
+    d: Deliverables,
+    infos: list[FieldInfo],
+    summary: EngineeringSummarySection,
+    family: MemberFamily,
+) -> FamilyRows:
+    """The rows of a family: the field rows, the T section composed (E25) and the
+    rows interpolated at the declared levels (E24), lot 49 ter."""
+    fr = load_family(d, _info(infos, family), family)
+    tee = family.tee_section
+    if tee is not None:
+        plate_family = next(f for f in summary.families if f.name == tee.plate_family)
+        keep = band_nodes(d.mesh, fr, group_names(d.mesh, plate_family.groups), tee)
+        plate = load_family(
+            d, _info(infos, plate_family), plate_family, keep_nodes=keep
+        )
+        compose_tee(fr, plate, tee)
+    if family.kind == "poutre":
+        for level in _levels(summary, family):
+            add_level_rows(fr, level)
+    return fr
+
+
+def level_check(d: Deliverables, fr: FamilyRows) -> dict[str, Any] | None:
+    """E24 (lot 49 ter): an interpolated row is exact for N, V and M only if its
+    element carries no transverse distributed load (it would leave consistent nodal
+    forces at its ends) and no spring inside (none: the element has two nodes). The
+    largest transverse nodal force at the ends of the cut elements, over the
+    elementary cases, is reported (0 expected)."""
+    if not fr.synthetic:
+        return None
+    nodes: set[int] = set()
+    axes: dict[int, Any] = {}
+    for info in fr.synthetic.values():
+        a, b = (np.asarray(c, dtype=float) for c in info["coordonnees_m"])
+        axis = (b - a) / np.linalg.norm(b - a)
+        for n in info["noeuds_med"]:
+            nodes.add(n - 1)
+            axes[n - 1] = axis
+    worst = 0.0
+    worst_at: dict[str, Any] | None = None
+    for name, values, kind, entity, components in d.loads():
+        if not name.startswith("FN_"):
+            continue
+        rows = np.nonzero((kind == 0) & np.isin(entity, sorted(nodes)))[0]
+        v = values.reshape(len(kind), -1)
+        cols = [components.index(c) for c in ("DX", "DY", "DZ") if c in components]
+        for r in rows:
+            force = np.zeros(3)
+            force[: len(cols)] = v[r, cols]
+            axis = axes[int(entity[r])]
+            transverse = float(np.linalg.norm(force - np.dot(force, axis) * axis))
+            if transverse > worst:
+                worst = transverse
+                worst_at = {"cas": name[3:], "noeud_med": int(entity[r]) + 1}
+    return {
+        "lignes_interpolees": len(fr.synthetic),
+        "noeuds_d_extremite": len(nodes),
+        "force_transversale_max_N": worst,
+        "lieu": worst_at,
+        "seuil_N": 1.0e-6,
+        "verdict": "exacte" if worst <= 1.0e-6 else "à signaler",
+        "regle": "interpolation linéaire exacte pour N, V, M sans charge transversale "
+        "répartie ni ressort dans l'élément ; une charge répartie laisserait des "
+        "forces nodales transversales aux extrémités",
+    }
+
+
+def bands(d: Deliverables, summary: EngineeringSummarySection) -> tuple[Band, ...]:
+    """E26: the exclusion bands of the beam families that declare one."""
+    out = []
+    for family in summary.families:
+        band = band_of(d.mesh, family)
+        if band is not None:
+            out.append(band)
+    return tuple(out)
+
+
+def _check_signs(fr: FamilyRows, sections: list[SectionRows]) -> None:
+    """D3: a span or support section of a family bending one way declares the sign it
+    keeps for each bending component."""
+    family = fr.family
+    if family.circular:
+        return
+    moments = (
+        list(family.moments)
+        if family.kind == "poutre"
+        else [m for m in ("MXX", "MYY") if m in fr.columns]
+    )
+    for sec in sections:
+        if sec.section.zone not in ("travee", "appui", "chapeau", "nu"):
+            continue
+        missing = [m for m in moments if m not in sec.section.moment_signs]
+        if missing:
+            message = (
+                f"section {sec.section.name} ({sec.section.zone}) : signe retenu non "
+                f"déclaré pour {missing} (`moment_signs`, D3)"
+            )
+            raise ProjectError(message)
+
+
+def disjoint_zones(fr: FamilyRows, sections: list[SectionRows]) -> dict[str, Any]:
+    """D3 (lot 49 ter): no node and no element end in two sections of one family,
+    unless declared (`shared_rows`). Raises on a shared row; returns the check."""
+    pairs = []
+    for i, a in enumerate(sections):
+        for b in sections[i + 1 :]:
+            declared = (
+                b.section.name in a.section.shared_rows
+                or a.section.name in b.section.shared_rows
+            )
+            rows = np.nonzero(a.mask & b.mask)[0]
+            nodes_a = set(fr.node[a.mask & (fr.kind != SYNTHETIC)].tolist())
+            nodes_b = set(fr.node[b.mask & (fr.kind != SYNTHETIC)].tolist())
+            nodes = sorted(nodes_a & nodes_b)
+            pairs.append(
+                {
+                    "sections": [a.section.name, b.section.name],
+                    "lignes_communes": int(rows.size),
+                    "noeuds_communs": len(nodes),
+                    "partage_declare": declared,
+                }
+            )
+            if (rows.size or nodes) and not declared:
+                where = fr.place(int(rows[0])) if rows.size else {"noeud_med": nodes[0]}
+                message = (
+                    f"famille {fr.family.name} : les sections {a.section.name} et "
+                    f"{b.section.name} se recouvrent ({rows.size} ligne(s), "
+                    f"{len(nodes)} nœud(s), par exemple {where}) ; zones disjointes "
+                    "exigées (D3) ou partage déclaré (`shared_rows`)"
+                )
+                raise ProjectError(message)
+    return {"famille": fr.family.name, "paires": pairs}
+
+
+def identical_lines(torsors: list[dict[str, Any]]) -> None:
+    """D3: two identical lines (same place, same combination and position, same
+    value) in two sections are refused unless the sharing is declared."""
+    seen: dict[tuple[Any, ...], dict[str, Any]] = {}
+    for t in torsors:
+        if not t.get("significative", True) or "e27" in t:
+            continue
+        lieu = t["lieu"]
+        key = (
+            t["famille"],
+            t["etat_limite"],
+            lieu.get("noeud_med"),
+            lieu.get("maille_med"),
+            lieu.get("extremite"),
+            tuple(lieu["coordonnees_m"]),
+            t["combinaison"],
+            t["position_mobile"],
+            t["colonne"],
+            round(float(t["valeur_si"]), 9),
+        )
+        other = seen.get(key)
+        if other is not None and other["section"] != t["section"]:
+            if t["section"] in other.get("partages", ()) or other["section"] in t.get(
+                "partages", ()
+            ):
+                continue
+            message = (
+                f"lignes identiques dans les sections {other['section']} et "
+                f"{t['section']} ({t['grandeur']}, {t['etat_limite']}, "
+                f"{t['combinaison']}) : refusées sauf partage déclaré (D3)"
+            )
+            raise ProjectError(message)
+        seen.setdefault(key, t)
+
+
+def opposite_signs(torsors: list[dict[str, Any]]) -> None:
+    """D3: an extreme of the opposite sign stays out unless it dimensions -- larger in
+    modulus than the value of every section of the family that keeps that sign, for
+    the same state and component; it is then kept and declared."""
+    for t in torsors:
+        if not t.get("signe_oppose"):
+            continue
+        rivals = [
+            abs(float(o["valeur_si"]))
+            for o in torsors
+            if o["famille"] == t["famille"]
+            and o["etat_limite"] == t["etat_limite"]
+            and o["colonne"] == t["colonne"]
+            and o["sens"] == t["sens"]
+            and not o.get("signe_oppose")
+            and o.get("significative", True)
+        ]
+        value = abs(float(t["valeur_si"]))
+        if rivals and value <= max(rivals):
+            t["motif"] = (
+                f"signe opposé (D3) : {value * 1e-3:.1f} k, inférieur à la valeur des "
+                f"sections qui retiennent ce signe ({max(rivals) * 1e-3:.1f} k) : non "
+                "dimensionnant"
+            )
+            t["dimensionnant"] = False
+        else:
+            t["significative"] = True
+            t["dimensionnant"] = True
+            t["motif"] = (
+                "signe opposé dimensionnant (D3) : supérieur à la valeur de toute "
+                "section qui retient ce signe ; retenu et déclaré"
+            )
 
 
 def _diagram_rows(
@@ -160,7 +389,11 @@ def _cut_rows(
         along = fr.xyz[on, "XYZ".index(cut.along)]
         order = on[np.argsort(along, kind="stable")]
         flagged, reasons = singular_rows(
-            fr, d.mesh, ctx.declaration.deliverables, cut.shared_with
+            fr,
+            d.mesh,
+            ctx.declaration.deliverables,
+            cut.shared_with,
+            bands(d, summary),
         )
         points = []
         for k in order:
@@ -196,38 +429,65 @@ def _cut_rows(
 def _family_pass(
     ctx: ProjectContext,
     d: Deliverables,
-    info: FieldInfo,
+    infos: list[FieldInfo],
     family: MemberFamily,
     combinations: list[GenericCombination],
     med_sha: str | None,
     package: Path,
+    auxiliaries: dict[str, Any],
 ) -> dict[str, Any]:
     summary = _summary(ctx)
-    fr = load_family(d, info, family)
+    info = _info(infos, family)
+    fr = family_rows(d, infos, summary, family)
+    shell_bands = bands(d, summary) if family.kind == "coque" else ()
     sections = [
-        section_rows(fr, d.mesh, s, ctx.declaration.deliverables)
+        section_rows(fr, d.mesh, s, ctx.declaration.deliverables, shell_bands)
         for s in summary.sections
         if s.family == family.name
     ]
+    _check_signs(fr, sections)
+    zones = disjoint_zones(fr, sections)
     envelopes: dict[str, StateEnvelope] = {}
+    state_combos: dict[str, list[tuple[int, GenericCombination]]] = {}
     for state in _states(summary):
         combos = combinations_of_state(combinations, summary, state)
+        state_combos[state] = combos
         envelopes[state] = envelope(fr, combos, state, sections)
     torsors: list[dict[str, Any]] = []
     lines: list[dict[str, Any]] = []
     members: list[dict[str, Any]] = []
     exports: list[dict[str, Any]] = []
+    e27: dict[str, dict[str, dict[str, Any]]] = {}
     for sec in sections:
         for env in envelopes.values():
-            torsors += section_torsors(fr, combinations, env, sec)
+            found = section_torsors(fr, combinations, env, sec)
+            for t in found:
+                t["partages"] = list(sec.section.shared_rows)
+                if sec.section.zone == "comparaison":
+                    t["comparaison_seulement"] = True
+            torsors += found
             lines += combination_lines(fr, combinations, env, sec.section.name)
+        if sec.section.design_moment is not None:
+            e27[sec.section.name] = support_moments(
+                ctx, d, fr, sec, combinations, state_combos, auxiliaries
+            )
+            torsors += list(e27[sec.section.name].values())
+    for sec in sections:
         export = sec.section.bending_export
         if export is None:
             continue
         for plane in export.planes:
             name = file_name(sec.section.name, plane, len(export.planes))
             text, rows = write_export(
-                ctx, summary, fr, combinations, envelopes, sec, plane, med_sha
+                ctx,
+                summary,
+                fr,
+                combinations,
+                envelopes,
+                sec,
+                plane,
+                med_sha,
+                e27.get(sec.section.name, {}),
             )
             path = package / EXPORT_DIR / name
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -246,6 +506,7 @@ def _family_pass(
                             "combinaison": r.entry["combinaison"],
                             "position_mobile": r.entry["position_mobile"],
                             "lieu": r.entry["lieu"],
+                            "e27": r.entry.get("e27") is not None,
                         }
                         for r in rows
                     ],
@@ -270,7 +531,17 @@ def _family_pass(
             "convention": info.convention,
             "reserve": family.caveat,
             "lignes": int(len(fr.index)),
+            "lignes_interpolees": len(fr.synthetic),
+            "interpolation": level_check(d, fr),
+            "section_en_T": fr.tee,
+            "bande_exclusion": None
+            if family.exclusion_band is None
+            else {
+                "demi_largeur_m": family.exclusion_band.half_width,
+                "source": family.exclusion_band.source,
+            },
             "evaluations": {s: e.evaluations for s, e in envelopes.items()},
+            "zones": zones,
         },
         "sections": [
             {
@@ -284,6 +555,18 @@ def _family_pass(
                 "exclusion": s.section.exclude_singular,
                 "lecture": s.notes,
                 "reserve": s.section.caveat,
+                "zone": s.section.zone,
+                "signes": dict(s.section.moment_signs),
+                "moment_appui": None
+                if s.section.design_moment is None
+                else {
+                    "grandeur": s.section.design_moment.quantity,
+                    "fraction": s.section.design_moment.fraction,
+                    "auxiliaire": s.section.design_moment.auxiliary,
+                    "axe": s.section.design_moment.axis_rule.description,
+                    "appuis": s.section.design_moment.supports.model_dump(),
+                    "source": s.section.design_moment.source,
+                },
                 "export": None
                 if s.section.bending_export is None
                 else [
@@ -301,6 +584,172 @@ def _family_pass(
         "diagramme": diagram,
         "coupes": cuts,
     }
+
+
+def _auxiliary(
+    ctx: ProjectContext, auxiliaries: dict[str, Any], name: str
+) -> tuple[Deliverables, list[FieldInfo], dict[str, Any]]:
+    from aster_expert.livrables.derives import open_derived  # noqa: PLC0415
+
+    if name not in auxiliaries:
+        try:
+            auxiliaries[name] = open_derived(ctx, name)
+        except FileNotFoundError as exc:
+            message = (
+                f"E27 : livrables du modèle auxiliaire {name} absents ({exc}) ; "
+                f"`aster-expert projet {ctx.declaration.name} livrables --modele "
+                f"{name}` d'abord"
+            )
+            raise ProjectError(message) from exc
+    found: tuple[Deliverables, list[FieldInfo], dict[str, Any]] = auxiliaries[name]
+    return found
+
+
+def _axis_rows(ctx: ProjectContext, d: Deliverables, fr: FamilyRows, rule: Any) -> Any:
+    """Rows of an E27 axis rule, out of the exclusion discs (PAT-013) for a shell."""
+    mask, _notes = rule_mask(fr, d.mesh, rule)
+    if fr.family.kind == "coque":
+        discs, _ = singular_rows(fr, d.mesh, ctx.declaration.deliverables, ())
+        mask &= ~discs
+    return np.nonzero(mask)[0]
+
+
+def support_moments(
+    ctx: ProjectContext,
+    d: Deliverables,
+    fr: FamilyRows,
+    sec: SectionRows,
+    combinations: list[GenericCombination],
+    state_combos: dict[str, list[tuple[int, GenericCombination]]],
+    auxiliaries: dict[str, Any],
+) -> dict[str, dict[str, Any]]:
+    """E27 entries of a section, per limit state (`aster_expert.livrables.appuis`)."""
+    from aster_expert.livrables.appuis import (  # noqa: PLC0415
+        describe,
+        design_moment,
+        section_sign,
+    )
+    from aster_expert.livrables.derives import derived_model  # noqa: PLC0415
+
+    dm = sec.section.design_moment
+    assert dm is not None
+    summary = _summary(ctx)
+    model = derived_model(ctx, dm.auxiliary)
+    aux_d, aux_infos, _recorded = _auxiliary(ctx, auxiliaries, dm.auxiliary)
+    aux_fr = family_rows(aux_d, aux_infos, summary, fr.family)
+    results = design_moment(
+        mesh=d.mesh,
+        ref=fr,
+        sec=sec,
+        ref_axis_rows=_axis_rows(ctx, d, fr, dm.axis_rule),
+        aux=aux_fr,
+        aux_axis_rows=_axis_rows(ctx, aux_d, aux_fr, dm.axis_rule),
+        dm=dm,
+        state_combinations=state_combos,
+        excluded=model.excluded_cases,
+    )
+    sign = section_sign(sec, dm)
+    variants: dict[str, Any] = {}
+    for name in dm.variants:
+        var_d, var_infos, _rec = _auxiliary(ctx, auxiliaries, name)
+        var_fr = family_rows(var_d, var_infos, summary, fr.family)
+        var_sec = section_rows(
+            var_fr, var_d.mesh, sec.section, ctx.declaration.deliverables
+        )
+        var_results = design_moment(
+            mesh=var_d.mesh,
+            ref=var_fr,
+            sec=var_sec,
+            ref_axis_rows=_axis_rows(ctx, var_d, var_fr, dm.axis_rule),
+            aux=aux_fr,
+            aux_axis_rows=_axis_rows(ctx, aux_d, aux_fr, dm.axis_rule),
+            dm=dm,
+            state_combinations=state_combos,
+            excluded=model.excluded_cases,
+        )
+        variants[name] = (var_fr, var_sec, var_results)
+    out: dict[str, dict[str, Any]] = {}
+    for state, result in results.items():
+        entry = describe(
+            result,
+            ref=fr,
+            aux=aux_fr,
+            sec=sec,
+            dm=dm,
+            combinations=combinations,
+            sign=sign,
+        )
+        if entry is not None:
+            entry["e27"]["cas_exclus_auxiliaire"] = list(model.excluded_cases)
+            entry["e27"]["motif_exclusion"] = model.excluded_reason
+            entry["triplet"] = {
+                "N": "N" if fr.family.kind == "poutre" else "NXX",
+                "M": dm.quantity,
+                "V": (
+                    V_RES
+                    if dm.quantity == M_RES
+                    else {"MFY": "VZ", "MFZ": "VY", "MXX": "QX", "MYY": "QY"}.get(
+                        dm.quantity
+                    )
+                ),
+            }
+            entry["sens"] = "e27"
+            entry["partages"] = []
+            reference_dim = entry["e27"]["M_dim_si"]
+            entry["e27"]["variantes"] = {}
+            for name, (var_fr, var_sec, var_results) in variants.items():
+                described = describe(
+                    var_results[state],
+                    ref=var_fr,
+                    aux=aux_fr,
+                    sec=var_sec,
+                    dm=dm,
+                    combinations=combinations,
+                    sign=sign,
+                )
+                if described is None:
+                    continue
+                var_dim = described["e27"]["M_dim_si"]
+                variation = (var_dim - reference_dim) / abs(reference_dim)
+                envelope = (
+                    dm.variant_threshold is not None
+                    and abs(variation) > dm.variant_threshold
+                )
+                entry["e27"]["variantes"][name] = {
+                    "M_nu_si": described["e27"]["M_nu_si"],
+                    "M_dim_si": var_dim,
+                    "terme_gouvernant": described["e27"]["terme_gouvernant"],
+                    "combinaison": described["combinaison"],
+                    "position_mobile": described["position_mobile"],
+                    "variation": variation,
+                    "seuil": dm.variant_threshold,
+                    "enveloppe": envelope,
+                }
+                if envelope and var_dim > entry["e27"]["M_dim_si"]:
+                    # Critère écrit avant l'exécution : au-delà du seuil, la valeur de
+                    # dimensionnement est l'enveloppe de la référence et des variantes.
+                    entry["e27"]["M_dim_si"] = var_dim
+                    entry["valeur_si"] = sign * var_dim
+                    for key in (
+                        "lieu",
+                        "combinaison",
+                        "famille_combinaison",
+                        "position_mobile",
+                        "charge_mobile",
+                        "torseur_si",
+                    ):
+                        entry[key] = described[key]
+                    entry["e27"]["gouverne_par"] = (
+                        f"{name} (enveloppe, écart {variation:+.1%} > seuil ; torseur "
+                        f"lu dans {name})"
+                    )
+                    entry["modele_lu"] = name
+                    entry["e27"]["terme_gouvernant"] = (
+                        f"{described['e27']['terme_gouvernant']} de {name} "
+                        f"(enveloppe, {variation:+.1%})"
+                    )
+            out[state] = entry
+    return out
 
 
 def _position_loads(
@@ -468,25 +917,30 @@ def cross_check(
     d: Deliverables,
     infos: list[FieldInfo],
     torsors: list[dict[str, Any]],
+    auxiliaries: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Every torsor of the summary asked again to `resultats lire`."""
+    """Every torsor of the summary asked again to `resultats lire`, in the model it
+    was read in (the reference, or a declared variant that governs, lot 49 ter)."""
+    reference = d
     summary = _summary(ctx)
     by_name = {f.name: f for f in summary.families}
     checked = 0
     worst = 0.0
     failures: list[dict[str, Any]] = []
-    for t in torsors:
-        family = by_name[t["famille"]]
-        info = _info(infos, family)
-        lieu = t["lieu"]
-        case = t["combinaison"]
-        if t["position_mobile"]:
-            case = f"{case}@{t['position_mobile']}"
-        groups = (
-            (lieu["groupe"],)
-            if lieu["groupe"]
-            else tuple(group_names(d.mesh, family.groups))
-        )
+    skipped: dict[str, int] = {}
+
+    def _read(
+        d: Deliverables,
+        family: MemberFamily,
+        info: FieldInfo,
+        case: str,
+        group: str | None,
+        point: list[float],
+        node: int,
+        element: int | None,
+        end: int | None,
+    ) -> dict[str, float]:
+        groups = (group,) if group else tuple(group_names(d.mesh, family.groups))
         answer = query(
             ctx,
             Query(
@@ -494,7 +948,7 @@ def cross_check(
                 champ=info.key,
                 cas=(case,),
                 mode="point",
-                point=tuple(lieu["coordonnees_m"]),
+                point=tuple(point),
                 disques=False,
                 tolerance=LEVEL,
             ),
@@ -502,25 +956,86 @@ def cross_check(
         )
         found: dict[str, float] = {}
         for r in answer.rows:
-            if r["noeud_med"] != lieu["noeud_med"]:
+            if r["noeud_med"] != node:
                 continue
-            if lieu["maille_med"] is not None and (
-                r["maille_med"] != lieu["maille_med"]
-                or (
-                    lieu["extremite"] is not None
-                    and r["extremite"] != lieu["extremite"]
-                )
+            if element is not None and (
+                r["maille_med"] != element
+                or (end is not None and r["extremite"] != end)
             ):
                 continue
             if r["cas_ou_combinaison"].endswith("(min)"):
                 continue
             found[r["composante"]] = float(r["valeur_si"])
+        return found
+
+    for t in torsors:
+        family = by_name[t["famille"]]
+        info = _info(infos, family)
+        source = reference
+        if t.get("modele_lu"):
+            source = _auxiliary(ctx, auxiliaries or {}, t["modele_lu"])[0]
+        lieu = t["lieu"]
+        case = t["combinaison"]
+        if t["position_mobile"]:
+            case = f"{case}@{t['position_mobile']}"
+        found: dict[str, float] = {}
+        if lieu.get("interpolation"):
+            interp = lieu["interpolation"]
+            for node, end, weight, xyz in zip(
+                interp["noeuds_med"],
+                interp["extremites"],
+                interp["poids"],
+                interp["coordonnees_extremites_m"],
+                strict=True,
+            ):
+                part = _read(
+                    source,
+                    family,
+                    info,
+                    case,
+                    lieu["groupe"],
+                    xyz,
+                    node,
+                    lieu["maille_med"],
+                    end,
+                )
+                for comp, value in part.items():
+                    found[comp] = found.get(comp, 0.0) + weight * value
+        else:
+            found = _read(
+                source,
+                family,
+                info,
+                case,
+                lieu["groupe"],
+                lieu["coordonnees_m"],
+                lieu["noeud_med"],
+                lieu["maille_med"],
+                lieu["extremite"],
+            )
+        tee = family.tee_section
+        if tee is not None:
+            # Section en T (E25) : seule la barre est relue ; l'intégrale de bande est
+            # contrôlée par l'équilibre d'une coupe (preuve de D1).
+            for tee_part in tee.parts:
+                if tee_part.beam in found:
+                    found[f"{tee_part.beam}{BAR_SUFFIX}"] = found.pop(tee_part.beam)
         if "MFY" in found and "MFZ" in found:
             found[M_RES] = math.hypot(found["MFY"], found["MFZ"])
         if "VY" in found and "VZ" in found:
             found[V_RES] = math.hypot(found["VY"], found["VZ"])
+        if "QX" in found and "QY" in found:
+            found[V_RES] = math.hypot(found["QX"], found["QY"])
         scale = max((abs(v) for v in t["torseur_si"].values()), default=1.0) or 1.0
         for comp, value in t["torseur_si"].items():
+            if tee is not None and comp in {p.beam for p in tee.parts}:
+                skipped["section en T (bande)"] = (
+                    skipped.get("section en T (bande)", 0) + 1
+                )
+                continue
+            if "e27" in t and comp == t["colonne"]:
+                skipped["M_dim (E27)"] = skipped.get("M_dim (E27)", 0) + 1
+                continue
             checked += 1
             if comp not in found:
                 failures.append(
@@ -550,11 +1065,89 @@ def cross_check(
         "resultats lire` (combinaison@position, nœud et extrémité d'élément)",
         "torseurs": len(torsors),
         "valeurs_comparees": checked,
+        "valeurs_non_relues": skipped,
+        "note": "section en T : barre relue, bande contrôlée par l'équilibre d'une "
+        "coupe ; M_dim (E27) : combinaison de deux modèles, ses termes relus par "
+        "leurs propres torseurs ; ligne interpolée : ses deux extrémités relues",
         "ecart_relatif_max": worst,
         "tolerance": CROSS_TOLERANCE,
         "echecs": failures[:50],
         "verdict": "RÉUSSI" if not failures else "ÉCHEC",
     }
+
+
+CUT_TOLERANCE = 1.0e-6
+"""Relative gap admitted between the total moment of a cut and the equilibrium of the
+free body (exact: the same nodal forces, lot 49 ter)."""
+
+
+def cut_checks(
+    d: Deliverables,
+    infos: list[FieldInfo],
+    summary: EngineeringSummarySection,
+) -> dict[str, Any] | None:
+    """Proof of the T sections (lot 49 ter, D1): equilibrium of the declared cuts."""
+    from aster_expert.livrables.coupe import cut_equilibrium  # noqa: PLC0415
+
+    found = []
+    for family in summary.families:
+        tee = family.tee_section
+        for cut in tee.equilibrium_cuts if tee else ():
+            entry = cut_equilibrium(d, infos, summary, family, cut)
+            entry["famille"] = family.name
+            entry["verdict"] = (
+                "RÉUSSI" if entry["ecart_relatif"] <= CUT_TOLERANCE else "ÉCHEC"
+            )
+            found.append(entry)
+    if not found:
+        return None
+    return {
+        "controle": "équilibre d'une coupe de section en T (lot 49 ter, preuve de "
+        "D1 ; CTL-005 étendu) : moment total de la coupe (barres + plaque sur toute la "
+        "largeur) contre l'équilibre du corps libre (forces nodales, réactions, "
+        "ressorts)",
+        "tolerance": CUT_TOLERANCE,
+        "coupes": found,
+        "verdict": "RÉUSSI"
+        if all(c["verdict"] == "RÉUSSI" for c in found)
+        else "ÉCHEC",
+    }
+
+
+def derived_summary(
+    ctx: ProjectContext, summary: EngineeringSummarySection
+) -> dict[str, Any]:
+    """Declaration and harness D of each derived model (lot 49 ter)."""
+    from aster_expert.livrables.derives import CHECK_FILE, derived_root  # noqa: PLC0415
+
+    out: dict[str, Any] = {}
+    for m in summary.derived_models:
+        conditions = [
+            f"DDL_IMPO {' '.join(b.dofs)} = 0 sur "
+            + (
+                f"GROUP_NO {b.node_group}"
+                if b.node_group
+                else f"GROUP_MA {b.cell_group}"
+            )
+            for b in m.blocks
+        ] + [
+            f"LIAISON_SOLIDE sur {r.cell_group} ∩ chaque {r.per_member}"
+            for r in m.rigid
+        ]
+        check = derived_root(ctx, m.name) / CHECK_FILE
+        out[m.name] = {
+            "nature": m.kind,
+            "libelle": m.label,
+            "objet": m.purpose,
+            "conditions": " ; ".join(conditions),
+            "cas_exclus": list(m.excluded_cases),
+            "motif_exclusion": m.excluded_reason,
+            "source": m.source,
+            "controle": json.loads(check.read_text("utf-8"))
+            if check.is_file()
+            else None,
+        }
+    return out
 
 
 def write_annexes(root: Path, package: Path) -> list[str]:
@@ -644,16 +1237,19 @@ def step_ingenieur(ctx: ProjectContext, rt: Any) -> list[str]:  # noqa: ARG001
     if (package / EXPORT_DIR).exists():
         shutil.rmtree(package / EXPORT_DIR)
     families = []
+    auxiliaries: dict[str, Any] = {}
     for family in summary.families:
         families.append(
             _family_pass(
-                ctx, d, _info(infos, family), family, combinations, med_sha, package
+                ctx, d, infos, family, combinations, med_sha, package, auxiliaries
             )
         )
     torsors = [t for f in families for t in f["torseurs"]]
+    opposite_signs(torsors)
+    identical_lines(torsors)
     service = evaluate_all(d, combinations, summary)
     balance = equilibrium_by_state(ctx, d, infos, combinations, package)
-    checked = cross_check(ctx, d, infos, torsors)
+    checked = cross_check(ctx, d, infos, torsors, auxiliaries)
     header = {
         "projet": ctx.declaration.name,
         "med_resultats_sha256": med_sha,
@@ -713,6 +1309,11 @@ def step_ingenieur(ctx: ProjectContext, rt: Any) -> list[str]:  # noqa: ARG001
         },
     )
     _dump(package / "equilibre_etats_limites.json", balance)
+    if summary.derived_models:
+        _dump(package / "modeles_derives.json", derived_summary(ctx, summary))
+    cuts = cut_checks(d, infos, summary)
+    if cuts:
+        _dump(package / "equilibre_coupes.json", cuts)
     _dump(package / "controles_croises.json", checked)
     annexes = write_annexes(root, package)
     images = draw_all(package)
@@ -753,8 +1354,17 @@ def step_ingenieur(ctx: ProjectContext, rt: Any) -> list[str]:  # noqa: ARG001
 
 __all__ = [
     "CROSS_TOLERANCE",
+    "CUT_TOLERANCE",
+    "bands",
+    "cut_checks",
     "cross_check",
+    "derived_summary",
+    "disjoint_zones",
     "equilibrium_by_state",
+    "family_rows",
+    "identical_lines",
+    "opposite_signs",
     "step_ingenieur",
+    "support_moments",
     "write_annexes",
 ]

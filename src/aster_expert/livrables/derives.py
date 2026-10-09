@@ -440,6 +440,9 @@ def open_derived(
         DeliverableField.model_validate(f) for f in recorded["livrables"]["fields"]
     ]
     d = Deliverables(root, keep_fields=True)
+    # Mêmes cas que la référence : ses combinaisons valent pour le modèle dérivé (la
+    # sous-étape traiter n'en écrit aucune).
+    d.__dict__["combinations"] = Deliverables(deliverables_dir(ctx)).combinations
     return d, d.field_infos(fields), recorded
 
 
@@ -503,6 +506,11 @@ def control(ctx: ProjectContext, name: str) -> dict[str, Any]:
     ref_infos = reference.field_infos(ctx.declaration.deliverables.fields)  # type: ignore[union-attr]
     ref_infos = [i for i in ref_infos if i.family in ("reactions", "ressorts")]
     positions = [c for c, i in d.spec["cases"].items() if not i["elementary"]]
+    ref_positions = {c for c, i in reference.spec["cases"].items()}
+    with np.load(reference.data / f"{ref_infos[0].key}.npz") as npz:
+        stored = {k[len("pos/") :] for k in npz.files if k.startswith("pos/")}
+    skipped = sorted(p for p in positions if p not in stored or p not in ref_positions)
+    positions = [p for p in positions if p not in skipped]
     worst_pos = 0.0
     worst_at = None
     for position in positions:
@@ -523,6 +531,7 @@ def control(ctx: ProjectContext, name: str) -> dict[str, Any]:
         "cas": cases,
         "ecart_relatif_max_cas": worst,
         "positions": len(positions),
+        "positions_absentes_de_la_reference": skipped,
         "ecart_relatif_max_positions_FZ": worst_pos,
         "position_pire": worst_at,
         "echecs": failed,

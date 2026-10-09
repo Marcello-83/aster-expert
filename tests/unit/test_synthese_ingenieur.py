@@ -812,9 +812,9 @@ def test_the_workbook_puts_the_engineering_sheets_first(delivered: Any) -> None:
     path = ctx.results_dir / "classeur.xlsx"
     build_workbook(paquet, load_table(ROOT)).save(path)
     wb = load_workbook(path)
-    assert wb.sheetnames[:3] == list(FIRST_SHEETS)
-    assert wb.sheetnames[3:5] == ["Détail pieux", "Détail chevêtres"]
-    assert wb.sheetnames[5:] == list(LAST_SHEETS)
+    assert wb.sheetnames[:4] == list(FIRST_SHEETS)
+    assert wb.sheetnames[4:6] == ["Détail pieux", "Détail chevêtres"]
+    assert wb.sheetnames[6:] == list(LAST_SHEETS)
     synth = wb["Synthèse ingénieur"]
     assert synth.freeze_panes is not None
     syn = json.loads((vis / "synthese_ingenieur.json").read_text("utf-8"))
@@ -828,10 +828,22 @@ def test_the_workbook_puts_the_engineering_sheets_first(delivered: Any) -> None:
     row = next(
         r
         for r in synth.iter_rows()
-        if r[1].value == "tête de pieu" and r[2].value == "M max (résultante)"
+        if r[1].value == "tête de pieu" and r[2].value == "moment max (résultante)"
     )
     assert row[4].value == head["valeur_si"] * 1.0e-3  # kN·m, conversion exacte
     assert row[4].font.b
+    # D5 (lot 49 ter) : format de l'unité (arrondis.yaml : kN·m à 1 décimale).
+    assert row[4].number_format == "0.0"
+    # D4 : N de la synthèse en convention ingénieur (compression > 0).
+    assert row[5].value == pytest.approx(-head["torseur_si"]["N"] * 1.0e-3)
+    assert any(
+        "Convention ingénieur" in str(c.value) for r in synth.iter_rows() for c in r
+    )
+    assert any(
+        "Convention de Code_Aster" in str(c.value)
+        for r in wb["Torseurs"].iter_rows()
+        for c in r
+    )
     muted = [
         r
         for r in synth.iter_rows()
@@ -844,6 +856,11 @@ def test_the_workbook_puts_the_engineering_sheets_first(delivered: Any) -> None:
                 if cell.value is None:
                     continue
                 assert cell.font.name == "Arial" and cell.font.sz == 10
+                if isinstance(cell.value, int | float) and not isinstance(
+                    cell.value, bool
+                ):
+                    # D5 : aucune valeur numérique au format « Standard ».
+                    assert cell.number_format != "General", (sheet.title, cell)
                 assert cell.font.color is None or cell.font.color.rgb == "FF000000"
                 fill = cell.fill.fgColor.rgb if cell.fill.fill_type else None
                 assert fill in (None, "FFD9D9D9", "FFF2F2F2"), (sheet.title, fill)
@@ -885,13 +902,20 @@ def test_the_pile_head_of_f7_yp_finds_the_moment_of_lot_47bis() -> None:
     assert head["lieu"]["groupe"] == "PIEU_F7_YP"
     assert head["lieu"]["coordonnees_m"][2] == pytest.approx(1.30)
     assert (head["combinaison"], head["position_mobile"]) == ("111 ELU+", "TSB_P25")
-    n_kn = head["torseur_si"]["N"] * 1.0e-3
-    v_kn = head["torseur_si"]["V_RES"] * 1.0e-3
-    rows = _rows(vis / "flexion_composee" / "tete_de_pieu.csv")
-    elu = next(r for r in rows if len(r) > 5 and r[1] == "ELU" and "M max" in r[5])
-    assert elu[3] == "435,5"
-    assert elu[2] == number(-n_kn)  # N > 0 en compression
-    assert float(elu[10].replace(",", ".")) == pytest.approx(v_kn, abs=0.05)
+    assert head.get("comparaison_seulement") is True  # E24 : tête en comparaison
+    # Lot 49 ter (E24, E27) : le bouchon se dimensionne au nu +0,60, M_dim exporté.
+    plug = next(
+        t
+        for t in syn["torseurs"]
+        if t["section"] == "bouchon_nu_chevetre"
+        and t["etat_limite"] == "ELU_fondamental"
+        and "e27" in t
+    )
+    rows = _rows(vis / "flexion_composee" / "bouchon_nu_chevetre.csv")
+    elu = next(r for r in rows if len(r) > 5 and r[1] == "ELU" and "E27" in r[5])
+    assert elu[3] == number(plug["e27"]["M_dim_si"] * 1.0e-3)
+    assert elu[2] == number(-plug["torseur_si"]["N"] * 1.0e-3)  # N > 0 compression
+    assert not (vis / "flexion_composee" / "tete_de_pieu.csv").exists()
     assert list(itertools.islice((r[0] for r in rows), 1)) == [
         "Section de dimensionnement"
     ]

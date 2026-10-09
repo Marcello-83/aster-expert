@@ -382,17 +382,17 @@ Contrôles exécutables ajoutés au lot 48 bis (audit R3, R4, R6, R8) :
 - Termes confidentiels : variable `ASTER_EXPERT_TERMES_INTERDITS` (secret GitHub Actions et variable de l'environnement Cloud, jamais un fichier
   versionné, `docs/cloud.md` § 11) ; un projet `confidential_data: true` sans liste fait échouer le contrôle de publication.
 - Nombres des maillages et des sorties texte (lot 48 bis) : un script de maillage construit ses sommets à partir de valeurs exactes et recale les coordonnées voulues sur la grille de `config/arrondis.yaml` (1 mm) avant l'écriture ; `mesh check` rapporte toute coordonnée « presque sur la grille sans y être » (non bloquant tant que les maillages versionnés en portent). Les sorties texte (tableaux de notes, CSV de lecture, commentaires de `.comm`) arrondissent selon la table unique `config/arrondis.yaml` (`aster_expert.arrondis`) ; les contrôles numériques travaillent sur les valeurs non arrondies, et une valeur dérivée d'un calcul exact garde sa précision dans le `.comm` avec sa valeur arrondie en commentaire.
-- Crochet `pre-push` : `ruff format --check`, `ruff check`, `pytest` (hors tests lents) avant tout envoi ; ne jamais le contourner. `ci.yml` : `main`,
-  `lot-*`, `claude/**` ; `ci-lent.yml` aussi sur tout envoi touchant `execution/`, `validation/` ou `connaissances/`.
-
+- Crochet `pre-push` : `ruff format --check`, `ruff check`, `pytest` (hors tests lents) avant tout envoi ; ne jamais le contourner. `ci.yml` : `main`, `lot-*`, `claude/**` ; `ci-lent.yml` aussi sur tout envoi touchant `execution/`, `validation/` ou `connaissances/`.
 Livrables et ressources (lot 49) :
-- Tout projet déclare `deliverables` (`verifier` le refuse absent). `projet <nom> livrables` : copie du `.comm` de production avec sorties
-  insérées, acceptée si ses tables `E20.12` égalent la production ; MED et VTU jamais versionnés ; paquet : section `visualisation`. Questions
-  sur des résultats : `aster-expert resultats lire` ou `query_results`, jamais un script jetable.
-- `PARALLELISME_TEMPS='OUI'` refusé avant exécution (DIAG-027). Fils = min(`useful_threads_max` = 4, processeurs ÷ exécutions simultanées).
-- Rendu ParaView sans écran : ParaView de Salomé-Méca, `xvfb-run -a pvbatch --no-mpi` ; scripts générés du manifeste.
+- Tout projet déclare `deliverables` (`verifier` le refuse absent). `projet <nom> livrables` : copie du `.comm` de production avec sorties insérées,
+  acceptée si ses tables `E20.12` égalent la production ; MED et VTU jamais versionnés ; paquet : section `visualisation`. Questions sur des résultats : `aster-expert resultats lire` ou `query_results`, jamais un script jetable.
+- `PARALLELISME_TEMPS='OUI'` refusé (DIAG-027). Fils = min(4, processeurs ÷ exécutions simultanées). ParaView : `xvfb-run -a pvbatch --no-mpi`.
 - Synthèse ingénieur (lot 49 bis) : `engineering_summary` ; sous-étapes `ingenieur`, `images`, puis `exporter-resultats` et `classeur`, jamais
   en parallèle ; torseurs relus par `resultats lire` ; coque d'un disque ou d'un nœud partagé avec une poutre : « non significative ».
+- Lot 49 ter : poutre partageant ses nœuds avec une plaque → dimensionner sur la section en T (`tee_section`, PAT-014), jamais la barre seule ;
+  plaque lue au nu, hors bande ±b/2 et disques (`exclusion_band`, PAT-015) ; zones d'une famille disjointes, signe déclaré (`zone`,
+  `moment_signs`) ; section d'appui : `design_moment` (E27, modèle auxiliaire `derived_models`, `livrables --modele`) ; synthèse en convention
+  ingénieur, Torseurs en convention Code_Aster ; toute cellule numérique formatée ; `projet <nom> livraison --dossier` (empreintes, `--verifier`).
 
 ## Périmètre à ne pas dépasser sans instruction
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne pas installer d'infrastructure non demandée, ne pas inventer la structure

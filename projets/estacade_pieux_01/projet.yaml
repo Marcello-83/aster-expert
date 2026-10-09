@@ -159,7 +159,28 @@ engineering_summary:
       moments: [MFY]
       shears: [VZ]
       axis: Y
-      caveat: "barre seule : la dalle DKT, qui partage les nœuds du chevêtre, porte une part de l'effort (CA-058) ; le total de la section en T est la règle E17.2 (lot 47 bis)"
+      caveat: "section en T (E25) : barre + bande de dalle |X − X_file| ≤ 0,60 (règle E17.2) ; la barre seule, artefact de la formulation de plaque (CA-058, C8), reste dans les colonnes de traçabilité *_barre"
+      # Lot 49 ter : E25 (section en T, conventions établies au § 2.5 de
+      # docs/essais_lot49ter.md : N_T = N + ∫NYY dX, M_T = MFY + ∫MYY dX,
+      # V_T = VZ + ∫QY dX) et E26 (bande d'exclusion des coques, ±b/2 = ±0,60 m).
+      tee_section:
+        plate_family: tablier
+        half_width: 0.60
+        across: X
+        along: Y
+        parts:
+          - {beam: N, plate: NYY}
+          - {beam: MFY, plate: MYY}
+          - {beam: VZ, plate: QY}
+        source: "E25 de MM (lot 49 ter), règle E17.2 (lot 47 bis) : chevêtre de b = 1,20 m (E2)"
+        # Preuve de D1 (lot 49 ter) : équilibre du corps libre Y < Y0 sous PP, à mi-portée
+        # (Y0 = 0) et en console (Y0 = −2,50) ; repère des chevêtres x_l = +Y, y_l = −X.
+        equilibrium_cuts:
+          - {value: 0.0, case: PP, reference_level: 1.30, beam_local_x: [0.0, 1.0, 0.0], beam_local_y: [-1.0, 0.0, 0.0]}
+          - {value: -2.50, case: PP, reference_level: 1.30, beam_local_x: [0.0, 1.0, 0.0], beam_local_y: [-1.0, 0.0, 0.0]}
+      exclusion_band:
+        half_width: 0.60
+        source: "E26 de MM (lot 49 ter) : ±b/2 le long des chevêtres (b = 1,20 m, E2)"
     - name: tablier
       kind: coque
       field: EFGE_NOEU
@@ -176,11 +197,32 @@ engineering_summary:
       groups: [PIEDS]
       quantities: [DZ]
   sections:
+    # Lot 49 ter : zones disjointes par famille (D3), signe retenu déclaré, sections
+    # « nu », « appui », « chapeau » avec leur moment de dimensionnement (E27).
     - name: tete_de_pieu
-      label: tête de pieu
+      label: tête de pieu (+1,30, comparaison)
       family: pieux
-      rule: {description: "extrémités d'éléments de pieu au nœud de tête (TETES, plan moyen +1,30)", node_group: TETES}
-      justification: "Moment maximal du pieu, encastré dans le chevêtre au plan moyen ; lecture C3 au nœud de tête (E17.1, lot 47 bis)."
+      zone: comparaison
+      rule: {description: "extrémités d'éléments de pieu au nœud de tête (TETES, plan moyen +1,30), intérieur du chevêtre", node_group: TETES}
+      justification: "Valeur au nœud +1,30, à l'intérieur du chevêtre, conservée pour mémoire et pour la comparaison à la source (450 kN·m, C3) ; pas une section de dimensionnement (E24)."
+      not_exported: "section de comparaison seulement (E24) : le bouchon se dimensionne au nu inférieur du chevêtre, +0,60 (bouchon_nu_chevetre.csv)"
+    - name: bouchon_nu_chevetre
+      label: bouchon au nu du chevêtre (+0,60)
+      family: pieux
+      zone: nu
+      rule: {description: "coupe des pieux à Z = +0,60 (nu inférieur du chevêtre et recépage, E21, E24) : aucun nœud à cette cote, interpolation linéaire entre les extrémités de l'élément +0,50 → +0,70, exacte (ni charge transversale répartie ni ressort entre ses nœuds)", level: {axis: Z, value: 0.60}}
+      justification: "Section de calcul du bouchon (E24) : nu inférieur du chevêtre réel (+0,60 à +1,50), cote du recépage ; moment de dimensionnement E27 avec le modèle auxiliaire A3."
+      design_moment:
+        quantity: M_RES
+        fraction: 0.65
+        auxiliary: A3
+        axis_rule: {description: "même coupe à +0,60 dans A3 (tronçon de tête indéformable, rotations des têtes bloquées)", level: {axis: Z, value: 0.60}}
+        supports: {node_group: TETES, axes: [X, Y]}
+        source: "E27 de MM (lot 49 ter), extension au bouchon encastré dans le chevêtre"
+        # D6 : variante déclarée V1 ; critère écrit avant l'exécution (docs/essais_lot49ter.md
+        # § 3) : au-delà de 5 % de variation de M_dim, enveloppe des deux.
+        variants: [V1]
+        variant_threshold: 0.05
       bending_export: &bouchon
         section_type: "circulaire (bouchon béton Ø 0,622 m) saisie en carré équivalent"
         h: {value: 0.52, unit: m, source: "E23 : carré équivalent 0,52 × 0,52 (§20.4.1)"}
@@ -195,25 +237,26 @@ engineering_summary:
         planes:
           - {moment: resultante, label: "flexion déviée : moment résultant √(MFY² + MFZ²)"}
     - name: bouchon
-      label: bouchon (+0,70 à −0,80)
+      label: bouchon sous le nu (+0,60 exclu à −0,80)
       family: pieux
-      rule: {description: "extrémités d'éléments de pieu dont le nœud est entre −0,80 et +0,70 (E14)", box: {z: [-0.80, 0.70]}}
-      justification: "Zone du bouchon en béton (E14), lecture C4 ; section du bouchon vérifiée en béton armé (E23)."
+      rule: {description: "extrémités d'éléments de pieu dont le nœud est entre −0,80 (inclus) et +0,60 (exclu, nu du chevêtre, E14, E24)", box: {z: [-0.80, 0.60], exclusive: [z_max]}}
+      justification: "Zone du bouchon en béton sous le nu du chevêtre (E14), lecture C4 ; section du bouchon vérifiée en béton armé (E23)."
       bending_export: *bouchon
     - name: pieu_courant
       label: pieu courant (sous −0,80)
       family: pieux
-      rule: {description: "extrémités d'éléments de pieu dont le nœud est sous le bouchon (−13,00 à −0,80)", box: {z: [-13.0, -0.80]}}
+      rule: {description: "extrémités d'éléments de pieu dont le nœud est sous le bouchon (−13,00 à −0,80 exclu)", box: {z: [-13.0, -0.80], exclusive: [z_max]}}
       justification: "Tube acier seul sous le bouchon : moment de la zone des ressorts (lecture C5 sur tout le pieu, E17.1)."
       not_exported: "tube acier seul sous le bouchon, vérifié à l'EC3 hors du logiciel de béton armé (E23)"
     - name: chevetre_travee
-      label: chevêtre en travée
+      label: chevêtre en travée (section en T)
       family: chevêtres
-      rule: {description: "extrémités d'éléments de chevêtre entre les nus des pieux (|Y| ≤ 1,67 : axe à ±2,00, tube Ø 660, annexe B1)", box: {y: [0.0, 1.67], absolute: [Y]}}
-      justification: "Moment positif de la travée entre pieux (C6) ; bornée aux nus des tubes Ø 660 (annexe B1)."
-      caveat: "barre seule (CA-058) : la bande de dalle porte une part du moment ; total barre + bande selon E17.2"
+      zone: travee
+      moment_signs: {MFY: negative}
+      rule: {description: "extrémités d'éléments de chevêtre entre les nus intérieurs des pieux, |Y| < 1,65 (station du maillage la plus proche du nu 1,67 : axe à ±2,00, tube Ø 660, annexe B1)", box: {y: [0.0, 1.65], absolute: [Y], exclusive: [y_max]}}
+      justification: "Moment de travée entre pieux (C6) sur la section en T (E25), seul le signe de travée (MFY < 0 : fibre inférieure tendue)."
       bending_export: &chevetre
-        section_type: rectangulaire
+        section_type: "section en T : chevêtre rectangulaire 1,20 × 0,90 et bande de dalle (E25)"
         h: {value: 0.90, unit: m, source: "E2, E23 (§20.5.1)"}
         b: {value: 1.20, unit: m, source: "E2, E23 (§20.5.1)"}
         ds: {value: 0.07, unit: m, source: "E23 : ds = 0,07 m (d = 0,83, §20.5.1)"}
@@ -223,20 +266,37 @@ engineering_summary:
         exposure: {value: XS3, source: "E23 (§13.7.1)"}
         cnom: {value: 55, unit: mm, source: "E23 (§13.7.5)"}
         planes:
-          - {moment: MFY, top_fibre: "+z_l", label: "flexion verticale (z_l = +Z, fibre supérieure en haut)"}
+          - {moment: MFY, top_fibre: "+z_l", label: "flexion verticale de la section en T (z_l = +Z, fibre supérieure en haut)"}
     - name: chevetre_nu_appui
-      label: chevêtre au nu de l'appui
+      label: chevêtre au nu de l'appui (section en T)
       family: chevêtres
-      rule: {description: "extrémités d'éléments de chevêtre à la station du maillage la plus proche de |Y| = 1,67 (nu du tube Ø 660 centré à ±2,00, annexe B1)", station: {axis: Y, value: 1.67, absolute: true}}
-      justification: "Moment sur appui et effort tranchant au nu du pieu (C7, C8), section de dimensionnement du chevêtre."
-      caveat: "barre seule (CA-058) : la bande de dalle porte l'essentiel de l'effort tranchant près de l'appui ; total barre + bande selon E17.2"
+      zone: appui
+      moment_signs: {MFY: positive}
+      rule: {description: "extrémités d'éléments de chevêtre aux stations du maillage les plus proches des deux nus du tube Ø 660 centré à ±2,00 : |Y| = 1,67 et 2,33 (annexe B1)", station: {axis: Y, values: [1.67, 2.33], absolute: true}}
+      justification: "Moment sur appui et effort tranchant au nu du pieu (C7, C8) sur la section en T (E25) ; moment de dimensionnement E27 avec le modèle auxiliaire A1."
+      design_moment:
+        quantity: MFY
+        fraction: 0.65
+        auxiliary: A1
+        axis_rule: {description: "extrémités d'éléments de chevêtre au nœud de tête (axe de la file de pieux, TETES)", node_group: TETES}
+        supports: {node_group: TETES, axes: [X, Y]}
+        source: "E27 de MM (lot 49 ter), chevêtre sur appui"
       bending_export: *chevetre
     - name: dalle_chapeau
       label: dalle en chapeau au nu du chevêtre
       family: tablier
-      rule: {description: "nœuds de la dalle à |X − X_file| = 0,60 (nu du chevêtre de 1,20 m, E2), X_file lu sur les têtes de pieux", near: {node_group: TETES, axis: X, distance: 0.60, mode: at}}
-      justification: "Moment négatif de la dalle continue sur les chevêtres, lu au nu (C9, hors disques E17.3)."
+      zone: chapeau
+      moment_signs: {MXX: positive, MYY: both}
+      rule: {description: "nœuds de la dalle à |X − X_file| = 0,60 (nu du chevêtre de 1,20 m, E2, E26), X_file lu sur les têtes de pieux", near: {node_group: TETES, axis: X, distance: 0.60, mode: at}}
+      justification: "Moment négatif de la dalle continue sur les chevêtres, lu au nu (C9, E26, hors disques E17.3) ; moment de dimensionnement E27 avec le modèle auxiliaire A2."
       shared_with: [CHEVETRES, PIEUX]
+      design_moment:
+        quantity: MXX
+        fraction: 0.65
+        auxiliary: A2
+        axis_rule: {description: "nœuds de la dalle sur la ligne d'axe du chevêtre (X = X_file), hors disques PAT-013", near: {node_group: TETES, axis: X, distance: 0.0, mode: at}}
+        supports: {node_group: TETES, axes: [X]}
+        source: "E27 de MM (lot 49 ter), chapeau de la dalle"
       bending_export: &dalle
         section_type: "rectangulaire, bande de 1,00 m"
         h: {value: 0.40, unit: m, source: "annexe B1, E23 (§20.6.1)"}
@@ -252,17 +312,21 @@ engineering_summary:
           - {moment: MXX, top_fibre: "+n", label: "flexion selon X (portée entre chevêtres), normale +Z"}
           - {moment: MYY, top_fibre: "+n", label: "flexion selon Y (transversale), normale +Z"}
     - name: dalle_travee
-      label: dalle en travée
+      label: dalle en travée courante
       family: tablier
-      rule: {description: "nœuds de la dalle à plus de 0,60 m de toute file (|X − X_file| > 0,60)", near: {node_group: TETES, axis: X, distance: 0.60, mode: beyond}}
-      justification: "Moment positif de la dalle entre chevêtres, sous les roues de TS (C10)."
+      zone: travee
+      moment_signs: {MXX: negative, MYY: negative}
+      rule: {description: "nœuds de la dalle à plus de 0,60 m de toute file (|X − X_file| > 0,60) et hors des trottoirs (|Y| < 1,50)", near: {node_group: TETES, axis: X, distance: 0.60, mode: beyond}, box: {y: [0.0, 1.50], absolute: [Y], exclusive: [y_max]}}
+      justification: "Moment positif de la dalle entre chevêtres, sous les roues de TS (C10), seul le signe de travée (MXX, MYY < 0 : face inférieure tendue)."
       shared_with: [CHEVETRES, PIEUX]
       bending_export: *dalle
     - name: dalle_rive
       label: dalle en rive (trottoirs)
       family: tablier
-      rule: {description: "nœuds de la dalle des trottoirs, |Y| ≥ 1,50 (annexe B1)", box: {y: [1.50, 3.0], absolute: [Y]}}
-      justification: "Bande de rive des trottoirs, où agit l'essieu TR d'E18 (C12 rive) ; elle contient les lignes des chevêtres, exclues."
+      zone: travee
+      moment_signs: {MXX: negative, MYY: negative}
+      rule: {description: "nœuds de la dalle des trottoirs, |Y| ≥ 1,50 (annexe B1), à plus de 0,60 m de toute file", near: {node_group: TETES, axis: X, distance: 0.60, mode: beyond}, box: {y: [1.50, 3.0], absolute: [Y]}}
+      justification: "Bande de rive des trottoirs, où agit l'essieu TR d'E18 (C12 rive), seul le signe de travée ; les lignes des chevêtres sont dans la bande E26."
       shared_with: [CHEVETRES, PIEUX]
       bending_export: *dalle
     - name: ressorts
@@ -403,6 +467,13 @@ results_package:
     # d'échange).
     - {section: visualisation, source: "resultats/livrables/paquet/flexion_composee/*.csv", subdirectory: flexion_composee}
     - {section: visualisation, source: "resultats/livrables/paquet/diagrammes/*.png", subdirectory: diagrammes}
+    # Lot 49 ter : comparaison externe (profil du chapeau), validation analytique des
+    # modèles auxiliaires A1 et A2, comparaison complète à la source.
+    - {section: visualisation, source: "resultats/livrables/paquet/comparaison/*.csv", subdirectory: comparaison}
+    - {section: visualisation, source: "resultats/livrables/paquet/comparaison/*.png", subdirectory: comparaison}
+    - {section: controles, source: references/validation_auxiliaires_lot49ter.json}
+    - {section: contre_calcul, source: references/comparaison_externe_lot49ter.json}
+    - {section: contre_calcul, source: references/variante_v1_lot49ter.json}
     - {section: controles, source: resultats/controles/controles_d.json}
     - {section: controles, source: resultats/controles/equilibre.json}
     - {section: controles, source: resultats/controles/controles_projet.json}

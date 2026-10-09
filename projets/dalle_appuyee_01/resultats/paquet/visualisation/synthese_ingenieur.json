@@ -73,16 +73,35 @@
     "MYY",
     "MXY",
     "QX",
-    "QY"
+    "QY",
+    "V_RES"
    ],
    "convention": "dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normales +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur",
    "reserve": null,
    "lignes": 1617,
+   "lignes_interpolees": 0,
+   "interpolation": null,
+   "section_en_T": null,
+   "bande_exclusion": null,
    "evaluations": {
     "ELU_fondamental": 1,
     "ELS_caracteristique": 1,
     "ELS_frequent": 1,
     "ELS_quasi_permanent": 1
+   },
+   "zones": {
+    "famille": "dalle",
+    "paires": [
+     {
+      "sections": [
+       "dalle_travee",
+       "dalle_centre"
+      ],
+      "lignes_communes": 1,
+      "noeuds_communs": 1,
+      "partage_declare": true
+     }
+    ]
    }
   },
   {
@@ -106,11 +125,19 @@
    "convention": "repère global ; appui simple DZ = 0 sur APPUIS, blocage isostatique DX = DY = 0 en P_A, DY = 0 en P_B (point 6)",
    "reserve": null,
    "lignes": 160,
+   "lignes_interpolees": 0,
+   "interpolation": null,
+   "section_en_T": null,
+   "bande_exclusion": null,
    "evaluations": {
     "ELU_fondamental": 1,
     "ELS_caracteristique": 1,
     "ELS_frequent": 1,
     "ELS_quasi_permanent": 1
+   },
+   "zones": {
+    "famille": "appuis",
+    "paires": []
    }
   }
  ],
@@ -126,6 +153,9 @@
    "exclusion": true,
    "lecture": [],
    "reserve": null,
+   "zone": "courant",
+   "signes": {},
+   "moment_appui": null,
    "export": [
     "dalle_travee_MXX.csv",
     "dalle_travee_MYY.csv"
@@ -143,6 +173,9 @@
    "exclusion": true,
    "lecture": [],
    "reserve": null,
+   "zone": "courant",
+   "signes": {},
+   "moment_appui": null,
    "export": [
     "dalle_centre_MXX.csv",
     "dalle_centre_MYY.csv"
@@ -160,6 +193,9 @@
    "exclusion": true,
    "lecture": [],
    "reserve": null,
+   "zone": "courant",
+   "signes": {},
+   "moment_appui": null,
    "export": null,
    "non_exporte": "réaction d'appui, sans section de béton armé"
   }
@@ -170,6 +206,8 @@
    "famille": "dalle",
    "etat_limite": "ELU_fondamental",
    "grandeur": "MXX max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "max",
    "role": "M",
@@ -206,7 +244,8 @@
     "MYY": 3.2300733965139674,
     "MXY": -19434.779646744977,
     "QX": 5400.504938691518,
-    "QY": 395.8193378282638
+    "QY": 395.8193378282638,
+    "V_RES": 5414.990908674758
    },
    "unites_si": {
     "NXX": "N/m",
@@ -216,14 +255,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELU_fondamental",
    "grandeur": "MXX min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "min",
    "role": "M",
@@ -260,7 +303,8 @@
     "MYY": -31516.39842857163,
     "MXY": -5.240212668319647e-09,
     "QX": 4.061640916930287e-08,
-    "QY": -3.511408550593842e-08
+    "QY": -3.511408550593842e-08,
+    "V_RES": 5.369070398799577e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -270,14 +314,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELU_fondamental",
    "grandeur": "MYY max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "max",
    "role": "M",
@@ -314,7 +362,8 @@
     "MYY": 8.354397573404745,
     "MXY": -19468.28600575134,
     "QX": -328.78864987374277,
-    "QY": -5688.298614377281
+    "QY": -5688.298614377281,
+    "V_RES": 5697.792827280779
    },
    "unites_si": {
     "NXX": "N/m",
@@ -324,14 +373,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELU_fondamental",
    "grandeur": "MYY min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "min",
    "role": "M",
@@ -368,7 +421,8 @@
     "MYY": -31516.39842857163,
     "MXY": -5.240212668319647e-09,
     "QX": 4.061640916930287e-08,
-    "QY": -3.511408550593842e-08
+    "QY": -3.511408550593842e-08,
+    "V_RES": 5.369070398799577e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -378,14 +432,77 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "V max (résultante)",
+   "libelle_ingenieur": "effort tranchant max",
+   "signe_oppose": false,
+   "colonne": "V_RES",
+   "sens": "max",
+   "role": "V",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "V_RES"
+   },
+   "valeur_si": 37500.78755502119,
+   "unite_si": "N/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 4,
+    "coordonnees_m": [
+     3.0,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 0.004588991159373445,
+    "MYY": 0.17601705264775225,
+    "MXY": 1.1928975141017872e-08,
+    "QX": 1.0739313438534738e-09,
+    "QY": -37500.78755502119,
+    "V_RES": 37500.78755502119
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_caracteristique",
    "grandeur": "MXX max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "max",
    "role": "M",
@@ -422,7 +539,8 @@
     "MYY": 2.2498023657313273,
     "MXY": -13536.662440518889,
     "QX": 3761.5457284418585,
-    "QY": 275.69506117391575
+    "QY": 275.69506117391575,
+    "V_RES": 3771.6354587784435
    },
    "unites_si": {
     "NXX": "N/m",
@@ -432,14 +550,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_caracteristique",
    "grandeur": "MXX min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "min",
    "role": "M",
@@ -476,7 +598,8 @@
     "MYY": -21951.720298507367,
     "MXY": -3.6525049066347564e-09,
     "QX": 2.808778809537671e-08,
-    "QY": -2.6326787860853074e-08
+    "QY": -2.6326787860853074e-08,
+    "V_RES": 3.8497059617081746e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -486,14 +609,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_caracteristique",
    "grandeur": "MYY max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "max",
    "role": "M",
@@ -530,7 +657,8 @@
     "MYY": 5.818983384462086,
     "MXY": -13560.000203010883,
     "QX": -229.00701981255526,
-    "QY": -3961.999034889661
+    "QY": -3961.999034889661,
+    "V_RES": 3968.6119194990624
    },
    "unites_si": {
     "NXX": "N/m",
@@ -540,14 +668,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_caracteristique",
    "grandeur": "MYY min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "min",
    "role": "M",
@@ -584,7 +716,8 @@
     "MYY": -21951.720298507367,
     "MXY": -3.6525049066347564e-09,
     "QX": 2.808778809537671e-08,
-    "QY": -2.6326787860853074e-08
+    "QY": -2.6326787860853074e-08,
+    "V_RES": 3.8497059617081746e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -594,14 +727,77 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "V max (résultante)",
+   "libelle_ingenieur": "effort tranchant max",
+   "signe_oppose": false,
+   "colonne": "V_RES",
+   "sens": "max",
+   "role": "V",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "V_RES"
+   },
+   "valeur_si": 26119.95153086041,
+   "unite_si": "N/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 4,
+    "coordonnees_m": [
+     3.0,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 0.003196312248453903,
+    "MYY": 0.12259894213849692,
+    "MXY": 8.308305154969275e-09,
+    "QX": 7.566995918750763e-10,
+    "QY": -26119.95153086041,
+    "V_RES": 26119.95153086041
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_frequent",
    "grandeur": "MXX max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "max",
    "role": "M",
@@ -638,7 +834,8 @@
     "MYY": 2.121242230546877,
     "MXY": -12763.138872489239,
     "QX": 3546.6002582451865,
-    "QY": 259.9410576782641
+    "QY": 259.9410576782641,
+    "V_RES": 3556.113432562538
    },
    "unites_si": {
     "NXX": "N/m",
@@ -648,14 +845,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_frequent",
    "grandeur": "MXX min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "min",
    "role": "M",
@@ -692,7 +893,8 @@
     "MYY": -20697.336281449578,
     "MXY": -3.44628421039294e-09,
     "QX": 2.6289191268347167e-08,
-    "QY": -2.661150659832856e-08
+    "QY": -2.661150659832856e-08,
+    "V_RES": 3.740713649795484e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -702,14 +904,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_frequent",
    "grandeur": "MYY max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "max",
    "role": "M",
@@ -746,7 +952,8 @@
     "MYY": 5.486470048208135,
     "MXY": -12785.143048553116,
     "QX": -215.92090439469314,
-    "QY": -3735.599090038835
+    "QY": -3735.599090038835,
+    "V_RES": 3741.8340955276994
    },
    "unites_si": {
     "NXX": "N/m",
@@ -756,14 +963,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_frequent",
    "grandeur": "MYY min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "min",
    "role": "M",
@@ -800,7 +1011,8 @@
     "MYY": -20697.336281449578,
     "MXY": -3.44628421039294e-09,
     "QX": 2.6289191268347167e-08,
-    "QY": -2.661150659832856e-08
+    "QY": -2.661150659832856e-08,
+    "V_RES": 3.740713649795484e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -810,14 +1022,77 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "V max (résultante)",
+   "libelle_ingenieur": "effort tranchant max",
+   "signe_oppose": false,
+   "colonne": "V_RES",
+   "sens": "max",
+   "role": "V",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "V_RES"
+   },
+   "valeur_si": 24627.38287195399,
+   "unite_si": "N/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 4,
+    "coordonnees_m": [
+     3.0,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 0.003013665832480119,
+    "MYY": 0.11559328829797602,
+    "MXY": 7.833129700429708e-09,
+    "QX": 7.217749953269959e-10,
+    "QY": -24627.38287195399,
+    "V_RES": 24627.38287195399
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_quasi_permanent",
    "grandeur": "MXX max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "max",
    "role": "M",
@@ -854,7 +1129,8 @@
     "MYY": 1.9926820953624265,
     "MXY": -11989.615304459587,
     "QX": 3331.654788048514,
-    "QY": 244.18705418261234
+    "QY": 244.18705418261234,
+    "V_RES": 3340.5914063466325
    },
    "unites_si": {
     "NXX": "N/m",
@@ -864,14 +1140,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_quasi_permanent",
    "grandeur": "MXX min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "min",
    "role": "M",
@@ -908,7 +1188,8 @@
     "MYY": -19442.952264391784,
     "MXY": -3.240063514151123e-09,
     "QX": 2.4490594441317626e-08,
-    "QY": -2.689622533580405e-08
+    "QY": -2.689622533580405e-08,
+    "V_RES": 3.6375763269015336e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -918,14 +1199,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_quasi_permanent",
    "grandeur": "MYY max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "max",
    "role": "M",
@@ -962,7 +1247,8 @@
     "MYY": 5.153956711954184,
     "MXY": -12010.285894095352,
     "QX": -202.83478897683105,
-    "QY": -3509.1991451880094
+    "QY": -3509.1991451880094,
+    "V_RES": 3515.056271556336
    },
    "unites_si": {
     "NXX": "N/m",
@@ -972,14 +1258,18 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_travee",
    "famille": "dalle",
    "etat_limite": "ELS_quasi_permanent",
    "grandeur": "MYY min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "min",
    "role": "M",
@@ -1016,7 +1306,8 @@
     "MYY": -19442.952264391784,
     "MXY": -3.240063514151123e-09,
     "QX": 2.4490594441317626e-08,
-    "QY": -2.689622533580405e-08
+    "QY": -2.689622533580405e-08,
+    "V_RES": 3.6375763269015336e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1026,14 +1317,77 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "V max (résultante)",
+   "libelle_ingenieur": "effort tranchant max",
+   "signe_oppose": false,
+   "colonne": "V_RES",
+   "sens": "max",
+   "role": "V",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "V_RES"
+   },
+   "valeur_si": 23134.814213047568,
+   "unite_si": "N/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 4,
+    "coordonnees_m": [
+     3.0,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 0.002831019416506336,
+    "MYY": 0.1085876344574551,
+    "MXY": 7.3579542458901415e-09,
+    "QX": 6.868503987789154e-10,
+    "QY": -23134.814213047568,
+    "V_RES": 23134.814213047568
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": []
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELU_fondamental",
    "grandeur": "MXX max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "max",
    "role": "M",
@@ -1070,7 +1424,8 @@
     "MYY": -31516.39842857163,
     "MXY": -5.240212668319647e-09,
     "QX": 4.061640916930287e-08,
-    "QY": -3.511408550593842e-08
+    "QY": -3.511408550593842e-08,
+    "V_RES": 5.369070398799577e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1080,14 +1435,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELU_fondamental",
    "grandeur": "MXX min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "min",
    "role": "M",
@@ -1124,7 +1485,8 @@
     "MYY": -31516.39842857163,
     "MXY": -5.240212668319647e-09,
     "QX": 4.061640916930287e-08,
-    "QY": -3.511408550593842e-08
+    "QY": -3.511408550593842e-08,
+    "V_RES": 5.369070398799577e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1134,14 +1496,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELU_fondamental",
    "grandeur": "MYY max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "max",
    "role": "M",
@@ -1178,7 +1546,8 @@
     "MYY": -31516.39842857163,
     "MXY": -5.240212668319647e-09,
     "QX": 4.061640916930287e-08,
-    "QY": -3.511408550593842e-08
+    "QY": -3.511408550593842e-08,
+    "V_RES": 5.369070398799577e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1188,14 +1557,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELU_fondamental",
    "grandeur": "MYY min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "min",
    "role": "M",
@@ -1232,7 +1607,8 @@
     "MYY": -31516.39842857163,
     "MXY": -5.240212668319647e-09,
     "QX": 4.061640916930287e-08,
-    "QY": -3.511408550593842e-08
+    "QY": -3.511408550593842e-08,
+    "V_RES": 5.369070398799577e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1242,14 +1618,81 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "V max (résultante)",
+   "libelle_ingenieur": "effort tranchant max",
+   "signe_oppose": false,
+   "colonne": "V_RES",
+   "sens": "max",
+   "role": "V",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "V_RES"
+   },
+   "valeur_si": 5.369070398799577e-08,
+   "unite_si": "N/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -17112.961937393564,
+    "MYY": -31516.39842857163,
+    "MXY": -5.240212668319647e-09,
+    "QX": 4.061640916930287e-08,
+    "QY": -3.511408550593842e-08,
+    "V_RES": 5.369070398799577e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_caracteristique",
    "grandeur": "MXX max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "max",
    "role": "M",
@@ -1286,7 +1729,8 @@
     "MYY": -21951.720298507367,
     "MXY": -3.6525049066347564e-09,
     "QX": 2.808778809537671e-08,
-    "QY": -2.6326787860853074e-08
+    "QY": -2.6326787860853074e-08,
+    "V_RES": 3.8497059617081746e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1296,14 +1740,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_caracteristique",
    "grandeur": "MXX min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "min",
    "role": "M",
@@ -1340,7 +1790,8 @@
     "MYY": -21951.720298507367,
     "MXY": -3.6525049066347564e-09,
     "QX": 2.808778809537671e-08,
-    "QY": -2.6326787860853074e-08
+    "QY": -2.6326787860853074e-08,
+    "V_RES": 3.8497059617081746e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1350,14 +1801,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_caracteristique",
    "grandeur": "MYY max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "max",
    "role": "M",
@@ -1394,7 +1851,8 @@
     "MYY": -21951.720298507367,
     "MXY": -3.6525049066347564e-09,
     "QX": 2.808778809537671e-08,
-    "QY": -2.6326787860853074e-08
+    "QY": -2.6326787860853074e-08,
+    "V_RES": 3.8497059617081746e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1404,14 +1862,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_caracteristique",
    "grandeur": "MYY min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "min",
    "role": "M",
@@ -1448,7 +1912,8 @@
     "MYY": -21951.720298507367,
     "MXY": -3.6525049066347564e-09,
     "QX": 2.808778809537671e-08,
-    "QY": -2.6326787860853074e-08
+    "QY": -2.6326787860853074e-08,
+    "V_RES": 3.8497059617081746e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1458,14 +1923,81 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "V max (résultante)",
+   "libelle_ingenieur": "effort tranchant max",
+   "signe_oppose": false,
+   "colonne": "V_RES",
+   "sens": "max",
+   "role": "V",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "V_RES"
+   },
+   "valeur_si": 3.8497059617081746e-08,
+   "unite_si": "N/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11919.475976293937,
+    "MYY": -21951.720298507367,
+    "MXY": -3.6525049066347564e-09,
+    "QX": 2.808778809537671e-08,
+    "QY": -2.6326787860853074e-08,
+    "V_RES": 3.8497059617081746e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_frequent",
    "grandeur": "MXX max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "max",
    "role": "M",
@@ -1502,7 +2034,8 @@
     "MYY": -20697.336281449578,
     "MXY": -3.44628421039294e-09,
     "QX": 2.6289191268347167e-08,
-    "QY": -2.661150659832856e-08
+    "QY": -2.661150659832856e-08,
+    "V_RES": 3.740713649795484e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1512,14 +2045,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_frequent",
    "grandeur": "MXX min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "min",
    "role": "M",
@@ -1556,7 +2095,8 @@
     "MYY": -20697.336281449578,
     "MXY": -3.44628421039294e-09,
     "QX": 2.6289191268347167e-08,
-    "QY": -2.661150659832856e-08
+    "QY": -2.661150659832856e-08,
+    "V_RES": 3.740713649795484e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1566,14 +2106,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_frequent",
    "grandeur": "MYY max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "max",
    "role": "M",
@@ -1610,7 +2156,8 @@
     "MYY": -20697.336281449578,
     "MXY": -3.44628421039294e-09,
     "QX": 2.6289191268347167e-08,
-    "QY": -2.661150659832856e-08
+    "QY": -2.661150659832856e-08,
+    "V_RES": 3.740713649795484e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1620,14 +2167,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_frequent",
    "grandeur": "MYY min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "min",
    "role": "M",
@@ -1664,7 +2217,8 @@
     "MYY": -20697.336281449578,
     "MXY": -3.44628421039294e-09,
     "QX": 2.6289191268347167e-08,
-    "QY": -2.661150659832856e-08
+    "QY": -2.661150659832856e-08,
+    "V_RES": 3.740713649795484e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1674,14 +2228,81 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "V max (résultante)",
+   "libelle_ingenieur": "effort tranchant max",
+   "signe_oppose": false,
+   "colonne": "V_RES",
+   "sens": "max",
+   "role": "V",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "V_RES"
+   },
+   "valeur_si": 3.740713649795484e-08,
+   "unite_si": "N/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11238.363063362773,
+    "MYY": -20697.336281449578,
+    "MXY": -3.44628421039294e-09,
+    "QX": 2.6289191268347167e-08,
+    "QY": -2.661150659832856e-08,
+    "V_RES": 3.740713649795484e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_quasi_permanent",
    "grandeur": "MXX max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "max",
    "role": "M",
@@ -1718,7 +2339,8 @@
     "MYY": -19442.952264391784,
     "MXY": -3.240063514151123e-09,
     "QX": 2.4490594441317626e-08,
-    "QY": -2.689622533580405e-08
+    "QY": -2.689622533580405e-08,
+    "V_RES": 3.6375763269015336e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1728,14 +2350,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_quasi_permanent",
    "grandeur": "MXX min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MXX)",
+   "signe_oppose": false,
    "colonne": "MXX",
    "sens": "min",
    "role": "M",
@@ -1772,7 +2400,8 @@
     "MYY": -19442.952264391784,
     "MXY": -3.240063514151123e-09,
     "QX": 2.4490594441317626e-08,
-    "QY": -2.689622533580405e-08
+    "QY": -2.689622533580405e-08,
+    "V_RES": 3.6375763269015336e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1782,14 +2411,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_quasi_permanent",
    "grandeur": "MYY max",
+   "libelle_ingenieur": "moment max, fibre supérieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "max",
    "role": "M",
@@ -1826,7 +2461,8 @@
     "MYY": -19442.952264391784,
     "MXY": -3.240063514151123e-09,
     "QX": 2.4490594441317626e-08,
-    "QY": -2.689622533580405e-08
+    "QY": -2.689622533580405e-08,
+    "V_RES": 3.6375763269015336e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1836,14 +2472,20 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "dalle_centre",
    "famille": "dalle",
    "etat_limite": "ELS_quasi_permanent",
    "grandeur": "MYY min",
+   "libelle_ingenieur": "moment max, fibre inférieure tendue (MYY)",
+   "signe_oppose": false,
    "colonne": "MYY",
    "sens": "min",
    "role": "M",
@@ -1880,7 +2522,8 @@
     "MYY": -19442.952264391784,
     "MXY": -3.240063514151123e-09,
     "QX": 2.4490594441317626e-08,
-    "QY": -2.689622533580405e-08
+    "QY": -2.689622533580405e-08,
+    "V_RES": 3.6375763269015336e-08
    },
    "unites_si": {
     "NXX": "N/m",
@@ -1890,14 +2533,81 @@
     "MYY": "N·m/m",
     "MXY": "N·m/m",
     "QX": "N/m",
-    "QY": "N/m"
-   }
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "V max (résultante)",
+   "libelle_ingenieur": "effort tranchant max",
+   "signe_oppose": false,
+   "colonne": "V_RES",
+   "sens": "max",
+   "role": "V",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "V_RES"
+   },
+   "valeur_si": 3.6375763269015336e-08,
+   "unite_si": "N/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -10557.250150431606,
+    "MYY": -19442.952264391784,
+    "MXY": -3.240063514151123e-09,
+    "QX": 2.4490594441317626e-08,
+    "QY": -2.689622533580405e-08,
+    "V_RES": 3.6375763269015336e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m",
+    "V_RES": "N/m"
+   },
+   "partages": [
+    "dalle_travee"
+   ]
   },
   {
    "section": "appuis",
    "famille": "appuis",
    "etat_limite": "ELU_fondamental",
    "grandeur": "DZ max",
+   "libelle_ingenieur": "DZ max",
+   "signe_oppose": false,
    "colonne": "DZ",
    "sens": "max",
    "role": "DZ",
@@ -1935,13 +2645,16 @@
     "DX": "N",
     "DY": "N",
     "DZ": "N"
-   }
+   },
+   "partages": []
   },
   {
    "section": "appuis",
    "famille": "appuis",
    "etat_limite": "ELU_fondamental",
    "grandeur": "DZ min",
+   "libelle_ingenieur": "DZ min",
+   "signe_oppose": false,
    "colonne": "DZ",
    "sens": "min",
    "role": "DZ",
@@ -1979,13 +2692,16 @@
     "DX": "N",
     "DY": "N",
     "DZ": "N"
-   }
+   },
+   "partages": []
   },
   {
    "section": "appuis",
    "famille": "appuis",
    "etat_limite": "ELS_caracteristique",
    "grandeur": "DZ max",
+   "libelle_ingenieur": "DZ max",
+   "signe_oppose": false,
    "colonne": "DZ",
    "sens": "max",
    "role": "DZ",
@@ -2023,13 +2739,16 @@
     "DX": "N",
     "DY": "N",
     "DZ": "N"
-   }
+   },
+   "partages": []
   },
   {
    "section": "appuis",
    "famille": "appuis",
    "etat_limite": "ELS_caracteristique",
    "grandeur": "DZ min",
+   "libelle_ingenieur": "DZ min",
+   "signe_oppose": false,
    "colonne": "DZ",
    "sens": "min",
    "role": "DZ",
@@ -2067,13 +2786,16 @@
     "DX": "N",
     "DY": "N",
     "DZ": "N"
-   }
+   },
+   "partages": []
   },
   {
    "section": "appuis",
    "famille": "appuis",
    "etat_limite": "ELS_frequent",
    "grandeur": "DZ max",
+   "libelle_ingenieur": "DZ max",
+   "signe_oppose": false,
    "colonne": "DZ",
    "sens": "max",
    "role": "DZ",
@@ -2111,13 +2833,16 @@
     "DX": "N",
     "DY": "N",
     "DZ": "N"
-   }
+   },
+   "partages": []
   },
   {
    "section": "appuis",
    "famille": "appuis",
    "etat_limite": "ELS_frequent",
    "grandeur": "DZ min",
+   "libelle_ingenieur": "DZ min",
+   "signe_oppose": false,
    "colonne": "DZ",
    "sens": "min",
    "role": "DZ",
@@ -2155,13 +2880,16 @@
     "DX": "N",
     "DY": "N",
     "DZ": "N"
-   }
+   },
+   "partages": []
   },
   {
    "section": "appuis",
    "famille": "appuis",
    "etat_limite": "ELS_quasi_permanent",
    "grandeur": "DZ max",
+   "libelle_ingenieur": "DZ max",
+   "signe_oppose": false,
    "colonne": "DZ",
    "sens": "max",
    "role": "DZ",
@@ -2199,13 +2927,16 @@
     "DX": "N",
     "DY": "N",
     "DZ": "N"
-   }
+   },
+   "partages": []
   },
   {
    "section": "appuis",
    "famille": "appuis",
    "etat_limite": "ELS_quasi_permanent",
    "grandeur": "DZ min",
+   "libelle_ingenieur": "DZ min",
+   "signe_oppose": false,
    "colonne": "DZ",
    "sens": "min",
    "role": "DZ",
@@ -2243,7 +2974,8 @@
     "DX": "N",
     "DY": "N",
     "DZ": "N"
-   }
+   },
+   "partages": []
   }
  ],
  "exports": [
@@ -2269,7 +3001,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELU",
@@ -2288,7 +3021,8 @@
        0.125,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELU",
@@ -2307,7 +3041,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELS",
@@ -2326,7 +3061,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELS",
@@ -2345,7 +3081,8 @@
        0.125,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELS",
@@ -2364,7 +3101,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELSfiss",
@@ -2383,7 +3121,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELSfiss",
@@ -2402,7 +3141,8 @@
        0.125,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELSfiss",
@@ -2421,7 +3161,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     }
    ]
   },
@@ -2447,7 +3188,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELU",
@@ -2466,7 +3208,8 @@
        0.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELU",
@@ -2485,7 +3228,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELS",
@@ -2504,7 +3248,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELS",
@@ -2523,7 +3268,8 @@
        0.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELS",
@@ -2542,7 +3288,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELSfiss",
@@ -2561,7 +3308,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELSfiss",
@@ -2580,7 +3328,8 @@
        0.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELSfiss",
@@ -2599,7 +3348,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     }
    ]
   },
@@ -2625,7 +3375,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELS",
@@ -2644,7 +3395,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELSfiss",
@@ -2663,7 +3415,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     }
    ]
   },
@@ -2689,7 +3442,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELS",
@@ -2708,7 +3462,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     },
     {
      "type": "ELSfiss",
@@ -2727,7 +3482,8 @@
        2.0,
        0.0
       ]
-     }
+     },
+     "e27": false
     }
    ]
   }

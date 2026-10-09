@@ -28,9 +28,19 @@ import numpy as np
 
 from aster_expert.livrables.combinaisons import GenericCombination
 from aster_expert.livrables.donnees import FloatArray
-from aster_expert.livrables.sections import M_RES, V_RES, FamilyRows, SectionRows
+from aster_expert.livrables.sections import (
+    BAR_SUFFIX,
+    M_RES,
+    V_RES,
+    FamilyRows,
+    SectionRows,
+)
 from aster_expert.livrables.unites import si_unit
-from aster_expert.projet.declaration import EngineeringSummarySection, LimitState
+from aster_expert.projet.declaration import (
+    DesignSection,
+    EngineeringSummarySection,
+    LimitState,
+)
 from aster_expert.projet.errors import ProjectError
 
 STATE_LABELS: dict[str, str] = {
@@ -239,6 +249,9 @@ def targets(fr: FamilyRows) -> list[Target]:
                     Target(f"{m} max", m, "max", "M"),
                     Target(f"{m} min", m, "min", "M"),
                 ]
+        if V_RES in fr.columns:
+            # Lot 49 ter (D2) : résultante des efforts tranchants par unité de largeur.
+            out.append(Target("V max (résultante)", V_RES, "max", "V"))
     else:
         for q in family.quantities:
             out += [Target(f"{q} max", q, "max", q), Target(f"{q} min", q, "min", q)]
@@ -253,7 +266,7 @@ def triplet(fr: FamilyRows, target: Target) -> dict[str, str | None]:
         return {
             "N": NORMAL_OF_MOMENT[plate],
             "M": plate,
-            "V": SHEAR_OF_MOMENT[plate],
+            "V": V_RES if target.column == V_RES else SHEAR_OF_MOMENT[plate],
         }
     if family.kind == "poutre":
         if family.circular:
@@ -279,8 +292,50 @@ def unit_of(fr: FamilyRows, column: str) -> str:
     if column == M_RES:
         return "N·m"
     if column == V_RES:
-        return "N"
-    return si_unit(_deliverable_family(fr), fr.info.field, column)
+        return "N/m" if fr.family.kind == "coque" else "N"
+    base = column.removesuffix(BAR_SUFFIX)
+    return si_unit(_deliverable_family(fr), fr.info.field, base)
+
+
+SIGN_OF_SENSE = {"max": "positive", "min": "negative"}
+
+
+def kept(section: DesignSection, target: Target) -> bool:
+    """D3 (lot 49 ter): a bending target of the opposite sign to the one the section
+    declares is not a design value of that section (it is reported apart)."""
+    if target.role != "M" or target.sense == "abs":
+        return True
+    sign = section.moment_signs.get(target.column)
+    return sign is None or sign == "both" or SIGN_OF_SENSE[target.sense] == sign
+
+
+def engineer_label(fr: FamilyRows, section: DesignSection, target: Target) -> str:
+    """D4 (lot 49 ter): the physical name of a design quantity (Code_Aster: N > 0 in
+    tension, M > 0 stretches the top fibre)."""
+    if target.role == "N" and target.column in ("N", "NXX", "NYY"):
+        return "traction max" if target.sense == "max" else "compression max"
+    if target.role == "V":
+        if target.column == V_RES:
+            return "effort tranchant max (résultante)"
+        if fr.family.circular or fr.family.kind == "coque":
+            return f"effort tranchant max ({target.column})"
+        return "effort tranchant max"
+    if target.role == "M":
+        if target.column == M_RES:
+            return "moment max (résultante)"
+        suffix = f" ({target.column})" if fr.family.kind == "coque" else ""
+        if not kept(section, target):
+            return f"moment de signe opposé{suffix}"
+        if section.moment_signs.get(target.column) == "both":
+            side = "supérieure" if target.sense == "max" else "inférieure"
+            return f"moment max, fibre {side} tendue{suffix}"
+        if section.zone == "travee":
+            return f"moment de travée max{suffix}"
+        if section.zone in ("appui", "chapeau", "nu"):
+            return f"moment sur appui max{suffix}"
+        side = "supérieure" if target.sense == "max" else "inférieure"
+        return f"moment max, fibre {side} tendue{suffix}"
+    return target.label
 
 
 def _deliverable_family(fr: FamilyRows) -> str:
@@ -367,11 +422,14 @@ def section_torsors(
         if picked is None:
             continue
         row, value, ci, pi = picked
+        opposite = not kept(sec.section, target)
         entry = {
             "section": sec.section.name,
             "famille": fr.family.name,
             "etat_limite": env.state,
             "grandeur": target.label,
+            "libelle_ingenieur": engineer_label(fr, sec.section, target),
+            "signe_oppose": opposite,
             "colonne": target.column,
             "sens": target.sense,
             "role": target.role,
@@ -390,7 +448,15 @@ def section_torsors(
         if not sec.section.exclude_singular and int(row) in sec.reasons:
             entry["significative"] = False
             entry["motif"] = sec.reasons[int(row)]
+        if opposite:
+            entry["significative"] = False
+            entry["motif"] = (
+                f"signe opposé au moment de la zone « {sec.section.zone} » de la "
+                "section (D3) : rapporté, non retenu"
+            )
         out.append(entry)
+        if opposite:
+            continue
         alt = _pick(env, fr, flagged, target)
         if alt is None:
             continue
@@ -408,6 +474,7 @@ def section_torsors(
                     **entry,
                     "valeur_si": a_value,
                     "significative": False,
+                    "axe_comparaison": True,
                     "motif": sec.reasons.get(a_row, "zone exclue"),
                     **torsor_entry(fr, combinations, a_row, a_ci, a_pi),
                 }
@@ -484,8 +551,10 @@ __all__ = [
     "Target",
     "combination_lines",
     "combinations_of_state",
+    "engineer_label",
     "envelope",
     "evaluate",
+    "kept",
     "member_lines",
     "primary_column",
     "section_torsors",

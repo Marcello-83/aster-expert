@@ -2,9 +2,9 @@
  "schema_version": 1,
  "projet": "estacade_pieux_01",
  "ouvrage": "ESTACADE-PIEUX-01",
- "exporte_le": "2026-10-09T09:25:02Z",
+ "exporte_le": "2026-10-09T17:27:37Z",
  "depot": {
-  "commit": "0c4a9941fab3abf4e6fdfbbb790458b3324605ef",
+  "commit": "58a3522c9c1f0ea829f9a5117c139be19979a2ed",
   "arbre_modifie": true
  },
  "code_aster": {
@@ -14,7 +14,7 @@
  "empreintes": {
   "fiche": {
    "chemin": "projets/estacade_pieux_01/fiche/hypotheses_estacade_pieux_01.json",
-   "sha256": "d8997fab5a5f41530d909a47adbd1c8290716c0be3a1ac35b5ff2b060df8c60f"
+   "sha256": "e215ad6a205e75142e2a4227c87a6f5b0c1dbdd7595e7ec700ff605e2e26f514"
   },
   "donnees": {
    "chemin": "projets/estacade_pieux_01/donnees/estacade_pieux_01_model_data.yaml",
@@ -154,6 +154,15 @@
    "sha256": "075118bf71f0d486552dd878b763a73eea9b9546425b0816d3cc97982bc7bc79"
   },
   {
+   "chemin": "contre_calcul/comparaison_externe_lot49ter.json",
+   "section": "contre_calcul",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/comparaison_externe_lot49ter.json",
+   "libelle": null,
+   "octets": 30735,
+   "sha256": "e2ab29032e7024a1c1756f9fe024735cbb6b2a16e210eb4b0cc68ae2dad5e8c3"
+  },
+  {
    "chemin": "contre_calcul/comparaison_v2_lot47bis.json",
    "section": "contre_calcul",
    "type": "tableau",
@@ -215,6 +224,15 @@
    "libelle": null,
    "octets": 11471,
    "sha256": "8d50ffce71f3453c1648351903d90d42a57f106eb146797cc566bff132791f17"
+  },
+  {
+   "chemin": "contre_calcul/variante_v1_lot49ter.json",
+   "section": "contre_calcul",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/variante_v1_lot49ter.json",
+   "libelle": null,
+   "octets": 2726,
+   "sha256": "c53d5c3d854bfcf4dd9588bd272297ee9c75af2dd2c4d8b114bc7b327818e4ac"
   },
   {
    "chemin": "contre_calcul/verdict_lot47quater.json",
@@ -287,6 +305,15 @@
    "libelle": null,
    "octets": 28428,
    "sha256": "e03b6d0f25e672fd6db717291da0fbf0a2f8cd4ec7136437ed069cfe665b925e"
+  },
+  {
+   "chemin": "controles/validation_auxiliaires_lot49ter.json",
+   "section": "controles",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/references/validation_auxiliaires_lot49ter.json",
+   "libelle": null,
+   "octets": 3302,
+   "sha256": "42016538619324587d5f775d076e28c29b36ba7be8b3bb41eee5da3fcf42fd4c"
   },
   {
    "chemin": "execution/compte_rendu.json",
@@ -379,6 +406,33 @@
    "sha256": "be0f39e62dc8c71659c63704c2c4dde88f13c4172eb212e989b03328bd31473f"
   },
   {
+   "chemin": "visualisation/comparaison/profil_chapeau.csv",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/resultats/livrables/paquet/comparaison/profil_chapeau.csv",
+   "libelle": null,
+   "octets": 1803,
+   "sha256": "857ad6aaa487dd7f4f4f2b5a89a4d8b7fd7159072ec22e65c309da7e76d5a5ec"
+  },
+  {
+   "chemin": "visualisation/comparaison/profil_chapeau.png",
+   "section": "visualisation",
+   "type": "figure",
+   "source": "projets/estacade_pieux_01/resultats/livrables/paquet/comparaison/profil_chapeau.png",
+   "libelle": null,
+   "octets": 190368,
+   "sha256": "683f54df623033d5113a2ab7bed72c4296231d00f06cb10888ba26a47be493ab"
+  },
+  {
+   "chemin": "visualisation/comparaison_externe.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/resultats/livrables/paquet/comparaison_externe.json",
+   "libelle": null,
+   "octets": 33953,
+   "sha256": "741c6f868f1460c6f0adf5301dd75e8faa5d466a361785f65584e303cd9debda"
+  },
+  {
    "chemin": "visualisation/controle_charges.json",
    "section": "visualisation",
    "type": "tableau",
@@ -393,8 +447,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/controles_croises.json",
    "libelle": null,
-   "octets": 307,
-   "sha256": "19a0fe161c20b40d3d62ecf3593b22661bfdb27c43c1d669fdb90023db4f357f"
+   "octets": 613,
+   "sha256": "86ec77ddf07112985debe2593ee3cb4792f62b312fb685bee155c03613d7bf0a"
   },
   {
    "chemin": "visualisation/detail_membres.json",
@@ -402,8 +456,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/detail_membres.json",
    "libelle": null,
-   "octets": 117129,
-   "sha256": "14d6c7347d24b65d5b8e3667295b13d0be70cb86785eb2342419baaaf6a5d32d"
+   "octets": 117157,
+   "sha256": "582225403ed67da277fc7bfff17c9e74fed4afa9d55c96bdc4b09c903e9df452"
   },
   {
    "chemin": "visualisation/diagrammes.json",
@@ -411,8 +465,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/diagrammes.json",
    "libelle": null,
-   "octets": 2686968,
-   "sha256": "efaeeb5d650a83f0a2a4131c1f91c0bad9cfa0c4b2a66d4376197d6aba297424"
+   "octets": 2724315,
+   "sha256": "839253c3f27cbb2cd653cb1cc786e0a4423f0c1aaa482f8a3c256f98fe858235"
   },
   {
    "chemin": "visualisation/diagrammes/coupe_tablier_axe.png",
@@ -420,8 +474,8 @@
    "type": "figure",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/diagrammes/coupe_tablier_axe.png",
    "libelle": null,
-   "octets": 175950,
-   "sha256": "4b7aa78e23aa6abe5a12648ef0d7df83267f9c3b910c97f9441f223fc2219e6c"
+   "octets": 198186,
+   "sha256": "27fdd533aa0bf67f337a22b3b99606e92a0f0b8e5d71e3efe7df1dd17788ed9d"
   },
   {
    "chemin": "visualisation/diagrammes/coupe_tablier_file_des_pieux.png",
@@ -447,8 +501,8 @@
    "type": "figure",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/diagrammes/diagramme_chevetres.png",
    "libelle": null,
-   "octets": 333119,
-   "sha256": "25225cee09ca849089fe6394563e7ab2cc8965ad47d2cde5af1d922143ed0adf"
+   "octets": 385606,
+   "sha256": "6380876b1c2f158fe310444bbe2d869b8e28c78e9880015b3806baa46b22a7f9"
   },
   {
    "chemin": "visualisation/diagrammes/diagramme_pieux.png",
@@ -456,8 +510,17 @@
    "type": "figure",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/diagrammes/diagramme_pieux.png",
    "libelle": null,
-   "octets": 565528,
-   "sha256": "fb37776557cb8590aa07c348426e8bef9190258f54c6f05bb641f9c08950e15b"
+   "octets": 565575,
+   "sha256": "8a60c24aaf91c31aab4da397c434be538952c5fddce53018121c09479c9690b9"
+  },
+  {
+   "chemin": "visualisation/equilibre_coupes.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/resultats/livrables/paquet/equilibre_coupes.json",
+   "libelle": null,
+   "octets": 2428,
+   "sha256": "a536daf8ffa424a0799532d58ec962156b634e3bad0c094dc9fd59aeab8b422b"
   },
   {
    "chemin": "visualisation/equilibre_etats_limites.json",
@@ -483,8 +546,17 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/flexion_composee/bouchon.csv",
    "libelle": null,
-   "octets": 4852,
-   "sha256": "a45cb7f1ddc18a4a46f6708706bfb035e02203fa56d6ea592890e880a5c287b3"
+   "octets": 4865,
+   "sha256": "88e2f1ae1c5b86ad7e0d933ea0fe975e76ecf6f05faca60a091233b8de8b2b74"
+  },
+  {
+   "chemin": "visualisation/flexion_composee/bouchon_nu_chevetre.csv",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/resultats/livrables/paquet/flexion_composee/bouchon_nu_chevetre.csv",
+   "libelle": null,
+   "octets": 5923,
+   "sha256": "36eb3b240403a585710834e479c783db870049862789dc85ff1b748f8db59be4"
   },
   {
    "chemin": "visualisation/flexion_composee/chevetre_nu_appui.csv",
@@ -492,8 +564,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/flexion_composee/chevetre_nu_appui.csv",
    "libelle": null,
-   "octets": 5729,
-   "sha256": "8299109b98510408202fc2b00dd8db2ba89cdc036020e5eca506bfb40e7b3514"
+   "octets": 5615,
+   "sha256": "6bdf94d6a023ac2cf690f0b8033ffcc61d23f40216c05678bd436971fd1c1cb4"
   },
   {
    "chemin": "visualisation/flexion_composee/chevetre_travee.csv",
@@ -501,8 +573,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/flexion_composee/chevetre_travee.csv",
    "libelle": null,
-   "octets": 5612,
-   "sha256": "b14c61169cdc859f5c2b2e3519114f60ba718ef7dff566aa392914c39eab9e09"
+   "octets": 4804,
+   "sha256": "7271d0ac6ba283aa0e2a98e27e35775faf9373bb0f77f296ba0d8de7adf698cf"
   },
   {
    "chemin": "visualisation/flexion_composee/dalle_chapeau_MXX.csv",
@@ -510,8 +582,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/flexion_composee/dalle_chapeau_MXX.csv",
    "libelle": null,
-   "octets": 4803,
-   "sha256": "721e67c7af0ab09629031a4129a924ebad1a50609b411dd228d5c67948c9c680"
+   "octets": 4817,
+   "sha256": "d6ea86bee320b150294187097758020b1d6b9e3983af01a9b281f8b921bbf613"
   },
   {
    "chemin": "visualisation/flexion_composee/dalle_chapeau_MYY.csv",
@@ -519,8 +591,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/flexion_composee/dalle_chapeau_MYY.csv",
    "libelle": null,
-   "octets": 4751,
-   "sha256": "05bea26b8fcaf86af14c33ac19256edbafbcb347d55efbef299e0426b29df7cb"
+   "octets": 5453,
+   "sha256": "d43c17f84b4b437fa052b8fe678a860ea919b8919bd227d8e20d77c868166117"
   },
   {
    "chemin": "visualisation/flexion_composee/dalle_rive_MXX.csv",
@@ -528,8 +600,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/flexion_composee/dalle_rive_MXX.csv",
    "libelle": null,
-   "octets": 4797,
-   "sha256": "9e0d8ed76de7446ae029f48b6ca79e1a5906f600282e64f1a3972cfbc1462f46"
+   "octets": 4232,
+   "sha256": "3e06026c4761922131238b3edf77a30e0a33323a2bdec5aa17000b321fb0c8e5"
   },
   {
    "chemin": "visualisation/flexion_composee/dalle_rive_MYY.csv",
@@ -537,8 +609,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/flexion_composee/dalle_rive_MYY.csv",
    "libelle": null,
-   "octets": 4736,
-   "sha256": "fac5b1ddeaff5a0fd8cceb7ee7352bd55d5c02667ed49b4f8b0e412f9c62341d"
+   "octets": 4184,
+   "sha256": "6d90522f3ad9b5dfdbb544a849b572d3bcc2592f178ba8a2ccc4d50a3678054a"
   },
   {
    "chemin": "visualisation/flexion_composee/dalle_travee_MXX.csv",
@@ -546,8 +618,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/flexion_composee/dalle_travee_MXX.csv",
    "libelle": null,
-   "octets": 4779,
-   "sha256": "d2e49424f8c1319641482879f9e0ec042d38ed96ad154e90a45ad39c286e17b8"
+   "octets": 4229,
+   "sha256": "2d3eb72a31a97ef28dfb77bf3a77c12fa86f2e2be1842be58d3180007f9a00a3"
   },
   {
    "chemin": "visualisation/flexion_composee/dalle_travee_MYY.csv",
@@ -555,17 +627,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/flexion_composee/dalle_travee_MYY.csv",
    "libelle": null,
-   "octets": 4734,
-   "sha256": "b47e6f30884d995625f7b7f77a3b8c6fb93c30f24143e8812aaacafecfd97e15"
-  },
-  {
-   "chemin": "visualisation/flexion_composee/tete_de_pieu.csv",
-   "section": "visualisation",
-   "type": "tableau",
-   "source": "projets/estacade_pieux_01/resultats/livrables/paquet/flexion_composee/tete_de_pieu.csv",
-   "libelle": null,
-   "octets": 4837,
-   "sha256": "fe224b98b26e73778b0ac1565f4899399727b097f9e98ebf3ceaf998e54ad951"
+   "octets": 4196,
+   "sha256": "c892b4e6c665cddcc6a2152fe053e38449d43fff6e97703b3f9ac788fed1a871"
   },
   {
    "chemin": "visualisation/manifeste.json",
@@ -575,6 +638,15 @@
    "libelle": null,
    "octets": 194990,
    "sha256": "d15d95e6477ea0d9f600b1d5b84e123eab6708254e5b6cb7569a1571ac2c6fc4"
+  },
+  {
+   "chemin": "visualisation/modeles_derives.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/estacade_pieux_01/resultats/livrables/paquet/modeles_derives.json",
+   "libelle": null,
+   "octets": 22738,
+   "sha256": "41d964c7b4e5f9a9cae3416e18a8acf024c4a63057034e2e390efdedeb475e60"
   },
   {
    "chemin": "visualisation/resultats_ENV_MAX_carte_EFGE_ELNO_MFY_iso.png",
@@ -762,8 +834,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/synthese_ingenieur.json",
    "libelle": null,
-   "octets": 255637,
-   "sha256": "80f153269dff35112a3763805f05fec7036c43e08bb28331836f5aca0799a7bb"
+   "octets": 434030,
+   "sha256": "05a15dc901e93e26dba3d9f8ae94e8bdf2d7498343c2fb03f42cab1d172bce90"
   },
   {
    "chemin": "visualisation/torseurs_combinaisons.json",
@@ -771,8 +843,8 @@
    "type": "tableau",
    "source": "projets/estacade_pieux_01/resultats/livrables/paquet/torseurs_combinaisons.json",
    "libelle": null,
-   "octets": 525595,
-   "sha256": "f48a634b1842c01cbef0a9283036ec45cca8c7ac7fb4b4bb99c31e90e37861dd"
+   "octets": 632269,
+   "sha256": "f2a444ff8e0fed3a0ed3d4f29f89098d1a4aba686652580f305431d72c2da8c6"
   },
   {
    "chemin": "visualisation/verifications_service.json",
@@ -784,6 +856,6 @@
    "sha256": "31fee5aa6badda6bdcd98a70506fa9e1d373bb31c8a309876abcf2bb9c41fe07"
   }
  ],
- "taille_octets": 8792140,
+ "taille_octets": 9476399,
  "plafond_octets": 20971520
 }

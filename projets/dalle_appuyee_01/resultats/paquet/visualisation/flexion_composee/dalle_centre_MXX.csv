@@ -16,9 +16,9 @@ Convention M;M > 0 comprime la fibre supérieure (+n) : M = −MXX de Code_Aster
 État limite non exporté;ELS fréquent : ni caractéristique ni de fissuration (fissuration : ELS quasi permanent, données durabilite.ouverture_fissure_limite : wk = 0,4 mm sous combinaison quasi permanente (point 14));
 État limite non exporté;ELU accidentel : absent (aucune action accidentelle n'est déclarée pour la dalle (cas G et Q seuls));
 
-N°;Type;N (kN/m);M (kN.m/m);;Cas dimensionnant;Combinaison;Position mobile;Lieu;Cote (m);V concomitant (kN/m);MXX brut Code_Aster (kN.m/m);NXX brut Code_Aster (kN/m);Repère des valeurs brutes
-1;ELU;0,0;17,1;;M max, M min, N max, N min;ELU_FOND_Q_DOM_G_defav;;nœud 3;"X = 3,000 ; Y = 2,000 ; Z = 0,000";0,0;-17,1;0,0;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normales +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
-2;ELS;0,0;11,9;;M max, M min, N max, N min;ELS_CARA_Q_DOM;;nœud 3;"X = 3,000 ; Y = 2,000 ; Z = 0,000";0,0;-11,9;0,0;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normales +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
-3;ELSfiss;0,0;10,6;;M max, M min, N max, N min;ELS_QUASI_PERMANENTE;;nœud 3;"X = 3,000 ; Y = 2,000 ; Z = 0,000";0,0;-10,6;0,0;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normales +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+N°;Type;N (kN/m);M (kN.m/m);;Cas dimensionnant;Combinaison;Position mobile;Lieu;Cote (m);V concomitant (kN/m);V résultant concomitant (kN/m);MXX brut Code_Aster (kN.m/m);NXX brut Code_Aster (kN/m);Repère des valeurs brutes
+1;ELU;0,0;17,1;;M max, M min, N max, N min;ELU_FOND_Q_DOM_G_defav;;nœud 3;"X = 3,000 ; Y = 2,000 ; Z = 0,000";0,0;0,0;-17,1;0,0;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normales +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+2;ELS;0,0;11,9;;M max, M min, N max, N min;ELS_CARA_Q_DOM;;nœud 3;"X = 3,000 ; Y = 2,000 ; Z = 0,000";0,0;0,0;-11,9;0,0;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normales +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+3;ELSfiss;0,0;10,6;;M max, M min, N max, N min;ELS_QUASI_PERMANENTE;;nœud 3;"X = 3,000 ; Y = 2,000 ; Z = 0,000";0,0;0,0;-10,6;0,0;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normales +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
 
 Empreinte du MED source (resultats.med, SHA-256);ff0540468806d1df6c18bbc420645f5661f73020efac33a47c095935ee9671f6

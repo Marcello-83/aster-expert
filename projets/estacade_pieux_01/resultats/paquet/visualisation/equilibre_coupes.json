@@ -1,0 +1,49 @@
+{
+ "controle": "équilibre d'une coupe de section en T (lot 49 ter, preuve de D1 ; CTL-005 étendu) : moment total de la coupe (barres + plaque sur toute la largeur) contre l'équilibre du corps libre (forces nodales, réactions, ressorts)",
+ "tolerance": 1e-06,
+ "coupes": [
+  {
+   "coupe": "Y = +0.000",
+   "cas": "PP",
+   "extremites_de_barre": 14,
+   "noeuds_de_barre": 7,
+   "lecture_barre": "moyenne des deux extrémités d'élément au nœud de la coupe",
+   "noeuds_de_plaque": 625,
+   "somme_barres_Nm": -546533.8365978985,
+   "integrale_plaque_Nm": -165796.2061584363,
+   "moment_total_section_Nm": -712330.0427563349,
+   "moment_equilibre_Nm": -712330.0425333347,
+   "ecart_relatif": 3.130573908829491e-10,
+   "moments_nodaux_sur_la_coupe_Nm": 0.0,
+   "moments_nodaux_du_corps_Nm": -39.37499999999973,
+   "note_moments_nodaux": "moments du vecteur des charges consistant d'une charge répartie : nuls par élément, non comptés dans le bilan (seul reste celui de l'élément coupé, dont la part au nœud de la coupe n'est pas séparable)",
+   "sections_en_T_Nm": -582641.9861765582,
+   "part_des_sections_en_T": 0.8179382466055292,
+   "convention": "convention de la barre (M_T = MFY + ∫MYY dX pour une poutre x_l = +Y, y_l = −X : moment > 0 tend la fibre supérieure)",
+   "famille": "chevêtres",
+   "verdict": "RÉUSSI"
+  },
+  {
+   "coupe": "Y = -2.500",
+   "cas": "PP",
+   "extremites_de_barre": 14,
+   "noeuds_de_barre": 7,
+   "lecture_barre": "moyenne des deux extrémités d'élément au nœud de la coupe",
+   "noeuds_de_plaque": 625,
+   "somme_barres_Nm": 46862.719466900686,
+   "integrale_plaque_Nm": 15762.280509145707,
+   "moment_total_section_Nm": 62624.99997604639,
+   "moment_equilibre_Nm": 62625.0,
+   "ecart_relatif": 3.8249276396251487e-10,
+   "moments_nodaux_sur_la_coupe_Nm": 0.0,
+   "moments_nodaux_du_corps_Nm": -39.37499999999973,
+   "note_moments_nodaux": "moments du vecteur des charges consistant d'une charge répartie : nuls par élément, non comptés dans le bilan (seul reste celui de l'élément coupé, dont la part au nœud de la coupe n'est pas séparable)",
+   "sections_en_T_Nm": 70338.88966989808,
+   "part_des_sections_en_T": 1.123175883382071,
+   "convention": "convention de la barre (M_T = MFY + ∫MYY dX pour une poutre x_l = +Y, y_l = −X : moment > 0 tend la fibre supérieure)",
+   "famille": "chevêtres",
+   "verdict": "RÉUSSI"
+  }
+ ],
+ "verdict": "RÉUSSI"
+}

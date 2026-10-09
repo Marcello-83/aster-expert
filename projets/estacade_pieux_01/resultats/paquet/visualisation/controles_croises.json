@@ -1,8 +1,13 @@
 {
  "controle": "chaque torseur de la synthèse ingénieur relu par `aster-expert resultats lire` (combinaison@position, nœud et extrémité d'élément)",
- "torseurs": 183,
- "valeurs_comparees": 1314,
- "ecart_relatif_max": 4.700650797536678e-17,
+ "torseurs": 225,
+ "valeurs_comparees": 1689,
+ "valeurs_non_relues": {
+  "M_dim (E27)": 6,
+  "section en T (bande)": 99
+ },
+ "note": "section en T : barre relue, bande contrôlée par l'équilibre d'une coupe ; M_dim (E27) : combinaison de deux modèles, ses termes relus par leurs propres torseurs ; ligne interpolée : ses deux extrémités relues",
+ "ecart_relatif_max": 1.522208929924544e-16,
  "tolerance": 1e-09,
  "echecs": [],
  "verdict": "RÉUSSI"

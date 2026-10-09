@@ -885,6 +885,21 @@ class TeePart(_Model):
     factor: float = 1.0
 
 
+class EquilibriumCut(_Model):
+    """A cut of the T section checked against the equilibrium of the free body on
+    its lower side (lot 49 ter, proof of D1): `along = value`, elementary `case`,
+    moments taken about the line at `reference_level` (axis of the beam)."""
+
+    value: float
+    case: str
+    reference_level: float
+    beam_local_x: tuple[float, float, float]
+    beam_local_y: tuple[float, float, float]
+    """Local frame of the beam (from its `ORIENTATION`, written in the deliverables'
+    convention): the free body is on the side −x_l of the cut."""
+    plate_normal: tuple[float, float, float] = (0.0, 0.0, 1.0)
+
+
 class TeeSection(_Model):
     """E25 (lot 49 ter), rule E17.2: at each row of the beam (node at coordinate
     `along`), the plate nodes of `plate_family` with the same `along` coordinate and
@@ -897,6 +912,7 @@ class TeeSection(_Model):
     along: Axis
     parts: tuple[TeePart, ...] = Field(min_length=1)
     source: str = Field(min_length=10)
+    equilibrium_cuts: tuple[EquilibriumCut, ...] = ()
 
 
 class CoordinateBox(_Model):
@@ -1081,6 +1097,19 @@ class DesignMoment(_Model):
     axis_rule: SectionRule
     supports: SupportPairing
     source: str = Field(min_length=10)
+    variants: tuple[str, ...] = ()
+    """Declared variants (`derived_models` of kind `variante`) in which M_nu is read
+    too; M_dim of a variant uses the same auxiliary model."""
+    variant_threshold: float | None = Field(default=None, gt=0)
+    """Relative variation of M_dim beyond which the design value is the envelope of
+    the reference and the variants (criterion written before the run)."""
+
+    @model_validator(mode="after")
+    def _variants(self) -> DesignMoment:
+        if bool(self.variants) != (self.variant_threshold is not None):
+            message = "E27 : `variants` et `variant_threshold` vont ensemble"
+            raise ValueError(message)
+        return self
 
 
 class DesignSection(_Model):
@@ -1344,6 +1373,13 @@ class EngineeringSummarySection(_Model):
             dm = section.design_moment
             if dm is None:
                 continue
+            for variant in dm.variants:
+                if variant not in derived or derived[variant].kind != "variante":
+                    message = (
+                        f"section {section.name} : variante {variant} non déclarée "
+                        "dans `derived_models` (nature variante)"
+                    )
+                    raise ValueError(message)
             model = derived.get(dm.auxiliary)
             if model is None or model.kind != "auxiliaire":
                 message = (

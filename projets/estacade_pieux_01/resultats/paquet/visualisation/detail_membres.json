@@ -4919,29 +4919,29 @@
   "etat_limite": "ELU_fondamental",
   "valeurs": {
    "N max": {
-    "valeur_si": 11674.068973503563,
+    "valeur_si": 18511.815714379773,
     "unite_si": "N",
     "coordonnees_m": [
      0.6,
-     -2.05,
+     -1.95,
      1.3
     ],
-    "combinaison": "104 ELU+",
-    "position_mobile": "TSA_M27"
+    "combinaison": "112 ELU-",
+    "position_mobile": "TSB_M10"
    },
    "N min": {
-    "valeur_si": -24546.254671210074,
+    "valeur_si": -36524.58929738479,
     "unite_si": "N",
     "coordonnees_m": [
      0.6,
-     -2.0,
+     -1.95,
      1.3
     ],
     "combinaison": "111 ELU+",
     "position_mobile": "TSB_M29"
    },
    "MFY max": {
-    "valeur_si": 132859.64377036443,
+    "valeur_si": 160093.53505273984,
     "unite_si": "N·m",
     "coordonnees_m": [
      0.6,
@@ -4952,22 +4952,22 @@
     "position_mobile": "TSB_M29"
    },
    "MFY min": {
-    "valeur_si": -378473.20496113505,
+    "valeur_si": -411925.0068062395,
     "unite_si": "N·m",
     "coordonnees_m": [
      0.6,
-     -0.2000000000000024,
+     -0.2500000000000022,
      1.3
     ],
     "combinaison": "109 ELU+",
     "position_mobile": "TSB_M29"
    },
    "|VZ| max": {
-    "valeur_si": 172297.47386044194,
+    "valeur_si": 605008.3813906986,
     "unite_si": "N",
     "coordonnees_m": [
      0.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "111 ELU+",
@@ -4981,7 +4981,7 @@
   "etat_limite": "ELU_fondamental",
   "valeurs": {
    "N max": {
-    "valeur_si": 11358.326184785823,
+    "valeur_si": 4615.891809747275,
     "unite_si": "N",
     "coordonnees_m": [
      5.6,
@@ -4989,21 +4989,21 @@
      1.3
     ],
     "combinaison": "111 ELU+",
-    "position_mobile": "TSB_M24"
+    "position_mobile": "TSB_M22"
    },
    "N min": {
-    "valeur_si": -14453.396501262056,
+    "valeur_si": -7758.7089927316,
     "unite_si": "N",
     "coordonnees_m": [
      5.6,
      -0.05000000000000293,
      1.3
     ],
-    "combinaison": "108 ELU-",
-    "position_mobile": "TSA_M19"
+    "combinaison": "105 ELU+",
+    "position_mobile": "TSA_M20"
    },
    "MFY max": {
-    "valeur_si": 141937.53721723869,
+    "valeur_si": 177686.3894433,
     "unite_si": "N·m",
     "coordonnees_m": [
      5.6,
@@ -5014,22 +5014,22 @@
     "position_mobile": "TSB_M20"
    },
    "MFY min": {
-    "valeur_si": -443114.15676276246,
+    "valeur_si": -473199.5025852737,
     "unite_si": "N·m",
     "coordonnees_m": [
      5.6,
-     -0.15000000000000258,
+     -0.2000000000000024,
      1.3
     ],
     "combinaison": "112 ELU+",
     "position_mobile": "TSB_M20"
    },
    "|VZ| max": {
-    "valeur_si": 198063.55417467913,
+    "valeur_si": 722488.0243639527,
     "unite_si": "N",
     "coordonnees_m": [
      5.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "112 ELU+",
@@ -5043,29 +5043,29 @@
   "etat_limite": "ELU_fondamental",
   "valeurs": {
    "N max": {
-    "valeur_si": 13279.42802406986,
+    "valeur_si": 5752.734168688953,
     "unite_si": "N",
     "coordonnees_m": [
      10.6,
      -0.05000000000000293,
      1.3
     ],
-    "combinaison": "111 ELU+",
+    "combinaison": "111 ELU-",
     "position_mobile": "TSB_M26"
    },
    "N min": {
-    "valeur_si": -15456.236453737607,
+    "valeur_si": -9984.938504450749,
     "unite_si": "N",
     "coordonnees_m": [
      10.6,
      -3.1086244689504383e-15,
      1.3
     ],
-    "combinaison": "108 ELU-",
+    "combinaison": "105 ELU+",
     "position_mobile": "TSA_M10"
    },
    "MFY max": {
-    "valeur_si": 139523.4584226341,
+    "valeur_si": 175258.48810993283,
     "unite_si": "N·m",
     "coordonnees_m": [
      10.6,
@@ -5076,25 +5076,25 @@
     "position_mobile": "TSB_M10"
    },
    "MFY min": {
-    "valeur_si": -422109.442687457,
+    "valeur_si": -452731.4852089285,
     "unite_si": "N·m",
     "coordonnees_m": [
      10.6,
-     -0.15000000000000258,
+     -0.2000000000000024,
      1.3
     ],
     "combinaison": "112 ELU+",
     "position_mobile": "TSB_M10"
    },
    "|VZ| max": {
-    "valeur_si": 186678.04350199492,
+    "valeur_si": 674819.1692131972,
     "unite_si": "N",
     "coordonnees_m": [
      10.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
-    "combinaison": "111 ELU+",
+    "combinaison": "109 ELU+",
     "position_mobile": "TSB_M10"
    }
   }
@@ -5105,29 +5105,29 @@
   "etat_limite": "ELU_fondamental",
   "valeurs": {
    "N max": {
-    "valeur_si": 15181.628701311669,
+    "valeur_si": 6866.334926570849,
     "unite_si": "N",
     "coordonnees_m": [
      15.6,
-     -3.1086244689504383e-15,
+     -0.05000000000000293,
      1.3
     ],
-    "combinaison": "111 ELU+",
+    "combinaison": "111 ELU-",
     "position_mobile": "TSB_M26"
    },
    "N min": {
-    "valeur_si": -13914.096891491552,
+    "valeur_si": -9198.476426369532,
     "unite_si": "N",
     "coordonnees_m": [
      15.6,
      -3.1086244689504383e-15,
      1.3
     ],
-    "combinaison": "105 ELU-",
+    "combinaison": "105 ELU+",
     "position_mobile": "TSA_P00"
    },
    "MFY max": {
-    "valeur_si": 139108.82188917126,
+    "valeur_si": 174681.99484968002,
     "unite_si": "N·m",
     "coordonnees_m": [
      15.6,
@@ -5138,22 +5138,22 @@
     "position_mobile": "TSB_P00"
    },
    "MFY min": {
-    "valeur_si": -423299.9303303372,
+    "valeur_si": -454014.22315934254,
     "unite_si": "N·m",
     "coordonnees_m": [
      15.6,
-     -0.15000000000000258,
+     -0.2000000000000024,
      1.3
     ],
     "combinaison": "112 ELU+",
     "position_mobile": "TSB_P00"
    },
    "|VZ| max": {
-    "valeur_si": 186507.52059971428,
+    "valeur_si": 677823.9990000317,
     "unite_si": "N",
     "coordonnees_m": [
      15.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "112 ELU+",
@@ -5167,29 +5167,29 @@
   "etat_limite": "ELU_fondamental",
   "valeurs": {
    "N max": {
-    "valeur_si": 16858.546014211,
+    "valeur_si": 7998.6370277724845,
     "unite_si": "N",
     "coordonnees_m": [
      20.6,
      -0.05000000000000293,
      1.3
     ],
-    "combinaison": "114 ELU+",
+    "combinaison": "114 ELU-",
     "position_mobile": "TSB_P26"
    },
    "N min": {
-    "valeur_si": -11879.594535376526,
+    "valeur_si": -7944.997335726555,
     "unite_si": "N",
     "coordonnees_m": [
      20.6,
      -3.1086244689504383e-15,
      1.3
     ],
-    "combinaison": "105 ELU-",
+    "combinaison": "105 ELU+",
     "position_mobile": "TSA_P10"
    },
    "MFY max": {
-    "valeur_si": 140489.91006512765,
+    "valeur_si": 176484.8690249921,
     "unite_si": "N·m",
     "coordonnees_m": [
      20.6,
@@ -5200,25 +5200,25 @@
     "position_mobile": "TSB_P10"
    },
    "MFY min": {
-    "valeur_si": -422897.5078287042,
+    "valeur_si": -453536.1685492141,
     "unite_si": "N·m",
     "coordonnees_m": [
      20.6,
-     -0.15000000000000258,
+     -0.2000000000000024,
      1.3
     ],
     "combinaison": "112 ELU+",
     "position_mobile": "TSB_P10"
    },
    "|VZ| max": {
-    "valeur_si": 187255.22516279784,
+    "valeur_si": 676008.8636227271,
     "unite_si": "N",
     "coordonnees_m": [
      20.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
-    "combinaison": "111 ELU+",
+    "combinaison": "112 ELU+",
     "position_mobile": "TSB_P10"
    }
   }
@@ -5229,55 +5229,55 @@
   "etat_limite": "ELU_fondamental",
   "valeurs": {
    "N max": {
-    "valeur_si": 15757.045210300179,
+    "valeur_si": 5845.932941872088,
     "unite_si": "N",
     "coordonnees_m": [
      25.6,
      -2.05,
      1.3
     ],
-    "combinaison": "114 ELU+",
-    "position_mobile": "TSB_P24"
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P22"
    },
    "N min": {
-    "valeur_si": -8351.01650008486,
+    "valeur_si": -5689.8797599361405,
     "unite_si": "N",
     "coordonnees_m": [
      25.6,
      -3.1086244689504383e-15,
      1.3
     ],
-    "combinaison": "105 ELU-",
-    "position_mobile": "TSA_P19"
+    "combinaison": "105 ELU+",
+    "position_mobile": "TSA_P20"
    },
    "MFY max": {
-    "valeur_si": 135965.24858429504,
+    "valeur_si": 171685.53700160794,
     "unite_si": "N·m",
     "coordonnees_m": [
      25.6,
      -2.0,
      1.3
     ],
-    "combinaison": "111 ELU+",
+    "combinaison": "109 ELU+",
     "position_mobile": "TSB_P20"
    },
    "MFY min": {
-    "valeur_si": -434095.1416253575,
+    "valeur_si": -464655.5541533714,
     "unite_si": "N·m",
     "coordonnees_m": [
      25.6,
-     -0.15000000000000258,
+     -0.2000000000000024,
      1.3
     ],
     "combinaison": "112 ELU+",
     "position_mobile": "TSB_P20"
    },
    "|VZ| max": {
-    "valeur_si": 193106.6977659197,
+    "valeur_si": 703389.8822048206,
     "unite_si": "N",
     "coordonnees_m": [
      25.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "112 ELU+",
@@ -5291,29 +5291,29 @@
   "etat_limite": "ELU_fondamental",
   "valeurs": {
    "N max": {
-    "valeur_si": 21933.49859090132,
+    "valeur_si": 25248.352873603293,
     "unite_si": "N",
     "coordonnees_m": [
      30.6,
-     2.0,
+     -3.1086244689504383e-15,
      1.3
     ],
-    "combinaison": "107 ELU+",
-    "position_mobile": "TSA_P27"
+    "combinaison": "114 ELU+",
+    "position_mobile": "TSB_M26"
    },
    "N min": {
-    "valeur_si": -15958.964293635492,
+    "valeur_si": -34278.792023809976,
     "unite_si": "N",
     "coordonnees_m": [
      30.6,
-     -2.0,
+     -1.95,
      1.3
     ],
     "combinaison": "111 ELU+",
     "position_mobile": "TSB_P29"
    },
    "MFY max": {
-    "valeur_si": 132218.44734892057,
+    "valeur_si": 166074.91153775871,
     "unite_si": "N·m",
     "coordonnees_m": [
      30.6,
@@ -5324,22 +5324,22 @@
     "position_mobile": "TSB_P29"
    },
    "MFY min": {
-    "valeur_si": -392054.46978292096,
+    "valeur_si": -430013.92028228624,
     "unite_si": "N·m",
     "coordonnees_m": [
      30.6,
-     -0.2000000000000024,
+     -0.2500000000000022,
      1.3
     ],
     "combinaison": "112 ELU+",
     "position_mobile": "TSB_P29"
    },
    "|VZ| max": {
-    "valeur_si": 180687.53159759566,
+    "valeur_si": 636151.5117222316,
     "unite_si": "N",
     "coordonnees_m": [
      30.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "111 ELU+",
@@ -5353,29 +5353,29 @@
   "etat_limite": "ELS_caracteristique",
   "valeurs": {
    "N max": {
-    "valeur_si": 7887.553139170197,
+    "valeur_si": 11781.3842000463,
     "unite_si": "N",
     "coordonnees_m": [
      0.6,
-     -2.05,
+     -1.95,
      1.3
     ],
-    "combinaison": "104 ELS_c",
-    "position_mobile": "TSA_M27"
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_M10"
    },
    "N min": {
-    "valeur_si": -16431.811373622648,
+    "valeur_si": -24517.674081118585,
     "unite_si": "N",
     "coordonnees_m": [
      0.6,
-     -2.0,
+     -1.95,
      1.3
     ],
     "combinaison": "111 ELS_c",
     "position_mobile": "TSB_M29"
    },
    "MFY max": {
-    "valeur_si": 92639.58397406813,
+    "valeur_si": 111636.68428126513,
     "unite_si": "N·m",
     "coordonnees_m": [
      0.6,
@@ -5386,22 +5386,22 @@
     "position_mobile": "TSB_M29"
    },
    "MFY min": {
-    "valeur_si": -258639.9117030967,
+    "valeur_si": -281458.99127647793,
     "unite_si": "N·m",
     "coordonnees_m": [
      0.6,
-     -0.2000000000000024,
+     -0.2500000000000022,
      1.3
     ],
     "combinaison": "109 ELS_c",
     "position_mobile": "TSB_M29"
    },
    "|VZ| max": {
-    "valeur_si": 118338.68434784599,
+    "valeur_si": 416112.1988286609,
     "unite_si": "N",
     "coordonnees_m": [
      0.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "111 ELS_c",
@@ -5415,7 +5415,7 @@
   "etat_limite": "ELS_caracteristique",
   "valeurs": {
    "N max": {
-    "valeur_si": 7670.923062829086,
+    "valeur_si": 3116.313560114679,
     "unite_si": "N",
     "coordonnees_m": [
      5.6,
@@ -5423,21 +5423,21 @@
      1.3
     ],
     "combinaison": "111 ELS_c",
-    "position_mobile": "TSB_M24"
+    "position_mobile": "TSB_M22"
    },
    "N min": {
-    "valeur_si": -9472.914890462891,
+    "valeur_si": -5195.831747442323,
     "unite_si": "N",
     "coordonnees_m": [
      5.6,
      -0.05000000000000293,
      1.3
     ],
-    "combinaison": "108 ELS_c",
-    "position_mobile": "TSA_M19"
+    "combinaison": "105 ELS_c",
+    "position_mobile": "TSA_M20"
    },
    "MFY max": {
-    "valeur_si": 100287.84059661021,
+    "valeur_si": 125753.1202394433,
     "unite_si": "N·m",
     "coordonnees_m": [
      5.6,
@@ -5448,22 +5448,22 @@
     "position_mobile": "TSB_M20"
    },
    "MFY min": {
-    "valeur_si": -304624.71651557286,
+    "valeur_si": -325045.30779172457,
     "unite_si": "N·m",
     "coordonnees_m": [
      5.6,
-     -0.15000000000000258,
+     -0.2000000000000024,
      1.3
     ],
     "combinaison": "112 ELS_c",
     "position_mobile": "TSB_M20"
    },
    "|VZ| max": {
-    "valeur_si": 137089.86088594783,
+    "valeur_si": 500530.2864810473,
     "unite_si": "N",
     "coordonnees_m": [
      5.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "112 ELS_c",
@@ -5477,7 +5477,7 @@
   "etat_limite": "ELS_caracteristique",
   "valeurs": {
    "N max": {
-    "valeur_si": 8912.870614525349,
+    "valeur_si": 3820.5196245512425,
     "unite_si": "N",
     "coordonnees_m": [
      10.6,
@@ -5488,18 +5488,18 @@
     "position_mobile": "TSB_M26"
    },
    "N min": {
-    "valeur_si": -10104.428974228405,
+    "valeur_si": -6661.011876626432,
     "unite_si": "N",
     "coordonnees_m": [
      10.6,
      -3.1086244689504383e-15,
      1.3
     ],
-    "combinaison": "108 ELS_c",
+    "combinaison": "105 ELS_c",
     "position_mobile": "TSA_M10"
    },
    "MFY max": {
-    "valeur_si": 98396.88415008114,
+    "valeur_si": 123785.32149593058,
     "unite_si": "N·m",
     "coordonnees_m": [
      10.6,
@@ -5510,25 +5510,25 @@
     "position_mobile": "TSB_M10"
    },
    "MFY min": {
-    "valeur_si": -290397.6354221983,
+    "valeur_si": -311202.72750294354,
     "unite_si": "N·m",
     "coordonnees_m": [
      10.6,
-     -0.15000000000000258,
+     -0.2000000000000024,
      1.3
     ],
     "combinaison": "112 ELS_c",
     "position_mobile": "TSB_M10"
    },
    "|VZ| max": {
-    "valeur_si": 129344.99350551871,
+    "valeur_si": 468136.2099343535,
     "unite_si": "N",
     "coordonnees_m": [
      10.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
-    "combinaison": "111 ELS_c",
+    "combinaison": "109 ELS_c",
     "position_mobile": "TSB_M10"
    }
   }
@@ -5539,18 +5539,18 @@
   "etat_limite": "ELS_caracteristique",
   "valeurs": {
    "N max": {
-    "valeur_si": 10180.764861463735,
+    "valeur_si": 4561.884302893176,
     "unite_si": "N",
     "coordonnees_m": [
      15.6,
-     -3.1086244689504383e-15,
+     -0.05000000000000293,
      1.3
     ],
     "combinaison": "111 ELS_c",
     "position_mobile": "TSB_M26"
    },
    "N min": {
-    "valeur_si": -9077.134392363405,
+    "valeur_si": -6137.0146356521855,
     "unite_si": "N",
     "coordonnees_m": [
      15.6,
@@ -5561,7 +5561,7 @@
     "position_mobile": "TSA_P00"
    },
    "MFY max": {
-    "valeur_si": 98135.84578414306,
+    "valeur_si": 123416.49503271378,
     "unite_si": "N·m",
     "coordonnees_m": [
      15.6,
@@ -5572,22 +5572,22 @@
     "position_mobile": "TSB_P00"
    },
    "MFY min": {
-    "valeur_si": -291195.283712836,
+    "valeur_si": -312059.10419332073,
     "unite_si": "N·m",
     "coordonnees_m": [
      15.6,
-     -0.15000000000000258,
+     -0.2000000000000024,
      1.3
     ],
     "combinaison": "112 ELS_c",
     "position_mobile": "TSB_P00"
    },
    "|VZ| max": {
-    "valeur_si": 129235.78254145579,
+    "valeur_si": 470158.4471887229,
     "unite_si": "N",
     "coordonnees_m": [
      15.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "112 ELS_c",
@@ -5601,7 +5601,7 @@
   "etat_limite": "ELS_caracteristique",
   "valeurs": {
    "N max": {
-    "valeur_si": 11298.94927460053,
+    "valeur_si": 5317.788197171601,
     "unite_si": "N",
     "coordonnees_m": [
      20.6,
@@ -5612,7 +5612,7 @@
     "position_mobile": "TSB_P26"
    },
    "N min": {
-    "valeur_si": -7720.0010287202485,
+    "valeur_si": -5301.051097508999,
     "unite_si": "N",
     "coordonnees_m": [
      20.6,
@@ -5623,7 +5623,7 @@
     "position_mobile": "TSA_P10"
    },
    "MFY max": {
-    "valeur_si": 99041.18524603802,
+    "valeur_si": 124602.9087740783,
     "unite_si": "N·m",
     "coordonnees_m": [
      20.6,
@@ -5634,25 +5634,25 @@
     "position_mobile": "TSB_P10"
    },
    "MFY min": {
-    "valeur_si": -290925.85251901427,
+    "valeur_si": -311739.18306637055,
     "unite_si": "N·m",
     "coordonnees_m": [
      20.6,
-     -0.15000000000000258,
+     -0.2000000000000024,
      1.3
     ],
     "combinaison": "112 ELS_c",
     "position_mobile": "TSB_P10"
    },
    "|VZ| max": {
-    "valeur_si": 129729.781279974,
+    "valeur_si": 468929.3395421946,
     "unite_si": "N",
     "coordonnees_m": [
      20.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
-    "combinaison": "111 ELS_c",
+    "combinaison": "112 ELS_c",
     "position_mobile": "TSB_P10"
    }
   }
@@ -5663,18 +5663,18 @@
   "etat_limite": "ELS_caracteristique",
   "valeurs": {
    "N max": {
-    "valeur_si": 10603.402413107002,
+    "valeur_si": 3936.340981490076,
     "unite_si": "N",
     "coordonnees_m": [
      25.6,
      -2.05,
      1.3
     ],
-    "combinaison": "114 ELS_c",
-    "position_mobile": "TSB_P24"
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P22"
    },
    "N min": {
-    "valeur_si": -5404.66155641993,
+    "valeur_si": -3816.6115750553536,
     "unite_si": "N",
     "coordonnees_m": [
      25.6,
@@ -5682,36 +5682,36 @@
      1.3
     ],
     "combinaison": "105 ELS_c",
-    "position_mobile": "TSA_P19"
+    "position_mobile": "TSA_P20"
    },
    "MFY max": {
-    "valeur_si": 96306.31484102093,
+    "valeur_si": 121752.55194488136,
     "unite_si": "N·m",
     "coordonnees_m": [
      25.6,
      -2.0,
      1.3
     ],
-    "combinaison": "111 ELS_c",
+    "combinaison": "109 ELS_c",
     "position_mobile": "TSB_P20"
    },
    "MFY min": {
-    "valeur_si": -298612.0397593378,
+    "valeur_si": -319349.34217268764,
     "unite_si": "N·m",
     "coordonnees_m": [
      25.6,
-     -0.15000000000000258,
+     -0.2000000000000024,
      1.3
     ],
     "combinaison": "112 ELS_c",
     "position_mobile": "TSB_P20"
    },
    "|VZ| max": {
-    "valeur_si": 133785.28994605318,
+    "valeur_si": 487798.1917046271,
     "unite_si": "N",
     "coordonnees_m": [
      25.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "112 ELS_c",
@@ -5725,29 +5725,29 @@
   "etat_limite": "ELS_caracteristique",
   "valeurs": {
    "N max": {
-    "valeur_si": 14727.172884136666,
+    "valeur_si": 16886.126239500827,
     "unite_si": "N",
     "coordonnees_m": [
      30.6,
-     2.0,
+     -3.1086244689504383e-15,
      1.3
     ],
-    "combinaison": "107 ELS_c",
-    "position_mobile": "TSA_P27"
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_M26"
    },
    "N min": {
-    "valeur_si": -10706.95112199377,
+    "valeur_si": -23020.475898833392,
     "unite_si": "N",
     "coordonnees_m": [
      30.6,
-     -2.0,
+     -1.95,
      1.3
     ],
     "combinaison": "111 ELS_c",
     "position_mobile": "TSB_P29"
    },
    "MFY max": {
-    "valeur_si": 92212.11969268922,
+    "valeur_si": 115624.26860422529,
     "unite_si": "N·m",
     "coordonnees_m": [
      30.6,
@@ -5758,22 +5758,22 @@
     "position_mobile": "TSB_P29"
    },
    "MFY min": {
-    "valeur_si": -267685.01822940476,
+    "valeur_si": -293518.26692644606,
     "unite_si": "N·m",
     "coordonnees_m": [
      30.6,
-     -0.2000000000000024,
+     -0.2500000000000022,
      1.3
     ],
     "combinaison": "112 ELS_c",
     "position_mobile": "TSB_P29"
    },
    "|VZ| max": {
-    "valeur_si": 123932.05617123761,
+    "valeur_si": 436874.2857106863,
     "unite_si": "N",
     "coordonnees_m": [
      30.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "111 ELS_c",
@@ -5787,29 +5787,29 @@
   "etat_limite": "ELS_frequent",
   "valeurs": {
    "N max": {
-    "valeur_si": 7291.415207533311,
+    "valeur_si": 9925.673194847102,
     "unite_si": "N",
     "coordonnees_m": [
      0.6,
-     -2.05,
+     -1.95,
      1.3
     ],
-    "combinaison": "104 ELS_f",
-    "position_mobile": "TSA_M27"
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_M10"
    },
    "N min": {
-    "valeur_si": -10681.570119813325,
+    "valeur_si": -17866.354236737214,
     "unite_si": "N",
     "coordonnees_m": [
      0.6,
-     -2.0,
+     -1.95,
      1.3
     ],
     "combinaison": "111 ELS_f",
     "position_mobile": "TSB_M29"
    },
    "MFY max": {
-    "valeur_si": 72969.5786413381,
+    "valeur_si": 88605.25930151663,
     "unite_si": "N·m",
     "coordonnees_m": [
      0.6,
@@ -5820,22 +5820,22 @@
     "position_mobile": "TSB_M29"
    },
    "MFY min": {
-    "valeur_si": -161167.19765494022,
+    "valeur_si": -176973.1651071608,
     "unite_si": "N·m",
     "coordonnees_m": [
      0.6,
-     -0.15000000000000258,
+     -0.2000000000000024,
      1.3
     ],
-    "combinaison": "109 ELS_f",
+    "combinaison": "112 ELS_f",
     "position_mobile": "TSB_M29"
    },
    "|VZ| max": {
-    "valeur_si": 79086.90898744273,
+    "valeur_si": 280139.2247458427,
     "unite_si": "N",
     "coordonnees_m": [
      0.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "111 ELS_f",
@@ -5849,7 +5849,7 @@
   "etat_limite": "ELS_frequent",
   "valeurs": {
    "N max": {
-    "valeur_si": 6588.176547770969,
+    "valeur_si": 2585.4439983336974,
     "unite_si": "N",
     "coordonnees_m": [
      5.6,
@@ -5857,21 +5857,21 @@
      1.3
     ],
     "combinaison": "111 ELS_f",
-    "position_mobile": "TSB_M24"
+    "position_mobile": "TSB_M22"
    },
    "N min": {
-    "valeur_si": -6718.9742167889135,
+    "valeur_si": -3480.940034400396,
     "unite_si": "N",
     "coordonnees_m": [
      5.6,
      -0.05000000000000293,
      1.3
     ],
-    "combinaison": "108 ELS_f",
-    "position_mobile": "TSA_M19"
+    "combinaison": "105 ELS_f",
+    "position_mobile": "TSA_M20"
    },
    "MFY max": {
-    "valeur_si": 79344.34832638537,
+    "valeur_si": 99525.54478698043,
     "unite_si": "N·m",
     "coordonnees_m": [
      5.6,
@@ -5882,7 +5882,7 @@
     "position_mobile": "TSB_M20"
    },
    "MFY min": {
-    "valeur_si": -203276.72101858858,
+    "valeur_si": -215629.94875756302,
     "unite_si": "N·m",
     "coordonnees_m": [
      5.6,
@@ -5893,11 +5893,11 @@
     "position_mobile": "TSB_M20"
    },
    "|VZ| max": {
-    "valeur_si": 94900.25184273967,
+    "valeur_si": 349421.4359468772,
     "unite_si": "N",
     "coordonnees_m": [
      5.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "112 ELS_f",
@@ -5911,7 +5911,7 @@
   "etat_limite": "ELS_frequent",
   "valeurs": {
    "N max": {
-    "valeur_si": 7618.574179672092,
+    "valeur_si": 3280.5208898719857,
     "unite_si": "N",
     "coordonnees_m": [
      10.6,
@@ -5922,18 +5922,18 @@
     "position_mobile": "TSB_M26"
    },
    "N min": {
-    "valeur_si": -7481.108881788144,
+    "valeur_si": -4647.619823866293,
     "unite_si": "N",
     "coordonnees_m": [
      10.6,
      -3.1086244689504383e-15,
      1.3
     ],
-    "combinaison": "108 ELS_f",
+    "combinaison": "105 ELS_f",
     "position_mobile": "TSA_M10"
    },
    "MFY max": {
-    "valeur_si": 78759.58483806066,
+    "valeur_si": 99319.16422254329,
     "unite_si": "N·m",
     "coordonnees_m": [
      10.6,
@@ -5944,25 +5944,25 @@
     "position_mobile": "TSB_M10"
    },
    "MFY min": {
-    "valeur_si": -192844.27390017489,
+    "valeur_si": -205377.86535421008,
     "unite_si": "N·m",
     "coordonnees_m": [
      10.6,
-     -0.10000000000000275,
+     -0.15000000000000258,
      1.3
     ],
     "combinaison": "112 ELS_f",
     "position_mobile": "TSB_M10"
    },
    "|VZ| max": {
-    "valeur_si": 89283.88664597696,
+    "valeur_si": 325351.9239282873,
     "unite_si": "N",
     "coordonnees_m": [
      10.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
-    "combinaison": "111 ELS_f",
+    "combinaison": "109 ELS_f",
     "position_mobile": "TSB_M10"
    }
   }
@@ -5973,18 +5973,18 @@
   "etat_limite": "ELS_frequent",
   "valeurs": {
    "N max": {
-    "valeur_si": 8263.13875588157,
+    "valeur_si": 3659.2124719983344,
     "unite_si": "N",
     "coordonnees_m": [
      15.6,
-     -3.1086244689504383e-15,
+     -0.05000000000000293,
      1.3
     ],
     "combinaison": "111 ELS_f",
     "position_mobile": "TSB_M26"
    },
    "N min": {
-    "valeur_si": -7114.532915482791,
+    "valeur_si": -4493.879623547346,
     "unite_si": "N",
     "coordonnees_m": [
      15.6,
@@ -5995,7 +5995,7 @@
     "position_mobile": "TSA_P00"
    },
    "MFY max": {
-    "valeur_si": 78417.85549819945,
+    "valeur_si": 98853.31402602262,
     "unite_si": "N·m",
     "coordonnees_m": [
      15.6,
@@ -6006,22 +6006,22 @@
     "position_mobile": "TSB_P00"
    },
    "MFY min": {
-    "valeur_si": -193404.98661221814,
+    "valeur_si": -205991.2187910454,
     "unite_si": "N·m",
     "coordonnees_m": [
      15.6,
-     -0.10000000000000275,
+     -0.15000000000000258,
      1.3
     ],
     "combinaison": "112 ELS_f",
     "position_mobile": "TSB_P00"
    },
    "|VZ| max": {
-    "valeur_si": 89119.82324947906,
+    "valeur_si": 327056.0860943164,
     "unite_si": "N",
     "coordonnees_m": [
      15.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "112 ELS_f",
@@ -6035,7 +6035,7 @@
   "etat_limite": "ELS_frequent",
   "valeurs": {
    "N max": {
-    "valeur_si": 8677.830135772605,
+    "valeur_si": 3954.9160692918504,
     "unite_si": "N",
     "coordonnees_m": [
      20.6,
@@ -6046,7 +6046,7 @@
     "position_mobile": "TSB_P26"
    },
    "N min": {
-    "valeur_si": -6422.9534019814,
+    "valeur_si": -4064.7794899592577,
     "unite_si": "N",
     "coordonnees_m": [
      20.6,
@@ -6057,7 +6057,7 @@
     "position_mobile": "TSA_P10"
    },
    "MFY max": {
-    "valeur_si": 79035.71388471092,
+    "valeur_si": 99669.55877866936,
     "unite_si": "N·m",
     "coordonnees_m": [
      20.6,
@@ -6068,25 +6068,25 @@
     "position_mobile": "TSB_P10"
    },
    "MFY min": {
-    "valeur_si": -193071.14778052445,
+    "valeur_si": -205609.93747878668,
     "unite_si": "N·m",
     "coordonnees_m": [
      20.6,
-     -0.10000000000000275,
+     -0.15000000000000258,
      1.3
     ],
     "combinaison": "112 ELS_f",
     "position_mobile": "TSB_P10"
    },
    "|VZ| max": {
-    "valeur_si": 89448.79569555314,
+    "valeur_si": 325705.92498100153,
     "unite_si": "N",
     "coordonnees_m": [
      20.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
-    "combinaison": "111 ELS_f",
+    "combinaison": "112 ELS_f",
     "position_mobile": "TSB_P10"
    }
   }
@@ -6097,18 +6097,18 @@
   "etat_limite": "ELS_frequent",
   "valeurs": {
    "N max": {
-    "valeur_si": 7873.180967082856,
+    "valeur_si": 2936.8843217514404,
     "unite_si": "N",
     "coordonnees_m": [
      25.6,
      -2.05,
      1.3
     ],
-    "combinaison": "114 ELS_f",
-    "position_mobile": "TSB_P24"
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P22"
    },
    "N min": {
-    "valeur_si": -4855.404650793774,
+    "valeur_si": -2889.8570428746975,
     "unite_si": "N",
     "coordonnees_m": [
      25.6,
@@ -6116,21 +6116,21 @@
      1.3
     ],
     "combinaison": "105 ELS_f",
-    "position_mobile": "TSA_P19"
+    "position_mobile": "TSA_P20"
    },
    "MFY max": {
-    "valeur_si": 77637.98014374461,
+    "valeur_si": 97353.91235815428,
     "unite_si": "N·m",
     "coordonnees_m": [
      25.6,
      -2.0,
      1.3
     ],
-    "combinaison": "111 ELS_f",
+    "combinaison": "109 ELS_f",
     "position_mobile": "TSB_P20"
    },
    "MFY min": {
-    "valeur_si": -200688.81201459956,
+    "valeur_si": -213158.09277922707,
     "unite_si": "N·m",
     "coordonnees_m": [
      25.6,
@@ -6141,11 +6141,11 @@
     "position_mobile": "TSB_P20"
    },
    "|VZ| max": {
-    "valeur_si": 93484.00714904472,
+    "valeur_si": 343964.82387408405,
     "unite_si": "N",
     "coordonnees_m": [
      25.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "112 ELS_f",
@@ -6159,29 +6159,29 @@
   "etat_limite": "ELS_frequent",
   "valeurs": {
    "N max": {
-    "valeur_si": 10386.277817794795,
+    "valeur_si": 10832.072075216214,
     "unite_si": "N",
     "coordonnees_m": [
      30.6,
-     2.0,
+     -1.95,
      1.3
     ],
-    "combinaison": "107 ELS_f",
-    "position_mobile": "TSA_P27"
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_P10"
    },
    "N min": {
-    "valeur_si": -8228.058583664071,
+    "valeur_si": -17224.697873222736,
     "unite_si": "N",
     "coordonnees_m": [
      30.6,
-     -2.0,
+     -1.95,
      1.3
     ],
     "combinaison": "111 ELS_f",
     "position_mobile": "TSB_P29"
    },
    "MFY max": {
-    "valeur_si": 72786.37965978382,
+    "valeur_si": 90314.22400740295,
     "unite_si": "N·m",
     "coordonnees_m": [
      30.6,
@@ -6192,7 +6192,7 @@
     "position_mobile": "TSB_P29"
    },
    "MFY min": {
-    "valeur_si": -165517.26463885867,
+    "valeur_si": -182560.1908905757,
     "unite_si": "N·m",
     "coordonnees_m": [
      30.6,
@@ -6203,11 +6203,11 @@
     "position_mobile": "TSB_P29"
    },
    "|VZ| max": {
-    "valeur_si": 81484.06833092027,
+    "valeur_si": 289037.2619428131,
     "unite_si": "N",
     "coordonnees_m": [
      30.6,
-     1.8999999999999986,
+     1.9499999999999984,
      1.3
     ],
     "combinaison": "111 ELS_f",

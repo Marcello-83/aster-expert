@@ -2,9 +2,9 @@
  "schema_version": 1,
  "projet": "dalle_appuyee_01",
  "ouvrage": "DALLE-APPUYEE-01",
- "exporte_le": "2026-10-09T09:25:19Z",
+ "exporte_le": "2026-10-09T14:01:43Z",
  "depot": {
-  "commit": "0c4a9941fab3abf4e6fdfbbb790458b3324605ef",
+  "commit": "58a3522c9c1f0ea829f9a5117c139be19979a2ed",
   "arbre_modifie": true
  },
  "code_aster": {
@@ -298,8 +298,8 @@
    "type": "tableau",
    "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/controles_croises.json",
    "libelle": null,
-   "octets": 287,
-   "sha256": "7c76d77110db2a9414fc6a30bc7690aad96c7aeb97b8da3fec94ae7ce3543caa"
+   "octets": 542,
+   "sha256": "0ee7ef15188c25fea8eab52c5a4d9037955e729e27646e35bb9973cce852aad1"
   },
   {
    "chemin": "visualisation/detail_membres.json",
@@ -361,8 +361,8 @@
    "type": "tableau",
    "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/flexion_composee/dalle_centre_MXX.csv",
    "libelle": null,
-   "octets": 2656,
-   "sha256": "5999cfe00ce13610820bd09605c57d204c474f71cdaebb60b9dd12eac7671432"
+   "octets": 2700,
+   "sha256": "65ff25347955c9816b00fed5dc6bba6969754877c1d86a9e21481494c3c39538"
   },
   {
    "chemin": "visualisation/flexion_composee/dalle_centre_MYY.csv",
@@ -370,8 +370,8 @@
    "type": "tableau",
    "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/flexion_composee/dalle_centre_MYY.csv",
    "libelle": null,
-   "octets": 2656,
-   "sha256": "0ec24025c9f8613f516a67adf11cac5a2e2e6ec7c98f03d232f2ae5581d0c558"
+   "octets": 2700,
+   "sha256": "b886d24f1dc7b338e037e4ec88a9b09d53f53fcf98b9b29e0d18d383b004ea97"
   },
   {
    "chemin": "visualisation/flexion_composee/dalle_travee_MXX.csv",
@@ -379,8 +379,8 @@
    "type": "tableau",
    "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/flexion_composee/dalle_travee_MXX.csv",
    "libelle": null,
-   "octets": 4149,
-   "sha256": "4753a33a9c7cc1309a2cab290eae1a7a85df142743e36e28d5cd766b48176c06"
+   "octets": 4220,
+   "sha256": "42b335e98f0c7ec0d2deda39bb809c71a05da63716dec257c0817a54f9c90750"
   },
   {
    "chemin": "visualisation/flexion_composee/dalle_travee_MYY.csv",
@@ -388,8 +388,8 @@
    "type": "tableau",
    "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/flexion_composee/dalle_travee_MYY.csv",
    "libelle": null,
-   "octets": 4146,
-   "sha256": "f7041bf1902f4745c056171a44ee3712c872484a350b3938e93641501f875c55"
+   "octets": 4217,
+   "sha256": "6b08ace31d4b90ccc3ec82231c88ea8ef459177a6737106cc4b8042b83428277"
   },
   {
    "chemin": "visualisation/manifeste.json",
@@ -514,8 +514,8 @@
    "type": "tableau",
    "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/synthese_ingenieur.json",
    "libelle": null,
-   "octets": 55303,
-   "sha256": "321138605ee9046d341e53424dff13f6fa35ec8bb32c05b16ee426b6b8d9b370"
+   "octets": 73056,
+   "sha256": "7fbac37d28f321ee5f5f930cee44405055a65c6709527744d00b40d5053cc23b"
   },
   {
    "chemin": "visualisation/torseurs_combinaisons.json",
@@ -523,8 +523,8 @@
    "type": "tableau",
    "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/torseurs_combinaisons.json",
    "libelle": null,
-   "octets": 9308,
-   "sha256": "304bbc9cd314cc4cb306ea238d16a641cf94acca9987ca30d46303e5dba434db"
+   "octets": 9744,
+   "sha256": "c54ea29b98ac3df3ffa7ab73956f8c2f1ecfe23ca56260f40890721ed021e30d"
   },
   {
    "chemin": "visualisation/verifications_service.json",
@@ -536,6 +536,6 @@
    "sha256": "752f3aa819d5fed0aafb060d5266ebb17b359cfdca40d00ef99780d1d2979c63"
   }
  ],
- "taille_octets": 2081928,
+ "taille_octets": 2100602,
  "plafond_octets": 20971520
 }

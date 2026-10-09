@@ -1,0 +1,1026 @@
+{
+ "A1": {
+  "nature": "auxiliaire",
+  "libelle": "tablier encastré en tête de pieux",
+  "objet": "M_encastrement des chevêtres (E27, A1) : nœuds de tête encastrés, translations et rotations bloquées ; les pieux, suspendus sous un nœud aux six ddl imposés, n'agissent plus sur le tablier",
+  "conditions": "DDL_IMPO DX DY DZ DRX DRY DRZ = 0 sur GROUP_NO TETES",
+  "cas_exclus": [
+   "FR",
+   "TEP",
+   "TEM"
+  ],
+  "motif_exclusion": "E27 : charges verticales seulement ; freinage et température exclus (dans un modèle bi-encastré, un gradient thermique produit un moment artificiel sans rapport avec la règle), choix que MM peut renverser",
+  "source": "E27 de MM (lot 49 ter), modèle auxiliaire A1",
+  "controle": {
+   "controle": "harnais D d'un modèle dérivé (lot 49 ter) : Σ charges + Σ réactions + Σ forces des ressorts = 0 par cas élémentaire ; réaction verticale de chaque position mobile égale à celle de la référence",
+   "modele": "A1",
+   "seuil": 1e-06,
+   "cas": {
+    "FR": {
+     "charge_n": {
+      "FX": 381000.00000030186,
+      "FY": 1.675540562689429e-27,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -380999.9999999887,
+      "FY": -2.6287949594916427e-09,
+      "FZ": 2.210277287950488e-43
+     },
+     "ecart_relatif": 8.219349493811195e-13,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "G2": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -1000895.9999986594
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 2.826044374812364e-40,
+      "FY": 1.7638490219289155e-72,
+      "FZ": 1000896.0000137759
+     },
+     "ecart_relatif": 1.510299725370841e-11,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "PP": {
+     "charge_n": {
+      "FX": 3.887506540929146e-27,
+      "FY": 4.610271947628648e-43,
+      "FZ": -3553297.6040000026
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 3.150394911090633e-26,
+      "FY": 1.9479594509315547e-42,
+      "FZ": 3553297.60398975
+     },
+     "ecart_relatif": 2.8853379888904142e-12,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "TR": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -467999.9999999975
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 1.7809365280757745e-41,
+      "FY": -1.2013258901806323e-75,
+      "FZ": 468000.0000016277
+     },
+     "ecart_relatif": 3.4833802547083126e-12,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "UDL": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -589679.9999999981
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 2.2289810659332113e-41,
+      "FY": -1.4596146325067685e-73,
+      "FZ": 589680.0000015685
+     },
+     "ecart_relatif": 2.66301430627379e-12,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "TEM": {
+     "charge_n": {
+      "FX": -8.629285730421543e-09,
+      "FY": 1.4902616385370493e-07,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -4.1210995799286074e-07,
+      "FY": -4.6193599700927734e-07,
+      "FZ": 2.534417470670864e-28
+     },
+     "ecart_relatif": 8.600697552766188e-16,
+     "echelle": "somme des modules",
+     "verdict": "RÉUSSI"
+    },
+    "TEP": {
+     "charge_n": {
+      "FX": 8.629285730421543e-09,
+      "FY": -1.4902616385370493e-07,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 4.1210995799286074e-07,
+      "FY": 4.6193599700927734e-07,
+      "FZ": -2.534417470670864e-28
+     },
+     "ecart_relatif": 8.600697552766188e-16,
+     "echelle": "somme des modules",
+     "verdict": "RÉUSSI"
+    }
+   },
+   "ecart_relatif_max_cas": 1.510299725370841e-11,
+   "positions": 118,
+   "positions_absentes_de_la_reference": [
+    "L2A_M00",
+    "L2A_M01",
+    "L2A_M02",
+    "L2A_M03",
+    "L2A_M04",
+    "L2A_M05",
+    "L2A_M06",
+    "L2A_M07",
+    "L2A_M08",
+    "L2A_M09",
+    "L2A_M10",
+    "L2A_M11",
+    "L2A_M12",
+    "L2A_M13",
+    "L2A_M14",
+    "L2A_M15",
+    "L2A_M16",
+    "L2A_M17",
+    "L2A_M18",
+    "L2A_M19",
+    "L2A_M20",
+    "L2A_M21",
+    "L2A_M22",
+    "L2A_M23",
+    "L2A_M24",
+    "L2A_M25",
+    "L2A_M26",
+    "L2A_M27",
+    "L2A_M28",
+    "L2A_M29",
+    "L2A_M30",
+    "L2A_P00",
+    "L2A_P01",
+    "L2A_P02",
+    "L2A_P03",
+    "L2A_P04",
+    "L2A_P05",
+    "L2A_P06",
+    "L2A_P07",
+    "L2A_P08",
+    "L2A_P09",
+    "L2A_P10",
+    "L2A_P11",
+    "L2A_P12",
+    "L2A_P13",
+    "L2A_P14",
+    "L2A_P15",
+    "L2A_P16",
+    "L2A_P17",
+    "L2A_P18",
+    "L2A_P19",
+    "L2A_P20",
+    "L2A_P21",
+    "L2A_P22",
+    "L2A_P23",
+    "L2A_P24",
+    "L2A_P25",
+    "L2A_P26",
+    "L2A_P27",
+    "L2A_P28",
+    "L2A_P29",
+    "L2A_P30",
+    "L2B_M00",
+    "L2B_M01",
+    "L2B_M02",
+    "L2B_M03",
+    "L2B_M04",
+    "L2B_M05",
+    "L2B_M06",
+    "L2B_M07",
+    "L2B_M08",
+    "L2B_M09",
+    "L2B_M10",
+    "L2B_M11",
+    "L2B_M12",
+    "L2B_M13",
+    "L2B_M14",
+    "L2B_M15",
+    "L2B_M16",
+    "L2B_M17",
+    "L2B_M18",
+    "L2B_M19",
+    "L2B_M20",
+    "L2B_M21",
+    "L2B_M22",
+    "L2B_M23",
+    "L2B_M24",
+    "L2B_M25",
+    "L2B_M26",
+    "L2B_M27",
+    "L2B_M28",
+    "L2B_M29",
+    "L2B_M30",
+    "L2B_P00",
+    "L2B_P01",
+    "L2B_P02",
+    "L2B_P03",
+    "L2B_P04",
+    "L2B_P05",
+    "L2B_P06",
+    "L2B_P07",
+    "L2B_P08",
+    "L2B_P09",
+    "L2B_P10",
+    "L2B_P11",
+    "L2B_P12",
+    "L2B_P13",
+    "L2B_P14",
+    "L2B_P15",
+    "L2B_P16",
+    "L2B_P17",
+    "L2B_P18",
+    "L2B_P19",
+    "L2B_P20",
+    "L2B_P21",
+    "L2B_P22",
+    "L2B_P23",
+    "L2B_P24",
+    "L2B_P25",
+    "L2B_P26",
+    "L2B_P27",
+    "L2B_P28",
+    "L2B_P29",
+    "L2B_P30"
+   ],
+   "ecart_relatif_max_positions_FZ": 2.2624778842426245e-10,
+   "position_pire": "TSA_P20",
+   "echecs": [],
+   "verdict": "RÉUSSI"
+  }
+ },
+ "A2": {
+  "nature": "auxiliaire",
+  "libelle": "tablier sur lignes d'axe des chevêtres encastrées",
+  "objet": "M_encastrement du chapeau de dalle (E27, A2) : DZ et rotation autour de la ligne (DRY, lignes selon Y) bloqués sur les nœuds des chevêtres ; chaque travée de 5 m est bi-encastrée",
+  "conditions": "DDL_IMPO DZ DRY = 0 sur GROUP_MA CHEVETRES",
+  "cas_exclus": [
+   "FR",
+   "TEP",
+   "TEM"
+  ],
+  "motif_exclusion": "E27 : charges verticales seulement ; freinage et température exclus (dans un modèle bi-encastré, un gradient thermique produit un moment artificiel sans rapport avec la règle), choix que MM peut renverser",
+  "source": "E27 de MM (lot 49 ter), modèle auxiliaire A2",
+  "controle": {
+   "controle": "harnais D d'un modèle dérivé (lot 49 ter) : Σ charges + Σ réactions + Σ forces des ressorts = 0 par cas élémentaire ; réaction verticale de chaque position mobile égale à celle de la référence",
+   "modele": "A2",
+   "seuil": 1e-06,
+   "cas": {
+    "FR": {
+     "charge_n": {
+      "FX": 381000.00000030186,
+      "FY": 1.675540562689429e-27,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -380999.9999647853,
+      "FY": -3.2696271303322283e-06,
+      "FZ": 2.3803181647963356e-13
+     },
+     "ecart_relatif": 9.321933978882486e-11,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "G2": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -1000895.9999986594
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 9.835203920177419e-13,
+      "FY": 4.6724573855165313e-14,
+      "FZ": 1000896.00001343
+     },
+     "ecart_relatif": 1.4757436954588136e-11,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "PP": {
+     "charge_n": {
+      "FX": 3.887506540929146e-27,
+      "FY": 4.610271947628648e-43,
+      "FZ": -3553297.6040000026
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -2.358855912656008e-12,
+      "FY": 1.4120141764067452e-13,
+      "FZ": 3553297.603987378
+     },
+     "ecart_relatif": 3.552909034691739e-12,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "TR": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -467999.9999999975
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -1.9337284221253563e-13,
+      "FY": 2.7825785329593875e-14,
+      "FZ": 468000.0000041699
+     },
+     "ecart_relatif": 8.91534902123564e-12,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "UDL": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -589679.9999999981
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 2.7041068638870426e-12,
+      "FY": -5.854490488304857e-15,
+      "FZ": 589680.0000003824
+     },
+     "ecart_relatif": 6.516873174445683e-13,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "TEM": {
+     "charge_n": {
+      "FX": -8.629285730421543e-09,
+      "FY": 1.4902616385370493e-07,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -9.317141131504059e-06,
+      "FY": 6.322991433549419e-06,
+      "FZ": 1.4988472685217857e-09
+     },
+     "ecart_relatif": 1.9063620045369556e-14,
+     "echelle": "somme des modules",
+     "verdict": "RÉUSSI"
+    },
+    "TEP": {
+     "charge_n": {
+      "FX": 8.629285730421543e-09,
+      "FY": -1.4902616385370493e-07,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 9.317141131504059e-06,
+      "FY": -6.322991433549419e-06,
+      "FZ": -1.4988472685217857e-09
+     },
+     "ecart_relatif": 1.9063620045369556e-14,
+     "echelle": "somme des modules",
+     "verdict": "RÉUSSI"
+    }
+   },
+   "ecart_relatif_max_cas": 9.321933978882486e-11,
+   "positions": 118,
+   "positions_absentes_de_la_reference": [
+    "L2A_M00",
+    "L2A_M01",
+    "L2A_M02",
+    "L2A_M03",
+    "L2A_M04",
+    "L2A_M05",
+    "L2A_M06",
+    "L2A_M07",
+    "L2A_M08",
+    "L2A_M09",
+    "L2A_M10",
+    "L2A_M11",
+    "L2A_M12",
+    "L2A_M13",
+    "L2A_M14",
+    "L2A_M15",
+    "L2A_M16",
+    "L2A_M17",
+    "L2A_M18",
+    "L2A_M19",
+    "L2A_M20",
+    "L2A_M21",
+    "L2A_M22",
+    "L2A_M23",
+    "L2A_M24",
+    "L2A_M25",
+    "L2A_M26",
+    "L2A_M27",
+    "L2A_M28",
+    "L2A_M29",
+    "L2A_M30",
+    "L2A_P00",
+    "L2A_P01",
+    "L2A_P02",
+    "L2A_P03",
+    "L2A_P04",
+    "L2A_P05",
+    "L2A_P06",
+    "L2A_P07",
+    "L2A_P08",
+    "L2A_P09",
+    "L2A_P10",
+    "L2A_P11",
+    "L2A_P12",
+    "L2A_P13",
+    "L2A_P14",
+    "L2A_P15",
+    "L2A_P16",
+    "L2A_P17",
+    "L2A_P18",
+    "L2A_P19",
+    "L2A_P20",
+    "L2A_P21",
+    "L2A_P22",
+    "L2A_P23",
+    "L2A_P24",
+    "L2A_P25",
+    "L2A_P26",
+    "L2A_P27",
+    "L2A_P28",
+    "L2A_P29",
+    "L2A_P30",
+    "L2B_M00",
+    "L2B_M01",
+    "L2B_M02",
+    "L2B_M03",
+    "L2B_M04",
+    "L2B_M05",
+    "L2B_M06",
+    "L2B_M07",
+    "L2B_M08",
+    "L2B_M09",
+    "L2B_M10",
+    "L2B_M11",
+    "L2B_M12",
+    "L2B_M13",
+    "L2B_M14",
+    "L2B_M15",
+    "L2B_M16",
+    "L2B_M17",
+    "L2B_M18",
+    "L2B_M19",
+    "L2B_M20",
+    "L2B_M21",
+    "L2B_M22",
+    "L2B_M23",
+    "L2B_M24",
+    "L2B_M25",
+    "L2B_M26",
+    "L2B_M27",
+    "L2B_M28",
+    "L2B_M29",
+    "L2B_M30",
+    "L2B_P00",
+    "L2B_P01",
+    "L2B_P02",
+    "L2B_P03",
+    "L2B_P04",
+    "L2B_P05",
+    "L2B_P06",
+    "L2B_P07",
+    "L2B_P08",
+    "L2B_P09",
+    "L2B_P10",
+    "L2B_P11",
+    "L2B_P12",
+    "L2B_P13",
+    "L2B_P14",
+    "L2B_P15",
+    "L2B_P16",
+    "L2B_P17",
+    "L2B_P18",
+    "L2B_P19",
+    "L2B_P20",
+    "L2B_P21",
+    "L2B_P22",
+    "L2B_P23",
+    "L2B_P24",
+    "L2B_P25",
+    "L2B_P26",
+    "L2B_P27",
+    "L2B_P28",
+    "L2B_P29",
+    "L2B_P30"
+   ],
+   "ecart_relatif_max_positions_FZ": 2.459941983083942e-10,
+   "position_pire": "TSB_P05",
+   "echecs": [],
+   "verdict": "RÉUSSI"
+  }
+ },
+ "A3": {
+  "nature": "auxiliaire",
+  "libelle": "modèle complet, tronçon de tête indéformable, rotations des têtes bloquées",
+  "objet": "M_encastrement du bouchon (E27, A3, extension de MM) : tronçon de tête rendu indéformable comme en V1 et rotations des têtes bloquées, translations libres",
+  "conditions": "DDL_IMPO DRX DRY DRZ = 0 sur GROUP_NO TETES ; LIAISON_SOLIDE sur PIEU_T1 ∩ chaque PIEU_F*",
+  "cas_exclus": [
+   "FR",
+   "TEP",
+   "TEM"
+  ],
+  "motif_exclusion": "E27 : charges verticales seulement ; freinage et température exclus (dans un modèle bi-encastré, un gradient thermique produit un moment artificiel sans rapport avec la règle), choix que MM peut renverser",
+  "source": "E27 de MM (lot 49 ter), modèle auxiliaire A3",
+  "controle": {
+   "controle": "harnais D d'un modèle dérivé (lot 49 ter) : Σ charges + Σ réactions + Σ forces des ressorts = 0 par cas élémentaire ; réaction verticale de chaque position mobile égale à celle de la référence",
+   "modele": "A3",
+   "seuil": 1e-06,
+   "cas": {
+    "FR": {
+     "charge_n": {
+      "FX": 381000.00000030186,
+      "FY": 1.675540562689429e-27,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -380999.99999276706,
+      "FY": -3.8045121482088717e-06,
+      "FZ": -1.7239381082260675e-14
+     },
+     "ecart_relatif": 1.97763965413639e-11,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "G2": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -1000895.9999986594
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 1.9253764812923888e-12,
+      "FY": 3.1311984170608107e-14,
+      "FZ": 1000895.9999660333
+     },
+     "ecart_relatif": 3.259688562445363e-11,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "PP": {
+     "charge_n": {
+      "FX": 3.887506540929146e-27,
+      "FY": 4.610271947628648e-43,
+      "FZ": -3553297.6040000026
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 3.2265826172988957e-12,
+      "FY": -5.952467861305727e-14,
+      "FZ": 3553297.6039921185
+     },
+     "ecart_relatif": 2.218815346773112e-12,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "TR": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -467999.9999999975
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 9.357811047323771e-13,
+      "FY": -4.7431803880324056e-15,
+      "FZ": 468000.0000068234
+     },
+     "ecart_relatif": 1.4585247820513958e-11,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "UDL": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -589679.9999999981
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 6.035443493259211e-13,
+      "FY": -3.2764661444075742e-15,
+      "FZ": 589680.0000221076
+     },
+     "ecart_relatif": 3.749403321470917e-11,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "TEM": {
+     "charge_n": {
+      "FX": -8.629285730421543e-09,
+      "FY": 1.4902616385370493e-07,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -1.1814612662419677e-05,
+      "FY": -1.234807314176578e-06,
+      "FZ": -2.4513728843970904e-13
+     },
+     "ecart_relatif": 2.416891925491428e-14,
+     "echelle": "somme des modules",
+     "verdict": "RÉUSSI"
+    },
+    "TEP": {
+     "charge_n": {
+      "FX": 8.629285730421543e-09,
+      "FY": -1.4902616385370493e-07,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 1.1814612662419677e-05,
+      "FY": 1.234807314176578e-06,
+      "FZ": 2.4513728843970904e-13
+     },
+     "ecart_relatif": 2.416891925491428e-14,
+     "echelle": "somme des modules",
+     "verdict": "RÉUSSI"
+    }
+   },
+   "ecart_relatif_max_cas": 3.749403321470917e-11,
+   "positions": 118,
+   "positions_absentes_de_la_reference": [
+    "L2A_M00",
+    "L2A_M01",
+    "L2A_M02",
+    "L2A_M03",
+    "L2A_M04",
+    "L2A_M05",
+    "L2A_M06",
+    "L2A_M07",
+    "L2A_M08",
+    "L2A_M09",
+    "L2A_M10",
+    "L2A_M11",
+    "L2A_M12",
+    "L2A_M13",
+    "L2A_M14",
+    "L2A_M15",
+    "L2A_M16",
+    "L2A_M17",
+    "L2A_M18",
+    "L2A_M19",
+    "L2A_M20",
+    "L2A_M21",
+    "L2A_M22",
+    "L2A_M23",
+    "L2A_M24",
+    "L2A_M25",
+    "L2A_M26",
+    "L2A_M27",
+    "L2A_M28",
+    "L2A_M29",
+    "L2A_M30",
+    "L2A_P00",
+    "L2A_P01",
+    "L2A_P02",
+    "L2A_P03",
+    "L2A_P04",
+    "L2A_P05",
+    "L2A_P06",
+    "L2A_P07",
+    "L2A_P08",
+    "L2A_P09",
+    "L2A_P10",
+    "L2A_P11",
+    "L2A_P12",
+    "L2A_P13",
+    "L2A_P14",
+    "L2A_P15",
+    "L2A_P16",
+    "L2A_P17",
+    "L2A_P18",
+    "L2A_P19",
+    "L2A_P20",
+    "L2A_P21",
+    "L2A_P22",
+    "L2A_P23",
+    "L2A_P24",
+    "L2A_P25",
+    "L2A_P26",
+    "L2A_P27",
+    "L2A_P28",
+    "L2A_P29",
+    "L2A_P30",
+    "L2B_M00",
+    "L2B_M01",
+    "L2B_M02",
+    "L2B_M03",
+    "L2B_M04",
+    "L2B_M05",
+    "L2B_M06",
+    "L2B_M07",
+    "L2B_M08",
+    "L2B_M09",
+    "L2B_M10",
+    "L2B_M11",
+    "L2B_M12",
+    "L2B_M13",
+    "L2B_M14",
+    "L2B_M15",
+    "L2B_M16",
+    "L2B_M17",
+    "L2B_M18",
+    "L2B_M19",
+    "L2B_M20",
+    "L2B_M21",
+    "L2B_M22",
+    "L2B_M23",
+    "L2B_M24",
+    "L2B_M25",
+    "L2B_M26",
+    "L2B_M27",
+    "L2B_M28",
+    "L2B_M29",
+    "L2B_M30",
+    "L2B_P00",
+    "L2B_P01",
+    "L2B_P02",
+    "L2B_P03",
+    "L2B_P04",
+    "L2B_P05",
+    "L2B_P06",
+    "L2B_P07",
+    "L2B_P08",
+    "L2B_P09",
+    "L2B_P10",
+    "L2B_P11",
+    "L2B_P12",
+    "L2B_P13",
+    "L2B_P14",
+    "L2B_P15",
+    "L2B_P16",
+    "L2B_P17",
+    "L2B_P18",
+    "L2B_P19",
+    "L2B_P20",
+    "L2B_P21",
+    "L2B_P22",
+    "L2B_P23",
+    "L2B_P24",
+    "L2B_P25",
+    "L2B_P26",
+    "L2B_P27",
+    "L2B_P28",
+    "L2B_P29",
+    "L2B_P30"
+   ],
+   "ecart_relatif_max_positions_FZ": 1.5543105456223694e-10,
+   "position_pire": "TSA_P04",
+   "echecs": [],
+   "verdict": "RÉUSSI"
+  }
+ },
+ "V1": {
+  "nature": "variante",
+  "libelle": "tronçon de pieu dans le chevêtre rendu indéformable",
+  "objet": "Variante déclarée V1 (D6) : le tronçon de pieu situé dans le chevêtre est un massif de béton, rendu indéformable (LIAISON_SOLIDE), le reste inchangé",
+  "conditions": "LIAISON_SOLIDE sur PIEU_T1 ∩ chaque PIEU_F*",
+  "cas_exclus": [],
+  "motif_exclusion": null,
+  "source": "consigne du lot 49 ter, D6, variante V1 (une exécution)",
+  "controle": {
+   "controle": "harnais D d'un modèle dérivé (lot 49 ter) : Σ charges + Σ réactions + Σ forces des ressorts = 0 par cas élémentaire ; réaction verticale de chaque position mobile égale à celle de la référence",
+   "modele": "V1",
+   "seuil": 1e-06,
+   "cas": {
+    "FR": {
+     "charge_n": {
+      "FX": 381000.00000030186,
+      "FY": 1.675540562689429e-27,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -380999.9999691341,
+      "FY": -3.5596442842233955e-06,
+      "FZ": 1.3779404980596155e-05
+     },
+     "ecart_relatif": 8.180513831333002e-11,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "G2": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -1000895.9999986594
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -5.8753357734531164e-09,
+      "FY": 1.4422170124817058e-09,
+      "FZ": 1000895.9999498517
+     },
+     "ecart_relatif": 4.8764013196792605e-11,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "PP": {
+     "charge_n": {
+      "FX": 3.887506540929146e-27,
+      "FY": 4.610271947628648e-43,
+      "FZ": -3553297.6040000026
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -1.4651959645561874e-08,
+      "FY": 2.4060682335402817e-09,
+      "FZ": 3553297.6040878855
+     },
+     "ecart_relatif": 2.4732760259314222e-11,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "TR": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -467999.9999999975
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -3.913100954378024e-09,
+      "FY": 7.778453436912969e-10,
+      "FZ": 468000.00000838086
+     },
+     "ecart_relatif": 1.7913158895432025e-11,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "UDL": {
+     "charge_n": {
+      "FX": 0.0,
+      "FY": 0.0,
+      "FZ": -589679.9999999981
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -4.4547050492838025e-09,
+      "FY": 7.296421244973317e-10,
+      "FZ": 589680.0000002211
+     },
+     "ecart_relatif": 3.7806156101373774e-13,
+     "echelle": "charge",
+     "verdict": "RÉUSSI"
+    },
+    "TEM": {
+     "charge_n": {
+      "FX": -8.629285730421543e-09,
+      "FY": 1.4902616385370493e-07,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": -1.0020827176049352e-05,
+      "FY": -5.051062544225715e-06,
+      "FZ": 2.0035571651533246e-05
+     },
+     "ecart_relatif": 4.09564581013858e-14,
+     "echelle": "somme des modules",
+     "verdict": "RÉUSSI"
+    },
+    "TEP": {
+     "charge_n": {
+      "FX": 8.629285730421543e-09,
+      "FY": -1.4902616385370493e-07,
+      "FZ": 0.0
+     },
+     "reactions_et_ressorts_n": {
+      "FX": 1.0020827176049352e-05,
+      "FY": 5.051062544225715e-06,
+      "FZ": -2.0035571651533246e-05
+     },
+     "ecart_relatif": 4.09564581013858e-14,
+     "echelle": "somme des modules",
+     "verdict": "RÉUSSI"
+    }
+   },
+   "ecart_relatif_max_cas": 8.180513831333002e-11,
+   "positions": 118,
+   "positions_absentes_de_la_reference": [
+    "L2A_M00",
+    "L2A_M01",
+    "L2A_M02",
+    "L2A_M03",
+    "L2A_M04",
+    "L2A_M05",
+    "L2A_M06",
+    "L2A_M07",
+    "L2A_M08",
+    "L2A_M09",
+    "L2A_M10",
+    "L2A_M11",
+    "L2A_M12",
+    "L2A_M13",
+    "L2A_M14",
+    "L2A_M15",
+    "L2A_M16",
+    "L2A_M17",
+    "L2A_M18",
+    "L2A_M19",
+    "L2A_M20",
+    "L2A_M21",
+    "L2A_M22",
+    "L2A_M23",
+    "L2A_M24",
+    "L2A_M25",
+    "L2A_M26",
+    "L2A_M27",
+    "L2A_M28",
+    "L2A_M29",
+    "L2A_M30",
+    "L2A_P00",
+    "L2A_P01",
+    "L2A_P02",
+    "L2A_P03",
+    "L2A_P04",
+    "L2A_P05",
+    "L2A_P06",
+    "L2A_P07",
+    "L2A_P08",
+    "L2A_P09",
+    "L2A_P10",
+    "L2A_P11",
+    "L2A_P12",
+    "L2A_P13",
+    "L2A_P14",
+    "L2A_P15",
+    "L2A_P16",
+    "L2A_P17",
+    "L2A_P18",
+    "L2A_P19",
+    "L2A_P20",
+    "L2A_P21",
+    "L2A_P22",
+    "L2A_P23",
+    "L2A_P24",
+    "L2A_P25",
+    "L2A_P26",
+    "L2A_P27",
+    "L2A_P28",
+    "L2A_P29",
+    "L2A_P30",
+    "L2B_M00",
+    "L2B_M01",
+    "L2B_M02",
+    "L2B_M03",
+    "L2B_M04",
+    "L2B_M05",
+    "L2B_M06",
+    "L2B_M07",
+    "L2B_M08",
+    "L2B_M09",
+    "L2B_M10",
+    "L2B_M11",
+    "L2B_M12",
+    "L2B_M13",
+    "L2B_M14",
+    "L2B_M15",
+    "L2B_M16",
+    "L2B_M17",
+    "L2B_M18",
+    "L2B_M19",
+    "L2B_M20",
+    "L2B_M21",
+    "L2B_M22",
+    "L2B_M23",
+    "L2B_M24",
+    "L2B_M25",
+    "L2B_M26",
+    "L2B_M27",
+    "L2B_M28",
+    "L2B_M29",
+    "L2B_M30",
+    "L2B_P00",
+    "L2B_P01",
+    "L2B_P02",
+    "L2B_P03",
+    "L2B_P04",
+    "L2B_P05",
+    "L2B_P06",
+    "L2B_P07",
+    "L2B_P08",
+    "L2B_P09",
+    "L2B_P10",
+    "L2B_P11",
+    "L2B_P12",
+    "L2B_P13",
+    "L2B_P14",
+    "L2B_P15",
+    "L2B_P16",
+    "L2B_P17",
+    "L2B_P18",
+    "L2B_P19",
+    "L2B_P20",
+    "L2B_P21",
+    "L2B_P22",
+    "L2B_P23",
+    "L2B_P24",
+    "L2B_P25",
+    "L2B_P26",
+    "L2B_P27",
+    "L2B_P28",
+    "L2B_P29",
+    "L2B_P30"
+   ],
+   "ecart_relatif_max_positions_FZ": 1.2149555709438897e-10,
+   "position_pire": "TSA_P07",
+   "echecs": [],
+   "verdict": "RÉUSSI"
+  }
+ }
+}

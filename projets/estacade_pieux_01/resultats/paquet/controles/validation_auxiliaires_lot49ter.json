@@ -1,0 +1,107 @@
+{
+ "lot": "49 ter",
+ "critere": "docs/essais_lot49ter.md § 3 (écrit avant l'exécution) : écart ≤ 2 %, sinon écrit et expliqué",
+ "A1": {
+  "attendu_Nm": 133333.33333333334,
+  "q_N_m": 100000.0,
+  "L_m": 4.0,
+  "section_en_T": {
+   "Y=-2.00": {
+    "barre_MFY_Nm": 114179.0106155,
+    "extremites": 1,
+    "bande_noeuds": 25,
+    "integrale_MYY_Nm": 8300.581708582318,
+    "section_en_T_Nm": 122479.59232408232,
+    "ecart_relatif": -0.08140305756938268
+   },
+   "Y=+2.00": {
+    "barre_MFY_Nm": 114179.0106154,
+    "extremites": 1,
+    "bande_noeuds": 25,
+    "integrale_MYY_Nm": 8300.581708536993,
+    "section_en_T_Nm": 122479.59232393699,
+    "ecart_relatif": -0.08140305757047266
+   }
+  },
+  "coupe_complete": {
+   "Y=-2.00": {
+    "somme_MFY_chevetres_Nm": 115644.58220664343,
+    "extremites": 7,
+    "integrale_MYY_toute_largeur_Nm": 11695.367323556638,
+    "total_Nm": 127339.94953020007
+   },
+   "Y=+0.00": {
+    "somme_MFY_chevetres_Nm": -55710.75679829571,
+    "extremites": 14,
+    "integrale_MYY_toute_largeur_Nm": -14779.579175350846,
+    "total_Nm": -70490.33597364655
+   },
+   "Y=+2.00": {
+    "somme_MFY_chevetres_Nm": 115644.58220645695,
+    "extremites": 7,
+    "integrale_MYY_toute_largeur_Nm": 11695.36732362529,
+    "total_Nm": 127339.94953008225
+   },
+   "statique_M_appui_moins_M_mi_portee_Nm": 197830.28550378772,
+   "statique_attendue_qL2_8_Nm": 200000.0,
+   "ecart_relatif_statique": -0.010848572481061419,
+   "part_de_la_section_en_T_a_l_appui": 0.9618316386643371
+  },
+  "reactions_N": {
+   "DX": -3.890472762514e-31,
+   "DY": -3.560566694922e-64,
+   "DZ": 400000.0000008
+  },
+  "charge_appliquee_N": -400000.0,
+  "alarme": "<A> <POSTRELE_70> : EFGE_NOEU extrait dans le repère local des éléments, confondu ici avec le repère global (ANGL_REP = (0, 0), normale +Z ; CA-058, DIAG-012)",
+  "ecart_relatif_max": 0.08140305757047266,
+  "verdict": "ÉCART > 2 %",
+  "execution": {
+   "run": "20261009T152115-c0cf7cc8",
+   "statut": "completed_with_alarms",
+   "duree_s": 85.8988308450007,
+   "comm": "projets/estacade_pieux_01/resultats/livrables_derives/A1/validation/validation_a1.comm"
+  }
+ },
+ "A2": {
+  "attendu_Nm_m": 20833.333333333332,
+  "q_Pa": 10000.0,
+  "L_m": 5.0,
+  "lignes_Y0": {
+   "X=5.60": {
+    "MXX_Nm_m": 20575.91921499,
+    "ecart_relatif": -0.0123558776804799
+   },
+   "X=10.60": {
+    "MXX_Nm_m": 20575.91915604,
+    "ecart_relatif": -0.012355880510079966
+   },
+   "X=15.60": {
+    "MXX_Nm_m": 20575.91915595,
+    "ecart_relatif": -0.012355880514399965
+   },
+   "X=20.60": {
+    "MXX_Nm_m": 20575.9191554,
+    "ecart_relatif": -0.012355880540799991
+   },
+   "X=25.60": {
+    "MXX_Nm_m": 20575.91921413,
+    "ecart_relatif": -0.0123558777217599
+   }
+  },
+  "reactions_N": {
+   "DX": 5.781135302547e-12,
+   "DY": -6.020315747016e-14,
+   "DZ": 1871999.999982
+  },
+  "ecart_relatif_max": 0.012355880540799991,
+  "verdict": "RÉUSSI",
+  "alarme": "<A> <POSTRELE_70> : EFGE_NOEU extrait dans le repère local des éléments, confondu ici avec le repère global (ANGL_REP = (0, 0), normale +Z ; CA-058, DIAG-012)",
+  "execution": {
+   "run": "20261009T152242-59583226",
+   "statut": "completed_with_alarms",
+   "duree_s": 90.15925536299983,
+   "comm": "projets/estacade_pieux_01/resultats/livrables_derives/A2/validation/validation_a2.comm"
+  }
+ }
+}

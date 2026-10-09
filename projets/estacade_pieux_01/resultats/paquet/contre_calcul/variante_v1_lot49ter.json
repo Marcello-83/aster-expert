@@ -1,0 +1,93 @@
+{
+ "lot": "49 ter",
+ "variante": "V1 : tronçon de pieu +0,70 → +1,30 indéformable (LIAISON_SOLIDE, U4.44.01), aucun nœud à +0,60",
+ "note": "en V1, les éléments de la partie rigide n'ont pas d'effort généralisé (U4.44.01) : le moment de tête est lu au haut de la partie déformable (+0,70) dans les deux modèles ; la valeur au nœud +1,30 de V1 est nulle par construction",
+ "effets": {
+  "ELU_fondamental": {
+   "tete_+1,30_M_kNm": {
+    "reference": 435.49431119478214,
+    "V1": 8.392319031614362e-13,
+    "variation": -0.999999999999998
+   },
+   "haut_partie_deformable_+0,70_M_kNm": {
+    "reference": 283.3501342093566,
+    "V1": 365.7006138246541,
+    "variation": 0.2906315179453978
+   },
+   "chevetre_travee_M_kNm": {
+    "reference": 473.1995025852737,
+    "V1": 471.3723747569467,
+    "variation": -0.0038612209403109396
+   },
+   "chevetre_nu_M_kNm": {
+    "reference": 73.18036671690095,
+    "V1": 72.92655105020499,
+    "variation": -0.0034683574035348206
+   },
+   "chevetre_nu_V_kN": {
+    "reference": 621.2925753544847,
+    "V1": 624.7313690802729,
+    "variation": 0.005534902334582278
+   }
+  },
+  "ELS_caracteristique": {
+   "tete_+1,30_M_kNm": {
+    "reference": 294.268596993644,
+    "V1": 5.547126580402892e-13,
+    "variation": -0.9999999999999981
+   },
+   "haut_partie_deformable_+0,70_M_kNm": {
+    "reference": 192.03727317385383,
+    "V1": 247.7554345565521,
+    "variation": 0.2901424315281539
+   },
+   "chevetre_travee_M_kNm": {
+    "reference": 325.04530779172455,
+    "V1": 323.6226282321238,
+    "variation": -0.004376865395369225
+   },
+   "chevetre_nu_M_kNm": {
+    "reference": 51.921264121628155,
+    "V1": 51.7123950380205,
+    "variation": -0.004022804281466762
+   },
+   "chevetre_nu_V_kN": {
+    "reference": 429.04518711392103,
+    "V1": 431.23441816499974,
+    "variation": 0.005102565223502711
+   }
+  },
+  "ELS_frequent": {
+   "tete_+1,30_M_kNm": {
+    "reference": 202.4061612549893,
+    "V1": 3.858153046846183e-13,
+    "variation": -0.999999999999998
+   },
+   "haut_partie_deformable_+0,70_M_kNm": {
+    "reference": 130.99865029656198,
+    "V1": 170.79778541710033,
+    "variation": 0.3038133219726987
+   },
+   "chevetre_travee_M_kNm": {
+    "reference": 215.62994875756303,
+    "V1": 215.34147475186597,
+    "variation": -0.0013378197572239431
+   },
+   "chevetre_nu_M_kNm": {
+    "reference": 42.726480319365905,
+    "V1": 42.69144053336315,
+    "variation": -0.0008200953071922871
+   },
+   "chevetre_nu_V_kN": {
+    "reference": 292.56873710575593,
+    "V1": 294.1876377417704,
+    "variation": 0.005533402686936037
+   }
+  },
+  "deplacement_tete_ELS_c_mm": {
+   "reference": 4.20524439929712,
+   "V1": 4.013372331440597,
+   "variation": -0.04562685295736754
+  }
+ }
+}

@@ -181,7 +181,9 @@ def main(argv: list[str]) -> int:
         template = _one(cases_med, f"CAS_{elementary[0]}__{key}")
         components = list(template.getInfo())
         arrays: dict[str, np.ndarray] = {}
-        needed = set(elementary)
+        # Every declared case (lot 49 ter: a derived model writes no combination but
+        # its moving positions are needed by the trunk).
+        needed = set(spec["cases"])
         for comb in combos:
             needed |= set(comb["fixed"]) | set(comb.get("mobile_cases", ()))
         for case in sorted(needed):

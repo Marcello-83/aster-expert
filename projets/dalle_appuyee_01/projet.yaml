@@ -187,6 +187,8 @@ engineering_summary:
       family: dalle
       rule: {description: "nœud du centre de la dalle (CENTRE, X = 3,00, Y = 2,00)", node_group: CENTRE}
       justification: "Point de contrôle du ferraillage (check_node) et de la comparaison à Navier (niveau E, lot 43)."
+      # Lot 49 ter (D3) : le centre est un point de contrôle pris dans la travée, partage déclaré.
+      shared_rows: [dalle_travee]
       bending_export: *dalle
     - name: appuis
       label: appuis simples

@@ -1,0 +1,58 @@
+id: CTL-015
+title: 'Chaîne de livraison : zones disjointes et signe de section, convention ingénieur,
+  format d''affichage de chaque cellule'
+summary: 'Avant de livrer une synthèse ingénieur : aucune ligne ni aucun nœud dans deux sections
+  d''une même famille, aucune ligne identique entre deux sections, le signe de moment déclaré
+  par section (D3) ; synthèse en convention ingénieur, torseurs bruts en convention Code_Aster
+  (D4) ; toute cellule numérique du classeur au format de son unité (D5).'
+origin_project: estacade_pieux_01
+date: '2026-10-09'
+validation_level: B
+status: observé
+sources:
+- kind: test
+  path: tests/unit/test_livrables_lot49ter.py
+  function: test_two_sections_of_a_family_must_not_share_a_row
+  note: 'D3 : recouvrement refusé, partage déclaré admis'
+- kind: test
+  path: tests/unit/test_livrables_lot49ter.py
+  function: test_identical_lines_in_two_sections_are_refused
+  note: 'D3 : lignes identiques refusées'
+- kind: test
+  path: tests/unit/test_livrables_lot49ter.py
+  function: test_a_span_section_keeps_the_span_sign_and_names_it
+  note: 'D3, D4 : signe retenu et intitulés physiques'
+- kind: test
+  path: tests/unit/test_synthese_ingenieur.py
+  function: test_the_workbook_puts_the_engineering_sheets_first
+  note: 'D4, D5 : convention dite en tête de feuille, number_format relu'
+commands: []
+keywords:
+- EFGE_ELNO
+- EFGE_NOEU
+reuses: []
+status_history: []
+detects: Deux sections d'une famille qui lisent les mêmes lignes (dalle en travée contenant
+  des moments de chapeau ; chevêtre en travée et au nu avec trois lignes identiques) ; une
+  feuille « Synthèse » en convention Code_Aster qui contredit les CSV ; des cellules au format
+  « Standard » (−166.3100644693008).
+parameters: Sections déclarées (zone, moment_signs, shared_rows) ; table config/arrondis.yaml
+  ; format des valeurs sans unité (0.00E+00).
+implementation:
+  kind: code
+  path: src/aster_expert/livrables/ingenieur.py
+  symbol: disjoint_zones
+  note: null
+scope: tronc commun
+caught_error:
+  mode: a posteriori
+  description: Relecture du superviseur des livrables du lot 49 bis (défauts D3, D4, D5 de
+    la consigne du lot 49 ter).
+  evidence:
+    kind: document
+    path: docs/lots/lot49ter_consigne.md
+    section: Étape 1 — Les six défauts
+    note: null
+default_harness: false
+version: 1
+version_history: []

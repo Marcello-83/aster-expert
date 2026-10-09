@@ -1,7 +1,7 @@
-﻿Section de dimensionnement;chevêtre en travée;chevetre_travee
+﻿Section de dimensionnement;chevêtre en travée (section en T);chevetre_travee
 Projet;estacade_pieux_01;
-Plan de flexion;flexion verticale (z_l = +Z, fibre supérieure en haut);MFY
-Type de section;rectangulaire;
+Plan de flexion;flexion verticale de la section en T (z_l = +Z, fibre supérieure en haut);MFY
+Type de section;section en T : chevêtre rectangulaire 1,20 × 0,90 et bande de dalle (E25);
 h (m);0,90;E2, E23 (§20.5.1)
 b (m);1,20;E2, E23 (§20.5.1)
 ds (m);0,070;E23 : ds = 0,07 m (d = 0,83, §20.5.1)
@@ -14,21 +14,18 @@ Convention N;N > 0 en compression : N = −N de Code_Aster (Code_Aster : N > 0 e
 Convention M;M > 0 comprime la fibre supérieure (+z_l) : M = −MFY de Code_Aster;"MFY = ∫z·σxx dS, MFZ = −∫y·σxx dS (R3.08.01) ; MXX > 0 tend la face supérieure (CA-045)"
 État limite non exporté;ELU accidentel : absent (le modèle source ne déclare aucune combinaison accidentelle ni sismique (combinaisons 100 à 115, E11));
 État limite non exporté;"ELS quasi permanent : absent (le modèle source ne déclare pas de combinaison quasi permanente (E11) ; la fissuration se vérifie sous ELS fréquent (E23))";
-Réserve de la famille;"barre seule : la dalle DKT, qui partage les nœuds du chevêtre, porte une part de l'effort (CA-058) ; le total de la section en T est la règle E17.2 (lot 47 bis)";
-Limite de la lecture;"barre seule (CA-058) : la bande de dalle porte une part du moment ; total barre + bande selon E17.2";
+Réserve de la famille;"section en T (E25) : barre + bande de dalle |X − X_file| ≤ 0,60 (règle E17.2) ; la barre seule, artefact de la formulation de plaque (CA-058, C8), reste dans les colonnes de traçabilité *_barre";
+Zone et signe (D3);"zone « travee » ; signe retenu (Code_Aster) : MFY negative ; le signe opposé n'est exporté que s'il dimensionne";
 
 N°;Type;N (kN);M (kN.m);;Cas dimensionnant;Combinaison;Position mobile;Lieu;Cote (m);V concomitant (kN);MFY brut Code_Aster (kN.m);N brut Code_Aster (kN);Repère des valeurs brutes
-1;ELU;13,4;443,1;;M max;112 ELU+;TSB_M20;CHEV_2, maille 1236, extrémité 1, nœud 1713;Y = -0,150;0,5;-443,1;-13,4;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
-2;ELU;15,9;-37,5;;M min;114 ELU+;TSB_M05;CHEV_1, maille 1294, extrémité 1, nœud 1768;Y = 1,650;52,1;37,5;-15,9;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
-3;ELU;20,9;23,8;;N max;104 ELU+;TSA_M29;CHEV_1, maille 1294, extrémité 1, nœud 1768;Y = 1,650;150,8;-23,8;-20,9;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
-4;ELU;-16,9;148,1;;N min;114 ELU+;TSB_P26;CHEV_5, maille 3132, extrémité 1, nœud 3576;Y = -0,050;-1,7;-148,1;16,9;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
-5;ELS;8,9;304,6;;M max;112 ELS_c;TSB_M20;CHEV_2, maille 1236, extrémité 1, nœud 1713;Y = -0,150;0,0;-304,6;-8,9;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
-6;ELS;10,6;-25,9;;M min;114 ELS_c;TSB_M05;CHEV_1, maille 1294, extrémité 1, nœud 1768;Y = 1,650;37,7;25,9;-10,6;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
-7;ELS;14,0;14,9;;N max;104 ELS_c;TSA_M29;CHEV_1, maille 1294, extrémité 1, nœud 1768;Y = 1,650;103,5;-14,9;-14,0;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
-8;ELS;-11,3;107,8;;N min;114 ELS_c;TSB_P26;CHEV_5, maille 3132, extrémité 1, nœud 3576;Y = -0,050;-1,3;-107,8;11,3;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
-9;ELSfiss;6,3;203,3;;M max;112 ELS_f;TSB_M20;CHEV_2, maille 1237, extrémité 1, nœud 1714;Y = -0,100;-0,1;-203,3;-6,3;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
-10;ELSfiss;7,1;-21,8;;M min;114 ELS_f;TSB_M05;CHEV_1, maille 1294, extrémité 1, nœud 1768;Y = 1,650;35,1;21,8;-7,1;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
-11;ELSfiss;8,6;-1,1;;N max;104 ELS_f;TSA_M29;CHEV_1, maille 1294, extrémité 1, nœud 1768;Y = 1,650;68,6;1,1;-8,6;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
-12;ELSfiss;-8,7;95,1;;N min;114 ELS_f;TSB_P26;CHEV_5, maille 3132, extrémité 1, nœud 3576;Y = -0,050;-1,3;-95,1;8,7;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+1;ELU;7,7;473,2;;M max;112 ELU+;TSB_M20;CHEV_2, maille 1235, extrémité 1, nœud 1712;Y = -0,200;-7,4;-473,2;-7,7;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+2;ELU;32,8;45,6;;N max;104 ELU+;TSA_M29;CHEV_1, maille 1293, extrémité 1, nœud 1767;Y = 1,600;494,0;-45,6;-32,8;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+3;ELU;-25,2;125,1;;N min;114 ELU+;TSB_M26;CHEV_7, maille 4089, extrémité 1, nœud 4514;Y = 0,000;-0,2;-125,1;25,2;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+4;ELS;5,2;325,0;;M max;112 ELS_c;TSB_M20;CHEV_2, maille 1235, extrémité 1, nœud 1712;Y = -0,200;-6,5;-325,0;-5,2;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+5;ELS;22,0;29,8;;N max;104 ELS_c;TSA_M29;CHEV_1, maille 1293, extrémité 1, nœud 1767;Y = 1,600;339,1;-29,8;-22,0;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+6;ELS;-16,9;90,4;;N min;114 ELS_c;TSB_M26;CHEV_7, maille 4089, extrémité 1, nœud 4514;Y = 0,000;-0,1;-90,4;16,9;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+7;ELSfiss;3,5;215,6;;M max;112 ELS_f;TSB_M20;CHEV_2, maille 1237, extrémité 1, nœud 1714;Y = -0,100;-0,5;-215,6;-3,5;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+8;ELSfiss;14,9;6,4;;N max;104 ELS_f;TSA_M29;CHEV_1, maille 1293, extrémité 1, nœud 1767;Y = 1,600;224,6;-6,4;-14,9;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+9;ELSfiss;-9,8;10,4;;N min;115 ELS_f;TSB_P12;CHEV_7, maille 3544, extrémité 2, nœud 3980;Y = -1,600;-96,0;-10,4;9,8;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
 
 Empreinte du MED source (resultats.med, SHA-256);8e8b91ffa99a22aefb7582274008393795c031c693cf3e0852d6c4f6b5891315

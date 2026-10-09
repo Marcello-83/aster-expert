@@ -73,14 +73,13 @@ lots:
   supervisor_interventions:
     value: 0.0
     nature: mesure
-    note: 'Aucune question posée à MM pour la dalle. Une interruption de la session Claude
-      Code, reprise sur consigne de MM, sans effet sur le contenu.'
+    note: Aucune question posée à MM pour la dalle. Une interruption de la session Claude
+      Code, reprise sur consigne de MM, sans effet sur le contenu.
   avoided_errors:
     value: 1.0
     nature: mesure
-    note: 'CA-045 : M = −MXX dans la convention du logiciel (M > 0 comprime la fibre
-      supérieure) ; vérifié sur le centre : MXX ELU = −17,1 kN·m/m (RC01 du lot 49), exporté
-      M = +17,1.'
+    note: 'CA-045 : M = −MXX dans la convention du logiciel (M > 0 comprime la fibre supérieure)
+      ; vérifié sur le centre : MXX ELU = −17,1 kN·m/m (RC01 du lot 49), exporté M = +17,1.'
   note: 'Aucune exécution Code_Aster : 40 torseurs, contrôle croisé sur 280 valeurs (écart
     0), équilibre par état limite ≤ 8,4e-12 ; 4 fichiers de flexion composée ; 66 images.'
 archive:
@@ -115,6 +114,12 @@ reviews:
   last_run: 20261008T120540-22c17443
 - date: '2026-10-09'
   lot: 49bis
+  runs: 10
+  failures: 1
+  unclassified: 0
+  last_run: 20261008T120540-22c17443
+- date: '2026-10-09'
+  lot: 49ter
   runs: 10
   failures: 1
   unclassified: 0

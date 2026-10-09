@@ -2115,7 +2115,8 @@ def projet(
         "verifier",
         help=(
             "verifier, maillage, generer, valider, executer, controles, synthese, "
-            "combinaisons, ferraillage, livrables, ou tout (toutes, dans l'ordre)."
+            "combinaisons, ferraillage, livrables, ou tout (toutes, dans l'ordre) ; "
+            "livraison (dépôt avec empreintes, --dossier, --verifier)."
         ),
     ),
     sans_vues: bool = typer.Option(
@@ -2141,6 +2142,22 @@ def projet(
         1,
         "--simultanees",
         help="livrables : nombre d'exécutions lancées en même temps (règle des fils).",
+    ),
+    dossier: str = typer.Option(
+        "",
+        "--dossier",
+        help=(
+            "livraison : dossier de dépôt des livrables (classeur, flexion composée, "
+            "diagrammes, comparaison) avec leur manifeste d'empreintes SHA-256."
+        ),
+    ),
+    verifier_livraison: bool = typer.Option(
+        False,
+        "--verifier",
+        help=(
+            "livraison : relire le dossier et signaler tout fichier modifié, absent "
+            "ou ajouté depuis la livraison (code 1)."
+        ),
     ),
     modele: str = typer.Option(
         "",
@@ -2194,7 +2211,14 @@ def projet(
         return
     ctx = _load_project_or_exit("projet", nom)
     try:
-        if etape == "livrables":
+        if etape == "livraison":
+            from aster_expert.livrables.livraison import run as deliver  # noqa: PLC0415
+
+            if not dossier:
+                message = "livraison : --dossier <chemin> exigé"
+                raise ProjectError(message)
+            lines = deliver(ctx, Path(dossier), check=verifier_livraison)
+        elif etape == "livrables":
             from aster_expert.execution.regle_fils import threads_for  # noqa: PLC0415
             from aster_expert.projet.pipeline import step_livrables  # noqa: PLC0415
 

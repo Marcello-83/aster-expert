@@ -265,14 +265,14 @@ def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
     lot 46 : CTL-013 ; lot 47 (estacade) : CA-054 à CA-057, PAT-012, CTL-014, REF-015
     (calcul externe non validé), PRE-033 à PRE-038 ; lot 47 bis : CA-058, PAT-013 ;
     lot 47 ter : ENV-002, ENV-003, DIAG-025 ; lot 47 quater : ENV-004, DIAG-026,
-    DIAG-027, PRE-039."""
+    DIAG-027, PRE-039 ; lot 49 ter : PAT-014, PAT-015, CTL-015."""
     base = load_knowledge(ROOT)
     counts = {layer: sum(row.values()) for layer, row in base.counts().items()}
     assert counts == {
         "constats_code_aster": 58,
         "diagnostics": 32,
-        "patrons": 13,
-        "controles": 14,
+        "patrons": 15,
+        "controles": 15,
         "references_validation": 15,
         "precedents": 38,
     }
