@@ -57,7 +57,10 @@ from estacade_pieux_01.donnees import model_values
 PROJECT = ROOT / "projets" / "estacade_pieux_01"
 FICHE = PROJECT / "fiche" / "hypotheses_estacade_pieux_01.json"
 SOURCES = PROJECT / "donnees" / "sources"
-LATER_RECORDINGS = ("enregistrement_E21_E23_lot49bis.md",)
+LATER_RECORDINGS = (
+    "enregistrement_E21_E23_lot49bis.md",
+    "enregistrement_E24_E27_lot49ter.md",
+)
 """Structured arbitrations recorded by `aster-expert fiche enregistrer` (lot 48 bis
 on), replayed in order after E1 to E20."""
 ARBITRATION = "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md)"
@@ -509,7 +512,7 @@ def build_sheet() -> HypothesesSheet:
     )
     for entry in [*mm_entries(at), *agent_entries(at, "0,05 m"), *bis, *quater]:
         sheet = insert_practice_entry(sheet, entry)
-    # Lot 49 bis : E21 à E23, enregistrées par `aster-expert fiche enregistrer`, rejouées
+    # Lots 49 bis et 49 ter : E21 à E27, enregistrées par `aster-expert fiche enregistrer`, rejouées
     # ici par la même fonction pour que la fiche reste reproductible.
     for name in LATER_RECORDINGS:
         text = (SOURCES / name).read_text(encoding="utf-8")

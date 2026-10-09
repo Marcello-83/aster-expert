@@ -643,10 +643,16 @@ def step_livrables(
     *,
     only: str | None = None,
     ncpus: int = 1,
+    model: str | None = None,
 ) -> list[str]:
-    """Lot 49: the deliverables (`aster_expert.livrables.chaine`)."""
+    """Lot 49: the deliverables (`aster_expert.livrables.chaine`); lot 49 ter: those
+    of a derived model (`aster_expert.livrables.derives`)."""
     from aster_expert.livrables.chaine import run_deliverables  # noqa: PLC0415
 
+    if model is not None:
+        from aster_expert.livrables.derives import run_derived  # noqa: PLC0415
+
+        return run_derived(ctx, rt, model, only=only, ncpus=ncpus)
     return run_deliverables(ctx, rt, only=only, ncpus=ncpus)
 
 

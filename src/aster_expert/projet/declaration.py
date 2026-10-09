@@ -825,6 +825,12 @@ class MemberFamily(_Model):
     """Beam: global axis along which the members are drawn (diagrams)."""
     caveat: str | None = None
     """What the values of the family are not (« barre seule, CA-058 »)."""
+    exclusion_band: ExclusionBand | None = None
+    """Beam sharing its nodes with a plate (lot 49 ter, E26): the band of half-width
+    b/2 along its line, excluded from the design values of every shell family."""
+    tee_section: TeeSection | None = None
+    """Beam sharing its nodes with a plate (lot 49 ter, E25): the design torsor is the
+    total of the T section, the bar plus the band of plate."""
 
     @model_validator(mode="after")
     def _consistent(self) -> MemberFamily:
@@ -845,7 +851,52 @@ class MemberFamily(_Model):
         if unknown:
             message = f"synthèse : {self.name} : {sorted(unknown)} hors `quantities`"
             raise ValueError(message)
+        if (self.exclusion_band or self.tee_section) and self.kind != "poutre":
+            message = (
+                f"synthèse : {self.name} : `exclusion_band` et `tee_section` sont "
+                "réservés aux poutres"
+            )
+            raise ValueError(message)
+        if self.tee_section is not None:
+            beams = {p.beam for p in self.tee_section.parts}
+            if beams - set(self.quantities):
+                message = (
+                    f"synthèse : {self.name} : section en T sur "
+                    f"{sorted(beams - set(self.quantities))} hors `quantities`"
+                )
+                raise ValueError(message)
         return self
+
+
+class ExclusionBand(_Model):
+    """E26 (lot 49 ter): the plate nodes closer to a node of the beam family than
+    `half_width` (strictly, in the plane XY) carry no design value of a shell
+    family; the face of the beam (distance = half_width) is read."""
+
+    half_width: float = Field(gt=0)
+    source: str = Field(min_length=10)
+
+
+class TeePart(_Model):
+    """One component of the T section: `beam` + factor × ∫ `plate` d(across)."""
+
+    beam: str
+    plate: str
+    factor: float = 1.0
+
+
+class TeeSection(_Model):
+    """E25 (lot 49 ter), rule E17.2: at each row of the beam (node at coordinate
+    `along`), the plate nodes of `plate_family` with the same `along` coordinate and
+    |across − across_beam| ≤ half_width are integrated by trapezoids and added to
+    the bar. The bar alone is kept in columns `<component>_barre`."""
+
+    plate_family: str
+    half_width: float = Field(gt=0)
+    across: Axis
+    along: Axis
+    parts: tuple[TeePart, ...] = Field(min_length=1)
+    source: str = Field(min_length=10)
 
 
 class CoordinateBox(_Model):
@@ -856,6 +907,10 @@ class CoordinateBox(_Model):
     y: tuple[float, float] | None = None
     z: tuple[float, float] | None = None
     absolute: tuple[Axis, ...] = ()
+    exclusive: tuple[
+        Literal["x_min", "x_max", "y_min", "y_max", "z_min", "z_max"], ...
+    ] = ()
+    """Bounds left out of the box (lot 49 ter: zones of one family are disjoint)."""
 
 
 class NearGroup(_Model):
@@ -873,8 +928,31 @@ class Station(_Model):
     with `absolute`): the coordinate actually read is reported."""
 
     axis: Axis
-    value: float
+    value: float | None = None
+    values: tuple[float, ...] = ()
+    """Several stations (lot 49 ter: both faces of a support)."""
     absolute: bool = False
+
+    @model_validator(mode="after")
+    def _one(self) -> Station:
+        if (self.value is None) == (not self.values):
+            message = "station : `value` ou `values`, l'un des deux"
+            raise ValueError(message)
+        return self
+
+    @property
+    def targets(self) -> tuple[float, ...]:
+        return (self.value,) if self.value is not None else self.values
+
+
+class Level(_Model):
+    """A cut of the beams at `axis = value` (lot 49 ter, E24): where no node lies
+    there, the two ends of the element that crosses it are interpolated linearly --
+    exact for N, V and M only without any transverse load or spring inside the
+    element (to be checked by the project, written in `justification`)."""
+
+    axis: Axis
+    value: float
 
 
 class SectionRule(_Model):
@@ -888,6 +966,7 @@ class SectionRule(_Model):
     box: CoordinateBox | None = None
     near: NearGroup | None = None
     station: Station | None = None
+    level: Level | None = None
 
 
 class TextOrData(_Model):
@@ -969,6 +1048,41 @@ class BendingExport(_Model):
     planes: tuple[BendingPlane, ...] = Field(min_length=1)
 
 
+SectionZone = Literal["travee", "appui", "chapeau", "nu", "courant", "comparaison"]
+"""Lot 49 ter (D3): a span section keeps the sign of the span moment, a support
+section (`appui`, `chapeau`, `nu`) that of the support; `comparaison`: read for a
+comparison only, never a design value."""
+
+MomentSign = Literal["positive", "negative", "both"]
+"""Sign kept of a bending component (Code_Aster convention of the field)."""
+
+
+class SupportPairing(_Model):
+    """How the rows of a section and of an auxiliary model are paired support by
+    support: by the nearest node of `node_group`, compared on `axes` (a pile: X and
+    Y; a line of supports: X)."""
+
+    node_group: str
+    axes: tuple[Axis, ...] = Field(min_length=1)
+
+
+class DesignMoment(_Model):
+    """E27 (lot 49 ter): M_dim = max(M_nu ; fraction × M_encastrement), combination by
+    combination and position by position, then enveloped. M_nu is read on the rows
+    of the section in the reference; M_encastrement on the rows of `axis_rule` in
+    the auxiliary model `auxiliary` (same family, same combinations and positions,
+    its excluded cases left out); the moment at the axis of the reference (same
+    rule) is given for comparison only."""
+
+    quantity: str
+    """Column read (`MFY` of a T section, `MXX`, `M_RES` of a circular beam)."""
+    fraction: float = Field(gt=0, le=1)
+    auxiliary: str
+    axis_rule: SectionRule
+    supports: SupportPairing
+    source: str = Field(min_length=10)
+
+
 class DesignSection(_Model):
     """A named design section of a family, read by an explicit rule."""
 
@@ -989,6 +1103,14 @@ class DesignSection(_Model):
     bending_export: BendingExport | None = None
     not_exported: str | None = None
     """Why a section has no bending export (written reason)."""
+    zone: SectionZone = "courant"
+    moment_signs: dict[str, MomentSign] = Field(default_factory=dict)
+    """Sign kept of each bending component (D3); the opposite sign is reported, and
+    kept only when declared `both`."""
+    design_moment: DesignMoment | None = None
+    shared_rows: tuple[str, ...] = ()
+    """Sections of the same family allowed to share rows with this one (declared
+    explicitly, D3)."""
 
     @model_validator(mode="after")
     def _export(self) -> DesignSection:
@@ -999,6 +1121,78 @@ class DesignSection(_Model):
             raise ValueError(message)
         if self.not_exported is not None:
             _written_reason(self.not_exported)
+        if self.zone in ("appui", "chapeau", "nu") and self.design_moment is None:
+            message = (
+                f"section {self.name} ({self.zone}) : `design_moment` obligatoire "
+                "(E27, lot 49 ter)"
+            )
+            raise ValueError(message)
+        if self.zone == "comparaison" and self.bending_export is not None:
+            message = (
+                f"section {self.name} : une section de comparaison n'est pas exportée"
+            )
+            raise ValueError(message)
+        return self
+
+
+DerivedKind = Literal["auxiliaire", "variante"]
+
+
+class DerivedBlock(_Model):
+    """Degrees of freedom set to zero (`DDL_IMPO`, U4.44.01) on the nodes of a node
+    group or of a cell group."""
+
+    node_group: str | None = None
+    cell_group: str | None = None
+    dofs: tuple[Component, ...] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _one(self) -> DerivedBlock:
+        if (self.node_group is None) == (self.cell_group is None):
+            message = "blocage : `node_group` ou `cell_group`, l'un des deux"
+            raise ValueError(message)
+        return self
+
+
+class DerivedRigid(_Model):
+    """Part made rigid (`LIAISON_SOLIDE`, U4.44.01): the cells of `cell_group`, one
+    rigid body per member (`per_member`, pattern of the member groups: one
+    occurrence on the intersection of the two groups)."""
+
+    cell_group: str
+    per_member: str
+
+
+class DerivedModel(_Model):
+    """A model derived from the reference (lot 49 ter): the production `.comm` kept
+    word for word, plus one kinematic load added to every solve. `auxiliaire`: a
+    model of E27 (fixed-end moments), never a variant of the reference; `variante`:
+    a declared sensitivity variant."""
+
+    name: str = Field(pattern=r"^[A-Z][A-Z0-9]{0,3}$")
+    kind: DerivedKind
+    label: str = Field(min_length=5)
+    purpose: str = Field(min_length=10)
+    blocks: tuple[DerivedBlock, ...] = ()
+    rigid: tuple[DerivedRigid, ...] = ()
+    excluded_cases: tuple[str, ...] = ()
+    """Elementary cases left out of the combinations read in this model (E27:
+    braking and temperature)."""
+    excluded_reason: str | None = None
+    fields: tuple[str, ...] = Field(min_length=1)
+    """Keys of the deliverable fields written by the derived run."""
+    source: str = Field(min_length=10)
+
+    @model_validator(mode="after")
+    def _shape(self) -> DerivedModel:
+        if not self.blocks and not self.rigid:
+            message = f"modèle dérivé {self.name} : ni blocage ni partie rigide"
+            raise ValueError(message)
+        if self.excluded_cases and self.excluded_reason is None:
+            message = f"modèle dérivé {self.name} : cas exclus sans motif"
+            raise ValueError(message)
+        if self.excluded_reason is not None:
+            _written_reason(self.excluded_reason)
         return self
 
 
@@ -1083,6 +1277,8 @@ class EngineeringSummarySection(_Model):
     no_service_criteria: str | None = None
     """Why the project declares no serviceability criterion."""
     cuts: tuple[SlabCut, ...] = ()
+    derived_models: tuple[DerivedModel, ...] = ()
+    """Lot 49 ter: auxiliary models of E27 and declared variants."""
 
     @model_validator(mode="after")
     def _complete(self) -> EngineeringSummarySection:
@@ -1128,6 +1324,37 @@ class EngineeringSummarySection(_Model):
         if len(set(sections)) != len(sections):
             message = "synthèse : deux sections de même nom"
             raise ValueError(message)
+        derived = {m.name: m for m in self.derived_models}
+        if len(derived) != len(self.derived_models):
+            message = "synthèse : deux modèles dérivés de même nom"
+            raise ValueError(message)
+        families = {f.name: f for f in self.families}
+        for family in self.families:
+            tee = family.tee_section
+            if tee is not None and (
+                tee.plate_family not in families
+                or families[tee.plate_family].kind != "coque"
+            ):
+                message = (
+                    f"famille {family.name} : section en T sur {tee.plate_family}, "
+                    "qui n'est pas une famille de coque"
+                )
+                raise ValueError(message)
+        for section in self.sections:
+            dm = section.design_moment
+            if dm is None:
+                continue
+            model = derived.get(dm.auxiliary)
+            if model is None or model.kind != "auxiliaire":
+                message = (
+                    f"section {section.name} : modèle auxiliaire {dm.auxiliary} "
+                    "non déclaré dans `derived_models`"
+                )
+                raise ValueError(message)
+            for other in section.shared_rows:
+                if other not in sections:
+                    message = f"section {section.name} : `shared_rows` {other} inconnue"
+                    raise ValueError(message)
         return self
 
 

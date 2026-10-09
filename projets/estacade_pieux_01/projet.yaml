@@ -335,6 +335,53 @@ engineering_summary:
       verdict: false
       spans: {axis: X, line_axis: Y, cantilevers: [[0.6, 0.0], [30.6, 31.2]]}
       source: "E22 : débord de 0,60 m en about, limite 3 mm (portée conventionnelle 2 × 0,60 m), pour information"
+  # Lot 49 ter : modèles dérivés de la référence (aster_expert.livrables.derives),
+  # `aster-expert projet estacade_pieux_01 livrables --modele <nom>`. A1 à A3 : modèles
+  # auxiliaires d'E27 (moments d'encastrement parfait), jamais des variantes de la
+  # référence ; V1 : variante déclarée de D6. Tronçon indéformable : PIEU_T1 (+0,70 à
+  # +1,30, nœud le plus proche de +0,60 au-dessus ; aucun nœud à +0,60, pas de
+  # maillage nouveau dans ce lot), un corps rigide par pieu (LIAISON_SOLIDE, U4.44.01).
+  derived_models:
+    - name: A1
+      kind: auxiliaire
+      label: "tablier encastré en tête de pieux"
+      purpose: "M_encastrement des chevêtres (E27, A1) : nœuds de tête encastrés, translations et rotations bloquées ; les pieux, suspendus sous un nœud aux six ddl imposés, n'agissent plus sur le tablier"
+      blocks:
+        - {node_group: TETES, dofs: [DX, DY, DZ, DRX, DRY, DRZ]}
+      excluded_cases: [FR, TEP, TEM]
+      excluded_reason: "E27 : charges verticales seulement ; freinage et température exclus (dans un modèle bi-encastré, un gradient thermique produit un moment artificiel sans rapport avec la règle), choix que MM peut renverser"
+      fields: [EFGE_NOEU, EFGE_ELNO, REAC_NODA, SIEF_ELGA]
+      source: "E27 de MM (lot 49 ter), modèle auxiliaire A1"
+    - name: A2
+      kind: auxiliaire
+      label: "tablier sur lignes d'axe des chevêtres encastrées"
+      purpose: "M_encastrement du chapeau de dalle (E27, A2) : DZ et rotation autour de la ligne (DRY, lignes selon Y) bloqués sur les nœuds des chevêtres ; chaque travée de 5 m est bi-encastrée"
+      blocks:
+        - {cell_group: CHEVETRES, dofs: [DZ, DRY]}
+      excluded_cases: [FR, TEP, TEM]
+      excluded_reason: "E27 : charges verticales seulement ; freinage et température exclus (dans un modèle bi-encastré, un gradient thermique produit un moment artificiel sans rapport avec la règle), choix que MM peut renverser"
+      fields: [EFGE_NOEU, REAC_NODA, SIEF_ELGA]
+      source: "E27 de MM (lot 49 ter), modèle auxiliaire A2"
+    - name: A3
+      kind: auxiliaire
+      label: "modèle complet, tronçon de tête indéformable, rotations des têtes bloquées"
+      purpose: "M_encastrement du bouchon (E27, A3, extension de MM) : tronçon de tête rendu indéformable comme en V1 et rotations des têtes bloquées, translations libres"
+      rigid:
+        - {cell_group: PIEU_T1, per_member: "PIEU_F*"}
+      blocks:
+        - {node_group: TETES, dofs: [DRX, DRY, DRZ]}
+      excluded_cases: [FR, TEP, TEM]
+      excluded_reason: "E27 : charges verticales seulement ; freinage et température exclus (dans un modèle bi-encastré, un gradient thermique produit un moment artificiel sans rapport avec la règle), choix que MM peut renverser"
+      fields: [EFGE_ELNO, REAC_NODA, SIEF_ELGA]
+      source: "E27 de MM (lot 49 ter), modèle auxiliaire A3"
+    - name: V1
+      kind: variante
+      label: "tronçon de pieu dans le chevêtre rendu indéformable"
+      purpose: "Variante déclarée V1 (D6) : le tronçon de pieu situé dans le chevêtre est un massif de béton, rendu indéformable (LIAISON_SOLIDE), le reste inchangé"
+      rigid:
+        - {cell_group: PIEU_T1, per_member: "PIEU_F*"}
+      fields: [DEPL, EFGE_NOEU, EFGE_ELNO, REAC_NODA, SIEF_ELGA]
+      source: "consigne du lot 49 ter, D6, variante V1 (une exécution)"
   cuts:
     - {name: tablier_axe, family: tablier, axis: Y, value: 0.0, along: X, components: [MXX, MYY], shared_with: [CHEVETRES, PIEUX]}
     - {name: tablier_file_des_pieux, family: tablier, axis: Y, value: 2.0, along: X, components: [MXX, MYY], shared_with: [CHEVETRES, PIEUX]}

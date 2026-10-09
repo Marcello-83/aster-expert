@@ -58,15 +58,19 @@ def deliverables_dir(ctx: ProjectContext) -> Path:
     return ctx.results_dir / "livrables"
 
 
-def load_deliverables_state(ctx: ProjectContext) -> DeliverablesState:
-    path = deliverables_dir(ctx) / STATE_NAME
+def load_deliverables_state(
+    ctx: ProjectContext, root: Path | None = None
+) -> DeliverablesState:
+    path = (root or deliverables_dir(ctx)) / STATE_NAME
     if not path.is_file():
         return DeliverablesState()
     return DeliverablesState.model_validate_json(path.read_text(encoding="utf-8"))
 
 
-def save_deliverables_state(ctx: ProjectContext, state: DeliverablesState) -> None:
-    path = deliverables_dir(ctx) / STATE_NAME
+def save_deliverables_state(
+    ctx: ProjectContext, state: DeliverablesState, root: Path | None = None
+) -> None:
+    path = (root or deliverables_dir(ctx)) / STATE_NAME
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(state.model_dump_json(indent=1) + "\n", encoding="utf-8")
 
@@ -260,10 +264,10 @@ def step_preparer(ctx: ProjectContext, rt: Any, *, ncpus: int = 1) -> list[str]:
     return [line]
 
 
-def step_executer(ctx: ProjectContext, rt: Any) -> list[str]:
+def step_executer(ctx: ProjectContext, rt: Any, root: Path | None = None) -> list[str]:
     from aster_expert.projet.pipeline import execute  # noqa: PLC0415
 
-    state = load_deliverables_state(ctx)
+    state = load_deliverables_state(ctx, root)
     if not state.post_comm or state.validation is None:
         message = "livrables : étape preparer d'abord"
         raise ProjectError(message)
@@ -276,7 +280,7 @@ def step_executer(ctx: ProjectContext, rt: Any) -> list[str]:
     report = execute(ctx, rt, comm)
     state.post_run = report.work_dir
     state.tables = None
-    save_deliverables_state(ctx, state)
+    save_deliverables_state(ctx, state, root)
     return [
         f"Exécution de post-traitement : {report.status} ({report.diag}), "
         f"{report.duration_s:.1f} s ; {report.work_dir}"
@@ -374,16 +378,26 @@ def _spec(ctx: ProjectContext, plan: dict[str, Any]) -> dict[str, Any]:
 
 
 def step_traiter(ctx: ProjectContext, rt: Any) -> list[str]:  # noqa: ARG001
-    from aster_expert.livrables.conteneur import (  # noqa: PLC0415
-        ContainerError,
-        run_deliverables_container,
-    )
-
     state = load_deliverables_state(ctx)
     if not state.tables or not state.tables.get("identiques") or not state.post_run:
         message = "livrables : étape verifier d'abord (tables identiques exigées)"
         raise ProjectError(message)
     out = deliverables_dir(ctx)
+    plan = json.loads((out / "post" / "plan.json").read_text(encoding="utf-8"))
+    return extract(ctx, out, state, _spec(ctx, plan))
+
+
+def extract(
+    ctx: ProjectContext, out: Path, state: DeliverablesState, spec: dict[str, Any]
+) -> list[str]:
+    """The MED of the post-processing run turned into the arrays of `out/donnees`
+    (`scripts/livrables_med.py` in the container)."""
+    from aster_expert.livrables.conteneur import (  # noqa: PLC0415
+        ContainerError,
+        run_deliverables_container,
+    )
+
+    assert state.post_run is not None
     plan = json.loads((out / "post" / "plan.json").read_text(encoding="utf-8"))
     proc = Path(state.post_run) / "proc.0"
     files = {
@@ -395,7 +409,6 @@ def step_traiter(ctx: ProjectContext, rt: Any) -> list[str]:  # noqa: ARG001
     if absent:
         message = f"livrables : MED absents de l'exécution : {absent}"
         raise ProjectError(message)
-    spec = _spec(ctx, plan)
     try:
         work = run_deliverables_container(
             files,
@@ -423,7 +436,7 @@ def step_traiter(ctx: ProjectContext, rt: Any) -> list[str]:  # noqa: ARG001
         "donnees": str(data),
         "conteneur": str(work),
     }
-    save_deliverables_state(ctx, state)
+    save_deliverables_state(ctx, state, out)
     sizes = {n: (target / n).stat().st_size for n in ("resultats.med", "charges.med")}
     written = json.loads((out / "conteneur.json").read_text(encoding="utf-8"))["ecrits"]
     return [
@@ -481,6 +494,7 @@ __all__ = [
     "DeliverablesState",
     "compare_tables",
     "deliverables_dir",
+    "extract",
     "load_deliverables_state",
     "prepare_text",
     "production",

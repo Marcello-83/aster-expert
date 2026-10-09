@@ -2142,6 +2142,15 @@ def projet(
         "--simultanees",
         help="livrables : nombre d'exécutions lancées en même temps (règle des fils).",
     ),
+    modele: str = typer.Option(
+        "",
+        "--modele",
+        help=(
+            "livrables : modèle dérivé déclaré (engineering_summary.derived_models, "
+            "lot 49 ter) au lieu de la référence ; sous-étapes preparer, executer, "
+            "verifier, traiter, controler."
+        ),
+    ),
     description: str = typer.Option(
         "Ouvrage à décrire.", "--description", help="projet creer : description."
     ),
@@ -2194,6 +2203,7 @@ def projet(
                 Runtime(_project_root()),
                 only=sous_etape or None,
                 ncpus=ncpus or threads_for(_project_root(), simultanees),
+                model=modele or None,
             )
         else:
             lines = run_step(ctx, Runtime(_project_root()), etape, views=not sans_vues)
