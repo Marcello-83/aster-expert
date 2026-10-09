@@ -391,8 +391,9 @@ Livrables et ressources (lot 49) :
   sur des résultats : `aster-expert resultats lire` ou `query_results`, jamais un script jetable.
 - `PARALLELISME_TEMPS='OUI'` refusé avant exécution (DIAG-027). Fils = min(`useful_threads_max` = 4, processeurs ÷ exécutions simultanées).
 - Rendu ParaView sans écran : ParaView de Salomé-Méca, `xvfb-run -a pvbatch --no-mpi` ; scripts générés du manifeste.
+- Synthèse ingénieur (lot 49 bis) : `engineering_summary` ; sous-étapes `ingenieur`, `images`, puis `exporter-resultats` et `classeur`, jamais
+  en parallèle ; torseurs relus par `resultats lire` ; coque d'un disque ou d'un nœud partagé avec une poutre : « non significative ».
 
 ## Périmètre à ne pas dépasser sans instruction
 Une session traite un lot et un seul. Ne pas anticiper les lots suivants, ne pas installer d'infrastructure non demandée, ne pas inventer la structure
 d'un dépôt externe avant de l'avoir inspectée.
-

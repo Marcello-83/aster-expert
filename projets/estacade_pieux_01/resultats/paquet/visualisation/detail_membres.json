@@ -1,0 +1,6218 @@
+[
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F1_YM",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -166310.06446930082,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU-",
+    "position_mobile": "TSB_M15"
+   },
+   "N min": {
+    "valeur_si": -791916.6956462339,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M29"
+   },
+   "MFY max": {
+    "valeur_si": 80691.95475244152,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY min": {
+    "valeur_si": -31787.700039478874,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU-",
+    "position_mobile": "TSB_M08"
+   },
+   "MFZ max": {
+    "valeur_si": 262177.41861734237,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M25"
+   },
+   "MFZ min": {
+    "valeur_si": -243083.29858119864,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU-",
+    "position_mobile": "TSB_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 268788.4671258231,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M25"
+   },
+   "|VY| max": {
+    "valeur_si": -217175.58007987423,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU-",
+    "position_mobile": "TSB_M15"
+   },
+   "|VZ| max": {
+    "valeur_si": -37234.21131866312,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 218283.4218438372,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU-",
+    "position_mobile": "TSB_M15"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F1_YP",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -168310.8977555995,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU-",
+    "position_mobile": "TSA_M15"
+   },
+   "N min": {
+    "valeur_si": -839623.9897358886,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY max": {
+    "valeur_si": 31338.030874186992,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU-",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY min": {
+    "valeur_si": -76609.16293324251,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M29"
+   },
+   "MFZ max": {
+    "valeur_si": 265337.5626278475,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M25"
+   },
+   "MFZ min": {
+    "valeur_si": -242889.05582302,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU-",
+    "position_mobile": "TSA_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 271215.7497271026,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M25"
+   },
+   "|VY| max": {
+    "valeur_si": -217100.19672997273,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU-",
+    "position_mobile": "TSA_M15"
+   },
+   "|VZ| max": {
+    "valeur_si": 37152.01390541647,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 218151.42189869317,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU-",
+    "position_mobile": "TSA_M15"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F2_YM",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -346320.9018140657,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELU-",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -1031925.9816730415,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELU+",
+    "position_mobile": "TSA_M20"
+   },
+   "MFY max": {
+    "valeur_si": 48996.965084943826,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M20"
+   },
+   "MFY min": {
+    "valeur_si": -9952.215988685835,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M20"
+   },
+   "MFZ max": {
+    "valeur_si": 78372.12509075148,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU-",
+    "position_mobile": "TSA_M16"
+   },
+   "MFZ min": {
+    "valeur_si": -196796.61992098112,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU+",
+    "position_mobile": "TSA_M25"
+   },
+   "M max (résultante)": {
+    "valeur_si": 196913.24159143574,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU+",
+    "position_mobile": "TSA_M24"
+   },
+   "|VY| max": {
+    "valeur_si": -50706.70025241359,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU+",
+    "position_mobile": "TSA_M25"
+   },
+   "|VZ| max": {
+    "valeur_si": -10533.23508733141,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     -0.5
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 50707.25354344288,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU+",
+    "position_mobile": "TSA_M25"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F2_YP",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -346320.9019312848,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELU-",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -1075420.3946914296,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_M20"
+   },
+   "MFY max": {
+    "valeur_si": 9513.98208821738,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M20"
+   },
+   "MFY min": {
+    "valeur_si": -44274.793448160184,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M20"
+   },
+   "MFZ max": {
+    "valeur_si": 81049.649722884,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU-",
+    "position_mobile": "TSB_M16"
+   },
+   "MFZ min": {
+    "valeur_si": -198759.89125635452,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU+",
+    "position_mobile": "TSB_M24"
+   },
+   "M max (résultante)": {
+    "valeur_si": 198809.7502473062,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU+",
+    "position_mobile": "TSB_M24"
+   },
+   "|VY| max": {
+    "valeur_si": -51064.41784730646,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU+",
+    "position_mobile": "TSB_M25"
+   },
+   "|VZ| max": {
+    "valeur_si": 9702.548421004245,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     0.7
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 51067.81782539945,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU+",
+    "position_mobile": "TSB_M25"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F3_YM",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -307705.1179392579,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELU-",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -945263.299523124,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "102 ELU+",
+    "position_mobile": "TSA_M10"
+   },
+   "MFY max": {
+    "valeur_si": 49455.64160154499,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M10"
+   },
+   "MFY min": {
+    "valeur_si": -10067.95520761815,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M10"
+   },
+   "MFZ max": {
+    "valeur_si": 57220.36492888769,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "102 ELU-",
+    "position_mobile": "TSA_M06"
+   },
+   "MFZ min": {
+    "valeur_si": -135076.83540667145,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU+",
+    "position_mobile": "TSA_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 135212.01153140844,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU+",
+    "position_mobile": "TSA_M14"
+   },
+   "|VY| max": {
+    "valeur_si": -35316.9972637232,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     0.7
+    ],
+    "combinaison": "108 ELU+",
+    "position_mobile": "TSA_M14"
+   },
+   "|VZ| max": {
+    "valeur_si": -10639.83384941969,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.0
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 35317.379820681985,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     0.7
+    ],
+    "combinaison": "108 ELU+",
+    "position_mobile": "TSA_M14"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F3_YP",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -307705.11802699737,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELU-",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -988568.56893053,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "109 ELU+",
+    "position_mobile": "TSB_M10"
+   },
+   "MFY max": {
+    "valeur_si": 9551.761458281888,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M10"
+   },
+   "MFY min": {
+    "valeur_si": -44554.18414398273,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M10"
+   },
+   "MFZ max": {
+    "valeur_si": 59926.82529186756,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "109 ELU-",
+    "position_mobile": "TSB_M06"
+   },
+   "MFZ min": {
+    "valeur_si": -136989.13015344352,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU+",
+    "position_mobile": "TSB_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 137019.70233258014,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU+",
+    "position_mobile": "TSB_M14"
+   },
+   "|VY| max": {
+    "valeur_si": -35680.87400244137,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -0.5
+    ],
+    "combinaison": "115 ELU+",
+    "position_mobile": "TSB_M14"
+   },
+   "|VZ| max": {
+    "valeur_si": 9755.893291551361,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -1.5
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 35693.21526286615,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -0.5
+    ],
+    "combinaison": "115 ELU-",
+    "position_mobile": "TSB_M14"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F4_YM",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -311116.6034908128,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELU-",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -952815.3232488565,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELU+",
+    "position_mobile": "TSA_P00"
+   },
+   "MFY max": {
+    "valeur_si": 49462.06490350309,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P00"
+   },
+   "MFY min": {
+    "valeur_si": -10076.565703193173,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P00"
+   },
+   "MFZ max": {
+    "valeur_si": 57224.02707569408,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "102 ELU+",
+    "position_mobile": "TSA_P04"
+   },
+   "MFZ min": {
+    "valeur_si": -104891.58963458793,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU-",
+    "position_mobile": "TSA_M04"
+   },
+   "M max (résultante)": {
+    "valeur_si": 109868.22530764536,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELU+",
+    "position_mobile": "TSA_M04"
+   },
+   "|VY| max": {
+    "valeur_si": -26400.4768859599,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "108 ELU-",
+    "position_mobile": "TSA_M04"
+   },
+   "|VZ| max": {
+    "valeur_si": -10643.8018666769,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P00"
+   },
+   "V max (résultante)": {
+    "valeur_si": 27447.21030136051,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "107 ELU+",
+    "position_mobile": "TSA_M04"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F4_YP",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -311116.60353510786,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELU-",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -996104.8493536402,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_P00"
+   },
+   "MFY max": {
+    "valeur_si": 9550.18535121936,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P00"
+   },
+   "MFY min": {
+    "valeur_si": -44536.17736088111,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P00"
+   },
+   "MFZ max": {
+    "valeur_si": 59941.32391247616,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "109 ELU+",
+    "position_mobile": "TSB_P04"
+   },
+   "MFZ min": {
+    "valeur_si": -106793.69742501757,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU-",
+    "position_mobile": "TSB_M04"
+   },
+   "M max (résultante)": {
+    "valeur_si": 110795.19316887151,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELU+",
+    "position_mobile": "TSB_M04"
+   },
+   "|VY| max": {
+    "valeur_si": -26761.522231418618,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU-",
+    "position_mobile": "TSB_M04"
+   },
+   "|VZ| max": {
+    "valeur_si": 9752.759318618857,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P00"
+   },
+   "V max (résultante)": {
+    "valeur_si": 27645.358634645912,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELU+",
+    "position_mobile": "TSB_M04"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F5_YM",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -313717.4062461758,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELU-",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -949262.5180257862,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELU+",
+    "position_mobile": "TSA_P10"
+   },
+   "MFY max": {
+    "valeur_si": 49487.434774004614,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P10"
+   },
+   "MFY min": {
+    "valeur_si": -10073.369773961529,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P10"
+   },
+   "MFZ max": {
+    "valeur_si": 56977.771844165065,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "102 ELU+",
+    "position_mobile": "TSA_P14"
+   },
+   "MFZ min": {
+    "valeur_si": -135216.07787519408,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELU-",
+    "position_mobile": "TSA_P06"
+   },
+   "M max (résultante)": {
+    "valeur_si": 139110.3445909182,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELU+",
+    "position_mobile": "TSA_P06"
+   },
+   "|VY| max": {
+    "valeur_si": -35359.798357753236,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     0.5
+    ],
+    "combinaison": "107 ELU-",
+    "position_mobile": "TSA_P06"
+   },
+   "|VZ| max": {
+    "valeur_si": -10646.299227081603,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 36146.03062675593,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     0.5
+    ],
+    "combinaison": "107 ELU+",
+    "position_mobile": "TSA_P06"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F5_YP",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -313717.40624711907,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELU-",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -992567.7872018565,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_P10"
+   },
+   "MFY max": {
+    "valeur_si": 9557.176027846821,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P10"
+   },
+   "MFY min": {
+    "valeur_si": -44585.97734794374,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P10"
+   },
+   "MFZ max": {
+    "valeur_si": 59709.62146569358,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "109 ELU+",
+    "position_mobile": "TSB_P14"
+   },
+   "MFZ min": {
+    "valeur_si": -137110.6001282247,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELU-",
+    "position_mobile": "TSB_P06"
+   },
+   "M max (résultante)": {
+    "valeur_si": 140248.67538832373,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELU+",
+    "position_mobile": "TSB_P06"
+   },
+   "|VY| max": {
+    "valeur_si": -35718.722832501546,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -1.5
+    ],
+    "combinaison": "114 ELU-",
+    "position_mobile": "TSB_P06"
+   },
+   "|VZ| max": {
+    "valeur_si": 9762.358674861298,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     0.0
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 36383.987852694736,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -1.5
+    ],
+    "combinaison": "114 ELU+",
+    "position_mobile": "TSB_P06"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F6_YM",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -298268.5719526077,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELU-",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -998289.3508064008,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELU+",
+    "position_mobile": "TSA_P20"
+   },
+   "MFY max": {
+    "valeur_si": 48487.056212416224,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P20"
+   },
+   "MFY min": {
+    "valeur_si": -9887.294808928988,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P20"
+   },
+   "MFZ max": {
+    "valeur_si": 94980.35426404278,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "105 ELU+",
+    "position_mobile": "TSA_P25"
+   },
+   "MFZ min": {
+    "valeur_si": -183659.87111264133,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELU-",
+    "position_mobile": "TSA_P16"
+   },
+   "M max (résultante)": {
+    "valeur_si": 186063.38556088004,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELU-",
+    "position_mobile": "TSA_P16"
+   },
+   "|VY| max": {
+    "valeur_si": -47761.663087985624,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.0
+    ],
+    "combinaison": "107 ELU-",
+    "position_mobile": "TSA_P15"
+   },
+   "|VZ| max": {
+    "valeur_si": -10437.303475872402,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     0.7
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 48251.40729604656,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.0
+    ],
+    "combinaison": "107 ELU-",
+    "position_mobile": "TSA_P16"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F6_YP",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -298268.57190637,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELU-",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -1041783.7634469945,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_P20"
+   },
+   "MFY max": {
+    "valeur_si": 9449.06091258827,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P20"
+   },
+   "MFY min": {
+    "valeur_si": -43764.88462211745,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P20"
+   },
+   "MFZ max": {
+    "valeur_si": 97785.02758998786,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_P24"
+   },
+   "MFZ min": {
+    "valeur_si": -185534.13834407867,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELU-",
+    "position_mobile": "TSB_P16"
+   },
+   "M max (résultante)": {
+    "valeur_si": 187446.99352813506,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELU-",
+    "position_mobile": "TSB_P16"
+   },
+   "|VY| max": {
+    "valeur_si": -48100.2449608154,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     0.5
+    ],
+    "combinaison": "114 ELU-",
+    "position_mobile": "TSB_P16"
+   },
+   "|VZ| max": {
+    "valeur_si": 9606.616817654853,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     0.5
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 48525.96478300238,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     0.5
+    ],
+    "combinaison": "114 ELU-",
+    "position_mobile": "TSB_P16"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F7_YM",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -234622.66606605035,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU-",
+    "position_mobile": "TSB_P15"
+   },
+   "N min": {
+    "valeur_si": -839735.5167015285,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P29"
+   },
+   "MFY max": {
+    "valeur_si": 83691.74313189837,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY min": {
+    "valeur_si": -27556.011629273886,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "112 ELU-",
+    "position_mobile": "TSB_P08"
+   },
+   "MFZ max": {
+    "valeur_si": 118346.83371965101,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     -2.5
+    ],
+    "combinaison": "107 ELU-",
+    "position_mobile": "TSA_M26"
+   },
+   "MFZ min": {
+    "valeur_si": -428436.17658216594,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELU+",
+    "position_mobile": "TSA_P25"
+   },
+   "M max (résultante)": {
+    "valeur_si": 432796.89151377487,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P25"
+   },
+   "|VY| max": {
+    "valeur_si": -277268.8079959216,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELU+",
+    "position_mobile": "TSA_P25"
+   },
+   "|VZ| max": {
+    "valeur_si": -38282.36135721016,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 278960.69046203356,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELU+",
+    "position_mobile": "TSA_P25"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F7_YP",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -236623.49922281937,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELU-",
+    "position_mobile": "TSA_P15"
+   },
+   "N min": {
+    "valeur_si": -887442.8105481154,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY max": {
+    "valeur_si": 27052.61888191217,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELU-",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY min": {
+    "valeur_si": -79608.95133413524,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P29"
+   },
+   "MFZ max": {
+    "valeur_si": 118394.69150444226,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     -2.5
+    ],
+    "combinaison": "114 ELU-",
+    "position_mobile": "TSB_M26"
+   },
+   "MFZ min": {
+    "valeur_si": -431457.2963232979,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P25"
+   },
+   "M max (résultante)": {
+    "valeur_si": 435494.31119478215,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P25"
+   },
+   "|VY| max": {
+    "valeur_si": -277966.35218954884,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELU+",
+    "position_mobile": "TSB_P25"
+   },
+   "|VZ| max": {
+    "valeur_si": 38200.163944059546,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_P29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 279654.1039286546,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELU+",
+    "position_mobile": "TSB_P25"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F1_YM",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -181926.60939618183,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M15"
+   },
+   "N min": {
+    "valeur_si": -553169.7022891502,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M29"
+   },
+   "MFY max": {
+    "valeur_si": 54322.605928221215,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY min": {
+    "valeur_si": -19431.901937674127,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M08"
+   },
+   "MFZ max": {
+    "valeur_si": 178688.46507536428,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M25"
+   },
+   "MFZ min": {
+    "valeur_si": -149043.801285901,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 183116.5235329991,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M25"
+   },
+   "|VY| max": {
+    "valeur_si": -140347.37094440684,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M15"
+   },
+   "|VZ| max": {
+    "valeur_si": -25004.305401020352,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 141047.6580031848,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M15"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F1_YP",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -183260.49827073354,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M15"
+   },
+   "N min": {
+    "valeur_si": -584974.5650206922,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY max": {
+    "valeur_si": 19132.122494322546,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY min": {
+    "valeur_si": -51600.74471536897,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M29"
+   },
+   "MFZ max": {
+    "valeur_si": 180795.22774934673,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M25"
+   },
+   "MFZ min": {
+    "valeur_si": -148914.30611274086,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 184738.9723678803,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M25"
+   },
+   "|VY| max": {
+    "valeur_si": -140297.11537752344,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M15"
+   },
+   "|VZ| max": {
+    "valeur_si": 24949.507125833803,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 140960.08775148695,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M15"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F2_YM",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -338312.18016166147,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_c",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -724089.3967343784,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELS_c",
+    "position_mobile": "TSA_M20"
+   },
+   "MFY max": {
+    "valeur_si": 33216.0906748602,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M20"
+   },
+   "MFY min": {
+    "valeur_si": -6707.277912815211,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M20"
+   },
+   "MFZ max": {
+    "valeur_si": 51533.668086345155,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M16"
+   },
+   "MFZ min": {
+    "valeur_si": -131412.07120623413,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M25"
+   },
+   "M max (résultante)": {
+    "valeur_si": 131511.2513805227,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M24"
+   },
+   "|VY| max": {
+    "valeur_si": -33845.921316010805,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M25"
+   },
+   "|VZ| max": {
+    "valeur_si": -7126.70256869424,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     -0.5
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 33845.96339926618,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M25"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F2_YP",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -338312.1802755011,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_c",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -753085.6720906787,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_M20"
+   },
+   "MFY max": {
+    "valeur_si": 6415.121979091791,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M20"
+   },
+   "MFY min": {
+    "valeur_si": -30067.976249033134,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M20"
+   },
+   "MFZ max": {
+    "valeur_si": 53318.68450778275,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M16"
+   },
+   "MFZ min": {
+    "valeur_si": -132720.91876314496,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M24"
+   },
+   "M max (résultante)": {
+    "valeur_si": 132767.57850581562,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M24"
+   },
+   "|VY| max": {
+    "valeur_si": -34084.399712608,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M25"
+   },
+   "|VZ| max": {
+    "valeur_si": 6572.9114575952935,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     0.7
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 34085.61901767515,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M25"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F3_YM",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -308707.165976152,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_c",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -665155.927820409,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "102 ELS_c",
+    "position_mobile": "TSA_M10"
+   },
+   "MFY max": {
+    "valeur_si": 33517.55321648323,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M10"
+   },
+   "MFY min": {
+    "valeur_si": -6783.872817206116,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M10"
+   },
+   "MFZ max": {
+    "valeur_si": 38132.45477629995,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "102 ELS_c",
+    "position_mobile": "TSA_M06"
+   },
+   "MFZ min": {
+    "valeur_si": -90055.56015733519,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 90171.78746096937,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M14"
+   },
+   "|VY| max": {
+    "valeur_si": -23545.899577308723,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     0.7
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M14"
+   },
+   "|VZ| max": {
+    "valeur_si": -7196.95025517115,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.0
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 23545.90030670803,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     0.7
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M14"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F3_YP",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -308707.1660632514,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_c",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -694026.1074339284,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "109 ELS_c",
+    "position_mobile": "TSB_M10"
+   },
+   "MFY max": {
+    "valeur_si": 6439.743650913838,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M10"
+   },
+   "MFY min": {
+    "valeur_si": -30249.914910371343,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M10"
+   },
+   "MFZ max": {
+    "valeur_si": 39936.76168453367,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "109 ELS_c",
+    "position_mobile": "TSB_M06"
+   },
+   "MFZ min": {
+    "valeur_si": -91330.42332197576,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 91363.99786361956,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M14"
+   },
+   "|VY| max": {
+    "valeur_si": -23788.484069814567,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -0.5
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M14"
+   },
+   "|VZ| max": {
+    "valeur_si": 6607.656549748361,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -1.5
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 23791.538970399582,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -0.5
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M14"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F4_YM",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -311116.6034905807,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_c",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -670231.1444482481,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELS_c",
+    "position_mobile": "TSA_P00"
+   },
+   "MFY max": {
+    "valeur_si": 33521.07142353512,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P00"
+   },
+   "MFY min": {
+    "valeur_si": -6789.51270513854,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P00"
+   },
+   "MFZ max": {
+    "valeur_si": 38149.35138459731,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "102 ELS_c",
+    "position_mobile": "TSA_P04"
+   },
+   "MFZ min": {
+    "valeur_si": -69927.72642038777,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M04"
+   },
+   "M max (résultante)": {
+    "valeur_si": 73409.91121119284,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_M04"
+   },
+   "|VY| max": {
+    "valeur_si": -17600.31792348773,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M04"
+   },
+   "|VZ| max": {
+    "valeur_si": -7199.450743050738,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P00"
+   },
+   "V max (résultante)": {
+    "valeur_si": 18326.743934319205,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_M04"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F4_YP",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -311116.60353450244,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_c",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -699090.8285224214,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P00"
+   },
+   "MFY max": {
+    "valeur_si": 6438.5924704674735,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P00"
+   },
+   "MFY min": {
+    "valeur_si": -30237.14639458644,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P00"
+   },
+   "MFZ max": {
+    "valeur_si": 39960.88260893392,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "109 ELS_c",
+    "position_mobile": "TSB_P04"
+   },
+   "MFZ min": {
+    "valeur_si": -71195.79828129013,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M04"
+   },
+   "M max (résultante)": {
+    "valeur_si": 74010.84437949081,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_M04"
+   },
+   "|VY| max": {
+    "valeur_si": -17841.014820588898,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M04"
+   },
+   "|VZ| max": {
+    "valeur_si": 6605.422377594585,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P00"
+   },
+   "V max (résultante)": {
+    "valeur_si": 18456.49381943219,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_M04"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F5_YM",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -312715.358209832,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_c",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -667822.0734975708,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELS_c",
+    "position_mobile": "TSA_P10"
+   },
+   "MFY max": {
+    "valeur_si": 33538.7486644492,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P10"
+   },
+   "MFY min": {
+    "valeur_si": -6787.482528082427,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P10"
+   },
+   "MFZ max": {
+    "valeur_si": 37989.51778207987,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "102 ELS_c",
+    "position_mobile": "TSA_P14"
+   },
+   "MFZ min": {
+    "valeur_si": -90129.59674134107,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P06"
+   },
+   "M max (résultante)": {
+    "valeur_si": 92866.34062756415,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P06"
+   },
+   "|VY| max": {
+    "valeur_si": -23569.083122613763,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     0.5
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P06"
+   },
+   "|VZ| max": {
+    "valeur_si": -7201.260506890232,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 24117.935840905167,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     0.5
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P06"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F5_YP",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -312715.35821012105,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_c",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -696692.2529481822,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P10"
+   },
+   "MFY max": {
+    "valeur_si": 6443.353364037629,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P10"
+   },
+   "MFY min": {
+    "valeur_si": -30271.110380485232,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P10"
+   },
+   "MFZ max": {
+    "valeur_si": 39810.75086279544,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "109 ELS_c",
+    "position_mobile": "TSB_P14"
+   },
+   "MFZ min": {
+    "valeur_si": -91392.6115777063,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P06"
+   },
+   "M max (résultante)": {
+    "valeur_si": 93611.7766918621,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P06"
+   },
+   "|VY| max": {
+    "valeur_si": -23808.366105983834,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -1.5
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P06"
+   },
+   "|VZ| max": {
+    "valeur_si": 6611.966805432199,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     0.0
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 24274.802869770683,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -1.5
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P06"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F6_YM",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -306277.29360419523,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_c",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -701664.9761616699,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELS_c",
+    "position_mobile": "TSA_P20"
+   },
+   "MFY max": {
+    "valeur_si": 32876.151425714066,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P20"
+   },
+   "MFY min": {
+    "valeur_si": -6663.997126256257,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P20"
+   },
+   "MFZ max": {
+    "valeur_si": 63534.56076740337,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "105 ELS_c",
+    "position_mobile": "TSA_P25"
+   },
+   "MFZ min": {
+    "valeur_si": -121725.49877051135,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P16"
+   },
+   "M max (résultante)": {
+    "valeur_si": 123646.61518966805,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P16"
+   },
+   "|VY| max": {
+    "valeur_si": -31702.92712235528,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.0
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P15"
+   },
+   "|VZ| max": {
+    "valeur_si": -7062.748160922002,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     0.7
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 32083.219769100666,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.0
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P16"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F6_YP",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -306277.29355758417,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_c",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -730661.2512506633,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P20"
+   },
+   "MFY max": {
+    "valeur_si": 6371.841195441954,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P20"
+   },
+   "MFY min": {
+    "valeur_si": -29728.037032835105,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P20"
+   },
+   "MFZ max": {
+    "valeur_si": 65404.342984793504,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P24"
+   },
+   "MFZ min": {
+    "valeur_si": -122975.0102578249,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P16"
+   },
+   "M max (résultante)": {
+    "valeur_si": 124534.28976857099,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P16"
+   },
+   "|VY| max": {
+    "valeur_si": -31928.64837086262,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     0.5
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P16"
+   },
+   "|VZ| max": {
+    "valeur_si": 6508.95705556528,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     0.5
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 32261.78356685464,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     0.5
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P16"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F7_YM",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -227468.34379161164,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_P15"
+   },
+   "N min": {
+    "valeur_si": -585048.9163252927,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P29"
+   },
+   "MFY max": {
+    "valeur_si": 56322.46484759057,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY min": {
+    "valeur_si": -16610.77633176596,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P08"
+   },
+   "MFZ max": {
+    "valeur_si": 77931.7523565169,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     -2.5
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_M26"
+   },
+   "MFZ min": {
+    "valeur_si": -289527.6370513493,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P25"
+   },
+   "M max (résultante)": {
+    "valeur_si": 292470.13377432193,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P25"
+   },
+   "|VY| max": {
+    "valeur_si": -186176.77672984498,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P25"
+   },
+   "|VZ| max": {
+    "valeur_si": -25703.07209350793,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 187316.58868024102,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P25"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F7_YP",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -228802.23255017394,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_P15"
+   },
+   "N min": {
+    "valeur_si": -616853.7788858982,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY max": {
+    "valeur_si": 16275.181165682525,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY min": {
+    "valeur_si": -53600.6036494345,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P29"
+   },
+   "MFZ max": {
+    "valeur_si": 77963.65754654005,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     -2.5
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_M26"
+   },
+   "MFZ min": {
+    "valeur_si": -291541.7168785723,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P25"
+   },
+   "M max (résultante)": {
+    "valeur_si": 294268.59699364397,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P25"
+   },
+   "|VY| max": {
+    "valeur_si": -186641.80619222805,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P25"
+   },
+   "|VZ| max": {
+    "valeur_si": 25648.273818094432,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_P29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 187778.85509565653,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P25"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F1_YM",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -185128.017508968,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M15"
+   },
+   "N min": {
+    "valeur_si": -414571.59525020304,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M29"
+   },
+   "MFY max": {
+    "valeur_si": 37939.0686272013,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY min": {
+    "valeur_si": -15208.053079302057,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M08"
+   },
+   "MFZ max": {
+    "valeur_si": 151560.66895065596,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M25"
+   },
+   "MFZ min": {
+    "valeur_si": -94266.23089104616,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 154656.75739915154,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M25"
+   },
+   "|VY| max": {
+    "valeur_si": -94795.74352669813,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M15"
+   },
+   "|VZ| max": {
+    "valeur_si": -18614.76747855576,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 95467.44724439227,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M15"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F1_YP",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -185699.68419928505,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M15"
+   },
+   "N min": {
+    "valeur_si": -430474.02664102474,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY max": {
+    "valeur_si": 15079.57617465239,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY min": {
+    "valeur_si": -36578.13801997148,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M29"
+   },
+   "MFZ max": {
+    "valeur_si": 152614.05028884404,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M25"
+   },
+   "MFZ min": {
+    "valeur_si": -94210.73295745434,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 155488.94754532428,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M25"
+   },
+   "|VY| max": {
+    "valeur_si": -94774.20542599006,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M15"
+   },
+   "|VZ| max": {
+    "valeur_si": 18587.368342126705,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 95426.78523718081,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M15"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F2_YM",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -328500.05454244354,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_M05"
+   },
+   "N min": {
+    "valeur_si": -551477.2016901522,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELS_f",
+    "position_mobile": "TSA_M20"
+   },
+   "MFY max": {
+    "valeur_si": 22164.25939843991,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M20"
+   },
+   "MFY min": {
+    "valeur_si": -4905.624872514798,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M20"
+   },
+   "MFZ max": {
+    "valeur_si": 43680.099328698954,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M16"
+   },
+   "MFZ min": {
+    "valeur_si": -81110.41205249687,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M25"
+   },
+   "M max (résultante)": {
+    "valeur_si": 81131.63138688514,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M24"
+   },
+   "|VY| max": {
+    "valeur_si": -21256.88985677638,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M25"
+   },
+   "|VZ| max": {
+    "valeur_si": -4907.751545880739,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     -0.5
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 21261.092667528424,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M25"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F2_YP",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -328945.90948687174,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_M04"
+   },
+   "N min": {
+    "valeur_si": -565975.3394251366,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_M20"
+   },
+   "MFY max": {
+    "valeur_si": 4759.54690526698,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M20"
+   },
+   "MFY min": {
+    "valeur_si": -20590.20217941932,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M20"
+   },
+   "MFZ max": {
+    "valeur_si": 44572.60753963494,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M16"
+   },
+   "MFZ min": {
+    "valeur_si": -81671.34671995488,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M24"
+   },
+   "M max (résultante)": {
+    "valeur_si": 81681.11768317861,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M24"
+   },
+   "|VY| max": {
+    "valeur_si": -21359.094883948546,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M25"
+   },
+   "|VZ| max": {
+    "valeur_si": 4630.855989321004,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     0.7
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 21365.507034889994,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M25"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F3_YM",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -309709.2140130462,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_f",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -507931.4410188374,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELS_f",
+    "position_mobile": "TSA_M10"
+   },
+   "MFY max": {
+    "valeur_si": 22457.156983666588,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M10"
+   },
+   "MFY min": {
+    "valeur_si": -4962.769116363101,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M10"
+   },
+   "MFZ max": {
+    "valeur_si": 23415.424805778664,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M06"
+   },
+   "MFZ min": {
+    "valeur_si": -50036.227759051944,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 50058.41186139148,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M14"
+   },
+   "|VY| max": {
+    "valeur_si": -13441.491119557524,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     0.7
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M14"
+   },
+   "|VZ| max": {
+    "valeur_si": -4969.88610203125,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.0
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 13448.86603083833,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     0.7
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M14"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F3_YP",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -309709.21409950533,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_f",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -522366.5308699567,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_M10"
+   },
+   "MFY max": {
+    "valeur_si": 4790.704532837746,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M10"
+   },
+   "MFY min": {
+    "valeur_si": -20823.337825211158,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M10"
+   },
+   "MFZ max": {
+    "valeur_si": 24317.578259537084,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M06"
+   },
+   "MFZ min": {
+    "valeur_si": -50582.59768759601,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M14"
+   },
+   "M max (résultante)": {
+    "valeur_si": 50586.03928675709,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M14"
+   },
+   "|VY| max": {
+    "valeur_si": -13545.455902241389,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -0.5
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M14"
+   },
+   "|VZ| max": {
+    "valeur_si": 4675.239248412972,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -1.5
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 13559.014027783396,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     2.0,
+     -0.5
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M14"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F4_YM",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -311116.60349034856,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_f",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -511742.7195658843,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELS_f",
+    "position_mobile": "TSA_P00"
+   },
+   "MFY max": {
+    "valeur_si": 22449.876109004523,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P00"
+   },
+   "MFY min": {
+    "valeur_si": -4964.405301467714,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P00"
+   },
+   "MFZ max": {
+    "valeur_si": 19074.67569630493,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "102 ELS_f",
+    "position_mobile": "TSA_P04"
+   },
+   "MFZ min": {
+    "valeur_si": -33056.39563831314,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M04"
+   },
+   "M max (résultante)": {
+    "valeur_si": 37036.562633649075,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M04"
+   },
+   "|VY| max": {
+    "valeur_si": -8439.788690057538,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M04"
+   },
+   "|VZ| max": {
+    "valeur_si": -4969.423997435416,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P00"
+   },
+   "V max (résultante)": {
+    "valeur_si": 9262.240752527568,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_M04"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F4_YP",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -311116.603533897,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_f",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -526172.5616242493,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P00"
+   },
+   "MFY max": {
+    "valeur_si": 4788.945183999402,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P00"
+   },
+   "MFY min": {
+    "valeur_si": -20807.913591776694,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P00"
+   },
+   "MFZ max": {
+    "valeur_si": 19980.44130754935,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "109 ELS_f",
+    "position_mobile": "TSB_P04"
+   },
+   "MFZ min": {
+    "valeur_si": -33599.855008365594,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M04"
+   },
+   "M max (résultante)": {
+    "valeur_si": 37101.595815154855,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M04"
+   },
+   "|VY| max": {
+    "valeur_si": -8542.944503332345,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M04"
+   },
+   "|VZ| max": {
+    "valeur_si": 4672.409814266437,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P00"
+   },
+   "V max (résultante)": {
+    "valeur_si": 9290.754791311867,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_M04"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F5_YM",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -311713.3101734881,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_f",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -509133.8987769304,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELS_f",
+    "position_mobile": "TSA_P10"
+   },
+   "MFY max": {
+    "valeur_si": 22466.240744819188,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P10"
+   },
+   "MFY min": {
+    "valeur_si": -4964.316135144061,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P10"
+   },
+   "MFZ max": {
+    "valeur_si": 23387.321834696613,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "105 ELS_f",
+    "position_mobile": "TSA_P14"
+   },
+   "MFZ min": {
+    "valeur_si": -50018.39711988166,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P06"
+   },
+   "M max (résultante)": {
+    "valeur_si": 52612.01814019158,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P06"
+   },
+   "|VY| max": {
+    "valeur_si": -13437.315669643891,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     0.5
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P06"
+   },
+   "|VZ| max": {
+    "valeur_si": -4971.733352385597,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 13969.974946879838,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     0.5
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P06"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F5_YP",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -311713.31017312297,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "101 ELS_f",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": -523568.9885009776,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P10"
+   },
+   "MFY max": {
+    "valeur_si": 4792.251553279959,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P10"
+   },
+   "MFY min": {
+    "valeur_si": -20832.421603156377,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P10"
+   },
+   "MFZ max": {
+    "valeur_si": 24297.938373416026,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P14"
+   },
+   "MFZ min": {
+    "valeur_si": -50559.68919428137,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P06"
+   },
+   "M max (résultante)": {
+    "valeur_si": 52855.35772542678,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P06"
+   },
+   "|VY| max": {
+    "valeur_si": -13539.86551999444,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -1.5
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P06"
+   },
+   "|VZ| max": {
+    "valeur_si": 4677.086501758265,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     0.0
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P10"
+   },
+   "V max (résultante)": {
+    "valeur_si": 14025.269386493113,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     2.0,
+     -1.5
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P06"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F6_YM",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -312482.61129221454,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P05"
+   },
+   "N min": {
+    "valeur_si": -541866.7357596636,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "105 ELS_f",
+    "position_mobile": "TSA_P20"
+   },
+   "MFY max": {
+    "valeur_si": 22018.57114406811,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P20"
+   },
+   "MFY min": {
+    "valeur_si": -4887.075963629529,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     -6.5
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P20"
+   },
+   "MFZ max": {
+    "valeur_si": 51823.79158601562,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "105 ELS_f",
+    "position_mobile": "TSA_P25"
+   },
+   "MFZ min": {
+    "valeur_si": -74509.59995773289,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P16"
+   },
+   "M max (résultante)": {
+    "valeur_si": 76177.2464589035,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P16"
+   },
+   "|VY| max": {
+    "valeur_si": -19864.6982764805,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P15"
+   },
+   "|VZ| max": {
+    "valeur_si": -4880.342513173596,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     0.7
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 20208.174953308167,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     0.0
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P16"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F6_YP",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -312928.46608140384,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P04"
+   },
+   "N min": {
+    "valeur_si": -556364.8732785869,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P20"
+   },
+   "MFY max": {
+    "valeur_si": 4740.997998630674,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     -6.5
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P20"
+   },
+   "MFY min": {
+    "valeur_si": -20444.513950746696,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P20"
+   },
+   "MFZ max": {
+    "valeur_si": 52758.68269507918,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P24"
+   },
+   "MFZ min": {
+    "valeur_si": -75045.1048802147,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P16"
+   },
+   "M max (résultante)": {
+    "valeur_si": 76522.9985100324,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P16"
+   },
+   "|VY| max": {
+    "valeur_si": -19961.435954307555,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     0.5
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P16"
+   },
+   "|VZ| max": {
+    "valeur_si": 4603.446961085468,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     0.5
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P20"
+   },
+   "V max (résultante)": {
+    "valeur_si": 20279.306447640887,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     2.0,
+     0.5
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P16"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F7_YM",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -207898.88470443457,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_P15"
+   },
+   "N min": {
+    "valeur_si": -428234.11554335663,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     -13.0
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P29"
+   },
+   "MFY max": {
+    "valeur_si": 38796.151018618206,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY min": {
+    "valeur_si": -13803.459563669674,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P08"
+   },
+   "MFZ max": {
+    "valeur_si": 53271.3411252896,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     -2.5
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_M26"
+   },
+   "MFZ min": {
+    "valeur_si": -199085.23856525644,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P25"
+   },
+   "M max (résultante)": {
+    "valeur_si": 201524.0061733021,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P25"
+   },
+   "|VY| max": {
+    "valeur_si": -129647.25723567503,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P25"
+   },
+   "|VZ| max": {
+    "valeur_si": -18914.238918386858,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 130656.16416065315,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P25"
+   }
+  }
+ },
+ {
+  "famille": "pieux",
+  "groupe": "PIEU_F7_YP",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": -208470.5512921876,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_P15"
+   },
+   "N min": {
+    "valeur_si": -444136.54680591903,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     -13.0
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY max": {
+    "valeur_si": 13651.105509903608,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "115 ELS_f",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY min": {
+    "valeur_si": -37435.22042154338,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P29"
+   },
+   "MFZ max": {
+    "valeur_si": 53285.014778382865,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     -2.5
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_M26"
+   },
+   "MFZ min": {
+    "valeur_si": -200076.8313383827,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P25"
+   },
+   "M max (résultante)": {
+    "valeur_si": 202406.1612549893,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P25"
+   },
+   "|VY| max": {
+    "valeur_si": -129846.55557656608,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P25"
+   },
+   "|VZ| max": {
+    "valeur_si": 18886.839781018614,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_P29"
+   },
+   "V max (résultante)": {
+    "valeur_si": 130853.95469757977,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P25"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_1",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 11674.068973503563,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.05,
+     1.3
+    ],
+    "combinaison": "104 ELU+",
+    "position_mobile": "TSA_M27"
+   },
+   "N min": {
+    "valeur_si": -24546.254671210074,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY max": {
+    "valeur_si": 132859.64377036443,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY min": {
+    "valeur_si": -378473.20496113505,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -0.2000000000000024,
+     1.3
+    ],
+    "combinaison": "109 ELU+",
+    "position_mobile": "TSB_M29"
+   },
+   "|VZ| max": {
+    "valeur_si": 172297.47386044194,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M29"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_2",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 11358.326184785823,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.05,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M24"
+   },
+   "N min": {
+    "valeur_si": -14453.396501262056,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -0.05000000000000293,
+     1.3
+    ],
+    "combinaison": "108 ELU-",
+    "position_mobile": "TSA_M19"
+   },
+   "MFY max": {
+    "valeur_si": 141937.53721723869,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M20"
+   },
+   "MFY min": {
+    "valeur_si": -443114.15676276246,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_M20"
+   },
+   "|VZ| max": {
+    "valeur_si": 198063.55417467913,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_M20"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_3",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 13279.42802406986,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -0.05000000000000293,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M26"
+   },
+   "N min": {
+    "valeur_si": -15456.236453737607,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "108 ELU-",
+    "position_mobile": "TSA_M10"
+   },
+   "MFY max": {
+    "valeur_si": 139523.4584226341,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M10"
+   },
+   "MFY min": {
+    "valeur_si": -422109.442687457,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_M10"
+   },
+   "|VZ| max": {
+    "valeur_si": 186678.04350199492,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M10"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_4",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 15181.628701311669,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_M26"
+   },
+   "N min": {
+    "valeur_si": -13914.096891491552,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "105 ELU-",
+    "position_mobile": "TSA_P00"
+   },
+   "MFY max": {
+    "valeur_si": 139108.82188917126,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P00"
+   },
+   "MFY min": {
+    "valeur_si": -423299.9303303372,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_P00"
+   },
+   "|VZ| max": {
+    "valeur_si": 186507.52059971428,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_P00"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_5",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 16858.546014211,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -0.05000000000000293,
+     1.3
+    ],
+    "combinaison": "114 ELU+",
+    "position_mobile": "TSB_P26"
+   },
+   "N min": {
+    "valeur_si": -11879.594535376526,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "105 ELU-",
+    "position_mobile": "TSA_P10"
+   },
+   "MFY max": {
+    "valeur_si": 140489.91006512765,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P10"
+   },
+   "MFY min": {
+    "valeur_si": -422897.5078287042,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_P10"
+   },
+   "|VZ| max": {
+    "valeur_si": 187255.22516279784,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P10"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_6",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 15757.045210300179,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.05,
+     1.3
+    ],
+    "combinaison": "114 ELU+",
+    "position_mobile": "TSB_P24"
+   },
+   "N min": {
+    "valeur_si": -8351.01650008486,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "105 ELU-",
+    "position_mobile": "TSA_P19"
+   },
+   "MFY max": {
+    "valeur_si": 135965.24858429504,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P20"
+   },
+   "MFY min": {
+    "valeur_si": -434095.1416253575,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_P20"
+   },
+   "|VZ| max": {
+    "valeur_si": 193106.6977659197,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_P20"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_7",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 21933.49859090132,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "107 ELU+",
+    "position_mobile": "TSA_P27"
+   },
+   "N min": {
+    "valeur_si": -15958.964293635492,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY max": {
+    "valeur_si": 132218.44734892057,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY min": {
+    "valeur_si": -392054.46978292096,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -0.2000000000000024,
+     1.3
+    ],
+    "combinaison": "112 ELU+",
+    "position_mobile": "TSB_P29"
+   },
+   "|VZ| max": {
+    "valeur_si": 180687.53159759566,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELU+",
+    "position_mobile": "TSB_P29"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_1",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 7887.553139170197,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.05,
+     1.3
+    ],
+    "combinaison": "104 ELS_c",
+    "position_mobile": "TSA_M27"
+   },
+   "N min": {
+    "valeur_si": -16431.811373622648,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY max": {
+    "valeur_si": 92639.58397406813,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY min": {
+    "valeur_si": -258639.9117030967,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -0.2000000000000024,
+     1.3
+    ],
+    "combinaison": "109 ELS_c",
+    "position_mobile": "TSB_M29"
+   },
+   "|VZ| max": {
+    "valeur_si": 118338.68434784599,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M29"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_2",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 7670.923062829086,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.05,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M24"
+   },
+   "N min": {
+    "valeur_si": -9472.914890462891,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -0.05000000000000293,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M19"
+   },
+   "MFY max": {
+    "valeur_si": 100287.84059661021,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M20"
+   },
+   "MFY min": {
+    "valeur_si": -304624.71651557286,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_M20"
+   },
+   "|VZ| max": {
+    "valeur_si": 137089.86088594783,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_M20"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_3",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 8912.870614525349,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -0.05000000000000293,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M26"
+   },
+   "N min": {
+    "valeur_si": -10104.428974228405,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "108 ELS_c",
+    "position_mobile": "TSA_M10"
+   },
+   "MFY max": {
+    "valeur_si": 98396.88415008114,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M10"
+   },
+   "MFY min": {
+    "valeur_si": -290397.6354221983,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_M10"
+   },
+   "|VZ| max": {
+    "valeur_si": 129344.99350551871,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M10"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_4",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 10180.764861463735,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_M26"
+   },
+   "N min": {
+    "valeur_si": -9077.134392363405,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "105 ELS_c",
+    "position_mobile": "TSA_P00"
+   },
+   "MFY max": {
+    "valeur_si": 98135.84578414306,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P00"
+   },
+   "MFY min": {
+    "valeur_si": -291195.283712836,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P00"
+   },
+   "|VZ| max": {
+    "valeur_si": 129235.78254145579,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P00"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_5",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 11298.94927460053,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -0.05000000000000293,
+     1.3
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P26"
+   },
+   "N min": {
+    "valeur_si": -7720.0010287202485,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "105 ELS_c",
+    "position_mobile": "TSA_P10"
+   },
+   "MFY max": {
+    "valeur_si": 99041.18524603802,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P10"
+   },
+   "MFY min": {
+    "valeur_si": -290925.85251901427,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P10"
+   },
+   "|VZ| max": {
+    "valeur_si": 129729.781279974,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P10"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_6",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 10603.402413107002,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.05,
+     1.3
+    ],
+    "combinaison": "114 ELS_c",
+    "position_mobile": "TSB_P24"
+   },
+   "N min": {
+    "valeur_si": -5404.66155641993,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "105 ELS_c",
+    "position_mobile": "TSA_P19"
+   },
+   "MFY max": {
+    "valeur_si": 96306.31484102093,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P20"
+   },
+   "MFY min": {
+    "valeur_si": -298612.0397593378,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P20"
+   },
+   "|VZ| max": {
+    "valeur_si": 133785.28994605318,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P20"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_7",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 14727.172884136666,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_c",
+    "position_mobile": "TSA_P27"
+   },
+   "N min": {
+    "valeur_si": -10706.95112199377,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY max": {
+    "valeur_si": 92212.11969268922,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY min": {
+    "valeur_si": -267685.01822940476,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -0.2000000000000024,
+     1.3
+    ],
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P29"
+   },
+   "|VZ| max": {
+    "valeur_si": 123932.05617123761,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELS_c",
+    "position_mobile": "TSB_P29"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_1",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 7291.415207533311,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.05,
+     1.3
+    ],
+    "combinaison": "104 ELS_f",
+    "position_mobile": "TSA_M27"
+   },
+   "N min": {
+    "valeur_si": -10681.570119813325,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY max": {
+    "valeur_si": 72969.5786413381,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M29"
+   },
+   "MFY min": {
+    "valeur_si": -161167.19765494022,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     0.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "109 ELS_f",
+    "position_mobile": "TSB_M29"
+   },
+   "|VZ| max": {
+    "valeur_si": 79086.90898744273,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M29"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_2",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 6588.176547770969,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -2.05,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M24"
+   },
+   "N min": {
+    "valeur_si": -6718.9742167889135,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     -0.05000000000000293,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M19"
+   },
+   "MFY max": {
+    "valeur_si": 79344.34832638537,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M20"
+   },
+   "MFY min": {
+    "valeur_si": -203276.72101858858,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     5.6,
+     -0.10000000000000275,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_M20"
+   },
+   "|VZ| max": {
+    "valeur_si": 94900.25184273967,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_M20"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_3",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 7618.574179672092,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -0.05000000000000293,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M26"
+   },
+   "N min": {
+    "valeur_si": -7481.108881788144,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "108 ELS_f",
+    "position_mobile": "TSA_M10"
+   },
+   "MFY max": {
+    "valeur_si": 78759.58483806066,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M10"
+   },
+   "MFY min": {
+    "valeur_si": -192844.27390017489,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     10.6,
+     -0.10000000000000275,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_M10"
+   },
+   "|VZ| max": {
+    "valeur_si": 89283.88664597696,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M10"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_4",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 8263.13875588157,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_M26"
+   },
+   "N min": {
+    "valeur_si": -7114.532915482791,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "105 ELS_f",
+    "position_mobile": "TSA_P00"
+   },
+   "MFY max": {
+    "valeur_si": 78417.85549819945,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P00"
+   },
+   "MFY min": {
+    "valeur_si": -193404.98661221814,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     15.6,
+     -0.10000000000000275,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P00"
+   },
+   "|VZ| max": {
+    "valeur_si": 89119.82324947906,
+    "unite_si": "N",
+    "coordonnees_m": [
+     15.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P00"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_5",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 8677.830135772605,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -0.05000000000000293,
+     1.3
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P26"
+   },
+   "N min": {
+    "valeur_si": -6422.9534019814,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "105 ELS_f",
+    "position_mobile": "TSA_P10"
+   },
+   "MFY max": {
+    "valeur_si": 79035.71388471092,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P10"
+   },
+   "MFY min": {
+    "valeur_si": -193071.14778052445,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     20.6,
+     -0.10000000000000275,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P10"
+   },
+   "|VZ| max": {
+    "valeur_si": 89448.79569555314,
+    "unite_si": "N",
+    "coordonnees_m": [
+     20.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P10"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_6",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 7873.180967082856,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -2.05,
+     1.3
+    ],
+    "combinaison": "114 ELS_f",
+    "position_mobile": "TSB_P24"
+   },
+   "N min": {
+    "valeur_si": -4855.404650793774,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "combinaison": "105 ELS_f",
+    "position_mobile": "TSA_P19"
+   },
+   "MFY max": {
+    "valeur_si": 77637.98014374461,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P20"
+   },
+   "MFY min": {
+    "valeur_si": -200688.81201459956,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     25.6,
+     -0.10000000000000275,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P20"
+   },
+   "|VZ| max": {
+    "valeur_si": 93484.00714904472,
+    "unite_si": "N",
+    "coordonnees_m": [
+     25.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P20"
+   }
+  }
+ },
+ {
+  "famille": "chevêtres",
+  "groupe": "CHEV_7",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 10386.277817794795,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     2.0,
+     1.3
+    ],
+    "combinaison": "107 ELS_f",
+    "position_mobile": "TSA_P27"
+   },
+   "N min": {
+    "valeur_si": -8228.058583664071,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY max": {
+    "valeur_si": 72786.37965978382,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -2.0,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P29"
+   },
+   "MFY min": {
+    "valeur_si": -165517.26463885867,
+    "unite_si": "N·m",
+    "coordonnees_m": [
+     30.6,
+     -0.15000000000000258,
+     1.3
+    ],
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P29"
+   },
+   "|VZ| max": {
+    "valeur_si": 81484.06833092027,
+    "unite_si": "N",
+    "coordonnees_m": [
+     30.6,
+     1.8999999999999986,
+     1.3
+    ],
+    "combinaison": "111 ELS_f",
+    "position_mobile": "TSB_P29"
+   }
+  }
+ }
+]

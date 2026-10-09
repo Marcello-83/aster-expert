@@ -2,9 +2,9 @@
  "schema_version": 1,
  "projet": "dalle_appuyee_01",
  "ouvrage": "DALLE-APPUYEE-01",
- "exporte_le": "2026-10-08T12:34:19Z",
+ "exporte_le": "2026-10-09T09:25:19Z",
  "depot": {
-  "commit": "59bc038395cb60c917f2b1bae56f4e22db2dd772",
+  "commit": "0c4a9941fab3abf4e6fdfbbb790458b3324605ef",
   "arbre_modifie": true
  },
  "code_aster": {
@@ -266,22 +266,22 @@
    "sha256": "4f204a7d2f78c58c02be8c953c0b3330a63557a01769d6df9217ab669e87d776"
   },
   {
-   "chemin": "visualisation/charges_FN_G.png",
+   "chemin": "visualisation/charges_FN_G_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/charges_FN_G.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/charges_FN_G_iso.png",
    "libelle": null,
-   "octets": 304678,
-   "sha256": "f337d64ea5251def711e174874e8287dff92f091a4fe7f2974c9494ac94ad9ee"
+   "octets": 296507,
+   "sha256": "509baec451a137b0639e19bfc21ac3b7ff010908eed67f393d914a450fbd6865"
   },
   {
-   "chemin": "visualisation/charges_FN_Q.png",
+   "chemin": "visualisation/charges_FN_Q_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/charges_FN_Q.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/charges_FN_Q_iso.png",
    "libelle": null,
-   "octets": 355383,
-   "sha256": "e63076581a03e1212cb974b8c2f4e22aa559cc1df17bf525ddd0050d2a5d99b8"
+   "octets": 295317,
+   "sha256": "ed832d2b4a76533ff979c9c4e0551bdd6489ea16c1e47d185c8a74204b3f6dfe"
   },
   {
    "chemin": "visualisation/controle_charges.json",
@@ -293,13 +293,58 @@
    "sha256": "173881c46f7b4754b6b00de0961ae2bdbe85240dd7f52387a8d5f42fc10c700d"
   },
   {
-   "chemin": "visualisation/enveloppes_lineiques.json",
+   "chemin": "visualisation/controles_croises.json",
    "section": "visualisation",
    "type": "tableau",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/enveloppes_lineiques.json",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/controles_croises.json",
+   "libelle": null,
+   "octets": 287,
+   "sha256": "7c76d77110db2a9414fc6a30bc7690aad96c7aeb97b8da3fec94ae7ce3543caa"
+  },
+  {
+   "chemin": "visualisation/detail_membres.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/detail_membres.json",
    "libelle": null,
    "octets": 3,
    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  },
+  {
+   "chemin": "visualisation/diagrammes.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/diagrammes.json",
+   "libelle": null,
+   "octets": 42809,
+   "sha256": "50951deb6c4050302a5d5a979c78afb3d1720bfbb7c697029539975ba3162f50"
+  },
+  {
+   "chemin": "visualisation/diagrammes/coupe_dalle_x3.png",
+   "section": "visualisation",
+   "type": "figure",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/diagrammes/coupe_dalle_x3.png",
+   "libelle": null,
+   "octets": 102887,
+   "sha256": "9dbbf4086e9325d60d25dbb377b111de6169d7ba13d5b623b8e7811204d2611c"
+  },
+  {
+   "chemin": "visualisation/diagrammes/coupe_dalle_y2.png",
+   "section": "visualisation",
+   "type": "figure",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/diagrammes/coupe_dalle_y2.png",
+   "libelle": null,
+   "octets": 97204,
+   "sha256": "4711de7b43ae1b047340362aeff553c7791e5038ed7c5d81cef83cfd44647117"
+  },
+  {
+   "chemin": "visualisation/equilibre_etats_limites.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/equilibre_etats_limites.json",
+   "libelle": null,
+   "octets": 2615,
+   "sha256": "bae0f86b367a612b4cced415c353816e4f276cf9c64d27c6ab3994242e2cb254"
   },
   {
    "chemin": "visualisation/equilibre_livrables.json",
@@ -311,112 +356,139 @@
    "sha256": "f75e1ad31eff05c5f1bb418957c6830085fdd9d3a28a2978eacd3c8b2c268e2b"
   },
   {
+   "chemin": "visualisation/flexion_composee/dalle_centre_MXX.csv",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/flexion_composee/dalle_centre_MXX.csv",
+   "libelle": null,
+   "octets": 2656,
+   "sha256": "5999cfe00ce13610820bd09605c57d204c474f71cdaebb60b9dd12eac7671432"
+  },
+  {
+   "chemin": "visualisation/flexion_composee/dalle_centre_MYY.csv",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/flexion_composee/dalle_centre_MYY.csv",
+   "libelle": null,
+   "octets": 2656,
+   "sha256": "0ec24025c9f8613f516a67adf11cac5a2e2e6ec7c98f03d232f2ae5581d0c558"
+  },
+  {
+   "chemin": "visualisation/flexion_composee/dalle_travee_MXX.csv",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/flexion_composee/dalle_travee_MXX.csv",
+   "libelle": null,
+   "octets": 4149,
+   "sha256": "4753a33a9c7cc1309a2cab290eae1a7a85df142743e36e28d5cd766b48176c06"
+  },
+  {
+   "chemin": "visualisation/flexion_composee/dalle_travee_MYY.csv",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/flexion_composee/dalle_travee_MYY.csv",
+   "libelle": null,
+   "octets": 4146,
+   "sha256": "f7041bf1902f4745c056171a44ee3712c872484a350b3938e93641501f875c55"
+  },
+  {
    "chemin": "visualisation/manifeste.json",
    "section": "visualisation",
    "type": "tableau",
    "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/manifeste.json",
    "libelle": null,
-   "octets": 10602,
-   "sha256": "586e3a3abbe195ce848628dfcaf6be6bb446e52d8233c44a3b737756233f3b68"
+   "octets": 13232,
+   "sha256": "9e5073f39f8c53743a6147cc019a5b79f97f3ef14f72af9acefef4153b3914a3"
   },
   {
-   "chemin": "visualisation/points.json",
-   "section": "visualisation",
-   "type": "tableau",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/points.json",
-   "libelle": null,
-   "octets": 3377,
-   "sha256": "b873786129ff4d8de97f7de4591aa05654a53d04bdd302b26a7dd53f942a0c18"
-  },
-  {
-   "chemin": "visualisation/resultats_ENV_MAX_carte_MXX.png",
+   "chemin": "visualisation/resultats_ENV_MAX_carte_EFGE_NOEU_MXX_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MAX_carte_MXX.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MAX_carte_EFGE_NOEU_MXX_iso.png",
    "libelle": null,
-   "octets": 157365,
-   "sha256": "99c5be503fae95f3215e94cb51cdc8e59cc3495a5c5e3c7240959ce440c55810"
+   "octets": 136726,
+   "sha256": "ec74cc2f51b6cf06b269e250914aafb40805035694a723f932ac58f927442d15"
   },
   {
-   "chemin": "visualisation/resultats_ENV_MAX_carte_MYY.png",
+   "chemin": "visualisation/resultats_ENV_MAX_carte_EFGE_NOEU_MYY_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MAX_carte_MYY.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MAX_carte_EFGE_NOEU_MYY_iso.png",
    "libelle": null,
-   "octets": 147821,
-   "sha256": "fbd783fdd4f7341ce716166ca64d547535bf6064a430dac02c1f502e9e892562"
+   "octets": 133068,
+   "sha256": "10e182ecbfaf0187603c450ce96b5b4ed3da250d7e76129dfe6d2c67c86efc91"
   },
   {
-   "chemin": "visualisation/resultats_ENV_MAX_carte_NXX.png",
+   "chemin": "visualisation/resultats_ENV_MAX_carte_EFGE_NOEU_NXX_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MAX_carte_NXX.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MAX_carte_EFGE_NOEU_NXX_iso.png",
    "libelle": null,
-   "octets": 29204,
-   "sha256": "4e70cc11261de64441fde362a70231d6bf026a893ff4551f4021e608f8acbf0d"
+   "octets": 31023,
+   "sha256": "017d92e938301aaaa053260c53dde254c7cf8fcfdb44c13faca830d80e831a95"
   },
   {
-   "chemin": "visualisation/resultats_ENV_MAX_deformee.png",
+   "chemin": "visualisation/resultats_ENV_MAX_deformee_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MAX_deformee.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MAX_deformee_iso.png",
    "libelle": null,
-   "octets": 186474,
-   "sha256": "45b8071a74da9773abdd3e2c93d3553d5985a135990a8b208b2cd8bfcf691b8d"
+   "octets": 183484,
+   "sha256": "6a7fba215b007abdd5472b8745a1395115776dbbc02b02c6cc6d4377343fafe3"
   },
   {
-   "chemin": "visualisation/resultats_ENV_MAX_r.png",
+   "chemin": "visualisation/resultats_ENV_MAX_r_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MAX_r.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MAX_r_iso.png",
    "libelle": null,
-   "octets": 42920,
-   "sha256": "d295baa046b98f99cea44d4bb081ff9f929cc98983261187d62ce915049568a5"
+   "octets": 53326,
+   "sha256": "de5600988dbf8b9d9cedc863e4ddc3449ec97be9f73563449490838a8e1fec08"
   },
   {
-   "chemin": "visualisation/resultats_ENV_MIN_carte_MXX.png",
+   "chemin": "visualisation/resultats_ENV_MIN_carte_EFGE_NOEU_MXX_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MIN_carte_MXX.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MIN_carte_EFGE_NOEU_MXX_iso.png",
    "libelle": null,
-   "octets": 155190,
-   "sha256": "4f4465d6407fc4b390a259fe0393d71b3dafef91e27578af7f04869bb6ed46ce"
+   "octets": 135326,
+   "sha256": "19bb60f7334959285c862a37eab8b0429f3ccb3707f9a3ad14504531fecd7db8"
   },
   {
-   "chemin": "visualisation/resultats_ENV_MIN_carte_MYY.png",
+   "chemin": "visualisation/resultats_ENV_MIN_carte_EFGE_NOEU_MYY_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MIN_carte_MYY.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MIN_carte_EFGE_NOEU_MYY_iso.png",
    "libelle": null,
-   "octets": 145054,
-   "sha256": "9b3857f205e2682741918ad4beb380ea46126411abe1476982f1c385f9574cea"
+   "octets": 131696,
+   "sha256": "3e9f806ce9f4e9df91b0b9b5083656d9e1d1c77e3e7efe9efa3a7bed4320dc90"
   },
   {
-   "chemin": "visualisation/resultats_ENV_MIN_carte_NXX.png",
+   "chemin": "visualisation/resultats_ENV_MIN_carte_EFGE_NOEU_NXX_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MIN_carte_NXX.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MIN_carte_EFGE_NOEU_NXX_iso.png",
    "libelle": null,
-   "octets": 28690,
-   "sha256": "b00b56db9148c0287a2a35631170823106f7550d5c47504e7b7fb4ee31fad29a"
+   "octets": 30530,
+   "sha256": "acbe71d1ca6d1e27a3abd5b4e37a98227f464732be3c1225ac78b949cf61658d"
   },
   {
-   "chemin": "visualisation/resultats_ENV_MIN_deformee.png",
+   "chemin": "visualisation/resultats_ENV_MIN_deformee_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MIN_deformee.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MIN_deformee_iso.png",
    "libelle": null,
-   "octets": 185074,
-   "sha256": "1e90acc4d0c488d3e4ad6b36de27f8f83e29c41e5999ced0531a6744827872a7"
+   "octets": 181386,
+   "sha256": "69977a1d9488fd6ef290bc97dd8f77726dee11365f20e898d1835d70a53dc37a"
   },
   {
-   "chemin": "visualisation/resultats_ENV_MIN_r.png",
+   "chemin": "visualisation/resultats_ENV_MIN_r_iso.png",
    "section": "visualisation",
    "type": "figure",
-   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MIN_r.png",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/png/resultats_ENV_MIN_r_iso.png",
    "libelle": null,
-   "octets": 32097,
-   "sha256": "1998bea035c7a571cfb5a2fad332d34035fe596735e64dd30f46aee990840ea0"
+   "octets": 33893,
+   "sha256": "66783bf90d8f40d497d94a032f409bf794a93bbaff0908d8437795ce8c4f62ac"
   },
   {
    "chemin": "visualisation/synthese.csv",
@@ -435,8 +507,35 @@
    "libelle": null,
    "octets": 15439,
    "sha256": "ef5a260a3b3ac444406835a04c5f1b8b1a7598ff4c4d0904a2c30f8fb0d8d17b"
+  },
+  {
+   "chemin": "visualisation/synthese_ingenieur.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/synthese_ingenieur.json",
+   "libelle": null,
+   "octets": 55303,
+   "sha256": "321138605ee9046d341e53424dff13f6fa35ec8bb32c05b16ee426b6b8d9b370"
+  },
+  {
+   "chemin": "visualisation/torseurs_combinaisons.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/torseurs_combinaisons.json",
+   "libelle": null,
+   "octets": 9308,
+   "sha256": "304bbc9cd314cc4cb306ea238d16a641cf94acca9987ca30d46303e5dba434db"
+  },
+  {
+   "chemin": "visualisation/verifications_service.json",
+   "section": "visualisation",
+   "type": "tableau",
+   "source": "projets/dalle_appuyee_01/resultats/livrables/paquet/verifications_service.json",
+   "libelle": null,
+   "octets": 187,
+   "sha256": "752f3aa819d5fed0aafb060d5266ebb17b359cfdca40d00ef99780d1d2979c63"
   }
  ],
- "taille_octets": 1886136,
+ "taille_octets": 2081928,
  "plafond_octets": 20971520
 }

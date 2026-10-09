@@ -255,7 +255,11 @@ def _plan_copies(
             copies.append(
                 _Copy(
                     source=path,
-                    destination=f"{item.section}/{path.name}",
+                    destination=(
+                        f"{item.section}/{item.subdirectory}/{path.name}"
+                        if item.subdirectory
+                        else f"{item.section}/{path.name}"
+                    ),
                     section=item.section,
                     label=item.label,
                 )

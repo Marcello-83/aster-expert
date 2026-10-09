@@ -32,12 +32,12 @@ knowledge:
       promu: 0
 consultations:
   calls:
-    search_connaissances: 49
+    search_connaissances: 50
     search_constats: 3
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
   avoided_errors:
-    value: 11.0
+    value: 12.0
     nature: mesure
     note: déclaré lot par lot dans le compte rendu (registre, `lots`)
 lots:
@@ -92,6 +92,17 @@ lots:
     nature: mesure
     note: Aucune erreur évitée avant exécution ; DIAG-017 retrouvé automatiquement après l'échec
       de la première mutation.
+- lot: 49bis
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM pour la dalle. Une interruption de la session Claude
+      Code, reprise sur consigne de MM, sans effet sur le contenu.
+  avoided_errors:
+    value: 1.0
+    nature: mesure
+    note: 'CA-045 : M = −MXX dans la convention du logiciel (M > 0 comprime la fibre supérieure)
+      ; vérifié sur le centre : MXX ELU = −17,1 kN·m/m (RC01 du lot 49), exporté M = +17,1.'
 declared_interventions_since_baseline: 3.0
 measured:
   runs: 10

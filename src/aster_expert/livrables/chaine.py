@@ -433,7 +433,16 @@ def step_traiter(ctx: ProjectContext, rt: Any) -> list[str]:  # noqa: ARG001
     ]
 
 
-SUBSTEPS = ("preparer", "executer", "verifier", "traiter", "vues", "classeur")
+SUBSTEPS = (
+    "preparer",
+    "executer",
+    "verifier",
+    "traiter",
+    "vues",
+    "ingenieur",
+    "images",
+    "classeur",
+)
 
 
 def run_deliverables(
@@ -443,6 +452,8 @@ def run_deliverables(
     results package: it runs after `aster-expert projet exporter-resultats`, so the
     full sequence stops before it (`classeur` is asked for by name)."""
     from aster_expert.livrables.classeur import write_workbook  # noqa: PLC0415
+    from aster_expert.livrables.ingenieur import step_ingenieur  # noqa: PLC0415
+    from aster_expert.livrables.paraview import step_images  # noqa: PLC0415
     from aster_expert.livrables.vues import step_vues  # noqa: PLC0415
 
     functions = {
@@ -451,6 +462,8 @@ def run_deliverables(
         "verifier": lambda: step_verifier(ctx, rt),
         "traiter": lambda: step_traiter(ctx, rt),
         "vues": lambda: step_vues(ctx, rt),
+        "ingenieur": lambda: step_ingenieur(ctx, rt),
+        "images": lambda: step_images(ctx),
         "classeur": lambda: [write_workbook(ctx)],
     }
     if only is not None and only not in functions:

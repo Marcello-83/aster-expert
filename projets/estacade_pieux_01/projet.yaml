@@ -124,6 +124,222 @@ deliverables:
   points:
     - {label: têtes de pieux, node_group: TETES, cell_group: PIEUX}
 
+# Lot 49 bis : synthèse ingénieur (aster_expert.livrables.ingenieur), sous-étape
+# `ingenieur` de `aster-expert projet estacade_pieux_01 livrables`. Familles d'éléments
+# d'ouvrage, sections de dimensionnement (règle de lecture et justification d'une
+# ligne), états limites tirés des familles de combinaisons 100 à 115 (E11), critères de
+# service E21 et E22, en-tête des fichiers de flexion composée E23 (décisions de MM du
+# lot 49 bis, donnees/sources/arbitrage_estacade_pieux_01_lot49bis.md).
+engineering_summary:
+  limit_states:
+    - {state: ELU_fondamental, families: ["ELU+", "ELU-"]}
+    - {state: ELS_caracteristique, families: [ELS_c]}
+    - {state: ELS_frequent, families: [ELS_f]}
+  absent_limit_states:
+    - {state: ELU_accidentel, reason: "le modèle source ne déclare aucune combinaison accidentelle ni sismique (combinaisons 100 à 115, E11)"}
+    - {state: ELS_quasi_permanent, reason: "le modèle source ne déclare pas de combinaison quasi permanente (E11) ; la fissuration se vérifie sous ELS fréquent (E23)"}
+  cracking: {state: ELS_frequent, source: "E23 : wk ≤ 0,20 mm sous ELS fréquent (§13.7.2 de la source)"}
+  families:
+    - name: pieux
+      kind: poutre
+      field: EFGE_ELNO
+      groups: [PIEUX]
+      members: "PIEU_F*"
+      quantities: [N, VY, VZ, MT, MFY, MFZ]
+      circular: true
+      moments: [MFY, MFZ]
+      shears: [VY, VZ]
+      axis: Z
+    - name: chevêtres
+      kind: poutre
+      field: EFGE_ELNO
+      groups: [CHEVETRES]
+      members: "CHEV_*"
+      quantities: [N, VY, VZ, MT, MFY, MFZ]
+      moments: [MFY]
+      shears: [VZ]
+      axis: Y
+      caveat: "barre seule : la dalle DKT, qui partage les nœuds du chevêtre, porte une part de l'effort (CA-058) ; le total de la section en T est la règle E17.2 (lot 47 bis)"
+    - name: tablier
+      kind: coque
+      field: EFGE_NOEU
+      groups: [DALLE]
+      quantities: [NXX, NYY, NXY, MXX, MYY, MXY, QX, QY]
+    - name: ressorts de sol
+      kind: discret
+      field: SIEF_ELGA
+      groups: ["RESS_K*"]
+      quantities: [N, VY]
+    - name: appuis
+      kind: appui
+      field: REAC_NODA
+      groups: [PIEDS]
+      quantities: [DZ]
+  sections:
+    - name: tete_de_pieu
+      label: tête de pieu
+      family: pieux
+      rule: {description: "extrémités d'éléments de pieu au nœud de tête (TETES, plan moyen +1,30)", node_group: TETES}
+      justification: "Moment maximal du pieu, encastré dans le chevêtre au plan moyen ; lecture C3 au nœud de tête (E17.1, lot 47 bis)."
+      bending_export: &bouchon
+        section_type: "circulaire (bouchon béton Ø 0,622 m) saisie en carré équivalent"
+        h: {value: 0.52, unit: m, source: "E23 : carré équivalent 0,52 × 0,52 (§20.4.1)"}
+        b: {value: 0.52, unit: m, source: "E23 : carré équivalent 0,52 × 0,52 (§20.4.1)"}
+        ds: {value: 0.09, unit: m, source: "E23 : ds = 0,09 m (d = 0,43, §20.4.1)"}
+        di: {value: 0.09, unit: m, source: "E23 : di = 0,09 m (§20.4.1)"}
+        concrete: {value: C35/45, source: "E23 (§13.7.3, §19.1)"}
+        steel: {value: "Fe E500 classe B, diagramme à branche inclinée", source: "E23 (§13.7.4)"}
+        exposure: {value: XS3, source: "E23 (§13.7.1)"}
+        cnom: {value: 55, unit: mm, source: "E23 (§13.7.5)"}
+        equivalence: "section circulaire du bouchon Ø 0,622 m saisie en carré de 0,52 × 0,52 m de même module d'inertie (π·D³/32 = a³/6), §20.4.1 de la source (E23)"
+        planes:
+          - {moment: resultante, label: "flexion déviée : moment résultant √(MFY² + MFZ²)"}
+    - name: bouchon
+      label: bouchon (+0,70 à −0,80)
+      family: pieux
+      rule: {description: "extrémités d'éléments de pieu dont le nœud est entre −0,80 et +0,70 (E14)", box: {z: [-0.80, 0.70]}}
+      justification: "Zone du bouchon en béton (E14), lecture C4 ; section du bouchon vérifiée en béton armé (E23)."
+      bending_export: *bouchon
+    - name: pieu_courant
+      label: pieu courant (sous −0,80)
+      family: pieux
+      rule: {description: "extrémités d'éléments de pieu dont le nœud est sous le bouchon (−13,00 à −0,80)", box: {z: [-13.0, -0.80]}}
+      justification: "Tube acier seul sous le bouchon : moment de la zone des ressorts (lecture C5 sur tout le pieu, E17.1)."
+      not_exported: "tube acier seul sous le bouchon, vérifié à l'EC3 hors du logiciel de béton armé (E23)"
+    - name: chevetre_travee
+      label: chevêtre en travée
+      family: chevêtres
+      rule: {description: "extrémités d'éléments de chevêtre entre les nus des pieux (|Y| ≤ 1,67 : axe à ±2,00, tube Ø 660, annexe B1)", box: {y: [0.0, 1.67], absolute: [Y]}}
+      justification: "Moment positif de la travée entre pieux (C6) ; bornée aux nus des tubes Ø 660 (annexe B1)."
+      caveat: "barre seule (CA-058) : la bande de dalle porte une part du moment ; total barre + bande selon E17.2"
+      bending_export: &chevetre
+        section_type: rectangulaire
+        h: {value: 0.90, unit: m, source: "E2, E23 (§20.5.1)"}
+        b: {value: 1.20, unit: m, source: "E2, E23 (§20.5.1)"}
+        ds: {value: 0.07, unit: m, source: "E23 : ds = 0,07 m (d = 0,83, §20.5.1)"}
+        di: {value: 0.07, unit: m, source: "E23 (§20.5.1)"}
+        concrete: {value: C35/45, source: "E23 (§13.7.3, §19.1)"}
+        steel: {value: "Fe E500 classe B, diagramme à branche inclinée", source: "E23 (§13.7.4)"}
+        exposure: {value: XS3, source: "E23 (§13.7.1)"}
+        cnom: {value: 55, unit: mm, source: "E23 (§13.7.5)"}
+        planes:
+          - {moment: MFY, top_fibre: "+z_l", label: "flexion verticale (z_l = +Z, fibre supérieure en haut)"}
+    - name: chevetre_nu_appui
+      label: chevêtre au nu de l'appui
+      family: chevêtres
+      rule: {description: "extrémités d'éléments de chevêtre à la station du maillage la plus proche de |Y| = 1,67 (nu du tube Ø 660 centré à ±2,00, annexe B1)", station: {axis: Y, value: 1.67, absolute: true}}
+      justification: "Moment sur appui et effort tranchant au nu du pieu (C7, C8), section de dimensionnement du chevêtre."
+      caveat: "barre seule (CA-058) : la bande de dalle porte l'essentiel de l'effort tranchant près de l'appui ; total barre + bande selon E17.2"
+      bending_export: *chevetre
+    - name: dalle_chapeau
+      label: dalle en chapeau au nu du chevêtre
+      family: tablier
+      rule: {description: "nœuds de la dalle à |X − X_file| = 0,60 (nu du chevêtre de 1,20 m, E2), X_file lu sur les têtes de pieux", near: {node_group: TETES, axis: X, distance: 0.60, mode: at}}
+      justification: "Moment négatif de la dalle continue sur les chevêtres, lu au nu (C9, hors disques E17.3)."
+      shared_with: [CHEVETRES, PIEUX]
+      bending_export: &dalle
+        section_type: "rectangulaire, bande de 1,00 m"
+        h: {value: 0.40, unit: m, source: "annexe B1, E23 (§20.6.1)"}
+        b: {value: 1.00, unit: m, source: "E23 : efforts par mètre de largeur"}
+        ds: {value: 0.08, unit: m, source: "E23 : ds = 0,08 m (d = 0,32, §20.6.1 ; le §20.6.7 donne 0,33, incohérence de la source notée)"}
+        di: {value: 0.08, unit: m, source: "E23 (§20.6.1)"}
+        concrete: {value: C35/45, source: "E23 (§13.7.3, §19.1)"}
+        steel: {value: "Fe E500 classe B, diagramme à branche inclinée", source: "E23 (§13.7.4)"}
+        exposure: {value: XS3, source: "E23 (§13.7.1)"}
+        cnom: {value: 55, unit: mm, source: "E23 (§13.7.5)"}
+        per_metre: true
+        planes:
+          - {moment: MXX, top_fibre: "+n", label: "flexion selon X (portée entre chevêtres), normale +Z"}
+          - {moment: MYY, top_fibre: "+n", label: "flexion selon Y (transversale), normale +Z"}
+    - name: dalle_travee
+      label: dalle en travée
+      family: tablier
+      rule: {description: "nœuds de la dalle à plus de 0,60 m de toute file (|X − X_file| > 0,60)", near: {node_group: TETES, axis: X, distance: 0.60, mode: beyond}}
+      justification: "Moment positif de la dalle entre chevêtres, sous les roues de TS (C10)."
+      shared_with: [CHEVETRES, PIEUX]
+      bending_export: *dalle
+    - name: dalle_rive
+      label: dalle en rive (trottoirs)
+      family: tablier
+      rule: {description: "nœuds de la dalle des trottoirs, |Y| ≥ 1,50 (annexe B1)", box: {y: [1.50, 3.0], absolute: [Y]}}
+      justification: "Bande de rive des trottoirs, où agit l'essieu TR d'E18 (C12 rive) ; elle contient les lignes des chevêtres, exclues."
+      shared_with: [CHEVETRES, PIEUX]
+      bending_export: *dalle
+    - name: ressorts
+      label: ressorts de sol
+      family: ressorts de sol
+      rule: {description: "tous les ressorts horizontaux des pieux (RESS_K*)"}
+      justification: "Réaction horizontale du sol, à confronter à la butée admissible des couches (B3)."
+      not_exported: "efforts de ressorts de sol, sans section de béton armé"
+    - name: pointes
+      label: pointes des pieux
+      family: appuis
+      rule: {description: "nœuds des pointes (PIEDS, appui DZ = 0, E4)", node_group: PIEDS}
+      justification: "Effort vertical en pointe, portance du pieu."
+      not_exported: "réaction d'appui, sans section de béton armé"
+  service_criteria:
+    - name: deplacement_tete
+      label: déplacement horizontal en tête de pieu ≤ h/400
+      kind: displacement
+      components: [DX, DY]
+      node_group: TETES
+      limit_state: ELS_caracteristique
+      span_m: 2.85
+      ratio: 400
+      verdict_groups: ["PIEU_F[2-6]_*"]
+      note_others: "files 1 et 7 (talus, sol dès +1,00) : rapportées pour information, le critère n'y est pas pertinent (E21)"
+      source: "E21 : h = 2,85 m (recépage +0,60 au fond de calcul −2,25, §14.1 et §14.2 de la source), limite h/400 sous ELS caractéristique, files 2 à 6"
+    - name: fleche_chevetres
+      label: flèche des chevêtres entre pieux ≤ L/400
+      kind: relative_deflection
+      components: [DZ]
+      groups: [CHEVETRES]
+      limit_state: ELS_caracteristique
+      exclude_cases: [PP, G2, TEP, TEM]
+      span_m: 4.0
+      ratio: 400
+      spans: {axis: Y, line_axis: X, supports: [-2.0, 2.0]}
+      source: "E22 : L = 4,00 m entre pieux (Y = ±2,00), ELS caractéristique hors G et hors TE (LM1 + FR), flèche relative aux appuis"
+    - name: fleche_dalle
+      label: flèche de la dalle entre deux files ≤ L/400
+      kind: relative_deflection
+      components: [DZ]
+      groups: [DALLE]
+      limit_state: ELS_caracteristique
+      exclude_cases: [PP, G2, TEP, TEM]
+      span_m: 5.0
+      ratio: 400
+      spans: {axis: X, line_axis: Y, supports: [0.6, 5.6, 10.6, 15.6, 20.6, 25.6, 30.6]}
+      source: "E22 : L = 5,00 m entre deux files de chevêtres (E1), ELS caractéristique hors G et hors TE, flèche relative aux lignes des chevêtres"
+    - name: consoles_chevetres
+      label: flèche des consoles de chevêtre (information)
+      kind: relative_deflection
+      components: [DZ]
+      groups: [CHEVETRES]
+      limit_state: ELS_caracteristique
+      exclude_cases: [PP, G2, TEP, TEM]
+      span_m: 2.0
+      ratio: 400
+      verdict: false
+      spans: {axis: Y, line_axis: X, cantilevers: [[2.0, 3.0], [-2.0, -3.0]]}
+      source: "E22 : consoles de 1,00 m, portée conventionnelle 2 × 1,00 m, limite 5 mm, pour information"
+    - name: debord_about
+      label: flèche du débord de dalle en about (information)
+      kind: relative_deflection
+      components: [DZ]
+      groups: [DALLE]
+      limit_state: ELS_caracteristique
+      exclude_cases: [PP, G2, TEP, TEM]
+      span_m: 1.2
+      ratio: 400
+      verdict: false
+      spans: {axis: X, line_axis: Y, cantilevers: [[0.6, 0.0], [30.6, 31.2]]}
+      source: "E22 : débord de 0,60 m en about, limite 3 mm (portée conventionnelle 2 × 0,60 m), pour information"
+  cuts:
+    - {name: tablier_axe, family: tablier, axis: Y, value: 0.0, along: X, components: [MXX, MYY], shared_with: [CHEVETRES, PIEUX]}
+    - {name: tablier_file_des_pieux, family: tablier, axis: Y, value: 2.0, along: X, components: [MXX, MYY], shared_with: [CHEVETRES, PIEUX]}
+    - {name: tablier_mi_travee, family: tablier, axis: X, value: 3.1, along: Y, components: [MXX, MYY], shared_with: [CHEVETRES, PIEUX]}
+
 # Paquet de résultats versionnable (lots 45, 46, 47) : ce que les notes lisent, sans MED.
 # Section `contre_calcul` (lot 47) : contre-calcul d'un modèle non validé, jamais un
 # niveau E.
@@ -133,8 +349,13 @@ results_package:
     # images) ; les MED et VTU eux-mêmes ne sont jamais versionnés.
     - {section: visualisation, source: "resultats/livrables/paquet/*.json"}
     - {section: visualisation, source: resultats/livrables/paquet/synthese.csv}
-    - {section: visualisation, source: "resultats/livrables/png/charges_*.png", required: false}
-    - {section: visualisation, source: "resultats/livrables/png/resultats_ENV_*.png", required: false}
+    - {section: visualisation, source: "resultats/livrables/png/charges_*_iso.png", required: false}
+    - {section: visualisation, source: "resultats/livrables/png/resultats_ENV_*_iso.png", required: false}
+    # Lot 49 bis : synthèse ingénieur (JSON ci-dessus), fichiers de flexion composée et
+    # diagrammes ; les vues en plan et en élévation restent hors du paquet (dossier
+    # d'échange).
+    - {section: visualisation, source: "resultats/livrables/paquet/flexion_composee/*.csv", subdirectory: flexion_composee}
+    - {section: visualisation, source: "resultats/livrables/paquet/diagrammes/*.png", subdirectory: diagrammes}
     - {section: controles, source: resultats/controles/controles_d.json}
     - {section: controles, source: resultats/controles/equilibre.json}
     - {section: controles, source: resultats/controles/controles_projet.json}

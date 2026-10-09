@@ -743,9 +743,8 @@ def step_vues(ctx: ProjectContext, rt: Any) -> list[str]:  # noqa: ARG001
         f"Synthèse : {len(found)} extremum(s) ; points : {len(points)} ligne(s) ; "
         f"enveloppes linéiques : {len(linear)} ligne(s)",
     ]
-    from aster_expert.livrables.paraview import step_paraview  # noqa: PLC0415
-
-    lines += step_paraview(ctx, data)
+    # Lot 49 bis : les images (grilles de flèches, extrema, trois vues) sont la
+    # sous-étape `images`, qui suit `vues` et `ingenieur`.
     if loads["verdict"] != "RÉUSSI":
         message = f"livrables : {lines[1]}"
         raise ProjectError(message)

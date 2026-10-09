@@ -1,14 +1,23 @@
-"""Summary workbook of the deliverables (lot 49), built from the results package only.
+"""Summary workbook of the deliverables (lots 49 and 49 bis), built from the results
+package only.
 
 Nothing is recomputed: every value is read in a file of `resultats/paquet/` (section
-`visualisation` of lot 49, and the existing sections `controles`, `niveau_e`,
-`contre_calcul`, the manifest of the package). Layout asked by MM: font Arial 10, black
-text, table headers on a grey fill, never blue.
+`visualisation`: the engineering summary of lot 49 bis and the files of lot 49; the
+sections `controles`, `niveau_e`, `contre_calcul`; the manifest of the package).
+Layout asked by MM: font Arial 10, black text, table headers on a grey fill, never
+blue; frozen headers, adapted column widths, number formats from the display unit
+(`config/arrondis.yaml`: the cell holds the exact converted value, only its display is
+rounded). A value read where the model has no physical meaning (« non significative »)
+sits on a light grey fill, with its reason in the row.
 
-Values are shown in their display unit (`aster_expert.livrables.unites`: kN, kN·m,
-mm...): the cell holds the value converted exactly (SI value × factor), and only its
-number format is rounded, with the decimals of `config/arrondis.yaml`. A test reads
-the workbook back (`tests/unit/test_livrables_classeur.py`).
+Sheets (lot 49 bis): « Synthèse ingénieur » (one block per family of members, one row
+per section and design quantity, per limit state the value and its concomitant N, M,
+V), « Vérifications de service », « Torseurs » (wide: one row per section × limit
+state × quantity, then one per section × combination), « Détail <famille> » (one
+member per row and limit state), then the sheets of lot 49 kept: reactions and
+equilibrium, controls D and E, external comparison, conventions, provenance. The long
+raw tables of lot 49 (values at reading points, envelopes along the members, extrema
+per field) are CSV annexes, out of the workbook.
 """
 
 from __future__ import annotations
@@ -29,60 +38,117 @@ from aster_expert.projet.context import ProjectContext
 from aster_expert.projet.errors import ProjectError
 
 FONT = Font(name="Arial", size=10, color="FF000000")
+BOLD = Font(name="Arial", size=10, bold=True, color="FF000000")
 HEADER_FONT = Font(name="Arial", size=10, bold=True, color="FF000000")
 HEADER_FILL = PatternFill(
     fill_type="solid", start_color="FFD9D9D9", end_color="FFD9D9D9"
 )
 """Grey 15 % (never blue: request of MM)."""
+MUTED_FILL = PatternFill(
+    fill_type="solid", start_color="FFF2F2F2", end_color="FFF2F2F2"
+)
+"""Grey 5 %: a value « non significative »."""
 WORKBOOK = "classeur_livrables.xlsx"
-SHEETS = (
-    "Synthèse",
+FIRST_SHEETS = ("Synthèse ingénieur", "Vérifications de service", "Torseurs")
+LAST_SHEETS = (
     "Réactions et équilibre",
-    "Efforts par élément",
-    "Enveloppes",
     "Contrôles D et E",
     "Comparaison externe",
     "Conventions",
     "Provenance",
 )
+SHORT = {
+    "ELU_fondamental": "ELU",
+    "ELU_accidentel": "ELU acc.",
+    "ELS_caracteristique": "ELS car.",
+    "ELS_frequent": "ELS fréq.",
+    "ELS_quasi_permanent": "ELS QP",
+}
+COMPONENT_ORDER = (
+    "N", "VY", "VZ", "MT", "MFY", "MFZ", "M_RES", "V_RES",
+    "NXX", "NYY", "NXY", "MXX", "MYY", "MXY", "QX", "QY",
+    "DX", "DY", "DZ",
+)  # fmt: skip
+COMPONENT_LABELS = {"M_RES": "M résultant", "V_RES": "V résultant"}
 
 
 class Sheet:
     """A worksheet written row by row with the layout of the workbook."""
 
     def __init__(self, workbook: Workbook, title: str, table: RoundingTable) -> None:
-        self.ws = workbook.create_sheet(title)
+        self.ws = workbook.create_sheet(title[:31])
         self.table = table
         self.row = 1
         self.widths: dict[int, int] = {}
+        self.frozen = False
 
-    def text(self, value: str) -> None:
+    def text(self, value: str, *, bold: bool = False) -> None:
         cell = self.ws.cell(row=self.row, column=1, value=value)
-        cell.font = FONT
+        cell.font = BOLD if bold else FONT
         self.row += 1
 
-    def header(self, labels: Sequence[str]) -> None:
-        for column, label in enumerate(labels, 1):
+    def header(
+        self, labels: Sequence[str | None], *, freeze: int = 0, start: int = 1
+    ) -> None:
+        """A header row; the first one written with `freeze` freezes the rows above
+        and including it and the `freeze` first columns."""
+        for column, label in enumerate(labels, start):
             cell = self.ws.cell(row=self.row, column=column, value=label)
             cell.font = HEADER_FONT
             cell.fill = HEADER_FILL
             cell.alignment = Alignment(wrap_text=True, vertical="top")
-            self.widths[column] = max(self.widths.get(column, 0), min(len(label), 40))
+            if label:
+                self.widths[column] = max(
+                    self.widths.get(column, 0), min(len(label), 18)
+                )
+        if freeze and not self.frozen:
+            self.ws.freeze_panes = self.ws.cell(row=self.row + 1, column=freeze + 1)
+            self.frozen = True
         self.row += 1
 
-    def values(self, items: Sequence[Any], units: Sequence[str | None] = ()) -> None:
+    def merged_header(self, spans: Sequence[tuple[int, int, str]]) -> None:
+        """Grey header cells spanning several columns (first, last, label)."""
+        for first, last, label in spans:
+            for column in range(first, last + 1):
+                cell = self.ws.cell(row=self.row, column=column)
+                cell.fill = HEADER_FILL
+                cell.font = HEADER_FONT
+            cell = self.ws.cell(row=self.row, column=first, value=label)
+            cell.alignment = Alignment(horizontal="center", vertical="top")
+            if last > first:
+                self.ws.merge_cells(
+                    start_row=self.row,
+                    start_column=first,
+                    end_row=self.row,
+                    end_column=last,
+                )
+        self.row += 1
+
+    def values(
+        self,
+        items: Sequence[Any],
+        units: Sequence[str | None] = (),
+        *,
+        muted: bool = False,
+        bold: Iterable[int] = (),
+    ) -> None:
         """One row; a number with a display unit gets the format of that unit."""
+        strong = set(bold)
         for column, value in enumerate(items, 1):
             if isinstance(value, float) and math.isnan(value):
                 value = None
             cell = self.ws.cell(row=self.row, column=column, value=value)
-            cell.font = FONT
+            cell.font = BOLD if column in strong else FONT
+            if muted:
+                cell.fill = MUTED_FILL
             unit = units[column - 1] if column - 1 < len(units) else None
             if isinstance(value, float) and unit:
                 decimals = self.table.decimals(unit)
                 cell.number_format = "0" if decimals == 0 else "0." + "0" * decimals
             text = "" if value is None else str(value)
-            self.widths[column] = max(self.widths.get(column, 0), min(len(text), 40))
+            if isinstance(value, float):
+                text = f"{value:.2f}"
+            self.widths[column] = max(self.widths.get(column, 0), min(len(text), 45))
         self.row += 1
 
     def blank(self) -> None:
@@ -91,7 +157,7 @@ class Sheet:
     def finish(self) -> None:
         for column, width in self.widths.items():
             self.ws.column_dimensions[get_column_letter(column)].width = max(
-                8, width + 2
+                7, width + 2
             )
 
 
@@ -116,6 +182,7 @@ def _flatten_verdicts(prefix: str, data: Any) -> Iterable[tuple[str, Any, str]]:
                         "worst_relative_gap",
                         "relative_gap",
                         "ecart_relatif",
+                        "ecart_relatif_max",
                         "ecart",
                         "valeur",
                     )
@@ -130,70 +197,336 @@ def _flatten_verdicts(prefix: str, data: Any) -> Iterable[tuple[str, Any, str]]:
             yield from _flatten_verdicts(f"{prefix} / {key}" if prefix else key, sub)
 
 
+def _place_text(lieu: dict[str, Any]) -> str:
+    parts = [lieu["groupe"]] if lieu.get("groupe") else []
+    if lieu.get("maille_med") is not None:
+        parts.append(f"maille {lieu['maille_med']}")
+        if lieu.get("extremite") is not None:
+            parts.append(f"extr. {lieu['extremite']}")
+    parts.append(f"nœud {lieu['noeud_med']}")
+    x, y, z = lieu["coordonnees_m"]
+    parts.append(f"({x:.2f} ; {y:.2f} ; {z:.2f})")
+    return ", ".join(parts)
+
+
+def _converted(
+    t: dict[str, Any], column: str | None
+) -> tuple[float | None, str | None]:
+    if not column or column not in t["torseur_si"]:
+        return None, None
+    value, unit = shown(t["torseur_si"][column], t["unites_si"][column])
+    return value, unit
+
+
+def _sheet_summary(s: Sheet, syn: dict[str, Any]) -> None:
+    states = [e["etat"] for e in syn["etats_limites"]]
+    s.text(
+        f"Projet {syn['projet']} — synthèse ingénieur : valeur dimensionnante de "
+        "chaque "
+        "section et torseur concomitant (N, M, V au même lieu, même combinaison, même "
+        "position mobile), par état limite. Signes de Code_Aster (N > 0 traction ; "
+        "repères en feuille Conventions) ; coques par mètre de largeur. Les fichiers "
+        "flexion_composee/*.csv donnent ces efforts dans la convention du logiciel de "
+        "flexion composée.",
+        bold=True,
+    )
+    absent = "; ".join(f"{a['libelle']} : {a['motif']}" for a in syn["etats_absents"])
+    if absent:
+        s.text(f"États limites absents : {absent}")
+    s.text(
+        f"Fissuration : {syn['fissuration']['libelle']} "
+        f"({syn['fissuration']['source']})"
+    )
+    fixed = ["Famille", "Section", "Grandeur", "Unités"]
+    spans = []
+    column = len(fixed) + 1
+    for state in states:
+        spans.append((column, column + 3, SHORT[state]))
+        column += 4
+    spans.append((column, column + 1, "Renvois"))
+    s.merged_header([(1, len(fixed), "")] + spans)
+    labels = list(fixed)
+    for _state in states:
+        labels += ["Valeur", "N", "M", "V"]
+    labels += ["Détail", "Remarque"]
+    s.header(labels, freeze=3)
+    by_key: dict[tuple[str, str, bool], dict[str, dict[str, Any]]] = {}
+    order: list[tuple[str, str, bool]] = []
+    for t in syn["torseurs"]:
+        if not t.get("principal", True):
+            continue
+        key = (t["section"], t["grandeur"], t["significative"])
+        if key not in by_key:
+            by_key[key] = {}
+            order.append(key)
+        by_key[key][t["etat_limite"]] = t
+    sections = {x["nom"]: x for x in syn["sections"]}
+    for family in syn["familles"]:
+        s.blank()
+        reserve = f" — réserve : {family['reserve']}" if family.get("reserve") else ""
+        s.text(
+            f"{family['nom']} ({family['type']}, champ {family['champ']}, groupes "
+            f"{' '.join(family['groupes'])}){reserve}",
+            bold=True,
+        )
+        for key in order:
+            section = sections[key[0]]
+            if section["famille"] != family["nom"]:
+                continue
+            entries = by_key[key]
+            any_t = next(iter(entries.values()))
+            triplet = any_t["triplet"]
+            row: list[Any] = [family["nom"], section["libelle"], key[1]]
+            units_text: list[str] = []
+            units: list[str | None] = [None, None, None, None]
+            bold: list[int] = []
+            values: list[Any] = []
+            for state in states:
+                t = entries.get(state)
+                if t is None:
+                    values += [None] * 4
+                    units += [None] * 4
+                    continue
+                value, unit = shown(t["valeur_si"], t["unite_si"])
+                cells: list[Any] = [value]
+                cell_units: list[str | None] = [unit]
+                for role in ("N", "M", "V"):
+                    v, u = _converted(t, triplet.get(role))
+                    cells.append(v)
+                    cell_units.append(u)
+                bold.append(len(row) + 2 + len(values))
+                values += cells
+                units += cell_units
+                if not units_text:
+                    units_text = [u or "" for u in cell_units]
+            row.append(" ; ".join(dict.fromkeys(u for u in units_text if u)))
+            row += values
+            files = section.get("export") or []
+            row.append(
+                "Torseurs ; " + ", ".join(f"flexion_composee/{f}" for f in files)
+                if files
+                else "Torseurs"
+            )
+            remark = None if key[2] else f"non significative : {any_t['motif']}"
+            if section.get("reserve") and key[2]:
+                remark = section["reserve"]
+            row.append(remark)
+            s.values(row, units, muted=not key[2], bold=bold)
+
+
+def _sheet_service(s: Sheet, data: dict[str, Any]) -> None:
+    s.text(
+        "Critères de service déclarés par MM, valeurs lues dans les déplacements "
+        "livrés "
+        "(superposition des cas élémentaires et des positions mobiles)",
+        bold=True,
+    )
+    if not data.get("criteres"):
+        s.text(f"Aucun critère de service : {data.get('motif_absence')}")
+        return
+    s.header(
+        [
+            "Critère",
+            "État limite",
+            "Cas exclus",
+            "Valeur (mm)",
+            "Limite (mm)",
+            "Taux",
+            "Verdict",
+            "Lieu",
+            "Portée",
+            "Combinaison",
+            "Position mobile",
+            "Source",
+        ],
+        freeze=1,
+    )
+    for c in data["criteres"]:
+        for key, muted in (("gouvernant", False), ("hors_verdict", True)):
+            g = c.get(key)
+            if not g:
+                continue
+            x, y, z = g["coordonnees_m"]
+            place = ", ".join(
+                p
+                for p in (
+                    g.get("groupe"),
+                    f"nœud {g['noeud_med']}",
+                    f"({x:.2f} ; {y:.2f} ; {z:.2f})",
+                )
+                if p
+            )
+            verdict = (
+                c.get("verdict")
+                if key == "gouvernant"
+                else (f"sans verdict : {g.get('note')}")
+            )
+            s.values(
+                [
+                    c["libelle"],
+                    c["etat_limite_libelle"],
+                    ", ".join(c["cas_exclus"]) or None,
+                    g["valeur_m"] * 1.0e3,
+                    c["limite_m"] * 1.0e3,
+                    c.get("taux") if key == "gouvernant" else g.get("taux"),
+                    verdict,
+                    place,
+                    g.get("portee"),
+                    g["combinaison"],
+                    g.get("position_mobile"),
+                    c["source"],
+                ],
+                [None, None, None, "mm", "mm"],
+                muted=muted,
+            )
+
+
+def _sheet_torsors(s: Sheet, syn: dict[str, Any], lines: list[dict[str, Any]]) -> None:
+    s.text(
+        "Torseurs complets (format large), signes et repères de Code_Aster : d'abord "
+        "les "
+        "torseurs dimensionnants (section × état limite × grandeur), puis, pour chaque "
+        "section et chaque combinaison, le torseur où la grandeur principale est la "
+        "plus "
+        "grande en module.",
+        bold=True,
+    )
+    present = {c for t in syn["torseurs"] + lines for c in t["torseur_si"]}
+    comps = [c for c in COMPONENT_ORDER if c in present]
+    head = [
+        "Nature",
+        "Section",
+        "Famille",
+        "État limite",
+        "Grandeur",
+        "Valeur",
+        "Combinaison",
+        "Position mobile",
+        "Lieu",
+        "Unités",
+        *[COMPONENT_LABELS.get(c, c) for c in comps],
+        "Remarque",
+    ]
+    s.header(head, freeze=2)
+    for nature, rows in (
+        ("dimensionnant", syn["torseurs"]),
+        ("par combinaison", lines),
+    ):
+        for t in rows:
+            significant = t.get("significative", True)
+            values: list[Any] = []
+            units: list[str | None] = []
+            for c in comps:
+                if c in t["torseur_si"]:
+                    v, u = shown(t["torseur_si"][c], t["unites_si"][c])
+                else:
+                    v, u = None, None
+                values.append(v)
+                units.append(u)
+            unit_names = sorted({u for u in units if u})
+            value, shown_unit = shown(t["valeur_si"], t["unite_si"])
+            s.values(
+                [
+                    nature,
+                    t["section"],
+                    t["famille"],
+                    SHORT[t["etat_limite"]],
+                    t["grandeur"],
+                    value,
+                    t["combinaison"],
+                    t["position_mobile"],
+                    _place_text(t["lieu"]),
+                    " ; ".join(unit_names),
+                    *values,
+                    None if significant else f"non significative : {t.get('motif')}",
+                ],
+                [None] * 5 + [shown_unit] + [None] * 4 + units,
+                muted=not significant,
+            )
+
+
+def _sheet_detail(
+    s: Sheet, family: dict[str, Any], members: list[dict[str, Any]]
+) -> None:
+    rows = [m for m in members if m["famille"] == family["nom"]]
+    s.text(
+        f"{family['nom']} : un élément par ligne et par état limite ; valeur, cote et "
+        "combinaison de chaque grandeur (signes de Code_Aster)",
+        bold=True,
+    )
+    if not rows:
+        s.text("Sans objet : la famille n'a pas de membres déclarés.")
+        return
+    labels = list(rows[0]["valeurs"])
+    head = ["Élément", "État limite"]
+    for label in labels:
+        head += [label, f"cote {label}", f"combinaison {label}"]
+    s.header(head, freeze=2)
+    axis = "XYZ".index(family.get("axe") or "Z") if family.get("axe") else 2
+    for m in rows:
+        values: list[Any] = [m["groupe"], SHORT[m["etat_limite"]]]
+        units: list[str | None] = [None, None]
+        for label in labels:
+            v = m["valeurs"].get(label)
+            if v is None:
+                values += [None, None, None]
+                units += [None, None, None]
+                continue
+            value, unit = shown(v["valeur_si"], v["unite_si"])
+            combination = v["combinaison"] + (
+                f" @ {v['position_mobile']}" if v.get("position_mobile") else ""
+            )
+            values += [value, v["coordonnees_m"][axis], combination]
+            units += [unit, "m", None]
+        s.values(values, units)
+
+
 def build_workbook(package: Path, table: RoundingTable) -> Workbook:
     vis = package / "visualisation"
     manifest = _load(vis / "manifeste.json")
     paquet = _load(package / "paquet.json")
     wb = Workbook()
     wb.remove(wb.active)
-    sheets = {title: Sheet(wb, title, table) for title in SHEETS}
+    syn_path = vis / "synthese_ingenieur.json"
+    syn = _load(syn_path) if syn_path.is_file() else None
+    sheets: dict[str, Sheet] = {t: Sheet(wb, t, table) for t in FIRST_SHEETS}
+    details: list[tuple[dict[str, Any], Sheet]] = []
+    if syn is not None:
+        for family in syn["familles"]:
+            if family["type"] == "poutre" and family.get("membres"):
+                details.append((family, Sheet(wb, f"Détail {family['nom']}", table)))
+    for title in LAST_SHEETS:
+        sheets[title] = Sheet(wb, title, table)
 
-    # 1. Synthèse
-    s = sheets["Synthèse"]
-    s.text(
-        f"Projet {manifest['projet']} -- extrema par famille et par grandeur, sur "
-        "l'enveloppe des combinaisons (hors disques d'exclusion déclarés)"
-    )
-    s.header(
-        [
-            "Famille",
-            "Champ",
-            "Composante",
-            "Extremum",
-            "Valeur",
-            "Unité",
-            "Groupes",
-            "Nœud MED",
-            "Maille MED",
-            "X (m)",
-            "Y (m)",
-            "Z (m)",
-            "Combinaison",
-            "Position mobile",
-            "Cas",
-        ]
-    )
-    for e in _load(vis / "synthese.json"):
-        value, unit = shown(e["valeur_si"], e["unite_si"])
-        x, y, z = e["lieu"]["coordonnees_m"]
-        s.values(
-            [
-                e["famille"],
-                e["champ"],
-                e["composante"],
-                e["extremum"],
-                value,
-                unit,
-                " ".join(e["lieu"].get("groupes", [])),
-                e["lieu"]["noeud_med"],
-                e["lieu"].get("maille_med"),
-                x,
-                y,
-                z,
-                e.get("combinaison"),
-                e.get("position_mobile"),
-                e.get("cas"),
-            ],
-            [None, None, None, None, unit, None, None, None, None, "m", "m", "m"],
+    if syn is None:
+        for title in FIRST_SHEETS:
+            sheets[title].text(
+                "Sans objet : le projet ne déclare pas de synthèse ingénieur "
+                "(engineering_summary)."
+            )
+    else:
+        _sheet_summary(sheets["Synthèse ingénieur"], syn)
+        _sheet_service(
+            sheets["Vérifications de service"],
+            _load(vis / "verifications_service.json"),
         )
+        _sheet_torsors(
+            sheets["Torseurs"], syn, _load(vis / "torseurs_combinaisons.json")
+        )
+        members = _load(vis / "detail_membres.json")
+        diagram = _load(vis / "diagrammes.json")
+        axes = {p["famille"]: p["axe"] for p in diagram["poutres"]}
+        for family, sheet in details:
+            _sheet_detail(sheet, {**family, "axe": axes.get(family["nom"])}, members)
 
-    # 2. Réactions et équilibre
+    # Réactions et équilibre (lot 49), puis équilibre par état limite (lot 49 bis)
     s = sheets["Réactions et équilibre"]
     loads = _load(vis / "controle_charges.json")
     balance = _load(vis / "equilibre_livrables.json")
     s.text(
         "Par cas : charge appliquée (Σ des forces nodales du MED des charges), "
-        "réactions et forces des ressorts livrées, bilan"
+        "réactions et forces des ressorts livrées, bilan",
+        bold=True,
     )
     s.header(
         [
@@ -207,7 +540,8 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
             "Écart relatif",
             "Résultante déclarée",
             "Verdict CTL-013",
-        ]
+        ],
+        freeze=1,
     )
     for case, entry in balance["cas"].items():
         load = entry.get("charge_n") or {}
@@ -217,12 +551,6 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
         )
         for comp in ("FX", "FY", "FZ"):
             bilan = (entry.get("bilan_n") or {}).get(comp)
-            values = [
-                shown(load.get(comp), "N")[0],
-                shown(entry["reactions_n"][comp], "N")[0],
-                shown(entry["ressorts_n"][comp], "N")[0],
-                shown(bilan, "N")[0],
-            ]
             declared = (ctl.get("attendu_tel_qu_evalue_n") or {}).get(
                 {"FX": "DX", "FY": "DY", "FZ": "DZ"}[comp]
             )
@@ -230,7 +558,10 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
                 [
                     case,
                     comp,
-                    *values,
+                    shown(load.get(comp), "N")[0],
+                    shown(entry["reactions_n"][comp], "N")[0],
+                    shown(entry["ressorts_n"][comp], "N")[0],
+                    shown(bilan, "N")[0],
                     "kN",
                     abs(bilan) / scale if bilan is not None and scale else None,
                     shown(declared, "N")[0],
@@ -244,108 +575,45 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
             "Appuis non livrés (motif dans projet.yaml) : "
             + ", ".join(balance["appuis_non_livres"])
         )
-
-    # 3. Efforts par élément (points de lecture)
-    s = sheets["Efforts par élément"]
-    points = _load(vis / "points.json")
-    units = {
-        (c["cle"], comp["nom"]): comp["unite_si"]
-        for c in manifest["champs"]
-        for comp in c["composantes"]
-    }
-    s.text(
-        "Valeurs aux points de lecture déclarés, par cas élémentaire et pour "
-        "l'enveloppe"
-    )
-    s.header(
-        [
-            "Point",
-            "Champ",
-            "Source",
-            "Nœud MED",
-            "Maille MED",
-            "Extrémité",
-            "X (m)",
-            "Y (m)",
-            "Z (m)",
-            "Composante",
-            "Valeur",
-            "Unité",
-        ]
-    )
-    for p in points:
-        x, y, z = p["lieu"]["coordonnees_m"]
-        for comp, value in p["valeurs_si"].items():
-            v, unit = shown(value, units[(p["cle"], comp)])
+    by_state = vis / "equilibre_etats_limites.json"
+    if by_state.is_file():
+        data = _load(by_state)
+        s.blank()
+        s.text(data["controle"], bold=True)
+        s.header(
+            [
+                "État limite",
+                "Évaluations",
+                "Écart relatif max",
+                "Seuil",
+                "Verdict",
+                "Pire combinaison",
+                "Position mobile",
+            ]
+        )
+        for entry in data["etats"].values():
+            worst = entry.get("pire") or {}
             s.values(
                 [
-                    p["point"],
-                    p["cle"],
-                    p["source"],
-                    p["lieu"]["noeud_med"],
-                    p["lieu"].get("maille_med"),
-                    p["lieu"].get("extremite"),
-                    x,
-                    y,
-                    z,
-                    comp,
-                    v,
-                    unit,
-                ],
-                [None] * 6 + ["m", "m", "m", None, unit],
+                    entry["etat_limite"],
+                    entry["evaluations"],
+                    entry["ecart_relatif_max"],
+                    entry["seuil"],
+                    entry["verdict"],
+                    worst.get("combinaison"),
+                    worst.get("position_mobile"),
+                ]
             )
 
-    # 4. Enveloppes le long des éléments linéiques
-    s = sheets["Enveloppes"]
-    linear = _load(vis / "enveloppes_lineiques.json")
-    s.text("Enveloppe (max et min sur les combinaisons) à chaque extrémité d'élément")
-    by_key: dict[str, list[dict[str, Any]]] = {}
-    for e in linear:
-        by_key.setdefault(e["cle"], []).append(e)
-    for key, rows in by_key.items():
-        comps = [k[: -len("_max")] for k in rows[0] if k.endswith("_max")]
-        head = [
-            "Champ",
-            "Maille MED",
-            "Extrémité",
-            "Nœud MED",
-            "X (m)",
-            "Y (m)",
-            "Z (m)",
-        ]
-        cols: list[str] = []
-        col_units: list[str | None] = [None] * 4 + ["m", "m", "m"]
-        for comp in comps:
-            unit = display(units[(key, comp)]).unit
-            cols += [f"{comp}_max", f"{comp}_min"]
-            head += [f"{comp} max ({unit})", f"{comp} min ({unit})"]
-            col_units += [unit, unit]
-        s.header(head)
-        for e in rows:
-            row = [
-                e["cle"],
-                e["maille_med"],
-                e["extremite"],
-                e["noeud_med"],
-                e["x_m"],
-                e["y_m"],
-                e["z_m"],
-            ]
-            for col in cols:
-                comp = col.rsplit("_", 1)[0]
-                row.append(shown(e[col], units[(key, comp)])[0])
-            s.values(row, col_units)
-        s.blank()
-
-    # 5. Contrôles D et E
+    # Contrôles D et E
     s = sheets["Contrôles D et E"]
     dates: dict[str, tuple[str | None, str | None, str]] = {}
     for c in paquet.get("criteres", []):
         dates.setdefault(
             c["niveau"], (c.get("commit_introduction"), c.get("date"), c["document"])
         )
-    s.text("Niveau atteint : " + str(paquet["niveau"]["atteint"]))
-    s.header(["Niveau", "Atteint", "Motif"])
+    s.text("Niveau atteint : " + str(paquet["niveau"]["atteint"]), bold=True)
+    s.header(["Niveau", "Atteint", "Motif"], freeze=1)
     for n in paquet["niveau"]["par_niveau"]:
         s.values([n["niveau"], "oui" if n["atteint"] else "non", n["motif"]])
     s.blank()
@@ -391,8 +659,24 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
                 None,
             ]
         )
+    cross = vis / "controles_croises.json"
+    if cross.is_file():
+        data = _load(cross)
+        s.values(
+            [
+                "—",
+                "Synthèse ingénieur relue par resultats lire "
+                f"({data['valeurs_comparees']}"
+                " valeurs)",
+                data["ecart_relatif_max"],
+                data["verdict"],
+                "lot 49 bis",
+                None,
+                None,
+            ]
+        )
 
-    # 6. Comparaison externe
+    # Comparaison externe
     s = sheets["Comparaison externe"]
     external = package / "contre_calcul"
     files = sorted(external.glob("*.json")) if external.is_dir() else []
@@ -405,12 +689,13 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
             continue
         table_rows: list[dict[str, Any]] = found
         s.text(
-            f"{path.name} -- contre-calcul d'un modèle non validé, jamais un niveau E"
+            f"{path.name} -- contre-calcul d'un modèle non validé, jamais un niveau E",
+            bold=True,
         )
         keys = [
             k for k in table_rows[0] if not isinstance(table_rows[0][k], dict | list)
         ]
-        s.header(keys)
+        s.header(keys, freeze=1)
         for line in table_rows:
             s.values(
                 [
@@ -420,7 +705,7 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
             )
         s.blank()
 
-    # 7. Conventions
+    # Conventions
     s = sheets["Conventions"]
     s.header(
         [
@@ -429,7 +714,8 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
             "Groupes",
             "Composantes (unité SI → affichage)",
             "Repère et signes",
-        ]
+        ],
+        freeze=1,
     )
     for c in manifest["champs"]:
         s.values(
@@ -444,10 +730,30 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
                 c["convention"],
             ]
         )
+    if syn is not None:
+        s.blank()
+        s.header(["État limite", "Familles de combinaisons", "Note"])
+        for e in syn["etats_limites"]:
+            note = "fissuration" if e["etat"] == syn["fissuration"]["etat"] else None
+            s.values([e["libelle"], ", ".join(e["familles_de_combinaisons"]), note])
+        for a in syn["etats_absents"]:
+            s.values([a["libelle"], None, f"absent : {a['motif']}"])
+        s.blank()
+        s.header(["Section", "Famille", "Règle de lecture", "Justification", "Lecture"])
+        for x in syn["sections"]:
+            s.values(
+                [
+                    x["libelle"],
+                    x["famille"],
+                    x["regle"],
+                    x["justification"],
+                    "; ".join(x["lecture"]) or None,
+                ]
+            )
 
-    # 8. Provenance
+    # Provenance
     s = sheets["Provenance"]
-    s.header(["Élément", "Valeur"])
+    s.header(["Élément", "Valeur"], freeze=1)
     for label, value in (
         ("Projet", manifest["projet"]),
         ("Code_Aster", manifest["code_aster"].get("version")),
@@ -460,13 +766,17 @@ def build_workbook(package: Path, table: RoundingTable) -> Workbook:
         ("Maillage (SHA-256)", manifest["maillage"]["sha256"]),
         ("Paquet : commit", paquet["depot"]["commit"]),
         ("Paquet : exporté le", paquet["exporte_le"]),
+        (
+            "Synthèse ingénieur : méthode",
+            syn["methode"] if syn is not None else None,
+        ),
     ):
         s.values([label, value])
     s.blank()
     s.header(["Fichier", "SHA-256", "Octets"])
     for name, info in manifest["fichiers"].items():
         s.values([name, info["sha256"], info["octets"]])
-    for sheet in sheets.values():
+    for sheet in [*sheets.values(), *(d[1] for d in details)]:
         sheet.finish()
     return wb
 
@@ -491,9 +801,11 @@ def write_workbook(ctx: ProjectContext) -> str:
 
 
 __all__ = [
+    "FIRST_SHEETS",
     "FONT",
     "HEADER_FILL",
-    "SHEETS",
+    "LAST_SHEETS",
+    "MUTED_FILL",
     "WORKBOOK",
     "build_workbook",
     "shown",

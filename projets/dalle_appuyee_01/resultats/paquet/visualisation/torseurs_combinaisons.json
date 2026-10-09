@@ -1,0 +1,478 @@
+[
+ {
+  "section": "dalle_travee",
+  "famille": "dalle",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 17112.961937393564,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -17112.961937393564,
+   "MYY": -31516.39842857163,
+   "MXY": -5.240212668319647e-09,
+   "QX": 4.061640916930287e-08,
+   "QY": -3.511408550593842e-08
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "dalle_travee",
+  "famille": "dalle",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MXX| max",
+  "valeur_si": 11919.475976293937,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELS_CARA_Q_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -11919.475976293937,
+   "MYY": -21951.720298507367,
+   "MXY": -3.6525049066347564e-09,
+   "QX": 2.808778809537671e-08,
+   "QY": -2.6326787860853074e-08
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "dalle_travee",
+  "famille": "dalle",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 11238.363063362773,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -11238.363063362773,
+   "MYY": -20697.336281449578,
+   "MXY": -3.44628421039294e-09,
+   "QX": 2.6289191268347167e-08,
+   "QY": -2.661150659832856e-08
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "dalle_travee",
+  "famille": "dalle",
+  "etat_limite": "ELS_quasi_permanent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 10557.250150431606,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELS_QUASI_PERMANENTE",
+  "famille_combinaison": "ELS quasi permanente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -10557.250150431606,
+   "MYY": -19442.952264391784,
+   "MXY": -3.240063514151123e-09,
+   "QX": 2.4490594441317626e-08,
+   "QY": -2.689622533580405e-08
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "dalle_centre",
+  "famille": "dalle",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 17112.961937393564,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -17112.961937393564,
+   "MYY": -31516.39842857163,
+   "MXY": -5.240212668319647e-09,
+   "QX": 4.061640916930287e-08,
+   "QY": -3.511408550593842e-08
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "dalle_centre",
+  "famille": "dalle",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MXX| max",
+  "valeur_si": 11919.475976293937,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELS_CARA_Q_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -11919.475976293937,
+   "MYY": -21951.720298507367,
+   "MXY": -3.6525049066347564e-09,
+   "QX": 2.808778809537671e-08,
+   "QY": -2.6326787860853074e-08
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "dalle_centre",
+  "famille": "dalle",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 11238.363063362773,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -11238.363063362773,
+   "MYY": -20697.336281449578,
+   "MXY": -3.44628421039294e-09,
+   "QX": 2.6289191268347167e-08,
+   "QY": -2.661150659832856e-08
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "dalle_centre",
+  "famille": "dalle",
+  "etat_limite": "ELS_quasi_permanent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 10557.250150431606,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 3,
+   "coordonnees_m": [
+    3.0,
+    2.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELS_QUASI_PERMANENTE",
+  "famille_combinaison": "ELS quasi permanente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 0.0,
+   "NYY": 0.0,
+   "NXY": 0.0,
+   "MXX": -10557.250150431606,
+   "MYY": -19442.952264391784,
+   "MXY": -3.240063514151123e-09,
+   "QX": 2.4490594441317626e-08,
+   "QY": -2.689622533580405e-08
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|DZ| max",
+  "valeur_si": 38886.91967380107,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 2,
+   "coordonnees_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELU_FOND_Q_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 0.0,
+   "DY": 0.0,
+   "DZ": -38886.91967380107
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|DZ| max",
+  "valeur_si": 27085.41668821965,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 2,
+   "coordonnees_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELS_CARA_Q_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 0.0,
+   "DY": 0.0,
+   "DZ": -27085.41668821965
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|DZ| max",
+  "valeur_si": 25537.67859174996,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 2,
+   "coordonnees_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 0.0,
+   "DY": 0.0,
+   "DZ": -25537.67859174996
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_quasi_permanent",
+  "grandeur": "|DZ| max",
+  "valeur_si": 23989.940495280265,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 2,
+   "coordonnees_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "combinaison": "ELS_QUASI_PERMANENTE",
+  "famille_combinaison": "ELS quasi permanente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 0.0,
+   "DY": 0.0,
+   "DZ": -23989.940495280265
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ }
+]

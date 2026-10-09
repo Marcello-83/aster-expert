@@ -1,0 +1,5366 @@
+[
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 549478.105064122,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 425.54214087517283,
+   "VY": 395691.7656509308,
+   "VZ": -185232.56782808076,
+   "MT": -281124.5599895551,
+   "MFY": 549478.105064122,
+   "MFZ": 1528462.2300448215
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 3.458180383826132e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39542,
+   "extremite": 2,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 2.013063480460768e-06,
+   "VY": 2.6762214645259226e-06,
+   "VZ": -5.358769186747447e-06,
+   "MT": 4.626810550689699e-07,
+   "MFY": -3.458180383826132e-05,
+   "MFZ": 2.5987738725320905e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 549478.1050699032,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 425.5421405057858,
+   "VY": 395691.7656495741,
+   "VZ": -185232.5678300204,
+   "MT": -281124.55999281735,
+   "MFY": 549478.1050699032,
+   "MFZ": 1528462.2300449074
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 2.7588120341062603e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39542,
+   "extremite": 2,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.604108594715568e-06,
+   "VY": 1.7305670365550203e-06,
+   "VZ": -4.260023903399196e-06,
+   "MT": 9.424984455108643e-07,
+   "MFY": -2.7588120341062603e-05,
+   "MFZ": 2.215286049549951e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 784968.721533238,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173434707246,
+   "VY": 565273.9509276878,
+   "VZ": -264617.95404476696,
+   "MT": -401606.51427963004,
+   "MFY": 784968.721533238,
+   "MFZ": 2183517.471491809
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 784968.7215366074,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173434457002,
+   "VY": 565273.950927716,
+   "VZ": -264617.9540461555,
+   "MT": -401606.5142829392,
+   "MFY": 784968.7215366074,
+   "MFZ": 2183517.47149091
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 784968.7215390191,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173431013377,
+   "VY": 565273.9509263311,
+   "VZ": -264617.9540467066,
+   "MT": -401606.5142828923,
+   "MFY": 784968.7215390191,
+   "MFZ": 2183517.471491895
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 784968.7215423886,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173430763133,
+   "VY": 565273.9509263593,
+   "VZ": -264617.95404809515,
+   "MT": -401606.51428620145,
+   "MFY": 784968.7215423886,
+   "MFZ": 2183517.471490996
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_accidentel",
+  "grandeur": "|MFY| max",
+  "valeur_si": 24822.59891912126,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 444.7740287323594,
+   "VY": -337609.3225380414,
+   "VZ": -6960.221736644659,
+   "MT": -517115.0278812209,
+   "MFY": 24822.59891912126,
+   "MFZ": -1297173.489528384
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 366318.7367077629,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 283.69476068898774,
+   "VY": 263794.5104343415,
+   "VZ": -123488.37855149969,
+   "MT": -187416.37332543803,
+   "MFY": 366318.7367077629,
+   "MFZ": 1018974.8200298564
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 2.5052731177088134e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39542,
+   "extremite": 2,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.4588865733772355e-06,
+   "VY": 2.0543346224375395e-06,
+   "VZ": -3.886440014978751e-06,
+   "MT": 1.7136335372924805e-07,
+   "MFY": -2.5052731177088134e-05,
+   "MFZ": 1.8420838644448622e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 523312.4810205069,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 405.27822908602224,
+   "VY": 376849.30061884614,
+   "VZ": -176411.96936262381,
+   "MT": -267737.67618548794,
+   "MFY": 523312.4810205069,
+   "MFZ": 1455678.314327848
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 523312.48102275317,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 405.2782290693393,
+   "VY": 376849.30061886495,
+   "VZ": -176411.96936354952,
+   "MT": -267737.6761876941,
+   "MFY": 523312.48102275317,
+   "MFZ": 1455678.3143272486
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 366318.73670936737,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 283.6947606770714,
+   "VY": 263794.51043435495,
+   "VZ": -123488.3785521609,
+   "MT": -187416.37332701383,
+   "MFY": 366318.73670936737,
+   "MFZ": 1018974.8200294283
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 2.2517342013113666e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39542,
+   "extremite": 2,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.313664552038903e-06,
+   "VY": 2.3781022083200587e-06,
+   "VZ": -3.512856126558305e-06,
+   "MT": -5.997717380523682e-07,
+   "MFY": -2.2517342013113666e-05,
+   "MFZ": 1.4688816793397735e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 261656.24050087144,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 202.63911507904837,
+   "VY": 188424.65031135184,
+   "VZ": -88205.98467807815,
+   "MT": -133868.83808698057,
+   "MFY": 261656.24050087144,
+   "MFZ": 727839.1571641007
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 261656.2405031177,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 202.63911506236545,
+   "VY": 188424.65031137064,
+   "VZ": -88205.98467900386,
+   "MT": -133868.8380891867,
+   "MFY": 261656.2405031177,
+   "MFZ": 727839.1571635014
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_bollard",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_quasi_permanent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 2.150318634752388e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39542,
+   "extremite": 2,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_QUASI_PERMANENTE",
+  "famille_combinaison": "ELS quasi permanente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.2555757435035699e-06,
+   "VY": 2.5076092426730666e-06,
+   "VZ": -3.3634225711901264e-06,
+   "MT": -9.082257747650147e-07,
+   "MFY": -2.150318634752388e-05,
+   "MFZ": 1.319600805297738e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 308675.76688760327,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 425.5421408751728,
+   "VY": 395691.7656511117,
+   "VZ": -185232.5678280891,
+   "MT": -281124.55998957524,
+   "MFY": 308675.76688760327,
+   "MFZ": 1014062.9346986897
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 2.7621612852434706e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39539,
+   "extremite": 1,
+   "noeud_med": 37587,
+   "coordonnees_m": [
+    -1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 2.013063480460646e-06,
+   "VY": 1.5654108438065464e-06,
+   "VZ": -5.283956699783123e-06,
+   "MT": 3.59863042831421e-07,
+   "MFY": -2.7621612852434706e-05,
+   "MFZ": 5.196305824527518e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 308675.7668908639,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 425.54214050578577,
+   "VY": 395691.7656497424,
+   "VZ": -185232.56783002667,
+   "MT": -281124.55999283225,
+   "MFY": 308675.7668908639,
+   "MFZ": 1014062.9347005354
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 2.2058273132006105e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39539,
+   "extremite": 1,
+   "noeud_med": 37587,
+   "coordonnees_m": [
+    -1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.6041085947154714e-06,
+   "VY": 8.710967750499668e-07,
+   "VZ": -4.201594761294536e-06,
+   "MT": 8.605420589447021e-07,
+   "MFY": -2.2058273132006105e-05,
+   "MFZ": 3.821877706565667e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 440965.3812750225,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173434707245,
+   "VY": 565273.9509277068,
+   "VZ": -264617.954044773,
+   "MT": -401606.5142796502,
+   "MFY": 440965.3812750225,
+   "MFZ": 1448661.3352859581
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 440965.3812765865,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173434457001,
+   "VY": 565273.9509275248,
+   "VZ": -264617.9540461592,
+   "MT": -401606.51428295934,
+   "MFY": 440965.3812765865,
+   "MFZ": 1448661.3352850592
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 440965.38127828314,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173431013376,
+   "VY": 565273.9509263374,
+   "VZ": -264617.9540467106,
+   "MT": -401606.5142829072,
+   "MFY": 440965.38127828314,
+   "MFZ": 1448661.3352878038
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 440965.3812798471,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173430763132,
+   "VY": 565273.9509261554,
+   "VZ": -264617.95404809684,
+   "MT": -401606.51428621635,
+   "MFY": 440965.3812798471,
+   "MFZ": 1448661.3352869048
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_accidentel",
+  "grandeur": "|MFY| max",
+  "valeur_si": 15774.31066146897,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 444.77402873235945,
+   "VY": -337609.32253943913,
+   "VZ": -6960.22173667568,
+   "MT": -517115.02788119065,
+   "MFY": 15774.31066146897,
+   "MFZ": -858281.3702278049
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 205783.84459080393,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 283.6947606889877,
+   "VY": 263794.5104344657,
+   "VZ": -123488.37855150578,
+   "MT": -187416.37332545294,
+   "MFY": 205783.84459080393,
+   "MFZ": 676041.9564652658
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 2.0003934202697972e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39539,
+   "extremite": 1,
+   "noeud_med": 37587,
+   "coordonnees_m": [
+    -1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.4588865733771474e-06,
+   "VY": 1.2419826774205297e-06,
+   "VZ": -3.831884067995012e-06,
+   "MT": 9.685754776000977e-08,
+   "MFY": -2.0003934202697972e-05,
+   "MFZ": 3.856897631007445e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 293976.9208490834,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 405.2782290860222,
+   "VY": 376849.3006188624,
+   "VZ": -176411.96936262844,
+   "MT": -267737.67618550285,
+   "MFY": 293976.9208490834,
+   "MFZ": 965774.2235234447
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 293976.9208501261,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 405.27822906933926,
+   "VY": 376849.3006187411,
+   "VZ": -176411.96936355258,
+   "MT": -267737.676187709,
+   "MFY": 293976.9208501261,
+   "MFZ": 965774.2235228454
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 205783.84459154867,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 283.6947606770713,
+   "VY": 263794.5104343791,
+   "VZ": -123488.37855216589,
+   "MT": -187416.37332702873,
+   "MFY": 205783.84459154867,
+   "MFZ": 676041.9564648378
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 1.7949595273389836e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39539,
+   "extremite": 1,
+   "noeud_med": 37587,
+   "coordonnees_m": [
+    -1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.3136645520388233e-06,
+   "VY": 1.6128685797910927e-06,
+   "VZ": -3.4621733746954867e-06,
+   "MT": -6.668269634246826e-07,
+   "MFY": -1.7949595273389836e-05,
+   "MFZ": 3.891917555449223e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 146988.46041936235,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 202.63911507904834,
+   "VY": 188424.650311448,
+   "VZ": -88205.98467808415,
+   "MT": -133868.83808699547,
+   "MFY": 146988.46041936235,
+   "MFZ": 482887.1117593854
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 146988.460420405,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39546,
+   "extremite": 2,
+   "noeud_med": 37594,
+   "coordonnees_m": [
+    1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 202.63911506236542,
+   "VY": 188424.65031132667,
+   "VZ": -88205.9846790083,
+   "MT": -133868.8380892016,
+   "MFY": 146988.460420405,
+   "MFZ": 482887.1117587861
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_mi_travee",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_quasi_permanent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 1.712785970166658e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39539,
+   "extremite": 1,
+   "noeud_med": 37587,
+   "coordonnees_m": [
+    -1.2999999999999998,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_QUASI_PERMANENTE",
+  "famille_combinaison": "ELS quasi permanente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.2555757435034936e-06,
+   "VY": 1.7612229407393178e-06,
+   "VZ": -3.3142890973756764e-06,
+   "MT": -9.723007678985596e-07,
+   "MFY": -1.712785970166658e-05,
+   "MFZ": 3.9059255252259345e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 549478.105064122,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 425.54214087517283,
+   "VY": 395691.7656509308,
+   "VZ": -185232.56782808076,
+   "MT": -281124.5599895551,
+   "MFY": 549478.105064122,
+   "MFZ": 1528462.2300448215
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 3.458180383826132e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39542,
+   "extremite": 2,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 2.013063480460768e-06,
+   "VY": 2.6762214645259226e-06,
+   "VZ": -5.358769186747447e-06,
+   "MT": 4.626810550689699e-07,
+   "MFY": -3.458180383826132e-05,
+   "MFZ": 2.5987738725320905e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 549478.1050699032,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 425.5421405057858,
+   "VY": 395691.7656495741,
+   "VZ": -185232.5678300204,
+   "MT": -281124.55999281735,
+   "MFY": 549478.1050699032,
+   "MFZ": 1528462.2300449074
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 2.7588120341062603e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39542,
+   "extremite": 2,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.604108594715568e-06,
+   "VY": 1.7305670365550203e-06,
+   "VZ": -4.260023903399196e-06,
+   "MT": 9.424984455108643e-07,
+   "MFY": -2.7588120341062603e-05,
+   "MFZ": 2.215286049549951e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 784968.721533238,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173434707246,
+   "VY": 565273.9509276878,
+   "VZ": -264617.95404476696,
+   "MT": -401606.51427963004,
+   "MFY": 784968.721533238,
+   "MFZ": 2183517.471491809
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 784968.7215366074,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173434457002,
+   "VY": 565273.950927716,
+   "VZ": -264617.9540461555,
+   "MT": -401606.5142829392,
+   "MFY": 784968.7215366074,
+   "MFZ": 2183517.47149091
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 784968.7215390191,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173431013377,
+   "VY": 565273.9509263311,
+   "VZ": -264617.9540467066,
+   "MT": -401606.5142828923,
+   "MFY": 784968.7215390191,
+   "MFZ": 2183517.471491895
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MFY| max",
+  "valeur_si": 784968.7215423886,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 607.9173430763133,
+   "VY": 565273.9509263593,
+   "VZ": -264617.95404809515,
+   "MT": -401606.51428620145,
+   "MFY": 784968.7215423886,
+   "MFZ": 2183517.471490996
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELU_accidentel",
+  "grandeur": "|MFY| max",
+  "valeur_si": 24822.59891912126,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 444.7740287323594,
+   "VY": -337609.3225380414,
+   "VZ": -6960.221736644659,
+   "MT": -517115.0278812209,
+   "MFY": 24822.59891912126,
+   "MFZ": -1297173.489528384
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 366318.7367077629,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 283.69476068898774,
+   "VY": 263794.5104343415,
+   "VZ": -123488.37855149969,
+   "MT": -187416.37332543803,
+   "MFY": 366318.7367077629,
+   "MFZ": 1018974.8200298564
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 2.5052731177088134e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39542,
+   "extremite": 2,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.4588865733772355e-06,
+   "VY": 2.0543346224375395e-06,
+   "VZ": -3.886440014978751e-06,
+   "MT": 1.7136335372924805e-07,
+   "MFY": -2.5052731177088134e-05,
+   "MFZ": 1.8420838644448622e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 523312.4810205069,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 405.27822908602224,
+   "VY": 376849.30061884614,
+   "VZ": -176411.96936262381,
+   "MT": -267737.67618548794,
+   "MFY": 523312.4810205069,
+   "MFZ": 1455678.314327848
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MFY| max",
+  "valeur_si": 523312.48102275317,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 405.2782290693393,
+   "VY": 376849.30061886495,
+   "VZ": -176411.96936354952,
+   "MT": -267737.6761876941,
+   "MFY": 523312.48102275317,
+   "MFZ": 1455678.3143272486
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 366318.73670936737,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 283.6947606770714,
+   "VY": 263794.51043435495,
+   "VZ": -123488.3785521609,
+   "MT": -187416.37332701383,
+   "MFY": 366318.73670936737,
+   "MFZ": 1018974.8200294283
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 2.2517342013113666e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39542,
+   "extremite": 2,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.313664552038903e-06,
+   "VY": 2.3781022083200587e-06,
+   "VZ": -3.512856126558305e-06,
+   "MT": -5.997717380523682e-07,
+   "MFY": -2.2517342013113666e-05,
+   "MFZ": 1.4688816793397735e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 261656.24050087144,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 202.63911507904837,
+   "VY": 188424.65031135184,
+   "VZ": -88205.98467807815,
+   "MT": -133868.83808698057,
+   "MFY": 261656.24050087144,
+   "MFZ": 727839.1571641007
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 261656.2405031177,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39543,
+   "extremite": 1,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 202.63911506236545,
+   "VY": 188424.65031137064,
+   "VZ": -88205.98467900386,
+   "MT": -133868.8380891867,
+   "MFY": 261656.2405031177,
+   "MFZ": 727839.1571635014
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "couronnement_courant",
+  "famille": "poutre de couronnement",
+  "etat_limite": "ELS_quasi_permanent",
+  "grandeur": "|MFY| max",
+  "valeur_si": 2.150318634752388e-05,
+  "unite_si": "N·m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 39542,
+   "extremite": 2,
+   "noeud_med": 2259,
+   "coordonnees_m": [
+    0.0,
+    0.34,
+    3.3
+   ]
+  },
+  "combinaison": "ELS_QUASI_PERMANENTE",
+  "famille_combinaison": "ELS quasi permanente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1.2555757435035699e-06,
+   "VY": 2.5076092426730666e-06,
+   "VZ": -3.3634225711901264e-06,
+   "MT": -9.082257747650147e-07,
+   "MFY": -2.150318634752388e-05,
+   "MFZ": 1.319600805297738e-06
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N",
+   "MT": "N·m",
+   "MFY": "N·m",
+   "MFZ": "N·m"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|N| max",
+  "valeur_si": 1392581.327120159,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1392581.327120159
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|N| max",
+  "valeur_si": 1259132.207033358,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_03",
+   "maille_med": 39577,
+   "extremite": 1,
+   "noeud_med": 503,
+   "coordonnees_m": [
+    -5.2,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1259132.207033358
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|N| max",
+  "valeur_si": 1167172.4367958426,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1167172.4367958426
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|N| max",
+  "valeur_si": 1033723.3167089741,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_03",
+   "maille_med": 39577,
+   "extremite": 1,
+   "noeud_med": 503,
+   "coordonnees_m": [
+    -5.2,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1033723.3167089741
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|N| max",
+  "valeur_si": 1332864.4324228012,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1332864.4324228012
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|N| max",
+  "valeur_si": 1060075.891375267,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1060075.891375267
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|N| max",
+  "valeur_si": 1107455.5420984847,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 1107455.5420984847
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|N| max",
+  "valeur_si": 834667.0010509505,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 834667.0010509505
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELU_accidentel",
+  "grandeur": "|N| max",
+  "valeur_si": 981897.4608227864,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_08",
+   "maille_med": 39582,
+   "extremite": 1,
+   "noeud_med": 1903,
+   "coordonnees_m": [
+    7.799999999999999,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 981897.4608227864
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|N| max",
+  "valeur_si": 992790.0915061012,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 992790.0915061012
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|N| max",
+  "valeur_si": 903824.0114482532,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_03",
+   "maille_med": 39577,
+   "extremite": 1,
+   "noeud_med": 503,
+   "coordonnees_m": [
+    -5.2,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 903824.0114482532
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|N| max",
+  "valeur_si": 952978.8283745293,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 952978.8283745293
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|N| max",
+  "valeur_si": 771119.8010095065,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 771119.8010095065
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|N| max",
+  "valeur_si": 862890.7862453706,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 862890.7862453706
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|N| max",
+  "valeur_si": 773924.7061875324,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_03",
+   "maille_med": 39577,
+   "extremite": 1,
+   "noeud_med": 503,
+   "coordonnees_m": [
+    -5.2,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 773924.7061875324
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|N| max",
+  "valeur_si": 889431.6283330852,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 889431.6283330852
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|N| max",
+  "valeur_si": 707572.6009680624,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_05",
+   "maille_med": 39579,
+   "extremite": 1,
+   "noeud_med": 1063,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 707572.6009680624
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "tirants",
+  "famille": "tirants",
+  "etat_limite": "ELS_quasi_permanent",
+  "grandeur": "|N| max",
+  "valeur_si": 721964.9840832441,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": "TIRANT_03",
+   "maille_med": 39577,
+   "extremite": 1,
+   "noeud_med": 503,
+   "coordonnees_m": [
+    -5.2,
+    0.71,
+    2.5
+   ]
+  },
+  "combinaison": "ELS_QUASI_PERMANENTE",
+  "famille_combinaison": "ELS quasi permanente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 721964.9840832441
+  },
+  "unites_si": {
+   "N": "N"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 517528.3349640266,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 580504.731545703,
+   "NYY": -1896.143372509996,
+   "NXY": -9723.640802186883,
+   "MXX": 517528.3349640266,
+   "MYY": 713.1506467782724,
+   "MXY": -41.85751757259407,
+   "QX": -2507.293889045387,
+   "QY": 3798.0970730968907
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 514342.771744845,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 571577.2836896282,
+   "NYY": -1900.8514466776369,
+   "NXY": -9809.254924925131,
+   "MXX": 514342.771744845,
+   "MYY": 708.8193436096064,
+   "MXY": -42.42136024690996,
+   "QX": -3421.5237857392144,
+   "QY": 3782.452369175426
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 413417.82368069654,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 468339.6332147657,
+   "NYY": -1505.9613463138026,
+   "NXY": -7652.233633657816,
+   "MXX": 413417.82368069654,
+   "MYY": 571.3931480826133,
+   "MXY": -32.82695494701505,
+   "QX": -1587.6655810462698,
+   "QY": 3029.606260544367
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 410232.260461515,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 459412.1853586909,
+   "NYY": -1510.6694204814435,
+   "NXY": -7737.847756396065,
+   "MXX": 410232.260461515,
+   "MYY": 567.0618449139473,
+   "MXY": -33.39079762133094,
+   "QX": -2501.8954777400972,
+   "QY": 3013.9615566229027
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 485061.47930521844,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 542648.6378743597,
+   "NYY": -1775.366537033311,
+   "NXY": -9141.08656711944,
+   "MXX": 485061.47930521844,
+   "MYY": 666.3947935440815,
+   "MXY": -39.33911367627,
+   "QX": -2153.165268282389,
+   "QY": 3559.3198899785248
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 406119.919548818,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 445390.30478515074,
+   "NYY": -1498.2619950886874,
+   "NXY": -7867.407474700329,
+   "MXX": 406119.919548818,
+   "MYY": 552.9664994956365,
+   "MXY": -34.026680592496405,
+   "QX": -2241.095049862555,
+   "QY": 2986.52842544754
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 380950.9680218884,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 430483.53954342246,
+   "NYY": -1385.1845108371176,
+   "NXY": -7069.679398590376,
+   "MXX": 380950.9680218884,
+   "MYY": 524.6372948484224,
+   "MXY": -30.308551050690976,
+   "QX": -1233.536960283272,
+   "QY": 2790.8290774260013
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 302009.408265488,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 333225.2064542134,
+   "NYY": -1108.079968892494,
+   "NXY": -5796.000306171263,
+   "MXX": 302009.408265488,
+   "MYY": 411.20900079997745,
+   "MXY": -24.996117966917375,
+   "QX": -1321.4667418634376,
+   "QY": 2218.0376128950165
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELU_accidentel",
+  "grandeur": "|MXX| max",
+  "valeur_si": 444478.0451573787,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39869,
+   "coordonnees_m": [
+    9.218,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 503419.5431416527,
+   "NYY": -1613.2775626207383,
+   "NXY": -8172.641132795673,
+   "MXX": 444478.0451573787,
+   "MYY": 614.9521872990322,
+   "MXY": -36.71420108509439,
+   "QX": 369.7021734904482,
+   "QY": 3238.8966552179995
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MXX| max",
+  "valeur_si": 374764.75034268346,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 419050.3253154984,
+   "NYY": -1375.5761605865287,
+   "NXY": -7074.257821037655,
+   "MXX": 374764.75034268346,
+   "MYY": 515.9359070033223,
+   "MXY": -30.485172465228153,
+   "QX": -1934.2802045061958,
+   "QY": 2751.633518984362
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MXX| max",
+  "valeur_si": 372641.04152989574,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 413098.6934114485,
+   "NYY": -1378.7148766982891,
+   "NXY": -7131.333902863154,
+   "MXX": 372641.04152989574,
+   "MYY": 513.048371557545,
+   "MXY": -30.861067581438746,
+   "QX": -2543.7668023020806,
+   "QY": 2741.2037163700525
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MXX| max",
+  "valeur_si": 353120.179903478,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 393812.92953460285,
+   "NYY": -1295.0582702687389,
+   "NXY": -6685.888330992695,
+   "MXX": 353120.179903478,
+   "MYY": 484.7653381805284,
+   "MXY": -28.806236534345437,
+   "QX": -1698.1944573308638,
+   "QY": 2592.448730238785
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MXX| max",
+  "valeur_si": 300492.47339921107,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 328974.04080846347,
+   "NYY": -1110.321908972323,
+   "NXY": -5836.768936046619,
+   "MXX": 300492.47339921107,
+   "MYY": 409.14647548156506,
+   "MXY": -25.26461447849637,
+   "QX": -1756.814311717641,
+   "QY": 2210.5877538847953
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 337173.53141106415,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 372736.833368256,
+   "NYY": -1243.6216168033745,
+   "NXY": -6467.7439675047435,
+   "MXX": 337173.53141106415,
+   "MYY": 461.92243364692,
+   "MXY": -27.95544242533596,
+   "QX": -1976.1515290681796,
+   "QY": 2478.8756787315124
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 335049.8225982764,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 366785.2014642061,
+   "NYY": -1246.760332915135,
+   "NXY": -6524.820049330243,
+   "MXX": 335049.8225982764,
+   "MYY": 459.03489820114265,
+   "MXY": -28.331337541546553,
+   "QX": -2585.6381268640644,
+   "QY": 2468.4458761172027
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 351603.2450372011,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 389561.76388885296,
+   "NYY": -1297.3002103485678,
+   "NXY": -6726.656960868051,
+   "MXX": 351603.2450372011,
+   "MYY": 482.70281286211593,
+   "MXY": -29.074733045924436,
+   "QX": -2133.5420271850676,
+   "QY": 2584.998871228564
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 298975.5385329341,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 324722.8751627136,
+   "NYY": -1112.563849052152,
+   "NXY": -5877.537565921975,
+   "MXX": 298975.5385329341,
+   "MYY": 407.0839501631527,
+   "MXY": -25.533110990075368,
+   "QX": -2192.161881571845,
+   "QY": 2203.137894874574
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "palplanches",
+  "famille": "palplanches",
+  "etat_limite": "ELS_quasi_permanent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 320013.33502562874,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 39245,
+   "coordonnees_m": [
+    4.018,
+    0.0,
+    -12.75
+   ]
+  },
+  "combinaison": "ELS_QUASI_PERMANENTE",
+  "famille_combinaison": "ELS quasi permanente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": 348259.8046853091,
+   "NYY": -1193.9785154018734,
+   "NXY": -6282.214507917079,
+   "MXX": 320013.33502562874,
+   "MYY": 437.4295088585817,
+   "MXY": -27.31944552558968,
+   "QX": -2602.386656688858,
+   "QY": 2359.342740016063
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 242040.46172256648,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -328760.5285888299,
+   "NYY": -98628.15857665645,
+   "NXY": 9876059.685417771,
+   "MXX": -242040.46172256648,
+   "MYY": -72612.13851676999,
+   "MXY": 1.2547148364722503e-10,
+   "QX": -4656281.510160797,
+   "QY": 1159787.758103489
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 218970.21066375953,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 12765,
+   "extremite": 4,
+   "noeud_med": 784,
+   "coordonnees_m": [
+    -2.6,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -458234.3450621915,
+   "NYY": -137470.30351866025,
+   "NXY": -8935203.588539472,
+   "MXX": -218970.21066375953,
+   "MYY": -65691.06319912791,
+   "MXY": 5.19646797498058e-10,
+   "QX": -4211837.702708582,
+   "QY": -1048671.0182045645
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 202827.92038049916,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -235331.8568330336,
+   "NYY": -70599.55704991643,
+   "NXY": 8275975.0756941335,
+   "MXX": -202827.92038049916,
+   "MYY": -60848.3761141498,
+   "MXY": 9.452827789481556e-11,
+   "QX": -3902084.7620028607,
+   "QY": 972056.903634985
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 179757.6693216846,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 12765,
+   "extremite": 4,
+   "noeud_med": 784,
+   "coordonnees_m": [
+    -2.6,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -364805.67330370226,
+   "NYY": -109441.7019911146,
+   "NXY": -7335118.97881647,
+   "MXX": -179757.6693216846,
+   "MYY": -53927.30079650545,
+   "MXY": 4.3085235659181403e-10,
+   "QX": -3457640.9545505103,
+   "QY": -860940.1637360288
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 231611.1611016224,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -243911.76676266585,
+   "NYY": -73173.53002880546,
+   "NXY": 9450249.127338495,
+   "MXX": -231611.1611016224,
+   "MYY": -69483.34833048674,
+   "MXY": 1.314128106309134e-10,
+   "QX": -4455919.49683939,
+   "QY": 1110039.3299124418
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 184205.87526058897,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -175405.13896603906,
+   "NYY": -52621.54168981443,
+   "NXY": 7515835.061612161,
+   "MXX": -184205.87526058897,
+   "MYY": -55261.762578176684,
+   "MXY": 1.34601507328054e-10,
+   "QX": -3543964.3249701187,
+   "QY": 882842.9242342894
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 192398.61975955506,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -150483.09500686955,
+   "NYY": -45144.92850206543,
+   "NXY": 7850164.517614858,
+   "MXX": -192398.61975955506,
+   "MYY": -57719.58592786655,
+   "MXY": 1.0046960487850392e-10,
+   "QX": -3701722.7486814545,
+   "QY": 922308.4754439377
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|MXX| max",
+  "valeur_si": 144993.33391852165,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -81976.46721024276,
+   "NYY": -24592.94016307441,
+   "NXY": 5915750.451888524,
+   "MXX": -144993.33391852165,
+   "MYY": -43498.00017555649,
+   "MXY": 1.0365830157564452e-10,
+   "QX": -2789767.576812183,
+   "QY": 695112.0697657855
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELU_accidentel",
+  "grandeur": "|MXX| max",
+  "valeur_si": 170871.42637953497,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 34615,
+   "extremite": 4,
+   "noeud_med": 2121,
+   "coordonnees_m": [
+    10.4,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -334856.78031813283,
+   "NYY": -100457.03409544891,
+   "NXY": -6971578.848916199,
+   "MXX": -170871.42637953497,
+   "MYY": -51261.42791386056,
+   "MXY": 6.087945204819326e-12,
+   "QX": -3287272.012017858,
+   "QY": -818669.5230393318
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MXX| max",
+  "valeur_si": 172563.89105563497,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -245867.59194182832,
+   "NYY": -73760.27758255381,
+   "NXY": 7041206.821628124,
+   "MXX": -172563.89105563497,
+   "MYY": -51769.16731669054,
+   "MXY": 9.248857169407653e-11,
+   "QX": -3319672.4586285125,
+   "QY": 826829.2257266603
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MXX| max",
+  "valeur_si": 157183.72368309918,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 12765,
+   "extremite": 4,
+   "noeud_med": 784,
+   "coordonnees_m": [
+    -2.6,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -332183.46959150553,
+   "NYY": -99655.0408774532,
+   "NXY": -6413969.423709077,
+   "MXX": -157183.72368309918,
+   "MYY": -47155.11710492979,
+   "MXY": 3.7180103859096553e-10,
+   "QX": -3023376.5869937423,
+   "QY": -752751.3991273865
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MXX| max",
+  "valeur_si": 165611.02397500558,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -189301.75072438567,
+   "NYY": -56790.52521731983,
+   "NXY": 6757333.116241941,
+   "MXX": -165611.02397500558,
+   "MYY": -49683.3071925017,
+   "MXY": 9.644945634986877e-11,
+   "QX": -3186097.783080908,
+   "QY": 793663.6069326289
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|MXX| max",
+  "valeur_si": 134007.5000809833,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -143630.66552663446,
+   "NYY": -43089.19965799248,
+   "NXY": 5467723.739091051,
+   "MXX": -134007.5000809833,
+   "MYY": -40202.25002429499,
+   "MXY": 9.85752541479625e-11,
+   "QX": -2578127.668501394,
+   "QY": 642199.3364805274
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 149989.94541704765,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -213245.38822914893,
+   "NYY": -63973.61646874857,
+   "NXY": 6120057.2665203465,
+   "MXX": -149989.94541704765,
+   "MYY": -44996.98362511431,
+   "MXY": 9.400699869271491e-11,
+   "QX": -2885408.0910717165,
+   "QY": 718640.4611180164
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 134609.77804451372,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 12765,
+   "extremite": 4,
+   "noeud_med": 784,
+   "coordonnees_m": [
+    -2.6,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -299561.26587930886,
+   "NYY": -89868.37976379179,
+   "NXY": -5492819.868601683,
+   "MXX": -134609.77804451372,
+   "MYY": -40382.933413354134,
+   "MXY": 3.127497205901171e-10,
+   "QX": -2589112.2194369743,
+   "QY": -644562.6345187442
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 154625.19013746723,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -250955.94904077737,
+   "NYY": -75286.7847122379,
+   "NXY": 6309306.403444469,
+   "MXX": -154625.19013746723,
+   "MYY": -46387.5570412402,
+   "MXY": 9.136640892218675e-11,
+   "QX": -2974457.8747701193,
+   "QY": 740750.8736473707
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 123021.66624344495,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 17250,
+   "extremite": 3,
+   "noeud_med": 1064,
+   "coordonnees_m": [
+    0.0,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -205284.86384302616,
+   "NYY": -61585.45915291055,
+   "NXY": 5019697.026293579,
+   "MXX": -123021.66624344495,
+   "MYY": -36906.49987303349,
+   "MXY": 9.349220672028048e-11,
+   "QX": -2366487.760190605,
+   "QY": 589286.6031952692
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "tubes",
+  "famille": "tubes",
+  "etat_limite": "ELS_quasi_permanent",
+  "grandeur": "|MXX| max",
+  "valeur_si": 125580.19978908147,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 2300,
+   "extremite": 3,
+   "noeud_med": 147,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    2.6
+   ]
+  },
+  "combinaison": "ELS_QUASI_PERMANENTE",
+  "famille_combinaison": "ELS quasi permanente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "NXX": -286512.3844096685,
+   "NYY": -85953.71532289805,
+   "NXY": 5124360.046562445,
+   "MXX": -125580.19978908147,
+   "MYY": -37674.05993672438,
+   "MXY": 6.231158797622367e-12,
+   "QX": -2415406.4724141844,
+   "QY": 601287.1286751862
+  },
+  "unites_si": {
+   "NXX": "N/m",
+   "NYY": "N/m",
+   "NXY": "N/m",
+   "MXX": "N·m/m",
+   "MYY": "N·m/m",
+   "MXY": "N·m/m",
+   "QX": "N/m",
+   "QY": "N/m"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|VY| max",
+  "valeur_si": 44513.114941653126,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -44513.114941653126,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|VY| max",
+  "valeur_si": 44330.093706040214,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 10272,
+   "extremite": null,
+   "noeud_med": 39513,
+   "coordonnees_m": [
+    6.146,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -44330.093706040214,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|VY| max",
+  "valeur_si": 35520.200835306685,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -35520.200835306685,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|VY| max",
+  "valeur_si": 35337.1795996766,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 10272,
+   "extremite": null,
+   "noeud_med": 39513,
+   "coordonnees_m": [
+    6.146,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -35337.1795996766,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|VY| max",
+  "valeur_si": 41698.61082536812,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -41698.61082536812,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|VY| max",
+  "valeur_si": 34948.413318336374,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -34948.413318336374,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|VY| max",
+  "valeur_si": 32705.696719021686,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -32705.696719021686,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|VY| max",
+  "valeur_si": 25955.499211989936,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -25955.499211989936,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELU_accidentel",
+  "grandeur": "|VY| max",
+  "valeur_si": 37781.04394646141,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9789,
+   "extremite": null,
+   "noeud_med": 37710,
+   "coordonnees_m": [
+    -8.746,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -37781.04394646141,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|VY| max",
+  "valeur_si": 32244.81399148678,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -32244.81399148678,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|VY| max",
+  "valeur_si": 32122.799834416408,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 10272,
+   "extremite": null,
+   "noeud_med": 39513,
+   "coordonnees_m": [
+    6.146,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -32122.799834416408,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|VY| max",
+  "valeur_si": 30368.477913963445,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -30368.477913963445,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|VY| max",
+  "valeur_si": 25868.346242608946,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -25868.346242608946,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|VY| max",
+  "valeur_si": 29030.434226233567,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -29030.434226233567,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|VY| max",
+  "valeur_si": 28908.42006915622,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 10272,
+   "extremite": null,
+   "noeud_med": 39513,
+   "coordonnees_m": [
+    6.146,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -28908.42006915622,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|VY| max",
+  "valeur_si": 30281.324944582455,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -30281.324944582455,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|VY| max",
+  "valeur_si": 25781.193273227957,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 9904,
+   "extremite": null,
+   "noeud_med": 38265,
+   "coordonnees_m": [
+    -4.2540000000000004,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -25781.193273227957,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "ressorts",
+  "famille": "ressorts de sol",
+  "etat_limite": "ELS_quasi_permanent",
+  "grandeur": "|VY| max",
+  "valeur_si": 27622.66816305214,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": 10272,
+   "extremite": null,
+   "noeud_med": 39513,
+   "coordonnees_m": [
+    6.146,
+    0.0,
+    -12.25
+   ]
+  },
+  "combinaison": "ELS_QUASI_PERMANENTE",
+  "famille_combinaison": "ELS quasi permanente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "N": 0.0,
+   "VY": -27622.66816305214,
+   "VZ": 0.0
+  },
+  "unites_si": {
+   "N": "N",
+   "VY": "N",
+   "VZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|DX| max",
+  "valeur_si": 12235.014256034447,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 12235.014256034447,
+   "DY": 2.071318949692369e-11,
+   "DZ": 6180.794552664244
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|DX| max",
+  "valeur_si": 12237.708724034477,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 12237.708724034477,
+   "DY": 2.1152146700842423e-11,
+   "DZ": 5450.045652753318
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|DX| max",
+  "valeur_si": 9548.017040609695,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 9548.017040609695,
+   "DY": 1.694802354013092e-11,
+   "DZ": 4815.129516405173
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|DX| max",
+  "valeur_si": 9550.711508609726,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELU_FOND_Q1_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 9550.711508609726,
+   "DY": 1.738698074404965e-11,
+   "DZ": 4084.380616494246
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|DX| max",
+  "valeur_si": 11671.786501815588,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 11671.786501815588,
+   "DY": 1.8536255863565998e-11,
+   "DZ": 6439.228498757
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|DX| max",
+  "valeur_si": 10360.282876638286,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_defav",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 10360.282876638286,
+   "DY": 1.3895701256316784e-11,
+   "DZ": 6311.49213972917
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|DX| max",
+  "valeur_si": 8984.789286390836,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_Q1_ACC_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 8984.789286390836,
+   "DY": 1.4771089906773226e-11,
+   "DZ": 5073.563462497928
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELU_fondamental",
+  "grandeur": "|DX| max",
+  "valeur_si": 7673.285661213534,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+  "famille_combinaison": "ELU fondamentale",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 7673.285661213534,
+   "DY": 1.0130535299524013e-11,
+   "DZ": 4945.827103470098
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELU_accidentel",
+  "grandeur": "|DX| max",
+  "valeur_si": 10186.771218044973,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELU_ACCIDENTELLE",
+  "famille_combinaison": "ELU accidentelle",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 10186.771218044973,
+   "DY": -1.5452306101337854e-11,
+   "DZ": 3640.213934734906
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|DX| max",
+  "valeur_si": 8924.38966081099,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 8924.38966081099,
+   "DY": 1.4884554699889917e-11,
+   "DZ": 4510.719712135898
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|DX| max",
+  "valeur_si": 8926.18597281101,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELS_CARA_Q1_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 8926.18597281101,
+   "DY": 1.517719283583574e-11,
+   "DZ": 4023.5537788619463
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|DX| max",
+  "valeur_si": 8548.90449133175,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 8548.90449133175,
+   "DY": 1.3433265610984791e-11,
+   "DZ": 4683.009009531067
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_caracteristique",
+  "grandeur": "|DX| max",
+  "valeur_si": 7674.5687412135485,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELS_CARA_Q3_DOM",
+  "famille_combinaison": "ELS caractéristique",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 7674.5687412135485,
+   "DY": 1.0339562539485314e-11,
+   "DZ": 4597.851436845847
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|DX| max",
+  "valeur_si": 8299.864125012275,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM_Q3_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 8299.864125012275,
+   "DY": 1.2674766791676006e-11,
+   "DZ": 4449.892874503597
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|DX| max",
+  "valeur_si": 8301.660437012295,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q1_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 8301.660437012295,
+   "DY": 1.2967404927621828e-11,
+   "DZ": 3962.726941229646
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|DX| max",
+  "valeur_si": 8550.187571331766,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 8550.187571331766,
+   "DY": 1.3642292850946092e-11,
+   "DZ": 4335.033342906817
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_frequent",
+  "grandeur": "|DX| max",
+  "valeur_si": 7675.851821213564,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELS_FREQ_Q3_DOM",
+  "famille_combinaison": "ELS fréquente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 7675.851821213564,
+   "DY": 1.0548589779446615e-11,
+   "DZ": 4249.875770221597
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ },
+ {
+  "section": "appuis",
+  "famille": "appuis",
+  "etat_limite": "ELS_quasi_permanent",
+  "grandeur": "|DX| max",
+  "valeur_si": 8051.8502226928085,
+  "unite_si": "N",
+  "lieu": {
+   "groupe": null,
+   "maille_med": null,
+   "extremite": null,
+   "noeud_med": 141,
+   "coordonnees_m": [
+    -10.4,
+    0.71,
+    -26.0
+   ]
+  },
+  "combinaison": "ELS_QUASI_PERMANENTE",
+  "famille_combinaison": "ELS quasi permanente",
+  "position_mobile": null,
+  "charge_mobile": null,
+  "torseur_si": {
+   "DX": 8051.8502226928085,
+   "DY": 1.2083489764336263e-11,
+   "DZ": 3938.396206176726
+  },
+  "unites_si": {
+   "DX": "N",
+   "DY": "N",
+   "DZ": "N"
+  }
+ }
+]

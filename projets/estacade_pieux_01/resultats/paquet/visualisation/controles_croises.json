@@ -1,0 +1,9 @@
+{
+ "controle": "chaque torseur de la synthèse ingénieur relu par `aster-expert resultats lire` (combinaison@position, nœud et extrémité d'élément)",
+ "torseurs": 183,
+ "valeurs_comparees": 1314,
+ "ecart_relatif_max": 4.700650797536678e-17,
+ "tolerance": 1e-09,
+ "echecs": [],
+ "verdict": "RÉUSSI"
+}

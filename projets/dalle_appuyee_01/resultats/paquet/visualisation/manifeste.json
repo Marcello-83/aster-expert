@@ -86,6 +86,14 @@
   "vtu/enveloppes__REAC_NODA.vtu": {
    "sha256": "29f01905ddd76265d37b595d8833913723f1a4ee844d52af34dbbfe077367eb7",
    "octets": 32607
+  },
+  "vtu/grille__FN_G.vtu": {
+   "sha256": "aadbdb5146d0e76e4aa663c35122876bc2c3f9aaf72688fcd6371a6504736a1c",
+   "octets": 13225
+  },
+  "vtu/grille__FN_Q.vtu": {
+   "sha256": "e620da5d492b33983279013282533c30f9f4a309731f19aa9b0630c58342577c",
+   "octets": 13225
   }
  },
  "vtu": {
@@ -425,5 +433,137 @@
    "ENV__REAC_NODA__MAX": 23989.940495280265,
    "ENV__REAC_NODA__MIN": 38886.91967380107
   }
+ },
+ "grilles_charges": {
+  "FN_G": {
+   "fichier": "grille__FN_G.vtu",
+   "fleches": 187,
+   "pas_m": 0.375,
+   "max_kN": 1.0546875000000007,
+   "somme_kN": [
+    0.0,
+    0.0,
+    -180.0
+   ],
+   "somme_grille_kN": [
+    0.0,
+    0.0,
+    -180.0
+   ]
+  },
+  "FN_Q": {
+   "fichier": "grille__FN_Q.vtu",
+   "fleches": 187,
+   "pas_m": 0.375,
+   "max_kN": 1.406250000000001,
+   "somme_kN": [
+    0.0,
+    0.0,
+    -240.0
+   ],
+   "somme_grille_kN": [
+    0.0,
+    0.0,
+    -240.0
+   ]
+  }
+ },
+ "extremes": {
+  "CAS_G__EFGE_NOEU_MXX": [
+   -5108.3468469822765,
+   2.0745902008606336
+  ],
+  "CAS_G__EFGE_NOEU_MYY": [
+   -9407.88012792946,
+   2.49385002192257
+  ],
+  "CAS_G__EFGE_NOEU_NXX": [
+   0.0,
+   0.0
+  ],
+  "CAS_Q__EFGE_NOEU_MXX": [
+   -6811.129129311661,
+   2.766120267805591
+  ],
+  "CAS_Q__EFGE_NOEU_MYY": [
+   -12543.840170577905,
+   3.3251333625395167
+  ],
+  "CAS_Q__EFGE_NOEU_NXX": [
+   0.0,
+   0.0
+  ],
+  "COMB_ELU_FOND_Q_DOM_G_defav__EFGE_NOEU_MXX": [
+   -17112.961937393564,
+   6.949877172869669
+  ],
+  "COMB_ELU_FOND_Q_DOM_G_defav__EFGE_NOEU_MYY": [
+   -31516.39842857163,
+   8.354397573404745
+  ],
+  "COMB_ELU_FOND_Q_DOM_G_defav__EFGE_NOEU_NXX": [
+   0.0,
+   0.0
+  ],
+  "COMB_ELS_CARA_Q_DOM__EFGE_NOEU_MXX": [
+   -11919.475976293937,
+   4.840710468665843
+  ],
+  "COMB_ELS_CARA_Q_DOM__EFGE_NOEU_MYY": [
+   -21951.720298507367,
+   5.818983384462086
+  ],
+  "COMB_ELS_CARA_Q_DOM__EFGE_NOEU_NXX": [
+   0.0,
+   0.0
+  ],
+  "COMB_ELS_FREQ_Q_DOM__EFGE_NOEU_MXX": [
+   -11238.363063362773,
+   4.564098441885322
+  ],
+  "COMB_ELS_FREQ_Q_DOM__EFGE_NOEU_MYY": [
+   -20697.336281449578,
+   5.486470048208135
+  ],
+  "COMB_ELS_FREQ_Q_DOM__EFGE_NOEU_NXX": [
+   0.0,
+   0.0
+  ],
+  "COMB_ELS_QUASI_PERMANENTE__EFGE_NOEU_MXX": [
+   -10557.250150431606,
+   4.2874864151048016
+  ],
+  "COMB_ELS_QUASI_PERMANENTE__EFGE_NOEU_MYY": [
+   -19442.952264391784,
+   5.153956711954184
+  ],
+  "COMB_ELS_QUASI_PERMANENTE__EFGE_NOEU_NXX": [
+   0.0,
+   0.0
+  ],
+  "ENV__EFGE_NOEU__MAX_MXX": [
+   -10557.250150431606,
+   6.949877172869669
+  ],
+  "ENV__EFGE_NOEU__MAX_MYY": [
+   -19442.952264391784,
+   8.354397573404745
+  ],
+  "ENV__EFGE_NOEU__MAX_NXX": [
+   0.0,
+   0.0
+  ],
+  "ENV__EFGE_NOEU__MIN_MXX": [
+   -17112.961937393564,
+   4.2874864151048016
+  ],
+  "ENV__EFGE_NOEU__MIN_MYY": [
+   -31516.39842857163,
+   5.153956711954184
+  ],
+  "ENV__EFGE_NOEU__MIN_NXX": [
+   0.0,
+   0.0
+  ]
  }
 }

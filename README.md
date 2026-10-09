@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 49 (2026-10-07), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 49bis (2026-10-09), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 56 faits sur 58 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 49, Livrables de résultats : contrat deliverables, MED des résultats et des charges par exécution de post-traitement (tables identiques à la production), combinaisons et enveloppes, VTU contrôlés, scripts ParaView générés et images sans écran, classeur Excel, resultats lire et query_results ; fils utiles = 4 sur mesures répétées, PARALLELISME_TEMPS refusé (DIAG-027) ; reprises du lot 48 bis.
+Lots : 57 faits sur 59 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 49bis, Synthèse ingénieur : section engineering_summary (familles d'éléments d'ouvrage, sections de dimensionnement, états limites, critères de service), torseurs concomitants lus par superposition et relus par resultats lire, export pour le logiciel de flexion composée, classeur restructuré, diagrammes N/M/V et coupes de dalle, images ParaView en kN titrées en trois vues avec flèches regroupées ; décisions E21 à E23 de MM.
 
 Capacités :
 
@@ -289,6 +289,7 @@ Capacités :
 - integration_continue : sans niveau de validation, opérationnelle. ci.yml vert sur la branche du lot 46 (2 min 28 s) ; ci-lent.yml corrigé au lot 46 bis (profil ci), passage réel vert sur la branche claude/blissful-turing-ajkazc (constaté par MM, 2026-10-05).
 - contre_calcul : niveau C, partielle. Comparaison à un calcul externe non validé (type calcul_externe_non_valide, jamais E ni promu) ; REF-015 observée depuis le lot 48 bis (grandeurs dérivées, non rejouables par l'outil) ; lecture C1 à C13 propre à l'estacade ; écarts des moments de pieux inexpliqués.
 - livrables : niveau C, opérationnelle. MED et VTU produits par une exécution de post-traitement qui recopie le .comm de production et n'est acceptée que si ses tables égalent celles de la production (dalle 82 134, quai 9 931 632, estacade 135 668 valeurs) ; CTL-013 sur le MED des charges ; MED jamais versionnés (estacade 1,16 Go). Lecture directe du MED par un ParaView Windows non vérifiée (greffon MEDReader des binaires 5.12+, source secondaire) : VTU fournis. Les scripts ParaView supposent ParaView ≥ 5.10 (noms de tableaux entre guillemets). Le contrôle des charges ne détecte pas un déplacement qui conserve l'aire chargée (point d'application rapporté).
+- synthese_ingenieur : niveau C, opérationnelle. Lecture des livrables du lot 49, sans calcul Code_Aster : torseurs concomitants par superposition des cas et des positions mobiles, chaque valeur relue par resultats lire (écart ≤ 1e-9) ; équilibre par état limite. Sections et critères déclarés par projet (engineering_summary). Coques : seuls les nœuds partagés avec une poutre et les disques déclarés sont exclus, pas leurs voisins (QY concomitant de 577 kN/m à 5 cm d'une ligne de chevêtre de l'estacade). Chevêtres de l'estacade : barre seule (CA-058), pas le total de la section en T. Quai : efforts de la poutre de couronnement nuls sous G, EAU_P et Q1 (réserve déclarée, à confirmer par MM).
 
 Projets :
 

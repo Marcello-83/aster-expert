@@ -526,6 +526,24 @@ MANIFEST: dict[str, Any] = {
         {"nom_med": "FN_G", "composantes": ["DX", "DY", "DZ"]},
         {"nom_med": "FN_Q", "composantes": ["DX", "DY", "DZ"]},
     ],
+    # Lot 49 bis : grilles de flèches (sous-étape images) et extrema des titres.
+    "grilles_charges": {
+        "FN_G": {
+            "fichier": "grille__FN_G.vtu",
+            "fleches": 12,
+            "pas_m": 0.5,
+            "max_kN": 1.5,
+            "somme_kN": [0.0, 0.0, -18.0],
+        },
+        "FN_Q": {
+            "fichier": "grille__FN_Q.vtu",
+            "fleches": 4,
+            "pas_m": 0.5,
+            "max_kN": 2.0,
+            "somme_kN": [0.0, 0.0, -8.0],
+        },
+    },
+    "extremes": {},
     "champs": [
         {
             "cle": "DEPL",
@@ -559,6 +577,12 @@ def test_the_paraview_scripts_come_from_the_manifest(tmp_path: Path) -> None:
     text = path_c.read_text(encoding="utf-8")
     assert "CASES = [" not in text and "DEFAULT_SCALE_FACTOR" not in text
     assert '"FN_Q"' in text and "FRACTION * TAILLE / maximum" in text
+    # Lot 49 bis : flèches en kN sur la grille, titre, trois vues (iso, plan, élév.).
+    assert "grille__FN_Q.vtu" in text and "kN par maille" in text
+    for view in ("'iso'", "'plan'", "'elevation'"):
+        assert view in text
+    groups_text = path_r.read_text(encoding="utf-8")
+    assert "0.001*" in groups_text and "déplacement max" in groups_text
 
 
 # --- règle des fils -------------------------------------------------------------------

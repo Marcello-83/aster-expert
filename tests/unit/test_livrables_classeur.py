@@ -1,6 +1,8 @@
-"""Classeur des livrables (lot 49) relu : valeurs identiques à leur source du paquet,
-police Arial 10 noire, en-têtes sur fond gris, jamais bleu, format d'affichage tiré
-de config/arrondis.yaml (la valeur exacte reste dans la cellule)."""
+"""Classeur des livrables (lot 49, restructuré au lot 49 bis) relu : feuilles du lot 49
+conservées après celles de la synthèse ingénieur, valeurs identiques à leur source du
+paquet, police Arial 10 noire, en-têtes sur fond gris, jamais bleu, en-têtes figés,
+format d'affichage tiré de config/arrondis.yaml (la valeur exacte reste dans la
+cellule). La synthèse ingénieur elle-même : tests/unit/test_synthese_ingenieur.py."""
 
 from __future__ import annotations
 
@@ -11,7 +13,7 @@ from typing import Any
 from openpyxl import load_workbook
 
 from aster_expert.arrondis import load_table
-from aster_expert.livrables.classeur import SHEETS, build_workbook
+from aster_expert.livrables.classeur import FIRST_SHEETS, LAST_SHEETS, build_workbook
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -146,21 +148,10 @@ def test_the_workbook_is_read_back_identical_and_styled(tmp_path: Path) -> None:
     path = tmp_path / "classeur.xlsx"
     build_workbook(tmp_path, load_table(ROOT)).save(path)
     wb = load_workbook(path)
-    assert wb.sheetnames == list(SHEETS)
-
-    synth = wb["Synthèse"]
-    header = [c.value for c in synth[2]]
-    row = dict(zip(header, synth[3], strict=False))
-    assert row["Valeur"].value == 123456.789 * 1.0e-3  # kN, conversion exacte
-    assert row["Unité"].value == "kN"
-    assert row["Valeur"].number_format == "0.0"  # 1 décimale pour kN (arrondis.yaml)
-    assert (row["Combinaison"].value, row["Position mobile"].value) == ("C1", "P1")
-
-    env = wb["Enveloppes"]
-    names = [c.value for c in env[2]]
-    values = {n: c.value for n, c in zip(names, env[3], strict=False)}
-    assert values["N min (kN)"] == -2500.25 * 1.0e-3
-    assert values["MFY max (kN·m)"] == 1234.5 * 1.0e-3
+    # Sans synthèse ingénieur déclarée : ses feuilles le disent ; les tables longues du
+    # lot 49 (synthèse par champ, efforts aux points, enveloppes) sont des annexes CSV.
+    assert wb.sheetnames == [*FIRST_SHEETS, *LAST_SHEETS]
+    assert "Sans objet" in str(wb["Synthèse ingénieur"]["A1"].value)
 
     equilibre = wb["Réactions et équilibre"]
     rows = list(equilibre.iter_rows(min_row=3, values_only=True))
@@ -178,6 +169,8 @@ def test_the_workbook_is_read_back_identical_and_styled(tmp_path: Path) -> None:
                 assert cell.font.color is None or cell.font.color.rgb == "FF000000"
                 fill = cell.fill.fgColor.rgb if cell.fill.fill_type else None
                 assert fill in (None, "FFD9D9D9"), (sheet.title, cell.coordinate, fill)
-    headers = [synth.cell(row=2, column=c) for c in range(1, synth.max_column + 1)]
+    sheet = wb["Réactions et équilibre"]
+    headers = [sheet.cell(row=2, column=c) for c in range(1, 11)]
     assert all(c.fill.fill_type == "solid" for c in headers)
     assert all(c.fill.fgColor.rgb == "FFD9D9D9" for c in headers)
+    assert sheet.freeze_panes == "B3"

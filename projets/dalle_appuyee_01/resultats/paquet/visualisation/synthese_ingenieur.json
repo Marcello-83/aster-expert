@@ -1,0 +1,2735 @@
+{
+ "projet": "dalle_appuyee_01",
+ "med_resultats_sha256": "ff0540468806d1df6c18bbc420645f5661f73020efac33a47c095935ee9671f6",
+ "etats_limites": [
+  {
+   "etat": "ELU_fondamental",
+   "libelle": "ELU fondamental",
+   "familles_de_combinaisons": [
+    "ELU fondamentale"
+   ]
+  },
+  {
+   "etat": "ELS_caracteristique",
+   "libelle": "ELS caractéristique",
+   "familles_de_combinaisons": [
+    "ELS caractéristique"
+   ]
+  },
+  {
+   "etat": "ELS_frequent",
+   "libelle": "ELS fréquent",
+   "familles_de_combinaisons": [
+    "ELS fréquente"
+   ]
+  },
+  {
+   "etat": "ELS_quasi_permanent",
+   "libelle": "ELS quasi permanent",
+   "familles_de_combinaisons": [
+    "ELS quasi permanente"
+   ]
+  }
+ ],
+ "etats_absents": [
+  {
+   "etat": "ELU_accidentel",
+   "libelle": "ELU accidentel",
+   "motif": "aucune action accidentelle n'est déclarée pour la dalle (cas G et Q seuls)"
+  }
+ ],
+ "fissuration": {
+  "etat": "ELS_quasi_permanent",
+  "libelle": "ELS quasi permanent",
+  "source": "données durabilite.ouverture_fissure_limite : wk = 0,4 mm sous combinaison quasi permanente (point 14)"
+ },
+ "methode": "superposition des cas élémentaires et des positions mobiles livrés (lot 49) avec les coefficients déclarés ; aucun calcul Code_Aster",
+ "familles": [
+  {
+   "nom": "dalle",
+   "type": "coque",
+   "champ": "EFGE_NOEU",
+   "groupes": [
+    "DALLE"
+   ],
+   "membres": null,
+   "grandeurs": [
+    "NXX",
+    "NYY",
+    "NXY",
+    "MXX",
+    "MYY",
+    "MXY",
+    "QX",
+    "QY"
+   ],
+   "section_circulaire": false,
+   "grandeur_principale": "MXX",
+   "colonnes": [
+    "NXX",
+    "NYY",
+    "NXY",
+    "MXX",
+    "MYY",
+    "MXY",
+    "QX",
+    "QY"
+   ],
+   "convention": "dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normales +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur",
+   "reserve": null,
+   "lignes": 1617,
+   "evaluations": {
+    "ELU_fondamental": 1,
+    "ELS_caracteristique": 1,
+    "ELS_frequent": 1,
+    "ELS_quasi_permanent": 1
+   }
+  },
+  {
+   "nom": "appuis",
+   "type": "appui",
+   "champ": "REAC_NODA",
+   "groupes": [
+    "APPUIS"
+   ],
+   "membres": null,
+   "grandeurs": [
+    "DZ"
+   ],
+   "section_circulaire": false,
+   "grandeur_principale": "DZ",
+   "colonnes": [
+    "DX",
+    "DY",
+    "DZ"
+   ],
+   "convention": "repère global ; appui simple DZ = 0 sur APPUIS, blocage isostatique DX = DY = 0 en P_A, DY = 0 en P_B (point 6)",
+   "reserve": null,
+   "lignes": 160,
+   "evaluations": {
+    "ELU_fondamental": 1,
+    "ELS_caracteristique": 1,
+    "ELS_frequent": 1,
+    "ELS_quasi_permanent": 1
+   }
+  }
+ ],
+ "sections": [
+  {
+   "nom": "dalle_travee",
+   "libelle": "dalle, toute la travée",
+   "famille": "dalle",
+   "regle": "tous les nœuds de la dalle (appui simple sur les quatre côtés, aucun appui ponctuel ni nœud partagé)",
+   "justification": "Dalle portant dans les deux directions : les moments de dimensionnement sont ceux de la travée, lus sur toute la dalle.",
+   "lignes": 1617,
+   "lignes_exclues": 0,
+   "exclusion": true,
+   "lecture": [],
+   "reserve": null,
+   "export": [
+    "dalle_travee_MXX.csv",
+    "dalle_travee_MYY.csv"
+   ],
+   "non_exporte": null
+  },
+  {
+   "nom": "dalle_centre",
+   "libelle": "centre de la dalle",
+   "famille": "dalle",
+   "regle": "nœud du centre de la dalle (CENTRE, X = 3,00, Y = 2,00)",
+   "justification": "Point de contrôle du ferraillage (check_node) et de la comparaison à Navier (niveau E, lot 43).",
+   "lignes": 1,
+   "lignes_exclues": 0,
+   "exclusion": true,
+   "lecture": [],
+   "reserve": null,
+   "export": [
+    "dalle_centre_MXX.csv",
+    "dalle_centre_MYY.csv"
+   ],
+   "non_exporte": null
+  },
+  {
+   "nom": "appuis",
+   "libelle": "appuis simples",
+   "famille": "appuis",
+   "regle": "nœuds des quatre côtés appuyés (APPUIS, DZ = 0)",
+   "justification": "Réaction verticale linéique des appuis, à reporter sur les porteurs.",
+   "lignes": 160,
+   "lignes_exclues": 0,
+   "exclusion": true,
+   "lecture": [],
+   "reserve": null,
+   "export": null,
+   "non_exporte": "réaction d'appui, sans section de béton armé"
+  }
+ ],
+ "torseurs": [
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "MXX max",
+   "colonne": "MXX",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": 6.949877172869669,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 109,
+    "coordonnees_m": [
+     6.0,
+     0.125,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 6.949877172869669,
+    "MYY": 3.2300733965139674,
+    "MXY": -19434.779646744977,
+    "QX": 5400.504938691518,
+    "QY": 395.8193378282638
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "MXX min",
+   "colonne": "MXX",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -17112.961937393564,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -17112.961937393564,
+    "MYY": -31516.39842857163,
+    "MXY": -5.240212668319647e-09,
+    "QX": 4.061640916930287e-08,
+    "QY": -3.511408550593842e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "MYY max",
+   "colonne": "MYY",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": 8.354397573404745,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 146,
+    "coordonnees_m": [
+     5.875,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 3.335289249900826,
+    "MYY": 8.354397573404745,
+    "MXY": -19468.28600575134,
+    "QX": -328.78864987374277,
+    "QY": -5688.298614377281
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "MYY min",
+   "colonne": "MYY",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -31516.39842857163,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -17112.961937393564,
+    "MYY": -31516.39842857163,
+    "MXY": -5.240212668319647e-09,
+    "QX": 4.061640916930287e-08,
+    "QY": -3.511408550593842e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "MXX max",
+   "colonne": "MXX",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": 4.840710468665843,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 109,
+    "coordonnees_m": [
+     6.0,
+     0.125,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 4.840710468665843,
+    "MYY": 2.2498023657313273,
+    "MXY": -13536.662440518889,
+    "QX": 3761.5457284418585,
+    "QY": 275.69506117391575
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "MXX min",
+   "colonne": "MXX",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -11919.475976293937,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11919.475976293937,
+    "MYY": -21951.720298507367,
+    "MXY": -3.6525049066347564e-09,
+    "QX": 2.808778809537671e-08,
+    "QY": -2.6326787860853074e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "MYY max",
+   "colonne": "MYY",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": 5.818983384462086,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 146,
+    "coordonnees_m": [
+     5.875,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 2.3230870397321652,
+    "MYY": 5.818983384462086,
+    "MXY": -13560.000203010883,
+    "QX": -229.00701981255526,
+    "QY": -3961.999034889661
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "MYY min",
+   "colonne": "MYY",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -21951.720298507367,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11919.475976293937,
+    "MYY": -21951.720298507367,
+    "MXY": -3.6525049066347564e-09,
+    "QX": 2.808778809537671e-08,
+    "QY": -2.6326787860853074e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "MXX max",
+   "colonne": "MXX",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": 4.564098441885322,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 109,
+    "coordonnees_m": [
+     6.0,
+     0.125,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 4.564098441885322,
+    "MYY": 2.121242230546877,
+    "MXY": -12763.138872489239,
+    "QX": 3546.6002582451865,
+    "QY": 259.9410576782641
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "MXX min",
+   "colonne": "MXX",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -11238.363063362773,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11238.363063362773,
+    "MYY": -20697.336281449578,
+    "MXY": -3.44628421039294e-09,
+    "QX": 2.6289191268347167e-08,
+    "QY": -2.661150659832856e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "MYY max",
+   "colonne": "MYY",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": 5.486470048208135,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 146,
+    "coordonnees_m": [
+     5.875,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 2.1903392088905633,
+    "MYY": 5.486470048208135,
+    "MXY": -12785.143048553116,
+    "QX": -215.92090439469314,
+    "QY": -3735.599090038835
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "MYY min",
+   "colonne": "MYY",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -20697.336281449578,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11238.363063362773,
+    "MYY": -20697.336281449578,
+    "MXY": -3.44628421039294e-09,
+    "QX": 2.6289191268347167e-08,
+    "QY": -2.661150659832856e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "MXX max",
+   "colonne": "MXX",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": 4.2874864151048016,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 109,
+    "coordonnees_m": [
+     6.0,
+     0.125,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 4.2874864151048016,
+    "MYY": 1.9926820953624265,
+    "MXY": -11989.615304459587,
+    "QX": 3331.654788048514,
+    "QY": 244.18705418261234
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "MXX min",
+   "colonne": "MXX",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -10557.250150431606,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -10557.250150431606,
+    "MYY": -19442.952264391784,
+    "MXY": -3.240063514151123e-09,
+    "QX": 2.4490594441317626e-08,
+    "QY": -2.689622533580405e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "MYY max",
+   "colonne": "MYY",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": 5.153956711954184,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 146,
+    "coordonnees_m": [
+     5.875,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": 2.0575913780489614,
+    "MYY": 5.153956711954184,
+    "MXY": -12010.285894095352,
+    "QX": -202.83478897683105,
+    "QY": -3509.1991451880094
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_travee",
+   "famille": "dalle",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "MYY min",
+   "colonne": "MYY",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -19442.952264391784,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -10557.250150431606,
+    "MYY": -19442.952264391784,
+    "MXY": -3.240063514151123e-09,
+    "QX": 2.4490594441317626e-08,
+    "QY": -2.689622533580405e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "MXX max",
+   "colonne": "MXX",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -17112.961937393564,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -17112.961937393564,
+    "MYY": -31516.39842857163,
+    "MXY": -5.240212668319647e-09,
+    "QX": 4.061640916930287e-08,
+    "QY": -3.511408550593842e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "MXX min",
+   "colonne": "MXX",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -17112.961937393564,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -17112.961937393564,
+    "MYY": -31516.39842857163,
+    "MXY": -5.240212668319647e-09,
+    "QX": 4.061640916930287e-08,
+    "QY": -3.511408550593842e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "MYY max",
+   "colonne": "MYY",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -31516.39842857163,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -17112.961937393564,
+    "MYY": -31516.39842857163,
+    "MXY": -5.240212668319647e-09,
+    "QX": 4.061640916930287e-08,
+    "QY": -3.511408550593842e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "MYY min",
+   "colonne": "MYY",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -31516.39842857163,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -17112.961937393564,
+    "MYY": -31516.39842857163,
+    "MXY": -5.240212668319647e-09,
+    "QX": 4.061640916930287e-08,
+    "QY": -3.511408550593842e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "MXX max",
+   "colonne": "MXX",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -11919.475976293937,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11919.475976293937,
+    "MYY": -21951.720298507367,
+    "MXY": -3.6525049066347564e-09,
+    "QX": 2.808778809537671e-08,
+    "QY": -2.6326787860853074e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "MXX min",
+   "colonne": "MXX",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -11919.475976293937,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11919.475976293937,
+    "MYY": -21951.720298507367,
+    "MXY": -3.6525049066347564e-09,
+    "QX": 2.808778809537671e-08,
+    "QY": -2.6326787860853074e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "MYY max",
+   "colonne": "MYY",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -21951.720298507367,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11919.475976293937,
+    "MYY": -21951.720298507367,
+    "MXY": -3.6525049066347564e-09,
+    "QX": 2.808778809537671e-08,
+    "QY": -2.6326787860853074e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "MYY min",
+   "colonne": "MYY",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -21951.720298507367,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11919.475976293937,
+    "MYY": -21951.720298507367,
+    "MXY": -3.6525049066347564e-09,
+    "QX": 2.808778809537671e-08,
+    "QY": -2.6326787860853074e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "MXX max",
+   "colonne": "MXX",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -11238.363063362773,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11238.363063362773,
+    "MYY": -20697.336281449578,
+    "MXY": -3.44628421039294e-09,
+    "QX": 2.6289191268347167e-08,
+    "QY": -2.661150659832856e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "MXX min",
+   "colonne": "MXX",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -11238.363063362773,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11238.363063362773,
+    "MYY": -20697.336281449578,
+    "MXY": -3.44628421039294e-09,
+    "QX": 2.6289191268347167e-08,
+    "QY": -2.661150659832856e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "MYY max",
+   "colonne": "MYY",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -20697.336281449578,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11238.363063362773,
+    "MYY": -20697.336281449578,
+    "MXY": -3.44628421039294e-09,
+    "QX": 2.6289191268347167e-08,
+    "QY": -2.661150659832856e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "MYY min",
+   "colonne": "MYY",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -20697.336281449578,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -11238.363063362773,
+    "MYY": -20697.336281449578,
+    "MXY": -3.44628421039294e-09,
+    "QX": 2.6289191268347167e-08,
+    "QY": -2.661150659832856e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "MXX max",
+   "colonne": "MXX",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -10557.250150431606,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -10557.250150431606,
+    "MYY": -19442.952264391784,
+    "MXY": -3.240063514151123e-09,
+    "QX": 2.4490594441317626e-08,
+    "QY": -2.689622533580405e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "MXX min",
+   "colonne": "MXX",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NXX",
+    "M": "MXX",
+    "V": "QX"
+   },
+   "valeur_si": -10557.250150431606,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -10557.250150431606,
+    "MYY": -19442.952264391784,
+    "MXY": -3.240063514151123e-09,
+    "QX": 2.4490594441317626e-08,
+    "QY": -2.689622533580405e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "MYY max",
+   "colonne": "MYY",
+   "sens": "max",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -19442.952264391784,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -10557.250150431606,
+    "MYY": -19442.952264391784,
+    "MXY": -3.240063514151123e-09,
+    "QX": 2.4490594441317626e-08,
+    "QY": -2.689622533580405e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "dalle_centre",
+   "famille": "dalle",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "MYY min",
+   "colonne": "MYY",
+   "sens": "min",
+   "role": "M",
+   "triplet": {
+    "N": "NYY",
+    "M": "MYY",
+    "V": "QY"
+   },
+   "valeur_si": -19442.952264391784,
+   "unite_si": "N·m/m",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 3,
+    "coordonnees_m": [
+     3.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "NXX": 0.0,
+    "NYY": 0.0,
+    "NXY": 0.0,
+    "MXX": -10557.250150431606,
+    "MYY": -19442.952264391784,
+    "MXY": -3.240063514151123e-09,
+    "QX": 2.4490594441317626e-08,
+    "QY": -2.689622533580405e-08
+   },
+   "unites_si": {
+    "NXX": "N/m",
+    "NYY": "N/m",
+    "NXY": "N/m",
+    "MXX": "N·m/m",
+    "MYY": "N·m/m",
+    "MXY": "N·m/m",
+    "QX": "N/m",
+    "QY": "N/m"
+   }
+  },
+  {
+   "section": "appuis",
+   "famille": "appuis",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "DZ max",
+   "colonne": "DZ",
+   "sens": "max",
+   "role": "DZ",
+   "triplet": {
+    "N": null,
+    "M": null,
+    "V": null
+   },
+   "valeur_si": 6230.281207224221,
+   "unite_si": "N",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 5,
+    "coordonnees_m": [
+     6.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": 6230.281207224221
+   },
+   "unites_si": {
+    "DX": "N",
+    "DY": "N",
+    "DZ": "N"
+   }
+  },
+  {
+   "section": "appuis",
+   "famille": "appuis",
+   "etat_limite": "ELU_fondamental",
+   "grandeur": "DZ min",
+   "colonne": "DZ",
+   "sens": "min",
+   "role": "DZ",
+   "triplet": {
+    "N": null,
+    "M": null,
+    "V": null
+   },
+   "valeur_si": -38886.91967380107,
+   "unite_si": "N",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 2,
+    "coordonnees_m": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELU_FOND_Q_DOM_G_defav",
+   "famille_combinaison": "ELU fondamentale",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -38886.91967380107
+   },
+   "unites_si": {
+    "DX": "N",
+    "DY": "N",
+    "DZ": "N"
+   }
+  },
+  {
+   "section": "appuis",
+   "famille": "appuis",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "DZ max",
+   "colonne": "DZ",
+   "sens": "max",
+   "role": "DZ",
+   "triplet": {
+    "N": null,
+    "M": null,
+    "V": null
+   },
+   "valeur_si": 4339.4993483153785,
+   "unite_si": "N",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 5,
+    "coordonnees_m": [
+     6.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": 4339.4993483153785
+   },
+   "unites_si": {
+    "DX": "N",
+    "DY": "N",
+    "DZ": "N"
+   }
+  },
+  {
+   "section": "appuis",
+   "famille": "appuis",
+   "etat_limite": "ELS_caracteristique",
+   "grandeur": "DZ min",
+   "colonne": "DZ",
+   "sens": "min",
+   "role": "DZ",
+   "triplet": {
+    "N": null,
+    "M": null,
+    "V": null
+   },
+   "valeur_si": -27085.41668821965,
+   "unite_si": "N",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 2,
+    "coordonnees_m": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_CARA_Q_DOM",
+   "famille_combinaison": "ELS caractéristique",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -27085.41668821965
+   },
+   "unites_si": {
+    "DX": "N",
+    "DY": "N",
+    "DZ": "N"
+   }
+  },
+  {
+   "section": "appuis",
+   "famille": "appuis",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "DZ max",
+   "colonne": "DZ",
+   "sens": "max",
+   "role": "DZ",
+   "triplet": {
+    "N": null,
+    "M": null,
+    "V": null
+   },
+   "valeur_si": 4091.527956983072,
+   "unite_si": "N",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 5,
+    "coordonnees_m": [
+     6.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": 4091.527956983072
+   },
+   "unites_si": {
+    "DX": "N",
+    "DY": "N",
+    "DZ": "N"
+   }
+  },
+  {
+   "section": "appuis",
+   "famille": "appuis",
+   "etat_limite": "ELS_frequent",
+   "grandeur": "DZ min",
+   "colonne": "DZ",
+   "sens": "min",
+   "role": "DZ",
+   "triplet": {
+    "N": null,
+    "M": null,
+    "V": null
+   },
+   "valeur_si": -25537.67859174996,
+   "unite_si": "N",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 2,
+    "coordonnees_m": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_FREQ_Q_DOM",
+   "famille_combinaison": "ELS fréquente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -25537.67859174996
+   },
+   "unites_si": {
+    "DX": "N",
+    "DY": "N",
+    "DZ": "N"
+   }
+  },
+  {
+   "section": "appuis",
+   "famille": "appuis",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "DZ max",
+   "colonne": "DZ",
+   "sens": "max",
+   "role": "DZ",
+   "triplet": {
+    "N": null,
+    "M": null,
+    "V": null
+   },
+   "valeur_si": 3843.556565650765,
+   "unite_si": "N",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 5,
+    "coordonnees_m": [
+     6.0,
+     2.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": 3843.556565650765
+   },
+   "unites_si": {
+    "DX": "N",
+    "DY": "N",
+    "DZ": "N"
+   }
+  },
+  {
+   "section": "appuis",
+   "famille": "appuis",
+   "etat_limite": "ELS_quasi_permanent",
+   "grandeur": "DZ min",
+   "colonne": "DZ",
+   "sens": "min",
+   "role": "DZ",
+   "triplet": {
+    "N": null,
+    "M": null,
+    "V": null
+   },
+   "valeur_si": -23989.940495280265,
+   "unite_si": "N",
+   "significative": true,
+   "motif": null,
+   "principal": true,
+   "lieu": {
+    "groupe": null,
+    "maille_med": null,
+    "extremite": null,
+    "noeud_med": 2,
+    "coordonnees_m": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "combinaison": "ELS_QUASI_PERMANENTE",
+   "famille_combinaison": "ELS quasi permanente",
+   "position_mobile": null,
+   "charge_mobile": null,
+   "torseur_si": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -23989.940495280265
+   },
+   "unites_si": {
+    "DX": "N",
+    "DY": "N",
+    "DZ": "N"
+   }
+  }
+ ],
+ "exports": [
+  {
+   "section": "dalle_travee",
+   "fichier": "flexion_composee/dalle_travee_MXX.csv",
+   "plan": "flexion selon X (grande portée), normale +Z",
+   "lignes": [
+    {
+     "type": "ELU",
+     "cas": "M max",
+     "N_kN": -0.0,
+     "M_kNm": 17.112961937393564,
+     "combinaison": "ELU_FOND_Q_DOM_G_defav",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELU",
+     "cas": "M min",
+     "N_kN": -0.0,
+     "M_kNm": -0.006949877172869669,
+     "combinaison": "ELU_FOND_Q_DOM_G_defav",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 109,
+      "coordonnees_m": [
+       6.0,
+       0.125,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELU",
+     "cas": "N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": -0.00026760086013347405,
+     "combinaison": "ELU_FOND_Q_DOM_G_defav",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 1,
+      "coordonnees_m": [
+       0.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELS",
+     "cas": "M max",
+     "N_kN": -0.0,
+     "M_kNm": 11.919475976293938,
+     "combinaison": "ELS_CARA_Q_DOM",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELS",
+     "cas": "M min",
+     "N_kN": -0.0,
+     "M_kNm": -0.004840710468665843,
+     "combinaison": "ELS_CARA_Q_DOM",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 109,
+      "coordonnees_m": [
+       6.0,
+       0.125,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELS",
+     "cas": "N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": -0.00018638865880236217,
+     "combinaison": "ELS_CARA_Q_DOM",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 1,
+      "coordonnees_m": [
+       0.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELSfiss",
+     "cas": "M max",
+     "N_kN": -0.0,
+     "M_kNm": 10.557250150431607,
+     "combinaison": "ELS_QUASI_PERMANENTE",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELSfiss",
+     "cas": "M min",
+     "N_kN": -0.0,
+     "M_kNm": -0.004287486415104801,
+     "combinaison": "ELS_QUASI_PERMANENTE",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 109,
+      "coordonnees_m": [
+       6.0,
+       0.125,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELSfiss",
+     "cas": "N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": -0.00016508709780198194,
+     "combinaison": "ELS_QUASI_PERMANENTE",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 1,
+      "coordonnees_m": [
+       0.0,
+       2.0,
+       0.0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "section": "dalle_travee",
+   "fichier": "flexion_composee/dalle_travee_MYY.csv",
+   "plan": "flexion selon Y (petite portée), normale +Z",
+   "lignes": [
+    {
+     "type": "ELU",
+     "cas": "M max",
+     "N_kN": -0.0,
+     "M_kNm": 31.51639842857163,
+     "combinaison": "ELU_FOND_Q_DOM_G_defav",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELU",
+     "cas": "M min",
+     "N_kN": -0.0,
+     "M_kNm": -0.008354397573404745,
+     "combinaison": "ELU_FOND_Q_DOM_G_defav",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 146,
+      "coordonnees_m": [
+       5.875,
+       0.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELU",
+     "cas": "N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": -0.0002349817132406298,
+     "combinaison": "ELU_FOND_Q_DOM_G_defav",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 1,
+      "coordonnees_m": [
+       0.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELS",
+     "cas": "M max",
+     "N_kN": -0.0,
+     "M_kNm": 21.951720298507368,
+     "combinaison": "ELS_CARA_Q_DOM",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELS",
+     "cas": "M min",
+     "N_kN": -0.0,
+     "M_kNm": -0.005818983384462086,
+     "combinaison": "ELS_CARA_Q_DOM",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 146,
+      "coordonnees_m": [
+       5.875,
+       0.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELS",
+     "cas": "N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": -0.00016366885499369266,
+     "combinaison": "ELS_CARA_Q_DOM",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 1,
+      "coordonnees_m": [
+       0.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELSfiss",
+     "cas": "M max",
+     "N_kN": -0.0,
+     "M_kNm": 19.442952264391785,
+     "combinaison": "ELS_QUASI_PERMANENTE",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELSfiss",
+     "cas": "M min",
+     "N_kN": -0.0,
+     "M_kNm": -0.0051539567119541834,
+     "combinaison": "ELS_QUASI_PERMANENTE",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 146,
+      "coordonnees_m": [
+       5.875,
+       0.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELSfiss",
+     "cas": "N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": -0.0001449638429948331,
+     "combinaison": "ELS_QUASI_PERMANENTE",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 1,
+      "coordonnees_m": [
+       0.0,
+       2.0,
+       0.0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "section": "dalle_centre",
+   "fichier": "flexion_composee/dalle_centre_MXX.csv",
+   "plan": "flexion selon X (grande portée), normale +Z",
+   "lignes": [
+    {
+     "type": "ELU",
+     "cas": "M max, M min, N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": 17.112961937393564,
+     "combinaison": "ELU_FOND_Q_DOM_G_defav",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELS",
+     "cas": "M max, M min, N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": 11.919475976293938,
+     "combinaison": "ELS_CARA_Q_DOM",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELSfiss",
+     "cas": "M max, M min, N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": 10.557250150431607,
+     "combinaison": "ELS_QUASI_PERMANENTE",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "section": "dalle_centre",
+   "fichier": "flexion_composee/dalle_centre_MYY.csv",
+   "plan": "flexion selon Y (petite portée), normale +Z",
+   "lignes": [
+    {
+     "type": "ELU",
+     "cas": "M max, M min, N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": 31.51639842857163,
+     "combinaison": "ELU_FOND_Q_DOM_G_defav",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELS",
+     "cas": "M max, M min, N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": 21.951720298507368,
+     "combinaison": "ELS_CARA_Q_DOM",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "type": "ELSfiss",
+     "cas": "M max, M min, N max, N min",
+     "N_kN": -0.0,
+     "M_kNm": 19.442952264391785,
+     "combinaison": "ELS_QUASI_PERMANENTE",
+     "position_mobile": null,
+     "lieu": {
+      "groupe": null,
+      "maille_med": null,
+      "extremite": null,
+      "noeud_med": 3,
+      "coordonnees_m": [
+       3.0,
+       2.0,
+       0.0
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

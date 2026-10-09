@@ -1,0 +1,36 @@
+﻿Section de dimensionnement;poutre de couronnement, toute la longueur;couronnement_courant
+Projet;quai_cw_test_01;
+Plan de flexion;flexion verticale (z_l = +Z, fibre supérieure en haut);MFY
+Type de section;rectangulaire;
+h (m);1,40;cas de test, § 3 (données : poutre_couronnement.hauteur)
+b (m);2,50;cas de test, § 3 (données : poutre_couronnement.largeur)
+ds (m);0,100;décision D19 (point 14) (données : durabilite.distance_parement_axe_armatures_longitudinales)
+di (m);0,100;décision D19 (point 14) (données : durabilite.distance_parement_axe_armatures_longitudinales)
+Classe de béton;C35/45;décision D18 (point 14) (données : durabilite.beton)
+Acier;B500B;décision D18 (point 14) (données : durabilite.acier_passif)
+Classe d'exposition;XS3;point 14 (données : durabilite.classe_exposition)
+cnom (mm);65;point 14 (données : durabilite.enrobage_nominal)
+Convention N;N > 0 en compression : N = −N de Code_Aster (Code_Aster : N > 0 en traction, R3.08.01);
+Convention M;M > 0 comprime la fibre supérieure (+z_l) : M = −MFY de Code_Aster;"MFY = ∫z·σxx dS, MFZ = −∫y·σxx dS (R3.08.01) ; MXX > 0 tend la face supérieure (CA-045)"
+État limite non exporté;ELS fréquent : ni caractéristique ni de fissuration (fissuration : ELS quasi permanent, décision D21 : wk = 0,2 mm sous combinaison quasi permanente (données durabilite.ouverture_fissure_limite_wk));
+Réserve de la famille;"sous G, EAU_P et Q1, les efforts de la barre sont nuls aux arrondis près (|MFY| ≤ 2·10⁻⁵ N·m, lu dans les livrables) : tronçons solidaires des têtes de tubes par LIAISON_SOLIDE (GEN_POUTRE_xx, lots 28 à 32) ; la flexion de la poutre sous ces cas n'est pas représentée par la barre (déduction, à confirmer par MM)";
+
+N°;Type;N (kN);M (kN.m);;Cas dimensionnant;Combinaison;Position mobile;Lieu;Cote (m);V concomitant (kN);MFY brut Code_Aster (kN.m);N brut Code_Aster (kN);Repère des valeurs brutes
+1;ELU;0,3;225,0;;M max;ELU_FOND_Q3_DOM_Q1_ACC_G_defav;;maille 39519, extrémité 1, nœud 2256;X = -7,800;26,7;-225,0;-0,3;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+2;ELU;-0,6;-785,0;;M min;ELU_FOND_Q3_DOM_G_favo;;maille 39543, extrémité 1, nœud 2259;X = 0,000;-264,6;785,0;0,6;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+3;ELU;0,3;225,0;;N max;ELU_FOND_Q3_DOM_Q1_ACC_G_defav;;maille 39511, extrémité 1, nœud 2255;X = -10,400;2,5;-225,0;-0,3;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+4;ELU;-0,6;-269,0;;N min;ELU_FOND_Q3_DOM_Q1_ACC_G_defav;;maille 39537, extrémité 1, nœud 37585;X = -1,950;264,6;269,0;0,6;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+5;ELUA;0,2;17,0;;M max;ELU_ACCIDENTELLE;;maille 39574, extrémité 2, nœud 2263;X = 10,400;-1,8;-17,0;-0,2;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+6;ELUA;-0,4;-24,8;;M min;ELU_ACCIDENTELLE;;maille 39543, extrémité 1, nœud 2259;X = 0,000;-7,0;24,8;0,4;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+7;ELUA;0,2;13,9;;N max;ELU_ACCIDENTELLE;;maille 39519, extrémité 1, nœud 2256;X = -7,800;5,5;-13,9;-0,2;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+8;ELUA;-0,4;-13,5;;N min;ELU_ACCIDENTELLE;;maille 39548, extrémité 1, nœud 37595;X = 1,625;-7,0;13,5;0,4;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+9;ELS;0,2;150,0;;M max;ELS_CARA_Q3_DOM_Q1_ACC;;maille 39519, extrémité 1, nœud 2256;X = -7,800;17,8;-150,0;-0,2;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+10;ELS;-0,4;-523,3;;M min;ELS_CARA_Q3_DOM;;maille 39543, extrémité 1, nœud 2259;X = 0,000;-176,4;523,3;0,4;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+11;ELS;0,2;150,0;;N max;ELS_CARA_Q3_DOM_Q1_ACC;;maille 39511, extrémité 1, nœud 2255;X = -10,400;1,7;-150,0;-0,2;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+12;ELS;-0,4;-179,3;;N min;ELS_CARA_Q3_DOM_Q1_ACC;;maille 39537, extrémité 1, nœud 37585;X = -1,950;176,4;179,3;0,4;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+13;ELSfiss;0,0;0,0;;M max;ELS_QUASI_PERMANENTE;;maille 39542, extrémité 2, nœud 2259;X = 0,000;0,0;0,0;0,0;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+14;ELSfiss;0,0;0,0;;M min;ELS_QUASI_PERMANENTE;;maille 39511, extrémité 1, nœud 2255;X = -10,400;0,0;0,0;0,0;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+15;ELSfiss;0,0;0,0;;N max;ELS_QUASI_PERMANENTE;;maille 39513, extrémité 1, nœud 37564;X = -9,750;0,0;0,0;0,0;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+16;ELSfiss;0,0;0,0;;N min;ELS_QUASI_PERMANENTE;;maille 39571, extrémité 1, nœud 37615;X = 9,100;0,0;0,0;0,0;"poutre de couronnement POU_D_T d'axe X, repère local par défaut ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+
+Empreinte du MED source (resultats.med, SHA-256);4a9f99ab1848d7005c5ae8d7076874009d821a568849759ad51a71ba9009b330

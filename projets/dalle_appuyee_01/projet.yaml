@@ -138,14 +138,78 @@ deliverables:
   points:
     - {label: centre de la dalle, node_group: CENTRE}
 
+# Lot 49 bis : synthèse ingénieur (aster_expert.livrables.ingenieur). Dalle appuyée sur
+# quatre côtés : familles « dalle » et « appuis », états limites des familles de
+# combinaisons EN 1990 de la section `combinations`, en-tête des fichiers de flexion
+# composée lu dans les données (points 5 et 14 de la fiche).
+engineering_summary:
+  limit_states:
+    - {state: ELU_fondamental, families: [ELU fondamentale]}
+    - {state: ELS_caracteristique, families: [ELS caractéristique]}
+    - {state: ELS_frequent, families: [ELS fréquente]}
+    - {state: ELS_quasi_permanent, families: [ELS quasi permanente]}
+  absent_limit_states:
+    - {state: ELU_accidentel, reason: "aucune action accidentelle n'est déclarée pour la dalle (cas G et Q seuls)"}
+  cracking: {state: ELS_quasi_permanent, source: "données durabilite.ouverture_fissure_limite : wk = 0,4 mm sous combinaison quasi permanente (point 14)"}
+  families:
+    - name: dalle
+      kind: coque
+      field: EFGE_NOEU
+      groups: [DALLE]
+      quantities: [NXX, NYY, NXY, MXX, MYY, MXY, QX, QY]
+    - name: appuis
+      kind: appui
+      field: REAC_NODA
+      groups: [APPUIS]
+      quantities: [DZ]
+  sections:
+    - name: dalle_travee
+      label: dalle, toute la travée
+      family: dalle
+      rule: {description: "tous les nœuds de la dalle (appui simple sur les quatre côtés, aucun appui ponctuel ni nœud partagé)"}
+      justification: "Dalle portant dans les deux directions : les moments de dimensionnement sont ceux de la travée, lus sur toute la dalle."
+      bending_export: &dalle
+        section_type: "rectangulaire, bande de 1,00 m"
+        h: {data: geometrie.epaisseur, source: "fiche, données de MM"}
+        b: {value: 1.00, unit: m, source: "efforts par mètre de largeur"}
+        ds: {data: durabilite.distance_parement_axe_armatures, source: "point 14 (C_SUP = C_INF de CALC_FERRAILLAGE)"}
+        di: {data: durabilite.distance_parement_axe_armatures, source: "point 14 (C_SUP = C_INF de CALC_FERRAILLAGE)"}
+        concrete: {data: beton.classe, source: "données de MM"}
+        steel: {data: acier.nuance, source: "point 14"}
+        exposure: {data: durabilite.classe_exposition, source: "données de MM"}
+        cnom: {data: durabilite.enrobage, source: "point 14 (P6)"}
+        per_metre: true
+        planes:
+          - {moment: MXX, top_fibre: "+n", label: "flexion selon X (grande portée), normale +Z"}
+          - {moment: MYY, top_fibre: "+n", label: "flexion selon Y (petite portée), normale +Z"}
+    - name: dalle_centre
+      label: centre de la dalle
+      family: dalle
+      rule: {description: "nœud du centre de la dalle (CENTRE, X = 3,00, Y = 2,00)", node_group: CENTRE}
+      justification: "Point de contrôle du ferraillage (check_node) et de la comparaison à Navier (niveau E, lot 43)."
+      bending_export: *dalle
+    - name: appuis
+      label: appuis simples
+      family: appuis
+      rule: {description: "nœuds des quatre côtés appuyés (APPUIS, DZ = 0)", node_group: APPUIS}
+      justification: "Réaction verticale linéique des appuis, à reporter sur les porteurs."
+      not_exported: "réaction d'appui, sans section de béton armé"
+  no_service_criteria: "aucun critère de service n'a été décidé par MM pour la dalle (fiche, points 1 à 14) ; les déplacements restent lisibles dans les livrables"
+  cuts:
+    - {name: dalle_y2, family: dalle, axis: Y, value: 2.0, along: X, components: [MXX, MYY]}
+    - {name: dalle_x3, family: dalle, axis: X, value: 3.0, along: Y, components: [MXX, MYY]}
+
 results_package:
   items:
     # Lot 49 : livrables (manifeste des MED et VTU, contrôle des charges, synthèses,
     # images) ; les MED et VTU eux-mêmes ne sont jamais versionnés.
     - {section: visualisation, source: "resultats/livrables/paquet/*.json"}
     - {section: visualisation, source: resultats/livrables/paquet/synthese.csv}
-    - {section: visualisation, source: "resultats/livrables/png/charges_*.png", required: false}
-    - {section: visualisation, source: "resultats/livrables/png/resultats_ENV_*.png", required: false}
+    - {section: visualisation, source: "resultats/livrables/png/charges_*_iso.png", required: false}
+    - {section: visualisation, source: "resultats/livrables/png/resultats_ENV_*_iso.png", required: false}
+    # Lot 49 bis : fichiers de flexion composée et diagrammes de la synthèse ingénieur.
+    - {section: visualisation, source: "resultats/livrables/paquet/flexion_composee/*.csv", subdirectory: flexion_composee}
+    - {section: visualisation, source: "resultats/livrables/paquet/diagrammes/*.png", subdirectory: diagrammes}
     - {section: controles, source: resultats/controles/controles_d.json}
     - {section: controles, source: resultats/controles/equilibre.json}
     - {section: niveau_e, source: references/niveau_e_lot43.json}

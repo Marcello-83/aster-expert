@@ -173,8 +173,8 @@ def test_fiche_is_reproducible_and_ready(
     assert len(agent) == 6 and all(s.verified_by for e in agent for s in e.sources)
     mm = [
         e for e in sheet.entries if getattr(e, "decided_by", None) == "MM"
-    ]  # E1 à E19, E20 (lot 47 quater)
-    assert len(mm) == 20 and all(
+    ]  # E1 à E19, E20 (lot 47 quater), E21 à E23 (lot 49 bis)
+    assert len(mm) == 23 and all(
         s.origin == "arbitrage_mm" for e in mm for s in e.sources
     )
 

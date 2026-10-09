@@ -286,6 +286,123 @@ deliverables:
     - {label: ancrages des tirants, node_group: ANCRAGES, cell_group: TIRANTS}
     - {label: pieds des tubes, node_group: PIED_TUBES}
 
+# Lot 49 bis : synthèse ingénieur (aster_expert.livrables.ingenieur). Familles
+# d'éléments d'ouvrage du combi-wall, états limites des familles de combinaisons de D17
+# (section `combinations`), fissuration sous ELS quasi permanent (D21). Seule la poutre
+# de couronnement est en béton armé : ses sections de dimensionnement reprennent les
+# sections de contrôle du ferraillage du lot 39 (`rebar.members.check_sections`).
+engineering_summary:
+  limit_states:
+    - {state: ELU_fondamental, families: [ELU fondamentale]}
+    - {state: ELU_accidentel, families: [ELU accidentelle]}
+    - {state: ELS_caracteristique, families: [ELS caractéristique]}
+    - {state: ELS_frequent, families: [ELS fréquente]}
+    - {state: ELS_quasi_permanent, families: [ELS quasi permanente]}
+  cracking: {state: ELS_quasi_permanent, source: "décision D21 : wk = 0,2 mm sous combinaison quasi permanente (données durabilite.ouverture_fissure_limite_wk)"}
+  families:
+    - name: poutre de couronnement
+      kind: poutre
+      field: EFGE_ELNO_2
+      groups: [POUTRE_COUR]
+      quantities: [N, VY, VZ, MT, MFY, MFZ]
+      moments: [MFY, MFZ]
+      shears: [VZ, VY]
+      axis: X
+      caveat: "sous G, EAU_P et Q1, les efforts de la barre sont nuls aux arrondis près (|MFY| ≤ 2·10⁻⁵ N·m, lu dans les livrables) : tronçons solidaires des têtes de tubes par LIAISON_SOLIDE (GEN_POUTRE_xx, lots 28 à 32) ; la flexion de la poutre sous ces cas n'est pas représentée par la barre (déduction, à confirmer par MM)"
+    - name: tirants
+      kind: poutre
+      field: EFGE_ELNO_3
+      groups: [TIRANTS]
+      members: "TIRANT_*"
+      quantities: [N]
+      axis: Y
+    - name: palplanches
+      kind: coque
+      field: EFGE_NOEU
+      groups: [PALPS]
+      quantities: [NXX, NYY, NXY, MXX, MYY, MXY, QX, QY]
+    - name: tubes
+      kind: coque
+      field: EFGE_ELNO
+      groups: [TUBES]
+      quantities: [NXX, NYY, NXY, MXX, MYY, MXY, QX, QY]
+      caveat: "efforts par facette des tubes modélisés en coque DKT (repère local de chaque facette, DIAG-011) : le torseur global d'un tube n'est pas une grandeur livrée"
+    - name: ressorts de sol
+      kind: discret
+      field: SIEF_ELGA
+      groups: ["GEN_RESS_*"]
+      quantities: [VY]
+    - name: appuis
+      kind: appui
+      field: REAC_NODA
+      groups: [PIED_TUBES, ANCRAGES]
+      quantities: [DX, DY, DZ]
+  sections:
+    - name: couronnement_bollard
+      label: poutre de couronnement au bollard (X = 0)
+      family: poutre de couronnement
+      rule: {description: "extrémités d'éléments de la poutre de couronnement à la station X = 0 (bollard, point 8)", station: {axis: X, value: 0.0}}
+      justification: "Section de l'effort d'amarrage du bollard, section de contrôle du ferraillage du lot 39."
+      bending_export: &couronnement
+        section_type: rectangulaire
+        h: {data: poutre_couronnement.hauteur, source: "cas de test, § 3"}
+        b: {data: poutre_couronnement.largeur, source: "cas de test, § 3"}
+        ds: {data: durabilite.distance_parement_axe_armatures_longitudinales, source: "décision D19 (point 14)"}
+        di: {data: durabilite.distance_parement_axe_armatures_longitudinales, source: "décision D19 (point 14)"}
+        concrete: {data: durabilite.beton, source: "décision D18 (point 14)"}
+        steel: {data: durabilite.acier_passif, source: "décision D18 (point 14)"}
+        exposure: {data: durabilite.classe_exposition, source: "point 14"}
+        cnom: {data: durabilite.enrobage_nominal, source: "point 14"}
+        planes:
+          - {moment: MFY, top_fibre: "+z_l", label: "flexion verticale (z_l = +Z, fibre supérieure en haut)"}
+          - {moment: MFZ, top_fibre: "+y_l", label: "flexion horizontale (y_l = +Y), fibre « supérieure » côté terre ; section tournée : h = largeur, b = hauteur", rotated: true}
+    - name: couronnement_mi_travee
+      label: poutre de couronnement à mi-travée entre tubes (X = ±1,30)
+      family: poutre de couronnement
+      rule: {description: "extrémités d'éléments de la poutre de couronnement à la station |X| = 1,30 (mi-travée entre tubes)", station: {axis: X, value: 1.30, absolute: true}}
+      justification: "Moment de travée entre deux tubes, section de contrôle du ferraillage du lot 39."
+      bending_export: *couronnement
+    - name: couronnement_courant
+      label: poutre de couronnement, toute la longueur
+      family: poutre de couronnement
+      rule: {description: "toutes les extrémités d'éléments de la poutre de couronnement"}
+      justification: "Enveloppe de la poutre sur toute sa longueur, plans de symétrie SYM_G et SYM_D compris."
+      bending_export: *couronnement
+    - name: tirants
+      label: tirants
+      family: tirants
+      rule: {description: "les neuf tirants (BARRE)"}
+      justification: "Effort normal des tirants, dimensionnement des tirants et des ancrages."
+      not_exported: "tirants en acier (BARRE), vérifiés hors du logiciel de béton armé"
+    - name: palplanches
+      label: palplanches
+      family: palplanches
+      rule: {description: "tous les nœuds des palplanches (PALPS)"}
+      justification: "Moment vertical des palplanches intermédiaires, entre les tubes."
+      shared_with: [TIRANTS, POUTRE_COUR]
+      not_exported: "palplanches en acier, vérifiées hors du logiciel de béton armé"
+    - name: tubes
+      label: tubes
+      family: tubes
+      rule: {description: "toutes les mailles des tubes (TUBES)"}
+      justification: "Efforts de membrane et de flexion des facettes des tubes porteurs."
+      shared_with: [TIRANTS, POUTRE_COUR]
+      caveat: "efforts par facette (DIAG-011) ; nœuds d'attache des tirants exclus (CA-058, effort concentré)"
+      not_exported: "tubes en acier, vérifiés hors du logiciel de béton armé"
+    - name: ressorts
+      label: ressorts de sol
+      family: ressorts de sol
+      rule: {description: "tous les ressorts horizontaux (GEN_RESS_*)"}
+      justification: "Réaction horizontale du sol, à confronter à la butée (lots 35 à 37)."
+      not_exported: "efforts de ressorts de sol, sans section de béton armé"
+    - name: appuis
+      label: pieds des tubes et ancrages
+      family: appuis
+      rule: {description: "nœuds des pieds des tubes et des ancrages des tirants"}
+      justification: "Réactions des appuis : portance des tubes et efforts d'ancrage."
+      not_exported: "réactions d'appui, sans section de béton armé"
+  no_service_criteria: "aucun critère de service n'a été décidé par MM pour le quai (fiche, points 1 à 22) ; les déplacements restent lisibles dans les livrables"
+
 # Paquet de résultats versionnable (lot 45, `aster-expert projet exporter-resultats
 # quai_cw_test_01`) : ce que les notes de résultats peuvent lire, sans MED. Les
 # comptes rendus d'exécution, le rapport de `mesh check` et la validation B y
@@ -296,8 +413,11 @@ results_package:
     # images) ; les MED et VTU eux-mêmes ne sont jamais versionnés.
     - {section: visualisation, source: "resultats/livrables/paquet/*.json"}
     - {section: visualisation, source: resultats/livrables/paquet/synthese.csv}
-    - {section: visualisation, source: "resultats/livrables/png/charges_*.png", required: false}
-    - {section: visualisation, source: "resultats/livrables/png/resultats_ENV_*.png", required: false}
+    - {section: visualisation, source: "resultats/livrables/png/charges_*_iso.png", required: false}
+    - {section: visualisation, source: "resultats/livrables/png/resultats_ENV_*_iso.png", required: false}
+    # Lot 49 bis : fichiers de flexion composée et diagrammes de la synthèse ingénieur.
+    - {section: visualisation, source: "resultats/livrables/paquet/flexion_composee/*.csv", subdirectory: flexion_composee}
+    - {section: visualisation, source: "resultats/livrables/paquet/diagrammes/*.png", subdirectory: diagrammes}
     - {section: controles, source: resultats/controles/controles_d.json}
     - {section: controles, source: resultats/controles/equilibre.json}
     - {section: controles, source: resultats/controles/integrale.json}

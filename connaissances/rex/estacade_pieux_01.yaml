@@ -103,10 +103,30 @@ lots:
     (135 668 valeurs de tables identiques à la production), MED 1,16 Go, 630 champs de combinaisons
     et d''enveloppes, CTL-013 sur le MED des charges réussi, 88 images ; rejeu de l''export
     du lot 47 sans écart (55 568 valeurs).'
+- lot: 49bis
+  supervisor_interventions:
+    value: 1.0
+    nature: mesure
+    note: 'Une question de la session (trois points : h de h/400, portées de L/400, matériaux
+      et sections des fichiers de flexion composée), réponses de MM enregistrées en E21 à
+      E23. Une interruption de la session Claude Code pendant deux traitements lancés en
+      parallèle, reprise sur consigne de MM (« Reprends comme si rien ne s''était passé »),
+      sans effet sur le contenu.'
+  avoided_errors:
+    value: 3.0
+    nature: mesure
+    note: 'R3.08.01 lu avant d''écrire la conversion (MFY = ∫z·σxx dS, MFZ = −∫y·σxx dS) et
+      CA-045 (MXX > 0 tend la face supérieure) : signe du moment de l''export établi, non
+      supposé ; CA-058 et PAT-013 : nœuds partagés avec les chevêtres et disques des têtes
+      exclus de la dalle (QY de 10 409 kN/m du lot 49 non repris comme dimensionnant).'
+  note: 'Aucune exécution Code_Aster : synthèse ingénieur lue dans les livrables du lot 49
+    (183 torseurs, contrôle croisé par resultats lire sur 1 314 valeurs, écart 4,7e-17 ;
+    équilibre par état limite sur 3 312 évaluations, ≤ 4,7e-11) ; tête de pieu F7_YP en 111
+    ELU+ (TSB_P25) : 435,49 kN·m (lot 47 bis) ; 10 fichiers de flexion composée ; 264 images.'
 archive:
   runs: 75
   sha256: 84aa0459f86304f1248ef522bcb22b7706ff7b6d6833372101a8a9d6c1796df9
-  recorded: '2026-10-08'
+  recorded: '2026-10-09'
 declaration_required_since: '2026-10-05T05:28:20.904249'
 reviews:
 - date: '2026-10-05'
@@ -135,6 +155,12 @@ reviews:
   last_run: 20261007T075647-fcd8e999
 - date: '2026-10-08'
   lot: '49'
+  runs: 75
+  failures: 10
+  unclassified: 0
+  last_run: 20261008T115348-9d3191e5
+- date: '2026-10-09'
+  lot: 49bis
   runs: 75
   failures: 10
   unclassified: 0

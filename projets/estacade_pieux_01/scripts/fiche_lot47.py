@@ -36,6 +36,11 @@ from aster_expert.agent.arbitration import (
     record_agent_choice,
     record_practice_decision,
 )
+from aster_expert.agent.enregistrement import (
+    check_quotes,
+    parse_arbitration,
+    record_decisions,
+)
 from aster_expert.agent.hypotheses import (
     DiscardedVariant,
     FindingReference,
@@ -52,6 +57,9 @@ from estacade_pieux_01.donnees import model_values
 PROJECT = ROOT / "projets" / "estacade_pieux_01"
 FICHE = PROJECT / "fiche" / "hypotheses_estacade_pieux_01.json"
 SOURCES = PROJECT / "donnees" / "sources"
+LATER_RECORDINGS = ("enregistrement_E21_E23_lot49bis.md",)
+"""Structured arbitrations recorded by `aster-expert fiche enregistrer` (lot 48 bis
+on), replayed in order after E1 to E20."""
 ARBITRATION = "arbitrage_estacade_pieux_01_lot47 (donnees/sources/arbitrage_estacade_pieux_01_lot47.md)"
 ARBITRATION_BIS = "arbitrage_estacade_pieux_01_lot47bis (donnees/sources/arbitrage_estacade_pieux_01_lot47bis.md)"
 ARBITRATION_QUATER = "arbitrage_estacade_pieux_01_lot47quater (donnees/sources/arbitrage_estacade_pieux_01_lot47quater.md)"
@@ -501,6 +509,16 @@ def build_sheet() -> HypothesesSheet:
     )
     for entry in [*mm_entries(at), *agent_entries(at, "0,05 m"), *bis, *quater]:
         sheet = insert_practice_entry(sheet, entry)
+    # Lot 49 bis : E21 à E23, enregistrées par `aster-expert fiche enregistrer`, rejouées
+    # ici par la même fonction pour que la fiche reste reproductible.
+    for name in LATER_RECORDINGS:
+        text = (SOURCES / name).read_text(encoding="utf-8")
+        arbitration = parse_arbitration(text)
+        check_quotes(
+            arbitration,
+            (PROJECT / arbitration.source).read_text(encoding="utf-8"),
+        )
+        sheet, _done = record_decisions(sheet, arbitration)
     return sheet
 
 

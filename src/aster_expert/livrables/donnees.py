@@ -99,8 +99,10 @@ class Mesh:
 class Deliverables:
     """Read access to `resultats/livrables/` of a project."""
 
-    def __init__(self, root: Path) -> None:
+    def __init__(self, root: Path, *, keep_fields: bool = False) -> None:
         self.root = root
+        self.keep_fields = keep_fields
+        self._fields: dict[str, FieldArrays] = {}
         self.data = root / "donnees"
         if not self.data.is_dir():
             message = f"livrables absents : {self.data} (projet <nom> livrables)"
@@ -161,6 +163,17 @@ class Deliverables:
         return out
 
     def field(self, info: FieldInfo) -> FieldArrays:
+        """The arrays of a field; kept once read when `keep_fields` is set (lot 49
+        bis: the cross-check of the engineering summary asks the same field many
+        times)."""
+        if info.key in self._fields:
+            return self._fields[info.key]
+        found = self._read_field(info)
+        if self.keep_fields:
+            self._fields[info.key] = found
+        return found
+
+    def _read_field(self, info: FieldInfo) -> FieldArrays:
         with np.load(self.data / f"{info.key}.npz") as npz:
             arrays = {
                 k: np.array(npz[k]) for k in npz.files if not k.startswith("row_")

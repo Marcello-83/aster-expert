@@ -44,12 +44,12 @@ knowledge:
       promu: 0
 consultations:
   calls:
-    search_connaissances: 49
+    search_connaissances: 50
     search_constats: 3
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
   avoided_errors:
-    value: 2.0
+    value: 3.0
     nature: mesure
     note: déclaré lot par lot dans le compte rendu (registre, `lots`)
 lots:
@@ -87,6 +87,19 @@ lots:
       tubes, ancrages) ; CA-025 : efforts des coques lus en EFGE. Non évitées : EFGE_NOEU
       déclaré sur les tubes (DIAG-011, connu, consulté après l''arrêt) et CARA_ELEM sur les
       forces des ressorts (DIAG-028, nouveau).'
+- lot: 49bis
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM pour le quai. Une interruption de la session Claude Code,
+      reprise sur consigne de MM, sans effet sur le contenu.
+  avoided_errors:
+    value: 1.0
+    nature: mesure
+    note: 'U4.42.01 (ORIENTATION) lu avant de déclarer la fibre supérieure de la poutre de
+      couronnement (repère local = global, éléments orientés +X, aucune ORIENTATION dans le
+      .comm). Relevé, non corrigé : efforts de la barre nuls sous G, EAU_P et Q1, réserve
+      déclarée (LIAISON_SOLIDE, déduction à confirmer par MM).'
 declared_interventions_since_baseline: 0.0
 measured:
   runs: 376

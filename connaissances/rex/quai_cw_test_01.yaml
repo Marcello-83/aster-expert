@@ -66,10 +66,26 @@ lots:
     à la référence hors commentaires (seule l''empreinte de la fiche change dans l''en-tête).
     Livrables : 9 931 632 valeurs de tables identiques à la production, MED 364 Mo, CTL-013
     réussi, 110 images. Deux échecs de post-traitement classés (DIAG-011, DIAG-028).'
+- lot: 49bis
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune question posée à MM pour le quai. Une interruption de la session Claude
+      Code, reprise sur consigne de MM, sans effet sur le contenu.'
+  avoided_errors:
+    value: 1.0
+    nature: mesure
+    note: 'U4.42.01 (ORIENTATION) lu avant de déclarer la fibre supérieure de la poutre de
+      couronnement (repère local = global, éléments orientés +X, aucune ORIENTATION dans le
+      .comm). Relevé, non corrigé : efforts de la barre nuls sous G, EAU_P et Q1, réserve
+      déclarée (LIAISON_SOLIDE, déduction à confirmer par MM).'
+  note: 'Aucune exécution Code_Aster : 220 torseurs, contrôle croisé sur 1 250 valeurs (écart
+    0) ; équilibre jugé sur FY et FZ (SYM_G, SYM_D non livrés, CA-026), ≤ 1,7e-12 ; 6 fichiers
+    de flexion composée ; 330 images.'
 archive:
   runs: 376
   sha256: aa253df80721611ce46a7f5ea270cc6f0860aa11e5417f035033c1c57c4e043f
-  recorded: '2026-10-08'
+  recorded: '2026-10-09'
 declaration_required_since: '2026-10-05T00:00:00'
 reviews:
 - date: '2026-10-01'
@@ -92,6 +108,12 @@ reviews:
   last_run: 20261001T122432-e51f90d6
 - date: '2026-10-08'
   lot: '49'
+  runs: 376
+  failures: 75
+  unclassified: 0
+  last_run: 20261008T122524-241fe6cd
+- date: '2026-10-09'
+  lot: 49bis
   runs: 376
   failures: 75
   unclassified: 0

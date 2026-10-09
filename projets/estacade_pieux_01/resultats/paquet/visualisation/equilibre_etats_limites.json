@@ -1,0 +1,88 @@
+{
+ "controle": "Σ charges + Σ réactions + Σ forces des ressorts = 0, par combinaison et par position mobile, par état limite (lot 49 bis)",
+ "source": "charges : somme des forces nodales du MED des charges (cas élémentaires) et résultante déclarée de la position de référence (controls.cases) pour une position mobile ; réactions et ressorts lus dans les livrables",
+ "appuis_non_livres": [],
+ "etats": {
+  "ELU_fondamental": {
+   "etat_limite": "ELU fondamental",
+   "evaluations": 1656,
+   "ecart_relatif_max": 4.68880143368736e-11,
+   "pire": {
+    "combinaison": "112 ELU-",
+    "position_mobile": "TSB_P05",
+    "charge_n": {
+     "FX": 400050.00000030926,
+     "FY": 1.3412354746833443e-07,
+     "FZ": -6950713.603998655
+    },
+    "reactions_et_ressorts_n": {
+     "FX": -400049.9999804808,
+     "FY": -4.179563833496547e-06,
+     "FZ": 6950713.604324561
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FX",
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  },
+  "ELS_caracteristique": {
+   "etat_limite": "ELS caractéristique",
+   "evaluations": 828,
+   "ecart_relatif_max": 3.912906842872223e-11,
+   "pire": {
+    "combinaison": "112 ELS_c",
+    "position_mobile": "TSB_P05",
+    "charge_n": {
+     "FX": 266700.0000002061,
+     "FY": 8.941569831222295e-08,
+     "FZ": -6151873.603998657
+    },
+    "reactions_et_ressorts_n": {
+     "FX": -266699.99998699466,
+     "FY": -2.7855909043000835e-06,
+     "FZ": 6151873.604239374
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FX",
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  },
+  "ELS_frequent": {
+   "etat_limite": "ELS fréquent",
+   "evaluations": 828,
+   "ecart_relatif_max": 2.9843542621282504e-11,
+   "pire": {
+    "combinaison": "112 ELS_f",
+    "position_mobile": "TSB_P05",
+    "charge_n": {
+     "FX": 114300.00000008623,
+     "FY": 7.451308192685246e-08,
+     "FZ": -5353033.60399866
+    },
+    "reactions_et_ressorts_n": {
+     "FX": -114299.99999663846,
+     "FY": -1.2301760923399963e-06,
+     "FZ": 5353033.604158414
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FX",
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  }
+ }
+}

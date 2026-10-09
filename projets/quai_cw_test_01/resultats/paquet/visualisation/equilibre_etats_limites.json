@@ -1,0 +1,140 @@
+{
+ "controle": "Σ charges + Σ réactions + Σ forces des ressorts = 0, par combinaison et par position mobile, par état limite (lot 49 bis)",
+ "source": "charges : somme des forces nodales du MED des charges (cas élémentaires) et résultante déclarée de la position de référence (controls.cases) pour une position mobile ; réactions et ressorts lus dans les livrables",
+ "appuis_non_livres": [
+  "SYM_D",
+  "SYM_G"
+ ],
+ "etats": {
+  "ELU_fondamental": {
+   "etat_limite": "ELU fondamental",
+   "evaluations": 8,
+   "ecart_relatif_max": 1.7133618909036648e-12,
+   "pire": {
+    "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_favo",
+    "position_mobile": null,
+    "charge_n": {
+     "FX": 9.48730871641601e-10,
+     "FY": -41745748.00000051,
+     "FZ": -2637915.3285964737
+    },
+    "reactions_et_ressorts_n": {
+     "FX": 9.90611872531133e-09,
+     "FY": 41745747.99992898,
+     "FZ": 2637915.3285962483
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  },
+  "ELU_accidentel": {
+   "etat_limite": "ELU accidentel",
+   "evaluations": 1,
+   "ecart_relatif_max": 1.3335032201303467e-12,
+   "pire": {
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null,
+    "charge_n": {
+     "FX": 3.1081412998901214e-09,
+     "FY": -42513183.999999605,
+     "FZ": -3162915.3285964737
+    },
+    "reactions_et_ressorts_n": {
+     "FX": 6.271509533917197e-09,
+     "FY": 42513183.99994291,
+     "FZ": 3162915.3285962893
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  },
+  "ELS_caracteristique": {
+   "etat_limite": "ELS caractéristique",
+   "evaluations": 4,
+   "ecart_relatif_max": 1.578366723913747e-12,
+   "pire": {
+    "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+    "position_mobile": null,
+    "charge_n": {
+     "FX": 1.6828209936647909e-09,
+     "FY": -37768216.0000005,
+     "FZ": -2812915.3285964737
+    },
+    "reactions_et_ressorts_n": {
+     "FX": 9.807319489851806e-09,
+     "FY": 37768215.99994089,
+     "FZ": 2812915.3285963247
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  },
+  "ELS_frequent": {
+   "etat_limite": "ELS fréquent",
+   "evaluations": 4,
+   "ecart_relatif_max": 1.483574798729395e-12,
+   "pire": {
+    "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+    "position_mobile": null,
+    "charge_n": {
+     "FX": 2.123275066878705e-09,
+     "FY": -35390356.800000496,
+     "FZ": -2912915.3285964737
+    },
+    "reactions_et_ressorts_n": {
+     "FX": 9.737356787553608e-09,
+     "FY": 35390356.79994799,
+     "FZ": 2912915.3285963694
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  },
+  "ELS_quasi_permanent": {
+   "etat_limite": "ELS quasi permanent",
+   "evaluations": 1,
+   "ecart_relatif_max": 1.309525565232523e-12,
+   "pire": {
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null,
+    "charge_n": {
+     "FX": 2.7105471644972566e-09,
+     "FY": -32017811.200000487,
+     "FZ": -3162915.3285964737
+    },
+    "reactions_et_ressorts_n": {
+     "FX": 9.893346941680648e-09,
+     "FY": 32017811.19995856,
+     "FZ": 3162915.3285964485
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  }
+ }
+}

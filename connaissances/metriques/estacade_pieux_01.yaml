@@ -32,12 +32,12 @@ knowledge:
       promu: 0
 consultations:
   calls:
-    search_connaissances: 49
+    search_connaissances: 50
     search_constats: 3
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
   avoided_errors:
-    value: 16.0
+    value: 19.0
     nature: mesure
     note: déclaré lot par lot dans le compte rendu (registre, `lots`)
 lots:
@@ -116,7 +116,23 @@ lots:
     note: 'PAT-013 : extrema de la dalle lus hors des disques des têtes de pieux (règle E17.3)
       ; CA-055 : cas d''un MACRO_ELAS_MULT rangés dans l''ordre de CAS_CHARGE (NUME_ORDRE
       des livrables) ; DIAG-006 : un NOM_RESU_MED distinct par champ répété.'
-declared_interventions_since_baseline: 2.0
+- lot: 49bis
+  supervisor_interventions:
+    value: 1.0
+    nature: mesure
+    note: 'Une question de la session (trois points : h de h/400, portées de L/400, matériaux
+      et sections des fichiers de flexion composée), réponses de MM enregistrées en E21 à
+      E23. Une interruption de la session Claude Code pendant deux traitements lancés en parallèle,
+      reprise sur consigne de MM (« Reprends comme si rien ne s''était passé »), sans effet
+      sur le contenu.'
+  avoided_errors:
+    value: 3.0
+    nature: mesure
+    note: 'R3.08.01 lu avant d''écrire la conversion (MFY = ∫z·σxx dS, MFZ = −∫y·σxx dS) et
+      CA-045 (MXX > 0 tend la face supérieure) : signe du moment de l''export établi, non
+      supposé ; CA-058 et PAT-013 : nœuds partagés avec les chevêtres et disques des têtes
+      exclus de la dalle (QY de 10 409 kN/m du lot 49 non repris comme dimensionnant).'
+declared_interventions_since_baseline: 3.0
 measured:
   runs: 75
   failures: 10

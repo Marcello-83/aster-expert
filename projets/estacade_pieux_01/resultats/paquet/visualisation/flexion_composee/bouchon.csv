@@ -1,0 +1,31 @@
+﻿Section de dimensionnement;bouchon (+0,70 à −0,80);bouchon
+Projet;estacade_pieux_01;
+Plan de flexion;flexion déviée : moment résultant √(MFY² + MFZ²);√(MFY² + MFZ²)
+Type de section;circulaire (bouchon béton Ø 0,622 m) saisie en carré équivalent;
+h (m);0,52;E23 : carré équivalent 0,52 × 0,52 (§20.4.1)
+b (m);0,52;E23 : carré équivalent 0,52 × 0,52 (§20.4.1)
+ds (m);0,090;E23 : ds = 0,09 m (d = 0,43, §20.4.1)
+di (m);0,090;E23 : di = 0,09 m (§20.4.1)
+Classe de béton;C35/45;E23 (§13.7.3, §19.1)
+Acier;Fe E500 classe B, diagramme à branche inclinée;E23 (§13.7.4)
+Classe d'exposition;XS3;E23 (§13.7.1)
+cnom (mm);55;E23 (§13.7.5)
+Équivalence;section circulaire du bouchon Ø 0,622 m saisie en carré de 0,52 × 0,52 m de même module d'inertie (π·D³/32 = a³/6), §20.4.1 de la source (E23);
+Convention N;N > 0 en compression : N = −N de Code_Aster (Code_Aster : N > 0 en traction, R3.08.01);
+Convention M;M = √(MFY² + MFZ²) ≥ 0 (section circulaire : pas de fibre supérieure propre);
+Avertissement;"section circulaire en flexion déviée : le moment résultant est exporté ; le logiciel traite une flexion plane ; « M min » sans objet";
+État limite non exporté;ELU accidentel : absent (le modèle source ne déclare aucune combinaison accidentelle ni sismique (combinaisons 100 à 115, E11));
+État limite non exporté;"ELS quasi permanent : absent (le modèle source ne déclare pas de combinaison quasi permanente (E11) ; la fissuration se vérifie sous ELS fréquent (E23))";
+
+N°;Type;N (kN);M (kN.m);;Cas dimensionnant;Combinaison;Position mobile;Lieu;Cote (m);V concomitant (kN);MFY brut Code_Aster (kN.m);MFZ brut Code_Aster (kN.m);N brut Code_Aster (kN);Repère des valeurs brutes
+1;ELU;653,0;283,4;;M max;111 ELU+;TSB_P25;PIEU_F7_YP, maille 5242, extrémité 2, nœud 472;Z = 0,700;244,7;-40,4;-280,5;-653,0;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+2;ELU;1029,8;57,1;;N max;112 ELU+;TSB_M20;PIEU_F2_YP, maille 4927, extrémité 1, nœud 156;Z = -0,800;36,4;-10,4;-56,2;-1029,8;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+3;ELU;167,7;119,8;;N min;115 ELU-;TSB_M15;PIEU_F1_YM, maille 4826, extrémité 2, nœud 56;Z = 0,700;198,2;-18,7;-118,4;-167,7;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+4;ELS;456,8;192,0;;M max;111 ELS_c;TSB_P25;PIEU_F7_YP, maille 5242, extrémité 2, nœud 472;Z = 0,700;164,5;-27,3;-190,1;-456,8;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+5;ELS;719,3;38,3;;N max;112 ELS_c;TSB_M20;PIEU_F2_YP, maille 4927, extrémité 1, nœud 156;Z = -0,800;24,3;-7,3;-37,6;-719,3;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+6;ELS;183,4;69,4;;N min;115 ELS_c;TSB_M15;PIEU_F1_YM, maille 4826, extrémité 2, nœud 56;Z = 0,700;127,7;-11,1;-68,5;-183,4;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+7;ELSfiss;345,3;131,0;;M max;111 ELS_f;TSB_P25;PIEU_F7_YP, maille 5242, extrémité 2, nœud 472;Z = 0,700;114,8;-20,8;-129,3;-345,3;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+8;ELSfiss;532,2;25,8;;N max;112 ELS_f;TSB_M20;PIEU_F2_YP, maille 4927, extrémité 1, nœud 156;Z = -0,800;16,2;-4,2;-25,4;-532,2;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+9;ELSfiss;186,6;41,0;;N min;115 ELS_f;TSB_M15;PIEU_F1_YM, maille 4826, extrémité 2, nœud 56;Z = 0,700;86,2;-8,6;-40,1;-186,6;"POU_D_T, repère local de l'élément : pieux x_l = −Z, y_l = +X, z_l = −Y ; chevêtres x_l = +Y, y_l = −X, z_l = +Z ; N > 0 traction ; valeurs aux deux extrémités de chaque élément (ELNO)"
+
+Empreinte du MED source (resultats.med, SHA-256);8e8b91ffa99a22aefb7582274008393795c031c693cf3e0852d6c4f6b5891315

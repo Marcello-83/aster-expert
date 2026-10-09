@@ -12,8 +12,8 @@
 # (racine 82b9a5d) : les lots antérieurs n'ont pas de commit consultable.
 
 schema_version: 1
-mis_a_jour_au_lot: "49"
-date: 2026-10-07
+mis_a_jour_au_lot: "49bis"
+date: 2026-10-09
 
 lots:
   - {id: "1", objet: "Initialisation du dépôt", etat: fait, commit: null, date: 2026-09-15, note: "antérieur à l'historique publié"}
@@ -74,6 +74,7 @@ lots:
   - {id: "48", objet: "Audit complet de l'outil (lecture seule, profil Cloud) : dix recommandations R1 à R10", etat: fait, commit: "d7fbf87", date: 2026-10-07, note: "branche claude/jolly-goodall-i1i5st ; compte rendu docs/audit/audit_lot48.md"}
   - {id: "48bis", objet: "Validation B partielle, rejeu strict, REF-014 rejouable, REF-015 observée, termes confidentiels par secret, pre-push, planned_commands, fiche enregistrer, bloqueurs par étape, CLAUDE.md allégé, mode résumé MCP, grille et table d'arrondi", etat: fait, commit: "2170e42", date: 2026-10-07, note: "branche claude/jolly-goodall-i1i5st ; compte rendu docs/essais_lot48bis.md et message du commit 2170e42 ; paquets du quai et de la dalle à réexporter dans la VM (lot 49)"}
   - {id: "49", objet: "Livrables de résultats : contrat deliverables, MED des résultats et des charges par exécution de post-traitement (tables identiques à la production), combinaisons et enveloppes, VTU contrôlés, scripts ParaView générés et images sans écran, classeur Excel, resultats lire et query_results ; fils utiles = 4 sur mesures répétées, PARALLELISME_TEMPS refusé (DIAG-027) ; reprises du lot 48 bis", etat: fait, commit: "7c69b09", date: 2026-10-08, note: "branche lot-49 ; critères écrits avant exécution : 59bc038 ; compte rendu docs/essais_lot49.md et message du commit de fin de lot"}
+  - {id: "49bis", objet: "Synthèse ingénieur : section engineering_summary (familles d'éléments d'ouvrage, sections de dimensionnement, états limites, critères de service), torseurs concomitants lus par superposition et relus par resultats lire, export pour le logiciel de flexion composée, classeur restructuré, diagrammes N/M/V et coupes de dalle, images ParaView en kN titrées en trois vues avec flèches regroupées ; décisions E21 à E23 de MM", etat: fait, commit: "0c4a994", date: 2026-10-09, note: "branche lot-49bis ; critères écrits avant les lectures : 0c4a994 ; compte rendu docs/essais_lot49bis.md et message du commit de fin de lot"}
 
 # Niveaux A à E : CLAUDE.md, « Niveaux de validation ». Un niveau n'est donné que pour ce
 # que la preuve établit ; `limites` dit ce qui n'est pas couvert.
@@ -169,6 +170,12 @@ capacites:
     fichiers: [src/aster_expert/livrables, scripts/livrables_med.py, tests/unit/test_livrables.py, tests/unit/test_livrables_classeur.py]
     commandes: ["aster-expert projet <nom> livrables", "aster-expert resultats lire <nom>", "pytest tests/unit/test_livrables.py"]
     limites: "MED et VTU produits par une exécution de post-traitement qui recopie le .comm de production et n'est acceptée que si ses tables égalent celles de la production (dalle 82 134, quai 9 931 632, estacade 135 668 valeurs) ; CTL-013 sur le MED des charges ; MED jamais versionnés (estacade 1,16 Go). Lecture directe du MED par un ParaView Windows non vérifiée (greffon MEDReader des binaires 5.12+, source secondaire) : VTU fournis. Les scripts ParaView supposent ParaView ≥ 5.10 (noms de tableaux entre guillemets). Le contrôle des charges ne détecte pas un déplacement qui conserve l'aire chargée (point d'application rapporté)."
+  - nom: synthese_ingenieur
+    niveau: C
+    etat: operationnelle
+    fichiers: [src/aster_expert/livrables/ingenieur.py, src/aster_expert/livrables/torseurs.py, src/aster_expert/livrables/flexion.py, tests/unit/test_synthese_ingenieur.py]
+    commandes: ["aster-expert projet <nom> livrables --sous-etape ingenieur", "pytest tests/unit/test_synthese_ingenieur.py"]
+    limites: "Lecture des livrables du lot 49, sans calcul Code_Aster : torseurs concomitants par superposition des cas et des positions mobiles, chaque valeur relue par resultats lire (écart ≤ 1e-9) ; équilibre par état limite. Sections et critères déclarés par projet (engineering_summary). Coques : seuls les nœuds partagés avec une poutre et les disques déclarés sont exclus, pas leurs voisins (QY concomitant de 577 kN/m à 5 cm d'une ligne de chevêtre de l'estacade). Chevêtres de l'estacade : barre seule (CA-058), pas le total de la section en T. Quai : efforts de la poutre de couronnement nuls sous G, EAU_P et Q1 (réserve déclarée, à confirmer par MM)."
 projets:
   - nom: quai_cw_test_01
     ouvrage: "Quai combi-wall QUAI-CW-TEST-01"

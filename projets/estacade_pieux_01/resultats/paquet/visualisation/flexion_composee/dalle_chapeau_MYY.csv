@@ -1,0 +1,33 @@
+﻿Section de dimensionnement;dalle en chapeau au nu du chevêtre;dalle_chapeau
+Projet;estacade_pieux_01;
+Plan de flexion;flexion selon Y (transversale), normale +Z;MYY
+Type de section;rectangulaire, bande de 1,00 m;
+h (m);0,40;annexe B1, E23 (§20.6.1)
+b (m);1,00;E23 : efforts par mètre de largeur
+ds (m);0,080;"E23 : ds = 0,08 m (d = 0,32, §20.6.1 ; le §20.6.7 donne 0,33, incohérence de la source notée)"
+di (m);0,080;E23 (§20.6.1)
+Classe de béton;C35/45;E23 (§13.7.3, §19.1)
+Acier;Fe E500 classe B, diagramme à branche inclinée;E23 (§13.7.4)
+Classe d'exposition;XS3;E23 (§13.7.1)
+cnom (mm);55;E23 (§13.7.5)
+Largeur;b = 1,00 m : efforts par mètre de largeur (kN/m, kN.m/m);
+Convention N;N > 0 en compression : N = −NYY de Code_Aster (Code_Aster : N > 0 en traction, R3.08.01);
+Convention M;M > 0 comprime la fibre supérieure (+n) : M = −MYY de Code_Aster;"MFY = ∫z·σxx dS, MFZ = −∫y·σxx dS (R3.08.01) ; MXX > 0 tend la face supérieure (CA-045)"
+État limite non exporté;ELU accidentel : absent (le modèle source ne déclare aucune combinaison accidentelle ni sismique (combinaisons 100 à 115, E11));
+État limite non exporté;"ELS quasi permanent : absent (le modèle source ne déclare pas de combinaison quasi permanente (E11) ; la fissuration se vérifie sous ELS fréquent (E23))";
+
+N°;Type;N (kN/m);M (kN.m/m);;Cas dimensionnant;Combinaison;Position mobile;Lieu;Cote (m);V concomitant (kN/m);MYY brut Code_Aster (kN.m/m);NYY brut Code_Aster (kN/m);Repère des valeurs brutes
+1;ELU;-8,8;59,9;;M max;112 ELU+;TSB_M28;nœud 17785;"X = 1,200 ; Y = -0,650 ; Z = 1,300";9,3;-59,9;8,8;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+2;ELU;-3,7;-23,8;;M min;114 ELU+;TSB_P22;nœud 71200;"X = 30,000 ; Y = 1,950 ; Z = 1,300";5,2;23,8;3,7;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+3;ELU;72,4;3,1;;N max;114 ELU+;TSB_P25;nœud 5215;"X = 31,200 ; Y = 2,050 ; Z = 1,300";1,7;-3,1;-72,4;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+4;ELU;-60,7;11,1;;N min;114 ELU+;TSB_P25;nœud 4810;"X = 31,200 ; Y = 0,000 ; Z = 1,300";0,1;-11,1;60,7;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+5;ELS;-5,8;40,3;;M max;112 ELS_c;TSB_M28;nœud 17785;"X = 1,200 ; Y = -0,650 ; Z = 1,300";5,9;-40,3;5,8;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+6;ELS;-2,5;-16,1;;M min;114 ELS_c;TSB_P22;nœud 71200;"X = 30,000 ; Y = 1,950 ; Z = 1,300";3,9;16,1;2,5;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+7;ELS;48,6;1,9;;N max;114 ELS_c;TSB_P25;nœud 5215;"X = 31,200 ; Y = 2,050 ; Z = 1,300";1,2;-1,9;-48,6;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+8;ELS;-40,7;7,9;;N min;114 ELS_c;TSB_P25;nœud 4810;"X = 31,200 ; Y = 0,000 ; Z = 1,300";0,1;-7,9;40,7;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+9;ELSfiss;-4,5;24,1;;M max;112 ELS_f;TSB_M28;nœud 17785;"X = 1,200 ; Y = -0,650 ; Z = 1,300";1,7;-24,1;4,5;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+10;ELSfiss;-1,9;-11,6;;M min;114 ELS_f;TSB_P23;nœud 75853;"X = 30,000 ; Y = 2,050 ; Z = 1,300";-1,4;11,6;1,9;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+11;ELSfiss;34,1;0,6;;N max;114 ELS_f;TSB_P25;nœud 5215;"X = 31,200 ; Y = 2,050 ; Z = 1,300";0,4;-0,6;-34,1;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+12;ELSfiss;-27,1;5,5;;N min;114 ELS_f;TSB_P25;nœud 4810;"X = 31,200 ; Y = 0,000 ; Z = 1,300";0,0;-5,5;27,1;"dalle DKT, repère local x_l = X, y_l = Y (ANGL_REP = (0, 0)), normale +Z ; MXX > 0 tend la face supérieure (CA-045) ; efforts par unité de largeur"
+
+Empreinte du MED source (resultats.med, SHA-256);8e8b91ffa99a22aefb7582274008393795c031c693cf3e0852d6c4f6b5891315

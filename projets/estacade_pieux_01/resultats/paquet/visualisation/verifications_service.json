@@ -1,0 +1,206 @@
+{
+ "criteres": [
+  {
+   "critere": "deplacement_tete",
+   "libelle": "déplacement horizontal en tête de pieu ≤ h/400",
+   "nature": "displacement",
+   "composantes": [
+    "DX",
+    "DY"
+   ],
+   "etat_limite": "ELS_caracteristique",
+   "etat_limite_libelle": "ELS caractéristique",
+   "cas_exclus": [],
+   "portee_m": 2.85,
+   "rapport": 400.0,
+   "limite_m": 0.007125,
+   "evaluations": 828,
+   "points_mesures": 14,
+   "source": "E21 : h = 2,85 m (recépage +0,60 au fond de calcul −2,25, §14.1 et §14.2 de la source), limite h/400 sous ELS caractéristique, files 2 à 6",
+   "gouvernant": {
+    "valeur_m": 0.003398862369045112,
+    "valeur_signee_m": 0.003398862369045112,
+    "noeud_med": 24,
+    "coordonnees_m": [
+     5.6,
+     2.0,
+     1.3
+    ],
+    "groupe": "PIEU_F2_YP",
+    "portee": null,
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M26"
+   },
+   "taux": 0.47703331495369994,
+   "verdict": "RÉUSSI",
+   "hors_verdict": {
+    "valeur_m": 0.00420524439929712,
+    "valeur_signee_m": 0.00420524439929712,
+    "noeud_med": 19,
+    "coordonnees_m": [
+     0.6,
+     2.0,
+     1.3
+    ],
+    "groupe": null,
+    "portee": null,
+    "combinaison": "115 ELS_c",
+    "position_mobile": "TSB_M26",
+    "taux": 0.5902097402522274,
+    "note": "files 1 et 7 (talus, sol dès +1,00) : rapportées pour information, le critère n'y est pas pertinent (E21)"
+   }
+  },
+  {
+   "critere": "fleche_chevetres",
+   "libelle": "flèche des chevêtres entre pieux ≤ L/400",
+   "nature": "relative_deflection",
+   "composantes": [
+    "DZ"
+   ],
+   "etat_limite": "ELS_caracteristique",
+   "etat_limite_libelle": "ELS caractéristique",
+   "cas_exclus": [
+    "PP",
+    "G2",
+    "TEP",
+    "TEM"
+   ],
+   "portee_m": 4.0,
+   "rapport": 400.0,
+   "limite_m": 0.01,
+   "evaluations": 828,
+   "points_mesures": 553,
+   "source": "E22 : L = 4,00 m entre pieux (Y = ±2,00), ELS caractéristique hors G et hors TE (LM1 + FR), flèche relative aux appuis",
+   "gouvernant": {
+    "valeur_m": 0.00014521810912311432,
+    "valeur_signee_m": -0.00014521810912311432,
+    "noeud_med": 4514,
+    "coordonnees_m": [
+     30.6,
+     -3.1086244689504383e-15,
+     1.3
+    ],
+    "groupe": null,
+    "portee": "Y -2 → 2",
+    "combinaison": "103 ELS_c",
+    "position_mobile": "TSA_P29"
+   },
+   "taux": 0.01452181091231143,
+   "verdict": "RÉUSSI"
+  },
+  {
+   "critere": "fleche_dalle",
+   "libelle": "flèche de la dalle entre deux files ≤ L/400",
+   "nature": "relative_deflection",
+   "composantes": [
+    "DZ"
+   ],
+   "etat_limite": "ELS_caracteristique",
+   "etat_limite_libelle": "ELS caractéristique",
+   "cas_exclus": [
+    "PP",
+    "G2",
+    "TEP",
+    "TEM"
+   ],
+   "portee_m": 5.0,
+   "rapport": 400.0,
+   "limite_m": 0.0125,
+   "evaluations": 828,
+   "points_mesures": 71874,
+   "source": "E22 : L = 5,00 m entre deux files de chevêtres (E1), ELS caractéristique hors G et hors TE, flèche relative aux lignes des chevêtres",
+   "gouvernant": {
+    "valeur_m": 0.0008960786265070813,
+    "valeur_signee_m": -0.0008960786265070813,
+    "noeud_med": 14454,
+    "coordonnees_m": [
+     2.9499999999999975,
+     1.0499999999999936,
+     1.3
+    ],
+    "groupe": null,
+    "portee": "X 0.6 → 5.6",
+    "combinaison": "110 ELS_c",
+    "position_mobile": "TSB_M25"
+   },
+   "taux": 0.0716862901205665,
+   "verdict": "RÉUSSI"
+  },
+  {
+   "critere": "consoles_chevetres",
+   "libelle": "flèche des consoles de chevêtre (information)",
+   "nature": "relative_deflection",
+   "composantes": [
+    "DZ"
+   ],
+   "etat_limite": "ELS_caracteristique",
+   "etat_limite_libelle": "ELS caractéristique",
+   "cas_exclus": [
+    "PP",
+    "G2",
+    "TEP",
+    "TEM"
+   ],
+   "portee_m": 2.0,
+   "rapport": 400.0,
+   "limite_m": 0.005,
+   "evaluations": 828,
+   "points_mesures": 280,
+   "source": "E22 : consoles de 1,00 m, portée conventionnelle 2 × 1,00 m, limite 5 mm, pour information",
+   "gouvernant": {
+    "valeur_m": 0.00013258719471311573,
+    "valeur_signee_m": 0.00013258719471311573,
+    "noeud_med": 34,
+    "coordonnees_m": [
+     30.6,
+     -3.0,
+     1.3
+    ],
+    "groupe": null,
+    "portee": "console Y -2 → -3",
+    "combinaison": "110 ELS_c",
+    "position_mobile": "TSB_P29"
+   },
+   "taux": 0.026517438942623147,
+   "verdict": "INFORMATION"
+  },
+  {
+   "critere": "debord_about",
+   "libelle": "flèche du débord de dalle en about (information)",
+   "nature": "relative_deflection",
+   "composantes": [
+    "DZ"
+   ],
+   "etat_limite": "ELS_caracteristique",
+   "etat_limite_libelle": "ELS caractéristique",
+   "cas_exclus": [
+    "PP",
+    "G2",
+    "TEP",
+    "TEM"
+   ],
+   "portee_m": 1.2,
+   "rapport": 400.0,
+   "limite_m": 0.003,
+   "evaluations": 828,
+   "points_mesures": 2904,
+   "source": "E22 : débord de 0,60 m en about, limite 3 mm (portée conventionnelle 2 × 0,60 m), pour information",
+   "gouvernant": {
+    "valeur_m": 0.00033939063984755907,
+    "valeur_signee_m": 0.00033939063984755907,
+    "noeud_med": 1142,
+    "coordonnees_m": [
+     0.0,
+     1.0499999999999996,
+     1.3
+    ],
+    "groupe": null,
+    "portee": "console X 0.6 → 0",
+    "combinaison": "110 ELS_c",
+    "position_mobile": "TSB_M25"
+   },
+   "taux": 0.11313021328251968,
+   "verdict": "INFORMATION"
+  }
+ ]
+}

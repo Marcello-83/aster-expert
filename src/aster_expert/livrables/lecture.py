@@ -272,14 +272,18 @@ def _row(
     return out
 
 
-def query(ctx: ProjectContext, q: Query) -> Answer:
+def query(
+    ctx: ProjectContext, q: Query, *, deliverables: Deliverables | None = None
+) -> Answer:
+    """`deliverables`: an open set of deliverables to read (lot 49 bis, the
+    cross-check of the engineering summary), the project's own by default."""
     section = ctx.declaration.deliverables
     if section is None:
         message = f"{ctx.declaration.name} : pas de section `deliverables`"
         raise ProjectError(message)
     root = ctx.results_dir / "livrables"
     try:
-        d = Deliverables(root)
+        d = deliverables or Deliverables(root)
     except FileNotFoundError as exc:
         raise ProjectError(str(exc)) from exc
     infos = d.field_infos(section.fields)

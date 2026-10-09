@@ -1,0 +1,1307 @@
+[
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_01",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 690360.1215501976,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 408861.297654345,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_02",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 1382048.6312306016,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 819620.2926374585,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_03",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 1385615.5637483771,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 824715.9105196961,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_04",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 1390035.8451213446,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 831030.598195449,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_05",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 1392581.327120159,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.0,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 834667.0010509505,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.0,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_06",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 1390035.8451211853,
+    "unite_si": "N",
+    "coordonnees_m": [
+     2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 831030.5981952845,
+    "unite_si": "N",
+    "coordonnees_m": [
+     2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_07",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 1385615.5637480693,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 824715.9105193825,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_08",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 1382048.6312302202,
+    "unite_si": "N",
+    "coordonnees_m": [
+     7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 819620.2926370564,
+    "unite_si": "N",
+    "coordonnees_m": [
+     7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_09",
+  "etat_limite": "ELU_fondamental",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 690360.1215500312,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q1_DOM_Q3_ACC_G_defav",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 408861.29765414895,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_FOND_Q3_DOM_G_favo",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_01",
+  "etat_limite": "ELU_accidentel",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 491483.2828903389,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 491483.2828903389,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_02",
+  "etat_limite": "ELU_accidentel",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 981897.4608222297,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 981897.4608222297,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_03",
+  "etat_limite": "ELU_accidentel",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 978996.2294045641,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 978996.2294045641,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_04",
+  "etat_limite": "ELU_accidentel",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 975198.8450507952,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 975198.8450507952,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_05",
+  "etat_limite": "ELU_accidentel",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 972008.7656126203,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.0,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 972008.7656126203,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.0,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_06",
+  "etat_limite": "ELU_accidentel",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 975198.8450510184,
+    "unite_si": "N",
+    "coordonnees_m": [
+     2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 975198.8450510184,
+    "unite_si": "N",
+    "coordonnees_m": [
+     2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_07",
+  "etat_limite": "ELU_accidentel",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 978996.2294049875,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 978996.2294049875,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_08",
+  "etat_limite": "ELU_accidentel",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 981897.4608227864,
+    "unite_si": "N",
+    "coordonnees_m": [
+     7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 981897.4608227864,
+    "unite_si": "N",
+    "coordonnees_m": [
+     7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_09",
+  "etat_limite": "ELU_accidentel",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 491483.28289066494,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 491483.28289066494,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELU_ACCIDENTELLE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_01",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 492441.35107979696,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 379911.76525733626,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_02",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 985768.2942464016,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 761088.6620671962,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_03",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 988146.249258266,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 764485.7406554013,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_04",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 991093.1035068999,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 768695.5324392002,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_05",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 992790.0915061012,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.0,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 771119.8010095065,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.0,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_06",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 991093.1035067791,
+    "unite_si": "N",
+    "coordonnees_m": [
+     2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 768695.5324390415,
+    "unite_si": "N",
+    "coordonnees_m": [
+     2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_07",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 988146.2492580322,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 764485.740655097,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_08",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 985768.2942461105,
+    "unite_si": "N",
+    "coordonnees_m": [
+     7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 761088.6620668054,
+    "unite_si": "N",
+    "coordonnees_m": [
+     7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_09",
+  "etat_limite": "ELS_caracteristique",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 492441.3510796684,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q1_DOM_Q3_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 379911.7652571466,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_CARA_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_01",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 441891.74654279364,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 350962.23286032747,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_02",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 884416.0588618878,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 702557.0314969339,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_03",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 886114.5981561155,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 704255.5707911064,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_04",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 888219.4940479659,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 706360.4666829515,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_05",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 889431.6283330852,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.0,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 707572.6009680624,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.0,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_06",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 888219.4940478369,
+    "unite_si": "N",
+    "coordonnees_m": [
+     2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 706360.4666827985,
+    "unite_si": "N",
+    "coordonnees_m": [
+     2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_07",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 886114.5981558659,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 704255.5707908113,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_08",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 884416.0588615733,
+    "unite_si": "N",
+    "coordonnees_m": [
+     7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 702557.0314965544,
+    "unite_si": "N",
+    "coordonnees_m": [
+     7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_09",
+  "etat_limite": "ELS_frequent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 441891.74654265045,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM_Q1_ACC",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 350962.2328601442,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_FREQ_Q3_DOM",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_01",
+  "etat_limite": "ELS_quasi_permanent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 360982.4920415185,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 360982.4920415185,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_02",
+  "etat_limite": "ELS_quasi_permanent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 721964.9840830805,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 721964.9840830805,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_03",
+  "etat_limite": "ELS_quasi_permanent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 721964.9840832441,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 721964.9840832441,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_04",
+  "etat_limite": "ELS_quasi_permanent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 721964.9840831375,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 721964.9840831375,
+    "unite_si": "N",
+    "coordonnees_m": [
+     -2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_05",
+  "etat_limite": "ELS_quasi_permanent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 721964.9840830567,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.0,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 721964.9840830567,
+    "unite_si": "N",
+    "coordonnees_m": [
+     0.0,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_06",
+  "etat_limite": "ELS_quasi_permanent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 721964.9840830006,
+    "unite_si": "N",
+    "coordonnees_m": [
+     2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 721964.9840830006,
+    "unite_si": "N",
+    "coordonnees_m": [
+     2.6,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_07",
+  "etat_limite": "ELS_quasi_permanent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 721964.9840829776,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 721964.9840829776,
+    "unite_si": "N",
+    "coordonnees_m": [
+     5.2,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_08",
+  "etat_limite": "ELS_quasi_permanent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 721964.9840827401,
+    "unite_si": "N",
+    "coordonnees_m": [
+     7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 721964.9840827401,
+    "unite_si": "N",
+    "coordonnees_m": [
+     7.799999999999999,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   }
+  }
+ },
+ {
+  "famille": "tirants",
+  "groupe": "TIRANT_09",
+  "etat_limite": "ELS_quasi_permanent",
+  "valeurs": {
+   "N max": {
+    "valeur_si": 360982.49204135884,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   },
+   "N min": {
+    "valeur_si": 360982.49204135884,
+    "unite_si": "N",
+    "coordonnees_m": [
+     10.4,
+     0.71,
+     2.5
+    ],
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null
+   }
+  }
+ }
+]

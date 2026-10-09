@@ -444,6 +444,9 @@ class PackageItem(_Model):
     """Short label (a caption), never a sentence of hypothesis."""
     required: bool = True
     """A required item that matches nothing refuses the export."""
+    subdirectory: str | None = Field(default=None, pattern=r"^[a-z0-9_]+$")
+    """Lot 49 bis: sub-directory of the section the files go to
+    (`visualisation/flexion_composee/`), one level, never `..`."""
 
 
 class PackageCriterion(_Model):
@@ -734,6 +737,400 @@ class DeliverablesSection(_Model):
         return self
 
 
+# --- Lot 49 bis : synthèse ingénieur -----------------------------------------------
+
+LimitState = Literal[
+    "ELU_fondamental",
+    "ELU_accidentel",
+    "ELS_caracteristique",
+    "ELS_frequent",
+    "ELS_quasi_permanent",
+]
+"""Limit states of the engineering summary (EN 1990, 6.4.3 and 6.5.3), in this
+order."""
+
+LIMIT_STATES: tuple[LimitState, ...] = (
+    "ELU_fondamental",
+    "ELU_accidentel",
+    "ELS_caracteristique",
+    "ELS_frequent",
+    "ELS_quasi_permanent",
+)
+
+MemberKind = Literal["poutre", "coque", "discret", "appui"]
+
+_FIELDS_OF_KIND: dict[str, frozenset[str]] = {
+    "poutre": frozenset({"EFGE_ELNO", "EFGE_NOEU"}),
+    "coque": frozenset({"EFGE_NOEU", "EFGE_ELNO"}),
+    "discret": frozenset({"SIEF_ELGA"}),
+    "appui": frozenset({"REAC_NODA"}),
+}
+
+LocalFibre = Literal["+z_l", "-z_l", "+y_l", "-y_l", "+n", "-n"]
+"""Side of the « top » fibre of a section, in the local frame of the element (beam:
+`y_l`, `z_l`; shell: `n`, its normal)."""
+
+
+class LimitStateFamilies(_Model):
+    """A limit state and the combination families (`family` of the combinations of
+    the deliverables) that make it."""
+
+    state: LimitState
+    families: tuple[str, ...] = Field(min_length=1)
+
+
+class AbsentLimitState(_Model):
+    state: LimitState
+    reason: str
+
+    @field_validator("reason")
+    @classmethod
+    def _written(cls, value: str) -> str:
+        return _written_reason(value)
+
+
+class CrackingState(_Model):
+    """The limit state whose combinations serve the control of cracking (label
+    `ELSfiss` of the bending export); EN 1992-1-1, 7.3.1 recommends the
+    quasi-permanent one."""
+
+    state: LimitState = "ELS_quasi_permanent"
+    source: str = Field(min_length=10)
+
+
+class MemberFamily(_Model):
+    """A family of structural members, named as the engineer names that element of
+    the structure -- an element of the structure, not a type of field."""
+
+    name: str = Field(min_length=2)
+    kind: MemberKind
+    field: str
+    """Key of a deliverable field (`EFGE_ELNO`, `EFGE_NOEU`, `SIEF_ELGA`,
+    `REAC_NODA`)."""
+    groups: tuple[str, ...] = Field(min_length=1)
+    """Cell groups of the family (node groups for `appui`)."""
+    members: str | None = None
+    """Pattern (`PIEU_F*`) of the cell groups of each member: detail sheet, diagrams
+    and place of each value."""
+    quantities: tuple[str, ...] = Field(min_length=1)
+    """Components of the design quantities, in the order shown."""
+    circular: bool = False
+    """Beam of circular section: the moment and the shear are also read as
+    resultants √(MFY² + MFZ²) and √(VY² + VZ²)."""
+    moments: tuple[str, ...] = ()
+    """Beam: bending components whose max and min are design values."""
+    shears: tuple[str, ...] = ()
+    """Beam: shear components whose largest modulus is a design value."""
+    axis: Axis | None = None
+    """Beam: global axis along which the members are drawn (diagrams)."""
+    caveat: str | None = None
+    """What the values of the family are not (« barre seule, CA-058 »)."""
+
+    @model_validator(mode="after")
+    def _consistent(self) -> MemberFamily:
+        # A field delivered twice is keyed `EFGE_ELNO_2`... (lot 49).
+        field = re.sub(r"_\d+$", "", self.field)
+        if field not in _FIELDS_OF_KIND[self.kind]:
+            message = (
+                f"synthèse : famille {self.name}, type {self.kind}, champ "
+                f"{self.field} non admis"
+            )
+            raise ValueError(message)
+        bending = {"MFY", "MFZ"} & set(self.quantities)
+        if self.kind == "poutre" and bending and not (self.moments or self.circular):
+            message = f"synthèse : poutres {self.name} sans `moments` ni `circular`"
+            raise ValueError(message)
+        unknown = set(self.moments) | set(self.shears)
+        unknown -= set(self.quantities)
+        if unknown:
+            message = f"synthèse : {self.name} : {sorted(unknown)} hors `quantities`"
+            raise ValueError(message)
+        return self
+
+
+class CoordinateBox(_Model):
+    """Rows whose node lies in the box (bounds included, 1 mm of tolerance); an axis
+    of `absolute` is read in absolute value."""
+
+    x: tuple[float, float] | None = None
+    y: tuple[float, float] | None = None
+    z: tuple[float, float] | None = None
+    absolute: tuple[Axis, ...] = ()
+
+
+class NearGroup(_Model):
+    """Rows at a distance `distance` along `axis` (`at`), within it, or beyond it, of
+    the coordinates of the nodes of `node_group` (the faces of a support)."""
+
+    node_group: str
+    axis: Axis
+    distance: float = Field(ge=0)
+    mode: Literal["at", "within", "beyond"] = "at"
+
+
+class Station(_Model):
+    """Rows at the mesh coordinate nearest to `value` along `axis` (in absolute value
+    with `absolute`): the coordinate actually read is reported."""
+
+    axis: Axis
+    value: float
+    absolute: bool = False
+
+
+class SectionRule(_Model):
+    """How a design section is read: the rows of the family that satisfy every given
+    criterion."""
+
+    description: str = Field(min_length=10)
+    node_group: str | None = None
+    groups: tuple[str, ...] = ()
+    """Cell groups the rows must belong to (within the family)."""
+    box: CoordinateBox | None = None
+    near: NearGroup | None = None
+    station: Station | None = None
+
+
+class TextOrData(_Model):
+    """A text value of an export header, written here or read in the data file."""
+
+    value: str | None = None
+    data: str | None = None
+    source: str = Field(min_length=3)
+
+    @model_validator(mode="after")
+    def _one(self) -> TextOrData:
+        if (self.value is None) == (self.data is None):
+            message = "en-tête : `value` ou `data`, l'un des deux"
+            raise ValueError(message)
+        return self
+
+
+class LengthOrData(_Model):
+    """A length of an export header (m or mm in the data file; exported in its own
+    unit, converted in the export only)."""
+
+    value: float | None = None
+    unit: Literal["m", "mm"] | None = None
+    data: str | None = None
+    source: str = Field(min_length=3)
+
+    @model_validator(mode="after")
+    def _one(self) -> LengthOrData:
+        if self.data is None and (self.value is None or self.unit is None):
+            message = "en-tête : `value` et `unit`, ou `data`"
+            raise ValueError(message)
+        if self.data is not None and self.value is not None:
+            message = "en-tête : `value` ou `data`, pas les deux"
+            raise ValueError(message)
+        return self
+
+
+class BendingPlane(_Model):
+    """One plane of bending exported for the bending software (one file)."""
+
+    moment: str
+    """`MFY`, `MFZ` (beam), `MXX`, `MYY` (shell), or `resultante` (circular beam)."""
+    top_fibre: LocalFibre | None = None
+    """Side of the top fibre; not for a resultant (a circular section has none)."""
+    label: str = Field(min_length=3)
+    rotated: bool = False
+    """Section turned by a quarter of a turn for this plane (horizontal bending of a
+    beam): h and b of the header are exchanged, ds and di too."""
+
+    @model_validator(mode="after")
+    def _fibre(self) -> BendingPlane:
+        if (self.moment == "resultante") != (self.top_fibre is None):
+            message = (
+                "export : `top_fibre` est exigée sauf pour la résultante d'une section "
+                "circulaire"
+            )
+            raise ValueError(message)
+        return self
+
+
+class BendingExport(_Model):
+    """Header of the files `flexion_composee/<section>.csv`, in the order of input of
+    MM's bending software (lot 49 bis)."""
+
+    section_type: str = Field(min_length=3)
+    h: LengthOrData
+    b: LengthOrData
+    ds: LengthOrData
+    di: LengthOrData
+    concrete: TextOrData
+    steel: TextOrData
+    exposure: TextOrData
+    cnom: LengthOrData
+    equivalence: str | None = None
+    """Rule (and source) of an equivalent section: a circular section entered as a
+    square of the same modulus."""
+    per_metre: bool = False
+    """Shell: forces per metre width, b = 1.00 m."""
+    planes: tuple[BendingPlane, ...] = Field(min_length=1)
+
+
+class DesignSection(_Model):
+    """A named design section of a family, read by an explicit rule."""
+
+    name: str = Field(pattern=r"^[a-z0-9_]+$")
+    """File name of its export (`flexion_composee/<name>.csv`)."""
+    label: str
+    family: str
+    rule: SectionRule
+    justification: str = Field(min_length=10)
+    """One line: why this section is a design section."""
+    exclude_singular: bool = True
+    """Shell: values inside the exclusion discs (PAT-013) and on the lines of nodes
+    shared with `shared_with` (CA-058) are left out of the design value -- or, when
+    False, a governing value read there is marked « non significative »."""
+    shared_with: tuple[str, ...] = ()
+    """Shell: cell groups of the beams whose nodes the shell shares."""
+    caveat: str | None = None
+    bending_export: BendingExport | None = None
+    not_exported: str | None = None
+    """Why a section has no bending export (written reason)."""
+
+    @model_validator(mode="after")
+    def _export(self) -> DesignSection:
+        if self.bending_export is None and self.not_exported is None:
+            message = (
+                f"section {self.name} : ni `bending_export` ni motif `not_exported`"
+            )
+            raise ValueError(message)
+        if self.not_exported is not None:
+            _written_reason(self.not_exported)
+        return self
+
+
+class SpanSet(_Model):
+    """Spans of a relative deflection: the nodes of each line (same coordinate along
+    `line_axis`) between two consecutive `supports` along `axis` (deflection
+    relative to the chord of the supports), or between a support and a free end
+    (`cantilevers`: relative to the support)."""
+
+    axis: Axis
+    line_axis: Axis
+    supports: tuple[float, ...] = ()
+    cantilevers: tuple[tuple[float, float], ...] = ()
+    """(support, free end) pairs."""
+
+
+class ServiceCriterion(_Model):
+    """A serviceability criterion declared by MM, with its source."""
+
+    name: str = Field(pattern=r"^[a-z0-9_]+$")
+    label: str
+    kind: Literal["displacement", "relative_deflection"]
+    field: str = "DEPL"
+    components: tuple[Literal["DX", "DY", "DZ"], ...] = Field(min_length=1)
+    """Several components: their resultant."""
+    groups: tuple[str, ...] = ()
+    node_group: str | None = None
+    limit_state: LimitState
+    exclude_cases: tuple[str, ...] = ()
+    """Cases removed from the combinations (« hors G et hors TE »)."""
+    span_m: float = Field(gt=0)
+    ratio: float = Field(gt=0)
+    """Limit = span_m / ratio."""
+    spans: SpanSet | None = None
+    verdict: bool = True
+    """False: reported for information, without verdict."""
+    verdict_groups: tuple[str, ...] = ()
+    """Patterns of the member groups the verdict applies to; the other places are
+    reported with `note_others`."""
+    note_others: str | None = None
+    source: str = Field(min_length=10)
+
+    @model_validator(mode="after")
+    def _shape(self) -> ServiceCriterion:
+        if (self.kind == "relative_deflection") != (self.spans is not None):
+            message = f"critère {self.name} : `spans` va avec relative_deflection"
+            raise ValueError(message)
+        if not self.groups and self.node_group is None:
+            message = f"critère {self.name} : `groups` ou `node_group`"
+            raise ValueError(message)
+        return self
+
+
+class SlabCut(_Model):
+    """A cut of a shell family drawn by the diagrams: the rows on `axis = value`
+    (nearest mesh coordinate), along `along`."""
+
+    name: str = Field(pattern=r"^[a-z0-9_]+$")
+    family: str
+    axis: Axis
+    value: float
+    along: Axis
+    components: tuple[str, ...] = Field(min_length=1)
+    shared_with: tuple[str, ...] = ()
+
+
+class EngineeringSummarySection(_Model):
+    """`engineering_summary` (lot 49 bis): the reading an engineer makes of the
+    deliverables -- families of members, design sections with concomitant torsors,
+    limit states, serviceability criteria, export for the bending software.
+
+    Named `engineering_summary` and not `synthesis`: that key is the project's own
+    synthesis step (lots 35 to 37), and the keys of `projet.yaml` are English. Every
+    section of a structure is declared here, never in `src/`."""
+
+    limit_states: tuple[LimitStateFamilies, ...] = Field(min_length=1)
+    absent_limit_states: tuple[AbsentLimitState, ...] = ()
+    cracking: CrackingState
+    families: tuple[MemberFamily, ...] = Field(min_length=1)
+    sections: tuple[DesignSection, ...] = Field(min_length=1)
+    service_criteria: tuple[ServiceCriterion, ...] = ()
+    no_service_criteria: str | None = None
+    """Why the project declares no serviceability criterion."""
+    cuts: tuple[SlabCut, ...] = ()
+
+    @model_validator(mode="after")
+    def _complete(self) -> EngineeringSummarySection:
+        states = [s.state for s in self.limit_states]
+        absent = [s.state for s in self.absent_limit_states]
+        if len(set(states)) != len(states) or set(states) & set(absent):
+            message = "synthèse : un état limite est déclaré deux fois"
+            raise ValueError(message)
+        silent = sorted(set(LIMIT_STATES) - set(states) - set(absent))
+        if silent:
+            message = (
+                "synthèse : état limite ni déclaré ni absent (avec motif) : "
+                + ", ".join(silent)
+            )
+            raise ValueError(message)
+        if self.cracking.state not in states:
+            message = (
+                f"synthèse : l'état de fissuration {self.cracking.state} est absent"
+            )
+            raise ValueError(message)
+        names = {f.name for f in self.families}
+        for section in self.sections:
+            if section.family not in names:
+                message = f"section {section.name} : famille {section.family} inconnue"
+                raise ValueError(message)
+        for cut in self.cuts:
+            if cut.family not in names:
+                message = f"coupe {cut.name} : famille {cut.family} inconnue"
+                raise ValueError(message)
+        for criterion in self.service_criteria:
+            if criterion.limit_state not in states:
+                message = (
+                    f"critère {criterion.name} : état limite {criterion.limit_state} "
+                    "absent"
+                )
+                raise ValueError(message)
+        if not self.service_criteria and self.no_service_criteria is None:
+            message = "synthèse : ni critère de service ni motif `no_service_criteria`"
+            raise ValueError(message)
+        if self.no_service_criteria is not None:
+            _written_reason(self.no_service_criteria)
+        sections = [s.name for s in self.sections]
+        if len(set(sections)) != len(sections):
+            message = "synthèse : deux sections de même nom"
+            raise ValueError(message)
+        return self
+
+
 StepName = Literal[
     "verifier",
     "maillage",
@@ -790,6 +1187,9 @@ class ProjectDeclaration(_Model):
     deliverables: DeliverablesSection | None = None
     """Lot 49: the deliverables of the computation (MED, ParaView, workbook).
     Required of a project created from lot 49 on (`aster-expert projet creer`)."""
+    engineering_summary: EngineeringSummarySection | None = None
+    """Lot 49 bis: families of members, design sections, limit states,
+    serviceability criteria (`aster_expert.livrables.ingenieur`)."""
     results: str = "resultats"
     """Directory, relative to the project, where the steps write their outputs."""
     blocker_scopes: tuple[BlockerScope, ...] = ()
@@ -850,6 +1250,14 @@ __all__ = [
     "DeliverableField",
     "DeliverablesSection",
     "ExclusionDisk",
+    "BendingExport",
+    "BendingPlane",
+    "DesignSection",
+    "EngineeringSummarySection",
+    "LIMIT_STATES",
+    "LimitState",
+    "MemberFamily",
+    "ServiceCriterion",
     "ReadingPoint",
     "FieldFamily",
     "IgnoredResult",

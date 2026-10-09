@@ -1,0 +1,115 @@
+{
+ "controle": "Σ charges + Σ réactions + Σ forces des ressorts = 0, par combinaison et par position mobile, par état limite (lot 49 bis)",
+ "source": "charges : somme des forces nodales du MED des charges (cas élémentaires) et résultante déclarée de la position de référence (controls.cases) pour une position mobile ; réactions et ressorts lus dans les livrables",
+ "appuis_non_livres": [],
+ "etats": {
+  "ELU_fondamental": {
+   "etat_limite": "ELU fondamental",
+   "evaluations": 1,
+   "ecart_relatif_max": 8.384219894361733e-12,
+   "pire": {
+    "combinaison": "ELU_FOND_Q_DOM_G_defav",
+    "position_mobile": null,
+    "charge_n": {
+     "FX": 0.0,
+     "FY": 0.0,
+     "FZ": -603000.0
+    },
+    "reactions_et_ressorts_n": {
+     "FX": 0.0,
+     "FY": 0.0,
+     "FZ": 602999.9999949443
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FX",
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  },
+  "ELS_caracteristique": {
+   "etat_limite": "ELS caractéristique",
+   "evaluations": 1,
+   "ecart_relatif_max": 8.384397785578455e-12,
+   "pire": {
+    "combinaison": "ELS_CARA_Q_DOM",
+    "position_mobile": null,
+    "charge_n": {
+     "FX": 0.0,
+     "FY": 0.0,
+     "FZ": -420000.0
+    },
+    "reactions_et_ressorts_n": {
+     "FX": 0.0,
+     "FY": 0.0,
+     "FZ": 419999.99999647855
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FX",
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  },
+  "ELS_frequent": {
+   "etat_limite": "ELS fréquent",
+   "evaluations": 1,
+   "ecart_relatif_max": 8.3845489743081e-12,
+   "pire": {
+    "combinaison": "ELS_FREQ_Q_DOM",
+    "position_mobile": null,
+    "charge_n": {
+     "FX": 0.0,
+     "FY": 0.0,
+     "FZ": -396000.0
+    },
+    "reactions_et_ressorts_n": {
+     "FX": 0.0,
+     "FY": 0.0,
+     "FZ": 395999.9999966797
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FX",
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  },
+  "ELS_quasi_permanent": {
+   "etat_limite": "ELS quasi permanent",
+   "evaluations": 1,
+   "ecart_relatif_max": 8.384876143467682e-12,
+   "pire": {
+    "combinaison": "ELS_QUASI_PERMANENTE",
+    "position_mobile": null,
+    "charge_n": {
+     "FX": 0.0,
+     "FY": 0.0,
+     "FZ": -372000.0
+    },
+    "reactions_et_ressorts_n": {
+     "FX": 0.0,
+     "FY": 0.0,
+     "FZ": 371999.9999968808
+    }
+   },
+   "seuil": 1e-06,
+   "positions_sans_charge_declaree": [],
+   "composantes_jugees": [
+    "FX",
+    "FY",
+    "FZ"
+   ],
+   "verdict": "RÉUSSI"
+  }
+ }
+}
