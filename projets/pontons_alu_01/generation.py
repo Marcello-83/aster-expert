@@ -520,7 +520,9 @@ def build_comm(ctx: ProjectContext, *, mesh_label: str) -> tuple[str, dict[str, 
     w(")")
     # Semelle d'abord : EFGE_NOEU après un EFGE_ELNO restreint aux barres n'est pas
     # calculé (alarme CALCULEL2_89, lot 50) ; ordre de l'estacade (lot 47).
-    w('ELEM = CALC_CHAMP(reuse=ELEM, RESULTAT=ELEM, GROUP_MA="SEMELLE", CONTRAINTE=("EFGE_NOEU",))')
+    w(
+        'ELEM = CALC_CHAMP(reuse=ELEM, RESULTAT=ELEM, GROUP_MA="SEMELLE", CONTRAINTE=("EFGE_NOEU",))'
+    )
     w(
         f'ELEM = CALC_CHAMP(reuse=ELEM, RESULTAT=ELEM, GROUP_MA={_tuple(BEAM_GROUPS)}, CONTRAINTE=("EFGE_ELNO",))'
     )

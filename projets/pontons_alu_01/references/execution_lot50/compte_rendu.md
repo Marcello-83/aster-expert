@@ -13,16 +13,16 @@ Exécution Code_Aster encadrée (`aster-expert run`). Niveau atteint au mieux : 
 | Diagnostic (`run_aster.status`) | OK |
 | Lecture du statut | run_aster.status.Status.load |
 | Code de retour | 0 |
-| Durée | 12.9 s |
-| Date | 2026-10-12T13:01:05.382939+00:00 |
-| Répertoire | `/home/ubuntu/projets/aster-expert/data/processed/runs/20261012T130052-40f0dd7d` |
-| Listing | `/home/ubuntu/projets/aster-expert/data/processed/runs/20261012T130052-40f0dd7d/proc.0/fort.6` |
+| Durée | 11.0 s |
+| Date | 2026-10-12T13:08:03.972963+00:00 |
+| Répertoire | `/home/ubuntu/projets/aster-expert/data/processed/runs/20261012T130752-dcba979a` |
+| Listing | `/home/ubuntu/projets/aster-expert/data/processed/runs/20261012T130752-dcba979a/proc.0/fort.6` |
 
 ## Fichiers donnés à Code_Aster
 
 | Fichier | SHA-256 |
 | --- | --- |
-| `pontons_alu_01.comm` | `160ada8c20df4c25431193c2c13db7cb8c002dcba512560bb79b0ed6f6ec8caf` |
+| `pontons_alu_01.comm` | `d113b7bb53bc76dfd3fb428b3f17ecd8910d2118216c09e0bca775803771c680` |
 | `pontons_alu_01.connaissances.yaml` | `fb2fccb771020f9c0a929e33eb1d17ddbef41051549675b73d6f45b0e9f98a38` |
 | `pontons_alu_01.export` | `ffbb6b751271dadec79688b0431550603acde257924d88fe4b7be332bfcc5e2c` |
 | `pontons_alu_01.mmed` | `041f649451538724a83ae49b6169f212f4126d734a8eb2f7c12375a726ba6ab7` |
@@ -53,10 +53,10 @@ Déclaration `projets/pontons_alu_01/resultats/pontons_alu_01.connaissances.yaml
 | --- | --- |
 | `proc.0/1.export` | 229 |
 | `proc.0/__timer__` | 348 |
-| `proc.0/fort.15` | 115003 |
+| `proc.0/fort.15` | 123483 |
 | `proc.0/fort.20` | 110093 |
-| `proc.0/fort.6` | 518990 |
+| `proc.0/fort.6` | 525083 |
 | `proc.0/fort.8` | 0 |
-| `proc.0/fort.80` | 1341615 |
+| `proc.0/fort.80` | 1382636 |
 | `proc.0/fort.9` | 0 |
-| `proc.0/pontons_alu_01.comm.changed.py` | 24485 |
+| `proc.0/pontons_alu_01.comm.changed.py` | 24979 |

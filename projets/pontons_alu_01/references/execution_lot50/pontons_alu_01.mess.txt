@@ -12,8 +12,8 @@ Ouverture en écriture du fichier ./vola.1
                               révision spack-local - branche 'v17.4.0'                              
                                    Copyright EDF R&D 1991 - 2026                                    
                                                                                                     
-                              Exécution du : Mon Oct 12 13:00:57 2026                               
-                                  Nom de la machine : 5289dd3d3031                                  
+                              Exécution du : Mon Oct 12 13:07:57 2026                               
+                                  Nom de la machine : 33ad6e268edb                                  
                                         Architecture : 64bit                                        
                                     Type de processeur : x86_64                                     
                Système d'exploitation : Linux-7.0.0-38-generic-x86_64-with-glibc2.36                
@@ -85,14 +85,14 @@ Nom de la base                          :  ELEMBASE
 
 Relecture des catalogues des éléments faite.
 
-Fin de lecture (durée  0.073956  s.) 
+Fin de lecture (durée  0.023358  s.) 
 
-                      Mémoire limite pour l'allocation dynamique : 4253.23 Mo                       
-                         ajouté à l'initialisation du processus : 648.61 Mo                         
-                               Limite cible du processus : 4901.83 Mo                               
+                      Mémoire limite pour l'allocation dynamique : 4253.22 Mo                       
+                         ajouté à l'initialisation du processus : 648.26 Mo                         
+                               Limite cible du processus : 4901.48 Mo                               
                          Taille limite des fichiers d'échange : 2048.00 Go                          
-# Mémoire (Mo) :   648.61 /   640.48 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0001   user+syst:        0.03s (syst:        0.24s, elaps:        0.34s)
+# Mémoire (Mo) :   648.26 /   640.50 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0001   user+syst:        0.01s (syst:        0.20s, elaps:        0.28s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt33
@@ -127,8 +127,8 @@ NOMBRE DE GROUPES DE MAILLES              32
 Vérification du maillage.
 
 # Résultat commande #0002 (LIRE_MAILLAGE): MAIL0 ('<00000001>') de type <Mesh>
-# Mémoire (Mo) :   648.61 /   641.20 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0002   user+syst:        0.00s (syst:        0.02s, elaps:        0.03s)
+# Mémoire (Mo) :   648.26 /   641.21 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0002   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt35
@@ -142,7 +142,7 @@ MAIL = CREA_MAILLAGE(CREA_POI1=_F(GROUP_MA='SEMELLE',
 
 ------------ MAILLAGE 00000002 - IMPRESSIONS NIVEAU  1 ------------
 
-ASTER 17.04.00 CONCEPT 00000002 CALCULE LE 12/10/2026 A 13:00:58 DE TYPE        
+ASTER 17.04.00 CONCEPT 00000002 CALCULE LE 12/10/2026 A 13:07:57 DE TYPE        
 MAILLAGE_SDASTER                                                                
 
 NOMBRE DE NOEUDS                         405
@@ -160,8 +160,8 @@ NOMBRE DE GROUPES DE MAILLES              33
 
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
 # Résultat commande #0003 (CREA_MAILLAGE): MAIL ('<00000002>') de type <Mesh>
-# Mémoire (Mo) :   648.61 /   641.20 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0003   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# Mémoire (Mo) :   648.26 /   641.21 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0003   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt36
@@ -187,8 +187,8 @@ NOMBRE  DE GROUPES DE NOEUDS CREES :      1
                ------------------------------------------------------
 
 # Résultat commande #0004 (DEFI_GROUP): MAIL ('<00000002>') de type <Mesh>
-# Mémoire (Mo) :   648.61 /   641.20 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0004   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# Mémoire (Mo) :   648.26 /   641.21 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0004   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt40
@@ -220,8 +220,8 @@ POU_D_T          _                SEG2         MECA_POU_D_T     313
 DKT              _                QUAD4        MEDKQU4          72
 #2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
 # Résultat commande #0005 (AFFE_MODELE): MODELE ('<00000003>') de type <Model>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0005   user+syst:        0.01s (syst:        0.01s, elaps:        0.03s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0005   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt51
@@ -237,8 +237,8 @@ ALU = DEFI_MATERIAU(ELAS=_F(ALPHA=2.3e-05,
                     INFO=1)
 
 # Résultat commande #0006 (DEFI_MATERIAU): ALU ('<00000004>') de type <Material>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0006   user+syst:        0.07s (syst:        0.01s, elaps:        0.07s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0006   user+syst:        0.00s (syst:        0.06s, elaps:        0.13s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt52
@@ -253,8 +253,8 @@ BETON = DEFI_MATERIAU(ELAS=_F(B_ENDOGE=0.0,
                       INFO=1)
 
 # Résultat commande #0007 (DEFI_MATERIAU): BETON ('<00000005>') de type <Material>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0007   user+syst:        0.03s (syst:        0.02s, elaps:        0.06s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0007   user+syst:        0.00s (syst:        0.06s, elaps:        0.05s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt53
@@ -268,8 +268,8 @@ CHMAT = AFFE_MATERIAU(AFFE=(_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALE
                       MAILLAGE=MAIL)
 
 # Résultat commande #0008 (AFFE_MATERIAU): CHMAT ('<00000006>') de type <MaterialField>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0008   user+syst:        0.03s (syst:        0.01s, elaps:        0.05s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0008   user+syst:        0.00s (syst:        0.04s, elaps:        0.05s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt63
@@ -340,8 +340,8 @@ CARA = AFFE_CARA_ELEM(COQUE=_F(ANGL_REP=(0.0, 0.0),
 # Résultat commande #0009 (AFFE_CARA_ELEM): CARA ('<00000007>') de type <ElementaryCharacteristics>
 # Dépend de :
 # - MODELE ('<00000003>') de type <Model>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0009   user+syst:        0.04s (syst:        0.02s, elaps:        0.05s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0009   user+syst:        0.04s (syst:        0.00s, elaps:        0.05s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt92
@@ -447,8 +447,8 @@ CL = AFFE_CHAR_MECA(DDL_IMPO=_F(DX=0.0,
 
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
 # Résultat commande #0010 (AFFE_CHAR_MECA): CL ('<00000008>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0010   user+syst:        0.02s (syst:        0.01s, elaps:        0.03s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0010   user+syst:        0.02s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt122
@@ -464,8 +464,8 @@ CH_G1 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                        VERI_NORM='OUI')
 
 # Résultat commande #0011 (AFFE_CHAR_MECA): CH_G1 ('<00000009>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0011   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0011   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt123
@@ -497,8 +497,8 @@ CH_G2 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                        VERI_NORM='OUI')
 
 # Résultat commande #0012 (AFFE_CHAR_MECA): CH_G2 ('<0000000a>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0012   user+syst:        0.01s (syst:        0.00s, elaps:        0.00s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0012   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt131
@@ -530,8 +530,8 @@ CH_Q = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                       VERI_NORM='OUI')
 
 # Résultat commande #0013 (AFFE_CHAR_MECA): CH_Q ('<0000000b>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0013   user+syst:        0.00s (syst:        0.01s, elaps:        0.02s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0013   user+syst:        0.01s (syst:        0.00s, elaps:        0.00s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt139
@@ -557,8 +557,8 @@ CH_QD = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                        VERI_NORM='OUI')
 
 # Résultat commande #0014 (AFFE_CHAR_MECA): CH_QD ('<0000000c>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0014   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0014   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt145
@@ -590,8 +590,8 @@ CH_HU = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                        VERI_NORM='OUI')
 
 # Résultat commande #0015 (AFFE_CHAR_MECA): CH_HU ('<0000000d>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0015   user+syst:        0.00s (syst:        0.02s, elaps:        0.02s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0015   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt153
@@ -623,8 +623,8 @@ CH_HD = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                        VERI_NORM='OUI')
 
 # Résultat commande #0016 (AFFE_CHAR_MECA): CH_HD ('<0000000e>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0016   user+syst:        0.02s (syst:        0.01s, elaps:        0.02s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0016   user+syst:        0.01s (syst:        0.00s, elaps:        0.00s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt162
@@ -640,8 +640,8 @@ CH_AMM = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                         VERI_NORM='OUI')
 
 # Résultat commande #0017 (AFFE_CHAR_MECA): CH_AMM ('<0000000f>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0017   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0017   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt163
@@ -657,7 +657,7 @@ CH_AMP = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                         VERI_NORM='OUI')
 
 # Résultat commande #0018 (AFFE_CHAR_MECA): CH_AMP ('<00000010>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   769.93 /   769.93 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Mémoire (Mo) :   769.94 /   769.94 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
 # Fin commande #0018   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
@@ -675,8 +675,8 @@ CH_ACM = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                         VERI_NORM='OUI')
 
 # Résultat commande #0019 (AFFE_CHAR_MECA): CH_ACM ('<00000011>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   770.05 /   770.05 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0019   user+syst:        0.01s (syst:        0.00s, elaps:        0.00s)
+# Mémoire (Mo) :   770.08 /   770.07 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0019   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt165
@@ -693,8 +693,8 @@ CH_ACP = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                         VERI_NORM='OUI')
 
 # Résultat commande #0020 (AFFE_CHAR_MECA): CH_ACP ('<00000012>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   770.28 /   770.18 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0020   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
+# Mémoire (Mo) :   770.29 /   770.20 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0020   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt166
@@ -711,8 +711,8 @@ CH_AAM = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                         VERI_NORM='OUI')
 
 # Résultat commande #0021 (AFFE_CHAR_MECA): CH_AAM ('<00000013>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   770.28 /   770.18 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0021   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
+# Mémoire (Mo) :   770.29 /   770.20 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0021   user+syst:        0.00s (syst:        0.00s, elaps:        0.00s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt167
@@ -729,8 +729,8 @@ CH_AAP = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
                         VERI_NORM='OUI')
 
 # Résultat commande #0022 (AFFE_CHAR_MECA): CH_AAP ('<00000014>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   770.44 /   770.44 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0022   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# Mémoire (Mo) :   770.46 /   770.46 /   207.61 /   197.13 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0022   user+syst:        0.01s (syst:        0.00s, elaps:        0.00s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt171
@@ -812,50 +812,50 @@ La matrice est de taille 3072 équations.
   Elle contient 39384 termes non nuls si elle est symétrique et 75696 termes non nuls si elle n'est
 pas symétrique.
   Soit un taux de remplissage de   0.802 %.
-#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.01
-#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.01
-#4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.02
+#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.00
+#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.02      0.00      0.02
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
 #1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.01
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
 #1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.01
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.02      0.01      0.01
+#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.01
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
 #1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.01
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
 #1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.02      0.01      0.02
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.01
-#4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
 #1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.02      0.01      0.01
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.19      0.09      0.27
-#3      Dechargement de la memoire sur disque             CPU (USER+SYST/SYST/ELAPS):      0.17      0.08      0.22
+#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.01      0.01      0.01
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.02
+#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.01
+#4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.02      0.01      0.02
+#3      Dechargement de la memoire sur disque             CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.01
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
 #1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.01
 #4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+#1      Resolution des systemes lineaires                 CPU (USER+SYST/SYST/ELAPS):      0.01      0.01      0.01
+#4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
 # Résultat commande #0023 (MACRO_ELAS_MULT): ELEM ('<000000bc>') de type <MultipleElasticResult>
-# Mémoire (Mo) :   775.87 /   769.32 /   207.61 /   198.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0023   user+syst:        0.34s (syst:        0.22s, elaps:        0.65s)
+# Mémoire (Mo) :   775.88 /   769.32 /   207.61 /   198.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0023   user+syst:        0.23s (syst:        0.12s, elaps:        0.36s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt192
 # ----------------------------------------------------------------------------------------------
 # Commande #0065 de pontons_alu_01.comm.changed.py, ligne 192
-ELEM = CALC_CHAMP(CONTRAINTE='EFGE_ELNO',
+ELEM = CALC_CHAMP(CONTRAINTE='EFGE_NOEU',
                   CRITERE='RELATIF',
-                  GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS', 'CHEVETRE', 'POTEAUX'),
+                  GROUP_MA='SEMELLE',
                   INFO=1,
                   PARALLELISME_TEMPS='NON',
                   PRECISION=1e-06,
                   RESULTAT=ELEM,
                   reuse=ELEM)
 
-#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.03      0.01      0.02
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.02      0.01      0.02
 # Résultat commande #0065 (CALC_CHAMP): ELEM ('<000000bc>') de type <MultipleElasticResult>
 # Dépend de :
 # - MODELE ('<00000003>') de type <Model>
@@ -874,27 +874,23 @@ ELEM = CALC_CHAMP(CONTRAINTE='EFGE_ELNO',
 # - CH_ACP ('<00000012>') de type <MechanicalLoadReal>
 # - CH_AAM ('<00000013>') de type <MechanicalLoadReal>
 # - CH_AAP ('<00000014>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   775.87 /   771.49 /   207.61 /   198.37 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0065   user+syst:        0.03s (syst:        0.03s, elaps:        0.06s)
+# Mémoire (Mo) :   775.88 /   771.41 /   207.61 /   198.04 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0065   user+syst:        0.05s (syst:        0.04s, elaps:        0.08s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt193
 # ----------------------------------------------------------------------------------------------
 # Commande #0066 de pontons_alu_01.comm.changed.py, ligne 193
-ELEM = CALC_CHAMP(CRITERE='RELATIF',
-                  FORCE='REAC_NODA',
+ELEM = CALC_CHAMP(CONTRAINTE='EFGE_ELNO',
+                  CRITERE='RELATIF',
+                  GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS', 'CHEVETRE', 'POTEAUX'),
                   INFO=1,
                   PARALLELISME_TEMPS='NON',
                   PRECISION=1e-06,
                   RESULTAT=ELEM,
                   reuse=ELEM)
 
-Le système linéaire à résoudre a 3072 degrés de liberté:
-   - 2430 sont des degrés de liberté physiques
-     (ils sont portés par 405 noeuds du maillage)
-   - 642 sont les couples de paramètres de Lagrange associés
-     aux 321 relations linéaires dualisées.
-#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.02      0.00      0.05
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.06      0.00      0.04
 # Résultat commande #0066 (CALC_CHAMP): ELEM ('<000000bc>') de type <MultipleElasticResult>
 # Dépend de :
 # - MODELE ('<00000003>') de type <Model>
@@ -913,13 +909,52 @@ Le système linéaire à résoudre a 3072 degrés de liberté:
 # - CH_ACP ('<00000012>') de type <MechanicalLoadReal>
 # - CH_AAM ('<00000013>') de type <MechanicalLoadReal>
 # - CH_AAP ('<00000014>') de type <MechanicalLoadReal>
-# Mémoire (Mo) :   775.87 /   772.05 /   207.61 /   198.50 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0066   user+syst:        0.11s (syst:        0.01s, elaps:        0.12s)
+# Mémoire (Mo) :   775.88 /   771.83 /   207.61 /   198.37 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0066   user+syst:        0.08s (syst:        0.01s, elaps:        0.10s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt196
+.. _stg1_txt194
 # ----------------------------------------------------------------------------------------------
-# Commande #0067 de pontons_alu_01.comm.changed.py, ligne 196
+# Commande #0067 de pontons_alu_01.comm.changed.py, ligne 194
+ELEM = CALC_CHAMP(CRITERE='RELATIF',
+                  FORCE='REAC_NODA',
+                  INFO=1,
+                  PARALLELISME_TEMPS='NON',
+                  PRECISION=1e-06,
+                  RESULTAT=ELEM,
+                  reuse=ELEM)
+
+Le système linéaire à résoudre a 3072 degrés de liberté:
+   - 2430 sont des degrés de liberté physiques
+     (ils sont portés par 405 noeuds du maillage)
+   - 642 sont les couples de paramètres de Lagrange associés
+     aux 321 relations linéaires dualisées.
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.06      0.00      0.04
+# Résultat commande #0067 (CALC_CHAMP): ELEM ('<000000bc>') de type <MultipleElasticResult>
+# Dépend de :
+# - MODELE ('<00000003>') de type <Model>
+# - CH_G1 ('<00000009>') de type <MechanicalLoadReal>
+# - CL ('<00000008>') de type <MechanicalLoadReal>
+# - CHMAT ('<00000006>') de type <MaterialField>
+# - CARA ('<00000007>') de type <ElementaryCharacteristics>
+# - CH_G2 ('<0000000a>') de type <MechanicalLoadReal>
+# - CH_Q ('<0000000b>') de type <MechanicalLoadReal>
+# - CH_QD ('<0000000c>') de type <MechanicalLoadReal>
+# - CH_HU ('<0000000d>') de type <MechanicalLoadReal>
+# - CH_HD ('<0000000e>') de type <MechanicalLoadReal>
+# - CH_AMM ('<0000000f>') de type <MechanicalLoadReal>
+# - CH_AMP ('<00000010>') de type <MechanicalLoadReal>
+# - CH_ACM ('<00000011>') de type <MechanicalLoadReal>
+# - CH_ACP ('<00000012>') de type <MechanicalLoadReal>
+# - CH_AAM ('<00000013>') de type <MechanicalLoadReal>
+# - CH_AAP ('<00000014>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   775.88 /   772.45 /   207.61 /   198.50 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0067   user+syst:        0.09s (syst:        0.00s, elaps:        0.10s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt197
+# ----------------------------------------------------------------------------------------------
+# Commande #0068 de pontons_alu_01.comm.changed.py, ligne 197
 T_TP = CREA_CHAMP(AFFE=_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS'),
                           NOM_CMP='TEMP',
                           VALE=46.0),
@@ -928,14 +963,14 @@ T_TP = CREA_CHAMP(AFFE=_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', '
                   OPERATION='AFFE',
                   TYPE_CHAM='NOEU_TEMP_R')
 
-# Résultat commande #0067 (CREA_CHAMP): T_TP ('<000000bd>') de type <FieldOnNodesReal>
-# Mémoire (Mo) :   775.87 /   772.05 /   207.61 /   198.50 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0067   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
+# Résultat commande #0068 (CREA_CHAMP): T_TP ('<000000bd>') de type <FieldOnNodesReal>
+# Mémoire (Mo) :   775.88 /   772.45 /   207.61 /   198.50 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0068   user+syst:        0.00s (syst:        0.02s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt197
+.. _stg1_txt198
 # ----------------------------------------------------------------------------------------------
-# Commande #0068 de pontons_alu_01.comm.changed.py, ligne 197
+# Commande #0069 de pontons_alu_01.comm.changed.py, ligne 198
 M_TP = AFFE_MATERIAU(AFFE=(_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS'),
                               MATER=ALU),
                            _F(GROUP_MA=('CHEVETRE', 'POTEAUX', 'SEMELLE'),
@@ -947,14 +982,14 @@ M_TP = AFFE_MATERIAU(AFFE=(_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES
                      INFO=1,
                      MAILLAGE=MAIL)
 
-# Résultat commande #0068 (AFFE_MATERIAU): M_TP ('<000000be>') de type <MaterialField>
-# Mémoire (Mo) :   775.87 /   772.05 /   207.61 /   198.50 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0068   user+syst:        0.05s (syst:        0.01s, elaps:        0.06s)
+# Résultat commande #0069 (AFFE_MATERIAU): M_TP ('<000000be>') de type <MaterialField>
+# Mémoire (Mo) :   775.88 /   772.45 /   207.61 /   198.50 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0069   user+syst:        0.03s (syst:        0.01s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt202
+.. _stg1_txt203
 # ----------------------------------------------------------------------------------------------
-# Commande #0069 de pontons_alu_01.comm.changed.py, ligne 202
+# Commande #0070 de pontons_alu_01.comm.changed.py, ligne 203
 TP = MECA_STATIQUE(CARA_ELEM=CARA,
                    CHAM_MATER=M_TP,
                    EXCIT=_F(CHARGE=CL,
@@ -990,15 +1025,33 @@ La matrice est de taille 3072 équations.
 pas symétrique.
   Soit un taux de remplissage de   0.802 %.
 Champ stocké <DEPL> à l'instant  0.000000000000e+00 pour le numéro d'ordre 1
-#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-# Résultat commande #0069 (MECA_STATIQUE): TP ('<000000bf>') de type <ElasticResult>
-# Mémoire (Mo) :   778.88 /   773.15 /   207.61 /   198.80 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0069   user+syst:        0.21s (syst:        0.01s, elaps:        0.23s)
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.01
+# Résultat commande #0070 (MECA_STATIQUE): TP ('<000000bf>') de type <ElasticResult>
+# Mémoire (Mo) :   779.25 /   773.53 /   207.61 /   198.80 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0070   user+syst:        0.09s (syst:        0.04s, elaps:        0.15s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt203
+.. _stg1_txt204
 # ----------------------------------------------------------------------------------------------
-# Commande #0071 de pontons_alu_01.comm.changed.py, ligne 203
+# Commande #0072 de pontons_alu_01.comm.changed.py, ligne 204
+TP = CALC_CHAMP(CONTRAINTE='EFGE_NOEU',
+                CRITERE='RELATIF',
+                GROUP_MA='SEMELLE',
+                INFO=1,
+                PARALLELISME_TEMPS='NON',
+                PRECISION=1e-06,
+                RESULTAT=TP,
+                reuse=TP)
+
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0072 (CALC_CHAMP): TP ('<000000bf>') de type <ElasticResult>
+# Mémoire (Mo) :   779.25 /   773.53 /   207.61 /   198.80 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0072   user+syst:        0.03s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt205
+# ----------------------------------------------------------------------------------------------
+# Commande #0073 de pontons_alu_01.comm.changed.py, ligne 205
 TP = CALC_CHAMP(CONTRAINTE='EFGE_ELNO',
                 CRITERE='RELATIF',
                 GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS', 'CHEVETRE', 'POTEAUX'),
@@ -1009,14 +1062,14 @@ TP = CALC_CHAMP(CONTRAINTE='EFGE_ELNO',
                 reuse=TP)
 
 #2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-# Résultat commande #0071 (CALC_CHAMP): TP ('<000000bf>') de type <ElasticResult>
-# Mémoire (Mo) :   778.88 /   773.15 /   207.61 /   198.80 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0071   user+syst:        0.03s (syst:        0.00s, elaps:        0.03s)
+# Résultat commande #0073 (CALC_CHAMP): TP ('<000000bf>') de type <ElasticResult>
+# Mémoire (Mo) :   779.25 /   773.53 /   207.61 /   198.80 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0073   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt204
+.. _stg1_txt206
 # ----------------------------------------------------------------------------------------------
-# Commande #0072 de pontons_alu_01.comm.changed.py, ligne 204
+# Commande #0074 de pontons_alu_01.comm.changed.py, ligne 206
 TP = CALC_CHAMP(CRITERE='RELATIF',
                 FORCE='REAC_NODA',
                 INFO=1,
@@ -1031,14 +1084,14 @@ Le système linéaire à résoudre a 3072 degrés de liberté:
    - 642 sont les couples de paramètres de Lagrange associés
      aux 321 relations linéaires dualisées.
 #2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-# Résultat commande #0072 (CALC_CHAMP): TP ('<000000bf>') de type <ElasticResult>
-# Mémoire (Mo) :   778.88 /   773.15 /   207.61 /   198.80 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0072   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# Résultat commande #0074 (CALC_CHAMP): TP ('<000000bf>') de type <ElasticResult>
+# Mémoire (Mo) :   779.25 /   773.53 /   207.61 /   198.80 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0074   user+syst:        0.02s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt206
+.. _stg1_txt208
 # ----------------------------------------------------------------------------------------------
-# Commande #0073 de pontons_alu_01.comm.changed.py, ligne 206
+# Commande #0075 de pontons_alu_01.comm.changed.py, ligne 208
 T_TM = CREA_CHAMP(AFFE=_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS'),
                           NOM_CMP='TEMP',
                           VALE=-28.0),
@@ -1047,14 +1100,14 @@ T_TM = CREA_CHAMP(AFFE=_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', '
                   OPERATION='AFFE',
                   TYPE_CHAM='NOEU_TEMP_R')
 
-# Résultat commande #0073 (CREA_CHAMP): T_TM ('<000000e8>') de type <FieldOnNodesReal>
-# Mémoire (Mo) :   778.88 /   773.15 /   207.61 /   198.80 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0073   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# Résultat commande #0075 (CREA_CHAMP): T_TM ('<000000e8>') de type <FieldOnNodesReal>
+# Mémoire (Mo) :   779.25 /   773.53 /   207.61 /   198.80 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0075   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt207
+.. _stg1_txt209
 # ----------------------------------------------------------------------------------------------
-# Commande #0074 de pontons_alu_01.comm.changed.py, ligne 207
+# Commande #0076 de pontons_alu_01.comm.changed.py, ligne 209
 M_TM = AFFE_MATERIAU(AFFE=(_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS'),
                               MATER=ALU),
                            _F(GROUP_MA=('CHEVETRE', 'POTEAUX', 'SEMELLE'),
@@ -1066,14 +1119,14 @@ M_TM = AFFE_MATERIAU(AFFE=(_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES
                      INFO=1,
                      MAILLAGE=MAIL)
 
-# Résultat commande #0074 (AFFE_MATERIAU): M_TM ('<000000e9>') de type <MaterialField>
-# Mémoire (Mo) :   778.88 /   773.15 /   207.61 /   198.80 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0074   user+syst:        0.04s (syst:        0.01s, elaps:        0.04s)
+# Résultat commande #0076 (AFFE_MATERIAU): M_TM ('<000000e9>') de type <MaterialField>
+# Mémoire (Mo) :   779.25 /   773.53 /   207.61 /   198.80 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0076   user+syst:        0.05s (syst:        0.00s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt212
+.. _stg1_txt214
 # ----------------------------------------------------------------------------------------------
-# Commande #0075 de pontons_alu_01.comm.changed.py, ligne 212
+# Commande #0077 de pontons_alu_01.comm.changed.py, ligne 214
 TM = MECA_STATIQUE(CARA_ELEM=CARA,
                    CHAM_MATER=M_TM,
                    EXCIT=_F(CHARGE=CL,
@@ -1110,14 +1163,32 @@ pas symétrique.
   Soit un taux de remplissage de   0.802 %.
 Champ stocké <DEPL> à l'instant  0.000000000000e+00 pour le numéro d'ordre 1
 #2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-# Résultat commande #0075 (MECA_STATIQUE): TM ('<000000ea>') de type <ElasticResult>
-# Mémoire (Mo) :   779.73 /   774.00 /   207.61 /   198.87 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0075   user+syst:        0.12s (syst:        0.04s, elaps:        0.17s)
+# Résultat commande #0077 (MECA_STATIQUE): TM ('<000000ea>') de type <ElasticResult>
+# Mémoire (Mo) :   780.11 /   774.27 /   207.61 /   198.87 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0077   user+syst:        0.12s (syst:        0.02s, elaps:        0.14s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt213
+.. _stg1_txt215
 # ----------------------------------------------------------------------------------------------
-# Commande #0077 de pontons_alu_01.comm.changed.py, ligne 213
+# Commande #0079 de pontons_alu_01.comm.changed.py, ligne 215
+TM = CALC_CHAMP(CONTRAINTE='EFGE_NOEU',
+                CRITERE='RELATIF',
+                GROUP_MA='SEMELLE',
+                INFO=1,
+                PARALLELISME_TEMPS='NON',
+                PRECISION=1e-06,
+                RESULTAT=TM,
+                reuse=TM)
+
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0079 (CALC_CHAMP): TM ('<000000ea>') de type <ElasticResult>
+# Mémoire (Mo) :   780.11 /   774.27 /   207.61 /   198.87 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0079   user+syst:        0.03s (syst:        0.00s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt216
+# ----------------------------------------------------------------------------------------------
+# Commande #0080 de pontons_alu_01.comm.changed.py, ligne 216
 TM = CALC_CHAMP(CONTRAINTE='EFGE_ELNO',
                 CRITERE='RELATIF',
                 GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS', 'CHEVETRE', 'POTEAUX'),
@@ -1127,15 +1198,15 @@ TM = CALC_CHAMP(CONTRAINTE='EFGE_ELNO',
                 RESULTAT=TM,
                 reuse=TM)
 
-#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.01
-# Résultat commande #0077 (CALC_CHAMP): TM ('<000000ea>') de type <ElasticResult>
-# Mémoire (Mo) :   779.73 /   774.00 /   207.61 /   198.87 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0077   user+syst:        0.03s (syst:        0.01s, elaps:        0.03s)
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0080 (CALC_CHAMP): TM ('<000000ea>') de type <ElasticResult>
+# Mémoire (Mo) :   780.11 /   774.27 /   207.61 /   198.87 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0080   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt214
+.. _stg1_txt217
 # ----------------------------------------------------------------------------------------------
-# Commande #0078 de pontons_alu_01.comm.changed.py, ligne 214
+# Commande #0081 de pontons_alu_01.comm.changed.py, ligne 217
 TM = CALC_CHAMP(CRITERE='RELATIF',
                 FORCE='REAC_NODA',
                 INFO=1,
@@ -1150,14 +1221,14 @@ Le système linéaire à résoudre a 3072 degrés de liberté:
    - 642 sont les couples de paramètres de Lagrange associés
      aux 321 relations linéaires dualisées.
 #2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-# Résultat commande #0078 (CALC_CHAMP): TM ('<000000ea>') de type <ElasticResult>
-# Mémoire (Mo) :   779.73 /   774.00 /   207.61 /   198.87 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0078   user+syst:        0.02s (syst:        0.00s, elaps:        0.03s)
+# Résultat commande #0081 (CALC_CHAMP): TM ('<000000ea>') de type <ElasticResult>
+# Mémoire (Mo) :   780.11 /   774.27 /   207.61 /   198.87 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0081   user+syst:        0.02s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt216
+.. _stg1_txt219
 # ----------------------------------------------------------------------------------------------
-# Commande #0079 de pontons_alu_01.comm.changed.py, ligne 216
+# Commande #0082 de pontons_alu_01.comm.changed.py, ligne 219
 T_TAP = CREA_CHAMP(AFFE=_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES'),
                            NOM_CMP='TEMP',
                            VALE=56.0),
@@ -1166,14 +1237,14 @@ T_TAP = CREA_CHAMP(AFFE=_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES'),
                    OPERATION='AFFE',
                    TYPE_CHAM='NOEU_TEMP_R')
 
-# Résultat commande #0079 (CREA_CHAMP): T_TAP ('<00000113>') de type <FieldOnNodesReal>
-# Mémoire (Mo) :   779.73 /   774.00 /   207.61 /   198.87 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0079   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# Résultat commande #0082 (CREA_CHAMP): T_TAP ('<00000113>') de type <FieldOnNodesReal>
+# Mémoire (Mo) :   780.11 /   774.27 /   207.61 /   198.87 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0082   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt217
+.. _stg1_txt220
 # ----------------------------------------------------------------------------------------------
-# Commande #0080 de pontons_alu_01.comm.changed.py, ligne 217
+# Commande #0083 de pontons_alu_01.comm.changed.py, ligne 220
 M_TAP = AFFE_MATERIAU(AFFE=(_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS'),
                                MATER=ALU),
                             _F(GROUP_MA=('CHEVETRE', 'POTEAUX', 'SEMELLE'),
@@ -1185,14 +1256,14 @@ M_TAP = AFFE_MATERIAU(AFFE=(_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALE
                       INFO=1,
                       MAILLAGE=MAIL)
 
-# Résultat commande #0080 (AFFE_MATERIAU): M_TAP ('<00000114>') de type <MaterialField>
-# Mémoire (Mo) :   779.73 /   774.00 /   207.61 /   198.87 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0080   user+syst:        0.07s (syst:        0.01s, elaps:        0.07s)
+# Résultat commande #0083 (AFFE_MATERIAU): M_TAP ('<00000114>') de type <MaterialField>
+# Mémoire (Mo) :   780.11 /   774.27 /   207.61 /   198.87 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0083   user+syst:        0.03s (syst:        0.02s, elaps:        0.05s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt222
+.. _stg1_txt225
 # ----------------------------------------------------------------------------------------------
-# Commande #0081 de pontons_alu_01.comm.changed.py, ligne 222
+# Commande #0084 de pontons_alu_01.comm.changed.py, ligne 225
 TAP = MECA_STATIQUE(CARA_ELEM=CARA,
                     CHAM_MATER=M_TAP,
                     EXCIT=_F(CHARGE=CL,
@@ -1229,14 +1300,32 @@ pas symétrique.
   Soit un taux de remplissage de   0.802 %.
 Champ stocké <DEPL> à l'instant  0.000000000000e+00 pour le numéro d'ordre 1
 #2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-# Résultat commande #0081 (MECA_STATIQUE): TAP ('<00000115>') de type <ElasticResult>
-# Mémoire (Mo) :   780.46 /   774.74 /   207.61 /   198.95 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0081   user+syst:        0.12s (syst:        0.04s, elaps:        0.22s)
+# Résultat commande #0084 (MECA_STATIQUE): TAP ('<00000115>') de type <ElasticResult>
+# Mémoire (Mo) :   781.00 /   775.31 /   207.61 /   198.95 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0084   user+syst:        0.12s (syst:        0.04s, elaps:        0.15s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt223
+.. _stg1_txt226
 # ----------------------------------------------------------------------------------------------
-# Commande #0083 de pontons_alu_01.comm.changed.py, ligne 223
+# Commande #0086 de pontons_alu_01.comm.changed.py, ligne 226
+TAP = CALC_CHAMP(CONTRAINTE='EFGE_NOEU',
+                 CRITERE='RELATIF',
+                 GROUP_MA='SEMELLE',
+                 INFO=1,
+                 PARALLELISME_TEMPS='NON',
+                 PRECISION=1e-06,
+                 RESULTAT=TAP,
+                 reuse=TAP)
+
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0086 (CALC_CHAMP): TAP ('<00000115>') de type <ElasticResult>
+# Mémoire (Mo) :   781.00 /   775.31 /   207.61 /   198.95 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0086   user+syst:        0.01s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt227
+# ----------------------------------------------------------------------------------------------
+# Commande #0087 de pontons_alu_01.comm.changed.py, ligne 227
 TAP = CALC_CHAMP(CONTRAINTE='EFGE_ELNO',
                  CRITERE='RELATIF',
                  GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS', 'CHEVETRE', 'POTEAUX'),
@@ -1246,15 +1335,15 @@ TAP = CALC_CHAMP(CONTRAINTE='EFGE_ELNO',
                  RESULTAT=TAP,
                  reuse=TAP)
 
-#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.02      0.00      0.01
-# Résultat commande #0083 (CALC_CHAMP): TAP ('<00000115>') de type <ElasticResult>
-# Mémoire (Mo) :   780.46 /   774.74 /   207.61 /   198.95 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0083   user+syst:        0.03s (syst:        0.01s, elaps:        0.04s)
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.01
+# Résultat commande #0087 (CALC_CHAMP): TAP ('<00000115>') de type <ElasticResult>
+# Mémoire (Mo) :   781.00 /   775.31 /   207.61 /   198.95 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0087   user+syst:        0.00s (syst:        0.02s, elaps:        0.03s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt224
+.. _stg1_txt228
 # ----------------------------------------------------------------------------------------------
-# Commande #0084 de pontons_alu_01.comm.changed.py, ligne 224
+# Commande #0088 de pontons_alu_01.comm.changed.py, ligne 228
 TAP = CALC_CHAMP(CRITERE='RELATIF',
                  FORCE='REAC_NODA',
                  INFO=1,
@@ -1268,15 +1357,15 @@ Le système linéaire à résoudre a 3072 degrés de liberté:
      (ils sont portés par 405 noeuds du maillage)
    - 642 sont les couples de paramètres de Lagrange associés
      aux 321 relations linéaires dualisées.
-#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-# Résultat commande #0084 (CALC_CHAMP): TAP ('<00000115>') de type <ElasticResult>
-# Mémoire (Mo) :   780.46 /   774.74 /   207.61 /   198.95 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0084   user+syst:        0.04s (syst:        0.00s, elaps:        0.04s)
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.01      0.01      0.00
+# Résultat commande #0088 (CALC_CHAMP): TAP ('<00000115>') de type <ElasticResult>
+# Mémoire (Mo) :   781.00 /   775.31 /   207.61 /   198.95 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0088   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt226
+.. _stg1_txt230
 # ----------------------------------------------------------------------------------------------
-# Commande #0085 de pontons_alu_01.comm.changed.py, ligne 226
+# Commande #0089 de pontons_alu_01.comm.changed.py, ligne 230
 T_TAM = CREA_CHAMP(AFFE=_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES'),
                            NOM_CMP='TEMP',
                            VALE=-23.0),
@@ -1285,14 +1374,14 @@ T_TAM = CREA_CHAMP(AFFE=_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES'),
                    OPERATION='AFFE',
                    TYPE_CHAM='NOEU_TEMP_R')
 
-# Résultat commande #0085 (CREA_CHAMP): T_TAM ('<0000013e>') de type <FieldOnNodesReal>
-# Mémoire (Mo) :   780.46 /   774.74 /   207.61 /   198.95 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0085   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# Résultat commande #0089 (CREA_CHAMP): T_TAM ('<0000013e>') de type <FieldOnNodesReal>
+# Mémoire (Mo) :   781.00 /   775.31 /   207.61 /   198.95 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0089   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt227
+.. _stg1_txt231
 # ----------------------------------------------------------------------------------------------
-# Commande #0086 de pontons_alu_01.comm.changed.py, ligne 227
+# Commande #0090 de pontons_alu_01.comm.changed.py, ligne 231
 M_TAM = AFFE_MATERIAU(AFFE=(_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS'),
                                MATER=ALU),
                             _F(GROUP_MA=('CHEVETRE', 'POTEAUX', 'SEMELLE'),
@@ -1304,14 +1393,14 @@ M_TAM = AFFE_MATERIAU(AFFE=(_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALE
                       INFO=1,
                       MAILLAGE=MAIL)
 
-# Résultat commande #0086 (AFFE_MATERIAU): M_TAM ('<0000013f>') de type <MaterialField>
-# Mémoire (Mo) :   780.46 /   774.74 /   207.61 /   198.95 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0086   user+syst:        0.06s (syst:        0.01s, elaps:        0.08s)
+# Résultat commande #0090 (AFFE_MATERIAU): M_TAM ('<0000013f>') de type <MaterialField>
+# Mémoire (Mo) :   781.00 /   775.31 /   207.61 /   198.95 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0090   user+syst:        0.07s (syst:        0.00s, elaps:        0.08s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt232
+.. _stg1_txt236
 # ----------------------------------------------------------------------------------------------
-# Commande #0087 de pontons_alu_01.comm.changed.py, ligne 232
+# Commande #0091 de pontons_alu_01.comm.changed.py, ligne 236
 TAM = MECA_STATIQUE(CARA_ELEM=CARA,
                     CHAM_MATER=M_TAM,
                     EXCIT=_F(CHARGE=CL,
@@ -1348,14 +1437,32 @@ pas symétrique.
   Soit un taux de remplissage de   0.802 %.
 Champ stocké <DEPL> à l'instant  0.000000000000e+00 pour le numéro d'ordre 1
 #2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
-# Résultat commande #0087 (MECA_STATIQUE): TAM ('<00000140>') de type <ElasticResult>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0087   user+syst:        0.17s (syst:        0.03s, elaps:        0.22s)
+# Résultat commande #0091 (MECA_STATIQUE): TAM ('<00000140>') de type <ElasticResult>
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0091   user+syst:        0.12s (syst:        0.03s, elaps:        0.15s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt233
+.. _stg1_txt237
 # ----------------------------------------------------------------------------------------------
-# Commande #0089 de pontons_alu_01.comm.changed.py, ligne 233
+# Commande #0093 de pontons_alu_01.comm.changed.py, ligne 237
+TAM = CALC_CHAMP(CONTRAINTE='EFGE_NOEU',
+                 CRITERE='RELATIF',
+                 GROUP_MA='SEMELLE',
+                 INFO=1,
+                 PARALLELISME_TEMPS='NON',
+                 PRECISION=1e-06,
+                 RESULTAT=TAM,
+                 reuse=TAM)
+
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0093 (CALC_CHAMP): TAM ('<00000140>') de type <ElasticResult>
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0093   user+syst:        0.02s (syst:        0.01s, elaps:        0.04s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt238
+# ----------------------------------------------------------------------------------------------
+# Commande #0094 de pontons_alu_01.comm.changed.py, ligne 238
 TAM = CALC_CHAMP(CONTRAINTE='EFGE_ELNO',
                  CRITERE='RELATIF',
                  GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS', 'CHEVETRE', 'POTEAUX'),
@@ -1366,14 +1473,14 @@ TAM = CALC_CHAMP(CONTRAINTE='EFGE_ELNO',
                  reuse=TAM)
 
 #2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.01
-# Résultat commande #0089 (CALC_CHAMP): TAM ('<00000140>') de type <ElasticResult>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0089   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# Résultat commande #0094 (CALC_CHAMP): TAM ('<00000140>') de type <ElasticResult>
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0094   user+syst:        0.02s (syst:        0.00s, elaps:        0.03s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt234
+.. _stg1_txt239
 # ----------------------------------------------------------------------------------------------
-# Commande #0090 de pontons_alu_01.comm.changed.py, ligne 234
+# Commande #0095 de pontons_alu_01.comm.changed.py, ligne 239
 TAM = CALC_CHAMP(CRITERE='RELATIF',
                  FORCE='REAC_NODA',
                  INFO=1,
@@ -1387,15 +1494,15 @@ Le système linéaire à résoudre a 3072 degrés de liberté:
      (ils sont portés par 405 noeuds du maillage)
    - 642 sont les couples de paramètres de Lagrange associés
      aux 321 relations linéaires dualisées.
-#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.01      0.00      0.01
-# Résultat commande #0090 (CALC_CHAMP): TAM ('<00000140>') de type <ElasticResult>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0090   user+syst:        0.04s (syst:        0.00s, elaps:        0.04s)
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0095 (CALC_CHAMP): TAM ('<00000140>') de type <ElasticResult>
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0095   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt239
+.. _stg1_txt244
 # ----------------------------------------------------------------------------------------------
-# Commande #0091 de pontons_alu_01.comm.changed.py, ligne 239
+# Commande #0096 de pontons_alu_01.comm.changed.py, ligne 244
 T_RP_G1 = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='APP_QUAI',
@@ -1410,14 +1517,14 @@ T_RP_G1 = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   RESULTAT=ELEM),
                         INFO=1)
 
-# Résultat commande #0091 (POST_RELEVE_T): T_RP_G1 ('<00000169>') de type <Table>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0091   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
+# Résultat commande #0096 (POST_RELEVE_T): T_RP_G1 ('<00000169>') de type <Table>
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0096   user+syst:        0.00s (syst:        0.01s, elaps:        0.00s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt240
+.. _stg1_txt245
 # ----------------------------------------------------------------------------------------------
-# Commande #0092 de pontons_alu_01.comm.changed.py, ligne 240
+# Commande #0097 de pontons_alu_01.comm.changed.py, ligne 245
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -1433,17 +1540,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000169 CALCULE LE 12/10/2026 A 13:01:00 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000169 CALCULE LE 12/10/2026 A 13:07:59 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_G1            000000bc REAC_NODA                           1 G1                 1.274877812892E+03   6.483577230115E+01   2.041564751476E+03
 
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0092   user+syst:        0.06s (syst:        0.00s, elaps:        0.05s)
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0097   user+syst:        0.01s (syst:        0.02s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt241
+.. _stg1_txt246
 # ----------------------------------------------------------------------------------------------
-# Commande #0093 de pontons_alu_01.comm.changed.py, ligne 241
+# Commande #0098 de pontons_alu_01.comm.changed.py, ligne 246
 T_DS_G1 = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='N_SEMELLE',
@@ -1458,14 +1565,14 @@ T_DS_G1 = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   RESULTAT=ELEM),
                         INFO=1)
 
-# Résultat commande #0093 (POST_RELEVE_T): T_DS_G1 ('<0000016a>') de type <Table>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0093   user+syst:        0.02s (syst:        0.01s, elaps:        0.03s)
+# Résultat commande #0098 (POST_RELEVE_T): T_DS_G1 ('<0000016a>') de type <Table>
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0098   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt242
+.. _stg1_txt247
 # ----------------------------------------------------------------------------------------------
-# Commande #0094 de pontons_alu_01.comm.changed.py, ligne 242
+# Commande #0099 de pontons_alu_01.comm.changed.py, ligne 247
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -1481,7 +1588,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000016a CALCULE LE 12/10/2026 A 13:01:00 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000016a CALCULE LE 12/10/2026 A 13:07:59 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_G1            1        000000bc DEPL                                1 G1                 0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01   3.514140770423E-04   1.563021231581E-05  -2.419976944912E-03
 DS_G1            2        000000bc DEPL                                1 G1                 7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01   3.537062242787E-04   1.563995925008E-05  -2.421443740512E-03
@@ -1575,13 +1682,13 @@ DS_G1            403      000000bc DEPL                                1 G1     
 DS_G1            404      000000bc DEPL                                1 G1                 4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01   3.456286312635E-04   1.860372178986E-05  -2.318411916098E-03
 DS_G1            405      000000bc DEPL                                1 G1                 4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01   3.456244301629E-04   1.923191243466E-05  -2.297911369578E-03
 
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0094   user+syst:        0.03s (syst:        0.02s, elaps:        0.06s)
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0099   user+syst:        0.03s (syst:        0.01s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt243
+.. _stg1_txt248
 # ----------------------------------------------------------------------------------------------
-# Commande #0095 de pontons_alu_01.comm.changed.py, ligne 243
+# Commande #0100 de pontons_alu_01.comm.changed.py, ligne 248
 T_RP_G2 = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='APP_QUAI',
@@ -1596,14 +1703,14 @@ T_RP_G2 = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   RESULTAT=ELEM),
                         INFO=1)
 
-# Résultat commande #0095 (POST_RELEVE_T): T_RP_G2 ('<0000016b>') de type <Table>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0095   user+syst:        0.01s (syst:        0.01s, elaps:        0.02s)
+# Résultat commande #0100 (POST_RELEVE_T): T_RP_G2 ('<0000016b>') de type <Table>
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0100   user+syst:        0.00s (syst:        0.00s, elaps:        0.00s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt244
+.. _stg1_txt249
 # ----------------------------------------------------------------------------------------------
-# Commande #0096 de pontons_alu_01.comm.changed.py, ligne 244
+# Commande #0101 de pontons_alu_01.comm.changed.py, ligne 249
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -1619,17 +1726,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000016b CALCULE LE 12/10/2026 A 13:01:00 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000016b CALCULE LE 12/10/2026 A 13:07:59 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_G2            000000bc REAC_NODA                           2 G2                 7.730580870645E+02   1.866788948748E+02   4.654351269228E+03
 
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0096   user+syst:        0.03s (syst:        0.01s, elaps:        0.06s)
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0101   user+syst:        0.05s (syst:        0.00s, elaps:        0.06s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt245
+.. _stg1_txt250
 # ----------------------------------------------------------------------------------------------
-# Commande #0097 de pontons_alu_01.comm.changed.py, ligne 245
+# Commande #0102 de pontons_alu_01.comm.changed.py, ligne 250
 T_DS_G2 = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='N_SEMELLE',
@@ -1644,14 +1751,14 @@ T_DS_G2 = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   RESULTAT=ELEM),
                         INFO=1)
 
-# Résultat commande #0097 (POST_RELEVE_T): T_DS_G2 ('<0000016c>') de type <Table>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0097   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
+# Résultat commande #0102 (POST_RELEVE_T): T_DS_G2 ('<0000016c>') de type <Table>
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0102   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt246
+.. _stg1_txt251
 # ----------------------------------------------------------------------------------------------
-# Commande #0098 de pontons_alu_01.comm.changed.py, ligne 246
+# Commande #0103 de pontons_alu_01.comm.changed.py, ligne 251
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -1667,7 +1774,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000016c CALCULE LE 12/10/2026 A 13:01:00 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000016c CALCULE LE 12/10/2026 A 13:07:59 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_G2            1        000000bc DEPL                                2 G2                 0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01   2.156568956047E-04   4.766345212804E-05  -6.880758527743E-05
 DS_G2            2        000000bc DEPL                                2 G2                 7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01   2.194372491875E-04   4.767448983045E-05  -7.816553729897E-05
@@ -1761,13 +1868,13 @@ DS_G2            403      000000bc DEPL                                2 G2     
 DS_G2            404      000000bc DEPL                                2 G2                 4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01   2.062145604571E-04   5.245690286413E-05  -3.237024120301E-04
 DS_G2            405      000000bc DEPL                                2 G2                 4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01   2.062123206791E-04   5.348976526104E-05  -3.836734003037E-04
 
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0098   user+syst:        0.06s (syst:        0.01s, elaps:        0.08s)
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0103   user+syst:        0.04s (syst:        0.01s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt247
+.. _stg1_txt252
 # ----------------------------------------------------------------------------------------------
-# Commande #0099 de pontons_alu_01.comm.changed.py, ligne 247
+# Commande #0104 de pontons_alu_01.comm.changed.py, ligne 252
 T_RP_Q = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                  FORMAT_C='MODULE',
                                  GROUP_NO='APP_QUAI',
@@ -1782,14 +1889,14 @@ T_RP_Q = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                  RESULTAT=ELEM),
                        INFO=1)
 
-# Résultat commande #0099 (POST_RELEVE_T): T_RP_Q ('<0000016d>') de type <Table>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0099   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# Résultat commande #0104 (POST_RELEVE_T): T_RP_Q ('<0000016d>') de type <Table>
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0104   user+syst:        0.00s (syst:        0.00s, elaps:        0.02s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt248
+.. _stg1_txt253
 # ----------------------------------------------------------------------------------------------
-# Commande #0100 de pontons_alu_01.comm.changed.py, ligne 248
+# Commande #0105 de pontons_alu_01.comm.changed.py, ligne 253
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -1805,17 +1912,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000016d CALCULE LE 12/10/2026 A 13:01:01 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000016d CALCULE LE 12/10/2026 A 13:07:59 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_Q             000000bc REAC_NODA                           3 Q                  3.865290435295E+03   9.333944743710E+02   2.327175634614E+04
 
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0100   user+syst:        0.07s (syst:        0.00s, elaps:        0.06s)
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0105   user+syst:        0.04s (syst:        0.01s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt249
+.. _stg1_txt254
 # ----------------------------------------------------------------------------------------------
-# Commande #0101 de pontons_alu_01.comm.changed.py, ligne 249
+# Commande #0106 de pontons_alu_01.comm.changed.py, ligne 254
 T_DS_Q = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                  FORMAT_C='MODULE',
                                  GROUP_NO='N_SEMELLE',
@@ -1830,14 +1937,14 @@ T_DS_Q = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                  RESULTAT=ELEM),
                        INFO=1)
 
-# Résultat commande #0101 (POST_RELEVE_T): T_DS_Q ('<0000016e>') de type <Table>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0101   user+syst:        0.01s (syst:        0.01s, elaps:        0.02s)
+# Résultat commande #0106 (POST_RELEVE_T): T_DS_Q ('<0000016e>') de type <Table>
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0106   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt250
+.. _stg1_txt255
 # ----------------------------------------------------------------------------------------------
-# Commande #0102 de pontons_alu_01.comm.changed.py, ligne 250
+# Commande #0107 de pontons_alu_01.comm.changed.py, ligne 255
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -1853,7 +1960,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000016e CALCULE LE 12/10/2026 A 13:01:01 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000016e CALCULE LE 12/10/2026 A 13:07:59 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_Q             1        000000bc DEPL                                3 Q                  0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01   1.078284478038E-03   2.383172606427E-04  -3.440379263946E-04
 DS_Q             2        000000bc DEPL                                3 Q                  7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01   1.097186245952E-03   2.383724491547E-04  -3.908276865029E-04
@@ -1947,13 +2054,13 @@ DS_Q             403      000000bc DEPL                                3 Q      
 DS_Q             404      000000bc DEPL                                3 Q                  4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01   1.031072802302E-03   2.622845143224E-04  -1.618512060149E-03
 DS_Q             405      000000bc DEPL                                3 Q                  4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01   1.031061603412E-03   2.674488263068E-04  -1.918367001516E-03
 
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0102   user+syst:        0.06s (syst:        0.01s, elaps:        0.08s)
+# Mémoire (Mo) :   781.74 /   776.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0107   user+syst:        0.03s (syst:        0.01s, elaps:        0.06s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt251
+.. _stg1_txt256
 # ----------------------------------------------------------------------------------------------
-# Commande #0103 de pontons_alu_01.comm.changed.py, ligne 251
+# Commande #0108 de pontons_alu_01.comm.changed.py, ligne 256
 T_RP_QD = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='APP_QUAI',
@@ -1968,14 +2075,15 @@ T_RP_QD = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   RESULTAT=ELEM),
                         INFO=1)
 
-# Résultat commande #0103 (POST_RELEVE_T): T_RP_QD ('<0000016f>') de type <Table>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0103   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+#3      Dechargement de la memoire sur disque             CPU (USER+SYST/SYST/ELAPS):      0.02      0.02      0.01
+# Résultat commande #0108 (POST_RELEVE_T): T_RP_QD ('<0000016f>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0108   user+syst:        0.00s (syst:        0.03s, elaps:        0.03s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt252
+.. _stg1_txt257
 # ----------------------------------------------------------------------------------------------
-# Commande #0104 de pontons_alu_01.comm.changed.py, ligne 252
+# Commande #0109 de pontons_alu_01.comm.changed.py, ligne 257
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -1991,17 +2099,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000016f CALCULE LE 12/10/2026 A 13:01:01 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000016f CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_QD            000000bc REAC_NODA                           4 QD                 1.962412667446E+03  -4.258932425438E+02   1.163460174481E+04
 
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0104   user+syst:        0.05s (syst:        0.00s, elaps:        0.05s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0109   user+syst:        0.14s (syst:        0.01s, elaps:        0.14s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt253
+.. _stg1_txt258
 # ----------------------------------------------------------------------------------------------
-# Commande #0105 de pontons_alu_01.comm.changed.py, ligne 253
+# Commande #0110 de pontons_alu_01.comm.changed.py, ligne 258
 T_DS_QD = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='N_SEMELLE',
@@ -2016,14 +2124,14 @@ T_DS_QD = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   RESULTAT=ELEM),
                         INFO=1)
 
-# Résultat commande #0105 (POST_RELEVE_T): T_DS_QD ('<00000170>') de type <Table>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0105   user+syst:        0.02s (syst:        0.00s, elaps:        0.04s)
+# Résultat commande #0110 (POST_RELEVE_T): T_DS_QD ('<00000170>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0110   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt254
+.. _stg1_txt259
 # ----------------------------------------------------------------------------------------------
-# Commande #0106 de pontons_alu_01.comm.changed.py, ligne 254
+# Commande #0111 de pontons_alu_01.comm.changed.py, ligne 259
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -2039,7 +2147,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000170 CALCULE LE 12/10/2026 A 13:01:01 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000170 CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_QD            1        000000bc DEPL                                4 QD                 0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01   4.119677632480E-04  -1.148448421086E-05  -3.917851467764E-06
 DS_QD            2        000000bc DEPL                                4 QD                 7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01   2.951864653972E-04  -1.147697239497E-05   1.156962060614E-04
@@ -2133,13 +2241,13 @@ DS_QD            403      000000bc DEPL                                4 QD     
 DS_QD            404      000000bc DEPL                                4 QD                 4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01   7.010783526927E-04  -1.582196561223E-04  -1.019857379086E-03
 DS_QD            405      000000bc DEPL                                4 QD                 4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01   7.010705197500E-04  -1.899007632988E-04  -1.174111646423E-03
 
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0106   user+syst:        0.06s (syst:        0.01s, elaps:        0.06s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0111   user+syst:        0.04s (syst:        0.00s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt255
+.. _stg1_txt260
 # ----------------------------------------------------------------------------------------------
-# Commande #0107 de pontons_alu_01.comm.changed.py, ligne 255
+# Commande #0112 de pontons_alu_01.comm.changed.py, ligne 260
 T_RP_HU = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='APP_QUAI',
@@ -2154,14 +2262,14 @@ T_RP_HU = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   RESULTAT=ELEM),
                         INFO=1)
 
-# Résultat commande #0107 (POST_RELEVE_T): T_RP_HU ('<00000171>') de type <Table>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0107   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# Résultat commande #0112 (POST_RELEVE_T): T_RP_HU ('<00000171>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0112   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt256
+.. _stg1_txt261
 # ----------------------------------------------------------------------------------------------
-# Commande #0108 de pontons_alu_01.comm.changed.py, ligne 256
+# Commande #0113 de pontons_alu_01.comm.changed.py, ligne 261
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -2177,17 +2285,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000171 CALCULE LE 12/10/2026 A 13:01:01 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000171 CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_HU            000000bc REAC_NODA                           5 HU                -7.730580870645E+02  -1.866788948748E+02  -4.654351269228E+03
 
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0108   user+syst:        0.09s (syst:        0.00s, elaps:        0.11s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0113   user+syst:        0.09s (syst:        0.01s, elaps:        0.11s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt257
+.. _stg1_txt262
 # ----------------------------------------------------------------------------------------------
-# Commande #0109 de pontons_alu_01.comm.changed.py, ligne 257
+# Commande #0114 de pontons_alu_01.comm.changed.py, ligne 262
 T_DS_HU = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='N_SEMELLE',
@@ -2202,14 +2310,14 @@ T_DS_HU = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   RESULTAT=ELEM),
                         INFO=1)
 
-# Résultat commande #0109 (POST_RELEVE_T): T_DS_HU ('<00000172>') de type <Table>
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0109   user+syst:        0.03s (syst:        0.00s, elaps:        0.02s)
+# Résultat commande #0114 (POST_RELEVE_T): T_DS_HU ('<00000172>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0114   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt258
+.. _stg1_txt263
 # ----------------------------------------------------------------------------------------------
-# Commande #0110 de pontons_alu_01.comm.changed.py, ligne 258
+# Commande #0115 de pontons_alu_01.comm.changed.py, ligne 263
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -2225,7 +2333,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000172 CALCULE LE 12/10/2026 A 13:01:01 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000172 CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_HU            1        000000bc DEPL                                5 HU                 0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01  -2.156568956047E-04  -4.766345212804E-05   6.880758527743E-05
 DS_HU            2        000000bc DEPL                                5 HU                 7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01  -2.194372491875E-04  -4.767448983045E-05   7.816553729897E-05
@@ -2319,13 +2427,13 @@ DS_HU            403      000000bc DEPL                                5 HU     
 DS_HU            404      000000bc DEPL                                5 HU                 4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01  -2.062145604571E-04  -5.245690286413E-05   3.237024120301E-04
 DS_HU            405      000000bc DEPL                                5 HU                 4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01  -2.062123206791E-04  -5.348976526104E-05   3.836734003037E-04
 
-# Mémoire (Mo) :   781.24 /   775.52 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0110   user+syst:        0.06s (syst:        0.01s, elaps:        0.06s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0115   user+syst:        0.05s (syst:        0.00s, elaps:        0.06s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt259
+.. _stg1_txt264
 # ----------------------------------------------------------------------------------------------
-# Commande #0111 de pontons_alu_01.comm.changed.py, ligne 259
+# Commande #0116 de pontons_alu_01.comm.changed.py, ligne 264
 T_RP_HD = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='APP_QUAI',
@@ -2340,15 +2448,14 @@ T_RP_HD = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   RESULTAT=ELEM),
                         INFO=1)
 
-#3      Dechargement de la memoire sur disque             CPU (USER+SYST/SYST/ELAPS):      0.02      0.02      0.14
-# Résultat commande #0111 (POST_RELEVE_T): T_RP_HD ('<00000173>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0111   user+syst:        0.01s (syst:        0.05s, elaps:        0.18s)
+# Résultat commande #0116 (POST_RELEVE_T): T_RP_HD ('<00000173>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0116   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt260
+.. _stg1_txt265
 # ----------------------------------------------------------------------------------------------
-# Commande #0112 de pontons_alu_01.comm.changed.py, ligne 260
+# Commande #0117 de pontons_alu_01.comm.changed.py, ligne 265
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -2364,17 +2471,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000173 CALCULE LE 12/10/2026 A 13:01:01 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000173 CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_HD            000000bc REAC_NODA                           6 HD                 7.730580870645E+02   1.866788948748E+02   4.654351269228E+03
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0112   user+syst:        0.03s (syst:        0.01s, elaps:        0.04s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0117   user+syst:        0.03s (syst:        0.01s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt261
+.. _stg1_txt266
 # ----------------------------------------------------------------------------------------------
-# Commande #0113 de pontons_alu_01.comm.changed.py, ligne 261
+# Commande #0118 de pontons_alu_01.comm.changed.py, ligne 266
 T_DS_HD = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='N_SEMELLE',
@@ -2389,14 +2496,14 @@ T_DS_HD = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   RESULTAT=ELEM),
                         INFO=1)
 
-# Résultat commande #0113 (POST_RELEVE_T): T_DS_HD ('<00000174>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0113   user+syst:        0.02s (syst:        0.00s, elaps:        0.03s)
+# Résultat commande #0118 (POST_RELEVE_T): T_DS_HD ('<00000174>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0118   user+syst:        0.00s (syst:        0.01s, elaps:        0.00s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt262
+.. _stg1_txt267
 # ----------------------------------------------------------------------------------------------
-# Commande #0114 de pontons_alu_01.comm.changed.py, ligne 262
+# Commande #0119 de pontons_alu_01.comm.changed.py, ligne 267
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -2412,7 +2519,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000174 CALCULE LE 12/10/2026 A 13:01:01 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000174 CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_HD            1        000000bc DEPL                                6 HD                 0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01   2.156568956047E-04   4.766345212804E-05  -6.880758527743E-05
 DS_HD            2        000000bc DEPL                                6 HD                 7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01   2.194372491875E-04   4.767448983045E-05  -7.816553729897E-05
@@ -2506,13 +2613,13 @@ DS_HD            403      000000bc DEPL                                6 HD     
 DS_HD            404      000000bc DEPL                                6 HD                 4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01   2.062145604571E-04   5.245690286413E-05  -3.237024120301E-04
 DS_HD            405      000000bc DEPL                                6 HD                 4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01   2.062123206791E-04   5.348976526104E-05  -3.836734003037E-04
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0114   user+syst:        0.05s (syst:        0.01s, elaps:        0.07s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0119   user+syst:        0.03s (syst:        0.01s, elaps:        0.06s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt263
+.. _stg1_txt268
 # ----------------------------------------------------------------------------------------------
-# Commande #0115 de pontons_alu_01.comm.changed.py, ligne 263
+# Commande #0120 de pontons_alu_01.comm.changed.py, ligne 268
 T_RP_AMM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='APP_QUAI',
@@ -2527,14 +2634,14 @@ T_RP_AMM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0115 (POST_RELEVE_T): T_RP_AMM ('<00000175>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0115   user+syst:        0.00s (syst:        0.00s, elaps:        0.00s)
+# Résultat commande #0120 (POST_RELEVE_T): T_RP_AMM ('<00000175>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0120   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt264
+.. _stg1_txt269
 # ----------------------------------------------------------------------------------------------
-# Commande #0116 de pontons_alu_01.comm.changed.py, ligne 264
+# Commande #0121 de pontons_alu_01.comm.changed.py, ligne 269
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -2550,17 +2657,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000175 CALCULE LE 12/10/2026 A 13:01:01 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000175 CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_AMM           000000bc REAC_NODA                           7 AMM               -2.839050762519E+01   1.405100779851E+04   1.217384966998E+00
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0116   user+syst:        0.03s (syst:        0.01s, elaps:        0.04s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0121   user+syst:        0.07s (syst:        0.01s, elaps:        0.07s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt265
+.. _stg1_txt270
 # ----------------------------------------------------------------------------------------------
-# Commande #0117 de pontons_alu_01.comm.changed.py, ligne 265
+# Commande #0122 de pontons_alu_01.comm.changed.py, ligne 270
 T_DS_AMM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='N_SEMELLE',
@@ -2575,14 +2682,14 @@ T_DS_AMM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0117 (POST_RELEVE_T): T_DS_AMM ('<00000176>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0117   user+syst:        0.02s (syst:        0.01s, elaps:        0.02s)
+# Résultat commande #0122 (POST_RELEVE_T): T_DS_AMM ('<00000176>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0122   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt266
+.. _stg1_txt271
 # ----------------------------------------------------------------------------------------------
-# Commande #0118 de pontons_alu_01.comm.changed.py, ligne 266
+# Commande #0123 de pontons_alu_01.comm.changed.py, ligne 271
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -2598,7 +2705,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000176 CALCULE LE 12/10/2026 A 13:01:01 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000176 CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_AMM           1        000000bc DEPL                                7 AMM                0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01  -8.755203699553E-05  -4.664017351050E-04  -2.445332067491E-04
 DS_AMM           2        000000bc DEPL                                7 AMM                7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01  -1.619551876428E-04  -4.664230303156E-04  -4.585624861915E-04
@@ -2692,13 +2799,13 @@ DS_AMM           403      000000bc DEPL                                7 AMM    
 DS_AMM           404      000000bc DEPL                                7 AMM                4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01   9.680717367171E-05  -5.599543667522E-04   3.036078247279E-04
 DS_AMM           405      000000bc DEPL                                7 AMM                4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01   9.680603043072E-05  -5.801424248323E-04   3.063226972402E-04
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0118   user+syst:        0.03s (syst:        0.01s, elaps:        0.04s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0123   user+syst:        0.02s (syst:        0.01s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt267
+.. _stg1_txt272
 # ----------------------------------------------------------------------------------------------
-# Commande #0119 de pontons_alu_01.comm.changed.py, ligne 267
+# Commande #0124 de pontons_alu_01.comm.changed.py, ligne 272
 T_RP_AMP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='APP_QUAI',
@@ -2713,14 +2820,14 @@ T_RP_AMP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0119 (POST_RELEVE_T): T_RP_AMP ('<00000177>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0119   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
+# Résultat commande #0124 (POST_RELEVE_T): T_RP_AMP ('<00000177>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0124   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt268
+.. _stg1_txt273
 # ----------------------------------------------------------------------------------------------
-# Commande #0120 de pontons_alu_01.comm.changed.py, ligne 268
+# Commande #0125 de pontons_alu_01.comm.changed.py, ligne 273
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -2736,17 +2843,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000177 CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000177 CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_AMP           000000bc REAC_NODA                           8 AMP                2.663133134875E+01  -1.395240685260E+04  -1.141951488165E+00
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0120   user+syst:        0.04s (syst:        0.02s, elaps:        0.01s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0125   user+syst:        0.05s (syst:        0.00s, elaps:        0.06s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt269
+.. _stg1_txt274
 # ----------------------------------------------------------------------------------------------
-# Commande #0121 de pontons_alu_01.comm.changed.py, ligne 269
+# Commande #0126 de pontons_alu_01.comm.changed.py, ligne 274
 T_DS_AMP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='N_SEMELLE',
@@ -2761,14 +2868,14 @@ T_DS_AMP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0121 (POST_RELEVE_T): T_DS_AMP ('<00000178>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0121   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
+# Résultat commande #0126 (POST_RELEVE_T): T_DS_AMP ('<00000178>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0126   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt270
+.. _stg1_txt275
 # ----------------------------------------------------------------------------------------------
-# Commande #0122 de pontons_alu_01.comm.changed.py, ligne 270
+# Commande #0127 de pontons_alu_01.comm.changed.py, ligne 275
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -2784,7 +2891,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000178 CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000178 CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_AMP           1        000000bc DEPL                                8 AMP                0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01   8.278768637096E-05   4.969827654252E-04   2.555726795467E-04
 DS_AMP           2        000000bc DEPL                                8 AMP                7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01   1.531942620881E-04   4.970038571539E-04   4.806097091613E-04
@@ -2878,13 +2985,13 @@ DS_AMP           403      000000bc DEPL                                8 AMP    
 DS_AMP           404      000000bc DEPL                                8 AMP                4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01  -9.167288191911E-05   5.855113188259E-04  -3.187542135636E-04
 DS_AMP           405      000000bc DEPL                                8 AMP                4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01  -9.167182721924E-05   6.046135557742E-04  -3.212034184099E-04
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0122   user+syst:        0.04s (syst:        0.00s, elaps:        0.06s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0127   user+syst:        0.04s (syst:        0.00s, elaps:        0.05s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt271
+.. _stg1_txt276
 # ----------------------------------------------------------------------------------------------
-# Commande #0123 de pontons_alu_01.comm.changed.py, ligne 271
+# Commande #0128 de pontons_alu_01.comm.changed.py, ligne 276
 T_RP_ACM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='APP_QUAI',
@@ -2899,14 +3006,14 @@ T_RP_ACM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0123 (POST_RELEVE_T): T_RP_ACM ('<00000179>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0123   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
+# Résultat commande #0128 (POST_RELEVE_T): T_RP_ACM ('<00000179>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0128   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt272
+.. _stg1_txt277
 # ----------------------------------------------------------------------------------------------
-# Commande #0124 de pontons_alu_01.comm.changed.py, ligne 272
+# Commande #0129 de pontons_alu_01.comm.changed.py, ligne 277
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -2922,17 +3029,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000179 CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000179 CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_ACM           000000bc REAC_NODA                           9 ACM                4.564106837053E+01  -2.916119938548E+04  -1.957089011698E+00
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0124   user+syst:        0.05s (syst:        0.01s, elaps:        0.05s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0129   user+syst:        0.04s (syst:        0.01s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt273
+.. _stg1_txt278
 # ----------------------------------------------------------------------------------------------
-# Commande #0125 de pontons_alu_01.comm.changed.py, ligne 273
+# Commande #0130 de pontons_alu_01.comm.changed.py, ligne 278
 T_DS_ACM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='N_SEMELLE',
@@ -2947,14 +3054,14 @@ T_DS_ACM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0125 (POST_RELEVE_T): T_DS_ACM ('<0000017a>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0125   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
+# Résultat commande #0130 (POST_RELEVE_T): T_DS_ACM ('<0000017a>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0130   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt274
+.. _stg1_txt279
 # ----------------------------------------------------------------------------------------------
-# Commande #0126 de pontons_alu_01.comm.changed.py, ligne 274
+# Commande #0131 de pontons_alu_01.comm.changed.py, ligne 279
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -2970,7 +3077,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000017a CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000017a CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_ACM           1        000000bc DEPL                                9 ACM                0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01   9.457038789506E-05   7.079957337820E-04   3.574901755749E-04
 DS_ACM           2        000000bc DEPL                                9 ACM                7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01   1.711044993431E-04   7.080228760404E-04   6.690336838593E-04
@@ -3064,13 +3171,13 @@ DS_ACM           403      000000bc DEPL                                9 ACM    
 DS_ACM           404      000000bc DEPL                                9 ACM                4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01  -9.509071579369E-05   8.042287358999E-04  -4.431233898638E-04
 DS_ACM           405      000000bc DEPL                                9 ACM                4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01  -9.508962245441E-05   8.249904832549E-04  -4.478004001452E-04
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0126   user+syst:        0.03s (syst:        0.01s, elaps:        0.04s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0131   user+syst:        0.02s (syst:        0.01s, elaps:        0.03s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt275
+.. _stg1_txt280
 # ----------------------------------------------------------------------------------------------
-# Commande #0127 de pontons_alu_01.comm.changed.py, ligne 275
+# Commande #0132 de pontons_alu_01.comm.changed.py, ligne 280
 T_RP_ACP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='APP_QUAI',
@@ -3085,14 +3192,14 @@ T_RP_ACP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0127 (POST_RELEVE_T): T_RP_ACP ('<0000017b>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0127   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
+# Résultat commande #0132 (POST_RELEVE_T): T_RP_ACP ('<0000017b>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0132   user+syst:        0.00s (syst:        0.00s, elaps:        0.00s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt276
+.. _stg1_txt281
 # ----------------------------------------------------------------------------------------------
-# Commande #0128 de pontons_alu_01.comm.changed.py, ligne 276
+# Commande #0133 de pontons_alu_01.comm.changed.py, ligne 281
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -3108,17 +3215,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000017b CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000017b CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_ACP           000000bc REAC_NODA                          10 ACP               -4.527861798309E+01   2.898065782837E+04   1.941547139085E+00
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0128   user+syst:        0.03s (syst:        0.01s, elaps:        0.07s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0133   user+syst:        0.02s (syst:        0.01s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt277
+.. _stg1_txt282
 # ----------------------------------------------------------------------------------------------
-# Commande #0129 de pontons_alu_01.comm.changed.py, ligne 277
+# Commande #0134 de pontons_alu_01.comm.changed.py, ligne 282
 T_DS_ACP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='N_SEMELLE',
@@ -3133,14 +3240,14 @@ T_DS_ACP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0129 (POST_RELEVE_T): T_DS_ACP ('<0000017c>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0129   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# Résultat commande #0134 (POST_RELEVE_T): T_DS_ACP ('<0000017c>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0134   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt278
+.. _stg1_txt283
 # ----------------------------------------------------------------------------------------------
-# Commande #0130 de pontons_alu_01.comm.changed.py, ligne 278
+# Commande #0135 de pontons_alu_01.comm.changed.py, ligne 283
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -3156,7 +3263,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000017c CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000017c CALCULE LE 12/10/2026 A 13:08:00 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_ACP           1        000000bc DEPL                               10 ACP                0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01  -8.729282976304E-05  -7.634347678783E-04  -3.787313926028E-04
 DS_ACP           2        000000bc DEPL                               10 ACP                7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01  -1.571278442468E-04  -7.634622202611E-04  -7.102093222349E-04
@@ -3250,13 +3357,13 @@ DS_ACP           403      000000bc DEPL                               10 ACP    
 DS_ACP           404      000000bc DEPL                               10 ACP                4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01   8.577790129140E-05  -8.512444559048E-04   4.710175119654E-04
 DS_ACP           405      000000bc DEPL                               10 ACP                4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01   8.577692833140E-05  -8.701865902167E-04   4.755964504610E-04
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0130   user+syst:        0.03s (syst:        0.01s, elaps:        0.05s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0135   user+syst:        0.04s (syst:        0.01s, elaps:        0.06s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt279
+.. _stg1_txt284
 # ----------------------------------------------------------------------------------------------
-# Commande #0131 de pontons_alu_01.comm.changed.py, ligne 279
+# Commande #0136 de pontons_alu_01.comm.changed.py, ligne 284
 T_RP_AAM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='APP_QUAI',
@@ -3271,14 +3378,14 @@ T_RP_AAM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0131 (POST_RELEVE_T): T_RP_AAM ('<0000017d>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0131   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
+# Résultat commande #0136 (POST_RELEVE_T): T_RP_AAM ('<0000017d>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0136   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt280
+.. _stg1_txt285
 # ----------------------------------------------------------------------------------------------
-# Commande #0132 de pontons_alu_01.comm.changed.py, ligne 280
+# Commande #0137 de pontons_alu_01.comm.changed.py, ligne 285
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -3294,17 +3401,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000017d CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000017d CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_AAM           000000bc REAC_NODA                          11 AAM                2.196476415216E+02  -1.403382720426E+05  -9.418490868279E+00
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0132   user+syst:        0.12s (syst:        0.01s, elaps:        0.13s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0137   user+syst:        0.06s (syst:        0.00s, elaps:        0.06s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt281
+.. _stg1_txt286
 # ----------------------------------------------------------------------------------------------
-# Commande #0133 de pontons_alu_01.comm.changed.py, ligne 281
+# Commande #0138 de pontons_alu_01.comm.changed.py, ligne 286
 T_DS_AAM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='N_SEMELLE',
@@ -3319,14 +3426,14 @@ T_DS_AAM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0133 (POST_RELEVE_T): T_DS_AAM ('<0000017e>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0133   user+syst:        0.03s (syst:        0.00s, elaps:        0.03s)
+# Résultat commande #0138 (POST_RELEVE_T): T_DS_AAM ('<0000017e>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0138   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt282
+.. _stg1_txt287
 # ----------------------------------------------------------------------------------------------
-# Commande #0134 de pontons_alu_01.comm.changed.py, ligne 282
+# Commande #0139 de pontons_alu_01.comm.changed.py, ligne 287
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -3342,7 +3449,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000017e CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000017e CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_AAM           1        000000bc DEPL                               11 AAM                0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01   4.551199917400E-04   3.407229468818E-03   1.720421469955E-03
 DS_AAM           2        000000bc DEPL                               11 AAM                7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01   8.234404030806E-04   3.407360090937E-03   3.219724603572E-03
@@ -3436,13 +3543,13 @@ DS_AAM           403      000000bc DEPL                               11 AAM    
 DS_AAM           404      000000bc DEPL                               11 AAM                4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01  -4.576240697552E-04   3.870350791507E-03  -2.132531313715E-03
 DS_AAM           405      000000bc DEPL                               11 AAM                4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01  -4.576188080599E-04   3.970266700652E-03  -2.155039425694E-03
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0134   user+syst:        0.08s (syst:        0.00s, elaps:        0.08s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0139   user+syst:        0.03s (syst:        0.00s, elaps:        0.03s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt283
+.. _stg1_txt288
 # ----------------------------------------------------------------------------------------------
-# Commande #0135 de pontons_alu_01.comm.changed.py, ligne 283
+# Commande #0140 de pontons_alu_01.comm.changed.py, ligne 288
 T_RP_AAP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='APP_QUAI',
@@ -3457,14 +3564,14 @@ T_RP_AAP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0135 (POST_RELEVE_T): T_RP_AAP ('<0000017f>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0135   user+syst:        0.02s (syst:        0.00s, elaps:        0.03s)
+# Résultat commande #0140 (POST_RELEVE_T): T_RP_AAP ('<0000017f>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0140   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt284
+.. _stg1_txt289
 # ----------------------------------------------------------------------------------------------
-# Commande #0136 de pontons_alu_01.comm.changed.py, ligne 284
+# Commande #0141 de pontons_alu_01.comm.changed.py, ligne 289
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -3480,17 +3587,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 0000017f CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 0000017f CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          DX                   DY                   DZ                  
 RP_AAP           000000bc REAC_NODA                          12 AAP               -2.179033490442E+02   1.394694157990E+05   9.343695606162E+00
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0136   user+syst:        0.06s (syst:        0.00s, elaps:        0.06s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0141   user+syst:        0.06s (syst:        0.00s, elaps:        0.07s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt285
+.. _stg1_txt290
 # ----------------------------------------------------------------------------------------------
-# Commande #0137 de pontons_alu_01.comm.changed.py, ligne 285
+# Commande #0142 de pontons_alu_01.comm.changed.py, ligne 290
 T_DS_AAP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='N_SEMELLE',
@@ -3505,14 +3612,14 @@ T_DS_AAP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    RESULTAT=ELEM),
                          INFO=1)
 
-# Résultat commande #0137 (POST_RELEVE_T): T_DS_AAP ('<00000180>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0137   user+syst:        0.02s (syst:        0.00s, elaps:        0.03s)
+# Résultat commande #0142 (POST_RELEVE_T): T_DS_AAP ('<00000180>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0142   user+syst:        0.02s (syst:        0.01s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt286
+.. _stg1_txt291
 # ----------------------------------------------------------------------------------------------
-# Commande #0138 de pontons_alu_01.comm.changed.py, ligne 286
+# Commande #0143 de pontons_alu_01.comm.changed.py, ligne 291
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -3528,7 +3635,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000180 CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000180 CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   NOM_CAS          ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_AAP           1        000000bc DEPL                               12 AAP                0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01  -4.200967432310E-04  -3.674029820419E-03  -1.822644826898E-03
 DS_AAP           2        000000bc DEPL                               12 AAP                7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01  -7.561777504337E-04  -3.674161935011E-03  -3.417882363250E-03
@@ -3622,13 +3729,13 @@ DS_AAP           403      000000bc DEPL                               12 AAP    
 DS_AAP           404      000000bc DEPL                               12 AAP                4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01   4.128061499675E-04  -4.096613944046E-03   2.266771776334E-03
 DS_AAP           405      000000bc DEPL                               12 AAP                4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01   4.128014675975E-04  -4.187772965422E-03   2.288807917845E-03
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0138   user+syst:        0.05s (syst:        0.00s, elaps:        0.07s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0143   user+syst:        0.05s (syst:        0.00s, elaps:        0.05s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt287
+.. _stg1_txt292
 # ----------------------------------------------------------------------------------------------
-# Commande #0139 de pontons_alu_01.comm.changed.py, ligne 287
+# Commande #0144 de pontons_alu_01.comm.changed.py, ligne 292
 T_RP_TP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='APP_QUAI',
@@ -3643,14 +3750,14 @@ T_RP_TP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   TOUT_ORDRE='OUI'),
                         INFO=1)
 
-# Résultat commande #0139 (POST_RELEVE_T): T_RP_TP ('<00000181>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0139   user+syst:        0.01s (syst:        0.02s, elaps:        0.02s)
+# Résultat commande #0144 (POST_RELEVE_T): T_RP_TP ('<00000181>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0144   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt288
+.. _stg1_txt293
 # ----------------------------------------------------------------------------------------------
-# Commande #0140 de pontons_alu_01.comm.changed.py, ligne 288
+# Commande #0145 de pontons_alu_01.comm.changed.py, ligne 293
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -3666,17 +3773,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000181 CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000181 CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
 RP_TP            000000bf REAC_NODA                           1   0.000000000000E+00   3.994809830166E+03  -9.133172223961E+02  -1.712974455170E+02
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0140   user+syst:        0.06s (syst:        0.00s, elaps:        0.07s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0145   user+syst:        0.05s (syst:        0.01s, elaps:        0.06s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt289
+.. _stg1_txt294
 # ----------------------------------------------------------------------------------------------
-# Commande #0141 de pontons_alu_01.comm.changed.py, ligne 289
+# Commande #0146 de pontons_alu_01.comm.changed.py, ligne 294
 T_DS_TP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='N_SEMELLE',
@@ -3691,14 +3798,14 @@ T_DS_TP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   TOUT_ORDRE='OUI'),
                         INFO=1)
 
-# Résultat commande #0141 (POST_RELEVE_T): T_DS_TP ('<00000182>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0141   user+syst:        0.01s (syst:        0.00s, elaps:        0.00s)
+# Résultat commande #0146 (POST_RELEVE_T): T_DS_TP ('<00000182>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0146   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt290
+.. _stg1_txt295
 # ----------------------------------------------------------------------------------------------
-# Commande #0142 de pontons_alu_01.comm.changed.py, ligne 290
+# Commande #0147 de pontons_alu_01.comm.changed.py, ligne 295
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -3714,7 +3821,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000182 CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000182 CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   INST                 ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_TP            1        000000bf DEPL                                1   0.000000000000E+00   0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01   1.186858056951E-03  -3.280287904037E-04   1.712299746843E-03
 DS_TP            2        000000bf DEPL                                1   0.000000000000E+00   7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01   1.273890320574E-03  -3.278024857945E-04   1.632574325174E-03
@@ -3808,13 +3915,13 @@ DS_TP            403      000000bf DEPL                                1   0.000
 DS_TP            404      000000bf DEPL                                1   0.000000000000E+00   4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01   9.705118281877E-04  -2.190582409025E-04  -6.090667973609E-04
 DS_TP            405      000000bf DEPL                                1   0.000000000000E+00   4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01   9.705133865842E-04  -1.952196594596E-04  -1.153880721030E-03
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0142   user+syst:        0.03s (syst:        0.01s, elaps:        0.04s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0147   user+syst:        0.06s (syst:        0.00s, elaps:        0.07s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt291
+.. _stg1_txt296
 # ----------------------------------------------------------------------------------------------
-# Commande #0143 de pontons_alu_01.comm.changed.py, ligne 291
+# Commande #0148 de pontons_alu_01.comm.changed.py, ligne 296
 T_RP_TM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='APP_QUAI',
@@ -3829,14 +3936,14 @@ T_RP_TM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   TOUT_ORDRE='OUI'),
                         INFO=1)
 
-# Résultat commande #0143 (POST_RELEVE_T): T_RP_TM ('<00000183>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0143   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
+# Résultat commande #0148 (POST_RELEVE_T): T_RP_TM ('<00000183>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0148   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt292
+.. _stg1_txt297
 # ----------------------------------------------------------------------------------------------
-# Commande #0144 de pontons_alu_01.comm.changed.py, ligne 292
+# Commande #0149 de pontons_alu_01.comm.changed.py, ligne 297
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -3852,17 +3959,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000183 CALCULE LE 12/10/2026 A 13:01:02 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000183 CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
 RP_TM            000000ea REAC_NODA                           1   0.000000000000E+00  -2.431623374895E+03   5.559322223344E+02   1.042680103154E+02
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0144   user+syst:        0.02s (syst:        0.01s, elaps:        0.03s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0149   user+syst:        0.06s (syst:        0.01s, elaps:        0.08s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt293
+.. _stg1_txt298
 # ----------------------------------------------------------------------------------------------
-# Commande #0145 de pontons_alu_01.comm.changed.py, ligne 293
+# Commande #0150 de pontons_alu_01.comm.changed.py, ligne 298
 T_DS_TM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   FORMAT_C='MODULE',
                                   GROUP_NO='N_SEMELLE',
@@ -3877,14 +3984,14 @@ T_DS_TM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                   TOUT_ORDRE='OUI'),
                         INFO=1)
 
-# Résultat commande #0145 (POST_RELEVE_T): T_DS_TM ('<00000184>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0145   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
+# Résultat commande #0150 (POST_RELEVE_T): T_DS_TM ('<00000184>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0150   user+syst:        0.00s (syst:        0.00s, elaps:        0.00s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt294
+.. _stg1_txt299
 # ----------------------------------------------------------------------------------------------
-# Commande #0146 de pontons_alu_01.comm.changed.py, ligne 294
+# Commande #0151 de pontons_alu_01.comm.changed.py, ligne 299
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -3900,7 +4007,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000184 CALCULE LE 12/10/2026 A 13:01:03 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000184 CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   INST                 ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_TM            1        000000ea DEPL                                1   0.000000000000E+00   0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01  -7.224353390156E-04   1.996696985070E-04  -1.042269411123E-03
 DS_TM            2        000000ea DEPL                                1   0.000000000000E+00   7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01  -7.754114994815E-04   1.995319478753E-04  -9.937408935861E-04
@@ -3994,13 +4101,13 @@ DS_TM            403      000000ea DEPL                                1   0.000
 DS_TM            404      000000ea DEPL                                1   0.000000000000E+00   4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01  -5.907463302039E-04   1.333397988109E-04   3.707363114353E-04
 DS_TM            405      000000ea DEPL                                1   0.000000000000E+00   4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01  -5.907472787931E-04   1.188293579327E-04   7.023621780162E-04
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0146   user+syst:        0.04s (syst:        0.01s, elaps:        0.05s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0151   user+syst:        0.03s (syst:        0.01s, elaps:        0.06s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt295
+.. _stg1_txt300
 # ----------------------------------------------------------------------------------------------
-# Commande #0147 de pontons_alu_01.comm.changed.py, ligne 295
+# Commande #0152 de pontons_alu_01.comm.changed.py, ligne 300
 T_RP_TAP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='APP_QUAI',
@@ -4015,14 +4122,14 @@ T_RP_TAP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    TOUT_ORDRE='OUI'),
                          INFO=1)
 
-# Résultat commande #0147 (POST_RELEVE_T): T_RP_TAP ('<00000185>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0147   user+syst:        0.01s (syst:        0.01s, elaps:        0.02s)
+# Résultat commande #0152 (POST_RELEVE_T): T_RP_TAP ('<00000185>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0152   user+syst:        0.00s (syst:        0.01s, elaps:        0.00s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt296
+.. _stg1_txt301
 # ----------------------------------------------------------------------------------------------
-# Commande #0148 de pontons_alu_01.comm.changed.py, ligne 296
+# Commande #0153 de pontons_alu_01.comm.changed.py, ligne 301
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -4038,17 +4145,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000185 CALCULE LE 12/10/2026 A 13:01:03 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000185 CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
 RP_TAP           00000115 REAC_NODA                           1   0.000000000000E+00   5.602355100133E+03  -1.789123657474E+03  -2.402289866948E+02
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0148   user+syst:        0.05s (syst:        0.00s, elaps:        0.06s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0153   user+syst:        0.05s (syst:        0.00s, elaps:        0.03s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt297
+.. _stg1_txt302
 # ----------------------------------------------------------------------------------------------
-# Commande #0149 de pontons_alu_01.comm.changed.py, ligne 297
+# Commande #0154 de pontons_alu_01.comm.changed.py, ligne 302
 T_DS_TAP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='N_SEMELLE',
@@ -4063,14 +4170,14 @@ T_DS_TAP = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    TOUT_ORDRE='OUI'),
                          INFO=1)
 
-# Résultat commande #0149 (POST_RELEVE_T): T_DS_TAP ('<00000186>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0149   user+syst:        0.01s (syst:        0.01s, elaps:        0.02s)
+# Résultat commande #0154 (POST_RELEVE_T): T_DS_TAP ('<00000186>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0154   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt298
+.. _stg1_txt303
 # ----------------------------------------------------------------------------------------------
-# Commande #0150 de pontons_alu_01.comm.changed.py, ligne 298
+# Commande #0155 de pontons_alu_01.comm.changed.py, ligne 303
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -4086,7 +4193,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000186 CALCULE LE 12/10/2026 A 13:01:03 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000186 CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   INST                 ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_TAP           1        00000115 DEPL                                1   0.000000000000E+00   0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01   1.679074877026E-03  -6.114875676805E-04   2.237410664829E-03
 DS_TAP           2        00000115 DEPL                                1   0.000000000000E+00   7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01   1.814788651906E-03  -6.111999059775E-04   1.973116766998E-03
@@ -4180,13 +4287,13 @@ DS_TAP           403      00000115 DEPL                                1   0.000
 DS_TAP           404      00000115 DEPL                                1   0.000000000000E+00   4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01   1.341910797139E-03  -4.413825540442E-04  -6.409412851526E-04
 DS_TAP           405      00000115 DEPL                                1   0.000000000000E+00   4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01   1.341911291300E-03  -4.042676105541E-04  -1.405386892269E-03
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0150   user+syst:        0.05s (syst:        0.01s, elaps:        0.07s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0155   user+syst:        0.03s (syst:        0.01s, elaps:        0.06s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt299
+.. _stg1_txt304
 # ----------------------------------------------------------------------------------------------
-# Commande #0151 de pontons_alu_01.comm.changed.py, ligne 299
+# Commande #0156 de pontons_alu_01.comm.changed.py, ligne 304
 T_RP_TAM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='APP_QUAI',
@@ -4201,14 +4308,14 @@ T_RP_TAM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    TOUT_ORDRE='OUI'),
                          INFO=1)
 
-# Résultat commande #0151 (POST_RELEVE_T): T_RP_TAM ('<00000187>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0151   user+syst:        0.01s (syst:        0.01s, elaps:        0.02s)
+# Résultat commande #0156 (POST_RELEVE_T): T_RP_TAM ('<00000187>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0156   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt300
+.. _stg1_txt305
 # ----------------------------------------------------------------------------------------------
-# Commande #0152 de pontons_alu_01.comm.changed.py, ligne 300
+# Commande #0157 de pontons_alu_01.comm.changed.py, ligne 305
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -4224,17 +4331,17 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000187 CALCULE LE 12/10/2026 A 13:01:03 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000187 CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         RESU     NOM_CHAM                 NUME_ORDRE   INST                 DX                   DY                   DZ                  
 RP_TAM           00000140 REAC_NODA                           1   0.000000000000E+00  -2.300967273261E+03   7.348186450278E+02   9.866547667837E+01
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0152   user+syst:        0.04s (syst:        0.01s, elaps:        0.08s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0157   user+syst:        0.03s (syst:        0.02s, elaps:        0.04s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt301
+.. _stg1_txt306
 # ----------------------------------------------------------------------------------------------
-# Commande #0153 de pontons_alu_01.comm.changed.py, ligne 301
+# Commande #0158 de pontons_alu_01.comm.changed.py, ligne 306
 T_DS_TAM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    FORMAT_C='MODULE',
                                    GROUP_NO='N_SEMELLE',
@@ -4249,14 +4356,14 @@ T_DS_TAM = POST_RELEVE_T(ACTION=_F(CRITERE='RELATIF',
                                    TOUT_ORDRE='OUI'),
                          INFO=1)
 
-# Résultat commande #0153 (POST_RELEVE_T): T_DS_TAM ('<00000188>') de type <Table>
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0153   user+syst:        0.01s (syst:        0.01s, elaps:        0.02s)
+# Résultat commande #0158 (POST_RELEVE_T): T_DS_TAM ('<00000188>') de type <Table>
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0158   user+syst:        0.00s (syst:        0.00s, elaps:        0.00s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt302
+.. _stg1_txt307
 # ----------------------------------------------------------------------------------------------
-# Commande #0154 de pontons_alu_01.comm.changed.py, ligne 302
+# Commande #0159 de pontons_alu_01.comm.changed.py, ligne 307
 IMPR_TABLE(COMMENTAIRE='#',
            COMM_PARA='',
            DEBUT_LIGNE='',
@@ -4272,7 +4379,7 @@ IMPR_TABLE(COMMENTAIRE='#',
 
 #
 #--------------------------------------------------------------------------------
-##ASTER 17.04.00 CONCEPT 00000188 CALCULE LE 12/10/2026 A 13:01:03 DE TYPE        
+##ASTER 17.04.00 CONCEPT 00000188 CALCULE LE 12/10/2026 A 13:08:01 DE TYPE        
 INTITULE         NOEUD    RESU     NOM_CHAM                 NUME_ORDRE   INST                 ABSC_CURV            COOR_X               COOR_Y               COOR_Z               DX                   DY                   DZ                  
 DS_TAM           1        00000140 DEPL                                1   0.000000000000E+00   0.000000000000E+00   5.750000000000E+00  -7.500000000000E-01  -7.550000000000E-01  -6.896200387825E-04   2.511466795840E-04  -9.189365230565E-04
 DS_TAM           2        00000140 DEPL                                1   0.000000000000E+00   7.000000000000E-01   5.750000000000E+00  -1.450000000000E+00  -7.550000000000E-01  -7.453596248948E-04   2.510285328132E-04  -8.103872435897E-04
@@ -4366,13 +4473,13 @@ DS_TAM           403      00000140 DEPL                                1   0.000
 DS_TAM           404      00000140 DEPL                                1   0.000000000000E+00   4.874125358093E+01   6.630000000000E+00   9.833333333333E-01  -7.550000000000E-01  -5.511419345411E-04   1.812821204109E-04   2.632437421126E-04
 DS_TAM           405      00000140 DEPL                                1   0.000000000000E+00   4.893125358093E+01   6.820000000000E+00   9.833333333333E-01  -7.550000000000E-01  -5.511421375003E-04   1.660384829059E-04   5.772124736064E-04
 
-# Mémoire (Mo) :   781.24 /   747.66 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0154   user+syst:        0.12s (syst:        0.01s, elaps:        0.13s)
+# Mémoire (Mo) :   781.74 /   747.30 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0159   user+syst:        0.05s (syst:        0.01s, elaps:        0.05s)
 # ----------------------------------------------------------------------------------------------
 
-.. _stg1_txt303
+.. _stg1_txt308
 # ----------------------------------------------------------------------------------------------
-# Commande #0155 de pontons_alu_01.comm.changed.py, ligne 303
+# Commande #0160 de pontons_alu_01.comm.changed.py, ligne 308
 IMPR_RESU(FICHIER_UNIQUE='NON',
           FORMAT='MED',
           INFO=1,
@@ -4387,39 +4494,39 @@ IMPR_RESU(FICHIER_UNIQUE='NON',
                 _F(CARA_ELEM=CARA,
                    IMPR_NOM_VARI='OUI',
                    INFO_MAILLAGE='NON',
-                   NOM_CHAM=('DEPL', 'EFGE_ELNO', 'REAC_NODA'),
-                   NOM_CHAM_MED=('TP______DEPL', 'TP______EFGE_ELNO', 'TP______REAC_NODA'),
+                   NOM_CHAM=('DEPL', 'EFGE_ELNO', 'EFGE_NOEU', 'REAC_NODA'),
+                   NOM_CHAM_MED=('TP______DEPL', 'TP______EFGE_ELNO', 'TP______EFGE_NOEU', 'TP______REAC_NODA'),
                    RESULTAT=TP),
                 _F(CARA_ELEM=CARA,
                    IMPR_NOM_VARI='OUI',
                    INFO_MAILLAGE='NON',
-                   NOM_CHAM=('DEPL', 'EFGE_ELNO', 'REAC_NODA'),
-                   NOM_CHAM_MED=('TM______DEPL', 'TM______EFGE_ELNO', 'TM______REAC_NODA'),
+                   NOM_CHAM=('DEPL', 'EFGE_ELNO', 'EFGE_NOEU', 'REAC_NODA'),
+                   NOM_CHAM_MED=('TM______DEPL', 'TM______EFGE_ELNO', 'TM______EFGE_NOEU', 'TM______REAC_NODA'),
                    RESULTAT=TM),
                 _F(CARA_ELEM=CARA,
                    IMPR_NOM_VARI='OUI',
                    INFO_MAILLAGE='NON',
-                   NOM_CHAM=('DEPL', 'EFGE_ELNO', 'REAC_NODA'),
-                   NOM_CHAM_MED=('TAP_____DEPL', 'TAP_____EFGE_ELNO', 'TAP_____REAC_NODA'),
+                   NOM_CHAM=('DEPL', 'EFGE_ELNO', 'EFGE_NOEU', 'REAC_NODA'),
+                   NOM_CHAM_MED=('TAP_____DEPL', 'TAP_____EFGE_ELNO', 'TAP_____EFGE_NOEU', 'TAP_____REAC_NODA'),
                    RESULTAT=TAP),
                 _F(CARA_ELEM=CARA,
                    IMPR_NOM_VARI='OUI',
                    INFO_MAILLAGE='NON',
-                   NOM_CHAM=('DEPL', 'EFGE_ELNO', 'REAC_NODA'),
-                   NOM_CHAM_MED=('TAM_____DEPL', 'TAM_____EFGE_ELNO', 'TAM_____REAC_NODA'),
+                   NOM_CHAM=('DEPL', 'EFGE_ELNO', 'EFGE_NOEU', 'REAC_NODA'),
+                   NOM_CHAM_MED=('TAM_____DEPL', 'TAM_____EFGE_ELNO', 'TAM_____EFGE_NOEU', 'TAM_____REAC_NODA'),
                    RESULTAT=TAM)),
           UNITE=80,
           VERSION_MED='3.3.1')
 
 Création du fichier au format MED 3.3.1.
 
-# Mémoire (Mo) :   781.24 /   752.33 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0155   user+syst:        0.13s (syst:        0.07s, elaps:        0.20s)
+# Mémoire (Mo) :   781.74 /   752.68 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0160   user+syst:        0.08s (syst:        0.04s, elaps:        0.05s)
 # ----------------------------------------------------------------------------------------------
 
 .. _stg1_txt76
 # ----------------------------------------------------------------------------------------------
-# Commande #0156 de /opt/spack/opt/spack/linux-zen2/code-aster-17.4
+# Commande #0161 de /opt/spack/opt/spack/linux-zen2/code-aster-17.4
 0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/code_aster/CodeCommands/fin.py, ligne 76
 FIN(INFO_RESU='NON',
     RETASSAGE='NON')
@@ -4440,19 +4547,19 @@ No database in results, objects not saved on processor #0
   
  <I> <FIN> MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :                     199.02 Mo
  <I> <FIN> MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :                     207.61 Mo
- <I> <FIN> MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS LORS DE L'EXECUTION :     781.24 Mo
+ <I> <FIN> MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS LORS DE L'EXECUTION :     781.74 Mo
   
  <I>       FERMETURE DES BASES EFFECTUEE
   
    STATISTIQUES CONCERNANT L'ALLOCATION DYNAMIQUE :
      TAILLE CUMULEE MAXIMUM            :                  208  Mo.
-     TAILLE CUMULEE LIBEREE            :                   46  Mo.
-     NOMBRE TOTAL D'ALLOCATIONS        :               216771
-     NOMBRE TOTAL DE LIBERATIONS       :               214700
+     TAILLE CUMULEE LIBEREE            :                   56  Mo.
+     NOMBRE TOTAL D'ALLOCATIONS        :               285787
+     NOMBRE TOTAL DE LIBERATIONS       :               283680
      APPELS AU MECANISME DE LIBERATION :                    2
      TAILLE MEMOIRE CUMULEE RECUPEREE  :                   65  Mo.
      VOLUME DES LECTURES               :                    0  Mo.
-     VOLUME DES ECRITURES              :                   44  Mo.
+     VOLUME DES ECRITURES              :                   45  Mo.
   
    MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :     199.02 Mo
      - IMPOSE DE NOMBREUX ACCES DISQUE
@@ -4460,11 +4567,11 @@ No database in results, objects not saved on processor #0
    MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :     207.61 Mo
      - LIMITE LES ACCES DISQUE
      - AMELIORE LA VITESSE D'EXECUTION
-   MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS     :     781.24 Mo
+   MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS     :     781.74 Mo
      - COMPREND LA MEMOIRE CONSOMMEE PAR  JEVEUX, 
        LE SUPERVISEUR PYTHON, LES LIBRAIRIES EXTERNES
   
- <I>       FIN D'EXECUTION LE : LU-12-OCTO-2026 13:01:03
+ <I>       FIN D'EXECUTION LE : LU-12-OCTO-2026 13:08:02
 INFO './glob.1' deleted
 Deleting './glob.2': No such file or directory
 INFO './vola.1' deleted
@@ -4473,126 +4580,131 @@ Deleting './vola.2': No such file or directory
  ********************************************************************************
  * COMMAND                  :       USER :     SYSTEM :   USER+SYS :    ELAPSED *
  ********************************************************************************
- * DEBUT                    :       0.03 :       0.24 :       0.27 :       0.34 *
- * LIRE_MAILLAGE            :       0.00 :       0.02 :       0.02 :       0.03 *
- * CREA_MAILLAGE            :       0.01 :       0.00 :       0.01 :       0.01 *
- * DEFI_GROUP               :       0.01 :       0.00 :       0.01 :       0.01 *
- * AFFE_MODELE              :       0.01 :       0.01 :       0.02 :       0.03 *
- * DEFI_MATERIAU            :       0.07 :       0.01 :       0.08 :       0.07 *
- * DEFI_MATERIAU            :       0.03 :       0.02 :       0.05 :       0.06 *
- * AFFE_MATERIAU            :       0.03 :       0.01 :       0.04 :       0.05 *
- * AFFE_CARA_ELEM           :       0.04 :       0.02 :       0.06 :       0.05 *
- * AFFE_CHAR_MECA           :       0.02 :       0.01 :       0.03 :       0.03 *
- * AFFE_CHAR_MECA           :       0.00 :       0.00 :       0.00 :       0.01 *
- * AFFE_CHAR_MECA           :       0.01 :       0.00 :       0.01 :       0.00 *
- * AFFE_CHAR_MECA           :       0.00 :       0.01 :       0.01 :       0.02 *
- * AFFE_CHAR_MECA           :       0.01 :       0.01 :       0.02 :       0.01 *
- * AFFE_CHAR_MECA           :       0.00 :       0.02 :       0.02 :       0.02 *
- * AFFE_CHAR_MECA           :       0.02 :       0.01 :       0.03 :       0.02 *
- * AFFE_CHAR_MECA           :       0.00 :       0.00 :       0.00 :       0.01 *
- * AFFE_CHAR_MECA           :       0.00 :       0.00 :       0.00 :       0.01 *
- * AFFE_CHAR_MECA           :       0.01 :       0.00 :       0.01 :       0.00 *
- * AFFE_CHAR_MECA           :       0.00 :       0.01 :       0.01 :       0.01 *
- * AFFE_CHAR_MECA           :       0.00 :       0.01 :       0.01 :       0.01 *
+ * DEBUT                    :       0.01 :       0.20 :       0.21 :       0.28 *
+ * LIRE_MAILLAGE            :       0.00 :       0.01 :       0.01 :       0.01 *
+ * CREA_MAILLAGE            :       0.00 :       0.01 :       0.01 :       0.01 *
+ * DEFI_GROUP               :       0.00 :       0.00 :       0.00 :       0.01 *
+ * AFFE_MODELE              :       0.00 :       0.01 :       0.01 :       0.01 *
+ * DEFI_MATERIAU            :       0.00 :       0.06 :       0.06 :       0.13 *
+ * DEFI_MATERIAU            :       0.00 :       0.06 :       0.06 :       0.05 *
+ * AFFE_MATERIAU            :       0.00 :       0.04 :       0.04 :       0.05 *
+ * AFFE_CARA_ELEM           :       0.04 :       0.00 :       0.04 :       0.05 *
+ * AFFE_CHAR_MECA           :       0.02 :       0.00 :       0.02 :       0.01 *
  * AFFE_CHAR_MECA           :       0.01 :       0.00 :       0.01 :       0.01 *
- * MACRO_ELAS_MULT          :       0.34 :       0.22 :       0.56 :       0.65 *
- * CALC_CHAMP               :       0.03 :       0.03 :       0.06 :       0.06 *
- * CALC_CHAMP               :       0.11 :       0.01 :       0.12 :       0.12 *
- * CREA_CHAMP               :       0.00 :       0.01 :       0.01 :       0.01 *
- * AFFE_MATERIAU            :       0.05 :       0.01 :       0.06 :       0.06 *
- * MECA_STATIQUE            :       0.21 :       0.01 :       0.22 :       0.23 *
+ * AFFE_CHAR_MECA           :       0.00 :       0.00 :       0.00 :       0.01 *
+ * AFFE_CHAR_MECA           :       0.01 :       0.00 :       0.01 :       0.00 *
+ * AFFE_CHAR_MECA           :       0.01 :       0.00 :       0.01 :       0.01 *
+ * AFFE_CHAR_MECA           :       0.00 :       0.00 :       0.00 :       0.01 *
+ * AFFE_CHAR_MECA           :       0.01 :       0.00 :       0.01 :       0.00 *
+ * AFFE_CHAR_MECA           :       0.01 :       0.00 :       0.01 :       0.01 *
+ * AFFE_CHAR_MECA           :       0.00 :       0.00 :       0.00 :       0.01 *
+ * AFFE_CHAR_MECA           :       0.00 :       0.00 :       0.00 :       0.01 *
+ * AFFE_CHAR_MECA           :       0.01 :       0.00 :       0.01 :       0.01 *
+ * AFFE_CHAR_MECA           :       0.00 :       0.00 :       0.00 :       0.00 *
+ * AFFE_CHAR_MECA           :       0.01 :       0.00 :       0.01 :       0.00 *
+ * MACRO_ELAS_MULT          :       0.23 :       0.12 :       0.35 :       0.36 *
+ * CALC_CHAMP               :       0.05 :       0.04 :       0.09 :       0.08 *
+ * CALC_CHAMP               :       0.08 :       0.01 :       0.09 :       0.10 *
+ * CALC_CHAMP               :       0.09 :       0.00 :       0.09 :       0.10 *
+ * CREA_CHAMP               :       0.00 :       0.02 :       0.02 :       0.01 *
+ * AFFE_MATERIAU            :       0.03 :       0.01 :       0.04 :       0.04 *
+ * MECA_STATIQUE            :       0.09 :       0.04 :       0.13 :       0.15 *
+ * CALC_CHAMP               :       0.03 :       0.00 :       0.03 :       0.02 *
+ * CALC_CHAMP               :       0.01 :       0.00 :       0.01 :       0.02 *
+ * CALC_CHAMP               :       0.02 :       0.00 :       0.02 :       0.01 *
+ * CREA_CHAMP               :       0.00 :       0.00 :       0.00 :       0.01 *
+ * AFFE_MATERIAU            :       0.05 :       0.00 :       0.05 :       0.04 *
+ * MECA_STATIQUE            :       0.12 :       0.02 :       0.14 :       0.14 *
  * CALC_CHAMP               :       0.03 :       0.00 :       0.03 :       0.03 *
- * CALC_CHAMP               :       0.02 :       0.00 :       0.02 :       0.02 *
- * CREA_CHAMP               :       0.01 :       0.00 :       0.01 :       0.01 *
- * AFFE_MATERIAU            :       0.04 :       0.01 :       0.05 :       0.04 *
- * MECA_STATIQUE            :       0.12 :       0.04 :       0.16 :       0.17 *
- * CALC_CHAMP               :       0.03 :       0.01 :       0.04 :       0.03 *
+ * CALC_CHAMP               :       0.01 :       0.00 :       0.01 :       0.01 *
+ * CALC_CHAMP               :       0.02 :       0.00 :       0.02 :       0.01 *
+ * CREA_CHAMP               :       0.00 :       0.00 :       0.00 :       0.01 *
+ * AFFE_MATERIAU            :       0.03 :       0.02 :       0.05 :       0.05 *
+ * MECA_STATIQUE            :       0.12 :       0.04 :       0.16 :       0.15 *
+ * CALC_CHAMP               :       0.01 :       0.01 :       0.02 :       0.02 *
+ * CALC_CHAMP               :       0.00 :       0.02 :       0.02 :       0.03 *
+ * CALC_CHAMP               :       0.01 :       0.01 :       0.02 :       0.01 *
+ * CREA_CHAMP               :       0.02 :       0.00 :       0.02 :       0.02 *
+ * AFFE_MATERIAU            :       0.07 :       0.00 :       0.07 :       0.08 *
+ * MECA_STATIQUE            :       0.12 :       0.03 :       0.15 :       0.15 *
+ * CALC_CHAMP               :       0.02 :       0.01 :       0.03 :       0.04 *
  * CALC_CHAMP               :       0.02 :       0.00 :       0.02 :       0.03 *
- * CREA_CHAMP               :       0.01 :       0.00 :       0.01 :       0.02 *
- * AFFE_MATERIAU            :       0.07 :       0.01 :       0.08 :       0.07 *
- * MECA_STATIQUE            :       0.12 :       0.04 :       0.16 :       0.22 *
- * CALC_CHAMP               :       0.03 :       0.01 :       0.04 :       0.04 *
- * CALC_CHAMP               :       0.04 :       0.00 :       0.04 :       0.04 *
- * CREA_CHAMP               :       0.01 :       0.00 :       0.01 :       0.01 *
- * AFFE_MATERIAU            :       0.06 :       0.01 :       0.07 :       0.08 *
- * MECA_STATIQUE            :       0.17 :       0.03 :       0.20 :       0.22 *
- * CALC_CHAMP               :       0.02 :       0.00 :       0.02 :       0.02 *
- * CALC_CHAMP               :       0.04 :       0.00 :       0.04 :       0.04 *
- * POST_RELEVE_T            :       0.00 :       0.01 :       0.01 :       0.01 *
- * IMPR_TABLE               :       0.06 :       0.00 :       0.06 :       0.05 *
- * POST_RELEVE_T            :       0.02 :       0.01 :       0.03 :       0.03 *
- * IMPR_TABLE               :       0.03 :       0.02 :       0.05 :       0.06 *
- * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.02 *
- * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.06 *
- * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.01 *
- * IMPR_TABLE               :       0.06 :       0.01 :       0.07 :       0.08 *
- * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.02 *
- * IMPR_TABLE               :       0.07 :       0.00 :       0.07 :       0.06 *
- * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.02 *
- * IMPR_TABLE               :       0.06 :       0.01 :       0.07 :       0.08 *
- * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.01 *
- * IMPR_TABLE               :       0.05 :       0.00 :       0.05 :       0.05 *
- * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.04 *
- * IMPR_TABLE               :       0.06 :       0.01 :       0.07 :       0.06 *
- * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.01 *
- * IMPR_TABLE               :       0.09 :       0.00 :       0.09 :       0.11 *
- * POST_RELEVE_T            :       0.03 :       0.00 :       0.03 :       0.02 *
- * IMPR_TABLE               :       0.06 :       0.01 :       0.07 :       0.06 *
- * POST_RELEVE_T            :       0.01 :       0.05 :       0.06 :       0.18 *
+ * CALC_CHAMP               :       0.01 :       0.00 :       0.01 :       0.01 *
+ * POST_RELEVE_T            :       0.00 :       0.01 :       0.01 :       0.00 *
+ * IMPR_TABLE               :       0.01 :       0.02 :       0.03 :       0.04 *
+ * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.02 *
  * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.04 *
- * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.03 *
- * IMPR_TABLE               :       0.05 :       0.01 :       0.06 :       0.07 *
  * POST_RELEVE_T            :       0.00 :       0.00 :       0.00 :       0.00 *
- * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.04 *
- * POST_RELEVE_T            :       0.02 :       0.01 :       0.03 :       0.02 *
- * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.04 *
- * POST_RELEVE_T            :       0.00 :       0.00 :       0.00 :       0.01 *
- * IMPR_TABLE               :       0.04 :       0.02 :       0.06 :       0.01 *
- * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.01 *
- * IMPR_TABLE               :       0.04 :       0.00 :       0.04 :       0.06 *
- * POST_RELEVE_T            :       0.00 :       0.01 :       0.01 :       0.01 *
- * IMPR_TABLE               :       0.05 :       0.01 :       0.06 :       0.05 *
- * POST_RELEVE_T            :       0.00 :       0.00 :       0.00 :       0.01 *
- * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.04 *
- * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.01 *
- * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.07 *
- * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.01 *
- * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.05 *
- * POST_RELEVE_T            :       0.00 :       0.01 :       0.01 :       0.01 *
- * IMPR_TABLE               :       0.12 :       0.01 :       0.13 :       0.13 *
- * POST_RELEVE_T            :       0.03 :       0.00 :       0.03 :       0.03 *
- * IMPR_TABLE               :       0.08 :       0.00 :       0.08 :       0.08 *
- * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.03 *
- * IMPR_TABLE               :       0.06 :       0.00 :       0.06 :       0.06 *
- * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.03 *
- * IMPR_TABLE               :       0.05 :       0.00 :       0.05 :       0.07 *
- * POST_RELEVE_T            :       0.01 :       0.02 :       0.03 :       0.02 *
- * IMPR_TABLE               :       0.06 :       0.00 :       0.06 :       0.07 *
- * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.00 *
- * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.04 *
- * POST_RELEVE_T            :       0.00 :       0.01 :       0.01 :       0.01 *
- * IMPR_TABLE               :       0.02 :       0.01 :       0.03 :       0.03 *
- * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.01 *
- * IMPR_TABLE               :       0.04 :       0.01 :       0.05 :       0.05 *
- * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.02 *
  * IMPR_TABLE               :       0.05 :       0.00 :       0.05 :       0.06 *
- * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.02 *
- * IMPR_TABLE               :       0.05 :       0.01 :       0.06 :       0.07 *
- * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.02 *
- * IMPR_TABLE               :       0.04 :       0.01 :       0.05 :       0.08 *
- * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.02 *
- * IMPR_TABLE               :       0.12 :       0.01 :       0.13 :       0.13 *
- * IMPR_RESU                :       0.13 :       0.07 :       0.20 :       0.20 *
- * FIN                      :       0.10 :       0.00 :       0.10 :       0.11 *
- *  . check syntax          :       0.36 :       0.07 :       0.43 :       0.37 *
- *  . fortran               :       0.97 :       0.58 :       1.55 :       1.91 *
- *  . cleanup               :       1.97 :       0.17 :       2.14 :       1.27 *
+ * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.04 :       0.01 :       0.05 :       0.04 *
+ * POST_RELEVE_T            :       0.00 :       0.00 :       0.00 :       0.02 *
+ * IMPR_TABLE               :       0.04 :       0.01 :       0.05 :       0.04 *
+ * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.06 *
+ * POST_RELEVE_T            :       0.00 :       0.03 :       0.03 :       0.03 *
+ * IMPR_TABLE               :       0.14 :       0.01 :       0.15 :       0.14 *
+ * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.02 *
+ * IMPR_TABLE               :       0.04 :       0.00 :       0.04 :       0.04 *
+ * POST_RELEVE_T            :       0.00 :       0.00 :       0.00 :       0.01 *
+ * IMPR_TABLE               :       0.09 :       0.01 :       0.10 :       0.11 *
+ * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.02 *
+ * IMPR_TABLE               :       0.05 :       0.00 :       0.05 :       0.06 *
+ * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.04 *
+ * POST_RELEVE_T            :       0.00 :       0.01 :       0.01 :       0.00 *
+ * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.06 *
+ * POST_RELEVE_T            :       0.00 :       0.01 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.07 :       0.01 :       0.08 :       0.07 *
+ * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.02 :       0.01 :       0.03 :       0.04 *
+ * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.01 *
+ * IMPR_TABLE               :       0.05 :       0.00 :       0.05 :       0.06 *
+ * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.04 :       0.00 :       0.04 :       0.05 *
+ * POST_RELEVE_T            :       0.00 :       0.01 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.04 :       0.01 :       0.05 :       0.04 *
+ * POST_RELEVE_T            :       0.00 :       0.00 :       0.00 :       0.01 *
+ * IMPR_TABLE               :       0.02 :       0.01 :       0.03 :       0.03 *
+ * POST_RELEVE_T            :       0.00 :       0.00 :       0.00 :       0.00 *
+ * IMPR_TABLE               :       0.02 :       0.01 :       0.03 :       0.04 *
+ * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.01 *
+ * IMPR_TABLE               :       0.04 :       0.01 :       0.05 :       0.06 *
+ * POST_RELEVE_T            :       0.00 :       0.00 :       0.00 :       0.01 *
+ * IMPR_TABLE               :       0.06 :       0.00 :       0.06 :       0.06 *
+ * POST_RELEVE_T            :       0.02 :       0.00 :       0.02 :       0.02 *
+ * IMPR_TABLE               :       0.03 :       0.00 :       0.03 :       0.03 *
+ * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.01 *
+ * IMPR_TABLE               :       0.06 :       0.00 :       0.06 :       0.07 *
+ * POST_RELEVE_T            :       0.02 :       0.01 :       0.03 :       0.04 *
+ * IMPR_TABLE               :       0.05 :       0.00 :       0.05 :       0.05 *
+ * POST_RELEVE_T            :       0.00 :       0.01 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.05 :       0.01 :       0.06 :       0.06 *
+ * POST_RELEVE_T            :       0.01 :       0.01 :       0.02 :       0.01 *
+ * IMPR_TABLE               :       0.06 :       0.00 :       0.06 :       0.07 *
+ * POST_RELEVE_T            :       0.00 :       0.01 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.06 :       0.01 :       0.07 :       0.08 *
+ * POST_RELEVE_T            :       0.00 :       0.00 :       0.00 :       0.00 *
+ * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.06 *
+ * POST_RELEVE_T            :       0.00 :       0.01 :       0.01 :       0.00 *
+ * IMPR_TABLE               :       0.05 :       0.00 :       0.05 :       0.03 *
+ * POST_RELEVE_T            :       0.01 :       0.00 :       0.01 :       0.01 *
+ * IMPR_TABLE               :       0.03 :       0.01 :       0.04 :       0.06 *
+ * POST_RELEVE_T            :       0.00 :       0.00 :       0.00 :       0.01 *
+ * IMPR_TABLE               :       0.03 :       0.02 :       0.05 :       0.04 *
+ * POST_RELEVE_T            :       0.00 :       0.00 :       0.00 :       0.00 *
+ * IMPR_TABLE               :       0.05 :       0.01 :       0.06 :       0.05 *
+ * IMPR_RESU                :       0.08 :       0.04 :       0.12 :       0.05 *
+ * FIN                      :       0.04 :       0.03 :       0.07 :       0.09 *
+ *  . check syntax          :       0.20 :       0.10 :       0.30 :       0.16 *
+ *  . fortran               :       0.76 :       0.46 :       1.22 :       1.05 *
+ *  . cleanup               :       1.74 :       0.32 :       2.06 :       0.95 *
  ********************************************************************************
- * TOTAL_JOB                :       4.25 :       1.45 :       5.70 :       6.28 *
+ * TOTAL_JOB                :       3.24 :       1.28 :       4.52 :       4.87 *
  ********************************************************************************
 
-# Mémoire (Mo) :   781.24 /   761.03 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
-# Fin commande #0156   user+syst:        0.10s (syst:        0.00s, elaps:        0.11s)
+# Mémoire (Mo) :   781.74 /   762.38 /   207.61 /   199.02 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0161   user+syst:        0.04s (syst:        0.03s, elaps:        0.09s)
 # ----------------------------------------------------------------------------------------------
 End of the Code_Aster execution
 Code_Aster MPI exits normally

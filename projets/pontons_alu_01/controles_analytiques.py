@@ -109,9 +109,7 @@ def run(ctx: ProjectContext) -> dict[str, Any]:
         "ecart_relatif": abs(reaction - HAND_WEIGHT_N) / HAND_WEIGHT_N,
         "tolerance": 0.005,
     }
-    out["G1"]["verdict"] = (
-        "RÉUSSI" if out["G1"]["ecart_relatif"] <= 0.005 else "ÉCHEC"
-    )
+    out["G1"]["verdict"] = "RÉUSSI" if out["G1"]["ecart_relatif"] <= 0.005 else "ÉCHEC"
     q = 5000.0
     b = sum(influence_widths(g).values())
     reference = q * b * span**2 / 8.0
