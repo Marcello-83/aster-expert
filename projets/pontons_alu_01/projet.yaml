@@ -234,7 +234,6 @@ results_package:
     - {section: visualisation, source: "resultats/livrables/paquet/comparaison/*", subdirectory: comparaison}
     - {section: controles, source: resultats/controles/controles_d.json}
     - {section: controles, source: resultats/controles/equilibre.json}
-    - {section: controles, source: references/controles_lot50/controles_analytiques.json}
     - {section: controles, source: references/controles_lot50bis/controles_analytiques.json}
     - {section: visualisation, source: "resultats/livrables/paquet/lot50bis/*", subdirectory: lot50bis}
   criteria:

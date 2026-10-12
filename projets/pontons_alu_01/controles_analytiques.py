@@ -96,8 +96,7 @@ def section_moment(ctx: ProjectContext, case: str, x_cut: float) -> dict[str, An
 
 
 def run(ctx: ProjectContext) -> dict[str, Any]:
-    g = geometry()
-    span = g.parameters["L"]
+    """Lot 50: G1 against the hand weight of the lot 50 geometry, and Q."""
     eq = json.loads((ctx.results_dir / "controles" / "equilibre.json").read_text())
     out: dict[str, Any] = {"criteres": "docs/essais_lot50.md § 2 (écrits avant)"}
     g1 = _case(eq, "G1")
@@ -110,6 +109,16 @@ def run(ctx: ProjectContext) -> dict[str, Any]:
         "tolerance": 0.005,
     }
     out["G1"]["verdict"] = "RÉUSSI" if out["G1"]["ecart_relatif"] <= 0.005 else "ÉCHEC"
+    out["Q_mi_portee"] = q_midspan(ctx, eq)
+    return out
+
+
+def q_midspan(ctx: ProjectContext, eq: dict[str, Any]) -> dict[str, Any]:
+    """§ 2.2 of lot 50, § 2 of lot 50 bis: moment of the deck section at L/2 under Q
+    against q·b·L²/8, b the loaded width (Σ of the influence widths), 10 %."""
+    g = geometry()
+    span = g.parameters["L"]
+    out: dict[str, Any] = {}
     q = 5000.0
     b = sum(influence_widths(g).values())
     reference = q * b * span**2 / 8.0
@@ -133,7 +142,16 @@ def run(ctx: ProjectContext) -> dict[str, Any]:
     out["Q_mi_portee"]["verdict"] = (
         "RÉUSSI" if out["Q_mi_portee"]["ecart_relatif"] <= 0.10 else "ÉCHEC"
     )
-    return out
+    return dict(out["Q_mi_portee"])
+
+
+def run_lot50bis(ctx: ProjectContext) -> dict[str, Any]:
+    """Lot 50 bis: the Q check only (consigne), b = 2,00 m (P24)."""
+    eq = json.loads((ctx.results_dir / "controles" / "equilibre.json").read_text())
+    return {
+        "criteres": "docs/essais_lot50bis.md § 2 (écrits avant)",
+        "Q_mi_portee": q_midspan(ctx, eq),
+    }
 
 
 def _case(eq: dict[str, Any], case: str) -> dict[str, Any]:
@@ -157,4 +175,11 @@ def write(ctx: ProjectContext, target: Path) -> dict[str, Any]:
     return result
 
 
-__all__ = ["HAND_WEIGHT_N", "run", "section_moment", "write"]
+__all__ = [
+    "HAND_WEIGHT_N",
+    "q_midspan",
+    "run",
+    "run_lot50bis",
+    "section_moment",
+    "write",
+]

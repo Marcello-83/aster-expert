@@ -5,13 +5,13 @@
   "cle": "DEPL",
   "composante": "DX",
   "extremum": "max",
-  "valeur_si": 0.020211312049648444,
+  "valeur_si": 0.02409865565133461,
   "unite_si": "m",
   "lieu": {
    "noeud_med": 122,
    "coordonnees_m": [
     6.25,
-    -0.75,
+    -0.93,
     1.09
    ],
    "groupes": []
@@ -28,13 +28,13 @@
   "cle": "DEPL",
   "composante": "DX",
   "extremum": "min",
-  "valeur_si": -0.010135886295059284,
+  "valeur_si": -0.0116540169220031,
   "unite_si": "m",
   "lieu": {
    "noeud_med": 122,
    "coordonnees_m": [
     6.25,
-    -0.75,
+    -0.93,
     1.09
    ],
    "groupes": []
@@ -51,14 +51,14 @@
   "cle": "DEPL",
   "composante": "DY",
   "extremum": "max",
-  "valeur_si": 0.010017557177847553,
+  "valeur_si": 0.009100610182730449,
   "unite_si": "m",
   "lieu": {
-   "noeud_med": 120,
+   "noeud_med": 196,
    "coordonnees_m": [
-    6.117,
-    -0.55,
-    1.458
+    3.17,
+    -0.93,
+    1.358
    ],
    "groupes": []
   },
@@ -74,7 +74,7 @@
   "cle": "DEPL",
   "composante": "DY",
   "extremum": "min",
-  "valeur_si": -0.010625867578746138,
+  "valeur_si": -0.009664322164636696,
   "unite_si": "m",
   "lieu": {
    "noeud_med": 121,
@@ -97,19 +97,19 @@
   "cle": "DEPL",
   "composante": "DZ",
   "extremum": "max",
-  "valeur_si": 0.03540081499575734,
+  "valeur_si": 0.05014861193749515,
   "unite_si": "m",
   "lieu": {
-   "noeud_med": 278,
+   "noeud_med": 289,
    "coordonnees_m": [
-    3.095,
+    3.0288,
     0.56,
     1.458
    ],
    "groupes": []
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G0.9_HU_TP_AMM_ACP",
+  "combinaison": "B_ELU_G0.9_HU_TP_AMM",
   "famille_combinaison": "B_ELU",
   "position_mobile": null,
   "charge_mobile": null
@@ -120,19 +120,19 @@
   "cle": "DEPL",
   "composante": "DZ",
   "extremum": "min",
-  "valeur_si": -0.08162734899048799,
+  "valeur_si": -0.11370335523611863,
   "unite_si": "m",
   "lieu": {
-   "noeud_med": 278,
+   "noeud_med": 350,
    "coordonnees_m": [
-    3.095,
-    0.56,
+    3.2051999999999996,
+    -0.55,
     1.458
    ],
    "groupes": []
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G1.2_HD_TM_AMP_ACM_Q",
+  "combinaison": "B_ELU_G1.2_HD_TM_AMM_ACP_Q",
   "famille_combinaison": "B_ELU",
   "position_mobile": null,
   "charge_mobile": null
@@ -143,13 +143,13 @@
   "cle": "DEPL",
   "composante": "DRX",
   "extremum": "max",
-  "valeur_si": 0.004540956851974108,
+  "valeur_si": 0.005483145775424981,
   "unite_si": "rad",
   "lieu": {
    "noeud_med": 122,
    "coordonnees_m": [
     6.25,
-    -0.75,
+    -0.93,
     1.09
    ],
    "groupes": []
@@ -166,13 +166,13 @@
   "cle": "DEPL",
   "composante": "DRX",
   "extremum": "min",
-  "valeur_si": -0.004713414320218851,
+  "valeur_si": -0.005510700868206894,
   "unite_si": "rad",
   "lieu": {
    "noeud_med": 126,
    "coordonnees_m": [
     6.25,
-    0.75,
+    0.93,
     1.09
    ],
    "groupes": []
@@ -189,36 +189,13 @@
   "cle": "DEPL",
   "composante": "DRY",
   "extremum": "max",
-  "valeur_si": 0.040742101480635715,
+  "valeur_si": 0.05656842613078865,
   "unite_si": "rad",
   "lieu": {
-   "noeud_med": 269,
+   "noeud_med": 280,
    "coordonnees_m": [
-    0.31333333333333335,
+    0.34933333333333333,
     0.56,
-    1.458
-   ],
-   "groupes": []
-  },
-  "hors_disques": false,
-  "combinaison": "B_ELU_G1.2_HD_TM_AMP_ACM_Q",
-  "famille_combinaison": "B_ELU",
-  "position_mobile": null,
-  "charge_mobile": null
- },
- {
-  "famille": "deplacements",
-  "champ": "DEPL",
-  "cle": "DEPL",
-  "composante": "DRY",
-  "extremum": "min",
-  "valeur_si": -0.038828841317970895,
-  "unite_si": "rad",
-  "lieu": {
-   "noeud_med": 348,
-   "coordonnees_m": [
-    5.90025,
-    -0.55,
     1.458
    ],
    "groupes": []
@@ -233,21 +210,44 @@
   "famille": "deplacements",
   "champ": "DEPL",
   "cle": "DEPL",
-  "composante": "DRZ",
-  "extremum": "max",
-  "valeur_si": 0.0053890499980224936,
+  "composante": "DRY",
+  "extremum": "min",
+  "valeur_si": -0.05503487661106857,
   "unite_si": "rad",
   "lieu": {
-   "noeud_med": 189,
+   "noeud_med": 339,
+   "coordonnees_m": [
+    6.048500000000001,
+    -0.18,
+    1.458
+   ],
+   "groupes": []
+  },
+  "hors_disques": false,
+  "combinaison": "B_ELU_G1.2_HD_TM_AMP_ACM_Q",
+  "famille_combinaison": "B_ELU",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "deplacements",
+  "champ": "DEPL",
+  "cle": "DEPL",
+  "composante": "DRZ",
+  "extremum": "max",
+  "valeur_si": 0.005231119654362891,
+  "unite_si": "rad",
+  "lieu": {
+   "noeud_med": 193,
    "coordonnees_m": [
     2.48,
-    -0.75,
+    -0.93,
     1.358
    ],
    "groupes": []
   },
   "hors_disques": false,
-  "combinaison": "B_ELUA_AAM_HD_TP_AMP_Q",
+  "combinaison": "B_ELUA_AAM_Q_HD_TP_AMP",
   "famille_combinaison": "B_ELUA",
   "position_mobile": null,
   "charge_mobile": null
@@ -258,20 +258,20 @@
   "cle": "DEPL",
   "composante": "DRZ",
   "extremum": "min",
-  "valeur_si": -0.005650701266310127,
+  "valeur_si": -0.004963203996122541,
   "unite_si": "rad",
   "lieu": {
-   "noeud_med": 309,
+   "noeud_med": 213,
    "coordonnees_m": [
-    0.2325,
-    -0.18,
-    1.458
+    2.48,
+    0.93,
+    1.358
    ],
    "groupes": []
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G1.2_TP_HD_AMM_ACP_Q",
-  "famille_combinaison": "B_ELU",
+  "combinaison": "B_ELUA_AAP_HD_TM_AMM_Q",
+  "famille_combinaison": "B_ELUA",
   "position_mobile": null,
   "charge_mobile": null
  },
@@ -281,25 +281,25 @@
   "cle": "EFGE_ELNO",
   "composante": "N",
   "extremum": "max",
-  "valeur_si": 277125.22452015296,
+  "valeur_si": 185795.59255565787,
   "unite_si": "N",
   "lieu": {
    "noeud_med": 13,
    "coordonnees_m": [
     0.0,
-    -0.75,
+    -0.93,
     1.358
    ],
-   "maille_med": 119,
+   "maille_med": 61,
    "niveau": -1,
    "extremite": 1,
    "groupes": [
-    "MONTANTS"
+    "POUTRES_PRINC"
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G0.9_TM_HU_AMP_ACM",
-  "famille_combinaison": "B_ELU",
+  "combinaison": "B_ELUA_AAM_AMP_HD_TP_QD",
+  "famille_combinaison": "B_ELUA",
   "position_mobile": null,
   "charge_mobile": null
  },
@@ -309,25 +309,25 @@
   "cle": "EFGE_ELNO",
   "composante": "N",
   "extremum": "min",
-  "valeur_si": -456008.15384330484,
+  "valeur_si": -179750.9663575151,
   "unite_si": "N",
   "lieu": {
-   "noeud_med": 13,
+   "noeud_med": 63,
    "coordonnees_m": [
-    0.0,
-    -0.75,
+    1.347,
+    0.19,
     1.358
    ],
-   "maille_med": 119,
+   "maille_med": 193,
    "niveau": -1,
    "extremite": 1,
    "groupes": [
-    "MONTANTS"
+    "DIAGONALES"
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G1.2_TP_HD_AMM_ACP_Q",
-  "famille_combinaison": "B_ELU",
+  "combinaison": "B_ELUA_AAM_AMP_HU_TP_QD",
+  "famille_combinaison": "B_ELUA",
   "position_mobile": null,
   "charge_mobile": null
  },
@@ -337,13 +337,13 @@
   "cle": "EFGE_ELNO",
   "composante": "VY",
   "extremum": "max",
-  "valeur_si": 58923.29005453459,
+  "valeur_si": 59306.73394211488,
   "unite_si": "N",
   "lieu": {
    "noeud_med": 17,
    "coordonnees_m": [
     2.25,
-    -0.75,
+    -0.93,
     1.358
    ],
    "maille_med": 72,
@@ -365,13 +365,13 @@
   "cle": "EFGE_ELNO",
   "composante": "VY",
   "extremum": "min",
-  "valeur_si": -60060.125824295494,
+  "valeur_si": -60000.93867576076,
   "unite_si": "N",
   "lieu": {
    "noeud_med": 27,
    "coordonnees_m": [
     2.25,
-    0.75,
+    0.93,
     1.358
    ],
    "maille_med": 101,
@@ -382,7 +382,7 @@
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELUA_AAP_AMM_HD_TP_Q",
+  "combinaison": "B_ELUA_AAP_HD_TM_AMM_Q",
   "famille_combinaison": "B_ELUA",
   "position_mobile": null,
   "charge_mobile": null
@@ -393,16 +393,16 @@
   "cle": "EFGE_ELNO",
   "composante": "VZ",
   "extremum": "max",
-  "valeur_si": 53550.59647977081,
+  "valeur_si": 60023.639580371535,
   "unite_si": "N",
   "lieu": {
    "noeud_med": 126,
    "coordonnees_m": [
     6.25,
-    0.75,
+    0.93,
     1.09
    ],
-   "maille_med": 350,
+   "maille_med": 357,
    "niveau": -1,
    "extremite": 1,
    "groupes": [
@@ -421,16 +421,16 @@
   "cle": "EFGE_ELNO",
   "composante": "VZ",
   "extremum": "min",
-  "valeur_si": -61946.30288147903,
+  "valeur_si": -70759.58992502271,
   "unite_si": "N",
   "lieu": {
    "noeud_med": 122,
    "coordonnees_m": [
     6.25,
-    -0.75,
+    -0.93,
     1.09
    ],
-   "maille_med": 342,
+   "maille_med": 349,
    "niveau": -1,
    "extremite": 1,
    "groupes": [
@@ -449,16 +449,16 @@
   "cle": "EFGE_ELNO",
   "composante": "MT",
   "extremum": "max",
-  "valeur_si": 4936.226219827814,
+  "valeur_si": 6584.795157029042,
   "unite_si": "N·m",
   "lieu": {
-   "noeud_med": 250,
+   "noeud_med": 265,
    "coordonnees_m": [
-    2.3449999999999998,
-    0.655,
+    2.399,
+    0.7450000000000001,
     1.358
    ],
-   "maille_med": 189,
+   "maille_med": 200,
    "niveau": -1,
    "extremite": 1,
    "groupes": [
@@ -477,16 +477,16 @@
   "cle": "EFGE_ELNO",
   "composante": "MT",
   "extremum": "min",
-  "valeur_si": -3113.8037662126667,
+  "valeur_si": -4356.092974288559,
   "unite_si": "N·m",
   "lieu": {
-   "noeud_med": 57,
+   "noeud_med": 254,
    "coordonnees_m": [
     6.25,
-    0.56,
+    0.7450000000000001,
     1.358
    ],
-   "maille_med": 166,
+   "maille_med": 178,
    "niveau": -1,
    "extremite": 1,
    "groupes": [
@@ -494,7 +494,7 @@
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G1.2_HD_TM_ACM_Q",
+  "combinaison": "B_ELU_G1.2_HD_TM_ACP_Q",
   "famille_combinaison": "B_ELU",
   "position_mobile": null,
   "charge_mobile": null
@@ -505,24 +505,24 @@
   "cle": "EFGE_ELNO",
   "composante": "MFY",
   "extremum": "max",
-  "valeur_si": 17470.447174219276,
+  "valeur_si": 24383.803553393718,
   "unite_si": "N·m",
   "lieu": {
-   "noeud_med": 19,
+   "noeud_med": 131,
    "coordonnees_m": [
-    3.75,
+    6.25,
     -0.75,
-    1.358
+    0.89
    ],
-   "maille_med": 79,
+   "maille_med": 363,
    "niveau": -1,
-   "extremite": 1,
+   "extremite": 2,
    "groupes": [
-    "POUTRES_PRINC"
+    "CHEVETRE"
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G0.9_HU_TP_AMM_ACM",
+  "combinaison": "B_ELU_G1.2_TP_HD_AMM_ACP_Q",
   "famille_combinaison": "B_ELU",
   "position_mobile": null,
   "charge_mobile": null
@@ -533,13 +533,13 @@
   "cle": "EFGE_ELNO",
   "composante": "MFY",
   "extremum": "min",
-  "valeur_si": -38687.208623467406,
+  "valeur_si": -53217.46915097667,
   "unite_si": "N·m",
   "lieu": {
    "noeud_med": 19,
    "coordonnees_m": [
     3.75,
-    -0.75,
+    -0.93,
     1.358
    ],
    "maille_med": 79,
@@ -561,16 +561,16 @@
   "cle": "EFGE_ELNO",
   "composante": "MFZ",
   "extremum": "max",
-  "valeur_si": 16171.65382708681,
+  "valeur_si": 19094.352038845434,
   "unite_si": "N·m",
   "lieu": {
-   "noeud_med": 135,
+   "noeud_med": 139,
    "coordonnees_m": [
     6.25,
     -0.75,
     -0.63
    ],
-   "maille_med": 362,
+   "maille_med": 373,
    "niveau": -1,
    "extremite": 1,
    "groupes": [
@@ -589,13 +589,13 @@
   "cle": "EFGE_ELNO",
   "composante": "MFZ",
   "extremum": "min",
-  "valeur_si": -14809.66700817675,
+  "valeur_si": -14743.236521643119,
   "unite_si": "N·m",
   "lieu": {
    "noeud_med": 27,
    "coordonnees_m": [
     2.25,
-    0.75,
+    0.93,
     1.358
    ],
    "maille_med": 101,
@@ -606,7 +606,7 @@
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELUA_AAP_HU_TP_AMM",
+  "combinaison": "B_ELUA_AAP_HU_TM_AMM",
   "famille_combinaison": "B_ELUA",
   "position_mobile": null,
   "charge_mobile": null
@@ -617,36 +617,36 @@
   "cle": "EFGE_NOEU",
   "composante": "NXX",
   "extremum": "max",
-  "valeur_si": 10305.808585458737,
-  "unite_si": "N/m",
-  "lieu": {
-   "noeud_med": 141,
-   "coordonnees_m": [
-    6.0,
-    -0.75,
-    -0.755
-   ],
-   "groupes": [
-    "SEMELLE"
-   ]
-  },
-  "hors_disques": false,
-  "combinaison": "B_ELU_G1.2_TP_HD_AMP_ACM_Q",
-  "famille_combinaison": "B_ELU",
-  "position_mobile": null,
-  "charge_mobile": null
- },
- {
-  "famille": "efforts_coques",
-  "champ": "EFGE_NOEU",
-  "cle": "EFGE_NOEU",
-  "composante": "NXX",
-  "extremum": "min",
-  "valeur_si": -15849.929375321348,
+  "valeur_si": 12086.626632656855,
   "unite_si": "N/m",
   "lieu": {
    "noeud_med": 145,
    "coordonnees_m": [
+    6.0,
+    -0.75,
+    -0.755
+   ],
+   "groupes": [
+    "SEMELLE"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "B_ELU_G1.2_TP_HD_AMP_ACM_Q",
+  "famille_combinaison": "B_ELU",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "NXX",
+  "extremum": "min",
+  "valeur_si": -18493.18082267196,
+  "unite_si": "N/m",
+  "lieu": {
+   "noeud_med": 149,
+   "coordonnees_m": [
     6.4399999999999995,
     -0.75,
     -0.755
@@ -667,10 +667,10 @@
   "cle": "EFGE_NOEU",
   "composante": "NYY",
   "extremum": "max",
-  "valeur_si": 18544.0692317577,
+  "valeur_si": 18804.060011898346,
   "unite_si": "N/m",
   "lieu": {
-   "noeud_med": 163,
+   "noeud_med": 167,
    "coordonnees_m": [
     6.25,
     0.5,
@@ -681,7 +681,7 @@
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G1.2_TM_HD_AMP_ACM_Q",
+  "combinaison": "B_ELU_G1.2_TM_HU_AMP_ACM",
   "famille_combinaison": "B_ELU",
   "position_mobile": null,
   "charge_mobile": null
@@ -692,10 +692,10 @@
   "cle": "EFGE_NOEU",
   "composante": "NYY",
   "extremum": "min",
-  "valeur_si": -22931.313335144776,
+  "valeur_si": -28893.542737822965,
   "unite_si": "N/m",
   "lieu": {
-   "noeud_med": 163,
+   "noeud_med": 167,
    "coordonnees_m": [
     6.25,
     0.5,
@@ -706,7 +706,7 @@
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G0.9_TP_HU_AMM_ACP_QD",
+  "combinaison": "B_ELU_G0.9_TP_HD_AMM_ACP_QD",
   "famille_combinaison": "B_ELU",
   "position_mobile": null,
   "charge_mobile": null
@@ -717,10 +717,10 @@
   "cle": "EFGE_NOEU",
   "composante": "NXY",
   "extremum": "max",
-  "valeur_si": 8853.936102517,
+  "valeur_si": 10662.609690604455,
   "unite_si": "N/m",
   "lieu": {
-   "noeud_med": 164,
+   "noeud_med": 168,
    "coordonnees_m": [
     6.4399999999999995,
     0.75,
@@ -731,7 +731,7 @@
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G0.9_TP_HU_AMM_ACP_QD",
+  "combinaison": "B_ELU_G0.9_TP_HD_AMM_ACP_QD",
   "famille_combinaison": "B_ELU",
   "position_mobile": null,
   "charge_mobile": null
@@ -742,39 +742,14 @@
   "cle": "EFGE_NOEU",
   "composante": "NXY",
   "extremum": "min",
-  "valeur_si": -7686.893013564515,
+  "valeur_si": -10515.289972062885,
   "unite_si": "N/m",
   "lieu": {
-   "noeud_med": 164,
+   "noeud_med": 149,
    "coordonnees_m": [
     6.4399999999999995,
-    0.75,
+    -0.75,
     -0.755
-   ],
-   "groupes": [
-    "SEMELLE"
-   ]
-  },
-  "hors_disques": false,
-  "combinaison": "B_ELUA_AAM_AMP_HD_TM_Q",
-  "famille_combinaison": "B_ELUA",
-  "position_mobile": null,
-  "charge_mobile": null
- },
- {
-  "famille": "efforts_coques",
-  "champ": "EFGE_NOEU",
-  "cle": "EFGE_NOEU",
-  "composante": "MXX",
-  "extremum": "max",
-  "valeur_si": 5376.861486702835,
-  "unite_si": "N·m/m",
-  "lieu": {
-   "noeud_med": 370,
-   "coordonnees_m": [
-    6.0,
-    -0.9833333333333332,
-    -0.7549999999999999
    ],
    "groupes": [
     "SEMELLE"
@@ -791,8 +766,33 @@
   "champ": "EFGE_NOEU",
   "cle": "EFGE_NOEU",
   "composante": "MXX",
+  "extremum": "max",
+  "valeur_si": 6615.722351387162,
+  "unite_si": "N·m/m",
+  "lieu": {
+   "noeud_med": 3,
+   "coordonnees_m": [
+    6.25,
+    -0.75,
+    -0.755
+   ],
+   "groupes": [
+    "SEMELLE"
+   ]
+  },
+  "hors_disques": false,
+  "combinaison": "B_ELU_G0.9_HU_TM_AMP_ACM",
+  "famille_combinaison": "B_ELU",
+  "position_mobile": null,
+  "charge_mobile": null
+ },
+ {
+  "famille": "efforts_coques",
+  "champ": "EFGE_NOEU",
+  "cle": "EFGE_NOEU",
+  "composante": "MXX",
   "extremum": "min",
-  "valeur_si": -18000.90153821293,
+  "valeur_si": -22491.022973571424,
   "unite_si": "N·m/m",
   "lieu": {
    "noeud_med": 3,
@@ -817,10 +817,10 @@
   "cle": "EFGE_NOEU",
   "composante": "MYY",
   "extremum": "max",
-  "valeur_si": 5261.106731077201,
+  "valeur_si": 7215.515774215941,
   "unite_si": "N·m/m",
   "lieu": {
-   "noeud_med": 145,
+   "noeud_med": 149,
    "coordonnees_m": [
     6.4399999999999995,
     -0.75,
@@ -842,10 +842,10 @@
   "cle": "EFGE_NOEU",
   "composante": "MYY",
   "extremum": "min",
-  "valeur_si": -16625.68882617886,
+  "valeur_si": -20805.471702197727,
   "unite_si": "N·m/m",
   "lieu": {
-   "noeud_med": 145,
+   "noeud_med": 149,
    "coordonnees_m": [
     6.4399999999999995,
     -0.75,
@@ -856,7 +856,7 @@
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G1.2_TP_HD_AMP_ACM_Q",
+  "combinaison": "B_ELU_G1.2_HD_TP_AMP_ACM_Q",
   "famille_combinaison": "B_ELU",
   "position_mobile": null,
   "charge_mobile": null
@@ -867,10 +867,10 @@
   "cle": "EFGE_NOEU",
   "composante": "MXY",
   "extremum": "max",
-  "valeur_si": 5522.770930964902,
+  "valeur_si": 6618.217054676188,
   "unite_si": "N·m/m",
   "lieu": {
-   "noeud_med": 143,
+   "noeud_med": 147,
    "coordonnees_m": [
     6.25,
     -0.9833333333333334,
@@ -892,10 +892,10 @@
   "cle": "EFGE_NOEU",
   "composante": "MXY",
   "extremum": "min",
-  "valeur_si": -6203.622943944487,
+  "valeur_si": -7098.465888781262,
   "unite_si": "N·m/m",
   "lieu": {
-   "noeud_med": 159,
+   "noeud_med": 163,
    "coordonnees_m": [
     6.25,
     -0.5,
@@ -917,7 +917,7 @@
   "cle": "EFGE_NOEU",
   "composante": "QX",
   "extremum": "max",
-  "valeur_si": 263571.33122562745,
+  "valeur_si": 311669.3325713006,
   "unite_si": "N/m",
   "lieu": {
    "noeud_med": 3,
@@ -942,10 +942,10 @@
   "cle": "EFGE_NOEU",
   "composante": "QX",
   "extremum": "min",
-  "valeur_si": -112270.40726769445,
+  "valeur_si": -132505.36331650498,
   "unite_si": "N/m",
   "lieu": {
-   "noeud_med": 143,
+   "noeud_med": 147,
    "coordonnees_m": [
     6.25,
     -0.9833333333333334,
@@ -967,7 +967,7 @@
   "cle": "EFGE_NOEU",
   "composante": "QY",
   "extremum": "max",
-  "valeur_si": 112243.84223758096,
+  "valeur_si": 101013.39780517091,
   "unite_si": "N/m",
   "lieu": {
    "noeud_med": 8,
@@ -992,7 +992,7 @@
   "cle": "EFGE_NOEU",
   "composante": "QY",
   "extremum": "min",
-  "valeur_si": -108731.5809641248,
+  "valeur_si": -102262.67062077724,
   "unite_si": "N/m",
   "lieu": {
    "noeud_med": 8,
@@ -1017,13 +1017,13 @@
   "cle": "REAC_NODA",
   "composante": "DX",
   "extremum": "max",
-  "valeur_si": 233321.24070660473,
+  "valeur_si": 196967.18937202552,
   "unite_si": "N",
   "lieu": {
    "noeud_med": 23,
    "coordonnees_m": [
     0.0,
-    0.75,
+    0.93,
     1.3579999999999999
    ],
    "groupes": [
@@ -1042,13 +1042,13 @@
   "cle": "REAC_NODA",
   "composante": "DX",
   "extremum": "min",
-  "valeur_si": -229416.32167848112,
+  "valeur_si": -192909.87154168318,
   "unite_si": "N",
   "lieu": {
    "noeud_med": 13,
    "coordonnees_m": [
     0.0,
-    -0.75,
+    -0.93,
     1.358
    ],
    "groupes": [
@@ -1067,22 +1067,22 @@
   "cle": "REAC_NODA",
   "composante": "DY",
   "extremum": "max",
-  "valeur_si": 487689.9055278138,
+  "valeur_si": 153229.26981956707,
   "unite_si": "N",
   "lieu": {
-   "noeud_med": 13,
+   "noeud_med": 23,
    "coordonnees_m": [
     0.0,
-    -0.75,
-    1.358
+    0.93,
+    1.3579999999999999
    ],
    "groupes": [
     "APP_QUAI"
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G1.2_TP_HD_AMM_ACP_Q",
-  "famille_combinaison": "B_ELU",
+  "combinaison": "B_ELUA_AAP_AMM_HD_TM_Q",
+  "famille_combinaison": "B_ELUA",
   "position_mobile": null,
   "charge_mobile": null
  },
@@ -1092,13 +1092,13 @@
   "cle": "REAC_NODA",
   "composante": "DY",
   "extremum": "min",
-  "valeur_si": -523248.5008067118,
+  "valeur_si": -153927.48497108425,
   "unite_si": "N",
   "lieu": {
    "noeud_med": 23,
    "coordonnees_m": [
     0.0,
-    0.75,
+    0.93,
     1.3579999999999999
    ],
    "groupes": [
@@ -1106,8 +1106,8 @@
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G1.2_TP_HD_AMP_ACM_Q",
-  "famille_combinaison": "B_ELU",
+  "combinaison": "B_ELUA_AAM_AMP_HU_TP_QD",
+  "famille_combinaison": "B_ELUA",
   "position_mobile": null,
   "charge_mobile": null
  },
@@ -1117,13 +1117,13 @@
   "cle": "REAC_NODA",
   "composante": "DZ",
   "extremum": "max",
-  "valeur_si": 39079.63313498252,
+  "valeur_si": 50741.63981494447,
   "unite_si": "N",
   "lieu": {
    "noeud_med": 23,
    "coordonnees_m": [
     0.0,
-    0.75,
+    0.93,
     1.3579999999999999
    ],
    "groupes": [
@@ -1142,13 +1142,13 @@
   "cle": "REAC_NODA",
   "composante": "DZ",
   "extremum": "min",
-  "valeur_si": -17438.76971464094,
+  "valeur_si": -22846.791737879983,
   "unite_si": "N",
   "lieu": {
    "noeud_med": 23,
    "coordonnees_m": [
     0.0,
-    0.75,
+    0.93,
     1.3579999999999999
    ],
    "groupes": [
@@ -1167,10 +1167,10 @@
   "cle": "SIEF_ELGA",
   "composante": "N",
   "extremum": "max",
-  "valeur_si": 302.89730512927673,
+  "valeur_si": 362.4924699383532,
   "unite_si": "N",
   "lieu": {
-   "noeud_med": 382,
+   "noeud_med": 393,
    "coordonnees_m": [
     6.0,
     -0.5,
@@ -1195,10 +1195,10 @@
   "cle": "SIEF_ELGA",
   "composante": "N",
   "extremum": "min",
-  "valeur_si": -125.63598563904843,
+  "valeur_si": -149.28689575066292,
   "unite_si": "N",
   "lieu": {
-   "noeud_med": 371,
+   "noeud_med": 382,
    "coordonnees_m": [
     6.0,
     -1.2166666666666668,
@@ -1212,7 +1212,7 @@
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G0.9_TM_HU_AMM_ACP",
+  "combinaison": "B_ELU_G0.9_HU_TM_AMM_ACP",
   "famille_combinaison": "B_ELU",
   "position_mobile": null,
   "charge_mobile": null
@@ -1223,10 +1223,10 @@
   "cle": "SIEF_ELGA",
   "composante": "VY",
   "extremum": "max",
-  "valeur_si": 262.196516871096,
+  "valeur_si": 235.91005784228,
   "unite_si": "N",
   "lieu": {
-   "noeud_med": 378,
+   "noeud_med": 389,
    "coordonnees_m": [
     6.0,
     0.5,
@@ -1251,10 +1251,10 @@
   "cle": "SIEF_ELGA",
   "composante": "VY",
   "extremum": "min",
-  "valeur_si": -269.7995096525158,
+  "valeur_si": -249.09147028977154,
   "unite_si": "N",
   "lieu": {
-   "noeud_med": 378,
+   "noeud_med": 389,
    "coordonnees_m": [
     6.0,
     0.5,
@@ -1279,10 +1279,10 @@
   "cle": "SIEF_ELGA",
   "composante": "VZ",
   "extremum": "max",
-  "valeur_si": 517.58343501161,
+  "valeur_si": 727.3545873442397,
   "unite_si": "N",
   "lieu": {
-   "noeud_med": 377,
+   "noeud_med": 388,
    "coordonnees_m": [
     6.82,
     -1.2166666666666668,
@@ -1307,10 +1307,10 @@
   "cle": "SIEF_ELGA",
   "composante": "VZ",
   "extremum": "min",
-  "valeur_si": -2391.1742615592107,
+  "valeur_si": -2844.8583446839775,
   "unite_si": "N",
   "lieu": {
-   "noeud_med": 377,
+   "noeud_med": 388,
    "coordonnees_m": [
     6.82,
     -1.2166666666666668,
@@ -1324,7 +1324,7 @@
    ]
   },
   "hors_disques": false,
-  "combinaison": "B_ELU_G1.2_TP_HD_AMM_ACP_Q",
+  "combinaison": "B_ELU_G1.2_HD_TP_AMM_ACP_Q",
   "famille_combinaison": "B_ELU",
   "position_mobile": null,
   "charge_mobile": null

@@ -32,12 +32,12 @@ knowledge:
       promu: 0
 consultations:
   calls:
-    search_connaissances: 59
+    search_connaissances: 61
     search_constats: 3
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
   avoided_errors:
-    value: 4.0
+    value: 6.0
     nature: mesure
     note: déclaré lot par lot dans le compte rendu (registre, `lots`)
 lots:
@@ -58,12 +58,27 @@ lots:
       dans l''équilibre ; CA-035 : FORCE_POUTRE sur des barres liées par LIAISON_SOLIDE surveillé
       (aucun CALCULEL2_92 ici, une charge répartie par cas). Une alarme non prévue par la
       base (CALCULEL2_89), classée en DIAG-029.'
-declared_interventions_since_baseline: 0.0
+- lot: 50bis
+  supervisor_interventions:
+    value: 1.0
+    nature: mesure
+    note: 'MM a fusionné lot-50 dans main en cours de session, à la demande implicite de la
+      session (la consigne part de main après fusion de lot-50, qui ne l''était pas encore).
+      Aucune question technique : P24 à P28 étaient dans la consigne ; le chevêtre à ±1,05,
+      le choix entre B et B′ et les hypothèses du taux simplifié (Av, extrémités soudées)
+      restent à confirmer par MM.'
+  avoided_errors:
+    value: 2.0
+    nature: mesure
+    note: 'DIAG-001 : avant de séparer DDL_IMPO entre les deux rotules, vérifié qu''aucune
+      LIAISON_SOLIDE ne porte sur leurs nœuds (pas de pivot nul FACTOR_11) ; CA-016 : DDL_IMPO
+      répétable sur GROUP_NO avec DX, DY, DZ (confirmé par get_command_schema, niveau B 116/116).'
+declared_interventions_since_baseline: 1.0
 measured:
-  runs: 5
+  runs: 11
   failures: 0
   development:
-    runs: 4
+    runs: 10
     failures: 0
   verification:
     runs: 1
@@ -77,13 +92,13 @@ measured:
   failure_rate_all_runs: 0.0
   compute_s:
     aster_legacy: 0
-    wall_since_lot41: 69.1
+    wall_since_lot41: 132.6
     unknown_runs: 0
     note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
       versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
       deux grandeurs distinctes, jamais additionnées'
   first_run: 20261012T125727-d835bf3c
-  last_run: 20261012T130815-847b223f
+  last_run: 20261012T144424-430251f1
   failures_by_signature: {}
   failures_by_cause: {}
   automatic_diagnosis:

@@ -20,10 +20,10 @@
    "composante": "N",
    "avp_min": -139,
    "avp_max": 78,
-   "A_min": -205.6,
-   "A_max": 177.9,
-   "B_min": -77.4,
-   "B_max": 127.2
+   "A_min": -214.9,
+   "A_max": 187.4,
+   "B_min": -72.3,
+   "B_max": 137.0
   },
   {
    "famille": "poutres_principales",
@@ -31,10 +31,10 @@
    "composante": "VY",
    "avp_min": -18,
    "avp_max": 13,
-   "A_min": -28.9,
-   "A_max": 25.0,
-   "B_min": -31.7,
-   "B_max": 18.6
+   "A_min": -44.7,
+   "A_max": 43.7,
+   "B_min": -27.0,
+   "B_max": 29.7
   },
   {
    "famille": "poutres_principales",
@@ -42,10 +42,10 @@
    "composante": "VZ",
    "avp_min": -28,
    "avp_max": 20,
-   "A_min": -38.4,
-   "A_max": 38.7,
-   "B_min": -29.2,
-   "B_max": 28.5
+   "A_min": -50.9,
+   "A_max": 52.1,
+   "B_min": -38.8,
+   "B_max": 37.9
   },
   {
    "famille": "poutres_principales",
@@ -53,10 +53,10 @@
    "composante": "MFY",
    "avp_min": -32,
    "avp_max": 20,
-   "A_min": -53.2,
-   "A_max": 52.7,
-   "B_min": -38.7,
-   "B_max": 17.5
+   "A_min": -71.4,
+   "A_max": 72.4,
+   "B_min": -53.2,
+   "B_max": 24.2
   },
   {
    "famille": "poutres_principales",
@@ -64,10 +64,10 @@
    "composante": "MFZ",
    "avp_min": -5,
    "avp_max": 5,
-   "A_min": -12.0,
-   "A_max": 10.2,
-   "B_min": -11.3,
-   "B_max": 12.6
+   "A_min": -18.4,
+   "A_max": 16.7,
+   "B_min": -10.2,
+   "B_max": 12.1
   },
   {
    "famille": "poutres_principales",
@@ -75,10 +75,10 @@
    "composante": "N",
    "avp_min": -150,
    "avp_max": 123,
-   "A_min": -226.9,
-   "A_max": 210.6,
-   "B_min": -207.6,
-   "B_max": 216.2
+   "A_min": -213.8,
+   "A_max": 193.2,
+   "B_min": -177.6,
+   "B_max": 185.8
   },
   {
    "famille": "poutres_principales",
@@ -86,10 +86,10 @@
    "composante": "VY",
    "avp_min": -60,
    "avp_max": 49,
-   "A_min": -48.3,
-   "A_max": 59.9,
-   "B_min": -60.1,
-   "B_max": 58.9
+   "A_min": -48.8,
+   "A_max": 61.3,
+   "B_min": -60.0,
+   "B_max": 59.3
   },
   {
    "famille": "poutres_principales",
@@ -97,10 +97,10 @@
    "composante": "MFY",
    "avp_min": -23,
    "avp_max": 20,
-   "A_min": -38.3,
-   "A_max": 52.5,
-   "B_min": -17.2,
-   "B_max": 7.2
+   "A_min": -50.8,
+   "A_max": 72.0,
+   "B_min": -23.3,
+   "B_max": 10.0
   },
   {
    "famille": "poutres_principales",
@@ -108,10 +108,10 @@
    "composante": "MFZ",
    "avp_min": -15,
    "avp_max": 7,
-   "A_min": -11.5,
-   "A_max": 15.6,
-   "B_min": -14.8,
-   "B_max": 14.0
+   "A_min": -17.7,
+   "A_max": 19.1,
+   "B_min": -14.7,
+   "B_max": 14.4
   },
   {
    "famille": "montants",
@@ -119,10 +119,10 @@
    "composante": "N",
    "avp_min": -33,
    "avp_max": 38,
-   "A_min": -223.4,
-   "A_max": 95.4,
-   "B_min": -456.0,
-   "B_max": 277.1
+   "A_min": -65.1,
+   "A_max": 85.9,
+   "B_min": -66.5,
+   "B_max": 52.4
   },
   {
    "famille": "montants",
@@ -130,10 +130,10 @@
    "composante": "VY",
    "avp_min": -26,
    "avp_max": 29,
-   "A_min": -63.0,
-   "A_max": 48.2,
-   "B_min": -32.6,
-   "B_max": 41.7
+   "A_min": -63.5,
+   "A_max": 51.0,
+   "B_min": -34.4,
+   "B_max": 37.4
   },
   {
    "famille": "montants",
@@ -141,10 +141,10 @@
    "composante": "MFY",
    "avp_min": -7,
    "avp_max": 4,
-   "A_min": -3.5,
-   "A_max": 6.9,
-   "B_min": -7.9,
-   "B_max": 13.2
+   "A_min": -5.2,
+   "A_max": 7.8,
+   "B_min": -8.7,
+   "B_max": 14.7
   },
   {
    "famille": "montants",
@@ -152,10 +152,10 @@
    "composante": "N",
    "avp_min": -41,
    "avp_max": 108,
-   "A_min": -222.4,
-   "A_max": 148.8,
-   "B_min": -184.8,
-   "B_max": 127.9
+   "A_min": -77.6,
+   "A_max": 166.3,
+   "B_min": -137.7,
+   "B_max": 127.3
   },
   {
    "famille": "montants",
@@ -163,10 +163,10 @@
    "composante": "MFY",
    "avp_min": -10,
    "avp_max": 9,
-   "A_min": -3.4,
-   "A_max": 7.1,
-   "B_min": -3.7,
-   "B_max": 5.8
+   "A_min": -4.3,
+   "A_max": 7.8,
+   "B_min": -3.8,
+   "B_max": 6.2
   },
   {
    "famille": "diagonales",
@@ -174,10 +174,10 @@
    "composante": "N",
    "avp_min": -53,
    "avp_max": 32,
-   "A_min": -81.8,
-   "A_max": 51.3,
-   "B_min": -100.6,
-   "B_max": 73.6
+   "A_min": -78.5,
+   "A_max": 53.7,
+   "B_min": -69.7,
+   "B_max": 66.3
   },
   {
    "famille": "diagonales",
@@ -185,10 +185,10 @@
    "composante": "MFY",
    "avp_min": -10,
    "avp_max": 5,
-   "A_min": -12.7,
-   "A_max": 12.5,
-   "B_min": -9.5,
-   "B_max": 5.7
+   "A_min": -14.8,
+   "A_max": 15.0,
+   "B_min": -11.3,
+   "B_max": 7.0
   },
   {
    "famille": "diagonales",
@@ -196,10 +196,10 @@
    "composante": "N",
    "avp_min": -156,
    "avp_max": 60,
-   "A_min": -201.5,
-   "A_max": 45.0,
-   "B_min": -194.6,
-   "B_max": 193.9
+   "A_min": -191.1,
+   "A_max": 42.3,
+   "B_min": -179.8,
+   "B_max": 178.1
   },
   {
    "famille": "diagonales",
@@ -207,10 +207,10 @@
    "composante": "MFY",
    "avp_min": -18,
    "avp_max": 4,
-   "A_min": -9.8,
-   "A_max": 12.4,
-   "B_min": -5.0,
-   "B_max": 2.6
+   "A_min": -11.1,
+   "A_max": 14.9,
+   "B_min": -5.5,
+   "B_max": 3.2
   },
   {
    "famille": "pannes_secondaires",
@@ -218,10 +218,10 @@
    "composante": "N",
    "avp_min": -51,
    "avp_max": 64,
-   "A_min": -104.8,
-   "A_max": 123.9,
-   "B_min": -74.7,
-   "B_max": 35.2
+   "A_min": -117.7,
+   "A_max": 137.9,
+   "B_min": -85.6,
+   "B_max": 41.1
   },
   {
    "famille": "pannes_secondaires",
@@ -229,10 +229,10 @@
    "composante": "VY",
    "avp_min": -5,
    "avp_max": 8,
-   "A_min": -10.7,
-   "A_max": 7.6,
-   "B_min": -20.1,
-   "B_max": 12.6
+   "A_min": -7.2,
+   "A_max": 6.9,
+   "B_min": -4.5,
+   "B_max": 5.7
   },
   {
    "famille": "pannes_secondaires",
@@ -240,10 +240,10 @@
    "composante": "MFY",
    "avp_min": -1,
    "avp_max": 1,
-   "A_min": -1.6,
-   "A_max": 1.3,
-   "B_min": -0.7,
-   "B_max": 1.0
+   "A_min": -2.4,
+   "A_max": 2.1,
+   "B_min": -1.0,
+   "B_max": 1.6
   },
   {
    "famille": "pannes_secondaires",
@@ -251,10 +251,10 @@
    "composante": "N",
    "avp_min": -42,
    "avp_max": 53,
-   "A_min": -76.0,
-   "A_max": 128.9,
-   "B_min": -39.4,
-   "B_max": 24.6
+   "A_min": -84.9,
+   "A_max": 144.7,
+   "B_min": -40.9,
+   "B_max": 25.9
   },
   {
    "famille": "pannes_secondaires",
@@ -262,10 +262,10 @@
    "composante": "VY",
    "avp_min": -10,
    "avp_max": 10,
-   "A_min": -9.2,
-   "A_max": 14.2,
-   "B_min": -12.7,
-   "B_max": 12.9
+   "A_min": -6.7,
+   "A_max": 12.4,
+   "B_min": -11.3,
+   "B_max": 11.9
   },
   {
    "famille": "poteaux",
@@ -273,10 +273,10 @@
    "composante": "N",
    "avp_min": -72,
    "avp_max": 14,
-   "A_min": -60.4,
-   "A_max": 49.1,
-   "B_min": -51.7,
-   "B_max": 17.8
+   "A_min": -76.4,
+   "A_max": 65.6,
+   "B_min": -64.1,
+   "B_max": 23.2
   },
   {
    "famille": "poteaux",
@@ -284,10 +284,10 @@
    "composante": "MFY",
    "avp_min": -20,
    "avp_max": 52,
-   "A_min": -9.0,
-   "A_max": 7.3,
-   "B_min": -14.8,
-   "B_max": 13.8
+   "A_min": -10.8,
+   "A_max": 14.7,
+   "B_min": -19.4,
+   "B_max": 20.6
   },
   {
    "famille": "poteaux",
@@ -295,10 +295,10 @@
    "composante": "N",
    "avp_min": -58,
    "avp_max": 26,
-   "A_min": -47.9,
-   "A_max": 56.5,
-   "B_min": -37.3,
-   "B_max": 15.0
+   "A_min": -54.9,
+   "A_max": 71.7,
+   "B_min": -41.6,
+   "B_max": 15.8
   },
   {
    "famille": "poteaux",
@@ -306,10 +306,10 @@
    "composante": "MFZ",
    "avp_min": -20,
    "avp_max": 17,
-   "A_min": -14.3,
-   "A_max": 15.4,
-   "B_min": -4.7,
-   "B_max": 9.8
+   "A_min": -18.3,
+   "A_max": 18.1,
+   "B_min": -4.9,
+   "B_max": 10.8
   }
  ],
  "deplacements_tablier_els_car": [
@@ -317,85 +317,85 @@
    "jeu": "A",
    "composante": "DX",
    "extremum": "min",
-   "valeur": -0.005079093725659822,
-   "lieu": "nœud 266"
+   "valeur": -0.007104524247464476,
+   "lieu": "nœud 276"
   },
   {
    "jeu": "A",
    "composante": "DX",
    "extremum": "max",
-   "valeur": 0.0065261096421274905,
-   "lieu": "nœud 75"
+   "valeur": 0.008133060609405362,
+   "lieu": "nœud 276"
   },
   {
    "jeu": "A",
    "composante": "DY",
    "extremum": "min",
-   "valeur": -0.003948932890635215,
-   "lieu": "nœud 108"
+   "valeur": -0.00445312568892793,
+   "lieu": "nœud 106"
   },
   {
    "jeu": "A",
    "composante": "DY",
    "extremum": "max",
-   "valeur": 0.003517706930548613,
+   "valeur": 0.0037896751214661064,
    "lieu": "nœud 106"
   },
   {
    "jeu": "A",
    "composante": "DZ",
    "extremum": "min",
-   "valeur": -0.10180685153399337,
-   "lieu": "nœud 338"
+   "valeur": -0.13839311092834072,
+   "lieu": "nœud 348"
   },
   {
    "jeu": "A",
    "composante": "DZ",
    "extremum": "max",
-   "valeur": 0.10687008342961082,
-   "lieu": "nœud 338"
+   "valeur": 0.15063789314841505,
+   "lieu": "nœud 348"
   },
   {
    "jeu": "B",
    "composante": "DX",
    "extremum": "min",
-   "valeur": -0.0053673423841941745,
+   "valeur": -0.005507813720389243,
    "lieu": "nœud 120"
   },
   {
    "jeu": "B",
    "composante": "DX",
    "extremum": "max",
-   "valeur": 0.008347560296112302,
+   "valeur": 0.009071730992075882,
    "lieu": "nœud 53"
   },
   {
    "jeu": "B",
    "composante": "DY",
    "extremum": "min",
-   "valeur": -0.004103589439449654,
+   "valeur": -0.004339123907842526,
    "lieu": "nœud 19"
   },
   {
    "jeu": "B",
    "composante": "DY",
    "extremum": "max",
-   "valeur": 0.004004259728067028,
-   "lieu": "nœud 108"
+   "valeur": 0.00412189634107415,
+   "lieu": "nœud 354"
   },
   {
    "jeu": "B",
    "composante": "DZ",
    "extremum": "min",
-   "valeur": -0.059145647035845274,
-   "lieu": "nœud 277"
+   "valeur": -0.08225156276922249,
+   "lieu": "nœud 349"
   },
   {
    "jeu": "B",
    "composante": "DZ",
    "extremum": "max",
-   "valeur": 0.020117638744464646,
-   "lieu": "nœud 277"
+   "valeur": 0.028859022813103655,
+   "lieu": "nœud 288"
   }
  ]
 }

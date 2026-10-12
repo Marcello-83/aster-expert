@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 50 (2026-10-12), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 50bis (2026-10-12), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 59 faits sur 61 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 50, Pontons aluminium PONTONS-ALU-01, une travée au niveau PRO : décisions P1 à P23, script Salomé autonome à paramètres en tête, .comm généré à plat (repli), POU_D_T, LIAISON_SOLIDE pour les excentricités, semelle DKT sur RIGI_PARASOL, cas élémentaires et deux jeux de combinaisons (A : S2 ; B : PRO, EN 1990), niveau D (harnais, poids propre, moment à mi-portée), livrables des jeux A et B, chevêtre en flexion composée, comparaison à l'AVP ; DIAG-029.
+Lots : 60 faits sur 62 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 50bis, Pontons aluminium : géométrie transversale corrigée (P24, tablier de 2,00 m, poutres en rive), rotule côté quai guidée (P25), jeu B′ sans foule pendant la houle (P27), taux élastique simplifié (P28, indicateur, pas l'EC9), balayage de l'inertie des poutres principales (k = 1, 3, 5), inertie et module nécessaires, chevêtre mis à jour.
 
 Capacités :
 

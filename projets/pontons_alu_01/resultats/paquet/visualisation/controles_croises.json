@@ -4,7 +4,7 @@
  "valeurs_comparees": 2900,
  "valeurs_non_relues": {},
  "note": "section en T : barre relue, bande contrôlée par l'équilibre d'une coupe ; M_dim (E27) : combinaison de deux modèles, ses termes relus par leurs propres torseurs ; ligne interpolée : ses deux extrémités relues",
- "ecart_relatif_max": 1.5568618021229176e-16,
+ "ecart_relatif_max": 6.288361699856827e-17,
  "tolerance": 1e-09,
  "echecs": [],
  "verdict": "RÉUSSI"

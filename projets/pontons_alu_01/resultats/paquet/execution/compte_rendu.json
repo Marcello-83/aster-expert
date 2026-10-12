@@ -6,8 +6,8 @@
     "status": "completed_ok",
     "diag": "OK",
     "return_code": 0,
-    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261012T130752-dcba979a",
-    "mess_path": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261012T130752-dcba979a/proc.0/fort.6",
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261012T144404-2cf50a46",
+    "mess_path": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261012T144404-2cf50a46/proc.0/fort.6",
     "result_files": [
       "proc.0/1.export",
       "proc.0/__timer__",
@@ -19,9 +19,9 @@
       "proc.0/fort.9",
       "proc.0/pontons_alu_01.comm.changed.py"
     ],
-    "duration_s": 10.988914502999705,
+    "duration_s": 11.045322705000217,
     "extracted_by": "run_aster.status",
-    "executed_at": "2026-10-12T13:08:03.972963Z",
+    "executed_at": "2026-10-12T14:44:15.295309Z",
     "messages": [],
     "messages_source": "run_aster.error_messages",
     "status_source": "run_aster.status.Status.load",
@@ -31,21 +31,21 @@
   "command": "python3 /work/_aster_expert_run_comm.py --file /work/pontons_alu_01.export --wrkdir /work --status-file /work/__status__ --time-limit 1800 --memory-limit 4096",
   "image": "simvia/code_aster@sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
   "inputs_sha256": {
-    "pontons_alu_01.comm": "d113b7bb53bc76dfd3fb428b3f17ecd8910d2118216c09e0bca775803771c680",
+    "pontons_alu_01.comm": "5964ae42a2010b81a2e03c66da750fc193fbfc6ca7e02e9b73e4d2381a15b262",
     "pontons_alu_01.connaissances.yaml": "fb2fccb771020f9c0a929e33eb1d17ddbef41051549675b73d6f45b0e9f98a38",
     "pontons_alu_01.export": "ffbb6b751271dadec79688b0431550603acde257924d88fe4b7be332bfcc5e2c",
-    "pontons_alu_01.mmed": "041f649451538724a83ae49b6169f212f4126d734a8eb2f7c12375a726ba6ab7"
+    "pontons_alu_01.mmed": "6cb2494728f2d81526dfed9f75289fba47b845ebeedea509edbc8e3622dcf434"
   },
   "outputs": {
     "proc.0/1.export": 229,
     "proc.0/__timer__": 348,
-    "proc.0/fort.15": 123483,
-    "proc.0/fort.20": 110093,
-    "proc.0/fort.6": 525083,
+    "proc.0/fort.15": 123588,
+    "proc.0/fort.20": 113129,
+    "proc.0/fort.6": 525171,
     "proc.0/fort.8": 0,
-    "proc.0/fort.80": 1382636,
+    "proc.0/fort.80": 1419812,
     "proc.0/fort.9": 0,
-    "proc.0/pontons_alu_01.comm.changed.py": 24979
+    "proc.0/pontons_alu_01.comm.changed.py": 25054
   },
   "alarms_by_identifier": {},
   "errors": [],

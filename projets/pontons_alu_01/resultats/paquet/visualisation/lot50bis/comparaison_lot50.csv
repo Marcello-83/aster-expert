@@ -1,0 +1,50 @@
+﻿# Effet de P24 et P25 : lot 50 (B = 1,50, rotules fixes, largeur chargée 1,50 m) contre lot 50 bis (B = 1,86, rotule Y < 0 guidée, 2,00 m). kN, kN·m.
+famille;grandeur;lot50;lot50bis
+poutres_principales;ELU B, N min (kN);-77,4302;-72,283
+poutres_principales;ELU B, N max (kN);127,164;136,975
+poutres_principales;ELU B, |My| max (kN·m);38,6872;53,2175
+poutres_principales;ELU B, |Mz| max (kN·m);12,5581;12,1321
+poutres_principales;TP seul, N min (kN);-2,66554;-5,92769
+poutres_principales;TP seul, N max (kN);7,62849;2,57316
+poutres_principales;TM seul, N min (kN);-4,64343;-1,56627
+poutres_principales;TM seul, N max (kN);1,6225;3,60816
+montants;ELU B, N min (kN);-456,008;-66,4685
+montants;ELU B, N max (kN);277,125;52,3574
+montants;ELU B, |My| max (kN·m);13,2343;14,6812
+montants;ELU B, |Mz| max (kN·m);11,2751;10,2007
+montants;TP seul, N min (kN);-301,188;-38,7715
+montants;TP seul, N max (kN);1,3834;1,42621
+montants;TM seul, N min (kN);-0,842068;-0,868125
+montants;TM seul, N max (kN);183,332;23,6
+diagonales;ELU B, N min (kN);-100,618;-69,6535
+diagonales;ELU B, N max (kN);73,5801;66,3127
+diagonales;ELU B, |My| max (kN·m);9,51264;11,2719
+diagonales;ELU B, |Mz| max (kN·m);7,12375;8,59713
+diagonales;TP seul, N min (kN);-31,3254;-3,1304
+diagonales;TP seul, N max (kN);1,12807;-1,22766
+diagonales;TM seul, N min (kN);-0,68665;0,747273
+diagonales;TM seul, N max (kN);19,0676;1,90546
+pannes_secondaires;ELU B, N min (kN);-74,7374;-85,6496
+pannes_secondaires;ELU B, N max (kN);35,2054;41,1435
+pannes_secondaires;ELU B, |My| max (kN·m);0,981091;1,5583
+pannes_secondaires;ELU B, |Mz| max (kN·m);1,31718;1,06246
+pannes_secondaires;TP seul, N min (kN);-3,35899;-0,370222
+pannes_secondaires;TP seul, N max (kN);1,1036;0,723383
+pannes_secondaires;TM seul, N min (kN);-0,671758;-0,44032
+pannes_secondaires;TM seul, N max (kN);2,0446;0,225352
+profiles_supports;ELU B, N min (kN);-51,2405;-58,0077
+profiles_supports;ELU B, N max (kN);44,308;43,9361
+profiles_supports;ELU B, |My| max (kN·m);9,29195;10,6139
+profiles_supports;ELU B, |Mz| max (kN·m);1,91003;3,61502
+profiles_supports;TP seul, N min (kN);-13,8839;-13,0756
+profiles_supports;TP seul, N max (kN);27,4124;25,9711
+profiles_supports;TM seul, N min (kN);-16,6858;-15,8085
+profiles_supports;TM seul, N max (kN);8,45106;7,95905
+rotule Y < 0;TP seul, RY (kN);311,833;-1,27656e-13
+rotule Y < 0;ELU B, RY min / max (kN);-294.3 / 487.7;-0.0 / 0.0
+rotule Y < 0;TP seul, RZ (kN);0,169589;0,117497
+rotule Y < 0;ELU B, RZ min / max (kN);-12.4 / 28.0;-16.8 / 37.7
+rotule Y > 0;TP seul, RY (kN);-312,746;-1,44032
+rotule Y > 0;ELU B, RY min / max (kN);-523.2 / 330.7;-51.4 / 51.6
+rotule Y > 0;TP seul, RZ (kN);-0,340886;-0,288427
+rotule Y > 0;ELU B, RZ min / max (kN);-17.4 / 39.1;-22.8 / 50.7

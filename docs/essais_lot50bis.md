@@ -66,6 +66,60 @@ thermiquement ne couvre qu'une longueur limitée). Hypothèses de l'outil, à co
   (pannes, tête des profilés supports) et pied des profilés supports (platine supposée soudée
   au tube).
 
-## 5. Résultats
+## 5. Résultats (après les exécutions ; § 1 à 4 commités avant, e769f50)
 
-(Complété après les exécutions.)
+Maillage `20261012T144146-7a1698f2` : mesh check 356/356 invariants. Exécutions (toutes
+`completed_ok`, 0 alarme, niveau B 116/116, harnais D RÉUSSI) : référence k = 1
+`20261012T144404-2cf50a46` (post-traitement `20261012T144424-430251f1`, tables 10 608 valeurs
+identiques), k = 3 `20261012T144209-dae7118e`, k = 5 `20261012T144308-a3042b1f`. Archive :
+`projets/pontons_alu_01/references/execution_lot50bis/`.
+
+### 5.1 Harnais D et contrôle à la main
+
+- Harnais D par défaut : 16 cas, RÉUSSI ; G1 : 45 627,78 N appliqués, écart 4,1·10⁻¹³ (le
+  poids calculé à la main pour la géométrie P24 est le même, 45 627,8 N, test du projet).
+- Moment à mi-portée sous Q (§ 2) : |M| = 48,07 kN·m contre q·b·L²/8 = 48,83 kN·m, écart
+  **1,55 %**, **RÉUSSI** (`references/controles_lot50bis/controles_analytiques.json`). Poutres
+  principales −16,55 et −16,93 kN·m, pannes −3,29 / −2,00 / −1,88 / −3,24, diagonale 3 −4,18.
+  Statique : R_quai·L/2 − q·b·(L/2)²/2 = 48,12 kN·m (R_quai = 31,02 kN).
+
+### 5.2 Effet de P24 et P25 (jeu B, ELU fondamental, sauf mention)
+
+| Grandeur | Lot 50 | Lot 50 bis |
+| --- | --- | --- |
+| Poutres principales, \|My\| max (kN·m) | 38,7 | 53,2 |
+| Poutres principales, N min / max (kN) | −77,4 / +127,2 | −72,3 / +137,0 |
+| Montants, N min / max (kN) | −456,0 / +277,1 | −66,5 / +52,4 |
+| Montants, N min sous T+ seul (kN) | −301,2 | −38,8 |
+| Diagonales, N min / max (kN) | −100,6 / +73,6 | −69,7 / +66,3 |
+| Pannes, N min / max (kN) | −74,7 / +35,2 | −85,6 / +41,1 |
+| Profilés supports, N min (kN) | −51,2 | −58,0 |
+| Rotule Y < 0, RY sous T+ seul (kN) | +311,8 | 0 (guidée) |
+| Rotule Y > 0, RY min / max (kN) | −523,2 / +330,7 | −51,4 / +51,6 |
+| UZ min du tablier, ELS caractéristique (mm) | −59,1 | −82,3 |
+
+P25 supprime le bridage transversal entre les deux rotules : les montants et les diagonales
+perdent l'essentiel de leur effort normal thermique, et les rotules ne reprennent plus que les
+efforts horizontaux extérieurs. P24 (largeur chargée 2,00 m au lieu de 1,50 m, +33 %, et poutres
+en rive) augmente le moment et la flèche des poutres principales et l'effort des pannes.
+
+### 5.3 Balayage de l'inertie (§ 3, rapporté)
+
+| k | Flèche relative B, total / variables (mm) | My max ELU B / B′ (kN·m) |
+| --- | --- | --- |
+| 1 | −78,6 / −68,5 | 53,2 / 34,4 |
+| 3 | −33,3 / −29,1 | 61,2 / 39,5 |
+| 5 | −21,4 / −18,7 | 63,2 / 40,8 |
+
+La flèche suit a + b/k (jeu B, actions variables : a = 7,4 mm, b = 61,3 mm, résidu 1,2 mm ; la
+part a ne dépend pas de IY : effort tranchant, pannes, profilés supports). L'hypothèse « les
+moments varient peu » n'est vraie qu'en partie : My max croît de 19 % de k = 1 à k = 5 (le
+tablier n'est pas isostatique : des poutres plus raides reprennent une part plus grande de la
+charge portée par les pannes et la triangulation).
+
+### 5.4 Taux simplifié (P28, indicateur, pas une vérification EC9)
+
+Maximum sur l'ELU fondamental et accidentel (jeu B / B′) : poutres principales 1,53 / 1,01 en
+partie courante, 2,86 / 1,88 en zone soudée ; pannes 0,87 / 0,58 (1,73 / 1,15 soudé) ; montants
+0,55 / 0,48 (1,14 / 1,00) ; diagonales 0,37 / 0,32 (0,78 / 0,66) ; profilés supports 0,30 / 0,28
+(0,63 / 0,59). Le cisaillement ne gouverne nulle part (≤ 0,57 en zone soudée).

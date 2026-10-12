@@ -1,0 +1,8 @@
+﻿# Inertie nécessaire d'une poutre principale pour une flèche relative sous actions variables (ELS caractéristique) de L/200, L/250, L/300 : ajustement f(k) = a + b/k sur k = 1, 3, 5 (docs/essais_lot50bis.md § 3).
+jeu;critere;fleche_limite_mm;ajustement_a_mm;ajustement_b_mm;residu_max_mm;k_necessaire;Iy_necessaire_mm4;Iy_necessaire_cm4;Iy_MP1200_mm4
+B;L/200;31,25;7,42932;61,2875;1,20072;2,57287;6,59722e+07;6597,22;2,56415e+07
+B;L/250;25;7,42932;61,2875;1,20072;3,48805;8,94389e+07;8943,89;2,56415e+07
+B;L/300;20,8333;7,42932;61,2875;1,20072;4,57232;1,17241e+08;11724,1;2,56415e+07
+B′;L/200;31,25;4,25494;34,6834;0,683928;1,28481;3,29444e+07;3294,44;2,56415e+07
+B′;L/250;25;4,25494;34,6834;0,683928;1,67189;4,28697e+07;4286,97;2,56415e+07
+B′;L/300;20,8333;4,25494;34,6834;0,683928;2,09208;5,36442e+07;5364,42;2,56415e+07

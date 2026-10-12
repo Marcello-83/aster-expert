@@ -4,77 +4,77 @@
   "threshold": 1e-06,
   "equilibrium": {
     "G1": {
-      "worst_relative_gap": 1.1909775100683061e-12,
+      "worst_relative_gap": 4.139667879069175e-13,
       "verdict": "RÉUSSI"
     },
     "G2": {
-      "worst_relative_gap": 2.1592131815850736e-12,
+      "worst_relative_gap": 2.76042555924505e-12,
       "verdict": "RÉUSSI"
     },
     "Q": {
-      "worst_relative_gap": 2.7661832670370736e-12,
+      "worst_relative_gap": 4.132685717195273e-12,
       "verdict": "RÉUSSI"
     },
     "QD": {
-      "worst_relative_gap": 1.6277190297842025e-12,
+      "worst_relative_gap": 6.327463779598474e-13,
       "verdict": "RÉUSSI"
     },
     "HU": {
-      "worst_relative_gap": 2.1592131815850736e-12,
+      "worst_relative_gap": 2.76042555924505e-12,
       "verdict": "RÉUSSI"
     },
     "HD": {
-      "worst_relative_gap": 2.1592131815850736e-12,
+      "worst_relative_gap": 2.76042555924505e-12,
       "verdict": "RÉUSSI"
     },
     "AMM": {
-      "worst_relative_gap": 7.045883876344306e-13,
+      "worst_relative_gap": 6.448601652664365e-13,
       "verdict": "RÉUSSI"
     },
     "AMP": {
-      "worst_relative_gap": 2.786464392556809e-13,
+      "worst_relative_gap": 6.69312869017169e-13,
       "verdict": "RÉUSSI"
     },
     "ACM": {
-      "worst_relative_gap": 3.314352473027249e-13,
+      "worst_relative_gap": 7.946706001571435e-13,
       "verdict": "RÉUSSI"
     },
     "ACP": {
-      "worst_relative_gap": 5.654641199726029e-13,
+      "worst_relative_gap": 2.078976990560477e-12,
       "verdict": "RÉUSSI"
     },
     "AAM": {
-      "worst_relative_gap": 5.990360069457385e-13,
+      "worst_relative_gap": 1.4432499755186016e-12,
       "verdict": "RÉUSSI"
     },
     "AAP": {
-      "worst_relative_gap": 6.660926586633862e-13,
+      "worst_relative_gap": 3.3914590039637605e-13,
       "verdict": "RÉUSSI"
     },
     "TP": {
-      "worst_relative_gap": 8.16622431709015e-12,
+      "worst_relative_gap": 6.225365431276216e-12,
       "verdict": "RÉUSSI"
     },
     "TM": {
-      "worst_relative_gap": 4.809405487409683e-12,
+      "worst_relative_gap": 3.936008109082863e-12,
       "verdict": "RÉUSSI"
     },
     "TAP": {
-      "worst_relative_gap": 6.119622839472752e-12,
+      "worst_relative_gap": 7.009916166307137e-12,
       "verdict": "RÉUSSI"
     },
     "TAM": {
-      "worst_relative_gap": 3.3276192006413015e-12,
+      "worst_relative_gap": 8.795117127879145e-12,
       "verdict": "RÉUSSI"
     }
   },
   "gravity": {
     "G1": {
       "component": "DZ",
-      "applied_n": -44988.3825831218,
-      "reactions_blocked_n": 2041.564751476,
-      "springs_on_structure_n": 42946.81783169938,
-      "relative_gap": 1.1909775100683061e-12,
+      "applied_n": -45627.78106408701,
+      "reactions_blocked_n": 2240.629019878,
+      "springs_on_structure_n": 43387.15204419012,
+      "relative_gap": 4.139667879069175e-13,
       "verdict": "RÉUSSI"
     }
   },
@@ -85,7 +85,7 @@
     "controls": {
       "CTL-005": {
         "verdict": "RÉUSSI",
-        "worst_relative_gap": 8.16622431709015e-12,
+        "worst_relative_gap": 8.795117127879145e-12,
         "cases": [
           "AAM",
           "AAP",
@@ -140,7 +140,7 @@
     "disabled": {}
   },
   "provenance": {
-    "mess_sha256": "66ceae0c07ce99d21264c129a0ee052541bc5833a08c80fd8dad3e8cb29bf4ad",
-    "comm_sha256": "d113b7bb53bc76dfd3fb428b3f17ecd8910d2118216c09e0bca775803771c680"
+    "mess_sha256": "b2e3ddcf4b2a6184e093b309888e49da1e852084ea9c4913de73aafd4bc3d0ae",
+    "comm_sha256": "5964ae42a2010b81a2e03c66da750fc193fbfc6ca7e02e9b73e4d2381a15b262"
   }
 }

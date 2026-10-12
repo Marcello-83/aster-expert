@@ -1,0 +1,46 @@
+{
+ "avertissement": "AVERTISSEMENT : taux élastique simplifié (P28), indicateur de dimensionnement. Ce taux ne vérifie ni la classe de section, ni le flambement, ni le déversement, ni les assemblages ; ce n'est pas une vérification EC9, qui viendra plus tard.",
+ "sections": {
+  "mp1200": {
+   "section": "MP1200",
+   "A_mm2": 4439.999999999999,
+   "Wel_y_mm3": 218166.00000000003,
+   "Wel_z_mm3": 145794.0,
+   "Av_mm2": 1741.0000000000002,
+   "f0_MPa": 215.0,
+   "f0_haz_MPa": 115.0,
+   "gamma_M1": 1.1,
+   "source": "D3 : Wel,y, Wel,z ; Av = Avz pour les deux directions"
+  },
+  "tube_150": {
+   "section": "tube 150 × 150 × 7",
+   "A_mm2": 4004.000000000004,
+   "Wel_y_mm3": 182386.64888888906,
+   "Wel_z_mm3": 182386.64888888906,
+   "Av_mm2": 2002.000000000002,
+   "f0_MPa": 260.0,
+   "f0_haz_MPa": 125.0,
+   "gamma_M1": 1.1,
+   "source": "angles vifs : A = h² − (h − 2t)², Wel = I/(h/2), Av = A/2"
+  },
+  "tube_50": {
+   "section": "tube 50 × 50 × 5",
+   "A_mm2": 900.0000000000005,
+   "Wel_y_mm3": 12300.000000000002,
+   "Wel_z_mm3": 12300.000000000002,
+   "Av_mm2": 450.0000000000002,
+   "f0_MPa": 250.0,
+   "f0_haz_MPa": 125.0,
+   "gamma_M1": 1.1,
+   "source": "angles vifs : A = h² − (h − 2t)², Wel = I/(h/2), Av = A/2"
+  }
+ },
+ "fichiers": {
+  "synthese_familles.csv": 270,
+  "profiles_supports_pieds.csv": 108,
+  "rotules_quai.csv": 72,
+  "balayage_inertie.csv": 3,
+  "inertie_necessaire.csv": 6,
+  "comparaison_lot50.csv": 48
+ }
+}

@@ -6,19 +6,19 @@
   "ELU_fondamental": {
    "etat_limite": "ELU fondamental",
    "evaluations": 1620,
-   "ecart_relatif_max": 4.070435252596351e-11,
+   "ecart_relatif_max": 9.825771975888236e-11,
    "pire": {
-    "combinaison": "B_ELU_G0.9_HU_TP_QD",
+    "combinaison": "B_ELU_G1.2_TM_HU",
     "position_mobile": null,
     "charge_n": {
-     "FX": -5.238689482212067e-11,
-     "FY": -3.14321368932724e-10,
-     "FZ": -2075.4818248096926
+     "FX": -1.9263983305497112e-28,
+     "FY": -3.055902197957039e-10,
+     "FZ": 2434.16272309552
     },
     "reactions_et_ressorts_n": {
-     "FX": 4.0452606526741876e-08,
-     "FY": -1.6868484408405493e-08,
-     "FZ": 2075.4818248941738
+     "FX": 1.4608738752031059e-07,
+     "FY": 3.2665111149299265e-08,
+     "FZ": -2434.1627233346953
     }
    },
    "seuil": 1e-06,
@@ -33,19 +33,19 @@
   "ELU_accidentel": {
    "etat_limite": "ELU accidentel",
    "evaluations": 594,
-   "ecart_relatif_max": 1.9042937341949012e-12,
+   "ecart_relatif_max": 2.3066908595416518e-12,
    "pire": {
     "combinaison": "B_ELUA_AAP_Q_HD_TP_AMP",
     "position_mobile": null,
     "charge_n": {
-     "FX": -2.9103830456733704e-11,
-     "FY": -150800.00000000017,
-     "FZ": -99832.13258312186
+     "FX": 1.4551915228366852e-11,
+     "FY": -150800.00000000006,
+     "FZ": -118752.78106408703
     },
     "reactions_et_ressorts_n": {
-     "FX": -4.9631139660277764e-08,
-     "FY": 150799.9999998971,
-     "FZ": 99832.13258340902
+     "FX": -5.216067748392561e-08,
+     "FY": 150799.99999996022,
+     "FZ": 118752.78106443488
     }
    },
    "seuil": 1e-06,
@@ -60,19 +60,19 @@
   "ELS_caracteristique": {
    "etat_limite": "ELS caractéristique",
    "evaluations": 810,
-   "ecart_relatif_max": 7.800604699662675e-12,
+   "ecart_relatif_max": 4.105335048269235e-11,
    "pire": {
-    "combinaison": "B_ELS_C_TP_HU_AMM",
+    "combinaison": "B_ELS_C_HU_TM",
     "position_mobile": null,
     "charge_n": {
-     "FX": -5.820766091346741e-11,
-     "FY": -12320.00000000035,
-     "FZ": -18269.632583121864
+     "FX": -1.5934990285464438e-28,
+     "FY": -1.2223608791828156e-10,
+     "FZ": 4372.218935912937
     },
     "reactions_et_ressorts_n": {
-     "FX": 3.490744063583407e-08,
-     "FY": 12319.999999984691,
-     "FZ": 18269.632583264378
+     "FX": 1.0820122042787261e-07,
+     "FY": 1.8240390886603562e-08,
+     "FZ": -4372.218936092431
     }
    },
    "seuil": 1e-06,
@@ -87,19 +87,19 @@
   "ELS_frequent": {
    "etat_limite": "ELS fréquent",
    "evaluations": 297,
-   "ecart_relatif_max": 3.758523860369965e-12,
+   "ecart_relatif_max": 1.3831204957690566e-11,
    "pire": {
-    "combinaison": "B_ELS_F_HU_TP_AMM",
+    "combinaison": "B_ELS_F_HU_TM_AMP",
     "position_mobile": null,
     "charge_n": {
-     "FX": -2.9103830456733704e-11,
-     "FY": -3200.0000000001746,
-     "FZ": -18269.632583121864
+     "FX": -1.6660742318267768e-28,
+     "FY": 3199.999999999898,
+     "FZ": -10002.781064087063
     },
     "reactions_et_ressorts_n": {
-     "FX": 1.3411613508651499e-08,
-     "FY": 3199.999999990701,
-     "FZ": 18269.63258319053
+     "FX": 7.453875454643822e-08,
+     "FY": -3199.999999985717,
+     "FZ": 10002.781063948712
     }
    },
    "seuil": 1e-06,
@@ -114,19 +114,19 @@
   "ELS_quasi_permanent": {
    "etat_limite": "ELS quasi permanent",
    "evaluations": 81,
-   "ecart_relatif_max": 2.7856323510886047e-12,
+   "ecart_relatif_max": 1.8491036160189995e-12,
    "pire": {
-    "combinaison": "B_ELS_QP_G_HU_TP_AMM",
+    "combinaison": "B_ELS_QP_G_HD_TP_AMM_Q",
     "position_mobile": null,
     "charge_n": {
-     "FX": -2.9103830456733704e-11,
-     "FY": -3200.0000000001746,
-     "FZ": -44988.38258312184
+     "FX": 1.4551915228366852e-11,
+     "FY": -3200.0000000000437,
+     "FZ": -83127.78106408704
     },
     "reactions_et_ressorts_n": {
-     "FX": 1.6805984159873334e-09,
-     "FY": 3199.9999999945926,
-     "FZ": 44988.38258324716
+     "FX": -5.978992874133837e-08,
+     "FY": 3199.9999999694423,
+     "FZ": 83127.78106424076
     }
    },
    "seuil": 1e-06,
