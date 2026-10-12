@@ -1,14 +1,21 @@
-# Déclaration du projet PONTONS-ALU-01 (créée par `aster-expert projet creer`).
+# Déclaration du projet PONTONS-ALU-01 (lot 50) : une travée de panne en aluminium soudé.
 #
-# Interface avec le tronc commun (schéma aster_expert.projet.declaration). Squelette
-# minimal : la fiche et les données existent (vides) ; les invariants du maillage et
-# le générateur restent à écrire par la session du projet. `aster-expert projet
-# pontons_alu_01 verifier` liste ce qui manque. Chemins relatifs au répertoire du projet.
+# Interface avec le tronc commun (schéma aster_expert.projet.declaration). Décisions P1 à
+# P23 de MM (fiche) ; données : annexe « Données » de la consigne du lot 50. La géométrie
+# est paramétrée dans maillage_pontons.py (script Salomé autonome, demande de MM) ; le
+# .comm est généré à plat (repli accepté par MM : le tronc commun lit le .comm sans
+# l'exécuter, boucles et variables y sont « dynamiques »). Chemins relatifs au projet.
 schema_version: 1
 name: pontons_alu_01
 structure: PONTONS-ALU-01
 description: >-
-  Panne (passerelle d'accès sur pieux) en aluminium soudé : une travée de 6,25 m, poutres principales MP1200, montants, diagonales et pannes secondaires tubulaires, profilés supports sur chevêtre béton neuf, deux poteaux et demi-semelle sur sol élastique ; reprise PRO d'un AVP Sofistik
+  Panne (passerelle d'accès sur pieux) en aluminium soudé, une travée de 6,25 m :
+  poutres principales MP1200, montants, diagonales et profilés supports en tube
+  150 × 150 × 7, pannes secondaires 50 × 50 × 5 (POU_D_T, liaisons rigides
+  LIAISON_SOLIDE pour les excentricités) ; chevêtre neuf et poteaux en béton
+  (POU_D_T), demi-semelle DKT sur sol élastique (RIGI_PARASOL) ; cas élémentaires G1,
+  G2, Q, Q½, houle unitaire, amarrage, accostage, températures ; jeux de combinaisons
+  A (S2, AVP) et B (PRO, EN 1990).
 fiche: fiche/hypotheses_pontons_alu_01.json
 data: donnees/pontons_alu_01_model_data.yaml
 data_sources: donnees/sources
@@ -16,19 +23,191 @@ results: resultats
 knowledge_applied: connaissances_appliquees.yaml
 
 mesh:
+  script: maillage/maillage_pontons.py
   invariants: maillage/invariants.yaml
 
 comm:
   generator: pontons_alu_01.extensions:generate
   output: resultats/pontons_alu_01.comm
+  export:
+    time_limit: 1800
+    memory_limit: 4096
+    mesh_unit: 20
+    mesh_format: mmed
 
-# Lot 49 : contrat de livrables, obligatoire (`verifier` refuse un projet sans lui) :
-# champs livrés par famille d'éléments, combinaisons, enveloppes, et chaque livrable
-# non pertinent avec son motif (aster_expert.projet.declaration.DeliverablesSection).
-# deliverables:
-#   fields:
-#     - {family: deplacements, field: DEPL, components: [DX, DY, DZ],
-#        convention: "..."}
-#   not_relevant:
-#     - {item: ressorts, reason: "..."}
-#   combinations: declarees
+controls:
+  threshold: 1.0e-6
+  vertical: DZ
+  output: equilibre.json
+  # P5 : rotules côté quai, translations bloquées ; P19 : ressorts de sol sous la
+  # semelle (RIGI_PARASOL), efforts k·u lus aux nœuds (table DS_<cas>).
+  supports:
+    - {group: APP_QUAI, blocked: [DX, DY, DZ], table: "RP_{case}"}
+  springs:
+    groups: [SOL]
+    direction: [DX, DY, DZ]
+    forces: pontons_alu_01.extensions:spring_forces
+  cases:
+    - {name: G1, gravity: true, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: G2, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: Q, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: QD, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: HU, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: HD, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: AMM, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: AMP, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: ACM, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: ACP, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: AAM, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: AAP, expected_resultant: "pontons_alu_01.extensions:resultant"}
+    - {name: TP, expected_resultant: "pontons_alu_01.extensions:resultant", self_equilibrated_scale: "pontons_alu_01.extensions:spring_scale"}
+    - {name: TM, expected_resultant: "pontons_alu_01.extensions:resultant", self_equilibrated_scale: "pontons_alu_01.extensions:spring_scale"}
+    - {name: TAP, expected_resultant: "pontons_alu_01.extensions:resultant", self_equilibrated_scale: "pontons_alu_01.extensions:spring_scale"}
+    - {name: TAM, expected_resultant: "pontons_alu_01.extensions:resultant", self_equilibrated_scale: "pontons_alu_01.extensions:spring_scale"}
+
+deliverables:
+  fields:
+    - family: deplacements
+      field: DEPL
+      components: [DX, DY, DZ, DRX, DRY, DRZ]
+      convention: "repère global : X le long du tablier, X = 0 à l'appui côté quai ; Y transversal ; Z vertical vers le haut (cote NGF) ; m et rad"
+    - family: efforts_poutres
+      field: EFGE_ELNO
+      groups: [POUTRES_PRINC, MONTANTS, DIAGONALES, PANNES_SEC, SUPPORTS, CHEVETRE, POTEAUX]
+      components: [N, VY, VZ, MT, MFY, MFZ]
+      convention: "POU_D_T, repère local de l'élément : x_l selon la maille ; barres horizontales z_l = +Z (VECT_Z), poutres principales et pannes y_l = +Y, montants et chevêtre y_l = −X ; profilés supports et poteaux x_l = +Z, y_l = +X, z_l = +Y. N > 0 traction. Axe fort des poutres principales = y_l : MFY = My de l'AVP (axe fort), VZ = Vz, MFZ = Mz, VY = Vy, MT = Mx. Valeurs aux deux extrémités de chaque élément (ELNO)"
+    - family: efforts_coques
+      field: EFGE_NOEU
+      groups: [SEMELLE]
+      components: [NXX, NYY, NXY, MXX, MYY, MXY, QX, QY]
+      convention: "semelle DKT, repère local x_l = X (ANGL_REP = (0, 0)) ; efforts par unité de largeur ; semelle non vérifiée dans ce lot (P16)"
+    - family: reactions
+      field: REAC_NODA
+      node_groups: [APP_QUAI]
+      components: [DX, DY, DZ]
+      convention: "repère global ; réactions des rotules côté quai (P5), translations bloquées"
+    - family: ressorts
+      field: SIEF_ELGA
+      groups: [SOL]
+      components: [N, VY, VZ]
+      convention: "ressorts DIS_T de la semelle (RIGI_PARASOL, K_T_D_N repère global) : effort interne k·u selon X, Y, Z ; l'effort exercé par le sol sur la semelle est −k·u"
+  not_relevant:
+    - {item: contraintes_volumes, reason: "le modèle n'a aucun élément de volume (poutres POU_D_T, semelle DKT, ressorts DIS_T)"}
+  combinations: "pontons_alu_01.extensions:deliverable_combinations"
+  static_results: {TP: TP, TM: TM, TAP: TAP, TAM: TAM}
+  points:
+    - {label: têtes des poteaux, node_group: TETES_POTEAUX, cell_group: POTEAUX}
+    - {label: appuis côté quai, node_group: APP_QUAI, cell_group: POUTRES_PRINC}
+
+# Synthèse ingénieur (lot 49 bis). Jeu B (PRO) par défaut ; le jeu A (S2) est produit
+# par la même chaîne avec PONTONS_JEU=A (extensions.selected_set) : les états limites
+# fréquent et quasi permanent, absents de S2, y sont ceux du jeu B.
+engineering_summary:
+  limit_states:
+    - {state: ELU_fondamental, families: [A_ELU, B_ELU]}
+    - {state: ELU_accidentel, families: [A_ELUA, B_ELUA]}
+    - {state: ELS_caracteristique, families: [A_ELS_C, B_ELS_C]}
+    - {state: ELS_frequent, families: [B_ELS_F]}
+    - {state: ELS_quasi_permanent, families: [B_ELS_QP]}
+  cracking: {state: ELS_quasi_permanent, source: "P23 de MM : fissuration du chevêtre à l'ELS quasi permanent (défaut de l'outil), à confirmer par MM"}
+  no_service_criteria: "P14 de MM : les flèches sont rapportées sans critère ; aucun critère de service n'est vérifié dans ce lot."
+  families:
+    - {name: poutres principales, kind: poutre, field: EFGE_ELNO, groups: [POUTRES_PRINC], members: "PP_*", quantities: [N, VY, VZ, MT, MFY, MFZ], moments: [MFY, MFZ], shears: [VY, VZ], axis: X}
+    - {name: montants, kind: poutre, field: EFGE_ELNO, groups: [MONTANTS], members: "MONT_*", quantities: [N, VY, VZ, MT, MFY, MFZ], moments: [MFY, MFZ], shears: [VY, VZ], axis: Y}
+    - {name: diagonales, kind: poutre, field: EFGE_ELNO, groups: [DIAGONALES], members: "DIAG_*", quantities: [N, VY, VZ, MT, MFY, MFZ], moments: [MFY, MFZ], shears: [VY, VZ], axis: X}
+    - {name: pannes secondaires, kind: poutre, field: EFGE_ELNO, groups: [PANNES_SEC], members: "PANNE_*", quantities: [N, VY, VZ, MT, MFY, MFZ], moments: [MFY, MFZ], shears: [VY, VZ], axis: X}
+    - {name: profilés supports, kind: poutre, field: EFGE_ELNO, groups: [SUPPORTS], members: "SUP_*", quantities: [N, VY, VZ, MT, MFY, MFZ], moments: [MFY, MFZ], shears: [VY, VZ], axis: Z}
+    - {name: chevêtre, kind: poutre, field: EFGE_ELNO, groups: [CHEVETRE], quantities: [N, VY, VZ, MT, MFY, MFZ], moments: [MFY, MFZ], shears: [VY, VZ], axis: Y}
+    - {name: poteaux, kind: poutre, field: EFGE_ELNO, groups: [POTEAUX], members: "POT_*", quantities: [N, VY, VZ, MT, MFY, MFZ], circular: true, moments: [MFY, MFZ], shears: [VY, VZ], axis: Z}
+    - {name: appuis côté quai, kind: appui, field: REAC_NODA, groups: [APP_QUAI], quantities: [DX, DY, DZ]}
+    - {name: ressorts de sol, kind: discret, field: SIEF_ELGA, groups: [SOL], quantities: [N, VY, VZ]}
+  sections:
+    - name: poutres_principales
+      label: poutres principales (toutes sections)
+      family: poutres principales
+      rule: {description: "toutes les extrémités d'éléments des deux poutres principales (PP_YM, PP_YP)"}
+      justification: "Torseurs extrêmes et concomitants pour la vérification EC9 de MM (P15), lot ultérieur."
+      not_exported: "aluminium vérifié à l'EC9 par MM, hors logiciel de béton armé (CSV propre au projet, sans en-tête béton)"
+    - name: montants
+      label: montants (toutes sections)
+      family: montants
+      rule: {description: "toutes les extrémités d'éléments des six montants"}
+      justification: "Torseurs extrêmes et concomitants pour la vérification EC9 de MM (P15)."
+      not_exported: "aluminium vérifié à l'EC9 par MM, hors logiciel de béton armé (CSV propre au projet, sans en-tête béton)"
+    - name: diagonales
+      label: diagonales (toutes sections)
+      family: diagonales
+      rule: {description: "toutes les extrémités d'éléments des cinq diagonales"}
+      justification: "Torseurs extrêmes et concomitants pour la vérification EC9 de MM (P15)."
+      not_exported: "aluminium vérifié à l'EC9 par MM, hors logiciel de béton armé (CSV propre au projet, sans en-tête béton)"
+    - name: pannes_secondaires
+      label: pannes secondaires (toutes sections)
+      family: pannes secondaires
+      rule: {description: "toutes les extrémités d'éléments des quatre pannes secondaires"}
+      justification: "Torseurs extrêmes et concomitants pour la vérification EC9 de MM (P15)."
+      not_exported: "aluminium vérifié à l'EC9 par MM, hors logiciel de béton armé (CSV propre au projet, sans en-tête béton)"
+    - name: profiles_supports
+      label: profilés supports (toutes sections)
+      family: profilés supports
+      rule: {description: "toutes les extrémités d'éléments des trois profilés supports"}
+      justification: "Torseurs extrêmes et concomitants pour la vérification EC9 de MM (P15) ; section supposée (P17)."
+      not_exported: "aluminium vérifié à l'EC9 par MM, hors logiciel de béton armé (CSV propre au projet, sans en-tête béton)"
+    - name: chevetre_supports
+      label: chevêtre au droit des profilés supports
+      family: chevêtre
+      moment_signs: {MFY: both, MFZ: both}
+      rule: {description: "extrémités d'éléments du chevêtre aux nœuds des profilés supports, Y = −0,75 ; 0 ; +0,75 (P3)", station: {axis: Y, values: [-0.75, 0.0, 0.75]}}
+      justification: "Charges concentrées des profilés supports, articulés sur le chevêtre (P18) ; Y = ±0,75 est aussi l'axe des poteaux."
+      shared_rows: [chevetre_mi_portee]
+      bending_export: &chevetre
+        section_type: "rectangulaire 0,25 (X) × 0,40 (Z), béton armé neuf (P3, P16)"
+        h: {value: 0.40, unit: m, source: "P3 : hauteur 0,40 m"}
+        b: {value: 0.25, unit: m, source: "P3 : largeur 0,25 m en X, à affiner"}
+        ds: {value: 0.07, unit: m, source: "P23 et consigne du lot 50 : ds = 0,07 m, à confirmer par MM"}
+        di: {value: 0.07, unit: m, source: "P23 et consigne du lot 50 : di = 0,07 m, à confirmer par MM"}
+        concrete: {value: C35/45, source: "P20"}
+        steel: {value: "non donné par l'annexe « Données » (à fournir par MM)", source: "consigne du lot 50, étape 4 : nuance d'acier absente"}
+        exposure: {value: XS3, source: "consigne du lot 50, étape 4"}
+        cnom: {value: 55, unit: mm, source: "consigne du lot 50, étape 4"}
+        planes:
+          - {moment: MFY, top_fibre: "+z_l", label: "flexion verticale (z_l = +Z, fibre supérieure en haut)"}
+          - {moment: MFZ, top_fibre: "+y_l", rotated: true, label: "flexion horizontale (y_l = −X), section tournée : h = 0,25, b = 0,40"}
+    - name: chevetre_nu_poteaux
+      label: chevêtre au nu des poteaux
+      family: chevêtre
+      moment_signs: {MFY: both, MFZ: both}
+      rule: {description: "extrémités d'éléments du chevêtre aux nus des poteaux Ø 0,50 d'axe Y = ±0,75 : |Y| = 0,50 et 1,00 (1,00 : extrémité du chevêtre)", station: {axis: Y, values: [0.5, 1.0], absolute: true}}
+      justification: "Section sur appui lue au nu des poteaux (consigne du lot 50, étape 4) ; aucun moment d'encastrement réduit (règle E27 propre à l'estacade, non décidée ici)."
+      bending_export: *chevetre
+    - name: chevetre_mi_portee
+      label: chevêtre à mi-portée entre les poteaux
+      family: chevêtre
+      moment_signs: {MFY: both, MFZ: both}
+      rule: {description: "extrémités d'éléments du chevêtre à Y = 0 (mi-portée entre les poteaux, aussi profilé support central)", station: {axis: Y, value: 0.0}}
+      justification: "Moment de travée du chevêtre entre les poteaux (consigne du lot 50, étape 4)."
+      shared_rows: [chevetre_supports]
+      bending_export: *chevetre
+    - name: tetes_poteaux
+      label: têtes des poteaux (+0,69)
+      family: poteaux
+      rule: {description: "extrémités d'éléments de poteau au nœud de tête (TETES_POTEAUX, +0,69 NGF, dessous du chevêtre)", node_group: TETES_POTEAUX}
+      justification: "Efforts en tête des poteaux, pour la vérification ultérieure des poteaux existants (P16)."
+      not_exported: "poteaux existants non vérifiés dans ce lot (P16) ; efforts rapportés seulement"
+    - name: pieds_poteaux
+      label: pieds des poteaux (−0,63)
+      family: poteaux
+      rule: {description: "extrémités d'éléments de poteau au pied, Z = −0,63 NGF (dessus de la semelle)", box: {z: [-0.63, -0.63]}}
+      justification: "Efforts transmis à la semelle par les poteaux (réactions aux pieds des poteaux, consigne du lot 50, étape 4)."
+      not_exported: "poteaux existants non vérifiés dans ce lot (P16) ; efforts rapportés seulement"
+    - name: appuis_quai
+      label: rotules côté quai
+      family: appuis côté quai
+      rule: {description: "nœuds des rotules côté quai (APP_QUAI, P5)", node_group: APP_QUAI}
+      justification: "Réactions des rotules côté quai, pour l'assemblage boulonné entre travées."
+      not_exported: "réaction d'appui, sans section de béton armé"
+    - name: sol
+      label: ressorts de sol
+      family: ressorts de sol
+      rule: {description: "tous les ressorts de la semelle (SOL)"}
+      justification: "Pression du sol sous la semelle (k·u par surface tributaire), pour information."
+      not_exported: "efforts de ressorts de sol, sans section de béton armé"

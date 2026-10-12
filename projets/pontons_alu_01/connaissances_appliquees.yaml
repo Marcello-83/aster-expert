@@ -1,7 +1,23 @@
-# Connaissances de la base appliquées par les exécutions du projet (lot 46).
-# À remplir AVANT la première exécution : une exécution de projet sans
-# entrée déclarée (ni `none_reason` motivé) est refusée. Schéma :
-# aster_expert.connaissances.declaration.
+# Connaissances de la base appliquées par les exécutions du projet (lot 50), déclarées
+# avant la première exécution. Schéma : aster_expert.connaissances.declaration.
 schema_version: 1
 project: pontons_alu_01
-applied: []
+applied:
+  - id: CA-037
+    how: "poutres de Timoshenko POU_D_T pour toutes les barres, aluminium et béton"
+  - id: CA-033
+    how: "actions de surface en FORCE_POUTRE FZ, accostage en FORCE_POUTRE FY, repère global"
+  - id: CA-019
+    how: "amarrage en FORCE_NODALE FY sur les nœuds des poutres principales"
+  - id: CA-054
+    how: "températures uniformes : CHAM_GD NOEU_TEMP_R de composante TEMP et AFFE_VARC, VALE_REF = 0, un champ de matériau par cas"
+  - id: CA-048
+    how: "poids propre par PESANTEUR et RHO = γ / g"
+  - id: CA-020
+    how: "ressorts nodaux de sol : CREA_POI1, DIS_T, K_T_D_N en repère global (réparti par RIGI_PARASOL)"
+  - id: CA-036
+    how: "équilibre : seules les composantes bloquées des rotules côté quai sont sommées"
+  - id: DIAG-004
+    how: "masse M_T_D_N nulle des ressorts DIS_T de la semelle, le modèle portant PESANTEUR"
+  - id: DIAG-024
+    how: "MECA_STATIQUE et MACRO_ELAS_MULT avec un champ de matériau"

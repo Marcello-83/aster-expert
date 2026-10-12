@@ -1,0 +1,1172 @@
+# Invariants du maillage de PONTONS-ALU-01 (lot 50) : calculés par
+# pontons_alu_01.invariants à partir des seuls paramètres de maillage_pontons.py,
+# avant toute exécution (scripts/ecrire_invariants.py). Ne pas éditer.
+schema_version: 1
+counts:
+  nodes: 405
+  cells:
+    QUAD4: 72
+    SEG2: 373
+bbox:
+- 0.0
+- 7.01
+- -1.45
+- 1.45
+- -0.755
+- 1.458
+bbox_tolerance: 1.0e-09
+groups:
+- name: POUTRES_PRINC
+  kind: cell
+  count: 58
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 6.25
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: PP_YM
+  kind: cell
+  count: 29
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 6.25
+  - -0.75
+  - -0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: PP_YP
+  kind: cell
+  count: 29
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 6.25
+  - 0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: MONTANTS
+  kind: cell
+  count: 48
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 6.25
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: MONT_1
+  kind: cell
+  count: 8
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 0.0
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: MONT_2
+  kind: cell
+  count: 8
+  cell_type: SEG2
+  bbox:
+  - 0.75
+  - 0.75
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: MONT_3
+  kind: cell
+  count: 8
+  cell_type: SEG2
+  bbox:
+  - 2.25
+  - 2.25
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: MONT_4
+  kind: cell
+  count: 8
+  cell_type: SEG2
+  bbox:
+  - 3.75
+  - 3.75
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: MONT_5
+  kind: cell
+  count: 8
+  cell_type: SEG2
+  bbox:
+  - 5.25
+  - 5.25
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: MONT_6
+  kind: cell
+  count: 8
+  cell_type: SEG2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: DIAGONALES
+  kind: cell
+  count: 55
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 6.25
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: DIAG_1
+  kind: cell
+  count: 8
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 0.75
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: DIAG_2
+  kind: cell
+  count: 13
+  cell_type: SEG2
+  bbox:
+  - 0.75
+  - 2.25
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: DIAG_3
+  kind: cell
+  count: 13
+  cell_type: SEG2
+  bbox:
+  - 2.25
+  - 3.75
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: DIAG_4
+  kind: cell
+  count: 13
+  cell_type: SEG2
+  bbox:
+  - 3.75
+  - 5.25
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: DIAG_5
+  kind: cell
+  count: 8
+  cell_type: SEG2
+  bbox:
+  - 5.25
+  - 6.25
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: PANNES_SEC
+  kind: cell
+  count: 120
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 6.25
+  - -0.55
+  - 0.56
+  - 1.458
+  - 1.458
+  tolerance: 1.0e-09
+- name: PANNE_1
+  kind: cell
+  count: 30
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 6.25
+  - 0.56
+  - 0.56
+  - 1.458
+  - 1.458
+  tolerance: 1.0e-09
+- name: PANNE_2
+  kind: cell
+  count: 30
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 6.25
+  - 0.19
+  - 0.19
+  - 1.458
+  - 1.458
+  tolerance: 1.0e-09
+- name: PANNE_3
+  kind: cell
+  count: 30
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 6.25
+  - -0.18
+  - -0.18
+  - 1.458
+  - 1.458
+  tolerance: 1.0e-09
+- name: PANNE_4
+  kind: cell
+  count: 30
+  cell_type: SEG2
+  bbox:
+  - 0.0
+  - 6.25
+  - -0.55
+  - -0.55
+  - 1.458
+  - 1.458
+  tolerance: 1.0e-09
+- name: SUPPORTS
+  kind: cell
+  count: 12
+  cell_type: SEG2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - 0.75
+  - 1.09
+  - 1.24
+  tolerance: 1.0e-09
+- name: SUP_1
+  kind: cell
+  count: 4
+  cell_type: SEG2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - -0.75
+  - 1.09
+  - 1.24
+  tolerance: 1.0e-09
+- name: SUP_2
+  kind: cell
+  count: 4
+  cell_type: SEG2
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.0
+  - 0.0
+  - 1.09
+  - 1.24
+  tolerance: 1.0e-09
+- name: SUP_3
+  kind: cell
+  count: 4
+  cell_type: SEG2
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.75
+  - 0.75
+  - 1.09
+  - 1.24
+  tolerance: 1.0e-09
+- name: POTEAUX
+  kind: cell
+  count: 12
+  cell_type: SEG2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - 0.75
+  - -0.63
+  - 0.69
+  tolerance: 1.0e-09
+- name: POT_1
+  kind: cell
+  count: 6
+  cell_type: SEG2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - -0.75
+  - -0.63
+  - 0.69
+  tolerance: 1.0e-09
+- name: POT_2
+  kind: cell
+  count: 6
+  cell_type: SEG2
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.75
+  - 0.75
+  - -0.63
+  - 0.69
+  tolerance: 1.0e-09
+- name: CHEVETRE
+  kind: cell
+  count: 8
+  cell_type: SEG2
+  bbox:
+  - 6.25
+  - 6.25
+  - -1.0
+  - 1.0
+  - 0.89
+  - 0.89
+  tolerance: 1.0e-09
+- name: SEMELLE
+  kind: cell
+  count: 72
+  cell_type: QUAD4
+  bbox:
+  - 5.75
+  - 7.01
+  - -1.45
+  - 1.45
+  - -0.755
+  - -0.755
+  tolerance: 1.0e-09
+- name: ACC_YM
+  kind: cell
+  count: 9
+  cell_type: SEG2
+  bbox:
+  - 1.63
+  - 3.63
+  - -0.75
+  - -0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: ACC_YP
+  kind: cell
+  count: 9
+  cell_type: SEG2
+  bbox:
+  - 1.63
+  - 3.63
+  - 0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: APP_QUAI
+  kind: node
+  count: 2
+  bbox:
+  - 0.0
+  - 0.0
+  - -0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: PIEDS_SUPPORTS
+  kind: node
+  count: 3
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - 0.75
+  - 1.09
+  - 1.09
+  tolerance: 1.0e-09
+- name: TETES_POTEAUX
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - 0.75
+  - 0.69
+  - 0.69
+  tolerance: 1.0e-09
+- name: PIEDS_POTEAUX
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - 0.75
+  - -0.755
+  - -0.755
+  tolerance: 1.0e-09
+- name: AMAR_YM
+  kind: node
+  count: 2
+  bbox:
+  - 1.6
+  - 4.6
+  - -0.75
+  - -0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: AMAR_YP
+  kind: node
+  count: 2
+  bbox:
+  - 1.6
+  - 4.6
+  - 0.75
+  - 0.75
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: LR_01
+  kind: node
+  count: 2
+  bbox:
+  - 0.0
+  - 0.0
+  - 0.56
+  - 0.56
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_02
+  kind: node
+  count: 2
+  bbox:
+  - 0.095
+  - 0.095
+  - 0.56
+  - 0.56
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_03
+  kind: node
+  count: 2
+  bbox:
+  - 0.75
+  - 0.75
+  - 0.56
+  - 0.56
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_04
+  kind: node
+  count: 2
+  bbox:
+  - 0.94
+  - 0.94
+  - 0.56
+  - 0.56
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_05
+  kind: node
+  count: 2
+  bbox:
+  - 2.25
+  - 2.25
+  - 0.56
+  - 0.56
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_06
+  kind: node
+  count: 2
+  bbox:
+  - 2.44
+  - 2.44
+  - 0.56
+  - 0.56
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_07
+  kind: node
+  count: 2
+  bbox:
+  - 3.75
+  - 3.75
+  - 0.56
+  - 0.56
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_08
+  kind: node
+  count: 2
+  bbox:
+  - 3.94
+  - 3.94
+  - 0.56
+  - 0.56
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_09
+  kind: node
+  count: 2
+  bbox:
+  - 5.25
+  - 5.25
+  - 0.56
+  - 0.56
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_10
+  kind: node
+  count: 2
+  bbox:
+  - 5.377
+  - 5.377
+  - 0.56
+  - 0.56
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_11
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.56
+  - 0.56
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_12
+  kind: node
+  count: 2
+  bbox:
+  - 0.0
+  - 0.0
+  - 0.19
+  - 0.19
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_13
+  kind: node
+  count: 2
+  bbox:
+  - 0.28
+  - 0.28
+  - 0.19
+  - 0.19
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_14
+  kind: node
+  count: 2
+  bbox:
+  - 0.75
+  - 0.75
+  - 0.19
+  - 0.19
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_15
+  kind: node
+  count: 2
+  bbox:
+  - 1.31
+  - 1.31
+  - 0.19
+  - 0.19
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_16
+  kind: node
+  count: 2
+  bbox:
+  - 2.25
+  - 2.25
+  - 0.19
+  - 0.19
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_17
+  kind: node
+  count: 2
+  bbox:
+  - 2.81
+  - 2.81
+  - 0.19
+  - 0.19
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_18
+  kind: node
+  count: 2
+  bbox:
+  - 3.75
+  - 3.75
+  - 0.19
+  - 0.19
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_19
+  kind: node
+  count: 2
+  bbox:
+  - 4.31
+  - 4.31
+  - 0.19
+  - 0.19
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_20
+  kind: node
+  count: 2
+  bbox:
+  - 5.25
+  - 5.25
+  - 0.19
+  - 0.19
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_21
+  kind: node
+  count: 2
+  bbox:
+  - 5.623
+  - 5.623
+  - 0.19
+  - 0.19
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_22
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.19
+  - 0.19
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_23
+  kind: node
+  count: 2
+  bbox:
+  - 0.0
+  - 0.0
+  - -0.18
+  - -0.18
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_24
+  kind: node
+  count: 2
+  bbox:
+  - 0.465
+  - 0.465
+  - -0.18
+  - -0.18
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_25
+  kind: node
+  count: 2
+  bbox:
+  - 0.75
+  - 0.75
+  - -0.18
+  - -0.18
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_26
+  kind: node
+  count: 2
+  bbox:
+  - 1.68
+  - 1.68
+  - -0.18
+  - -0.18
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_27
+  kind: node
+  count: 2
+  bbox:
+  - 2.25
+  - 2.25
+  - -0.18
+  - -0.18
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_28
+  kind: node
+  count: 2
+  bbox:
+  - 3.18
+  - 3.18
+  - -0.18
+  - -0.18
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_29
+  kind: node
+  count: 2
+  bbox:
+  - 3.75
+  - 3.75
+  - -0.18
+  - -0.18
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_30
+  kind: node
+  count: 2
+  bbox:
+  - 4.68
+  - 4.68
+  - -0.18
+  - -0.18
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_31
+  kind: node
+  count: 2
+  bbox:
+  - 5.25
+  - 5.25
+  - -0.18
+  - -0.18
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_32
+  kind: node
+  count: 2
+  bbox:
+  - 5.87
+  - 5.87
+  - -0.18
+  - -0.18
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_33
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.18
+  - -0.18
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_34
+  kind: node
+  count: 2
+  bbox:
+  - 0.0
+  - 0.0
+  - -0.55
+  - -0.55
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_35
+  kind: node
+  count: 2
+  bbox:
+  - 0.65
+  - 0.65
+  - -0.55
+  - -0.55
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_36
+  kind: node
+  count: 2
+  bbox:
+  - 0.75
+  - 0.75
+  - -0.55
+  - -0.55
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_37
+  kind: node
+  count: 2
+  bbox:
+  - 2.05
+  - 2.05
+  - -0.55
+  - -0.55
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_38
+  kind: node
+  count: 2
+  bbox:
+  - 2.25
+  - 2.25
+  - -0.55
+  - -0.55
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_39
+  kind: node
+  count: 2
+  bbox:
+  - 3.55
+  - 3.55
+  - -0.55
+  - -0.55
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_40
+  kind: node
+  count: 2
+  bbox:
+  - 3.75
+  - 3.75
+  - -0.55
+  - -0.55
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_41
+  kind: node
+  count: 2
+  bbox:
+  - 5.05
+  - 5.05
+  - -0.55
+  - -0.55
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_42
+  kind: node
+  count: 2
+  bbox:
+  - 5.25
+  - 5.25
+  - -0.55
+  - -0.55
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_43
+  kind: node
+  count: 2
+  bbox:
+  - 6.117
+  - 6.117
+  - -0.55
+  - -0.55
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_44
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.55
+  - -0.55
+  - 1.358
+  - 1.458
+  tolerance: 1.0e-09
+- name: LR_45
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - -0.75
+  - 1.24
+  - 1.358
+  tolerance: 1.0e-09
+- name: LR_46
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.0
+  - 0.0
+  - 1.24
+  - 1.358
+  tolerance: 1.0e-09
+- name: LR_47
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.75
+  - 0.75
+  - 1.24
+  - 1.358
+  tolerance: 1.0e-09
+- name: LR_48
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - -0.75
+  - 0.69
+  - 0.89
+  tolerance: 1.0e-09
+- name: LR_49
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.75
+  - 0.75
+  - 0.69
+  - 0.89
+  tolerance: 1.0e-09
+- name: LR_50
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - -0.75
+  - -0.755
+  - -0.63
+  tolerance: 1.0e-09
+- name: LR_51
+  kind: node
+  count: 2
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.75
+  - 0.75
+  - -0.755
+  - -0.63
+  tolerance: 1.0e-09
+- name: ROT_S1
+  kind: node
+  count: 1
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - -0.75
+  - 1.09
+  - 1.09
+  tolerance: 1.0e-09
+- name: ROT_C1
+  kind: node
+  count: 1
+  bbox:
+  - 6.25
+  - 6.25
+  - -0.75
+  - -0.75
+  - 0.89
+  - 0.89
+  tolerance: 1.0e-09
+- name: ROT_S2
+  kind: node
+  count: 1
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.0
+  - 0.0
+  - 1.09
+  - 1.09
+  tolerance: 1.0e-09
+- name: ROT_C2
+  kind: node
+  count: 1
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.0
+  - 0.0
+  - 0.89
+  - 0.89
+  tolerance: 1.0e-09
+- name: ROT_S3
+  kind: node
+  count: 1
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.75
+  - 0.75
+  - 1.09
+  - 1.09
+  tolerance: 1.0e-09
+- name: ROT_C3
+  kind: node
+  count: 1
+  bbox:
+  - 6.25
+  - 6.25
+  - 0.75
+  - 0.75
+  - 0.89
+  - 0.89
+  tolerance: 1.0e-09
+nodes_at:
+- label: appui côté quai 1
+  point:
+  - 0.0
+  - -0.75
+  - 1.358
+  tolerance: 1.0e-09
+- label: appui côté quai 2
+  point:
+  - 0.0
+  - 0.75
+  - 1.358
+  tolerance: 1.0e-09
+- label: pied de poteau 1 (semelle)
+  point:
+  - 6.25
+  - -0.75
+  - -0.755
+  tolerance: 1.0e-09
+- label: pied de poteau 2 (semelle)
+  point:
+  - 6.25
+  - 0.75
+  - -0.755
+  tolerance: 1.0e-09
+no_orphan_nodes: true
+no_coincident_nodes:
+  tolerance: 1.0e-06
+subsets:
+- group: PP_YM
+  of: POUTRES_PRINC
+- group: PP_YP
+  of: POUTRES_PRINC
+- group: MONT_1
+  of: MONTANTS
+- group: MONT_2
+  of: MONTANTS
+- group: MONT_3
+  of: MONTANTS
+- group: MONT_4
+  of: MONTANTS
+- group: MONT_5
+  of: MONTANTS
+- group: MONT_6
+  of: MONTANTS
+- group: DIAG_1
+  of: DIAGONALES
+- group: DIAG_2
+  of: DIAGONALES
+- group: DIAG_3
+  of: DIAGONALES
+- group: DIAG_4
+  of: DIAGONALES
+- group: DIAG_5
+  of: DIAGONALES
+- group: PANNE_1
+  of: PANNES_SEC
+- group: PANNE_2
+  of: PANNES_SEC
+- group: PANNE_3
+  of: PANNES_SEC
+- group: PANNE_4
+  of: PANNES_SEC
+- group: SUP_1
+  of: SUPPORTS
+- group: SUP_2
+  of: SUPPORTS
+- group: SUP_3
+  of: SUPPORTS
+- group: POT_1
+  of: POTEAUX
+- group: POT_2
+  of: POTEAUX
+- group: ACC_YM
+  of: PP_YM
+- group: ACC_YP
+  of: PP_YP

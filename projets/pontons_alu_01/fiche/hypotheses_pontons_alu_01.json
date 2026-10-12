@@ -1,7 +1,7 @@
 {
   "project_name": "PONTONS-ALU-01",
   "structure_description": "Panne (passerelle d'accès sur pieux) en aluminium soudé : une travée de 6,25 m, poutres principales MP1200, montants, diagonales et pannes secondaires tubulaires, profilés supports sur chevêtre béton neuf, deux poteaux et demi-semelle sur sol élastique ; reprise PRO d'un AVP Sofistik",
-  "aster_version": null,
+  "aster_version": "17.4.0",
   "created_at": "2026-10-12T08:38:25.125860-04:00",
   "entries": [
     {
@@ -647,7 +647,1213 @@
       "decided_at": "2026-10-12T09:00:00-04:00",
       "decision_history": [],
       "revision_history": []
+    },
+    {
+      "point_label": "A1",
+      "topic": "Noms des groupes du maillage",
+      "options_considered": [],
+      "option_retained": "Groupes de la consigne du lot 50 (POUTRES_PRINC, MONTANTS, DIAGONALES, PANNES_SEC, SUPPORTS, CHEVETRE, POTEAUX, SEMELLE, APP_QUAI, PIEDS_SUPPORTS, TETES_POTEAUX), un groupe par élément (PP_YM, PP_YP, MONT_i, DIAG_i, PANNE_i, SUP_i, POT_i), groupes de charges (ACC_YM, ACC_YP, AMAR_YM, AMAR_YP) et de liaisons (LR_nn, ROT_Sk, ROT_Ck), 24 caractères au plus.",
+      "justification": "Les invariants du maillage contrôlent chaque groupe (cardinal, type, boîte).",
+      "discarded_variants": [
+        {
+          "description": "Noms au-delà de 24 caractères",
+          "reason": "tronqués en silence par Code_Aster"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Modèle de la travée PONTONS-ALU-01 du lot 50.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 50 (projets/pontons_alu_01, docs/essais_lot50.md)",
+          "date": "2026-10-12",
+          "domain": "noms_groupes",
+          "verified_by": [
+            "projet:mesh_check"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "A2",
+      "topic": "Repère et recalage des coordonnées",
+      "options_considered": [],
+      "option_retained": "X le long du tablier, X = 0 à l'appui côté quai, Y transversal, Z = cote NGF, en m ; points de construction recalés sur la grille de 1 mm (arrondi au plus proche, demi vers le haut) : plan moyen +1,3575 → +1,358 et axe des pannes +1,4575 → +1,458 (0,5 mm), croisements des pannes avec la diagonale 5 (pente 1/1,5) à 0,3 mm près.",
+      "justification": "Consigne du lot 50 (grille de 1 mm) ; mesh check contrôle les nœuds imposés et la grille.",
+      "discarded_variants": [
+        {
+          "description": "Cotes de P21 à 0,1 mm",
+          "reason": "hors de la grille de 1 mm demandée"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Modèle de la travée PONTONS-ALU-01 du lot 50.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 50 (projets/pontons_alu_01, docs/essais_lot50.md)",
+          "date": "2026-10-12",
+          "domain": "repere",
+          "verified_by": [
+            "projet:mesh_check"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "A3",
+      "topic": "Taille et type des mailles",
+      "options_considered": [],
+      "option_retained": "SEG2 d'au plus 0,25 m sur chaque tronçon entre deux points de construction, au moins 4 éléments par barre (profilés supports de 0,15 m : 4 éléments) ; semelle en QUAD4 d'au plus 0,25 m.",
+      "justification": "Consigne du lot 50 (discrétisation) ; comptages contrôlés par les invariants calculés avant l'exécution.",
+      "discarded_variants": [
+        {
+          "description": "Étude de maillage",
+          "reason": "exclue par MM (pas de contrôles à outrance)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Modèle de la travée PONTONS-ALU-01 du lot 50.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 50 (projets/pontons_alu_01, docs/essais_lot50.md)",
+          "date": "2026-10-12",
+          "domain": "maillage",
+          "verified_by": [
+            "projet:mesh_check"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "A4",
+      "topic": "Lecture des efforts des barres",
+      "options_considered": [],
+      "option_retained": "Efforts des barres lus en EFGE_ELNO (extrémités de chaque élément), repère local déclaré dans projet.yaml (z_l = +Z pour les barres horizontales, y_l = +X pour les verticales).",
+      "justification": "Le harnais D contrôle l'équilibre de chaque cas ; la synthèse relit chaque valeur par `resultats lire`.",
+      "discarded_variants": [
+        {
+          "description": "EFGE_NOEU",
+          "reason": "moyenne aux nœuds partagés de barres différentes"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Modèle de la travée PONTONS-ALU-01 du lot 50.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 50 (projets/pontons_alu_01, docs/essais_lot50.md)",
+          "date": "2026-10-12",
+          "domain": "lecture_champs",
+          "verified_by": [
+            "projet:controles"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
     }
   ],
-  "group_naming": []
+  "group_naming": [
+    {
+      "group_name": "POUTRES_PRINC",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (58 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PP_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (29 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PP_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (29 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONTANTS",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (48 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_4",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_5",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_6",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAGONALES",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (55 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (13 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (13 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_4",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (13 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_5",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNES_SEC",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (120 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (30 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (30 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (30 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_4",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (30 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SUPPORTS",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (12 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SUP_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (4 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SUP_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (4 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SUP_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (4 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "POTEAUX",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (12 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "POT_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (6 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "POT_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (6 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEVETRE",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SEMELLE",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (72 QUAD4).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (9 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la travée (9 SEG2).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "APP_QUAI",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEDS_SUPPORTS",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (3 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TETES_POTEAUX",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEDS_POTEAUX",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "AMAR_YM",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "AMAR_YP",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_01",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_02",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_03",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_04",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_05",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_06",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_07",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_08",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_09",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_10",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_11",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_12",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_13",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_14",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_15",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_16",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_17",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_18",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_19",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_20",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_21",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_22",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_23",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_24",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_25",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_26",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_27",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_28",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_29",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_30",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_31",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_32",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_33",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_34",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_35",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_36",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_37",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_38",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_39",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_40",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_41",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_42",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_43",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_44",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_45",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_46",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_47",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_48",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_49",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_50",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_51",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ROT_S1",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (1 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ROT_C1",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (1 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ROT_S2",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (1 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ROT_C2",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (1 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ROT_S3",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (1 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ROT_C3",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (1 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    }
+  ],
+  "planned_commands": [
+    {
+      "command": "AFFE_CARA_ELEM",
+      "point_label": "P1",
+      "options": {
+        "SECTION": "GENERALE",
+        "CARA": "VECT_Z"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_CHAR_MECA",
+      "point_label": "P1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_MATERIAU",
+      "point_label": "P1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_MATERIAU",
+      "point_label": "P1",
+      "options": {
+        "NOM_VARC": "TEMP"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "AFFE_MODELE",
+      "point_label": "P1",
+      "options": {
+        "PHENOMENE": "MECANIQUE"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "CALC_CHAMP",
+      "point_label": "P1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "CREA_CHAMP",
+      "point_label": "P1",
+      "options": {
+        "OPERATION": "AFFE"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "CREA_MAILLAGE",
+      "point_label": "P1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEBUT",
+      "point_label": "P1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_GROUP",
+      "point_label": "P1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "DEFI_MATERIAU",
+      "point_label": "P1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "FIN",
+      "point_label": "P1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "IMPR_RESU",
+      "point_label": "P1",
+      "options": {
+        "FORMAT": "MED"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "IMPR_TABLE",
+      "point_label": "P1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
+      "command": "LIRE_MAILLAGE",
+      "point_label": "P1",
+      "options": {
+        "FORMAT": "MED"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "MACRO_ELAS_MULT",
+      "point_label": "P1",
+      "options": {
+        "METHODE": "MUMPS"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "MECA_STATIQUE",
+      "point_label": "P1",
+      "options": {
+        "METHODE": "MUMPS"
+      },
+      "covered_by": {}
+    },
+    {
+      "command": "POST_RELEVE_T",
+      "point_label": "P1",
+      "options": {},
+      "covered_by": {}
+    }
+  ]
 }

@@ -1,4 +1,103 @@
-# Données chiffrées du modèle (schéma aster_expert.agent.model_data).
+# Données chiffrées du modèle PONTONS-ALU-01 (lot 50).
+#
+# Schéma : aster_expert.agent.model_data. Chaque valeur porte son unité et sa source, dans
+# l'unité de la source (MPa, mm², mm⁴, cm⁴, kN/m³, kPa, kN, kN/m, °C) : aucune conversion
+# ici (elle est faite une seule fois par pontons_alu_01.generation). Source unique : l'annexe
+# « Données » de la consigne du lot 50 (sources/annexe_donnees_lot50.md, sections D1 à D5),
+# dont les décisions P1 à P23 sont dans la fiche. La géométrie (§D2) est écrite une seule
+# fois, dans le bloc de paramètres de maillage_pontons.py (demande de MM).
 project: PONTONS-ALU-01
-case_reference: "à renseigner"
-groups: {}
+case_reference: "Annexe « Données » de la consigne du lot 50 (sources/annexe_donnees_lot50.md) ; fiche fiche/hypotheses_pontons_alu_01.json (P1 à P23) ; géométrie : paramètres de maillage_pontons.py"
+groups:
+  aluminium:
+    module_young:
+      {status: fourni, value: 70000, unit: "MPa", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}}
+    module_cisaillement:
+      {status: fourni, value: 27000, unit: "MPa", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Rapporté : Code_Aster déduit G de E et ν (26 923 MPa, écart −0,3 %)."}
+    coefficient_poisson:
+      {status: fourni, value: 0.3, unit: "-", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}}
+    dilatation:
+      {status: fourni, value: 23, unit: "1e-6/°C", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}}
+    poids_volumique:
+      {status: fourni, value: 27, unit: "kN/m3", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}}
+  beton:
+    module_young:
+      {status: fourni, value: 34, unit: "GPa", source: {kind: decision, point_label: "P20"}}
+    coefficient_poisson:
+      {status: fourni, value: 0.2, unit: "-", source: {kind: decision, point_label: "P20"}}
+    poids_volumique:
+      {status: fourni, value: 25, unit: "kN/m3", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D4}, comment: "Béton armé, cas G1."}
+  poutres_principales:
+    aire:
+      {status: fourni, value: 4440, unit: "mm2", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "MP1200 (P4)."}
+    inertie_forte:
+      {status: fourni, value: 25641511, unit: "mm4", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Axe fort horizontal : IY de Code_Aster (y_l = +Y)."}
+    inertie_faible:
+      {status: fourni, value: 10209212, unit: "mm4", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "IZ de Code_Aster (z_l = +Z)."}
+    module_fort:
+      {status: fourni, value: 218166, unit: "mm3", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Rapporté (EC9, hors lot)."}
+    module_faible:
+      {status: fourni, value: 145794, unit: "mm3", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Rapporté (EC9, hors lot)."}
+    hauteur:
+      {status: fourni, value: 235, unit: "mm", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}}
+    inertie_torsion:
+      {status: fourni, value: 1207, unit: "cm4", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Feuilles AVP."}
+    aire_cisaillement_z:
+      {status: fourni, value: 17.41, unit: "cm2", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Feuilles AVP ; AZ = A/Avz. Avy n'est donné nulle part (voir generation.py, hypothèse signalée)."}
+  tubes_150:
+    cote:
+      {status: fourni, value: 150, unit: "mm", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Montants, diagonales, profilés supports (P17)."}
+    epaisseur:
+      {status: fourni, value: 7, unit: "mm", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}}
+    aire:
+      {status: fourni, value: 4004, unit: "mm2", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Recalculée à angles vifs : 150² − 136² = 4 004 mm²."}
+    inertie:
+      {status: fourni, value: 1368, unit: "cm4", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Recalculée : (150⁴ − 136⁴)/12 = 1 367,9 cm⁴."}
+    inertie_torsion:
+      {status: fourni, value: 2047, unit: "cm4", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Bredt recalculé : t·(h − t)³ = 2 046,9 cm⁴ ; égal à la formule de Code_Aster pour SECTION='RECTANGLE' creuse (U4.42.01)."}
+  tubes_50:
+    cote:
+      {status: fourni, value: 50, unit: "mm", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Pannes secondaires."}
+    epaisseur:
+      {status: fourni, value: 5, unit: "mm", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}}
+    aire:
+      {status: fourni, value: 900, unit: "mm2", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}}
+    inertie:
+      {status: fourni, value: 30.75, unit: "cm4", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}}
+    inertie_torsion:
+      {status: fourni, value: 45.6, unit: "cm4", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D3}, comment: "Bredt recalculé : 45,56 cm⁴."}
+  sections_beton:
+    chevetre_largeur:
+      {status: fourni, value: 0.25, unit: "m", source: {kind: decision, point_label: "P3"}, comment: "Selon X ; à affiner (P3)."}
+    chevetre_hauteur:
+      {status: fourni, value: 0.40, unit: "m", source: {kind: decision, point_label: "P3"}}
+    poteau_diametre:
+      {status: fourni, value: 0.50, unit: "m", source: {kind: decision, point_label: "P20"}}
+    semelle_epaisseur:
+      {status: fourni, value: 0.25, unit: "m", source: {kind: decision, point_label: "P19"}}
+  sol:
+    raideur_normale:
+      {status: fourni, value: 5000, unit: "kN/m3", source: {kind: decision, point_label: "P19"}}
+    raideur_tangentielle:
+      {status: fourni, value: 1000, unit: "kN/m3", source: {kind: decision, point_label: "P19"}}
+  charges:
+    g2:
+      {status: fourni, value: 1.0, unit: "kN/m2", source: {kind: decision, point_label: "P8"}}
+    q:
+      {status: fourni, value: 5, unit: "kPa", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D4}}
+    houle_unitaire:
+      {status: fourni, value: 1, unit: "kPa", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D4}, comment: "Hu et Hd ; mise à l'échelle dans les combinaisons (5 kPa en B, 20 / 10 kPa en A)."}
+    amarrage:
+      {status: fourni, value: 8.0, unit: "kN", source: {kind: decision, point_label: "P13"}, comment: "Par point, deux points."}
+    accostage:
+      {status: fourni, value: 16, unit: "kN/m", source: {kind: decision, point_label: "P13"}}
+    accostage_accidentel:
+      {status: fourni, value: 77, unit: "kN/m", source: {kind: decision, point_label: "P13"}}
+    t_plus:
+      {status: fourni, value: 46, unit: "°C", source: {kind: decision, point_label: "P10"}, comment: "ΔTN,exp (jeu B)."}
+    t_moins:
+      {status: fourni, value: 28, unit: "°C", source: {kind: decision, point_label: "P10"}, comment: "ΔTN,con, appliquée en −28 °C (jeu B)."}
+    ta_plus:
+      {status: fourni, value: 56, unit: "°C", source: {kind: decision, point_label: "P10"}, comment: "S2, jeu A."}
+    ta_moins:
+      {status: fourni, value: -23, unit: "°C", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D4}, comment: "S2, jeu A."}
