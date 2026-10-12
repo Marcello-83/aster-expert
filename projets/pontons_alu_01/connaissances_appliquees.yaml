@@ -1,0 +1,7 @@
+# Connaissances de la base appliquées par les exécutions du projet (lot 46).
+# À remplir AVANT la première exécution : une exécution de projet sans
+# entrée déclarée (ni `none_reason` motivé) est refusée. Schéma :
+# aster_expert.connaissances.declaration.
+schema_version: 1
+project: pontons_alu_01
+applied: []

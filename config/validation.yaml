@@ -109,6 +109,9 @@ execution:
     # Projet estacade_pieux_01 (aster-expert projet creer, lot 44).
     - projets/estacade_pieux_01/resultats
     - projets/estacade_pieux_01/references/cas
+    # Projet pontons_alu_01 (aster-expert projet creer, lot 44).
+    - projets/pontons_alu_01/resultats
+    - projets/pontons_alu_01/references/cas
   work_dir_root: data/processed/runs
   keep_work_dir: true
   # Ressources d'une exécution (lot 47 quater, DIAG-025) : ordre de priorité

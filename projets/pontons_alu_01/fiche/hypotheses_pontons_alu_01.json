@@ -1,0 +1,653 @@
+{
+  "project_name": "PONTONS-ALU-01",
+  "structure_description": "Panne (passerelle d'accès sur pieux) en aluminium soudé : une travée de 6,25 m, poutres principales MP1200, montants, diagonales et pannes secondaires tubulaires, profilés supports sur chevêtre béton neuf, deux poteaux et demi-semelle sur sol élastique ; reprise PRO d'un AVP Sofistik",
+  "aster_version": null,
+  "created_at": "2026-10-12T08:38:25.125860-04:00",
+  "entries": [
+    {
+      "point_label": "P1",
+      "topic": "Travée",
+      "options_considered": [],
+      "option_retained": "* **P1. Travée.** **L = 6,25 m** (S2 : têtes de poteaux à X = 6,25 ; la note arrondit à 6,20). Poteaux de **1,32 m** de haut, du dessus de la semelle au dessous du chevêtre (MM).",
+      "justification": "Décision P1 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "L = 6,20 m (note AVP, valeur arrondie)",
+          "reason": "S2 place les têtes de poteaux à X = 6,25 ; MM retient 6,25 m (P1)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P1",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P2",
+      "topic": "Géométrie en plan du tablier",
+      "options_considered": [],
+      "option_retained": "* **P2. Géométrie en plan du tablier : celle de S2** (§D2). L'entraxe des poutres principales vaut B = 1,50 m, à l'aplomb des axes des poteaux (2,00 m nu à nu). Le modèle reste paramétré.",
+      "justification": "Décision P2 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Géométrie en plan propre au PRO",
+          "reason": "non fournie ; géométrie de S2 retenue, modèle paramétré (P2)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P2",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P3",
+      "topic": "Plate-forme : chevêtre neuf et profilés supports",
+      "options_considered": [],
+      "option_retained": "* **P3. Plate-forme, telle que dans la coupe PRO.** * Deux poteaux surmontés d'un **chevêtre transversal neuf**, et non le cadre de couronnement de S2. * Le tablier s'appuie sur le chevêtre par **trois profilés supports** (les « profilés alu support » de la coupe PRO) : * un sous chaque poutre principale ; * un au milieu, sous un **montant d'extrémité** ajouté à X = L. Dans S2, les poutres principales se raccordaient directement au couronnement. * Chevêtre : 0,25 m de large en X sur 0,40 m de haut, de +0,69 à +1,09 NGF, de Y = −1,00 à +1,00. Sa largeur est à affiner.",
+      "justification": "Décision P3 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Cadre de couronnement de S2, poutres principales raccordées directement",
+          "reason": "remplacé par la coupe PRO : chevêtre neuf, trois profilés supports, montant d'extrémité (P3)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P3",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P4",
+      "topic": "Section des poutres principales",
+      "options_considered": [],
+      "option_retained": "* **P4.** Les poutres principales sont en **MP1200** (note de dimensionnement, §2.3, et fiche du fabricant). S2 utilise une section « I300 - T19 », environ 12 fois plus raide : c'est un écart de l'AVP à signaler, qui n'est pas repris.",
+      "justification": "Décision P4 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Section « I300 - T19 » de S2",
+          "reason": "environ 12 fois plus raide que le MP1200, écart de l'AVP non repris (P4)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P4",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P5",
+      "topic": "Appuis",
+      "options_considered": [],
+      "option_retained": "* **P5. Appuis.** Rotules fixes côté quai, aux deux extrémités des poutres principales : translations bloquées, rotations libres (`FIX PP` dans S2). Les profilés supports sont fixes, sans glissement, côté chevêtre.",
+      "justification": "Décision P5 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Profilés supports glissants côté chevêtre",
+          "reason": "fixes, sans glissement (P5)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P5",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P6",
+      "topic": "Assemblages de la travée",
+      "options_considered": [],
+      "option_retained": "* **P6.** Tous les assemblages de la travée sont **soudés et encastrés**. Les assemblages entre travées sont boulonnés, sans objet ici.",
+      "justification": "Décision P6 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Assemblages articulés dans la travée",
+          "reason": "tous soudés et encastrés (P6)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P6",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P7",
+      "topic": "Plans des barres et excentricité des pannes secondaires",
+      "options_considered": [],
+      "option_retained": "* **P7. Plans.** * Les poutres principales, les montants et les diagonales ont le même plan moyen. * Les pannes secondaires reposent sur les montants et les diagonales, et y sont soudées à chaque croisement : S2 coupe toutes les lignes à leurs intersections. * L'axe des pannes est à **0,10 m** au-dessus du plan moyen, soit (150 + 50)/2 mm. S2 prend 0,09 m.",
+      "justification": "Décision P7 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Excentricité des pannes de 0,09 m (S2)",
+          "reason": "0,10 m = (150 + 50)/2 mm (P7)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P7",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P8",
+      "topic": "Charge permanente G2",
+      "options_considered": [],
+      "option_retained": "* **P8. G2 = 1,0 kN/m²** sur tout le tablier : platelage bois et équipements, valeur du modèle AVP (S2).",
+      "justification": "Décision P8 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "G2 réévalué pour le PRO",
+          "reason": "valeur du modèle AVP (S2) retenue (P8)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P8",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P9",
+      "topic": "Houle",
+      "options_considered": [],
+      "option_retained": "* **P9. Houle.** * Jeu PRO : on garde **5 kPa vers le haut et 5 kPa vers le bas**, comme dans la note d'hypothèses et selon la décision de MM. Pas de poussée d'Archimède ni de cas immergé pour l'instant. * Le modèle AVP (S2) appliquait en réalité **20 kPa vers le haut et 10 kPa vers le bas**. C'est un écart signalé à MM, et ces valeurs ne sont reprises que dans le jeu A. * Réserve : le niveau d'eau le plus élevé (+1,61 NGF) dépasse le dessus du tablier.",
+      "justification": "Décision P9 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "20 kPa vers le haut et 10 kPa vers le bas dans le jeu PRO (S2)",
+          "reason": "repris seulement dans le jeu A (P9)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P9",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P10",
+      "topic": "Température",
+      "options_considered": [],
+      "option_retained": "* **P10. Température.** T0 = 10 °C (NF EN 1991-1-5/AN). Tmax = +40 °C, Tmin = −15 °C. Tablier de type 1 : * Te,max = Tmax + 16 = +56 °C ; * Te,min = Tmin − 3 = −18 °C ; * **ΔTN,exp = +46 °C** ; * **ΔTN,con = 28 °C**, soit une variation de −28 °C ; * composante uniforme, appliquée à **tout l'aluminium**. S2 appliquait +56 °C et −23 °C (−15 − 8), sans T0, aux poutres principales, aux montants et aux diagonales seulement. Ces valeurs ne sont reprises que dans le jeu A.",
+      "justification": "Décision P10 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "+56 °C et −23 °C sans T0, sur les poutres principales, montants et diagonales seulement (S2)",
+          "reason": "repris seulement dans le jeu A (P10)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P10",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P11",
+      "topic": "Coefficients partiels et de combinaison",
+      "options_considered": [],
+      "option_retained": "* **P11. Coefficients**, d'après le tableau complet de la note d'hypothèses (§D5). * Jeu PRO : γ = 1,5 pour la houle (MM) et pour la température (EN 1990, annexe A2). L'AVP prenait 1 pour les deux.",
+      "justification": "Décision P11 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "γ = 1 pour la houle et la température (AVP)",
+          "reason": "γ = 1,5 au jeu PRO (P11)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P11",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P12",
+      "topic": "Combinaisons",
+      "options_considered": [],
+      "option_retained": "* **P12. Combinaisons.** Le jeu A reproduit S2 (§D5). Le jeu B est généré par les formules de l'EN 1990.",
+      "justification": "Décision P12 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Combinaisons du jeu PRO recopiées de S2",
+          "reason": "générées par les formules de l'EN 1990 (P12)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P12",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P13",
+      "topic": "Amarrage et accostage",
+      "options_considered": [],
+      "option_retained": "* **P13. Amarrage et accostage**, comme dans S2. * **Amarrage** : 2 × 8,0 kN horizontaux transversaux, à X = 1,60 et X = 4,60, sur une poutre principale, tirant vers l'extérieur. * **Accostage** caractéristique (16 kN/m) et accidentel (77 kN/m) : de X = 1,63 à X = 3,63, sur une poutre principale, poussant vers l'intérieur. * S2 charge seulement la poutre en Y = −0,75. Le jeu B traite aussi le côté Y = +0,75, en symétrique, dans des cas exclusifs. * Défaut relevé dans S2 : l'amarrage y est appliqué sur la ligne `SLN 11`, qui est le couronnement, avec des abscisses hors de sa longueur. Il est remis ici sur la poutre principale.",
+      "justification": "Décision P13 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Amarrage appliqué sur la ligne SLN 11 (couronnement) comme dans S2",
+          "reason": "remis sur la poutre principale (P13)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P13",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P14",
+      "topic": "Flèches",
+      "options_considered": [],
+      "option_retained": "* **P14.** Les flèches sont rapportées, sans critère.",
+      "justification": "Décision P14 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Critère de flèche dans ce lot",
+          "reason": "flèches rapportées sans critère (P14)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P14",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P15",
+      "topic": "Étendue du lot",
+      "options_considered": [],
+      "option_retained": "* **P15.** On en fait le maximum ; l'EC9 viendra après.",
+      "justification": "Décision P15 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Vérifications EC9 dans ce lot",
+          "reason": "après ce lot (P15)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P15",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P16",
+      "topic": "Chevêtre et poteaux",
+      "options_considered": [],
+      "option_retained": "* **P16.** Le chevêtre est dimensionné. Les poteaux ne sont pas vérifiés.",
+      "justification": "Décision P16 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Vérification des poteaux existants",
+          "reason": "non vérifiés (P16)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P16",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P17",
+      "topic": "Section des profilés supports",
+      "options_considered": [],
+      "option_retained": "* **P17. Section des profilés supports.** Ils figurent sur la coupe PRO, mais leur section n'est donnée nulle part. Hypothèse : tube carré 150 × 150 × 7 en 6082-T6, comme les montants, de +1,09 à +1,24 NGF.",
+      "justification": "Décision P17 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Section des profilés supports laissée inconnue",
+          "reason": "hypothèse tube carré 150 × 150 × 7 en 6082-T6 (P17)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P17",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P18",
+      "topic": "Liaison des profilés supports",
+      "options_considered": [],
+      "option_retained": "* **P18. Liaison des profilés supports.** Soudés et encastrés sous le tablier. Articulés sur le chevêtre (platine boulonnée), translations transmises.",
+      "justification": "Décision P18 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Profilés supports encastrés sur le chevêtre",
+          "reason": "articulés (platine boulonnée), translations transmises (P18)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P18",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P19",
+      "topic": "Semelle et sol",
+      "options_considered": [],
+      "option_retained": "* **P19. Semelle et sol.** * On modélise la demi-semelle sous la file de poteaux : X ∈ \\[L − 0,50 ; L + 0,76], Y ∈ \\[−1,45 ; 1,45]. Le débord de 0,50 et 0,70 m vient de S2. * Épaisseur **0,25 m** (note de dimensionnement ; S2 prend 0,17 m). Dessus à −0,63 NGF. * Raideur normale du sol 5 000 kN/m³, raideur tangentielle 1 000 kN/m³ (S2 et note).",
+      "justification": "Décision P19 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Semelle de 0,17 m d'épaisseur (S2)",
+          "reason": "0,25 m (note de dimensionnement, P19)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P19",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P20",
+      "topic": "Béton",
+      "options_considered": [],
+      "option_retained": "* **P20. Béton.** C35/45, Ecm = 34 GPa, ν = 0,2, pour les poteaux existants (Ø 0,50 m), le chevêtre neuf et la semelle.",
+      "justification": "Décision P20 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Propriétés distinctes pour les poteaux existants et le chevêtre neuf",
+          "reason": "C35/45, Ecm = 34 GPa pour tous (P20)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P20",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P21",
+      "topic": "Cotes verticales",
+      "options_considered": [],
+      "option_retained": "* **P21. Cotes verticales.** * Dessous des poutres principales : +1,24 NGF. Plan moyen : +1,3575. * Axe des pannes secondaires : +1,4575. * Réserve : le dessus du platelage arrive vers +1,51, contre +1,40 sur la coupe PRO. L'écart est signalé à MM ; il est sans effet notable sur les efforts.",
+      "justification": "Décision P21 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Dessus du platelage à +1,40 NGF (coupe PRO)",
+          "reason": "cotes de P21, écart signalé à MM (P21)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P21",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P22",
+      "topic": "Répartition des actions de surface",
+      "options_considered": [],
+      "option_retained": "* **P22.** Les actions de surface (G2, Q, houle) sont réparties sur les barres longitudinales (poutres principales et pannes secondaires) par largeurs d'influence. Le platelage n'a pas de raideur.",
+      "justification": "Décision P22 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Platelage modélisé avec sa raideur",
+          "reason": "sans raideur, actions réparties par largeurs d'influence (P22)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P22",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P23",
+      "topic": "Fissuration du chevêtre",
+      "options_considered": [],
+      "option_retained": "* **P23.** La fissuration du chevêtre est vérifiée à l'ELS quasi permanent (défaut de l'outil), avec ds = di = 0,07 m.",
+      "justification": "Décision P23 de MM, recopiée à l'identique (sources/annexe_donnees_lot50.md).",
+      "discarded_variants": [
+        {
+          "description": "Fissuration vérifiée à l'ELS fréquent",
+          "reason": "ELS quasi permanent, défaut de l'outil (P23)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "annexe_donnees_lot50 (donnees/sources/annexe_donnees_lot50.md), P23",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    }
+  ],
+  "group_naming": []
+}

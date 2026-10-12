@@ -1,0 +1,34 @@
+# Déclaration du projet PONTONS-ALU-01 (créée par `aster-expert projet creer`).
+#
+# Interface avec le tronc commun (schéma aster_expert.projet.declaration). Squelette
+# minimal : la fiche et les données existent (vides) ; les invariants du maillage et
+# le générateur restent à écrire par la session du projet. `aster-expert projet
+# pontons_alu_01 verifier` liste ce qui manque. Chemins relatifs au répertoire du projet.
+schema_version: 1
+name: pontons_alu_01
+structure: PONTONS-ALU-01
+description: >-
+  Panne (passerelle d'accès sur pieux) en aluminium soudé : une travée de 6,25 m, poutres principales MP1200, montants, diagonales et pannes secondaires tubulaires, profilés supports sur chevêtre béton neuf, deux poteaux et demi-semelle sur sol élastique ; reprise PRO d'un AVP Sofistik
+fiche: fiche/hypotheses_pontons_alu_01.json
+data: donnees/pontons_alu_01_model_data.yaml
+data_sources: donnees/sources
+results: resultats
+knowledge_applied: connaissances_appliquees.yaml
+
+mesh:
+  invariants: maillage/invariants.yaml
+
+comm:
+  generator: pontons_alu_01.extensions:generate
+  output: resultats/pontons_alu_01.comm
+
+# Lot 49 : contrat de livrables, obligatoire (`verifier` refuse un projet sans lui) :
+# champs livrés par famille d'éléments, combinaisons, enveloppes, et chaque livrable
+# non pertinent avec son motif (aster_expert.projet.declaration.DeliverablesSection).
+# deliverables:
+#   fields:
+#     - {family: deplacements, field: DEPL, components: [DX, DY, DZ],
+#        convention: "..."}
+#   not_relevant:
+#     - {item: ressorts, reason: "..."}
+#   combinations: declarees
