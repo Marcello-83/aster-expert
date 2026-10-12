@@ -1,4 +1,4 @@
-# Données chiffrées du modèle PONTONS-ALU-01 (lot 50).
+# Données chiffrées du modèle PONTONS-ALU-01 (lots 50 et 50 bis ; résistances : P28).
 #
 # Schéma : aster_expert.agent.model_data. Chaque valeur porte son unité et sa source, dans
 # l'unité de la source (MPa, mm², mm⁴, cm⁴, kN/m³, kPa, kN, kN/m, °C) : aucune conversion
@@ -101,3 +101,18 @@ groups:
       {status: fourni, value: 56, unit: "°C", source: {kind: decision, point_label: "P10"}, comment: "S2, jeu A."}
     ta_moins:
       {status: fourni, value: -23, unit: "°C", source: {kind: cas_test, document: annexe_donnees_lot50.md, section: D4}, comment: "S2, jeu A."}
+  resistances_aluminium:
+    gamma_m1:
+      {status: fourni, value: 1.10, unit: "-", source: {kind: decision, point_label: "P28"}, comment: "Consigne du lot 50 bis, § 3 (EC9)."}
+    f0_poutres_principales:
+      {status: fourni, value: 215, unit: "MPa", source: {kind: decision, point_label: "P28"}, comment: "MP1200, 6005A-T6 profil ouvert, 5 < t ≤ 10 (EC9 tableau 3.2b) ; 225 MPa si toutes les parois t ≤ 5 (non retenu)."}
+    f0_haz_poutres_principales:
+      {status: fourni, value: 115, unit: "MPa", source: {kind: decision, point_label: "P28"}}
+    f0_tubes_150:
+      {status: fourni, value: 260, unit: "MPa", source: {kind: decision, point_label: "P28"}, comment: "Montants, diagonales, profilés supports : 6082-T6, tube filé, 5 < t ≤ 15."}
+    f0_haz_tubes_150:
+      {status: fourni, value: 125, unit: "MPa", source: {kind: decision, point_label: "P28"}}
+    f0_tubes_50:
+      {status: fourni, value: 250, unit: "MPa", source: {kind: decision, point_label: "P28"}, comment: "Pannes : 6082-T6, t ≤ 5."}
+    f0_haz_tubes_50:
+      {status: fourni, value: 125, unit: "MPa", source: {kind: decision, point_label: "P28"}}

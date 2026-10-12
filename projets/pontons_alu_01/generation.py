@@ -1,5 +1,5 @@
 # ruff: noqa: E501 -- gabarits du texte .comm, lignes de commande Code_Aster entières
-"""`.comm` generator of PONTONS-ALU-01 (lot 50).
+"""`.comm` generator of PONTONS-ALU-01 (lots 50 and 50 bis).
 
 MM asked for a `.comm` he can read and edit, with a Python parameter block and loops
 instead of unrolled lists. The trunk reads a production `.comm` with its static parser
@@ -8,13 +8,17 @@ inside a loop is « dynamic », so the level B validation would be partial and t
 deliverables chain (`aster_expert.livrables.inventaire`) would refuse the file. The
 fallback MM accepted is kept: the generator writes a flat `.comm`, in the order and with
 the section titles MM asked for, every repeated item on one line, the parameters
-recalled in the header. Everything comes from the data file, the fiche (P1 to P23) and
+recalled in the header. Everything comes from the data file, the fiche (P1 to P28) and
 the parameter block of `maillage_pontons.py`.
+
+Lot 50 bis: the inertia sweep of the main beams (k × IY, A and IZ unchanged) is the
+only change between its runs, through the variable PONTONS_K_IY (default 1).
 """
 
 from __future__ import annotations
 
 import math
+import os
 from dataclasses import dataclass
 from typing import Any
 
@@ -72,6 +76,21 @@ class Values:
     ta_minus: float
 
 
+def inertia_factor() -> float:
+    """Lot 50 bis, sweep of the main beams' inertia: k × IY through PONTONS_K_IY
+    (default 1, the MP1200); A and IZ are those of the MP1200."""
+    text = os.environ.get("PONTONS_K_IY", "1")
+    try:
+        k = float(text)
+    except ValueError as exc:
+        message = f"PONTONS_K_IY = {text!r} : nombre attendu"
+        raise ValueError(message) from exc
+    if k <= 0.0:
+        message = f"PONTONS_K_IY = {text!r} : facteur strictement positif attendu"
+        raise ValueError(message)
+    return k
+
+
 def values(ctx: ProjectContext) -> Values:
     """Every number of the data file, converted once to m, N, Pa."""
     d = {k: v.value for k, v in ctx.data().items().items()}
@@ -90,7 +109,7 @@ def values(ctx: ProjectContext) -> Values:
         nu_concrete=f("beton.coefficient_poisson"),
         gamma_concrete=f("beton.poids_volumique") * 1e3,
         pp_area=f("poutres_principales.aire") * 1e-6,
-        pp_iy=f("poutres_principales.inertie_forte") * 1e-12,
+        pp_iy=f("poutres_principales.inertie_forte") * 1e-12 * inertia_factor(),
         pp_iz=f("poutres_principales.inertie_faible") * 1e-12,
         pp_jx=f("poutres_principales.inertie_torsion") * 1e-8,
         pp_avz=f("poutres_principales.aire_cisaillement_z") * 1e-4,
@@ -123,17 +142,17 @@ THERMAL_CASES = ("TP", "TM", "TAP", "TAM")
 ALL_CASES = (*MECHANICAL_CASES, *ACCIDENTAL_CASES, *THERMAL_CASES)
 CASE_LABELS = {
     "G1": "poids propre (aluminium 27 kN/m³, béton armé 25 kN/m³)",
-    "G2": "G2 = 1,0 kN/m² sur tout le tablier (P8, P22)",
+    "G2": "G2 = 1,0 kN/m² sur tout le tablier (P8, P22, P24)",
     "Q": "Q = 5 kPa sur tout le tablier",
     "QD": "Q½ = 5 kPa sur la moitié Y > 0",
     "HU": "houle, 1 kPa vers le haut",
     "HD": "houle, 1 kPa vers le bas",
-    "AMM": "amarrage 2 × 8 kN, poutre Y = −0,75, vers −Y",
-    "AMP": "amarrage 2 × 8 kN, poutre Y = +0,75, vers +Y",
-    "ACM": "accostage 16 kN/m, poutre Y = −0,75, vers +Y",
-    "ACP": "accostage 16 kN/m, poutre Y = +0,75, vers −Y",
-    "AAM": "accostage accidentel 77 kN/m, poutre Y = −0,75, vers +Y",
-    "AAP": "accostage accidentel 77 kN/m, poutre Y = +0,75, vers −Y",
+    "AMM": "amarrage 2 × 8 kN, poutre de rive Y < 0, vers −Y",
+    "AMP": "amarrage 2 × 8 kN, poutre de rive Y > 0, vers +Y",
+    "ACM": "accostage 16 kN/m, poutre de rive Y < 0, vers +Y",
+    "ACP": "accostage 16 kN/m, poutre de rive Y > 0, vers −Y",
+    "AAM": "accostage accidentel 77 kN/m, poutre de rive Y < 0, vers +Y",
+    "AAP": "accostage accidentel 77 kN/m, poutre de rive Y > 0, vers −Y",
     "TP": "T+ = +46 °C, tout l'aluminium (jeu B)",
     "TM": "T− = −28 °C, tout l'aluminium (jeu B)",
     "TAP": "TA+ = +56 °C, poutres, montants, diagonales (jeu A, S2)",
@@ -279,7 +298,7 @@ def build_comm(ctx: ProjectContext, *, mesh_label: str) -> tuple[str, dict[str, 
         f"# Maillage : {mesh_label}, produit par maillage_pontons.py (paramètres en tête)."
     )
     w(
-        "# Généré par pontons_alu_01.generation à partir de la fiche (décisions P1 à P23 de"
+        "# Généré par pontons_alu_01.generation à partir de la fiche (décisions P1 à P28 de"
     )
     w(
         "# MM), des données (donnees/pontons_alu_01_model_data.yaml) et des paramètres du"
@@ -293,7 +312,7 @@ def build_comm(ctx: ProjectContext, *, mesh_label: str) -> tuple[str, dict[str, 
     w("#")
     w("# Paramètres (rappel)")
     w(
-        f"#   L = {p['L']} m (P1), B = {p['B']} m (P2), plan moyen +{g.deck_z} NGF, pannes +{g.purlin_z} (P7, P21)"
+        f"#   L = {p['L']} m (P1), B = {p['B']} m, tablier {p['LARGEUR_TABLIER']} m (P24), plan moyen +{g.deck_z} NGF, pannes +{g.purlin_z} (P7, P21)"
     )
     w(
         f"#   aluminium E = {v.e_alu:.4g} Pa, ν = {v.nu_alu}, α = {v.alpha_alu:.3g} /°C, γ = {v.gamma_alu:.0f} N/m³ (D3)"
@@ -362,6 +381,11 @@ def build_comm(ctx: ProjectContext, *, mesh_label: str) -> tuple[str, dict[str, 
     w(
         "# Poutres principales MP1200 (P4, D3) : IY = inertie forte (y_l horizontal), AZ = A/Avz ;"
     )
+    k = inertia_factor()
+    if k != 1.0:
+        w(
+            f"# Balayage du lot 50 bis : IY = {k:g} × IY du MP1200 (A et IZ inchangés, PONTONS_K_IY)."
+        )
     w(
         f"# Avy non donné : {PP_AY_HYPOTHESIS} (hypothèse provisoire, à confirmer par MM)."
     )
@@ -423,8 +447,9 @@ def build_comm(ctx: ProjectContext, *, mesh_label: str) -> tuple[str, dict[str, 
         "# ---------------------------------------------------------------- 5. LIAISONS ET APPUIS"
     )
     w(
-        "# P5 : rotules fixes côté quai (translations bloquées). P6, P7, P18 : liaisons rigides"
+        "# P25 : rotule côté quai Y > 0 fixe (translations bloquées), rotule Y < 0 guidée (libre"
     )
+    w("# en Y). P6, P7, P18 : liaisons rigides")
     w(
         "# LIAISON_SOLIDE (U4.44.01) panne / montant ou diagonale (LR_01 à LR_44), tête de profilé"
     )
@@ -442,7 +467,9 @@ def build_comm(ctx: ProjectContext, *, mesh_label: str) -> tuple[str, dict[str, 
     h = p["Z_SUPPORT_BAS"] - p["Z_CHEVETRE"]
     w("CL = AFFE_CHAR_MECA(")
     w("    MODELE=MODELE,")
-    w('    DDL_IMPO=_F(GROUP_NO="APP_QUAI", DX=0.0, DY=0.0, DZ=0.0),')
+    w(
+        '    DDL_IMPO=(_F(GROUP_NO="APP_QUAI_YP", DX=0.0, DY=0.0, DZ=0.0), _F(GROUP_NO="APP_QUAI_YM", DX=0.0, DZ=0.0)),'
+    )
     w("    LIAISON_SOLIDE=(")
     for k in range(0, n_links, 6):
         w("        " + ", ".join(names[k : k + 6]) + ",")
@@ -469,7 +496,7 @@ def build_comm(ctx: ProjectContext, *, mesh_label: str) -> tuple[str, dict[str, 
         "# D4. Actions de surface (P22) : FORCE_POUTRE sur les barres longitudinales, largeur"
     )
     w(
-        f"# d'influence b de chaque ligne, tablier limité aux axes des poutres principales (Σ b = {sum(widths.values()):.3f} m)."
+        f"# d'influence b de chaque ligne, tablier de {p['LARGEUR_TABLIER']} m (P24, Σ b = {sum(widths.values()):.3f} m), poids des défenses négligé."
     )
     w(
         "CH_G1 = AFFE_CHAR_MECA(MODELE=MODELE, PESANTEUR=_F(GRAVITE=9.81, DIRECTION=(0.0, 0.0, -1.0)))"
@@ -577,6 +604,7 @@ def build_comm(ctx: ProjectContext, *, mesh_label: str) -> tuple[str, dict[str, 
         "hinges": len(g.hinges),
         "footing_area_m2": footing_area,
         "pp_shear": {"AZ": pp_az, "AY": pp_az, "AY_hypothesis": PP_AY_HYPOTHESIS},
+        "pp_inertia_factor": inertia_factor(),
         "weights_n": weights(v, g),
         "applied_loads_n": applied_loads(v, g),
     }
@@ -590,6 +618,7 @@ __all__ = [
     "Values",
     "applied_loads",
     "build_comm",
+    "inertia_factor",
     "values",
     "weights",
 ]

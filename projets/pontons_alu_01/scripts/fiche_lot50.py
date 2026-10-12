@@ -2,9 +2,9 @@
 
     PYTHONPATH=projets .venv/bin/python projets/pontons_alu_01/scripts/fiche_lot50.py
 
-Fiche vide du lot (`aster-expert projet creer`), décisions P1 à P23 de MM rejouées depuis
-`donnees/sources/enregistrement_P1_P23_lot50.md` (même fonction que `aster-expert fiche
-enregistrer`), choix de l'agent A1 à A4 (domaines du lot 44), convention de nommage des
+Fiche vide du lot (`aster-expert projet creer`), décisions P1 à P23 (lot 50) puis P24 à P28
+(lot 50 bis) de MM rejouées depuis `donnees/sources/enregistrement_*.md` (même fonction que
+`aster-expert fiche enregistrer`), choix de l'agent A1 à A4 (domaines du lot 44), convention de nommage des
 groupes tirée des invariants du maillage, commandes prévues conservées (`fiche
 prevoir`). Un test rejoue ce script et compare le JSON octet pour octet.
 """
@@ -33,7 +33,10 @@ from pontons_alu_01.invariants import invariants
 
 PROJECT = Path(__file__).resolve().parents[1]
 FICHE = PROJECT / "fiche" / "hypotheses_pontons_alu_01.json"
-RECORDING = PROJECT / "donnees" / "sources" / "enregistrement_P1_P23_lot50.md"
+RECORDINGS = (
+    PROJECT / "donnees" / "sources" / "enregistrement_P1_P23_lot50.md",
+    PROJECT / "donnees" / "sources" / "enregistrement_P24_P28_lot50bis.md",
+)
 CREATED = datetime.fromisoformat("2026-10-12T08:38:25.125860-04:00")
 DESCRIPTION = (
     "Panne (passerelle d'accès sur pieux) en aluminium soudé : une travée de 6,25 m, "
@@ -78,7 +81,8 @@ def agent_entries(at: datetime) -> list[PracticeHypothesisEntry]:
             ("projet:mesh_check",),
             "Groupes de la consigne du lot 50 (POUTRES_PRINC, MONTANTS, DIAGONALES, "
             "PANNES_SEC, SUPPORTS, CHEVETRE, POTEAUX, SEMELLE, APP_QUAI, "
-            "PIEDS_SUPPORTS, TETES_POTEAUX), un groupe par élément (PP_YM, PP_YP, "
+            "PIEDS_SUPPORTS, TETES_POTEAUX), rotules côté quai séparées au lot 50 bis "
+            "(APP_QUAI_YM, APP_QUAI_YP, P25), un groupe par élément (PP_YM, PP_YP, "
             "MONT_i, DIAG_i, PANNE_i, SUP_i, POT_i), groupes de charges (ACC_YM, "
             "ACC_YP, AMAR_YM, AMAR_YP) et de liaisons (LR_nn, ROT_Sk, ROT_Ck), 24 "
             "caractères au plus.",
@@ -144,10 +148,13 @@ def group_naming() -> tuple[MeshGroupNaming, ...]:
 
 
 def build_sheet() -> HypothesesSheet:
-    arbitration = parse_arbitration(RECORDING.read_text(encoding="utf-8"))
-    check_quotes(
-        arbitration, (PROJECT / arbitration.source).read_text(encoding="utf-8")
-    )
+    arbitrations = [
+        parse_arbitration(r.read_text(encoding="utf-8")) for r in RECORDINGS
+    ]
+    for arbitration in arbitrations:
+        check_quotes(
+            arbitration, (PROJECT / arbitration.source).read_text(encoding="utf-8")
+        )
     sheet = HypothesesSheet(
         project_name="PONTONS-ALU-01",
         structure_description=DESCRIPTION,
@@ -156,9 +163,11 @@ def build_sheet() -> HypothesesSheet:
         entries=(),
         group_naming=group_naming(),
     )
-    sheet, _done = record_decisions(sheet, arbitration)
-    for entry in agent_entries(arbitration.recorded_at):
+    sheet, _done = record_decisions(sheet, arbitrations[0])
+    for entry in agent_entries(arbitrations[0].recorded_at):
         sheet = insert_practice_entry(sheet, entry)
+    for arbitration in arbitrations[1:]:
+        sheet, _done = record_decisions(sheet, arbitration)
     return sheet
 
 

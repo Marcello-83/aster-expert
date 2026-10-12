@@ -1,7 +1,7 @@
-# Déclaration du projet PONTONS-ALU-01 (lot 50) : une travée de panne en aluminium soudé.
+# Déclaration du projet PONTONS-ALU-01 (lots 50 et 50 bis) : une travée de panne en aluminium soudé.
 #
 # Interface avec le tronc commun (schéma aster_expert.projet.declaration). Décisions P1 à
-# P23 de MM (fiche) ; données : annexe « Données » de la consigne du lot 50. La géométrie
+# P28 de MM (fiche) ; données : annexe « Données » de la consigne du lot 50. La géométrie
 # est paramétrée dans maillage_pontons.py (script Salomé autonome, demande de MM) ; le
 # .comm est généré à plat (repli accepté par MM : le tronc commun lit le .comm sans
 # l'exécuter, boucles et variables y sont « dynamiques »). Chemins relatifs au projet.
@@ -39,8 +39,9 @@ controls:
   threshold: 1.0e-6
   vertical: DZ
   output: equilibre.json
-  # P5 : rotules côté quai, translations bloquées ; P19 : ressorts de sol sous la
-  # semelle (RIGI_PARASOL), efforts k·u lus aux nœuds (table DS_<cas>).
+  # P25 : rotule côté quai Y > 0 fixe, rotule Y < 0 guidée (DY libre : sa réaction DY,
+  # résidu d'équilibre d'un ddl libre, est nulle et la somme sur APP_QUAI reste exacte) ;
+  # P19 : ressorts de sol sous la semelle (RIGI_PARASOL), efforts k·u lus aux nœuds.
   supports:
     - {group: APP_QUAI, blocked: [DX, DY, DZ], table: "RP_{case}"}
   springs:
@@ -85,7 +86,7 @@ deliverables:
       field: REAC_NODA
       node_groups: [APP_QUAI]
       components: [DX, DY, DZ]
-      convention: "repère global ; réactions des rotules côté quai (P5), translations bloquées"
+      convention: "repère global ; réactions des rotules côté quai (P25) : Y > 0 translations bloquées, Y < 0 guidée (DY libre, réaction DY nulle)"
     - family: ressorts
       field: SIEF_ELGA
       groups: [SOL]
@@ -156,8 +157,8 @@ engineering_summary:
       label: chevêtre au droit des profilés supports
       family: chevêtre
       moment_signs: {MFY: both, MFZ: both}
-      rule: {description: "extrémités d'éléments du chevêtre aux nœuds des profilés supports, Y = −0,75 ; 0 ; +0,75 (P3)", station: {axis: Y, values: [-0.75, 0.0, 0.75]}}
-      justification: "Charges concentrées des profilés supports, articulés sur le chevêtre (P18) ; Y = ±0,75 est aussi l'axe des poteaux."
+      rule: {description: "extrémités d'éléments du chevêtre aux nœuds des profilés supports, Y = −0,93 ; 0 ; +0,93 (P24)", station: {axis: Y, values: [-0.93, 0.0, 0.93]}}
+      justification: "Charges concentrées des profilés supports, articulés sur le chevêtre (P18) ; depuis P24, les supports de rive (±0,93) sont en console au-delà des poteaux (±0,75)."
       shared_rows: [chevetre_mi_portee]
       bending_export: &chevetre
         section_type: "rectangulaire 0,25 (X) × 0,40 (Z), béton armé neuf (P3, P16)"
@@ -176,7 +177,7 @@ engineering_summary:
       label: chevêtre au nu des poteaux
       family: chevêtre
       moment_signs: {MFY: both, MFZ: both}
-      rule: {description: "extrémités d'éléments du chevêtre aux nus des poteaux Ø 0,50 d'axe Y = ±0,75 : |Y| = 0,50 et 1,00 (1,00 : extrémité du chevêtre)", station: {axis: Y, values: [0.5, 1.0], absolute: true}}
+      rule: {description: "extrémités d'éléments du chevêtre aux nus des poteaux Ø 0,50 d'axe Y = ±0,75 : |Y| = 0,50 et 1,00 (chevêtre jusqu'à ±1,05 depuis P24)", station: {axis: Y, values: [0.5, 1.0], absolute: true}}
       justification: "Section sur appui lue au nu des poteaux (consigne du lot 50, étape 4) ; aucun moment d'encastrement réduit (règle E27 propre à l'estacade, non décidée ici)."
       bending_export: *chevetre
     - name: chevetre_mi_portee
@@ -202,7 +203,7 @@ engineering_summary:
     - name: appuis_quai
       label: rotules côté quai
       family: appuis côté quai
-      rule: {description: "nœuds des rotules côté quai (APP_QUAI, P5)", node_group: APP_QUAI}
+      rule: {description: "nœuds des rotules côté quai (APP_QUAI, P25 : Y > 0 fixe, Y < 0 guidée)", node_group: APP_QUAI}
       justification: "Réactions des rotules côté quai, pour l'assemblage boulonné entre travées."
       not_exported: "réaction d'appui, sans section de béton armé"
     - name: sol
@@ -234,5 +235,7 @@ results_package:
     - {section: controles, source: resultats/controles/controles_d.json}
     - {section: controles, source: resultats/controles/equilibre.json}
     - {section: controles, source: references/controles_lot50/controles_analytiques.json}
+    - {section: controles, source: references/controles_lot50bis/controles_analytiques.json}
+    - {section: visualisation, source: "resultats/livrables/paquet/lot50bis/*", subdirectory: lot50bis}
   criteria:
-    - {level: D, document: docs/essais_lot50.md}
+    - {level: D, document: docs/essais_lot50bis.md}

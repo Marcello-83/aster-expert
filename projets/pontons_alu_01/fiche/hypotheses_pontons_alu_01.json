@@ -652,7 +652,7 @@
       "point_label": "A1",
       "topic": "Noms des groupes du maillage",
       "options_considered": [],
-      "option_retained": "Groupes de la consigne du lot 50 (POUTRES_PRINC, MONTANTS, DIAGONALES, PANNES_SEC, SUPPORTS, CHEVETRE, POTEAUX, SEMELLE, APP_QUAI, PIEDS_SUPPORTS, TETES_POTEAUX), un groupe par élément (PP_YM, PP_YP, MONT_i, DIAG_i, PANNE_i, SUP_i, POT_i), groupes de charges (ACC_YM, ACC_YP, AMAR_YM, AMAR_YP) et de liaisons (LR_nn, ROT_Sk, ROT_Ck), 24 caractères au plus.",
+      "option_retained": "Groupes de la consigne du lot 50 (POUTRES_PRINC, MONTANTS, DIAGONALES, PANNES_SEC, SUPPORTS, CHEVETRE, POTEAUX, SEMELLE, APP_QUAI, PIEDS_SUPPORTS, TETES_POTEAUX), rotules côté quai séparées au lot 50 bis (APP_QUAI_YM, APP_QUAI_YP, P25), un groupe par élément (PP_YM, PP_YP, MONT_i, DIAG_i, PANNE_i, SUP_i, POT_i), groupes de charges (ACC_YM, ACC_YP, AMAR_YM, AMAR_YP) et de liaisons (LR_nn, ROT_Sk, ROT_Ck), 24 caractères au plus.",
       "justification": "Les invariants du maillage contrôlent chaque groupe (cardinal, type, boîte).",
       "discarded_variants": [
         {
@@ -775,6 +775,154 @@
       "decided_at": "2026-10-12T09:00:00-04:00",
       "decision_history": [],
       "revision_history": []
+    },
+    {
+      "point_label": "P24",
+      "topic": "Géométrie transversale corrigée",
+      "options_considered": [],
+      "option_retained": "- **P24. Géométrie transversale corrigée par MM** (remplace la largeur de P2 ; tout le reste de P2 est conservé). - Le tablier fait **2,00 m** de large, poutres principales en rive. - Les **0,27 m** restants de la coupe PRO (2,27 m) correspondent aux défenses fixes, accrochées le long des poutres principales (environ 0,135 m de chaque côté). - **Entraxe des poutres principales B = 1,86 m** : axes à Y = ±0,93, soit 2,00/2 moins la demi-largeur du MP1200 (0,07 m). Les poteaux restent à Y = ±0,75 (entraxe de 1,50 m, Ø 0,50 m). - **Pannes secondaires** : Y = +0,56 ; +0,19 ; −0,18 ; −0,55, comme dans S2. L'espacement devient régulier, environ 0,37 m, entre les poutres et les pannes. - **Montants** de Y = −0,93 à +0,93. Diagonales recalculées avec les mêmes abscisses et le même sens. - **Profilés supports** à Y = −0,93 ; 0 ; +0,93. - **Chevêtre allongé** à Y ∈ [−1,05 ; +1,05] (proposition du superviseur, à confirmer par MM). Avec ±1,00, le support de rive serait à 7 cm du bout, ce qui est trop court pour une platine. - **Rotules côté quai** à Y = ±0,93. - **Largeur chargée** : 2,00 m (G2, Q, houle), répartie par largeurs d'influence sur les poutres et les pannes (P22). Le poids des défenses, non communiqué, est négligé et c'est écrit. L'accostage et l'amarrage restent appliqués sur la poutre de rive (P13). - C'est une modification des paramètres de `maillage_pontons.py`, sans code nouveau.",
+      "justification": "Décision P24 de MM, recopiée à l'identique (sources/consigne_lot50bis.md).",
+      "discarded_variants": [
+        {
+          "description": "Largeur de P2 (B = 1,50 m entre axes, à l'aplomb des poteaux)",
+          "reason": "corrigée par MM : tablier de 2,00 m, poutres de rive, B = 1,86 m (P24)"
+        },
+        {
+          "description": "Chevêtre de Y = −1,00 à +1,00 (P3)",
+          "reason": "support de rive à 7 cm du bout, trop court pour une platine ; ±1,05 proposé par le superviseur (P24)"
+        },
+        {
+          "description": "Largeur chargée limitée aux axes des poutres principales (lot 50, 1,50 m)",
+          "reason": "remplacée par 2,00 m (P24)"
+        }
+      ],
+      "notes": "Remplace la largeur de P2 et, pour la largeur chargée, l'hypothèse « tablier limité aux axes des poutres principales » du lot 50 ; le reste de P2 et P3 (hors étendue du chevêtre) est conservé. Chevêtre à ±1,05 : proposition du superviseur, à confirmer par MM.",
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50 bis), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot50bis (donnees/sources/consigne_lot50bis.md), P24",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T15:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P25",
+      "topic": "Appuis côté quai",
+      "options_considered": [],
+      "option_retained": "- **P25. Appuis côté quai.** - Rotule en Y = +0,93 : translations bloquées en X, Y et Z. - Rotule en Y = −0,93 : bloquée en X et Z, **libre en Y** (guidée transversalement). - La solution technologique réelle est à définir par MM. - Ce choix supprime le bridage du montant de rive sous la température (−301 kN au lot 50).",
+      "justification": "Décision P25 de MM, recopiée à l'identique (sources/consigne_lot50bis.md).",
+      "discarded_variants": [
+        {
+          "description": "Rotules fixes aux deux extrémités des poutres principales, translations bloquées (P5)",
+          "reason": "bride le montant de rive sous la température (−301 kN au lot 50) ; rotule Y = −0,93 guidée, libre en Y (P25)"
+        }
+      ],
+      "notes": "Modifie P5 pour les seules rotules côté quai ; les profilés supports restent fixes côté chevêtre (P5). Solution technologique de l'appui guidé à définir par MM.",
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50 bis), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot50bis (donnees/sources/consigne_lot50bis.md), P25",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T15:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P26",
+      "topic": "Pannes secondaires soudées aux montants et aux diagonales",
+      "options_considered": [],
+      "option_retained": "- **P26. Pannes secondaires soudées aux montants et aux diagonales** : confirmation de P7, sans changement.",
+      "justification": "Décision P26 de MM, recopiée à l'identique (sources/consigne_lot50bis.md).",
+      "discarded_variants": [
+        {
+          "description": "Pannes articulées ou posées sur les montants et diagonales",
+          "reason": "P7 confirmé : soudées à chaque croisement (P26)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50 bis), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot50bis (donnees/sources/consigne_lot50bis.md), P26",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T15:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P27",
+      "topic": "Variante de combinaison B′",
+      "options_considered": [],
+      "option_retained": "- **P27. Variante de combinaison B′.** C'est le jeu B, avec **Q et la houle rendus non concomitants**. On ne compte pas une foule de 5 kPa pendant une houle qui submerge le tablier. Elle s'obtient en post-traitement seulement, et c'est une décision à proposer à MM, qui tranchera.",
+      "justification": "Décision P27 de MM, recopiée à l'identique (sources/consigne_lot50bis.md).",
+      "discarded_variants": [
+        {
+          "description": "Jeu B seul (Q et houle concomitants)",
+          "reason": "B′ calculé en plus, en post-traitement ; le choix entre B et B′ reste à MM (P27)"
+        }
+      ],
+      "notes": "Le choix du jeu de dimensionnement (B ou B′) est proposé à MM, qui tranchera ; les deux sont rapportés.",
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50 bis), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot50bis (donnees/sources/consigne_lot50bis.md), P27",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T15:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P28",
+      "topic": "Taux élastique simplifié",
+      "options_considered": [],
+      "option_retained": "- **P28. Taux élastique simplifié** (§3). C'est un indicateur de dimensionnement, pas une vérification EC9.",
+      "justification": "Décision P28 de MM, recopiée à l'identique (sources/consigne_lot50bis.md).",
+      "discarded_variants": [
+        {
+          "description": "Vérification EC9 complète (classe de section, flambement, déversement, assemblages)",
+          "reason": "hors lot ; le taux simplifié est un indicateur de dimensionnement (P28)"
+        }
+      ],
+      "notes": "Valeurs f0, f0,haz et γM1 = 1,10 du § 3 de la consigne du lot 50 bis, reportées dans le fichier de données (groupe resistances_aluminium, source P28).",
+      "validity_domain": "Calcul PRO d'une travée de la panne PONTONS-ALU-01 (lot 50 bis), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot50bis (donnees/sources/consigne_lot50bis.md), P28",
+          "date": "2026-10-12"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-12T15:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
     }
   ],
   "group_naming": [
@@ -811,7 +959,7 @@
     {
       "group_name": "MONTANTS",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (48 SEG2).",
+      "description": "Groupe du maillage de la travée (60 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -821,7 +969,7 @@
     {
       "group_name": "MONT_1",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "description": "Groupe du maillage de la travée (10 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -831,7 +979,7 @@
     {
       "group_name": "MONT_2",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "description": "Groupe du maillage de la travée (10 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -841,7 +989,7 @@
     {
       "group_name": "MONT_3",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "description": "Groupe du maillage de la travée (10 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -851,7 +999,7 @@
     {
       "group_name": "MONT_4",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "description": "Groupe du maillage de la travée (10 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -861,7 +1009,7 @@
     {
       "group_name": "MONT_5",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "description": "Groupe du maillage de la travée (10 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -871,7 +1019,7 @@
     {
       "group_name": "MONT_6",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "description": "Groupe du maillage de la travée (10 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -881,7 +1029,7 @@
     {
       "group_name": "DIAGONALES",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (55 SEG2).",
+      "description": "Groupe du maillage de la travée (50 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -891,7 +1039,7 @@
     {
       "group_name": "DIAG_1",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "description": "Groupe du maillage de la travée (10 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -901,7 +1049,7 @@
     {
       "group_name": "DIAG_2",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (13 SEG2).",
+      "description": "Groupe du maillage de la travée (10 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -911,7 +1059,7 @@
     {
       "group_name": "DIAG_3",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (13 SEG2).",
+      "description": "Groupe du maillage de la travée (10 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -921,7 +1069,7 @@
     {
       "group_name": "DIAG_4",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (13 SEG2).",
+      "description": "Groupe du maillage de la travée (10 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -931,7 +1079,7 @@
     {
       "group_name": "DIAG_5",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "description": "Groupe du maillage de la travée (10 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -1061,7 +1209,7 @@
     {
       "group_name": "CHEVETRE",
       "kind": "maille",
-      "description": "Groupe du maillage de la travée (8 SEG2).",
+      "description": "Groupe du maillage de la travée (12 SEG2).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [
@@ -1102,6 +1250,26 @@
       "group_name": "APP_QUAI",
       "kind": "noeud",
       "description": "Groupe du maillage de la travée (2 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "APP_QUAI_YM",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (1 nœuds).",
+      "status": "choix_agent",
+      "point_label": "A1",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "APP_QUAI_YP",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la travée (1 nœuds).",
       "status": "choix_agent",
       "point_label": "A1",
       "verified_by": [

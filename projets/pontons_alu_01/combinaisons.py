@@ -226,6 +226,22 @@ def set_b() -> list[Combination]:
     return b.out
 
 
+WAVE_CASES = ("HU", "HD")
+CROWD_CASES = ("Q", "QD")
+
+
+def set_b_prime() -> list[Combination]:
+    """Set B′ (P27, lot 50 bis): set B without the combinations where Q (or Q½) and the
+    houle are both present -- no crowd of 5 kPa on a deck submerged by the houle.
+    Post-processing only; the choice between B and B′ is MM's."""
+    return [
+        c
+        for c in set_b()
+        if not (set(c.coefficients) & set(WAVE_CASES))
+        or not (set(c.coefficients) & set(CROWD_CASES))
+    ]
+
+
 def combinations(which: str = "AB") -> list[Combination]:
     out: list[Combination] = []
     if "A" in which:
@@ -251,4 +267,5 @@ __all__ = [
     "counts",
     "set_a",
     "set_b",
+    "set_b_prime",
 ]

@@ -1,5 +1,5 @@
 # ruff: noqa: E501, C401, PTH123, N816, E741, B905, B007 -- script Salomé (Python 3.9 : zip sans strict)
-"""Maillage d'une travée de la panne PONTONS-ALU-01 (lot 50) -- script Salomé autonome.
+"""Maillage d'une travée de la panne PONTONS-ALU-01 (lots 50 et 50 bis) -- script Salomé autonome.
 
 Relancer (VM, Salomé-Méca en conteneur Singularity) :
 
@@ -27,7 +27,8 @@ from pathlib import Path
 
 # PARAMETRES begin -------------------------------------------------------------------
 L = 6.25  # m, portée : têtes de poteaux à X = L (P1)
-B = 1.50  # m, entraxe des poutres principales (P2)
+B = 1.86  # m, entraxe des poutres principales, en rive du tablier (P24)
+LARGEUR_TABLIER = 2.00  # m, largeur chargée (G2, Q, houle), centrée en Y = 0 (P24)
 X_MONTANTS = (
     0.0,
     0.75,
@@ -48,12 +49,12 @@ X_AMARRAGE = (1.60, 4.60)  # m, amarrage sur les poutres principales (P13)
 X_ACCOSTAGE = (1.63, 3.63)  # m, début et fin de l'accostage (P13)
 Z_PLAN_MOYEN = 1.3575  # m NGF, plan moyen poutres, montants, diagonales (P21)
 EXC_PANNES = 0.10  # m, axe des pannes au-dessus du plan moyen (P7)
-Y_SUPPORTS = (-0.75, 0.0, 0.75)  # m, profilés supports à X = L (P3, D2)
+Y_SUPPORTS = (-0.93, 0.0, 0.93)  # m, profilés supports à X = L (P3, P24)
 Z_SUPPORT_BAS = 1.09  # m NGF, pied des profilés supports, dessus du chevêtre (P3, P17)
 Z_SUPPORT_HAUT = (
     1.24  # m NGF, tête des profilés supports, dessous du tablier (P17, P21)
 )
-Y_CHEVETRE = (-1.00, 1.00)  # m, extrémités du chevêtre (P3)
+Y_CHEVETRE = (-1.05, 1.05)  # m, extrémités du chevêtre (P24, à confirmer par MM)
 Z_CHEVETRE = 0.89  # m NGF, axe du chevêtre (D2)
 Y_POTEAUX = (-0.75, 0.75)  # m, axes des poteaux (P2, D2)
 D_POTEAUX = (
@@ -344,6 +345,9 @@ for nom, y in (("ACC_YM", YM), ("ACC_YP", YP)):
         nom, [edge(point(X_ACCOSTAGE[0], y, ZP), point(X_ACCOSTAGE[1], y, ZP))]
     )
 groupe_noeuds("APP_QUAI", [point(0.0, YM, ZP), point(0.0, YP, ZP)])
+# P25 : rotule Y > 0 fixe (DX, DY, DZ), rotule Y < 0 guidée (libre en DY).
+groupe_noeuds("APP_QUAI_YM", [point(0.0, YM, ZP)])
+groupe_noeuds("APP_QUAI_YP", [point(0.0, YP, ZP)])
 groupe_noeuds("PIEDS_SUPPORTS", [point(L, ys, Z_SUPPORT_BAS) for ys in Y_SUPPORTS])
 groupe_noeuds("TETES_POTEAUX", [point(L, yc, Z_POTEAU_TETE) for yc in Y_POTEAUX])
 groupe_noeuds("PIEDS_POTEAUX", [point(L, yc, Z_SEMELLE) for yc in Y_POTEAUX])

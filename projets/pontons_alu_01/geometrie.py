@@ -1,4 +1,4 @@
-"""Geometry of PONTONS-ALU-01 derived from the parameters of the Salome script (lot 50).
+"""Geometry of PONTONS-ALU-01 from the parameters of the Salome script (lots 50, 50bis).
 
 The parameters are written once, at the top of `maillage_pontons.py` (MM's request:
 a stand-alone script he can read and edit), between `# PARAMETRES begin` and
@@ -309,33 +309,31 @@ def expected_counts(g: Geometry) -> dict[str, int]:
     }
 
 
-def influence_widths(g: Geometry) -> dict[str, float]:
-    """P22: width of deck carried by each longitudinal line (main beams and purlins),
-    half the distance to each neighbour, the deck stopping at the main beams' axes
-    (hypothesis to be confirmed by MM: the loaded width is not given)."""
+def _strips(g: Geometry) -> tuple[list[str], list[float]]:
+    """Longitudinal lines sorted by Y and the edges of their strips: half the
+    distance to each neighbour, the outer strips ending at ±LARGEUR_TABLIER/2 (P24:
+    deck of 2,00 m, main beams at the edges; lot 50: deck ending at the beams' axes)."""
     half = g.parameters["B"] / 2.0
+    deck = g.parameters["LARGEUR_TABLIER"] / 2.0
     lines = {"PP_YM": -half, "PP_YP": half}
     for i, y in enumerate(g.parameters["Y_PANNES"], start=1):
         lines[f"PANNE_{i}"] = y
     order = sorted(lines, key=lambda n: lines[n])
     ys = [lines[n] for n in order]
-    edges = (
-        [ys[0]] + [(a + b) / 2.0 for a, b in zip(ys, ys[1:], strict=False)] + [ys[-1]]
-    )
+    edges = [-deck] + [(a + b) / 2.0 for a, b in zip(ys, ys[1:], strict=False)] + [deck]
+    return order, edges
+
+
+def influence_widths(g: Geometry) -> dict[str, float]:
+    """P22 and P24: width of deck carried by each longitudinal line (main beams and
+    purlins); the load of a strip is applied on the axis of its line."""
+    order, edges = _strips(g)
     return {n: edges[k + 1] - edges[k] for k, n in enumerate(order)}
 
 
 def half_deck_widths(g: Geometry) -> dict[str, float]:
     """Variant Q½ (D4): the part of each influence width with Y > 0."""
-    half = g.parameters["B"] / 2.0
-    lines = {"PP_YM": -half, "PP_YP": half}
-    for i, y in enumerate(g.parameters["Y_PANNES"], start=1):
-        lines[f"PANNE_{i}"] = y
-    order = sorted(lines, key=lambda n: lines[n])
-    ys = [lines[n] for n in order]
-    edges = (
-        [ys[0]] + [(a + b) / 2.0 for a, b in zip(ys, ys[1:], strict=False)] + [ys[-1]]
-    )
+    order, edges = _strips(g)
     out = {}
     for k, n in enumerate(order):
         lo, hi = max(edges[k], 0.0), edges[k + 1]

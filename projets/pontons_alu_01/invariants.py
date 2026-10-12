@@ -104,6 +104,8 @@ def invariants(g: Geometry) -> dict[str, Any]:
     heads = [(span, y, p["Z_POTEAU_TETE"]) for y in p["Y_POTEAUX"]]
     bottoms = [(span, y, g.footing_z) for y in p["Y_POTEAUX"]]
     groups.append(_nodes("APP_QUAI", apps))
+    groups.append(_nodes("APP_QUAI_YM", apps[:1]))
+    groups.append(_nodes("APP_QUAI_YP", apps[1:]))
     groups.append(_nodes("PIEDS_SUPPORTS", feet))
     groups.append(_nodes("TETES_POTEAUX", heads))
     groups.append(_nodes("PIEDS_POTEAUX", bottoms))

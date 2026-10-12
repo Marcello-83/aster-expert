@@ -3,10 +3,10 @@
 # avant toute exécution (scripts/ecrire_invariants.py). Ne pas éditer.
 schema_version: 1
 counts:
-  nodes: 405
+  nodes: 416
   cells:
     QUAD4: 72
-    SEG2: 373
+    SEG2: 384
 bbox:
 - 0.0
 - 7.01
@@ -23,8 +23,8 @@ groups:
   bbox:
   - 0.0
   - 6.25
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
@@ -35,8 +35,8 @@ groups:
   bbox:
   - 0.0
   - 6.25
-  - -0.75
-  - -0.75
+  - -0.93
+  - -0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
@@ -47,164 +47,164 @@ groups:
   bbox:
   - 0.0
   - 6.25
-  - 0.75
-  - 0.75
+  - 0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: MONTANTS
   kind: cell
-  count: 48
+  count: 60
   cell_type: SEG2
   bbox:
   - 0.0
   - 6.25
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: MONT_1
   kind: cell
-  count: 8
+  count: 10
   cell_type: SEG2
   bbox:
   - 0.0
   - 0.0
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: MONT_2
   kind: cell
-  count: 8
+  count: 10
   cell_type: SEG2
   bbox:
   - 0.75
   - 0.75
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: MONT_3
   kind: cell
-  count: 8
+  count: 10
   cell_type: SEG2
   bbox:
   - 2.25
   - 2.25
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: MONT_4
   kind: cell
-  count: 8
+  count: 10
   cell_type: SEG2
   bbox:
   - 3.75
   - 3.75
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: MONT_5
   kind: cell
-  count: 8
+  count: 10
   cell_type: SEG2
   bbox:
   - 5.25
   - 5.25
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: MONT_6
   kind: cell
-  count: 8
+  count: 10
   cell_type: SEG2
   bbox:
   - 6.25
   - 6.25
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: DIAGONALES
   kind: cell
-  count: 55
+  count: 50
   cell_type: SEG2
   bbox:
   - 0.0
   - 6.25
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: DIAG_1
   kind: cell
-  count: 8
+  count: 10
   cell_type: SEG2
   bbox:
   - 0.0
   - 0.75
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: DIAG_2
   kind: cell
-  count: 13
+  count: 10
   cell_type: SEG2
   bbox:
   - 0.75
   - 2.25
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: DIAG_3
   kind: cell
-  count: 13
+  count: 10
   cell_type: SEG2
   bbox:
   - 2.25
   - 3.75
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: DIAG_4
   kind: cell
-  count: 13
+  count: 10
   cell_type: SEG2
   bbox:
   - 3.75
   - 5.25
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
 - name: DIAG_5
   kind: cell
-  count: 8
+  count: 10
   cell_type: SEG2
   bbox:
   - 5.25
   - 6.25
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
@@ -275,8 +275,8 @@ groups:
   bbox:
   - 6.25
   - 6.25
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.09
   - 1.24
   tolerance: 1.0e-09
@@ -287,8 +287,8 @@ groups:
   bbox:
   - 6.25
   - 6.25
-  - -0.75
-  - -0.75
+  - -0.93
+  - -0.93
   - 1.09
   - 1.24
   tolerance: 1.0e-09
@@ -311,8 +311,8 @@ groups:
   bbox:
   - 6.25
   - 6.25
-  - 0.75
-  - 0.75
+  - 0.93
+  - 0.93
   - 1.09
   - 1.24
   tolerance: 1.0e-09
@@ -354,13 +354,13 @@ groups:
   tolerance: 1.0e-09
 - name: CHEVETRE
   kind: cell
-  count: 8
+  count: 12
   cell_type: SEG2
   bbox:
   - 6.25
   - 6.25
-  - -1.0
-  - 1.0
+  - -1.05
+  - 1.05
   - 0.89
   - 0.89
   tolerance: 1.0e-09
@@ -383,8 +383,8 @@ groups:
   bbox:
   - 1.63
   - 3.63
-  - -0.75
-  - -0.75
+  - -0.93
+  - -0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
@@ -395,8 +395,8 @@ groups:
   bbox:
   - 1.63
   - 3.63
-  - 0.75
-  - 0.75
+  - 0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
@@ -406,8 +406,30 @@ groups:
   bbox:
   - 0.0
   - 0.0
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: APP_QUAI_YM
+  kind: node
+  count: 1
+  bbox:
+  - 0.0
+  - 0.0
+  - -0.93
+  - -0.93
+  - 1.358
+  - 1.358
+  tolerance: 1.0e-09
+- name: APP_QUAI_YP
+  kind: node
+  count: 1
+  bbox:
+  - 0.0
+  - 0.0
+  - 0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
@@ -417,8 +439,8 @@ groups:
   bbox:
   - 6.25
   - 6.25
-  - -0.75
-  - 0.75
+  - -0.93
+  - 0.93
   - 1.09
   - 1.09
   tolerance: 1.0e-09
@@ -450,8 +472,8 @@ groups:
   bbox:
   - 1.6
   - 4.6
-  - -0.75
-  - -0.75
+  - -0.93
+  - -0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
@@ -461,8 +483,8 @@ groups:
   bbox:
   - 1.6
   - 4.6
-  - 0.75
-  - 0.75
+  - 0.93
+  - 0.93
   - 1.358
   - 1.358
   tolerance: 1.0e-09
@@ -481,8 +503,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 0.095
-  - 0.095
+  - 0.149
+  - 0.149
   - 0.56
   - 0.56
   - 1.358
@@ -503,8 +525,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 0.94
-  - 0.94
+  - 1.048
+  - 1.048
   - 0.56
   - 0.56
   - 1.358
@@ -525,8 +547,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 2.44
-  - 2.44
+  - 2.548
+  - 2.548
   - 0.56
   - 0.56
   - 1.358
@@ -547,8 +569,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 3.94
-  - 3.94
+  - 4.048
+  - 4.048
   - 0.56
   - 0.56
   - 1.358
@@ -569,8 +591,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 5.377
-  - 5.377
+  - 5.449
+  - 5.449
   - 0.56
   - 0.56
   - 1.358
@@ -602,8 +624,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 0.28
-  - 0.28
+  - 0.298
+  - 0.298
   - 0.19
   - 0.19
   - 1.358
@@ -624,8 +646,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 1.31
-  - 1.31
+  - 1.347
+  - 1.347
   - 0.19
   - 0.19
   - 1.358
@@ -646,8 +668,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 2.81
-  - 2.81
+  - 2.847
+  - 2.847
   - 0.19
   - 0.19
   - 1.358
@@ -668,8 +690,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 4.31
-  - 4.31
+  - 4.347
+  - 4.347
   - 0.19
   - 0.19
   - 1.358
@@ -690,8 +712,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 5.623
-  - 5.623
+  - 5.648
+  - 5.648
   - 0.19
   - 0.19
   - 1.358
@@ -723,8 +745,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 0.465
-  - 0.465
+  - 0.448
+  - 0.448
   - -0.18
   - -0.18
   - 1.358
@@ -745,8 +767,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 1.68
-  - 1.68
+  - 1.645
+  - 1.645
   - -0.18
   - -0.18
   - 1.358
@@ -767,8 +789,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 3.18
-  - 3.18
+  - 3.145
+  - 3.145
   - -0.18
   - -0.18
   - 1.358
@@ -789,8 +811,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 4.68
-  - 4.68
+  - 4.645
+  - 4.645
   - -0.18
   - -0.18
   - 1.358
@@ -811,8 +833,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 5.87
-  - 5.87
+  - 5.847
+  - 5.847
   - -0.18
   - -0.18
   - 1.358
@@ -844,8 +866,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 0.65
-  - 0.65
+  - 0.597
+  - 0.597
   - -0.55
   - -0.55
   - 1.358
@@ -866,8 +888,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 2.05
-  - 2.05
+  - 1.944
+  - 1.944
   - -0.55
   - -0.55
   - 1.358
@@ -888,8 +910,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 3.55
-  - 3.55
+  - 3.444
+  - 3.444
   - -0.55
   - -0.55
   - 1.358
@@ -910,8 +932,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 5.05
-  - 5.05
+  - 4.944
+  - 4.944
   - -0.55
   - -0.55
   - 1.358
@@ -932,8 +954,8 @@ groups:
   kind: node
   count: 2
   bbox:
-  - 6.117
-  - 6.117
+  - 6.046
+  - 6.046
   - -0.55
   - -0.55
   - 1.358
@@ -956,8 +978,8 @@ groups:
   bbox:
   - 6.25
   - 6.25
-  - -0.75
-  - -0.75
+  - -0.93
+  - -0.93
   - 1.24
   - 1.358
   tolerance: 1.0e-09
@@ -978,8 +1000,8 @@ groups:
   bbox:
   - 6.25
   - 6.25
-  - 0.75
-  - 0.75
+  - 0.93
+  - 0.93
   - 1.24
   - 1.358
   tolerance: 1.0e-09
@@ -1033,8 +1055,8 @@ groups:
   bbox:
   - 6.25
   - 6.25
-  - -0.75
-  - -0.75
+  - -0.93
+  - -0.93
   - 1.09
   - 1.09
   tolerance: 1.0e-09
@@ -1044,8 +1066,8 @@ groups:
   bbox:
   - 6.25
   - 6.25
-  - -0.75
-  - -0.75
+  - -0.93
+  - -0.93
   - 0.89
   - 0.89
   tolerance: 1.0e-09
@@ -1077,8 +1099,8 @@ groups:
   bbox:
   - 6.25
   - 6.25
-  - 0.75
-  - 0.75
+  - 0.93
+  - 0.93
   - 1.09
   - 1.09
   tolerance: 1.0e-09
@@ -1088,8 +1110,8 @@ groups:
   bbox:
   - 6.25
   - 6.25
-  - 0.75
-  - 0.75
+  - 0.93
+  - 0.93
   - 0.89
   - 0.89
   tolerance: 1.0e-09
@@ -1097,13 +1119,13 @@ nodes_at:
 - label: appui côté quai 1
   point:
   - 0.0
-  - -0.75
+  - -0.93
   - 1.358
   tolerance: 1.0e-09
 - label: appui côté quai 2
   point:
   - 0.0
-  - 0.75
+  - 0.93
   - 1.358
   tolerance: 1.0e-09
 - label: pied de poteau 1 (semelle)
