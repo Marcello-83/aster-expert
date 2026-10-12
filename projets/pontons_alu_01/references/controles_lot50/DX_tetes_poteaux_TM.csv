@@ -1,0 +1,4 @@
+# provenance : /home/ubuntu/projets/aster-expert/projets/pontons_alu_01/resultats/livrables (manifeste absent : sous-étape vues à faire)
+source;cas_ou_combinaison;champ;composante;valeur_si;unite_si;valeur;unite;noeud_med;maille_med;extremite;x_m;y_m;z_m;extremum;combinaison_gouvernante;position_mobile
+cas/TM;TM;DEPL;DX;-0.003288000421607663;m;-3.3;mm;136;;;6.250;-0.750;0.690;;;
+cas/TM;TM;DEPL;DX;-0.0031680050690748975;m;-3.2;mm;138;;;6.250;0.750;0.690;;;

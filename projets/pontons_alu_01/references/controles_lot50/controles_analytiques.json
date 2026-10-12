@@ -1,0 +1,118 @@
+{
+ "criteres": "docs/essais_lot50.md § 2 (écrits avant)",
+ "G1": {
+  "poids_a_la_main_n": 44988.4,
+  "reaction_totale_n": 44988.38258317538,
+  "detail": {
+   "reactions_quai_dz": 2041.564751476,
+   "ressorts_dz": 42946.81783169938,
+   "reactions_dz": 44988.38258317538
+  },
+  "ecart_relatif": 3.871403433567155e-07,
+  "tolerance": 0.005,
+  "verdict": "RÉUSSI"
+ },
+ "Q_mi_portee": {
+  "qbL2_sur_8_nm": 36621.09375,
+  "b_m": 1.5,
+  "coupe": {
+   "x_coupe_m": 3.125,
+   "barres": [
+    {
+     "barre": "PP_YM",
+     "element": 74,
+     "z_m": 1.358,
+     "N_n": 37648.687320959754,
+     "MT_nm": 71.8542775433865,
+     "MFY_nm": -11503.511388238956,
+     "MFZ_nm": -209.0673658727652,
+     "moment_Y_nm": -11503.511388238956,
+     "bras_de_levier_nm": 0.0,
+     "contribution_nm": -11503.511388238956
+    },
+    {
+     "barre": "PP_YP",
+     "element": 103,
+     "z_m": 1.358,
+     "N_n": 42406.131182186306,
+     "MT_nm": 63.96841177979377,
+     "MFY_nm": -11830.795308805396,
+     "MFZ_nm": 243.79326926299274,
+     "moment_Y_nm": -11830.795308805396,
+     "bras_de_levier_nm": 0.0,
+     "contribution_nm": -11830.795308805396
+    },
+    {
+     "barre": "PANNE_1",
+     "element": 236,
+     "z_m": 1.458,
+     "N_n": -25694.898487572136,
+     "MT_nm": 2.379791315541212,
+     "MFY_nm": -235.28546599927057,
+     "MFZ_nm": 6.134394180339336,
+     "moment_Y_nm": -235.28546599927057,
+     "bras_de_levier_nm": -2569.48984875721,
+     "contribution_nm": -2804.7753147564804
+    },
+    {
+     "barre": "PANNE_2",
+     "element": 266,
+     "z_m": 1.458,
+     "N_n": -17246.549241613408,
+     "MT_nm": 3.076844825709747,
+     "MFY_nm": -176.56053954054568,
+     "MFZ_nm": -3.8644677168589583,
+     "moment_Y_nm": -176.56053954054568,
+     "bras_de_levier_nm": -1724.6549241613384,
+     "contribution_nm": -1901.2154637018841
+    },
+    {
+     "barre": "PANNE_3",
+     "element": 295,
+     "z_m": 1.458,
+     "N_n": -17269.35492253305,
+     "MT_nm": 4.029870950435212,
+     "MFY_nm": -58.70892377191099,
+     "MFZ_nm": 13.639727310829143,
+     "moment_Y_nm": -58.70892377191099,
+     "bras_de_levier_nm": -1726.9354922533028,
+     "contribution_nm": -1785.6444160252138
+    },
+    {
+     "barre": "PANNE_4",
+     "element": 326,
+     "z_m": 1.458,
+     "N_n": -25967.107335275134,
+     "MT_nm": 2.883445019686859,
+     "MFY_nm": -203.11254245297062,
+     "MFZ_nm": -2.335582052765163,
+     "moment_Y_nm": -203.11254245297062,
+     "bras_de_levier_nm": -2596.71073352751,
+     "contribution_nm": -2799.8232759804805
+    },
+    {
+     "barre": "DIAG_3",
+     "element": 194,
+     "z_m": 1.358,
+     "N_n": 1996.5198963506264,
+     "MT_nm": 1644.0869864302665,
+     "MFY_nm": -3231.5966114674447,
+     "MFZ_nm": -160.93807984108724,
+     "moment_Y_nm": -3447.6289349934964,
+     "bras_de_levier_nm": 0.0,
+     "contribution_nm": -3447.6289349934964
+    }
+   ],
+   "moment_total_nm": -36073.39410250191
+  },
+  "moment_section_nm": -36073.39410250191,
+  "ecart_relatif": 0.014955851707681218,
+  "tolerance": 0.1,
+  "verification_statique": {
+   "reaction_quai_dz_n": 23271.75634614,
+   "moment_libre_rq_l2_moins_qbl2_8_nm": 36103.1448316875,
+   "ecart_a_la_somme_des_barres_nm": 29.750729185594537
+  },
+  "verdict": "RÉUSSI"
+ }
+}

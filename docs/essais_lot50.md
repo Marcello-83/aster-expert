@@ -70,3 +70,68 @@ poutre principale sous T+ ; pour un tablier libre : DX(L) = α·ΔT·L = 6,6 mm.
 Flèche UZ sous l'ELS caractéristique (jeu B, enveloppe) comparée, pour ordre de grandeur
 seulement, aux valeurs de l'AVP (−29,6 / +7,5 mm, UY 2,7 mm) : la géométrie diffère, ce
 n'est pas un critère.
+
+## 3. Résultats des contrôles (niveau D)
+
+Exécution de référence : `20261012T130752-dcba979a` (completed_ok, 0 alarme). Première
+exécution de post-traitement des livrables (`20261012T130649-e18ee9e7`) : alarme
+`<A> <CALCULEL2_89>` (« Le champ EFGE_NOEU n'a pas pu être calculé ») sur la semelle,
+aucun diagnostic dans la base ; cause retenue (déduction, confirmée par l'exécution
+suivante sans alarme) : `EFGE_NOEU` demandé après un `EFGE_ELNO` restreint aux barres ne
+recalcule pas `EFGE_ELNO` sur la semelle. Correction : `EFGE_NOEU` de la semelle calculé
+en production avant `EFGE_ELNO` des barres (ordre de l'estacade). Les tables de
+post-traitement égalent celles de la production (10 608 valeurs E20.12 identiques).
+
+### 3.1 Harnais D par défaut
+
+Équilibre des 16 cas : écart relatif maximal 8,2·10⁻¹² (TP) ; pesanteur G1 : 1,2·10⁻¹²
+(`references/execution_lot50/controles_d.md`). RÉUSSI.
+
+### 3.2 Poids propre G1 (critère § 2.1)
+
+Réaction verticale totale 44 988,38 N (rotules 2 041,6 N, ressorts 42 946,8 N) contre
+44 988,4 N calculés à la main : écart 3,9·10⁻⁷. **RÉUSSI**.
+
+### 3.3 Moment à mi-portée sous Q (critère § 2.2)
+
+`references/controles_lot50/controles_analytiques.json`. Coupe X = 3,125 m :
+
+| Barre | N (kN) | MFY (kN·m) | Contribution (kN·m) |
+| --- | --- | --- | --- |
+| PP_YM | +37,6 | −11,50 | −11,50 |
+| PP_YP | +42,4 | −11,83 | −11,83 |
+| PANNE_1 | −25,7 | −0,24 | −2,81 |
+| PANNE_2 | −17,2 | −0,18 | −1,90 |
+| PANNE_3 | −17,3 | −0,06 | −1,79 |
+| PANNE_4 | −26,0 | −0,20 | −2,80 |
+| DIAG_3 | +2,0 | −3,23 | −3,45 |
+| **Total** | | | **−36,07** |
+
+|M| = 36,07 kN·m contre q·b·L²/8 = 36,62 kN·m : écart 1,5 %. **RÉUSSI**. Vérification
+statique indépendante : R_quai·L/2 − q·b·(L/2)²/2 = 36,10 kN·m (R_quai = 23,27 kN contre
+q·b·L/2 = 23,44 kN : les profilés supports soudés reprennent un peu de moment
+d'extrémité), écart de 0,03 kN·m à la somme des barres (interpolation linéaire dans
+l'élément).
+
+Constat : les pannes secondaires, soudées à chaque croisement avec 0,10 m
+d'excentricité (P7), travaillent en membrure comprimée du tablier (−17 à −26 kN sous Q
+seul) ; les poutres principales sont tendues (+38 à +42 kN). Ce fonctionnement dépend
+directement de P7 (soudure à chaque croisement) : à signaler pour l'EC9 des pannes
+(50 × 5).
+
+### 3.4 Température (rapporté, sans critère)
+
+| Cas | N poutres principales min / max (kN) | DX tête de poteau (mm) |
+| --- | --- | --- |
+| TP, +46 °C, tout l'aluminium | −2,7 / +7,6 | +5,2 |
+| TM, −28 °C, tout l'aluminium | −4,6 / +1,6 | −3,2 |
+| TAP, +56 °C, PP, montants, diagonales (S2) | −76,9 / −25,6 | +7,3 |
+| TAM, −23 °C, PP, montants, diagonales (S2) | +10,5 / +31,6 | −3,0 |
+
+La retenue entre la rotule côté quai et les profilés supports est faible : sous T+, la
+tête des poteaux se déplace de 5,2 mm pour une dilatation libre du tablier de
+α·ΔT·L = 6,6 mm ; l'effort normal des poutres principales reste inférieur à 8 kN
+(329 kN si le tablier était bridé). En revanche, la température de S2, appliquée aux
+seules poutres, montants et diagonales, est bridée par les pannes non chauffées : −77 kN
+de compression dans les poutres principales sous TA+ (−46 kN à 0,6 dans le jeu A). C'est
+un artefact du modèle AVP (pannes exclues de la température), qui pèse sur le jeu A.

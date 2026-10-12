@@ -518,6 +518,9 @@ def build_comm(ctx: ProjectContext, *, mesh_label: str) -> tuple[str, dict[str, 
     w("    ),")
     w('    SOLVEUR=_F(METHODE="MUMPS", POSTTRAITEMENTS="FORCE"),')
     w(")")
+    # Semelle d'abord : EFGE_NOEU après un EFGE_ELNO restreint aux barres n'est pas
+    # calculé (alarme CALCULEL2_89, lot 50) ; ordre de l'estacade (lot 47).
+    w('ELEM = CALC_CHAMP(reuse=ELEM, RESULTAT=ELEM, GROUP_MA="SEMELLE", CONTRAINTE=("EFGE_NOEU",))')
     w(
         f'ELEM = CALC_CHAMP(reuse=ELEM, RESULTAT=ELEM, GROUP_MA={_tuple(BEAM_GROUPS)}, CONTRAINTE=("EFGE_ELNO",))'
     )
@@ -532,6 +535,9 @@ def build_comm(ctx: ProjectContext, *, mesh_label: str) -> tuple[str, dict[str, 
     for case, (dt, groups) in thermal.items():
         w(f"# {CASE_LABELS[case]}")
         out.extend(_thermal(case, dt, groups))
+        w(
+            f'{case} = CALC_CHAMP(reuse={case}, RESULTAT={case}, GROUP_MA="SEMELLE", CONTRAINTE=("EFGE_NOEU",))'
+        )
         w(
             f'{case} = CALC_CHAMP(reuse={case}, RESULTAT={case}, GROUP_MA={_tuple(BEAM_GROUPS)}, CONTRAINTE=("EFGE_ELNO",))'
         )
@@ -555,7 +561,7 @@ def build_comm(ctx: ProjectContext, *, mesh_label: str) -> tuple[str, dict[str, 
     )
     for case in THERMAL_CASES:
         w(
-            f'        _F(RESULTAT={case}, NOM_RESU_MED="{case}", NOM_CHAM=("DEPL", "EFGE_ELNO", "REAC_NODA"), CARA_ELEM=CARA),'
+            f'        _F(RESULTAT={case}, NOM_RESU_MED="{case}", NOM_CHAM=("DEPL", "EFGE_ELNO", "EFGE_NOEU", "REAC_NODA"), CARA_ELEM=CARA),'
         )
     w("    ),")
     w(")")
