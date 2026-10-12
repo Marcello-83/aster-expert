@@ -160,3 +160,10 @@ def test_reference_comm_is_the_generated_one(ctx: ProjectContext) -> None:
     assert text == reference.read_text(encoding="utf-8")
     assert report["rigid_links"] == 51
     assert len(text.splitlines()) < 400
+
+
+def test_avp_comparison_covers_the_table_of_d6() -> None:
+    from pontons_alu_01.syntheses import AVP, BEAM_FAMILIES  # noqa: PLC0415
+
+    assert set(AVP) <= set(BEAM_FAMILIES)
+    assert AVP["poutres_principales"]["ELU_fondamental"]["N"] == (-139, 78)

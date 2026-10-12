@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 49ter (2026-10-09), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 50 (2026-10-12), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 58 faits sur 60 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 49ter, Livrables de l'estacade corrigés : section en T des chevêtres (E25), bande de lecture au nu (E26), bouchon au nu +0,60 (E24), moment sur appui max(M_nu ; 0,65 × M_encastrement) par modèles auxiliaires dérivés A1 à A3 (E27), variante V1, effort tranchant de la dalle, zones disjointes et signe de section, convention ingénieur, formats du classeur, comparaison à la source avec profil du chapeau, empreintes de livraison ; PAT-014, PAT-015, CTL-015.
+Lots : 59 faits sur 61 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 50, Pontons aluminium PONTONS-ALU-01, une travée au niveau PRO : décisions P1 à P23, script Salomé autonome à paramètres en tête, .comm généré à plat (repli), POU_D_T, LIAISON_SOLIDE pour les excentricités, semelle DKT sur RIGI_PARASOL, cas élémentaires et deux jeux de combinaisons (A : S2 ; B : PRO, EN 1990), niveau D (harnais, poids propre, moment à mi-portée), livrables des jeux A et B, chevêtre en flexion composée, comparaison à l'AVP ; DIAG-029.
 
 Capacités :
 
@@ -296,6 +296,7 @@ Projets :
 - `quai_cw_test_01` (Quai combi-wall QUAI-CW-TEST-01) : niveau D atteint, preuve `projets/quai_cw_test_01/resultats/paquet/paquet.json`.
 - `dalle_appuyee_01` (Dalle appuyée C30/37 6 x 4 x 0,30 m) : niveau E atteint, preuve `projets/dalle_appuyee_01/resultats/paquet/paquet.json`.
 - `estacade_pieux_01` (Estacade sur pieux ESTACADE-PIEUX-01 (contre-calcul d'un modèle non validé)) : niveau D atteint, preuve `projets/estacade_pieux_01/resultats/paquet/paquet.json`.
+- `pontons_alu_01` (Panne en aluminium PONTONS-ALU-01, une travée (calcul PRO)) : niveau D atteint, preuve `projets/pontons_alu_01/resultats/paquet/paquet.json`.
 
 Métriques :
 
@@ -306,6 +307,8 @@ Métriques :
 - Registre du retour d'expérience de la dalle : `connaissances/rex/dalle_appuyee_01.yaml`
 - Métriques de l'estacade : `connaissances/metriques/estacade_pieux_01.yaml`
 - Registre du retour d'expérience de l'estacade : `connaissances/rex/estacade_pieux_01.yaml`
+- Métriques des pontons : `connaissances/metriques/pontons_alu_01.yaml`
+- Registre du retour d'expérience des pontons : `connaissances/rex/pontons_alu_01.yaml`
 
 <!-- etat:fin -->
 

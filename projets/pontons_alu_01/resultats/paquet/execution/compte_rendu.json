@@ -1,0 +1,109 @@
+{
+  "report": {
+    "comm_path": "/home/ubuntu/projets/aster-expert/projets/pontons_alu_01/resultats/pontons_alu_01.comm",
+    "aster_version": "17.4.0",
+    "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+    "status": "completed_ok",
+    "diag": "OK",
+    "return_code": 0,
+    "work_dir": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261012T130752-dcba979a",
+    "mess_path": "/home/ubuntu/projets/aster-expert/data/processed/runs/20261012T130752-dcba979a/proc.0/fort.6",
+    "result_files": [
+      "proc.0/1.export",
+      "proc.0/__timer__",
+      "proc.0/fort.15",
+      "proc.0/fort.20",
+      "proc.0/fort.6",
+      "proc.0/fort.8",
+      "proc.0/fort.80",
+      "proc.0/fort.9",
+      "proc.0/pontons_alu_01.comm.changed.py"
+    ],
+    "duration_s": 10.988914502999705,
+    "extracted_by": "run_aster.status",
+    "executed_at": "2026-10-12T13:08:03.972963Z",
+    "messages": [],
+    "messages_source": "run_aster.error_messages",
+    "status_source": "run_aster.status.Status.load",
+    "messages_truncated": 0,
+    "messages_error": null
+  },
+  "command": "python3 /work/_aster_expert_run_comm.py --file /work/pontons_alu_01.export --wrkdir /work --status-file /work/__status__ --time-limit 1800 --memory-limit 4096",
+  "image": "simvia/code_aster@sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "inputs_sha256": {
+    "pontons_alu_01.comm": "d113b7bb53bc76dfd3fb428b3f17ecd8910d2118216c09e0bca775803771c680",
+    "pontons_alu_01.connaissances.yaml": "fb2fccb771020f9c0a929e33eb1d17ddbef41051549675b73d6f45b0e9f98a38",
+    "pontons_alu_01.export": "ffbb6b751271dadec79688b0431550603acde257924d88fe4b7be332bfcc5e2c",
+    "pontons_alu_01.mmed": "041f649451538724a83ae49b6169f212f4126d734a8eb2f7c12375a726ba6ab7"
+  },
+  "outputs": {
+    "proc.0/1.export": 229,
+    "proc.0/__timer__": 348,
+    "proc.0/fort.15": 123483,
+    "proc.0/fort.20": 110093,
+    "proc.0/fort.6": 525083,
+    "proc.0/fort.8": 0,
+    "proc.0/fort.80": 1382636,
+    "proc.0/fort.9": 0,
+    "proc.0/pontons_alu_01.comm.changed.py": 24979
+  },
+  "alarms_by_identifier": {},
+  "errors": [],
+  "diagnostics": [],
+  "diagnostics_error": null,
+  "origin": null,
+  "knowledge": {
+    "file": "projets/pontons_alu_01/resultats/pontons_alu_01.connaissances.yaml",
+    "sha256": "fb2fccb771020f9c0a929e33eb1d17ddbef41051549675b73d6f45b0e9f98a38",
+    "project": "pontons_alu_01",
+    "applied": [
+      {
+        "id": "CA-037",
+        "how": "poutres de Timoshenko POU_D_T pour toutes les barres, aluminium et béton",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-033",
+        "how": "actions de surface en FORCE_POUTRE FZ, accostage en FORCE_POUTRE FY, repère global",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-019",
+        "how": "amarrage en FORCE_NODALE FY sur les nœuds des poutres principales",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-054",
+        "how": "températures uniformes : CHAM_GD NOEU_TEMP_R de composante TEMP et AFFE_VARC, VALE_REF = 0, un champ de matériau par cas",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-048",
+        "how": "poids propre par PESANTEUR et RHO = γ / g",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-020",
+        "how": "ressorts nodaux de sol : CREA_POI1, DIS_T, K_T_D_N en repère global (réparti par RIGI_PARASOL)",
+        "corrected_defect": null
+      },
+      {
+        "id": "CA-036",
+        "how": "équilibre : seules les composantes bloquées des rotules côté quai sont sommées",
+        "corrected_defect": null
+      },
+      {
+        "id": "DIAG-004",
+        "how": "masse M_T_D_N nulle des ressorts DIS_T de la semelle, le modèle portant PESANTEUR",
+        "corrected_defect": null
+      },
+      {
+        "id": "DIAG-024",
+        "how": "MECA_STATIQUE et MACRO_ELAS_MULT avec un champ de matériau",
+        "corrected_defect": null
+      }
+    ],
+    "none_reason": null
+  },
+  "resources": "ncpus 1 (.export), mpi_nbcpu 1 (.export), time_limit 1800 s (.export), memory_limit 4096 Mio (.export) ; docker --cpus=1 --memory=6896m ; délai extérieur 2270 s"
+}

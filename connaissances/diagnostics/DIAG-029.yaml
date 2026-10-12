@@ -1,0 +1,55 @@
+id: DIAG-029
+title: EFGE_NOEU de coques demandé après un EFGE_ELNO restreint aux poutres (alarme CALCULEL2_89)
+summary: CALC_CHAMP(CONTRAINTE='EFGE_NOEU', GROUP_MA=<coques>) sur un résultat où EFGE_ELNO a déjà
+  été calculé sur les seules poutres ne calcule pas EFGE_NOEU des coques (<A> CALCULEL2_89, « le
+  champ XXXX_ELNO n'existe pas sur les éléments spécifiés ») ; calculé avant EFGE_ELNO des
+  poutres, il l'est.
+origin_project: pontons_alu_01
+date: '2026-10-12'
+validation_level: C
+status: observé
+sources:
+- kind: execution
+  run: 20261012T130649-e18ee9e7
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: 'lot 50, post-traitement des livrables de PONTONS-ALU-01 : production avec
+    CALC_CHAMP(GROUP_MA=<barres>, CONTRAINTE=("EFGE_ELNO",)), puis CALC_CHAMP(GROUP_MA=("SEMELLE",),
+    CONTRAINTE=("EFGE_NOEU",)) inséré par le post-traitement : 16 alarmes <A> CALCULEL2_89
+    « Le champ EFGE_NOEU n''a pas pu être calculé », champ CAS_G1__EFGE_NOEU absent du MED'
+- kind: execution
+  run: 20261012T130815-847b223f
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: 'lot 50, même post-traitement après la correction de la production
+    (CALC_CHAMP(GROUP_MA="SEMELLE", CONTRAINTE=("EFGE_NOEU",)) avant EFGE_ELNO des barres) :
+    completed_ok, 0 alarme, EFGE_NOEU de la semelle écrit pour les 16 cas'
+commands:
+- CALC_CHAMP
+keywords:
+- CALCULEL2_89
+- EFGE_NOEU
+- EFGE_ELNO
+- DKT
+- POU_D_T
+reuses: []
+status_history: []
+category: préparation
+signature:
+  kind: <A>
+  identifiers:
+  - CALCULEL2_89
+  pattern: null
+cause: Déduction, non établie par la documentation -- CALC_CHAMP ne recalcule pas EFGE_ELNO déjà
+  présent dans le résultat (calculé sur les seules poutres) et ne trouve donc pas d'EFGE_ELNO sur
+  les coques pour en déduire EFGE_NOEU ; l'ordre inverse (EFGE_NOEU des coques d'abord, ordre de
+  l'estacade au lot 47) ne donne aucune alarme.
+cause_established: false
+correction: Calculer EFGE_NOEU des coques avant EFGE_ELNO restreint aux poutres (ou EFGE_ELNO sur
+  les coques aussi) dans la production.
+prevention: Un générateur de projet qui restreint EFGE_ELNO aux poutres calcule d'abord les champs
+  des coques (pontons_alu_01.generation, estacade_pieux_01.generation).

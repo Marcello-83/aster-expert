@@ -1,0 +1,519 @@
+{
+ "controle": "CTL-013 sur le MED des charges (lot 49)",
+ "source": "somme des forces nodales du champ FN_<cas> (CALC_VECT_ELEM, ASSE_VECTEUR) ; résultante attendue de controls.cases (projet.yaml)",
+ "seuil": 1e-06,
+ "cas": {
+  "AAM": {
+   "champ_med": "FN_AAM",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 154000.0,
+    "FZ": 0.0,
+    "MX": -209132.0,
+    "MY": 0.0,
+    "MZ": 405020.00000000006
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 154000.0,
+    "DZ": 0.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 154000.0,
+    "DZ": 0.0
+   },
+   "ecart_relatif": 0.0,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "AAP": {
+   "champ_med": "FN_AAP",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": -154000.0,
+    "FZ": 0.0,
+    "MX": 209132.0,
+    "MY": 0.0,
+    "MZ": -405020.00000000006
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": -154000.0,
+    "DZ": 0.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": -154000.0,
+    "DZ": 0.0
+   },
+   "ecart_relatif": 0.0,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "ACM": {
+   "champ_med": "FN_ACM",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 32000.000000000004,
+    "FZ": 0.0,
+    "MX": -43456.000000000015,
+    "MY": 0.0,
+    "MZ": 84160.0
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 32000.0,
+    "DZ": 0.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 32000.0,
+    "DZ": 0.0
+   },
+   "ecart_relatif": 1.1368683772161603e-16,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "ACP": {
+   "champ_med": "FN_ACP",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": -32000.000000000004,
+    "FZ": 0.0,
+    "MX": 43456.000000000015,
+    "MY": 0.0,
+    "MZ": -84160.0
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": -32000.0,
+    "DZ": 0.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": -32000.0,
+    "DZ": 0.0
+   },
+   "ecart_relatif": 1.1368683772161603e-16,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "AMM": {
+   "champ_med": "FN_AMM",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": -16000.0,
+    "FZ": 0.0,
+    "MX": 21728.0,
+    "MY": 0.0,
+    "MZ": -49600.0
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": -16000.0,
+    "DZ": 0.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": -16000.0,
+    "DZ": 0.0
+   },
+   "ecart_relatif": 0.0,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "AMP": {
+   "champ_med": "FN_AMP",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 16000.0,
+    "FZ": 0.0,
+    "MX": -21728.0,
+    "MY": 0.0,
+    "MZ": 49600.0
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 16000.0,
+    "DZ": 0.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 16000.0,
+    "DZ": 0.0
+   },
+   "ecart_relatif": 0.0,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "G1": {
+   "champ_med": "FN_G1",
+   "nature": "forces",
+   "somme_n": {
+    "FX": -1.8932661725304283e-28,
+    "FY": -3.7865323450608746e-29,
+    "FZ": -44988.38258312184,
+    "MX": -3.041409226471331,
+    "MY": 271044.8191939237,
+    "MZ": -1.522659319257608e-28,
+    "X_APPLICATION_FZ": 6.024773588895608,
+    "Y_APPLICATION_FZ": 6.760432475766238e-05
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -44988.3825831218
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -44988.3825831218
+   },
+   "ecart_relatif": 9.703781994038345e-16,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "G2": {
+   "champ_med": "FN_G2",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -9374.999999999993,
+    "MX": 1.0516032489249483e-12,
+    "MY": 29296.875000000007,
+    "MZ": 0.0,
+    "X_APPLICATION_FZ": 3.125000000000003,
+    "Y_APPLICATION_FZ": -1.1217101321866123e-16
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -9375.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -9375.0
+   },
+   "ecart_relatif": 7.761021455128988e-16,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "HD": {
+   "champ_med": "FN_HD",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -9374.999999999993,
+    "MX": 1.0516032489249483e-12,
+    "MY": 29296.875000000007,
+    "MZ": 0.0,
+    "X_APPLICATION_FZ": 3.125000000000003,
+    "Y_APPLICATION_FZ": -1.1217101321866123e-16
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -9375.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -9375.0
+   },
+   "ecart_relatif": 7.761021455128988e-16,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "HU": {
+   "champ_med": "FN_HU",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": 9374.999999999993,
+    "MX": -1.0516032489249483e-12,
+    "MY": -29296.875000000007,
+    "MZ": 0.0,
+    "X_APPLICATION_FZ": 3.125000000000003,
+    "Y_APPLICATION_FZ": -1.1217101321866123e-16
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": 9375.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": 9375.0
+   },
+   "ecart_relatif": 7.761021455128988e-16,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "Q": {
+   "champ_med": "FN_Q",
+   "nature": "forces",
+   "somme_n": {
+    "FX": 0.0,
+    "FY": 0.0,
+    "FZ": -46875.00000000004,
+    "MX": 1.5347723092418164e-12,
+    "MY": 146484.37499999997,
+    "MZ": 1.8932661725304283e-29,
+    "X_APPLICATION_FZ": 3.124999999999997,
+    "Y_APPLICATION_FZ": -3.274180926382539e-17
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -46875.0
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -46875.0
+   },
+   "ecart_relatif": 7.761021455128988e-16,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "QD": {
+   "champ_med": "FN_QD",
+   "nature": "forces",
+   "somme_n": {
+    "FX": -1.262177448353619e-29,
+    "FY": 0.0,
+    "FZ": -23437.499999999993,
+    "MX": -9295.312500000007,
+    "MY": 73242.18750000004,
+    "MZ": 9.466330862652142e-30,
+    "X_APPLICATION_FZ": 3.1250000000000027,
+    "Y_APPLICATION_FZ": 0.39660000000000045
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "attendu_tel_qu_evalue_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -23437.5
+   },
+   "attendu_specifie_n": {
+    "DX": 0.0,
+    "DY": 0.0,
+    "DZ": -23437.5
+   },
+   "ecart_relatif": 3.104408582051595e-16,
+   "seuil": 1e-06,
+   "verdict": "RÉUSSI"
+  },
+  "TAM": {
+   "champ_med": "FV_TAM",
+   "nature": "forces_varc",
+   "somme_n": {
+    "FX": 2.9103830456733704e-11,
+    "FY": 1.7462298274040222e-10,
+    "FZ": 0.0,
+    "MX": 1.82076746568782e-10,
+    "MY": 3.7692220899998113e-11,
+    "MZ": 1.0518718530268693e-09
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "autoequilibre": {
+    "somme_des_modules_n": 4505292.645317174,
+    "ecart_relatif": 3.8759520521248786e-17
+   }
+  },
+  "TAP": {
+   "champ_med": "FV_TAP",
+   "nature": "forces_varc",
+   "somme_n": {
+    "FX": 2.0372681319713593e-10,
+    "FY": 1.4551915228366852e-10,
+    "FZ": 1.0339757656912846e-25,
+    "MX": 6.148438842501491e-10,
+    "MY": -5.703512329091699e-11,
+    "MZ": -1.2464915926102534e-09,
+    "X_APPLICATION_FZ": 551609865370346.0,
+    "Y_APPLICATION_FZ": 5946405173617230.0
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "autoequilibre": {
+    "somme_des_modules_n": 10969408.179902686,
+    "ecart_relatif": 1.857227024976504e-17
+   }
+  },
+  "TM": {
+   "champ_med": "FV_TM",
+   "nature": "forces_varc",
+   "somme_n": {
+    "FX": -1.0186340659856796e-10,
+    "FY": -7.275957614183426e-11,
+    "FZ": -6.3010929807205374e-12,
+    "MX": -3.1583476811647416e-10,
+    "MY": 1.373868059317833e-10,
+    "MZ": 6.220361683517687e-10,
+    "X_APPLICATION_FZ": 21.80364682002724,
+    "Y_APPLICATION_FZ": 50.12380694632411
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "autoequilibre": {
+    "somme_des_modules_n": 6892282.009951345,
+    "ecart_relatif": 1.4779343975115007e-17
+   }
+  },
+  "TP": {
+   "champ_med": "FV_TP",
+   "nature": "forces_varc",
+   "somme_n": {
+    "FX": -5.820766091346741e-11,
+    "FY": -3.4924596548080444e-10,
+    "FZ": 2.0364154806882817e-12,
+    "MX": -3.7654535844922016e-10,
+    "MY": -1.4879794463240522e-10,
+    "MZ": -2.0978865601743205e-09,
+    "X_APPLICATION_FZ": 73.06855896720715,
+    "Y_APPLICATION_FZ": -184.90595952548583
+   },
+   "composantes": [
+    "DX",
+    "DY",
+    "DZ",
+    "DRX",
+    "DRY",
+    "DRZ"
+   ],
+   "autoequilibre": {
+    "somme_des_modules_n": 11323034.730634348,
+    "ecart_relatif": 3.08438482958922e-17
+   }
+  }
+ },
+ "echecs": [],
+ "verdict": "RÉUSSI"
+}

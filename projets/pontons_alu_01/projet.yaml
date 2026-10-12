@@ -211,3 +211,28 @@ engineering_summary:
       rule: {description: "tous les ressorts de la semelle (SOL)"}
       justification: "Pression du sol sous la semelle (k·u par surface tributaire), pour information."
       not_exported: "efforts de ressorts de sol, sans section de béton armé"
+
+# Paquet de résultats versionné (lot 45) : jamais de MED ni de VTU ; les torseurs de
+# toutes les combinaisons (31 Mo pour 3 402 combinaisons du jeu B) restent dans le
+# dossier d'échange (livraison), au-delà du plafond de 20 Mo du paquet.
+results_package:
+  items:
+    - {section: visualisation, source: resultats/livrables/paquet/manifeste.json}
+    - {section: visualisation, source: resultats/livrables/paquet/verifications_service.json}
+    - {section: visualisation, source: resultats/livrables/paquet/diagrammes.json}
+    - {section: visualisation, source: resultats/livrables/paquet/synthese_ingenieur.json}
+    - {section: visualisation, source: resultats/livrables/paquet/synthese.json}
+    - {section: visualisation, source: resultats/livrables/paquet/synthese.csv}
+    - {section: visualisation, source: resultats/livrables/paquet/detail_membres.json}
+    - {section: visualisation, source: resultats/livrables/paquet/equilibre_etats_limites.json}
+    - {section: visualisation, source: resultats/livrables/paquet/equilibre_livrables.json}
+    - {section: visualisation, source: resultats/livrables/paquet/controle_charges.json}
+    - {section: visualisation, source: resultats/livrables/paquet/controles_croises.json}
+    - {section: visualisation, source: "resultats/livrables/paquet/flexion_composee/*.csv", subdirectory: flexion_composee}
+    - {section: visualisation, source: "resultats/livrables/paquet/diagrammes/*.png", subdirectory: diagrammes}
+    - {section: visualisation, source: "resultats/livrables/paquet/comparaison/*", subdirectory: comparaison}
+    - {section: controles, source: resultats/controles/controles_d.json}
+    - {section: controles, source: resultats/controles/equilibre.json}
+    - {section: controles, source: references/controles_lot50/controles_analytiques.json}
+  criteria:
+    - {level: D, document: docs/essais_lot50.md}

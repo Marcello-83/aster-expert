@@ -1,0 +1,356 @@
+Rapport mesh check : maillage_pontons.med
+Invariants : 350, tenus : 350, en écart : 0
+
+[OK    ] comptage | nombre de nœuds | attendu : 405 | obtenu : 405
+[OK    ] comptage | mailles par type | attendu : {'QUAD4': 72, 'SEG2': 373} | obtenu : {'QUAD4': 72, 'SEG2': 373}
+[OK    ] boîte | boîte englobante du modèle (tol. 1e-09) | attendu : (0, 7.01, -1.45, 1.45, -0.755, 1.458) | obtenu : (0, 7.01, -1.45, 1.45, -0.755, 1.458)
+[OK    ] groupe | groupe POUTRES_PRINC : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe POUTRES_PRINC : cardinalité | attendu : 58 | obtenu : 58
+[OK    ] groupe | groupe POUTRES_PRINC : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 58}
+[OK    ] groupe | groupe POUTRES_PRINC : boîte englobante (tol. 1e-09) | attendu : (0, 6.25, -0.75, 0.75, 1.358, 1.358) | obtenu : (0, 6.25, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe PP_YM : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PP_YM : cardinalité | attendu : 29 | obtenu : 29
+[OK    ] groupe | groupe PP_YM : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 29}
+[OK    ] groupe | groupe PP_YM : boîte englobante (tol. 1e-09) | attendu : (0, 6.25, -0.75, -0.75, 1.358, 1.358) | obtenu : (0, 6.25, -0.75, -0.75, 1.358, 1.358)
+[OK    ] groupe | groupe PP_YP : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PP_YP : cardinalité | attendu : 29 | obtenu : 29
+[OK    ] groupe | groupe PP_YP : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 29}
+[OK    ] groupe | groupe PP_YP : boîte englobante (tol. 1e-09) | attendu : (0, 6.25, 0.75, 0.75, 1.358, 1.358) | obtenu : (0, 6.25, 0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe MONTANTS : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe MONTANTS : cardinalité | attendu : 48 | obtenu : 48
+[OK    ] groupe | groupe MONTANTS : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 48}
+[OK    ] groupe | groupe MONTANTS : boîte englobante (tol. 1e-09) | attendu : (0, 6.25, -0.75, 0.75, 1.358, 1.358) | obtenu : (0, 6.25, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe MONT_1 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe MONT_1 : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe MONT_1 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 8}
+[OK    ] groupe | groupe MONT_1 : boîte englobante (tol. 1e-09) | attendu : (0, 0, -0.75, 0.75, 1.358, 1.358) | obtenu : (0, 0, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe MONT_2 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe MONT_2 : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe MONT_2 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 8}
+[OK    ] groupe | groupe MONT_2 : boîte englobante (tol. 1e-09) | attendu : (0.75, 0.75, -0.75, 0.75, 1.358, 1.358) | obtenu : (0.75, 0.75, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe MONT_3 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe MONT_3 : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe MONT_3 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 8}
+[OK    ] groupe | groupe MONT_3 : boîte englobante (tol. 1e-09) | attendu : (2.25, 2.25, -0.75, 0.75, 1.358, 1.358) | obtenu : (2.25, 2.25, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe MONT_4 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe MONT_4 : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe MONT_4 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 8}
+[OK    ] groupe | groupe MONT_4 : boîte englobante (tol. 1e-09) | attendu : (3.75, 3.75, -0.75, 0.75, 1.358, 1.358) | obtenu : (3.75, 3.75, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe MONT_5 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe MONT_5 : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe MONT_5 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 8}
+[OK    ] groupe | groupe MONT_5 : boîte englobante (tol. 1e-09) | attendu : (5.25, 5.25, -0.75, 0.75, 1.358, 1.358) | obtenu : (5.25, 5.25, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe MONT_6 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe MONT_6 : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe MONT_6 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 8}
+[OK    ] groupe | groupe MONT_6 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, 0.75, 1.358, 1.358) | obtenu : (6.25, 6.25, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe DIAGONALES : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe DIAGONALES : cardinalité | attendu : 55 | obtenu : 55
+[OK    ] groupe | groupe DIAGONALES : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 55}
+[OK    ] groupe | groupe DIAGONALES : boîte englobante (tol. 1e-09) | attendu : (0, 6.25, -0.75, 0.75, 1.358, 1.358) | obtenu : (0, 6.25, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe DIAG_1 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe DIAG_1 : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe DIAG_1 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 8}
+[OK    ] groupe | groupe DIAG_1 : boîte englobante (tol. 1e-09) | attendu : (0, 0.75, -0.75, 0.75, 1.358, 1.358) | obtenu : (0, 0.75, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe DIAG_2 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe DIAG_2 : cardinalité | attendu : 13 | obtenu : 13
+[OK    ] groupe | groupe DIAG_2 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 13}
+[OK    ] groupe | groupe DIAG_2 : boîte englobante (tol. 1e-09) | attendu : (0.75, 2.25, -0.75, 0.75, 1.358, 1.358) | obtenu : (0.75, 2.25, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe DIAG_3 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe DIAG_3 : cardinalité | attendu : 13 | obtenu : 13
+[OK    ] groupe | groupe DIAG_3 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 13}
+[OK    ] groupe | groupe DIAG_3 : boîte englobante (tol. 1e-09) | attendu : (2.25, 3.75, -0.75, 0.75, 1.358, 1.358) | obtenu : (2.25, 3.75, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe DIAG_4 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe DIAG_4 : cardinalité | attendu : 13 | obtenu : 13
+[OK    ] groupe | groupe DIAG_4 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 13}
+[OK    ] groupe | groupe DIAG_4 : boîte englobante (tol. 1e-09) | attendu : (3.75, 5.25, -0.75, 0.75, 1.358, 1.358) | obtenu : (3.75, 5.25, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe DIAG_5 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe DIAG_5 : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe DIAG_5 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 8}
+[OK    ] groupe | groupe DIAG_5 : boîte englobante (tol. 1e-09) | attendu : (5.25, 6.25, -0.75, 0.75, 1.358, 1.358) | obtenu : (5.25, 6.25, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe PANNES_SEC : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PANNES_SEC : cardinalité | attendu : 120 | obtenu : 120
+[OK    ] groupe | groupe PANNES_SEC : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 120}
+[OK    ] groupe | groupe PANNES_SEC : boîte englobante (tol. 1e-09) | attendu : (0, 6.25, -0.55, 0.56, 1.458, 1.458) | obtenu : (0, 6.25, -0.55, 0.56, 1.458, 1.458)
+[OK    ] groupe | groupe PANNE_1 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PANNE_1 : cardinalité | attendu : 30 | obtenu : 30
+[OK    ] groupe | groupe PANNE_1 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 30}
+[OK    ] groupe | groupe PANNE_1 : boîte englobante (tol. 1e-09) | attendu : (0, 6.25, 0.56, 0.56, 1.458, 1.458) | obtenu : (0, 6.25, 0.56, 0.56, 1.458, 1.458)
+[OK    ] groupe | groupe PANNE_2 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PANNE_2 : cardinalité | attendu : 30 | obtenu : 30
+[OK    ] groupe | groupe PANNE_2 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 30}
+[OK    ] groupe | groupe PANNE_2 : boîte englobante (tol. 1e-09) | attendu : (0, 6.25, 0.19, 0.19, 1.458, 1.458) | obtenu : (0, 6.25, 0.19, 0.19, 1.458, 1.458)
+[OK    ] groupe | groupe PANNE_3 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PANNE_3 : cardinalité | attendu : 30 | obtenu : 30
+[OK    ] groupe | groupe PANNE_3 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 30}
+[OK    ] groupe | groupe PANNE_3 : boîte englobante (tol. 1e-09) | attendu : (0, 6.25, -0.18, -0.18, 1.458, 1.458) | obtenu : (0, 6.25, -0.18, -0.18, 1.458, 1.458)
+[OK    ] groupe | groupe PANNE_4 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PANNE_4 : cardinalité | attendu : 30 | obtenu : 30
+[OK    ] groupe | groupe PANNE_4 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 30}
+[OK    ] groupe | groupe PANNE_4 : boîte englobante (tol. 1e-09) | attendu : (0, 6.25, -0.55, -0.55, 1.458, 1.458) | obtenu : (0, 6.25, -0.55, -0.55, 1.458, 1.458)
+[OK    ] groupe | groupe SUPPORTS : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe SUPPORTS : cardinalité | attendu : 12 | obtenu : 12
+[OK    ] groupe | groupe SUPPORTS : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 12}
+[OK    ] groupe | groupe SUPPORTS : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, 0.75, 1.09, 1.24) | obtenu : (6.25, 6.25, -0.75, 0.75, 1.09, 1.24)
+[OK    ] groupe | groupe SUP_1 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe SUP_1 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe SUP_1 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 4}
+[OK    ] groupe | groupe SUP_1 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, -0.75, 1.09, 1.24) | obtenu : (6.25, 6.25, -0.75, -0.75, 1.09, 1.24)
+[OK    ] groupe | groupe SUP_2 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe SUP_2 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe SUP_2 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 4}
+[OK    ] groupe | groupe SUP_2 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0, 0, 1.09, 1.24) | obtenu : (6.25, 6.25, 0, 0, 1.09, 1.24)
+[OK    ] groupe | groupe SUP_3 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe SUP_3 : cardinalité | attendu : 4 | obtenu : 4
+[OK    ] groupe | groupe SUP_3 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 4}
+[OK    ] groupe | groupe SUP_3 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0.75, 0.75, 1.09, 1.24) | obtenu : (6.25, 6.25, 0.75, 0.75, 1.09, 1.24)
+[OK    ] groupe | groupe POTEAUX : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe POTEAUX : cardinalité | attendu : 12 | obtenu : 12
+[OK    ] groupe | groupe POTEAUX : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 12}
+[OK    ] groupe | groupe POTEAUX : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, 0.75, -0.63, 0.69) | obtenu : (6.25, 6.25, -0.75, 0.75, -0.63, 0.69)
+[OK    ] groupe | groupe POT_1 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe POT_1 : cardinalité | attendu : 6 | obtenu : 6
+[OK    ] groupe | groupe POT_1 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 6}
+[OK    ] groupe | groupe POT_1 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, -0.75, -0.63, 0.69) | obtenu : (6.25, 6.25, -0.75, -0.75, -0.63, 0.69)
+[OK    ] groupe | groupe POT_2 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe POT_2 : cardinalité | attendu : 6 | obtenu : 6
+[OK    ] groupe | groupe POT_2 : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 6}
+[OK    ] groupe | groupe POT_2 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0.75, 0.75, -0.63, 0.69) | obtenu : (6.25, 6.25, 0.75, 0.75, -0.63, 0.69)
+[OK    ] groupe | groupe CHEVETRE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe CHEVETRE : cardinalité | attendu : 8 | obtenu : 8
+[OK    ] groupe | groupe CHEVETRE : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 8}
+[OK    ] groupe | groupe CHEVETRE : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -1, 1, 0.89, 0.89) | obtenu : (6.25, 6.25, -1, 1, 0.89, 0.89)
+[OK    ] groupe | groupe SEMELLE : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe SEMELLE : cardinalité | attendu : 72 | obtenu : 72
+[OK    ] groupe | groupe SEMELLE : type des mailles | attendu : QUAD4 | obtenu : {'QUAD4': 72}
+[OK    ] groupe | groupe SEMELLE : boîte englobante (tol. 1e-09) | attendu : (5.75, 7.01, -1.45, 1.45, -0.755, -0.755) | obtenu : (5.75, 7.01, -1.45, 1.45, -0.755, -0.755)
+[OK    ] groupe | groupe ACC_YM : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ACC_YM : cardinalité | attendu : 9 | obtenu : 9
+[OK    ] groupe | groupe ACC_YM : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 9}
+[OK    ] groupe | groupe ACC_YM : boîte englobante (tol. 1e-09) | attendu : (1.63, 3.63, -0.75, -0.75, 1.358, 1.358) | obtenu : (1.63, 3.63, -0.75, -0.75, 1.358, 1.358)
+[OK    ] groupe | groupe ACC_YP : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ACC_YP : cardinalité | attendu : 9 | obtenu : 9
+[OK    ] groupe | groupe ACC_YP : type des mailles | attendu : SEG2 | obtenu : {'SEG2': 9}
+[OK    ] groupe | groupe ACC_YP : boîte englobante (tol. 1e-09) | attendu : (1.63, 3.63, 0.75, 0.75, 1.358, 1.358) | obtenu : (1.63, 3.63, 0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe APP_QUAI : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe APP_QUAI : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe APP_QUAI : boîte englobante (tol. 1e-09) | attendu : (0, 0, -0.75, 0.75, 1.358, 1.358) | obtenu : (0, 0, -0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe PIEDS_SUPPORTS : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEDS_SUPPORTS : cardinalité | attendu : 3 | obtenu : 3
+[OK    ] groupe | groupe PIEDS_SUPPORTS : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, 0.75, 1.09, 1.09) | obtenu : (6.25, 6.25, -0.75, 0.75, 1.09, 1.09)
+[OK    ] groupe | groupe TETES_POTEAUX : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe TETES_POTEAUX : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe TETES_POTEAUX : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, 0.75, 0.69, 0.69) | obtenu : (6.25, 6.25, -0.75, 0.75, 0.69, 0.69)
+[OK    ] groupe | groupe PIEDS_POTEAUX : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe PIEDS_POTEAUX : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe PIEDS_POTEAUX : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, 0.75, -0.755, -0.755) | obtenu : (6.25, 6.25, -0.75, 0.75, -0.755, -0.755)
+[OK    ] groupe | groupe AMAR_YM : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe AMAR_YM : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe AMAR_YM : boîte englobante (tol. 1e-09) | attendu : (1.6, 4.6, -0.75, -0.75, 1.358, 1.358) | obtenu : (1.6, 4.6, -0.75, -0.75, 1.358, 1.358)
+[OK    ] groupe | groupe AMAR_YP : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe AMAR_YP : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe AMAR_YP : boîte englobante (tol. 1e-09) | attendu : (1.6, 4.6, 0.75, 0.75, 1.358, 1.358) | obtenu : (1.6, 4.6, 0.75, 0.75, 1.358, 1.358)
+[OK    ] groupe | groupe LR_01 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_01 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_01 : boîte englobante (tol. 1e-09) | attendu : (0, 0, 0.56, 0.56, 1.358, 1.458) | obtenu : (0, 0, 0.56, 0.56, 1.358, 1.458)
+[OK    ] groupe | groupe LR_02 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_02 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_02 : boîte englobante (tol. 1e-09) | attendu : (0.095, 0.095, 0.56, 0.56, 1.358, 1.458) | obtenu : (0.095, 0.095, 0.56, 0.56, 1.358, 1.458)
+[OK    ] groupe | groupe LR_03 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_03 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_03 : boîte englobante (tol. 1e-09) | attendu : (0.75, 0.75, 0.56, 0.56, 1.358, 1.458) | obtenu : (0.75, 0.75, 0.56, 0.56, 1.358, 1.458)
+[OK    ] groupe | groupe LR_04 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_04 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_04 : boîte englobante (tol. 1e-09) | attendu : (0.94, 0.94, 0.56, 0.56, 1.358, 1.458) | obtenu : (0.94, 0.94, 0.56, 0.56, 1.358, 1.458)
+[OK    ] groupe | groupe LR_05 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_05 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_05 : boîte englobante (tol. 1e-09) | attendu : (2.25, 2.25, 0.56, 0.56, 1.358, 1.458) | obtenu : (2.25, 2.25, 0.56, 0.56, 1.358, 1.458)
+[OK    ] groupe | groupe LR_06 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_06 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_06 : boîte englobante (tol. 1e-09) | attendu : (2.44, 2.44, 0.56, 0.56, 1.358, 1.458) | obtenu : (2.44, 2.44, 0.56, 0.56, 1.358, 1.458)
+[OK    ] groupe | groupe LR_07 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_07 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_07 : boîte englobante (tol. 1e-09) | attendu : (3.75, 3.75, 0.56, 0.56, 1.358, 1.458) | obtenu : (3.75, 3.75, 0.56, 0.56, 1.358, 1.458)
+[OK    ] groupe | groupe LR_08 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_08 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_08 : boîte englobante (tol. 1e-09) | attendu : (3.94, 3.94, 0.56, 0.56, 1.358, 1.458) | obtenu : (3.94, 3.94, 0.56, 0.56, 1.358, 1.458)
+[OK    ] groupe | groupe LR_09 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_09 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_09 : boîte englobante (tol. 1e-09) | attendu : (5.25, 5.25, 0.56, 0.56, 1.358, 1.458) | obtenu : (5.25, 5.25, 0.56, 0.56, 1.358, 1.458)
+[OK    ] groupe | groupe LR_10 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_10 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_10 : boîte englobante (tol. 1e-09) | attendu : (5.377, 5.377, 0.56, 0.56, 1.358, 1.458) | obtenu : (5.377, 5.377, 0.56, 0.56, 1.358, 1.458)
+[OK    ] groupe | groupe LR_11 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_11 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_11 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0.56, 0.56, 1.358, 1.458) | obtenu : (6.25, 6.25, 0.56, 0.56, 1.358, 1.458)
+[OK    ] groupe | groupe LR_12 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_12 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_12 : boîte englobante (tol. 1e-09) | attendu : (0, 0, 0.19, 0.19, 1.358, 1.458) | obtenu : (0, 0, 0.19, 0.19, 1.358, 1.458)
+[OK    ] groupe | groupe LR_13 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_13 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_13 : boîte englobante (tol. 1e-09) | attendu : (0.28, 0.28, 0.19, 0.19, 1.358, 1.458) | obtenu : (0.28, 0.28, 0.19, 0.19, 1.358, 1.458)
+[OK    ] groupe | groupe LR_14 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_14 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_14 : boîte englobante (tol. 1e-09) | attendu : (0.75, 0.75, 0.19, 0.19, 1.358, 1.458) | obtenu : (0.75, 0.75, 0.19, 0.19, 1.358, 1.458)
+[OK    ] groupe | groupe LR_15 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_15 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_15 : boîte englobante (tol. 1e-09) | attendu : (1.31, 1.31, 0.19, 0.19, 1.358, 1.458) | obtenu : (1.31, 1.31, 0.19, 0.19, 1.358, 1.458)
+[OK    ] groupe | groupe LR_16 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_16 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_16 : boîte englobante (tol. 1e-09) | attendu : (2.25, 2.25, 0.19, 0.19, 1.358, 1.458) | obtenu : (2.25, 2.25, 0.19, 0.19, 1.358, 1.458)
+[OK    ] groupe | groupe LR_17 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_17 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_17 : boîte englobante (tol. 1e-09) | attendu : (2.81, 2.81, 0.19, 0.19, 1.358, 1.458) | obtenu : (2.81, 2.81, 0.19, 0.19, 1.358, 1.458)
+[OK    ] groupe | groupe LR_18 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_18 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_18 : boîte englobante (tol. 1e-09) | attendu : (3.75, 3.75, 0.19, 0.19, 1.358, 1.458) | obtenu : (3.75, 3.75, 0.19, 0.19, 1.358, 1.458)
+[OK    ] groupe | groupe LR_19 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_19 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_19 : boîte englobante (tol. 1e-09) | attendu : (4.31, 4.31, 0.19, 0.19, 1.358, 1.458) | obtenu : (4.31, 4.31, 0.19, 0.19, 1.358, 1.458)
+[OK    ] groupe | groupe LR_20 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_20 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_20 : boîte englobante (tol. 1e-09) | attendu : (5.25, 5.25, 0.19, 0.19, 1.358, 1.458) | obtenu : (5.25, 5.25, 0.19, 0.19, 1.358, 1.458)
+[OK    ] groupe | groupe LR_21 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_21 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_21 : boîte englobante (tol. 1e-09) | attendu : (5.623, 5.623, 0.19, 0.19, 1.358, 1.458) | obtenu : (5.623, 5.623, 0.19, 0.19, 1.358, 1.458)
+[OK    ] groupe | groupe LR_22 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_22 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_22 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0.19, 0.19, 1.358, 1.458) | obtenu : (6.25, 6.25, 0.19, 0.19, 1.358, 1.458)
+[OK    ] groupe | groupe LR_23 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_23 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_23 : boîte englobante (tol. 1e-09) | attendu : (0, 0, -0.18, -0.18, 1.358, 1.458) | obtenu : (0, 0, -0.18, -0.18, 1.358, 1.458)
+[OK    ] groupe | groupe LR_24 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_24 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_24 : boîte englobante (tol. 1e-09) | attendu : (0.465, 0.465, -0.18, -0.18, 1.358, 1.458) | obtenu : (0.465, 0.465, -0.18, -0.18, 1.358, 1.458)
+[OK    ] groupe | groupe LR_25 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_25 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_25 : boîte englobante (tol. 1e-09) | attendu : (0.75, 0.75, -0.18, -0.18, 1.358, 1.458) | obtenu : (0.75, 0.75, -0.18, -0.18, 1.358, 1.458)
+[OK    ] groupe | groupe LR_26 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_26 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_26 : boîte englobante (tol. 1e-09) | attendu : (1.68, 1.68, -0.18, -0.18, 1.358, 1.458) | obtenu : (1.68, 1.68, -0.18, -0.18, 1.358, 1.458)
+[OK    ] groupe | groupe LR_27 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_27 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_27 : boîte englobante (tol. 1e-09) | attendu : (2.25, 2.25, -0.18, -0.18, 1.358, 1.458) | obtenu : (2.25, 2.25, -0.18, -0.18, 1.358, 1.458)
+[OK    ] groupe | groupe LR_28 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_28 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_28 : boîte englobante (tol. 1e-09) | attendu : (3.18, 3.18, -0.18, -0.18, 1.358, 1.458) | obtenu : (3.18, 3.18, -0.18, -0.18, 1.358, 1.458)
+[OK    ] groupe | groupe LR_29 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_29 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_29 : boîte englobante (tol. 1e-09) | attendu : (3.75, 3.75, -0.18, -0.18, 1.358, 1.458) | obtenu : (3.75, 3.75, -0.18, -0.18, 1.358, 1.458)
+[OK    ] groupe | groupe LR_30 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_30 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_30 : boîte englobante (tol. 1e-09) | attendu : (4.68, 4.68, -0.18, -0.18, 1.358, 1.458) | obtenu : (4.68, 4.68, -0.18, -0.18, 1.358, 1.458)
+[OK    ] groupe | groupe LR_31 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_31 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_31 : boîte englobante (tol. 1e-09) | attendu : (5.25, 5.25, -0.18, -0.18, 1.358, 1.458) | obtenu : (5.25, 5.25, -0.18, -0.18, 1.358, 1.458)
+[OK    ] groupe | groupe LR_32 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_32 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_32 : boîte englobante (tol. 1e-09) | attendu : (5.87, 5.87, -0.18, -0.18, 1.358, 1.458) | obtenu : (5.87, 5.87, -0.18, -0.18, 1.358, 1.458)
+[OK    ] groupe | groupe LR_33 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_33 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_33 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.18, -0.18, 1.358, 1.458) | obtenu : (6.25, 6.25, -0.18, -0.18, 1.358, 1.458)
+[OK    ] groupe | groupe LR_34 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_34 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_34 : boîte englobante (tol. 1e-09) | attendu : (0, 0, -0.55, -0.55, 1.358, 1.458) | obtenu : (0, 0, -0.55, -0.55, 1.358, 1.458)
+[OK    ] groupe | groupe LR_35 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_35 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_35 : boîte englobante (tol. 1e-09) | attendu : (0.65, 0.65, -0.55, -0.55, 1.358, 1.458) | obtenu : (0.65, 0.65, -0.55, -0.55, 1.358, 1.458)
+[OK    ] groupe | groupe LR_36 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_36 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_36 : boîte englobante (tol. 1e-09) | attendu : (0.75, 0.75, -0.55, -0.55, 1.358, 1.458) | obtenu : (0.75, 0.75, -0.55, -0.55, 1.358, 1.458)
+[OK    ] groupe | groupe LR_37 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_37 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_37 : boîte englobante (tol. 1e-09) | attendu : (2.05, 2.05, -0.55, -0.55, 1.358, 1.458) | obtenu : (2.05, 2.05, -0.55, -0.55, 1.358, 1.458)
+[OK    ] groupe | groupe LR_38 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_38 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_38 : boîte englobante (tol. 1e-09) | attendu : (2.25, 2.25, -0.55, -0.55, 1.358, 1.458) | obtenu : (2.25, 2.25, -0.55, -0.55, 1.358, 1.458)
+[OK    ] groupe | groupe LR_39 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_39 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_39 : boîte englobante (tol. 1e-09) | attendu : (3.55, 3.55, -0.55, -0.55, 1.358, 1.458) | obtenu : (3.55, 3.55, -0.55, -0.55, 1.358, 1.458)
+[OK    ] groupe | groupe LR_40 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_40 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_40 : boîte englobante (tol. 1e-09) | attendu : (3.75, 3.75, -0.55, -0.55, 1.358, 1.458) | obtenu : (3.75, 3.75, -0.55, -0.55, 1.358, 1.458)
+[OK    ] groupe | groupe LR_41 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_41 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_41 : boîte englobante (tol. 1e-09) | attendu : (5.05, 5.05, -0.55, -0.55, 1.358, 1.458) | obtenu : (5.05, 5.05, -0.55, -0.55, 1.358, 1.458)
+[OK    ] groupe | groupe LR_42 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_42 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_42 : boîte englobante (tol. 1e-09) | attendu : (5.25, 5.25, -0.55, -0.55, 1.358, 1.458) | obtenu : (5.25, 5.25, -0.55, -0.55, 1.358, 1.458)
+[OK    ] groupe | groupe LR_43 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_43 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_43 : boîte englobante (tol. 1e-09) | attendu : (6.117, 6.117, -0.55, -0.55, 1.358, 1.458) | obtenu : (6.117, 6.117, -0.55, -0.55, 1.358, 1.458)
+[OK    ] groupe | groupe LR_44 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_44 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_44 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.55, -0.55, 1.358, 1.458) | obtenu : (6.25, 6.25, -0.55, -0.55, 1.358, 1.458)
+[OK    ] groupe | groupe LR_45 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_45 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_45 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, -0.75, 1.24, 1.358) | obtenu : (6.25, 6.25, -0.75, -0.75, 1.24, 1.358)
+[OK    ] groupe | groupe LR_46 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_46 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_46 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0, 0, 1.24, 1.358) | obtenu : (6.25, 6.25, 0, 0, 1.24, 1.358)
+[OK    ] groupe | groupe LR_47 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_47 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_47 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0.75, 0.75, 1.24, 1.358) | obtenu : (6.25, 6.25, 0.75, 0.75, 1.24, 1.358)
+[OK    ] groupe | groupe LR_48 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_48 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_48 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, -0.75, 0.69, 0.89) | obtenu : (6.25, 6.25, -0.75, -0.75, 0.69, 0.89)
+[OK    ] groupe | groupe LR_49 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_49 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_49 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0.75, 0.75, 0.69, 0.89) | obtenu : (6.25, 6.25, 0.75, 0.75, 0.69, 0.89)
+[OK    ] groupe | groupe LR_50 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_50 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_50 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, -0.75, -0.755, -0.63) | obtenu : (6.25, 6.25, -0.75, -0.75, -0.755, -0.63)
+[OK    ] groupe | groupe LR_51 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe LR_51 : cardinalité | attendu : 2 | obtenu : 2
+[OK    ] groupe | groupe LR_51 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0.75, 0.75, -0.755, -0.63) | obtenu : (6.25, 6.25, 0.75, 0.75, -0.755, -0.63)
+[OK    ] groupe | groupe ROT_S1 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ROT_S1 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ROT_S1 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, -0.75, 1.09, 1.09) | obtenu : (6.25, 6.25, -0.75, -0.75, 1.09, 1.09)
+[OK    ] groupe | groupe ROT_C1 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ROT_C1 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ROT_C1 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, -0.75, -0.75, 0.89, 0.89) | obtenu : (6.25, 6.25, -0.75, -0.75, 0.89, 0.89)
+[OK    ] groupe | groupe ROT_S2 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ROT_S2 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ROT_S2 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0, 0, 1.09, 1.09) | obtenu : (6.25, 6.25, 0, 0, 1.09, 1.09)
+[OK    ] groupe | groupe ROT_C2 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ROT_C2 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ROT_C2 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0, 0, 0.89, 0.89) | obtenu : (6.25, 6.25, 0, 0, 0.89, 0.89)
+[OK    ] groupe | groupe ROT_S3 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ROT_S3 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ROT_S3 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0.75, 0.75, 1.09, 1.09) | obtenu : (6.25, 6.25, 0.75, 0.75, 1.09, 1.09)
+[OK    ] groupe | groupe ROT_C3 : présence | attendu : présent | obtenu : présent
+[OK    ] groupe | groupe ROT_C3 : cardinalité | attendu : 1 | obtenu : 1
+[OK    ] groupe | groupe ROT_C3 : boîte englobante (tol. 1e-09) | attendu : (6.25, 6.25, 0.75, 0.75, 0.89, 0.89) | obtenu : (6.25, 6.25, 0.75, 0.75, 0.89, 0.89)
+[OK    ] inclusion | mailles de PP_YM dans POUTRES_PRINC | attendu : 29 mailles incluses | obtenu : 29 sur 29
+[OK    ] inclusion | mailles de PP_YP dans POUTRES_PRINC | attendu : 29 mailles incluses | obtenu : 29 sur 29
+[OK    ] inclusion | mailles de MONT_1 dans MONTANTS | attendu : 8 mailles incluses | obtenu : 8 sur 8
+[OK    ] inclusion | mailles de MONT_2 dans MONTANTS | attendu : 8 mailles incluses | obtenu : 8 sur 8
+[OK    ] inclusion | mailles de MONT_3 dans MONTANTS | attendu : 8 mailles incluses | obtenu : 8 sur 8
+[OK    ] inclusion | mailles de MONT_4 dans MONTANTS | attendu : 8 mailles incluses | obtenu : 8 sur 8
+[OK    ] inclusion | mailles de MONT_5 dans MONTANTS | attendu : 8 mailles incluses | obtenu : 8 sur 8
+[OK    ] inclusion | mailles de MONT_6 dans MONTANTS | attendu : 8 mailles incluses | obtenu : 8 sur 8
+[OK    ] inclusion | mailles de DIAG_1 dans DIAGONALES | attendu : 8 mailles incluses | obtenu : 8 sur 8
+[OK    ] inclusion | mailles de DIAG_2 dans DIAGONALES | attendu : 13 mailles incluses | obtenu : 13 sur 13
+[OK    ] inclusion | mailles de DIAG_3 dans DIAGONALES | attendu : 13 mailles incluses | obtenu : 13 sur 13
+[OK    ] inclusion | mailles de DIAG_4 dans DIAGONALES | attendu : 13 mailles incluses | obtenu : 13 sur 13
+[OK    ] inclusion | mailles de DIAG_5 dans DIAGONALES | attendu : 8 mailles incluses | obtenu : 8 sur 8
+[OK    ] inclusion | mailles de PANNE_1 dans PANNES_SEC | attendu : 30 mailles incluses | obtenu : 30 sur 30
+[OK    ] inclusion | mailles de PANNE_2 dans PANNES_SEC | attendu : 30 mailles incluses | obtenu : 30 sur 30
+[OK    ] inclusion | mailles de PANNE_3 dans PANNES_SEC | attendu : 30 mailles incluses | obtenu : 30 sur 30
+[OK    ] inclusion | mailles de PANNE_4 dans PANNES_SEC | attendu : 30 mailles incluses | obtenu : 30 sur 30
+[OK    ] inclusion | mailles de SUP_1 dans SUPPORTS | attendu : 4 mailles incluses | obtenu : 4 sur 4
+[OK    ] inclusion | mailles de SUP_2 dans SUPPORTS | attendu : 4 mailles incluses | obtenu : 4 sur 4
+[OK    ] inclusion | mailles de SUP_3 dans SUPPORTS | attendu : 4 mailles incluses | obtenu : 4 sur 4
+[OK    ] inclusion | mailles de POT_1 dans POTEAUX | attendu : 6 mailles incluses | obtenu : 6 sur 6
+[OK    ] inclusion | mailles de POT_2 dans POTEAUX | attendu : 6 mailles incluses | obtenu : 6 sur 6
+[OK    ] inclusion | mailles de ACC_YM dans PP_YM | attendu : 9 mailles incluses | obtenu : 9 sur 9
+[OK    ] inclusion | mailles de ACC_YP dans PP_YP | attendu : 9 mailles incluses | obtenu : 9 sur 9
+[OK    ] nœud imposé | nœud en appui côté quai 1 (0, -0.75, 1.358) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en appui côté quai 2 (0, 0.75, 1.358) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 2.22e-16
+[OK    ] nœud imposé | nœud en pied de poteau 1 (semelle) (6.25, -0.75, -0.755) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 0
+[OK    ] nœud imposé | nœud en pied de poteau 2 (semelle) (6.25, 0.75, -0.755) (tol. 1e-09) | attendu : au moins un nœud | obtenu : distance au nœud le plus proche 1.11e-16
+[OK    ] nœuds orphelins | nœuds sans maille | attendu : 0 | obtenu : 0
+[OK    ] nœuds confondus | paires de nœuds à moins de 1e-06 | attendu : 0 | obtenu : 0
+
+Tous les invariants sont tenus.
+[grille] grille 0.001 m, epsilon 1e-06 : 84 coordonnée(s) presque sur la grille sans y être sur 1215 (68 nœud(s) sur 405), écart maximal 8.882e-16 : écart rapporté

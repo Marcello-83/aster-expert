@@ -12,8 +12,8 @@
 # (racine 82b9a5d) : les lots antérieurs n'ont pas de commit consultable.
 
 schema_version: 1
-mis_a_jour_au_lot: "49ter"
-date: 2026-10-09
+mis_a_jour_au_lot: "50"
+date: 2026-10-12
 
 lots:
   - {id: "1", objet: "Initialisation du dépôt", etat: fait, commit: null, date: 2026-09-15, note: "antérieur à l'historique publié"}
@@ -76,6 +76,7 @@ lots:
   - {id: "49", objet: "Livrables de résultats : contrat deliverables, MED des résultats et des charges par exécution de post-traitement (tables identiques à la production), combinaisons et enveloppes, VTU contrôlés, scripts ParaView générés et images sans écran, classeur Excel, resultats lire et query_results ; fils utiles = 4 sur mesures répétées, PARALLELISME_TEMPS refusé (DIAG-027) ; reprises du lot 48 bis", etat: fait, commit: "7c69b09", date: 2026-10-08, note: "branche lot-49 ; critères écrits avant exécution : 59bc038 ; compte rendu docs/essais_lot49.md et message du commit de fin de lot"}
   - {id: "49bis", objet: "Synthèse ingénieur : section engineering_summary (familles d'éléments d'ouvrage, sections de dimensionnement, états limites, critères de service), torseurs concomitants lus par superposition et relus par resultats lire, export pour le logiciel de flexion composée, classeur restructuré, diagrammes N/M/V et coupes de dalle, images ParaView en kN titrées en trois vues avec flèches regroupées ; décisions E21 à E23 de MM", etat: fait, commit: "e18cbd7", date: 2026-10-09, note: "branche lot-49bis ; critères écrits avant les lectures : 0c4a994 ; compte rendu docs/essais_lot49bis.md et message du commit de fin de lot"}
   - {id: "49ter", objet: "Livrables de l'estacade corrigés : section en T des chevêtres (E25), bande de lecture au nu (E26), bouchon au nu +0,60 (E24), moment sur appui max(M_nu ; 0,65 × M_encastrement) par modèles auxiliaires dérivés A1 à A3 (E27), variante V1, effort tranchant de la dalle, zones disjointes et signe de section, convention ingénieur, formats du classeur, comparaison à la source avec profil du chapeau, empreintes de livraison ; PAT-014, PAT-015, CTL-015", etat: fait, commit: "3dfbd00", date: 2026-10-09, note: "branche lot-49ter ; critères écrits avant les exécutions : 58a3522 ; compte rendu docs/essais_lot49ter.md et message du commit de fin de lot"}
+  - {id: "50", objet: "Pontons aluminium PONTONS-ALU-01, une travée au niveau PRO : décisions P1 à P23, script Salomé autonome à paramètres en tête, .comm généré à plat (repli), POU_D_T, LIAISON_SOLIDE pour les excentricités, semelle DKT sur RIGI_PARASOL, cas élémentaires et deux jeux de combinaisons (A : S2 ; B : PRO, EN 1990), niveau D (harnais, poids propre, moment à mi-portée), livrables des jeux A et B, chevêtre en flexion composée, comparaison à l'AVP ; DIAG-029", etat: fait, commit: null, date: 2026-10-12, note: "branche lot-50 ; critères écrits avant la lecture des résultats : 6d9a540 (commités avec le .mess, antériorité non démontrable) ; compte rendu docs/essais_lot50.md et message du commit de fin de lot"}
 
 # Niveaux A à E : CLAUDE.md, « Niveaux de validation ». Un niveau n'est donné que pour ce
 # que la preuve établit ; `limites` dit ce qui n'est pas couvert.
@@ -194,6 +195,12 @@ projets:
     preuve: projets/estacade_pieux_01/resultats/paquet/paquet.json
     limites: "Niveau D par le harnais v2 (lot 47 bis), critère écrit après l'exécution (antériorité non démontrable, signalée par le paquet) ; contre-calcul d'un modèle non validé, jamais E : lecture v2 (E17), 17 lignes sur 30 dans la tolérance (v1 : 11), docs/essais_lot47bis.md § 7. Lot 47 ter : hypothèse « DST et chevêtre de 0,80 m » partielle (8/13 lignes contre 6/13) ; des 13 écarts v2, 4 attribués au chevêtre, à la formulation de la dalle et à la grandeur comparée, 7 au maillage (non comparables), 2 inexpliqués (C3 ELS c, C5), aucun à une erreur du modèle (docs/essais_lot47ter.md § 6). Lot 47 quater (clôture) : les écarts de transcription H1 (bouchon mixte) et H2 (tablier à +1,50) n'expliquent pas C3 et C5 (H2 sans effet, H1 les porte de −3/−6 % à +10/+14 %) ; statut final : contre-calcul au niveau D, chaque écart attribué, deux lignes inexpliquées (docs/essais_lot47quater.md § 6.1)."
 
+  - nom: pontons_alu_01
+    ouvrage: "Panne en aluminium PONTONS-ALU-01, une travée (calcul PRO)"
+    niveau_atteint: D
+    preuve: projets/pontons_alu_01/resultats/paquet/paquet.json
+    limites: "Niveau D : harnais par défaut, poids propre (3,9e-7) et moment à mi-portée sous Q (1,5 %) ; critères commités avec le .mess (antériorité non démontrable). Données absentes signalées : largeur chargée (1,50 m entre axes retenu), Avy du MP1200 (AY = AZ), nuance d'acier du chevêtre. Images ParaView non produites (manifeste de 10 Mo sur une ligne, 3 402 combinaisons) ; synthèse générique du jeu B, jeu A par CSV du projet ; vérifications EC9 hors lot."
+
 metriques:
   - {libelle: "Tableau de bord des projets", fichier: connaissances/metriques/tableau_de_bord.md}
   - {libelle: "Métriques du quai", fichier: connaissances/metriques/quai_cw_test_01.yaml}
@@ -202,3 +209,5 @@ metriques:
   - {libelle: "Registre du retour d'expérience de la dalle", fichier: connaissances/rex/dalle_appuyee_01.yaml}
   - {libelle: "Métriques de l'estacade", fichier: connaissances/metriques/estacade_pieux_01.yaml}
   - {libelle: "Registre du retour d'expérience de l'estacade", fichier: connaissances/rex/estacade_pieux_01.yaml}
+  - {libelle: "Métriques des pontons", fichier: connaissances/metriques/pontons_alu_01.yaml}
+  - {libelle: "Registre du retour d'expérience des pontons", fichier: connaissances/rex/pontons_alu_01.yaml}

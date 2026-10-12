@@ -21,6 +21,7 @@ def test_etat_valide_au_schema() -> None:
         "quai_cw_test_01",
         "dalle_appuyee_01",
         "estacade_pieux_01",  # lot 47
+        "pontons_alu_01",  # lot 50
     }
     for nom in (
         "recherche",

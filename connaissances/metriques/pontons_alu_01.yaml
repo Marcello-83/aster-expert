@@ -1,0 +1,93 @@
+# Métriques du projet (aster-expert rex, lot 42) : « fonction de perte » de l'outil.
+# Fichier produit : ne pas éditer à la main.
+project: pontons_alu_01
+baseline: null
+knowledge:
+  created: 1
+  promoted: 0
+  by_layer:
+    constats_code_aster:
+      observé: 0
+      établi: 0
+      promu: 0
+    diagnostics:
+      observé: 1
+      établi: 0
+      promu: 0
+    patrons:
+      observé: 0
+      établi: 0
+      promu: 0
+    controles:
+      observé: 0
+      établi: 0
+      promu: 0
+    references_validation:
+      observé: 0
+      établi: 0
+      promu: 0
+    precedents:
+      observé: 0
+      établi: 0
+      promu: 0
+consultations:
+  calls:
+    search_connaissances: 59
+    search_constats: 3
+  note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
+    ne porte pas le projet'
+  avoided_errors:
+    value: 4.0
+    nature: mesure
+    note: déclaré lot par lot dans le compte rendu (registre, `lots`)
+lots:
+- lot: '50'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM pendant le lot ; les décisions P1 à P23 étaient dans
+      l'annexe « Données » de la consigne. Les données absentes (largeur chargée, Avy du MP1200,
+      nuance d'acier du chevêtre) sont signalées au compte rendu avec l'hypothèse provisoire
+      retenue.
+  avoided_errors:
+    value: 4.0
+    nature: mesure
+    note: 'DIAG-004 : masse M_T_D_N nulle des ressorts DIS_T sous PESANTEUR écrite d''emblée
+      ; CA-054 : températures par CHAM_GD TEMP et AFFE_VARC, un champ de matériau par cas,
+      sans essai de PRE_EPSI ; CA-036 : seules les composantes bloquées des rotules sommées
+      dans l''équilibre ; CA-035 : FORCE_POUTRE sur des barres liées par LIAISON_SOLIDE surveillé
+      (aucun CALCULEL2_92 ici, une charge répartie par cas). Une alarme non prévue par la
+      base (CALCULEL2_89), classée en DIAG-029.'
+declared_interventions_since_baseline: 0.0
+measured:
+  runs: 5
+  failures: 0
+  development:
+    runs: 4
+    failures: 0
+  verification:
+    runs: 1
+    failures: 0
+    by_reason:
+      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 1
+  failure_rate: 0.0
+  failure_rate_note: 'lot 44 : taux sur les exécutions de développement seulement ; une exécution
+    de vérification (commande de rejeu, ou .comm déjà réussi rejoué sans modification) n''y
+    entre pas'
+  failure_rate_all_runs: 0.0
+  compute_s:
+    aster_legacy: 0
+    wall_since_lot41: 69.1
+    unknown_runs: 0
+    note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
+      versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
+      deux grandeurs distinctes, jamais additionnées'
+  first_run: 20261012T125727-d835bf3c
+  last_run: 20261012T130815-847b223f
+  failures_by_signature: {}
+  failures_by_cause: {}
+  automatic_diagnosis:
+    attached_failures: 0
+    single_match_equal_to_classification: 0
+    note: échecs rattachés à un diagnostic pour lesquels la recherche automatique de la base
+      (signature) propose ce diagnostic et lui seul

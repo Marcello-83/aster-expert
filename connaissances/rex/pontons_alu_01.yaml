@@ -6,11 +6,33 @@ case_roots:
 - projets/pontons_alu_01
 legacy_runs: null
 baseline: null
-lots: []
+lots:
+- lot: '50'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM pendant le lot ; les décisions P1 à P23 étaient dans l'annexe
+      « Données » de la consigne. Les données absentes (largeur chargée, Avy du MP1200, nuance d'acier
+      du chevêtre) sont signalées au compte rendu avec l'hypothèse provisoire retenue.
+  avoided_errors:
+    value: 4.0
+    nature: mesure
+    note: 'DIAG-004 : masse M_T_D_N nulle des ressorts DIS_T sous PESANTEUR écrite d''emblée ; CA-054 :
+      températures par CHAM_GD TEMP et AFFE_VARC, un champ de matériau par cas, sans essai de
+      PRE_EPSI ; CA-036 : seules les composantes bloquées des rotules sommées dans l''équilibre ;
+      CA-035 : FORCE_POUTRE sur des barres liées par LIAISON_SOLIDE surveillé (aucun CALCULEL2_92
+      ici, une charge répartie par cas). Une alarme non prévue par la base (CALCULEL2_89), classée
+      en DIAG-029.'
 archive:
-  runs: 0
-  sha256: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+  runs: 5
+  sha256: ca99e0fd6807cc10db82f029c83555dd87541331836dbd46d8d350fd85050701
   recorded: '2026-10-12'
 declaration_required_since: '2026-10-12T08:38:25.125860'
-reviews: []
+reviews:
+- date: '2026-10-12'
+  lot: '50'
+  runs: 5
+  failures: 0
+  unclassified: 0
+  last_run: 20261012T130815-847b223f
 classifications: []

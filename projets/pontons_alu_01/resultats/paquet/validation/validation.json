@@ -1,0 +1,829 @@
+{
+  "file_path": "/home/ubuntu/projets/aster-expert/projets/pontons_alu_01/resultats/pontons_alu_01.comm",
+  "aster_version": "17.4.0",
+  "image_digest": "sha256:d8d19ea91989eac0d38195bc5795c54c69f530f7196f53d67697ffa57c9106d5",
+  "validation_level": "B",
+  "catalogue_hash": "b59726e0e698b1b477dc138028defff9c92168ad29b5bdccea4ea859c24c27ca",
+  "verdict": "valide",
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "commands_checked": [
+    {
+      "statement_index": 0,
+      "command": "DEBUT",
+      "line": 18,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 1,
+      "command": "LIRE_MAILLAGE",
+      "line": 21,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 2,
+      "command": "CREA_MAILLAGE",
+      "line": 23,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 3,
+      "command": "DEFI_GROUP",
+      "line": 24,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 4,
+      "command": "AFFE_MODELE",
+      "line": 28,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 5,
+      "command": "DEFI_MATERIAU",
+      "line": 39,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 6,
+      "command": "DEFI_MATERIAU",
+      "line": 40,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 7,
+      "command": "AFFE_MATERIAU",
+      "line": 41,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 8,
+      "command": "AFFE_CARA_ELEM",
+      "line": 51,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 9,
+      "command": "AFFE_CHAR_MECA",
+      "line": 80,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 10,
+      "command": "AFFE_CHAR_MECA",
+      "line": 110,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 11,
+      "command": "AFFE_CHAR_MECA",
+      "line": 111,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 12,
+      "command": "AFFE_CHAR_MECA",
+      "line": 119,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 13,
+      "command": "AFFE_CHAR_MECA",
+      "line": 127,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 14,
+      "command": "AFFE_CHAR_MECA",
+      "line": 133,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 15,
+      "command": "AFFE_CHAR_MECA",
+      "line": 141,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 16,
+      "command": "AFFE_CHAR_MECA",
+      "line": 150,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 17,
+      "command": "AFFE_CHAR_MECA",
+      "line": 151,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 18,
+      "command": "AFFE_CHAR_MECA",
+      "line": 152,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 19,
+      "command": "AFFE_CHAR_MECA",
+      "line": 153,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 20,
+      "command": "AFFE_CHAR_MECA",
+      "line": 154,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 21,
+      "command": "AFFE_CHAR_MECA",
+      "line": 155,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 22,
+      "command": "MACRO_ELAS_MULT",
+      "line": 159,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 23,
+      "command": "CALC_CHAMP",
+      "line": 180,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 24,
+      "command": "CALC_CHAMP",
+      "line": 181,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 25,
+      "command": "CALC_CHAMP",
+      "line": 182,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 26,
+      "command": "CREA_CHAMP",
+      "line": 185,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 27,
+      "command": "AFFE_MATERIAU",
+      "line": 186,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 28,
+      "command": "MECA_STATIQUE",
+      "line": 191,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 29,
+      "command": "CALC_CHAMP",
+      "line": 192,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 30,
+      "command": "CALC_CHAMP",
+      "line": 193,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 31,
+      "command": "CALC_CHAMP",
+      "line": 194,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 32,
+      "command": "CREA_CHAMP",
+      "line": 196,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 33,
+      "command": "AFFE_MATERIAU",
+      "line": 197,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 34,
+      "command": "MECA_STATIQUE",
+      "line": 202,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 35,
+      "command": "CALC_CHAMP",
+      "line": 203,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 36,
+      "command": "CALC_CHAMP",
+      "line": 204,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 37,
+      "command": "CALC_CHAMP",
+      "line": 205,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 38,
+      "command": "CREA_CHAMP",
+      "line": 207,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 39,
+      "command": "AFFE_MATERIAU",
+      "line": 208,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 40,
+      "command": "MECA_STATIQUE",
+      "line": 213,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 41,
+      "command": "CALC_CHAMP",
+      "line": 214,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 42,
+      "command": "CALC_CHAMP",
+      "line": 215,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 43,
+      "command": "CALC_CHAMP",
+      "line": 216,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 44,
+      "command": "CREA_CHAMP",
+      "line": 218,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 45,
+      "command": "AFFE_MATERIAU",
+      "line": 219,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 46,
+      "command": "MECA_STATIQUE",
+      "line": 224,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 47,
+      "command": "CALC_CHAMP",
+      "line": 225,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 48,
+      "command": "CALC_CHAMP",
+      "line": 226,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 49,
+      "command": "CALC_CHAMP",
+      "line": 227,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 50,
+      "command": "POST_RELEVE_T",
+      "line": 232,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 51,
+      "command": "IMPR_TABLE",
+      "line": 233,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 52,
+      "command": "POST_RELEVE_T",
+      "line": 234,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 53,
+      "command": "IMPR_TABLE",
+      "line": 235,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 54,
+      "command": "POST_RELEVE_T",
+      "line": 236,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 55,
+      "command": "IMPR_TABLE",
+      "line": 237,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 56,
+      "command": "POST_RELEVE_T",
+      "line": 238,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 57,
+      "command": "IMPR_TABLE",
+      "line": 239,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 58,
+      "command": "POST_RELEVE_T",
+      "line": 240,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 59,
+      "command": "IMPR_TABLE",
+      "line": 241,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 60,
+      "command": "POST_RELEVE_T",
+      "line": 242,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 61,
+      "command": "IMPR_TABLE",
+      "line": 243,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 62,
+      "command": "POST_RELEVE_T",
+      "line": 244,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 63,
+      "command": "IMPR_TABLE",
+      "line": 245,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 64,
+      "command": "POST_RELEVE_T",
+      "line": 246,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 65,
+      "command": "IMPR_TABLE",
+      "line": 247,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 66,
+      "command": "POST_RELEVE_T",
+      "line": 248,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 67,
+      "command": "IMPR_TABLE",
+      "line": 249,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 68,
+      "command": "POST_RELEVE_T",
+      "line": 250,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 69,
+      "command": "IMPR_TABLE",
+      "line": 251,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 70,
+      "command": "POST_RELEVE_T",
+      "line": 252,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 71,
+      "command": "IMPR_TABLE",
+      "line": 253,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 72,
+      "command": "POST_RELEVE_T",
+      "line": 254,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 73,
+      "command": "IMPR_TABLE",
+      "line": 255,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 74,
+      "command": "POST_RELEVE_T",
+      "line": 256,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 75,
+      "command": "IMPR_TABLE",
+      "line": 257,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 76,
+      "command": "POST_RELEVE_T",
+      "line": 258,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 77,
+      "command": "IMPR_TABLE",
+      "line": 259,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 78,
+      "command": "POST_RELEVE_T",
+      "line": 260,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 79,
+      "command": "IMPR_TABLE",
+      "line": 261,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 80,
+      "command": "POST_RELEVE_T",
+      "line": 262,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 81,
+      "command": "IMPR_TABLE",
+      "line": 263,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 82,
+      "command": "POST_RELEVE_T",
+      "line": 264,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 83,
+      "command": "IMPR_TABLE",
+      "line": 265,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 84,
+      "command": "POST_RELEVE_T",
+      "line": 266,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 85,
+      "command": "IMPR_TABLE",
+      "line": 267,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 86,
+      "command": "POST_RELEVE_T",
+      "line": 268,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 87,
+      "command": "IMPR_TABLE",
+      "line": 269,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 88,
+      "command": "POST_RELEVE_T",
+      "line": 270,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 89,
+      "command": "IMPR_TABLE",
+      "line": 271,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 90,
+      "command": "POST_RELEVE_T",
+      "line": 272,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 91,
+      "command": "IMPR_TABLE",
+      "line": 273,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 92,
+      "command": "POST_RELEVE_T",
+      "line": 274,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 93,
+      "command": "IMPR_TABLE",
+      "line": 275,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 94,
+      "command": "POST_RELEVE_T",
+      "line": 276,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 95,
+      "command": "IMPR_TABLE",
+      "line": 277,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 96,
+      "command": "POST_RELEVE_T",
+      "line": 278,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 97,
+      "command": "IMPR_TABLE",
+      "line": 279,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 98,
+      "command": "POST_RELEVE_T",
+      "line": 280,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 99,
+      "command": "IMPR_TABLE",
+      "line": 281,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 100,
+      "command": "POST_RELEVE_T",
+      "line": 282,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 101,
+      "command": "IMPR_TABLE",
+      "line": 283,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 102,
+      "command": "POST_RELEVE_T",
+      "line": 284,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 103,
+      "command": "IMPR_TABLE",
+      "line": 285,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 104,
+      "command": "POST_RELEVE_T",
+      "line": 286,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 105,
+      "command": "IMPR_TABLE",
+      "line": 287,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 106,
+      "command": "POST_RELEVE_T",
+      "line": 288,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 107,
+      "command": "IMPR_TABLE",
+      "line": 289,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 108,
+      "command": "POST_RELEVE_T",
+      "line": 290,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 109,
+      "command": "IMPR_TABLE",
+      "line": 291,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 110,
+      "command": "POST_RELEVE_T",
+      "line": 292,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 111,
+      "command": "IMPR_TABLE",
+      "line": 293,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 112,
+      "command": "POST_RELEVE_T",
+      "line": 294,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 113,
+      "command": "IMPR_TABLE",
+      "line": 295,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 114,
+      "command": "IMPR_RESU",
+      "line": 296,
+      "ok": true,
+      "warnings": []
+    },
+    {
+      "statement_index": 115,
+      "command": "FIN",
+      "line": 308,
+      "ok": true,
+      "warnings": []
+    }
+  ],
+  "commands_not_checked": [],
+  "checked_at": "2026-10-12T13:07:51.723465Z",
+  "detail": "complet",
+  "summary": null
+}
