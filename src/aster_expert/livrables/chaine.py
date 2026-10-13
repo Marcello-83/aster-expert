@@ -11,7 +11,10 @@ Steps, each recorded in `resultats/livrables/etat.json`:
    production one -- the copy reproduces the computation, or nothing is delivered;
 4. `traiter`: combinations, envelopes and arrays (`scripts/livrables_med.py` in the
    container), moved to `resultats/livrables/`;
-5. the views, checks and workbook (`aster_expert.livrables.vues`, `.charges`,
+5. `charges` (lot 50 quater): the verification MED of the load cases, its `.vtu`,
+   ParaView script and pictures, and the table of resultants
+   (`aster_expert.livrables.charges_verif`), for every project;
+6. the views, checks and workbook (`aster_expert.livrables.vues`, `.charges`,
    `.paraview`, `.classeur`) run on what step 4 wrote.
 
 The production `.comm`, its run and its validation levels are never touched.
@@ -451,6 +454,7 @@ SUBSTEPS = (
     "executer",
     "verifier",
     "traiter",
+    "charges",
     "vues",
     "ingenieur",
     "images",
@@ -464,6 +468,7 @@ def run_deliverables(
     """Every sub-step in order, or the one named by `only`. `classeur` reads the
     results package: it runs after `aster-expert projet exporter-resultats`, so the
     full sequence stops before it (`classeur` is asked for by name)."""
+    from aster_expert.livrables.charges_verif import step_charges  # noqa: PLC0415
     from aster_expert.livrables.classeur import write_workbook  # noqa: PLC0415
     from aster_expert.livrables.ingenieur import step_ingenieur  # noqa: PLC0415
     from aster_expert.livrables.paraview import step_images  # noqa: PLC0415
@@ -474,6 +479,7 @@ def run_deliverables(
         "executer": lambda: step_executer(ctx, rt),
         "verifier": lambda: step_verifier(ctx, rt),
         "traiter": lambda: step_traiter(ctx, rt),
+        "charges": lambda: step_charges(ctx, rt),
         "vues": lambda: step_vues(ctx, rt),
         "ingenieur": lambda: step_ingenieur(ctx, rt),
         "images": lambda: step_images(ctx),

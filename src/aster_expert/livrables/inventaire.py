@@ -58,6 +58,8 @@ KINEMATIC_KEYWORDS = frozenset(
 )
 """Keywords of `AFFE_CHAR_MECA` that impose a kinematic condition (U4.44.01)."""
 _NEUTRAL = frozenset({"MODELE", "INFO", "VERI_NORM", "DOUBLE_LAGRANGE", "SYME"})
+NEUTRAL_KEYWORDS = _NEUTRAL
+"""Keywords of a charge that load nothing (lot 50 quater: public name)."""
 
 
 class InventoryError(ValueError):
@@ -346,6 +348,7 @@ def inventory_of_text(
 
 __all__ = [
     "KINEMATIC_KEYWORDS",
+    "NEUTRAL_KEYWORDS",
     "Inventory",
     "InventoryError",
     "Solve",

@@ -33,6 +33,7 @@ from aster_expert.validation.validate import resolve_digest_for_version
 ROOT = Path(__file__).resolve().parents[3]
 SCRIPT = ROOT / "scripts" / "livrables_med.py"
 CALCUL = Path(__file__).resolve().parent / "calcul.py"
+SCRIPT_CHARGES = ROOT / "scripts" / "livrables_charges.py"
 
 ContainerRunner = Callable[..., "subprocess.CompletedProcess[str]"]
 
@@ -50,6 +51,7 @@ def run_deliverables_container(
     memory_mb: int = 12288,
     timeout_seconds: int = 7200,
     runner: ContainerRunner = run_in_container,
+    script: Path = SCRIPT,
 ) -> Path:
     """Copy `files` (name in the working directory -> source), the spec, the script
     and `calcul.py` into a new directory under `work_root`, run the script there and
@@ -67,14 +69,14 @@ def run_deliverables_container(
     work.mkdir()
     for name, source in files.items():
         shutil.copy2(source, work / name)
-    shutil.copy2(SCRIPT, work / SCRIPT.name)
+    shutil.copy2(script, work / script.name)
     shutil.copy2(CALCUL, work / CALCUL.name)
     (work / "spec.json").write_text(
         json.dumps(spec, indent=1, ensure_ascii=False), encoding="utf-8"
     )
     command = (
         build_environment_setup_script()
-        + f"\npython3 {MOUNT_TARGET}/{SCRIPT.name} {MOUNT_TARGET}/spec.json "
+        + f"\npython3 {MOUNT_TARGET}/{script.name} {MOUNT_TARGET}/spec.json "
         f"{MOUNT_TARGET}/out.json\n"
     )
     name = f"aster-expert-livrables-{uuid.uuid4().hex}"
@@ -110,4 +112,4 @@ def run_deliverables_container(
     return work
 
 
-__all__ = ["ContainerError", "run_deliverables_container"]
+__all__ = ["SCRIPT_CHARGES", "ContainerError", "run_deliverables_container"]

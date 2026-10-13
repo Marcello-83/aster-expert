@@ -95,6 +95,7 @@ deliverables:
   not_relevant:
     - {item: contraintes_volumes, reason: "le modèle n'a aucun élément de volume (poutres POU_D_T, semelle DKT, ressorts DIS_T)"}
   combinations: "pontons_alu_01.extensions:deliverable_combinations"
+  load_plan_views: [Q, HU]
   static_results: {TP: TP, TM: TM, TAP: TAP, TAM: TAM}
   points:
     - {label: têtes des poteaux, node_group: TETES_POTEAUX, cell_group: POTEAUX}

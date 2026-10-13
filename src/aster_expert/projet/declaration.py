@@ -706,6 +706,9 @@ class DeliverablesSection(_Model):
     points: tuple[ReadingPoint, ...] = ()
     max_med_bytes: int = Field(default=2 * 1024**3, gt=0)
     """Above this size a MED is not copied to the exchange folder (2 Go, lot 49)."""
+    load_plan_views: tuple[str, ...] = ()
+    """Cases of which the ParaView script of the loads also renders a plan view (from
+    +Z), besides the isometric one of every case (lot 50 quater)."""
 
     @model_validator(mode="after")
     def _complete(self) -> DeliverablesSection:
