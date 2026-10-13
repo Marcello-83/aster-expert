@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 50ter (2026-10-13), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 50quater (2026-10-13), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 61 faits sur 63 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 50ter, Pontons aluminium : export des données pour l'EC9, les vues et les plans (nœuds, éléments et repère local, membres et raccords, efforts ELNO, déplacements et réactions des 16 cas élémentaires, combinaisons B et B′, charges du .comm, sections), lu dans les résultats du lot 50 bis sans exécution ; recombinaison livrée, trois valeurs du lot 50 bis retrouvées à 10⁻¹⁶ près.
+Lots : 62 faits sur 64 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 50quater, Pontons aluminium : MED de vérification des charges (CHARGE_NODALE, CHARGE_REPARTIE, ECART_TEMPERATURE, un pas par cas) et script ParaView généré par le tronc commun (sous-étape `charges`, pour tout projet), .vtu, 18 PNG rendus par le script lui-même, résultantes des 12 cas mécaniques à 1e-15 près ; cause de l'absence de livrables ParaView au lot 50 : sous-étape `images` abandonnée en bloc.
 
 Capacités :
 
