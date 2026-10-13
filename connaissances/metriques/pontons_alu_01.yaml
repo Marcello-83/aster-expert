@@ -32,7 +32,7 @@ knowledge:
       promu: 0
 consultations:
   calls:
-    search_connaissances: 61
+    search_connaissances: 62
     search_constats: 3
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
@@ -73,6 +73,17 @@ lots:
     note: 'DIAG-001 : avant de séparer DDL_IMPO entre les deux rotules, vérifié qu''aucune
       LIAISON_SOLIDE ne porte sur leurs nœuds (pas de pivot nul FACTOR_11) ; CA-016 : DDL_IMPO
       répétable sur GROUP_NO avec DX, DY, DZ (confirmé par get_command_schema, niveau B 116/116).'
+- lot: 50ter
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM pendant le lot (export seulement, consigne complète).
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: 'Lot sans exécution ni commande écrite : aucune connaissance de la base n''a évité
+      d''erreur. Repère local (ORIENTATION VECT_Y | VECT_Z) et caractéristiques des sections
+      RECTANGLE et CERCLE pris dans U4.42.01 (get_document_section), pas de mémoire.'
 declared_interventions_since_baseline: 1.0
 measured:
   runs: 11

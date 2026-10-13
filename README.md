@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 50bis (2026-10-12), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 50ter (2026-10-13), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 60 faits sur 62 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 50bis, Pontons aluminium : géométrie transversale corrigée (P24, tablier de 2,00 m, poutres en rive), rotule côté quai guidée (P25), jeu B′ sans foule pendant la houle (P27), taux élastique simplifié (P28, indicateur, pas l'EC9), balayage de l'inertie des poutres principales (k = 1, 3, 5), inertie et module nécessaires, chevêtre mis à jour.
+Lots : 61 faits sur 63 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 50ter, Pontons aluminium : export des données pour l'EC9, les vues et les plans (nœuds, éléments et repère local, membres et raccords, efforts ELNO, déplacements et réactions des 16 cas élémentaires, combinaisons B et B′, charges du .comm, sections), lu dans les résultats du lot 50 bis sans exécution ; recombinaison livrée, trois valeurs du lot 50 bis retrouvées à 10⁻¹⁶ près.
 
 Capacités :
 
