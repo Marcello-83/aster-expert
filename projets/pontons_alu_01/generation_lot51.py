@@ -366,7 +366,8 @@ def arm_terms(link: Link) -> list[tuple[str, str, float]]:
 
 def _ddl_lines(terms: list[tuple[str, str, float]]) -> list[str]:
     """LIAISON_DDL occurrences from `arm_terms` (separated by empty terms)."""
-    out, current = [], []
+    out: list[list[tuple[str, str, float]]] = []
+    current: list[tuple[str, str, float]] = []
     for t in terms:
         if t[0] == "":
             out.append(current)

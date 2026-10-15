@@ -1,9 +1,9 @@
-"""Fiche de PONTONS-ALU-01 (lot 50), reconstruite de façon reproductible.
+"""Fiche de PONTONS-ALU-01 (lots 50 à 51), reconstruite de façon reproductible.
 
     PYTHONPATH=projets .venv/bin/python projets/pontons_alu_01/scripts/fiche_lot50.py
 
 Fiche vide du lot (`aster-expert projet creer`), décisions P1 à P23 (lot 50) puis P24 à P28
-(lot 50 bis) de MM rejouées depuis `donnees/sources/enregistrement_*.md` (même fonction que
+(lot 50 bis), P29 à P43 (lot 51) de MM rejouées depuis `donnees/sources/enregistrement_*.md` (même fonction que
 `aster-expert fiche enregistrer`), choix de l'agent A1 à A4 (domaines du lot 44), convention de nommage des
 groupes tirée des invariants du maillage, commandes prévues conservées (`fiche
 prevoir`). Un test rejoue ce script et compare le JSON octet pour octet.
@@ -29,13 +29,16 @@ from aster_expert.agent.hypotheses import (
 )
 from aster_expert.agent.prevues import carry_planned_commands
 from pontons_alu_01.geometrie import geometry
+from pontons_alu_01.geometrie_lot51 import geometry as geometry_lot51
 from pontons_alu_01.invariants import invariants
+from pontons_alu_01.invariants_lot51 import invariants as invariants_lot51
 
 PROJECT = Path(__file__).resolve().parents[1]
 FICHE = PROJECT / "fiche" / "hypotheses_pontons_alu_01.json"
 RECORDINGS = (
     PROJECT / "donnees" / "sources" / "enregistrement_P1_P23_lot50.md",
     PROJECT / "donnees" / "sources" / "enregistrement_P24_P28_lot50bis.md",
+    PROJECT / "donnees" / "sources" / "enregistrement_P29_P43_lot51.md",
 )
 CREATED = datetime.fromisoformat("2026-10-12T08:38:25.125860-04:00")
 DESCRIPTION = (
@@ -130,8 +133,91 @@ def agent_entries(at: datetime) -> list[PracticeHypothesisEntry]:
     ]
 
 
+def lot51_entries(at: datetime) -> list[PracticeHypothesisEntry]:
+    """Choices of the agent for the pier of lot 51 (domains of lot 44)."""
+
+    def choice(
+        label: str,
+        topic: str,
+        domain: str,
+        verified_by: tuple[str, ...],
+        option: str,
+        justification: str,
+        discarded: list[tuple[str, str]],
+    ) -> PracticeHypothesisEntry:
+        return record_agent_choice(
+            entry=PracticeHypothesisEntry(
+                point_label=label, topic=topic, status="non_tranche"
+            ),
+            domain=domain,  # type: ignore[arg-type]
+            verified_by=verified_by,
+            option_retained=option,
+            justification=justification,
+            validity_domain="Modèle de la palée et des trois travées (lot 51).",
+            discarded_variants=tuple(
+                DiscardedVariant(description=d, reason=r) for d, r in discarded
+            ),
+            reference="session du lot 51 (projets/pontons_alu_01, docs/essais_lot51.md)",
+            decided_at=at,
+        )
+
+    return [
+        choice(
+            "A5",
+            "Noms des groupes du maillage de la palée",
+            "noms_groupes",
+            ("projet:mesh_check",),
+            "Barres PP_<travée>_<rive>, MONT_, DIAG_, PANNE_<travée>_<i> (travées T1, PT, "
+            "T2), SUP_ et NEO_<appui>_<rive> (appuis A1, A2, A3), CHEV_C1, CHEV_C2, "
+            "LONG_YM, LONG_YP, PILE_<chevêtre>_<rive> ; familles CHEVETRES, LONGRINES, "
+            "PILES, NEOPRENES ; zones d'accostage ACC_<zone>_<rive>, taquets TQk_<rive> ; "
+            "liaisons <nom>_A et <nom>_B (LR_, BR_, SC_, EC_, TP_, LG_, PS_) ; APP_FIXE, "
+            "NB_<appui>_<rive>, TETES_PILES, PIEDS_PILES ; 24 caractères au plus.",
+            "Les invariants calculés à part contrôlent chaque groupe (cardinal, type, "
+            "boîte).",
+            [("Noms au-delà de 24 caractères", "tronqués en silence par Code_Aster")],
+        ),
+        choice(
+            "A6",
+            "Nœuds distincts aux liaisons et ressorts néoprène de 1 mm",
+            "maillage",
+            ("projet:mesh_check", "projet:controles"),
+            "Petite travée et longrines arrêtées à 1 mm du nœud auquel elles sont liées "
+            "(éclissages, angles de l'anneau) ; ressort néoprène en SEG2 de 1 mm (DIS_T) "
+            "relié au nœud de la poutre par un bras rigide ; SEG2 d'au plus 0,25 m, au "
+            "moins 4 éléments par barre.",
+            "Invariant « nœuds confondus » du vérificateur ; U2.02.03 : un discret ne "
+            "transmet pas le moment d'un couple, sa longueur doit rester négligeable ; "
+            "harnais D sur les 68 cas.",
+            [
+                ("Nœuds confondus non fusionnés", "refusés par mesh check"),
+                (
+                    "Ressort entre le profilé et l'axe de la poutre (0,118 m)",
+                    "couple non transmis par le discret (U2.02.03)",
+                ),
+            ],
+        ),
+        choice(
+            "A7",
+            "Lecture des efforts des appuis néoprène",
+            "lecture_champs",
+            ("projet:controles",),
+            "Effort de l'appui sur le tablier F = −K·(u_haut − u_bas), repère global, Fz > "
+            "0 en compression ; variante M (sans raideur) : effort intérieur en tête du "
+            "profilé support ramené au repère global.",
+            "Critère 4 de docs/essais_lot51.md : les deux lectures concordent sur R.",
+            [
+                (
+                    "SIEF_ELGA du discret",
+                    "convention du repère de l'élément SEG2 à établir",
+                )
+            ],
+        ),
+    ]
+
+
 def group_naming() -> tuple[MeshGroupNaming, ...]:
-    return tuple(
+    lot50 = [
         MeshGroupNaming(
             group_name=g["name"],
             kind="noeud" if g["kind"] == "node" else "maille",
@@ -144,7 +230,24 @@ def group_naming() -> tuple[MeshGroupNaming, ...]:
             verified_by=("projet:mesh_check",),
         )
         for g in invariants(geometry())["groups"]
-    )
+    ]
+    known = {n.group_name for n in lot50}
+    lot51 = [
+        MeshGroupNaming(
+            group_name=g["name"],
+            kind="noeud" if g["kind"] == "node" else "maille",
+            description=(
+                "Groupe du maillage de la palée, lot 51 ("
+                f"{g['count']} {g.get('cell_type', 'nœuds')}, H = 1,32 m)."
+            ),
+            status="choix_agent",
+            point_label="A5",
+            verified_by=("projet:mesh_check",),
+        )
+        for g in invariants_lot51(geometry_lot51({"H_PILES": 1.32}))["groups"]
+        if g["name"] not in known
+    ]
+    return tuple(lot50 + lot51)
 
 
 def build_sheet() -> HypothesesSheet:
@@ -168,6 +271,8 @@ def build_sheet() -> HypothesesSheet:
         sheet = insert_practice_entry(sheet, entry)
     for arbitration in arbitrations[1:]:
         sheet, _done = record_decisions(sheet, arbitration)
+    for entry in lot51_entries(arbitrations[-1].recorded_at):
+        sheet = insert_practice_entry(sheet, entry)
     return sheet
 
 

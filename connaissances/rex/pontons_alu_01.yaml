@@ -53,9 +53,27 @@ lots:
       d''erreur. Repère local (ORIENTATION VECT_Y | VECT_Z) et caractéristiques des sections
       RECTANGLE et CERCLE pris dans U4.42.01 (get_document_section), pas de mémoire.'
   note: null
+- lot: '51'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM pendant le lot ; P29 à P43 et l'annexe A étaient dans
+      la consigne. Les interprétations de l'outil (G2 par travée en E, M et N± sur les six
+      appuis, semelle abaissée pour H = 4,0 m, accompagnement de G + AMF) sont écrites dans
+      docs/essais_lot51.md avant les exécutions et rapportées comme points ouverts.
+  avoided_errors:
+    value: 2.0
+    nature: mesure
+    note: 'DIAG-004 : masse nulle M_T_D_N (sol) et M_T_D_L (néoprènes) des discrets DIS_T
+      écrite d''emblée sous PESANTEUR ; DIAG-001 lu sur le FACTOR_11 de la variante A et écarté
+      (pivot sur un ddl physique, non sur un multiplicateur) avant toute autre hypothèse,
+      ce qui a évité de retirer une liaison à tort. Hors base : U2.02.03 (un discret ne transmet
+      pas le moment d''un couple) a fixé la longueur de 1 mm des ressorts néoprène.'
+  note: 'PAT-009 (efforts par CREA_TABLE) appliqué sans avoir été déclaré dans connaissances_appliquees.yaml
+    avant les exécutions : non attribué a posteriori.'
 archive:
-  runs: 11
-  sha256: 5790dc0e1ae9168fa0ef8a9770d924471b204f87b9a6a19d6fbcc63c5d90f5c0
+  runs: 25
+  sha256: c0a6bafe45939beb12e7e6441a5a1da1158a2500f988f589bdae2ba1d8c8b374
   recorded: '2026-10-15'
 declaration_required_since: '2026-10-12T08:38:25.125860'
 reviews:
@@ -89,4 +107,18 @@ reviews:
   failures: 0
   unclassified: 0
   last_run: 20261012T144424-430251f1
-classifications: []
+- date: '2026-10-15'
+  lot: '51'
+  runs: 25
+  failures: 1
+  unclassified: 0
+  last_run: 20261015T111354-6d305d13
+classifications:
+- run: 20261015T110339-7254d74a
+  signature: <F> <FACTOR_11>
+  decision: nouveau
+  diagnostic: DIAG-030
+  reason: variante A du lot 51 (anneau de 4 poutres indépendantes, rotules en tête de pile)
+    ; pivot nul sur le ddl physique DRX du nœud 305, bout de la longrine L− ; mécanisme de
+    torsion de la longrine attendu par l'analyse cinématique, signalé sans stabilisation artificielle
+    (consigne § 2) ; DIAG-001 (redondance de Lagrange) ne s'applique pas

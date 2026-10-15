@@ -26,3 +26,24 @@ Lot 50 bis, balayage de l'inertie : pour k = 3 puis 5, `PONTONS_K_IY=k` et les �
 verifier, traiter ; déplacer `resultats/livrables` vers `resultats/balayage/k<k>/` ; puis la
 référence (sans la variable) jusqu'à `ingenieur`, `scripts/controles_lot50bis.py` et
 `scripts/livrables_lot50bis.py --lot50 <livrables du lot 50>`.
+
+## Lot 51 — palée complète, appuis néoprène, matrice de variantes
+
+Consigne `docs/lots/lot51_consigne.md` ; décisions P29 à P43 dans la fiche ; essais
+`docs/essais_lot51.md` ; compte rendu `docs/lots/lot51_compte_rendu.md`. Le projet est passé au
+modèle du lot 51 (`projet.yaml` : maillage, générateur, harnais) ; les modules des lots 50 à 50
+quinquies restent pour leurs références.
+
+| Fichier | Rôle |
+| --- | --- |
+| `maillage/maillage_palee.py` | script Salomé autonome de la palée et des trois travées ; seul `H_PILES` change par fichier de paramètres |
+| `geometrie_lot51.py`, `invariants_lot51.py` | géométrie lue dans le bloc de paramètres, invariants calculés à part (`maillage/invariants_palee.yaml` : R) |
+| `variantes_lot51.yaml`, `variantes_lot51.py` | les douze variantes (base et écarts) ; `PONTONS_VARIANTE` choisit celle de la chaîne |
+| `generation_lot51.py`, `extensions_lot51.py` | `.comm` unique paramétré par la variante ; extensions du harnais D |
+| `combinaisons_lot51.py` | jeu B′ révisé et ELU accidentel en règles (branches × emplacements), dénombrement, enveloppes par décomposition |
+| `exports_lot51.py`, `scripts/lot51.py` | exécution des variantes, harnais, exports du § 6, comparaison du § 7, dépôt |
+| `scripts/recombiner_lot51.py` | `recombiner.py` livré (bibliothèque standard) : énumère les combinaisons depuis les CSV |
+
+Enchaînement : `PYTHONPATH=projets .venv/bin/python projets/pontons_alu_01/scripts/lot51.py tout`
+(ou `executer`, `controles`, `exports`, `depot`, avec `--variantes R,E,...`). Sorties sous
+`resultats/lot51/` ; références versionnées sous `references/execution_lot51/`.

@@ -3,7 +3,7 @@
 project: pontons_alu_01
 baseline: null
 knowledge:
-  created: 1
+  created: 3
   promoted: 0
   by_layer:
     constats_code_aster:
@@ -11,7 +11,7 @@ knowledge:
       établi: 0
       promu: 0
     diagnostics:
-      observé: 1
+      observé: 2
       établi: 0
       promu: 0
     patrons:
@@ -27,17 +27,17 @@ knowledge:
       établi: 0
       promu: 0
     precedents:
-      observé: 0
+      observé: 1
       établi: 0
       promu: 0
 consultations:
   calls:
-    search_connaissances: 63
+    search_connaissances: 67
     search_constats: 3
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
   avoided_errors:
-    value: 6.0
+    value: 8.0
     nature: mesure
     note: déclaré lot par lot dans le compte rendu (registre, `lots`)
 lots:
@@ -84,36 +84,54 @@ lots:
     note: 'Lot sans exécution ni commande écrite : aucune connaissance de la base n''a évité
       d''erreur. Repère local (ORIENTATION VECT_Y | VECT_Z) et caractéristiques des sections
       RECTANGLE et CERCLE pris dans U4.42.01 (get_document_section), pas de mémoire.'
+- lot: '51'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM pendant le lot ; P29 à P43 et l'annexe A étaient dans
+      la consigne. Les interprétations de l'outil (G2 par travée en E, M et N± sur les six
+      appuis, semelle abaissée pour H = 4,0 m, accompagnement de G + AMF) sont écrites dans
+      docs/essais_lot51.md avant les exécutions et rapportées comme points ouverts.
+  avoided_errors:
+    value: 2.0
+    nature: mesure
+    note: 'DIAG-004 : masse nulle M_T_D_N (sol) et M_T_D_L (néoprènes) des discrets DIS_T
+      écrite d''emblée sous PESANTEUR ; DIAG-001 lu sur le FACTOR_11 de la variante A et écarté
+      (pivot sur un ddl physique, non sur un multiplicateur) avant toute autre hypothèse,
+      ce qui a évité de retirer une liaison à tort. Hors base : U2.02.03 (un discret ne transmet
+      pas le moment d''un couple) a fixé la longueur de 1 mm des ressorts néoprène.'
 declared_interventions_since_baseline: 1.0
 measured:
-  runs: 11
-  failures: 0
+  runs: 25
+  failures: 1
   development:
-    runs: 10
-    failures: 0
+    runs: 23
+    failures: 1
   verification:
-    runs: 1
+    runs: 2
     failures: 0
     by_reason:
-      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 1
-  failure_rate: 0.0
+      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 2
+  failure_rate: 0.0435
   failure_rate_note: 'lot 44 : taux sur les exécutions de développement seulement ; une exécution
     de vérification (commande de rejeu, ou .comm déjà réussi rejoué sans modification) n''y
     entre pas'
-  failure_rate_all_runs: 0.0
+  failure_rate_all_runs: 0.04
   compute_s:
     aster_legacy: 0
-    wall_since_lot41: 132.6
+    wall_since_lot41: 1831.0
     unknown_runs: 0
     note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
       versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
       deux grandeurs distinctes, jamais additionnées'
   first_run: 20261012T125727-d835bf3c
-  last_run: 20261012T144424-430251f1
-  failures_by_signature: {}
-  failures_by_cause: {}
+  last_run: 20261015T111354-6d305d13
+  failures_by_signature:
+    <F> <FACTOR_11>: 1
+  failures_by_cause:
+    DIAG-030: 1
   automatic_diagnosis:
-    attached_failures: 0
+    attached_failures: 1
     single_match_equal_to_classification: 0
     note: échecs rattachés à un diagnostic pour lesquels la recherche automatique de la base
       (signature) propose ce diagnostic et lui seul

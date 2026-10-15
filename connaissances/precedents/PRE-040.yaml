@@ -1,0 +1,42 @@
+id: PRE-040
+title: Navire de projet de plaisance défini en enveloppe par le maître de port
+summary: 'Décision de MM (P29, lot 51) : le navire de projet d''un ponton de plaisance est un
+  navire enveloppe défini par le maître de port (L 9,0 m, B 3,0 m, tirant d''eau 0,9 m, 5,0 t)
+  plutôt qu''un navire déterminé par L·B·T·Cb.'
+origin_project: pontons_alu_01
+date: '2026-10-15'
+validation_level: A
+status: observé
+sources:
+- kind: decision
+  fiche: projets/pontons_alu_01/fiche/hypotheses_pontons_alu_01.json
+  point_label: P29
+  decided_by: MM
+  decided_at: '2026-10-15T09:00:00-04:00'
+- kind: document
+  path: docs/lots/lot51_consigne.md
+  section: '8. rex'
+  note: 'La consigne demande ce précédent au statut « observé » : « navire enveloppe de
+    plaisance défini par le maître de port plutôt que par L·B·T·Cb ».'
+commands: []
+keywords: []
+reuses: []
+status_history: []
+fiche: projets/pontons_alu_01/fiche/hypotheses_pontons_alu_01.json
+point_label: P29
+topic: Navire de projet enveloppe
+option_retained: 'Navire de projet enveloppe (L 9,0 m, B 3,0 m, tirant d''eau 0,9 m, 5,0 t),
+  défini par le maître de port, plutôt que par L·B·T·Cb ; il remplace le navire AVP. Les
+  efforts d''accostage et d''amarrage en découlent par la note de MM (indice C), jamais
+  calculés par l''outil.'
+justification: Décision P29 de MM, recopiée à l'identique (donnees/sources/enregistrement_P29_P43_lot51.md).
+validity_domain: Pontons et pannes de plaisance dont le maître de port fixe la flotte
+  accueillie ; hors de ce cas (port de commerce, navire de projet connu), le précédent ne
+  s'applique pas.
+discarded_variants:
+- 'Navire de projet de l''AVP — écarté : remplacé par le navire enveloppe (P29)'
+- 'Navire déterminé par L·B·T·Cb — écarté au profit de l''enveloppe du maître de port (consigne du lot 51, § 8)'
+decided_by: MM
+decided_at: '2026-10-15T09:00:00-04:00'
+superseded_decisions: 0
+application: proposition seulement

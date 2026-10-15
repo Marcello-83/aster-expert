@@ -1,0 +1,56 @@
+id: DIAG-030
+title: Pivot nul sur une rotation physique d'une poutre liée seulement en translation à ses
+  deux extrémités (mécanisme de torsion)
+summary: 'Un pivot nul FACTOR_11 sur un ddl physique de rotation (DRX) apparaît quand une
+  poutre n''est reliée à ses deux appuis que par des rotules (translations seules) placées
+  sous son axe : elle peut tourner autour de la droite qui joint ses deux appuis.' 
+origin_project: pontons_alu_01
+date: '2026-10-15'
+validation_level: C
+status: observé
+sources:
+- kind: execution
+  run: 20261015T110339-7254d74a
+  case_path: null
+  case_sha256: null
+  outcome: échec
+  level: null
+  note: 'lot 51, variante A (anneau de 4 poutres indépendantes, chaque extrémité reliée à
+    la tête de pile par une rotule à bras rigide de 0,20 m) : <F> FACTOR_11, « Degré de
+    liberté physique associé au noeud 305 et à la composante DRX », nœud 305 = bout de la
+    longrine L− en (6,251 ; −0,75 ; 0,89)'
+- kind: execution
+  run: 20261015T110339-767eaf49
+  case_path: null
+  case_sha256: null
+  outcome: réussite
+  level: C
+  note: 'lot 51, variante R, même maillage : longrines liées aux chevêtres par LIAISON_SOLIDE
+    (anneau monolithique), FIN atteint, harnais D réussi'
+commands:
+- AFFE_CHAR_MECA
+- MACRO_ELAS_MULT
+keywords:
+- FACTOR_11
+- LIAISON_DDL
+- DRX
+- POU_D_T
+reuses: []
+status_history: []
+category: modélisation
+signature:
+  kind: <F>
+  identifiers:
+  - FACTOR_11
+  pattern: Degré de liberté physique associé au noeud \d+ et à la composante DR[XYZ]
+cause: Mécanisme de corps rigide de la poutre autour de la droite qui joint ses deux points
+  d'appui, aucune liaison ne transmettant la rotation correspondante (rotules en
+  translation seule aux deux bouts, rien d'autre ne tenant la poutre). Établi par le ddl
+  désigné (rotation d'axe X du bout de longrine) et par la variante R, identique hors de ces
+  liaisons, qui s'exécute.
+cause_established: true
+correction: Ne pas stabiliser artificiellement (ressort fictif, blocage) ; si la variante doit
+  être calculée, décider avec l'ingénieur d'une liaison qui transmet la rotation (bout
+  encastré, appui supplémentaire, liaison réelle de l'assemblage).
+prevention: Avant d'exécuter, vérifier pour chaque barre liée seulement en translation à ses
+  deux bouts qu'un autre élément tient sa rotation autour de la droite de ses appuis.

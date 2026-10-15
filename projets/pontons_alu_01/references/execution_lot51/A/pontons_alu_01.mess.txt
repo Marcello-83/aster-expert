@@ -1,0 +1,2386 @@
+setting '--memory' value to 5529.60 MB (keyword RESERVE_MEMOIRE)
+copying '/work/pontons_alu_01.mmed' to 'fort.20'...
+checking MPI initialization...
+using COMM_WORLD.
+MPI is initialized.
+Ouverture en écriture du fichier ./vola.1
+
+<INFO> Démarrage de l'exécution.
+
+                        -- CODE_ASTER -- VERSION : EXPLOITATION (stable) --                         
+                               Version 17.4.0 modifiée le 02/01/2026                                
+                              révision spack-local - branche 'v17.4.0'                              
+                                   Copyright EDF R&D 1991 - 2026                                    
+                                                                                                    
+                              Exécution du : Thu Oct 15 11:03:52 2026                               
+                                  Nom de la machine : 67cdf9556aa2                                  
+                                        Architecture : 64bit                                        
+                                    Type de processeur : x86_64                                     
+               Système d'exploitation : Linux-7.0.0-38-generic-x86_64-with-glibc2.36                
+                                  Langue des messages : en (UTF-8)                                  
+                                    Version de Python : 3.11.14                                     
+                                     Version de NumPy : 1.26.4                                      
+                                      Parallélisme MPI : actif                                      
+                                   Rang du processeur courant : 0                                   
+                               Nombre de processeurs MPI utilisés : 1                               
+                                    Parallélisme OpenMP : actif                                     
+                              Nombre de processus OpenMP utilisés : 1                               
+                               Version de la librairie HDF5 : 1.10.7                                
+                                Version de la librairie MED : 4.2.0                                 
+                               Version de la librairie MFront : 5.0.0                               
+                               Version de la librairie MUMPS : 5.6.2                                
+                              Version de la librairie PETSc : 3.24.0p0                              
+                              Version de la librairie SCOTCH : 7.0.10                               
+
+starting the execution...
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <I> <SUPERVIS_22>                                                                              ║
+ ║                                                                                                ║
+ ║ Les mots-clés CODE et DEBUG dans DEBUT/POURSUITE sont réservés aux cas-tests.                  ║
+ ║ De même pour l'option, "--test" de CA.init().                                                  ║
+ ║ Il ne faut pas les utiliser dans les études car ils modifient certaines valeurs par            ║
+ ║ défaut des commandes DEBUT/POURSUITE qui ont des conséquences sur le comportement              ║
+ ║ en cas d'erreur ou sur les performances.                                                       ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+Valeur initiale du temps CPU maximum =   3600 secondes
+  Valeur du temps CPU maximum passé aux commandes =   3590 secondes
+  Réserve CPU prévue = 10 secondes
+
+Ouverture en écriture du fichier ./glob.1
+
+Ouverture en écriture du fichier ./vola.1
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Créée avec la version                   :  17.04.00
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/elem
+1
+
+Nom de la base                          :  ELEMBASE
+     Nombre d'enregistrements utilisés       :  46
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre total d'accès en lecture         :  64
+     Volume des accès en lecture             :         50.00 Mo.
+     Nombre total d'accès en écriture        :  0
+     Volume des accès en écriture            :          0.00 Mo.
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Relecture des catalogues des éléments faite.
+
+Fin de lecture (durée  0.239629  s.) 
+
+                      Mémoire limite pour l'allocation dynamique : 6097.46 Mo                       
+                         ajouté à l'initialisation du processus : 646.96 Mo                         
+                               Limite cible du processus : 6744.43 Mo                               
+                         Taille limite des fichiers d'échange : 2048.00 Go                          
+# Mémoire (Mo) :   646.96 /   639.55 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0001   user+syst:        0.39s (syst:        1.68s, elaps:        2.40s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt32
+# ----------------------------------------------------------------------------------------------
+# Commande #0002 de pontons_alu_01.comm.changed.py, ligne 32
+MAIL0 = LIRE_MAILLAGE(FORMAT='MED',
+                      INFO=1,
+                      INFO_MED=0,
+                      PARTITIONNEUR='SANS',
+                      UNITE=20,
+                      VERI_MAIL=_F(APLAT=0.001,
+                                   VERIF='OUI'))
+
+Nom MED du maillage : palee
+
+
+------------ MAILLAGE 00000001 - IMPRESSIONS NIVEAU  1 ------------
+
+
+NOMBRE DE NOEUDS                         901
+
+NOMBRE DE MAILLES                        962
+                              SEG2                  830
+                              QUAD4                 132
+
+NOMBRE DE GROUPES DE NOEUDS              272
+
+NOMBRE DE GROUPES DE MAILLES              83
+
+--------------------------------------------------------------------------------
+
+Vérification du maillage.
+
+# Résultat commande #0002 (LIRE_MAILLAGE): MAIL0 ('<00000001>') de type <Mesh>
+# Mémoire (Mo) :   646.96 /   643.34 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0002   user+syst:        0.12s (syst:        0.04s, elaps:        0.17s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt34
+# ----------------------------------------------------------------------------------------------
+# Commande #0003 de pontons_alu_01.comm.changed.py, ligne 34
+MAIL = CREA_MAILLAGE(CREA_POI1=_F(GROUP_MA='SEMELLE',
+                                  NOM_GROUP_MA='SOL'),
+                     INFO=1,
+                     MAILLAGE=MAIL0)
+
+
+------------ MAILLAGE 00000002 - IMPRESSIONS NIVEAU  1 ------------
+
+ASTER 17.04.00 CONCEPT 00000002 CALCULE LE 15/10/2026 A 11:03:54 DE TYPE        
+MAILLAGE_SDASTER                                                                
+
+NOMBRE DE NOEUDS                         901
+
+NOMBRE DE MAILLES                       1118
+                              POI1                  156
+                              SEG2                  830
+                              QUAD4                 132
+
+NOMBRE DE GROUPES DE NOEUDS              272
+
+NOMBRE DE GROUPES DE MAILLES              84
+
+--------------------------------------------------------------------------------
+
+#4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0003 (CREA_MAILLAGE): MAIL ('<00000002>') de type <Mesh>
+# Mémoire (Mo) :   646.96 /   643.34 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0003   user+syst:        0.06s (syst:        0.01s, elaps:        0.07s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt35
+# ----------------------------------------------------------------------------------------------
+# Commande #0004 de pontons_alu_01.comm.changed.py, ligne 35
+MAIL = DEFI_GROUP(ALARME='OUI',
+                  CREA_GROUP_NO=_F(CRIT_NOEUD='TOUS',
+                                   GROUP_MA='SEMELLE',
+                                   NOM='N_SEMELLE'),
+                  MAILLAGE=MAIL,
+                  reuse=MAIL)
+
+
+
+NOMBRE  DE GROUPES DE NOEUDS CREES :      1
+=======================================
+
+               ------------------------------------------------------
+               !         NOM DU GROUPE         ! NBRE DE NOEUDS DU  !
+               !            NOEUDS             !      GROUPE_NO     !
+               ------------------------------------------------------
+               !  N_SEMELLE                    !       156          !
+               ------------------------------------------------------
+
+# Résultat commande #0004 (DEFI_GROUP): MAIL ('<00000002>') de type <Mesh>
+# Mémoire (Mo) :   646.96 /   643.34 /   207.61 /   183.67 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0004   user+syst:        0.03s (syst:        0.01s, elaps:        0.05s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt39
+# ----------------------------------------------------------------------------------------------
+# Commande #0005 de pontons_alu_01.comm.changed.py, ligne 39
+MODELE = AFFE_MODELE(AFFE=(_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS', 'CHEVETRES', 'LONGRINES', 'PILES'),
+                              MODELISATION='POU_D_T',
+                              PHENOMENE='MECANIQUE'),
+                           _F(GROUP_MA='SEMELLE',
+                              MODELISATION='DKT',
+                              PHENOMENE='MECANIQUE'),
+                           _F(GROUP_MA=('SOL', 'NEOPRENES'),
+                              MODELISATION='DIS_T',
+                              PHENOMENE='MECANIQUE')),
+                     DISTRIBUTION=_F(METHODE='SOUS_DOMAINE',
+                                     PARTITIONNEUR='METIS'),
+                     INFO=1,
+                     MAILLAGE=MAIL,
+                     VERI_FORMULATION_IFS='OUI',
+                     VERI_JACOBIEN='OUI',
+                     VERI_NORM_IFS='OUI',
+                     VERI_PLAN='OUI')
+
+Sur les 1118 mailles du maillage 00000002, on a demandé l'affectation de 1026, on a pu en affecter
+1026.
+Modélisation     Formulation      Type maille  Élément fini     Nombre
+DIS_T            _                SEG2         MECA_DIS_T_L     6
+DIS_T            _                POI1         MECA_DIS_T_N     156
+POU_D_T          _                SEG2         MECA_POU_D_T     732
+DKT              _                QUAD4        MEDKQU4          132
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0005 (AFFE_MODELE): MODELE ('<00000003>') de type <Model>
+# Mémoire (Mo) :   772.07 /   772.07 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0005   user+syst:        0.04s (syst:        0.01s, elaps:        0.04s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt50
+# ----------------------------------------------------------------------------------------------
+# Commande #0006 de pontons_alu_01.comm.changed.py, ligne 50
+ALU = DEFI_MATERIAU(ELAS=_F(ALPHA=2.3e-05,
+                            B_ENDOGE=0.0,
+                            COEF_AMOR=1.0,
+                            E=70000000000.0,
+                            K_DESSIC=0.0,
+                            NU=0.3,
+                            RHO=2752.293577981651),
+                    INFO=1)
+
+# Résultat commande #0006 (DEFI_MATERIAU): ALU ('<00000004>') de type <Material>
+# Mémoire (Mo) :   772.48 /   772.48 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0006   user+syst:        0.13s (syst:        0.02s, elaps:        0.16s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt51
+# ----------------------------------------------------------------------------------------------
+# Commande #0007 de pontons_alu_01.comm.changed.py, ligne 51
+BETON = DEFI_MATERIAU(ELAS=_F(B_ENDOGE=0.0,
+                              COEF_AMOR=1.0,
+                              E=34000000000.0,
+                              K_DESSIC=0.0,
+                              NU=0.2,
+                              RHO=2548.41997961264),
+                      INFO=1)
+
+# Résultat commande #0007 (DEFI_MATERIAU): BETON ('<00000005>') de type <Material>
+# Mémoire (Mo) :   772.48 /   772.48 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0007   user+syst:        0.22s (syst:        0.00s, elaps:        0.23s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt52
+# ----------------------------------------------------------------------------------------------
+# Commande #0008 de pontons_alu_01.comm.changed.py, ligne 52
+CHMAT = AFFE_MATERIAU(AFFE=(_F(GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'SUPPORTS'),
+                               MATER=ALU),
+                            _F(GROUP_MA=('CHEVETRES', 'LONGRINES', 'PILES', 'SEMELLE'),
+                               MATER=BETON)),
+                      INFO=1,
+                      MAILLAGE=MAIL)
+
+# Résultat commande #0008 (AFFE_MATERIAU): CHMAT ('<00000006>') de type <MaterialField>
+# Mémoire (Mo) :   772.48 /   772.48 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0008   user+syst:        0.08s (syst:        0.01s, elaps:        0.11s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt61
+# ----------------------------------------------------------------------------------------------
+# Commande #0009 de pontons_alu_01.comm.changed.py, ligne 61
+CARA = AFFE_CARA_ELEM(COQUE=_F(ANGL_REP=(0.0, 0.0),
+                               A_CIS=0.8333333,
+                               COEF_RIGI_DRZ=1e-05,
+                               COQUE_NCOU=1,
+                               EPAIS=0.25,
+                               GROUP_MA='SEMELLE',
+                               MODI_METRIQUE='NON'),
+                      DISCRET=(_F(CARA='M_T_D_N',
+                                  GROUP_MA='SOL',
+                                  REPERE='GLOBAL',
+                                  SYME='OUI',
+                                  VALE=0.0),
+                               _F(CARA='M_T_D_L',
+                                  GROUP_MA='NEOPRENES',
+                                  REPERE='GLOBAL',
+                                  SYME='OUI',
+                                  VALE=0.0),
+                               _F(CARA='K_T_D_L',
+                                  GROUP_MA='NEOPRENES',
+                                  REPERE='GLOBAL',
+                                  SYME='OUI',
+                                  VALE=(2250000.0, 2250000.0, 476586342.43645346))),
+                      INFO=1,
+                      MODELE=MODELE,
+                      ORIENTATION=(_F(CARA='VECT_Z',
+                                      GROUP_MA=('POUTRES_PRINC', 'MONTANTS', 'DIAGONALES', 'PANNES_SEC', 'CHEVETRES', 'LONGRINES'),
+                                      VALE=(0.0, 0.0, 1.0)),
+                                   _F(CARA='VECT_Y',
+                                      GROUP_MA=('SUPPORTS', 'PILES'),
+                                      VALE=(1.0, 0.0, 0.0))),
+                      POUTRE=(_F(CARA=('H', 'EP'),
+                                 GROUP_MA='POUTRES_PRINC',
+                                 SECTION='RECTANGLE',
+                                 VALE=(0.2, 0.008),
+                                 VARI_SECT='CONSTANT'),
+                              _F(CARA=('H', 'EP'),
+                                 GROUP_MA=('MONTANTS', 'DIAGONALES', 'SUPPORTS'),
+                                 SECTION='RECTANGLE',
+                                 VALE=(0.15, 0.007),
+                                 VARI_SECT='CONSTANT'),
+                              _F(CARA=('H', 'EP'),
+                                 GROUP_MA='PANNES_SEC',
+                                 SECTION='RECTANGLE',
+                                 VALE=(0.05, 0.005),
+                                 VARI_SECT='CONSTANT'),
+                              _F(CARA=('HY', 'HZ'),
+                                 GROUP_MA=('CHEVETRES', 'LONGRINES'),
+                                 SECTION='RECTANGLE',
+                                 VALE=(0.4, 0.4),
+                                 VARI_SECT='CONSTANT'),
+                              _F(CARA='R',
+                                 GROUP_MA='PILES',
+                                 MODI_METRIQUE='NON',
+                                 SECTION='CERCLE',
+                                 TUYAU_NCOU=3,
+                                 TUYAU_NSEC=16,
+                                 VALE=0.25,
+                                 VARI_SECT='CONSTANT')),
+                      RIGI_PARASOL=_F(CARA='K_T_D_N',
+                                      COEF_GROUP=1.0,
+                                      COOR_CENTRE=(7.01, 0.0, -0.755),
+                                      GROUP_MA='SEMELLE',
+                                      GROUP_MA_POI1='SOL',
+                                      REPERE='GLOBAL',
+                                      VALE=(7307999.999999999, 7307999.999999999, 36539999.99999999)))
+
+
+     LE MODELE 00000003 CONTIENT : 
+                                      732 ELEMENT(S) POUTRE          
+                                      162 ELEMENT(S) DISCRET         
+                                      132 ELEMENT(S) COQUE           
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0009 (AFFE_CARA_ELEM): CARA ('<00000007>') de type <ElementaryCharacteristics>
+# Dépend de :
+# - MODELE ('<00000003>') de type <Model>
+# Mémoire (Mo) :   773.24 /   773.05 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0009   user+syst:        0.12s (syst:        0.02s, elaps:        0.14s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt97
+# ----------------------------------------------------------------------------------------------
+# Commande #0010 de pontons_alu_01.comm.changed.py, ligne 97
+CL = AFFE_CHAR_MECA(DDL_IMPO=(_F(DX=0.0,
+                                 DY=0.0,
+                                 DZ=0.0,
+                                 GROUP_NO='APP_QUAI_YP'),
+                              _F(DX=0.0,
+                                 DZ=0.0,
+                                 GROUP_NO='APP_QUAI_YM'),
+                              _F(DRX=0.0,
+                                 DRY=0.0,
+                                 DRZ=0.0,
+                                 DX=0.0,
+                                 DY=0.0,
+                                 DZ=0.0,
+                                 GROUP_NO='APP_FIXE')),
+                    DOUBLE_LAGRANGE='OUI',
+                    INFO=1,
+                    LIAISON_DDL=(_F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.117),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('BR_A1_YM_A', 'BR_A1_YM_B', 'BR_A1_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.117),
+                                    DDL=('DY', 'DY', 'DRX'),
+                                    GROUP_NO=('BR_A1_YM_A', 'BR_A1_YM_B', 'BR_A1_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DZ', 'DZ'),
+                                    GROUP_NO=('BR_A1_YM_A', 'BR_A1_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.117),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('BR_A1_YP_A', 'BR_A1_YP_B', 'BR_A1_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.117),
+                                    DDL=('DY', 'DY', 'DRX'),
+                                    GROUP_NO=('BR_A1_YP_A', 'BR_A1_YP_B', 'BR_A1_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DZ', 'DZ'),
+                                    GROUP_NO=('BR_A1_YP_A', 'BR_A1_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.117),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('BR_A2_YM_A', 'BR_A2_YM_B', 'BR_A2_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.117),
+                                    DDL=('DY', 'DY', 'DRX'),
+                                    GROUP_NO=('BR_A2_YM_A', 'BR_A2_YM_B', 'BR_A2_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DZ', 'DZ'),
+                                    GROUP_NO=('BR_A2_YM_A', 'BR_A2_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.117),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('BR_A2_YP_A', 'BR_A2_YP_B', 'BR_A2_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.117),
+                                    DDL=('DY', 'DY', 'DRX'),
+                                    GROUP_NO=('BR_A2_YP_A', 'BR_A2_YP_B', 'BR_A2_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DZ', 'DZ'),
+                                    GROUP_NO=('BR_A2_YP_A', 'BR_A2_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.117),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('BR_A3_YM_A', 'BR_A3_YM_B', 'BR_A3_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.117),
+                                    DDL=('DY', 'DY', 'DRX'),
+                                    GROUP_NO=('BR_A3_YM_A', 'BR_A3_YM_B', 'BR_A3_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DZ', 'DZ'),
+                                    GROUP_NO=('BR_A3_YM_A', 'BR_A3_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.117),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('BR_A3_YP_A', 'BR_A3_YP_B', 'BR_A3_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.117),
+                                    DDL=('DY', 'DY', 'DRX'),
+                                    GROUP_NO=('BR_A3_YP_A', 'BR_A3_YP_B', 'BR_A3_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DZ', 'DZ'),
+                                    GROUP_NO=('BR_A3_YP_A', 'BR_A3_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.2),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('TP_C1_YM_A', 'TP_C1_YM_B', 'TP_C1_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.2),
+                                    DDL=('DY', 'DY', 'DRX'),
+                                    GROUP_NO=('TP_C1_YM_A', 'TP_C1_YM_B', 'TP_C1_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DZ', 'DZ'),
+                                    GROUP_NO=('TP_C1_YM_A', 'TP_C1_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.2),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('LG_C1_YM_A', 'TP_C1_YM_A', 'TP_C1_YM_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.001, 0.2),
+                                    DDL=('DY', 'DY', 'DRZ', 'DRX'),
+                                    GROUP_NO=('LG_C1_YM_A', 'TP_C1_YM_A', 'TP_C1_YM_A', 'TP_C1_YM_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.001),
+                                    DDL=('DZ', 'DZ', 'DRY'),
+                                    GROUP_NO=('LG_C1_YM_A', 'TP_C1_YM_A', 'TP_C1_YM_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.2),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('TP_C1_YP_A', 'TP_C1_YP_B', 'TP_C1_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.2),
+                                    DDL=('DY', 'DY', 'DRX'),
+                                    GROUP_NO=('TP_C1_YP_A', 'TP_C1_YP_B', 'TP_C1_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DZ', 'DZ'),
+                                    GROUP_NO=('TP_C1_YP_A', 'TP_C1_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.2),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('LG_C1_YP_A', 'TP_C1_YP_A', 'TP_C1_YP_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.001, 0.2),
+                                    DDL=('DY', 'DY', 'DRZ', 'DRX'),
+                                    GROUP_NO=('LG_C1_YP_A', 'TP_C1_YP_A', 'TP_C1_YP_A', 'TP_C1_YP_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.001),
+                                    DDL=('DZ', 'DZ', 'DRY'),
+                                    GROUP_NO=('LG_C1_YP_A', 'TP_C1_YP_A', 'TP_C1_YP_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.2),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('TP_C2_YM_A', 'TP_C2_YM_B', 'TP_C2_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.2),
+                                    DDL=('DY', 'DY', 'DRX'),
+                                    GROUP_NO=('TP_C2_YM_A', 'TP_C2_YM_B', 'TP_C2_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DZ', 'DZ'),
+                                    GROUP_NO=('TP_C2_YM_A', 'TP_C2_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.2),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('LG_C2_YM_A', 'TP_C2_YM_A', 'TP_C2_YM_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.001, 0.2),
+                                    DDL=('DY', 'DY', 'DRZ', 'DRX'),
+                                    GROUP_NO=('LG_C2_YM_A', 'TP_C2_YM_A', 'TP_C2_YM_A', 'TP_C2_YM_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.001),
+                                    DDL=('DZ', 'DZ', 'DRY'),
+                                    GROUP_NO=('LG_C2_YM_A', 'TP_C2_YM_A', 'TP_C2_YM_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.2),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('TP_C2_YP_A', 'TP_C2_YP_B', 'TP_C2_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.2),
+                                    DDL=('DY', 'DY', 'DRX'),
+                                    GROUP_NO=('TP_C2_YP_A', 'TP_C2_YP_B', 'TP_C2_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DZ', 'DZ'),
+                                    GROUP_NO=('TP_C2_YP_A', 'TP_C2_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.2),
+                                    DDL=('DX', 'DX', 'DRY'),
+                                    GROUP_NO=('LG_C2_YP_A', 'TP_C2_YP_A', 'TP_C2_YP_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.001, 0.2),
+                                    DDL=('DY', 'DY', 'DRZ', 'DRX'),
+                                    GROUP_NO=('LG_C2_YP_A', 'TP_C2_YP_A', 'TP_C2_YP_A', 'TP_C2_YP_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.001),
+                                    DDL=('DZ', 'DZ', 'DRY'),
+                                    GROUP_NO=('LG_C2_YP_A', 'TP_C2_YP_A', 'TP_C2_YP_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DX', 'DX'),
+                                    GROUP_NO=('EC_A1_YM_A', 'EC_A1_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.001),
+                                    DDL=('DY', 'DY', 'DRZ'),
+                                    GROUP_NO=('EC_A1_YM_A', 'EC_A1_YM_B', 'EC_A1_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.001),
+                                    DDL=('DZ', 'DZ', 'DRY'),
+                                    GROUP_NO=('EC_A1_YM_A', 'EC_A1_YM_B', 'EC_A1_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DRX', 'DRX'),
+                                    GROUP_NO=('EC_A1_YM_B', 'EC_A1_YM_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DX', 'DX'),
+                                    GROUP_NO=('EC_A2_YM_A', 'EC_A2_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.001),
+                                    DDL=('DY', 'DY', 'DRZ'),
+                                    GROUP_NO=('EC_A2_YM_A', 'EC_A2_YM_B', 'EC_A2_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.001),
+                                    DDL=('DZ', 'DZ', 'DRY'),
+                                    GROUP_NO=('EC_A2_YM_A', 'EC_A2_YM_B', 'EC_A2_YM_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DRX', 'DRX'),
+                                    GROUP_NO=('EC_A2_YM_B', 'EC_A2_YM_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DX', 'DX'),
+                                    GROUP_NO=('EC_A1_YP_A', 'EC_A1_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.001),
+                                    DDL=('DY', 'DY', 'DRZ'),
+                                    GROUP_NO=('EC_A1_YP_A', 'EC_A1_YP_B', 'EC_A1_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.001),
+                                    DDL=('DZ', 'DZ', 'DRY'),
+                                    GROUP_NO=('EC_A1_YP_A', 'EC_A1_YP_B', 'EC_A1_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DRX', 'DRX'),
+                                    GROUP_NO=('EC_A1_YP_B', 'EC_A1_YP_A')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DX', 'DX'),
+                                    GROUP_NO=('EC_A2_YP_A', 'EC_A2_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, -0.001),
+                                    DDL=('DY', 'DY', 'DRZ'),
+                                    GROUP_NO=('EC_A2_YP_A', 'EC_A2_YP_B', 'EC_A2_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0, 0.001),
+                                    DDL=('DZ', 'DZ', 'DRY'),
+                                    GROUP_NO=('EC_A2_YP_A', 'EC_A2_YP_B', 'EC_A2_YP_B')),
+                                 _F(COEF_IMPO=0.0,
+                                    COEF_MULT=(1.0, -1.0),
+                                    DDL=('DRX', 'DRX'),
+                                    GROUP_NO=('EC_A2_YP_B', 'EC_A2_YP_A'))),
+                    LIAISON_SOLIDE=(_F(GROUP_NO=('LR_T1_1_01_A', 'LR_T1_1_01_B')),
+                                    _F(GROUP_NO=('LR_T1_1_02_A', 'LR_T1_1_02_B')),
+                                    _F(GROUP_NO=('LR_T1_1_03_A', 'LR_T1_1_03_B')),
+                                    _F(GROUP_NO=('LR_T1_1_04_A', 'LR_T1_1_04_B')),
+                                    _F(GROUP_NO=('LR_T1_1_05_A', 'LR_T1_1_05_B')),
+                                    _F(GROUP_NO=('LR_T1_1_06_A', 'LR_T1_1_06_B')),
+                                    _F(GROUP_NO=('LR_T1_1_07_A', 'LR_T1_1_07_B')),
+                                    _F(GROUP_NO=('LR_T1_1_08_A', 'LR_T1_1_08_B')),
+                                    _F(GROUP_NO=('LR_T1_1_09_A', 'LR_T1_1_09_B')),
+                                    _F(GROUP_NO=('LR_T1_1_10_A', 'LR_T1_1_10_B')),
+                                    _F(GROUP_NO=('LR_T1_1_11_A', 'LR_T1_1_11_B')),
+                                    _F(GROUP_NO=('LR_T1_2_01_A', 'LR_T1_2_01_B')),
+                                    _F(GROUP_NO=('LR_T1_2_02_A', 'LR_T1_2_02_B')),
+                                    _F(GROUP_NO=('LR_T1_2_03_A', 'LR_T1_2_03_B')),
+                                    _F(GROUP_NO=('LR_T1_2_04_A', 'LR_T1_2_04_B')),
+                                    _F(GROUP_NO=('LR_T1_2_05_A', 'LR_T1_2_05_B')),
+                                    _F(GROUP_NO=('LR_T1_2_06_A', 'LR_T1_2_06_B')),
+                                    _F(GROUP_NO=('LR_T1_2_07_A', 'LR_T1_2_07_B')),
+                                    _F(GROUP_NO=('LR_T1_2_08_A', 'LR_T1_2_08_B')),
+                                    _F(GROUP_NO=('LR_T1_2_09_A', 'LR_T1_2_09_B')),
+                                    _F(GROUP_NO=('LR_T1_2_10_A', 'LR_T1_2_10_B')),
+                                    _F(GROUP_NO=('LR_T1_2_11_A', 'LR_T1_2_11_B')),
+                                    _F(GROUP_NO=('LR_T1_3_01_A', 'LR_T1_3_01_B')),
+                                    _F(GROUP_NO=('LR_T1_3_02_A', 'LR_T1_3_02_B')),
+                                    _F(GROUP_NO=('LR_T1_3_03_A', 'LR_T1_3_03_B')),
+                                    _F(GROUP_NO=('LR_T1_3_04_A', 'LR_T1_3_04_B')),
+                                    _F(GROUP_NO=('LR_T1_3_05_A', 'LR_T1_3_05_B')),
+                                    _F(GROUP_NO=('LR_T1_3_06_A', 'LR_T1_3_06_B')),
+                                    _F(GROUP_NO=('LR_T1_3_07_A', 'LR_T1_3_07_B')),
+                                    _F(GROUP_NO=('LR_T1_3_08_A', 'LR_T1_3_08_B')),
+                                    _F(GROUP_NO=('LR_T1_3_09_A', 'LR_T1_3_09_B')),
+                                    _F(GROUP_NO=('LR_T1_3_10_A', 'LR_T1_3_10_B')),
+                                    _F(GROUP_NO=('LR_T1_3_11_A', 'LR_T1_3_11_B')),
+                                    _F(GROUP_NO=('LR_T1_4_01_A', 'LR_T1_4_01_B')),
+                                    _F(GROUP_NO=('LR_T1_4_02_A', 'LR_T1_4_02_B')),
+                                    _F(GROUP_NO=('LR_T1_4_03_A', 'LR_T1_4_03_B')),
+                                    _F(GROUP_NO=('LR_T1_4_04_A', 'LR_T1_4_04_B')),
+                                    _F(GROUP_NO=('LR_T1_4_05_A', 'LR_T1_4_05_B')),
+                                    _F(GROUP_NO=('LR_T1_4_06_A', 'LR_T1_4_06_B')),
+                                    _F(GROUP_NO=('LR_T1_4_07_A', 'LR_T1_4_07_B')),
+                                    _F(GROUP_NO=('LR_T1_4_08_A', 'LR_T1_4_08_B')),
+                                    _F(GROUP_NO=('LR_T1_4_09_A', 'LR_T1_4_09_B')),
+                                    _F(GROUP_NO=('LR_T1_4_10_A', 'LR_T1_4_10_B')),
+                                    _F(GROUP_NO=('LR_T1_4_11_A', 'LR_T1_4_11_B')),
+                                    _F(GROUP_NO=('LR_PT_1_01_A', 'LR_PT_1_01_B')),
+                                    _F(GROUP_NO=('LR_PT_1_02_A', 'LR_PT_1_02_B')),
+                                    _F(GROUP_NO=('LR_PT_1_03_A', 'LR_PT_1_03_B')),
+                                    _F(GROUP_NO=('LR_PT_2_01_A', 'LR_PT_2_01_B')),
+                                    _F(GROUP_NO=('LR_PT_2_02_A', 'LR_PT_2_02_B')),
+                                    _F(GROUP_NO=('LR_PT_2_03_A', 'LR_PT_2_03_B')),
+                                    _F(GROUP_NO=('LR_PT_3_01_A', 'LR_PT_3_01_B')),
+                                    _F(GROUP_NO=('LR_PT_3_02_A', 'LR_PT_3_02_B')),
+                                    _F(GROUP_NO=('LR_PT_3_03_A', 'LR_PT_3_03_B')),
+                                    _F(GROUP_NO=('LR_PT_4_01_A', 'LR_PT_4_01_B')),
+                                    _F(GROUP_NO=('LR_PT_4_02_A', 'LR_PT_4_02_B')),
+                                    _F(GROUP_NO=('LR_PT_4_03_A', 'LR_PT_4_03_B')),
+                                    _F(GROUP_NO=('LR_T2_1_01_A', 'LR_T2_1_01_B')),
+                                    _F(GROUP_NO=('LR_T2_1_02_A', 'LR_T2_1_02_B')),
+                                    _F(GROUP_NO=('LR_T2_1_03_A', 'LR_T2_1_03_B')),
+                                    _F(GROUP_NO=('LR_T2_1_04_A', 'LR_T2_1_04_B')),
+                                    _F(GROUP_NO=('LR_T2_1_05_A', 'LR_T2_1_05_B')),
+                                    _F(GROUP_NO=('LR_T2_1_06_A', 'LR_T2_1_06_B')),
+                                    _F(GROUP_NO=('LR_T2_1_07_A', 'LR_T2_1_07_B')),
+                                    _F(GROUP_NO=('LR_T2_1_08_A', 'LR_T2_1_08_B')),
+                                    _F(GROUP_NO=('LR_T2_1_09_A', 'LR_T2_1_09_B')),
+                                    _F(GROUP_NO=('LR_T2_1_10_A', 'LR_T2_1_10_B')),
+                                    _F(GROUP_NO=('LR_T2_1_11_A', 'LR_T2_1_11_B')),
+                                    _F(GROUP_NO=('LR_T2_2_01_A', 'LR_T2_2_01_B')),
+                                    _F(GROUP_NO=('LR_T2_2_02_A', 'LR_T2_2_02_B')),
+                                    _F(GROUP_NO=('LR_T2_2_03_A', 'LR_T2_2_03_B')),
+                                    _F(GROUP_NO=('LR_T2_2_04_A', 'LR_T2_2_04_B')),
+                                    _F(GROUP_NO=('LR_T2_2_05_A', 'LR_T2_2_05_B')),
+                                    _F(GROUP_NO=('LR_T2_2_06_A', 'LR_T2_2_06_B')),
+                                    _F(GROUP_NO=('LR_T2_2_07_A', 'LR_T2_2_07_B')),
+                                    _F(GROUP_NO=('LR_T2_2_08_A', 'LR_T2_2_08_B')),
+                                    _F(GROUP_NO=('LR_T2_2_09_A', 'LR_T2_2_09_B')),
+                                    _F(GROUP_NO=('LR_T2_2_10_A', 'LR_T2_2_10_B')),
+                                    _F(GROUP_NO=('LR_T2_2_11_A', 'LR_T2_2_11_B')),
+                                    _F(GROUP_NO=('LR_T2_3_01_A', 'LR_T2_3_01_B')),
+                                    _F(GROUP_NO=('LR_T2_3_02_A', 'LR_T2_3_02_B')),
+                                    _F(GROUP_NO=('LR_T2_3_03_A', 'LR_T2_3_03_B')),
+                                    _F(GROUP_NO=('LR_T2_3_04_A', 'LR_T2_3_04_B')),
+                                    _F(GROUP_NO=('LR_T2_3_05_A', 'LR_T2_3_05_B')),
+                                    _F(GROUP_NO=('LR_T2_3_06_A', 'LR_T2_3_06_B')),
+                                    _F(GROUP_NO=('LR_T2_3_07_A', 'LR_T2_3_07_B')),
+                                    _F(GROUP_NO=('LR_T2_3_08_A', 'LR_T2_3_08_B')),
+                                    _F(GROUP_NO=('LR_T2_3_09_A', 'LR_T2_3_09_B')),
+                                    _F(GROUP_NO=('LR_T2_3_10_A', 'LR_T2_3_10_B')),
+                                    _F(GROUP_NO=('LR_T2_3_11_A', 'LR_T2_3_11_B')),
+                                    _F(GROUP_NO=('LR_T2_4_01_A', 'LR_T2_4_01_B')),
+                                    _F(GROUP_NO=('LR_T2_4_02_A', 'LR_T2_4_02_B')),
+                                    _F(GROUP_NO=('LR_T2_4_03_A', 'LR_T2_4_03_B')),
+                                    _F(GROUP_NO=('LR_T2_4_04_A', 'LR_T2_4_04_B')),
+                                    _F(GROUP_NO=('LR_T2_4_05_A', 'LR_T2_4_05_B')),
+                                    _F(GROUP_NO=('LR_T2_4_06_A', 'LR_T2_4_06_B')),
+                                    _F(GROUP_NO=('LR_T2_4_07_A', 'LR_T2_4_07_B')),
+                                    _F(GROUP_NO=('LR_T2_4_08_A', 'LR_T2_4_08_B')),
+                                    _F(GROUP_NO=('LR_T2_4_09_A', 'LR_T2_4_09_B')),
+                                    _F(GROUP_NO=('LR_T2_4_10_A', 'LR_T2_4_10_B')),
+                                    _F(GROUP_NO=('LR_T2_4_11_A', 'LR_T2_4_11_B')),
+                                    _F(GROUP_NO=('SC_C1_YM_A', 'SC_C1_YM_B')),
+                                    _F(GROUP_NO=('SC_C1_YP_A', 'SC_C1_YP_B')),
+                                    _F(GROUP_NO=('SC_C2_YM_A', 'SC_C2_YM_B')),
+                                    _F(GROUP_NO=('SC_C2_YP_A', 'SC_C2_YP_B')),
+                                    _F(GROUP_NO=('PS_C1_YM_A', 'PS_C1_YM_B')),
+                                    _F(GROUP_NO=('PS_C1_YP_A', 'PS_C1_YP_B')),
+                                    _F(GROUP_NO=('PS_C2_YM_A', 'PS_C2_YM_B')),
+                                    _F(GROUP_NO=('PS_C2_YP_A', 'PS_C2_YP_B'))),
+                    MODELE=MODELE,
+                    SYNTAXE='NON',
+                    VERI_AFFE='OUI',
+                    VERI_NORM='OUI')
+
+#4      Communications MPI                                CPU (USER+SYST/SYST/ELAPS):      0.01      0.01      0.00
+# Résultat commande #0010 (AFFE_CHAR_MECA): CL ('<00000008>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.74 /   773.52 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0010   user+syst:        0.21s (syst:        0.09s, elaps:        0.29s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt279
+# ----------------------------------------------------------------------------------------------
+# Commande #0011 de pontons_alu_01.comm.changed.py, ligne 279
+CG1 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                     INFO=1,
+                     MODELE=MODELE,
+                     PESANTEUR=_F(DIRECTION=(0.0, 0.0, -1.0),
+                                  GRAVITE=9.81),
+                     SYNTAXE='NON',
+                     VERI_AFFE='OUI',
+                     VERI_NORM='OUI')
+
+# Résultat commande #0011 (AFFE_CHAR_MECA): CG1 ('<00000009>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.74 /   773.52 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0011   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt280
+# ----------------------------------------------------------------------------------------------
+# Commande #0012 de pontons_alu_01.comm.changed.py, ligne 280
+CG2T1 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=(_F(FZ=-260.0,
+                                        GROUP_MA='PP_T1_YM',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-375.0,
+                                        GROUP_MA='PANNE_T1_4',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_T1_3',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_T1_2',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0000000000001,
+                                        GROUP_MA='PANNE_T1_1',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-254.9999999999999,
+                                        GROUP_MA='PP_T1_YP',
+                                        TYPE_CHARGE='FORCE')),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0012 (AFFE_CHAR_MECA): CG2T1 ('<0000000a>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.74 /   773.54 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0012   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt288
+# ----------------------------------------------------------------------------------------------
+# Commande #0013 de pontons_alu_01.comm.changed.py, ligne 288
+CG2PT = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=(_F(FZ=-260.0,
+                                        GROUP_MA='PP_PT_YM',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-375.0,
+                                        GROUP_MA='PANNE_PT_4',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_PT_3',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_PT_2',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0000000000001,
+                                        GROUP_MA='PANNE_PT_1',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-254.9999999999999,
+                                        GROUP_MA='PP_PT_YP',
+                                        TYPE_CHARGE='FORCE')),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0013 (AFFE_CHAR_MECA): CG2PT ('<0000000b>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.74 /   773.66 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0013   user+syst:        0.02s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt296
+# ----------------------------------------------------------------------------------------------
+# Commande #0014 de pontons_alu_01.comm.changed.py, ligne 296
+CG2T2 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=(_F(FZ=-260.0,
+                                        GROUP_MA='PP_T2_YM',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-375.0,
+                                        GROUP_MA='PANNE_T2_4',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_T2_3',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_T2_2',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0000000000001,
+                                        GROUP_MA='PANNE_T2_1',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-254.9999999999999,
+                                        GROUP_MA='PP_T2_YP',
+                                        TYPE_CHARGE='FORCE')),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0014 (AFFE_CHAR_MECA): CG2T2 ('<0000000c>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.74 /   773.66 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0014   user+syst:        0.02s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt304
+# ----------------------------------------------------------------------------------------------
+# Commande #0015 de pontons_alu_01.comm.changed.py, ligne 304
+CQT1 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                      FORCE_POUTRE=(_F(FZ=-1300.0,
+                                       GROUP_MA='PP_T1_YM',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1875.0,
+                                       GROUP_MA='PANNE_T1_4',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1850.0,
+                                       GROUP_MA='PANNE_T1_3',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1850.0,
+                                       GROUP_MA='PANNE_T1_2',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1850.0000000000005,
+                                       GROUP_MA='PANNE_T1_1',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1274.9999999999995,
+                                       GROUP_MA='PP_T1_YP',
+                                       TYPE_CHARGE='FORCE')),
+                      INFO=1,
+                      MODELE=MODELE,
+                      SYNTAXE='NON',
+                      VERI_AFFE='OUI',
+                      VERI_NORM='OUI')
+
+# Résultat commande #0015 (AFFE_CHAR_MECA): CQT1 ('<0000000d>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.74 /   773.68 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0015   user+syst:        0.02s (syst:        0.01s, elaps:        0.04s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt312
+# ----------------------------------------------------------------------------------------------
+# Commande #0016 de pontons_alu_01.comm.changed.py, ligne 312
+CQPT = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                      FORCE_POUTRE=(_F(FZ=-1300.0,
+                                       GROUP_MA='PP_PT_YM',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1875.0,
+                                       GROUP_MA='PANNE_PT_4',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1850.0,
+                                       GROUP_MA='PANNE_PT_3',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1850.0,
+                                       GROUP_MA='PANNE_PT_2',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1850.0000000000005,
+                                       GROUP_MA='PANNE_PT_1',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1274.9999999999995,
+                                       GROUP_MA='PP_PT_YP',
+                                       TYPE_CHARGE='FORCE')),
+                      INFO=1,
+                      MODELE=MODELE,
+                      SYNTAXE='NON',
+                      VERI_AFFE='OUI',
+                      VERI_NORM='OUI')
+
+# Résultat commande #0016 (AFFE_CHAR_MECA): CQPT ('<0000000e>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.74 /   773.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0016   user+syst:        0.01s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt320
+# ----------------------------------------------------------------------------------------------
+# Commande #0017 de pontons_alu_01.comm.changed.py, ligne 320
+CQT2 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                      FORCE_POUTRE=(_F(FZ=-1300.0,
+                                       GROUP_MA='PP_T2_YM',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1875.0,
+                                       GROUP_MA='PANNE_T2_4',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1850.0,
+                                       GROUP_MA='PANNE_T2_3',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1850.0,
+                                       GROUP_MA='PANNE_T2_2',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1850.0000000000005,
+                                       GROUP_MA='PANNE_T2_1',
+                                       TYPE_CHARGE='FORCE'),
+                                    _F(FZ=-1274.9999999999995,
+                                       GROUP_MA='PP_T2_YP',
+                                       TYPE_CHARGE='FORCE')),
+                      INFO=1,
+                      MODELE=MODELE,
+                      SYNTAXE='NON',
+                      VERI_AFFE='OUI',
+                      VERI_NORM='OUI')
+
+# Résultat commande #0017 (AFFE_CHAR_MECA): CQT2 ('<0000000f>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.74 /   773.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0017   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt328
+# ----------------------------------------------------------------------------------------------
+# Commande #0018 de pontons_alu_01.comm.changed.py, ligne 328
+CHUT1 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=(_F(FZ=260.0,
+                                        GROUP_MA='PP_T1_YM',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=375.0,
+                                        GROUP_MA='PANNE_T1_4',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=370.0,
+                                        GROUP_MA='PANNE_T1_3',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=370.0,
+                                        GROUP_MA='PANNE_T1_2',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=370.0000000000001,
+                                        GROUP_MA='PANNE_T1_1',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=254.9999999999999,
+                                        GROUP_MA='PP_T1_YP',
+                                        TYPE_CHARGE='FORCE')),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0018 (AFFE_CHAR_MECA): CHUT1 ('<00000010>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.74 /   773.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0018   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt336
+# ----------------------------------------------------------------------------------------------
+# Commande #0019 de pontons_alu_01.comm.changed.py, ligne 336
+CHUPT = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=(_F(FZ=260.0,
+                                        GROUP_MA='PP_PT_YM',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=375.0,
+                                        GROUP_MA='PANNE_PT_4',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=370.0,
+                                        GROUP_MA='PANNE_PT_3',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=370.0,
+                                        GROUP_MA='PANNE_PT_2',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=370.0000000000001,
+                                        GROUP_MA='PANNE_PT_1',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=254.9999999999999,
+                                        GROUP_MA='PP_PT_YP',
+                                        TYPE_CHARGE='FORCE')),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0019 (AFFE_CHAR_MECA): CHUPT ('<00000011>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.78 /   773.70 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0019   user+syst:        0.02s (syst:        0.01s, elaps:        0.04s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt344
+# ----------------------------------------------------------------------------------------------
+# Commande #0020 de pontons_alu_01.comm.changed.py, ligne 344
+CHUT2 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=(_F(FZ=260.0,
+                                        GROUP_MA='PP_T2_YM',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=375.0,
+                                        GROUP_MA='PANNE_T2_4',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=370.0,
+                                        GROUP_MA='PANNE_T2_3',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=370.0,
+                                        GROUP_MA='PANNE_T2_2',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=370.0000000000001,
+                                        GROUP_MA='PANNE_T2_1',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=254.9999999999999,
+                                        GROUP_MA='PP_T2_YP',
+                                        TYPE_CHARGE='FORCE')),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0020 (AFFE_CHAR_MECA): CHUT2 ('<00000012>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.78 /   773.71 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0020   user+syst:        0.02s (syst:        0.01s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt352
+# ----------------------------------------------------------------------------------------------
+# Commande #0021 de pontons_alu_01.comm.changed.py, ligne 352
+CHDT1 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=(_F(FZ=-260.0,
+                                        GROUP_MA='PP_T1_YM',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-375.0,
+                                        GROUP_MA='PANNE_T1_4',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_T1_3',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_T1_2',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0000000000001,
+                                        GROUP_MA='PANNE_T1_1',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-254.9999999999999,
+                                        GROUP_MA='PP_T1_YP',
+                                        TYPE_CHARGE='FORCE')),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0021 (AFFE_CHAR_MECA): CHDT1 ('<00000013>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.78 /   773.72 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0021   user+syst:        0.02s (syst:        0.01s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt360
+# ----------------------------------------------------------------------------------------------
+# Commande #0022 de pontons_alu_01.comm.changed.py, ligne 360
+CHDPT = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=(_F(FZ=-260.0,
+                                        GROUP_MA='PP_PT_YM',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-375.0,
+                                        GROUP_MA='PANNE_PT_4',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_PT_3',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_PT_2',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0000000000001,
+                                        GROUP_MA='PANNE_PT_1',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-254.9999999999999,
+                                        GROUP_MA='PP_PT_YP',
+                                        TYPE_CHARGE='FORCE')),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0022 (AFFE_CHAR_MECA): CHDPT ('<00000014>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.82 /   773.73 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0022   user+syst:        0.01s (syst:        0.00s, elaps:        0.00s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt368
+# ----------------------------------------------------------------------------------------------
+# Commande #0023 de pontons_alu_01.comm.changed.py, ligne 368
+CHDT2 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=(_F(FZ=-260.0,
+                                        GROUP_MA='PP_T2_YM',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-375.0,
+                                        GROUP_MA='PANNE_T2_4',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_T2_3',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0,
+                                        GROUP_MA='PANNE_T2_2',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-370.0000000000001,
+                                        GROUP_MA='PANNE_T2_1',
+                                        TYPE_CHARGE='FORCE'),
+                                     _F(FZ=-254.9999999999999,
+                                        GROUP_MA='PP_T2_YP',
+                                        TYPE_CHARGE='FORCE')),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0023 (AFFE_CHAR_MECA): CHDT2 ('<00000015>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.82 /   773.75 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0023   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt376
+# ----------------------------------------------------------------------------------------------
+# Commande #0024 de pontons_alu_01.comm.changed.py, ligne 376
+CQD = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                     FORCE_POUTRE=(_F(FZ=-25.00000000000002,
+                                      GROUP_MA='PANNE_T1_3',
+                                      TYPE_CHARGE='FORCE'),
+                                   _F(FZ=-1850.0,
+                                      GROUP_MA='PANNE_T1_2',
+                                      TYPE_CHARGE='FORCE'),
+                                   _F(FZ=-1850.0000000000005,
+                                      GROUP_MA='PANNE_T1_1',
+                                      TYPE_CHARGE='FORCE'),
+                                   _F(FZ=-1274.9999999999995,
+                                      GROUP_MA='PP_T1_YP',
+                                      TYPE_CHARGE='FORCE'),
+                                   _F(FZ=-25.00000000000002,
+                                      GROUP_MA='PANNE_PT_3',
+                                      TYPE_CHARGE='FORCE'),
+                                   _F(FZ=-1850.0,
+                                      GROUP_MA='PANNE_PT_2',
+                                      TYPE_CHARGE='FORCE'),
+                                   _F(FZ=-1850.0000000000005,
+                                      GROUP_MA='PANNE_PT_1',
+                                      TYPE_CHARGE='FORCE'),
+                                   _F(FZ=-1274.9999999999995,
+                                      GROUP_MA='PP_PT_YP',
+                                      TYPE_CHARGE='FORCE'),
+                                   _F(FZ=-25.00000000000002,
+                                      GROUP_MA='PANNE_T2_3',
+                                      TYPE_CHARGE='FORCE'),
+                                   _F(FZ=-1850.0,
+                                      GROUP_MA='PANNE_T2_2',
+                                      TYPE_CHARGE='FORCE'),
+                                   _F(FZ=-1850.0000000000005,
+                                      GROUP_MA='PANNE_T2_1',
+                                      TYPE_CHARGE='FORCE'),
+                                   _F(FZ=-1274.9999999999995,
+                                      GROUP_MA='PP_T2_YP',
+                                      TYPE_CHARGE='FORCE')),
+                     INFO=1,
+                     MODELE=MODELE,
+                     SYNTAXE='NON',
+                     VERI_AFFE='OUI',
+                     VERI_NORM='OUI')
+
+# Résultat commande #0024 (AFFE_CHAR_MECA): CQD ('<00000016>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.88 /   773.75 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0024   user+syst:        0.03s (syst:        0.02s, elaps:        0.06s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt392
+# ----------------------------------------------------------------------------------------------
+# Commande #0025 de pontons_alu_01.comm.changed.py, ligne 392
+CAC01 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FY=1000.0,
+                                       GROUP_MA='ACC_QU_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0025 (AFFE_CHAR_MECA): CAC01 ('<00000017>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.88 /   773.75 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0025   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt393
+# ----------------------------------------------------------------------------------------------
+# Commande #0026 de pontons_alu_01.comm.changed.py, ligne 393
+CAC02 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FX=1000.0,
+                                       GROUP_MA='ACC_QU_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0026 (AFFE_CHAR_MECA): CAC02 ('<00000018>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.88 /   773.75 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0026   user+syst:        0.01s (syst:        0.01s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt394
+# ----------------------------------------------------------------------------------------------
+# Commande #0027 de pontons_alu_01.comm.changed.py, ligne 394
+CAC03 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FZ=1000.0,
+                                       GROUP_MA='ACC_QU_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0027 (AFFE_CHAR_MECA): CAC03 ('<00000019>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.88 /   773.75 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0027   user+syst:        0.00s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt395
+# ----------------------------------------------------------------------------------------------
+# Commande #0028 de pontons_alu_01.comm.changed.py, ligne 395
+CAC04 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FY=-1000.0,
+                                       GROUP_MA='ACC_QU_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0028 (AFFE_CHAR_MECA): CAC04 ('<0000001a>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.88 /   773.75 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0028   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt396
+# ----------------------------------------------------------------------------------------------
+# Commande #0029 de pontons_alu_01.comm.changed.py, ligne 396
+CAC05 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FX=1000.0,
+                                       GROUP_MA='ACC_QU_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0029 (AFFE_CHAR_MECA): CAC05 ('<0000001b>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.88 /   773.75 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0029   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt397
+# ----------------------------------------------------------------------------------------------
+# Commande #0030 de pontons_alu_01.comm.changed.py, ligne 397
+CAC06 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FZ=1000.0,
+                                       GROUP_MA='ACC_QU_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0030 (AFFE_CHAR_MECA): CAC06 ('<0000001c>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.91 /   773.76 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0030   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt398
+# ----------------------------------------------------------------------------------------------
+# Commande #0031 de pontons_alu_01.comm.changed.py, ligne 398
+CAC07 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FY=1000.0,
+                                       GROUP_MA='ACC_MI1_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0031 (AFFE_CHAR_MECA): CAC07 ('<0000001d>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.95 /   773.77 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0031   user+syst:        0.03s (syst:        0.02s, elaps:        0.05s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt399
+# ----------------------------------------------------------------------------------------------
+# Commande #0032 de pontons_alu_01.comm.changed.py, ligne 399
+CAC08 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FX=1000.0,
+                                       GROUP_MA='ACC_MI1_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0032 (AFFE_CHAR_MECA): CAC08 ('<0000001e>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.95 /   773.77 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0032   user+syst:        0.00s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt400
+# ----------------------------------------------------------------------------------------------
+# Commande #0033 de pontons_alu_01.comm.changed.py, ligne 400
+CAC09 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FZ=1000.0,
+                                       GROUP_MA='ACC_MI1_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0033 (AFFE_CHAR_MECA): CAC09 ('<0000001f>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.95 /   773.78 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0033   user+syst:        0.01s (syst:        0.00s, elaps:        0.00s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt401
+# ----------------------------------------------------------------------------------------------
+# Commande #0034 de pontons_alu_01.comm.changed.py, ligne 401
+CAC10 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FY=-1000.0,
+                                       GROUP_MA='ACC_MI1_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0034 (AFFE_CHAR_MECA): CAC10 ('<00000020>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.95 /   773.79 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0034   user+syst:        0.02s (syst:        0.00s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt402
+# ----------------------------------------------------------------------------------------------
+# Commande #0035 de pontons_alu_01.comm.changed.py, ligne 402
+CAC11 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FX=1000.0,
+                                       GROUP_MA='ACC_MI1_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0035 (AFFE_CHAR_MECA): CAC11 ('<00000021>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.95 /   773.80 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0035   user+syst:        0.01s (syst:        0.01s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt403
+# ----------------------------------------------------------------------------------------------
+# Commande #0036 de pontons_alu_01.comm.changed.py, ligne 403
+CAC12 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FZ=1000.0,
+                                       GROUP_MA='ACC_MI1_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0036 (AFFE_CHAR_MECA): CAC12 ('<00000022>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.97 /   773.82 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0036   user+syst:        0.01s (syst:        0.01s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt404
+# ----------------------------------------------------------------------------------------------
+# Commande #0037 de pontons_alu_01.comm.changed.py, ligne 404
+CAC13 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FY=1000.0,
+                                       GROUP_MA='ACC_CH1_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0037 (AFFE_CHAR_MECA): CAC13 ('<00000023>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   773.99 /   773.83 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0037   user+syst:        0.02s (syst:        0.01s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt405
+# ----------------------------------------------------------------------------------------------
+# Commande #0038 de pontons_alu_01.comm.changed.py, ligne 405
+CAC14 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FX=1000.0,
+                                       GROUP_MA='ACC_CH1_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0038 (AFFE_CHAR_MECA): CAC14 ('<00000024>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.02 /   773.84 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0038   user+syst:        0.02s (syst:        0.00s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt406
+# ----------------------------------------------------------------------------------------------
+# Commande #0039 de pontons_alu_01.comm.changed.py, ligne 406
+CAC15 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FZ=1000.0,
+                                       GROUP_MA='ACC_CH1_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0039 (AFFE_CHAR_MECA): CAC15 ('<00000025>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.05 /   773.98 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0039   user+syst:        0.02s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt407
+# ----------------------------------------------------------------------------------------------
+# Commande #0040 de pontons_alu_01.comm.changed.py, ligne 407
+CAC16 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FY=-1000.0,
+                                       GROUP_MA='ACC_CH1_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0040 (AFFE_CHAR_MECA): CAC16 ('<00000026>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.05 /   773.99 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0040   user+syst:        0.01s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt408
+# ----------------------------------------------------------------------------------------------
+# Commande #0041 de pontons_alu_01.comm.changed.py, ligne 408
+CAC17 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FX=1000.0,
+                                       GROUP_MA='ACC_CH1_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0041 (AFFE_CHAR_MECA): CAC17 ('<00000027>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.05 /   774.00 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0041   user+syst:        0.00s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt409
+# ----------------------------------------------------------------------------------------------
+# Commande #0042 de pontons_alu_01.comm.changed.py, ligne 409
+CAC18 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FZ=1000.0,
+                                       GROUP_MA='ACC_CH1_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0042 (AFFE_CHAR_MECA): CAC18 ('<00000028>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.05 /   774.02 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0042   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt410
+# ----------------------------------------------------------------------------------------------
+# Commande #0043 de pontons_alu_01.comm.changed.py, ligne 410
+CAC19 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FY=1000.0,
+                                       GROUP_MA='ACC_PT_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0043 (AFFE_CHAR_MECA): CAC19 ('<00000029>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.05 /   774.03 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0043   user+syst:        0.01s (syst:        0.00s, elaps:        0.03s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt411
+# ----------------------------------------------------------------------------------------------
+# Commande #0044 de pontons_alu_01.comm.changed.py, ligne 411
+CAC20 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FX=1000.0,
+                                       GROUP_MA='ACC_PT_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0044 (AFFE_CHAR_MECA): CAC20 ('<0000002a>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   774.04 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0044   user+syst:        0.01s (syst:        0.01s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt412
+# ----------------------------------------------------------------------------------------------
+# Commande #0045 de pontons_alu_01.comm.changed.py, ligne 412
+CAC21 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FZ=1000.0,
+                                       GROUP_MA='ACC_PT_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0045 (AFFE_CHAR_MECA): CAC21 ('<0000002b>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   763.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0045   user+syst:        0.03s (syst:        0.23s, elaps:        0.35s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt413
+# ----------------------------------------------------------------------------------------------
+# Commande #0046 de pontons_alu_01.comm.changed.py, ligne 413
+CAC22 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FY=-1000.0,
+                                       GROUP_MA='ACC_PT_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0046 (AFFE_CHAR_MECA): CAC22 ('<0000002c>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   763.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0046   user+syst:        0.00s (syst:        0.01s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt414
+# ----------------------------------------------------------------------------------------------
+# Commande #0047 de pontons_alu_01.comm.changed.py, ligne 414
+CAC23 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FX=1000.0,
+                                       GROUP_MA='ACC_PT_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0047 (AFFE_CHAR_MECA): CAC23 ('<0000002d>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   763.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0047   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt415
+# ----------------------------------------------------------------------------------------------
+# Commande #0048 de pontons_alu_01.comm.changed.py, ligne 415
+CAC24 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FZ=1000.0,
+                                       GROUP_MA='ACC_PT_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0048 (AFFE_CHAR_MECA): CAC24 ('<0000002e>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   763.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0048   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt416
+# ----------------------------------------------------------------------------------------------
+# Commande #0049 de pontons_alu_01.comm.changed.py, ligne 416
+CAC25 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FY=1000.0,
+                                       GROUP_MA='ACC_PA2_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0049 (AFFE_CHAR_MECA): CAC25 ('<0000002f>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   763.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0049   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt417
+# ----------------------------------------------------------------------------------------------
+# Commande #0050 de pontons_alu_01.comm.changed.py, ligne 417
+CAC26 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FX=1000.0,
+                                       GROUP_MA='ACC_PA2_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0050 (AFFE_CHAR_MECA): CAC26 ('<00000030>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   763.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0050   user+syst:        0.01s (syst:        0.02s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt418
+# ----------------------------------------------------------------------------------------------
+# Commande #0051 de pontons_alu_01.comm.changed.py, ligne 418
+CAC27 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FZ=1000.0,
+                                       GROUP_MA='ACC_PA2_YM',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0051 (AFFE_CHAR_MECA): CAC27 ('<00000031>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   763.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0051   user+syst:        0.02s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt419
+# ----------------------------------------------------------------------------------------------
+# Commande #0052 de pontons_alu_01.comm.changed.py, ligne 419
+CAC28 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FY=-1000.0,
+                                       GROUP_MA='ACC_PA2_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0052 (AFFE_CHAR_MECA): CAC28 ('<00000032>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   763.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0052   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt420
+# ----------------------------------------------------------------------------------------------
+# Commande #0053 de pontons_alu_01.comm.changed.py, ligne 420
+CAC29 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FX=1000.0,
+                                       GROUP_MA='ACC_PA2_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0053 (AFFE_CHAR_MECA): CAC29 ('<00000033>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   763.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0053   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt421
+# ----------------------------------------------------------------------------------------------
+# Commande #0054 de pontons_alu_01.comm.changed.py, ligne 421
+CAC30 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_POUTRE=_F(FZ=1000.0,
+                                       GROUP_MA='ACC_PA2_YP',
+                                       TYPE_CHARGE='FORCE'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0054 (AFFE_CHAR_MECA): CAC30 ('<00000034>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   763.69 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0054   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt423
+# ----------------------------------------------------------------------------------------------
+# Commande #0055 de pontons_alu_01.comm.changed.py, ligne 423
+CAM01 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FY=-1000.0,
+                                       GROUP_NO='TQ1_YM'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0055 (AFFE_CHAR_MECA): CAM01 ('<00000035>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.25 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0055   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt424
+# ----------------------------------------------------------------------------------------------
+# Commande #0056 de pontons_alu_01.comm.changed.py, ligne 424
+CAM02 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FX=1000.0,
+                                       GROUP_NO='TQ1_YM'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0056 (AFFE_CHAR_MECA): CAM02 ('<00000036>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.25 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0056   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt425
+# ----------------------------------------------------------------------------------------------
+# Commande #0057 de pontons_alu_01.comm.changed.py, ligne 425
+CAM03 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FY=1000.0,
+                                       GROUP_NO='TQ1_YP'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0057 (AFFE_CHAR_MECA): CAM03 ('<00000037>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.25 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0057   user+syst:        0.01s (syst:        0.01s, elaps:        0.00s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt426
+# ----------------------------------------------------------------------------------------------
+# Commande #0058 de pontons_alu_01.comm.changed.py, ligne 426
+CAM04 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FX=1000.0,
+                                       GROUP_NO='TQ1_YP'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0058 (AFFE_CHAR_MECA): CAM04 ('<00000038>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.25 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0058   user+syst:        0.00s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt427
+# ----------------------------------------------------------------------------------------------
+# Commande #0059 de pontons_alu_01.comm.changed.py, ligne 427
+CAM05 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FY=-1000.0,
+                                       GROUP_NO='TQ2_YM'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0059 (AFFE_CHAR_MECA): CAM05 ('<00000039>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.25 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0059   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt428
+# ----------------------------------------------------------------------------------------------
+# Commande #0060 de pontons_alu_01.comm.changed.py, ligne 428
+CAM06 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FX=1000.0,
+                                       GROUP_NO='TQ2_YM'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0060 (AFFE_CHAR_MECA): CAM06 ('<0000003a>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.25 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0060   user+syst:        0.00s (syst:        0.01s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt429
+# ----------------------------------------------------------------------------------------------
+# Commande #0061 de pontons_alu_01.comm.changed.py, ligne 429
+CAM07 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FY=1000.0,
+                                       GROUP_NO='TQ2_YP'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0061 (AFFE_CHAR_MECA): CAM07 ('<0000003b>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.25 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0061   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt430
+# ----------------------------------------------------------------------------------------------
+# Commande #0062 de pontons_alu_01.comm.changed.py, ligne 430
+CAM08 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FX=1000.0,
+                                       GROUP_NO='TQ2_YP'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0062 (AFFE_CHAR_MECA): CAM08 ('<0000003c>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.33 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0062   user+syst:        0.00s (syst:        0.00s, elaps:        0.00s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt431
+# ----------------------------------------------------------------------------------------------
+# Commande #0063 de pontons_alu_01.comm.changed.py, ligne 431
+CAM09 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FY=-1000.0,
+                                       GROUP_NO='TQ3_YM'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0063 (AFFE_CHAR_MECA): CAM09 ('<0000003d>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.46 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0063   user+syst:        0.00s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt432
+# ----------------------------------------------------------------------------------------------
+# Commande #0064 de pontons_alu_01.comm.changed.py, ligne 432
+CAM10 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FX=1000.0,
+                                       GROUP_NO='TQ3_YM'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0064 (AFFE_CHAR_MECA): CAM10 ('<0000003e>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.59 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0064   user+syst:        0.01s (syst:        0.00s, elaps:        0.00s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt433
+# ----------------------------------------------------------------------------------------------
+# Commande #0065 de pontons_alu_01.comm.changed.py, ligne 433
+CAM11 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FY=1000.0,
+                                       GROUP_NO='TQ3_YP'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0065 (AFFE_CHAR_MECA): CAM11 ('<0000003f>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.72 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0065   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt434
+# ----------------------------------------------------------------------------------------------
+# Commande #0066 de pontons_alu_01.comm.changed.py, ligne 434
+CAM12 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FX=1000.0,
+                                       GROUP_NO='TQ3_YP'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0066 (AFFE_CHAR_MECA): CAM12 ('<00000040>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.85 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0066   user+syst:        0.00s (syst:        0.00s, elaps:        0.00s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt435
+# ----------------------------------------------------------------------------------------------
+# Commande #0067 de pontons_alu_01.comm.changed.py, ligne 435
+CAM13 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FY=-1000.0,
+                                       GROUP_NO='TQ4_YM'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0067 (AFFE_CHAR_MECA): CAM13 ('<00000041>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   765.98 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0067   user+syst:        0.01s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt436
+# ----------------------------------------------------------------------------------------------
+# Commande #0068 de pontons_alu_01.comm.changed.py, ligne 436
+CAM14 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FX=1000.0,
+                                       GROUP_NO='TQ4_YM'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0068 (AFFE_CHAR_MECA): CAM14 ('<00000042>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   766.11 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0068   user+syst:        0.01s (syst:        0.01s, elaps:        0.00s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt437
+# ----------------------------------------------------------------------------------------------
+# Commande #0069 de pontons_alu_01.comm.changed.py, ligne 437
+CAM15 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FY=1000.0,
+                                       GROUP_NO='TQ4_YP'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0069 (AFFE_CHAR_MECA): CAM15 ('<00000043>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   766.37 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0069   user+syst:        0.00s (syst:        0.00s, elaps:        0.02s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt438
+# ----------------------------------------------------------------------------------------------
+# Commande #0070 de pontons_alu_01.comm.changed.py, ligne 438
+CAM16 = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FX=1000.0,
+                                       GROUP_NO='TQ4_YP'),
+                       INFO=1,
+                       MODELE=MODELE,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0070 (AFFE_CHAR_MECA): CAM16 ('<00000044>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   774.11 /   766.50 /   207.61 /   197.29 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0070   user+syst:        0.01s (syst:        0.00s, elaps:        0.00s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt443
+# ----------------------------------------------------------------------------------------------
+# Commande #0071 de pontons_alu_01.comm.changed.py, ligne 443
+ELEM = MACRO_ELAS_MULT(CARA_ELEM=CARA,
+                       CAS_CHARGE=(_F(CHAR_MECA=CG1,
+                                      NOM_CAS='G1',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=(CG2T1, CG2PT, CG2T2),
+                                      NOM_CAS='G2',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CG2T1,
+                                      NOM_CAS='G2_T1',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CG2PT,
+                                      NOM_CAS='G2_PT',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CG2T2,
+                                      NOM_CAS='G2_T2',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=(CQT1, CQPT, CQT2),
+                                      NOM_CAS='Q',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CQT1,
+                                      NOM_CAS='Q_T1',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CQPT,
+                                      NOM_CAS='Q_PT',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CQT2,
+                                      NOM_CAS='Q_T2',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CQD,
+                                      NOM_CAS='QD',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=(CHUT1, CHUPT, CHUT2),
+                                      NOM_CAS='HU',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CHUT1,
+                                      NOM_CAS='HU_T1',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CHUPT,
+                                      NOM_CAS='HU_PT',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CHUT2,
+                                      NOM_CAS='HU_T2',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=(CHDT1, CHDPT, CHDT2),
+                                      NOM_CAS='HD',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CHDT1,
+                                      NOM_CAS='HD_T1',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CHDPT,
+                                      NOM_CAS='HD_PT',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CHDT2,
+                                      NOM_CAS='HD_T2',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC01,
+                                      NOM_CAS='ACN_QU_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC02,
+                                      NOM_CAS='ACX_QU_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC03,
+                                      NOM_CAS='ACZ_QU_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC04,
+                                      NOM_CAS='ACN_QU_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC05,
+                                      NOM_CAS='ACX_QU_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC06,
+                                      NOM_CAS='ACZ_QU_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC07,
+                                      NOM_CAS='ACN_MI1_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC08,
+                                      NOM_CAS='ACX_MI1_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC09,
+                                      NOM_CAS='ACZ_MI1_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC10,
+                                      NOM_CAS='ACN_MI1_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC11,
+                                      NOM_CAS='ACX_MI1_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC12,
+                                      NOM_CAS='ACZ_MI1_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC13,
+                                      NOM_CAS='ACN_CH1_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC14,
+                                      NOM_CAS='ACX_CH1_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC15,
+                                      NOM_CAS='ACZ_CH1_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC16,
+                                      NOM_CAS='ACN_CH1_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC17,
+                                      NOM_CAS='ACX_CH1_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC18,
+                                      NOM_CAS='ACZ_CH1_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC19,
+                                      NOM_CAS='ACN_PT_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC20,
+                                      NOM_CAS='ACX_PT_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC21,
+                                      NOM_CAS='ACZ_PT_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC22,
+                                      NOM_CAS='ACN_PT_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC23,
+                                      NOM_CAS='ACX_PT_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC24,
+                                      NOM_CAS='ACZ_PT_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC25,
+                                      NOM_CAS='ACN_PA2_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC26,
+                                      NOM_CAS='ACX_PA2_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC27,
+                                      NOM_CAS='ACZ_PA2_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC28,
+                                      NOM_CAS='ACN_PA2_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC29,
+                                      NOM_CAS='ACX_PA2_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAC30,
+                                      NOM_CAS='ACZ_PA2_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM01,
+                                      NOM_CAS='AMY_TQ1_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM02,
+                                      NOM_CAS='AMX_TQ1_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM03,
+                                      NOM_CAS='AMY_TQ1_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM04,
+                                      NOM_CAS='AMX_TQ1_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM05,
+                                      NOM_CAS='AMY_TQ2_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM06,
+                                      NOM_CAS='AMX_TQ2_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM07,
+                                      NOM_CAS='AMY_TQ2_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM08,
+                                      NOM_CAS='AMX_TQ2_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM09,
+                                      NOM_CAS='AMY_TQ3_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM10,
+                                      NOM_CAS='AMX_TQ3_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM11,
+                                      NOM_CAS='AMY_TQ3_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM12,
+                                      NOM_CAS='AMX_TQ3_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM13,
+                                      NOM_CAS='AMY_TQ4_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM14,
+                                      NOM_CAS='AMX_TQ4_YM',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM15,
+                                      NOM_CAS='AMY_TQ4_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME'),
+                                   _F(CHAR_MECA=CAM16,
+                                      NOM_CAS='AMX_TQ4_YP',
+                                      OPTION='SANS',
+                                      TYPE_MODE='SYME')),
+                       CHAM_MATER=CHMAT,
+                       CHAR_MECA_GLOBAL=CL,
+                       INFO=1,
+                       MODELE=MODELE,
+                       SOLVEUR=_F(ACCELERATION='AUTO',
+                                  ELIM_LAGR='LAGR2',
+                                  GESTION_MEMOIRE='IN_CORE',
+                                  LOW_RANK_SEUIL=0.0,
+                                  METHODE='MUMPS',
+                                  NPREC=8,
+                                  PCENT_PIVOT=20,
+                                  POSTTRAITEMENTS='FORCE',
+                                  PRETRAITEMENTS='AUTO',
+                                  RENUM='AUTO',
+                                  RESI_RELA=1e-06,
+                                  STOP_SINGULIER='OUI',
+                                  TYPE_RESOL='AUTO'))
+
+Le système linéaire à résoudre a 6834 degrés de liberté:
+   - 5388 sont des degrés de liberté physiques
+     (ils sont portés par 901 noeuds du maillage)
+   - 1446 sont les couples de paramètres de Lagrange associés
+     aux 723 relations linéaires dualisées.
+La matrice est de taille 6834 équations.
+  Elle contient 84336 termes non nuls si elle est symétrique et 161838 termes non nuls si elle n'est
+pas symétrique.
+  Soit un taux de remplissage de   0.347 %.
+Degré de liberté physique associé au noeud 305 et à la composante DRX.
+
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ <F> <FACTOR_11>                                                                                ║
+ ║                                                                                                ║
+ ║ Problème : la matrice est singulière ou presque singulière :                                   ║
+ ║   Lors de la factorisation de la matrice, on a rencontré un problème                           ║
+ ║   (pivot nul ou presque nul) à la ligne 3199 qui correspond au degré de liberté donné          ║
+ ║ ci-dessus.                                                                                     ║
+ ║                                                                                                ║
+ ║ Risques et conseils :                                                                          ║
+ ║    * Si la ligne correspond a un degré de liberté physique, il s'agit probablement d'un        ║
+ ║ mouvement                                                                                      ║
+ ║      de corps rigide mal bloqué.                                                               ║
+ ║      Vérifiez les conditions aux limites.                                                      ║
+ ║      Si vous faites du contact, il ne faut pas que la structure ne "tienne" que par le         ║
+ ║ contact.                                                                                       ║
+ ║      Vérifiez également les caractéristiques matériaux (module d'Young, ...).                  ║
+ ║                                                                                                ║
+ ║    * Si la ligne correspond a un degré de liberté de Lagrange, il s'agit sans doute d'une      ║
+ ║ condition                                                                                      ║
+ ║      limite redondante.                                                                        ║
+ ║      En particulier, il se peut que la relation linéaire surabondante provienne des conditions ║
+ ║ de contact.                                                                                    ║
+ ║      Peut-être devriez vous exclure certains noeuds des conditions de contact                  ║
+ ║      (mots clés SANS_NOEUD et SANS_GROUP_NO).                                                  ║
+ ║                                                                                                ║
+ ║    * Si le solveur utilisé est LDLT ou MULT_FRONT, vous pouvez utiliser le solveur MUMPS       ║
+ ║      car celui-ci est le seul à pouvoir factoriser les matrices qui ne sont pas définies       ║
+ ║ positives.                                                                                     ║
+ ║                                                                                                ║
+ ║    * Parfois, en parallèle, le critère de détection de singularité de MUMPS est trop           ║
+ ║ pessimiste ! Il reste néanmoins souvent                                                        ║
+ ║      possible de faire passer le calcul complet en relaxant ce critère (augmenter de 1 ou 2 la ║
+ ║ valeur du mot-clé NPREC) ou                                                                    ║
+ ║      en le débranchant (valeur du mot-clé NPREC=-1) ou en relançant le calcul sur moins de     ║
+ ║ processeurs.                                                                                   ║
+ ║                                                                                                ║
+ ║    * Il se peut aussi que ce phénomène soit tout à fait normal avec X-FEM si la fissure passe  ║
+ ║      très près d'un noeud.                                                                     ║
+ ║      Si le nombre de décimales perdues n'est pas trop grand (max 10 décimales),                ║
+ ║      vous pouvez relancer le calcul en augmentant le nombre de décimales perdues autorisé :    ║
+ ║      mot-clé NPREC du mot clé facteur SOLVEUR.                                                 ║
+ ║      Sinon, contactez l'équipe de développement.                                               ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║                                                                                                ║
+ ║ Cette erreur est fatale. Le code s'arrête.                                                     ║
+ ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+Traceback returned by GNU libc (last 25 stack frames):
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibc.so(print_trace_+0x1f) [0x7941f877f35f]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(utmess_core_+0xa48) [0x7941f7ead078]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(utmess_+0x760) [0x7941f7eac230]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(tldlg3_+0x1a83) [0x7941f6c62c33]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(op0014_+0x1316) [0x7941f78e3246]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(execop_+0x1ca) [0x7941f7c96b1a]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibfor.so(expass_+0x14) [0x7941f7c96bc4]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibcxx.so(+0x82cbb7) [0x7941f5edebb7]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibcxx.so(+0x831d6d) [0x7941f5ee3d6d]
+/opt/spack/opt/spack/linux-zen2/code-aster-17.4.0-ecm2bfgr5obydotnlte6xilvggppqnap/lib64/aster/libbibcxx.so(+0x2f6782) [0x7941f59a8782]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(+0x1ae7d3) [0x7941f92287d3]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(_PyObject_MakeTpCall+0x7d) [0x7941f91d745d]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(_PyEval_EvalFrameDefault+0x3404) [0x7941f9178fe4]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(+0x25e240) [0x7941f92d8240]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(+0x160230) [0x7941f91da230]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(_PyObject_Call+0x128) [0x7941f91d7278]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(_PyEval_EvalFrameDefault+0x3d52) [0x7941f9179932]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(+0x25e240) [0x7941f92d8240]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(_PyObject_Call+0x128) [0x7941f91d7278]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(_PyEval_EvalFrameDefault+0x3d52) [0x7941f9179932]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(+0x25e240) [0x7941f92d8240]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(+0x160230) [0x7941f91da230]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(_PyObject_Call+0x128) [0x7941f91d7278]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(_PyEval_EvalFrameDefault+0x3d52) [0x7941f9179932]
+/opt/spack/opt/spack/linux-zen2/python-3.11.14-crxgllx4ijrk74sukxvebk3ulzuavesl/lib/libpython3.11.so.1.0(PyEval_EvalCode+0x20c) [0x7941f92d80dc]
+calling MPI_Abort with errorcode 6...
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+  Proc: [[24388,0],0]
+  Errorcode: 6
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+
+EXECUTION_CODE_ASTER_EXIT_1=6
+
+
+
+------------------------------------------------------------
+--- DIAGNOSTIC JOB : <F>_ERROR
+------------------------------------------------------------
+

@@ -14,13 +14,15 @@ schema_version: 1
 name: pontons_alu_01
 structure: PONTONS-ALU-01
 description: >-
-  Panne (passerelle d'accès sur pieux) en aluminium soudé, une travée de 6,25 m :
-  poutres principales MP1200, montants, diagonales et profilés supports en tube
-  150 × 150 × 7, pannes secondaires 50 × 50 × 5 (POU_D_T, liaisons rigides
-  LIAISON_SOLIDE pour les excentricités) ; chevêtre neuf et poteaux en béton
-  (POU_D_T), demi-semelle DKT sur sol élastique (RIGI_PARASOL) ; cas élémentaires G1,
-  G2, Q, Q½, houle unitaire, amarrage, accostage, températures ; jeux de combinaisons
-  A (S2, AVP) et B (PRO, EN 1990).
+  Ponton (panne sur pieux) en aluminium soudé, lot 51 : trois travées (6,25 m, petite
+  travée de 1,52 m, 6,25 m), poutres principales en tube carré 200 × 200 × 8, montants,
+  diagonales, profilés supports et pannes tubulaires (POU_D_T, LIAISON_SOLIDE pour les
+  excentricités) ; palée complète : 4 piles Ø 0,50, anneau BA de chevêtres et longrines
+  0,40 × 0,40, semelle DKT sur sol élastique (RIGI_PARASOL) ; appuis néoprène (DIS_T) ;
+  éclissages articulés ou continus ; cas élémentaires unitaires (G, Q, houle, températures,
+  30 accostages, 16 amarrages) ; douze variantes de liaisons, de hauteur de pile,
+  d'appuis et de section ; jeu B′ révisé et ELU accidentel. Lots 50 à 50 quinquies : une
+  travée, références conservées.
 fiche: fiche/hypotheses_pontons_alu_01.json
 data: donnees/pontons_alu_01_model_data.yaml
 data_sources: donnees/sources
@@ -131,38 +133,33 @@ controls:
     - {name: TAM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51:spring_scale"}
 
 deliverables:
+  # Lot 51 : seuls les champs de la variante R servent à la chaîne des livrables
+  # (sous-étapes preparer à charges : charges.med et charges_salome.py, consigne § 5.3) ;
+  # les exports du lot 51 sont écrits par scripts/lot51.py pour toutes les variantes.
   fields:
     - family: deplacements
       field: DEPL
       components: [DX, DY, DZ, DRX, DRY, DRZ]
-      convention: "repère global : X le long du tablier, X = 0 à l'appui côté quai ; Y transversal ; Z vertical vers le haut (cote NGF) ; m et rad"
+      convention: "repère global : X le long du ponton depuis le quai, Y transversal, Z vertical vers le haut (cote NGF) ; m et rad"
     - family: efforts_poutres
       field: EFGE_ELNO
-      groups: [POUTRES_PRINC, MONTANTS, DIAGONALES, PANNES_SEC, SUPPORTS, CHEVETRE, POTEAUX]
+      groups: [POUTRES_PRINC, MONTANTS, DIAGONALES, PANNES_SEC, SUPPORTS, CHEVETRES, LONGRINES, PILES]
       components: [N, VY, VZ, MT, MFY, MFZ]
-      convention: "POU_D_T, repère local de l'élément : x_l selon la maille ; barres horizontales z_l = +Z (VECT_Z), poutres principales et pannes y_l = +Y, montants et chevêtre y_l = −X ; profilés supports et poteaux x_l = +Z, y_l = +X, z_l = +Y. N > 0 traction. Axe fort des poutres principales = y_l : MFY = My de l'AVP (axe fort), VZ = Vz, MFZ = Mz, VY = Vy, MT = Mx. Valeurs aux deux extrémités de chaque élément (ELNO)"
-    - family: efforts_coques
-      field: EFGE_NOEU
-      groups: [SEMELLE]
-      components: [NXX, NYY, NXY, MXX, MYY, MXY, QX, QY]
-      convention: "semelle DKT, repère local x_l = X (ANGL_REP = (0, 0)) ; efforts par unité de largeur ; semelle non vérifiée dans ce lot (P16)"
+      convention: "POU_D_T, repère local de l'élément : x_l selon la maille ; barres horizontales z_l = +Z (VECT_Z) ; profilés supports et piles x_l = +Z, y_l = +X, z_l = +Y. N > 0 traction. Valeurs aux deux extrémités de chaque élément (ELNO)"
     - family: reactions
       field: REAC_NODA
-      node_groups: [APP_QUAI]
+      node_groups: [APP_QUAI, APP_FIXE]
       components: [DX, DY, DZ]
-      convention: "repère global ; réactions des rotules côté quai (P25) : Y > 0 translations bloquées, Y < 0 guidée (DY libre, réaction DY nulle)"
-    - family: ressorts
-      field: SIEF_ELGA
-      groups: [SOL]
-      components: [N, VY, VZ]
-      convention: "ressorts DIS_T de la semelle (RIGI_PARASOL, K_T_D_N repère global) : effort interne k·u selon X, Y, Z ; l'effort exercé par le sol sur la semelle est −k·u"
+      convention: "repère global ; rotules du quai (P35) et pieds des profilés supports en X = 14,02 (support fixe)"
   not_relevant:
     - {item: contraintes_volumes, reason: "le modèle n'a aucun élément de volume (poutres POU_D_T, semelle DKT, ressorts DIS_T)"}
-  combinations: "pontons_alu_01.extensions:deliverable_combinations"
+    - {item: efforts_coques, reason: "semelle non exploitée au lot 51 (consigne § 6 : barres, néoprènes, piles, réactions)"}
+    - {item: ressorts, reason: "ressorts de sol cumulés dans reactions_elementaires.csv de scripts/lot51.py (−k·u aux nœuds de la semelle)"}
+    - {item: combinaisons, reason: "lot 51 : 276 235 combinaisons par variante (5 416 185 pour E), données en règles et enveloppées par scripts/lot51.py (combinaisons_lot51), jamais énumérées par la chaîne des livrables"}
   load_plan_views: [Q, HU]
   static_results: {TP: TP, TM: TM, TAP: TAP, TAM: TAM}
   points:
-    - {label: têtes des poteaux, node_group: TETES_POTEAUX, cell_group: POTEAUX}
+    - {label: têtes des piles, node_group: TETES_PILES, cell_group: PILES}
     - {label: appuis côté quai, node_group: APP_QUAI, cell_group: POUTRES_PRINC}
 
 # Synthèse ingénieur (lot 49 bis). Jeu B (PRO) par défaut ; le jeu A (S2) est produit

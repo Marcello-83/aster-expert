@@ -265,16 +265,17 @@ def test_the_versioned_base_loads_with_its_seeding_counts() -> None:
     lot 46 : CTL-013 ; lot 47 (estacade) : CA-054 à CA-057, PAT-012, CTL-014, REF-015
     (calcul externe non validé), PRE-033 à PRE-038 ; lot 47 bis : CA-058, PAT-013 ;
     lot 47 ter : ENV-002, ENV-003, DIAG-025 ; lot 47 quater : ENV-004, DIAG-026,
-    DIAG-027, PRE-039 ; lot 49 ter : PAT-014, PAT-015, CTL-015 ; lot 50 : DIAG-029."""
+    DIAG-027, PRE-039 ; lot 49 ter : PAT-014, PAT-015, CTL-015 ; lot 50 : DIAG-029 ;
+    lot 51 : DIAG-030, PRE-040."""
     base = load_knowledge(ROOT)
     counts = {layer: sum(row.values()) for layer, row in base.counts().items()}
     assert counts == {
         "constats_code_aster": 58,
-        "diagnostics": 33,
+        "diagnostics": 34,
         "patrons": 15,
         "controles": 15,
         "references_validation": 15,
-        "precedents": 38,
+        "precedents": 39,
     }
     # Lot 44 : cinq promotions, par la commande, sous la règle corrigée.
     promoted = sorted(e.id for e in base.all_entries() if e.status == "promu")
@@ -409,7 +410,7 @@ def test_a_level_above_the_proofs_is_refused(tmp_path: Path) -> None:
 def test_search_by_message_identifier_finds_the_diagnostic() -> None:
     base = load_knowledge(ROOT)
     hits = search_knowledge(base, keyword="FACTOR_11", layers=("diagnostics",))
-    assert [h.entry_id for h in hits] == ["DIAG-001"]
+    assert [h.entry_id for h in hits] == ["DIAG-001", "DIAG-030"]  # lot 51 : DIAG-030
 
 
 def test_search_spans_the_layers_and_ignores_accents() -> None:
@@ -773,7 +774,7 @@ def test_the_mcp_tool_answers_level_a_and_journals_itself(tmp_path: Path) -> Non
         result.results[0].layer == "diagnostics"
         and result.results[0].status == "établi"
     )
-    assert result.total_by_layer["precedents"] == 38  # lot 47 quater : PRE-039
+    assert result.total_by_layer["precedents"] == 39  # lot 51 : PRE-040
     line = json.loads(log.read_text("utf-8").splitlines()[0])
     assert line["tool"] == "search_connaissances"
 
@@ -785,7 +786,7 @@ def test_cli_verifier_chercher_and_refused_promotion(
     runner = CliRunner()
     out = runner.invoke(app, ["connaissances", "verifier"])
     assert out.exit_code == 0, out.output
-    assert "diagnostics : 33" in out.output
+    assert "diagnostics : 34" in out.output
     out = runner.invoke(app, ["connaissances", "chercher", "--mot-cle", "MED2_4"])
     assert out.exit_code == 0 and "DIAG-006" in out.output
     out = runner.invoke(

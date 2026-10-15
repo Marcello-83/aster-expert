@@ -923,6 +923,527 @@
       "decided_at": "2026-10-12T15:00:00-04:00",
       "decision_history": [],
       "revision_history": []
+    },
+    {
+      "point_label": "P29",
+      "topic": "Navire de projet enveloppe",
+      "options_considered": [],
+      "option_retained": "- **P29** : navire de projet enveloppe (L 9,0 m, B 3,0 m, tirant d'eau 0,9 m, 5,0 t). Il remplace le navire AVP.",
+      "justification": "Décision P29 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Navire de projet de l'AVP",
+          "reason": "remplacé par le navire enveloppe de la note d'accostage et d'amarrage, indice C (P29)"
+        }
+      ],
+      "notes": "Valeurs de l'annexe A de la consigne du lot 51 (note Carro_note_accostage_amarrage.docx, indice C, non lue par la session).",
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P29",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P30",
+      "topic": "Accostage selon PIANC WG 211",
+      "options_considered": [],
+      "option_retained": "- **P30** : accostage selon PIANC WG 211, par l'arrière, perpendiculaire à la panne : - Ce = 1,0, Cm = 1,1 ; - γE = 1,81 ; - défense D100, longueur de contact Lc = 1 m.",
+      "justification": "Décision P30 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Accostage de l'AVP : 16 kN/m sur 2 m",
+          "reason": "remplacé par l'accostage PIANC WG 211 de la note, indice C (P30, annexe A)"
+        }
+      ],
+      "notes": "Les efforts caractéristiques (AC 23,5 kN, ACA 45 kN sur 1 m) sont ceux de l'annexe A ; aucune action maritime n'est calculée par l'outil.",
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P30",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P31",
+      "topic": "Coefficients de l'accostage",
+      "options_considered": [],
+      "option_retained": "- **P31** : accostage normal à γ = 1,5, avec ψ0 = 1,0, ψ1 = 0,5, ψ2 = 0. ACA est traité à l'ELU accidentel, γ = 1,0.",
+      "justification": "Décision P31 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Accostage de l'AVP à γ = 1,0, ψ0 = 1,0, ψ1 = ψ2 = 0",
+          "reason": "remplacé par γ = 1,5, ψ0 = 1,0, ψ1 = 0,5, ψ2 = 0 (P31)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P31",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P32",
+      "topic": "Effort tangentiel d'accostage",
+      "options_considered": [],
+      "option_retained": "- **P32** : effort tangentiel de 0,7 × l'effort normal. Il est concomitant de l'effort normal, soit horizontal le long de la panne, soit vertical, jamais les deux.",
+      "justification": "Décision P32 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Accostage sans effort tangentiel (AVP)",
+          "reason": "effort tangentiel de 0,7 × l'effort normal, concomitant, horizontal le long de la panne ou vertical (P32)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P32",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P33",
+      "topic": "Amarrage : cas et coefficient",
+      "options_considered": [],
+      "option_retained": "- **P33** : cas d'amarrage AM local, AM1 et AM2, γ = 1,5. Ce γ remplace le 1,3 de l'AVP. La note ne donne pas de ψ pour l'amarrage : conserver ceux du projet et les citer dans le compte rendu.",
+      "justification": "Décision P33 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Amarrage de l'AVP, 8,0 kN sur deux points, γ = 1,3",
+          "reason": "remplacé par AM local, AM1 et AM2 à γ = 1,5 (P33, annexe A)"
+        }
+      ],
+      "notes": "ψ de l'amarrage conservés du projet : ψ0 = 0,77, ψ1 = 0,77, ψ2 = 0,2 (lot 50, D5).",
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P33",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P34",
+      "topic": "Taquets et amarrage accidentel",
+      "options_considered": [],
+      "option_retained": "- **P34** : taquets de 5 t. La structure locale est vérifiée sous 49 kN à l'ELU accidentel (AMF).",
+      "justification": "Décision P34 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Amarrage accidentel non considéré (AVP)",
+          "reason": "AMF 49 kN sur un taquet à l'ELU accidentel (P34, annexe A)"
+        }
+      ],
+      "notes": "Fiche fournisseur des taquets de 5 t : point ouvert.",
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P34",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P35",
+      "topic": "Travée, largeur chargée, appuis côté quai et jeu de combinaisons",
+      "options_considered": [],
+      "option_retained": "- **P35** : travée de 6,25 m confirmée. - Largeur chargée du platelage : 2,00 m. - Appuis côté quai inchangés : une rotule fixe, une rotule guidée en Y. - Jeu B′ seul retenu, plus l'ELU accidentel. Les jeux A et B ne sont plus calculés.",
+      "justification": "Décision P35 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Jeux A (S2) et B (PRO)",
+          "reason": "ne sont plus calculés : jeu B′ seul, plus l'ELU accidentel (P35)"
+        }
+      ],
+      "notes": "Remplace le choix entre B et B′ laissé ouvert par P27 : B′ est retenu.",
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P35",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P36",
+      "topic": "Poutres principales en tube carré",
+      "options_considered": [],
+      "option_retained": "- **P36** : poutres principales en **tube carré** soudé (solution soudée conservée), alliage 6082-T6, angles vifs. - Section de référence : 200 × 200 × 8. - Balayage : 180 × 180 × 8 et 200 × 200 × 10. - Pannes, montants et diagonales inchangés.",
+      "justification": "Décision P36 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Poutres principales MP1200 (P4)",
+          "reason": "remplacées par un tube carré soudé 200 × 200 × 8 en 6082-T6, angles vifs (P36)"
+        }
+      ],
+      "notes": "Balayage de section : variantes S1 (180 × 180 × 8) et S3 (200 × 200 × 10).",
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P36",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P37",
+      "topic": "Critères de flèche",
+      "options_considered": [],
+      "option_retained": "- **P37** : critères de flèche, appliqués par le superviseur : - L/200 à l'ELS fréquent ; - L/150 à l'ELS caractéristique.",
+      "justification": "Décision P37 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Flèches rapportées sans critère (P14)",
+          "reason": "critères L/200 (ELS fréquent) et L/150 (ELS caractéristique), appliqués par le superviseur (P37)"
+        }
+      ],
+      "notes": "L'outil rapporte les flèches ; il n'applique pas les critères.",
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P37",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P38",
+      "topic": "Appareils d'appui en élastomère fretté",
+      "options_considered": [],
+      "option_retained": "- **P38** : **appareils d'appui en élastomère fretté**, type B, NF EN 1337-3, tableau 3 : 200 × 300 mm, 3 feuillets de 8 mm (Te = 24 mm), G = 0,9 MPa. Raideurs selon NF EN 1337-3 §5.3.3.7, reprises par le guide Sétra « Appareils d'appui en élastomère fretté », annexe 1, tableau A.2 : - **Kx = Ky = G·A/Te** = 0,9 × 60 000 / 24 = **2,25 kN/mm** ; - **Kz** = [Σ tᵢ/A′ · (1/(5·G·S²) + 1/Eb)]⁻¹, avec : - A′ = 190 × 290 mm² ; - S = A′/(2·(a′+b′)·tᵢ) = 7,17 ; - Eb = 2 000 MPa ; - d'où **Kz ≈ 476 kN/mm** ; - **Kθ = 0** : rotule, formule simplifiée du guide. Les ressorts travaillent **aussi en traction**. Toute traction est rapportée comme un **effort de retenue** à reprendre par un dispositif anti-soulèvement. Sensibilité sur Kx et Ky : × 0,5 et × 2. Le facteur 2 correspond à Gdyn = 1,8 MPa (guide Sétra §3.2.2).",
+      "justification": "Décision P38 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Profilés supports soudés au tablier et articulés sur le chevêtre (P18)",
+          "reason": "remplacés par des appareils d'appui en élastomère fretté sous les poutres principales (P38)"
+        }
+      ],
+      "notes": "Raideurs recalculées par le générateur à partir des dimensions (Kx = Ky = 2,25 kN/mm ; Kz ≈ 476 kN/mm) ; sensibilité N− et N+ sur Kx et Ky.",
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P38",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P39",
+      "topic": "Profilé support encastré sur le chevêtre",
+      "options_considered": [],
+      "option_retained": "- **P39** : profilé support 150 × 150 × 7, haut de 0,15 m, **encastré** sur le chevêtre (platine boulonnée sur tiges scellées). Le néoprène est posé sur le profilé, sous le nœud de la poutre principale.",
+      "justification": "Décision P39 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Profilé support articulé en pied sur le chevêtre (P18)",
+          "reason": "encastré sur le chevêtre, platine boulonnée sur tiges scellées (P39)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P39",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P40",
+      "topic": "Palée complète",
+      "options_considered": [],
+      "option_retained": "- **P40** : palée complète, avec : - 4 piles Ø 0,50 encastrées dans la semelle ; - 4 poutres BA en anneau ; - une petite travée aluminium entre les deux chevêtres.",
+      "justification": "Décision P40 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Demi-semelle et chevêtre seul (lot 50)",
+          "reason": "palée complète : 4 piles, anneau BA de 4 poutres, petite travée (P40)"
+        }
+      ],
+      "notes": "La géométrie de la petite travée (un montant à chaque extrémité, une diagonale) est une hypothèse de la consigne, point ouvert.",
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P40",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P41",
+      "topic": "Hauteur des piles",
+      "options_considered": [],
+      "option_retained": "- **P41** : hauteur des piles variable le long du ponton. Une palée a 4 piles de même hauteur. Hauteurs étudiées : 1,32 m et 4,0 m.",
+      "justification": "Décision P41 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Hauteur unique de 1,32 m (lot 50)",
+          "reason": "hauteurs étudiées 1,32 m et 4,0 m (P41)"
+        }
+      ],
+      "notes": "Pour H = 4,0 m, la semelle est inchangée (dimensions et raideurs) et abaissée au pied des piles : point ouvert.",
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P41",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P42",
+      "topic": "Éclissages entre travées",
+      "options_considered": [],
+      "option_retained": "- **P42** : éclissages boulonnés entre travées, au droit des appuis, en deux variantes : - **articulé** : rotations libérées autour de y et de z locaux de la poutre ; - **continu**.",
+      "justification": "Décision P42 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Travées indépendantes (une seule travée modélisée au lot 50)",
+          "reason": "éclissages boulonnés au droit des appuis, articulé ou continu (P42)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P42",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P43",
+      "topic": "Section des poutres BA de l'anneau",
+      "options_considered": [],
+      "option_retained": "- **P43** : section des poutres BA de l'anneau (chevêtres et longrines) portée à **0,40 × 0,40**. La section 0,25 × 0,40 est écartée sans calcul, décision de MM. Motifs, établis par le superviseur à la main : - assise de la platine et des tiges d'ancrage du profilé support, avec des distances aux bords compatibles avec la NF EN 1992-4 ; - reprise de la traction des ancrages anti-soulèvement ; - torsion des chevêtres sous effort longitudinal des néoprènes, alors que la tête de pile est articulée ; - enrobage du goujon de tête de pile ; - poids propre favorable à la traction des piles.",
+      "justification": "Décision P43 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "discarded_variants": [
+        {
+          "description": "Section 0,25 × 0,40 (P3)",
+          "reason": "écartée sans calcul par MM pour les motifs cités (P43)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P43",
+          "date": "2026-10-15"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "A5",
+      "topic": "Noms des groupes du maillage de la palée",
+      "options_considered": [],
+      "option_retained": "Barres PP_<travée>_<rive>, MONT_, DIAG_, PANNE_<travée>_<i> (travées T1, PT, T2), SUP_ et NEO_<appui>_<rive> (appuis A1, A2, A3), CHEV_C1, CHEV_C2, LONG_YM, LONG_YP, PILE_<chevêtre>_<rive> ; familles CHEVETRES, LONGRINES, PILES, NEOPRENES ; zones d'accostage ACC_<zone>_<rive>, taquets TQk_<rive> ; liaisons <nom>_A et <nom>_B (LR_, BR_, SC_, EC_, TP_, LG_, PS_) ; APP_FIXE, NB_<appui>_<rive>, TETES_PILES, PIEDS_PILES ; 24 caractères au plus.",
+      "justification": "Les invariants calculés à part contrôlent chaque groupe (cardinal, type, boîte).",
+      "discarded_variants": [
+        {
+          "description": "Noms au-delà de 24 caractères",
+          "reason": "tronqués en silence par Code_Aster"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Modèle de la palée et des trois travées (lot 51).",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 51 (projets/pontons_alu_01, docs/essais_lot51.md)",
+          "date": "2026-10-15",
+          "domain": "noms_groupes",
+          "verified_by": [
+            "projet:mesh_check"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "A6",
+      "topic": "Nœuds distincts aux liaisons et ressorts néoprène de 1 mm",
+      "options_considered": [],
+      "option_retained": "Petite travée et longrines arrêtées à 1 mm du nœud auquel elles sont liées (éclissages, angles de l'anneau) ; ressort néoprène en SEG2 de 1 mm (DIS_T) relié au nœud de la poutre par un bras rigide ; SEG2 d'au plus 0,25 m, au moins 4 éléments par barre.",
+      "justification": "Invariant « nœuds confondus » du vérificateur ; U2.02.03 : un discret ne transmet pas le moment d'un couple, sa longueur doit rester négligeable ; harnais D sur les 68 cas.",
+      "discarded_variants": [
+        {
+          "description": "Nœuds confondus non fusionnés",
+          "reason": "refusés par mesh check"
+        },
+        {
+          "description": "Ressort entre le profilé et l'axe de la poutre (0,118 m)",
+          "reason": "couple non transmis par le discret (U2.02.03)"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Modèle de la palée et des trois travées (lot 51).",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 51 (projets/pontons_alu_01, docs/essais_lot51.md)",
+          "date": "2026-10-15",
+          "domain": "maillage",
+          "verified_by": [
+            "projet:mesh_check",
+            "projet:controles"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "A7",
+      "topic": "Lecture des efforts des appuis néoprène",
+      "options_considered": [],
+      "option_retained": "Effort de l'appui sur le tablier F = −K·(u_haut − u_bas), repère global, Fz > 0 en compression ; variante M (sans raideur) : effort intérieur en tête du profilé support ramené au repère global.",
+      "justification": "Critère 4 de docs/essais_lot51.md : les deux lectures concordent sur R.",
+      "discarded_variants": [
+        {
+          "description": "SIEF_ELGA du discret",
+          "reason": "convention du repère de l'élément SEG2 à établir"
+        }
+      ],
+      "notes": null,
+      "validity_domain": "Modèle de la palée et des trois travées (lot 51).",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "choix_agent",
+          "reference": "session du lot 51 (projets/pontons_alu_01, docs/essais_lot51.md)",
+          "date": "2026-10-15",
+          "domain": "lecture_champs",
+          "verified_by": [
+            "projet:controles"
+          ]
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "agent (choix_agent)",
+      "decided_at": "2026-10-15T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
     }
   ],
   "group_naming": [
@@ -1895,6 +2416,3466 @@
       "verified_by": [
         "projet:mesh_check"
       ]
+    },
+    {
+      "group_name": "PP_T1_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (28 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PP_T1_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (28 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PP_PT_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (8 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PP_PT_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (8 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PP_T2_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (27 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PP_T2_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (27 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T1_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T1_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T1_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T1_4",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T1_5",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T1_6",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_PT_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_PT_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T2_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T2_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T2_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T2_4",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T2_5",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "MONT_T2_6",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_T1_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_T1_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_T1_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_T1_4",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_T1_5",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_PT_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_T2_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_T2_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_T2_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_T2_4",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "DIAG_T2_5",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (10 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_T1_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (30 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_T1_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (30 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_T1_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (30 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_T1_4",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (30 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_PT_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (7 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_PT_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (7 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_PT_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (7 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_PT_4",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (7 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_T2_1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (30 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_T2_2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (30 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_T2_3",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (30 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PANNE_T2_4",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (30 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SUP_A1_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SUP_A1_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SUP_A2_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SUP_A2_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SUP_A3_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SUP_A3_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NEOPRENES",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (6 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NEO_A1_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (1 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NEO_A1_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (1 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NEO_A2_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (1 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NEO_A2_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (1 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NEO_A3_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (1 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NEO_A3_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (1 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEVETRES",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (24 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEV_C1",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (12 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "CHEV_C2",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (12 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LONGRINES",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (16 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LONG_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (8 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LONG_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (8 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PILES",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (24 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PILE_C1_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (6 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PILE_C1_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (6 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PILE_C2_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (6 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PILE_C2_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (6 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_QU_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_MI1_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_CH1_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_QU_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_MI1_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_CH1_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_PT_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_PT_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_PA2_YM",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "ACC_PA2_YP",
+      "kind": "maille",
+      "description": "Groupe du maillage de la palée, lot 51 (4 SEG2, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "APP_FIXE",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (2 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A1_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A1_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A1_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A1_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A2_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A2_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A2_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A2_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A3_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A3_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A3_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "BR_A3_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "EC_A1_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "EC_A1_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "EC_A1_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "EC_A1_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "EC_A2_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "EC_A2_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "EC_A2_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "EC_A2_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LG_C1_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LG_C1_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LG_C1_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LG_C1_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LG_C2_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LG_C2_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LG_C2_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LG_C2_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_1_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_1_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_1_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_1_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_1_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_1_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_2_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_2_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_2_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_2_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_2_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_2_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_3_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_3_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_3_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_3_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_3_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_3_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_4_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_4_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_4_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_4_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_4_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_PT_4_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_04_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_04_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_05_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_05_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_06_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_06_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_07_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_07_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_08_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_08_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_09_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_09_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_10_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_10_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_11_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_1_11_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_04_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_04_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_05_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_05_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_06_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_06_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_07_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_07_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_08_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_08_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_09_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_09_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_10_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_10_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_11_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_2_11_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_04_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_04_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_05_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_05_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_06_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_06_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_07_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_07_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_08_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_08_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_09_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_09_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_10_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_10_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_11_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_3_11_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_04_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_04_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_05_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_05_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_06_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_06_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_07_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_07_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_08_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_08_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_09_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_09_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_10_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_10_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_11_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T1_4_11_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_04_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_04_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_05_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_05_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_06_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_06_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_07_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_07_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_08_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_08_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_09_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_09_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_10_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_10_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_11_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_1_11_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_04_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_04_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_05_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_05_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_06_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_06_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_07_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_07_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_08_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_08_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_09_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_09_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_10_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_10_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_11_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_2_11_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_04_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_04_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_05_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_05_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_06_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_06_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_07_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_07_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_08_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_08_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_09_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_09_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_10_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_10_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_11_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_3_11_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_01_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_01_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_02_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_02_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_03_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_03_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_04_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_04_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_05_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_05_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_06_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_06_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_07_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_07_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_08_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_08_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_09_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_09_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_10_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_10_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_11_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "LR_T2_4_11_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NB_A1_YM",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NB_A1_YP",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NB_A2_YM",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NB_A2_YP",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NB_A3_YM",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "NB_A3_YP",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PIEDS_PILES",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (4 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PS_C1_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PS_C1_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PS_C1_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PS_C1_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PS_C2_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PS_C2_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PS_C2_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "PS_C2_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SC_C1_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SC_C1_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SC_C1_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SC_C1_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SC_C2_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SC_C2_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SC_C2_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "SC_C2_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TETES_PILES",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (4 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TP_C1_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TP_C1_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TP_C1_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TP_C1_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TP_C2_YM_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TP_C2_YM_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TP_C2_YP_A",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TP_C2_YP_B",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TQ1_YM",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TQ1_YP",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TQ2_YM",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TQ2_YP",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TQ3_YM",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TQ3_YP",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TQ4_YM",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
+    },
+    {
+      "group_name": "TQ4_YP",
+      "kind": "noeud",
+      "description": "Groupe du maillage de la palée, lot 51 (1 nœuds, H = 1,32 m).",
+      "status": "choix_agent",
+      "point_label": "A5",
+      "verified_by": [
+        "projet:mesh_check"
+      ]
     }
   ],
   "planned_commands": [
@@ -1902,7 +5883,7 @@
       "command": "AFFE_CARA_ELEM",
       "point_label": "P1",
       "options": {
-        "SECTION": "GENERALE",
+        "SECTION": "RECTANGLE",
         "CARA": "VECT_Z"
       },
       "covered_by": {}
@@ -1956,6 +5937,12 @@
       "covered_by": {}
     },
     {
+      "command": "CREA_TABLE",
+      "point_label": "P1",
+      "options": {},
+      "covered_by": {}
+    },
+    {
       "command": "DEBUT",
       "point_label": "P1",
       "options": {},
@@ -1974,17 +5961,15 @@
       "covered_by": {}
     },
     {
-      "command": "FIN",
+      "command": "DETRUIRE",
       "point_label": "P1",
       "options": {},
       "covered_by": {}
     },
     {
-      "command": "IMPR_RESU",
+      "command": "FIN",
       "point_label": "P1",
-      "options": {
-        "FORMAT": "MED"
-      },
+      "options": {},
       "covered_by": {}
     },
     {

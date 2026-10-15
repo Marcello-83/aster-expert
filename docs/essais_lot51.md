@@ -42,3 +42,50 @@ Toute autre issue est un échec, rapporté tel quel : pas de seuil relâché apr
 - ELU accidentel (règle du projet, lot 50, D5) : G + A_d + ψ1·Q_dominante + Σ ψ2·Q_autres, la
   dominante pouvant être absente ; G + ACA sans autre événement AC, G + AMF sans autre
   événement AM.
+
+## 3. Modèle et exécution (après le commit du critère, e169107)
+
+- Maillages : `maillage/maillage_palee.py`, un pour H = 1,32 m (901 nœuds, 830 SEG2, 132 QUAD4)
+  et un pour H = 4,0 m (941, 870, 132) ; `mesh check` 1 232/1 232 invariants tenus pour chacun.
+- `.comm` : `generation_lot51.build_comm`, un par variante, régénérés octet pour octet par un
+  test (`references/execution_lot51/<variante>/pontons_alu_01.comm`) ; niveau B **valide**,
+  751/751 commandes confrontées pour chacune des douze variantes.
+- Exécutions : `scripts/lot51.py executer` (six en parallèle, `ncpus` 1), image
+  `simvia/code_aster:17.4.0` par digest. Répertoires : R `20261015T110339-767eaf49`, E
+  `…110330-bc8444b9`, T1 `…110338-c669a5d5`, T2 `…110329-f03e0a12`, A `…110339-7254d74a`, P4
+  `…110339-f66ff405`, P4E `…110413-4fc20c07`, N− `…110622-d01bcf9e`, N+ `…110630-c37ee584`, M
+  `…110642-b94295ee`, S1 `…110650-91303668`, S3 `…110650-0cb89313`.
+
+## 4. Résultats
+
+| # | Résultat |
+| --- | --- |
+| 1 | 11 variantes `completed_ok`, 0 alarme. **A** : `<F> <FACTOR_11>`, « Degré de liberté physique associé au noeud 305 et à la composante DRX » ; nœud 305 = bout de la longrine L− (6,251 ; −0,75 ; 0,89). Classé DIAG-030 (mécanisme de torsion des longrines liées seulement en translation aux têtes de pile). |
+| 2 | Harnais D `RÉUSSI` pour les 11 variantes calculées, 68 cas chacune ; résidu relatif maximal 1,14·10⁻¹¹ (P4E, ACN_PA2_YP), cas unitaires compris. |
+| 3 | R : écart relatif maximal 6,1·10⁻¹³ (Q) entre le cas total et la somme de ses trois travées. |
+| 4 | R : écart relatif maximal 3,0·10⁻¹² entre −K·Δu et l'effort lu en tête du profilé support. |
+| 5 | R : 12 extrêmes (MFY des poutres principales, N des piles, Fz des néoprènes ; ELU fondamental et accidentel ; max et min) : écart relatif maximal 2,2·10⁻¹⁶ entre la décomposition et l'énumération de `recombiner.py`. Rejoué aussi depuis le partage par `python3 -I -S` : −53 782,930045686306 N·m dans les deux cas. |
+| 6 | Effectifs : 276 235 combinaisons par variante (ELU fondamental 121 556, ELU accidentel 75 008, ELS caractéristique 60 778, ELS fréquent 18 458, ELS quasi permanent 435), 5 416 185 pour E (4 678 720 ; 357 824 ; 292 420 ; 85 220 ; 2 001) ; énumération de R : 276 235 jeux de coefficients, tous distincts. |
+
+## 5. Verdict
+
+| # | Verdict |
+| --- | --- |
+| 1 | RÉUSSI pour 11 variantes ; A non calculée, instabilité signalée comme la consigne le demande. |
+| 2 | RÉUSSI (11 variantes). |
+| 3 | RÉUSSI. |
+| 4 | RÉUSSI. |
+| 5 | RÉUSSI. |
+| 6 | RÉUSSI (dénombrement par la formule égal à l'énumération pour R ; pour E, formule seule, l'énumération de 5,4 millions de jeux n'est pas faite). |
+
+Niveau atteint : **D** pour les 11 variantes calculées ; aucun niveau E (aucune référence
+extérieure).
+
+## 6. Limites
+
+- Les enveloppes des résultantes (V, Fxy, M des piles, déplacement horizontal relatif) sont
+  le maximum sur 2 048 directions du plan : valeur par défaut, à 1,2·10⁻⁶ près au plus.
+- Le critère 5 porte sur R ; les autres variantes emploient le même code.
+- Les livrables locaux du lot 50 bis (`resultats/livrables`, non versionnés) ont été remplacés
+  par ceux de R pour produire `charges.med` ; le test d'export du lot 50 ter les exige et est
+  désormais ignoré avec son motif.

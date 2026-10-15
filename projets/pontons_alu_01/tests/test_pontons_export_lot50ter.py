@@ -36,6 +36,19 @@ ROOT = Path(__file__).resolve().parents[3]
 PROJECT = ROOT / "projets" / "pontons_alu_01"
 COMM = PROJECT / "references" / "execution_lot50bis" / "pontons_alu_01.comm"
 LIVRABLES = PROJECT / "resultats" / "livrables" / "donnees"
+RUN_LOT50BIS = "20261012T144404-2cf50a46"
+
+
+def _lot50bis_deliverables() -> bool:
+    """The local deliverables are those of lot 50 bis (lot 51 replaces them by those
+    of its variant R; they are not versioned)."""
+    state = LIVRABLES.parent / "etat.json"
+    if not LIVRABLES.is_dir() or not state.is_file():
+        return False
+    import json  # noqa: PLC0415
+
+    run = json.loads(state.read_text("utf-8")).get("production_run") or ""
+    return str(run).endswith(RUN_LOT50BIS)
 
 
 def _props(occurrence: dict[str, object]) -> dict[str, float]:
@@ -140,7 +153,9 @@ def test_numbers_and_format(tmp_path: Path) -> None:
     assert lines[2] == "1;0.30000000000000004"
 
 
-@pytest.mark.skipif(not LIVRABLES.is_dir(), reason="livrables du lot 50 bis absents")
+@pytest.mark.skipif(
+    not _lot50bis_deliverables(), reason="livrables locaux du lot 50 bis absents"
+)
 def test_full_export_and_recombination(tmp_path: Path) -> None:
     script = PROJECT / "scripts" / "export_lot50ter.py"
     result = subprocess.run(

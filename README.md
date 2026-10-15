@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 50quinquies (2026-10-15), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 51 (2026-10-15), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 63 faits sur 65 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 50quinquies, Pontons aluminium : charges.med de Code_Aster livré tel quel (FN_, FV_, VARC_) et script charges_salome.py pour Salomé-Méca (flèches par cas, échelle et légende propres à chaque cas), essayé par pvbatch, par exec() hors dossier et dans l'interface ParaViS ; reconditionnement du lot 50 quater désactivé par défaut (sous-étape charges_avance) ; correctif de la sous-étape `images` (manifeste lu dans un JSON voisin).
+Lots : 64 faits sur 66 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 51, Pontons aluminium : palée complète (4 piles, anneau BA 0,40 × 0,40, petite travée), trois travées, appuis néoprène (P38), actions maritimes révisées (P29 à P34), décisions P29 à P43 ; un maillage et un .comm paramétrés, douze variantes (11 calculées, A instable : FACTOR_11, DIAG-030), harnais D réussi (68 cas), jeu B′ révisé en règles (276 235 combinaisons, 5 416 185 pour E), enveloppes par décomposition contrôlées par énumération, exports du lot 50 ter plus appuis néoprène et piles, comparaison des variantes, charges.med de R.
 
 Capacités :
 
@@ -296,7 +296,7 @@ Projets :
 - `quai_cw_test_01` (Quai combi-wall QUAI-CW-TEST-01) : niveau D atteint, preuve `projets/quai_cw_test_01/resultats/paquet/paquet.json`.
 - `dalle_appuyee_01` (Dalle appuyée C30/37 6 x 4 x 0,30 m) : niveau E atteint, preuve `projets/dalle_appuyee_01/resultats/paquet/paquet.json`.
 - `estacade_pieux_01` (Estacade sur pieux ESTACADE-PIEUX-01 (contre-calcul d'un modèle non validé)) : niveau D atteint, preuve `projets/estacade_pieux_01/resultats/paquet/paquet.json`.
-- `pontons_alu_01` (Panne en aluminium PONTONS-ALU-01, une travée (calcul PRO)) : niveau D atteint, preuve `projets/pontons_alu_01/resultats/paquet/paquet.json`.
+- `pontons_alu_01` (Ponton en aluminium PONTONS-ALU-01, palée complète et trois travées (calcul PRO)) : niveau D atteint, preuve `projets/pontons_alu_01/resultats/paquet/paquet.json`.
 
 Métriques :
 
