@@ -116,3 +116,56 @@ groups:
       {status: fourni, value: 250, unit: "MPa", source: {kind: decision, point_label: "P28"}, comment: "Pannes : 6082-T6, t ≤ 5."}
     f0_haz_tubes_50:
       {status: fourni, value: 125, unit: "MPa", source: {kind: decision, point_label: "P28"}}
+  # --- Lot 51 : palée complète, appuis néoprène, actions maritimes révisées (P29 à P43) ---
+  poutres_tube:
+    cote:
+      {status: fourni, value: 200, unit: "mm", source: {kind: decision, point_label: "P36"}, comment: "Tube carré soudé 6082-T6, angles vifs, section de référence ; balayage 180 × 8 et 200 × 10 dans variantes_lot51.yaml."}
+    epaisseur:
+      {status: fourni, value: 8, unit: "mm", source: {kind: decision, point_label: "P36"}}
+  neoprene:
+    module_cisaillement:
+      {status: fourni, value: 0.9, unit: "MPa", source: {kind: decision, point_label: "P38"}}
+    cote_a:
+      {status: fourni, value: 200, unit: "mm", source: {kind: decision, point_label: "P38"}, comment: "NF EN 1337-3, tableau 3, type B : 200 × 300 mm."}
+    cote_b:
+      {status: fourni, value: 300, unit: "mm", source: {kind: decision, point_label: "P38"}}
+    cote_a_frette:
+      {status: fourni, value: 190, unit: "mm", source: {kind: decision, point_label: "P38"}, comment: "A′ = 190 × 290 mm²."}
+    cote_b_frette:
+      {status: fourni, value: 290, unit: "mm", source: {kind: decision, point_label: "P38"}}
+    epaisseur_feuillet:
+      {status: fourni, value: 8, unit: "mm", source: {kind: decision, point_label: "P38"}}
+    nombre_feuillets:
+      {status: fourni, value: 3, unit: "-", source: {kind: decision, point_label: "P38"}, comment: "Te = 24 mm."}
+    module_compressibilite:
+      {status: fourni, value: 2000, unit: "MPa", source: {kind: decision, point_label: "P38"}, comment: "Eb."}
+    raideur_horizontale:
+      {status: fourni, value: 2.25, unit: "kN/mm", source: {kind: decision, point_label: "P38"}, comment: "Valeur de la décision, recalculée par le générateur (G·A/Te) et comparée par un test."}
+    raideur_verticale:
+      {status: fourni, value: 476, unit: "kN/mm", source: {kind: decision, point_label: "P38"}, comment: "« Kz ≈ 476 kN/mm » : valeur arrondie de la décision ; le générateur emploie la formule (476,6 kN/mm)."}
+  anneau:
+    largeur:
+      {status: fourni, value: 0.40, unit: "m", source: {kind: decision, point_label: "P43"}, comment: "Chevêtres (selon X) et longrines (selon Y)."}
+    hauteur:
+      {status: fourni, value: 0.40, unit: "m", source: {kind: decision, point_label: "P43"}}
+  actions_maritimes:
+    ac_normal:
+      {status: fourni, value: 23.5, unit: "kN", source: {kind: decision, point_label: "P31"}, comment: "Sur 1 m (Lc, P30), ⊥ au bord vers l'intérieur ; annexe A de la consigne du lot 51 (note indice C)."}
+    ac_tangentiel:
+      {status: fourni, value: 16.45, unit: "kN", source: {kind: decision, point_label: "P32"}, comment: "0,7 × 23,5, ±X ou ±Z, concomitant."}
+    aca_normal:
+      {status: fourni, value: 45, unit: "kN", source: {kind: decision, point_label: "P31"}, comment: "ELU accidentel, sur 1 m."}
+    aca_tangentiel:
+      {status: fourni, value: 31.5, unit: "kN", source: {kind: decision, point_label: "P32"}}
+    longueur_contact:
+      {status: fourni, value: 1.0, unit: "m", source: {kind: decision, point_label: "P30"}}
+    am_local:
+      {status: fourni, value: 27.5, unit: "kN", source: {kind: decision, point_label: "P33"}, comment: "Un taquet, ⊥ vers l'extérieur ou ± ∥."}
+    am1_perpendiculaire:
+      {status: fourni, value: 23.8, unit: "kN", source: {kind: decision, point_label: "P33"}, comment: "Par taquet, les 8 taquets, vers l'extérieur de leur côté."}
+    am1_parallele:
+      {status: fourni, value: 13.7, unit: "kN", source: {kind: decision, point_label: "P33"}, comment: "Par taquet, même signe pour tous."}
+    am2_perpendiculaire:
+      {status: fourni, value: 10.6, unit: "kN", source: {kind: decision, point_label: "P33"}, comment: "Par taquet, les 4 taquets d'un côté."}
+    amf:
+      {status: fourni, value: 49, unit: "kN", source: {kind: decision, point_label: "P34"}, comment: "ELU accidentel, un taquet, ⊥ vers l'extérieur ou ± ∥."}

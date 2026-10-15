@@ -1,0 +1,36 @@
+# Variantes du lot 51 (consigne, § 2 ; décisions P36, P38, P40 à P43). Chaque variante
+# hérite de sa base et ne déclare que ses écarts. Lu par pontons_alu_01.variantes_lot51 :
+# un seul .comm paramétré (generation_lot51), un seul script de maillage (seul H_PILES
+# lui est transmis). Piles : C1/C2 = chevêtre (X = 6,25 / 7,77), YM/YP = Y = ∓0,75.
+reference: R
+variantes:
+  R:
+    description: "référence : 4 rotules en tête de pile, anneau monolithique, éclissages articulés, H = 1,32 m, néoprènes nominaux, tube 200 × 200 × 8"
+    tetes: {C1_YM: rotule, C1_YP: rotule, C2_YM: rotule, C2_YP: rotule}
+    anneau: monolithique
+    eclissage: articule
+    h_piles: 1.32
+    appuis: neoprene
+    facteur_kh: 1.0
+    poutre: {cote: 200, epaisseur: 8}
+  E: {base: R, eclissage: continu, description: "éclissages continus"}
+  T1:
+    base: R
+    tetes: {C1_YM: encastrement, C1_YP: rotule, C2_YM: encastrement, C2_YP: rotule}
+    description: "sous chaque chevêtre, pile Y− encastrée en tête, pile Y+ en rotule"
+  T2:
+    base: R
+    tetes: {C1_YM: encastrement, C1_YP: encastrement, C2_YM: encastrement, C2_YP: encastrement}
+    description: "4 encastrements en tête de pile"
+  A: {base: R, anneau: independant, description: "anneau de 4 poutres indépendantes, chaque extrémité reliée à la tête de pile"}
+  P4: {base: R, h_piles: 4.0, description: "piles de 4,0 m, 4 rotules"}
+  P4E:
+    base: R
+    h_piles: 4.0
+    tetes: {C1_YM: encastrement, C1_YP: encastrement, C2_YM: encastrement, C2_YP: encastrement}
+    description: "piles de 4,0 m, 4 encastrements"
+  N-: {base: R, facteur_kh: 0.5, description: "néoprènes, Kx = Ky × 0,5"}
+  N+: {base: R, facteur_kh: 2.0, description: "néoprènes, Kx = Ky × 2 (Gdyn = 1,8 MPa)"}
+  M: {base: R, appuis: mecanique, description: "appui mécanique articulé : Y et Z bloqués, X libre, rotations libres"}
+  S1: {base: R, poutre: {cote: 180, epaisseur: 8}, description: "poutres principales 180 × 180 × 8"}
+  S3: {base: R, poutre: {cote: 200, epaisseur: 10}, description: "poutres principales 200 × 200 × 10"}

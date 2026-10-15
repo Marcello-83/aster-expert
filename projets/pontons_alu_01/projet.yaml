@@ -1,4 +1,9 @@
-# Déclaration du projet PONTONS-ALU-01 (lots 50 et 50 bis) : une travée de panne en aluminium soudé.
+# Déclaration du projet PONTONS-ALU-01 (lots 50 à 51). Depuis le lot 51 : palée complète
+# (4 piles, anneau BA), trois travées en aluminium soudé, appuis néoprène, variantes
+# (variantes_lot51.yaml, PONTONS_VARIANTE). Les sections `deliverables`,
+# `engineering_summary` et `results_package` décrivent encore la travée unique du lot 50
+# bis (livrables et paquet versionné de ce lot) : le lot 51 n'emploie pas la chaîne des
+# livrables, ses exports sont produits par scripts/lot51.py.
 #
 # Interface avec le tronc commun (schéma aster_expert.projet.declaration). Décisions P1 à
 # P28 de MM (fiche) ; données : annexe « Données » de la consigne du lot 50. La géométrie
@@ -23,15 +28,20 @@ results: resultats
 knowledge_applied: connaissances_appliquees.yaml
 
 mesh:
-  script: maillage/maillage_pontons.py
-  invariants: maillage/invariants.yaml
+  # Lot 51 : palée complète et trois travées (maillage_palee.py) ; le fichier de
+  # paramètres ne porte que H_PILES (variante courante, PONTONS_VARIANTE). Les invariants
+  # versionnés sont ceux de la référence R (H = 1,32 m) ; ceux de H = 4,0 m sont écrits par
+  # scripts/lot51.py. Lots 50 à 50 quinquies : maillage_pontons.py et invariants.yaml.
+  script: maillage/maillage_palee.py
+  parameters: pontons_alu_01.extensions_lot51:mesh_parameters
+  invariants: maillage/invariants_palee.yaml
 
 comm:
-  generator: pontons_alu_01.extensions:generate
+  generator: pontons_alu_01.extensions_lot51:generate
   output: resultats/pontons_alu_01.comm
   export:
-    time_limit: 1800
-    memory_limit: 4096
+    time_limit: 3600
+    memory_limit: 6144
     mesh_unit: 20
     mesh_format: mmed
 
@@ -39,32 +49,86 @@ controls:
   threshold: 1.0e-6
   vertical: DZ
   output: equilibre.json
-  # P25 : rotule côté quai Y > 0 fixe, rotule Y < 0 guidée (DY libre : sa réaction DY,
-  # résidu d'équilibre d'un ddl libre, est nulle et la somme sur APP_QUAI reste exacte) ;
-  # P19 : ressorts de sol sous la semelle (RIGI_PARASOL), efforts k·u lus aux nœuds.
+  # P35 : rotule côté quai Y > 0 fixe, rotule Y < 0 guidée (réaction DY nulle) ; pieds des
+  # profilés supports en X = 14,02 encastrés sur un support fixe (APP_FIXE) ; ressorts de
+  # sol sous la semelle (RIGI_PARASOL), efforts k·u lus aux nœuds. Les néoprènes et les
+  # liaisons sont intérieurs au modèle : ils n'entrent pas dans le bilan.
   supports:
     - {group: APP_QUAI, blocked: [DX, DY, DZ], table: "RP_{case}"}
+    - {group: APP_FIXE, blocked: [DX, DY, DZ], table: "RF_{case}"}
   springs:
     groups: [SOL]
     direction: [DX, DY, DZ]
-    forces: pontons_alu_01.extensions:spring_forces
+    forces: pontons_alu_01.extensions_lot51:spring_forces
   cases:
-    - {name: G1, gravity: true, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: G2, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: Q, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: QD, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: HU, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: HD, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: AMM, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: AMP, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: ACM, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: ACP, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: AAM, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: AAP, expected_resultant: "pontons_alu_01.extensions:resultant"}
-    - {name: TP, expected_resultant: "pontons_alu_01.extensions:resultant", self_equilibrated_scale: "pontons_alu_01.extensions:spring_scale"}
-    - {name: TM, expected_resultant: "pontons_alu_01.extensions:resultant", self_equilibrated_scale: "pontons_alu_01.extensions:spring_scale"}
-    - {name: TAP, expected_resultant: "pontons_alu_01.extensions:resultant", self_equilibrated_scale: "pontons_alu_01.extensions:spring_scale"}
-    - {name: TAM, expected_resultant: "pontons_alu_01.extensions:resultant", self_equilibrated_scale: "pontons_alu_01.extensions:spring_scale"}
+    - {name: G1, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: G2, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: G2_T1, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: G2_PT, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: G2_T2, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: Q, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: Q_T1, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: Q_PT, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: Q_T2, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: QD, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: HU, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: HU_T1, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: HU_PT, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: HU_T2, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: HD, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: HD_T1, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: HD_PT, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: HD_T2, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACN_QU_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACX_QU_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACZ_QU_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACN_QU_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACX_QU_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACZ_QU_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACN_MI1_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACX_MI1_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACZ_MI1_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACN_MI1_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACX_MI1_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACZ_MI1_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACN_CH1_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACX_CH1_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACZ_CH1_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACN_CH1_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACX_CH1_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACZ_CH1_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACN_PT_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACX_PT_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACZ_PT_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACN_PT_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACX_PT_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACZ_PT_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACN_PA2_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACX_PA2_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACZ_PA2_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACN_PA2_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACX_PA2_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: ACZ_PA2_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMY_TQ1_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMX_TQ1_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMY_TQ1_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMX_TQ1_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMY_TQ2_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMX_TQ2_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMY_TQ2_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMX_TQ2_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMY_TQ3_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMX_TQ3_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMY_TQ3_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMX_TQ3_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMY_TQ4_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMX_TQ4_YM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMY_TQ4_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: AMX_TQ4_YP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant"}
+    - {name: TP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51:spring_scale"}
+    - {name: TM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51:spring_scale"}
+    - {name: TAP, expected_resultant: "pontons_alu_01.extensions_lot51:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51:spring_scale"}
+    - {name: TAM, expected_resultant: "pontons_alu_01.extensions_lot51:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51:spring_scale"}
 
 deliverables:
   fields:
