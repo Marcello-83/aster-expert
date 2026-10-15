@@ -169,3 +169,10 @@ groups:
       {status: fourni, value: 10.6, unit: "kN", source: {kind: decision, point_label: "P33"}, comment: "Par taquet, les 4 taquets d'un côté."}
     amf:
       {status: fourni, value: 49, unit: "kN", source: {kind: decision, point_label: "P34"}, comment: "ELU accidentel, un taquet, ⊥ vers l'extérieur ou ± ∥."}
+  palee_lot51bis:
+    semelle_epaisseur:
+      {status: fourni, value: 0.20, unit: "m", source: {kind: decision, point_label: "P48"}, comment: "Semelle du diagnostic Sixense A25 13959 (annexe 2), béton grossier non armé, 2,60 × 2,60 m (dimensions en plan : paramètres de maillage_palee_51bis.py). Lot 51 bis ; la semelle des lots 50 et 51 reste sections_beton.semelle_epaisseur."}
+    poids_volumique_eau:
+      {status: fourni, value: 10, unit: "kN/m3", source: {kind: decision, point_label: "P49"}, comment: "Déjaugeage DEJ, poussée d'Archimède sur tout le volume de béton de la palée."}
+    niveau_eau_haut:
+      {status: fourni, value: 1.61, unit: "m NGF", source: {kind: decision, point_label: "P49"}, comment: "Niveau d'eau le plus haut, au-dessus du dessus des chevêtres : béton entièrement immergé (P49) ; sous-face des poutres au-dessus (P50)."}

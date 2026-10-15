@@ -21,3 +21,8 @@ applied:
     how: "masse M_T_D_N nulle des ressorts DIS_T de la semelle, le modèle portant PESANTEUR"
   - id: DIAG-024
     how: "MECA_STATIQUE et MACRO_ELAS_MULT avec un champ de matériau"
+  # Lot 51 bis, déclarées avant la première exécution du lot.
+  - id: PAT-005
+    how: "déjaugeage de la semelle (DEJ) en FORCE_COQUE FZ, repère global, intensité par unité de surface développée (semelle plane)"
+  - id: DIAG-030
+    how: "appuis à axe sous l'axe des poutres : DRX des deux oreilles liées et cadre de la travée, pour éviter le mécanisme de torsion d'une poutre liée seulement en translation"

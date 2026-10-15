@@ -1,0 +1,18 @@
+# Variantes du lot 51 bis (consigne, § 1 ; décisions P44 à P48). Chaque variante hérite
+# de sa base et ne déclare que ses écarts. Lu par pontons_alu_01.variantes_lot51bis : un
+# seul .comm paramétré (generation_lot51bis), un seul script de maillage
+# (maillage_palee_51bis.py, qui reçoit H_ANNEAU et H_PILES). Communs à toutes : appuis à
+# axe (P44), point fixe longitudinal au quai (P45), 4 têtes de piles encastrées (P46),
+# anneau monolithique, tablier rehaussé de 0,50 m (P47), semelle 2,60 × 2,60 × 0,20 m (P48).
+# h_piles : hauteur libre des piles, du dessus de la semelle à la sous-face de l'anneau.
+reference: H80C
+variantes:
+  H40C:
+    description: "anneau h = 0,40 m, piles rehaussées de 0,40 m (palée courte, hauteur libre 1,70 m), tube 200 × 200 × 8"
+    h_anneau: 0.40
+    h_piles: 1.70
+    poutre: {cote: 200, epaisseur: 8}
+  H40P: {base: H40C, h_piles: 4.30, description: "anneau h = 0,40 m, palée profonde, hauteur libre 4,30 m, tube 200 × 200 × 8"}
+  H80C: {base: H40C, h_anneau: 0.80, h_piles: 1.30, description: "anneau h = 0,80 m, piles existantes (palée courte, hauteur libre 1,30 m), tube 200 × 200 × 8"}
+  H80P: {base: H80C, h_piles: 3.90, description: "anneau h = 0,80 m, palée profonde, hauteur libre 3,90 m, tube 200 × 200 × 8"}
+  H80C-S3: {base: H80C, poutre: {cote: 200, epaisseur: 10}, description: "anneau h = 0,80 m, palée courte (1,30 m), poutres principales 200 × 200 × 10"}

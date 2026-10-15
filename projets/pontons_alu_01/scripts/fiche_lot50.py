@@ -1,10 +1,11 @@
-"""Fiche de PONTONS-ALU-01 (lots 50 à 51), reconstruite de façon reproductible.
+"""Fiche de PONTONS-ALU-01 (lots 50 à 51 bis), reconstruite de façon reproductible.
 
     PYTHONPATH=projets .venv/bin/python projets/pontons_alu_01/scripts/fiche_lot50.py
 
 Fiche vide du lot (`aster-expert projet creer`), décisions P1 à P23 (lot 50) puis P24 à P28
-(lot 50 bis), P29 à P43 (lot 51) de MM rejouées depuis `donnees/sources/enregistrement_*.md` (même fonction que
-`aster-expert fiche enregistrer`), choix de l'agent A1 à A4 (domaines du lot 44), convention de nommage des
+(lot 50 bis), P29 à P43 (lot 51), P44 à P51 (lot 51 bis) de MM rejouées depuis
+`donnees/sources/enregistrement_*.md` (même fonction que `aster-expert fiche enregistrer`),
+choix de l'agent A1 à A9 (domaines du lot 44), convention de nommage des
 groupes tirée des invariants du maillage, commandes prévues conservées (`fiche
 prevoir`). Un test rejoue ce script et compare le JSON octet pour octet.
 """
@@ -30,8 +31,10 @@ from aster_expert.agent.hypotheses import (
 from aster_expert.agent.prevues import carry_planned_commands
 from pontons_alu_01.geometrie import geometry
 from pontons_alu_01.geometrie_lot51 import geometry as geometry_lot51
+from pontons_alu_01.geometrie_lot51bis import geometry as geometry_lot51bis
 from pontons_alu_01.invariants import invariants
 from pontons_alu_01.invariants_lot51 import invariants as invariants_lot51
+from pontons_alu_01.invariants_lot51bis import invariants as invariants_lot51bis
 
 PROJECT = Path(__file__).resolve().parents[1]
 FICHE = PROJECT / "fiche" / "hypotheses_pontons_alu_01.json"
@@ -39,6 +42,7 @@ RECORDINGS = (
     PROJECT / "donnees" / "sources" / "enregistrement_P1_P23_lot50.md",
     PROJECT / "donnees" / "sources" / "enregistrement_P24_P28_lot50bis.md",
     PROJECT / "donnees" / "sources" / "enregistrement_P29_P43_lot51.md",
+    PROJECT / "donnees" / "sources" / "enregistrement_P44_P51_lot51bis.md",
 )
 CREATED = datetime.fromisoformat("2026-10-12T08:38:25.125860-04:00")
 DESCRIPTION = (
@@ -216,6 +220,68 @@ def lot51_entries(at: datetime) -> list[PracticeHypothesisEntry]:
     ]
 
 
+def lot51bis_entries(at: datetime) -> list[PracticeHypothesisEntry]:
+    """Choices of the agent for the pier type of lot 51 bis (domains of lot 44)."""
+
+    def choice(
+        label: str,
+        topic: str,
+        domain: str,
+        verified_by: tuple[str, ...],
+        option: str,
+        justification: str,
+        discarded: list[tuple[str, str]],
+    ) -> PracticeHypothesisEntry:
+        return record_agent_choice(
+            entry=PracticeHypothesisEntry(
+                point_label=label, topic=topic, status="non_tranche"
+            ),
+            domain=domain,  # type: ignore[arg-type]
+            verified_by=verified_by,
+            option_retained=option,
+            justification=justification,
+            validity_domain="Modèle de la palée type et des trois travées (lot 51 bis).",
+            discarded_variants=tuple(
+                DiscardedVariant(description=d, reason=r) for d, r in discarded
+            ),
+            reference="session du lot 51 bis (projets/pontons_alu_01, docs/essais_lot51bis.md)",
+            decided_at=at,
+        )
+
+    return [
+        choice(
+            "A8",
+            "Noms des groupes des appuis à axe",
+            "noms_groupes",
+            ("projet:mesh_check",),
+            "Groupes d'un nœud AX_<appui>_<rive>_1 (oreille de la grande travée), _2 "
+            "(oreille de la petite travée) et _K (nœud du chevêtre sous l'appui), appuis "
+            "A1, A2, A3, rives YM, YP ; APP_A3 (oreilles en X = 14,02) ; les autres noms "
+            "sont ceux du lot 51 (A5) ; 24 caractères au plus.",
+            "Les invariants calculés à part contrôlent chaque groupe (cardinal, boîte).",
+            [("Noms au-delà de 24 caractères", "tronqués en silence par Code_Aster")],
+        ),
+        choice(
+            "A9",
+            "Lecture des efforts transmis par les axes",
+            "lecture_champs",
+            ("projet:controles",),
+            "Effort de l'axe sur le chevêtre = REAC_NODA du nœud AX_<appui>_<rive>_K "
+            "(seules les relations de l'axe y agissent), repère global ; en X = 14,02, "
+            "opposé de REAC_NODA de l'oreille ; rotation relative autour de Y = DRY de "
+            "l'oreille − DRY du nœud du chevêtre.",
+            "Critère 4 de docs/essais_lot51bis.md : la somme des REAC_NODA des oreilles et "
+            "du nœud du chevêtre est nulle, appui par appui et cas par cas.",
+            [
+                (
+                    "Multiplicateurs de Lagrange des relations",
+                    "non imprimés par CREA_TABLE ; REAC_NODA les porte aux nœuds",
+                )
+            ],
+        ),
+    ]
+
+
 def group_naming() -> tuple[MeshGroupNaming, ...]:
     lot50 = [
         MeshGroupNaming(
@@ -247,7 +313,25 @@ def group_naming() -> tuple[MeshGroupNaming, ...]:
         for g in invariants_lot51(geometry_lot51({"H_PILES": 1.32}))["groups"]
         if g["name"] not in known
     ]
-    return tuple(lot50 + lot51)
+    known |= {n.group_name for n in lot51}
+    lot51bis = [
+        MeshGroupNaming(
+            group_name=g["name"],
+            kind="noeud" if g["kind"] == "node" else "maille",
+            description=(
+                "Groupe du maillage de la palée type, lot 51 bis ("
+                f"{g['count']} {g.get('cell_type', 'nœuds')}, variante H80C)."
+            ),
+            status="choix_agent",
+            point_label="A8",
+            verified_by=("projet:mesh_check",),
+        )
+        for g in invariants_lot51bis(
+            geometry_lot51bis({"H_ANNEAU": 0.8, "H_PILES": 1.3})
+        )["groups"]
+        if g["name"] not in known
+    ]
+    return tuple(lot50 + lot51 + lot51bis)
 
 
 def build_sheet() -> HypothesesSheet:
@@ -269,9 +353,12 @@ def build_sheet() -> HypothesesSheet:
     sheet, _done = record_decisions(sheet, arbitrations[0])
     for entry in agent_entries(arbitrations[0].recorded_at):
         sheet = insert_practice_entry(sheet, entry)
-    for arbitration in arbitrations[1:]:
+    for arbitration in arbitrations[1:-1]:
         sheet, _done = record_decisions(sheet, arbitration)
-    for entry in lot51_entries(arbitrations[-1].recorded_at):
+    for entry in lot51_entries(arbitrations[-2].recorded_at):
+        sheet = insert_practice_entry(sheet, entry)
+    sheet, _done = record_decisions(sheet, arbitrations[-1])
+    for entry in lot51bis_entries(arbitrations[-1].recorded_at):
         sheet = insert_practice_entry(sheet, entry)
     return sheet
 
