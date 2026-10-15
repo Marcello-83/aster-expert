@@ -197,7 +197,8 @@ try:
     DOSSIER = os.path.dirname(os.path.abspath(__file__))
 except NameError:
     DOSSIER = os.getcwd()
-MANIFESTE = json.loads({manifeste!r})
+with open(os.path.join(DOSSIER, {fichier_manifeste!r}), encoding="utf-8") as _f:
+    MANIFESTE = json.load(_f)
 PNG = sys.argv[sys.argv.index("--png") + 1] if "--png" in sys.argv else None
 COLOR_PRESET = "Cool to Warm"
 VUES = {vues!r}
@@ -578,11 +579,17 @@ def write_scripts(manifest: dict[str, Any], out: Path) -> tuple[Path, Path]:
     resultats = {"groupes": result_groups(manifest), "taille_du_modele_m": size}
     path_c = out / "paraview_charges.py"
     path_r = out / "paraview_resultats.py"
+    path_c.with_suffix(".json").write_text(
+        json.dumps(charges, ensure_ascii=False), encoding="utf-8"
+    )
+    path_r.with_suffix(".json").write_text(
+        json.dumps(resultats, ensure_ascii=False), encoding="utf-8"
+    )
     path_c.write_text(
         _HEADER.format(
             projet=projet,
             script=path_c.name,
-            manifeste=json.dumps(charges, ensure_ascii=False),
+            fichier_manifeste=path_c.with_suffix(".json").name,
             vues=views,
         )
         + _CHARGES.format(fraction=FRACTION_CHARGES),
@@ -592,7 +599,7 @@ def write_scripts(manifest: dict[str, Any], out: Path) -> tuple[Path, Path]:
         _HEADER.format(
             projet=projet,
             script=path_r.name,
-            manifeste=json.dumps(resultats, ensure_ascii=False),
+            fichier_manifeste=path_r.with_suffix(".json").name,
             vues=views,
         )
         + _RESULTATS.format(fraction=FRACTION_DEFORMEE),

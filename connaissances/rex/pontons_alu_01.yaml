@@ -56,7 +56,7 @@ lots:
 archive:
   runs: 11
   sha256: 5790dc0e1ae9168fa0ef8a9770d924471b204f87b9a6a19d6fbcc63c5d90f5c0
-  recorded: '2026-10-13'
+  recorded: '2026-10-15'
 declaration_required_since: '2026-10-12T08:38:25.125860'
 reviews:
 - date: '2026-10-12'
@@ -79,6 +79,12 @@ reviews:
   last_run: 20261012T144424-430251f1
 - date: '2026-10-13'
   lot: 50quater
+  runs: 11
+  failures: 0
+  unclassified: 0
+  last_run: 20261012T144424-430251f1
+- date: '2026-10-15'
+  lot: 50quinquies
   runs: 11
   failures: 0
   unclassified: 0

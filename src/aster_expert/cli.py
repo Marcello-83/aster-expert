@@ -2127,7 +2127,8 @@ def projet(
         "--sous-etape",
         help=(
             "livrables : une seule sous-étape (preparer, executer, verifier, traiter, "
-            "vues, ingenieur, images, classeur)."
+            "charges, vues, ingenieur, images, classeur ; charges_avance : par son "
+            "nom seulement)."
         ),
     ),
     ncpus: int = typer.Option(

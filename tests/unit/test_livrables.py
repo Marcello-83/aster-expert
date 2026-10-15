@@ -576,13 +576,47 @@ def test_the_paraview_scripts_come_from_the_manifest(tmp_path: Path) -> None:
         compile(path.read_text(encoding="utf-8"), str(path), "exec")
     text = path_c.read_text(encoding="utf-8")
     assert "CASES = [" not in text and "DEFAULT_SCALE_FACTOR" not in text
-    assert '"FN_Q"' in text and "FRACTION * TAILLE / maximum" in text
+    data = path_c.with_suffix(".json").read_text(encoding="utf-8")  # lot 50 quinquies
+    assert '"FN_Q"' in data and "FRACTION * TAILLE / maximum" in text
     # Lot 49 bis : flèches en kN sur la grille, titre, trois vues (iso, plan, élév.).
-    assert "grille__FN_Q.vtu" in text and "kN par maille" in text
+    assert "grille__FN_Q.vtu" in data and "kN par maille" in text
     for view in ("'iso'", "'plan'", "'elevation'"):
         assert view in text
-    groups_text = path_r.read_text(encoding="utf-8")
+    groups_text = path_r.read_text(encoding="utf-8") + path_r.with_suffix(
+        ".json"
+    ).read_text(encoding="utf-8")
     assert "0.001*" in groups_text and "déplacement max" in groups_text
+
+
+def test_the_paraview_manifest_is_read_from_a_neighbouring_json(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Lot 50 quinquies : le manifeste n'est plus embarqué (une ligne de 10 Mo que le
+    Python de `pvbatch` refusait) ; il est lu dans un JSON voisin."""
+    import sys  # noqa: PLC0415
+    import types  # noqa: PLC0415
+
+    path_c, path_r = write_scripts(MANIFEST, tmp_path)
+    for path in (path_c, path_r):
+        text = path.read_text(encoding="utf-8")
+        assert max(len(line) for line in text.splitlines()) < 1000
+        assert path.with_suffix(".json").is_file()
+    big = {
+        "taille_du_modele_m": 1.0,
+        "cas": [],
+        "groupes": [],
+        "bourrage": "x" * 12_000_000,
+    }
+    path_c.with_suffix(".json").write_text(json.dumps(big), encoding="utf-8")
+    assert path_c.with_suffix(".json").stat().st_size > 10_000_000
+    fake = types.ModuleType("paraview.simple")
+    monkeypatch.setitem(sys.modules, "paraview", types.ModuleType("paraview"))
+    monkeypatch.setitem(sys.modules, "paraview.simple", fake)
+    text = path_c.read_text(encoding="utf-8")
+    head = text[: text.index("def _vue")]
+    namespace: dict[str, object] = {"__file__": str(path_c)}
+    exec(compile(head, str(path_c), "exec"), namespace)  # noqa: S102
+    assert len(namespace["MANIFESTE"]["bourrage"]) == 12_000_000  # type: ignore[index]
 
 
 # --- règle des fils -------------------------------------------------------------------

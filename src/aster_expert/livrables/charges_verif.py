@@ -1,6 +1,11 @@
 """MED, `.vtu`, ParaView script and pictures that let the engineer check how the loads
 of a model are applied (lot 50 quater).
 
+**Off by default since lot 50 quinquies**: the sub-step `charges` now delivers the MED
+of Code_Aster as it is and a Salomé-Méca script (`charges_salome.py`); what follows
+is the sub-step `charges_avance`, run by name only
+(`aster-expert projet <nom> livrables --sous-etape charges_avance`).
+
 Rule agreed with MM: every project delivers a verification MED of its load cases with
 its ParaView script. The sub-step `charges` of `aster-expert projet <nom> livrables`
 produces them from what the sub-steps `traiter` already wrote, with nothing run again:
@@ -733,8 +738,18 @@ def support_groups_of(ctx: ProjectContext, d: Deliverables) -> dict[str, list[st
     return out
 
 
-def step_charges(ctx: ProjectContext, rt: object = None) -> list[str]:  # noqa: ARG001
-    """Sub-step `charges` (see the module docstring)."""
+def step_charges(ctx: ProjectContext, rt: object = None) -> list[str]:
+    """Sub-step `charges` (lot 50 quinquies): `charges.med` as Code_Aster wrote it and
+    the Salomé-Méca script (`aster_expert.livrables.charges_salome`). The reconditioning
+    described above is the sub-step `charges_avance`, off by default."""
+    from aster_expert.livrables.charges_salome import step_charges_med  # noqa: PLC0415
+
+    return step_charges_med(ctx, rt)
+
+
+def step_charges_avance(ctx: ProjectContext, rt: object = None) -> list[str]:  # noqa: ARG001
+    """Sub-step `charges_avance` (lot 50 quater, off by default): see the module
+    docstring."""
     from aster_expert.livrables.paraview import render_png  # noqa: PLC0415
 
     state = load_deliverables_state(ctx)
@@ -874,6 +889,7 @@ __all__ = [
     "read_case_loads",
     "resultants",
     "step_charges",
+    "step_charges_avance",
     "write_script",
     "write_vtus",
 ]

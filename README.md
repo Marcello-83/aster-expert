@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 50quater (2026-10-13), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 50quinquies (2026-10-15), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 62 faits sur 64 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 50quater, Pontons aluminium : MED de vérification des charges (CHARGE_NODALE, CHARGE_REPARTIE, ECART_TEMPERATURE, un pas par cas) et script ParaView généré par le tronc commun (sous-étape `charges`, pour tout projet), .vtu, 18 PNG rendus par le script lui-même, résultantes des 12 cas mécaniques à 1e-15 près ; cause de l'absence de livrables ParaView au lot 50 : sous-étape `images` abandonnée en bloc.
+Lots : 63 faits sur 65 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 50quinquies, Pontons aluminium : charges.med de Code_Aster livré tel quel (FN_, FV_, VARC_) et script charges_salome.py pour Salomé-Méca (flèches par cas, échelle et légende propres à chaque cas), essayé par pvbatch, par exec() hors dossier et dans l'interface ParaViS ; reconditionnement du lot 50 quater désactivé par défaut (sous-étape charges_avance) ; correctif de la sous-étape `images` (manifeste lu dans un JSON voisin).
 
 Capacités :
 
