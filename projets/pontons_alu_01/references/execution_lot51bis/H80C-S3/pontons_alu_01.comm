@@ -1,0 +1,1434 @@
+# PONTONS-ALU-01, lot 51 bis : palée type (4 piles, anneau BA), trois travées en
+# aluminium soudé rehaussées de 0,50 m, appuis articulés à axe. Calcul linéaire,
+# cas élémentaires unitaires.
+# Variante H80C-S3 : anneau h = 0,80 m, palée courte (1,30 m), poutres principales 200 × 200 × 10.
+# Code_Aster 17.4. Unités : m, N, Pa, °C. Maillage : maillage_palee_51bis.med (maillage_palee_51bis.py,
+# H_ANNEAU = 0.8 m, H_PILES = 1.3 m). Généré par pontons_alu_01.generation_lot51bis
+# à partir de la fiche (P1 à P51), des données et de variantes_lot51bis.yaml : régénérer
+# plutôt qu'éditer. Combinaisons et exports : post-traitement (scripts/lot51bis.py).
+#
+# Paramètres et cotes (rappel, m NGF)
+#   travées T1 et T2 de 6.25 m, petite travée entre chevêtres en X = 6.25 et 7.77 ;
+#   B = 1.86 m, tablier 2.0 m (P35) ; plan moyen +1.858, pannes +1.958, sous-face des poutres +1.758 (P47)
+#   axe d'appui +1.588, dessus des chevêtres +1.488, axe de l'anneau 1.088, têtes de piles 0.688, dessus de la semelle -0.612
+#   poutres principales tube 200 × 200 × 10 mm (P36) ; anneau 0.4 × 0.8 m (P48) ; piles Ø 0.5 m, hauteur libre 1.3 m, 4 têtes encastrées (P46)
+#   semelle 2.60 × 2.60 × 0.2 m (P48) ; sol kn = 5e+06 N/m³, kt = 1e+06 N/m³ (P19)
+
+DEBUT(CODE="OUI")
+
+# ---------------------------------------------------------------- 1. MAILLAGE
+MAIL0 = LIRE_MAILLAGE(FORMAT="MED", UNITE=20)
+# Appui élastique réparti (P19) : une maille POI1 par nœud de la semelle (ssls135a).
+MAIL = CREA_MAILLAGE(MAILLAGE=MAIL0, CREA_POI1=_F(NOM_GROUP_MA="SOL", GROUP_MA="SEMELLE"))
+MAIL = DEFI_GROUP(reuse=MAIL, MAILLAGE=MAIL, CREA_GROUP_NO=_F(GROUP_MA="SEMELLE", NOM="N_SEMELLE"))
+
+# ---------------------------------------------------------------- 2. MODÈLE
+# Barres : POU_D_T ; semelle : DKT ; sol : DIS_T (P19).
+MODELE = AFFE_MODELE(
+    MAILLAGE=MAIL,
+    AFFE=(
+        _F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES", "PILES"), PHENOMENE="MECANIQUE", MODELISATION="POU_D_T"),
+        _F(GROUP_MA="SEMELLE", PHENOMENE="MECANIQUE", MODELISATION="DKT"),
+        _F(GROUP_MA="SOL", PHENOMENE="MECANIQUE", MODELISATION="DIS_T"),
+    ),
+)
+
+# ---------------------------------------------------------------- 3. MATÉRIAUX
+# RHO = γ / g (CA-048). Températures : aluminium seulement (P10).
+ALU = DEFI_MATERIAU(ELAS=_F(E=70000000000.0, NU=0.3, RHO=2752.293577981651, ALPHA=2.3e-05))
+BETON = DEFI_MATERIAU(ELAS=_F(E=34000000000.0, NU=0.2, RHO=2548.41997961264))
+CHMAT = AFFE_MATERIAU(
+    MAILLAGE=MAIL,
+    AFFE=(_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC"), MATER=ALU), _F(GROUP_MA=("CHEVETRES", "LONGRINES", "PILES", "SEMELLE"), MATER=BETON)),
+)
+
+# ---------------------------------------------------------------- 4. CARACTÉRISTIQUES
+# Tubes carrés à angles vifs : A, I et JX (Bredt) calculés par Code_Aster (U4.42.01).
+# Repère local : z_l = +Z pour les barres horizontales (VECT_Z), y_l = +X pour les piles.
+CARA = AFFE_CARA_ELEM(
+    MODELE=MODELE,
+    POUTRE=(
+        _F(GROUP_MA="POUTRES_PRINC", SECTION="RECTANGLE", CARA=("H", "EP"), VALE=(0.2, 0.01)),
+        _F(GROUP_MA=("MONTANTS", "DIAGONALES"), SECTION="RECTANGLE", CARA=("H", "EP"), VALE=(0.15, 0.007)),
+        _F(GROUP_MA="PANNES_SEC", SECTION="RECTANGLE", CARA=("H", "EP"), VALE=(0.05, 0.005)),
+        _F(GROUP_MA=("CHEVETRES", "LONGRINES"), SECTION="RECTANGLE", CARA=("HY", "HZ"), VALE=(0.4, 0.8)),
+        _F(GROUP_MA="PILES", SECTION="CERCLE", CARA=("R",), VALE=(0.25,)),
+    ),
+    ORIENTATION=(
+        _F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES"), CARA="VECT_Z", VALE=(0.0, 0.0, 1.0)),
+        _F(GROUP_MA="PILES", CARA="VECT_Y", VALE=(1.0, 0.0, 0.0)),
+    ),
+    COQUE=_F(GROUP_MA="SEMELLE", EPAIS=0.2, ANGL_REP=(0.0, 0.0)),
+    DISCRET=_F(GROUP_MA="SOL", CARA="M_T_D_N", VALE=0.0),
+    # P19 : raideurs globales k × surface, réparties au prorata des surfaces (U4.42.01).
+    RIGI_PARASOL=_F(
+        GROUP_MA="SEMELLE", GROUP_MA_POI1="SOL", COEF_GROUP=1.0, CARA="K_T_D_N",
+        VALE=(6760000.000000002, 6760000.000000002, 33800000.00000001),
+        COOR_CENTRE=(7.01, 0.0, -0.712),
+    ),
+)
+
+# ---------------------------------------------------------------- 5. LIAISONS ET APPUIS
+# P35, P45 : rotule côté quai Y > 0 fixe (X, Y, Z), rotule Y < 0 guidée (X, Z) : seul
+# point fixe en X de la chaîne des travées. LIAISON_SOLIDE : pannes / montants et
+# diagonales (LR_), tête de pile encastrée dans le chevêtre (TP_, P46), angle de
+# l'anneau monolithique (LG_), pied de pile / semelle (PS_).
+# P44, appuis à axe (axe parallèle à Y, point P non maillé) : LIAISON_DDL sur la
+# translation de P portée par un nœud N, u_N + θ_N ∧ (P − N) ; oreilles des deux travées
+# (AX_<appui>_<rive>_1 et _2) : translations de P égales et DRX égales ; oreille 1 et
+# nœud du chevêtre (_K) : Z égal, et Y égal en YP ; X libre (trou oblong). A3 (X = 14,02) :
+# support fixe, Z de P nul, et Y nul en YP.
+CL = AFFE_CHAR_MECA(
+    MODELE=MODELE,
+    DDL_IMPO=(_F(GROUP_NO="APP_QUAI_YP", DX=0.0, DY=0.0, DZ=0.0), _F(GROUP_NO="APP_QUAI_YM", DX=0.0, DZ=0.0)),
+    LIAISON_SOLIDE=(
+        _F(GROUP_NO=("LR_T1_1_01_A", "LR_T1_1_01_B")),
+        _F(GROUP_NO=("LR_T1_1_02_A", "LR_T1_1_02_B")),
+        _F(GROUP_NO=("LR_T1_1_03_A", "LR_T1_1_03_B")),
+        _F(GROUP_NO=("LR_T1_1_04_A", "LR_T1_1_04_B")),
+        _F(GROUP_NO=("LR_T1_1_05_A", "LR_T1_1_05_B")),
+        _F(GROUP_NO=("LR_T1_1_06_A", "LR_T1_1_06_B")),
+        _F(GROUP_NO=("LR_T1_1_07_A", "LR_T1_1_07_B")),
+        _F(GROUP_NO=("LR_T1_1_08_A", "LR_T1_1_08_B")),
+        _F(GROUP_NO=("LR_T1_1_09_A", "LR_T1_1_09_B")),
+        _F(GROUP_NO=("LR_T1_1_10_A", "LR_T1_1_10_B")),
+        _F(GROUP_NO=("LR_T1_1_11_A", "LR_T1_1_11_B")),
+        _F(GROUP_NO=("LR_T1_2_01_A", "LR_T1_2_01_B")),
+        _F(GROUP_NO=("LR_T1_2_02_A", "LR_T1_2_02_B")),
+        _F(GROUP_NO=("LR_T1_2_03_A", "LR_T1_2_03_B")),
+        _F(GROUP_NO=("LR_T1_2_04_A", "LR_T1_2_04_B")),
+        _F(GROUP_NO=("LR_T1_2_05_A", "LR_T1_2_05_B")),
+        _F(GROUP_NO=("LR_T1_2_06_A", "LR_T1_2_06_B")),
+        _F(GROUP_NO=("LR_T1_2_07_A", "LR_T1_2_07_B")),
+        _F(GROUP_NO=("LR_T1_2_08_A", "LR_T1_2_08_B")),
+        _F(GROUP_NO=("LR_T1_2_09_A", "LR_T1_2_09_B")),
+        _F(GROUP_NO=("LR_T1_2_10_A", "LR_T1_2_10_B")),
+        _F(GROUP_NO=("LR_T1_2_11_A", "LR_T1_2_11_B")),
+        _F(GROUP_NO=("LR_T1_3_01_A", "LR_T1_3_01_B")),
+        _F(GROUP_NO=("LR_T1_3_02_A", "LR_T1_3_02_B")),
+        _F(GROUP_NO=("LR_T1_3_03_A", "LR_T1_3_03_B")),
+        _F(GROUP_NO=("LR_T1_3_04_A", "LR_T1_3_04_B")),
+        _F(GROUP_NO=("LR_T1_3_05_A", "LR_T1_3_05_B")),
+        _F(GROUP_NO=("LR_T1_3_06_A", "LR_T1_3_06_B")),
+        _F(GROUP_NO=("LR_T1_3_07_A", "LR_T1_3_07_B")),
+        _F(GROUP_NO=("LR_T1_3_08_A", "LR_T1_3_08_B")),
+        _F(GROUP_NO=("LR_T1_3_09_A", "LR_T1_3_09_B")),
+        _F(GROUP_NO=("LR_T1_3_10_A", "LR_T1_3_10_B")),
+        _F(GROUP_NO=("LR_T1_3_11_A", "LR_T1_3_11_B")),
+        _F(GROUP_NO=("LR_T1_4_01_A", "LR_T1_4_01_B")),
+        _F(GROUP_NO=("LR_T1_4_02_A", "LR_T1_4_02_B")),
+        _F(GROUP_NO=("LR_T1_4_03_A", "LR_T1_4_03_B")),
+        _F(GROUP_NO=("LR_T1_4_04_A", "LR_T1_4_04_B")),
+        _F(GROUP_NO=("LR_T1_4_05_A", "LR_T1_4_05_B")),
+        _F(GROUP_NO=("LR_T1_4_06_A", "LR_T1_4_06_B")),
+        _F(GROUP_NO=("LR_T1_4_07_A", "LR_T1_4_07_B")),
+        _F(GROUP_NO=("LR_T1_4_08_A", "LR_T1_4_08_B")),
+        _F(GROUP_NO=("LR_T1_4_09_A", "LR_T1_4_09_B")),
+        _F(GROUP_NO=("LR_T1_4_10_A", "LR_T1_4_10_B")),
+        _F(GROUP_NO=("LR_T1_4_11_A", "LR_T1_4_11_B")),
+        _F(GROUP_NO=("LR_PT_1_01_A", "LR_PT_1_01_B")),
+        _F(GROUP_NO=("LR_PT_1_02_A", "LR_PT_1_02_B")),
+        _F(GROUP_NO=("LR_PT_1_03_A", "LR_PT_1_03_B")),
+        _F(GROUP_NO=("LR_PT_2_01_A", "LR_PT_2_01_B")),
+        _F(GROUP_NO=("LR_PT_2_02_A", "LR_PT_2_02_B")),
+        _F(GROUP_NO=("LR_PT_2_03_A", "LR_PT_2_03_B")),
+        _F(GROUP_NO=("LR_PT_3_01_A", "LR_PT_3_01_B")),
+        _F(GROUP_NO=("LR_PT_3_02_A", "LR_PT_3_02_B")),
+        _F(GROUP_NO=("LR_PT_3_03_A", "LR_PT_3_03_B")),
+        _F(GROUP_NO=("LR_PT_4_01_A", "LR_PT_4_01_B")),
+        _F(GROUP_NO=("LR_PT_4_02_A", "LR_PT_4_02_B")),
+        _F(GROUP_NO=("LR_PT_4_03_A", "LR_PT_4_03_B")),
+        _F(GROUP_NO=("LR_T2_1_01_A", "LR_T2_1_01_B")),
+        _F(GROUP_NO=("LR_T2_1_02_A", "LR_T2_1_02_B")),
+        _F(GROUP_NO=("LR_T2_1_03_A", "LR_T2_1_03_B")),
+        _F(GROUP_NO=("LR_T2_1_04_A", "LR_T2_1_04_B")),
+        _F(GROUP_NO=("LR_T2_1_05_A", "LR_T2_1_05_B")),
+        _F(GROUP_NO=("LR_T2_1_06_A", "LR_T2_1_06_B")),
+        _F(GROUP_NO=("LR_T2_1_07_A", "LR_T2_1_07_B")),
+        _F(GROUP_NO=("LR_T2_1_08_A", "LR_T2_1_08_B")),
+        _F(GROUP_NO=("LR_T2_1_09_A", "LR_T2_1_09_B")),
+        _F(GROUP_NO=("LR_T2_1_10_A", "LR_T2_1_10_B")),
+        _F(GROUP_NO=("LR_T2_1_11_A", "LR_T2_1_11_B")),
+        _F(GROUP_NO=("LR_T2_2_01_A", "LR_T2_2_01_B")),
+        _F(GROUP_NO=("LR_T2_2_02_A", "LR_T2_2_02_B")),
+        _F(GROUP_NO=("LR_T2_2_03_A", "LR_T2_2_03_B")),
+        _F(GROUP_NO=("LR_T2_2_04_A", "LR_T2_2_04_B")),
+        _F(GROUP_NO=("LR_T2_2_05_A", "LR_T2_2_05_B")),
+        _F(GROUP_NO=("LR_T2_2_06_A", "LR_T2_2_06_B")),
+        _F(GROUP_NO=("LR_T2_2_07_A", "LR_T2_2_07_B")),
+        _F(GROUP_NO=("LR_T2_2_08_A", "LR_T2_2_08_B")),
+        _F(GROUP_NO=("LR_T2_2_09_A", "LR_T2_2_09_B")),
+        _F(GROUP_NO=("LR_T2_2_10_A", "LR_T2_2_10_B")),
+        _F(GROUP_NO=("LR_T2_2_11_A", "LR_T2_2_11_B")),
+        _F(GROUP_NO=("LR_T2_3_01_A", "LR_T2_3_01_B")),
+        _F(GROUP_NO=("LR_T2_3_02_A", "LR_T2_3_02_B")),
+        _F(GROUP_NO=("LR_T2_3_03_A", "LR_T2_3_03_B")),
+        _F(GROUP_NO=("LR_T2_3_04_A", "LR_T2_3_04_B")),
+        _F(GROUP_NO=("LR_T2_3_05_A", "LR_T2_3_05_B")),
+        _F(GROUP_NO=("LR_T2_3_06_A", "LR_T2_3_06_B")),
+        _F(GROUP_NO=("LR_T2_3_07_A", "LR_T2_3_07_B")),
+        _F(GROUP_NO=("LR_T2_3_08_A", "LR_T2_3_08_B")),
+        _F(GROUP_NO=("LR_T2_3_09_A", "LR_T2_3_09_B")),
+        _F(GROUP_NO=("LR_T2_3_10_A", "LR_T2_3_10_B")),
+        _F(GROUP_NO=("LR_T2_3_11_A", "LR_T2_3_11_B")),
+        _F(GROUP_NO=("LR_T2_4_01_A", "LR_T2_4_01_B")),
+        _F(GROUP_NO=("LR_T2_4_02_A", "LR_T2_4_02_B")),
+        _F(GROUP_NO=("LR_T2_4_03_A", "LR_T2_4_03_B")),
+        _F(GROUP_NO=("LR_T2_4_04_A", "LR_T2_4_04_B")),
+        _F(GROUP_NO=("LR_T2_4_05_A", "LR_T2_4_05_B")),
+        _F(GROUP_NO=("LR_T2_4_06_A", "LR_T2_4_06_B")),
+        _F(GROUP_NO=("LR_T2_4_07_A", "LR_T2_4_07_B")),
+        _F(GROUP_NO=("LR_T2_4_08_A", "LR_T2_4_08_B")),
+        _F(GROUP_NO=("LR_T2_4_09_A", "LR_T2_4_09_B")),
+        _F(GROUP_NO=("LR_T2_4_10_A", "LR_T2_4_10_B")),
+        _F(GROUP_NO=("LR_T2_4_11_A", "LR_T2_4_11_B")),
+        _F(GROUP_NO=("TP_C1_YM_A", "TP_C1_YM_B")),
+        _F(GROUP_NO=("LG_C1_YM_A", "LG_C1_YM_B")),
+        _F(GROUP_NO=("PS_C1_YM_A", "PS_C1_YM_B")),
+        _F(GROUP_NO=("TP_C1_YP_A", "TP_C1_YP_B")),
+        _F(GROUP_NO=("LG_C1_YP_A", "LG_C1_YP_B")),
+        _F(GROUP_NO=("PS_C1_YP_A", "PS_C1_YP_B")),
+        _F(GROUP_NO=("TP_C2_YM_A", "TP_C2_YM_B")),
+        _F(GROUP_NO=("LG_C2_YM_A", "LG_C2_YM_B")),
+        _F(GROUP_NO=("PS_C2_YM_A", "PS_C2_YM_B")),
+        _F(GROUP_NO=("TP_C2_YP_A", "TP_C2_YP_B")),
+        _F(GROUP_NO=("LG_C2_YP_A", "LG_C2_YP_B")),
+        _F(GROUP_NO=("PS_C2_YP_A", "PS_C2_YP_B")),
+    ),
+    LIAISON_DDL=(
+        # appui A1_YM : axe en (6.25, -0.93, 1.588), Y libre
+        # axe commun, DX
+        _F(GROUP_NO=("AX_A1_YM_1", "AX_A1_YM_1", "AX_A1_YM_2", "AX_A1_YM_2"), DDL=("DX", "DRY", "DX", "DRY"), COEF_MULT=(1.0, -0.27, -1.0, 0.27,), COEF_IMPO=0.0),
+        # axe commun, DY
+        _F(GROUP_NO=("AX_A1_YM_1", "AX_A1_YM_1", "AX_A1_YM_2", "AX_A1_YM_2", "AX_A1_YM_2"), DDL=("DY", "DRX", "DY", "DRZ", "DRX"), COEF_MULT=(1.0, 0.27, -1.0, 0.001, -0.27,), COEF_IMPO=0.0),
+        # axe commun, DZ
+        _F(GROUP_NO=("AX_A1_YM_1", "AX_A1_YM_2", "AX_A1_YM_2"), DDL=("DZ", "DZ", "DRY"), COEF_MULT=(1.0, -1.0, -0.001,), COEF_IMPO=0.0),
+        # éclissage articulé, torsion DRX
+        _F(GROUP_NO=("AX_A1_YM_1", "AX_A1_YM_2"), DDL=("DRX", "DRX"), COEF_MULT=(1.0, -1.0,), COEF_IMPO=0.0),
+        # appui sur le chevêtre, DZ
+        _F(GROUP_NO=("AX_A1_YM_1", "AX_A1_YM_K"), DDL=("DZ", "DZ"), COEF_MULT=(1.0, -1.0,), COEF_IMPO=0.0),
+        # appui A1_YP : axe en (6.25, 0.93, 1.588), Y bloqué
+        # axe commun, DX
+        _F(GROUP_NO=("AX_A1_YP_1", "AX_A1_YP_1", "AX_A1_YP_2", "AX_A1_YP_2"), DDL=("DX", "DRY", "DX", "DRY"), COEF_MULT=(1.0, -0.27, -1.0, 0.27,), COEF_IMPO=0.0),
+        # axe commun, DY
+        _F(GROUP_NO=("AX_A1_YP_1", "AX_A1_YP_1", "AX_A1_YP_2", "AX_A1_YP_2", "AX_A1_YP_2"), DDL=("DY", "DRX", "DY", "DRZ", "DRX"), COEF_MULT=(1.0, 0.27, -1.0, 0.001, -0.27,), COEF_IMPO=0.0),
+        # axe commun, DZ
+        _F(GROUP_NO=("AX_A1_YP_1", "AX_A1_YP_2", "AX_A1_YP_2"), DDL=("DZ", "DZ", "DRY"), COEF_MULT=(1.0, -1.0, -0.001,), COEF_IMPO=0.0),
+        # éclissage articulé, torsion DRX
+        _F(GROUP_NO=("AX_A1_YP_1", "AX_A1_YP_2"), DDL=("DRX", "DRX"), COEF_MULT=(1.0, -1.0,), COEF_IMPO=0.0),
+        # appui sur le chevêtre, DY
+        _F(GROUP_NO=("AX_A1_YP_1", "AX_A1_YP_1", "AX_A1_YP_K", "AX_A1_YP_K"), DDL=("DY", "DRX", "DY", "DRX"), COEF_MULT=(1.0, 0.27, -1.0, 0.5,), COEF_IMPO=0.0),
+        # appui sur le chevêtre, DZ
+        _F(GROUP_NO=("AX_A1_YP_1", "AX_A1_YP_K"), DDL=("DZ", "DZ"), COEF_MULT=(1.0, -1.0,), COEF_IMPO=0.0),
+        # appui A2_YM : axe en (7.77, -0.93, 1.588), Y libre
+        # axe commun, DX
+        _F(GROUP_NO=("AX_A2_YM_1", "AX_A2_YM_1", "AX_A2_YM_2", "AX_A2_YM_2"), DDL=("DX", "DRY", "DX", "DRY"), COEF_MULT=(1.0, -0.27, -1.0, 0.27,), COEF_IMPO=0.0),
+        # axe commun, DY
+        _F(GROUP_NO=("AX_A2_YM_1", "AX_A2_YM_1", "AX_A2_YM_2", "AX_A2_YM_2", "AX_A2_YM_2"), DDL=("DY", "DRX", "DY", "DRZ", "DRX"), COEF_MULT=(1.0, 0.27, -1.0, -0.001, -0.27,), COEF_IMPO=0.0),
+        # axe commun, DZ
+        _F(GROUP_NO=("AX_A2_YM_1", "AX_A2_YM_2", "AX_A2_YM_2"), DDL=("DZ", "DZ", "DRY"), COEF_MULT=(1.0, -1.0, 0.001,), COEF_IMPO=0.0),
+        # éclissage articulé, torsion DRX
+        _F(GROUP_NO=("AX_A2_YM_1", "AX_A2_YM_2"), DDL=("DRX", "DRX"), COEF_MULT=(1.0, -1.0,), COEF_IMPO=0.0),
+        # appui sur le chevêtre, DZ
+        _F(GROUP_NO=("AX_A2_YM_1", "AX_A2_YM_K"), DDL=("DZ", "DZ"), COEF_MULT=(1.0, -1.0,), COEF_IMPO=0.0),
+        # appui A2_YP : axe en (7.77, 0.93, 1.588), Y bloqué
+        # axe commun, DX
+        _F(GROUP_NO=("AX_A2_YP_1", "AX_A2_YP_1", "AX_A2_YP_2", "AX_A2_YP_2"), DDL=("DX", "DRY", "DX", "DRY"), COEF_MULT=(1.0, -0.27, -1.0, 0.27,), COEF_IMPO=0.0),
+        # axe commun, DY
+        _F(GROUP_NO=("AX_A2_YP_1", "AX_A2_YP_1", "AX_A2_YP_2", "AX_A2_YP_2", "AX_A2_YP_2"), DDL=("DY", "DRX", "DY", "DRZ", "DRX"), COEF_MULT=(1.0, 0.27, -1.0, -0.001, -0.27,), COEF_IMPO=0.0),
+        # axe commun, DZ
+        _F(GROUP_NO=("AX_A2_YP_1", "AX_A2_YP_2", "AX_A2_YP_2"), DDL=("DZ", "DZ", "DRY"), COEF_MULT=(1.0, -1.0, 0.001,), COEF_IMPO=0.0),
+        # éclissage articulé, torsion DRX
+        _F(GROUP_NO=("AX_A2_YP_1", "AX_A2_YP_2"), DDL=("DRX", "DRX"), COEF_MULT=(1.0, -1.0,), COEF_IMPO=0.0),
+        # appui sur le chevêtre, DY
+        _F(GROUP_NO=("AX_A2_YP_1", "AX_A2_YP_1", "AX_A2_YP_K", "AX_A2_YP_K"), DDL=("DY", "DRX", "DY", "DRX"), COEF_MULT=(1.0, 0.27, -1.0, 0.5,), COEF_IMPO=0.0),
+        # appui sur le chevêtre, DZ
+        _F(GROUP_NO=("AX_A2_YP_1", "AX_A2_YP_K"), DDL=("DZ", "DZ"), COEF_MULT=(1.0, -1.0,), COEF_IMPO=0.0),
+        # appui A3_YM : axe en (14.02, -0.93, 1.588), Y libre
+        # appui sur support fixe, DZ
+        _F(GROUP_NO=("AX_A3_YM_1",), DDL=("DZ",), COEF_MULT=(1.0,), COEF_IMPO=0.0),
+        # appui A3_YP : axe en (14.02, 0.93, 1.588), Y bloqué
+        # appui sur support fixe, DY
+        _F(GROUP_NO=("AX_A3_YP_1", "AX_A3_YP_1"), DDL=("DY", "DRX"), COEF_MULT=(1.0, 0.27,), COEF_IMPO=0.0),
+        # appui sur support fixe, DZ
+        _F(GROUP_NO=("AX_A3_YP_1",), DDL=("DZ",), COEF_MULT=(1.0,), COEF_IMPO=0.0),
+    ),
+)
+
+# ---------------------------------------------------------------- 6. CAS DE CHARGE
+# Actions de surface (P22) : FORCE_POUTRE sur les barres longitudinales, largeur
+# d'influence b de chaque ligne, tablier de 2.0 m, une charge par travée.
+CG1 = AFFE_CHAR_MECA(MODELE=MODELE, PESANTEUR=_F(GRAVITE=9.81, DIRECTION=(0.0, 0.0, -1.0)))
+# P49 : déjaugeage, 10000 N/m³ × section (barres de béton, N/m) ou × épaisseur
+# (semelle, N/m², FORCE_COQUE en repère global, PAT-005), vers le haut.
+CDEJ = AFFE_CHAR_MECA(
+    MODELE=MODELE,
+    FORCE_POUTRE=(
+        _F(GROUP_MA=("CHEVETRES", "LONGRINES"), FZ=3200.0000000000005),  # 0.4 × 0.8 m
+        _F(GROUP_MA="PILES", FZ=1963.4954084936207),  # Ø 0.5 m
+    ),
+    FORCE_COQUE=_F(GROUP_MA="SEMELLE", FZ=2000.0),  # e = 0.2 m
+)
+CG2T1 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_T1_YM", FZ=-260.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_T1_4", FZ=-375.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_T1_3", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T1_2", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T1_1", FZ=-370.0000000000001),  # b = 0.370 m
+    _F(GROUP_MA="PP_T1_YP", FZ=-254.9999999999999),  # b = 0.255 m
+))
+CG2PT = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_PT_YM", FZ=-260.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_PT_4", FZ=-375.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_PT_3", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_PT_2", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_PT_1", FZ=-370.0000000000001),  # b = 0.370 m
+    _F(GROUP_MA="PP_PT_YP", FZ=-254.9999999999999),  # b = 0.255 m
+))
+CG2T2 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_T2_YM", FZ=-260.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_T2_4", FZ=-375.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_T2_3", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T2_2", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T2_1", FZ=-370.0000000000001),  # b = 0.370 m
+    _F(GROUP_MA="PP_T2_YP", FZ=-254.9999999999999),  # b = 0.255 m
+))
+CQT1 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_T1_YM", FZ=-1300.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_T1_4", FZ=-1875.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_T1_3", FZ=-1850.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T1_2", FZ=-1850.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T1_1", FZ=-1850.0000000000005),  # b = 0.370 m
+    _F(GROUP_MA="PP_T1_YP", FZ=-1274.9999999999995),  # b = 0.255 m
+))
+CQPT = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_PT_YM", FZ=-1300.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_PT_4", FZ=-1875.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_PT_3", FZ=-1850.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_PT_2", FZ=-1850.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_PT_1", FZ=-1850.0000000000005),  # b = 0.370 m
+    _F(GROUP_MA="PP_PT_YP", FZ=-1274.9999999999995),  # b = 0.255 m
+))
+CQT2 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_T2_YM", FZ=-1300.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_T2_4", FZ=-1875.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_T2_3", FZ=-1850.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T2_2", FZ=-1850.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T2_1", FZ=-1850.0000000000005),  # b = 0.370 m
+    _F(GROUP_MA="PP_T2_YP", FZ=-1274.9999999999995),  # b = 0.255 m
+))
+CHUT1 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_T1_YM", FZ=260.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_T1_4", FZ=375.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_T1_3", FZ=370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T1_2", FZ=370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T1_1", FZ=370.0000000000001),  # b = 0.370 m
+    _F(GROUP_MA="PP_T1_YP", FZ=254.9999999999999),  # b = 0.255 m
+))
+CHUPT = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_PT_YM", FZ=260.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_PT_4", FZ=375.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_PT_3", FZ=370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_PT_2", FZ=370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_PT_1", FZ=370.0000000000001),  # b = 0.370 m
+    _F(GROUP_MA="PP_PT_YP", FZ=254.9999999999999),  # b = 0.255 m
+))
+CHUT2 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_T2_YM", FZ=260.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_T2_4", FZ=375.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_T2_3", FZ=370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T2_2", FZ=370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T2_1", FZ=370.0000000000001),  # b = 0.370 m
+    _F(GROUP_MA="PP_T2_YP", FZ=254.9999999999999),  # b = 0.255 m
+))
+CHDT1 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_T1_YM", FZ=-260.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_T1_4", FZ=-375.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_T1_3", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T1_2", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T1_1", FZ=-370.0000000000001),  # b = 0.370 m
+    _F(GROUP_MA="PP_T1_YP", FZ=-254.9999999999999),  # b = 0.255 m
+))
+CHDPT = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_PT_YM", FZ=-260.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_PT_4", FZ=-375.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_PT_3", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_PT_2", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_PT_1", FZ=-370.0000000000001),  # b = 0.370 m
+    _F(GROUP_MA="PP_PT_YP", FZ=-254.9999999999999),  # b = 0.255 m
+))
+CHDT2 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PP_T2_YM", FZ=-260.0),  # b = 0.260 m
+    _F(GROUP_MA="PANNE_T2_4", FZ=-375.0),  # b = 0.375 m
+    _F(GROUP_MA="PANNE_T2_3", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T2_2", FZ=-370.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T2_1", FZ=-370.0000000000001),  # b = 0.370 m
+    _F(GROUP_MA="PP_T2_YP", FZ=-254.9999999999999),  # b = 0.255 m
+))
+CQD = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=(
+    _F(GROUP_MA="PANNE_T1_3", FZ=-25.00000000000002),  # b = 0.005 m
+    _F(GROUP_MA="PANNE_T1_2", FZ=-1850.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T1_1", FZ=-1850.0000000000005),  # b = 0.370 m
+    _F(GROUP_MA="PP_T1_YP", FZ=-1274.9999999999995),  # b = 0.255 m
+    _F(GROUP_MA="PANNE_PT_3", FZ=-25.00000000000002),  # b = 0.005 m
+    _F(GROUP_MA="PANNE_PT_2", FZ=-1850.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_PT_1", FZ=-1850.0000000000005),  # b = 0.370 m
+    _F(GROUP_MA="PP_PT_YP", FZ=-1274.9999999999995),  # b = 0.255 m
+    _F(GROUP_MA="PANNE_T2_3", FZ=-25.00000000000002),  # b = 0.005 m
+    _F(GROUP_MA="PANNE_T2_2", FZ=-1850.0),  # b = 0.370 m
+    _F(GROUP_MA="PANNE_T2_1", FZ=-1850.0000000000005),  # b = 0.370 m
+    _F(GROUP_MA="PP_T2_YP", FZ=-1274.9999999999995),  # b = 0.255 m
+))
+# Accostage : 1 kN/m sur la zone de 1 m de la poutre de rive ; ACN ⊥ au bord vers
+# l'intérieur, ACX selon +X, ACZ selon +Z. Charge appliquée sur l'axe de la poutre.
+CAC01 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_QU_YM", FY=1000.0))  # ACN_QU_YM
+CAC02 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_QU_YM", FX=1000.0))  # ACX_QU_YM
+CAC03 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_QU_YM", FZ=1000.0))  # ACZ_QU_YM
+CAC04 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_QU_YP", FY=-1000.0))  # ACN_QU_YP
+CAC05 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_QU_YP", FX=1000.0))  # ACX_QU_YP
+CAC06 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_QU_YP", FZ=1000.0))  # ACZ_QU_YP
+CAC07 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_MI1_YM", FY=1000.0))  # ACN_MI1_YM
+CAC08 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_MI1_YM", FX=1000.0))  # ACX_MI1_YM
+CAC09 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_MI1_YM", FZ=1000.0))  # ACZ_MI1_YM
+CAC10 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_MI1_YP", FY=-1000.0))  # ACN_MI1_YP
+CAC11 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_MI1_YP", FX=1000.0))  # ACX_MI1_YP
+CAC12 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_MI1_YP", FZ=1000.0))  # ACZ_MI1_YP
+CAC13 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_CH1_YM", FY=1000.0))  # ACN_CH1_YM
+CAC14 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_CH1_YM", FX=1000.0))  # ACX_CH1_YM
+CAC15 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_CH1_YM", FZ=1000.0))  # ACZ_CH1_YM
+CAC16 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_CH1_YP", FY=-1000.0))  # ACN_CH1_YP
+CAC17 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_CH1_YP", FX=1000.0))  # ACX_CH1_YP
+CAC18 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_CH1_YP", FZ=1000.0))  # ACZ_CH1_YP
+CAC19 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PT_YM", FY=1000.0))  # ACN_PT_YM
+CAC20 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PT_YM", FX=1000.0))  # ACX_PT_YM
+CAC21 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PT_YM", FZ=1000.0))  # ACZ_PT_YM
+CAC22 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PT_YP", FY=-1000.0))  # ACN_PT_YP
+CAC23 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PT_YP", FX=1000.0))  # ACX_PT_YP
+CAC24 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PT_YP", FZ=1000.0))  # ACZ_PT_YP
+CAC25 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PA2_YM", FY=1000.0))  # ACN_PA2_YM
+CAC26 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PA2_YM", FX=1000.0))  # ACX_PA2_YM
+CAC27 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PA2_YM", FZ=1000.0))  # ACZ_PA2_YM
+CAC28 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PA2_YP", FY=-1000.0))  # ACN_PA2_YP
+CAC29 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PA2_YP", FX=1000.0))  # ACX_PA2_YP
+CAC30 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_POUTRE=_F(GROUP_MA="ACC_PA2_YP", FZ=1000.0))  # ACZ_PA2_YP
+# Amarrage : 1 kN au taquet ; AMY ⊥ au bord vers l'extérieur, AMX selon +X.
+CAM01 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ1_YM", FY=-1000.0))  # AMY_TQ1_YM
+CAM02 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ1_YM", FX=1000.0))  # AMX_TQ1_YM
+CAM03 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ1_YP", FY=1000.0))  # AMY_TQ1_YP
+CAM04 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ1_YP", FX=1000.0))  # AMX_TQ1_YP
+CAM05 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ2_YM", FY=-1000.0))  # AMY_TQ2_YM
+CAM06 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ2_YM", FX=1000.0))  # AMX_TQ2_YM
+CAM07 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ2_YP", FY=1000.0))  # AMY_TQ2_YP
+CAM08 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ2_YP", FX=1000.0))  # AMX_TQ2_YP
+CAM09 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ3_YM", FY=-1000.0))  # AMY_TQ3_YM
+CAM10 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ3_YM", FX=1000.0))  # AMX_TQ3_YM
+CAM11 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ3_YP", FY=1000.0))  # AMY_TQ3_YP
+CAM12 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ3_YP", FX=1000.0))  # AMX_TQ3_YP
+CAM13 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ4_YM", FY=-1000.0))  # AMY_TQ4_YM
+CAM14 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ4_YM", FX=1000.0))  # AMX_TQ4_YM
+CAM15 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ4_YP", FY=1000.0))  # AMY_TQ4_YP
+CAM16 = AFFE_CHAR_MECA(MODELE=MODELE, FORCE_NODALE=_F(GROUP_NO="TQ4_YP", FX=1000.0))  # AMX_TQ4_YP
+
+# ---------------------------------------------------------------- 7. RÉSOLUTION
+# Cas mécaniques : une factorisation (MACRO_ELAS_MULT, CA-055) ; un cas total = somme
+# des charges de ses travées.
+ELEM = MACRO_ELAS_MULT(
+    MODELE=MODELE,
+    CHAM_MATER=CHMAT,
+    CARA_ELEM=CARA,
+    CHAR_MECA_GLOBAL=CL,
+    CAS_CHARGE=(
+        _F(NOM_CAS="G1", CHAR_MECA=CG1, OPTION="SANS"),
+        _F(NOM_CAS="DEJ", CHAR_MECA=CDEJ, OPTION="SANS"),
+        _F(NOM_CAS="G2", CHAR_MECA=(CG2T1, CG2PT, CG2T2), OPTION="SANS"),
+        _F(NOM_CAS="G2_T1", CHAR_MECA=CG2T1, OPTION="SANS"),
+        _F(NOM_CAS="G2_PT", CHAR_MECA=CG2PT, OPTION="SANS"),
+        _F(NOM_CAS="G2_T2", CHAR_MECA=CG2T2, OPTION="SANS"),
+        _F(NOM_CAS="Q", CHAR_MECA=(CQT1, CQPT, CQT2), OPTION="SANS"),
+        _F(NOM_CAS="Q_T1", CHAR_MECA=CQT1, OPTION="SANS"),
+        _F(NOM_CAS="Q_PT", CHAR_MECA=CQPT, OPTION="SANS"),
+        _F(NOM_CAS="Q_T2", CHAR_MECA=CQT2, OPTION="SANS"),
+        _F(NOM_CAS="QD", CHAR_MECA=CQD, OPTION="SANS"),
+        _F(NOM_CAS="HU", CHAR_MECA=(CHUT1, CHUPT, CHUT2), OPTION="SANS"),
+        _F(NOM_CAS="HU_T1", CHAR_MECA=CHUT1, OPTION="SANS"),
+        _F(NOM_CAS="HU_PT", CHAR_MECA=CHUPT, OPTION="SANS"),
+        _F(NOM_CAS="HU_T2", CHAR_MECA=CHUT2, OPTION="SANS"),
+        _F(NOM_CAS="HD", CHAR_MECA=(CHDT1, CHDPT, CHDT2), OPTION="SANS"),
+        _F(NOM_CAS="HD_T1", CHAR_MECA=CHDT1, OPTION="SANS"),
+        _F(NOM_CAS="HD_PT", CHAR_MECA=CHDPT, OPTION="SANS"),
+        _F(NOM_CAS="HD_T2", CHAR_MECA=CHDT2, OPTION="SANS"),
+        _F(NOM_CAS="ACN_QU_YM", CHAR_MECA=CAC01, OPTION="SANS"),
+        _F(NOM_CAS="ACX_QU_YM", CHAR_MECA=CAC02, OPTION="SANS"),
+        _F(NOM_CAS="ACZ_QU_YM", CHAR_MECA=CAC03, OPTION="SANS"),
+        _F(NOM_CAS="ACN_QU_YP", CHAR_MECA=CAC04, OPTION="SANS"),
+        _F(NOM_CAS="ACX_QU_YP", CHAR_MECA=CAC05, OPTION="SANS"),
+        _F(NOM_CAS="ACZ_QU_YP", CHAR_MECA=CAC06, OPTION="SANS"),
+        _F(NOM_CAS="ACN_MI1_YM", CHAR_MECA=CAC07, OPTION="SANS"),
+        _F(NOM_CAS="ACX_MI1_YM", CHAR_MECA=CAC08, OPTION="SANS"),
+        _F(NOM_CAS="ACZ_MI1_YM", CHAR_MECA=CAC09, OPTION="SANS"),
+        _F(NOM_CAS="ACN_MI1_YP", CHAR_MECA=CAC10, OPTION="SANS"),
+        _F(NOM_CAS="ACX_MI1_YP", CHAR_MECA=CAC11, OPTION="SANS"),
+        _F(NOM_CAS="ACZ_MI1_YP", CHAR_MECA=CAC12, OPTION="SANS"),
+        _F(NOM_CAS="ACN_CH1_YM", CHAR_MECA=CAC13, OPTION="SANS"),
+        _F(NOM_CAS="ACX_CH1_YM", CHAR_MECA=CAC14, OPTION="SANS"),
+        _F(NOM_CAS="ACZ_CH1_YM", CHAR_MECA=CAC15, OPTION="SANS"),
+        _F(NOM_CAS="ACN_CH1_YP", CHAR_MECA=CAC16, OPTION="SANS"),
+        _F(NOM_CAS="ACX_CH1_YP", CHAR_MECA=CAC17, OPTION="SANS"),
+        _F(NOM_CAS="ACZ_CH1_YP", CHAR_MECA=CAC18, OPTION="SANS"),
+        _F(NOM_CAS="ACN_PT_YM", CHAR_MECA=CAC19, OPTION="SANS"),
+        _F(NOM_CAS="ACX_PT_YM", CHAR_MECA=CAC20, OPTION="SANS"),
+        _F(NOM_CAS="ACZ_PT_YM", CHAR_MECA=CAC21, OPTION="SANS"),
+        _F(NOM_CAS="ACN_PT_YP", CHAR_MECA=CAC22, OPTION="SANS"),
+        _F(NOM_CAS="ACX_PT_YP", CHAR_MECA=CAC23, OPTION="SANS"),
+        _F(NOM_CAS="ACZ_PT_YP", CHAR_MECA=CAC24, OPTION="SANS"),
+        _F(NOM_CAS="ACN_PA2_YM", CHAR_MECA=CAC25, OPTION="SANS"),
+        _F(NOM_CAS="ACX_PA2_YM", CHAR_MECA=CAC26, OPTION="SANS"),
+        _F(NOM_CAS="ACZ_PA2_YM", CHAR_MECA=CAC27, OPTION="SANS"),
+        _F(NOM_CAS="ACN_PA2_YP", CHAR_MECA=CAC28, OPTION="SANS"),
+        _F(NOM_CAS="ACX_PA2_YP", CHAR_MECA=CAC29, OPTION="SANS"),
+        _F(NOM_CAS="ACZ_PA2_YP", CHAR_MECA=CAC30, OPTION="SANS"),
+        _F(NOM_CAS="AMY_TQ1_YM", CHAR_MECA=CAM01, OPTION="SANS"),
+        _F(NOM_CAS="AMX_TQ1_YM", CHAR_MECA=CAM02, OPTION="SANS"),
+        _F(NOM_CAS="AMY_TQ1_YP", CHAR_MECA=CAM03, OPTION="SANS"),
+        _F(NOM_CAS="AMX_TQ1_YP", CHAR_MECA=CAM04, OPTION="SANS"),
+        _F(NOM_CAS="AMY_TQ2_YM", CHAR_MECA=CAM05, OPTION="SANS"),
+        _F(NOM_CAS="AMX_TQ2_YM", CHAR_MECA=CAM06, OPTION="SANS"),
+        _F(NOM_CAS="AMY_TQ2_YP", CHAR_MECA=CAM07, OPTION="SANS"),
+        _F(NOM_CAS="AMX_TQ2_YP", CHAR_MECA=CAM08, OPTION="SANS"),
+        _F(NOM_CAS="AMY_TQ3_YM", CHAR_MECA=CAM09, OPTION="SANS"),
+        _F(NOM_CAS="AMX_TQ3_YM", CHAR_MECA=CAM10, OPTION="SANS"),
+        _F(NOM_CAS="AMY_TQ3_YP", CHAR_MECA=CAM11, OPTION="SANS"),
+        _F(NOM_CAS="AMX_TQ3_YP", CHAR_MECA=CAM12, OPTION="SANS"),
+        _F(NOM_CAS="AMY_TQ4_YM", CHAR_MECA=CAM13, OPTION="SANS"),
+        _F(NOM_CAS="AMX_TQ4_YM", CHAR_MECA=CAM14, OPTION="SANS"),
+        _F(NOM_CAS="AMY_TQ4_YP", CHAR_MECA=CAM15, OPTION="SANS"),
+        _F(NOM_CAS="AMX_TQ4_YP", CHAR_MECA=CAM16, OPTION="SANS"),
+    ),
+    SOLVEUR=_F(METHODE="MUMPS", POSTTRAITEMENTS="FORCE"),
+)
+ELEM = CALC_CHAMP(reuse=ELEM, RESULTAT=ELEM, GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES", "PILES"), CONTRAINTE=("EFGE_ELNO",))
+ELEM = CALC_CHAMP(reuse=ELEM, RESULTAT=ELEM, FORCE=("REAC_NODA",))
+# Températures uniformes (P10), CA-054 : un champ de matériau par cas.
+# T+ = +46 °C, tout l'aluminium
+T_TP = CREA_CHAMP(OPERATION="AFFE", TYPE_CHAM="NOEU_TEMP_R", MAILLAGE=MAIL, AFFE=_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC"), NOM_CMP="TEMP", VALE=46.0))
+M_TP = AFFE_MATERIAU(
+    MAILLAGE=MAIL,
+    AFFE=(_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC"), MATER=ALU), _F(GROUP_MA=("CHEVETRES", "LONGRINES", "PILES", "SEMELLE"), MATER=BETON)),
+    AFFE_VARC=_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC"), NOM_VARC="TEMP", CHAM_GD=T_TP, VALE_REF=0.0),
+)
+TP = MECA_STATIQUE(MODELE=MODELE, CHAM_MATER=M_TP, CARA_ELEM=CARA, EXCIT=_F(CHARGE=CL), SOLVEUR=_F(METHODE="MUMPS"))
+TP = CALC_CHAMP(reuse=TP, RESULTAT=TP, GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES", "PILES"), CONTRAINTE=("EFGE_ELNO",))
+TP = CALC_CHAMP(reuse=TP, RESULTAT=TP, FORCE=("REAC_NODA",))
+# T− = −28 °C, tout l'aluminium
+T_TM = CREA_CHAMP(OPERATION="AFFE", TYPE_CHAM="NOEU_TEMP_R", MAILLAGE=MAIL, AFFE=_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC"), NOM_CMP="TEMP", VALE=-28.0))
+M_TM = AFFE_MATERIAU(
+    MAILLAGE=MAIL,
+    AFFE=(_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC"), MATER=ALU), _F(GROUP_MA=("CHEVETRES", "LONGRINES", "PILES", "SEMELLE"), MATER=BETON)),
+    AFFE_VARC=_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC"), NOM_VARC="TEMP", CHAM_GD=T_TM, VALE_REF=0.0),
+)
+TM = MECA_STATIQUE(MODELE=MODELE, CHAM_MATER=M_TM, CARA_ELEM=CARA, EXCIT=_F(CHARGE=CL), SOLVEUR=_F(METHODE="MUMPS"))
+TM = CALC_CHAMP(reuse=TM, RESULTAT=TM, GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES", "PILES"), CONTRAINTE=("EFGE_ELNO",))
+TM = CALC_CHAMP(reuse=TM, RESULTAT=TM, FORCE=("REAC_NODA",))
+# TA+ = +56 °C, poutres, montants, diagonales (S2)
+T_TAP = CREA_CHAMP(OPERATION="AFFE", TYPE_CHAM="NOEU_TEMP_R", MAILLAGE=MAIL, AFFE=_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES"), NOM_CMP="TEMP", VALE=56.0))
+M_TAP = AFFE_MATERIAU(
+    MAILLAGE=MAIL,
+    AFFE=(_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC"), MATER=ALU), _F(GROUP_MA=("CHEVETRES", "LONGRINES", "PILES", "SEMELLE"), MATER=BETON)),
+    AFFE_VARC=_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES"), NOM_VARC="TEMP", CHAM_GD=T_TAP, VALE_REF=0.0),
+)
+TAP = MECA_STATIQUE(MODELE=MODELE, CHAM_MATER=M_TAP, CARA_ELEM=CARA, EXCIT=_F(CHARGE=CL), SOLVEUR=_F(METHODE="MUMPS"))
+TAP = CALC_CHAMP(reuse=TAP, RESULTAT=TAP, GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES", "PILES"), CONTRAINTE=("EFGE_ELNO",))
+TAP = CALC_CHAMP(reuse=TAP, RESULTAT=TAP, FORCE=("REAC_NODA",))
+# TA− = −23 °C, poutres, montants, diagonales (S2)
+T_TAM = CREA_CHAMP(OPERATION="AFFE", TYPE_CHAM="NOEU_TEMP_R", MAILLAGE=MAIL, AFFE=_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES"), NOM_CMP="TEMP", VALE=-23.0))
+M_TAM = AFFE_MATERIAU(
+    MAILLAGE=MAIL,
+    AFFE=(_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC"), MATER=ALU), _F(GROUP_MA=("CHEVETRES", "LONGRINES", "PILES", "SEMELLE"), MATER=BETON)),
+    AFFE_VARC=_F(GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES"), NOM_VARC="TEMP", CHAM_GD=T_TAM, VALE_REF=0.0),
+)
+TAM = MECA_STATIQUE(MODELE=MODELE, CHAM_MATER=M_TAM, CARA_ELEM=CARA, EXCIT=_F(CHARGE=CL), SOLVEUR=_F(METHODE="MUMPS"))
+TAM = CALC_CHAMP(reuse=TAM, RESULTAT=TAM, GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES", "PILES"), CONTRAINTE=("EFGE_ELNO",))
+TAM = CALC_CHAMP(reuse=TAM, RESULTAT=TAM, FORCE=("REAC_NODA",))
+
+# ---------------------------------------------------------------- 8. SORTIES
+# Harnais D (listing, E20.12) : RP_<cas> rotules du quai, RAM_ et RAP_<cas> oreilles des
+# appuis à axe sur support fixe en X = 14,02 (YM, YP), DS_<cas> déplacements des nœuds
+# de la semelle (efforts des ressorts k·u).
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_G1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G1", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_G1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G1", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_G1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G1", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_G1", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="G1", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_DEJ", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="DEJ", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_DEJ", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="DEJ", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_DEJ", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="DEJ", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_DEJ", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="DEJ", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_G2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_G2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_G2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_G2", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="G2", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_G2_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2_T1", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_G2_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2_T1", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_G2_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2_T1", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_G2_T1", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="G2_T1", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_G2_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2_PT", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_G2_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2_PT", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_G2_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2_PT", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_G2_PT", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="G2_PT", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_G2_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2_T2", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_G2_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2_T2", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_G2_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="G2_T2", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_G2_T2", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="G2_T2", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_Q", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_Q", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_Q", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_Q", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="Q", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_Q_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q_T1", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_Q_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q_T1", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_Q_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q_T1", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_Q_T1", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="Q_T1", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_Q_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q_PT", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_Q_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q_PT", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_Q_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q_PT", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_Q_PT", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="Q_PT", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_Q_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q_T2", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_Q_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q_T2", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_Q_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="Q_T2", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_Q_T2", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="Q_T2", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_QD", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="QD", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_QD", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="QD", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_QD", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="QD", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_QD", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="QD", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_HU", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_HU", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_HU", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_HU", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="HU", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_HU_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU_T1", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_HU_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU_T1", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_HU_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU_T1", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_HU_T1", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="HU_T1", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_HU_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU_PT", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_HU_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU_PT", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_HU_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU_PT", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_HU_PT", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="HU_PT", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_HU_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU_T2", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_HU_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU_T2", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_HU_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HU_T2", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_HU_T2", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="HU_T2", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_HD", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_HD", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_HD", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_HD", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="HD", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_HD_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD_T1", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_HD_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD_T1", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_HD_T1", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD_T1", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_HD_T1", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="HD_T1", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_HD_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD_PT", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_HD_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD_PT", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_HD_PT", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD_PT", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_HD_PT", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="HD_PT", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_HD_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD_T2", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_HD_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD_T2", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_HD_T2", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="HD_T2", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_HD_T2", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="HD_T2", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACN_QU_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_QU_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACN_QU_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_QU_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACN_QU_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_QU_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACN_QU_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACN_QU_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACX_QU_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_QU_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACX_QU_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_QU_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACX_QU_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_QU_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACX_QU_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACX_QU_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACZ_QU_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_QU_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACZ_QU_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_QU_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACZ_QU_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_QU_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACZ_QU_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACZ_QU_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACN_QU_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_QU_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACN_QU_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_QU_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACN_QU_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_QU_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACN_QU_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACN_QU_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACX_QU_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_QU_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACX_QU_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_QU_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACX_QU_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_QU_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACX_QU_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACX_QU_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACZ_QU_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_QU_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACZ_QU_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_QU_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACZ_QU_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_QU_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACZ_QU_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACZ_QU_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACN_MI1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_MI1_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACN_MI1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_MI1_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACN_MI1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_MI1_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACN_MI1_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACN_MI1_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACX_MI1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_MI1_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACX_MI1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_MI1_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACX_MI1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_MI1_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACX_MI1_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACX_MI1_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACZ_MI1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_MI1_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACZ_MI1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_MI1_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACZ_MI1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_MI1_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACZ_MI1_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACZ_MI1_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACN_MI1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_MI1_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACN_MI1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_MI1_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACN_MI1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_MI1_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACN_MI1_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACN_MI1_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACX_MI1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_MI1_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACX_MI1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_MI1_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACX_MI1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_MI1_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACX_MI1_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACX_MI1_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACZ_MI1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_MI1_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACZ_MI1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_MI1_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACZ_MI1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_MI1_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACZ_MI1_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACZ_MI1_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACN_CH1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_CH1_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACN_CH1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_CH1_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACN_CH1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_CH1_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACN_CH1_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACN_CH1_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACX_CH1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_CH1_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACX_CH1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_CH1_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACX_CH1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_CH1_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACX_CH1_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACX_CH1_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACZ_CH1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_CH1_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACZ_CH1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_CH1_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACZ_CH1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_CH1_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACZ_CH1_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACZ_CH1_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACN_CH1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_CH1_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACN_CH1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_CH1_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACN_CH1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_CH1_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACN_CH1_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACN_CH1_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACX_CH1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_CH1_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACX_CH1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_CH1_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACX_CH1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_CH1_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACX_CH1_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACX_CH1_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACZ_CH1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_CH1_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACZ_CH1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_CH1_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACZ_CH1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_CH1_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACZ_CH1_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACZ_CH1_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACN_PT_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PT_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACN_PT_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PT_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACN_PT_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PT_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACN_PT_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACN_PT_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACX_PT_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PT_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACX_PT_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PT_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACX_PT_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PT_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACX_PT_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACX_PT_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACZ_PT_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PT_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACZ_PT_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PT_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACZ_PT_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PT_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACZ_PT_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACZ_PT_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACN_PT_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PT_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACN_PT_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PT_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACN_PT_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PT_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACN_PT_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACN_PT_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACX_PT_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PT_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACX_PT_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PT_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACX_PT_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PT_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACX_PT_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACX_PT_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACZ_PT_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PT_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACZ_PT_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PT_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACZ_PT_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PT_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACZ_PT_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACZ_PT_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACN_PA2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PA2_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACN_PA2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PA2_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACN_PA2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PA2_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACN_PA2_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACN_PA2_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACX_PA2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PA2_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACX_PA2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PA2_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACX_PA2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PA2_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACX_PA2_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACX_PA2_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACZ_PA2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PA2_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACZ_PA2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PA2_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACZ_PA2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PA2_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACZ_PA2_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACZ_PA2_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACN_PA2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PA2_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACN_PA2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PA2_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACN_PA2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACN_PA2_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACN_PA2_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACN_PA2_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACX_PA2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PA2_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACX_PA2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PA2_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACX_PA2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACX_PA2_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACX_PA2_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACX_PA2_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_ACZ_PA2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PA2_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_ACZ_PA2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PA2_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_ACZ_PA2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="ACZ_PA2_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_ACZ_PA2_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="ACZ_PA2_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMY_TQ1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ1_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMY_TQ1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ1_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMY_TQ1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ1_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMY_TQ1_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMY_TQ1_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMX_TQ1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ1_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMX_TQ1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ1_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMX_TQ1_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ1_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMX_TQ1_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMX_TQ1_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMY_TQ1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ1_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMY_TQ1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ1_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMY_TQ1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ1_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMY_TQ1_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMY_TQ1_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMX_TQ1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ1_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMX_TQ1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ1_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMX_TQ1_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ1_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMX_TQ1_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMX_TQ1_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMY_TQ2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ2_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMY_TQ2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ2_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMY_TQ2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ2_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMY_TQ2_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMY_TQ2_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMX_TQ2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ2_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMX_TQ2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ2_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMX_TQ2_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ2_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMX_TQ2_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMX_TQ2_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMY_TQ2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ2_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMY_TQ2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ2_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMY_TQ2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ2_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMY_TQ2_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMY_TQ2_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMX_TQ2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ2_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMX_TQ2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ2_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMX_TQ2_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ2_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMX_TQ2_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMX_TQ2_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMY_TQ3_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ3_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMY_TQ3_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ3_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMY_TQ3_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ3_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMY_TQ3_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMY_TQ3_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMX_TQ3_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ3_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMX_TQ3_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ3_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMX_TQ3_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ3_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMX_TQ3_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMX_TQ3_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMY_TQ3_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ3_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMY_TQ3_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ3_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMY_TQ3_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ3_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMY_TQ3_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMY_TQ3_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMX_TQ3_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ3_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMX_TQ3_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ3_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMX_TQ3_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ3_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMX_TQ3_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMX_TQ3_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMY_TQ4_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ4_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMY_TQ4_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ4_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMY_TQ4_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ4_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMY_TQ4_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMY_TQ4_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMX_TQ4_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ4_YM", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMX_TQ4_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ4_YM", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMX_TQ4_YM", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ4_YM", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMX_TQ4_YM", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMX_TQ4_YM", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMY_TQ4_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ4_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMY_TQ4_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ4_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMY_TQ4_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMY_TQ4_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMY_TQ4_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMY_TQ4_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_AMX_TQ4_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ4_YP", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_AMX_TQ4_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ4_YP", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_AMX_TQ4_YP", RESULTAT=ELEM, NOM_CHAM="REAC_NODA", NOM_CAS="AMX_TQ4_YP", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_AMX_TQ4_YP", RESULTAT=ELEM, NOM_CHAM="DEPL", NOM_CAS="AMX_TQ4_YP", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_TP", RESULTAT=TP, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_TP", RESULTAT=TP, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_TP", RESULTAT=TP, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_TP", RESULTAT=TP, NOM_CHAM="DEPL", TOUT_ORDRE="OUI", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_TM", RESULTAT=TM, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_TM", RESULTAT=TM, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_TM", RESULTAT=TM, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_TM", RESULTAT=TM, NOM_CHAM="DEPL", TOUT_ORDRE="OUI", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_TAP", RESULTAT=TAP, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_TAP", RESULTAT=TAP, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_TAP", RESULTAT=TAP, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_TAP", RESULTAT=TAP, NOM_CHAM="DEPL", TOUT_ORDRE="OUI", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+TRP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RP_TAM", RESULTAT=TAM, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="APP_QUAI", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRP)
+TRAM = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAM_TAM", RESULTAT=TAM, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="AX_A3_YM_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAM, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAM)
+TRAP = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="RAP_TAM", RESULTAT=TAM, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", GROUP_NO="AX_A3_YP_1", RESULTANTE=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TRAP, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TRAP)
+TDS = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="DS_TAM", RESULTAT=TAM, NOM_CHAM="DEPL", TOUT_ORDRE="OUI", GROUP_NO="N_SEMELLE", NOM_CMP=("DX", "DY", "DZ")))
+IMPR_TABLE(TABLE=TDS, UNITE=6, FORMAT_R="E20.12")
+DETRUIRE(NOM=TDS)
+# Tables d'export (E25.16, 17 chiffres) : unité 31 efforts des barres (EFGE_ELNO),
+# 32 déplacements de tous les nœuds, 33 réactions (rotules du quai, appuis à axe : oreilles
+# et nœuds des chevêtres, efforts des relations de l'axe).
+TX = CREA_TABLE(RESU=_F(RESULTAT=ELEM, NOM_CHAM="EFGE_ELNO", TOUT_ORDRE="OUI", TOUT_CMP="OUI", GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES", "PILES"), INTITULE="ELEM"))
+IMPR_TABLE(TABLE=TX, UNITE=31, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=ELEM, NOM_CHAM="DEPL", TOUT_ORDRE="OUI", TOUT_CMP="OUI", TOUT="OUI", INTITULE="ELEM"))
+IMPR_TABLE(TABLE=TX, UNITE=32, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=ELEM, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", TOUT_CMP="OUI", GROUP_NO=("APP_QUAI", "APP_A3", "AX_A1_YM_1", "AX_A1_YM_2", "AX_A1_YM_K", "AX_A1_YP_1", "AX_A1_YP_2", "AX_A1_YP_K", "AX_A2_YM_1", "AX_A2_YM_2", "AX_A2_YM_K", "AX_A2_YP_1", "AX_A2_YP_2", "AX_A2_YP_K", "AX_A3_YM_1", "AX_A3_YP_1"), INTITULE="ELEM"))
+IMPR_TABLE(TABLE=TX, UNITE=33, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TP, NOM_CHAM="EFGE_ELNO", TOUT_ORDRE="OUI", TOUT_CMP="OUI", GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES", "PILES"), INTITULE="TP"))
+IMPR_TABLE(TABLE=TX, UNITE=31, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TP, NOM_CHAM="DEPL", TOUT_ORDRE="OUI", TOUT_CMP="OUI", TOUT="OUI", INTITULE="TP"))
+IMPR_TABLE(TABLE=TX, UNITE=32, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TP, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", TOUT_CMP="OUI", GROUP_NO=("APP_QUAI", "APP_A3", "AX_A1_YM_1", "AX_A1_YM_2", "AX_A1_YM_K", "AX_A1_YP_1", "AX_A1_YP_2", "AX_A1_YP_K", "AX_A2_YM_1", "AX_A2_YM_2", "AX_A2_YM_K", "AX_A2_YP_1", "AX_A2_YP_2", "AX_A2_YP_K", "AX_A3_YM_1", "AX_A3_YP_1"), INTITULE="TP"))
+IMPR_TABLE(TABLE=TX, UNITE=33, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TM, NOM_CHAM="EFGE_ELNO", TOUT_ORDRE="OUI", TOUT_CMP="OUI", GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES", "PILES"), INTITULE="TM"))
+IMPR_TABLE(TABLE=TX, UNITE=31, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TM, NOM_CHAM="DEPL", TOUT_ORDRE="OUI", TOUT_CMP="OUI", TOUT="OUI", INTITULE="TM"))
+IMPR_TABLE(TABLE=TX, UNITE=32, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TM, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", TOUT_CMP="OUI", GROUP_NO=("APP_QUAI", "APP_A3", "AX_A1_YM_1", "AX_A1_YM_2", "AX_A1_YM_K", "AX_A1_YP_1", "AX_A1_YP_2", "AX_A1_YP_K", "AX_A2_YM_1", "AX_A2_YM_2", "AX_A2_YM_K", "AX_A2_YP_1", "AX_A2_YP_2", "AX_A2_YP_K", "AX_A3_YM_1", "AX_A3_YP_1"), INTITULE="TM"))
+IMPR_TABLE(TABLE=TX, UNITE=33, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TAP, NOM_CHAM="EFGE_ELNO", TOUT_ORDRE="OUI", TOUT_CMP="OUI", GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES", "PILES"), INTITULE="TAP"))
+IMPR_TABLE(TABLE=TX, UNITE=31, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TAP, NOM_CHAM="DEPL", TOUT_ORDRE="OUI", TOUT_CMP="OUI", TOUT="OUI", INTITULE="TAP"))
+IMPR_TABLE(TABLE=TX, UNITE=32, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TAP, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", TOUT_CMP="OUI", GROUP_NO=("APP_QUAI", "APP_A3", "AX_A1_YM_1", "AX_A1_YM_2", "AX_A1_YM_K", "AX_A1_YP_1", "AX_A1_YP_2", "AX_A1_YP_K", "AX_A2_YM_1", "AX_A2_YM_2", "AX_A2_YM_K", "AX_A2_YP_1", "AX_A2_YP_2", "AX_A2_YP_K", "AX_A3_YM_1", "AX_A3_YP_1"), INTITULE="TAP"))
+IMPR_TABLE(TABLE=TX, UNITE=33, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TAM, NOM_CHAM="EFGE_ELNO", TOUT_ORDRE="OUI", TOUT_CMP="OUI", GROUP_MA=("POUTRES_PRINC", "MONTANTS", "DIAGONALES", "PANNES_SEC", "CHEVETRES", "LONGRINES", "PILES"), INTITULE="TAM"))
+IMPR_TABLE(TABLE=TX, UNITE=31, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TAM, NOM_CHAM="DEPL", TOUT_ORDRE="OUI", TOUT_CMP="OUI", TOUT="OUI", INTITULE="TAM"))
+IMPR_TABLE(TABLE=TX, UNITE=32, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+TX = CREA_TABLE(RESU=_F(RESULTAT=TAM, NOM_CHAM="REAC_NODA", TOUT_ORDRE="OUI", TOUT_CMP="OUI", GROUP_NO=("APP_QUAI", "APP_A3", "AX_A1_YM_1", "AX_A1_YM_2", "AX_A1_YM_K", "AX_A1_YP_1", "AX_A1_YP_2", "AX_A1_YP_K", "AX_A2_YM_1", "AX_A2_YM_2", "AX_A2_YM_K", "AX_A2_YP_1", "AX_A2_YP_2", "AX_A2_YP_K", "AX_A3_YM_1", "AX_A3_YP_1"), INTITULE="TAM"))
+IMPR_TABLE(TABLE=TX, UNITE=33, FORMAT_R="E25.16")
+DETRUIRE(NOM=TX)
+
+FIN()

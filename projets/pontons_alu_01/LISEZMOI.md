@@ -47,3 +47,26 @@ quinquies restent pour leurs références.
 Enchaînement : `PYTHONPATH=projets .venv/bin/python projets/pontons_alu_01/scripts/lot51.py tout`
 (ou `executer`, `controles`, `exports`, `depot`, avec `--variantes R,E,...`). Sorties sous
 `resultats/lot51/` ; références versionnées sous `references/execution_lot51/`.
+
+## Lot 51 bis — appuis articulés à axe, tablier rehaussé, palées types, équilibre des palées
+
+Consigne `docs/lots/lot51bis_consigne.md` ; décisions P44 à P51 dans la fiche (choix de l'agent A8,
+A9) ; essais `docs/essais_lot51bis.md` ; compte rendu `docs/lots/lot51bis_compte_rendu.md`. Le
+projet est passé au modèle du lot 51 bis (`projet.yaml` : maillage, générateur, harnais) ; les
+modules des lots 50 à 51 restent pour leurs références.
+
+| Fichier | Rôle |
+| --- | --- |
+| `maillage/maillage_palee_51bis.py` | script Salomé autonome de la palée type et des trois travées ; `H_ANNEAU` et `H_PILES` changent par fichier de paramètres |
+| `geometrie_lot51bis.py`, `invariants_lot51bis.py` | géométrie et cotes lues dans le bloc de paramètres, appuis à axe, invariants calculés à part (`maillage/invariants_palee_51bis.yaml` : H80C) |
+| `variantes_lot51bis.yaml`, `variantes_lot51bis.py` | les cinq variantes (H40C, H40P, H80C, H80P, H80C-S3) ; `PONTONS_VARIANTE` choisit celle de la chaîne |
+| `generation_lot51bis.py`, `extensions_lot51bis.py` | `.comm` unique paramétré (axes en LIAISON_DDL, cas DEJ) ; extensions du harnais D |
+| `combinaisons_lot51bis.py` | règles du lot 51 avec DEJ lié au facteur de G (P49) |
+| `exports_lot51bis.py`, `scripts/lot51bis.py` | exécution des variantes, harnais, exports (dont `appuis_axes.csv`, `palee_equilibre.csv`), comparaison, critères, dépôt |
+| `scripts/recombiner_lot51bis.py` | `recombiner.py` livré (bibliothèque standard) |
+
+Enchaînement : `PYTHONPATH=projets .venv/bin/python projets/pontons_alu_01/scripts/lot51bis.py tout`
+(ou `executer`, `controles`, `exports`, `depot`, avec `--variantes H40C,...`) ; `charges.med` de
+H80C : `PONTONS_VARIANTE=H80C aster-expert projet pontons_alu_01` maillage, generer, valider,
+executer, puis `livrables --sous-etape` preparer, executer, verifier, traiter, charges. Sorties
+sous `resultats/lot51bis/` ; références versionnées sous `references/execution_lot51bis/`.

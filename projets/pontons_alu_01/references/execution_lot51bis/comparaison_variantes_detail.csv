@@ -1,0 +1,182 @@
+# PONTONS-ALU-01, lot 51 bis : grandeurs de comparaison, état limite, combinaison et lieu qui gouvernent.
+variante;grandeur;libelle;unite;valeur;etat_limite;combinaison;lieu
+H40C;PP_My;PP My extrême en valeur absolue, signé (MFY);kN·m;-57.761349643904964;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TM×0.9 + AM1_+X×1.155 + AC_MI1_YP_-Z×1.5;élément 143 nœud 408 (PP_T1_YP_03)
+H40C;PP_Mz;PP Mz extrême en valeur absolue, signé (MFZ);kN·m;13.202091363438262;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AM2_YP×1.155 + AC_MI1_YM_-Z×1.5;élément 129 nœud 28 (PP_T1_YP_01)
+H40C;PP_N_min;PP N min;kN;-166.12847034538407;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM1_-X×1.5 + TP×0.9 + AC_CH1_YP_+Z×1.5 + HU×1.155;élément 107 nœud 384 (PP_T1_YM_02)
+H40C;PP_N_max;PP N max;kN;194.03769941486786;ELU_fondamental;ELU_fondamental: G×1.2 + AM1_+X×1.5 + TM×0.9 + AC_PT_YP_+X×1.5 + HD×1.155;élément 135 nœud 402 (PP_T1_YP_02)
+H40C;PP_V;PP V max (√(VY² + VZ²));kN;51.452423824146166;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 129 nœud 28 (PP_T1_YP_01)
+H40C;FL_T1_F_bas;flèche relative T1 vers le bas, ELS_frequent, variables seules (< 0 vers le bas);mm;-23.36550867372567;ELS_frequent;ELS_frequent: G×1 + Q×0.77 + TM×0.5 + AM1_+X×0.2;PP_T1_YP X = 3.125
+H40C;FL_T1_F_haut;flèche relative T1 vers le haut, ELS_frequent, variables seules (< 0 vers le bas);mm;23.388363165030018;ELS_frequent;ELS_frequent: G×1 + HU×0.77 + TP×0.5 + AM1_-X×0.2;PP_T1_YP X = 3.125
+H40C;FL_T1_C_bas;flèche relative T1 vers le bas, ELS_caracteristique, variables seules (< 0 vers le bas), sans composante tangentielle d'accostage (P51);mm;-33.778862108652014;ELS_caracteristique;ELS_caracteristique: G×1 + Q×1 + TM×0.6 + AM1_+X×0.77 + AC_CH1_YM_+X×1;PP_T1_YP X = 3.125
+H40C;FL_T1_C_haut;flèche relative T1 vers le haut, ELS_caracteristique, variables seules (< 0 vers le bas), sans composante tangentielle d'accostage (P51);mm;33.86054623212335;ELS_caracteristique;ELS_caracteristique: G×1 + HU×1 + TP×0.6 + AM1_-X×0.77 + AC_CH1_YP_+X×1;PP_T1_YP X = 3.125
+H40C;AXE_Fz_min;appuis à axe Fz min (< 0 : traction des tiges, soulèvement);kN;-49.654634750254104;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AML_TQ3_YP_PERP×1.155 + AC_CH1_YM_+Z×1.5;A1_YM
+H40C;AXE_Fz_max;appuis à axe Fz max (compression);kN;65.75918704773669;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + AML_TQ3_YM_PERP×1.155 + AC_PA2_YP_-Z×1.5;A2_YP
+H40C;AXE_Fy_max;appuis à axe Fy extrême en valeur absolue, signé (appuis YP);kN;-43.46262698672834;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ4_YM_PERP×1.5 + TM×0.9 + AC_PA2_YP_+X×1.5 + QD×1.001;A3_YP
+H40C;AXE_dx;appuis à axe glissement en X extrême signé (trou oblong);mm;49.78256997119258;ELU_fondamental;ELU_fondamental: G×1.2 + TP×1.5 + AM1_+X×1.155 + AC_PA2_YM_+X×1.5 + HD×1.155;A3_YP
+H40C;AXE_dx_ELS_C;appuis à axe glissement en X extrême signé, ELS caractéristique (trou oblong);mm;33.90296809487757;ELS_caracteristique;ELS_caracteristique: G_DEJ_100×1 + TP×1 + AM1_+X×0.77 + AC_PA2_YM_+X×1 + Q×0.77;A3_YP
+H40C;PILE_N_min;piles N min (compression);kN;-72.9122142060051;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + AML_TQ2_YP_PERP×1.155 + AC_PA2_YP_-Z×1.5;C2_YP pied
+H40C;PILE_N_max;piles N max (traction maximale si > 0);kN;45.22931019481822;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AML_TQ3_YP_PERP×1.155 + AC_CH1_YM_+Z×1.5;C1_YM tete
+H40C;PILE_M_tete;piles M en tete (√(MFY² + MFZ²));kN·m;13.952651589209925;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YM tete
+H40C;PILE_M_pied;piles M en pied (√(MFY² + MFZ²));kN·m;4.881742173075952;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YP pied
+H40C;PILE_V;piles V max (√(VY² + VZ²));kN;10.929251374543002;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YM tete
+H40C;CHEV_My;CHEV My extrême en valeur absolue, signé (MFY);kN·m;13.49846000037399;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YP_PERP×1.5 + TP×0.9 + AC_PA2_YM_-Z×1.5 + HD×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H40C;CHEV_Mz;CHEV Mz extrême en valeur absolue, signé (MFZ);kN·m;1.2904430723648403;ELU_accidentel;ELU_accidentel: G×1 + ACA_CH1_YP_+Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YP_PERP×0.2;élément 753 nœud 272 (CHEV_C1_03)
+H40C;CHEV_T;CHEV T extrême en valeur absolue, signé (MT);kN·m;1.0440800906881964;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YM_PERP×1.5 + AC_PA2_YP_-Z×1.5 + HD×1.155;élément 761 nœud 280 (CHEV_C2_03)
+H40C;CHEV_V;CHEV V max (√(VY² + VZ²));kN;67.19918704772502;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 766 nœud 283 (CHEV_C2_04)
+H40C;LONG_My;LONG My extrême en valeur absolue, signé (MFY);kN·m;3.560065169863527;ELU_accidentel;ELU_accidentel: G×1 + ACA_PA2_YP_-Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YP_-X×0.2;élément 777 nœud 292 (LONG_YP_01)
+H40C;LONG_Mz;LONG Mz extrême en valeur absolue, signé (MFZ);kN·m;1.2891438432845705;ELU_accidentel;ELU_accidentel: G×1 + ACA_CH1_YP_+Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YP_PERP×0.2;élément 777 nœud 292 (LONG_YP_01)
+H40C;LONG_T;LONG T extrême en valeur absolue, signé (MT);kN·m;-1.2094578540752328;ELU_accidentel;ELU_accidentel: G×1 + ACA_CH1_YP_+Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YP_PERP×0.2;élément 781 nœud 294 (LONG_YP_01)
+H40C;LONG_V;LONG V max (√(VY² + VZ²));kN;7.8212970362487715;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 776 nœud 291 (LONG_YM_01)
+H40C;ANGLE_My;anneau, nœuds d'angle, |My| extrême signé;kN·m;13.49846000037399;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YP_PERP×1.5 + TP×0.9 + AC_PA2_YM_-Z×1.5 + HD×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H40C;ANGLE_Mz;anneau, nœuds d'angle, |Mz| extrême signé;kN·m;1.2904430723648403;ELU_accidentel;ELU_accidentel: G×1 + ACA_CH1_YP_+Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YP_PERP×0.2;élément 753 nœud 272 (CHEV_C1_03)
+H40C;ANGLE_T;anneau, nœuds d'angle, |T| extrême signé;kN·m;-1.2094578540751864;ELU_accidentel;ELU_accidentel: G×1 + ACA_CH1_YP_+Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YP_PERP×0.2;élément 777 nœud 292 (LONG_YP_01)
+H40C;SEM_SRz_min_ELU;semelle ΣRz min du sol, ELU (> 0 vers le haut);kN;-78.84098873323997;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AM1_+X×1.155 + AC_PT_YM_+Z×1.5;semelle
+H40C;SEM_SRz_min_ELS_C;semelle ΣRz min du sol, ELS caractéristique (> 0 vers le haut);kN;-18.145123572779436;ELS_caracteristique;ELS_caracteristique: G_DEJ_100×1 + HU×1 + TM×0.6 + AM1_+X×0.77 + AC_PT_YM_+Z×1;semelle
+H40C;LEST_manquant;"lest manquant = max(0 ; −ΣRz min ELU) / 0,9";kN;87.60109859248885;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AM1_+X×1.155 + AC_PT_YM_+Z×1.5;semelle
+H40C;CULEE_RX;culée (rotules du quai) RX extrême signé;kN;179.0299549109613;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM1_-X×1.5 + TP×0.9 + AC_PT_YM_+Z×1.5 + QD×1.001;rotule YP (fixe)
+H40C;CULEE_RY;culée (rotules du quai) RY extrême signé;kN;-78.28767030796955;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ1_YP_PERP×1.5 + TP×0.9 + AC_QU_YM_+Z×1.5 + QD×1.001;rotule YP (fixe)
+H40C;CULEE_RZ;culée (rotules du quai) RZ extrême signé;kN;57.29417494967062;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TM×0.9 + AM1_+X×1.155 + AC_QU_YP_-Z×1.5;rotule YP (fixe)
+H40P;PP_My;PP My extrême en valeur absolue, signé (MFY);kN·m;-57.753547726207294;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TM×0.9 + AM1_+X×1.155 + AC_MI1_YP_-Z×1.5;élément 144 nœud 408 (PP_T1_YP_03)
+H40P;PP_Mz;PP Mz extrême en valeur absolue, signé (MFZ);kN·m;13.559870867186838;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AM2_YP×1.155 + AC_MI1_YM_-Z×1.5;élément 129 nœud 28 (PP_T1_YP_01)
+H40P;PP_N_min;PP N min;kN;-177.76816892872336;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM1_-X×1.5 + TP×0.9 + AC_PA2_YP_-X×1.5 + HU×1.155;élément 105 nœud 19 (PP_T1_YM_02)
+H40P;PP_N_max;PP N max;kN;199.52292888744012;ELU_fondamental;ELU_fondamental: G×1.2 + AM1_+X×1.5 + TM×0.9 + AC_PT_YP_+X×1.5 + HD×1.155;élément 135 nœud 402 (PP_T1_YP_02)
+H40P;PP_V;PP V max (√(VY² + VZ²));kN;51.5288390575173;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 129 nœud 28 (PP_T1_YP_01)
+H40P;FL_T1_F_bas;flèche relative T1 vers le bas, ELS_frequent, variables seules (< 0 vers le bas);mm;-23.37067909267563;ELS_frequent;ELS_frequent: G×1 + Q×0.77 + TM×0.5 + AM1_+X×0.2;PP_T1_YP X = 3.125
+H40P;FL_T1_F_haut;flèche relative T1 vers le haut, ELS_frequent, variables seules (< 0 vers le bas);mm;23.3921642959494;ELS_frequent;ELS_frequent: G×1 + HU×0.77 + TP×0.5 + AM1_-X×0.2;PP_T1_YP X = 3.125
+H40P;FL_T1_C_bas;flèche relative T1 vers le bas, ELS_caracteristique, variables seules (< 0 vers le bas), sans composante tangentielle d'accostage (P51);mm;-33.83288539584871;ELS_caracteristique;ELS_caracteristique: G×1 + Q×1 + TM×0.6 + AM1_+X×0.77 + AC_CH1_YM_+X×1;PP_T1_YP X = 3.125
+H40P;FL_T1_C_haut;flèche relative T1 vers le haut, ELS_caracteristique, variables seules (< 0 vers le bas), sans composante tangentielle d'accostage (P51);mm;33.910584870421424;ELS_caracteristique;ELS_caracteristique: G×1 + HU×1 + TP×0.6 + AM1_-X×0.77 + AC_CH1_YP_+X×1;PP_T1_YP X = 3.125
+H40P;AXE_Fz_min;appuis à axe Fz min (< 0 : traction des tiges, soulèvement);kN;-49.70881532028113;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AML_TQ3_YP_PERP×1.155 + AC_CH1_YM_+Z×1.5;A1_YM
+H40P;AXE_Fz_max;appuis à axe Fz max (compression);kN;67.04834688301341;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AML_TQ3_YM_PERP×1.155 + AC_PA2_YP_-Z×1.5;A2_YP
+H40P;AXE_Fy_max;appuis à axe Fy extrême en valeur absolue, signé (appuis YP);kN;-44.61262778282629;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ4_YM_PERP×1.5 + TM×0.9 + AC_PA2_YP_+X×1.5 + QD×1.001;A3_YP
+H40P;AXE_dx;appuis à axe glissement en X extrême signé (trou oblong);mm;49.83965874923948;ELU_fondamental;ELU_fondamental: G×1.2 + TP×1.5 + AM1_+X×1.155 + AC_PA2_YM_+X×1.5 + HD×1.155;A3_YP
+H40P;AXE_dx_ELS_C;appuis à axe glissement en X extrême signé, ELS caractéristique (trou oblong);mm;33.95456776449571;ELS_caracteristique;ELS_caracteristique: G_DEJ_100×1 + TP×1 + AM1_+X×0.77 + AC_PA2_YM_+X×1 + Q×0.77;A3_YP
+H40P;PILE_N_min;piles N min (compression);kN;-88.50930334179166;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AML_TQ2_YP_PERP×1.155 + AC_PA2_YP_-Z×1.5;C2_YP pied
+H40P;PILE_N_max;piles N max (traction maximale si > 0);kN;43.07263353005014;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AML_TQ3_YP_PERP×1.155 + AC_CH1_YM_+Z×1.5;C1_YM tete
+H40P;PILE_M_tete;piles M en tete (√(MFY² + MFZ²));kN·m;14.284264203693937;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YP tete
+H40P;PILE_M_pied;piles M en pied (√(MFY² + MFZ²));kN·m;8.312891645141661;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YP pied
+H40P;PILE_V;piles V max (√(VY² + VZ²));kN;5.252260574169409;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YP tete
+H40P;CHEV_My;CHEV My extrême en valeur absolue, signé (MFY);kN·m;14.588058217103924;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YP_PERP×1.5 + TP×0.9 + AC_PA2_YM_-Z×1.5 + HD×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H40P;CHEV_Mz;CHEV Mz extrême en valeur absolue, signé (MFZ);kN·m;-0.9297326246062443;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ3_YM_PERP×1.5 + TM×0.9 + AC_PA2_YP_+Z×1.5 + HU×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H40P;CHEV_T;CHEV T extrême en valeur absolue, signé (MT);kN·m;1.906516285448963;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YM_PERP×1.5 + AC_PA2_YP_-Z×1.5 + HD×1.155;élément 762 nœud 772 (CHEV_C2_03)
+H40P;CHEV_V;CHEV V max (√(VY² + VZ²));kN;68.48834688298808;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 766 nœud 283 (CHEV_C2_04)
+H40P;LONG_My;LONG My extrême en valeur absolue, signé (MFY);kN·m;3.4838116813721083;ELU_fondamental;ELU_fondamental: G×1.2 + HU×1.5 + TM×0.9 + AML_TQ3_YM_PERP×1.155 + AC_PA2_YP_+Z×1.5;élément 784 nœud 296 (LONG_YP_01)
+H40P;LONG_Mz;LONG Mz extrême en valeur absolue, signé (MFZ);kN·m;0.9297418687055897;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ3_YM_PERP×1.5 + TM×0.9 + AC_PA2_YP_+Z×1.5 + HU×1.155;élément 784 nœud 296 (LONG_YP_01)
+H40P;LONG_T;LONG T extrême en valeur absolue, signé (MT);kN·m;-1.7207848625540532;ELU_accidentel;ELU_accidentel: G×1 + ACA_CH1_YP_+Z×1 + HD×0.77 + AML_TQ4_YP_PERP×0.2;élément 779 nœud 778 (LONG_YP_01)
+H40P;LONG_V;LONG V max (√(VY² + VZ²));kN;7.902375009421069;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 776 nœud 291 (LONG_YM_01)
+H40P;ANGLE_My;anneau, nœuds d'angle, |My| extrême signé;kN·m;14.588058217103924;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YP_PERP×1.5 + TP×0.9 + AC_PA2_YM_-Z×1.5 + HD×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H40P;ANGLE_Mz;anneau, nœuds d'angle, |Mz| extrême signé;kN·m;0.9297418687055897;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ3_YM_PERP×1.5 + TM×0.9 + AC_PA2_YP_+Z×1.5 + HU×1.155;élément 784 nœud 296 (LONG_YP_01)
+H40P;ANGLE_T;anneau, nœuds d'angle, |T| extrême signé;kN·m;1.9065162854489177;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YM_PERP×1.5 + AC_PA2_YP_-Z×1.5 + HD×1.155;élément 760 nœud 279 (CHEV_C2_03)
+H40P;SEM_SRz_min_ELU;semelle ΣRz min du sol, ELU (> 0 vers le haut);kN;-53.31554842218742;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AM1_+X×1.155 + AC_PT_YP_+Z×1.5;semelle
+H40P;SEM_SRz_min_ELS_C;semelle ΣRz min du sol, ELS caractéristique (> 0 vers le haut);kN;12.485404800293091;ELS_caracteristique;ELS_caracteristique: G_DEJ_100×1 + HU×1 + TM×0.6 + AM1_+X×0.77 + AC_PT_YP_+Z×1;semelle
+H40P;LEST_manquant;"lest manquant = max(0 ; −ΣRz min ELU) / 0,9";kN;59.23949824687491;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AM1_+X×1.155 + AC_PT_YP_+Z×1.5;semelle
+H40P;CULEE_RX;culée (rotules du quai) RX extrême signé;kN;189.99261721870676;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM1_-X×1.5 + TP×0.9 + AC_PT_YM_-X×1.5 + QD×1.001;rotule YP (fixe)
+H40P;CULEE_RY;culée (rotules du quai) RY extrême signé;kN;-79.90316872437586;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM2_YP×1.5 + TM×0.9 + AC_MI1_YM_+Z×1.5 + QD×1.001;rotule YP (fixe)
+H40P;CULEE_RZ;culée (rotules du quai) RZ extrême signé;kN;57.28010288660624;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TM×0.9 + AM1_+X×1.155 + AC_QU_YP_-Z×1.5;rotule YP (fixe)
+H80C;PP_My;PP My extrême en valeur absolue, signé (MFY);kN·m;-57.76130052027147;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TM×0.9 + AM1_+X×1.155 + AC_MI1_YP_-Z×1.5;élément 144 nœud 408 (PP_T1_YP_03)
+H80C;PP_Mz;PP Mz extrême en valeur absolue, signé (MFZ);kN·m;13.197519309023727;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TM×0.9 + AM2_YP×1.155 + AC_MI1_YM_-Z×1.5;élément 129 nœud 28 (PP_T1_YP_01)
+H80C;PP_N_min;PP N min;kN;-166.0646754623602;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM1_-X×1.5 + TP×0.9 + AC_CH1_YP_+Z×1.5 + HU×1.155;élément 105 nœud 19 (PP_T1_YM_02)
+H80C;PP_N_max;PP N max;kN;194.00021634404695;ELU_fondamental;ELU_fondamental: G×1.2 + AM1_+X×1.5 + TM×0.9 + AC_PT_YP_+X×1.5 + HD×1.155;élément 135 nœud 402 (PP_T1_YP_02)
+H80C;PP_V;PP V max (√(VY² + VZ²));kN;51.452000890395865;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 129 nœud 28 (PP_T1_YP_01)
+H80C;FL_T1_F_bas;flèche relative T1 vers le bas, ELS_frequent, variables seules (< 0 vers le bas);mm;-23.36533244402185;ELS_frequent;ELS_frequent: G×1 + HD×0.77 + TM×0.5 + AM1_+X×0.2;PP_T1_YP X = 3.125
+H80C;FL_T1_F_haut;flèche relative T1 vers le haut, ELS_frequent, variables seules (< 0 vers le bas);mm;23.388221485696565;ELS_frequent;ELS_frequent: G×1 + HU×0.77 + TP×0.5 + AM1_-X×0.2;PP_T1_YP X = 3.125
+H80C;FL_T1_C_bas;flèche relative T1 vers le bas, ELS_caracteristique, variables seules (< 0 vers le bas), sans composante tangentielle d'accostage (P51);mm;-33.77796965044452;ELS_caracteristique;ELS_caracteristique: G×1 + HD×1 + TM×0.6 + AM1_+X×0.77 + AC_CH1_YM_+X×1;PP_T1_YP X = 3.125
+H80C;FL_T1_C_haut;flèche relative T1 vers le haut, ELS_caracteristique, variables seules (< 0 vers le bas), sans composante tangentielle d'accostage (P51);mm;33.859764186512585;ELS_caracteristique;ELS_caracteristique: G×1 + HU×1 + TP×0.6 + AM1_-X×0.77 + AC_CH1_YP_+X×1;PP_T1_YP X = 3.125
+H80C;AXE_Fz_min;appuis à axe Fz min (< 0 : traction des tiges, soulèvement);kN;-49.70133550494862;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AML_TQ3_YP_PERP×1.155 + AC_CH1_YM_+Z×1.5;A1_YM
+H80C;AXE_Fz_max;appuis à axe Fz max (compression);kN;65.80337594675238;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AML_TQ3_YM_PERP×1.155 + AC_PA2_YP_-Z×1.5;A2_YP
+H80C;AXE_Fy_max;appuis à axe Fy extrême en valeur absolue, signé (appuis YP);kN;-43.44618145384642;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ4_YM_PERP×1.5 + TM×0.9 + AC_PA2_YP_+X×1.5 + QD×1.001;A3_YP
+H80C;AXE_dx;appuis à axe glissement en X extrême signé (trou oblong);mm;49.74887182612636;ELU_fondamental;ELU_fondamental: G×1.2 + TP×1.5 + AM1_+X×1.155 + AC_PA2_YM_+X×1.5 + HD×1.155;A3_YP
+H80C;AXE_dx_ELS_C;appuis à axe glissement en X extrême signé, ELS caractéristique (trou oblong);mm;33.88592072220317;ELS_caracteristique;ELS_caracteristique: G_DEJ_100×1 + TP×1 + AM1_+X×0.77 + AC_PA2_YM_+X×1 + Q×0.77;A3_YP
+H80C;PILE_N_min;piles N min (compression);kN;-76.67952660760261;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AM2_YP×1.155 + AC_PA2_YP_-Z×1.5;C2_YP pied
+H80C;PILE_N_max;piles N max (traction maximale si > 0);kN;40.957956305787754;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AML_TQ3_YM_PERP×1.155 + AC_PA2_YP_+Z×1.5;C2_YP tete
+H80C;PILE_M_tete;piles M en tete (√(MFY² + MFZ²));kN·m;9.883995496287755;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YM tete
+H80C;PILE_M_pied;piles M en pied (√(MFY² + MFZ²));kN·m;3.100468212358031;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YP pied
+H80C;PILE_V;piles V max (√(VY² + VZ²));kN;9.811017716338212;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YM tete
+H80C;CHEV_My;CHEV My extrême en valeur absolue, signé (MFY);kN·m;19.88033430109518;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YP_PERP×1.5 + TM×0.9 + AC_PA2_YM_-Z×1.5 + HD×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H80C;CHEV_Mz;CHEV Mz extrême en valeur absolue, signé (MFZ);kN·m;1.3520995987881455;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AML_TQ3_YP_PERP×1.155 + AC_PA2_YM_+Z×1.5;élément 765 nœud 283 (CHEV_C2_03)
+H80C;CHEV_T;CHEV T extrême en valeur absolue, signé (MT);kN·m;1.8933451511196224;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YM_PERP×1.5 + TP×0.9 + AC_PA2_YP_-Z×1.5 + HD×1.155;élément 765 nœud 282 (CHEV_C2_03)
+H80C;CHEV_V;CHEV V max (√(VY² + VZ²));kN;68.68337594679745;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 766 nœud 283 (CHEV_C2_04)
+H80C;LONG_My;LONG My extrême en valeur absolue, signé (MFY);kN·m;-4.369025026707699;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AML_TQ3_YP_-X×1.155 + AC_CH1_YM_-Z×1.5;élément 770 nœud 288 (LONG_YM_01)
+H80C;LONG_Mz;LONG Mz extrême en valeur absolue, signé (MFZ);kN·m;-1.3513223252397524;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AML_TQ3_YP_PERP×1.155 + AC_PA2_YM_+Z×1.5;élément 784 nœud 296 (LONG_YP_01)
+H80C;LONG_T;LONG T extrême en valeur absolue, signé (MT);kN·m;-1.9210729419239192;ELU_accidentel;ELU_accidentel: G×1 + ACA_CH1_YM_-Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YM_PERP×0.2;élément 770 nœud 288 (LONG_YM_01)
+H80C;LONG_V;LONG V max (√(VY² + VZ²));kN;12.590064726324977;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 776 nœud 291 (LONG_YM_01)
+H80C;ANGLE_My;anneau, nœuds d'angle, |My| extrême signé;kN·m;19.88033430109518;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YP_PERP×1.5 + TM×0.9 + AC_PA2_YM_-Z×1.5 + HD×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H80C;ANGLE_Mz;anneau, nœuds d'angle, |Mz| extrême signé;kN·m;1.3520995987881455;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AML_TQ3_YP_PERP×1.155 + AC_PA2_YM_+Z×1.5;élément 765 nœud 283 (CHEV_C2_03)
+H80C;ANGLE_T;anneau, nœuds d'angle, |T| extrême signé;kN·m;-1.9210729419237325;ELU_accidentel;ELU_accidentel: G×1 + ACA_CH1_YM_-Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YM_PERP×0.2;élément 769 nœud 287 (LONG_YM_01)
+H80C;SEM_SRz_min_ELU;semelle ΣRz min du sol, ELU (> 0 vers le haut);kN;-68.29597955025176;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AM1_+X×1.155 + AC_PT_YM_+Z×1.5;semelle
+H80C;SEM_SRz_min_ELS_C;semelle ΣRz min du sol, ELS caractéristique (> 0 vers le haut);kN;-5.4911125532066345;ELS_caracteristique;ELS_caracteristique: G_DEJ_100×1 + HU×1 + TM×0.6 + AM1_+X×0.77 + AC_PT_YM_+Z×1;semelle
+H80C;LEST_manquant;"lest manquant = max(0 ; −ΣRz min ELU) / 0,9";kN;75.88442172250195;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AM1_+X×1.155 + AC_PT_YM_+Z×1.5;semelle
+H80C;CULEE_RX;culée (rotules du quai) RX extrême signé;kN;178.99073836138717;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM1_-X×1.5 + TP×0.9 + AC_PT_YM_+Z×1.5 + QD×1.001;rotule YP (fixe)
+H80C;CULEE_RY;culée (rotules du quai) RY extrême signé;kN;-78.28664025557755;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ1_YP_PERP×1.5 + TP×0.9 + AC_QU_YM_+Z×1.5 + QD×1.001;rotule YP (fixe)
+H80C;CULEE_RZ;culée (rotules du quai) RZ extrême signé;kN;57.29569536569907;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TM×0.9 + AM1_+X×1.155 + AC_QU_YP_-Z×1.5;rotule YP (fixe)
+H80P;PP_My;PP My extrême en valeur absolue, signé (MFY);kN·m;-57.753402634996526;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TM×0.9 + AM1_+X×1.155 + AC_MI1_YP_-Z×1.5;élément 144 nœud 408 (PP_T1_YP_03)
+H80P;PP_Mz;PP Mz extrême en valeur absolue, signé (MFZ);kN·m;13.556583487119429;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TM×0.9 + AM2_YP×1.155 + AC_MI1_YM_-Z×1.5;élément 129 nœud 28 (PP_T1_YP_01)
+H80P;PP_N_min;PP N min;kN;-177.69106789125257;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM1_-X×1.5 + TP×0.9 + AC_PA2_YP_-X×1.5 + HU×1.155;élément 107 nœud 384 (PP_T1_YM_02)
+H80P;PP_N_max;PP N max;kN;199.49482564852363;ELU_fondamental;ELU_fondamental: G×1.2 + AM1_+X×1.5 + AC_PT_YP_+X×1.5 + HD×1.155;élément 135 nœud 402 (PP_T1_YP_02)
+H80P;PP_V;PP V max (√(VY² + VZ²));kN;51.52840395199655;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 129 nœud 28 (PP_T1_YP_01)
+H80P;FL_T1_F_bas;flèche relative T1 vers le bas, ELS_frequent, variables seules (< 0 vers le bas);mm;-23.370492844245852;ELS_frequent;ELS_frequent: G×1 + HD×0.77 + TM×0.5 + AM1_+X×0.2;PP_T1_YP X = 3.125
+H80P;FL_T1_F_haut;flèche relative T1 vers le haut, ELS_frequent, variables seules (< 0 vers le bas);mm;23.392046753156762;ELS_frequent;ELS_frequent: G×1 + HU×0.77 + TP×0.5 + AM1_-X×0.2;PP_T1_YP X = 3.125
+H80P;FL_T1_C_bas;flèche relative T1 vers le bas, ELS_caracteristique, variables seules (< 0 vers le bas), sans composante tangentielle d'accostage (P51);mm;-33.83188762168518;ELS_caracteristique;ELS_caracteristique: G×1 + HD×1 + TM×0.6 + AM1_+X×0.77 + AC_CH1_YM_+X×1;PP_T1_YP X = 3.125
+H80P;FL_T1_C_haut;flèche relative T1 vers le haut, ELS_caracteristique, variables seules (< 0 vers le bas), sans composante tangentielle d'accostage (P51);mm;33.90981643739222;ELS_caracteristique;ELS_caracteristique: G×1 + HU×1 + TP×0.6 + AM1_-X×0.77 + AC_CH1_YP_+X×1;PP_T1_YP X = 3.125
+H80P;AXE_Fz_min;appuis à axe Fz min (< 0 : traction des tiges, soulèvement);kN;-49.753560529694106;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + AML_TQ3_YP_PERP×1.155 + AC_CH1_YM_+Z×1.5;A1_YM
+H80P;AXE_Fz_max;appuis à axe Fz max (compression);kN;67.07293394543612;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + AML_TQ3_YM_PERP×1.155 + AC_PA2_YP_-Z×1.5;A2_YP
+H80P;AXE_Fy_max;appuis à axe Fy extrême en valeur absolue, signé (appuis YP);kN;-44.58378626346892;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ4_YM_PERP×1.5 + TM×0.9 + AC_PA2_YP_+X×1.5 + QD×1.001;A3_YP
+H80P;AXE_dx;appuis à axe glissement en X extrême signé (trou oblong);mm;49.80625453680729;ELU_fondamental;ELU_fondamental: G×1.2 + TP×1.5 + AM1_+X×1.155 + AC_PA2_YM_+X×1.5 + HD×1.155;A3_YP
+H80P;AXE_dx_ELS_C;appuis à axe glissement en X extrême signé, ELS caractéristique (trou oblong);mm;33.93774436333055;ELS_caracteristique;ELS_caracteristique: G_DEJ_100×1 + TP×1 + AM1_+X×0.77 + AC_PA2_YM_+X×1 + HD×0.77;A3_YP
+H80P;PILE_N_min;piles N min (compression);kN;-92.0608719890822;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TM×0.9 + AML_TQ2_YP_PERP×1.155 + AC_PA2_YP_-Z×1.5;C2_YP pied
+H80P;PILE_N_max;piles N max (traction maximale si > 0);kN;37.77939256262712;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AML_TQ3_YP_PERP×1.155 + AC_CH1_YM_+Z×1.5;C1_YM tete
+H80P;PILE_M_tete;piles M en tete (√(MFY² + MFZ²));kN·m;12.467695697431369;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YP tete
+H80P;PILE_M_pied;piles M en pied (√(MFY² + MFZ²));kN·m;6.765017992998698;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YP pied
+H80P;PILE_V;piles V max (√(VY² + VZ²));kN;4.9279503239923645;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YP tete
+H80P;CHEV_My;CHEV My extrême en valeur absolue, signé (MFY);kN·m;19.960437889462085;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YP_PERP×1.5 + TP×0.9 + AC_PA2_YM_-Z×1.5 + HD×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H80P;CHEV_Mz;CHEV Mz extrême en valeur absolue, signé (MFZ);kN·m;-0.9954379956023198;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ3_YM_PERP×1.5 + AC_PA2_YP_+Z×1.5 + HU×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H80P;CHEV_T;CHEV T extrême en valeur absolue, signé (MT);kN·m;3.333168916948498;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YM_PERP×1.5 + TM×0.9 + AC_PA2_YP_-Z×1.5 + HD×1.155;élément 760 nœud 279 (CHEV_C2_03)
+H80P;CHEV_V;CHEV V max (√(VY² + VZ²));kN;69.95293394528828;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 766 nœud 283 (CHEV_C2_04)
+H80P;LONG_My;LONG My extrême en valeur absolue, signé (MFY);kN·m;-4.808080886385567;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AML_TQ3_YP_PERP×1.155 + AC_CH1_YP_+Z×1.5;élément 784 nœud 295 (LONG_YP_01)
+H80P;LONG_Mz;LONG Mz extrême en valeur absolue, signé (MFZ);kN·m;0.9953585091404683;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ3_YM_PERP×1.5 + AC_PA2_YP_+Z×1.5 + HU×1.155;élément 784 nœud 296 (LONG_YP_01)
+H80P;LONG_T;LONG T extrême en valeur absolue, signé (MT);kN·m;-2.93044621023628;ELU_accidentel;ELU_accidentel: G×1 + ACA_PA2_YP_-Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YP_-X×0.2;élément 781 nœud 294 (LONG_YP_01)
+H80P;LONG_V;LONG V max (√(VY² + VZ²));kN;12.770108429903003;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 776 nœud 291 (LONG_YM_01)
+H80P;ANGLE_My;anneau, nœuds d'angle, |My| extrême signé;kN·m;19.960437889462085;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YP_PERP×1.5 + TP×0.9 + AC_PA2_YM_-Z×1.5 + HD×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H80P;ANGLE_Mz;anneau, nœuds d'angle, |Mz| extrême signé;kN·m;-0.9954379956023198;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ3_YM_PERP×1.5 + AC_PA2_YP_+Z×1.5 + HU×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H80P;ANGLE_T;anneau, nœuds d'angle, |T| extrême signé;kN·m;3.333168916948498;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YM_PERP×1.5 + TM×0.9 + AC_PA2_YP_-Z×1.5 + HD×1.155;élément 760 nœud 279 (CHEV_C2_03)
+H80P;SEM_SRz_min_ELU;semelle ΣRz min du sol, ELU (> 0 vers le haut);kN;-42.77053924019971;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AM1_+X×1.155 + AC_PT_YM_+Z×1.5;semelle
+H80P;SEM_SRz_min_ELS_C;semelle ΣRz min du sol, ELS caractéristique (> 0 vers le haut);kN;25.139415818894538;ELS_caracteristique;ELS_caracteristique: G_DEJ_100×1 + HU×1 + TM×0.6 + AM1_+X×0.77 + AC_PT_YM_+Z×1;semelle
+H80P;LEST_manquant;"lest manquant = max(0 ; −ΣRz min ELU) / 0,9";kN;47.522821377999676;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AM1_+X×1.155 + AC_PT_YM_+Z×1.5;semelle
+H80P;CULEE_RX;culée (rotules du quai) RX extrême signé;kN;189.96509724330474;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM1_-X×1.5 + TP×0.9 + AC_PT_YM_-X×1.5 + QD×1.001;rotule YP (fixe)
+H80P;CULEE_RY;culée (rotules du quai) RY extrême signé;kN;-79.8987819023232;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM2_YP×1.5 + TM×0.9 + AC_MI1_YM_+Z×1.5 + QD×1.001;rotule YP (fixe)
+H80P;CULEE_RZ;culée (rotules du quai) RZ extrême signé;kN;57.28182118109961;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TM×0.9 + AM1_+X×1.155 + AC_QU_YP_-Z×1.5;rotule YP (fixe)
+H80C-S3;PP_My;PP My extrême en valeur absolue, signé (MFY);kN·m;-59.73060190681505;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AM1_+X×1.155 + AC_MI1_YP_-Z×1.5;élément 143 nœud 408 (PP_T1_YP_03)
+H80C-S3;PP_Mz;PP Mz extrême en valeur absolue, signé (MFZ);kN·m;12.739480066580683;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AM2_YP×1.155 + AC_MI1_YM_-Z×1.5;élément 129 nœud 28 (PP_T1_YP_01)
+H80C-S3;PP_N_min;PP N min;kN;-166.62913003074365;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM1_-X×1.5 + TM×0.9 + AC_CH1_YP_+Z×1.5 + HU×1.155;élément 107 nœud 384 (PP_T1_YM_02)
+H80C-S3;PP_N_max;PP N max;kN;190.34236697796132;ELU_fondamental;ELU_fondamental: G×1.2 + AM1_+X×1.5 + TM×0.9 + AC_PT_YP_+X×1.5 + HD×1.155;élément 134 nœud 401 (PP_T1_YP_02)
+H80C-S3;PP_V;PP V max (√(VY² + VZ²));kN;51.10398632326792;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 129 nœud 28 (PP_T1_YP_01)
+H80C-S3;FL_T1_F_bas;flèche relative T1 vers le bas, ELS_frequent, variables seules (< 0 vers le bas);mm;-19.93642062329937;ELS_frequent;ELS_frequent: G×1 + HD×0.77 + TP×0.5 + AM1_+X×0.2;PP_T1_YP X = 3.125
+H80C-S3;FL_T1_F_haut;flèche relative T1 vers le haut, ELS_frequent, variables seules (< 0 vers le bas);mm;19.952166263879903;ELS_frequent;ELS_frequent: G×1 + HU×0.77 + AM1_-X×0.2;PP_T1_YP X = 3.125
+H80C-S3;FL_T1_C_bas;flèche relative T1 vers le bas, ELS_caracteristique, variables seules (< 0 vers le bas), sans composante tangentielle d'accostage (P51);mm;-28.790517112361396;ELS_caracteristique;ELS_caracteristique: G×1 + HD×1 + TP×0.6 + AM1_+X×0.77 + AC_CH1_YM_+X×1;PP_T1_YP X = 3.125
+H80C-S3;FL_T1_C_haut;flèche relative T1 vers le haut, ELS_caracteristique, variables seules (< 0 vers le bas), sans composante tangentielle d'accostage (P51);mm;28.847207242002234;ELS_caracteristique;ELS_caracteristique: G×1 + HU×1 + AM1_-X×0.77 + AC_CH1_YP_+X×1;PP_T1_YP X = 3.125
+H80C-S3;AXE_Fz_min;appuis à axe Fz min (< 0 : traction des tiges, soulèvement);kN;-49.27627146793388;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AML_TQ3_YP_PERP×1.155 + AC_CH1_YM_+Z×1.5;A1_YM
+H80C-S3;AXE_Fz_max;appuis à axe Fz max (compression);kN;65.94529643084232;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + AML_TQ3_YM_PERP×1.155 + AC_PA2_YP_-Z×1.5;A2_YP
+H80C-S3;AXE_Fy_max;appuis à axe Fy extrême en valeur absolue, signé (appuis YP);kN;-43.59467666701841;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ4_YM_PERP×1.5 + AC_PA2_YP_+X×1.5 + QD×1.001;A3_YP
+H80C-S3;AXE_dx;appuis à axe glissement en X extrême signé (trou oblong);mm;45.53724610239074;ELU_fondamental;ELU_fondamental: G×1.2 + TP×1.5 + AM1_+X×1.155 + AC_PA2_YM_+X×1.5 + HD×1.155;A3_YP
+H80C-S3;AXE_dx_ELS_C;appuis à axe glissement en X extrême signé, ELS caractéristique (trou oblong);mm;30.988457399211015;ELS_caracteristique;ELS_caracteristique: G_DEJ_100×1 + TP×1 + AM1_+X×0.77 + AC_PA2_YM_+X×1 + Q×0.77;A3_YP
+H80C-S3;PILE_N_min;piles N min (compression);kN;-76.77293624790343;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AM2_YP×1.155 + AC_PA2_YP_-Z×1.5;C2_YP pied
+H80C-S3;PILE_N_max;piles N max (traction maximale si > 0);kN;39.76364856723229;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TM×0.9 + AML_TQ3_YM_PERP×1.155 + AC_PA2_YP_+Z×1.5;C2_YP tete
+H80C-S3;PILE_M_tete;piles M en tete (√(MFY² + MFZ²));kN·m;9.619048442968593;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YM tete
+H80C-S3;PILE_M_pied;piles M en pied (√(MFY² + MFZ²));kN·m;3.0020698819989056;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YP pied
+H80C-S3;PILE_V;piles V max (√(VY² + VZ²));kN;9.530590590168197;ELU_fondamental;(résultante : maximum sur 2 048 directions);C2_YM tete
+H80C-S3;CHEV_My;CHEV My extrême en valeur absolue, signé (MFY);kN·m;19.196322891333317;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YP_PERP×1.5 + TP×0.9 + AC_PA2_YM_-Z×1.5 + HD×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H80C-S3;CHEV_Mz;CHEV Mz extrême en valeur absolue, signé (MFZ);kN·m;1.2652248493466236;ELU_accidentel;ELU_accidentel: G×1 + ACA_CH1_YP_+Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YP_PERP×0.2;élément 753 nœud 272 (CHEV_C1_03)
+H80C-S3;CHEV_T;CHEV T extrême en valeur absolue, signé (MT);kN·m;1.8896287387090556;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YM_PERP×1.5 + AC_PA2_YP_-Z×1.5 + HD×1.155;élément 764 nœud 773 (CHEV_C2_03)
+H80C-S3;CHEV_V;CHEV V max (√(VY² + VZ²));kN;68.82529643078577;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 766 nœud 283 (CHEV_C2_04)
+H80C-S3;LONG_My;LONG My extrême en valeur absolue, signé (MFY);kN·m;-4.36351055522103;ELU_accidentel;ELU_accidentel: G_DEJ_100×1 + ACA_PA2_YP_-Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YP_-X×0.2;élément 784 nœud 296 (LONG_YP_01)
+H80C-S3;LONG_Mz;LONG Mz extrême en valeur absolue, signé (MFZ);kN·m;1.2639480382829125;ELU_accidentel;ELU_accidentel: G×1 + ACA_CH1_YP_+Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YP_PERP×0.2;élément 777 nœud 292 (LONG_YP_01)
+H80C-S3;LONG_T;LONG T extrême en valeur absolue, signé (MT);kN·m;1.9196257961477319;ELU_accidentel;ELU_accidentel: G_DEJ_100×1 + ACA_PA2_YM_-Z×1 + HU×0.77 + TM×0.5 + AML_TQ3_YP_PERP×0.2;élément 776 nœud 290 (LONG_YM_01)
+H80C-S3;LONG_V;LONG V max (√(VY² + VZ²));kN;12.561063460706588;ELU_fondamental;(résultante : maximum sur 2 048 directions);élément 777 nœud 292 (LONG_YP_01)
+H80C-S3;ANGLE_My;anneau, nœuds d'angle, |My| extrême signé;kN·m;19.196322891333317;ELU_fondamental;ELU_fondamental: G×1.2 + AML_TQ3_YP_PERP×1.5 + TP×0.9 + AC_PA2_YM_-Z×1.5 + HD×1.155;élément 765 nœud 283 (CHEV_C2_03)
+H80C-S3;ANGLE_Mz;anneau, nœuds d'angle, |Mz| extrême signé;kN·m;1.2652248493466236;ELU_accidentel;ELU_accidentel: G×1 + ACA_CH1_YP_+Z×1 + Q×0.77 + TP×0.5 + AML_TQ3_YP_PERP×0.2;élément 753 nœud 272 (CHEV_C1_03)
+H80C-S3;ANGLE_T;anneau, nœuds d'angle, |T| extrême signé;kN·m;1.9196257961477319;ELU_accidentel;ELU_accidentel: G_DEJ_100×1 + ACA_PA2_YM_-Z×1 + HU×0.77 + TM×0.5 + AML_TQ3_YP_PERP×0.2;élément 776 nœud 291 (LONG_YM_01)
+H80C-S3;SEM_SRz_min_ELU;semelle ΣRz min du sol, ELU (> 0 vers le haut);kN;-67.7463034410188;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TP×0.9 + AM1_+X×1.155 + AC_PT_YP_+Z×1.5;semelle
+H80C-S3;SEM_SRz_min_ELS_C;semelle ΣRz min du sol, ELS caractéristique (> 0 vers le haut);kN;-4.880361320689486;ELS_caracteristique;ELS_caracteristique: G_DEJ_100×1 + HU×1 + TP×0.6 + AM1_+X×0.77 + AC_PT_YP_+Z×1;semelle
+H80C-S3;LEST_manquant;"lest manquant = max(0 ; −ΣRz min ELU) / 0,9";kN;75.27367049002088;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + HU×1.5 + TP×0.9 + AM1_+X×1.155 + AC_PT_YP_+Z×1.5;semelle
+H80C-S3;CULEE_RX;culée (rotules du quai) RX extrême signé;kN;181.15216568827253;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AM1_-X×1.5 + TP×0.9 + AC_PT_YM_+Z×1.5 + QD×1.001;rotule YP (fixe)
+H80C-S3;CULEE_RY;culée (rotules du quai) RY extrême signé;kN;-78.5213487097415;ELU_fondamental;ELU_fondamental: G_DEJ_090×1 + AML_TQ1_YP_PERP×1.5 + TP×0.9 + AC_QU_YM_+Z×1.5 + QD×1.001;rotule YP (fixe)
+H80C-S3;CULEE_RZ;culée (rotules du quai) RZ extrême signé;kN;56.957213476717826;ELU_fondamental;ELU_fondamental: G×1.2 + HD×1.5 + TP×0.9 + AM1_+X×1.155 + AC_QU_YP_-Z×1.5;rotule YP (fixe)

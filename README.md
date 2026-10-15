@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 51 (2026-10-15), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 51bis (2026-10-15), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 64 faits sur 66 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 51, Pontons aluminium : palée complète (4 piles, anneau BA 0,40 × 0,40, petite travée), trois travées, appuis néoprène (P38), actions maritimes révisées (P29 à P34), décisions P29 à P43 ; un maillage et un .comm paramétrés, douze variantes (11 calculées, A instable : FACTOR_11, DIAG-030), harnais D réussi (68 cas), jeu B′ révisé en règles (276 235 combinaisons, 5 416 185 pour E), enveloppes par décomposition contrôlées par énumération, exports du lot 50 ter plus appuis néoprène et piles, comparaison des variantes, charges.med de R.
+Lots : 65 faits sur 67 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 51bis, Pontons aluminium : appuis articulés à axe (P44, LIAISON_DDL, X libre, Y bloqué d'un côté) au lieu des néoprènes, point fixe en X au quai (P45), têtes de piles encastrées (P46), tablier rehaussé de 0,50 m (P47), semelle du diagnostic Sixense (P48), déjaugeage DEJ lié au facteur de G (P49) et règle de flèche (P51) ; un maillage et un .comm paramétrés, cinq palées types (H40C, H40P, H80C, H80P, H80C-S3) à FIN, harnais D 67 cas sur 69 (TP et TM : échelle nulle, échec rapporté), 430 914 combinaisons par variante, efforts des axes, équilibre des palées et lest manquant, comparaison des variantes, charges.med de H80C.
 
 Capacités :
 
@@ -296,7 +296,7 @@ Projets :
 - `quai_cw_test_01` (Quai combi-wall QUAI-CW-TEST-01) : niveau D atteint, preuve `projets/quai_cw_test_01/resultats/paquet/paquet.json`.
 - `dalle_appuyee_01` (Dalle appuyée C30/37 6 x 4 x 0,30 m) : niveau E atteint, preuve `projets/dalle_appuyee_01/resultats/paquet/paquet.json`.
 - `estacade_pieux_01` (Estacade sur pieux ESTACADE-PIEUX-01 (contre-calcul d'un modèle non validé)) : niveau D atteint, preuve `projets/estacade_pieux_01/resultats/paquet/paquet.json`.
-- `pontons_alu_01` (Ponton en aluminium PONTONS-ALU-01, palée complète et trois travées (calcul PRO)) : niveau D atteint, preuve `projets/pontons_alu_01/resultats/paquet/paquet.json`.
+- `pontons_alu_01` (Ponton en aluminium PONTONS-ALU-01, palée type sur appuis à axe et trois travées (calcul PRO)) : niveau D atteint, preuve `projets/pontons_alu_01/resultats/paquet/paquet.json`.
 
 Métriques :
 

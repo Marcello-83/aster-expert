@@ -32,12 +32,12 @@ knowledge:
       promu: 0
 consultations:
   calls:
-    search_connaissances: 67
+    search_connaissances: 69
     search_constats: 3
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
   avoided_errors:
-    value: 8.0
+    value: 10.0
     nature: mesure
     note: déclaré lot par lot dans le compte rendu (registre, `lots`)
 lots:
@@ -100,32 +100,49 @@ lots:
       (pivot sur un ddl physique, non sur un multiplicateur) avant toute autre hypothèse,
       ce qui a évité de retirer une liaison à tort. Hors base : U2.02.03 (un discret ne transmet
       pas le moment d''un couple) a fixé la longueur de 1 mm des ressorts néoprène.'
+- lot: 51bis
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM pendant le lot ; P44 à P51, le schéma d'appui et les
+      variantes étaient dans la consigne. Une reprise après une coupure de connexion, sans
+      consigne nouvelle. Les interprétations de l'outil (relations de l'axe, volume de béton
+      modélisé, ΣRz min ELU sur les deux ELU) sont écrites dans docs/essais_lot51bis.md avant
+      les exécutions.
+  avoided_errors:
+    value: 2.0
+    nature: mesure
+    note: 'PAT-005 : DEJ de la semelle en FORCE_COQUE FZ, repère global, intensité par unité
+      de surface (résultante DEJ du harnais à 1,5e-12) ; DIAG-030 : relations de l''axe sous
+      l''axe des poutres écrites avec la DRX des deux oreilles liées, aucun mécanisme de torsion
+      (5 variantes à FIN sans pivot nul). Hors base : DIAG-004 (masse M_T_D_N nulle du sol
+      sous PESANTEUR) reconduit du lot 51.'
 declared_interventions_since_baseline: 1.0
 measured:
-  runs: 25
+  runs: 32
   failures: 1
   development:
-    runs: 23
+    runs: 29
     failures: 1
   verification:
-    runs: 2
+    runs: 3
     failures: 0
     by_reason:
-      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 2
-  failure_rate: 0.0435
+      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 3
+  failure_rate: 0.0345
   failure_rate_note: 'lot 44 : taux sur les exécutions de développement seulement ; une exécution
     de vérification (commande de rejeu, ou .comm déjà réussi rejoué sans modification) n''y
     entre pas'
-  failure_rate_all_runs: 0.04
+  failure_rate_all_runs: 0.0312
   compute_s:
     aster_legacy: 0
-    wall_since_lot41: 1831.0
+    wall_since_lot41: 2975.4
     unknown_runs: 0
     note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
       versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
       deux grandeurs distinctes, jamais additionnées'
   first_run: 20261012T125727-d835bf3c
-  last_run: 20261015T111354-6d305d13
+  last_run: 20261015T132326-a24773cf
   failures_by_signature:
     <F> <FACTOR_11>: 1
   failures_by_cause:

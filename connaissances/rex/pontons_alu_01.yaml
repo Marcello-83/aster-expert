@@ -71,9 +71,29 @@ lots:
       pas le moment d''un couple) a fixé la longueur de 1 mm des ressorts néoprène.'
   note: 'PAT-009 (efforts par CREA_TABLE) appliqué sans avoir été déclaré dans connaissances_appliquees.yaml
     avant les exécutions : non attribué a posteriori.'
+- lot: 51bis
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM pendant le lot ; P44 à P51, le schéma d'appui et les
+      variantes étaient dans la consigne. Une reprise après une coupure de connexion, sans
+      consigne nouvelle. Les interprétations de l'outil (relations de l'axe, volume de béton
+      modélisé, ΣRz min ELU sur les deux ELU) sont écrites dans docs/essais_lot51bis.md avant
+      les exécutions.
+  avoided_errors:
+    value: 2.0
+    nature: mesure
+    note: 'PAT-005 : DEJ de la semelle en FORCE_COQUE FZ, repère global, intensité par unité
+      de surface (résultante DEJ du harnais à 1,5e-12) ; DIAG-030 : relations de l''axe sous
+      l''axe des poutres écrites avec la DRX des deux oreilles liées, aucun mécanisme de torsion
+      (5 variantes à FIN sans pivot nul). Hors base : DIAG-004 (masse M_T_D_N nulle du sol
+      sous PESANTEUR) reconduit du lot 51.'
+  note: 'Harnais D : TP et TM en ÉCHEC au critère écrit (cas thermiques sans aucun effort,
+    dilatation libre en X ; résidu et échelle Σ|k·u| tous deux de l''ordre de 1e-8 N) : rapporté,
+    non corrigé.'
 archive:
-  runs: 25
-  sha256: c0a6bafe45939beb12e7e6441a5a1da1158a2500f988f589bdae2ba1d8c8b374
+  runs: 32
+  sha256: d54118364433b86480b4a47bdf5180a5c0fb59b0ae1229e9cdb41f3e18d60e6d
   recorded: '2026-10-15'
 declaration_required_since: '2026-10-12T08:38:25.125860'
 reviews:
@@ -113,6 +133,12 @@ reviews:
   failures: 1
   unclassified: 0
   last_run: 20261015T111354-6d305d13
+- date: '2026-10-15'
+  lot: 51bis
+  runs: 32
+  failures: 1
+  unclassified: 0
+  last_run: 20261015T132326-a24773cf
 classifications:
 - run: 20261015T110339-7254d74a
   signature: <F> <FACTOR_11>

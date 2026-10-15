@@ -67,6 +67,59 @@ Toute autre issue est un échec, rapporté tel quel : pas de seuil relâché apr
 - **Variante H80C-S3** : même maillage que H80C, seule la section des poutres principales
   change.
 
-## 3. Modèle et exécution
+## 3. Modèle et exécution (après le commit du critère, 88c2ef1)
 
-À remplir après les exécutions, sans modifier les § 1 et 2.
+- Maillages : `maillage/maillage_palee_51bis.py`, quatre géométries (h = 0,40 / 0,80 m, hauteur
+  libre 1,70, 4,30, 1,30, 3,90 m ; H80C-S3 partage celui de H80C) : 895, 939, 891, 931 nœuds ;
+  812, 856, 808, 848 SEG2 ; 156 QUAD4 ; `mesh check` **1 108/1 108** invariants tenus pour
+  chacun.
+- `.comm` : `generation_lot51bis.build_comm`, un par variante, régénérés octet pour octet par un
+  test (`references/execution_lot51bis/<variante>/pontons_alu_01.comm`) ; niveau B **valide**,
+  968/968 commandes confrontées pour chacune des cinq variantes ; 25 relations d'axe.
+- Exécutions : `scripts/lot51bis.py executer` (cinq en parallèle, `ncpus` 1), image
+  `simvia/code_aster:17.4.0` par digest. Répertoires : H40C `20261015T131417-96baa401`, H40P
+  `…131425-e5f5a3fd`, H80C `…131427-5fb786d0`, H80P `…131424-0d99443b`, H80C-S3
+  `…131426-759a694d` (environ 190 s chacune).
+- `charges.med` de H80C : chaîne du tronc commun (`PONTONS_VARIANTE=H80C`, exécution
+  `20261015T132028-32aab106`, puis livrables : post-traitement niveau B 1 259/1 259, tables
+  E20.12 identiques à la production, 89 267 valeurs ; 69 cas, 69 vues rendues par pvbatch puis
+  par `exec()`).
+
+## 4. Résultats
+
+| # | Résultat |
+| --- | --- |
+| 1 | 5 variantes `completed_ok`, 0 alarme. |
+| 2 | 67 cas sur 69 réussis pour chaque variante ; résidu relatif maximal des cas réussis 8,1·10⁻¹¹ (H40P, TAP). **DEJ** : 4,9·10⁻¹³ à 3,8·10⁻¹² (la charge appliquée vaut 10 kN/m³ × le volume modélisé, CTL-013 à 0). **TP et TM : ÉCHEC** dans les cinq variantes (rapport 2,0 à 22,3) : les réactions et les forces du sol y valent quelques 10⁻⁸ N, l'échelle Σ\|k·u\| quelques 10⁻⁹ N. Sous TP et TM, aucun effort dans la structure (H80C : \|N\| ≤ 2,6·10⁻⁸ N, \|M\| ≤ 3,5·10⁻⁹ N·m) et dilatation libre (14,8 mm en X = 14,02 sous TP) : la chaîne des travées n'est fixée en X qu'au quai (P45) et le Y de l'aluminium n'est bloqué que d'un côté (P44). Le rapport compare deux bruits numériques. |
+| 3 | H80C : écart relatif maximal 1,1·10⁻¹² (Q) entre le cas total et la somme de ses trois travées. |
+| 4 | H80C : 67 cas ≤ 8,9·10⁻⁸ (DEJ, où les axes ne portent que 0,19 N) ; Fx des axes sur les chevêtres ≤ 2,5·10⁻¹², Fy en YM ≤ 2,1·10⁻¹¹. **TP et TM : ÉCHEC** (1,45 et 0,48) : efforts des axes de l'ordre de 10⁻⁹ N, même cause qu'au critère 2. |
+| 5 | H80C : 16 extrêmes (MFY des poutres principales, N des piles, Fz des axes, ΣRz de la semelle ; ELU fondamental et accidentel ; max et min) : écart relatif maximal 4,7·10⁻¹⁵ entre la décomposition et l'énumération de `recombiner.py`. |
+| 6 | 430 914 combinaisons par variante (ELU fondamental 121 556, ELU accidentel 150 016, ELS caractéristique 121 556, ELS fréquent 36 916, ELS quasi permanent 870), énumérées : 430 914, toutes distinctes. `recombiner.py` relancé depuis le partage par `python3 -I -S` : même effectif. |
+
+## 5. Verdict
+
+| # | Verdict |
+| --- | --- |
+| 1 | RÉUSSI (5 variantes). |
+| 2 | **ÉCHEC** pour TP et TM (5 variantes), tel que le critère est écrit ; RÉUSSI pour les 67 autres cas, DEJ compris. |
+| 3 | RÉUSSI. |
+| 4 | **ÉCHEC** pour TP et TM ; RÉUSSI pour les 67 autres cas. |
+| 5 | RÉUSSI. |
+| 6 | RÉUSSI. |
+
+Niveau atteint : **C** pour les cinq variantes ; **D** pour les 67 cas mécaniques et thermiques
+TAP, TAM de chacune ; TP et TM restent au niveau C (contrôle d'équilibre non concluant, échelle
+nulle). Aucun niveau E (aucune référence extérieure). Le critère n'est pas modifié après coup ;
+un contrôle des cas thermiques sans effort (échelle absolue, ou effort intérieur nul) est un
+point proposé à MM.
+
+## 6. Limites
+
+- Volume de béton : angles de l'anneau comptés deux fois (0,127 m³ pour h = 0,40, 0,255 m³
+  pour h = 0,80), soit 1,9 et 3,8 kN de poids déjaugé en trop dans G1 et DEJ ; le lest manquant
+  n'en est pas corrigé (colonne `recouvrement_angles` de `palee_equilibre.csv`).
+- Le sol est linéaire et admet la traction (P19) : dans la combinaison qui gouverne ΣRz min à
+  l'ELU fondamental, tous les ressorts (182, 168 pour H80P) sont tendus ; la palée se soulève
+  en bloc. Constaté, non corrigé.
+- Résultantes (V, M des piles) : maximum sur 2 048 directions, à 1,2·10⁻⁶ près par défaut.
+- Critères 3 à 6 sur H80C ; les autres variantes emploient le même code.
