@@ -1875,32 +1875,53 @@
       "point_label": "P56",
       "topic": "Houle par surfaces et par état limite",
       "options_considered": [],
-      "option_retained": "**P56 — Houle par surfaces et par état limite.**  - Référentiel unique : `pontons_niveaux_eau_houle_v2.xlsx`, à copier dans `donnees/sources/`. - 0 m CM = −0,329 m NGF. - Caractéristique = période de retour 50 ans (EN 1990).  Les cas HU et HD du lot 51 bis sont **remplacés** par quatre cas unitaires de 1 kPa, appliqués sur **toute la longueur** du tablier (porte-à-faux compris) :  | Cas | Surface | Largeur chargée | Application | Sens | |---|---|---|---|---| | HU_TUBES | sous-face des 2 poutres principales | 0,20 m chacune | ligne sur chaque poutre | haut | | HU_PANNES | sous-face des 4 pannes | 0,05 m chacune | ligne sur chaque panne | haut | | HU_PLATELAGE | sous-face des planches, joints déduits | 1,327 m au total | réparti entre pannes et poutres par largeurs tributaires (comme G2) | haut | | HD_TABLIER | dessus du platelage | 1,895 m | idem G2 | bas |  **Coefficients uniformes sur toute la longueur.** Les pressions ont été recalculées par plate-forme, avec les fonds réels (voir P58) et la méthode du classeur :  - de P2 à P5, sur les deux pannes, la houle n'est pas limitée par la profondeur : valeurs P5 (à 1 % près pour P2 de la panne B) ; - les plates-formes P1 des pannes A et B sont limitées par la profondeur. Leur scénario gouvernant est niveau 50 ans + Hs 5 ans, soit 13,55 kPa au lieu de 14,49 kPa sur les tubes (−6,5 %).  On retient donc les valeurs P5 partout (enveloppe, sans découpage en zones). Coefficients sans γ :  | Événement | HU_TUBES | HU_PANNES | HU_PLATELAGE | HD_TABLIER | Scénario | |---|---|---|---|---|---| | HU (caractéristique) | 14,49 | 12,99 | 12,48 | — | niveau 5 ans + Hs 50 ans | | HD (caractéristique) | — | — | — | 12,03 | idem | | HU_F (fréquent) | 2,36 | 0,85 | 0,35 | — | PHMA 2050 + Hs 1 an |  La houle est **en phase sur toute la longueur**. C'est une borne haute pour les efforts globaux, retenue volontairement.  Règles de combinaison pour la houle (le reste du jeu B′ est inchangé) :  - **ELU fondamental** : HU ou HD × 1,5 en dominante, × 1,5 × 0,77 en accompagnement. - **ELU accidentel** : HU ou HD × 0,77 en accompagnement, comme au lot 51 bis. - **ELS caractéristique** : HU ou HD × 1,0 en dominante, × 0,77 en accompagnement. - **ELS fréquent** : en dominante, l'événement HU_F × 1,0 remplace ψ1·HU ; en accompagnement, rien (ψ2 = 0). - **ELS quasi permanent** : pas de houle. La houle courante n'atteint pas le tablier.  Les cas sont unitaires et le calcul est linéaire. Si les pressions changent (méthode dédiée, autre scénario, découpage par zones), seuls les coefficients des événements changent, sans réexécution. Pour cela, conserver aussi les quatre cas unitaires **découpés par module** (suffixes `_Mk`, voir § Chargements) : leur somme doit égaler le cas total.",
-      "justification": "Décision P56 de MM, recopiée à l'identique (sources/consigne_lot51ter.md).",
+      "option_retained": "**P60 — Houle « tablier noyé », P56 révisée.** Les cas unitaires et les règles de combinaison de P56 sont conservés. Seuls les coefficients changent.",
+      "justification": "Décision P56 de MM, recopiée à l'identique (sources/consigne_lot51quater.md).",
       "discarded_variants": [
         {
-          "description": "Forfait de houle de 5 kPa sur le tablier, cas HU et HD des lots 50 à 51 bis",
-          "reason": "remplacé par quatre cas unitaires de 1 kPa par surface et des coefficients par état limite (P56)"
-        },
-        {
-          "description": "Découpage des pressions par zones (P1 des pannes A et B limitées par la profondeur : 13,55 kPa au lieu de 14,49 sur les tubes)",
-          "reason": "valeurs P5 retenues partout (enveloppe), sans découpage en zones (P56)"
+          "description": "Coefficients P56 (HU 14,49 / 12,99 / 12,48 kPa ; HD 12,03 kPa), dessus du tablier supposé sec alors que la crête le dépasse d'environ 1,2 m",
+          "reason": "borne non physique pour un tablier de 2 m ajouré à tubes drainés ; modèle du tablier noyé (P60)"
         }
       ],
       "notes": "Classeur donnees/sources/pontons_niveaux_eau_houle_v2.xlsx (copie du partage « Claude outputs », 16/10/2026, sha256 43d4a4ca…) ; coefficients dans le groupe houle_lot51ter du fichier de données.",
-      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01 (lot 51 ter), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "validity_domain": "Recombinaison des cas unitaires du lot 51 ter de PONTONS-ALU-01 (lot 51 quater, calcul linéaire, aucune réexécution pour les résultats), telle que MM l'a décidée ; hors de ce calcul, la décision n'est pas établie.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "arbitrage_mm",
-          "reference": "consigne_lot51ter (donnees/sources/consigne_lot51ter.md), P56",
+          "reference": "consigne_lot51quater (donnees/sources/consigne_lot51quater.md), P56",
           "date": "2026-10-16"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-10-16T09:00:00-04:00",
-      "decision_history": [],
+      "decided_at": "2026-10-16T12:00:00-04:00",
+      "decision_history": [
+        {
+          "option_retained": "**P56 — Houle par surfaces et par état limite.**  - Référentiel unique : `pontons_niveaux_eau_houle_v2.xlsx`, à copier dans `donnees/sources/`. - 0 m CM = −0,329 m NGF. - Caractéristique = période de retour 50 ans (EN 1990).  Les cas HU et HD du lot 51 bis sont **remplacés** par quatre cas unitaires de 1 kPa, appliqués sur **toute la longueur** du tablier (porte-à-faux compris) :  | Cas | Surface | Largeur chargée | Application | Sens | |---|---|---|---|---| | HU_TUBES | sous-face des 2 poutres principales | 0,20 m chacune | ligne sur chaque poutre | haut | | HU_PANNES | sous-face des 4 pannes | 0,05 m chacune | ligne sur chaque panne | haut | | HU_PLATELAGE | sous-face des planches, joints déduits | 1,327 m au total | réparti entre pannes et poutres par largeurs tributaires (comme G2) | haut | | HD_TABLIER | dessus du platelage | 1,895 m | idem G2 | bas |  **Coefficients uniformes sur toute la longueur.** Les pressions ont été recalculées par plate-forme, avec les fonds réels (voir P58) et la méthode du classeur :  - de P2 à P5, sur les deux pannes, la houle n'est pas limitée par la profondeur : valeurs P5 (à 1 % près pour P2 de la panne B) ; - les plates-formes P1 des pannes A et B sont limitées par la profondeur. Leur scénario gouvernant est niveau 50 ans + Hs 5 ans, soit 13,55 kPa au lieu de 14,49 kPa sur les tubes (−6,5 %).  On retient donc les valeurs P5 partout (enveloppe, sans découpage en zones). Coefficients sans γ :  | Événement | HU_TUBES | HU_PANNES | HU_PLATELAGE | HD_TABLIER | Scénario | |---|---|---|---|---|---| | HU (caractéristique) | 14,49 | 12,99 | 12,48 | — | niveau 5 ans + Hs 50 ans | | HD (caractéristique) | — | — | — | 12,03 | idem | | HU_F (fréquent) | 2,36 | 0,85 | 0,35 | — | PHMA 2050 + Hs 1 an |  La houle est **en phase sur toute la longueur**. C'est une borne haute pour les efforts globaux, retenue volontairement.  Règles de combinaison pour la houle (le reste du jeu B′ est inchangé) :  - **ELU fondamental** : HU ou HD × 1,5 en dominante, × 1,5 × 0,77 en accompagnement. - **ELU accidentel** : HU ou HD × 0,77 en accompagnement, comme au lot 51 bis. - **ELS caractéristique** : HU ou HD × 1,0 en dominante, × 0,77 en accompagnement. - **ELS fréquent** : en dominante, l'événement HU_F × 1,0 remplace ψ1·HU ; en accompagnement, rien (ψ2 = 0). - **ELS quasi permanent** : pas de houle. La houle courante n'atteint pas le tablier.  Les cas sont unitaires et le calcul est linéaire. Si les pressions changent (méthode dédiée, autre scénario, découpage par zones), seuls les coefficients des événements changent, sans réexécution. Pour cela, conserver aussi les quatre cas unitaires **découpés par module** (suffixes `_Mk`, voir § Chargements) : leur somme doit égaler le cas total.",
+          "justification": "Décision P56 de MM, recopiée à l'identique (sources/consigne_lot51ter.md).",
+          "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01 (lot 51 ter), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+          "sources": [
+            {
+              "origin": "arbitrage_mm",
+              "reference": "consigne_lot51ter (donnees/sources/consigne_lot51ter.md), P56",
+              "date": "2026-10-16"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Forfait de houle de 5 kPa sur le tablier, cas HU et HD des lots 50 à 51 bis",
+              "reason": "remplacé par quatre cas unitaires de 1 kPa par surface et des coefficients par état limite (P56)"
+            },
+            {
+              "description": "Découpage des pressions par zones (P1 des pannes A et B limitées par la profondeur : 13,55 kPa au lieu de 14,49 sur les tubes)",
+              "reason": "valeurs P5 retenues partout (enveloppe), sans découpage en zones (P56)"
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-10-16T09:00:00-04:00"
+        }
+      ],
       "revision_history": []
     },
     {
@@ -2052,6 +2073,70 @@
       "status": "tranche",
       "decided_by": "agent (choix_agent)",
       "decided_at": "2026-10-16T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P60",
+      "topic": "Houle « tablier noyé »",
+      "options_considered": [],
+      "option_retained": "**P60 — Houle « tablier noyé », P56 révisée.** Les cas unitaires et les règles de combinaison de P56 sont conservés. Seuls les coefficients changent.  Principe : quand la crête dépasse le dessus du platelage (+1,445), la pression s'équilibre de part et d'autre des surfaces. La sous-pression quasi statique nette est bornée par la hauteur immergée de chaque surface jusqu'au dessus du platelage, soit ρg × (1,445 − z_sous-face), avec ρg = 10,05 kN/m³. Elle est majorée d'un facteur 2 pour le retard de remplissage.  | Événement | HU_TUBES | HU_PANNES | HU_PLATELAGE | HD_TABLIER | |---|---|---|---|---| | HU (caractéristique), variantes 10 (pannes 50 × 50, sous-face +1,35) | 4,92 | 1,91 | 0,90 | — | | HU (caractéristique), variantes 12 (pannes 60 × 60, sous-face +1,34) | 4,92 | 2,11 | 0,90 | — | | HD (caractéristique) : retard de vidange, 0,10 m d'eau sur le platelage | — | — | — | 1,01 | | HU_F (fréquent) : inchangé, la crête fréquente +1,435 reste sous le dessus | 2,36 | 0,85 | 0,35 | — |  HU et HD restent appliqués sur toute la longueur, en phase.",
+      "justification": "Décision P60 de MM, recopiée à l'identique (sources/consigne_lot51quater.md).",
+      "discarded_variants": [
+        {
+          "description": "Dessus du tablier sec sous la crête (P56, lot 51 ter : HU_TUBES 14,49, HU_PANNES 12,99, HU_PLATELAGE 12,48, HD_TABLIER 12,03 kPa)",
+          "reason": "sous-pression nette bornée par la hauteur immergée jusqu'au dessus du platelage, × 2 pour le retard de remplissage (P60)"
+        },
+        {
+          "description": "Étude dynamique de la houle sur le tablier",
+          "reason": "reportée à un lot dédié (MM, lot 51 quater)"
+        }
+      ],
+      "notes": "Coefficients dans le groupe houle_lot51quater du fichier de données ; vérification : 2 × 10,05 × (1,445 − 1,20) = 4,92 ; 2 × 10,05 × (1,445 − 1,35) = 1,91 ; 2 × 10,05 × (1,445 − 1,34) = 2,11 ; 2 × 10,05 × (1,445 − 1,40) = 0,90 ; 10,05 × 0,10 = 1,01 (arrondi au centième supérieur). Le cas unitaire HU_PANNES garde 0,05 m par panne (P56) pour les variantes 12, dont les pannes ont 0,06 m de sous-face : écart signalé, non corrigé (aucun nouveau cas unitaire).",
+      "validity_domain": "Recombinaison des cas unitaires du lot 51 ter de PONTONS-ALU-01 (lot 51 quater, calcul linéaire, aucune réexécution pour les résultats), telle que MM l'a décidée ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51quater (donnees/sources/consigne_lot51quater.md), P60",
+          "date": "2026-10-16"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-16T12:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P61",
+      "topic": "Impact quasi statique",
+      "options_considered": [],
+      "option_retained": "**P61 — Impact quasi statique.** Pression d'impact à l'entrée de l'eau sous les surfaces :  p_imp = DAF × ½ ρ Cs w² = 1,5 × 0,5 × 1,025 × 2π × 1,1² ≈ **5,9 kPa**  Hypothèses du superviseur, à citer telles quelles :  - w = 1,1 m/s : vitesse verticale de la surface libre au niveau de la sous-face. C'est 2 × πHmax/T, avec Hmax = 2,03 m et T = 11,5 s, pour le front raide d'une houle en faible profondeur. - Cs = 2π. - DAF = 1,5 : durée d'impact de l'ordre de la période propre d'une travée.  L'impact est **local** : un module à la fois. Six événements exclusifs HU_IMP_Mk, avec k = 0 à 5. Chacun est la somme, sur le seul module Mk, de :  5,9 × (HU_TUBES_Mk + HU_PANNES_Mk + HU_PLATELAGE_Mk)  Règles :  - HU_IMP_Mk et HU sont **alternatifs** dans l'emplacement de la houle : l'impact précède l'immersion. - Mêmes facteurs que HU à l'ELU fondamental et à l'ELS caractéristique. - Pas d'impact à l'ELU accidentel, à l'ELS fréquent ni à l'ELS quasi permanent. - P57 s'applique : jamais avec AC ou ACA.",
+      "justification": "Décision P61 de MM, recopiée à l'identique (sources/consigne_lot51quater.md).",
+      "discarded_variants": [
+        {
+          "description": "Impact simultané sur toute la longueur",
+          "reason": "impact local, un module à la fois, six événements exclusifs HU_IMP_M0 à HU_IMP_M5 (P61)"
+        },
+        {
+          "description": "Étude dynamique de l'impact",
+          "reason": "traitement quasi statique avec DAF = 1,5 ; étude dynamique reportée à un lot dédié (MM, lot 51 quater)"
+        }
+      ],
+      "notes": "Valeur décidée 5,9 kPa ; vérification : 1,5 × 0,5 × 1,025 × 2π × 1,1² = 5,84 kPa avec w arrondi à 1,1 m/s, 5,94 kPa avec w = 2π × 2,03 / 11,5 = 1,109 m/s ; 5,9 kPa retenu tel que décidé. Coefficients dans le groupe houle_lot51quater du fichier de données.",
+      "validity_domain": "Recombinaison des cas unitaires du lot 51 ter de PONTONS-ALU-01 (lot 51 quater, calcul linéaire, aucune réexécution pour les résultats), telle que MM l'a décidée ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot51quater (donnees/sources/consigne_lot51quater.md), P61",
+          "date": "2026-10-16"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-16T12:00:00-04:00",
       "decision_history": [],
       "revision_history": []
     }

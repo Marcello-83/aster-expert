@@ -1828,10 +1828,18 @@ def criterion_counts(
 
 
 def export_variant(
-    vd: VariantData51ter, state: dict[str, Any], out: Path
+    vd: VariantData51ter,
+    state: dict[str, Any],
+    out: Path,
+    *,
+    source: str | None = None,
+    forces_csv: bool = True,
 ) -> tuple[dict[str, int], dict[str, Any]]:
+    """The files of lot 51 ter for one variant. Lot 51 quater: `source` replaces the
+    source line of the headers, `forces_csv=False` leaves out efforts_elementaires.csv
+    (written for one variant only)."""
     out.mkdir(parents=True, exist_ok=True)
-    src = source_line(vd, state)
+    src = source if source is not None else source_line(vd, state)
     axes = axes_text(vd)
     m = vd.model
     lv = vd.g.levels
@@ -1899,25 +1907,26 @@ def export_variant(
         ],
         member_rows(vd),
     )
-    files["efforts_elementaires.csv"] = write(
-        out / "efforts_elementaires.csv",
-        f"{src} Unités : N, N·m, m. EFGE_ELNO (POU_D_T) aux deux extrémités de chaque élément de barre, "
-        "repère local de elements.csv ; convention Code_Aster brute : N > 0 en traction. "
-        + cases_text,
-        [
-            "cas",
-            "element",
-            "membre",
-            "groupe",
-            "travee_ou_palee",
-            "famille",
-            "extremite",
-            "noeud",
-            "abscisse_m",
-            *EFGE,
-        ],
-        force_rows(vd),
-    )
+    if forces_csv:
+        files["efforts_elementaires.csv"] = write(
+            out / "efforts_elementaires.csv",
+            f"{src} Unités : N, N·m, m. EFGE_ELNO (POU_D_T) aux deux extrémités de chaque élément de barre, "
+            "repère local de elements.csv ; convention Code_Aster brute : N > 0 en traction. "
+            + cases_text,
+            [
+                "cas",
+                "element",
+                "membre",
+                "groupe",
+                "travee_ou_palee",
+                "famille",
+                "extremite",
+                "noeud",
+                "abscisse_m",
+                *EFGE,
+            ],
+            force_rows(vd),
+        )
     files["deplacements_elementaires.csv"] = write(
         out / "deplacements_elementaires.csv",
         f"{src} Unités : m, rad. DEPL par nœud et par cas élémentaire, repère global. "

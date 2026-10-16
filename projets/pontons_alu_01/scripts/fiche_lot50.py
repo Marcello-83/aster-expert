@@ -3,7 +3,8 @@
     PYTHONPATH=projets .venv/bin/python projets/pontons_alu_01/scripts/fiche_lot50.py
 
 Fiche vide du lot (`aster-expert projet creer`), décisions P1 à P23 (lot 50) puis P24 à P28
-(lot 50 bis), P29 à P43 (lot 51), P44 à P51 (lot 51 bis) de MM rejouées depuis
+(lot 50 bis), P29 à P43 (lot 51), P44 à P51 (lot 51 bis), P53 à P59 (lot 51 ter), P60 et P61 (lot
+51 quater, P56 ré-arbitrée) de MM rejouées depuis
 `donnees/sources/enregistrement_*.md` (même fonction que `aster-expert fiche enregistrer`),
 choix de l'agent A1 à A9 (domaines du lot 44), convention de nommage des
 groupes tirée des invariants du maillage, commandes prévues conservées (`fiche
@@ -47,6 +48,7 @@ RECORDINGS = (
     PROJECT / "donnees" / "sources" / "enregistrement_P29_P43_lot51.md",
     PROJECT / "donnees" / "sources" / "enregistrement_P44_P51_lot51bis.md",
     PROJECT / "donnees" / "sources" / "enregistrement_P53_P59_lot51ter.md",
+    PROJECT / "donnees" / "sources" / "enregistrement_P60_P61_lot51quater.md",
 )
 CREATED = datetime.fromisoformat("2026-10-12T08:38:25.125860-04:00")
 DESCRIPTION = (
@@ -449,6 +451,7 @@ def build_sheet() -> HypothesesSheet:
     sheet, _done = record_decisions(sheet, arbitrations[4])
     for entry in lot51ter_entries(arbitrations[4].recorded_at):
         sheet = insert_practice_entry(sheet, entry)
+    sheet, _done = record_decisions(sheet, arbitrations[5])
     return sheet
 
 
