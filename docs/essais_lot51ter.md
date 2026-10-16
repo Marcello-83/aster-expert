@@ -75,3 +75,53 @@ Toute autre issue est un échec, rapporté tel quel : pas de seuil relâché apr
 - **Flèches (P51)** : relatives à la corde des appuis de chaque grande travée, actions variables
   seules ; porte-à-faux : déplacement vertical du bout moins celui de l'axe C2 de P5 corrigé de la
   rotation de la corde de PT5, rapport L/flèche avec L = 2 Lpf.
+
+## 3. Modèle et exécution (après le commit du critère, db1ffb2)
+
+- Maillages : `maillage/maillage_ponton_51ter.py`, quatre géométries (pannes A et B, pannes 50 et
+  60 mm) : 3 215 nœuds, 2 776 SEG2, 780 QUAD4 chacune ; `mesh check` **3 526/3 526** invariants
+  tenus pour les quatre (MED du script formaté, relancé à l'étape `executer`).
+- `.comm` : `generation_lot51ter.build_comm`, un par variante, régénérés à l'octet près par un test
+  (`references/execution_lot51ter/<variante>/pontons_alu_01.comm`) ; niveau B **valide**, 1 616/1 616
+  commandes confrontées pour chacune ; 102 relations d'axe ; 221 cas.
+- Exécutions : `scripts/lot51ter.py executer` (quatre en parallèle, `ncpus` 1), image
+  `simvia/code_aster:17.4.0` par digest : A10 `20261016T081729-ce4889e8` (342 s), A12
+  `…081720-7aff9418` (347 s), B10 `…081729-5e5f4d2e` (342 s), B12 `…081721-d59891e7` (346 s).
+- `charges.med` de B10 : chaîne du tronc commun (`PONTONS_VARIANTE=B10`, exécution
+  `20261016T082302-9a66f1cd`, `completed_ok`, 0 alarme ; livrables : post-traitement niveau B
+  2 515/2 515, exécution `20261016T083601-16f8d3dd`, tables E20.12 identiques à la production,
+  1 412 077 valeurs ; 221 cas, 221 vues rendues par pvbatch puis par `exec()`).
+
+## 4. Résultats
+
+| # | Résultat |
+| --- | --- |
+| 1 | 4 variantes `completed_ok`, 0 alarme. |
+| 2 | **221 cas sur 221** réussis pour chaque variante (harnais version 3) ; résidu relatif maximal 2,8·10⁻¹⁰ (A12, TAM) ; DEJ 1,4·10⁻¹² à 2,7·10⁻¹² ; TP et TM sous le critère absolu : Σ\|F\| = 1,5·10⁻⁷ à 6,5·10⁻⁷ N ; TAP et TAM gardent le critère relatif (échelle > 1 N) ; CTL-013 RÉUSSI. |
+| 3 | B10 : résultante déclarée de HU_PLATELAGE et HD_TABLIER = largeur × longueur chargée × 1 kPa à 2,7·10⁻¹⁶ (total) et 1,8·10⁻¹⁶ (modules) ; longueur chargée 40,091 m contre 40,10 m nominal : écart 2,24·10⁻⁴ (9 jeux de 1 mm), rapporté. |
+| 4 | B10 : écart relatif maximal entre le cas total et la somme de ses modules 1,3·10⁻¹¹ (HD_TABLIER). |
+| 5 | Quatre variantes : ΣRX culée = −274 000 N à 5·10⁻⁵ N près ; \|ΣRX palées\| ≤ 2,0·10⁻⁷ N (rapport 7·10⁻¹³). |
+| 6 | Quatre variantes : DX de l'axe C2 de P5 sous TP = 41,094 mm contre α·ΔT·38,85 = 41,103 mm, écart 0,023 % (longueur d'aluminium = 38,85 m moins les jeux de 1 mm). |
+| 7 | B10 : somme des REAC_NODA d'un appui ≤ 2,4·10⁻¹⁰, Fx ≤ 3,4·10⁻¹², Fy en YM ≤ 3,7·10⁻¹¹ (relatif) ; 3 cas d'effort d'appui ≤ 1 N (TP, TM, DEJ) : ≤ 7,4·10⁻⁸ N en absolu. |
+| 8 | B10 : 36 extrêmes (MFY des poutres, N des piles, Fz des axes, ΣRz de chaque palée, RX de la culée ; ELU fondamental et accidentel ; max et min) : écart maximal 1,1·10⁻¹⁵ contre `recombiner.py`, 9,1·10⁻¹⁶ contre l'énumération explicite des 63 dispositions. |
+| 9 | 2 351 600 combinaisons en règles par variante (ELU fondamental 656 956, ELU accidentel 836 856, ELS caractéristique 656 956, ELS fréquent 199 662, ELS quasi permanent 1 170), énumérées : 2 351 600, toutes distinctes ; 107 521 952 avec les dispositions comptées ; `recombiner.py --compter`, relancé depuis le partage par `python3 -I -S` : mêmes effectifs. |
+| 10 | Aucune violation de B′, P57 ni de l'exclusivité de l'accostage dans les règles. |
+
+## 5. Verdict
+
+| # | Verdict |
+| --- | --- |
+| 1 à 10 | RÉUSSI. |
+
+Niveau atteint : **D** pour les quatre variantes (harnais d'équilibre, contrôles de cohérence 3 à
+10). Aucun niveau E (aucune référence extérieure).
+
+## 6. Limites
+
+- Le sol est linéaire et admet la traction (P19) : sous la combinaison qui gouverne ΣRz min à
+  l'ELU fondamental, les 182 ressorts de chaque semelle sont tendus ; la palée se soulève en bloc.
+  Constaté, aucun ancrage modélisé.
+- Houle en phase sur toute la longueur et pressions P5 partout : borne haute voulue (P56).
+- Panne de rive du porte-à-faux : section et position supposées (hypothèse de l'outil, § 2).
+- Résultantes (V, M, RH) : maximum sur 2 048 directions, à 1,2·10⁻⁶ près par défaut.
+- Critères 4, 7, 8 et 9 sur B10 ; les autres variantes emploient le même code.

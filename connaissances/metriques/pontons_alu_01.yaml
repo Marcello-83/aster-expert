@@ -32,7 +32,7 @@ knowledge:
       promu: 0
 consultations:
   calls:
-    search_connaissances: 69
+    search_connaissances: 71
     search_constats: 3
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
@@ -117,32 +117,47 @@ lots:
       l''axe des poutres écrites avec la DRX des deux oreilles liées, aucun mécanisme de torsion
       (5 variantes à FIN sans pivot nul). Hors base : DIAG-004 (masse M_T_D_N nulle du sol
       sous PESANTEUR) reconduit du lot 51.'
+- lot: 51ter
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune question posée à MM pendant le lot ; P53 à P59, la géométrie, les variantes
+      et les contrôles étaient dans la consigne (version 3). Deux copies du classeur de houle
+      sur le partage (ρg 10,25 et 10,05 kN/m³) : retenue celle qui donne les coefficients
+      de P56 (« Claude outputs », 16/10/2026), signalée dans le compte rendu.'
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: 'CA-034 et PAT-001 (une maille POI1 par nœud : un groupe POI1 et une occurrence
+      de RIGI_PARASOL par semelle) consultés par search_connaissances avant l''écriture du
+      .comm, mais non déclarés dans connaissances_appliquees.yaml avant les exécutions : non
+      attribués. PAT-005 et DIAG-030, déclarés au lot 51 bis, reconduits.'
 declared_interventions_since_baseline: 1.0
 measured:
-  runs: 32
+  runs: 38
   failures: 1
   development:
-    runs: 29
+    runs: 34
     failures: 1
   verification:
-    runs: 3
+    runs: 4
     failures: 0
     by_reason:
-      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 3
-  failure_rate: 0.0345
+      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 4
+  failure_rate: 0.0294
   failure_rate_note: 'lot 44 : taux sur les exécutions de développement seulement ; une exécution
     de vérification (commande de rejeu, ou .comm déjà réussi rejoué sans modification) n''y
     entre pas'
-  failure_rate_all_runs: 0.0312
+  failure_rate_all_runs: 0.0263
   compute_s:
     aster_legacy: 0
-    wall_since_lot41: 2975.4
+    wall_since_lot41: 4955.2
     unknown_runs: 0
     note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
       versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
       deux grandeurs distinctes, jamais additionnées'
   first_run: 20261012T125727-d835bf3c
-  last_run: 20261015T132326-a24773cf
+  last_run: 20261016T083601-16f8d3dd
   failures_by_signature:
     <F> <FACTOR_11>: 1
   failures_by_cause:

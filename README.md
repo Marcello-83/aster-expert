@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 51bis (2026-10-15), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 51ter (2026-10-16), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 65 faits sur 67 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 51bis, Pontons aluminium : appuis articulés à axe (P44, LIAISON_DDL, X libre, Y bloqué d'un côté) au lieu des néoprènes, point fixe en X au quai (P45), têtes de piles encastrées (P46), tablier rehaussé de 0,50 m (P47), semelle du diagnostic Sixense (P48), déjaugeage DEJ lié au facteur de G (P49) et règle de flèche (P51) ; un maillage et un .comm paramétrés, cinq palées types (H40C, H40P, H80C, H80P, H80C-S3) à FIN, harnais D 67 cas sur 69 (TP et TM : échelle nulle, échec rapporté), 430 914 combinaisons par variante, efforts des axes, équilibre des palées et lest manquant, comparaison des variantes, charges.med de H80C.
+Lots : 66 faits sur 68 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 51ter, Pontons aluminium : ponton intégral (culée, cinq palées, cinq grandes travées, porte-à-faux), cotes de l'AVP (P53, P47 annulée ; axe +1,16, P54), tubes drainés (P55, P50 annulée), houle par surfaces et par état limite (P56), houle et accostage non concomitants (P57), facteurs ψ de l'amarrage (P59) ; 221 cas unitaires, Q et QD par modules en lignes d'influence, 2 351 600 combinaisons par variante en règles ; quatre variantes (A10, A12, B10, B12) à FIN, harnais D 221/221 ; ancrage requis par palée, réactions de la culée, chaîne longitudinale, DX des axes ; harnais D version 3 (critère absolu des cas d'échelle nulle) et angles de l'anneau comptés une fois ; charges.med de B10.
 
 Capacités :
 

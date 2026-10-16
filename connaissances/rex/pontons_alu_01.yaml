@@ -91,10 +91,27 @@ lots:
   note: 'Harnais D : TP et TM en ÉCHEC au critère écrit (cas thermiques sans aucun effort,
     dilatation libre en X ; résidu et échelle Σ|k·u| tous deux de l''ordre de 1e-8 N) : rapporté,
     non corrigé.'
+- lot: 51ter
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune question posée à MM pendant le lot ; P53 à P59, la géométrie, les variantes
+      et les contrôles étaient dans la consigne (version 3). Deux copies du classeur de houle
+      sur le partage (ρg 10,25 et 10,05 kN/m³) : retenue celle qui donne les coefficients de
+      P56 (« Claude outputs », 16/10/2026), signalée dans le compte rendu.'
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: 'CA-034 et PAT-001 (une maille POI1 par nœud : un groupe POI1 et une occurrence de
+      RIGI_PARASOL par semelle) consultés par search_connaissances avant l''écriture du .comm,
+      mais non déclarés dans connaissances_appliquees.yaml avant les exécutions : non attribués.
+      PAT-005 et DIAG-030, déclarés au lot 51 bis, reconduits.'
+  note: 'Harnais D version 3 (correction 1 du tronc commun) : 221 cas sur 221 pour les quatre
+    variantes ; TP et TM jugés sur le critère absolu (Σ|F| ≤ 6,5e-7 N).'
 archive:
-  runs: 32
-  sha256: d54118364433b86480b4a47bdf5180a5c0fb59b0ae1229e9cdb41f3e18d60e6d
-  recorded: '2026-10-15'
+  runs: 38
+  sha256: dfb1a82fdad5d83ed139c47e80d26142cf2d3b834e1d34d5941c3e7c1d26a8b8
+  recorded: '2026-10-16'
 declaration_required_since: '2026-10-12T08:38:25.125860'
 reviews:
 - date: '2026-10-12'
@@ -139,6 +156,12 @@ reviews:
   failures: 1
   unclassified: 0
   last_run: 20261015T132326-a24773cf
+- date: '2026-10-16'
+  lot: 51ter
+  runs: 38
+  failures: 1
+  unclassified: 0
+  last_run: 20261016T083601-16f8d3dd
 classifications:
 - run: 20261015T110339-7254d74a
   signature: <F> <FACTOR_11>

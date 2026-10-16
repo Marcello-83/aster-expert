@@ -296,7 +296,7 @@ def test_la_declaration_accepte_les_vues_en_plan() -> None:
 
     ctx = load_project("pontons_alu_01", ROOT)
     assert ctx.declaration.deliverables is not None
-    assert ctx.declaration.deliverables.load_plan_views == ("Q", "HU")
+    assert ctx.declaration.deliverables.load_plan_views == ("Q", "HU_PLATELAGE")
     assert NODAL_COMPONENTS == ("FX", "FY", "FZ", "MX", "MY", "MZ")
     assert CaseLoads("x").nature == "autre"
 
