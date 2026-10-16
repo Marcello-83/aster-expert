@@ -104,6 +104,10 @@ ignore = []
 # dépendre que de la bibliothèque standard et peuvent cibler un interpréteur
 # plus ancien.
 "scripts/*" = ["UP"]
+# Lot 51 quater : scripts exécutés par le Python de ParaView (pvbatch, ParaVis), à lire
+# et modifier à la main comme le modèle charges_salome du tronc commun (import étoilé
+# de paraview.simple, os.path) ; exclus de mypy.
+"projets/*/scripts/paraview/*" = ["F403", "F405", "PTH", "SIM105", "C416", "E501", "UP"]
 # Lot 46 : les contrôles du harnais par défaut partagent une signature commune
 # (ctx, result, summary) et n'en lisent chacun qu'une partie.
 "src/aster_expert/controles/harnais.py" = ["ARG001"]
@@ -159,7 +163,7 @@ mypy_path = ["src", "projets", "projets/quai_cw_test_01/scripts", "projets/dalle
 explicit_package_bases = true
 # Lot 49 : les sorties des projets (`resultats/`, non versionnées) portent les scripts
 # ParaView générés (pvpython, modules `paraview` absents de ce Python).
-exclude = ['^projets/[^/]+/maillage/.*\.py$', '^projets/[^/]+/resultats/']
+exclude = ['^projets/[^/]+/maillage/.*\.py$', '^projets/[^/]+/scripts/paraview/.*\.py$', '^projets/[^/]+/resultats/']
 strict = true
 warn_unreachable = true
 disallow_untyped_defs = true

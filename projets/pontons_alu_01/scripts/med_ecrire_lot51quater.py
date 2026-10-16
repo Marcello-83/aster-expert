@@ -9,7 +9,8 @@ values are replaced by the array of spec.npz (same layout: nodes, or the ends of
 SEG2 cells of the EFGE_ELNO profile); nothing is interpolated. The mesh is renamed and
 the groups of spec.json are added. sortie/relecture.json: what each written file holds
 when read again (nodes, cells per level, groups, fields) and the largest gap between
-each field read again and its array of spec.npz.
+each field read again and its array of spec.npz. Written in MED 3.3, the version
+of the files Code_Aster writes (the MEDReader of Salomé-Méca 2024.1 refuses MED 4.2).
 """
 
 import json
@@ -50,6 +51,7 @@ def with_components(f: Any, components: list[str]) -> Any:
 def summary(path: Path, spec_arrays: dict[str, Any]) -> dict[str, Any]:
     mm = mc.MEDFileMesh.New(str(path))
     out: dict[str, Any] = {
+        "version_med": mc.MEDFileVersionOfFileStr(str(path)),
         "maillage": mm.getName(),
         "noeuds": mm.getNumberOfNodes(),
         "niveaux": {str(lv): mm.getSizeAtLevel(lv) for lv in mm.getNonEmptyLevels()},
@@ -84,37 +86,37 @@ def main() -> None:
             mm.addNodeGroup(ids)
         else:
             mm.addGroup(grp["level"], ids)
-    mm.write(str(out / "structure.med"), 2)
+    mm.write33(str(out / "structure.med"), 2)
 
     written: dict[str, Any] = {}
     # charges.med : champs unitaires du MED de Code_Aster (maillage renommé) + événements.
     path = out / "charges.med"
-    mm.write(str(path), 2)
+    mm.write33(str(path), 2)
     for name in mc.GetAllFieldNames(str(charges)):
         f = template(charges, name)
         f.setMeshName(new)
-        f.write(str(path), 0)
+        f.write33(str(path), 0)
     tpl = template(charges, spec["gabarit_forces"])
     for k, name in enumerate(spec["evenements"]):
         values = data["evenements"][k]
-        filled(tpl, name, new, values).write(str(path), 0)
+        filled(tpl, name, new, values).write33(str(path), 0)
         written[name] = values
 
     # resultats.med : combinaisons (DEPL, EFGE_ELNO) et enveloppes ELU.
     path = out / "resultats.med"
-    mm.write(str(path), 2)
+    mm.write33(str(path), 2)
     tpl_u = template(resu, spec["gabarit_depl"])
     tpl_e = template(resu, spec["gabarit_efge"])
     for k, name in enumerate(spec["combinaisons"]):
         u = data["comb_depl"][k]
         e = data["comb_efge"][k]
-        filled(tpl_u, f"{name}__DEPL", new, u).write(str(path), 0)
-        filled(tpl_e, f"{name}__EFGE_ELNO", new, e).write(str(path), 0)
+        filled(tpl_u, f"{name}__DEPL", new, u).write33(str(path), 0)
+        filled(tpl_e, f"{name}__EFGE_ELNO", new, e).write33(str(path), 0)
         written[f"{name}__DEPL"] = u
         written[f"{name}__EFGE_ELNO"] = e
     env = data["enveloppe"]
     f = filled(tpl_e, spec["enveloppe"], new, env)
-    with_components(f, spec["composantes_enveloppe"]).write(str(path), 0)
+    with_components(f, spec["composantes_enveloppe"]).write33(str(path), 0)
     written[spec["enveloppe"]] = env
 
     report: dict[str, Any] = {}

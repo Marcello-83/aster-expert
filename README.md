@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 51ter (2026-10-16), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 51quater (2026-10-16), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 66 faits sur 68 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 51ter, Pontons aluminium : ponton intégral (culée, cinq palées, cinq grandes travées, porte-à-faux), cotes de l'AVP (P53, P47 annulée ; axe +1,16, P54), tubes drainés (P55, P50 annulée), houle par surfaces et par état limite (P56), houle et accostage non concomitants (P57), facteurs ψ de l'amarrage (P59) ; 221 cas unitaires, Q et QD par modules en lignes d'influence, 2 351 600 combinaisons par variante en règles ; quatre variantes (A10, A12, B10, B12) à FIN, harnais D 221/221 ; ancrage requis par palée, réactions de la culée, chaîne longitudinale, DX des axes ; harnais D version 3 (critère absolu des cas d'échelle nulle) et angles de l'anneau comptés une fois ; charges.med de B10.
+Lots : 67 faits sur 69 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 51quater, Pontons aluminium : houle « tablier noyé » (P60, P56 ré-arbitrée : coefficients seuls) et impact quasi statique local (P61, six événements HU_IMP_Mk alternatifs à HU) recombinés sur les 221 cas unitaires du lot 51 ter sans réexécution ; sensibilité HU_S5 ; identité exacte avec le lot 51 ter sous P56 ; ancrage ELU 0 à 23,4 kN (235 kN au lot 51 ter) ; efforts en .npz (8,7 Mo) ; vues 3D en volume (pvbatch) ; structure, charges et résultats combinés en MED 3.3 (medcoupling) et script ParaVis, B10 et B12.
 
 Capacités :
 

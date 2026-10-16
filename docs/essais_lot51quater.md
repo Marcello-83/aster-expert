@@ -73,3 +73,70 @@ rapporté tel quel : pas de seuil relâché après coup.
   (matplotlib), cotes du modèle (P53, P54).
 
 ## 3. Exécution (après le commit du critère)
+
+Point d'arrêt : `030333d` (décisions, données, règles, critère). Le rejeu de B12 (critères 1 et 2) a
+été lancé **avant** l'écriture du critère ; son arrêt au premier écart d'empreinte du `.comm` figurait
+déjà dans le script de chaîne (`resultats/lot51quater/logs/chaine_B12.sh`, `cmp`). Tous les autres
+contrôles ont été exécutés après le commit du critère.
+
+- **Rejeu B12** (chaîne du tronc commun, `PONTONS_VARIANTE=B12`) : l'étape `maillage` de la chaîne
+  contrôle le maillage contre les invariants de B10 et refuse celui de B12 (boîte englobante
+  +1,37 au lieu de +1,375) ; `etat.json` du projet a donc été pointé sur le maillage B12 du lot 51 ter
+  (`mesh check` 3 526/3 526, sha256 `01ec26d8…`), puis `generer`, `valider`, `executer`,
+  `livrables` (`preparer`, `executer`, `verifier`, `traiter`). L'état B10 du projet a été sauvegardé
+  puis restauré en fin de lot (`.comm` sha256 `a209cb2f…`).
+- **Recombinaison** : `scripts/lot51quater.py exports` (quatre variantes en parallèle, quatre
+  processus) ; `med` (B10, B12) ; `vues` (B10, B12) ; `depot`.
+- **Côtés mer et port** (hypothèse de l'outil, écrite après le commit du critère, le modèle ne les
+  définissant pas) : vue 1 depuis l'extrémité du porte-à-faux (X max), vue 2 depuis la culée ; le
+  point de vue est écrit dans le titre de chaque image.
+- **Version MED** : medcoupling de l'image Code_Aster écrit par défaut en MED 4.2, que le MEDReader de
+  Salomé-Méca 2024.1 refuse ; les trois MED sont écrits en 3.3 (`write33`), comme ceux de Code_Aster.
+
+## 4. Résultats des contrôles
+
+| # | Résultat |
+| --- | --- |
+| 1 | `.comm` de la chaîne identique à celui du lot 51 ter (sha256 `8f95ea87…`, `cmp` sans écart). |
+| 2 | Exécution `20261016T094514-1e652232` : `completed_ok`, 0 alarme, 193 s ; post-traitement niveau B 2 515/2 515, exécution `20261016T094901-70936018` `completed_ok`, tables E20.12 identiques (1 412 077 valeurs). Champs unitaires du MED contre les tables E25.16 du lot 51 ter, 221 cas : DEPL et EFGE_ELNO à **0** d'écart, B10 et B12. |
+| 3 | HU : B10 142 094,5 N = formule à 0 ; A10 141 385,7 N ; A12 142 981,3 N ; B12 143 698,2 N (écart 0) ; HD : écart ≤ 1,9·10⁻¹⁶. Longueur chargée 40,091 m (B), 39,891 m (A). |
+| 4 | HU_IMP_Mk : écart ≤ 1,6·10⁻¹⁶ pour les 24 événements (M0 : 71 058 N ; M1 à M4 : 88 317 N ; M5 : 31 482 N pour B). |
+| 5 | Réactions contre résultantes déclarées : ≤ 3,3·10⁻¹² (quatre variantes). |
+| 6 | Combinaisons sans houle : 8 070 valeurs par variante, écart **nul**. |
+| 7 | Identité P56 : 61 grandeurs × 4 variantes, valeur, combinaison et lieu identiques, écart **nul**. |
+| 8 | 36 extrêmes tirés au sort (B10) : écart ≤ 3,0·10⁻¹⁵ contre `recombiner.py`, ≤ 3,2·10⁻¹⁵ contre l'énumération explicite ; 9 de ces extrêmes sont gouvernés par un impact. |
+| 9 | 2 364 008 combinaisons en règles (107 534 360 dispositions) par formule, `recombiner.py` et énumération sans doublon ; aucune violation (B′, P57, P61). |
+| 10 | `.npz` : 8,71 Mo (A10), 8,71 (A12), 8,71 (B10), 8,71 (B12) ; float32 à 5,96·10⁻⁸ en relatif ; lecteur indépendant 20/20 (B10, depuis le partage aussi) ; le `.npz` de B12 lu contre le CSV de B10 est rejeté (contrôle discriminant). |
+| 11 | MED de B10 et B12 relus : 3 215 nœuds, 780 QUAD4, 2 776 SEG2, 910 POI1, 1 029 groupes (1 012 + 17 ajoutés : TRAVEE_*, PALEE_*, AXES_APPUI) ; `charges.med` 234 champs (225 + 9 événements), `resultats.med` 9 champs ; écart de relecture nul ; combinaisons contre les tables : 0 ; résultante des champs d'événement contre la résultante déclarée ≤ 3,1·10⁻¹⁵ ; enveloppe MFY = PP My de la comparaison (−68,3 kN·m B10, −69,3 B12). |
+| 12 | 20 PNG, 1 920 × 1 080, 76 à 184 ko ; regardées à l'œil : B10 vue 1, B10 vue 4, B10 vue 6, B10 vue 7.4, B12 vue 5. |
+
+Tous les critères sont tenus. Le niveau des résultats reste **D** (celui des exécutions du lot 51 ter).
+
+## 5. Résultats
+
+Temps de recombinaison par variante (quatre en parallèle) : lecture des tables 19 s ; exports 9 à 19 s ;
+comparaison 270 à 275 s ; total 280 à 290 s. Contrôles d'identité 226 à 232 s ; énumération (B10) 53 s.
+
+Ancrage requis par palée (kN, ELU fondamental / ELS caractéristique ; sensibilité HU_S5 entre
+parenthèses) :
+
+| Palée | A10 | A12 | B10 | B12 |
+|---|---|---|---|---|
+| P1 | 21,5 / 0 (54,5 / 3,6) | 20,8 / 0 (53,9 / 2,8) | 23,4 / 0 (56,5 / 6,0) | 22,7 / 0 (55,8 / 5,2) |
+| P2 | 10,2 / 0 (43,3 / 0) | 9,5 / 0 (42,6 / 0) | 10,7 / 0 (43,7 / 0) | 10,0 / 0 (43,1 / 0) |
+| P3 | 5,3 / 0 (38,3 / 0) | 4,6 / 0 (37,7 / 0) | 5,3 / 0 (38,3 / 0) | 4,6 / 0 (37,7 / 0) |
+| P4 | 0 / 0 (30,5 / 0) | 0 / 0 (29,8 / 0) | 0 / 0 (28,5 / 0) | 0 / 0 (27,8 / 0) |
+| P5 | 0 / 0 (1,1 / 0) | 0 / 0 (0,6 / 0) | 0 / 0 (3,5 / 0) | 0 / 0 (3,0 / 0) |
+
+Gouvernant : l'impact HU_IMP_Mk du module adjacent (P1 : M1, P2 : M2, P3 : M3), G × 0,9 + DEJ +
+impact × 1,5 + amarrage × 1,155. Lot 51 ter (P56) : 207 à 235 kN à l'ELU, 45 à 125 kN à l'ELS c.
+
+## 6. Limites
+
+- Résultats de niveau D au mieux (harnais du lot 51 ter) ; aucun niveau E.
+- HU_PANNES des variantes 12 sur une largeur de 0,05 m au lieu de 0,06 m (signalé, non corrigé).
+- `resultats.med` : en mode « composante d'effort », le script ParaVis colore la structure non
+  déformée (les EFGE_ELNO et DEPL sont sur deux supports distincts du MED).
+- Vues 3D : axes d'appui et platines représentés (diamètre de l'axe non donné) ; culée non modélisée.
+- pvbatch 5.11 sans écran plante à sa fermeture : les scripts sortent par `os._exit(0)` une fois les
+  images écrites.

@@ -134,30 +134,30 @@ lots:
       attribués. PAT-005 et DIAG-030, déclarés au lot 51 bis, reconduits.'
 declared_interventions_since_baseline: 1.0
 measured:
-  runs: 38
+  runs: 40
   failures: 1
   development:
-    runs: 34
+    runs: 35
     failures: 1
   verification:
-    runs: 4
+    runs: 5
     failures: 0
     by_reason:
-      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 4
-  failure_rate: 0.0294
+      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 5
+  failure_rate: 0.0286
   failure_rate_note: 'lot 44 : taux sur les exécutions de développement seulement ; une exécution
     de vérification (commande de rejeu, ou .comm déjà réussi rejoué sans modification) n''y
     entre pas'
-  failure_rate_all_runs: 0.0263
+  failure_rate_all_runs: 0.025
   compute_s:
     aster_legacy: 0
-    wall_since_lot41: 4955.2
+    wall_since_lot41: 5422.0
     unknown_runs: 0
     note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
       versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
       deux grandeurs distinctes, jamais additionnées'
   first_run: 20261012T125727-d835bf3c
-  last_run: 20261016T083601-16f8d3dd
+  last_run: 20261016T094901-70936018
   failures_by_signature:
     <F> <FACTOR_11>: 1
   failures_by_cause:

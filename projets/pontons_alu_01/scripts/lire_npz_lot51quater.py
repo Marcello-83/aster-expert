@@ -54,10 +54,10 @@ def main() -> int:
     found: dict[tuple[str, int, int], dict[str, str]] = {}
     with args.csv.open(encoding="utf-8", newline="") as stream:
         lines = (line for line in stream if not line.startswith("#"))
-        for row in csv.DictReader(lines, delimiter=";"):
-            key = (row["cas"], int(row["element"]), int(row["noeud"]))
+        for record in csv.DictReader(lines, delimiter=";"):
+            key = (record["cas"], int(record["element"]), int(record["noeud"]))
             if key in wanted:
-                found[key] = row
+                found[key] = record
     failures = 0
     for i, j, k in draws:
         key = (cases[i], int(elements[j]), int(nodes[j]))
