@@ -24,7 +24,12 @@ The gap is referred to the largest component of the applied load; a case passes
 when every gap is within the declared threshold. Version 2 (lot 47 bis): a
 self-equilibrated case (zero applied load) is referred to the scale its project
 declares (`self_equilibrated_scale`), reported with its definition; without one its
-gap stays undefined (NaN), as in version 1. Informative cases are reported
+gap stays undefined (NaN), as in version 1. Version 3 (lot 51 ter): when the
+project declares `absolute_threshold_n` and the declared scale of a self-equilibrated
+case is not above it (null scale: no force anywhere), the case is judged on an
+absolute criterion, Σ|F| ≤ absolute_threshold_n over the reactions of the blocked
+components and the springs (Σ|k·u|, the declared scale); its relative gap is then
+undefined (NaN) and reported as such. Informative cases are reported
 without verdict. Symmetry: every node of the case's table is paired with its
 mirror image through each declared plane; the worst gap is referred to the
 largest displacement of the case.
@@ -128,6 +133,8 @@ def balance_terms(
         for c in COMPONENTS
     }
     scale = max(abs(applied_eval[k]) for k in COMPONENTS)
+    absolute = controls.absolute_threshold_n
+    null_scale = False
     if declared_scale is not None:
         if scale != 0.0:
             message = (
@@ -136,7 +143,10 @@ def balance_terms(
             )
             raise ProjectError(message)
         scale = float(declared_scale["value_n"])
-        if not math.isfinite(scale) or scale <= 0.0:
+        null_scale = (
+            absolute is not None and math.isfinite(scale) and 0.0 <= scale <= absolute
+        )
+        if not null_scale and (not math.isfinite(scale) or scale <= 0.0):
             message = f"échelle d'autoéquilibre non positive : {scale}"
             raise ProjectError(message)
     terms: dict[str, dict[str, Any]] = {}
@@ -162,7 +172,33 @@ def balance_terms(
         if declared_scale is not None:
             terms[c]["scale_n"] = scale
             terms[c]["scale_definition"] = str(declared_scale["definition"])
+        if null_scale:
+            assert absolute is not None
+            terms[c]["criterion"] = "absolu"
+            terms[c]["relative_gap"] = math.nan
+            terms[c]["relative_gap_vs_specified"] = math.nan
+            terms[c]["reactions_free_components_relative"] = math.nan
+            terms[c]["absolute_sum_n"] = (
+                sum(abs(reactions[g][c]) for g, comps in blocked.items() if c in comps)
+                + scale
+            )
+            terms[c]["absolute_threshold_n"] = absolute
     return terms
+
+
+def term_passes(term: dict[str, Any], threshold: float) -> bool:
+    """Verdict of one component: relative gap within the threshold, or, under the
+    absolute criterion (version 3), Σ|F| within the absolute threshold."""
+    if term.get("criterion") == "absolu":
+        return bool(term["absolute_sum_n"] <= term["absolute_threshold_n"])
+    return bool(abs(term["relative_gap"]) <= threshold)
+
+
+def worst_gap(values: list[float]) -> float:
+    """Largest of the defined values (NaN of an absolute criterion left out); NaN if
+    none is defined."""
+    defined = [abs(v) for v in values if not math.isnan(v)]
+    return max(defined) if defined else math.nan
 
 
 def symmetry_check(
@@ -310,7 +346,7 @@ def level_d_controls(
             "components": terms,
             "reactions_by_group_n": reactions,
             "verdict": "RÉUSSI"
-            if all(abs(t["relative_gap"]) <= controls.threshold for t in terms.values())
+            if all(term_passes(t, controls.threshold) for t in terms.values())
             else "ÉCHEC",
         }
         if spring_key is not None:
@@ -357,14 +393,19 @@ def summarize(ctx: ProjectContext, result: dict[str, Any]) -> dict[str, Any]:
     vertical = controls.vertical
     cases: dict[str, Any] = {}
     for name, entry in result["cases"].items():
-        worst = max(abs(t["relative_gap"]) for t in entry["components"].values())
+        terms = list(entry["components"].values())
+        worst = worst_gap([t["relative_gap"] for t in terms])
         cases[name] = {"worst_relative_gap": worst, "verdict": entry["verdict"]}
+        if any(t.get("criterion") == "absolu" for t in terms):
+            cases[name]["criterion"] = "absolu"
+            cases[name]["absolute_sum_n"] = max(t["absolute_sum_n"] for t in terms)
+            cases[name]["absolute_threshold_n"] = terms[0]["absolute_threshold_n"]
     gravity: dict[str, Any] = {}
     for case in controls.cases:
         if not case.gravity or case.name not in result["cases"]:
             continue
         term = result["cases"][case.name]["components"][vertical]
-        gap = abs(term["relative_gap"])
+        gap = abs(term["relative_gap"])  # cas pesant : jamais un critère absolu
         gravity[case.name] = {
             "component": vertical,
             "applied_n": term["applied_as_evaluated_n"],
@@ -439,7 +480,14 @@ def render_summary(summary: dict[str, Any]) -> str:
         "| --- | --- | --- |",
     ]
     for name, c in summary["equilibrium"].items():
-        lines.append(f"| {name} | {c['worst_relative_gap']:.2e} | {c['verdict']} |")
+        if c.get("criterion") == "absolu":
+            gap = (
+                f"Σ\\|F\\| = {c['absolute_sum_n']:.2e} N (critère absolu, "
+                f"≤ {c['absolute_threshold_n']:g} N)"
+            )
+        else:
+            gap = f"{c['worst_relative_gap']:.2e}"
+        lines.append(f"| {name} | {gap} | {c['verdict']} |")
     for name, c in summary["informative"].items():
         lines.append(f"| {name} (informatif) | {c['worst_relative_gap']:.2e} | — |")
     lines += ["", "## Pesanteur", ""]
@@ -482,4 +530,6 @@ __all__ = [
     "render_summary",
     "summarize",
     "symmetry_check",
+    "term_passes",
+    "worst_gap",
 ]

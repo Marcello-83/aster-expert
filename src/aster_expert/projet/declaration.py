@@ -254,6 +254,12 @@ class ControlsSection(_Model):
     disabled: tuple[DisabledControl, ...] = ()
     """Lot 46: default-harness controls the project does not apply, each with a
     written reason (never silent)."""
+    absolute_threshold_n: float | None = None
+    """Lot 51 ter (CTL-005 and CTL-013, version 3): a self-equilibrated case whose
+    declared scale is not above this value (null scale: no force anywhere, e.g. a
+    uniform temperature on a structure free to expand) is judged on an absolute
+    criterion, Σ|F| ≤ absolute_threshold_n (N) over the reactions of the blocked
+    components and the springs; without it, a null scale is refused (version 2)."""
 
 
 class VariableAction(_Model):

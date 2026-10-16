@@ -17,6 +17,8 @@ from aster_expert.controles.equilibre import (
     balance_terms,
     level_d_controls,
     symmetry_check,
+    term_passes,
+    worst_gap,
 )
 from aster_expert.controles.tables import TableIndex, find_table
 from aster_expert.projet.context import load_project
@@ -275,3 +277,64 @@ def test_a_declared_scale_is_refused_on_a_loaded_case_or_if_not_positive() -> No
         balance_terms(
             controls, zero, zero, reactions, {}, {"value_n": 0.0, "definition": "x"}
         )
+
+
+def _absolute_controls() -> ControlsSection:
+    return ControlsSection.model_validate(
+        {
+            "supports": [{"group": "P", "blocked": ["DZ"], "table": "RP_{case}"}],
+            "springs": {
+                "groups": ["K"],
+                "direction": ["DX", "DY"],
+                "forces": "projet_fictif.ext:forces",
+            },
+            "cases": [{"name": "W", "expected_resultant": {"DX": 0, "DY": 0, "DZ": 0}}],
+            "absolute_threshold_n": 1.0,
+        }
+    )
+
+
+def test_a_null_scale_is_judged_on_the_absolute_criterion() -> None:
+    # Lot 51 ter (version 3) : un cas thermique sans effort (dilatation libre) a une
+    # échelle de bruit numérique ; le rapport de deux bruits n'a pas de sens, le
+    # critère devient absolu : Σ|F| ≤ 1 N.
+    controls = _absolute_controls()
+    zero = {"DX": 0.0, "DY": 0.0, "DZ": 0.0}
+    reactions = {"P": {"DX": 0.0, "DY": 0.0, "DZ": 3.0e-8}}
+    springs = {"K1": {"DX": 2.0e-9, "DY": 0.0}, "K2": {"DX": -1.0e-9, "DY": 0.0}}
+    noise = {"value_n": 3.0e-9, "definition": "Σ |k·u|"}
+
+    terms = balance_terms(controls, zero, zero, reactions, springs, noise)
+
+    assert all(t["criterion"] == "absolu" for t in terms.values())
+    assert math.isnan(terms["DZ"]["relative_gap"])
+    assert terms["DZ"]["absolute_sum_n"] == pytest.approx(3.0e-8 + 3.0e-9)
+    assert all(term_passes(t, controls.threshold) for t in terms.values())
+    # Une échelle exactement nulle est admise sous le critère absolu.
+    exact = balance_terms(
+        controls, zero, zero, reactions, {}, {"value_n": 0.0, "definition": "x"}
+    )
+    assert exact["DZ"]["absolute_sum_n"] == pytest.approx(3.0e-8)
+
+
+def test_the_absolute_criterion_fails_above_one_newton_and_spares_real_scales() -> None:
+    controls = _absolute_controls()
+    zero = {"DX": 0.0, "DY": 0.0, "DZ": 0.0}
+    loud = {"P": {"DX": 0.0, "DY": 0.0, "DZ": 2.5}}
+    terms = balance_terms(
+        controls, zero, zero, loud, {}, {"value_n": 0.5, "definition": "x"}
+    )
+    assert not term_passes(terms["DZ"], controls.threshold)
+    # Une échelle réelle (au-dessus du seuil absolu) garde le critère relatif.
+    real = balance_terms(
+        controls,
+        zero,
+        zero,
+        {"P": {"DX": 0.0, "DY": 0.0, "DZ": 2.0e-5}},
+        {},
+        {"value_n": 1.0e6, "definition": "x"},
+    )
+    assert "criterion" not in real["DZ"]
+    assert real["DZ"]["relative_gap"] == pytest.approx(2.0e-11)
+    assert worst_gap([math.nan, -3.0, 2.0]) == 3.0
+    assert math.isnan(worst_gap([math.nan]))

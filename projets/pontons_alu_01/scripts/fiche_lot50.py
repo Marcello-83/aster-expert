@@ -32,9 +32,12 @@ from aster_expert.agent.prevues import carry_planned_commands
 from pontons_alu_01.geometrie import geometry
 from pontons_alu_01.geometrie_lot51 import geometry as geometry_lot51
 from pontons_alu_01.geometrie_lot51bis import geometry as geometry_lot51bis
+from pontons_alu_01.geometrie_lot51ter import geometry as geometry_lot51ter
 from pontons_alu_01.invariants import invariants
 from pontons_alu_01.invariants_lot51 import invariants as invariants_lot51
 from pontons_alu_01.invariants_lot51bis import invariants as invariants_lot51bis
+from pontons_alu_01.invariants_lot51ter import invariants as invariants_lot51ter
+from pontons_alu_01.variantes_lot51ter import variants as variants_lot51ter
 
 PROJECT = Path(__file__).resolve().parents[1]
 FICHE = PROJECT / "fiche" / "hypotheses_pontons_alu_01.json"
@@ -43,6 +46,7 @@ RECORDINGS = (
     PROJECT / "donnees" / "sources" / "enregistrement_P24_P28_lot50bis.md",
     PROJECT / "donnees" / "sources" / "enregistrement_P29_P43_lot51.md",
     PROJECT / "donnees" / "sources" / "enregistrement_P44_P51_lot51bis.md",
+    PROJECT / "donnees" / "sources" / "enregistrement_P53_P59_lot51ter.md",
 )
 CREATED = datetime.fromisoformat("2026-10-12T08:38:25.125860-04:00")
 DESCRIPTION = (
@@ -331,7 +335,89 @@ def group_naming() -> tuple[MeshGroupNaming, ...]:
         )["groups"]
         if g["name"] not in known
     ]
-    return tuple(lot50 + lot51 + lot51bis)
+    known |= {n.group_name for n in lot51bis}
+    lot51ter = [
+        MeshGroupNaming(
+            group_name=g["name"],
+            kind="noeud" if g["kind"] == "node" else "maille",
+            description=(
+                "Groupe du maillage du ponton intégral, lot 51 ter ("
+                f"{g['count']} {g.get('cell_type', 'nœuds')}, variante B10)."
+            ),
+            status="choix_agent",
+            point_label="A10",
+            verified_by=("projet:mesh_check",),
+        )
+        for g in invariants_lot51ter(
+            geometry_lot51ter(variants_lot51ter()["B10"].mesh_overrides)
+        )["groups"]
+        if g["name"] not in known
+    ]
+    return tuple(lot50 + lot51 + lot51bis + lot51ter)
+
+
+def lot51ter_entries(at: datetime) -> list[PracticeHypothesisEntry]:
+    """Choices of the agent for the whole pontoon of lot 51 ter (domains of lot 44)."""
+
+    def choice(
+        label: str,
+        topic: str,
+        domain: str,
+        verified_by: tuple[str, ...],
+        option: str,
+        justification: str,
+        discarded: list[tuple[str, str]],
+    ) -> PracticeHypothesisEntry:
+        return record_agent_choice(
+            entry=PracticeHypothesisEntry(
+                point_label=label, topic=topic, status="non_tranche"
+            ),
+            domain=domain,  # type: ignore[arg-type]
+            verified_by=verified_by,
+            option_retained=option,
+            justification=justification,
+            validity_domain="Modèle du ponton intégral (lot 51 ter).",
+            discarded_variants=tuple(
+                DiscardedVariant(description=d, reason=r) for d, r in discarded
+            ),
+            reference="session du lot 51 ter (projets/pontons_alu_01, docs/essais_lot51ter.md)",
+            decided_at=at,
+        )
+
+    return [
+        choice(
+            "A10",
+            "Noms des groupes du ponton intégral",
+            "noms_groupes",
+            ("projet:mesh_check",),
+            "Travées T1 à T5, PT1 à PT5, PF ; palées P1 à P5 (CHEV_<palée>_<C1|C2>, "
+            "LONG_<palée>_<rive>, PILE_<palée>_<chevêtre>_<rive>, SEMELLE_<palée>, "
+            "SOL_<palée>) ; appuis AX_<palée><chevêtre>_<rive>_1, _2, _K ; culée "
+            "APP_CULEE, APP_CULEE_YM, APP_CULEE_YP ; zones ACC_<T1D|T1M|T1F|PTk|PF>_<rive> ; "
+            "taquets TQ1 à TQ10 par rive ; ANGLES_ANNEAU, LONGRINES_COURANT ; 24 caractères "
+            "au plus.",
+            "Les invariants calculés à part contrôlent chaque groupe (cardinal, boîte).",
+            [("Noms au-delà de 24 caractères", "tronqués en silence par Code_Aster")],
+        ),
+        choice(
+            "A11",
+            "Lecture du déplacement en X des axes et de l'équilibre des palées",
+            "lecture_champs",
+            ("projet:controles",),
+            "DX d'un axe = translation en X du point de l'axe portée par l'oreille 1, "
+            "u_N + θ_N ∧ (P − N) ; glissement = la même moins celle portée par le nœud "
+            "du chevêtre ; ΣRz d'une palée = Σ des forces −k_n × aire × u_z des nœuds de "
+            "sa semelle (aires tributaires de RIGI_PARASOL).",
+            "Critères 5 à 7 de docs/essais_lot51ter.md (équilibre sous AM1, dilatation "
+            "sous TP, appuis à axe).",
+            [
+                (
+                    "DX du nœud de l'oreille",
+                    "décalé de θ × (P − N) par la rotation de l'oreille sous l'axe",
+                )
+            ],
+        ),
+    ]
 
 
 def build_sheet() -> HypothesesSheet:
@@ -353,12 +439,15 @@ def build_sheet() -> HypothesesSheet:
     sheet, _done = record_decisions(sheet, arbitrations[0])
     for entry in agent_entries(arbitrations[0].recorded_at):
         sheet = insert_practice_entry(sheet, entry)
-    for arbitration in arbitrations[1:-1]:
+    for arbitration in arbitrations[1:3]:
         sheet, _done = record_decisions(sheet, arbitration)
-    for entry in lot51_entries(arbitrations[-2].recorded_at):
+    for entry in lot51_entries(arbitrations[2].recorded_at):
         sheet = insert_practice_entry(sheet, entry)
-    sheet, _done = record_decisions(sheet, arbitrations[-1])
-    for entry in lot51bis_entries(arbitrations[-1].recorded_at):
+    sheet, _done = record_decisions(sheet, arbitrations[3])
+    for entry in lot51bis_entries(arbitrations[3].recorded_at):
+        sheet = insert_practice_entry(sheet, entry)
+    sheet, _done = record_decisions(sheet, arbitrations[4])
+    for entry in lot51ter_entries(arbitrations[4].recorded_at):
         sheet = insert_practice_entry(sheet, entry)
     return sheet
 

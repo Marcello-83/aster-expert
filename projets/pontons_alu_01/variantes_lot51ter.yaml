@@ -1,0 +1,29 @@
+# Variantes du lot 51 ter (consigne, § Variantes ; décisions P53 à P58). Ponton intégral :
+# culée, cinq palées, cinq grandes travées et porte-à-faux d'extrémité. Un seul .comm
+# paramétré (generation_lot51ter), un seul script de maillage (maillage_ponton_51ter.py),
+# qui reçoit les stations, les hauteurs de piles, le porte-à-faux et la cote des pannes.
+#
+# stations : X de l'axe du premier chevêtre (C1) de chaque palée, origine sur la ligne
+#   d'appui de la culée (consigne, « Stations en X ») ; à recaler sur les implantations
+#   réelles sans toucher au code.
+# entraxe_chevetres : distance entre les deux chevêtres d'une palée (petite travée, P48).
+# geometries : hauteur libre des piles de P1 à P5 (sous-face de l'anneau +0,69 → dessus de
+#   la semelle) et porte-à-faux Lpf, diagnostic Sixense A25-13959, annexe 2 (Lpf : 0,85 m
+#   pour A, 1,05 m pour B depuis la face de la plate-forme, + 0,20 m jusqu'à la ligne
+#   d'appui, hypothèse de la consigne).
+# pannes : cote du tube carré des pannes (axe à +1,40 − cote/2, P53).
+reference: B10
+stations: [6.25, 14.02, 21.79, 29.56, 37.33]
+entraxe_chevetres: 1.52
+geometries:
+  A: {h_piles: [1.50, 2.00, 2.50, 3.30, 3.90], l_pf: 1.05}
+  B: {h_piles: [1.30, 1.95, 2.50, 3.50, 3.90], l_pf: 1.25}
+variantes:
+  A10:
+    description: "panne A (piles 1,50 à 3,90 m, Lpf 1,05 m), poutres principales 200 × 200 × 10, pannes 50 × 50 × 5"
+    geometrie: A
+    poutre: {cote: 200, epaisseur: 10}
+    panne: {cote: 50, epaisseur: 5}
+  A12: {base: A10, poutre: {cote: 200, epaisseur: 12}, panne: {cote: 60, epaisseur: 5}, description: "panne A (piles 1,50 à 3,90 m, Lpf 1,05 m), poutres principales 200 × 200 × 12, pannes 60 × 60 × 5"}
+  B10: {base: A10, geometrie: B, description: "panne B (piles 1,30 à 3,90 m, Lpf 1,25 m), poutres principales 200 × 200 × 10, pannes 50 × 50 × 5"}
+  B12: {base: A12, geometrie: B, description: "panne B (piles 1,30 à 3,90 m, Lpf 1,25 m), poutres principales 200 × 200 × 12, pannes 60 × 60 × 5"}

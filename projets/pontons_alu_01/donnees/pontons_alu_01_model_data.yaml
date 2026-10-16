@@ -176,3 +176,29 @@ groups:
       {status: fourni, value: 10, unit: "kN/m3", source: {kind: decision, point_label: "P49"}, comment: "Déjaugeage DEJ, poussée d'Archimède sur tout le volume de béton de la palée."}
     niveau_eau_haut:
       {status: fourni, value: 1.61, unit: "m NGF", source: {kind: decision, point_label: "P49"}, comment: "Niveau d'eau le plus haut, au-dessus du dessus des chevêtres : béton entièrement immergé (P49) ; sous-face des poutres au-dessus (P50)."}
+  # --- Lot 51 ter : ponton intégral, cotes AVP, houle par surfaces et par état limite (P53 à P59) ---
+  houle_lot51ter:
+    hu_tubes:
+      {status: fourni, value: 14.49, unit: "kPa", source: {kind: decision, point_label: "P56"}, comment: "Événement HU (caractéristique, niveau 5 ans + Hs 50 ans), coefficient du cas unitaire HU_TUBES ; valeurs P5 retenues sur toute la longueur (enveloppe). Classeur donnees/sources/pontons_niveaux_eau_houle_v2.xlsx, feuille « Pressions par état »."}
+    hu_pannes:
+      {status: fourni, value: 12.99, unit: "kPa", source: {kind: decision, point_label: "P56"}, comment: "Événement HU, cas HU_PANNES."}
+    hu_platelage:
+      {status: fourni, value: 12.48, unit: "kPa", source: {kind: decision, point_label: "P56"}, comment: "Événement HU, cas HU_PLATELAGE."}
+    hd_tablier:
+      {status: fourni, value: 12.03, unit: "kPa", source: {kind: decision, point_label: "P56"}, comment: "Événement HD (caractéristique), cas HD_TABLIER."}
+    huf_tubes:
+      {status: fourni, value: 2.36, unit: "kPa", source: {kind: decision, point_label: "P56"}, comment: "Événement HU_F (fréquent, PHMA 2050 + Hs 1 an), cas HU_TUBES."}
+    huf_pannes:
+      {status: fourni, value: 0.85, unit: "kPa", source: {kind: decision, point_label: "P56"}, comment: "Événement HU_F, cas HU_PANNES."}
+    huf_platelage:
+      {status: fourni, value: 0.35, unit: "kPa", source: {kind: decision, point_label: "P56"}, comment: "Événement HU_F, cas HU_PLATELAGE."}
+    largeur_tube:
+      {status: fourni, value: 0.20, unit: "m", source: {kind: decision, point_label: "P56"}, comment: "Sous-face de chacune des 2 poutres principales (cas HU_TUBES)."}
+    largeur_panne:
+      {status: fourni, value: 0.05, unit: "m", source: {kind: decision, point_label: "P56"}, comment: "Sous-face de chacune des 4 pannes (cas HU_PANNES)."}
+    largeur_platelage:
+      {status: fourni, value: 1.327, unit: "m", source: {kind: decision, point_label: "P56"}, comment: "Sous-face des planches, joints déduits (cas HU_PLATELAGE), répartie par largeurs tributaires comme G2."}
+    largeur_tablier_dessus:
+      {status: fourni, value: 1.895, unit: "m", source: {kind: decision, point_label: "P56"}, comment: "Dessus du platelage (cas HD_TABLIER), réparti comme G2."}
+    zero_cm:
+      {status: fourni, value: -0.329, unit: "m NGF", source: {kind: decision, point_label: "P56"}, comment: "0 m CM = −0,329 m NGF (référentiel du classeur)."}

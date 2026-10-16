@@ -57,9 +57,12 @@ def _equilibrium(
     ]
     if not verdicts:
         return {"verdict": NOT_APPLICABLE, "reason": "aucun cas de charge contrôlé"}
-    worst = max(
-        (c["worst_relative_gap"] for c in summary["equilibrium"].values()), default=0.0
-    )
+    gaps = [
+        c["worst_relative_gap"]
+        for c in summary["equilibrium"].values()
+        if not math.isnan(c["worst_relative_gap"])
+    ]
+    worst = max(gaps, default=0.0)
     return {
         "verdict": APPLIED if all(v == APPLIED for v in verdicts) else FAILED,
         "worst_relative_gap": worst,
@@ -94,12 +97,24 @@ def _resultant(
     """CTL-013: for each load case, the resultant Code_Aster evaluates equals the
     declared one, component by component, within the project's threshold, referred to
     the largest component of the load (same scale as the equilibrium). Version 2
-    (lot 47 bis): a self-equilibrated case is referred to its declared scale."""
+    (lot 47 bis): a self-equilibrated case is referred to its declared scale. Version
+    3 (lot 51 ter): under the absolute criterion of a null scale, the gap in N is
+    compared with the absolute threshold."""
     controls = ctx.declaration.controls
     assert controls is not None
     cases: dict[str, float] = {}
+    absolute: dict[str, dict[str, float]] = {}
     for name, entry in result["cases"].items():
         terms = entry["components"]
+        if any(t.get("criterion") == "absolu" for t in terms.values()):
+            absolute[name] = {
+                "gap_n": max(
+                    abs(t["applied_as_evaluated_n"] - t["applied_specified_n"])
+                    for t in terms.values()
+                ),
+                "threshold_n": max(t["absolute_threshold_n"] for t in terms.values()),
+            }
+            continue
         scale = max(abs(t["applied_as_evaluated_n"]) for t in terms.values())
         declared = [t["scale_n"] for t in terms.values() if "scale_n" in t]
         if declared:
@@ -109,15 +124,20 @@ def _resultant(
             for t in terms.values()
         )
         cases[name] = gap / scale if scale else math.nan
-    if not cases:
+    if not cases and not absolute:
         return {"verdict": NOT_APPLICABLE, "reason": "aucun cas de charge contrôlé"}
-    passed = all(g <= controls.threshold for g in cases.values())
-    return {
+    passed = all(g <= controls.threshold for g in cases.values()) and all(
+        a["gap_n"] <= a["threshold_n"] for a in absolute.values()
+    )
+    out: dict[str, Any] = {
         "verdict": APPLIED if passed else FAILED,
         "threshold": controls.threshold,
         "relative_gap_by_case": cases,
-        "worst_relative_gap": max(cases.values()),
+        "worst_relative_gap": max(cases.values(), default=math.nan),
     }
+    if absolute:
+        out["absolute_gap_by_case_n"] = absolute
+    return out
 
 
 def convergence_verdict(

@@ -1,11 +1,12 @@
-# Déclaration du projet PONTONS-ALU-01 (lots 50 à 51 bis). Depuis le lot 51 bis : palée
-# type (4 piles encastrées, anneau BA de hauteur 0,40 ou 0,80 m), trois travées en
-# aluminium soudé rehaussées de 0,50 m, appuis articulés à axe, variantes
-# (variantes_lot51bis.yaml, PONTONS_VARIANTE ; lot 51 : variantes_lot51.yaml, références
-# sous references/execution_lot51). Les sections `engineering_summary` et
-# `results_package` décrivent encore la travée unique du lot 50 bis (paquet versionné de
-# ce lot) : les lots 51 et 51 bis n'emploient de la chaîne des livrables que la
-# production de charges.med ; leurs exports sont produits par scripts/lot51bis.py.
+# Déclaration du projet PONTONS-ALU-01 (lots 50 à 51 ter). Depuis le lot 51 ter : ponton
+# intégral (culée, cinq palées, cinq grandes travées, porte-à-faux d'extrémité), cotes de
+# l'AVP, appuis articulés à axe, houle par surfaces, variantes (variantes_lot51ter.yaml,
+# PONTONS_VARIANTE ; lots 51 et 51 bis : variantes_lot51.yaml et variantes_lot51bis.yaml,
+# références sous references/execution_lot51 et references/execution_lot51bis). Les
+# sections `engineering_summary` et `results_package` décrivent encore la travée unique du
+# lot 50 bis (paquet versionné de ce lot) : les lots 51 à 51 ter n'emploient de la chaîne
+# des livrables que la production de charges.med ; leurs exports sont produits par
+# scripts/lot51ter.py.
 #
 # Interface avec le tronc commun (schéma aster_expert.projet.declaration). Décisions P1 à
 # P28 de MM (fiche) ; données : annexe « Données » de la consigne du lot 50. La géométrie
@@ -16,16 +17,17 @@ schema_version: 1
 name: pontons_alu_01
 structure: PONTONS-ALU-01
 description: >-
-  Ponton (panne sur pieux) en aluminium soudé, lot 51 bis : trois travées (6,25 m, petite
-  travée de 1,52 m, 6,25 m) rehaussées de 0,50 m, poutres principales en tube carré
-  200 × 200 × 8 (ou × 10), montants, diagonales et pannes tubulaires (POU_D_T,
-  LIAISON_SOLIDE pour les excentricités) ; appuis articulés à axe sur les chevêtres et en
-  X = 14,02 (LIAISON_DDL, X libre, Y bloqué d'un côté), point fixe en X au quai ; palée
-  type : 4 piles Ø 0,50 encastrées, anneau BA 0,40 × h (h = 0,40 ou 0,80 m), semelle DKT
-  2,60 × 2,60 × 0,20 m sur sol élastique (RIGI_PARASOL), déjaugeage du béton ; cas
-  élémentaires unitaires (G, DEJ, Q, houle, températures, 30 accostages, 16 amarrages) ;
-  cinq variantes de hauteur d'anneau, de hauteur de piles et de section ; jeu B′ révisé
-  et ELU accidentel. Lots 50 à 51 : références conservées.
+  Ponton (panne sur pieux) en aluminium soudé, lot 51 ter : ponton intégral, culée en
+  X = 0 (seul point fixe longitudinal), cinq palées (petites travées de 1,52 m), cinq
+  grandes travées de 6,25 m et porte-à-faux d'extrémité ; cotes de l'AVP (dessus +1,40
+  NGF) ; poutres principales en tube carré 200 × 200 × 10 (ou × 12), montants, diagonales,
+  pannes et panne de rive tubulaires (POU_D_T, LIAISON_SOLIDE pour les excentricités) ;
+  appuis articulés à axe sur les deux chevêtres de chaque palée (LIAISON_DDL, X libre, Y
+  bloqué d'un côté) ; palées : 4 piles Ø 0,50 encastrées, anneau BA 0,40 × 0,40, semelle
+  DKT 2,60 × 2,60 × 0,20 m sur sol élastique (RIGI_PARASOL), déjaugeage du béton ; cas
+  élémentaires unitaires (G, DEJ, G2, Q, QD et quatre cas de houle par modules, 126
+  accostages, 40 amarrages, températures) ; quatre variantes (géométrie des pannes A et
+  B, sections) ; jeu B′ révisé et ELU accidentel. Lots 50 à 51 bis : références conservées.
 fiche: fiche/hypotheses_pontons_alu_01.json
 data: donnees/pontons_alu_01_model_data.yaml
 data_sources: donnees/sources
@@ -33,16 +35,17 @@ results: resultats
 knowledge_applied: connaissances_appliquees.yaml
 
 mesh:
-  # Lot 51 bis : palée type et trois travées (maillage_palee_51bis.py) ; le fichier de
-  # paramètres porte H_ANNEAU et H_PILES (variante courante, PONTONS_VARIANTE). Les
-  # invariants versionnés sont ceux de la référence H80C ; ceux des autres variantes sont
-  # écrits par scripts/lot51bis.py. Lot 51 : maillage_palee.py et invariants_palee.yaml.
-  script: maillage/maillage_palee_51bis.py
-  parameters: pontons_alu_01.extensions_lot51bis:mesh_parameters
-  invariants: maillage/invariants_palee_51bis.yaml
+  # Lot 51 ter : ponton intégral (maillage_ponton_51ter.py) ; le fichier de paramètres porte
+  # les stations, les hauteurs de piles, le porte-à-faux et la cote des pannes (variante
+  # courante, PONTONS_VARIANTE). Les invariants versionnés sont ceux de la référence B10 ;
+  # ceux des autres variantes sont écrits par scripts/lot51ter.py. Lot 51 bis :
+  # maillage_palee_51bis.py et invariants_palee_51bis.yaml.
+  script: maillage/maillage_ponton_51ter.py
+  parameters: pontons_alu_01.extensions_lot51ter:mesh_parameters
+  invariants: maillage/invariants_ponton_51ter.yaml
 
 comm:
-  generator: pontons_alu_01.extensions_lot51bis:generate
+  generator: pontons_alu_01.extensions_lot51ter:generate
   output: resultats/pontons_alu_01.comm
   export:
     time_limit: 3600
@@ -54,119 +57,273 @@ controls:
   threshold: 1.0e-6
   vertical: DZ
   output: equilibre.json
-  # P45 : rotule côté quai Y > 0 fixe, rotule Y < 0 guidée (réaction DY nulle), seul point
-  # fixe en X. P44 : appuis à axe en X = 14,02 sur support fixe, Z bloqué des deux côtés,
-  # Y bloqué en YP seulement (réactions lues aux nœuds des oreilles, RAM_ et RAP_) ;
-  # ressorts de sol sous la semelle (RIGI_PARASOL), efforts k·u lus aux nœuds. Les appuis
-  # à axe sur les chevêtres sont intérieurs au modèle : ils n'entrent pas dans le bilan.
+  # Lot 51 ter, correction du tronc commun (harnais version 3) : un cas thermique sans
+  # effort (TP, TM : X libre aux palées, dilatation libre depuis la culée) a une échelle
+  # de bruit numérique ; il est jugé sur le critère absolu Σ|F| ≤ 1 N.
+  absolute_threshold_n: 1.0
+  # P58 : culée en X = 0, axe YP bloqué en X, Y, Z, axe YM bloqué en X, Z (réaction DY
+  # nulle), seul point fixe longitudinal ; ressorts de sol sous les cinq semelles
+  # (RIGI_PARASOL), efforts k·u lus aux nœuds. Les appuis à axe sont intérieurs au
+  # modèle : ils n'entrent pas dans le bilan. Liste des cas écrite par
+  # generation_lot51ter.all_cases (test : égalité).
   supports:
-    - {group: APP_QUAI, blocked: [DX, DY, DZ], table: "RP_{case}"}
-    - {group: AX_A3_YM_1, blocked: [DZ], table: "RAM_{case}"}
-    - {group: AX_A3_YP_1, blocked: [DY, DZ], table: "RAP_{case}"}
+    - {group: APP_CULEE, blocked: [DX, DY, DZ], table: "R{case}"}
   springs:
     groups: [SOL]
     direction: [DX, DY, DZ]
-    forces: pontons_alu_01.extensions_lot51bis:spring_forces
+    forces: pontons_alu_01.extensions_lot51ter:spring_forces
   cases:
-    - {name: G1, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: DEJ, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: G2, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: G2_T1, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: G2_PT, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: G2_T2, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: Q, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: Q_T1, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: Q_PT, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: Q_T2, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: QD, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: HU, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: HU_T1, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: HU_PT, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: HU_T2, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: HD, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: HD_T1, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: HD_PT, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: HD_T2, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACN_QU_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACX_QU_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACZ_QU_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACN_QU_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACX_QU_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACZ_QU_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACN_MI1_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACX_MI1_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACZ_MI1_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACN_MI1_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACX_MI1_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACZ_MI1_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACN_CH1_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACX_CH1_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACZ_CH1_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACN_CH1_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACX_CH1_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACZ_CH1_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACN_PT_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACX_PT_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACZ_PT_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACN_PT_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACX_PT_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACZ_PT_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACN_PA2_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACX_PA2_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACZ_PA2_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACN_PA2_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACX_PA2_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: ACZ_PA2_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMY_TQ1_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMX_TQ1_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMY_TQ1_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMX_TQ1_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMY_TQ2_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMX_TQ2_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMY_TQ2_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMX_TQ2_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMY_TQ3_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMX_TQ3_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMY_TQ3_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMX_TQ3_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMY_TQ4_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMX_TQ4_YM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMY_TQ4_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: AMX_TQ4_YP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant"}
-    - {name: TP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51bis:spring_scale"}
-    - {name: TM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51bis:spring_scale"}
-    - {name: TAP, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51bis:spring_scale"}
-    - {name: TAM, expected_resultant: "pontons_alu_01.extensions_lot51bis:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51bis:spring_scale"}
+    - {name: G1, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: DEJ, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: G2, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: G2_M0, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: G2_M1, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: G2_M2, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: G2_M3, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: G2_M4, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: G2_M5, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: Q, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: Q_M0, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: Q_M1, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: Q_M2, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: Q_M3, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: Q_M4, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: Q_M5, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: QD, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: QD_M0, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: QD_M1, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: QD_M2, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: QD_M3, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: QD_M4, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: QD_M5, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_TUBES, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_TUBES_M0, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_TUBES_M1, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_TUBES_M2, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_TUBES_M3, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_TUBES_M4, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_TUBES_M5, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PANNES, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PANNES_M0, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PANNES_M1, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PANNES_M2, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PANNES_M3, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PANNES_M4, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PANNES_M5, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PLATELAGE, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PLATELAGE_M0, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PLATELAGE_M1, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PLATELAGE_M2, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PLATELAGE_M3, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PLATELAGE_M4, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HU_PLATELAGE_M5, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HD_TABLIER, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HD_TABLIER_M0, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HD_TABLIER_M1, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HD_TABLIER_M2, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HD_TABLIER_M3, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HD_TABLIER_M4, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: HD_TABLIER_M5, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T1D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T1D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T1D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T1D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T1D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T1D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T1M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T1M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T1M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T1M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T1M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T1M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T1F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T1F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T1F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T1F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T1F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T1F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PT1_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PT1_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PT1_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PT1_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PT1_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PT1_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T2D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T2D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T2D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T2D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T2D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T2D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T2M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T2M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T2M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T2M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T2M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T2M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T2F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T2F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T2F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T2F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T2F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T2F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PT2_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PT2_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PT2_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PT2_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PT2_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PT2_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T3D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T3D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T3D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T3D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T3D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T3D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T3M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T3M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T3M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T3M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T3M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T3M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T3F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T3F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T3F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T3F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T3F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T3F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PT3_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PT3_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PT3_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PT3_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PT3_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PT3_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T4D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T4D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T4D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T4D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T4D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T4D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T4M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T4M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T4M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T4M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T4M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T4M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T4F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T4F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T4F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T4F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T4F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T4F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PT4_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PT4_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PT4_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PT4_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PT4_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PT4_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T5D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T5D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T5D_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T5D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T5D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T5D_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T5M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T5M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T5M_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T5M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T5M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T5M_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T5F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T5F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T5F_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_T5F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_T5F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_T5F_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PT5_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PT5_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PT5_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PT5_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PT5_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PT5_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PF_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PF_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PF_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACN_PF_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACX_PF_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: ACZ_PF_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ1_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ1_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ1_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ1_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ2_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ2_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ2_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ2_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ3_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ3_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ3_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ3_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ4_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ4_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ4_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ4_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ5_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ5_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ5_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ5_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ6_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ6_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ6_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ6_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ7_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ7_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ7_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ7_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ8_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ8_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ8_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ8_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ9_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ9_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ9_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ9_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ10_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ10_YM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMY_TQ10_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: AMX_TQ10_YP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant"}
+    - {name: TP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51ter:spring_scale"}
+    - {name: TM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51ter:spring_scale"}
+    - {name: TAP, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51ter:spring_scale"}
+    - {name: TAM, expected_resultant: "pontons_alu_01.extensions_lot51ter:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot51ter:spring_scale"}
 
 deliverables:
-  # Lot 51 bis : seuls les champs de la variante H80C servent à la chaîne des livrables
-  # (sous-étapes preparer à charges : charges.med et charges_salome.py, consigne § 4) ;
-  # les exports du lot 51 bis sont écrits par scripts/lot51bis.py pour toutes les variantes.
+  # Lot 51 ter : seuls les champs de la variante B10 servent à la chaîne des livrables
+  # (sous-étapes preparer à charges : charges.med et charges_salome.py) ; les exports du
+  # lot 51 ter sont écrits par scripts/lot51ter.py pour toutes les variantes.
   fields:
     - family: deplacements
       field: DEPL
       components: [DX, DY, DZ, DRX, DRY, DRZ]
-      convention: "repère global : X le long du ponton depuis le quai, Y transversal, Z vertical vers le haut (cote NGF) ; m et rad"
+      convention: "repère global : X le long du ponton depuis la ligne d'appui de la culée, Y transversal, Z vertical vers le haut (cote NGF) ; m et rad"
     - family: efforts_poutres
       field: EFGE_ELNO
-      groups: [POUTRES_PRINC, MONTANTS, DIAGONALES, PANNES_SEC, CHEVETRES, LONGRINES, PILES]
+      groups: [POUTRES_PRINC, MONTANTS, DIAGONALES, PANNES_SEC, PANNE_RIVE, CHEVETRES, LONGRINES, PILES]
       components: [N, VY, VZ, MT, MFY, MFZ]
       convention: "POU_D_T, repère local de l'élément : x_l selon la maille ; barres horizontales z_l = +Z (VECT_Z) ; piles x_l = +Z, y_l = +X, z_l = +Y. N > 0 traction. Valeurs aux deux extrémités de chaque élément (ELNO)"
     - family: reactions
       field: REAC_NODA
-      node_groups: [APP_QUAI, APP_A3]
+      node_groups: [APP_CULEE]
       components: [DX, DY, DZ]
-      convention: "repère global ; rotules du quai (P35, P45) et oreilles des appuis à axe en X = 14,02 (support fixe, P44)"
+      convention: "repère global ; appuis de la culée (P58 : YP bloqué en X, Y, Z ; YM en X, Z)"
   not_relevant:
     - {item: contraintes_volumes, reason: "le modèle n'a aucun élément de volume (poutres POU_D_T, semelle DKT, ressorts DIS_T)"}
-    - {item: efforts_coques, reason: "semelle non exploitée aux lots 51 et 51 bis (exports : barres, appuis, piles, réactions, équilibre de la palée)"}
-    - {item: ressorts, reason: "ressorts de sol cumulés dans reactions_elementaires.csv et palee_equilibre.csv de scripts/lot51bis.py (−k·u aux nœuds de la semelle)"}
-    - {item: combinaisons, reason: "lot 51 bis : 430 914 combinaisons par variante, données en règles et enveloppées par scripts/lot51bis.py (combinaisons_lot51bis), jamais énumérées par la chaîne des livrables"}
-  load_plan_views: [Q, HU]
+    - {item: efforts_coques, reason: "semelles non exploitées aux lots 51 à 51 ter (exports : barres, appuis, piles, réactions, équilibre et ancrage des palées)"}
+    - {item: ressorts, reason: "ressorts de sol cumulés dans reactions_elementaires.csv, palee_equilibre.csv et ancrage.csv de scripts/lot51ter.py (−k·u aux nœuds des semelles)"}
+    - {item: combinaisons, reason: "lot 51 ter : 2 351 600 combinaisons par variante en règles, enveloppées par scripts/lot51ter.py (combinaisons_lot51ter), jamais énumérées par la chaîne des livrables"}
+  load_plan_views: [Q, HU_PLATELAGE]
   static_results: {TP: TP, TM: TM, TAP: TAP, TAM: TAM}
   points:
     - {label: têtes des piles, node_group: TETES_PILES, cell_group: PILES}
-    - {label: appuis côté quai, node_group: APP_QUAI, cell_group: POUTRES_PRINC}
+    - {label: appuis de la culée, node_group: APP_CULEE, cell_group: POUTRES_PRINC}
 
 # Synthèse ingénieur (lot 49 bis). Jeu B (PRO) par défaut ; le jeu A (S2) est produit
 # par la même chaîne avec PONTONS_JEU=A (extensions.selected_set) : les états limites
