@@ -349,11 +349,19 @@ def write_npz(vd: VariantData51ter, path: Path) -> dict[str, Any]:
 
 
 def export(
-    v: Variant51quater, state: dict[str, Any], out: Path
+    v: Variant51quater,
+    state: dict[str, Any],
+    out: Path,
+    *,
+    source: str | None = None,
+    forces_csv: bool | None = None,
 ) -> tuple[dict[str, int], dict[str, Any]]:
+    """The files of lot 51 quater for one variant; lot 52 passes its source line and
+    whether efforts_elementaires.csv is kept."""
     vd = v.vd
-    src = source_line(vd, state)
-    forces_csv = vd.variant.code == FORCES_CSV_VARIANT
+    src = source if source is not None else source_line(vd, state)
+    if forces_csv is None:
+        forces_csv = vd.variant.code == FORCES_CSV_VARIANT
     files, details = export_variant(vd, state, out, source=src, forces_csv=forces_csv)
     if not forces_csv:
         (out / "efforts_elementaires.csv").unlink(missing_ok=True)
@@ -642,10 +650,17 @@ def _recombiner(out: Path) -> Any:
     return rec
 
 
-def check_enumeration(out: Path, v: Variant51quater) -> list[dict[str, Any]]:
+def check_enumeration(
+    out: Path,
+    v: Variant51quater,
+    *,
+    seed: int = SEED,
+    extra_places: list[tuple[str, dict[str, FloatArray], list[str]]] | None = None,
+) -> list[dict[str, Any]]:
     """36 extremes drawn at random (fixed seed): place, quantity, state and sense; the
     decomposition against (a) the delivered recombiner.py, combination by combination,
-    and (b) the explicit enumeration of every pattern (`brute_force`)."""
+    and (b) the explicit enumeration of every pattern (`brute_force`). Lot 52: its seed
+    and its extra places."""
     vd = v.vd
     rec = _recombiner(out)
     rules = rec.read_rules(out)
@@ -653,7 +668,8 @@ def check_enumeration(out: Path, v: Variant51quater) -> list[dict[str, Any]]:
     places = recombination_places(vd)
     rows = _rows_of(vd, ("POUTRES_PRINC", "PILES", "CHEVETRES", "LONGRINES"))
     places.append(("MFZ barres", _arrays(vd, rows, 5), [f"{e}/{n}" for e, n in rows]))
-    rng = random.Random(SEED)
+    places += extra_places or []
+    rng = random.Random(seed)
     checks = []
     for _ in range(DRAWS):
         label, f, where = places[rng.randrange(len(places))]

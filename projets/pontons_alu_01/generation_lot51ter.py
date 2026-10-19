@@ -428,6 +428,8 @@ def build_comm(  # noqa: PLR0915 -- un .comm écrit d'un trait, section par sect
     v: Values51ter | None = None,
     header: list[str] | None = None,
     solid_note: str | None = None,
+    harness_groups: dict[str, tuple[str, ...]] | None = None,
+    extra_reaction_groups: tuple[str, ...] = (),
 ) -> tuple[str, dict[str, Any]]:
     """The `.comm` of lot 51 ter; lot 52 passes its geometry, its values (section of
     the posts and diagonals), the head of the file and the note on the rigid links."""
@@ -796,9 +798,12 @@ def build_comm(  # noqa: PLR0915 -- un .comm écrit d'un trait, section par sect
         result = "ELEM" if case in mechanical else case
         where = f'NOM_CAS="{case}"' if case in mechanical else 'TOUT_ORDRE="OUI"'
         for prefix, field, group, extra in HARNESS_TABLES:
+            # Lot 52 : un relevé peut porter sur plusieurs groupes (nœuds liés, CA-036).
+            several = (harness_groups or {}).get(prefix)
+            group_text = _tuple(several) if several else f'"{group}"'
             w(
                 f'T{prefix} = POST_RELEVE_T(ACTION=_F(OPERATION="EXTRACTION", INTITULE="{prefix}{case}",'
-                f' RESULTAT={result}, NOM_CHAM="{field}", {where}, GROUP_NO="{group}", {extra}))'
+                f' RESULTAT={result}, NOM_CHAM="{field}", {where}, GROUP_NO={group_text}, {extra}))'
             )
             w(f'IMPR_TABLE(TABLE=T{prefix}, UNITE=6, FORMAT_R="E20.12")')
             w(f"DETRUIRE(NOM=T{prefix})")
@@ -809,7 +814,7 @@ def build_comm(  # noqa: PLR0915 -- un .comm écrit d'un trait, section par sect
         "# 32 déplacements de tous les nœuds, 33 réactions (culée, appuis à axe : oreilles et nœuds"
     )
     w("# des chevêtres, efforts des relations de l'axe).")
-    reac = reaction_groups(g)
+    reac = (*reaction_groups(g), *extra_reaction_groups)
     for result in ("ELEM", *THERMAL_CASES):
         for unit, field, where in (
             (31, "EFGE_ELNO", f"GROUP_MA={_tuple(BEAM_GROUPS)}"),

@@ -108,10 +108,26 @@ lots:
       attribués. PAT-005 et DIAG-030, déclarés au lot 51 bis, reconduits.'
   note: 'Harnais D version 3 (correction 1 du tronc commun) : 221 cas sur 221 pour les quatre
     variantes ; TP et TM jugés sur le critère absolu (Σ|F| ≤ 6,5e-7 N).'
+- lot: '52'
+  supervisor_interventions:
+    value: 1.0
+    nature: mesure
+    note: 'Aucune question technique posée à MM ; P62 à P66, les variantes et les contrôles
+      étaient dans la consigne. Une relance par MM (« Reprends le lot52 tu as été interrompu »)
+      après l''arrêt de la VM du 19/10/2026 à 04:25.'
+  avoided_errors:
+    value: 1.0
+    nature: mesure
+    note: 'CA-036 (déclarée) : les liaisons LM_ du lot 52 font des nœuds de la culée et des
+      oreilles les extrémités B de LIAISON_SOLIDE ; le REAC_NODA des extrémités A est replié
+      sur le nœud d''appui avant toute lecture des réactions (exports_lot52.fold_link_reactions)
+      : résultantes contre réactions à 3,8e-12, AM1 à 2,8e-13.'
+  note: 'Harnais D 221/221 pour les trois variantes. Échec 20261019T082517-6fb933ef écarté
+    : arrêt de la VM (processus en parallèle), pas une cause Code_Aster.'
 archive:
-  runs: 40
-  sha256: fb344686e1c11f258dd812ac3b65158a5e14eb337447563b55a0fd446b7fb603
-  recorded: '2026-10-16'
+  runs: 49
+  sha256: d147476b2f788d75e0a75eb2159537158f5985b5e71907d09807398ce15382dd
+  recorded: '2026-10-19'
 declaration_required_since: '2026-10-12T08:38:25.125860'
 reviews:
 - date: '2026-10-12'
@@ -168,6 +184,12 @@ reviews:
   failures: 1
   unclassified: 0
   last_run: 20261016T094901-70936018
+- date: '2026-10-19'
+  lot: '52'
+  runs: 49
+  failures: 2
+  unclassified: 0
+  last_run: 20261019T084157-a43ab358
 classifications:
 - run: 20261015T110339-7254d74a
   signature: <F> <FACTOR_11>
@@ -177,3 +199,12 @@ classifications:
     ; pivot nul sur le ddl physique DRX du nœud 305, bout de la longrine L− ; mécanisme de
     torsion de la longrine attendu par l'analyse cinématique, signalé sans stabilisation artificielle
     (consigne § 2) ; DIAG-001 (redondance de Lagrange) ne s'applique pas
+- run: 20261019T082517-6fb933ef
+  signature: (signature inconnue)
+  decision: écarté
+  diagnostic: null
+  reason: 'lot 52 : post-traitement des livrables de B52 coupé par l''arrêt de la VM le 19/10/2026
+    à 04:25 (blocage du noyau, CPU saturé : trois processus de recombinaison en parallèle
+    avec Code_Aster) ; .mess arrêté à la commande 7 (DEFI_MATERIAU) sans message, pas de compte
+    rendu ; même .comm relancé sans changement à 08:41 (20261019T084157-a43ab358, completed_ok,
+    tables identiques à la production) ; aucune cause Code_Aster'

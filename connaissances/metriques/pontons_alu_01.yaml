@@ -32,12 +32,12 @@ knowledge:
       promu: 0
 consultations:
   calls:
-    search_connaissances: 71
+    search_connaissances: 72
     search_constats: 3
   note: 'appels journalisés (query_log.jsonl, hors mcp-check) de tous les projets : le journal
     ne porte pas le projet'
   avoided_errors:
-    value: 10.0
+    value: 11.0
     nature: mesure
     note: déclaré lot par lot dans le compte rendu (registre, `lots`)
 lots:
@@ -132,36 +132,52 @@ lots:
       de RIGI_PARASOL par semelle) consultés par search_connaissances avant l''écriture du
       .comm, mais non déclarés dans connaissances_appliquees.yaml avant les exécutions : non
       attribués. PAT-005 et DIAG-030, déclarés au lot 51 bis, reconduits.'
-declared_interventions_since_baseline: 1.0
+- lot: '52'
+  supervisor_interventions:
+    value: 1.0
+    nature: mesure
+    note: Aucune question technique posée à MM ; P62 à P66, les variantes et les contrôles
+      étaient dans la consigne. Une relance par MM (« Reprends le lot52 tu as été interrompu
+      ») après l'arrêt de la VM du 19/10/2026 à 04:25.
+  avoided_errors:
+    value: 1.0
+    nature: mesure
+    note: 'CA-036 (déclarée) : les liaisons LM_ du lot 52 font des nœuds de la culée et des
+      oreilles les extrémités B de LIAISON_SOLIDE ; le REAC_NODA des extrémités A est replié
+      sur le nœud d''appui avant toute lecture des réactions (exports_lot52.fold_link_reactions)
+      : résultantes contre réactions à 3,8e-12, AM1 à 2,8e-13.'
+declared_interventions_since_baseline: 2.0
 measured:
-  runs: 40
-  failures: 1
+  runs: 49
+  failures: 2
   development:
-    runs: 35
-    failures: 1
+    runs: 43
+    failures: 2
   verification:
-    runs: 5
+    runs: 6
     failures: 0
     by_reason:
-      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 5
-  failure_rate: 0.0286
+      rejeu d'un .comm déjà réussi, sans modification (même empreinte): 6
+  failure_rate: 0.0465
   failure_rate_note: 'lot 44 : taux sur les exécutions de développement seulement ; une exécution
     de vérification (commande de rejeu, ou .comm déjà réussi rejoué sans modification) n''y
     entre pas'
-  failure_rate_all_runs: 0.025
+  failure_rate_all_runs: 0.0408
   compute_s:
     aster_legacy: 0
-    wall_since_lot41: 5422.0
-    unknown_runs: 0
+    wall_since_lot41: 8569.7
+    unknown_runs: 1
     note: 'temps Aster mesuré par run_aster pour les exécutions antérieures au lot 41 (annexe
       versionnée de l''audit), temps mur d''aster-expert run (conteneur compris) ensuite :
       deux grandeurs distinctes, jamais additionnées'
   first_run: 20261012T125727-d835bf3c
-  last_run: 20261016T094901-70936018
+  last_run: 20261019T084157-a43ab358
   failures_by_signature:
+    (signature inconnue): 1
     <F> <FACTOR_11>: 1
   failures_by_cause:
     DIAG-030: 1
+    écarté: 1
   automatic_diagnosis:
     attached_failures: 1
     single_match_equal_to_classification: 0

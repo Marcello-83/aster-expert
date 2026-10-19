@@ -45,6 +45,20 @@ def values(ctx: ProjectContext, variant: Variant52) -> Values51ter:
     )
 
 
+def linked_support_ends(g: Geometry51ter) -> dict[str, tuple[str, ...]]:
+    """CA-036: the abutment nodes and the ears of the pins are the B ends of rigid links
+    LM_ (post / main beam, P64); REAC_NODA of a linked node carries the force of the
+    link, which cancels only over the linked nodes. Returns the groups of the post ends
+    (LM_*_A) linked to the abutment (`APP_CULEE`) and to the ears (`AXES`)."""
+    abutment = set(g.node_groups["APP_CULEE"])
+    ears = {p for a in g.axes for p in a.ears}
+    lm = [lk for lk in g.links if lk.name.startswith("LM_")]
+    return {
+        "APP_CULEE": tuple(f"{lk.name}_A" for lk in lm if lk.b in abutment),
+        "AXES": tuple(f"{lk.name}_A" for lk in lm if lk.b in ears),
+    }
+
+
 def header(variant: Variant52, mesh_label: str, g: Geometry51ter) -> list[str]:
     lv = g.levels
     return [
@@ -58,6 +72,9 @@ def header(variant: Variant52, mesh_label: str, g: Geometry51ter) -> list[str]:
         "# post-traitement (scripts/lot52.py).",
         f"# P63, P64 : montants et diagonales tube {variant.post_label} mm (6082-T6), axe +{lv['montants']:g}"
         f" sous les pannes ; nœud diagonale–montant à e = {variant.e_diag:g} m de l'axe des poutres.",
+        "# CA-036 : les nœuds d'appui de la culée et les oreilles des appuis à axe sont liés aux montants",
+        "# (LM_) ; leur REAC_NODA porte l'effort de la liaison. Le relevé R<cas> du harnais porte donc sur",
+        "# APP_CULEE et les bouts de montant qui y sont liés, et l'unité 33 sur les bouts liés aux oreilles.",
     ]
 
 
@@ -66,6 +83,7 @@ def build_comm(
 ) -> tuple[str, dict[str, Any]]:
     variant = variant or current()
     g = geometry_of(variant)
+    linked = linked_support_ends(g)
     text, report = build_51ter(
         ctx,
         mesh_label=mesh_label,
@@ -74,6 +92,8 @@ def build_comm(
         v=values(ctx, variant),
         header=header(variant, mesh_label, g),
         solid_note=SOLID_NOTE,
+        harness_groups={"R": ("APP_CULEE", *linked["APP_CULEE"])},
+        extra_reaction_groups=(*linked["APP_CULEE"], *linked["AXES"]),
     )
     report["post_section"] = variant.post_label
     report["e_diag_m"] = variant.e_diag

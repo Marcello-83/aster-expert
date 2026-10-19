@@ -49,7 +49,12 @@ def png_size(path: Path) -> tuple[int, int]:
 
 
 def run_pvbatch(
-    ctx: ProjectContext, code: str, exports: Path, out: Path, combos: Path | None
+    ctx: ProjectContext,
+    code: str,
+    exports: Path,
+    out: Path,
+    combos: Path | None,
+    script: Path = SCRIPT,
 ) -> list[str]:
     from aster_expert.meshing.config import load_mesh_config  # noqa: PLC0415
 
@@ -60,7 +65,7 @@ def run_pvbatch(
         message = "vues 3D : Singularity ou l'image Salomé-Méca absent (VM seulement)"
         raise RuntimeError(message)
     out.mkdir(parents=True, exist_ok=True)
-    folders = {SCRIPT.parent, exports.resolve(), out.resolve()}
+    folders = {script.parent, exports.resolve(), out.resolve()}
     if combos is not None:
         folders.add(combos.resolve().parent)
     extra = f" --combinaisons {combos.resolve()}" if combos is not None else ""
@@ -68,7 +73,7 @@ def run_pvbatch(
         f"source {salome.install_root}/salome_prerequisites.sh >/dev/null 2>&1; "
         "unset DISPLAY; export HWLOC_COMPONENTS=-gl; "
         f"cd {out.resolve()} && xvfb-run -a -s '-screen 0 1920x1200x24' pvbatch "
-        f"--no-mpi {SCRIPT} --variante {code} --dossier {exports.resolve()} "
+        f"--no-mpi {script} --variante {code} --dossier {exports.resolve()} "
         f"--sortie {out.resolve()}{extra}"
     )
     argv = [runtime, "exec", "--containall", "--cleanenv", "--no-home"]

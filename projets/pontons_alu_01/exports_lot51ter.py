@@ -171,10 +171,17 @@ def read_run(run_dir: Path, g: Geometry51ter) -> RunTables:
 
 def section_label(family: str, v: Variant51ter) -> str:
     purlin = f"tube {v.purlin_side_mm:g}x{v.purlin_side_mm:g}x{v.purlin_thickness_mm:g}"
+    # Lot 52 (P63) : la variante porte la section des montants et des diagonales.
+    side = getattr(v, "post_side_mm", None)
+    post = (
+        f"tube {side:g}x{side:g}x{getattr(v, 'post_thickness_mm', 0.0):g}"
+        if side is not None
+        else "tube 150x150x7"
+    )
     return {
         "POUTRES_PRINC": f"tube {v.beam_side_mm:g}x{v.beam_side_mm:g}x{v.beam_thickness_mm:g}",
-        "MONTANTS": "tube 150x150x7",
-        "DIAGONALES": "tube 150x150x7",
+        "MONTANTS": post,
+        "DIAGONALES": post,
         "PANNES_SEC": purlin,
         "PANNE_RIVE": purlin,
         "CHEVETRES": "BA 0.40x0.40",

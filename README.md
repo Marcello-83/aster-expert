@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 51quater (2026-10-16), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 52 (2026-10-19), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 67 faits sur 69 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 51quater, Pontons aluminium : houle « tablier noyé » (P60, P56 ré-arbitrée : coefficients seuls) et impact quasi statique local (P61, six événements HU_IMP_Mk alternatifs à HU) recombinés sur les 221 cas unitaires du lot 51 ter sans réexécution ; sensibilité HU_S5 ; identité exacte avec le lot 51 ter sous P56 ; ancrage ELU 0 à 23,4 kN (235 kN au lot 51 ter) ; efforts en .npz (8,7 Mo) ; vues 3D en volume (pvbatch) ; structure, charges et résultats combinés en MED 3.3 (medcoupling) et script ParaVis, B10 et B12.
+Lots : 68 faits sur 70 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 52, Pontons aluminium : géométrie PRO (P62 à P66) : houle maintenue dans le critère de flèche, poutres 200 × 200 × 12, pannes 50 × 50 × 5 (sensibilité × 4), montants et diagonales 120 × 120 × 6 sous les pannes (axe +1,29, liaisons rigides 0,01 et 0,085 m, diagonales soudées sur les montants à e = 0,25 m), axe des appuis à +1,175 ; trois variantes (B52, A52, B52P4) à FIN, harnais D 221/221 ; géométrie des nœuds sans recouvrement, zone de soudure 180 mm ; recombinaison P60/P61 ; extrêmes par famille et tronçons de montant ; comparaison avec B12 du lot 51 quater ; MED de B52 avec support commun ELNO (déformée colorée par effort) ; vues 1 à 9.
 
 Capacités :
 
