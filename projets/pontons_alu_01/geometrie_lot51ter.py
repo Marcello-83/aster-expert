@@ -30,7 +30,7 @@ from __future__ import annotations
 
 import ast
 import json
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -56,9 +56,12 @@ OVERRIDABLE = ("STATIONS", "ENTRAXE_CHEVETRES", "H_PILES", "L_PF", "COTE_PANNES"
 
 
 def read_parameters(
-    script: Path = SCRIPT, overrides: Mapping[str, Any] | None = None
+    script: Path = SCRIPT,
+    overrides: Mapping[str, Any] | None = None,
+    overridable: tuple[str, ...] = OVERRIDABLE,
 ) -> dict[str, Any]:
-    """The assignments of the parameter block, evaluated, then the overrides."""
+    """The assignments of the parameter block, evaluated, then the overrides (lot 52:
+    `overridable` names the parameters a variant of another script may change)."""
     lines = script.read_text(encoding="utf-8").splitlines()
     try:
         start = next(i for i, line in enumerate(lines) if line.startswith(BEGIN))
@@ -77,7 +80,7 @@ def read_parameters(
             raise ParameterError(message)
         names[statement.targets[0].id] = _evaluate(statement.value, names)
     for key, value in (overrides or {}).items():
-        if key not in OVERRIDABLE:
+        if key not in overridable:
             message = f"paramètre {key} non modifiable par une variante"
             raise ParameterError(message)
         names[key] = (
@@ -220,20 +223,16 @@ def spans(p: dict[str, Any]) -> tuple[Span, ...]:
     return tuple(out)
 
 
-def build(p: dict[str, Any]) -> Geometry51ter:  # noqa: PLR0915 -- même trame que le script
+def _deck(
+    p: dict[str, Any], b: _Builder, all_spans: tuple[Span, ...], lv: dict[str, float]
+) -> tuple[list[LoadZone], list[tuple[int, float, str]]]:
+    """The deck of lot 51 ter (main beams, posts and diagonals in their plane, purlins
+    linked to them, cantilever and its edge purlin), its berthing zones and cleats."""
     half = p["B"] / 2.0
-    lv = levels(p)
-    zp, zs, za, z_head = (
-        lv["poutres"],
-        lv["pannes"],
-        lv["axe_anneau"],
-        lv["tete_piles"],
-    )
+    zp, zs = lv["poutres"], lv["pannes"]
     e = p["ENTRAXE_CHEVETRES"]
     inner = [y for y in p["Y_PANNES"] if -half < y < half]
     ys_deck = sorted({-half, half, *inner})
-    b = _Builder(p)
-    all_spans = spans(p)
     load_zones: list[LoadZone] = []
     cleats: list[tuple[int, float, str]] = []
     for sp in all_spans:
@@ -327,6 +326,31 @@ def build(p: dict[str, Any]) -> Geometry51ter:  # noqa: PLR0915 -- même trame q
                     point(x, yp, zs),
                     point(x, yp, zp),
                 )
+    return load_zones, cleats
+
+
+def build(  # noqa: PLR0915 -- même trame que le script
+    p: dict[str, Any],
+    *,
+    deck: Callable[
+        [dict[str, Any], _Builder, tuple[Span, ...], dict[str, float]],
+        tuple[list[LoadZone], list[tuple[int, float, str]]],
+    ]
+    | None = None,
+    lv: dict[str, float] | None = None,
+) -> Geometry51ter:
+    """The whole pontoon; lot 52 passes its own deck (P64) and levels."""
+    half = p["B"] / 2.0
+    lv = levels(p) if lv is None else lv
+    zp, za, z_head = (
+        lv["poutres"],
+        lv["axe_anneau"],
+        lv["tete_piles"],
+    )
+    e = p["ENTRAXE_CHEVETRES"]
+    b = _Builder(p)
+    all_spans = spans(p)
+    load_zones, cleats = (deck or _deck)(p, b, all_spans, lv)
     groups = b.node_groups
     groups["APP_CULEE_YM"] = (point(0.0, -half, zp),)
     groups["APP_CULEE_YP"] = (point(0.0, half, zp),)

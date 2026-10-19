@@ -112,11 +112,19 @@ class Values51ter:
     ta_minus: float
 
 
-def values(ctx: ProjectContext, variant: Variant51ter) -> Values51ter:
+def values(
+    ctx: ProjectContext,
+    variant: Variant51ter,
+    parameters: dict[str, Any] | None = None,
+) -> Values51ter:
     """Every number of the data file, the variant and the mesh parameters, converted
-    once to m, N, Pa."""
+    once to m, N, Pa (lot 52: `parameters` of another mesh script)."""
     d = {k: v.value for k, v in ctx.data().items().items()}
-    p = geometry(variant.mesh_overrides).parameters
+    p = (
+        geometry(variant.mesh_overrides).parameters
+        if parameters is None
+        else parameters
+    )
 
     def f(key: str) -> float:
         value = d[key]
@@ -412,11 +420,20 @@ footing nodes (forces k·u of the soil springs). Titles of 16 characters at most
 
 
 def build_comm(  # noqa: PLR0915 -- un .comm écrit d'un trait, section par section
-    ctx: ProjectContext, *, mesh_label: str, variant: Variant51ter | None = None
+    ctx: ProjectContext,
+    *,
+    mesh_label: str,
+    variant: Variant51ter | None = None,
+    g: Geometry51ter | None = None,
+    v: Values51ter | None = None,
+    header: list[str] | None = None,
+    solid_note: str | None = None,
 ) -> tuple[str, dict[str, Any]]:
+    """The `.comm` of lot 51 ter; lot 52 passes its geometry, its values (section of
+    the posts and diagonals), the head of the file and the note on the rigid links."""
     variant = variant or current()
-    v = values(ctx, variant)
-    g = geometry(variant.mesh_overrides)
+    v = v or values(ctx, variant)
+    g = g or geometry(variant.mesh_overrides)
     p = g.parameters
     lv = g.levels
     solid = [lk for lk in g.links if lk.kind in ("solide", "tete_pile", "longrine")]
@@ -427,24 +444,27 @@ def build_comm(  # noqa: PLR0915 -- un .comm écrit d'un trait, section par sect
                 raise ValueError(message)
     out: list[str] = []
     w = out.append
-    w(
-        "# PONTONS-ALU-01, lot 51 ter : ponton intégral (culée, 5 palées, 5 grandes travées,"
-    )
-    w(
-        "# porte-à-faux d'extrémité), cotes de l'AVP, appuis articulés à axe. Calcul linéaire,"
-    )
-    w("# cas élémentaires unitaires.")
-    w(f"# Variante {variant.code} : {variant.description}.")
-    w(
-        f"# Code_Aster 17.4. Unités : m, N, Pa, °C. Maillage : {mesh_label} (maillage_ponton_51ter.py)."
-    )
-    w(
-        "# Généré par pontons_alu_01.generation_lot51ter à partir de la fiche (P1 à P59), des données"
-    )
-    w(
-        "# et de variantes_lot51ter.yaml : régénérer plutôt qu'éditer. Combinaisons et exports :"
-    )
-    w("# post-traitement (scripts/lot51ter.py).")
+    if header is not None:
+        out.extend(header)
+    else:
+        w(
+            "# PONTONS-ALU-01, lot 51 ter : ponton intégral (culée, 5 palées, 5 grandes travées,"
+        )
+        w(
+            "# porte-à-faux d'extrémité), cotes de l'AVP, appuis articulés à axe. Calcul linéaire,"
+        )
+        w("# cas élémentaires unitaires.")
+        w(f"# Variante {variant.code} : {variant.description}.")
+        w(
+            f"# Code_Aster 17.4. Unités : m, N, Pa, °C. Maillage : {mesh_label} (maillage_ponton_51ter.py)."
+        )
+        w(
+            "# Généré par pontons_alu_01.generation_lot51ter à partir de la fiche (P1 à P59), des données"
+        )
+        w(
+            "# et de variantes_lot51ter.yaml : régénérer plutôt qu'éditer. Combinaisons et exports :"
+        )
+        w("# post-traitement (scripts/lot51ter.py).")
     w("#")
     w("# Géométrie et cotes (rappel, m NGF)")
     w(
@@ -602,14 +622,17 @@ def build_comm(  # noqa: PLR0915 -- un .comm écrit d'un trait, section par sect
         "# Culée (X = 0, P58) : seul point fixe longitudinal ; axe YP : X, Y, Z bloqués ; axe YM :"
     )
     w(
-        "# X, Z bloqués. LIAISON_SOLIDE : pannes / montants, diagonales et panne de rive (LR_),"
+        solid_note
+        or "# X, Z bloqués. LIAISON_SOLIDE : pannes / montants, diagonales et panne de rive (LR_),"
     )
     w(
         "# têtes de piles encastrées dans les chevêtres (TP_, P46), angles de l'anneau monolithique"
     )
     w("# (LG_), pieds de piles / semelles (PS_).")
     w(
-        "# P44, P54, appuis à axe (axe parallèle à Y, point P non maillé, Z = +1,16) : LIAISON_DDL sur"
+        f"# P44, P54, appuis à axe (axe parallèle à Y, point P non maillé, Z = +{lv['axe_appui']:g}) : LIAISON_DDL sur".replace(
+            ".", ","
+        )
     )
     w(
         "# la translation de P portée par un nœud N, u_N + θ_N ∧ (P − N) ; oreilles des deux travées"

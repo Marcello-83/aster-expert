@@ -1,0 +1,25 @@
+# Variantes du lot 52 (consigne, § Variantes ; décisions P62 à P66) : géométrie PRO du
+# ponton intégral. Un seul .comm paramétré (generation_lot52), un seul script de maillage
+# (maillage_ponton_52.py). Stations, entraxe des chevêtres et géométries A et B : ceux du
+# lot 51 ter (variantes_lot51ter.yaml), inchangés.
+#
+# montants : tube carré des montants et des diagonales (P63, 6082-T6) ; son axe est à
+#   dessus du tablier − cote des pannes − cote des montants / 2 (P64 : +1,29).
+# e_diag : distance, mesurée en Y depuis l'axe de la poutre principale, du nœud
+#   diagonale–montant (P64 : 0,25 m, soit |Y| = 0,68).
+reference: B52
+stations: [6.25, 14.02, 21.79, 29.56, 37.33]
+entraxe_chevetres: 1.52
+e_diag: 0.25
+geometries:
+  A: {h_piles: [1.50, 2.00, 2.50, 3.30, 3.90], l_pf: 1.05}
+  B: {h_piles: [1.30, 1.95, 2.50, 3.50, 3.90], l_pf: 1.25}
+variantes:
+  B52:
+    description: "panne B (piles 1,30 à 3,90 m, Lpf 1,25 m), poutres principales 200 × 200 × 12, pannes 50 × 50 × 5, montants et diagonales 120 × 120 × 6 sous les pannes (P64)"
+    geometrie: B
+    poutre: {cote: 200, epaisseur: 12}
+    panne: {cote: 50, epaisseur: 5}
+    montant: {cote: 120, epaisseur: 6}
+  A52: {base: B52, geometrie: A, description: "panne A (piles 1,50 à 3,90 m, Lpf 1,05 m), poutres principales 200 × 200 × 12, pannes 50 × 50 × 5, montants et diagonales 120 × 120 × 6 sous les pannes (P64)"}
+  B52P4: {base: B52, panne: {cote: 50, epaisseur: 4}, description: "panne B (piles 1,30 à 3,90 m, Lpf 1,25 m), poutres principales 200 × 200 × 12, pannes 50 × 50 × 4 (sensibilité), montants et diagonales 120 × 120 × 6 sous les pannes (P64)"}

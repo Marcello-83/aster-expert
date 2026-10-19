@@ -406,7 +406,10 @@ def test_fiche_carries_the_decisions_of_lot_51_ter(ctx: ProjectContext) -> None:
         assert by_label[label]["status"] == "tranche", label
     for label in ("P47", "P50"):
         assert by_label[label]["decision_history"], label
-    assert "P47 annulée" in by_label["P53"]["option_retained"]
+    # Lot 52 : P53 ré-arbitrée par P64, sa décision du lot 51 ter est dans l'historique.
+    assert any("P47 annulée" in str(h) for h in by_label["P53"]["decision_history"]), (
+        by_label["P53"]["decision_history"]
+    )
     value = ctx.data().items()["houle_lot51ter.hu_tubes"].value
     assert isinstance(value, float)
     assert math.isclose(value, 14.49)
