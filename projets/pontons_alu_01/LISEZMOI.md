@@ -70,3 +70,19 @@ Enchaînement : `PYTHONPATH=projets .venv/bin/python projets/pontons_alu_01/scri
 H80C : `PONTONS_VARIANTE=H80C aster-expert projet pontons_alu_01` maillage, generer, valider,
 executer, puis `livrables --sous-etape` preparer, executer, verifier, traiter, charges. Sorties
 sous `resultats/lot51bis/` ; références versionnées sous `references/execution_lot51bis/`.
+
+## Lot 53 — déplacements sous accostage et amarrage (post-traitement de B52)
+
+Consigne `docs/lots/lot53_consigne.md` ; essais `docs/essais_lot53.md` ; compte rendu
+`docs/lots/lot53_compte_rendu.md`. Aucune exécution : relecture des tables de l'exécution B52 du lot 52.
+
+| Fichier | Rôle |
+| --- | --- |
+| `deplacements_lot53.py` | points de sortie (axes, chevêtres, relatif, mi-travées, porte-à-faux, têtes de piles, semelles, culée), cas unitaires, événements, enveloppes (total, hors T, variables seules avec et sans T), synthèse, contrôles |
+| `med_lot53.py`, `scripts/med_ajouter_lot53.py` | copie de `resultats.med` du lot 52 et champs DEPL ajoutés (maillage d'origine et support ELNO) |
+| `vues_lot53.py`, `scripts/paraview/afficher_pontons_salome_53.py` | vues A, B, C (matplotlib) ; script ParaVis (déformée colorée par DX, DY, DZ) |
+| `scripts/verifier_evenements_lot53.py` | lecteur indépendant (module `csv`) : linéarité de trois événements |
+| `depot_lot53.py`, `scripts/lot53.py` | dépôt ; enchaînement `exports`, `verifier`, `med`, `vues`, `references`, `depot`, `tout` |
+
+Enchaînement : `PYTHONPATH=projets .venv/bin/python projets/pontons_alu_01/scripts/lot53.py tout`.
+Sorties sous `resultats/lot53/` ; listing versionné sous `references/post_traitement_lot53/`.

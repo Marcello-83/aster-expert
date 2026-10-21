@@ -112,9 +112,9 @@ lots:
   supervisor_interventions:
     value: 1.0
     nature: mesure
-    note: 'Aucune question technique posée à MM ; P62 à P66, les variantes et les contrôles
-      étaient dans la consigne. Une relance par MM (« Reprends le lot52 tu as été interrompu »)
-      après l''arrêt de la VM du 19/10/2026 à 04:25.'
+    note: Aucune question technique posée à MM ; P62 à P66, les variantes et les contrôles
+      étaient dans la consigne. Une relance par MM (« Reprends le lot52 tu as été interrompu
+      ») après l'arrêt de la VM du 19/10/2026 à 04:25.
   avoided_errors:
     value: 1.0
     nature: mesure
@@ -124,10 +124,24 @@ lots:
       : résultantes contre réactions à 3,8e-12, AM1 à 2,8e-13.'
   note: 'Harnais D 221/221 pour les trois variantes. Échec 20261019T082517-6fb933ef écarté
     : arrêt de la VM (processus en parallèle), pas une cause Code_Aster.'
+- lot: '53'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM ; points de sortie, exports, champs MED, vues et contrôles
+      étaient dans la consigne.
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune exécution Code_Aster ni commande écrite dans le lot (relecture des tables
+      du lot 52). CA-036 reste appliqué par le lecteur du lot 52 réutilisé (réactions relues
+      à écart nul) : non compté comme erreur évitée par ce lot.'
+  note: Post-traitement de B52 sans nouvelle exécution ; les 49 exécutions et leurs classements
+    sont ceux du lot 52.
 archive:
   runs: 49
   sha256: d147476b2f788d75e0a75eb2159537158f5985b5e71907d09807398ce15382dd
-  recorded: '2026-10-19'
+  recorded: '2026-10-21'
 declaration_required_since: '2026-10-12T08:38:25.125860'
 reviews:
 - date: '2026-10-12'
@@ -186,6 +200,12 @@ reviews:
   last_run: 20261016T094901-70936018
 - date: '2026-10-19'
   lot: '52'
+  runs: 49
+  failures: 2
+  unclassified: 0
+  last_run: 20261019T084157-a43ab358
+- date: '2026-10-21'
+  lot: '53'
   runs: 49
   failures: 2
   unclassified: 0

@@ -1,0 +1,795 @@
+{
+ "fichiers": {
+  "deplacements_unitaires.csv": 16632,
+  "deplacements_evenements.csv": 1735,
+  "deplacements_combinaisons.csv": 1041,
+  "deplacements_synthese.csv": 5
+ },
+ "points": 99,
+ "grandeurs": 347,
+ "cas_unitaires_exportes": 168,
+ "evenements": {
+  "AC": 168,
+  "ACA": 168,
+  "AM": 64,
+  "AMF": 60
+ },
+ "branches": {
+  "ELS_caracteristique": 7,
+  "ELS_frequent": 5,
+  "ELU_accidentel": 9
+ },
+ "temps_s": {
+  "lecture_tables": 13.470385502005229,
+  "points_evenements": 0.3433691129903309,
+  "enveloppes": 0.2175512750109192
+ },
+ "plus_grands_DY": {
+  "combinaisons": [
+   {
+    "valeur_mm": 79.08130872087156,
+    "point": "PF_bout_YM",
+    "etat": "ELU_accidentel",
+    "combinaison_ou_evenement": "ELU_accidentel: G_DEJ_100×1 + ACA_PF_YM_+Z×1 + AML_TQ10_YP_PERP×0.77 + TM×0.5 + QD[M4+M5]×0.2"
+   },
+   {
+    "valeur_mm": -78.40991671776447,
+    "point": "PF_bout_YP",
+    "etat": "ELU_accidentel",
+    "combinaison_ou_evenement": "ELU_accidentel: G×1 + ACA_PF_YP_+Z×1 + AML_TQ10_YM_PERP×0.77 + TP×0.5 + QD[M0+M1+M2+M3]×0.2"
+   },
+   {
+    "valeur_mm": -67.615836286611,
+    "point": "P5C2_YM_axe",
+    "etat": "ELU_accidentel",
+    "combinaison_ou_evenement": "ELU_accidentel: G×1 + ACA_PF_YP_+Z×1 + AML_TQ10_YM_PERP×0.77 + TP×0.5 + Q[M0+M1+M2+M3+M4+M5]×0.2"
+   }
+  ],
+  "evenements": [
+   {
+    "valeur_mm": 61.88351317015417,
+    "point": "PF_bout_YM",
+    "etat": "caractéristique",
+    "combinaison_ou_evenement": "ACA_PF_YM_+Z"
+   },
+   {
+    "valeur_mm": -61.76662499929849,
+    "point": "PF_bout_YP",
+    "etat": "caractéristique",
+    "combinaison_ou_evenement": "ACA_PF_YP_+Z"
+   },
+   {
+    "valeur_mm": 51.20630622491662,
+    "point": "P5C2_YM_axe",
+    "etat": "caractéristique",
+    "combinaison_ou_evenement": "ACA_PF_YM_+Z"
+   }
+  ]
+ },
+ "plus_grands_DX": {
+  "combinaisons": [
+   {
+    "valeur_mm": 70.89207820450157,
+    "point": "PF_bout_YP",
+    "etat": "ELS_caracteristique",
+    "combinaison_ou_evenement": "ELS_caracteristique: G_DEJ_100×1 + TP×1 + AM1_+X×0.77 + AC_PF_YP_+X×1 + Q[M0+M1+M2+M3+M4+M5]×0.77"
+   },
+   {
+    "valeur_mm": 70.48023829316976,
+    "point": "PF_bout_YM",
+    "etat": "ELS_caracteristique",
+    "combinaison_ou_evenement": "ELS_caracteristique: G_DEJ_100×1 + TP×1 + AM1_+X×0.77 + AC_PF_YM_+X×1 + Q[M0+M1+M2+M3+M4+M5]×0.77"
+   },
+   {
+    "valeur_mm": 69.57828204629502,
+    "point": "P5C2_YP_axe",
+    "etat": "ELS_caracteristique",
+    "combinaison_ou_evenement": "ELS_caracteristique: G_DEJ_100×1 + TP×1 + AM1_+X×0.77 + AC_PF_YP_+X×1 + Q[M0+M1+M2+M3+M4]×0.77"
+   }
+  ],
+  "evenements": [
+   {
+    "valeur_mm": -14.716432087198283,
+    "point": "P5C1_YM_chevetre",
+    "etat": "caractéristique",
+    "combinaison_ou_evenement": "ACA_PF_YP_+Z"
+   },
+   {
+    "valeur_mm": -14.716373695093148,
+    "point": "P5C2_YM_chevetre",
+    "etat": "caractéristique",
+    "combinaison_ou_evenement": "ACA_PF_YP_+Z"
+   },
+   {
+    "valeur_mm": -14.67788191796173,
+    "point": "P5C1_YP_chevetre",
+    "etat": "caractéristique",
+    "combinaison_ou_evenement": "ACA_PF_YM_+Z"
+   }
+  ]
+ },
+ "champs_med": [
+  {
+   "key": "EV_AC_DY",
+   "title": "AC le plus défavorable en |DY|",
+   "source": "AC_PF_YM_+Z",
+   "coefficients": {
+    "ACN_PF_YM": 23.5,
+    "ACZ_PF_YM": 16.45
+   },
+   "governing": "|DY| = 32.317 mm en PF_bout_YM"
+  },
+  {
+   "key": "EV_ACA_DY",
+   "title": "ACA le plus défavorable en |DY|",
+   "source": "ACA_PF_YM_+Z",
+   "coefficients": {
+    "ACN_PF_YM": 45.0,
+    "ACZ_PF_YM": 31.5
+   },
+   "governing": "|DY| = 61.884 mm en PF_bout_YM"
+  },
+  {
+   "key": "EV_AML_DY",
+   "title": "AML le plus défavorable en |DY|",
+   "source": "AML_TQ10_YP_PERP",
+   "coefficients": {
+    "AMY_TQ10_YP": 27.5
+   },
+   "governing": "|DY| = 21.142 mm en PF_bout_YM"
+  },
+  {
+   "key": "EV_AMF_DY",
+   "title": "AMF le plus défavorable en |DY|",
+   "source": "AMF_TQ10_YP_PERP",
+   "coefficients": {
+    "AMY_TQ10_YP": 49.0
+   },
+   "governing": "|DY| = 37.672 mm en PF_bout_YM"
+  },
+  {
+   "key": "EV_AM1_PX",
+   "title": "AM1_+X",
+   "source": "AM1_+X",
+   "coefficients": {
+    "AMY_TQ1_YM": 23.8,
+    "AMX_TQ1_YM": 13.7,
+    "AMY_TQ1_YP": 23.8,
+    "AMX_TQ1_YP": 13.7,
+    "AMY_TQ2_YM": 23.8,
+    "AMX_TQ2_YM": 13.7,
+    "AMY_TQ2_YP": 23.8,
+    "AMX_TQ2_YP": 13.7,
+    "AMY_TQ3_YM": 23.8,
+    "AMX_TQ3_YM": 13.7,
+    "AMY_TQ3_YP": 23.8,
+    "AMX_TQ3_YP": 13.7,
+    "AMY_TQ4_YM": 23.8,
+    "AMX_TQ4_YM": 13.7,
+    "AMY_TQ4_YP": 23.8,
+    "AMX_TQ4_YP": 13.7,
+    "AMY_TQ5_YM": 23.8,
+    "AMX_TQ5_YM": 13.7,
+    "AMY_TQ5_YP": 23.8,
+    "AMX_TQ5_YP": 13.7,
+    "AMY_TQ6_YM": 23.8,
+    "AMX_TQ6_YM": 13.7,
+    "AMY_TQ6_YP": 23.8,
+    "AMX_TQ6_YP": 13.7,
+    "AMY_TQ7_YM": 23.8,
+    "AMX_TQ7_YM": 13.7,
+    "AMY_TQ7_YP": 23.8,
+    "AMX_TQ7_YP": 13.7,
+    "AMY_TQ8_YM": 23.8,
+    "AMX_TQ8_YM": 13.7,
+    "AMY_TQ8_YP": 23.8,
+    "AMX_TQ8_YP": 13.7,
+    "AMY_TQ9_YM": 23.8,
+    "AMX_TQ9_YM": 13.7,
+    "AMY_TQ9_YP": 23.8,
+    "AMX_TQ9_YP": 13.7,
+    "AMY_TQ10_YM": 23.8,
+    "AMX_TQ10_YM": 13.7,
+    "AMY_TQ10_YP": 23.8,
+    "AMX_TQ10_YP": 13.7
+   },
+   "governing": "imposé par la consigne"
+  },
+  {
+   "key": "EV_AM2_YP",
+   "title": "AM2_YP",
+   "source": "AM2_YP",
+   "coefficients": {
+    "AMY_TQ1_YP": 10.6,
+    "AMY_TQ2_YP": 10.6,
+    "AMY_TQ3_YP": 10.6,
+    "AMY_TQ4_YP": 10.6,
+    "AMY_TQ5_YP": 10.6,
+    "AMY_TQ6_YP": 10.6,
+    "AMY_TQ7_YP": 10.6,
+    "AMY_TQ8_YP": 10.6,
+    "AMY_TQ9_YP": 10.6,
+    "AMY_TQ10_YP": 10.6
+   },
+   "governing": "imposé par la consigne"
+  },
+  {
+   "key": "CO_ELSC_DY",
+   "title": "max |DY| ELS caractéristique",
+   "source": "ELS_caracteristique: G_DEJ_100×1 + AML_TQ10_YP_PERP×1 + TM×0.6 + AC_PF_YM_+Z×1 + QD[M4+M5]×0.77",
+   "coefficients": {
+    "G1": 1.0,
+    "G2": 1.0,
+    "DEJ": 1.0,
+    "AMY_TQ10_YP": 27.5,
+    "TM": 0.6,
+    "ACN_PF_YM": 23.5,
+    "ACZ_PF_YM": 16.45,
+    "QD_M4": 0.77,
+    "QD_M5": 0.77
+   },
+   "governing": "DY = 55.994 mm en PF_bout_YM"
+  },
+  {
+   "key": "CO_ELSC_DX_HT",
+   "title": "max |DX| ELS caractéristique hors thermique",
+   "source": "ELS_caracteristique: G_DEJ_100×1 + Q[M0+M1+M2+M3+M4]×1 + AM1_+X×0.77 + AC_PF_YP_+X×1",
+   "coefficients": {
+    "G1": 1.0,
+    "G2": 1.0,
+    "DEJ": 1.0,
+    "Q_M0": 1.0,
+    "Q_M1": 1.0,
+    "Q_M2": 1.0,
+    "Q_M3": 1.0,
+    "Q_M4": 1.0,
+    "AMY_TQ1_YM": 18.326,
+    "AMX_TQ1_YM": 10.549,
+    "AMY_TQ1_YP": 18.326,
+    "AMX_TQ1_YP": 10.549,
+    "AMY_TQ2_YM": 18.326,
+    "AMX_TQ2_YM": 10.549,
+    "AMY_TQ2_YP": 18.326,
+    "AMX_TQ2_YP": 10.549,
+    "AMY_TQ3_YM": 18.326,
+    "AMX_TQ3_YM": 10.549,
+    "AMY_TQ3_YP": 18.326,
+    "AMX_TQ3_YP": 10.549,
+    "AMY_TQ4_YM": 18.326,
+    "AMX_TQ4_YM": 10.549,
+    "AMY_TQ4_YP": 18.326,
+    "AMX_TQ4_YP": 10.549,
+    "AMY_TQ5_YM": 18.326,
+    "AMX_TQ5_YM": 10.549,
+    "AMY_TQ5_YP": 18.326,
+    "AMX_TQ5_YP": 10.549,
+    "AMY_TQ6_YM": 18.326,
+    "AMX_TQ6_YM": 10.549,
+    "AMY_TQ6_YP": 18.326,
+    "AMX_TQ6_YP": 10.549,
+    "AMY_TQ7_YM": 18.326,
+    "AMX_TQ7_YM": 10.549,
+    "AMY_TQ7_YP": 18.326,
+    "AMX_TQ7_YP": 10.549,
+    "AMY_TQ8_YM": 18.326,
+    "AMX_TQ8_YM": 10.549,
+    "AMY_TQ8_YP": 18.326,
+    "AMX_TQ8_YP": 10.549,
+    "AMY_TQ9_YM": 18.326,
+    "AMX_TQ9_YM": 10.549,
+    "AMY_TQ9_YP": 18.326,
+    "AMX_TQ9_YP": 10.549,
+    "AMY_TQ10_YM": 18.326,
+    "AMX_TQ10_YM": 10.549,
+    "AMY_TQ10_YP": 18.326,
+    "AMX_TQ10_YP": 10.549,
+    "ACN_PF_YP": 23.5,
+    "ACX_PF_YP": 16.45
+   },
+   "governing": "DX = 31.832 mm en P5C2_YP_axe"
+  },
+  {
+   "key": "CO_ELSF_DY",
+   "title": "max |DY| ELS fréquent",
+   "source": "ELS_frequent: G×1 + AC_PF_YP_+Z×0.5 + TP×0.5 + AML_TQ10_YM_PERP×0.2 + QD[M0+M1+M2+M3]×0.2",
+   "coefficients": {
+    "G1": 1.0,
+    "G2": 1.0,
+    "ACN_PF_YP": 11.75,
+    "ACZ_PF_YP": 8.225,
+    "TP": 0.5,
+    "AMY_TQ10_YM": 5.5,
+    "QD_M0": 0.2,
+    "QD_M1": 0.2,
+    "QD_M2": 0.2,
+    "QD_M3": 0.2
+   },
+   "governing": "DY = -21.638 mm en PF_bout_YM"
+  },
+  {
+   "key": "CO_ELUA_DY",
+   "title": "max |DY| ELU accidentel",
+   "source": "ELU_accidentel: G_DEJ_100×1 + ACA_PF_YM_+Z×1 + AML_TQ10_YP_PERP×0.77 + TM×0.5 + QD[M4+M5]×0.2",
+   "coefficients": {
+    "G1": 1.0,
+    "G2": 1.0,
+    "DEJ": 1.0,
+    "ACN_PF_YM": 45.0,
+    "ACZ_PF_YM": 31.5,
+    "AMY_TQ10_YP": 21.175,
+    "TM": 0.5,
+    "QD_M4": 0.2,
+    "QD_M5": 0.2
+   },
+   "governing": "DY = 79.081 mm en PF_bout_YM"
+  }
+ ],
+ "controle_empreintes": {
+  "comm_execution": "bd8663c6fb4b89764d92d972dc47350e64c558153f95fdbe6e1ee7eb59ef3f73",
+  "comm_lot52": "bd8663c6fb4b89764d92d972dc47350e64c558153f95fdbe6e1ee7eb59ef3f73",
+  "maillage": "2cc66b5d477878774ac20c50085722f10b357fbb989389fefdd9b00b983f0cd4",
+  "maillage_etat": "2cc66b5d477878774ac20c50085722f10b357fbb989389fefdd9b00b983f0cd4",
+  "execution": "20261019T080553-0565f41d",
+  "reussi": true
+ },
+ "controle_relecture": {
+  "cas": [
+   "ACX_T1D_YP",
+   "ACX_T5M_YP",
+   "ACZ_T3F_YP",
+   "ACZ_T4D_YP",
+   "TM"
+  ],
+  "reactions": {
+   "fichier": "reactions_elementaires.csv",
+   "ecart_relatif_max": 0.0
+  },
+  "efforts": {
+   "fichier": "efforts_elementaires.csv",
+   "ecart_relatif_max": 0.0
+  },
+  "deplacements": {
+   "fichier": "deplacements_elementaires.csv",
+   "ecart_relatif_max": 0.0
+  },
+  "reussi": true
+ },
+ "controle_TP_P5": {
+  "YM": {
+   "DX_mm": 41.09377799998283,
+   "lot52_mm": 41.09377799998283,
+   "ecart_relatif": 0.0
+  },
+  "YP": {
+   "DX_mm": 41.09377799998328,
+   "lot52_mm": 41.09377799998328,
+   "ecart_relatif": 0.0
+  },
+  "reussi": true
+ },
+ "controle_liaisons": {
+  "DY_relatif_YP_max_relatif": 2.6503238508082324e-16,
+  "DZ_relatif_max_relatif": 1.4445209415594916e-16,
+  "reussi": true
+ },
+ "controle_enumeration": {
+  "tirages": [
+   {
+    "etat": "ELU_accidentel",
+    "variante": "total_hors_T",
+    "point": "P1C2_YP_tete",
+    "direction": "DZ",
+    "sens": "min",
+    "enveloppe": -7.346298581323309,
+    "enumeration": -7.346298581323309,
+    "combinaison_reevaluee": -7.34629858132331,
+    "reussi": true
+   },
+   {
+    "etat": "ELU_accidentel",
+    "variante": "variables_avec_T",
+    "point": "P1C2_YP_tete",
+    "direction": "DY",
+    "sens": "max",
+    "enveloppe": 8.612918695290091,
+    "enumeration": 8.612918695290091,
+    "combinaison_reevaluee": 8.612918695290091,
+    "reussi": true
+   },
+   {
+    "etat": "ELS_caracteristique",
+    "variante": "total_hors_T",
+    "point": "P5C2_YP_chevetre",
+    "direction": "DZ",
+    "sens": "max",
+    "enveloppe": 6.599518500636166,
+    "enumeration": 6.599518500636165,
+    "combinaison_reevaluee": 6.599518500636165,
+    "reussi": true
+   },
+   {
+    "etat": "ELS_frequent",
+    "variante": "total",
+    "point": "P3C1_YP_chevetre",
+    "direction": "DZ",
+    "sens": "max",
+    "enveloppe": -0.039715436062149015,
+    "enumeration": -0.039715436062149015,
+    "combinaison_reevaluee": -0.039715436062149126,
+    "reussi": true
+   },
+   {
+    "etat": "ELS_frequent",
+    "variante": "total_hors_T",
+    "point": "P1C1_YP_tete",
+    "direction": "DRY",
+    "sens": "max",
+    "enveloppe": 0.9832171545683538,
+    "enumeration": 0.9832171545683536,
+    "combinaison_reevaluee": 0.983217154568354,
+    "reussi": true
+   },
+   {
+    "etat": "ELS_caracteristique",
+    "variante": "total_hors_T",
+    "point": "P2C2_YP_relatif",
+    "direction": "DY",
+    "sens": "min",
+    "enveloppe": -1.7682024532170333e-15,
+    "enumeration": -1.7682024532170333e-15,
+    "combinaison_reevaluee": -1.7682024532170333e-15,
+    "reussi": true
+   },
+   {
+    "etat": "ELU_accidentel",
+    "variante": "variables_avec_T",
+    "point": "P3C1_YP_tete",
+    "direction": "DX",
+    "sens": "min",
+    "enveloppe": -6.168104139218862,
+    "enumeration": -6.168104139218862,
+    "combinaison_reevaluee": -6.168104139218862,
+    "reussi": true
+   },
+   {
+    "etat": "ELS_caracteristique",
+    "variante": "variables_avec_T",
+    "point": "P4C2_YP_relatif",
+    "direction": "DY",
+    "sens": "max",
+    "enveloppe": 6.987930229410555e-15,
+    "enumeration": 6.987930229410555e-15,
+    "combinaison_reevaluee": 6.987930229410555e-15,
+    "reussi": true
+   },
+   {
+    "etat": "ELS_caracteristique",
+    "variante": "variables_sans_T",
+    "point": "T4_mi_YM",
+    "direction": "DX",
+    "sens": "min",
+    "enveloppe": -13.555203654548839,
+    "enumeration": -13.555203654548842,
+    "combinaison_reevaluee": -13.555203654548837,
+    "reussi": true
+   },
+   {
+    "etat": "ELS_caracteristique",
+    "variante": "total_hors_T",
+    "point": "P1C2_YM_relatif",
+    "direction": "DZ",
+    "sens": "min",
+    "enveloppe": -1.9435170974749921e-16,
+    "enumeration": -1.9435170974749921e-16,
+    "combinaison_reevaluee": -1.9435170974749921e-16,
+    "reussi": true
+   },
+   {
+    "etat": "ELU_accidentel",
+    "variante": "variables_sans_T",
+    "point": "P4C1_YP_axe",
+    "direction": "DY",
+    "sens": "min",
+    "enveloppe": -33.66672667948998,
+    "enumeration": -33.66672667948998,
+    "combinaison_reevaluee": -33.66672667948998,
+    "reussi": true
+   },
+   {
+    "etat": "ELU_accidentel",
+    "variante": "total_hors_T",
+    "point": "P3C1_YM_axe",
+    "direction": "DY",
+    "sens": "max",
+    "enveloppe": 26.613324020658364,
+    "enumeration": 26.613324020658364,
+    "combinaison_reevaluee": 26.61332402065836,
+    "reussi": true
+   }
+  ],
+  "ecart_relatif_max": 2.795444629860831e-15,
+  "reussi": true
+ },
+ "ordre_de_grandeur_P5": {
+  "cas": "ACN_PT5_YM",
+  "palee": "P5",
+  "force_Y_reprise_N": 695.770009731008,
+  "force_appliquee_N": 1000.0,
+  "souplesse_mm_par_kN": {
+   "piles": 0.011847419067316883,
+   "translation_semelle": 0.14792899408284013,
+   "balancement_semelle": 0.942193900773782
+  },
+  "souplesse_totale_mm_par_kN": 1.101970313923939,
+  "longueur_piles_m": 3.9,
+  "DY_tete_modele_mm": 0.7696383177789778,
+  "DY_tete_estimation_mm": 0.766717896042141,
+  "rapport_modele_estimation": 1.0038089912233852
+ },
+ "controle_champs_points": {
+  "ecart_relatif_max": 0.0,
+  "reussi": true
+ },
+ "controle_linearite_lecteur_independant": {
+  "code": 0,
+  "sortie": [
+   "AC_PT1_YM_+Z : 6 extrêmes nommés, écart max 4.441e-16 mm (tolérance 3.141e-09) ; 694 lignes encadrées",
+   "AMF_TQ5_YP_PERP : 28 extrêmes nommés, écart max 1.776e-15 mm (tolérance 1.157e-08) ; 694 lignes encadrées",
+   "AMF_TQ9_YP_PERP : 47 extrêmes nommés, écart max 3.553e-15 mm (tolérance 2.498e-08) ; 694 lignes encadrées",
+   "événements tirés : AC_PT1_YM_+Z, AMF_TQ5_YP_PERP, AMF_TQ9_YP_PERP",
+   "RÉUSSI"
+  ]
+ },
+ "controle_med": {
+  "fichier": "resultats_deplacements_lot53.med",
+  "relecture": {
+   "version_med": "3.3.0",
+   "maillages": [
+    "PONTON_B52",
+    "PONTON_B52_ELNO"
+   ],
+   "champs_source": 18,
+   "champs": [
+    "CO_ELSC_DX_HT__DEPL",
+    "CO_ELSC_DY__DEPL",
+    "CO_ELSF_DY__DEPL",
+    "CO_ELUA_DY__DEPL",
+    "CULEE_SRX__DEPL",
+    "CULEE_SRX__EFGE_ELNO",
+    "ENV_ELU__EFGE_ELNO",
+    "EV_ACA_DY__DEPL",
+    "EV_AC_DY__DEPL",
+    "EV_AM1_PX__DEPL",
+    "EV_AM2_YP__DEPL",
+    "EV_AMF_DY__DEPL",
+    "EV_AML_DY__DEPL",
+    "E_CO_ELSC_DX_HT__DEPL",
+    "E_CO_ELSC_DY__DEPL",
+    "E_CO_ELSF_DY__DEPL",
+    "E_CO_ELUA_DY__DEPL",
+    "E_CULEE_SRX__DEPL",
+    "E_CULEE_SRX__EFGE",
+    "E_ENV_ELU__EFGE_ELNO",
+    "E_EV_ACA_DY__DEPL",
+    "E_EV_AC_DY__DEPL",
+    "E_EV_AM1_PX__DEPL",
+    "E_EV_AM2_YP__DEPL",
+    "E_EV_AMF_DY__DEPL",
+    "E_EV_AML_DY__DEPL",
+    "E_FLECHE_ELS_F__DEPL",
+    "E_FLECHE_ELS_F__EFGE",
+    "E_IMPACT_M0__DEPL",
+    "E_IMPACT_M0__EFGE",
+    "E_PP_MY_EXTREME__DEPL",
+    "E_PP_MY_EXTREME__EFGE",
+    "FLECHE_ELS_F__DEPL",
+    "FLECHE_ELS_F__EFGE_ELNO",
+    "IMPACT_M0__DEPL",
+    "IMPACT_M0__EFGE_ELNO",
+    "PP_MY_EXTREME__DEPL",
+    "PP_MY_EXTREME__EFGE_ELNO"
+   ],
+   "champs_conserves": true,
+   "ecart_champs_source": 0.0,
+   "ecart_champs_nouveaux": 0.0,
+   "noeuds": 3295,
+   "noeuds_elno": 4552
+  },
+  "champs_attendus": 38,
+  "ecart_construction_elno": 0.0,
+  "correspondance": {
+   "EV_AC_DY": {
+    "maillage_origine": "EV_AC_DY__DEPL",
+    "support_commun": "E_EV_AC_DY__DEPL",
+    "titre": "AC le plus défavorable en |DY|",
+    "source": "AC_PF_YM_+Z",
+    "choisi_par": "|DY| = 32.317 mm en PF_bout_YM"
+   },
+   "EV_ACA_DY": {
+    "maillage_origine": "EV_ACA_DY__DEPL",
+    "support_commun": "E_EV_ACA_DY__DEPL",
+    "titre": "ACA le plus défavorable en |DY|",
+    "source": "ACA_PF_YM_+Z",
+    "choisi_par": "|DY| = 61.884 mm en PF_bout_YM"
+   },
+   "EV_AML_DY": {
+    "maillage_origine": "EV_AML_DY__DEPL",
+    "support_commun": "E_EV_AML_DY__DEPL",
+    "titre": "AML le plus défavorable en |DY|",
+    "source": "AML_TQ10_YP_PERP",
+    "choisi_par": "|DY| = 21.142 mm en PF_bout_YM"
+   },
+   "EV_AMF_DY": {
+    "maillage_origine": "EV_AMF_DY__DEPL",
+    "support_commun": "E_EV_AMF_DY__DEPL",
+    "titre": "AMF le plus défavorable en |DY|",
+    "source": "AMF_TQ10_YP_PERP",
+    "choisi_par": "|DY| = 37.672 mm en PF_bout_YM"
+   },
+   "EV_AM1_PX": {
+    "maillage_origine": "EV_AM1_PX__DEPL",
+    "support_commun": "E_EV_AM1_PX__DEPL",
+    "titre": "AM1_+X",
+    "source": "AM1_+X",
+    "choisi_par": "imposé par la consigne"
+   },
+   "EV_AM2_YP": {
+    "maillage_origine": "EV_AM2_YP__DEPL",
+    "support_commun": "E_EV_AM2_YP__DEPL",
+    "titre": "AM2_YP",
+    "source": "AM2_YP",
+    "choisi_par": "imposé par la consigne"
+   },
+   "CO_ELSC_DY": {
+    "maillage_origine": "CO_ELSC_DY__DEPL",
+    "support_commun": "E_CO_ELSC_DY__DEPL",
+    "titre": "max |DY| ELS caractéristique",
+    "source": "ELS_caracteristique: G_DEJ_100×1 + AML_TQ10_YP_PERP×1 + TM×0.6 + AC_PF_YM_+Z×1 + QD[M4+M5]×0.77",
+    "choisi_par": "DY = 55.994 mm en PF_bout_YM"
+   },
+   "CO_ELSC_DX_HT": {
+    "maillage_origine": "CO_ELSC_DX_HT__DEPL",
+    "support_commun": "E_CO_ELSC_DX_HT__DEPL",
+    "titre": "max |DX| ELS caractéristique hors thermique",
+    "source": "ELS_caracteristique: G_DEJ_100×1 + Q[M0+M1+M2+M3+M4]×1 + AM1_+X×0.77 + AC_PF_YP_+X×1",
+    "choisi_par": "DX = 31.832 mm en P5C2_YP_axe"
+   },
+   "CO_ELSF_DY": {
+    "maillage_origine": "CO_ELSF_DY__DEPL",
+    "support_commun": "E_CO_ELSF_DY__DEPL",
+    "titre": "max |DY| ELS fréquent",
+    "source": "ELS_frequent: G×1 + AC_PF_YP_+Z×0.5 + TP×0.5 + AML_TQ10_YM_PERP×0.2 + QD[M0+M1+M2+M3]×0.2",
+    "choisi_par": "DY = -21.638 mm en PF_bout_YM"
+   },
+   "CO_ELUA_DY": {
+    "maillage_origine": "CO_ELUA_DY__DEPL",
+    "support_commun": "E_CO_ELUA_DY__DEPL",
+    "titre": "max |DY| ELU accidentel",
+    "source": "ELU_accidentel: G_DEJ_100×1 + ACA_PF_YM_+Z×1 + AML_TQ10_YP_PERP×0.77 + TM×0.5 + QD[M4+M5]×0.2",
+    "choisi_par": "DY = 79.081 mm en PF_bout_YM"
+   }
+  },
+  "duree_s": 4.136249029979808,
+  "reussi": true
+ },
+ "controle_vues": {
+  "vue A": {
+   "amplification": 10,
+   "pic_mm": 56.869047818304196,
+   "palees_mm": {
+    "P1": {
+     "tablier": -0.5124813701298001,
+     "tete": -0.44248939154139943
+    },
+    "P2": {
+     "tablier": 0.5355304482919943,
+     "tete": -0.40900262916874586
+    },
+    "P3": {
+     "tablier": 6.389353371616149,
+     "tete": 5.115102307492619
+    },
+    "P4": {
+     "tablier": 23.22546760289966,
+     "tete": 20.464050392900926
+    },
+    "P5": {
+     "tablier": 48.83951264464447,
+     "tete": 43.672361414013466
+    }
+   },
+   "porte_a_faux_mm": 55.9944746077053
+  },
+  "vue B": {
+   "amplification": 10,
+   "pic_mm": 80.14949041128787,
+   "palees_mm": {
+    "P1": {
+     "tablier": -0.7748801179105286,
+     "tete": -0.668922651983432
+    },
+    "P2": {
+     "tablier": -1.0297189025021989,
+     "tete": -0.9201819087972302
+    },
+    "P3": {
+     "tablier": 6.5766261960145505,
+     "tete": 5.3926820909059145
+    },
+    "P4": {
+     "tablier": 28.3991181079006,
+     "tete": 25.17955828031562
+    },
+    "P5": {
+     "tablier": 67.23257928494456,
+     "tete": 60.13898173821405
+    }
+   },
+   "porte_a_faux_mm": 79.08130872087158
+  },
+  "vue C": {
+   "amplification": 25,
+   "pic_mm": 31.688237108860992,
+   "palees_mm": {
+    "P1": {
+     "tablier": 4.823999754391168,
+     "tete": 0.17602651437912042
+    },
+    "P2": {
+     "tablier": 12.621239920062493,
+     "tete": -0.22998716501849228
+    },
+    "P3": {
+     "tablier": 19.80010234612591,
+     "tete": -0.5736322827611338
+    },
+    "P4": {
+     "tablier": 26.436386511918368,
+     "tete": -1.289324474211072
+    },
+    "P5": {
+     "tablier": 31.832265078519363,
+     "tete": -7.060564293015287
+    }
+   },
+   "porte_a_faux_mm": 31.688237108860992
+  },
+  "paravis": [
+   "B52_paravis_CO_ELSC_DX_HT_famille.png",
+   "B52_paravis_CO_ELSC_DY_DY.png"
+  ],
+  "png": {
+   "B52_paravis_CO_ELSC_DX_HT_famille.png": {
+    "octets": 61556,
+    "largeur": 1920,
+    "hauteur": 1080,
+    "conforme": true
+   },
+   "B52_paravis_CO_ELSC_DY_DY.png": {
+    "octets": 110777,
+    "largeur": 1920,
+    "hauteur": 1080,
+    "conforme": true
+   },
+   "B52_vueA_plan_deformee_DY_ELS_c.png": {
+    "octets": 288595,
+    "largeur": 1920,
+    "hauteur": 1080,
+    "conforme": true
+   },
+   "B52_vueB_plan_deformee_DY_ELU_acc.png": {
+    "octets": 289944,
+    "largeur": 1920,
+    "hauteur": 1080,
+    "conforme": true
+   },
+   "B52_vueC_elevation_deformee_DX_ELS_c_hors_T.png": {
+    "octets": 197834,
+    "largeur": 1920,
+    "hauteur": 1080,
+    "conforme": true
+   }
+  },
+  "reussi": true
+ }
+}

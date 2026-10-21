@@ -89,3 +89,65 @@ Toute autre issue des critères 1 à 8 est un échec, rapporté tel quel : pas d
   déplacements des nœuds, amplification écrite sur la vue.
 
 ## 3. Exécution (après le commit du critère)
+
+Commit du critère : `dbf6cc7` (21/10/2026), avant toute exécution du post-traitement. Commande :
+`PYTHONPATH=projets .venv/bin/python projets/pontons_alu_01/scripts/lot53.py tout` (étapes `exports`,
+`verifier`, `med`, `vues`, `references`, `depot`), 73 s, dont 13,5 s de lecture des tables. Aucune
+exécution Code_Aster. Listing versionné : `projets/pontons_alu_01/references/post_traitement_lot53/`
+(`synthese_lot53.json`, `deplacements_synthese.csv`, `deplacements_evenements.csv`,
+`verification_evenements.txt`).
+
+### Correction des hypothèses (21/10/2026, après la première lecture des événements)
+
+Le § 2 annonce « AM (AML 120, …), AMF (120) ». Les règles du lot 52 comptent **60** événements AML et
+**60** AMF (10 taquets × 2 rives × 3 sens : ⊥, +X, −X), donc AM = 64. Le dénombrement n'entre dans aucun
+critère ; le texte du § 2 n'est pas modifié.
+
+## 4. Résultats
+
+| # | Grandeur | Obtenu | Verdict |
+| --- | --- | --- | --- |
+| 1 | Empreintes | `.comm` de l'exécution et du lot 52 : `bd8663c6…` ; maillage `2cc66b5d…` ; identiques à `etat.json` et aux en-têtes des CSV | réussi |
+| 2 | Relecture de 5 cas (ACX_T1D_YP, ACX_T5M_YP, ACZ_T3F_YP, ACZ_T4D_YP, TM) | réactions, efforts, DEPL : écart relatif 0,0 | réussi |
+| 3 | DX de l'axe de C2 de P5 sous TP | 41,093778 mm (YM et YP), écart 0,0 avec `deplacements_axes.csv` | réussi |
+| 4 | Linéarité, lecteur indépendant (AC_PT1_YM_+Z, AMF_TQ5_YP_PERP, AMF_TQ9_YP_PERP) | écart ≤ 3,6·10⁻¹⁵ mm (6, 28 et 47 extrêmes nommés) ; 694 lignes encadrées par événement | réussi |
+| 5 | Enveloppes contre l'énumération explicite, 12 tirages | écart relatif ≤ 2,8·10⁻¹⁵ ; combinaisons gouvernantes réévaluées égales | réussi |
+| 6 | Liaisons : DY relatif côté YP ; DZ relatif | ≤ 2,7·10⁻¹⁶ et 1,4·10⁻¹⁶ × max \|u\| | réussi |
+| 7 | MED `resultats_deplacements_lot53.med` | MED 3.3 ; 18 champs du lot 52 conservés, écart 0 ; 20 champs nouveaux, écart de relecture 0 ; ELNO = nœud d'origine, écart 0 ; aux points nodaux, écart 0 | réussi |
+| 8 | PNG | 5 PNG de 1 920 × 1 080, non vides ; vues A, B et C regardées | réussi |
+
+**Ordre de grandeur (sans seuil).** ACN_PT5_YM (1 kN) : P5 reprend 695,8 N en Y (somme des ressorts de
+sa semelle), le reste allant aux autres palées et à la culée par le tablier. Estimation :
+695,8 N × 1,102 mm/kN = **0,767 mm** (balancement de la semelle 0,942, translation 0,148, piles
+0,012 mm/kN) ; modèle, moyenne des 4 têtes : **0,770 mm**, rapport 1,004. L'écart de 0,4 % tient aux
+termes négligés à la main (raccourcissement axial des piles, souplesse de l'anneau et des chevêtres,
+répartition discrète des ressorts) ; la tête de P5 se déplace surtout par le balancement de la semelle
+sur le sol (k_n = 5 MN/m³).
+
+## 5. Verdict
+
+Critères 1 à 8 : **réussis**. Niveau des résultats : D (celui du lot 52, harnais 221/221), inchangé :
+le lot ne fait que relire et combiner linéairement des tables déjà contrôlées.
+
+## 6. Lecture
+
+- Faits : les plus grands déplacements sont au bout du porte-à-faux et à P5. DY : 79,1 mm (ELU
+  accidentel, ACA_PF_YM_+Z), 56,0 mm (ELS caractéristique) ; DX : 70,9 mm à l'ELS caractéristique
+  avec TP, 31,8 mm hors thermique à l'axe de P5.
+- Fait : DX hors thermique de l'axe de C2 de P5 (31,8 mm) se décompose en Q 14,6, AM 9,4, G et DEJ
+  4,0, AC 3,9 mm. Déduction, non isolée par un calcul : la part de G et de Q vient de la rotation
+  des abouts des poutres sous charge verticale, l'axe (+1,175) étant sous l'axe neutre (+1,30), cumulée
+  de la culée (seul point fixe en X) à P5.
+- Fait : le jeu relatif en Y côté YM (libre) reste de 1,6 à 3,1 mm, quand le tablier se déplace de
+  10 à 68 mm : le chevêtre suit le tablier par le côté YP guidé ; l'extrême est à l'ELS caractéristique
+  (T × 1,0 en tête ou 0,6 en accompagnement) plus qu'à l'ELU accidentel (T × 0,5). Déduction : c'est la
+  dilatation transversale du tablier qui le gouverne.
+
+## 7. Limites
+
+- Points sur les nœuds du modèle filaire ; centre de semelle interpolé (aucun nœud) ; semelles non
+  dessinées sur les vues (coques).
+- « Hors T » et « variables seules » : actions mises à zéro dans les règles du lot 52, pas de règles
+  nouvelles.
+- Aucune vérification EC9, béton armé ni appareil d'appui ; aucun ancrage ; aucune limite de
+  déplacement n'est comparée (aucune n'est donnée par la consigne).

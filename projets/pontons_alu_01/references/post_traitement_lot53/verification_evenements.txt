@@ -1,0 +1,5 @@
+AC_PT1_YM_+Z : 6 extrêmes nommés, écart max 4.441e-16 mm (tolérance 3.141e-09) ; 694 lignes encadrées
+AMF_TQ5_YP_PERP : 28 extrêmes nommés, écart max 1.776e-15 mm (tolérance 1.157e-08) ; 694 lignes encadrées
+AMF_TQ9_YP_PERP : 47 extrêmes nommés, écart max 3.553e-15 mm (tolérance 2.498e-08) ; 694 lignes encadrées
+événements tirés : AC_PT1_YM_+Z, AMF_TQ5_YP_PERP, AMF_TQ9_YP_PERP
+RÉUSSI

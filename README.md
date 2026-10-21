@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 52 (2026-10-19), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 53 (2026-10-21), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 68 faits sur 70 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 52, Pontons aluminium : géométrie PRO (P62 à P66) : houle maintenue dans le critère de flèche, poutres 200 × 200 × 12, pannes 50 × 50 × 5 (sensibilité × 4), montants et diagonales 120 × 120 × 6 sous les pannes (axe +1,29, liaisons rigides 0,01 et 0,085 m, diagonales soudées sur les montants à e = 0,25 m), axe des appuis à +1,175 ; trois variantes (B52, A52, B52P4) à FIN, harnais D 221/221 ; géométrie des nœuds sans recouvrement, zone de soudure 180 mm ; recombinaison P60/P61 ; extrêmes par famille et tronçons de montant ; comparaison avec B12 du lot 51 quater ; MED de B52 avec support commun ELNO (déformée colorée par effort) ; vues 1 à 9.
+Lots : 69 faits sur 71 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 53, Pontons aluminium : déplacements DX, DY, DZ de B52 sous accostage (AC, ACA) et amarrage (AML, AM1, AM2, AMF) par relecture des tables du lot 52, sans nouvelle exécution : 99 points de sortie (axes, chevêtres, déplacement relatif tablier/chevêtre, mi-travées, porte-à-faux, têtes de piles, semelles, culée), cas unitaires, extrêmes par événement caractéristique, extrêmes combinés ELS caractéristique, ELS fréquent, ELU accidentel (total, hors T, variables seules avec et sans T), synthèse par palée ; 20 champs DEPL ajoutés à une copie de resultats.med (maillage d'origine et support ELNO) ; vues A, B, C ; script ParaVis.
 
 Capacités :
 
