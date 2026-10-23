@@ -110,6 +110,13 @@ class Values51ter:
     t_minus: float
     ta_plus: float
     ta_minus: float
+    cap_b: float | None = None
+    """Width of the cap beams along X when it differs from that of the ties (lot 54,
+    P68); None: the ring width `ring_b` (lots 51 ter and 52)."""
+
+    @property
+    def cap_width(self) -> float:
+        return self.ring_b if self.cap_b is None else self.cap_b
 
 
 def values(
@@ -307,7 +314,8 @@ def concrete_volumes_by_pier(
             math.dist(a, b) for a, b, _ in corners if inside(a[0]) and inside(b[0])
         )
         out[f.pier] = {
-            "CHEVETRES": ring
+            "CHEVETRES": v.cap_width
+            * v.ring_h
             * sum(m.length for m in g.family("CHEVETRES") if m.span == f.pier),
             "LONGRINES": ring
             * (
@@ -489,9 +497,14 @@ def build_comm(  # noqa: PLR0915 -- un .comm écrit d'un trait, section par sect
             for f, h in zip(g.footings, variant.pile_heights, strict=True)
         )
     )
+    ring_text = (
+        f"anneau {v.ring_b} × {v.ring_h} m"
+        if v.cap_width == v.ring_b
+        else f"chevêtres {v.cap_width} × {v.ring_h} m (P68), longrines {v.ring_b} × {v.ring_h} m"
+    )
     w(
         f"#   poutres principales tube {variant.beam_label} mm, pannes et panne de rive tube {variant.purlin_label} mm ;"
-        f" anneau {v.ring_b} × {v.ring_h} m ; piles Ø {v.pile_d} m, 4 têtes encastrées par palée (P46)"
+        f" {ring_text} ; piles Ø {v.pile_d} m, 4 têtes encastrées par palée (P46)"
     )
     w(
         f"#   semelles {p['COTE_SEMELLE']:.2f} × {p['COTE_SEMELLE']:.2f} × {v.footing_t} m (P48) ; sol kn = {v.kn:.4g} N/m³,"
@@ -585,9 +598,18 @@ def build_comm(  # noqa: PLR0915 -- un .comm écrit d'un trait, section par sect
     w(
         f'        _F(GROUP_MA=("PANNES_SEC", "PANNE_RIVE"), SECTION="RECTANGLE", CARA=("H", "EP"), VALE=({_r(v.purlin_side)}, {_r(v.purlin_thickness)})),'
     )
-    w(
-        f'        _F(GROUP_MA=("CHEVETRES", "LONGRINES"), SECTION="RECTANGLE", CARA=("HY", "HZ"), VALE=({_r(v.ring_b)}, {_r(v.ring_h)})),'
-    )
+    if v.cap_width == v.ring_b:
+        w(
+            f'        _F(GROUP_MA=("CHEVETRES", "LONGRINES"), SECTION="RECTANGLE", CARA=("HY", "HZ"), VALE=({_r(v.ring_b)}, {_r(v.ring_h)})),'
+        )
+    else:
+        # Lot 54 (P68) : HY selon X pour un chevêtre (axe local x = +Y, z = +Z).
+        w(
+            f'        _F(GROUP_MA="CHEVETRES", SECTION="RECTANGLE", CARA=("HY", "HZ"), VALE=({_r(v.cap_width)}, {_r(v.ring_h)})),'
+        )
+        w(
+            f'        _F(GROUP_MA="LONGRINES", SECTION="RECTANGLE", CARA=("HY", "HZ"), VALE=({_r(v.ring_b)}, {_r(v.ring_h)})),'
+        )
     w(
         f'        _F(GROUP_MA="PILES", SECTION="CERCLE", CARA=("R",), VALE=({_r(v.pile_d / 2.0)},)),'
     )
@@ -690,9 +712,18 @@ def build_comm(  # noqa: PLR0915 -- un .comm écrit d'un trait, section par sect
     w("CDEJ = AFFE_CHAR_MECA(")
     w("    MODELE=MODELE,")
     w("    FORCE_POUTRE=(")
-    w(
-        f'        _F(GROUP_MA=("CHEVETRES", "LONGRINES_COURANT"), FZ={_r(v.gamma_water * ring_area)}),  # {v.ring_b} × {v.ring_h} m'
-    )
+    if v.cap_width == v.ring_b:
+        w(
+            f'        _F(GROUP_MA=("CHEVETRES", "LONGRINES_COURANT"), FZ={_r(v.gamma_water * ring_area)}),  # {v.ring_b} × {v.ring_h} m'
+        )
+    else:
+        cap_area = v.cap_width * v.ring_h
+        w(
+            f'        _F(GROUP_MA="CHEVETRES", FZ={_r(v.gamma_water * cap_area)}),  # {v.cap_width} × {v.ring_h} m (P68)'
+        )
+        w(
+            f'        _F(GROUP_MA="LONGRINES_COURANT", FZ={_r(v.gamma_water * ring_area)}),  # {v.ring_b} × {v.ring_h} m'
+        )
     w(
         f'        _F(GROUP_MA="PILES", FZ={_r(v.gamma_water * pile_area)}),  # Ø {v.pile_d} m'
     )

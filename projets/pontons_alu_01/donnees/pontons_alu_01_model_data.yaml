@@ -216,3 +216,18 @@ groups:
       {status: fourni, value: 1.01, unit: "kPa", source: {kind: decision, point_label: "P60"}, comment: "Événement HD (caractéristique) : retard de vidange, 0,10 m d'eau sur le platelage, cas HD_TABLIER. HU_F inchangé (houle_lot51ter.huf_*)."}
     p_impact:
       {status: fourni, value: 5.9, unit: "kPa", source: {kind: decision, point_label: "P61"}, comment: "Pression d'impact quasi statique DAF × ½ ρ Cs w² ; événements HU_IMP_Mk = p_impact × (HU_TUBES_Mk + HU_PANNES_Mk + HU_PLATELAGE_Mk), un module à la fois."}
+  houle_lot54:
+    hu_tubes:
+      {status: fourni, value: 5.0, unit: "kPa", source: {kind: decision, point_label: "P69"}, comment: "Événement HU (caractéristique), forfait de 5 kPa justifié par les études GEOMER (zone 2, McConnell 4,0 à 5,0 kPa), cas HU_TUBES."}
+    hu_pannes:
+      {status: fourni, value: 5.0, unit: "kPa", source: {kind: decision, point_label: "P69"}, comment: "Événement HU, cas HU_PANNES."}
+    hu_platelage:
+      {status: fourni, value: 5.0, unit: "kPa", source: {kind: decision, point_label: "P69"}, comment: "Événement HU, cas HU_PLATELAGE."}
+    hd_tablier:
+      {status: fourni, value: 5.0, unit: "kPa", source: {kind: decision, point_label: "P69"}, comment: "Événement HD (caractéristique), cas HD_TABLIER."}
+    huf_tubes:
+      {status: fourni, value: 2.728, unit: "kPa", source: {kind: decision, point_label: "P69"}, comment: "Événement HU_F (ELS fréquent, valeur majorante : la houle fréquente n'atteint pas le tablier), cas HU_TUBES."}
+    huf_pannes:
+      {status: fourni, value: 2.516, unit: "kPa", source: {kind: decision, point_label: "P69"}, comment: "Événement HU_F, cas HU_PANNES."}
+    huf_platelage:
+      {status: fourni, value: 2.425, unit: "kPa", source: {kind: decision, point_label: "P69"}, comment: "Événement HU_F, cas HU_PLATELAGE. Aucun impact (P61 annulée par P69)."}

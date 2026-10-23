@@ -1320,28 +1320,57 @@
       "point_label": "P43",
       "topic": "Section des poutres BA de l'anneau",
       "options_considered": [],
-      "option_retained": "- **P43** : section des poutres BA de l'anneau (chevêtres et longrines) portée à **0,40 × 0,40**. La section 0,25 × 0,40 est écartée sans calcul, décision de MM. Motifs, établis par le superviseur à la main : - assise de la platine et des tiges d'ancrage du profilé support, avec des distances aux bords compatibles avec la NF EN 1992-4 ; - reprise de la traction des ancrages anti-soulèvement ; - torsion des chevêtres sous effort longitudinal des néoprènes, alors que la tête de pile est articulée ; - enrobage du goujon de tête de pile ; - poids propre favorable à la traction des piles.",
-      "justification": "Décision P43 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+      "option_retained": "**P68 — Chevêtres 0,60 × 0,40 prolongés, P43 et P48 révisées.**  - Section des chevêtres : **b = 0,60 m** (selon X) **× h = 0,40 m**. - Coulés en place, à section constante sur toute leur longueur. - La largeur de 0,60 m couvre la tête des piles Ø 0,50 sans surlargeur locale de coffrage. - Longrines inchangées : 0,40 × 0,40. - Chevêtres prolongés de **Y = ±1,05 à Y = ±1,20**, pour placer la fixation de l'appui à 0,15 m de l'about. - Axes inchangés : - chevêtres en X = 6,25 + 7,77 k et en X + 1,52 ; - arase +0,69, dessus +1,09. - Liaisons longrine–chevêtre, pieu–anneau et appuis : inchangées en principe. Les longueurs des liaisons rigides suivent la nouvelle géométrie. - Écartées : - anneau 0,40 × 0,40 de P43 et chevêtres de Y = −1,05 à +1,05 de P48 ; - anneau 0,50 × 0,50 (proposition du superviseur), refusé par MM ; - nœuds élargis 0,60 × 0,60 au droit des piles (proposition du superviseur), abandonnés pour la constructibilité.",
+      "justification": "Décision P43 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
       "discarded_variants": [
         {
-          "description": "Section 0,25 × 0,40 (P3)",
-          "reason": "écartée sans calcul par MM pour les motifs cités (P43)"
+          "description": "Anneau 0,40 × 0,40 pour les chevêtres (P43)",
+          "reason": "chevêtres 0,60 × 0,40 coulés en place, longrines 0,40 × 0,40 inchangées (P68)"
+        },
+        {
+          "description": "Anneau 0,50 × 0,50 (proposition du superviseur)",
+          "reason": "refusé par MM (P68)"
+        },
+        {
+          "description": "Nœuds élargis 0,60 × 0,60 au droit des piles (proposition du superviseur)",
+          "reason": "abandonnés pour la constructibilité (P68)"
         }
       ],
       "notes": null,
-      "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "arbitrage_mm",
-          "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P43",
-          "date": "2026-10-15"
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P43",
+          "date": "2026-10-23"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-10-15T09:00:00-04:00",
-      "decision_history": [],
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [
+        {
+          "option_retained": "- **P43** : section des poutres BA de l'anneau (chevêtres et longrines) portée à **0,40 × 0,40**. La section 0,25 × 0,40 est écartée sans calcul, décision de MM. Motifs, établis par le superviseur à la main : - assise de la platine et des tiges d'ancrage du profilé support, avec des distances aux bords compatibles avec la NF EN 1992-4 ; - reprise de la traction des ancrages anti-soulèvement ; - torsion des chevêtres sous effort longitudinal des néoprènes, alors que la tête de pile est articulée ; - enrobage du goujon de tête de pile ; - poids propre favorable à la traction des piles.",
+          "justification": "Décision P43 de MM, recopiée à l'identique (sources/consigne_lot51.md).",
+          "validity_domain": "Calcul linéaire de la palée complète et des trois travées de PONTONS-ALU-01 (lot 51), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+          "sources": [
+            {
+              "origin": "arbitrage_mm",
+              "reference": "consigne_lot51 (donnees/sources/consigne_lot51.md), P43",
+              "date": "2026-10-15"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Section 0,25 × 0,40 (P3)",
+              "reason": "écartée sans calcul par MM pour les motifs cités (P43)"
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-10-15T09:00:00-04:00"
+        }
+      ],
       "revision_history": []
     },
     {
@@ -1586,32 +1615,53 @@
       "point_label": "P48",
       "topic": "Géométrie des palées",
       "options_considered": [],
-      "option_retained": "- **P48 — Géométrie des palées.** - **Piles et entraxes** : **ceux du lot 51**, décision de MM. Piles Ø 0,50 m, en (6,25 ; ±0,75) et (7,77 ; ±0,75), donc petite travée de 1,52 m. - **Semelle**, d'après le diagnostic (annexe 2) : béton grossier **non armé**, carrée 2,60 × 2,60 m, épaisseur 0,20 m, centrée sur les piles (X = 7,01), sur RIGI_PARASOL (5 000 et 1 000 kN/m³). Aucun ancrage dans le sol. Par rapport au lot 51 (2,52 × 2,90 × 0,25 m), elle pèse environ 7 kN de moins une fois déjaugée : le signaler dans le compte rendu. - **Anneau BA** : chevêtres et longrines de 0,40 m de large, de hauteur h variable (§1). Chevêtres de Y = −1,05 à +1,05.",
-      "justification": "Décision P48 de MM, recopiée à l'identique (sources/consigne_lot51bis.md).",
+      "option_retained": "**P68 — Chevêtres 0,60 × 0,40 prolongés, P43 et P48 révisées.**  - Section des chevêtres : **b = 0,60 m** (selon X) **× h = 0,40 m**. - Coulés en place, à section constante sur toute leur longueur. - La largeur de 0,60 m couvre la tête des piles Ø 0,50 sans surlargeur locale de coffrage. - Longrines inchangées : 0,40 × 0,40. - Chevêtres prolongés de **Y = ±1,05 à Y = ±1,20**, pour placer la fixation de l'appui à 0,15 m de l'about. - Axes inchangés : - chevêtres en X = 6,25 + 7,77 k et en X + 1,52 ; - arase +0,69, dessus +1,09. - Liaisons longrine–chevêtre, pieu–anneau et appuis : inchangées en principe. Les longueurs des liaisons rigides suivent la nouvelle géométrie. - Écartées : - anneau 0,40 × 0,40 de P43 et chevêtres de Y = −1,05 à +1,05 de P48 ; - anneau 0,50 × 0,50 (proposition du superviseur), refusé par MM ; - nœuds élargis 0,60 × 0,60 au droit des piles (proposition du superviseur), abandonnés pour la constructibilité.",
+      "justification": "Décision P48 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
       "discarded_variants": [
         {
-          "description": "Semelle du lot 51 (2,52 × 2,90 × 0,25 m)",
-          "reason": "semelle du diagnostic Sixense A25 13959, 2,60 × 2,60 × 0,20 m, non armée (P48)"
-        },
-        {
-          "description": "Anneau de hauteur unique 0,40 m (P43)",
-          "reason": "hauteur h de 0,40 ou 0,80 m selon la variante (P48, consigne § 1)"
+          "description": "Chevêtres de Y = −1,05 à +1,05 (P48)",
+          "reason": "chevêtres prolongés à Y = ±1,20, fixation de l'appui à 0,15 m de l'about (P68)"
         }
       ],
       "notes": "Variantes de la consigne § 1 (H40C, H40P, H80C, H80P, H80C-S3) : variantes_lot51bis.yaml.",
-      "validity_domain": "Calcul linéaire des palées types et des trois travées de PONTONS-ALU-01 (lot 51 bis), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "arbitrage_mm",
-          "reference": "consigne_lot51bis (donnees/sources/consigne_lot51bis.md), P48",
-          "date": "2026-10-15"
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P48",
+          "date": "2026-10-23"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-10-15T13:00:00-04:00",
-      "decision_history": [],
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [
+        {
+          "option_retained": "- **P48 — Géométrie des palées.** - **Piles et entraxes** : **ceux du lot 51**, décision de MM. Piles Ø 0,50 m, en (6,25 ; ±0,75) et (7,77 ; ±0,75), donc petite travée de 1,52 m. - **Semelle**, d'après le diagnostic (annexe 2) : béton grossier **non armé**, carrée 2,60 × 2,60 m, épaisseur 0,20 m, centrée sur les piles (X = 7,01), sur RIGI_PARASOL (5 000 et 1 000 kN/m³). Aucun ancrage dans le sol. Par rapport au lot 51 (2,52 × 2,90 × 0,25 m), elle pèse environ 7 kN de moins une fois déjaugée : le signaler dans le compte rendu. - **Anneau BA** : chevêtres et longrines de 0,40 m de large, de hauteur h variable (§1). Chevêtres de Y = −1,05 à +1,05.",
+          "justification": "Décision P48 de MM, recopiée à l'identique (sources/consigne_lot51bis.md).",
+          "validity_domain": "Calcul linéaire des palées types et des trois travées de PONTONS-ALU-01 (lot 51 bis), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+          "sources": [
+            {
+              "origin": "arbitrage_mm",
+              "reference": "consigne_lot51bis (donnees/sources/consigne_lot51bis.md), P48",
+              "date": "2026-10-15"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Semelle du lot 51 (2,52 × 2,90 × 0,25 m)",
+              "reason": "semelle du diagnostic Sixense A25 13959, 2,60 × 2,60 × 0,20 m, non armée (P48)"
+            },
+            {
+              "description": "Anneau de hauteur unique 0,40 m (P43)",
+              "reason": "hauteur h de 0,40 ou 0,80 m selon la variante (P48, consigne § 1)"
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-10-15T13:00:00-04:00"
+        }
+      ],
       "revision_history": []
     },
     {
@@ -1917,27 +1967,27 @@
       "point_label": "P56",
       "topic": "Houle par surfaces et par état limite",
       "options_considered": [],
-      "option_retained": "**P60 — Houle « tablier noyé », P56 révisée.** Les cas unitaires et les règles de combinaison de P56 sont conservés. Seuls les coefficients changent.",
-      "justification": "Décision P56 de MM, recopiée à l'identique (sources/consigne_lot51quater.md).",
+      "option_retained": "**P69 — Houle de projet : forfait de 5 kPa, justifié par les études GEOMER, P56 et P60 révisées, P61 annulée.**  - Les cas unitaires de 1 kPa par surface et par module de P56 sont conservés. Seuls les événements changent : - HU = 5,0 × (HU_TUBES + HU_PANNES + HU_PLATELAGE) ; - HD = 5,0 × HD_TABLIER ; - HU_F = 2,728 × HU_TUBES + 2,516 × HU_PANNES + 2,425 × HU_PLATELAGE, à l'ELS fréquent. Valeurs majorantes : la houle fréquente n'atteint pas le tablier. - **Aucun impact** : P61 est annulée. Les événements HU_IMP_Mk et leurs options sont retirés des combinaisons. - **P62 révisée** : la houle reste dans le critère de flèche. HU et HD entrent dans l'ELS caractéristique ; HU_IMP n'existe plus. - Justification : - donnée d'entrée principale : houle mesurée à Cap Couronne (GEOMER, 1996), transmise en zone 2 avec Kt = 0,10. Kt est commun au modèle physique GEOMER de 1995 et à l'étude MS414803 ; - les pannes A et B sont en **zone 2** GEOMER ; - le calcul McConnell sur cette houle donne 4,0 à 5,0 kPa en sous-pression et au plus 2,9 kPa en surpression. - Écartées : - coefficients « tablier noyé » de P60 ; - estimation à 11 kPa (houle au large ANEMOC + McConnell), qui n'apparaît que pour mémoire dans la note d'hypothèses ; - impacts de P61. - Toutes les autres règles de combinaison sont inchangées : P49, P57 et P59. - Nouveau groupe `houle_lot54` dans le fichier de données, avec les valeurs ci-dessus.",
+      "justification": "Décision P56 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
       "discarded_variants": [
         {
-          "description": "Coefficients P56 (HU 14,49 / 12,99 / 12,48 kPa ; HD 12,03 kPa), dessus du tablier supposé sec alors que la crête le dépasse d'environ 1,2 m",
-          "reason": "borne non physique pour un tablier de 2 m ajouré à tubes drainés ; modèle du tablier noyé (P60)"
+          "description": "Coefficients « tablier noyé » de P60",
+          "reason": "forfait de 5 kPa sur les trois cas de sous-face et sur HD_TABLIER, HU_F majorant (P69)"
         }
       ],
       "notes": "Classeur donnees/sources/pontons_niveaux_eau_houle_v2.xlsx (copie du partage « Claude outputs », 16/10/2026, sha256 43d4a4ca…) ; coefficients dans le groupe houle_lot51ter du fichier de données.",
-      "validity_domain": "Recombinaison des cas unitaires du lot 51 ter de PONTONS-ALU-01 (lot 51 quater, calcul linéaire, aucune réexécution pour les résultats), telle que MM l'a décidée ; hors de ce calcul, la décision n'est pas établie.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "arbitrage_mm",
-          "reference": "consigne_lot51quater (donnees/sources/consigne_lot51quater.md), P56",
-          "date": "2026-10-16"
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P56",
+          "date": "2026-10-23"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-10-16T12:00:00-04:00",
+      "decided_at": "2026-10-23T03:50:00-04:00",
       "decision_history": [
         {
           "option_retained": "**P56 — Houle par surfaces et par état limite.**  - Référentiel unique : `pontons_niveaux_eau_houle_v2.xlsx`, à copier dans `donnees/sources/`. - 0 m CM = −0,329 m NGF. - Caractéristique = période de retour 50 ans (EN 1990).  Les cas HU et HD du lot 51 bis sont **remplacés** par quatre cas unitaires de 1 kPa, appliqués sur **toute la longueur** du tablier (porte-à-faux compris) :  | Cas | Surface | Largeur chargée | Application | Sens | |---|---|---|---|---| | HU_TUBES | sous-face des 2 poutres principales | 0,20 m chacune | ligne sur chaque poutre | haut | | HU_PANNES | sous-face des 4 pannes | 0,05 m chacune | ligne sur chaque panne | haut | | HU_PLATELAGE | sous-face des planches, joints déduits | 1,327 m au total | réparti entre pannes et poutres par largeurs tributaires (comme G2) | haut | | HD_TABLIER | dessus du platelage | 1,895 m | idem G2 | bas |  **Coefficients uniformes sur toute la longueur.** Les pressions ont été recalculées par plate-forme, avec les fonds réels (voir P58) et la méthode du classeur :  - de P2 à P5, sur les deux pannes, la houle n'est pas limitée par la profondeur : valeurs P5 (à 1 % près pour P2 de la panne B) ; - les plates-formes P1 des pannes A et B sont limitées par la profondeur. Leur scénario gouvernant est niveau 50 ans + Hs 5 ans, soit 13,55 kPa au lieu de 14,49 kPa sur les tubes (−6,5 %).  On retient donc les valeurs P5 partout (enveloppe, sans découpage en zones). Coefficients sans γ :  | Événement | HU_TUBES | HU_PANNES | HU_PLATELAGE | HD_TABLIER | Scénario | |---|---|---|---|---|---| | HU (caractéristique) | 14,49 | 12,99 | 12,48 | — | niveau 5 ans + Hs 50 ans | | HD (caractéristique) | — | — | — | 12,03 | idem | | HU_F (fréquent) | 2,36 | 0,85 | 0,35 | — | PHMA 2050 + Hs 1 an |  La houle est **en phase sur toute la longueur**. C'est une borne haute pour les efforts globaux, retenue volontairement.  Règles de combinaison pour la houle (le reste du jeu B′ est inchangé) :  - **ELU fondamental** : HU ou HD × 1,5 en dominante, × 1,5 × 0,77 en accompagnement. - **ELU accidentel** : HU ou HD × 0,77 en accompagnement, comme au lot 51 bis. - **ELS caractéristique** : HU ou HD × 1,0 en dominante, × 0,77 en accompagnement. - **ELS fréquent** : en dominante, l'événement HU_F × 1,0 remplace ψ1·HU ; en accompagnement, rien (ψ2 = 0). - **ELS quasi permanent** : pas de houle. La houle courante n'atteint pas le tablier.  Les cas sont unitaires et le calcul est linéaire. Si les pressions changent (méthode dédiée, autre scénario, découpage par zones), seuls les coefficients des événements changent, sans réexécution. Pour cela, conserver aussi les quatre cas unitaires **découpés par module** (suffixes `_Mk`, voir § Chargements) : leur somme doit égaler le cas total.",
@@ -1962,6 +2012,26 @@
           ],
           "decided_by": "MM",
           "decided_at": "2026-10-16T09:00:00-04:00"
+        },
+        {
+          "option_retained": "**P60 — Houle « tablier noyé », P56 révisée.** Les cas unitaires et les règles de combinaison de P56 sont conservés. Seuls les coefficients changent.",
+          "justification": "Décision P56 de MM, recopiée à l'identique (sources/consigne_lot51quater.md).",
+          "validity_domain": "Recombinaison des cas unitaires du lot 51 ter de PONTONS-ALU-01 (lot 51 quater, calcul linéaire, aucune réexécution pour les résultats), telle que MM l'a décidée ; hors de ce calcul, la décision n'est pas établie.",
+          "sources": [
+            {
+              "origin": "arbitrage_mm",
+              "reference": "consigne_lot51quater (donnees/sources/consigne_lot51quater.md), P56",
+              "date": "2026-10-16"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Coefficients P56 (HU 14,49 / 12,99 / 12,48 kPa ; HD 12,03 kPa), dessus du tablier supposé sec alors que la crête le dépasse d'environ 1,2 m",
+              "reason": "borne non physique pour un tablier de 2 m ajouré à tubes drainés ; modèle du tablier noyé (P60)"
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-10-16T12:00:00-04:00"
         }
       ],
       "revision_history": []
@@ -2122,92 +2192,159 @@
       "point_label": "P60",
       "topic": "Houle « tablier noyé »",
       "options_considered": [],
-      "option_retained": "**P60 — Houle « tablier noyé », P56 révisée.** Les cas unitaires et les règles de combinaison de P56 sont conservés. Seuls les coefficients changent.  Principe : quand la crête dépasse le dessus du platelage (+1,445), la pression s'équilibre de part et d'autre des surfaces. La sous-pression quasi statique nette est bornée par la hauteur immergée de chaque surface jusqu'au dessus du platelage, soit ρg × (1,445 − z_sous-face), avec ρg = 10,05 kN/m³. Elle est majorée d'un facteur 2 pour le retard de remplissage.  | Événement | HU_TUBES | HU_PANNES | HU_PLATELAGE | HD_TABLIER | |---|---|---|---|---| | HU (caractéristique), variantes 10 (pannes 50 × 50, sous-face +1,35) | 4,92 | 1,91 | 0,90 | — | | HU (caractéristique), variantes 12 (pannes 60 × 60, sous-face +1,34) | 4,92 | 2,11 | 0,90 | — | | HD (caractéristique) : retard de vidange, 0,10 m d'eau sur le platelage | — | — | — | 1,01 | | HU_F (fréquent) : inchangé, la crête fréquente +1,435 reste sous le dessus | 2,36 | 0,85 | 0,35 | — |  HU et HD restent appliqués sur toute la longueur, en phase.",
-      "justification": "Décision P60 de MM, recopiée à l'identique (sources/consigne_lot51quater.md).",
+      "option_retained": "**P69 — Houle de projet : forfait de 5 kPa, justifié par les études GEOMER, P56 et P60 révisées, P61 annulée.**  - Les cas unitaires de 1 kPa par surface et par module de P56 sont conservés. Seuls les événements changent : - HU = 5,0 × (HU_TUBES + HU_PANNES + HU_PLATELAGE) ; - HD = 5,0 × HD_TABLIER ; - HU_F = 2,728 × HU_TUBES + 2,516 × HU_PANNES + 2,425 × HU_PLATELAGE, à l'ELS fréquent. Valeurs majorantes : la houle fréquente n'atteint pas le tablier. - **Aucun impact** : P61 est annulée. Les événements HU_IMP_Mk et leurs options sont retirés des combinaisons. - **P62 révisée** : la houle reste dans le critère de flèche. HU et HD entrent dans l'ELS caractéristique ; HU_IMP n'existe plus. - Justification : - donnée d'entrée principale : houle mesurée à Cap Couronne (GEOMER, 1996), transmise en zone 2 avec Kt = 0,10. Kt est commun au modèle physique GEOMER de 1995 et à l'étude MS414803 ; - les pannes A et B sont en **zone 2** GEOMER ; - le calcul McConnell sur cette houle donne 4,0 à 5,0 kPa en sous-pression et au plus 2,9 kPa en surpression. - Écartées : - coefficients « tablier noyé » de P60 ; - estimation à 11 kPa (houle au large ANEMOC + McConnell), qui n'apparaît que pour mémoire dans la note d'hypothèses ; - impacts de P61. - Toutes les autres règles de combinaison sont inchangées : P49, P57 et P59. - Nouveau groupe `houle_lot54` dans le fichier de données, avec les valeurs ci-dessus.",
+      "justification": "Décision P60 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
       "discarded_variants": [
         {
-          "description": "Dessus du tablier sec sous la crête (P56, lot 51 ter : HU_TUBES 14,49, HU_PANNES 12,99, HU_PLATELAGE 12,48, HD_TABLIER 12,03 kPa)",
-          "reason": "sous-pression nette bornée par la hauteur immergée jusqu'au dessus du platelage, × 2 pour le retard de remplissage (P60)"
+          "description": "Coefficients « tablier noyé » (P60)",
+          "reason": "forfait de 5 kPa justifié par les études GEOMER (P69)"
         },
         {
-          "description": "Étude dynamique de la houle sur le tablier",
-          "reason": "reportée à un lot dédié (MM, lot 51 quater)"
+          "description": "Estimation à 11 kPa (houle au large ANEMOC + McConnell)",
+          "reason": "pour mémoire seulement dans la note d'hypothèses (P69)"
         }
       ],
       "notes": "Coefficients dans le groupe houle_lot51quater du fichier de données ; vérification : 2 × 10,05 × (1,445 − 1,20) = 4,92 ; 2 × 10,05 × (1,445 − 1,35) = 1,91 ; 2 × 10,05 × (1,445 − 1,34) = 2,11 ; 2 × 10,05 × (1,445 − 1,40) = 0,90 ; 10,05 × 0,10 = 1,01 (arrondi au centième supérieur). Le cas unitaire HU_PANNES garde 0,05 m par panne (P56) pour les variantes 12, dont les pannes ont 0,06 m de sous-face : écart signalé, non corrigé (aucun nouveau cas unitaire).",
-      "validity_domain": "Recombinaison des cas unitaires du lot 51 ter de PONTONS-ALU-01 (lot 51 quater, calcul linéaire, aucune réexécution pour les résultats), telle que MM l'a décidée ; hors de ce calcul, la décision n'est pas établie.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "arbitrage_mm",
-          "reference": "consigne_lot51quater (donnees/sources/consigne_lot51quater.md), P60",
-          "date": "2026-10-16"
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P60",
+          "date": "2026-10-23"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-10-16T12:00:00-04:00",
-      "decision_history": [],
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [
+        {
+          "option_retained": "**P60 — Houle « tablier noyé », P56 révisée.** Les cas unitaires et les règles de combinaison de P56 sont conservés. Seuls les coefficients changent.  Principe : quand la crête dépasse le dessus du platelage (+1,445), la pression s'équilibre de part et d'autre des surfaces. La sous-pression quasi statique nette est bornée par la hauteur immergée de chaque surface jusqu'au dessus du platelage, soit ρg × (1,445 − z_sous-face), avec ρg = 10,05 kN/m³. Elle est majorée d'un facteur 2 pour le retard de remplissage.  | Événement | HU_TUBES | HU_PANNES | HU_PLATELAGE | HD_TABLIER | |---|---|---|---|---| | HU (caractéristique), variantes 10 (pannes 50 × 50, sous-face +1,35) | 4,92 | 1,91 | 0,90 | — | | HU (caractéristique), variantes 12 (pannes 60 × 60, sous-face +1,34) | 4,92 | 2,11 | 0,90 | — | | HD (caractéristique) : retard de vidange, 0,10 m d'eau sur le platelage | — | — | — | 1,01 | | HU_F (fréquent) : inchangé, la crête fréquente +1,435 reste sous le dessus | 2,36 | 0,85 | 0,35 | — |  HU et HD restent appliqués sur toute la longueur, en phase.",
+          "justification": "Décision P60 de MM, recopiée à l'identique (sources/consigne_lot51quater.md).",
+          "validity_domain": "Recombinaison des cas unitaires du lot 51 ter de PONTONS-ALU-01 (lot 51 quater, calcul linéaire, aucune réexécution pour les résultats), telle que MM l'a décidée ; hors de ce calcul, la décision n'est pas établie.",
+          "sources": [
+            {
+              "origin": "arbitrage_mm",
+              "reference": "consigne_lot51quater (donnees/sources/consigne_lot51quater.md), P60",
+              "date": "2026-10-16"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Dessus du tablier sec sous la crête (P56, lot 51 ter : HU_TUBES 14,49, HU_PANNES 12,99, HU_PLATELAGE 12,48, HD_TABLIER 12,03 kPa)",
+              "reason": "sous-pression nette bornée par la hauteur immergée jusqu'au dessus du platelage, × 2 pour le retard de remplissage (P60)"
+            },
+            {
+              "description": "Étude dynamique de la houle sur le tablier",
+              "reason": "reportée à un lot dédié (MM, lot 51 quater)"
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-10-16T12:00:00-04:00"
+        }
+      ],
       "revision_history": []
     },
     {
       "point_label": "P61",
       "topic": "Impact quasi statique",
       "options_considered": [],
-      "option_retained": "**P61 — Impact quasi statique.** Pression d'impact à l'entrée de l'eau sous les surfaces :  p_imp = DAF × ½ ρ Cs w² = 1,5 × 0,5 × 1,025 × 2π × 1,1² ≈ **5,9 kPa**  Hypothèses du superviseur, à citer telles quelles :  - w = 1,1 m/s : vitesse verticale de la surface libre au niveau de la sous-face. C'est 2 × πHmax/T, avec Hmax = 2,03 m et T = 11,5 s, pour le front raide d'une houle en faible profondeur. - Cs = 2π. - DAF = 1,5 : durée d'impact de l'ordre de la période propre d'une travée.  L'impact est **local** : un module à la fois. Six événements exclusifs HU_IMP_Mk, avec k = 0 à 5. Chacun est la somme, sur le seul module Mk, de :  5,9 × (HU_TUBES_Mk + HU_PANNES_Mk + HU_PLATELAGE_Mk)  Règles :  - HU_IMP_Mk et HU sont **alternatifs** dans l'emplacement de la houle : l'impact précède l'immersion. - Mêmes facteurs que HU à l'ELU fondamental et à l'ELS caractéristique. - Pas d'impact à l'ELU accidentel, à l'ELS fréquent ni à l'ELS quasi permanent. - P57 s'applique : jamais avec AC ou ACA.",
-      "justification": "Décision P61 de MM, recopiée à l'identique (sources/consigne_lot51quater.md).",
+      "option_retained": "- **Aucun impact** : P61 est annulée. Les événements HU_IMP_Mk et leurs options sont retirés des combinaisons.",
+      "justification": "Décision P61 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
       "discarded_variants": [
         {
-          "description": "Impact simultané sur toute la longueur",
-          "reason": "impact local, un module à la fois, six événements exclusifs HU_IMP_M0 à HU_IMP_M5 (P61)"
-        },
-        {
-          "description": "Étude dynamique de l'impact",
-          "reason": "traitement quasi statique avec DAF = 1,5 ; étude dynamique reportée à un lot dédié (MM, lot 51 quater)"
+          "description": "Impacts quasi statiques HU_IMP_Mk (P61)",
+          "reason": "aucun impact, P61 annulée (P69)"
         }
       ],
       "notes": "Valeur décidée 5,9 kPa ; vérification : 1,5 × 0,5 × 1,025 × 2π × 1,1² = 5,84 kPa avec w arrondi à 1,1 m/s, 5,94 kPa avec w = 2π × 2,03 / 11,5 = 1,109 m/s ; 5,9 kPa retenu tel que décidé. Coefficients dans le groupe houle_lot51quater du fichier de données.",
-      "validity_domain": "Recombinaison des cas unitaires du lot 51 ter de PONTONS-ALU-01 (lot 51 quater, calcul linéaire, aucune réexécution pour les résultats), telle que MM l'a décidée ; hors de ce calcul, la décision n'est pas établie.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "arbitrage_mm",
-          "reference": "consigne_lot51quater (donnees/sources/consigne_lot51quater.md), P61",
-          "date": "2026-10-16"
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P61",
+          "date": "2026-10-23"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-10-16T12:00:00-04:00",
-      "decision_history": [],
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [
+        {
+          "option_retained": "**P61 — Impact quasi statique.** Pression d'impact à l'entrée de l'eau sous les surfaces :  p_imp = DAF × ½ ρ Cs w² = 1,5 × 0,5 × 1,025 × 2π × 1,1² ≈ **5,9 kPa**  Hypothèses du superviseur, à citer telles quelles :  - w = 1,1 m/s : vitesse verticale de la surface libre au niveau de la sous-face. C'est 2 × πHmax/T, avec Hmax = 2,03 m et T = 11,5 s, pour le front raide d'une houle en faible profondeur. - Cs = 2π. - DAF = 1,5 : durée d'impact de l'ordre de la période propre d'une travée.  L'impact est **local** : un module à la fois. Six événements exclusifs HU_IMP_Mk, avec k = 0 à 5. Chacun est la somme, sur le seul module Mk, de :  5,9 × (HU_TUBES_Mk + HU_PANNES_Mk + HU_PLATELAGE_Mk)  Règles :  - HU_IMP_Mk et HU sont **alternatifs** dans l'emplacement de la houle : l'impact précède l'immersion. - Mêmes facteurs que HU à l'ELU fondamental et à l'ELS caractéristique. - Pas d'impact à l'ELU accidentel, à l'ELS fréquent ni à l'ELS quasi permanent. - P57 s'applique : jamais avec AC ou ACA.",
+          "justification": "Décision P61 de MM, recopiée à l'identique (sources/consigne_lot51quater.md).",
+          "validity_domain": "Recombinaison des cas unitaires du lot 51 ter de PONTONS-ALU-01 (lot 51 quater, calcul linéaire, aucune réexécution pour les résultats), telle que MM l'a décidée ; hors de ce calcul, la décision n'est pas établie.",
+          "sources": [
+            {
+              "origin": "arbitrage_mm",
+              "reference": "consigne_lot51quater (donnees/sources/consigne_lot51quater.md), P61",
+              "date": "2026-10-16"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Impact simultané sur toute la longueur",
+              "reason": "impact local, un module à la fois, six événements exclusifs HU_IMP_M0 à HU_IMP_M5 (P61)"
+            },
+            {
+              "description": "Étude dynamique de l'impact",
+              "reason": "traitement quasi statique avec DAF = 1,5 ; étude dynamique reportée à un lot dédié (MM, lot 51 quater)"
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-10-16T12:00:00-04:00"
+        }
+      ],
       "revision_history": []
     },
     {
       "point_label": "P62",
       "topic": "Houle dans le critère de flèche",
       "options_considered": [],
-      "option_retained": "**P62 — La houle reste dans le critère de flèche.** HU, HD et HU_IMP entrent dans l'ELS caractéristique. La proposition d'exclusion du superviseur est refusée. Les critères P37/P51 sont inchangés.",
-      "justification": "Décision P62 de MM, recopiée à l'identique (sources/consigne_lot52.md).",
+      "option_retained": "- **P62 révisée** : la houle reste dans le critère de flèche. HU et HD entrent dans l'ELS caractéristique ; HU_IMP n'existe plus.",
+      "justification": "Décision P62 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
       "discarded_variants": [
         {
-          "description": "Exclusion de HU, HD et HU_IMP de l'ELS caractéristique pour la flèche (proposition du superviseur)",
-          "reason": "refusée par MM (P62)"
+          "description": "HU_IMP dans l'ELS caractéristique du critère de flèche (P62, lot 52)",
+          "reason": "HU_IMP n'existe plus (P69)"
         }
       ],
       "notes": "Critères P37 et P51 inchangés ; l'enveloppe de flèche de l'ELS caractéristique garde HU, HD et HU_IMP_Mk.",
-      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO (lot 52), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "arbitrage_mm",
-          "reference": "consigne_lot52 (donnees/sources/consigne_lot52.md), P62",
-          "date": "2026-10-19"
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P62",
+          "date": "2026-10-23"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-10-19T09:00:00-04:00",
-      "decision_history": [],
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [
+        {
+          "option_retained": "**P62 — La houle reste dans le critère de flèche.** HU, HD et HU_IMP entrent dans l'ELS caractéristique. La proposition d'exclusion du superviseur est refusée. Les critères P37/P51 sont inchangés.",
+          "justification": "Décision P62 de MM, recopiée à l'identique (sources/consigne_lot52.md).",
+          "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO (lot 52), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+          "sources": [
+            {
+              "origin": "arbitrage_mm",
+              "reference": "consigne_lot52 (donnees/sources/consigne_lot52.md), P62",
+              "date": "2026-10-19"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Exclusion de HU, HD et HU_IMP de l'ELS caractéristique pour la flèche (proposition du superviseur)",
+              "reason": "refusée par MM (P62)"
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-10-19T09:00:00-04:00"
+        }
+      ],
       "revision_history": []
     },
     {
@@ -2246,28 +2383,49 @@
       "point_label": "P64",
       "topic": "Treillis horizontal constructible",
       "options_considered": [],
-      "option_retained": "**P64 — Treillis horizontal constructible.**  1. **Montants et diagonales sous les pannes.** Le dessus des montants et des diagonales est au niveau de la sous-face des pannes, soit +1,35 pour des pannes de 50. - Axe des montants et des diagonales 120 × 120 à **+1,29**. - Montants soudés sur le flanc des poutres principales (axe +1,30). Dans le modèle, ils sont reliés aux nœuds des poutres par une liaison rigide de 0,01 m. - Les pannes posent sur les montants et sur les diagonales. Elles y sont reliées par une liaison rigide de 1,375 − 1,29 = 0,085 m. - Aucune barre ne pénètre dans une autre. 2. **Diagonales soudées sur les montants, plus sur les poutres principales.** - Le nœud diagonale–montant est sur l'axe du montant, à **e = 0,25 m de l'axe de la poutre principale**, soit |Y| = 0,68. - Le dessin en N du treillis est conservé : chaque diagonale relie le nœud à Y = +0,68 d'un montant au nœud à Y = −0,68 du montant suivant (même sens de diagonale qu'aujourd'hui). - Le tronçon de montant entre la poutre et ce nœud travaille en flexion : c'est voulu, il faut l'exporter. - Paramètre `e_diag` dans le yaml. 3. Positions en X des montants inchangées. Le découpage des pannes aux croisements suit la nouvelle géométrie.",
-      "justification": "Décision P64 de MM, recopiée à l'identique (sources/consigne_lot52.md).",
+      "option_retained": "**P67 — Treillis horizontal régulier, P64 révisée.**  - Le point 3 de P64 (« Positions en X des montants inchangées ») est remplacé. - Dans chaque grande travée (de Xd à Xf = Xd + 6,25), 6 montants à **Xd + k × 1,25, pour k = 0 à 5**, soit 5 panneaux égaux de 1,25 m. - Avant : Xd + 0 / 0,75 / 2,25 / 3,75 / 5,25 / 6,25. - Les diagonales restent en N, dans le même sens qu'au lot 52. Toutes les diagonales des grandes travées deviennent identiques et parallèles : une seule longueur et un seul angle de coupe, pour une fabrication en série en usine. - Reste de P64 inchangé : - nœud diagonale–montant à e = 0,25 m de l'axe des poutres, soit |Y| = 0,68 ; - axe des montants et des diagonales à +1,29 ; - liaisons rigides de 0,01 m et de 0,085 m. - Petites travées PT1 à PT5 et porte-à-faux : inchangés. - Le découpage des pannes suit les nouvelles positions. La portée maximale des pannes passe de 1,50 m à 1,25 m. - Taquets inchangés : Xd + 1,6 et Xd + 4,6, sur les poutres principales.",
+      "justification": "Décision P64 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
       "discarded_variants": [
         {
-          "description": "Diagonales soudées sur les poutres principales, dans leur plan (lots 50 à 51 quater)",
-          "reason": "diagonales soudées sur les montants à e = 0,25 m de l'axe des poutres, sous les pannes (P64)"
+          "description": "Positions en X des montants inchangées (P64, point 3 : Xd + 0 / 0,75 / 2,25 / 3,75 / 5,25 / 6,25)",
+          "reason": "6 montants à Xd + k × 1,25, cinq panneaux égaux (P67)"
         }
       ],
       "notes": "Paramètre e_diag (variantes_lot52.yaml, E_DIAG du script de maillage) ; axe des montants et des diagonales = dessus des poutres − cote des pannes − cote des montants / 2 = +1,29 ; liaisons rigides LIAISON_SOLIDE de 0,01 m (montant / poutre) et 0,085 m (panne / montant ou diagonale).",
-      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO (lot 52), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
       "nature": "pratique",
       "sources": [
         {
           "origin": "arbitrage_mm",
-          "reference": "consigne_lot52 (donnees/sources/consigne_lot52.md), P64",
-          "date": "2026-10-19"
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P64",
+          "date": "2026-10-23"
         }
       ],
       "status": "tranche",
       "decided_by": "MM",
-      "decided_at": "2026-10-19T09:00:00-04:00",
-      "decision_history": [],
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [
+        {
+          "option_retained": "**P64 — Treillis horizontal constructible.**  1. **Montants et diagonales sous les pannes.** Le dessus des montants et des diagonales est au niveau de la sous-face des pannes, soit +1,35 pour des pannes de 50. - Axe des montants et des diagonales 120 × 120 à **+1,29**. - Montants soudés sur le flanc des poutres principales (axe +1,30). Dans le modèle, ils sont reliés aux nœuds des poutres par une liaison rigide de 0,01 m. - Les pannes posent sur les montants et sur les diagonales. Elles y sont reliées par une liaison rigide de 1,375 − 1,29 = 0,085 m. - Aucune barre ne pénètre dans une autre. 2. **Diagonales soudées sur les montants, plus sur les poutres principales.** - Le nœud diagonale–montant est sur l'axe du montant, à **e = 0,25 m de l'axe de la poutre principale**, soit |Y| = 0,68. - Le dessin en N du treillis est conservé : chaque diagonale relie le nœud à Y = +0,68 d'un montant au nœud à Y = −0,68 du montant suivant (même sens de diagonale qu'aujourd'hui). - Le tronçon de montant entre la poutre et ce nœud travaille en flexion : c'est voulu, il faut l'exporter. - Paramètre `e_diag` dans le yaml. 3. Positions en X des montants inchangées. Le découpage des pannes aux croisements suit la nouvelle géométrie.",
+          "justification": "Décision P64 de MM, recopiée à l'identique (sources/consigne_lot52.md).",
+          "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO (lot 52), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+          "sources": [
+            {
+              "origin": "arbitrage_mm",
+              "reference": "consigne_lot52 (donnees/sources/consigne_lot52.md), P64",
+              "date": "2026-10-19"
+            }
+          ],
+          "discarded_variants": [
+            {
+              "description": "Diagonales soudées sur les poutres principales, dans leur plan (lots 50 à 51 quater)",
+              "reason": "diagonales soudées sur les montants à e = 0,25 m de l'axe des poutres, sous les pannes (P64)"
+            }
+          ],
+          "decided_by": "MM",
+          "decided_at": "2026-10-19T09:00:00-04:00"
+        }
+      ],
       "revision_history": []
     },
     {
@@ -2323,6 +2481,302 @@
       "status": "tranche",
       "decided_by": "MM",
       "decided_at": "2026-10-19T09:00:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P67",
+      "topic": "Treillis horizontal régulier",
+      "options_considered": [],
+      "option_retained": "**P67 — Treillis horizontal régulier, P64 révisée.**  - Le point 3 de P64 (« Positions en X des montants inchangées ») est remplacé. - Dans chaque grande travée (de Xd à Xf = Xd + 6,25), 6 montants à **Xd + k × 1,25, pour k = 0 à 5**, soit 5 panneaux égaux de 1,25 m. - Avant : Xd + 0 / 0,75 / 2,25 / 3,75 / 5,25 / 6,25. - Les diagonales restent en N, dans le même sens qu'au lot 52. Toutes les diagonales des grandes travées deviennent identiques et parallèles : une seule longueur et un seul angle de coupe, pour une fabrication en série en usine. - Reste de P64 inchangé : - nœud diagonale–montant à e = 0,25 m de l'axe des poutres, soit |Y| = 0,68 ; - axe des montants et des diagonales à +1,29 ; - liaisons rigides de 0,01 m et de 0,085 m. - Petites travées PT1 à PT5 et porte-à-faux : inchangés. - Le découpage des pannes suit les nouvelles positions. La portée maximale des pannes passe de 1,50 m à 1,25 m. - Taquets inchangés : Xd + 1,6 et Xd + 4,6, sur les poutres principales.",
+      "justification": "Décision P67 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
+      "discarded_variants": [
+        {
+          "description": "Montants à Xd + 0 / 0,75 / 2,25 / 3,75 / 5,25 / 6,25 (lot 52)",
+          "reason": "cinq panneaux égaux de 1,25 m, diagonales identiques et parallèles (P67)"
+        }
+      ],
+      "notes": "Révise P64 (point 3). Portée maximale des pannes 1,25 m ; taquets à Xd + 1,6 et Xd + 4,6 inchangés.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P67",
+          "date": "2026-10-23"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P68",
+      "topic": "Chevêtres 0,60 × 0,40 prolongés",
+      "options_considered": [],
+      "option_retained": "**P68 — Chevêtres 0,60 × 0,40 prolongés, P43 et P48 révisées.**  - Section des chevêtres : **b = 0,60 m** (selon X) **× h = 0,40 m**. - Coulés en place, à section constante sur toute leur longueur. - La largeur de 0,60 m couvre la tête des piles Ø 0,50 sans surlargeur locale de coffrage. - Longrines inchangées : 0,40 × 0,40. - Chevêtres prolongés de **Y = ±1,05 à Y = ±1,20**, pour placer la fixation de l'appui à 0,15 m de l'about. - Axes inchangés : - chevêtres en X = 6,25 + 7,77 k et en X + 1,52 ; - arase +0,69, dessus +1,09. - Liaisons longrine–chevêtre, pieu–anneau et appuis : inchangées en principe. Les longueurs des liaisons rigides suivent la nouvelle géométrie. - Écartées : - anneau 0,40 × 0,40 de P43 et chevêtres de Y = −1,05 à +1,05 de P48 ; - anneau 0,50 × 0,50 (proposition du superviseur), refusé par MM ; - nœuds élargis 0,60 × 0,60 au droit des piles (proposition du superviseur), abandonnés pour la constructibilité.",
+      "justification": "Décision P68 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
+      "discarded_variants": [
+        {
+          "description": "Anneau 0,40 × 0,40 de P43 et chevêtres de Y = −1,05 à +1,05 de P48",
+          "reason": "chevêtres 0,60 × 0,40 prolongés à Y = ±1,20 (P68)"
+        },
+        {
+          "description": "Anneau 0,50 × 0,50 (proposition du superviseur)",
+          "reason": "refusé par MM (P68)"
+        },
+        {
+          "description": "Nœuds élargis 0,60 × 0,60 au droit des piles (proposition du superviseur)",
+          "reason": "abandonnés pour la constructibilité (P68)"
+        }
+      ],
+      "notes": "Révise P43 et P48. Les longueurs des liaisons rigides (longrine–chevêtre, pieu–anneau, appuis) suivent la nouvelle géométrie.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P68",
+          "date": "2026-10-23"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P69",
+      "topic": "Houle de projet : forfait de 5 kPa",
+      "options_considered": [],
+      "option_retained": "**P69 — Houle de projet : forfait de 5 kPa, justifié par les études GEOMER, P56 et P60 révisées, P61 annulée.**  - Les cas unitaires de 1 kPa par surface et par module de P56 sont conservés. Seuls les événements changent : - HU = 5,0 × (HU_TUBES + HU_PANNES + HU_PLATELAGE) ; - HD = 5,0 × HD_TABLIER ; - HU_F = 2,728 × HU_TUBES + 2,516 × HU_PANNES + 2,425 × HU_PLATELAGE, à l'ELS fréquent. Valeurs majorantes : la houle fréquente n'atteint pas le tablier. - **Aucun impact** : P61 est annulée. Les événements HU_IMP_Mk et leurs options sont retirés des combinaisons. - **P62 révisée** : la houle reste dans le critère de flèche. HU et HD entrent dans l'ELS caractéristique ; HU_IMP n'existe plus. - Justification : - donnée d'entrée principale : houle mesurée à Cap Couronne (GEOMER, 1996), transmise en zone 2 avec Kt = 0,10. Kt est commun au modèle physique GEOMER de 1995 et à l'étude MS414803 ; - les pannes A et B sont en **zone 2** GEOMER ; - le calcul McConnell sur cette houle donne 4,0 à 5,0 kPa en sous-pression et au plus 2,9 kPa en surpression. - Écartées : - coefficients « tablier noyé » de P60 ; - estimation à 11 kPa (houle au large ANEMOC + McConnell), qui n'apparaît que pour mémoire dans la note d'hypothèses ; - impacts de P61. - Toutes les autres règles de combinaison sont inchangées : P49, P57 et P59. - Nouveau groupe `houle_lot54` dans le fichier de données, avec les valeurs ci-dessus.",
+      "justification": "Décision P69 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
+      "discarded_variants": [
+        {
+          "description": "Coefficients « tablier noyé » de P60",
+          "reason": "forfait de 5 kPa (P69)"
+        },
+        {
+          "description": "Estimation à 11 kPa (houle au large ANEMOC + McConnell)",
+          "reason": "pour mémoire seulement dans la note d'hypothèses (P69)"
+        },
+        {
+          "description": "Impacts de P61",
+          "reason": "aucun impact (P69)"
+        }
+      ],
+      "notes": "Révise P56, P60 et P62 ; annule P61. Groupe houle_lot54 du fichier de données.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P69",
+          "date": "2026-10-23"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P70",
+      "topic": "Accostage et amarrage local jamais au même poste",
+      "options_considered": [],
+      "option_retained": "**P70 — Accostage et amarrage local jamais au même poste.**  Un bateau qui accoste n'est pas amarré à son poste. Dans une même combinaison, les deux événements suivants sont **interdits ensemble** :  - un amarrage local (AML_TQk_…) ou une rupture d'amarre (AMF_TQk_…) ; - un accostage (AC_… ou ACA_…).  L'interdiction vaut lorsque les deux sont **sur la même rive** et que la distance en X entre le centre de la zone d'accostage et le taquet est **< 1,60 m** (demi-largeur de poste de 3,20 m).  Centres des zones d'accostage :  - début : Xd + 0,5 ; - milieu : (Xd + Xf)/2 ; - fin : Xf − 0,5 ; - PTk : milieu ; - PF : 38,85 + Lpf − 0,5.  AM1 et AM2 (cas globaux) restent combinables avec AC et ACA : c'est sécuritaire.  Mise en œuvre :  - maximisation **conjointe** de l'emplacement AM et de l'emplacement AC (ou ACA) dans chaque branche qui contient les deux, en excluant les paires interdites ; - les autres emplacements restent indépendants ; - `recombiner.py` applique la même règle ; - énumération de contrôle sur 36 extrêmes tirés au sort, dont au moins 12 dans des branches qui contiennent AM et AC.",
+      "justification": "Décision P70 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
+      "discarded_variants": [
+        {
+          "description": "Amarrage local (AML, AMF) et accostage (AC, ACA) combinables au même poste (lots 51 ter à 53)",
+          "reason": "interdits ensemble sur la même rive à moins de 1,60 m en X du centre de la zone d'accostage (P70)"
+        }
+      ],
+      "notes": "AM1 et AM2 restent combinables avec AC et ACA. Maximisation conjointe des emplacements AM et AC (ou ACA) dans les branches qui contiennent les deux ; recombiner.py applique la même règle.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P70",
+          "date": "2026-10-23"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P71",
+      "topic": "Stabilité des palées existantes",
+      "options_considered": [],
+      "option_retained": "**P71 — Stabilité des palées existantes : responsabilité du maître d'ouvrage.**  - Le maître d'ouvrage conserve les fondations sans intervention et prend à sa charge la stabilité des palées : soulèvement, renversement, portance, excentrement. - On retient la voie du « comportement constaté » de l'existant (1975, jamais décollé). - **Aucun ancrage, aucun lest** n'est modélisé ni dimensionné (P48 confirmée). - Les réactions des semelles sont exportées pour mémoire seulement. - Raideurs de sol 5 000 / 1 000 kN/m³ conservées (P19, P48), sans étude de sensibilité.",
+      "justification": "Décision P71 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
+      "discarded_variants": [
+        {
+          "description": "Ancrage ou lest des palées",
+          "reason": "aucun, la stabilité des palées est à la charge du maître d'ouvrage (P71)"
+        }
+      ],
+      "notes": "Confirme P48 (aucun ancrage) et P19/P48 (raideurs de sol 5 000 / 1 000 kN/m³). Réactions des semelles exportées pour mémoire.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P71",
+          "date": "2026-10-23"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P72",
+      "topic": "Piles Ø 0,50 confirmées",
+      "options_considered": [],
+      "option_retained": "**P72 — Piles Ø 0,50 confirmées.**  - P48 et P58 sont inchangées. - Le diamètre réel est d'environ 0,42 m, buse comprise. Il sera relevé en EXE.",
+      "justification": "Décision P72 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
+      "discarded_variants": [
+        {
+          "description": "Piles au diamètre réel d'environ 0,42 m, buse comprise",
+          "reason": "Ø 0,50 conservé, diamètre réel relevé en EXE (P72)"
+        }
+      ],
+      "notes": "Confirme P48 et P58. Diamètre réel à relever en EXE.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P72",
+          "date": "2026-10-23"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P73",
+      "topic": "Platelage bois non fusible",
+      "options_considered": [],
+      "option_retained": "**P73 — Platelage bois non fusible ; caillebotis refusé.**  - Le maître d'ouvrage assume le risque d'arrachement du platelage par la houle. - Le caillebotis est refusé : le client veut du bois. - Les surfaces chargées de HU_PLATELAGE (1,327 m) et de HD_TABLIER (1,895 m) sont conservées.",
+      "justification": "Décision P73 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
+      "discarded_variants": [
+        {
+          "description": "Caillebotis",
+          "reason": "refusé, le client veut du bois (P73)"
+        }
+      ],
+      "notes": "Surfaces chargées de HU_PLATELAGE (1,327 m) et de HD_TABLIER (1,895 m) inchangées.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P73",
+          "date": "2026-10-23"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P74",
+      "topic": "Liaison pieu–chevêtre",
+      "options_considered": [],
+      "option_retained": "**P74 — Liaison pieu–chevêtre.**  - Barres HA20 scellées chimiquement dans le pieu recépé et ancrées par crosse dans le chevêtre. Vérification par le superviseur. - Modèle : têtes de pieux encastrées dans l'anneau (P46), inchangé.",
+      "justification": "Décision P74 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
+      "discarded_variants": [
+        {
+          "description": "Liaison pieu–chevêtre non précisée (P46 : têtes encastrées)",
+          "reason": "barres HA20 scellées chimiquement dans le pieu recépé et ancrées par crosse dans le chevêtre (P74)"
+        }
+      ],
+      "notes": "Complète P46 : modèle inchangé (têtes de pieux encastrées dans l'anneau).",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P74",
+          "date": "2026-10-23"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P75",
+      "topic": "Culée : recépage du quai existant et bloc béton neuf",
+      "options_considered": [],
+      "option_retained": "**P75 — Culée : recépage du quai existant et bloc béton neuf.**  - La culée reste neuve et conçue par nous (P45). - Son dimensionnement fera l'objet d'un lot ultérieur. - Modèle inchangé : - deux appuis, X et Z bloqués, Y bloqué côté YP ; - culée non modélisée, réactions exportées comme au lot 52.",
+      "justification": "Décision P75 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
+      "discarded_variants": [
+        {
+          "description": "Culée sans principe constructif (P45 : culée neuve)",
+          "reason": "recépage du quai existant et bloc béton neuf (P75)"
+        }
+      ],
+      "notes": "Complète P45 : modèle inchangé ; dimensionnement de la culée dans un lot ultérieur.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P75",
+          "date": "2026-10-23"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-23T03:50:00-04:00",
+      "decision_history": [],
+      "revision_history": []
+    },
+    {
+      "point_label": "P76",
+      "topic": "Fissuration de l'anneau en XS3",
+      "options_considered": [],
+      "option_retained": "**P76 — Fissuration de l'anneau en XS3.**  - wmax = 0,2 mm sous combinaison quasi permanente, soit σs ≤ 200 MPa pour des HA16. - Le superviseur vérifie l'anneau à l'ELS quasi permanent avec ce critère (complète P23). - Sans effet sur le calcul du lot.",
+      "justification": "Décision P76 de MM, recopiée à l'identique (sources/consigne_lot54.md).",
+      "discarded_variants": [
+        {
+          "description": "Critère d'ouverture de fissure non précisé (P23)",
+          "reason": "wmax = 0,2 mm sous combinaison quasi permanente, σs ≤ 200 MPa pour des HA16 (P76)"
+        }
+      ],
+      "notes": "Complète P23. Sans effet sur le calcul du lot 54.",
+      "validity_domain": "Calcul linéaire du ponton intégral de PONTONS-ALU-01, géométrie PRO définitive (lot 54), tel que MM l'a décidé ; hors de ce calcul, la décision n'est pas établie.",
+      "nature": "pratique",
+      "sources": [
+        {
+          "origin": "arbitrage_mm",
+          "reference": "consigne_lot54 (donnees/sources/consigne_lot54.md), P76",
+          "date": "2026-10-23"
+        }
+      ],
+      "status": "tranche",
+      "decided_by": "MM",
+      "decided_at": "2026-10-23T03:50:00-04:00",
       "decision_history": [],
       "revision_history": []
     }

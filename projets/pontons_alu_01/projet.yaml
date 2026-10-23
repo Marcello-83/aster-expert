@@ -1,7 +1,10 @@
-# Déclaration du projet PONTONS-ALU-01 (lots 50 à 52). Depuis le lot 52 : géométrie PRO
-# (variantes_lot52.yaml, maillage_ponton_52.py, generation_lot52, extensions_lot52 ; P62 à
-# P66 : montants et diagonales 120 × 120 × 6 sous les pannes, axe des appuis à +1,175 ;
-# exports par scripts/lot52.py). Lot 51 ter : ponton
+# Déclaration du projet PONTONS-ALU-01 (lots 50 à 54). Depuis le lot 54 : géométrie PRO
+# définitive (variantes_lot54.yaml, maillage_ponton_52.py avec X_MONTANTS, B_CHEVETRE et
+# Y_CHEVETRE, generation_lot54, extensions_lot54 ; P67 : treillis régulier, P68 : chevêtres
+# 0,60 × 0,40 prolongés à ±1,20 ; exports par scripts/lot54.py). Lot 52 : géométrie PRO
+# (variantes_lot52.yaml, generation_lot52, extensions_lot52 ; P62 à P66 : montants et
+# diagonales 120 × 120 × 6 sous les pannes, axe des appuis à +1,175 ; exports par
+# scripts/lot52.py). Lot 51 ter : ponton
 # intégral (culée, cinq palées, cinq grandes travées, porte-à-faux d'extrémité), cotes de
 # l'AVP, appuis articulés à axe, houle par surfaces, variantes (variantes_lot51ter.yaml,
 # PONTONS_VARIANTE ; lots 51 et 51 bis : variantes_lot51.yaml et variantes_lot51bis.yaml,
@@ -44,13 +47,14 @@ mesh:
   # ceux des autres variantes sont écrits par scripts/lot51ter.py. Lot 51 bis :
   # maillage_palee_51bis.py et invariants_palee_51bis.yaml.
   # Lot 52 : géométrie PRO (maillage_ponton_52.py, invariants de la référence B52 ; ceux
-  # des autres variantes sont écrits par scripts/lot52.py).
+  # des autres variantes sont écrits par scripts/lot52.py). Lot 54 : même script, paramètres
+  # P67 et P68 (invariants de la référence B54 ; A54 : scripts/lot54.py).
   script: maillage/maillage_ponton_52.py
-  parameters: pontons_alu_01.extensions_lot52:mesh_parameters
-  invariants: maillage/invariants_ponton_52.yaml
+  parameters: pontons_alu_01.extensions_lot54:mesh_parameters
+  invariants: maillage/invariants_ponton_54.yaml
 
 comm:
-  generator: pontons_alu_01.extensions_lot52:generate
+  generator: pontons_alu_01.extensions_lot54:generate
   output: resultats/pontons_alu_01.comm
   export:
     time_limit: 3600
@@ -76,229 +80,229 @@ controls:
   springs:
     groups: [SOL]
     direction: [DX, DY, DZ]
-    forces: pontons_alu_01.extensions_lot52:spring_forces
+    forces: pontons_alu_01.extensions_lot54:spring_forces
   cases:
-    - {name: G1, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: DEJ, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: G2, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: G2_M0, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: G2_M1, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: G2_M2, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: G2_M3, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: G2_M4, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: G2_M5, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: Q, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: Q_M0, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: Q_M1, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: Q_M2, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: Q_M3, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: Q_M4, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: Q_M5, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: QD, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: QD_M0, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: QD_M1, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: QD_M2, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: QD_M3, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: QD_M4, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: QD_M5, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_TUBES, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_TUBES_M0, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_TUBES_M1, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_TUBES_M2, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_TUBES_M3, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_TUBES_M4, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_TUBES_M5, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PANNES, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PANNES_M0, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PANNES_M1, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PANNES_M2, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PANNES_M3, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PANNES_M4, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PANNES_M5, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PLATELAGE, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PLATELAGE_M0, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PLATELAGE_M1, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PLATELAGE_M2, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PLATELAGE_M3, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PLATELAGE_M4, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HU_PLATELAGE_M5, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HD_TABLIER, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HD_TABLIER_M0, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HD_TABLIER_M1, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HD_TABLIER_M2, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HD_TABLIER_M3, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HD_TABLIER_M4, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: HD_TABLIER_M5, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T1D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T1D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T1D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T1D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T1D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T1D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T1M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T1M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T1M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T1M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T1M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T1M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T1F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T1F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T1F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T1F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T1F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T1F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PT1_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PT1_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PT1_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PT1_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PT1_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PT1_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T2D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T2D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T2D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T2D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T2D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T2D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T2M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T2M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T2M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T2M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T2M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T2M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T2F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T2F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T2F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T2F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T2F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T2F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PT2_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PT2_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PT2_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PT2_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PT2_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PT2_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T3D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T3D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T3D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T3D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T3D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T3D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T3M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T3M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T3M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T3M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T3M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T3M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T3F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T3F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T3F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T3F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T3F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T3F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PT3_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PT3_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PT3_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PT3_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PT3_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PT3_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T4D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T4D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T4D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T4D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T4D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T4D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T4M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T4M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T4M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T4M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T4M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T4M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T4F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T4F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T4F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T4F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T4F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T4F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PT4_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PT4_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PT4_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PT4_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PT4_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PT4_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T5D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T5D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T5D_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T5D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T5D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T5D_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T5M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T5M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T5M_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T5M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T5M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T5M_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T5F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T5F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T5F_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_T5F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_T5F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_T5F_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PT5_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PT5_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PT5_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PT5_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PT5_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PT5_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PF_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PF_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PF_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACN_PF_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACX_PF_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: ACZ_PF_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ1_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ1_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ1_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ1_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ2_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ2_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ2_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ2_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ3_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ3_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ3_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ3_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ4_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ4_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ4_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ4_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ5_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ5_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ5_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ5_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ6_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ6_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ6_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ6_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ7_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ7_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ7_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ7_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ8_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ8_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ8_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ8_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ9_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ9_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ9_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ9_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ10_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ10_YM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMY_TQ10_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: AMX_TQ10_YP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant"}
-    - {name: TP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot52:spring_scale"}
-    - {name: TM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot52:spring_scale"}
-    - {name: TAP, expected_resultant: "pontons_alu_01.extensions_lot52:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot52:spring_scale"}
-    - {name: TAM, expected_resultant: "pontons_alu_01.extensions_lot52:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot52:spring_scale"}
+    - {name: G1, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: DEJ, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: G2, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: G2_M0, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: G2_M1, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: G2_M2, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: G2_M3, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: G2_M4, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: G2_M5, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: Q, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: Q_M0, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: Q_M1, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: Q_M2, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: Q_M3, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: Q_M4, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: Q_M5, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: QD, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: QD_M0, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: QD_M1, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: QD_M2, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: QD_M3, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: QD_M4, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: QD_M5, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_TUBES, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_TUBES_M0, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_TUBES_M1, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_TUBES_M2, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_TUBES_M3, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_TUBES_M4, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_TUBES_M5, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PANNES, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PANNES_M0, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PANNES_M1, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PANNES_M2, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PANNES_M3, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PANNES_M4, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PANNES_M5, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PLATELAGE, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PLATELAGE_M0, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PLATELAGE_M1, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PLATELAGE_M2, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PLATELAGE_M3, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PLATELAGE_M4, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HU_PLATELAGE_M5, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HD_TABLIER, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HD_TABLIER_M0, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HD_TABLIER_M1, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HD_TABLIER_M2, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HD_TABLIER_M3, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HD_TABLIER_M4, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: HD_TABLIER_M5, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T1D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T1D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T1D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T1D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T1D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T1D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T1M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T1M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T1M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T1M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T1M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T1M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T1F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T1F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T1F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T1F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T1F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T1F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PT1_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PT1_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PT1_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PT1_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PT1_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PT1_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T2D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T2D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T2D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T2D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T2D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T2D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T2M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T2M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T2M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T2M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T2M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T2M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T2F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T2F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T2F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T2F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T2F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T2F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PT2_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PT2_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PT2_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PT2_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PT2_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PT2_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T3D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T3D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T3D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T3D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T3D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T3D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T3M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T3M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T3M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T3M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T3M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T3M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T3F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T3F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T3F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T3F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T3F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T3F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PT3_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PT3_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PT3_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PT3_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PT3_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PT3_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T4D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T4D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T4D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T4D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T4D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T4D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T4M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T4M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T4M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T4M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T4M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T4M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T4F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T4F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T4F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T4F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T4F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T4F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PT4_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PT4_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PT4_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PT4_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PT4_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PT4_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T5D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T5D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T5D_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T5D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T5D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T5D_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T5M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T5M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T5M_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T5M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T5M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T5M_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T5F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T5F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T5F_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_T5F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_T5F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_T5F_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PT5_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PT5_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PT5_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PT5_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PT5_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PT5_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PF_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PF_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PF_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACN_PF_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACX_PF_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: ACZ_PF_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ1_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ1_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ1_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ1_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ2_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ2_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ2_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ2_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ3_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ3_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ3_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ3_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ4_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ4_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ4_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ4_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ5_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ5_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ5_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ5_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ6_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ6_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ6_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ6_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ7_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ7_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ7_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ7_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ8_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ8_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ8_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ8_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ9_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ9_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ9_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ9_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ10_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ10_YM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMY_TQ10_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: AMX_TQ10_YP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant"}
+    - {name: TP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot54:spring_scale"}
+    - {name: TM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot54:spring_scale"}
+    - {name: TAP, expected_resultant: "pontons_alu_01.extensions_lot54:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot54:spring_scale"}
+    - {name: TAM, expected_resultant: "pontons_alu_01.extensions_lot54:resultant", self_equilibrated_scale: "pontons_alu_01.extensions_lot54:spring_scale"}
 
 deliverables:
   # Lot 51 ter : seuls les champs de la variante B10 servent à la chaîne des livrables

@@ -198,10 +198,11 @@ def test_fiche_carries_the_decisions_of_lot_52() -> None:
 
 
 def test_projet_yaml_points_to_lot_52(ctx: ProjectContext) -> None:
+    # Lot 54 : projet.yaml pointe sur extensions_lot54 (même script de maillage).
     decl = ctx.declaration
     assert decl.mesh is not None
     assert str(decl.mesh.script).endswith("maillage_ponton_52.py")
-    assert decl.comm is not None and "extensions_lot52" in str(decl.comm.generator)
+    assert decl.comm is not None and "extensions_lot54" in str(decl.comm.generator)
     controls = decl.controls
     assert controls is not None
     assert [c.name for c in controls.cases] == all_cases(geometry_of(variants()["B52"]))

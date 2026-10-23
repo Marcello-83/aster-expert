@@ -1,0 +1,26 @@
+# Variantes du lot 54 (consigne, § Variantes ; décisions P67 à P76) : géométrie PRO définitive
+# du ponton intégral. Un seul .comm paramétré (generation_lot54), un seul script de maillage
+# (maillage_ponton_52.py, paramètres X_MONTANTS, B_CHEVETRE et Y_CHEVETRE depuis le lot 54).
+# Stations, entraxe des chevêtres, géométries A et B, e_diag : ceux du lot 52, inchangés.
+#
+# x_montants : montants intérieurs d'une grande travée, depuis son origine Xd (P67 :
+#   Xd + k × 1,25, k = 1 à 4 ; Xd et Xf = Xd + 6,25 sont les montants d'about).
+# chevetres : largeur b selon X (P68 : 0,60 ; hauteur 0,40 inchangée, celle de l'anneau) et
+#   extrémités en Y (P68 : ±1,20). Longrines 0,40 × 0,40 inchangées.
+reference: B54
+stations: [6.25, 14.02, 21.79, 29.56, 37.33]
+entraxe_chevetres: 1.52
+e_diag: 0.25
+x_montants: [1.25, 2.50, 3.75, 5.00]
+chevetres: {b: 0.60, y: [-1.20, 1.20]}
+geometries:
+  A: {h_piles: [1.50, 2.00, 2.50, 3.30, 3.90], l_pf: 1.05}
+  B: {h_piles: [1.30, 1.95, 2.50, 3.50, 3.90], l_pf: 1.25}
+variantes:
+  B54:
+    description: "panne B (piles 1,30 à 3,90 m, Lpf 1,25 m), poutres principales 200 × 200 × 12, pannes 50 × 50 × 5, montants et diagonales 120 × 120 × 6 en treillis régulier (P64, P67), chevêtres 0,60 × 0,40 prolongés à ±1,20 (P68)"
+    geometrie: B
+    poutre: {cote: 200, epaisseur: 12}
+    panne: {cote: 50, epaisseur: 5}
+    montant: {cote: 120, epaisseur: 6}
+  A54: {base: B54, geometrie: A, description: "panne A (piles 1,50 à 3,90 m, Lpf 1,05 m), poutres principales 200 × 200 × 12, pannes 50 × 50 × 5, montants et diagonales 120 × 120 × 6 en treillis régulier (P64, P67), chevêtres 0,60 × 0,40 prolongés à ±1,20 (P68)"}

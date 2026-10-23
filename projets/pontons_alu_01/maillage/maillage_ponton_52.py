@@ -12,7 +12,9 @@ stations des palées (STATIONS, ENTRAXE_CHEVETRES), les hauteurs libres des pile
 chaque palée (H_PILES), le porte-à-faux d'extrémité (L_PF) et la cote des pannes
 (COTE_PANNES), la cote des montants et des diagonales (COTE_MONTANTS) et la distance
 E_DIAG du nœud diagonale–montant à l'axe de la poutre principale, variantes de la consigne
-du lot 52. Produit `ponton.med`,
+du lot 52, et depuis le lot 54 les positions des montants intérieurs (X_MONTANTS, P67), la
+largeur des chevêtres selon X (B_CHEVETRE) et leurs extrémités en Y (Y_CHEVETRE, P68) ; les
+valeurs par défaut sont celles du lot 52. Produit `ponton.med`,
 `ponton.meta.json` (empreinte SHA-256 du fichier de paramètres) et
 `ponton.progress.txt`, sans aucune dépendance au code d'AsterExpert.
 
@@ -32,6 +34,9 @@ principale par une liaison rigide verticale (LM_, 0,01 m) ; diagonales soudées 
 montants au nœud |Y| = B/2 − E_DIAG (dessin en N conservé) ; pannes posées sur les montants et
 les diagonales (LR_, 0,085 m) ; tronçons de montant entre la poutre et le nœud de diagonale
 dans le groupe MONTANTS_TRONCONS. Axe des appuis à +1,175 (P65).
+Lot 54 (P67, P68) : la largeur des chevêtres B_CHEVETRE (0,60) se distingue de celle des
+longrines B_ANNEAU (0,40) ; les longrines sont coupées au nu des chevêtres (angles de l'anneau
+dans l'épaisseur du chevêtre, groupe ANGLES_ANNEAU) ; montants et chevêtres par paramètres.
 Règles (CLAUDE.md, « Scripts Salomé ») : une seule partition, groupes créés sur la
 géométrie puis transférés au maillage, arguments nommés, nombre de segments imposé par
 arête.
@@ -92,7 +97,8 @@ H_POUTRES = (
 Z_AXE = 1.175  # m NGF, axe Ø 24 des appuis articulés (P65, schéma v4)
 Z_DESSUS_CHEVETRE = 1.09  # m NGF, dessus de l'anneau BA (P53)
 H_ANNEAU = 0.40  # m, hauteur des chevêtres et longrines (P53 : arase inférieure +0,69)
-B_ANNEAU = 0.40  # m, largeur des chevêtres et longrines
+B_ANNEAU = 0.40  # m, largeur des longrines (et des chevêtres jusqu'au lot 52)
+B_CHEVETRE = 0.40  # m, largeur des chevêtres selon X (P43 ; lot 54 : 0,60, P68)
 Y_CHEVETRE = (-1.05, 1.05)  # m, extrémités des chevêtres (P24, P48)
 Y_APPUIS = (-0.93, 0.93)  # m, appuis à axe sous les poutres principales (P44)
 Y_PILES = (-0.75, 0.75)  # m, axes des piles (P48)
@@ -126,6 +132,12 @@ if PARAMS_PATH is not None:
             COTE_MONTANTS = float(valeur)
         elif cle == "E_DIAG":
             E_DIAG = float(valeur)
+        elif cle == "X_MONTANTS":
+            X_MONTANTS = tuple(float(v) for v in valeur)
+        elif cle == "Y_CHEVETRE":
+            Y_CHEVETRE = tuple(float(v) for v in valeur)
+        elif cle == "B_CHEVETRE":
+            B_CHEVETRE = float(valeur)
         else:
             raise RuntimeError("paramètre %s non modifiable par une variante" % cle)
 if len(H_PILES) != len(STATIONS):
@@ -337,8 +349,8 @@ for k, xk in enumerate(STATIONS, start=1):
         {
             grille(xc1 + JEU),
             grille(xc2 - JEU),
-            grille(xc1 + B_ANNEAU / 2.0),
-            grille(xc2 - B_ANNEAU / 2.0),
+            grille(xc1 + B_CHEVETRE / 2.0),
+            grille(xc2 - B_CHEVETRE / 2.0),
             grille(xc1 + D_PILES / 2.0),
             grille(xc2 - D_PILES / 2.0),
             grille((xc1 + xc2) / 2.0),
@@ -350,8 +362,8 @@ for k, xk in enumerate(STATIONS, start=1):
         nom = "LONG_%s_%s" % (palee, cote)
         ajouter_barre(nom, "LONGRINES", [point(x, y, ZA) for x in xl])
         for a, c in (
-            (xl[0], grille(xc1 + B_ANNEAU / 2.0)),
-            (grille(xc2 - B_ANNEAU / 2.0), xl[-1]),
+            (xl[0], grille(xc1 + B_CHEVETRE / 2.0)),
+            (grille(xc2 - B_CHEVETRE / 2.0), xl[-1]),
         ):
             ANGLES.append((point(a, y, ZA), point(c, y, ZA)))
     for chevetre, x, x_longrine in (("C1", xc1, xl[0]), ("C2", xc2, xl[-1])):
@@ -586,6 +598,9 @@ meta = {
     "COTE_PANNES": COTE_PANNES,
     "COTE_MONTANTS": COTE_MONTANTS,
     "E_DIAG": E_DIAG,
+    "X_MONTANTS": list(X_MONTANTS),
+    "Y_CHEVETRE": list(Y_CHEVETRE),
+    "B_CHEVETRE": B_CHEVETRE,
     "cotes": {
         "poutres": ZP,
         "pannes": ZS,

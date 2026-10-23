@@ -184,7 +184,8 @@ def section_label(family: str, v: Variant51ter) -> str:
         "DIAGONALES": post,
         "PANNES_SEC": purlin,
         "PANNE_RIVE": purlin,
-        "CHEVETRES": "BA 0.40x0.40",
+        # Lot 54 (P68) : chevêtres de la largeur de la variante.
+        "CHEVETRES": f"BA {getattr(v, 'cap_width', 0.40):.2f}x0.40",
         "LONGRINES": "BA 0.40x0.40",
         "PILES": "pile D0.50",
     }[family]

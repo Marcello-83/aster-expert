@@ -39,7 +39,7 @@ from __future__ import annotations
 
 import itertools
 import math
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -115,21 +115,61 @@ class Slot:
 
 
 @dataclass(frozen=True)
+class Exclusion:
+    """Two slots of a branch that are maximised jointly (lot 54, P70): `pairs` are the
+    (option of `first`, option of `second`) indices that may not come together."""
+
+    first: int
+    second: int
+    pairs: frozenset[tuple[int, int]]
+
+    def allowed(self, i: int, j: int) -> bool:
+        return (i, j) not in self.pairs
+
+
+@dataclass(frozen=True)
 class Branch:
     state: str
     name: str
     slots: tuple[Slot, ...]
+    exclusions: tuple[Exclusion, ...] = ()
+    """Pairs of slots with forbidden option pairs (lot 54, P70); none before."""
+
+    def _joint(self) -> set[int]:
+        slots = [k for x in self.exclusions for k in (x.first, x.second)]
+        if len(slots) != len(set(slots)):
+            message = f"{self.state}/{self.name} : un emplacement dans deux exclusions"
+            raise ValueError(message)
+        return set(slots)
+
+    def _count(self, weight: Callable[[Option], int]) -> int:
+        joint = self._joint()
+        free = math.prod(
+            sum(weight(o) for o in s.options)
+            for k, s in enumerate(self.slots)
+            if k not in joint
+        )
+        for x in self.exclusions:
+            a, b = self.slots[x.first].options, self.slots[x.second].options
+            free *= sum(
+                weight(a[i]) * weight(b[j])
+                for i in range(len(a))
+                for j in range(len(b))
+                if x.allowed(i, j)
+            )
+        return free
 
     @property
     def count(self) -> int:
-        return math.prod(len(s.options) for s in self.slots)
+        return self._count(lambda _: 1)
 
     def expanded_count(self, ev: dict[str, Event]) -> int:
         """Count with every pattern of the pattern events enumerated."""
-        return math.prod(
-            sum(1 if n is None else ev[n].patterns for n, _ in s.options)
-            for s in self.slots
-        )
+        return self._count(lambda o: 1 if o[0] is None else ev[o[0]].patterns)
+
+    def allows(self, picks: tuple[int, ...]) -> bool:
+        """Whether a choice (one option index per slot) avoids every forbidden pair."""
+        return all(x.allowed(picks[x.first], picks[x.second]) for x in self.exclusions)
 
 
 # --------------------------------------------------------------------------- events
@@ -457,10 +497,23 @@ def enumerate_branch(
             else:
                 items.append(((n, fac), 0))
         per_slot.append(items)
-    for picks in itertools.product(*per_slot):
+    index = [
+        [i for i, (n, _) in enumerate(s.options) for _ in range(_weight(ev, n))]
+        for s in b.slots
+    ]
+    for picks, where in zip(
+        itertools.product(*per_slot), itertools.product(*index), strict=True
+    ):
+        if not b.allows(where):
+            continue  # paire interdite (lot 54, P70)
         choice = tuple(o for o, _ in picks)
         masks = tuple(m for _, m in picks)
         yield combination(b, ev, choice, masks)
+
+
+def _weight(ev: dict[str, Event], name: str | None) -> int:
+    """Number of items of an option in `enumerate_branch` (its non-empty patterns)."""
+    return 1 if name is None or not ev[name].modules else 2 ** len(ev[name].modules) - 1
 
 
 # --------------------------------------------------------------------------- envelopes
@@ -502,6 +555,52 @@ def _option_values(
     return total, mask
 
 
+def joint_best(
+    cand_a: FloatArray, cand_b: FloatArray, x: Exclusion
+) -> tuple[FloatArray, IntArray, IntArray]:
+    """max over the allowed pairs (i, j) of cand_a[i] + cand_b[j], with i and j (lot 54,
+    P70: the mooring and berthing slots of a branch maximised jointly). The options of
+    the first slot are grouped by their set of forbidden options of the second; for
+    each group, the best allowed option of the second is the first of its k best
+    options (k = largest forbidden set + 1) outside the set."""
+    forbidden: dict[int, set[int]] = {}
+    for i, j in x.pairs:
+        forbidden.setdefault(i, set()).add(j)
+    groups: dict[frozenset[int], int] = {frozenset(): 0}
+    group_of = np.zeros(cand_a.shape[0], dtype=np.int64)
+    for i in range(cand_a.shape[0]):
+        group_of[i] = groups.setdefault(frozenset(forbidden.get(i, ())), len(groups))
+    n_b = cand_b.shape[0]
+    k = min(n_b, 1 + max(len(s) for s in groups))
+    if k < n_b:
+        top = np.argpartition(-cand_b, k - 1, axis=0)[:k]
+    else:
+        top = np.broadcast_to(
+            np.arange(n_b).reshape(n_b, *([1] * (cand_b.ndim - 1))), cand_b.shape
+        ).copy()
+    top_v = np.take_along_axis(cand_b, top, axis=0)
+    order = np.argsort(-top_v, axis=0, kind="stable")
+    top = np.take_along_axis(top, order, axis=0)
+    top_v = np.take_along_axis(top_v, order, axis=0)
+    best_v = np.empty((len(groups), *cand_b.shape[1:]))
+    best_j = np.empty((len(groups), *cand_b.shape[1:]), dtype=np.int64)
+    for s, g in groups.items():
+        if not s:
+            pos = np.zeros(cand_b.shape[1:], dtype=np.int64)
+        else:
+            if len(s) >= n_b:
+                message = "exclusion : aucune option permise pour un groupe"
+                raise ValueError(message)
+            pos = np.argmax(~np.isin(top, list(s)), axis=0)
+        best_v[g] = np.take_along_axis(top_v, pos[None], axis=0)[0]
+        best_j[g] = np.take_along_axis(top, pos[None], axis=0)[0]
+    joint = cand_a + best_v[group_of]
+    ja = np.argmax(joint, axis=0)
+    value = np.take_along_axis(joint, ja[None], axis=0)[0]
+    jb = np.take_along_axis(best_j, group_of[ja][None], axis=0)[0]
+    return value, ja, jb
+
+
 def envelope(
     bs: list[Branch],
     ev: dict[str, Event],
@@ -528,6 +627,7 @@ def envelope(
         total = np.zeros(shape)
         picks = np.zeros((width, *shape), dtype=np.int64)
         masks = np.zeros((width, *shape), dtype=np.int64)
+        stacks: dict[int, tuple[FloatArray, IntArray]] = {}
         for k, s in enumerate(b.slots):
             vals = []
             mks = []
@@ -541,11 +641,23 @@ def envelope(
                     cache[key] = _option_values(ev, f, n, fac, sign, shape)
                 vals.append(cache[key][0])
                 mks.append(cache[key][1])
-            cand = np.stack(vals)
+            stacks[k] = (np.stack(vals), np.stack(mks))
+        joint = b._joint()
+        for k, (cand, mk) in stacks.items():
+            if k in joint:
+                continue
             j = np.argmax(cand, axis=0)
             total = total + np.take_along_axis(cand, j[None], axis=0)[0]
             picks[k] = j
-            masks[k] = np.take_along_axis(np.stack(mks), j[None], axis=0)[0]
+            masks[k] = np.take_along_axis(mk, j[None], axis=0)[0]
+        for x in b.exclusions:
+            value, ja, jb = joint_best(stacks[x.first][0], stacks[x.second][0], x)
+            total = total + value
+            picks[x.first], picks[x.second] = ja, jb
+            masks[x.first] = np.take_along_axis(stacks[x.first][1], ja[None], axis=0)[0]
+            masks[x.second] = np.take_along_axis(stacks[x.second][1], jb[None], axis=0)[
+                0
+            ]
         if best is None:
             better = np.ones(shape, dtype=bool)
             best = total
@@ -612,23 +724,47 @@ def brute_force(
 ) -> float:
     """max (sign = 1) or min of a scalar over every combination of a branch, every
     pattern enumerated explicitly (outer sums, numpy): the check of `envelope`."""
-    total = np.zeros(1)
+    per_slot: list[list[list[float]]] = []
     for s in b.slots:
-        opts = []
+        slot: list[list[float]] = []
         for n, fac in s.options:
             if n is None:
-                opts.append(0.0)
+                slot.append([0.0])
                 continue
             e = ev[n]
             fixed = sum(c * values[k] for k, c in e.coefficients.items())
             if not e.modules:
-                opts.append(fac * fixed)
+                slot.append([fac * fixed])
                 continue
             parts = [sum(c * values[k] for k, c in mc.items()) for _, mc in e.modules]
-            for mask in range(1, 2 ** len(parts)):
-                opts.append(
+            slot.append(
+                [
                     fac * (fixed + sum(p for i, p in enumerate(parts) if mask >> i & 1))
-                )
+                    for mask in range(1, 2 ** len(parts))
+                ]
+            )
+        per_slot.append(slot)
+    # Lot 54 (P70) : deux emplacements liés deviennent un seul, paire par paire permise.
+    joint = b._joint()
+    lists = [
+        [x for opt in slot for x in opt]
+        for k, slot in enumerate(per_slot)
+        if k not in joint
+    ]
+    for x in b.exclusions:
+        a, c = per_slot[x.first], per_slot[x.second]
+        lists.append(
+            [
+                p + q
+                for i, xs in enumerate(a)
+                for j, ys in enumerate(c)
+                if x.allowed(i, j)
+                for p in xs
+                for q in ys
+            ]
+        )
+    total = np.zeros(1)
+    for opts in lists:
         total = (total[:, None] + np.array(opts)[None, :]).reshape(-1)
         total = np.unique(total)  # les doublons de valeur ne changent pas l'extrême
     return float(total.max() if sign > 0 else total.min())
@@ -675,6 +811,7 @@ __all__ = [
     "STATES",
     "Branch",
     "Event",
+    "Exclusion",
     "Extreme",
     "Slot",
     "branches",
@@ -688,6 +825,7 @@ __all__ = [
     "events",
     "expanded_counts",
     "governing",
+    "joint_best",
     "magnitudes",
     "resultant_max",
     "rule_rows",

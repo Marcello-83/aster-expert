@@ -45,7 +45,8 @@ from pontons_alu_01.combinaisons_lot51ter import (
     envelope,
     governing,
 )
-from pontons_alu_01.exports_lot51 import geo, sha256, write
+from pontons_alu_01.exports_lot51 import geo, sha256
+from pontons_alu_01.exports_lot51 import write as write_csv
 from pontons_alu_01.exports_lot51ter import (
     VariantData51ter,
     _beam_nodes,
@@ -791,9 +792,18 @@ def write_exports(
     ev_ext: list[dict[str, EventExtreme]],
     combos: dict[tuple[str, str], list[tuple[Combined, Combined]]],
     synthesis: list[list[Any]],
+    relabel: dict[str, str] | None = None,
 ) -> dict[str, int]:
+    """The four CSV of the lot; `relabel` replaces words of the headers (lot 54: its
+    own rules and events)."""
     out.mkdir(parents=True, exist_ok=True)
     files: dict[str, int] = {}
+
+    def write(path: Path, header: str, columns: list[str], rows: Any) -> int:
+        for old, new in (relabel or {}).items():
+            header = header.replace(old, new)
+        return write_csv(path, header, columns, rows)
+
     files["deplacements_unitaires.csv"] = write(
         out / "deplacements_unitaires.csv",
         f"{src} Déplacements des points de sortie sous les cas unitaires d'accostage (ACN, ACX, ACZ : "
@@ -1029,9 +1039,15 @@ class Lot53:
     timings: dict[str, float]
 
 
-def compute(ctx: ProjectContext, state: dict[str, Any]) -> Lot53:
+def compute(
+    ctx: ProjectContext,
+    state: dict[str, Any],
+    vd: VariantData51ter | None = None,
+) -> Lot53:
+    """Points, unit values, events and envelopes of B52 of lot 52 (lot 54: of the
+    variant `vd`, already loaded with its own events and rules)."""
     t0 = time.perf_counter()
-    vd = load(ctx, CODE, state).vd
+    vd = vd if vd is not None else load(ctx, CODE, state).vd
     t1 = time.perf_counter()
     pts = output_points(vd)
     qs = quantities(pts)

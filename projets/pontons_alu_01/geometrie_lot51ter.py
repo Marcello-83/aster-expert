@@ -397,7 +397,8 @@ def build(  # noqa: PLR0915 -- même trame que le script
                 pier,
                 [point(x, y, za) for y in y_cap],
             )
-        face = p["B_ANNEAU"] / 2.0
+        # Lot 54 (P68) : nu des chevêtres à B_CHEVETRE / 2 (B_ANNEAU jusqu'au lot 52).
+        face = p.get("B_CHEVETRE", p["B_ANNEAU"]) / 2.0
         xl = sorted(
             {
                 grid(xc1 + p["JEU"]),

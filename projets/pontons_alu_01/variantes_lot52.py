@@ -46,9 +46,9 @@ def _data() -> dict[str, Any]:
     return loaded
 
 
-@cache
-def variants() -> dict[str, Variant52]:
-    data = _data()
+def variant_fields(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """The fields of `Variant52` of every variant of a variants file (lot 54 adds its
+    own)."""
     stations = tuple(float(x) for x in data["stations"])
     if len(stations) != PIERS or list(stations) != sorted(stations):
         message = f"stations : {PIERS} abscisses croissantes attendues"
@@ -64,26 +64,31 @@ def variants() -> dict[str, Variant52]:
                 f"géométrie {v['geometrie']} : {PIERS} hauteurs de piles attendues"
             )
             raise ValueError(message)
-        out[code] = Variant52(
-            code=code,
-            description=str(v["description"]),
-            geometry=str(v["geometrie"]),
-            stations=stations,
-            cap_spacing=float(data["entraxe_chevetres"]),
-            pile_heights=heights,
-            cantilever=float(geo["l_pf"]),
-            beam_side_mm=float(v["poutre"]["cote"]),
-            beam_thickness_mm=float(v["poutre"]["epaisseur"]),
-            purlin_side_mm=float(v["panne"]["cote"]),
-            purlin_thickness_mm=float(v["panne"]["epaisseur"]),
-            post_side_mm=float(v["montant"]["cote"]),
-            post_thickness_mm=float(v["montant"]["epaisseur"]),
-            e_diag=float(data["e_diag"]),
-        )
+        out[code] = {
+            "code": code,
+            "description": str(v["description"]),
+            "geometry": str(v["geometrie"]),
+            "stations": stations,
+            "cap_spacing": float(data["entraxe_chevetres"]),
+            "pile_heights": heights,
+            "cantilever": float(geo["l_pf"]),
+            "beam_side_mm": float(v["poutre"]["cote"]),
+            "beam_thickness_mm": float(v["poutre"]["epaisseur"]),
+            "purlin_side_mm": float(v["panne"]["cote"]),
+            "purlin_thickness_mm": float(v["panne"]["epaisseur"]),
+            "post_side_mm": float(v["montant"]["cote"]),
+            "post_thickness_mm": float(v["montant"]["epaisseur"]),
+            "e_diag": float(data["e_diag"]),
+        }
     if data["reference"] not in out:
         message = "variante de référence absente"
         raise ValueError(message)
     return out
+
+
+@cache
+def variants() -> dict[str, Variant52]:
+    return {code: Variant52(**f) for code, f in variant_fields(_data()).items()}
 
 
 def reference() -> str:
@@ -100,4 +105,12 @@ def current() -> Variant52:
     return found
 
 
-__all__ = ["ENV", "PIERS", "Variant52", "current", "reference", "variants"]
+__all__ = [
+    "ENV",
+    "PIERS",
+    "Variant52",
+    "current",
+    "reference",
+    "variant_fields",
+    "variants",
+]

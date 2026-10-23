@@ -388,11 +388,14 @@ def family_columns() -> tuple[str, ...]:
     return tuple(f"FAM_{k}_{q}" for k, _, _ in FAMILIES for q in FAMILY_QUANTITIES)
 
 
-def family_extremes(vd: VariantData51ter) -> dict[str, Quantity]:
+def family_extremes(
+    vd: VariantData51ter,
+    families: tuple[tuple[str, str, tuple[str, ...]], ...] = FAMILIES,
+) -> dict[str, Quantity]:
     """Per family: N min, N max, My and Mz extreme in absolute value (signed), V max
-    (√(VY² + VZ²)), over the four compared limit states."""
+    (√(VY² + VZ²)), over the four compared limit states (lot 54: its own families)."""
     out: dict[str, Quantity] = {}
-    for key, label, fams in FAMILIES:
+    for key, label, fams in families:
         if fams:
             rows = [
                 (e.number, n)
