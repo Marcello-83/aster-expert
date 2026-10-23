@@ -323,7 +323,7 @@ def check_diagonals(vd: VariantData51ter) -> dict[str, Any]:
         if m.span not in long_spans:
             continue
         nodes = {
-            n for e in vd.model.elements.values() if e.member == m.name for n in e.nodes
+            n for e in vd.model.elements.values() if e.group == m.name for n in e.nodes
         }
         pts = [np.asarray(vd.model.coords[n - 1][:3], dtype=float) for n in nodes]
         ends = (min(pts, key=lambda p: p[1]), max(pts, key=lambda p: p[1]))
@@ -369,7 +369,7 @@ def check_cap_weight(vd: VariantData51ter) -> dict[str, Any]:
                 )
             )
             for e in vd.model.elements.values()
-            if e.member == m.name
+            if e.group == m.name
         )
         weight = density * 9.81 * hy * hz * length * KN
         rel = abs(weight - CAP_WEIGHT_KN) / CAP_WEIGHT_KN

@@ -146,6 +146,32 @@ lots:
       oreilles les extrémités B de LIAISON_SOLIDE ; le REAC_NODA des extrémités A est replié
       sur le nœud d''appui avant toute lecture des réactions (exports_lot52.fold_link_reactions)
       : résultantes contre réactions à 3,8e-12, AM1 à 2,8e-13.'
+- lot: '53'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM ; points de sortie, exports, champs MED, vues et contrôles
+      étaient dans la consigne.
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: 'Aucune exécution Code_Aster ni commande écrite dans le lot (relecture des tables
+      du lot 52). CA-036 reste appliqué par le lecteur du lot 52 réutilisé (réactions relues
+      à écart nul) : non compté comme erreur évitée par ce lot.'
+- lot: '54'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM ; décisions P67 à P76, variantes, exports et vues étaient
+      dans la consigne. Le clone neuf du dépôt (23/10/2026) a été remis en état par les commandes
+      du dépôt (corpus, catalogue, index), sans intervention.
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: 'CA-035 et DIAG-009 (FORCE_POUTRE sur une poutre liée) consultés avant de scinder
+      le déjaugeage des chevêtres et des longrines : structure déjà exécutée au lot 52, aucune
+      erreur évitée. CA-036 reste appliqué par le lecteur du lot 52 (repli des réactions des
+      liaisons LM_).'
 declared_interventions_since_baseline: 2.0
 measured:
   runs: 49

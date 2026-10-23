@@ -10,5 +10,5 @@ Depuis le lot 44, les exécutions mesurées se séparent en **développement** e
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `dalle_appuyee_01` | non renseigné | non renseigné | 8 + 2 | — / 12,5 % | 0 | non renseigné | non renseigné | 3 (lot 43 : 2, lot 44 : 0, lot 45 : 1, lot 49 : 0, lot 49bis : 0) | 22 | 3 |
 | `estacade_pieux_01` | non renseigné | non renseigné | 37 + 48 | — / 18,9 % | 3 | non renseigné | non renseigné | 3 (lot 47 : 1, lot 47bis : 0, lot 47ter : 1, lot 47quater : 0, lot 49 : 0, lot 49bis : 1, lot 49ter : 0) | 25 | 0 |
-| `pontons_alu_01` | non renseigné | non renseigné | 43 + 6 | — / 4,7 % | 0 | non renseigné | non renseigné | 2 (lot 50 : 0, lot 50bis : 1, lot 50ter : 0, lot 51 : 0, lot 51bis : 0, lot 51ter : 0, lot 52 : 1) | 3 | 0 |
+| `pontons_alu_01` | non renseigné | non renseigné | 43 + 6 | — / 4,7 % | 0 | non renseigné | non renseigné | 2 (lot 50 : 0, lot 50bis : 1, lot 50ter : 0, lot 51 : 0, lot 51bis : 0, lot 51ter : 0, lot 52 : 1, lot 53 : 0, lot 54 : 0) | 3 | 0 |
 | `quai_cw_test_01` | 40 | 190 | 180 + 196 | 38,4 % / 41,7 % | 0 | 1,54 | 25 (estimation) | 0 (lot 42 : 0, lot 44 : 0, lot 49 : 0, lot 49bis : 0) | 126 | 2 |

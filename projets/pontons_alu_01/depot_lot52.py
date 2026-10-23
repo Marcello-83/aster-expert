@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import shutil
 from pathlib import Path
+from typing import Any
 
 from aster_expert.projet.context import ProjectContext
 from pontons_alu_01.exports_lot51 import sha256
@@ -41,10 +42,16 @@ COMPARISONS = (
 
 
 def delivery_plan(
-    ctx: ProjectContext, codes: list[str]
+    ctx: ProjectContext,
+    codes: list[str],
+    *,
+    lot: str = LOT,
+    scripts: dict[str, Path] | None = None,
+    comparisons: tuple[str, ...] = COMPARISONS,
 ) -> tuple[dict[str, Path], list[str]]:
-    """Published path -> source file, and the files left out (size)."""
-    root = ctx.results_dir / LOT
+    """Published path -> source file, and the files left out (size); lot 54 passes
+    its folder, scripts and comparisons."""
+    root = ctx.results_dir / lot
     plan: dict[str, Path] = {}
     left: list[str] = []
     for code in codes:
@@ -62,22 +69,27 @@ def delivery_plan(
         if med.is_dir():
             for f in sorted(med.glob("*.med")):
                 plan[f"{code}/MED/{f.name}"] = f
-    for name in COMPARISONS:
+    for name in comparisons:
         if (root / "exports" / name).is_file():
             plan[name] = root / "exports" / name
     for f in sorted((root / "vues").glob("*.png")):
         plan[f"vues/{f.name}"] = f
-    for name, f in DELIVERED_SCRIPTS.items():
+    for name, f in (DELIVERED_SCRIPTS if scripts is None else scripts).items():
         plan[f"scripts/{name}"] = f
     return plan, left
 
 
-def step_depot(ctx: ProjectContext, codes: list[str], target: Path | None) -> None:
+def step_depot(
+    ctx: ProjectContext,
+    codes: list[str],
+    target: Path | None,
+    **plan_options: Any,
+) -> None:
     dest = target or DEFAULT_TARGET
     if dest.exists() and any(dest.iterdir()):
         message = f"dépôt : {dest} n'est pas vide (noms de fichiers neufs exigés)"
         raise FileExistsError(message)
-    plan, left = delivery_plan(ctx, codes)
+    plan, left = delivery_plan(ctx, codes, **plan_options)
     for name, source in plan.items():
         (dest / name).parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, dest / name)

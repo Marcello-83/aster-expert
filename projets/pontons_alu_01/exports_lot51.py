@@ -534,6 +534,7 @@ def mesh_dump(ctx: ProjectContext, med: Path) -> dict[str, Any]:
             docker_bin=rt.docker_bin(),
             image_ref=f"{rt.image_repository}@{digest}",
         )
+        cache.parent.mkdir(parents=True, exist_ok=True)  # clone neuf (lot 54)
         cache.write_text(dump.model_dump_json(), encoding="utf-8")
     loaded: dict[str, Any] = json.loads(cache.read_text(encoding="utf-8"))
     return loaded

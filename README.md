@@ -268,9 +268,9 @@ rejouer-references`. Retour d'expérience de fin de lot : `aster-expert rex
 <!-- etat:debut (généré depuis docs/etat.yaml par `aster-expert etat readme`) -->
 ## État du projet
 
-Mis à jour au lot 53 (2026-10-21), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
+Mis à jour au lot 54 (2026-10-21), depuis `docs/etat.yaml` : ne pas éditer cette section à la main.
 
-Lots : 69 faits sur 71 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 53, Pontons aluminium : déplacements DX, DY, DZ de B52 sous accostage (AC, ACA) et amarrage (AML, AM1, AM2, AMF) par relecture des tables du lot 52, sans nouvelle exécution : 99 points de sortie (axes, chevêtres, déplacement relatif tablier/chevêtre, mi-travées, porte-à-faux, têtes de piles, semelles, culée), cas unitaires, extrêmes par événement caractéristique, extrêmes combinés ELS caractéristique, ELS fréquent, ELU accidentel (total, hors T, variables seules avec et sans T), synthèse par palée ; 20 champs DEPL ajoutés à une copie de resultats.med (maillage d'origine et support ELNO) ; vues A, B, C ; script ParaVis.
+Lots : 70 faits sur 72 ; autres : 12 (partiel), 13 (non fait). Dernier lot : 54, Pontons aluminium : géométrie PRO définitive (P67 : treillis régulier, montants à Xd + k × 1,25 ; P68 : chevêtres 0,60 × 0,40 prolongés à ±1,20), houle de projet de 5 kPa sans impact (P69), accostage et amarrage local jamais au même poste (P70 : maximisation conjointe de deux emplacements, 1 920 paires interdites, recombiner.py et incompatibilites.csv) ; décisions P67 à P76 ; B54 et A54 recalculés, B52 réexécuté à l'identique et recombiné ; exports du lot 52, déplacements de B54, comparaison B52/B54, 13 vues des notes.
 
 Capacités :
 

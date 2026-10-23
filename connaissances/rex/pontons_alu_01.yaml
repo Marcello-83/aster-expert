@@ -138,6 +138,24 @@ lots:
       à écart nul) : non compté comme erreur évitée par ce lot.'
   note: Post-traitement de B52 sans nouvelle exécution ; les 49 exécutions et leurs classements
     sont ceux du lot 52.
+- lot: '54'
+  supervisor_interventions:
+    value: 0.0
+    nature: mesure
+    note: Aucune question posée à MM ; décisions P67 à P76, variantes, exports et vues étaient
+      dans la consigne. Le clone neuf du dépôt (23/10/2026) a été remis en état par les commandes
+      du dépôt (corpus, catalogue, index), sans intervention.
+  avoided_errors:
+    value: 0.0
+    nature: mesure
+    note: 'CA-035 et DIAG-009 (FORCE_POUTRE sur une poutre liée) consultés avant de scinder le
+      déjaugeage des chevêtres et des longrines : structure déjà exécutée au lot 52, aucune
+      erreur évitée. CA-036 reste appliqué par le lecteur du lot 52 (repli des réactions des
+      liaisons LM_).'
+  note: 'Trois exécutions, toutes completed_ok, 0 alarme : B54, A54 (lot 54) et la réexécution
+    à l''identique de B52 (.comm bd8663c6…, tables égales au dépôt du lot 52). Archive locale
+    partielle (clone neuf) : rex refuse les métriques mesurées, seuls les champs déclarés sont
+    écrits.'
 archive:
   runs: 49
   sha256: d147476b2f788d75e0a75eb2159537158f5985b5e71907d09807398ce15382dd
